@@ -100,3 +100,6 @@ ENV/
 
 # PyCharm Stuff
 .idea/
+
+# Sigma Stuff
+config/plugin
