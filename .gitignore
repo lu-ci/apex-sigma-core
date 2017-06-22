@@ -102,4 +102,4 @@ ENV/
 .idea/
 
 # Sigma Stuff
-config/plugin
+config/
