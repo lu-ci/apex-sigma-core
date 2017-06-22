@@ -101,5 +101,15 @@ ENV/
 # PyCharm Stuff
 .idea/
 
-# Sigma Stuff
-config/
+# Config files
+/config/*
+!/config/.gitkeep
+
+# Log files
+/log/*
+!/log/.gitkeep
+
+# Vagrant
+/.vagrant
+/*.log
+
