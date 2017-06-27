@@ -12,6 +12,7 @@ def load_config():
     class DiscordConfig(object):
         token = client_cfg_data['token']
         owners = client_cfg_data['owners']
+        bot = client_cfg_data['bot']
 
     class DatabaseConfig(object):
         auth = db_cfg_data['auth']
