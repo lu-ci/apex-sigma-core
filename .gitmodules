@@ -1,0 +1,3 @@
+[submodule "sigma/plugins"]
+	path = sigma/plugins
+	url = https://github.com/aurora-pro/apex-sigma-plugins.git
