@@ -5,6 +5,7 @@ import pymongo
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.config import load_config
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.command import PluginManager
 
 
 class ApexSigma(discord.AutoShardedClient):
@@ -13,6 +14,7 @@ class ApexSigma(discord.AutoShardedClient):
         self.init_logger()
         self.init_config()
         self.init_database()
+        self.init_modules()
 
     def init_logger(self):
         self.log = create_logger('Sigma')
@@ -35,6 +37,10 @@ class ApexSigma(discord.AutoShardedClient):
             self.log.error('Database Access Operation Failed!')
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
+
+    def init_modules(self):
+        self.log.info('Loading Sigma Modules')
+        self.modules = PluginManager(self)
 
     def run(self):
         try:
