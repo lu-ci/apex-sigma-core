@@ -12,8 +12,11 @@ class ApexSigma(discord.AutoShardedClient):
     def __init__(self):
         super().__init__()
         self.init_logger()
+        self.log.info('---------------------------------')
         self.init_config()
+        self.log.info('---------------------------------')
         self.init_database()
+        self.log.info('---------------------------------')
         self.init_modules()
 
     def init_logger(self):
@@ -51,13 +54,16 @@ class ApexSigma(discord.AutoShardedClient):
             exit(errno.EPERM)
 
     async def on_ready(self):
+        self.log.info('---------------------------------')
         self.log.info('Connection to Discord Established')
-        self.log.info(f'Logged in as {self.user.name}')
+        self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
+        self.log.info(f'User Snowflake: {self.user.id}')
+        self.log.info('---------------------------------')
 
     async def on_message(self, message):
         if message.content.startswith(self.cfg.pref.prefix):
             args = message.content.split(' ')
             cmd = args.pop(0)[len(self.cfg.pref.prefix):].lower()
-            self.log.info(f'Command: {cmd}')
-            self.log.info(f'Arguments: {" ".join(args)}')
+            if cmd in self.modules.commands:
+                await self.modules.commands[cmd].execute(message, args)
 
