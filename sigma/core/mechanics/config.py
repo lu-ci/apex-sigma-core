@@ -30,7 +30,7 @@ def load_config():
         item_wins_channel = pref_cfg_data['item_wins_channel']
 
     class Configuration(object):
-        disc = DiscordConfig
+        dsc = DiscordConfig
         db = DatabaseConfig
         pref = PreferencesConfig
 

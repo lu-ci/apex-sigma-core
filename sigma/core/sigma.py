@@ -1,6 +1,6 @@
-import yaml
 import discord
-from sigma.core.config_loader import load_config
+
+from sigma.core.mechanics.config import load_config
 
 
 class ApexSigma(discord.AutoShardedClient):
@@ -11,13 +11,13 @@ class ApexSigma(discord.AutoShardedClient):
 
     @staticmethod
     def init_logger():
-        from .logger import create_logger
+        from sigma.core.mechanics.logger import create_logger
         log = create_logger('Sigma')
         return log
 
     def run(self):
         try:
-            super().run(self.cfg.disc.token)
+            super().run(self.cfg.dsc.token)
         except discord.LoginFailure:
             self.log.error('Invalid Token!')
             exit()
@@ -26,5 +26,5 @@ class ApexSigma(discord.AutoShardedClient):
         self.log.info(f'Logged in as {self.user.name}')
 
     async def on_message(self, message):
-        if message.author.id in self.cfg.disc.owners:
+        if message.author.id in self.cfg.dsc.owners:
             self.log.info(f'My owner {message.author.name} sent a message.')
