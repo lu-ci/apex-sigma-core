@@ -19,6 +19,9 @@ class CommandPermissions(object):
         # Check Calls
         self.check_nsfw()
         self.check_dmable()
+        self.check_black_srv()
+        self.check_black_usr()
+        self.check_owner()
         self.check_final()
         self.generate_response()
 
@@ -46,18 +49,65 @@ class CommandPermissions(object):
             else:
                 self.nsfw_denied = True
 
+    def check_black_usr(self):
+        black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
+        black_user_file = black_user_collection.find_one({'user_id': self.message.author.id})
+        if black_user_file:
+            self.black_user = True
+        else:
+            self.black_user = False
+
+    def check_black_srv(self):
+        if self.message.guild:
+            black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
+            black_srv_file = black_srv_collection.find_one({'server_id': self.message.guild.id})
+            if black_srv_file:
+                self.black_serv = True
+            else:
+                self.black_serv = False
+        else:
+            self.black_serv = False
+
+    def check_owner(self):
+        auth = self.message.author
+        ownrs = self.bot.cfg.dsc.owners
+        if auth.id in ownrs:
+            self.owner_denied = False
+        else:
+            self.owner_denied = True
+
     def generate_response(self):
         if self.dm_denied:
             color = 0xDB0000
             title = f'⛔ Can\'t Be Used In Direct Messages'
             desc = f'Please use {self.bot.cfg.pref.prefix}{self.cmd.name} on a server where I am present.'
+        elif self.owner_denied:
+            color = 0xDB0000
+            title = '⛔ Bot Owner Only'
+            desc = 'There is no way for you to become a bot owner.'
         elif self.nsfw_denied:
             color = 0x9933FF
-            title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}.'
+            title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
             desc = f'If you are an administrator on {self.message.guild.name} '
             desc += f'Please use **`{self.bot.cfg.pref.prefix}nsfwpermit {self.cmd.rating}`** '
             desc += f'in #{self.message.channel.name} to permit commands that are rated '
             desc += f'{self.cmd.rating} and lower to be used there.'
+        elif self.black_serv:
+            color = 0xFF9900
+            title = f'🔒 {self.message.guild.name} is blacklisted and can\'t use me.'
+            desc = 'If you think this is a mistake, come to the Aurora Project server and tell us why.'
+        elif self.black_user:
+            color = 0xFF9900
+            title = f'🔒 {self.message.author.name}, you are blacklisted and can\'t use me.'
+            desc = 'If you think this is a mistake, come to the Aurora Project server and tell us why.'
+        elif self.partner_denied:
+            color = 0x0099FF
+            title = '💎 Partner Servers Only'
+            desc = 'Some commands are limited to only be usable by partners.'
+            desc += '\nYou can request to be a partner server by visiting our '
+            desc += 'server and telling us why you should be one.'
+            desc += '\nYou can also become a partner by supporting us via our '
+            desc += '[`Patreon`](https://www.patreon.com/ApexSigma) page.'
         else:
             return
         response = discord.Embed(color=color)
