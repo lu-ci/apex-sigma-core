@@ -15,6 +15,7 @@ def load_config():
         bot = client_cfg_data['bot']
 
     class DatabaseConfig(object):
+        database = db_cfg_data['database']
         auth = db_cfg_data['auth']
         host = db_cfg_data['host']
         port = db_cfg_data['port']

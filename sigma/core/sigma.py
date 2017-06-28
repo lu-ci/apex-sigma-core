@@ -5,12 +5,13 @@ import pymongo
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.config import load_config
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.command import PluginManager
+from sigma.core.mechanics.plugman import PluginManager
 
 
 class ApexSigma(discord.AutoShardedClient):
     def __init__(self):
         super().__init__()
+        self.ready = False
         self.init_logger()
         self.log.info('---------------------------------')
         self.init_config()
@@ -53,17 +54,67 @@ class ApexSigma(discord.AutoShardedClient):
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
 
-    async def on_ready(self):
-        self.log.info('---------------------------------')
+    async def on_connect(self):
         self.log.info('Connection to Discord Established')
+        event_name = 'connect'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute()
+
+    async def on_ready(self):
+        self.ready = True
+        self.log.info('---------------------------------')
         self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
+        event_name = 'ready'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute()
 
     async def on_message(self, message):
+        event_name = 'message'
         if message.content.startswith(self.cfg.pref.prefix):
             args = message.content.split(' ')
             cmd = args.pop(0)[len(self.cfg.pref.prefix):].lower()
             if cmd in self.modules.commands:
                 await self.modules.commands[cmd].execute(message, args)
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(message)
 
+    async def on_message_edit(self, before, after):
+        event_name = 'message_edit'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(before, after)
+
+    async def on_member_join(self, member):
+        event_name = 'member_join'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(member)
+
+    async def on_member_remove(self, member):
+        event_name = 'member_remove'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(member)
+
+    async def on_member_update(self, before, after):
+        event_name = 'member_update'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(before, after)
+
+    async def on_guild_join(self, guild):
+        event_name = 'guild_join'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(guild)
+
+    async def on_guild_remove(self, guild):
+        event_name = 'guild_remove'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                await event.execute(guild)

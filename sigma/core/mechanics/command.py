@@ -1,17 +1,16 @@
-import os
-import yaml
-import importlib
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.permissions import CommandPermissions
 
 
-class Command(object):
+class SigmaCommand(object):
     def __init__(self, bot, command, plugin_info, command_info):
         self.bot = bot
+        self.db = self.bot.db
         self.command = command
         self.plugin_info = plugin_info
         self.command_info = command_info
-        self.log = create_logger(self.plugin_info['name'])
         self.name = self.command_info['name']
+        self.log = create_logger(self.name.title())
         self.rating = 0
         self.owner = False
         self.partner = False
@@ -45,42 +44,13 @@ class Command(object):
                 self.dmable = permissions['dmable']
 
     async def execute(self, message, args):
-        task = getattr(self.command, self.name)(self, message, args)
-        self.bot.loop.create_task(task)
-
-
-class PluginManager(object):
-    def __init__(self, bot):
-        self.bot = bot
-        self.log = create_logger('Plugin Manager')
-        self.alts = {}
-        self.commands = {}
-        self.events = {}
-        self.log.info('Loading Commands')
-        self.load_commands()
-        self.log.info(f'Loaded All {len(self.commands)} Commands')
-
-    def load_commands(self):
-        directory = 'sigma/plugins'
-        for root, dirs, files in os.walk(directory):
-            for file in files:
-                if file == 'module.yml':
-                    file_path = (os.path.join(root, file))
-                    with open(file_path) as plugin_file:
-                        plugin_data = yaml.safe_load(plugin_file)
-                        if plugin_data['enabled']:
-                            if 'commands' in plugin_data:
-                                for command_data in plugin_data['commands']:
-                                    if command_data['enabled']:
-                                        self.log.info(f'Loading the [ {command_data["name"].upper()} ] Command')
-                                        command_module_location = os.path.join(root, command_data["name"])
-                                        command_module_location = command_module_location.replace('/', '.')
-                                        command_module_location = command_module_location.replace('\\', '.')
-                                        command_function = importlib.import_module(
-                                            f'{command_module_location}'
-                                        )
-                                        command = Command(self.bot, command_function, plugin_data, command_data)
-                                        if command.alts:
-                                            for alt in command.alts:
-                                                self.alts.update({alt: command.name})
-                                        self.commands.update({command_data['name']: command})
+        if self.bot.ready:
+            perms = CommandPermissions(self, message)
+            if perms.permitted:
+                task = getattr(self.command, self.name)(self, message, args)
+                self.bot.loop.create_task(task)
+            else:
+                try:
+                    await message.author.send(embed=perms.response)
+                except:
+                    pass

@@ -3,10 +3,10 @@ from time import time
 from datetime import datetime as date
 import logging
 
-log_fmt = '%(levelname)-8s %(asctime)s %(name)-16s %(message)s'
+log_fmt = '%(levelname)-8s %(asctime)s %(name)-20s %(message)s'
 
 if os.getenv('LOGTARGET_JOURNAL'):
-    log_fmt = '%(levelname)-8s %(name)-16s %(message)s'
+    log_fmt = '%(levelname)-8s %(name)-20s %(message)s'
 
 log_dir = 'log'
 
@@ -22,13 +22,10 @@ formatter = logging.Formatter(log_fmt)
 def create_logger(name):
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(formatter)
-
     file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setFormatter(formatter)
-
     logger = logging.getLogger(name)
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
     logger.setLevel(logging.INFO)
-
     return logger
