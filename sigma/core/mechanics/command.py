@@ -35,8 +35,8 @@ class SigmaCommand(object):
             self.usage = self.command_info['usage']
             self.usage = self.usage.replace('{pfx}', self.bot.cfg.pref.prefix)
             self.usage = self.usage.replace('{cmd}', self.name)
-        if 'desc' in self.command_info:
-            self.desc = self.command_info['desc']
+        if 'description' in self.command_info:
+            self.desc = self.command_info['description']
         if 'requirements' in self.command_info:
             self.requirements = self.command_info['requirements']
         if 'permissions' in self.command_info:
@@ -49,6 +49,8 @@ class SigmaCommand(object):
                 self.partner = permissions['partner']
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
+        if self.owner:
+            self.desc += '\n(Bot Owner Only)'
 
     def load_command_config(self):
         config_path = f'config/plugins/{self.name}'
