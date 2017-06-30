@@ -4,6 +4,7 @@ from sigma.core.mechanics.logger import create_logger
 class SigmaEvent(object):
     def __init__(self, bot, event, plugin_info, event_info):
         self.bot = bot
+        self.db = self.bot.db
         self.event = event
         self.event_type = event_info['type']
         self.plugin_info = plugin_info
@@ -39,7 +40,6 @@ class SigmaEvent(object):
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
 
-    async def execute(self, message):
+    async def execute(self, *args):
         if self.bot.ready:
-            task = getattr(self.event, self.name)(self, message)
-            self.bot.loop.create_task(task)
+            await getattr(self.event, self.name)(self, *args)

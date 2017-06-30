@@ -32,3 +32,6 @@ class Database(pymongo.MongoClient):
         guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'server_id': guild_id})
         if not guild_settings:
             self.insert_guild_settings(guild_id)
+        update_target = {"server_id": guild_id}
+        update_data = {"$set": {setting_name: value}}
+        self[self.bot.cfg.db.database].ServerSettings.update_one(updatetarget, updatedata)
