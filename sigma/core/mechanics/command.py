@@ -1,3 +1,5 @@
+import discord
+import secrets
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import CommandPermissions
 
@@ -10,7 +12,8 @@ class SigmaCommand(object):
         self.plugin_info = plugin_info
         self.command_info = command_info
         self.name = self.command_info['name']
-        self.log = create_logger(self.name.title())
+        self.path = self.command_info['path']
+        self.log = create_logger(self.name.upper())
         self.rating = 0
         self.owner = False
         self.partner = False
@@ -43,14 +46,100 @@ class SigmaCommand(object):
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
 
+    def resource(self, res_path):
+        res_path = f'{self.path}/res/{res_path}'
+        res_path = res_path.replace('\\', '/')
+        return res_path
+
+    def get_exception(self):
+        if self.bot.cfg.pref.dev_mode:
+            cmd_exception = SyntaxError
+        else:
+            cmd_exception = Exception
+        return cmd_exception
+
+    def log_command_usage(self, message, args):
+        if message.guild:
+            cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
+            cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
+        else:
+            cmd_location = 'DIRECT MESSAGE'
+        if args:
+            arguments = ' '.join(args)
+        else:
+            arguments = None
+        author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
+        log_text = f'USR: {author_full} | {cmd_location} | {arguments}'
+        self.log.info(log_text)
+
+    def log_unpermitted(self, perms):
+        log_text = f'ACCESS DENIED | '
+        log_text += f'BUSR: {perms.black_user} | BSRV: {perms.black_srv} | OWNR: {perms.owner_denied} | '
+        log_text += f'DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | VIP: {perms.partner_denied}'
+        self.log.warning(log_text)
+
+    def log_error(self, message, args, exception, error_token):
+        if message.guild:
+            gnam = message.guild.name
+            gid = message.guild.id
+            cnam = message.channel.name
+            cid = message.channel.id
+        else:
+            gnam = None
+            gid = None
+            cnam = None
+            cid = None
+        err_file_data = {
+            'Token': error_token,
+            'Error': f'{exception}',
+            'TrackeBack': f'{exception.with_traceback}',
+            'Message': {
+                'Command': self.name,
+                'Arguments': args,
+                'ID': message.id
+            },
+            'Author': {
+                'Name': f'{message.author.name}#{message.author.discriminator}',
+                'ID': message.author.id
+            },
+            'Guild': {
+                'Name': gnam,
+                'ID': gid
+            },
+            'Channel': {
+                'Name': cnam,
+                'ID': cid
+            }
+        }
+        self.db[self.bot.cfg.db.database].Errors.insert_one(err_file_data)
+        log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
+        self.log.error(log_text)
+
     async def execute(self, message, args):
         if self.bot.ready:
             perms = CommandPermissions(self, message)
             if perms.permitted:
-                task = getattr(self.command, self.name)(self, message, args)
-                self.bot.loop.create_task(task)
-            else:
                 try:
-                    await message.author.send(embed=perms.response)
-                except:
-                    pass
+                    self.log_command_usage(message, args)
+                    await getattr(self.command, self.name)(self, message, args)
+                except self.get_exception() as e:
+                    err_token = secrets.token_hex(16)
+                    self.log_error(message, args, e, err_token)
+                    title = '❗ An Error Occurred!'
+                    err_text = 'Something seems to have gone wrong.'
+                    err_text += '\nPlease send this token to our support server.'
+                    err_text += f'\nThe invite link is in the **{self.bot.cfg.pref.prefix}help** command.'
+                    err_text += f'\nToken: **{err_token}**'
+                    error_embed = discord.Embed(color=0xDB0000)
+                    error_embed.add_field(name=title, value=err_text)
+                    try:
+                        await message.channel.send(embed=error_embed)
+                    except:
+                        pass
+            else:
+                self.log_unpermitted(perms)
+                if perms.response:
+                    try:
+                        await message.author.send(embed=perms.response)
+                    except discord.Forbidden:
+                        pass

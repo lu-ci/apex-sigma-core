@@ -14,10 +14,10 @@ class PluginManager(object):
         self.commands = {}
         self.events = {}
         self.log.info('Loading Commands')
-        self.load_modules()
+        self.load_all_modules()
         self.log.info(f'Loaded All {len(self.commands)} Commands')
 
-    def load_modules(self):
+    def load_all_modules(self):
         directory = 'sigma/plugins'
         for root, dirs, files in os.walk(directory):
             for file in files:
@@ -30,10 +30,12 @@ class PluginManager(object):
                                 for command_data in plugin_data['commands']:
                                     if command_data['enabled']:
                                         self.log.info(f'Loading the [ {command_data["name"].upper()} ] Command')
+                                        module_root_location = os.path.join(root)
                                         command_module_location = os.path.join(root, command_data["name"])
                                         command_module_location = command_module_location.replace('/', '.')
                                         command_module_location = command_module_location.replace('\\', '.')
                                         command_function = importlib.import_module(command_module_location)
+                                        command_data.update({'path': module_root_location})
                                         command = SigmaCommand(self.bot, command_function, plugin_data, command_data)
                                         if command.alts:
                                             for alt in command.alts:

@@ -10,7 +10,7 @@ class CommandPermissions(object):
         # Check States
         self.nsfw_denied = False
         self.black_user = False
-        self.black_serv = False
+        self.black_srv = False
         self.owner_denied = False
         self.partner_denied = False
         self.dm_denied = False
@@ -62,11 +62,11 @@ class CommandPermissions(object):
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
             black_srv_file = black_srv_collection.find_one({'server_id': self.message.guild.id})
             if black_srv_file:
-                self.black_serv = True
+                self.black_srv = True
             else:
-                self.black_serv = False
+                self.black_srv = False
         else:
-            self.black_serv = False
+            self.black_srv = False
 
     def check_owner(self):
         auth = self.message.author
@@ -77,14 +77,18 @@ class CommandPermissions(object):
             self.owner_denied = True
 
     def generate_response(self):
-        if self.dm_denied:
+        if self.black_srv:
+            return
+        elif self.black_user:
+            return
+        elif self.dm_denied:
             color = 0xDB0000
             title = f'⛔ Can\'t Be Used In Direct Messages'
             desc = f'Please use {self.bot.cfg.pref.prefix}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xDB0000
             title = '⛔ Bot Owner Only'
-            desc = 'There is no way for you to become a bot owner.'
+            desc = f'There is no way for you to become {self.cmd.bot.user.name}\'s owner.'
         elif self.nsfw_denied:
             color = 0x9933FF
             title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
@@ -92,14 +96,6 @@ class CommandPermissions(object):
             desc += f'Please use **`{self.bot.cfg.pref.prefix}nsfwpermit {self.cmd.rating}`** '
             desc += f'in #{self.message.channel.name} to permit commands that are rated '
             desc += f'{self.cmd.rating} and lower to be used there.'
-        elif self.black_serv:
-            color = 0xFF9900
-            title = f'🔒 {self.message.guild.name} is blacklisted and can\'t use me.'
-            desc = 'If you think this is a mistake, come to the Aurora Project server and tell us why.'
-        elif self.black_user:
-            color = 0xFF9900
-            title = f'🔒 {self.message.author.name}, you are blacklisted and can\'t use me.'
-            desc = 'If you think this is a mistake, come to the Aurora Project server and tell us why.'
         elif self.partner_denied:
             color = 0x0099FF
             title = '💎 Partner Servers Only'
@@ -118,7 +114,7 @@ class CommandPermissions(object):
         checklist = [
             self.dm_denied,
             self.nsfw_denied,
-            self.black_serv,
+            self.black_srv,
             self.black_user,
             self.owner_denied,
             self.partner_denied,

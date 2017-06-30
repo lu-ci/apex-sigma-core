@@ -31,7 +31,7 @@ class ApexSigma(discord.AutoShardedClient):
 
     def init_database(self):
         self.log.info('Connecting to Database...')
-        self.db = Database(self.cfg.db)
+        self.db = Database(self, self.cfg.db)
         try:
             self.db.test.collection.find_one({})
         except pymongo.errors.ServerSelectionTimeoutError:
@@ -77,6 +77,8 @@ class ApexSigma(discord.AutoShardedClient):
         if message.content.startswith(self.cfg.pref.prefix):
             args = message.content.split(' ')
             cmd = args.pop(0)[len(self.cfg.pref.prefix):].lower()
+            if cmd in self.modules.alts:
+                cmd = self.modules.alts[cmd]
             if cmd in self.modules.commands:
                 await self.modules.commands[cmd].execute(message, args)
         if event_name in self.modules.events:
