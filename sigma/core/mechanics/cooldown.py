@@ -36,7 +36,7 @@ class CooldownControl(object):
         cd_name = f'cd_{cmd}_{user.id}'
         entry = self.cds.find_one({'name': cd_name})
         if entry:
-            self.db.delete_one({'name': cd_name})
+            self.cds.delete_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
         cd_data = {
             'name': cd_name,
