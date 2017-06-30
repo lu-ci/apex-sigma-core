@@ -46,6 +46,14 @@ class ApexSigma(discord.AutoShardedClient):
         self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self)
 
+    def get_prefix(self, message):
+        prefix = self.cfg.pref.prefix
+        if message.guild:
+            pfx_search = self.db.get_guild_settings(message.guild.id, 'Prefix')
+            if pfx_search:
+                prefix = pfx_search
+        return prefix
+
     def run(self):
         try:
             self.log.info('Connecting to Discord Gateway...')
@@ -75,7 +83,8 @@ class ApexSigma(discord.AutoShardedClient):
     async def on_message(self, message):
         if not message.author.bot:
             event_name = 'message'
-            if message.content.startswith(self.cfg.pref.prefix):
+            prefix = self.get_prefix(message)
+            if message.content.startswith(prefix):
                 args = message.content.split(' ')
                 cmd = args.pop(0)[len(self.cfg.pref.prefix):].lower()
                 if cmd in self.modules.alts:

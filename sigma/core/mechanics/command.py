@@ -128,7 +128,7 @@ class SigmaCommand(object):
                     title = '❗ An Error Occurred!'
                     err_text = 'Something seems to have gone wrong.'
                     err_text += '\nPlease send this token to our support server.'
-                    err_text += f'\nThe invite link is in the **{self.bot.cfg.pref.prefix}help** command.'
+                    err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
                     err_text += f'\nToken: **{err_token}**'
                     error_embed = discord.Embed(color=0xDB0000)
                     error_embed.add_field(name=title, value=err_text)

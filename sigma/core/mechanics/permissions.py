@@ -84,7 +84,7 @@ class CommandPermissions(object):
         elif self.dm_denied:
             color = 0xDB0000
             title = f'⛔ Can\'t Be Used In Direct Messages'
-            desc = f'Please use {self.bot.cfg.pref.prefix}{self.cmd.name} on a server where I am present.'
+            desc = f'Please use {self.bot.get_prefix(self.message)}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xDB0000
             title = '⛔ Bot Owner Only'
@@ -93,7 +93,7 @@ class CommandPermissions(object):
             color = 0x9933FF
             title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
             desc = f'If you are an administrator on {self.message.guild.name} '
-            desc += f'Please use **`{self.bot.cfg.pref.prefix}nsfwpermit {self.cmd.rating}`** '
+            desc += f'Please use **`{self.bot.get_prefix(self.message)}nsfwpermit {self.cmd.rating}`** '
             desc += f'in #{self.message.channel.name} to permit commands that are rated '
             desc += f'{self.cmd.rating} and lower to be used there.'
         elif self.partner_denied:
