@@ -1,13 +1,13 @@
 import discord
 
 
-class CommandPermissions(object):
+class GlobalCommandPermissions(object):
     def __init__(self, command, message):
         self.message = message
         self.bot = command.bot
         self.cmd = command
         self.db = command.db
-        # Check States
+        # Default States
         self.nsfw_denied = False
         self.black_user = False
         self.black_srv = False
@@ -23,6 +23,7 @@ class CommandPermissions(object):
         self.check_black_usr()
         self.check_owner()
         self.check_final()
+        # Get Response
         self.generate_response()
 
     def check_dmable(self):
@@ -126,3 +127,66 @@ class CommandPermissions(object):
             if check is True:
                 self.permitted = False
                 break
+
+
+class ServerCommandPermissions(object):
+    def __init__(self, command, message):
+        self.cmd = command
+        self.db = self.cmd.db
+        self.bot = self.cmd.bot
+        self.msg = message
+        self.forbidden = self.check_perms()
+
+    def check_overwrites(self, perms):
+        overwritten = False
+        cmd_exc = perms['CommandExceptions']
+        mdl_exc = perms['ModuleExceptions']
+        author = self.msg.author
+        if cmd_exc:
+            if self.cmd.name in cmd_exc:
+                exceptions = cmd_exc[self.cmd.name]
+                if author.id in exceptions['Users']:
+                    overwritten = True
+                if self.msg.channel.id in exceptions['Channels']:
+                    overwritten = True
+                for role in author.roles:
+                    if role.id in exceptions['Roles']:
+                        overwritten = True
+                        break
+        if mdl_exc:
+            mdl_name = self.cmd.plugin_info['category']
+            if mdl_name in mdl_exc:
+                exceptions = mdl_exc[mdl_name]
+                if author.id in exceptions['Users']:
+                    overwritten = True
+                if self.msg.channel.id in exceptions['Channels']:
+                    overwritten = True
+                for role in author.roles:
+                    if role.id in exceptions['Roles']:
+                        overwritten = True
+                        break
+        return overwritten
+
+    def check_perms(self):
+        if self.msg.guild:
+            author = self.msg.author
+            is_guild_admin = author.permissions_in(self.msg.channel).administrator
+            if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
+                perms = self.db[self.bot.cfg.db.database].Permissions.find_one({'ServerID': self.msg.guild.id})
+                if not perms:
+                    permitted = True
+                else:
+                    cmd = self.cmd.name
+                    mdl = self.cmd.plugin_info['category']
+                    if mdl in perms['DisabledModules'] or cmd in perms['DisabledCommands']:
+                        if self.check_overwrites(perms):
+                            permitted = True
+                        else:
+                            permitted = False
+                    else:
+                        permitted = True
+            else:
+                permitted = True
+        else:
+            permitted = True
+        return permitted

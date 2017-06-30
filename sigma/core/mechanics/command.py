@@ -1,7 +1,8 @@
 import discord
 import secrets
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.permissions import CommandPermissions
+from sigma.core.mechanics.permissions import GlobalCommandPermissions
+from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 
 class SigmaCommand(object):
@@ -47,7 +48,8 @@ class SigmaCommand(object):
                 self.dmable = permissions['dmable']
 
     def resource(self, res_path):
-        res_path = f'{self.path}/res/{res_path}'
+        module_path = self.path
+        res_path = f'{module_path}/res/{res_path}'
         res_path = res_path.replace('\\', '/')
         return res_path
 
@@ -117,25 +119,36 @@ class SigmaCommand(object):
 
     async def execute(self, message, args):
         if self.bot.ready:
-            perms = CommandPermissions(self, message)
-            if perms.permitted:
-                try:
-                    self.log_command_usage(message, args)
-                    await getattr(self.command, self.name)(self, message, args)
-                except self.get_exception() as e:
-                    err_token = secrets.token_hex(16)
-                    self.log_error(message, args, e, err_token)
-                    title = '❗ An Error Occurred!'
-                    err_text = 'Something seems to have gone wrong.'
-                    err_text += '\nPlease send this token to our support server.'
-                    err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
-                    err_text += f'\nToken: **{err_token}**'
-                    error_embed = discord.Embed(color=0xDB0000)
-                    error_embed.add_field(name=title, value=err_text)
+            if message.guild:
+                delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
+                if delete_command_message:
                     try:
-                        await message.author.send(embed=error_embed)
+                        await message.delete()
                     except:
                         pass
+            perms = GlobalCommandPermissions(self, message)
+            guild_allowed = ServerCommandPermissions(self, message)
+            if perms.permitted:
+                if guild_allowed:
+                    try:
+                        self.log_command_usage(message, args)
+                        await getattr(self.command, self.name)(self, message, args)
+                    except self.get_exception() as e:
+                        err_token = secrets.token_hex(16)
+                        self.log_error(message, args, e, err_token)
+                        title = '❗ An Error Occurred!'
+                        err_text = 'Something seems to have gone wrong.'
+                        err_text += '\nPlease send this token to our support server.'
+                        err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
+                        err_text += f'\nToken: **{err_token}**'
+                        error_embed = discord.Embed(color=0xDB0000)
+                        error_embed.add_field(name=title, value=err_text)
+                        try:
+                            await message.author.send(embed=error_embed)
+                        except:
+                            pass
+                else:
+                    self.log.warning('ACCESS DENIED: This module or command is not allowed on this server.')
             else:
                 self.log_unpermitted(perms)
                 if perms.response:
