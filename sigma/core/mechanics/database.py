@@ -41,7 +41,7 @@ class Database(pymongo.MongoClient):
         collection = database['ExperienceSystem']
         entry = collection.find_one({'user_id': user.id})
         if entry:
-            global_xp = entry['global_xp']
+            global_xp = entry['global']
             guild_id = str(guild.id)
             if guild_id in entry['guilds']:
                 guild_xp = entry['guilds'][guild_id]
@@ -61,8 +61,8 @@ class Database(pymongo.MongoClient):
         collection = database['ExperienceSystem']
         entry = collection.find_one({'user_id': user.id})
         if entry:
-            if 'global_xp' in entry:
-                global_xp = entry['global_xp']
+            if 'global' in entry:
+                global_xp = entry['global']
             else:
                 global_xp = 0
             if 'guilds' in entry:
@@ -83,8 +83,94 @@ class Database(pymongo.MongoClient):
         guild_data = {guild_id: guild_points}
         guilds.update(guild_data)
         xp_data = {
-            'global_xp': global_xp,
+            'global': global_xp,
             'guilds': guilds
+        }
+        update_target = {'user_id': user.id}
+        update_data = {'$set': xp_data}
+        collection.update_one(update_target, update_data)
+
+    def get_currency(self, user, guild):
+        database = self[self.bot.cfg.db.database]
+        collection = database['CurrencySystem']
+        entry = collection.find_one({'user_id': user.id})
+        if entry:
+            global_amount = entry['global']
+            current_amount = entry['current']
+            guild_id = str(guild.id)
+            if guild_id in entry['guilds']:
+                guild_amount = entry['guilds'][guild_id]
+            else:
+                guild_amount = 0
+        else:
+            current_amount = 0
+            global_amount = 0
+            guild_amount = 0
+        output = {
+            'current': current_amount,
+            'global': global_amount,
+            'guild': guild_amount
+        }
+        return output
+
+    def add_currency(self, user, guild, points):
+        database = self[self.bot.cfg.db.database]
+        collection = database['CurrencySystem']
+        entry = collection.find_one({'user_id': user.id})
+        points = abs(points)
+        if entry:
+            if 'current' in entry:
+                current_amount = entry['current']
+            else:
+                current_amount = 0
+            if 'global' in entry:
+                global_amount = entry['global']
+            else:
+                global_amount = 0
+            if 'guilds' in entry:
+                guilds = entry['guilds']
+            else:
+                guilds = {}
+        else:
+            collection.insert_one({'user_id': user.id})
+            global_amount = 0
+            current_amount = 0
+            guilds = {}
+        guild_id = str(guild.id)
+        global_amount += points
+        if guild_id in guilds:
+            guild_points = guilds[guild_id]
+        else:
+            guild_points = 0
+        current_amount += points
+        guild_points += points
+        guild_data = {guild_id: guild_points}
+        guilds.update(guild_data)
+        xp_data = {
+            'current': current_amount,
+            'global': global_amount,
+            'guilds': guilds
+        }
+        update_target = {'user_id': user.id}
+        update_data = {'$set': xp_data}
+        collection.update_one(update_target, update_data)
+
+    def rmv_currency(self, user, guild, points):
+        database = self[self.bot.cfg.db.database]
+        collection = database['CurrencySystem']
+        entry = collection.find_one({'user_id': user.id})
+        points = abs(points)
+        if entry:
+            if 'current' in entry:
+                current_amount = entry['current']
+            else:
+                current_amount = 0
+        else:
+            collection.insert_one({'user_id': user.id})
+            current_amount = 0
+        current_amount -= points
+        xp_data = {
+            'current': current_amount
         }
         update_target = {'user_id': user.id}
         update_data = {'$set': xp_data}
