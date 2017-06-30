@@ -40,6 +40,13 @@ class SigmaEvent(object):
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
 
+    def log_error(self, exception):
+        log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
+        self.log.error(log_text)
+
     async def execute(self, *args):
         if self.bot.ready:
-            await getattr(self.event, self.name)(self, *args)
+            try:
+                await getattr(self.event, self.name)(self, *args)
+            except Exception as e:
+                self.log_error(e)

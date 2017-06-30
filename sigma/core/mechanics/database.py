@@ -34,4 +34,4 @@ class Database(pymongo.MongoClient):
             self.insert_guild_settings(guild_id)
         update_target = {"server_id": guild_id}
         update_data = {"$set": {setting_name: value}}
-        self[self.bot.cfg.db.database].ServerSettings.update_one(updatetarget, updatedata)
+        self[self.bot.cfg.db.database].ServerSettings.update_one(update_target, update_data)
