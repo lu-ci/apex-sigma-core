@@ -6,6 +6,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.config import load_config
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.cooldown import CooldownControl
 
 
 class ApexSigma(discord.AutoShardedClient):
@@ -18,6 +19,8 @@ class ApexSigma(discord.AutoShardedClient):
         self.log.info('---------------------------------')
         self.init_database()
         self.log.info('---------------------------------')
+        self.init_cooldown()
+        self.log.info('---------------------------------')
         self.init_modules()
 
     def init_logger(self):
@@ -27,7 +30,7 @@ class ApexSigma(discord.AutoShardedClient):
     def init_config(self):
         self.log.info('Loading Configuration...')
         self.cfg = load_config()
-        self.log.info('Configuration Loaded')
+        self.log.info('Core Configuration Data Loaded')
 
     def init_database(self):
         self.log.info('Connecting to Database...')
@@ -41,6 +44,11 @@ class ApexSigma(discord.AutoShardedClient):
             self.log.error('Database Access Operation Failed!')
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
+
+    def init_cooldown(self):
+        self.log.info('Loading Cooldown Controls...')
+        self.cooldown = CooldownControl(self)
+        self.log.info('Cooldown Controls Successfully Enabled')
 
     def init_modules(self):
         self.log.info('Loading Sigma Modules')

@@ -40,6 +40,13 @@ class SigmaEvent(object):
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
 
+    def get_exception(self):
+        if self.bot.cfg.pref.dev_mode:
+            cmd_exception = SyntaxError
+        else:
+            cmd_exception = Exception
+        return cmd_exception
+
     def log_error(self, exception):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
@@ -48,5 +55,5 @@ class SigmaEvent(object):
         if self.bot.ready:
             try:
                 await getattr(self.event, self.name)(self, *args)
-            except Exception as e:
+            except self.get_exception() as e:
                 self.log_error(e)

@@ -1,3 +1,5 @@
+import os
+import yaml
 import discord
 import secrets
 from sigma.core.mechanics.logger import create_logger
@@ -24,6 +26,7 @@ class SigmaCommand(object):
         self.usage = f'{bot.cfg.pref.prefix}{self.name}'
         self.desc = 'No description provided.'
         self.insert_command_info()
+        self.load_command_config()
 
     def insert_command_info(self):
         if 'alts' in self.command_info:
@@ -46,6 +49,12 @@ class SigmaCommand(object):
                 self.partner = permissions['partner']
             if 'dmable' in permissions:
                 self.dmable = permissions['dmable']
+
+    def load_command_config(self):
+        config_path = f'config/plugins/{self.name}'
+        if os.path.exists(config_path):
+            with open(config_path) as config_file:
+                self.cfg = yaml.safe_load(config_file)
 
     def resource(self, res_path):
         module_path = self.path
