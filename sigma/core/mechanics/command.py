@@ -133,7 +133,7 @@ class SigmaCommand(object):
                     error_embed = discord.Embed(color=0xDB0000)
                     error_embed.add_field(name=title, value=err_text)
                     try:
-                        await message.channel.send(embed=error_embed)
+                        await message.author.send(embed=error_embed)
                     except:
                         pass
             else:
