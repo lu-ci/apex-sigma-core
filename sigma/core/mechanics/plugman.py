@@ -16,6 +16,7 @@ class PluginManager(object):
         self.log.info('Loading Commands')
         self.load_all_modules()
         self.log.info(f'Loaded {len(self.commands)} Commands')
+        self.log.info('---------------------------------')
 
     def load_all_modules(self):
         directory = 'sigma/plugins'
