@@ -16,6 +16,7 @@ class SigmaCommand(object):
         self.command_info = command_info
         self.name = self.command_info['name']
         self.path = self.command_info['path']
+        self.category = self.plugin_info['category']
         self.log = create_logger(self.name.upper())
         self.rating = 0
         self.owner = False
