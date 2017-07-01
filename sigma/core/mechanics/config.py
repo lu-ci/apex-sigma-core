@@ -10,11 +10,13 @@ def load_config():
         pref_cfg_data = yaml.safe_load(discord_config)
 
     class DiscordConfig(object):
+        raw = client_cfg_data
         token = client_cfg_data['token']
         owners = client_cfg_data['owners']
         bot = client_cfg_data['bot']
 
     class DatabaseConfig(object):
+        raw = db_cfg_data
         database = db_cfg_data['database']
         auth = db_cfg_data['auth']
         host = db_cfg_data['host']
@@ -23,6 +25,7 @@ def load_config():
         password = db_cfg_data['password']
 
     class PreferencesConfig(object):
+        raw = pref_cfg_data
         dev_mode = pref_cfg_data['dev_mode']
         status_rotation = pref_cfg_data['status_rotation']
         prefix = pref_cfg_data['prefix']
@@ -30,6 +33,7 @@ def load_config():
         currency_icon = pref_cfg_data['currency_icon']
         slot_wins_channel = pref_cfg_data['slot_wins_channel']
         item_wins_channel = pref_cfg_data['item_wins_channel']
+        website = pref_cfg_data['website']
 
     class Configuration(object):
         dsc = DiscordConfig

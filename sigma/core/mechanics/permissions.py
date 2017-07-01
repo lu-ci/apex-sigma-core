@@ -89,7 +89,7 @@ class GlobalCommandPermissions(object):
         elif self.owner_denied:
             color = 0xDB0000
             title = '⛔ Bot Owner Only'
-            desc = f'There is no way for you to become {self.cmd.bot.user.name}\'s owner.'
+            desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
         elif self.nsfw_denied:
             if self.message.guild:
                 color = 0x9933FF
