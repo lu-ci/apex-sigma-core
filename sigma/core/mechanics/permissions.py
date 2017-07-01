@@ -52,7 +52,7 @@ class GlobalCommandPermissions(object):
 
     def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
-        black_user_file = black_user_collection.find_one({'user_id': self.message.author.id})
+        black_user_file = black_user_collection.find_one({'UserID': self.message.author.id})
         if black_user_file:
             self.black_user = True
         else:
@@ -61,7 +61,7 @@ class GlobalCommandPermissions(object):
     def check_black_srv(self):
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
-            black_srv_file = black_srv_collection.find_one({'server_id': self.message.guild.id})
+            black_srv_file = black_srv_collection.find_one({'ServerID': self.message.guild.id})
             if black_srv_file:
                 self.black_srv = True
             else:

@@ -13,11 +13,11 @@ class Database(pymongo.MongoClient):
         super().__init__(db_address)
 
     def insert_guild_settings(self, guild_id):
-        settings_data = {'server_id': guild_id}
+        settings_data = {'ServerID': guild_id}
         self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
 
     def get_guild_settings(self, guild_id, setting_name):
-        guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'server_id': guild_id})
+        guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             setting_value = None
             self.insert_guild_settings(guild_id)
@@ -29,7 +29,7 @@ class Database(pymongo.MongoClient):
         return setting_value
 
     def set_guild_settings(self, guild_id, setting_name, value):
-        guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'server_id': guild_id})
+        guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             self.insert_guild_settings(guild_id)
         update_target = {"server_id": guild_id}
@@ -39,7 +39,7 @@ class Database(pymongo.MongoClient):
     def get_experience(self, user, guild):
         database = self[self.bot.cfg.db.database]
         collection = database['ExperienceSystem']
-        entry = collection.find_one({'user_id': user.id})
+        entry = collection.find_one({'UserID': user.id})
         if entry:
             global_xp = entry['global']
             guild_id = str(guild.id)
@@ -59,7 +59,7 @@ class Database(pymongo.MongoClient):
     def add_experience(self, user, guild, points):
         database = self[self.bot.cfg.db.database]
         collection = database['ExperienceSystem']
-        entry = collection.find_one({'user_id': user.id})
+        entry = collection.find_one({'UserID': user.id})
         if entry:
             if 'global' in entry:
                 global_xp = entry['global']
@@ -70,7 +70,7 @@ class Database(pymongo.MongoClient):
             else:
                 guilds = {}
         else:
-            collection.insert_one({'user_id': user.id})
+            collection.insert_one({'UserID': user.id})
             global_xp = 0
             guilds = {}
         guild_id = str(guild.id)
@@ -86,14 +86,14 @@ class Database(pymongo.MongoClient):
             'global': global_xp,
             'guilds': guilds
         }
-        update_target = {'user_id': user.id}
+        update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         collection.update_one(update_target, update_data)
 
     def get_currency(self, user, guild):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
-        entry = collection.find_one({'user_id': user.id})
+        entry = collection.find_one({'UserID': user.id})
         if entry:
             global_amount = entry['global']
             current_amount = entry['current']
@@ -116,7 +116,7 @@ class Database(pymongo.MongoClient):
     def add_currency(self, user, guild, points):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
-        entry = collection.find_one({'user_id': user.id})
+        entry = collection.find_one({'UserID': user.id})
         points = abs(points)
         if entry:
             if 'current' in entry:
@@ -132,7 +132,7 @@ class Database(pymongo.MongoClient):
             else:
                 guilds = {}
         else:
-            collection.insert_one({'user_id': user.id})
+            collection.insert_one({'UserID': user.id})
             global_amount = 0
             current_amount = 0
             guilds = {}
@@ -151,14 +151,14 @@ class Database(pymongo.MongoClient):
             'global': global_amount,
             'guilds': guilds
         }
-        update_target = {'user_id': user.id}
+        update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         collection.update_one(update_target, update_data)
 
     def rmv_currency(self, user, guild, points):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
-        entry = collection.find_one({'user_id': user.id})
+        entry = collection.find_one({'UserID': user.id})
         points = abs(points)
         if entry:
             if 'current' in entry:
@@ -166,12 +166,12 @@ class Database(pymongo.MongoClient):
             else:
                 current_amount = 0
         else:
-            collection.insert_one({'user_id': user.id})
+            collection.insert_one({'UserID': user.id})
             current_amount = 0
         current_amount -= points
         xp_data = {
             'current': current_amount
         }
-        update_target = {'user_id': user.id}
+        update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         collection.update_one(update_target, update_data)
