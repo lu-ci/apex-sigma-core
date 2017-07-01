@@ -15,7 +15,7 @@ class PluginManager(object):
         self.events = {}
         self.log.info('Loading Commands')
         self.load_all_modules()
-        self.log.info(f'Loaded All {len(self.commands)} Commands')
+        self.log.info(f'Loaded {len(self.commands)} Commands')
 
     def load_all_modules(self):
         directory = 'sigma/plugins'
@@ -26,10 +26,10 @@ class PluginManager(object):
                     with open(file_path) as plugin_file:
                         plugin_data = yaml.safe_load(plugin_file)
                         if plugin_data['enabled']:
+                            self.log.info(f'Loading the {plugin_data["name"]} Module')
                             if 'commands' in plugin_data:
                                 for command_data in plugin_data['commands']:
                                     if command_data['enabled']:
-                                        self.log.info(f'Loading the [ {command_data["name"].upper()} ] Command')
                                         module_root_location = os.path.join(root)
                                         command_module_location = os.path.join(root, command_data["name"])
                                         command_module_location = command_module_location.replace('/', '.')
@@ -44,9 +44,6 @@ class PluginManager(object):
                             if 'events' in plugin_data:
                                 for event_data in plugin_data['events']:
                                     if event_data['enabled']:
-                                        log_text = f'Loading the [ {event_data["name"].upper()} ] '
-                                        log_text += f'{event_data["type"].title()} Event'
-                                        self.log.info(log_text)
                                         command_module_location = os.path.join(root, event_data["name"])
                                         command_module_location = command_module_location.replace('/', '.')
                                         command_module_location = command_module_location.replace('\\', '.')
