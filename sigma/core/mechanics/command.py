@@ -19,6 +19,7 @@ class SigmaCommand(object):
         self.category = self.plugin_info['category']
         self.log = create_logger(self.name.upper())
         self.rating = 0
+        self.cfg = {}
         self.owner = False
         self.partner = False
         self.dmable = False
@@ -54,7 +55,7 @@ class SigmaCommand(object):
             self.desc += '\n(Bot Owner Only)'
 
     def load_command_config(self):
-        config_path = f'config/plugins/{self.name}'
+        config_path = f'config/plugins/{self.name}.yml'
         if os.path.exists(config_path):
             with open(config_path) as config_file:
                 self.cfg = yaml.safe_load(config_file)

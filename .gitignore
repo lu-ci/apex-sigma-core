@@ -105,6 +105,9 @@ ENV/
 /config/*
 !/config/.gitkeep
 
+# Cached Directory
+/cache
+
 # Log files
 /log/*
 !/log/.gitkeep

@@ -72,10 +72,13 @@ class GlobalCommandPermissions(object):
     def check_owner(self):
         auth = self.message.author
         ownrs = self.bot.cfg.dsc.owners
-        if auth.id in ownrs:
-            self.owner_denied = False
+        if self.cmd.owner:
+            if auth.id in ownrs:
+                self.owner_denied = False
+            else:
+                self.owner_denied = True
         else:
-            self.owner_denied = True
+            self.owner_denied = False
 
     def generate_response(self):
         if self.black_srv:

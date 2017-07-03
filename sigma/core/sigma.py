@@ -1,3 +1,4 @@
+import os
 import errno
 import discord
 import pymongo
@@ -32,6 +33,7 @@ class ApexSigma(discord.AutoShardedClient):
     def __init__(self):
         super().__init__()
         self.ready = False
+        self.create_cache()
         self.init_logger()
         self.log.info('---------------------------------')
         self.init_config()
@@ -41,6 +43,11 @@ class ApexSigma(discord.AutoShardedClient):
         self.init_cooldown()
         self.log.info('---------------------------------')
         self.init_modules()
+
+    @staticmethod
+    def create_cache():
+        if not os.path.exists('cache'):
+            os.makedirs('cache')
 
     def init_logger(self):
         self.log = create_logger('Sigma')
