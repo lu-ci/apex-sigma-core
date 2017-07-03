@@ -3,8 +3,8 @@ import pymongo
 
 class Database(pymongo.MongoClient):
     def __init__(self, bot, db_cfg):
-        self.db_cfg = db_cfg
         self.bot = bot
+        self.db_cfg = db_cfg
         if self.db_cfg.auth:
             db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'
             db_address += f'@{self.db_cfg.host}:{self.db_cfg.port}/'

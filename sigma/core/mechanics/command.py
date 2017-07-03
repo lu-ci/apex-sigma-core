@@ -157,7 +157,7 @@ class SigmaCommand(object):
                         error_embed.add_field(name=title, value=err_text)
                         try:
                             await message.author.send(embed=error_embed)
-                        except:
+                        except Exception:
                             pass
                 else:
                     self.log.warning('ACCESS DENIED: This module or command is not allowed on this server.')
