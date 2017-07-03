@@ -10,7 +10,7 @@ class SigmaEvent(object):
         self.plugin_info = plugin_info
         self.event_info = event_info
         self.name = self.event_info['name']
-        self.log = create_logger(self.name.title())
+        self.log = create_logger(self.name.upper())
         self.rating = 0
         self.owner = False
         self.partner = False

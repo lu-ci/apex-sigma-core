@@ -83,7 +83,7 @@ class SigmaCommand(object):
         else:
             arguments = None
         author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-        log_text = f'USR: {author_full} | {cmd_location} | {arguments}'
+        log_text = f'USR: {author_full} | {cmd_location} | ARGS: {arguments}'
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
