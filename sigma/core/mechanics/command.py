@@ -136,7 +136,7 @@ class SigmaCommand(object):
                 if delete_command_message:
                     try:
                         await message.delete()
-                    except:
+                    except Exception:
                         pass
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
