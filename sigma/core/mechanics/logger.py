@@ -18,14 +18,19 @@ log_file = os.path.join(log_dir, logfile_name)
 
 formatter = logging.Formatter(log_fmt)
 
+loggers = {}
+
 
 def create_logger(name):
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    file_handler = logging.FileHandler(log_file, encoding='utf-8')
-    file_handler.setFormatter(formatter)
-    logger = logging.getLogger(name)
-    logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
-    logger.setLevel(logging.INFO)
+    if name not in loggers:
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setFormatter(formatter)
+        logger = logging.getLogger(name)
+        logger.addHandler(file_handler)
+        logger.addHandler(stream_handler)
+        logger.setLevel(logging.INFO)
+        loggers.update({name: logger})
+    logger = loggers[name]
     return logger

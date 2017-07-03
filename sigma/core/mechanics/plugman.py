@@ -19,6 +19,9 @@ class PluginManager(object):
         self.log.info('---------------------------------')
 
     def load_all_modules(self):
+        self.alts = {}
+        self.commands = {}
+        self.events = {}
         directory = 'sigma/plugins'
         for root, dirs, files in os.walk(directory):
             for file in files:
@@ -36,6 +39,7 @@ class PluginManager(object):
                                         command_module_location = command_module_location.replace('/', '.')
                                         command_module_location = command_module_location.replace('\\', '.')
                                         command_function = importlib.import_module(command_module_location)
+                                        importlib.reload(command_function)
                                         command_data.update({'path': module_root_location})
                                         command = SigmaCommand(self.bot, command_function, plugin_data, command_data)
                                         if command.alts:
@@ -49,6 +53,7 @@ class PluginManager(object):
                                         command_module_location = command_module_location.replace('/', '.')
                                         command_module_location = command_module_location.replace('\\', '.')
                                         event_function = importlib.import_module(command_module_location)
+                                        importlib.reload(event_function)
                                         event = SigmaEvent(self.bot, event_function, plugin_data, event_data)
                                         if event.event_type in self.events:
                                             event_list = self.events[event.event_type]
