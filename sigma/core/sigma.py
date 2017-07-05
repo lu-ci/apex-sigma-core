@@ -97,14 +97,21 @@ class ApexSigma(discord.AutoShardedClient):
             exit(errno.EPERM)
 
     async def on_connect(self):
-        self.log.info('Connection to Discord Established')
         event_name = 'connect'
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute())
 
+    async def on_shard_ready(self, shard_id):
+        self.log.info(f'Connection to Discord Shard #{shard_id} Established')
+        event_name = 'shard_ready'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(shard_id))
+
     async def on_ready(self):
         self.ready = True
+        self.log.info('Apex Sigma Fully Loaded and Ready')
         self.log.info('---------------------------------')
         self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
         self.log.info(f'User Snowflake: {self.user.id}')
