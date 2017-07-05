@@ -146,7 +146,7 @@ class SigmaCommand(object):
             guild_allowed = ServerCommandPermissions(self, message)
             self.log_command_usage(message, args)
             if perms.permitted:
-                if guild_allowed:
+                if guild_allowed.permitted:
                     requirements = CommandRequirements(self, message)
                     if requirements.reqs_met:
                         try:

@@ -13,6 +13,7 @@ class PluginManager(object):
         self.alts = {}
         self.commands = {}
         self.events = {}
+        self.categories = []
         self.log.info('Loading Commands')
         self.load_all_modules()
         self.log.info(f'Loaded {len(self.commands)} Commands')
@@ -32,6 +33,8 @@ class PluginManager(object):
                         if plugin_data['enabled']:
                             self.log.info(f'Loading the {plugin_data["name"]} Module')
                             if 'commands' in plugin_data:
+                                if plugin_data['category'] not in self.categories:
+                                    self.categories.append(plugin_data['category'])
                                 for command_data in plugin_data['commands']:
                                     if command_data['enabled']:
                                         module_root_location = os.path.join(root)

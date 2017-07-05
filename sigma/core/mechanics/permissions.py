@@ -138,7 +138,7 @@ class ServerCommandPermissions(object):
         self.db = self.cmd.db
         self.bot = self.cmd.bot
         self.msg = message
-        self.forbidden = self.check_perms()
+        self.permitted = self.check_perms()
 
     def check_overwrites(self, perms):
         overwritten = False
