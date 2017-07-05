@@ -5,6 +5,7 @@ import secrets
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
+from sigma.core.mechanics.command_requirements import CommandRequirements
 
 
 class SigmaCommand(object):
@@ -23,7 +24,7 @@ class SigmaCommand(object):
         self.owner = False
         self.partner = False
         self.dmable = False
-        self.requirements = None
+        self.requirements = ['send_messages']
         self.alts = None
         self.usage = f'{bot.cfg.pref.prefix}{self.name}'
         self.desc = 'No description provided.'
@@ -40,7 +41,7 @@ class SigmaCommand(object):
         if 'description' in self.command_info:
             self.desc = self.command_info['description']
         if 'requirements' in self.command_info:
-            self.requirements = self.command_info['requirements']
+            self.requirements += self.command_info['requirements']
         if 'permissions' in self.command_info:
             permissions = self.command_info['permissions']
             if 'rating' in permissions:
@@ -137,28 +138,44 @@ class SigmaCommand(object):
                 if delete_command_message:
                     try:
                         await message.delete()
-                    except Exception:
+                    except discord.NotFound:
+                        pass
+                    except discord.Forbidden:
                         pass
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
             self.log_command_usage(message, args)
             if perms.permitted:
                 if guild_allowed:
-                    try:
-                        await getattr(self.command, self.name)(self, message, args)
-                    except self.get_exception() as e:
-                        err_token = secrets.token_hex(16)
-                        self.log_error(message, args, e, err_token)
-                        title = '❗ An Error Occurred!'
-                        err_text = 'Something seems to have gone wrong.'
-                        err_text += '\nPlease send this token to our support server.'
-                        err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
-                        err_text += f'\nToken: **{err_token}**'
-                        error_embed = discord.Embed(color=0xDB0000)
-                        error_embed.add_field(name=title, value=err_text)
+                    requirements = CommandRequirements(self, message)
+                    if requirements.reqs_met:
                         try:
-                            await message.author.send(embed=error_embed)
-                        except Exception:
+                            await getattr(self.command, self.name)(self, message, args)
+                        except self.get_exception() as e:
+                            err_token = secrets.token_hex(16)
+                            self.log_error(message, args, e, err_token)
+                            title = '❗ An Error Occurred!'
+                            err_text = 'Something seems to have gone wrong.'
+                            err_text += '\nPlease send this token to our support server.'
+                            err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
+                            err_text += f'\nToken: **{err_token}**'
+                            error_embed = discord.Embed(color=0xDB0000)
+                            error_embed.add_field(name=title, value=err_text)
+                            try:
+                                await message.author.send(embed=error_embed)
+                            except discord.Forbidden:
+                                pass
+                    else:
+                        reqs_embed = discord.Embed(color=0xDB0000)
+                        reqs_error_title = f'❗ Missing Permissions for **{self.bot.get_prefix(message)}{self.name}**'
+                        reqs_error_list = ''
+                        for req in requirements.missing_list:
+                            req = req.replace('_', ' ').title()
+                            reqs_error_list += f'\n- {req}'
+                        reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                        try:
+                            await message.author.send(embed=reqs_embed)
+                        except discord.Forbidden:
                             pass
                 else:
                     self.log.warning('ACCESS DENIED: This module or command is not allowed on this server.')
