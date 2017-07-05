@@ -111,6 +111,7 @@ class ApexSigma(discord.AutoShardedClient):
 
     async def on_ready(self):
         self.ready = True
+        self.log.info('---------------------------------')
         self.log.info('Apex Sigma Fully Loaded and Ready')
         self.log.info('---------------------------------')
         self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')

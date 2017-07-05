@@ -141,10 +141,10 @@ class SigmaCommand(object):
                         pass
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
+            self.log_command_usage(message, args)
             if perms.permitted:
                 if guild_allowed:
                     try:
-                        self.log_command_usage(message, args)
                         await getattr(self.command, self.name)(self, message, args)
                     except self.get_exception() as e:
                         err_token = secrets.token_hex(16)
