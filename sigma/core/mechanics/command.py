@@ -94,6 +94,13 @@ class SigmaCommand(object):
         log_text += f'DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | VIP: {perms.partner_denied}'
         self.log.warning(log_text)
 
+    @staticmethod
+    async def respond_with_icon(message, icon):
+        try:
+            await message.add_reaction(icon)
+        except discord.DiscordException:
+            pass
+
     def log_error(self, message, args, exception, error_token):
         if message.guild:
             gnam = message.guild.name
@@ -152,6 +159,7 @@ class SigmaCommand(object):
                         try:
                             await getattr(self.command, self.name)(self, message, args)
                         except self.get_exception() as e:
+                            await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)
                             self.log_error(message, args, e, err_token)
                             title = '❗ An Error Occurred!'
@@ -166,6 +174,7 @@ class SigmaCommand(object):
                             except discord.Forbidden:
                                 pass
                     else:
+                        await self.respond_with_icon(message, '❗')
                         reqs_embed = discord.Embed(color=0xDB0000)
                         reqs_error_title = f'❗ Missing Permissions for **{self.bot.get_prefix(message)}{self.name}**'
                         reqs_error_list = ''
@@ -179,8 +188,10 @@ class SigmaCommand(object):
                             pass
                 else:
                     self.log.warning('ACCESS DENIED: This module or command is not allowed on this server.')
+                    await self.respond_with_icon(message, '⛔')
             else:
                 self.log_unpermitted(perms)
+                await self.respond_with_icon(message, '⛔')
                 if perms.response:
                     try:
                         await message.author.send(embed=perms.response)

@@ -1,3 +1,4 @@
+import discord
 from sigma.core.mechanics.logger import create_logger
 
 
@@ -55,5 +56,7 @@ class SigmaEvent(object):
         if self.bot.ready:
             try:
                 await getattr(self.event, self.name)(self, *args)
+            except discord.Forbidden:
+                pass
             except self.get_exception() as e:
                 self.log_error(e)

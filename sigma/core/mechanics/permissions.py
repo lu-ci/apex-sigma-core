@@ -98,7 +98,7 @@ class GlobalCommandPermissions(object):
                 color = 0x9933FF
                 title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
                 desc = f'If you are an administrator on {self.message.guild.name} '
-                desc += f'Please use **`{self.bot.get_prefix(self.message)}nsfwpermit {self.cmd.rating}`** '
+                desc += f'Please use **`{self.bot.get_prefix(self.message)}permitrating {self.cmd.rating}`** '
                 desc += f'in #{self.message.channel.name} to permit commands that are rated '
                 desc += f'{self.cmd.rating} and lower to be used there.'
             else:
