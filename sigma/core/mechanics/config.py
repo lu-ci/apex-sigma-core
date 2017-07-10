@@ -31,8 +31,6 @@ def load_config():
         prefix = pref_cfg_data['prefix']
         currency = pref_cfg_data['currency']
         currency_icon = pref_cfg_data['currency_icon']
-        slot_wins_channel = pref_cfg_data['slot_wins_channel']
-        item_wins_channel = pref_cfg_data['item_wins_channel']
         website = pref_cfg_data['website']
 
     class Configuration(object):

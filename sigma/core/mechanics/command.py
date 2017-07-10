@@ -24,7 +24,7 @@ class SigmaCommand(object):
         self.owner = False
         self.partner = False
         self.dmable = False
-        self.requirements = ['send_messages']
+        self.requirements = ['send_messages', 'embed_links']
         self.alts = None
         self.usage = f'{bot.cfg.pref.prefix}{self.name}'
         self.desc = 'No description provided.'
