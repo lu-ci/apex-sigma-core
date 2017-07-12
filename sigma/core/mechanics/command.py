@@ -195,5 +195,5 @@ class SigmaCommand(object):
                 if perms.response:
                     try:
                         await message.author.send(embed=perms.response)
-                    except discord.Forbidden:
+                    except discord.ClientException:
                         pass
