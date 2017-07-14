@@ -145,9 +145,7 @@ class SigmaCommand(object):
                 if delete_command_message:
                     try:
                         await message.delete()
-                    except discord.NotFound:
-                        pass
-                    except discord.Forbidden:
+                    except discord.ClientException:
                         pass
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
