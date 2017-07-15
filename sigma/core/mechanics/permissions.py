@@ -1,4 +1,4 @@
-import discord
+﻿import discord
 
 
 class GlobalCommandPermissions(object):
@@ -86,16 +86,16 @@ class GlobalCommandPermissions(object):
         elif self.black_user:
             return
         elif self.dm_denied:
-            color = 0xDB0000
+            color = 0xBE1931
             title = f'⛔ Can\'t Be Used In Direct Messages'
             desc = f'Please use {self.bot.get_prefix(self.message)}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
-            color = 0xDB0000
+            color = 0xBE1931
             title = '⛔ Bot Owner Only'
             desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
         elif self.nsfw_denied:
             if self.message.guild:
-                color = 0x9933FF
+                color = 0x744EAA
                 title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
                 desc = f'If you are an administrator on {self.message.guild.name} '
                 desc += f'Please use **`{self.bot.get_prefix(self.message)}permitrating {self.cmd.rating}`** '
@@ -104,7 +104,7 @@ class GlobalCommandPermissions(object):
             else:
                 return
         elif self.partner_denied:
-            color = 0x0099FF
+            color = 0x3B88C3
             title = '💎 Partner Servers Only'
             desc = 'Some commands are limited to only be usable by partners.'
             desc += '\nYou can request to be a partner server by visiting our '

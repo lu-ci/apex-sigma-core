@@ -1,4 +1,4 @@
-import os
+﻿import os
 import yaml
 import discord
 import secrets
@@ -165,7 +165,7 @@ class SigmaCommand(object):
                             err_text += '\nPlease send this token to our support server.'
                             err_text += f'\nThe invite link is in the **{self.bot.get_prefix(message)}help** command.'
                             err_text += f'\nToken: **{err_token}**'
-                            error_embed = discord.Embed(color=0xDB0000)
+                            error_embed = discord.Embed(color=0xBE1931)
                             error_embed.add_field(name=title, value=err_text)
                             try:
                                 await message.author.send(embed=error_embed)
@@ -173,7 +173,7 @@ class SigmaCommand(object):
                                 pass
                     else:
                         await self.respond_with_icon(message, '❗')
-                        reqs_embed = discord.Embed(color=0xDB0000)
+                        reqs_embed = discord.Embed(color=0xBE1931)
                         reqs_error_title = f'❗ Missing Permissions for **{self.bot.get_prefix(message)}{self.name}**'
                         reqs_error_list = ''
                         for req in requirements.missing_list:
