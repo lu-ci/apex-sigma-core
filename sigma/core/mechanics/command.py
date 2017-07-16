@@ -6,6 +6,7 @@ from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.command_requirements import CommandRequirements
+from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
@@ -156,6 +157,7 @@ class SigmaCommand(object):
                     if requirements.reqs_met:
                         try:
                             await getattr(self.command, self.name)(self, message, args)
+                            add_cmd_stat(self.db, self, message, args)
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)

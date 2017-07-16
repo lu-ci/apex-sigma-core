@@ -2,11 +2,11 @@ import yaml
 
 
 def load_config():
-    with open('config/core/discord.yml') as discord_config:
+    with open('config/core/discord.yml', encoding='utf-8') as discord_config:
         client_cfg_data = yaml.safe_load(discord_config)
-    with open('config/core/database.yml') as discord_config:
+    with open('config/core/database.yml', encoding='utf-8') as discord_config:
         db_cfg_data = yaml.safe_load(discord_config)
-    with open('config/core/preferences.yml') as discord_config:
+    with open('config/core/preferences.yml', encoding='utf-8') as discord_config:
         pref_cfg_data = yaml.safe_load(discord_config)
 
     class DiscordConfig(object):
