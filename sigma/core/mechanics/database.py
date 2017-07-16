@@ -175,3 +175,41 @@ class Database(pymongo.MongoClient):
         update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         collection.update_one(update_target, update_data)
+
+    def get_inventory(self, user):
+        inventory = self.db[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
+        if not inventory:
+            self.db[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
+            inventory = []
+        else:
+            inventory = inventory['Items']
+        return inventory
+
+    def update_inv(self, user, inv):
+        self.db[self.db_cfg.database]['Inventory'].update_one(
+            {'UserID': user.id},
+            {
+                '$set': {'Items': inv}
+            }
+        )
+
+    def add_to_inventory(self, user, item_data):
+        inv = self.get_inventory(user)
+        inv.append(item_data)
+        self.update_inv(user, inv)
+
+    def del_from_inventory(self, user, item_id):
+        inv = self.get_inventory(user)
+        for item in inv:
+            if item['item_id'] == item_id:
+                inv.remove(item)
+        self.update_inv(user, inv)
+
+    def get_inventory_item(self, user, item_file_id):
+        inv = self.get_inventory(user)
+        output = None
+        for item in inv:
+            if item['item_file_id'].lower() == item_file_id.lower():
+                output = item
+                break
+        return output
