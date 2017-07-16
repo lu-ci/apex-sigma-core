@@ -177,16 +177,16 @@ class Database(pymongo.MongoClient):
         collection.update_one(update_target, update_data)
 
     def get_inventory(self, user):
-        inventory = self.db[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
+        inventory = self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
         if not inventory:
-            self.db[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
+            self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
             inventory = []
         else:
             inventory = inventory['Items']
         return inventory
 
     def update_inv(self, user, inv):
-        self.db[self.db_cfg.database]['Inventory'].update_one(
+        self[self.db_cfg.database]['Inventory'].update_one(
             {'UserID': user.id},
             {
                 '$set': {'Items': inv}

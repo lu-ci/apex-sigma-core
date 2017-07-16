@@ -8,3 +8,4 @@ humanfriendly
 lxml
 pyyaml
 watchdog
+wolframalpha
