@@ -10,8 +10,9 @@ class CommandRequirements(object):
         self.check_requirements()
 
     def check_requirements(self):
-        for requirement in self.reqs:
-            req_status = getattr(self.me.permissions_in(self.chn), requirement)
-            if not req_status:
-                self.missing_list.append(requirement)
-                self.reqs_met = False
+        if self.msg.guild:
+            for requirement in self.reqs:
+                req_status = getattr(self.me.permissions_in(self.chn), requirement)
+                if not req_status:
+                    self.missing_list.append(requirement)
+                    self.reqs_met = False
