@@ -2,5 +2,6 @@
 
 from sigma.core.sigma import ApexSigma
 
-sigma = ApexSigma()
-sigma.run()
+if __name__ == '__main__':
+    sigma = ApexSigma()
+    sigma.run()
