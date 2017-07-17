@@ -11,3 +11,4 @@ pyyaml
 watchdog
 wikipedia
 wolframalpha
+youtube_dl
