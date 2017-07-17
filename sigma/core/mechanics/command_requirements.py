@@ -4,7 +4,6 @@ class CommandRequirements(object):
         self.msg = message
         self.reqs = cmd.requirements
         self.chn = self.msg.channel
-        self.me = self.msg.guild.me
         self.reqs_met = True
         self.missing_list = []
         self.check_requirements()
@@ -12,7 +11,7 @@ class CommandRequirements(object):
     def check_requirements(self):
         if self.msg.guild:
             for requirement in self.reqs:
-                req_status = getattr(self.me.permissions_in(self.chn), requirement)
+                req_status = getattr(self.msg.guild.me.permissions_in(self.chn), requirement)
                 if not req_status:
                     self.missing_list.append(requirement)
                     self.reqs_met = False
