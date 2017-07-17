@@ -3,6 +3,7 @@
 unset CDPATH
 
 SIGMA_SERVICE="sigma.service"
+APP_ROOT="/vagrant"
 
 echo 'Updating system and installing packages...'
 export DEBIAN_FRONTEND=noninteractive
@@ -49,13 +50,15 @@ echo "Setting up systemd service..."
 cat <<EOF > "/etc/systemd/system/$SIGMA_SERVICE"
 [Unit]
 Description=Sigma Discord Bot
+After=network.target
 After=mongodb.service
 Requires=mongodb.service
+RequiresMountsFor=$APP_ROOT
 
 [Service]
 User=ubuntu
 Environment=LOGTARGET_JOURNAL=1
-WorkingDirectory=/vagrant
+WorkingDirectory=$APP_ROOT
 ExecStart=/usr/bin/env bin/sigma
 Restart=always
 
