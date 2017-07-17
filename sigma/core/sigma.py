@@ -8,6 +8,7 @@ from sigma.core.mechanics.config import load_config
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
+from sigma.core.mechanics.music import MusicController
 
 
 # Apex Sigma: The Database Giant Discord Bot.
@@ -42,6 +43,8 @@ class ApexSigma(discord.AutoShardedClient):
         self.log.info('---------------------------------')
         self.init_cooldown()
         self.log.info('---------------------------------')
+        self.init_music()
+        self.log.info('---------------------------------')
         self.init_modules()
 
     @staticmethod
@@ -75,6 +78,11 @@ class ApexSigma(discord.AutoShardedClient):
         self.log.info('Loading Cooldown Controls...')
         self.cooldown = CooldownControl(self)
         self.log.info('Cooldown Controls Successfully Enabled')
+
+    def init_music(self):
+        self.log.info('Loading Music Controller...')
+        self.music = MusicController(self)
+        self.log.info('Music Controller Initialized and Ready')
 
     def init_modules(self):
         self.log.info('Loading Sigma Modules')

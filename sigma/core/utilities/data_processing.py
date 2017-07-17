@@ -1,4 +1,6 @@
+import re
 import arrow
+import aiohttp
 
 
 def user_avatar(user):
@@ -43,3 +45,16 @@ def get_time_difference(member, leave=False):
         new_acc = False
     human_msg = creation_time.humanize(arrow.utcnow())
     return new_acc, human_msg
+
+
+async def search_youtube(qry):
+    url_base = "https://www.youtube.com/results?"
+    params = {
+        "q": qry
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'{url_base}', params=params) as data:
+            html_content = await data.text()
+            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content)
+            video_url = f'https://www.youtube.com/watch?v={search_results[0]}'
+    return video_url
