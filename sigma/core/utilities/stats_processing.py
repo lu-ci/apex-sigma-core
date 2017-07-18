@@ -31,9 +31,9 @@ def add_special_stats(db, stat_name):
         'name': stat_name,
         'count': 0
     }
-    check = db.find_one(collection, {"name": stat_name})
+    check = db[db.db_cfg.database][collection].find_one({"name": stat_name})
     if not check:
-        db.insert_one(collection, def_stat_data)
+        db[db.db_cfg.database][collection].insert_one(def_stat_data)
         ev_count = 0
     else:
         ev_count = check['count']
