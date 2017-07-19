@@ -81,7 +81,7 @@ class ApexSigma(discord.AutoShardedClient):
 
     def init_music(self):
         self.log.info('Loading Music Controller...')
-        self.music = MusicController(self)
+        self.music = MusicController()
         self.log.info('Music Controller Initialized and Ready')
 
     def init_modules(self):

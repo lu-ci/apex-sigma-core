@@ -1,91 +1,110 @@
+import pafy
+import os
 import hashlib
-import asyncio
+import soundcloud
 import discord
-import functools
-import youtube_dl
-from concurrent.futures import ThreadPoolExecutor
-
-ytdl_prefs = {
-    'format': 'bestaudio/best',
-    'extractaudio': True,
-    'audioformat': 'mp3',
-    'restrictfilenames': True,
-    'noplaylist': True,
-    'nocheckcertificate': True,
-    'ignoreerrors': True,
-    'logtostderr': False,
-    'quiet': True,
-    'no_warnings': True,
-    'default_search': 'auto',
-    'source_address': '0.0.0.0'
-}
+import aiohttp
+import asyncio
 
 
 class MusicController(object):
-    def __init__(self, bot):
-        self.bot = bot
-        self.db = self.bot.db
+    def __init__(self):
+        self.initializing = []
         self.queues = {}
-        self.bindings = {}
+        self.item_lists = {}
+        self.volumes = {}
+        self.currents = {}
         self.repeaters = []
-        self.ytdl = youtube_dl.YoutubeDL(ytdl_prefs)
-        self.threads = ThreadPoolExecutor(max_workers=2)
+        self.ytdl_params = {
+            'format': 'bestaudio/best',
+            'extractaudio': True,
+            'audioformat': 'mp3',
+            'outtmpl': '%(id)s',
+            'restrictfilenames': True,
+            'noplaylist': True,
+            'nocheckcertificate': True,
+            'ignoreerrors': False,
+            'logtostderr': False,
+            'quiet': True,
+            'no_warnings': True,
+            'default_search': 'auto',
+            'source_address': '0.0.0.0'
+        }
 
-    def get_queue(self, guild):
-        if guild.id in self.queues:
-            queue = self.queues[guild.id]
+    def get_volume(self, db, sid):
+        if sid in self.volumes:
+            return self.volumes[sid]
+        else:
+            return db.get_guild_settings(sid, 'MusicVolume')
+
+    def set_volume(self, db, sid, volume):
+        self.volumes.update({sid: volume})
+        db.set_guild_settings(sid, 'MusicVolume', volume)
+
+    async def add_to_queue(self, sid, data):
+        if sid in self.queues:
+            queue = self.queues[sid]
+            await queue.put(data)
         else:
             queue = asyncio.Queue()
-        return queue
+            await queue.put(data)
+            self.queues.update({sid: queue})
 
-    async def get_from_queue(self, guild):
-        queue = self.get_queue(guild)
-        if not queue.empty():
-            item = await queue.get()
+    def get_queue(self, sid):
+        if sid in self.queues:
+            return self.queues[sid]
         else:
-            item = None
-        return item
+            queue = asyncio.Queue()
+            self.queues.update({sid: queue})
+            return queue
 
-    async def add_to_queue(self, guild, item):
-        queue = self.get_queue(guild)
-        await queue.put(item)
-        self.queues.update({guild.id: queue})
+    async def get_from_queue(self, sid):
+        if sid in self.queues:
+            return await self.queues[sid].get()
+        else:
+            return None
 
-    async def del_from_queue(self, guild, order):
-        queue = self.get_queue(guild)
-        if not queue.empty():
-            item_list = []
-            while not queue.empty():
-                item = await queue.get()
-                item_list.append(item)
-            item_list.remove(item_list[order])
-            for item in item_list:
-                await queue.put(item)
-            self.queues.update({guild.id: queue})
+    def purge_queue(self, sid):
+        if sid in self.queues:
+            self.queues[sid] = asyncio.Queue()
 
     @staticmethod
-    def generate_token(url_id):
-        crypt = hashlib.new('md5')
-        crypt.update(url_id.encode('utf-8'))
-        final = crypt.hexdigest()
-        return final
+    def download_yt_data(url):
+        output = 'cache/'
+        video = pafy.new(url)
+        audio = video.getbestaudio()
+        file_location = output + video.videoid
+        if not os.path.exists(file_location):
+            audio.download(file_location, quiet=True)
+        return file_location
 
-    async def get_song_info(self, url):
-        info = await self.bot.loop.run_in_executor(self.threads, functools.partial(self.ytdl.extract_info, url,
-                                                                                   download=False))
-        return info
+    @staticmethod
+    async def download_bc_data(data):
+        song_id = data['id']
+        output = 'cache/'
+        filename = f'bc_{song_id}'
+        file_location = output + filename
+        if not os.path.exists(file_location):
+            with open(file_location, 'wb') as data_file:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(data['file']) as dl_data:
+                        total_data = await dl_data.read()
+                        data_file.write(total_data)
+        return file_location
 
-    async def download_yt_item(self, item):
-        token = self.generate_token(item['url'])
-        location = f'cache/yt_{token}'
-        self.ytdl.params['outtmpl'] = location
-        await self.bot.loop.run_in_executor(self.threads, functools.partial(self.ytdl.extract_info, item['url']))
-        return location
+    async def make_player(self, voice, item):
+        location = item['url']
+        if item['type'] == 0:
+            file_location = self.download_yt_data(location)
+        elif item['type'] == 2:
+            file_location = await self.download_bc_data(item['sound'])
+        else:
+            file_location = location
+        source = discord.FFmpegPCMAudio(file_location, executable='ffmpeg')
+        voice.play(source)
 
-    async def play(self, guild, item):
-        item_location = await self.download_yt_item(item)
-        item_info = await self.get_song_info(item['url'])
-        item.update({'info': item_info})
-        source = discord.FFmpegPCMAudio(item_location)
-        guild.voice_client.play(source)
-        return item
+    def add_init(self, sid):
+        self.initializing.append(sid)
+
+    def remove_init(self, sid):
+        self.initializing.remove(sid)
