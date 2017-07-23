@@ -8,7 +8,7 @@ from sigma.core.mechanics.config import load_config
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
-from sigma.core.mechanics.music import MusicController
+from sigma.core.mechanics.music import MusicCore
 
 
 # Apex Sigma: The Database Giant Discord Bot.
@@ -81,7 +81,7 @@ class ApexSigma(discord.AutoShardedClient):
 
     def init_music(self):
         self.log.info('Loading Music Controller...')
-        self.music = MusicController()
+        self.music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
 
     def init_modules(self):

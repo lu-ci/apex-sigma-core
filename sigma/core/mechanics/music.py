@@ -1,110 +1,106 @@
-import pafy
 import os
-import hashlib
-import soundcloud
 import discord
-import aiohttp
 import asyncio
+import hashlib
+import functools
+import youtube_dl
+from concurrent.futures import ThreadPoolExecutor
+
+ytdl_params = {
+    'format': 'bestaudio/best',
+    'extractaudio': True,
+    'audioformat': 'mp3',
+    'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'restrictfilenames': True,
+    'noplaylist': False,
+    'nocheckcertificate': True,
+    'ignoreerrors': True,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0'
+}
 
 
-class MusicController(object):
-    def __init__(self):
-        self.initializing = []
+class QueueItem(object):
+    def __init__(self, requester, item_info):
+        self.requester = requester
+        self.item_info = item_info
+        self.url = self.item_info['webpage_url']
+        self.video_id = self.item_info['id']
+        self.uploader = self.item_info['uploader']
+        self.title = self.item_info['title']
+        self.thumbnail = self.item_info['thumbnail']
+        self.duration = self.item_info['duration']
+        self.downloaded = False
+        self.loop = asyncio.get_event_loop()
+        self.threads = ThreadPoolExecutor(2)
+        self.ytdl_params = ytdl_params
+        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+        self.token = self.tokenize()
+        self.location = None
+
+    def tokenize(self):
+        name = 'yt_' + self.video_id
+        crypt = hashlib.new('md5')
+        crypt.update(name.encode('utf-8'))
+        final = crypt.hexdigest()
+        return final
+
+    async def download(self):
+        out_location = f'cache/{self.token}'
+        if not os.path.exists(out_location):
+            self.ytdl.params['outtmpl'] = out_location
+            task = functools.partial(self.ytdl.extract_info, self.url)
+            await self.loop.run_in_executor(self.threads, task)
+            self.downloaded = True
+        self.location = out_location
+
+    async def create_player(self, voice_client):
+        await self.download()
+        audio_source = discord.FFmpegPCMAudio(self.location)
+        voice_client.play(audio_source)
+
+
+class MusicCore(object):
+    def __init__(self, bot):
+        self.bot = bot
+        self.db = bot.db
+        self.loop = asyncio.get_event_loop()
+        self.threads = ThreadPoolExecutor(2)
+        self.players = {}
         self.queues = {}
-        self.item_lists = {}
-        self.volumes = {}
         self.currents = {}
-        self.repeaters = []
-        self.ytdl_params = {
-            'format': 'bestaudio/best',
-            'extractaudio': True,
-            'audioformat': 'mp3',
-            'outtmpl': '%(id)s',
-            'restrictfilenames': True,
-            'noplaylist': True,
-            'nocheckcertificate': True,
-            'ignoreerrors': False,
-            'logtostderr': False,
-            'quiet': True,
-            'no_warnings': True,
-            'default_search': 'auto',
-            'source_address': '0.0.0.0'
-        }
+        self.ytdl_params = ytdl_params
+        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
-    def get_volume(self, db, sid):
-        if sid in self.volumes:
-            return self.volumes[sid]
+    async def extract_info(self, url):
+        task = functools.partial(self.ytdl.extract_info, url, False)
+        information = await self.loop.run_in_executor(self.threads, task)
+        return information
+
+    def get_queue(self, guild_id):
+        if guild_id in self.queues:
+            queue = self.queues[guild_id]
         else:
-            return db.get_guild_settings(sid, 'MusicVolume')
+            queue = []
+            self.queues.update({guild_id: queue})
+        return queue
 
-    def set_volume(self, db, sid, volume):
-        self.volumes.update({sid: volume})
-        db.set_guild_settings(sid, 'MusicVolume', volume)
+    def queue_add(self, guild_id, requester, item_info):
+        queue = self.get_queue(guild_id)
+        item = QueueItem(requester, item_info)
+        queue.append(item)
+        self.queues.update({guild_id: queue})
 
-    async def add_to_queue(self, sid, data):
-        if sid in self.queues:
-            queue = self.queues[sid]
-            await queue.put(data)
-        else:
-            queue = asyncio.Queue()
-            await queue.put(data)
-            self.queues.update({sid: queue})
+    def queue_get(self, guild_id):
+        queue = self.get_queue(guild_id)
+        item = queue.pop(0)
+        self.queues.update({guild_id: queue})
+        return item
 
-    def get_queue(self, sid):
-        if sid in self.queues:
-            return self.queues[sid]
-        else:
-            queue = asyncio.Queue()
-            self.queues.update({sid: queue})
-            return queue
-
-    async def get_from_queue(self, sid):
-        if sid in self.queues:
-            return await self.queues[sid].get()
-        else:
-            return None
-
-    def purge_queue(self, sid):
-        if sid in self.queues:
-            self.queues[sid] = asyncio.Queue()
-
-    @staticmethod
-    def download_yt_data(url):
-        output = 'cache/'
-        video = pafy.new(url)
-        audio = video.getbestaudio()
-        file_location = output + video.videoid
-        if not os.path.exists(file_location):
-            audio.download(file_location, quiet=True)
-        return file_location
-
-    @staticmethod
-    async def download_bc_data(data):
-        song_id = data['id']
-        output = 'cache/'
-        filename = f'bc_{song_id}'
-        file_location = output + filename
-        if not os.path.exists(file_location):
-            with open(file_location, 'wb') as data_file:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(data['file']) as dl_data:
-                        total_data = await dl_data.read()
-                        data_file.write(total_data)
-        return file_location
-
-    async def make_player(self, voice, item):
-        location = item['url']
-        if item['type'] == 0:
-            file_location = self.download_yt_data(location)
-        elif item['type'] == 2:
-            file_location = await self.download_bc_data(item['sound'])
-        else:
-            file_location = location
-        source = discord.FFmpegPCMAudio(file_location, executable='ffmpeg')
-        voice.play(source)
-
-    def add_init(self, sid):
-        self.initializing.append(sid)
-
-    def remove_init(self, sid):
-        self.initializing.remove(sid)
+    def queue_del(self, guild_id, order_number):
+        queue = self.get_queue(guild_id)
+        queue.remove(queue[order_number])
+        self.queues.update({guild_id: queue})
