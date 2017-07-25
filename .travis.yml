@@ -8,5 +8,4 @@ services:
   - "mongodb"
 install: "pip install -Ur requirements.txt"
 script:
-  - git submodule update
   - echo "Job's Done!"
