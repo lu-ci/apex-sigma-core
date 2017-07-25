@@ -89,10 +89,11 @@ class MusicCore(object):
         return queue
 
     def queue_add(self, guild_id, requester, item_info):
-        queue = self.get_queue(guild_id)
-        item = QueueItem(requester, item_info)
-        queue.append(item)
-        self.queues.update({guild_id: queue})
+        if item_info is not None:
+            queue = self.get_queue(guild_id)
+            item = QueueItem(requester, item_info)
+            queue.append(item)
+            self.queues.update({guild_id: queue})
 
     def queue_get(self, guild_id):
         queue = self.get_queue(guild_id)
