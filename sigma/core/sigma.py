@@ -197,3 +197,9 @@ class ApexSigma(client_class):
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute(guild))
+
+    async def on_voice_state_update(self, member, before, after):
+        event_name = 'voice_state_update'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(member, before, after))
