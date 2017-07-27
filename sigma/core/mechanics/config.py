@@ -32,6 +32,8 @@ def load_config():
         currency = pref_cfg_data['currency']
         currency_icon = pref_cfg_data['currency_icon']
         website = pref_cfg_data['website']
+        text_only = pref_cfg_data['text_only']
+        music_only = pref_cfg_data['music_only']
 
     class Configuration(object):
         dsc = DiscordConfig

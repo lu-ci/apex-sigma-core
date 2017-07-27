@@ -150,6 +150,9 @@ class SigmaCommand(object):
                         pass
                     except discord.NotFound:
                         pass
+            if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
+                self.log.warning(f'{message.author.name} tried using me.')
+                return
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
             self.log_command_usage(message, args)

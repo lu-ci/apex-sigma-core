@@ -30,7 +30,15 @@ from sigma.core.mechanics.music import MusicCore
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
 
-class ApexSigma(discord.AutoShardedClient):
+init_cfg = load_config()
+
+if init_cfg.dsc.bot:
+    client_class = discord.AutoShardedClient
+else:
+    client_class = discord.Client
+
+
+class ApexSigma(client_class):
     def __init__(self):
         super().__init__()
         self.ready = False
