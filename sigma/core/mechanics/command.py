@@ -146,7 +146,9 @@ class SigmaCommand(object):
                 if delete_command_message:
                     try:
                         await message.delete()
-                    except discord.ClientException:
+                    except discord.Forbidden:
+                        pass
+                    except discord.NotFound:
                         pass
             perms = GlobalCommandPermissions(self, message)
             guild_allowed = ServerCommandPermissions(self, message)
@@ -176,12 +178,13 @@ class SigmaCommand(object):
                     else:
                         await self.respond_with_icon(message, '❗')
                         reqs_embed = discord.Embed(color=0xBE1931)
-                        reqs_error_title = f'❗ Missing Permissions for **{self.bot.get_prefix(message)}{self.name}**'
+                        reqs_error_title = f'❗ I am missing permissions!'
                         reqs_error_list = ''
                         for req in requirements.missing_list:
                             req = req.replace('_', ' ').title()
                             reqs_error_list += f'\n- {req}'
                         reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                        reqs_embed.set_footer(text=f'{self.bot.get_prefix(message)}{self.name}')
                         try:
                             await message.author.send(embed=reqs_embed)
                         except discord.Forbidden:
@@ -195,5 +198,5 @@ class SigmaCommand(object):
                 if perms.response:
                     try:
                         await message.author.send(embed=perms.response)
-                    except discord.ClientException:
+                    except discord.Forbidden:
                         pass

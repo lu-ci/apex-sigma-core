@@ -8,5 +8,5 @@ async def log_event(db, guild, embed):
         if log_channel:
             try:
                 await log_channel.send(embed=embed)
-            except discord.ClientException:
+            except discord.Forbidden:
                 pass
