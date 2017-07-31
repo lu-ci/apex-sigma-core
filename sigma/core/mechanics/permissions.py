@@ -175,6 +175,7 @@ class ServerCommandPermissions(object):
             author = self.msg.author
             is_guild_admin = author.permissions_in(self.msg.channel).administrator
             if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
+                # Crunderwood was here...
                 perms = self.db[self.bot.cfg.db.database].Permissions.find_one({'ServerID': self.msg.guild.id})
                 if not perms:
                     permitted = True
