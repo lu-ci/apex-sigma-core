@@ -1,7 +1,7 @@
 import arrow
 
 
-async def add_cmd_stat(db, cmd, message, args):
+def add_cmd_stat(db, cmd, message, args):
     if not message.author.bot:
         command_data = {
             'name': cmd.name,
@@ -25,7 +25,7 @@ async def add_cmd_stat(db, cmd, message, args):
         db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
 
 
-async def add_special_stats(db, stat_name):
+def add_special_stats(db, stat_name):
     collection = 'SpecialStats'
     def_stat_data = {
         'name': stat_name,

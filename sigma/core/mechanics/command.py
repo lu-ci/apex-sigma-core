@@ -162,7 +162,7 @@ class SigmaCommand(object):
                     if requirements.reqs_met:
                         try:
                             await getattr(self.command, self.name)(self, message, args)
-                            await add_cmd_stat(self.db, self, message, args)
+                            add_cmd_stat(self.db, self, message, args)
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)
