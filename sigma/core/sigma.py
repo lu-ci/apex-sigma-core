@@ -10,6 +10,7 @@ from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.music import MusicCore
 
+
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Aurora Project
 #
