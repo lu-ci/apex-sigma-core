@@ -10,6 +10,7 @@ from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.music import MusicCore
 
+
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Aurora Project
 #
@@ -138,37 +139,24 @@ class ApexSigma(client_class):
                 self.loop.create_task(event.execute())
 
     async def on_message(self, message):
-        self.log.info('Message received.')
         if not message.author.bot:
-            self.log.info('Message not from a bot.')
             event_name = 'message'
-            self.log.info('Grabbing prefix.')
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
-                self.log.info('Message is a command.')
-                self.log.info('Getting arguments.')
                 args = message.content.split(' ')
-                self.log.info('Getting command name.')
                 cmd = args.pop(0)[len(self.cfg.pref.prefix):].lower()
-                self.log.info('Checking alts.')
                 if cmd in self.modules.alts:
-                    self.log.info('Grabbing alt.')
                     cmd = self.modules.alts[cmd]
-                self.log.info('Checking command existence.')
                 if cmd in self.modules.commands:
-                    self.log.info('Calling the command')
                     self.loop.create_task(self.modules.commands[cmd].execute(message, args))
-            self.log.info('Launching message events.')
             if event_name in self.modules.events:
                 for event in self.modules.events[event_name]:
                     self.loop.create_task(event.execute(message))
-            self.log.info('Launching mention events.')
             if self.user.mentioned_in(message):
                 event_name = 'mention'
                 if event_name in self.modules.events:
                     for event in self.modules.events[event_name]:
                         self.loop.create_task(event.execute(message))
-            self.log.info('On_Message trigger complete')
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
