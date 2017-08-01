@@ -2,7 +2,6 @@
 import yaml
 import discord
 import secrets
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
@@ -13,7 +12,7 @@ from sigma.core.utilities.stats_processing import add_cmd_stat
 class SigmaCommand(object):
     def __init__(self, bot, command, plugin_info, command_info):
         self.bot = bot
-        self.db = Database(self.bot, self.bot.cfg.db)
+        self.db = self.bot.db
         self.command = command
         self.plugin_info = plugin_info
         self.command_info = command_info
