@@ -38,7 +38,7 @@ class QueueItem(object):
             self.thumbnail = self.item_info['thumbnail']
         else:
             self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
-        self.duration = self.item_info['duration']
+        self.duration = int(self.item_info['duration'])
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
         self.threads = ThreadPoolExecutor(2)
