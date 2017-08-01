@@ -1,6 +1,6 @@
 donors:
   - name:   "Crunderwood"
-    tier:   4
+    tier:   6
     avatar: "https://www.gravatar.com/avatar/fbee801b533ebe094d8e020724436cae.png?s=128"
     duid:   146002691993108482
   - name:   "Kreasu"
@@ -83,3 +83,7 @@ donors:
     tier:   4
     avatar: "https://i.imgur.com/D1UwNw3.png"
     duid:   268231347800244224
+  - name:   "HimitsuNoAnsatsu"
+    tier:   1
+    avatar: "https://i.imgur.com/5omfQTb.png"
+    duid:   290596897180352512
