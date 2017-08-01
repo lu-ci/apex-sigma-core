@@ -1,11 +1,12 @@
 import discord
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.logger import create_logger
 
 
 class SigmaEvent(object):
     def __init__(self, bot, event, plugin_info, event_info):
         self.bot = bot
-        self.db = self.bot.db
+        self.db = Database(self.bot, self.bot.cfg.db)
         self.event = event
         self.event_type = event_info['type']
         self.plugin_info = plugin_info
