@@ -8,7 +8,6 @@ humanfriendly
 lxml
 markovify
 overwatch-api
-pafy
 praw
 pyyaml
 watchdog
