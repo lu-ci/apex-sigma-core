@@ -133,10 +133,13 @@ class ApexSigma(client_class):
         self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
+        self.log.info('Launching On-Ready Modules...')
         event_name = 'ready'
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute())
+        self.log.info('All On-Read Module Loops Created')
+        self.log.info('---------------------------------')
 
     async def on_message(self, message):
         if not message.author.bot:
