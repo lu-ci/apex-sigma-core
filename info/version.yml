@@ -1,7 +1,7 @@
 beta: true
-build_date: 1502080261
+build_date: 1502083269
 codename: Mikoto
 version:
   major: 3
-  minor: 15
-  patch: 376
+  minor: 17
+  patch: 377
