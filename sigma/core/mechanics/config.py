@@ -34,6 +34,10 @@ def load_config():
         website = pref_cfg_data['website']
         text_only = pref_cfg_data['text_only']
         music_only = pref_cfg_data['music_only']
+        if 'dscbots_token' in pref_cfg_data:
+            dscbots_token = pref_cfg_data['dscbots_token']
+        else:
+            dscbots_token = None
 
     class Configuration(object):
         dsc = DiscordConfig
