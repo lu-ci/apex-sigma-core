@@ -1,7 +1,7 @@
 beta: true
-build_date: 1502264627
-codename: Mikoto
+build_date: 1502270636
+codename: Kazehana
 version:
   major: 3
-  minor: 19
-  patch: 392
+  minor: 20
+  patch: 400
