@@ -1,9 +1,9 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/92279c9ac1c04528b6d1d20aa45bc18d)](https://www.codacy.com/app/Aurora-Project/apex-sigma-core?utm_source=github.com&utm_medium=referral&utm_content=aurora-pro/apex-sigma-core&utm_campaign=badger)
 [![apex](https://i.imgur.com/TRSdGni.png)](https://auroraproject.xyz/)
 
 <p align="center">
   <a href="https://discordapp.com/invite/Ze9EfTd">
     <img src="https://discordapp.com/api/guilds/200751504175398912/widget.png?style=shield" />
+    <a href="https://www.codacy.com/app/Aurora-Project/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aurora-pro/apex-sigma-core&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/92279c9ac1c04528b6d1d20aa45bc18d"/></a>
   </a>
 </p>
 
