@@ -28,7 +28,7 @@ class PluginManager(object):
             for file in files:
                 if file == 'module.yml':
                     file_path = (os.path.join(root, file))
-                    with open(file_path) as plugin_file:
+                    with open(file_path, encoding='utf-8') as plugin_file:
                         plugin_data = yaml.safe_load(plugin_file)
                         if plugin_data['enabled']:
                             self.log.info(f'Loading the {plugin_data["name"]} Module')
