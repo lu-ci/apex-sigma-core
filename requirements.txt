@@ -9,6 +9,7 @@ lxml
 markovify
 overwatch-api
 praw
+psutil
 pyyaml
 watchdog
 wikipedia
