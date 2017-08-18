@@ -36,17 +36,11 @@ class GlobalCommandPermissions(object):
             self.dm_denied = False
 
     def check_nsfw(self):
-        if self.cmd.rating == 0:
+        if self.cmd.rating < 2:
             self.nsfw_denied = False
         else:
-            nsfw_collection = self.db[self.bot.cfg.db.database].NSFWPermissions
-            channel_nsfw_file = nsfw_collection.find_one({'channel_id': self.message.channel.id})
-            if channel_nsfw_file:
-                allowed_rating = channel_nsfw_file['rating']
-                if self.cmd.rating > allowed_rating:
-                    self.nsfw_denied = True
-                else:
-                    self.nsfw_denied = False
+            if self.message.channel.nsfw:
+                self.nsfw_denied = False
             else:
                 self.nsfw_denied = True
 
@@ -97,10 +91,7 @@ class GlobalCommandPermissions(object):
             if self.message.guild:
                 color = 0x744EAA
                 title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
-                desc = f'If you are an administrator on {self.message.guild.name} '
-                desc += f'Please use **`{self.bot.get_prefix(self.message)}permitrating {self.cmd.rating}`** '
-                desc += f'in #{self.message.channel.name} to permit commands that are rated '
-                desc += f'{self.cmd.rating} and lower to be used there.'
+                desc = 'Make sure the NSFW marker is enabled in the channel settings.'
             else:
                 return
         elif self.partner_denied:
