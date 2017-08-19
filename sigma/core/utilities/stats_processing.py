@@ -6,7 +6,7 @@ async def add_cmd_stat(db, cmd, message, args):
         command_data = {
             'name': cmd.name,
         }
-        for key in ['rating', 'owner', 'partner', 'dmable']:
+        for key in ['nsfw', 'owner', 'partner', 'dmable']:
             command_data[key] = getattr(cmd, key)
         if message.guild:
             channel_id = message.channel.id

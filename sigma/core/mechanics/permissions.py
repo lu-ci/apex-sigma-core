@@ -36,13 +36,13 @@ class GlobalCommandPermissions(object):
             self.dm_denied = False
 
     def check_nsfw(self):
-        if self.cmd.rating < 2:
-            self.nsfw_denied = False
-        else:
+        if self.cmd.nsfw:
             if self.message.channel.nsfw:
                 self.nsfw_denied = False
             else:
                 self.nsfw_denied = True
+        else:
+            self.nsfw_denied = False
 
     def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers

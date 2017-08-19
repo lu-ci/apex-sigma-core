@@ -12,7 +12,7 @@ class SigmaEvent(object):
         self.event_info = event_info
         self.name = self.event_info['name']
         self.log = create_logger(self.name.upper())
-        self.rating = 0
+        self.nsfw = False
         self.owner = False
         self.partner = False
         self.dmable = False
@@ -32,8 +32,8 @@ class SigmaEvent(object):
             self.requirements = self.event_info['requirements']
         if 'permissions' in self.event_info:
             permissions = self.event_info['permissions']
-            if 'rating' in permissions:
-                self.rating = permissions['rating']
+            if 'nsfw' in permissions:
+                self.nsfw = permissions['nsfw']
             if 'owner' in permissions:
                 self.owner = permissions['owner']
             if 'partner' in permissions:

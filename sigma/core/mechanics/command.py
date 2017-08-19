@@ -20,7 +20,7 @@ class SigmaCommand(object):
         self.path = self.command_info['path']
         self.category = self.plugin_info['category']
         self.log = create_logger(self.name.upper())
-        self.rating = 0
+        self.nsfw = False
         self.cfg = {}
         self.owner = False
         self.partner = False
@@ -45,8 +45,8 @@ class SigmaCommand(object):
             self.requirements += self.command_info['requirements']
         if 'permissions' in self.command_info:
             permissions = self.command_info['permissions']
-            if 'rating' in permissions:
-                self.rating = permissions['rating']
+            if 'nsfw' in permissions:
+                self.nsfw = permissions['nsfw']
             if 'owner' in permissions:
                 self.owner = permissions['owner']
             if 'partner' in permissions:
