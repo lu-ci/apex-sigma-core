@@ -163,6 +163,7 @@ class SigmaCommand(object):
                         try:
                             await getattr(self.command, self.name)(self, message, args)
                             await add_cmd_stat(self.db, self, message, args)
+                            self.bot.command_count += 1
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)

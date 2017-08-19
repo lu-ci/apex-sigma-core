@@ -1,5 +1,6 @@
 import os
 import errno
+import arrow
 import discord
 import pymongo
 
@@ -54,6 +55,9 @@ class ApexSigma(client_class):
         self.init_music()
         self.log.info('---------------------------------')
         self.init_modules()
+        self.start_time = arrow.utcnow()
+        self.message_count = 0
+        self.command_count = 0
 
     @staticmethod
     def create_cache():
@@ -142,6 +146,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
 
     async def on_message(self, message):
+        self.message_count += 1
         if not message.author.bot:
             event_name = 'message'
             prefix = self.get_prefix(message)

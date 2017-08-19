@@ -1,7 +1,7 @@
-beta: true
-build_date: 1503079780
+beta: false
+build_date: 1503138179
 codename: Kazehana
 version:
   major: 3
-  minor: 20
-  patch: 441
+  minor: 23
+  patch: 443
