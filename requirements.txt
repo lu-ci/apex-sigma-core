@@ -11,6 +11,7 @@ overwatch-api
 praw
 psutil
 pyyaml
+sphinx_materialdesign_theme
 watchdog
 wikipedia
 wolframalpha
