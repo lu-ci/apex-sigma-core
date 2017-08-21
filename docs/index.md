@@ -23,7 +23,7 @@ If you feel like helping out Sigma and Alex, please do consider supporting us on
 
 ## Administration
 
-Sigma is an open source project and free software licensed under the [GPLv3](LICENSE.md) license. This means that anybody can clone her repository and use her. The **administration** module group helps those who host and run Sigma control her every aspect, which in turn means that this module is limited only to those who host and control Sigma.
+Sigma is an open source project and free software licensed under the [GPLv3](https://github.com/aurora-pro/apex-sigma-core/blob/master/LICENSE.md) license. This means that anybody can clone her repository and use her. The **administration** module group helps those who host and run Sigma control her every aspect, which in turn means that this module is limited only to those who host and control Sigma.
 
 ## Fun
 
