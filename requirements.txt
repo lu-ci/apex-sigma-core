@@ -8,6 +8,7 @@ humanfriendly
 lxml
 markovify
 overwatch-api
+Pillow
 praw
 psutil
 pyyaml
