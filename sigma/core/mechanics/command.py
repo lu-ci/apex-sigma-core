@@ -161,7 +161,7 @@ class SigmaCommand(object):
                     requirements = CommandRequirements(self, message)
                     if requirements.reqs_met:
                         try:
-                            self.bot.loop.create_task(getattr(self.command, self.name)(self, message, args))
+                            await getattr(self.command, self.name)(self, message, args)
                             await add_cmd_stat(self.db, self, message, args)
                             self.bot.command_count += 1
                         except self.get_exception() as e:

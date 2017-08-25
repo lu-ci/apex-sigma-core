@@ -55,7 +55,7 @@ class SigmaEvent(object):
     async def execute(self, *args):
         if self.bot.ready:
             try:
-                self.bot.loop.create_task(getattr(self.event, self.name)(self, *args))
+                await getattr(self.event, self.name)(self, *args)
             except discord.Forbidden:
                 pass
             except self.get_exception() as e:
