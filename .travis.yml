@@ -6,4 +6,4 @@ services:
   - "mongodb"
 install: "pip install -Ur requirements.txt"
 script:
-  - echo "Job's Done!"
+  - python run.py

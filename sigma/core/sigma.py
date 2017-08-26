@@ -144,6 +144,9 @@ class ApexSigma(client_class):
                 self.loop.create_task(event.execute())
         self.log.info('All On-Read Module Loops Created')
         self.log.info('---------------------------------')
+        if os.getenv('CI_TOKEN'):
+            self.log.info('Continuous Integration Environment Detected')
+            exit()
 
     async def on_message(self, message):
         self.message_count += 1

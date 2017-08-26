@@ -11,6 +11,7 @@ Pillow
 praw
 psutil
 pyyaml
+requests
 watchdog
 wikipedia
 wolframalpha

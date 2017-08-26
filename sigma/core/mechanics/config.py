@@ -1,13 +1,23 @@
+import os
 import yaml
+import requests
 
 
 def load_config():
-    with open('config/core/discord.yml', encoding='utf-8') as discord_config:
-        client_cfg_data = yaml.safe_load(discord_config)
-    with open('config/core/database.yml', encoding='utf-8') as discord_config:
-        db_cfg_data = yaml.safe_load(discord_config)
-    with open('config/core/preferences.yml', encoding='utf-8') as discord_config:
-        pref_cfg_data = yaml.safe_load(discord_config)
+    ci_token = os.getenv('CI_TOKEN')
+    if ci_token:
+        ci_config_url = f'https://data.auroraproject.xyz/secret/ci/{ci_token}'
+        ci_config = requests.get(ci_config_url).json()
+        client_cfg_data = ci_config['discord']
+        db_cfg_data = ci_config['database']
+        pref_cfg_data = ci_config['preferences']
+    else:
+        with open('config/core/discord.yml', encoding='utf-8') as discord_config:
+            client_cfg_data = yaml.safe_load(discord_config)
+        with open('config/core/database.yml', encoding='utf-8') as discord_config:
+            db_cfg_data = yaml.safe_load(discord_config)
+        with open('config/core/preferences.yml', encoding='utf-8') as discord_config:
+            pref_cfg_data = yaml.safe_load(discord_config)
 
     class DiscordConfig(object):
         raw = client_cfg_data
