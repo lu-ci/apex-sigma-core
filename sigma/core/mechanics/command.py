@@ -2,6 +2,7 @@
 import yaml
 import discord
 import secrets
+import traceback
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
@@ -116,7 +117,10 @@ class SigmaCommand(object):
         err_file_data = {
             'Token': error_token,
             'Error': f'{exception}',
-            'TrackeBack': f'{exception.with_traceback}',
+            'TraceBack': {
+                'Class': f'{exception.with_traceback}',
+                'Details': traceback.format_exc()
+            },
             'Message': {
                 'Command': self.name,
                 'Arguments': args,
