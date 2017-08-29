@@ -155,7 +155,7 @@ class Database(pymongo.MongoClient):
         update_data = {'$set': xp_data}
         collection.update_one(update_target, update_data)
 
-    def rmv_currency(self, user, guild, points):
+    def rmv_currency(self, user, points):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
         entry = collection.find_one({'UserID': user.id})
