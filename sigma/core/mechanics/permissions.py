@@ -37,7 +37,7 @@ class GlobalCommandPermissions(object):
 
     def check_nsfw(self):
         if self.cmd.nsfw:
-            if self.message.channel.nsfw:
+            if self.message.channel.is_nsfw():
                 self.nsfw_denied = False
             else:
                 self.nsfw_denied = True
