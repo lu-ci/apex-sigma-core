@@ -158,10 +158,12 @@ class ApexSigma(client_class):
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
-                    self.loop.create_task(self.modules.commands[cmd].execute(message, args))
+                    # self.loop.create_task(self.modules.commands[cmd].execute(message, args))
+                    await self.modules.commands[cmd].execute(message, args)
             if event_name in self.modules.events:
                 for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(message))
+                    # self.loop.create_task(event.execute(message))
+                    await event.execute(message)
             if self.user.mentioned_in(message):
                 event_name = 'mention'
                 if event_name in self.modules.events:
