@@ -1,3 +1,4 @@
+import arrow
 import discord
 from sigma.core.mechanics.logger import create_logger
 
@@ -53,6 +54,7 @@ class SigmaEvent(object):
         self.log.error(log_text)
 
     async def execute(self, *args):
+        start_stamp = arrow.utcnow().float_timestamp
         if self.bot.ready:
             try:
                 await getattr(self.event, self.name)(self, *args)
@@ -60,3 +62,5 @@ class SigmaEvent(object):
                 pass
             except self.get_exception() as e:
                 self.log_error(e)
+        end_stamp = arrow.utcnow().float_timestamp
+        self.log.info(f'Execution Time: {end_stamp - start_stamp}')
