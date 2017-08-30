@@ -145,6 +145,7 @@ class SigmaCommand(object):
         self.log.error(log_text)
 
     async def execute(self, message, args):
+        start_stamp = arrow.utcnow().float_timestamp
         if self.bot.ready:
             if message.guild:
                 delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
@@ -166,12 +167,9 @@ class SigmaCommand(object):
                     requirements = CommandRequirements(self, message)
                     if requirements.reqs_met:
                         try:
-                            start_stamp = arrow.utcnow().float_timestamp
                             await getattr(self.command, self.name)(self, message, args)
                             await add_cmd_stat(self.db, self, message, args)
                             self.bot.command_count += 1
-                            end_stamp = arrow.utcnow().float_timestamp
-                            self.log.info(f'Command Execution Time: {end_stamp - start_stamp}')
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)
@@ -212,3 +210,5 @@ class SigmaCommand(object):
                         await message.author.send(embed=perms.response)
                     except discord.Forbidden:
                         pass
+        end_stamp = arrow.utcnow().float_timestamp
+        self.log.info(f'Command Execution Time: {end_stamp - start_stamp}')

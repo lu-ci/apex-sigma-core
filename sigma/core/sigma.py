@@ -11,7 +11,6 @@ from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.music import MusicCore
 
-
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Aurora Project
 #
@@ -151,6 +150,7 @@ class ApexSigma(client_class):
     async def on_message(self, message):
         self.message_count += 1
         if not message.author.bot:
+            event_name = 'message'
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
@@ -158,7 +158,12 @@ class ApexSigma(client_class):
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
-                    loop_create = arrow.utcnow().float_timestamp
                     self.loop.create_task(self.modules.commands[cmd].execute(message, args))
-                    loop_ran = arrow.utcnow().float_timestamp
-                    self.log.info(f'{cmd.upper()} Loop Creation Time: {loop_ran - loop_create}')
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(message))
+            if self.user.mentioned_in(message):
+                event_name = 'mention'
+                if event_name in self.modules.events:
+                    for event in self.modules.events[event_name]:
+                        self.loop.create_task(event.execute(message))
