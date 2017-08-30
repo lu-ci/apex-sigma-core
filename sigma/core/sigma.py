@@ -167,3 +167,49 @@ class ApexSigma(client_class):
                 if event_name in self.modules.events:
                     for event in self.modules.events[event_name]:
                         self.loop.create_task(event.execute(message))
+
+    async def on_message_edit(self, before, after):
+        if not before.author.bot:
+            event_name = 'message_edit'
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(before, after))
+
+    async def on_member_join(self, member):
+        if not member.bot:
+            event_name = 'member_join'
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(member))
+
+    async def on_member_remove(self, member):
+        if not member.bot:
+            event_name = 'member_remove'
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(member))
+
+    async def on_member_update(self, before, after):
+        if not before.bot:
+            event_name = 'member_update'
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(before, after))
+
+    async def on_guild_join(self, guild):
+        event_name = 'guild_join'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(guild))
+
+    async def on_guild_remove(self, guild):
+        event_name = 'guild_remove'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(guild))
+
+    async def on_voice_state_update(self, member, before, after):
+        event_name = 'voice_state_update'
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(member, before, after))
