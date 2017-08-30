@@ -13,6 +13,35 @@ def user_avatar(user):
     return output
 
 
+def command_message_parser(message, text):
+    gld = message.guild
+    ath = message.author
+    chn = message.channel
+    command_text = text
+    if message.mentions:
+        tgt = message.mentions[0]
+    else:
+        tgt = ath
+    translator = {
+        '{author_name}': ath.name,
+        '{author_nick}': ath.display_name,
+        '{author_mention}': ath.mention,
+        '{author_id}': str(ath.id),
+        '{channel_name}': chn.name,
+        '{channel_mention}': chn.mention,
+        '{channel_id}': str(chn.id),
+        '{server_name}': gld.name,
+        '{server_id}': str(gld.id),
+        '{target_name}': tgt.name,
+        '{target_nick}': tgt.display_name,
+        '{target_mention}': tgt.mention,
+        '{target_id}': str(tgt.id)
+    }
+    for key in translator:
+        command_text = command_text.replace(key, translator[key])
+    return command_text
+
+
 def movement_message_parser(member, text):
     guild = member.guild
     translator = {
