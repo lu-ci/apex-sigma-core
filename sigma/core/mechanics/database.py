@@ -3,7 +3,6 @@ import pymongo
 
 class Database(pymongo.MongoClient):
     def __init__(self, bot, db_cfg):
-        print('Database Init.')
         self.bot = bot
         self.db_cfg = db_cfg
         if self.db_cfg.auth:
@@ -14,12 +13,10 @@ class Database(pymongo.MongoClient):
         super().__init__(db_address)
 
     def insert_guild_settings(self, guild_id):
-        print('Database settings insert.')
         settings_data = {'ServerID': guild_id}
         self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
 
     def get_guild_settings(self, guild_id, setting_name):
-        print('Database Get Settings')
         guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             setting_value = None
