@@ -1,6 +1,5 @@
 ﻿import os
 import yaml
-import arrow
 import discord
 import secrets
 import traceback
@@ -145,7 +144,6 @@ class SigmaCommand(object):
         self.log.error(log_text)
 
     async def execute(self, message, args):
-        start_stamp = arrow.utcnow().float_timestamp
         if self.bot.ready:
             if message.guild:
                 delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
@@ -210,5 +208,3 @@ class SigmaCommand(object):
                         await message.author.send(embed=perms.response)
                     except discord.Forbidden:
                         pass
-        end_stamp = arrow.utcnow().float_timestamp
-        self.log.info(f'Command Execution Time: {end_stamp - start_stamp}')
