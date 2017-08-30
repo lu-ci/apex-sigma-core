@@ -35,11 +35,12 @@ class CooldownControl(object):
     def set_cooldown(self, cmd, user, amount):
         cd_name = f'cd_{cmd}_{user.id}'
         entry = self.cds.find_one({'name': cd_name})
-        if entry:
-            self.cds.delete_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
-        cd_data = {
-            'name': cd_name,
-            'end_stamp': end_stamp
-        }
-        self.cds.insert_one(cd_data)
+        if entry:
+            self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
+        else:
+            cd_data = {
+                'name': cd_name,
+                'end_stamp': end_stamp
+            }
+            self.cds.insert_one(cd_data)
