@@ -162,6 +162,7 @@ class ApexSigma(client_class):
                     # await self.modules.commands[cmd].execute(message, args)
             if event_name in self.modules.events:
                 for event in self.modules.events[event_name]:
+                    self.log.info(event.name)
                     self.loop.create_task(event.execute(message))
                     # await event.execute(message)
             if self.user.mentioned_in(message):
