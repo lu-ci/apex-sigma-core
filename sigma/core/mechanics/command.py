@@ -1,5 +1,6 @@
 ﻿import os
 import yaml
+import arrow
 import discord
 import secrets
 import traceback
@@ -165,9 +166,12 @@ class SigmaCommand(object):
                     requirements = CommandRequirements(self, message)
                     if requirements.reqs_met:
                         try:
+                            start_stamp = arrow.utcnow().float_timestamp
                             await getattr(self.command, self.name)(self, message, args)
                             await add_cmd_stat(self.db, self, message, args)
                             self.bot.command_count += 1
+                            end_stamp = arrow.utcnow().float_timestamp
+                            self.log.info(f'Command Execution Time: {end_stamp - start_stamp}')
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
                             err_token = secrets.token_hex(16)

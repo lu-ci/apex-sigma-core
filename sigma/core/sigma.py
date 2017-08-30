@@ -159,7 +159,10 @@ class ApexSigma(client_class):
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
+                    loop_create = arrow.utcnow().float_timestamp
                     self.loop.create_task(self.modules.commands[cmd].execute(message, args))
+                    loop_ran = arrow.utcnow().float_timestamp
+                    self.log.info(f'{cmd.upper()} Loop Creation Time: {loop_ran - loop_create}')
             if event_name in self.modules.events:
                 for event in self.modules.events[event_name]:
                     self.loop.create_task(event.execute(message))
