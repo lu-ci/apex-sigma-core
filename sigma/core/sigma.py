@@ -70,6 +70,8 @@ class ApexSigma(client_class):
     def init_config(self):
         self.log.info('Loading Configuration...')
         self.cfg = load_config()
+        self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
+        self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('Core Configuration Data Loaded')
 
     def init_database(self):
@@ -141,7 +143,7 @@ class ApexSigma(client_class):
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute())
-        self.log.info('All On-Read Module Loops Created')
+        self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
         if os.getenv('CI_TOKEN'):
             self.log.info('Continuous Integration Environment Detected')
