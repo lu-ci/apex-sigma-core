@@ -1,4 +1,5 @@
 # Vagrant Installation Method
+
 > Vagrant is a virtual environment creation tool for quickly running software. Sigma has a pre-made script to work with Vagrant and help you out quickly start Sigma.
 
 ## Requirements
@@ -23,7 +24,8 @@ git submodule update --init --recursive
 ## Configuration
 
 Now, before continuing with the Vagrant machine start up, please refer to the **Configuration** part. Once you've created the configuration for Sigma, come back here.
-You can find the configuration documentation [here](https://sigma.readthedocs.io/en/latest/configuration/core/).
+You can find the core configuration documentation [here](https://sigma.readthedocs.io/en/latest/configuration/core/),
+and the Discord application creation guide [here](https://sigma.readthedocs.io/en/latest/setup/discord/).
 
 ## Starting Vagrant
 
