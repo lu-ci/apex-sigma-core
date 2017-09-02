@@ -45,7 +45,7 @@ Once it's done, I suggest testing it by running `python3.6 --version`.
 
 ## Installing MongoDB 3.4
 
-This is a minified and congested version of Mongo's official guide that can
+This is a minified and compressed version of Mongo's official guide that can
 be found [here](https://docs.mongodb.com/tutorials/install-mongodb-on-ubuntu/#install-mongodb-community-edition) if you would like to read it.
 
 ```sh
