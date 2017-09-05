@@ -53,7 +53,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.init_music()
         self.log.info('---------------------------------')
-        self.init_modules()
+        self.init_modules(init=True)
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
@@ -97,9 +97,10 @@ class ApexSigma(client_class):
         self.music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
 
-    def init_modules(self):
-        self.log.info('Loading Sigma Modules')
-        self.modules = PluginManager(self)
+    def init_modules(self, init=False):
+        if init:
+            self.log.info('Loading Sigma Modules')
+        self.modules = PluginManager(self, init)
 
     def get_prefix(self, message):
         prefix = self.cfg.pref.prefix

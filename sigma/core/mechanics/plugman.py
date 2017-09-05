@@ -7,17 +7,20 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 class PluginManager(object):
-    def __init__(self, bot):
+    def __init__(self, bot, init):
         self.bot = bot
+        self.init = init
         self.log = create_logger('Plugin Manager')
         self.alts = {}
         self.commands = {}
         self.events = {}
         self.categories = []
-        self.log.info('Loading Commands')
+        if self.init:
+            self.log.info('Loading Commands')
         self.load_all_modules()
-        self.log.info(f'Loaded {len(self.commands)} Commands')
-        self.log.info('---------------------------------')
+        if self.init:
+            self.log.info(f'Loaded {len(self.commands)} Commands')
+            self.log.info('---------------------------------')
 
     def load_all_modules(self):
         self.alts = {}
@@ -31,7 +34,8 @@ class PluginManager(object):
                     with open(file_path, encoding='utf-8') as plugin_file:
                         plugin_data = yaml.safe_load(plugin_file)
                         if plugin_data['enabled']:
-                            self.log.info(f'Loading the {plugin_data["name"]} Module')
+                            if self.init:
+                                self.log.info(f'Loading the {plugin_data["name"]} Module')
                             if 'commands' in plugin_data:
                                 if plugin_data['category'] not in self.categories:
                                     self.categories.append(plugin_data['category'])
