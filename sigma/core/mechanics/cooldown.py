@@ -8,7 +8,10 @@ class CooldownControl(object):
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
 
     def on_cooldown(self, cmd, user):
-        cd_name = f'cd_{cmd}_{user.id}'
+        if isinstance(user, str):
+            cd_name = f'cd_{cmd}_{user}'
+        else:
+            cd_name = f'cd_{cmd}_{user.id}'
         entry = self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
@@ -22,7 +25,10 @@ class CooldownControl(object):
         return cooldown
 
     def get_cooldown(self, cmd, user):
-        cd_name = f'cd_{cmd}_{user.id}'
+        if isinstance(user, str):
+            cd_name = f'cd_{cmd}_{user}'
+        else:
+            cd_name = f'cd_{cmd}_{user.id}'
         entry = self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
@@ -33,7 +39,10 @@ class CooldownControl(object):
         return cooldown
 
     def set_cooldown(self, cmd, user, amount):
-        cd_name = f'cd_{cmd}_{user.id}'
+        if isinstance(user, str):
+            cd_name = f'cd_{cmd}_{user}'
+        else:
+            cd_name = f'cd_{cmd}_{user.id}'
         entry = self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
         if entry:
