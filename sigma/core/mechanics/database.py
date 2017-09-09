@@ -104,8 +104,11 @@ class Database(pymongo.MongoClient):
                 global_amount = 0
             current_amount = entry['current']
             guild_id = str(guild.id)
-            if guild_id in entry['guilds']:
-                guild_amount = entry['guilds'][guild_id]
+            if 'guilds' in entry:
+                if guild_id in entry['guilds']:
+                    guild_amount = entry['guilds'][guild_id]
+                else:
+                    guild_amount = 0
             else:
                 guild_amount = 0
         else:
