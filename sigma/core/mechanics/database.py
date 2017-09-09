@@ -41,7 +41,10 @@ class Database(pymongo.MongoClient):
         collection = database['ExperienceSystem']
         entry = collection.find_one({'UserID': user.id})
         if entry:
-            global_xp = entry['global']
+            if 'global' in entry:
+                global_xp = entry['global']
+            else:
+                global_xp = 0
             guild_id = str(guild.id)
             if guild_id in entry['guilds']:
                 guild_xp = entry['guilds'][guild_id]
@@ -95,7 +98,10 @@ class Database(pymongo.MongoClient):
         collection = database['CurrencySystem']
         entry = collection.find_one({'UserID': user.id})
         if entry:
-            global_amount = entry['global']
+            if 'global' in entry:
+                global_amount = entry['global']
+            else:
+                global_amount = 0
             current_amount = entry['current']
             guild_id = str(guild.id)
             if guild_id in entry['guilds']:
