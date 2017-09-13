@@ -78,6 +78,7 @@ class MusicCore(object):
         self.players = {}
         self.queues = {}
         self.currents = {}
+        self.repeaters = []
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
