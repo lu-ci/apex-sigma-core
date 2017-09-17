@@ -32,8 +32,10 @@ class CooldownControl(object):
         entry = self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
-            now_stamp = arrow.utcnow().timestamp
+            now_stamp = arrow.utcnow().float_timestamp
             cooldown = end_stamp - now_stamp
+            if cooldown < 2:
+                cooldown = round(cooldown, 2)
         else:
             cooldown = 0
         return cooldown
