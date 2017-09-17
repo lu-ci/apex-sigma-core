@@ -96,6 +96,11 @@ class SigmaCommand(object):
         log_text += f'DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | VIP: {perms.partner_denied}'
         self.log.warning(log_text)
 
+    def add_usage_exp(self, message):
+        if message.guild:
+            exp_points = 1 + secrets.randbelow(9)
+            self.db.add_experience(message.author, message.guild, exp_points)
+
     @staticmethod
     async def respond_with_icon(message, icon):
         try:
@@ -167,6 +172,7 @@ class SigmaCommand(object):
                         try:
                             await getattr(self.command, self.name)(self, message, args)
                             await add_cmd_stat(self.db, self, message, args)
+                            self.add_usage_exp(message)
                             self.bot.command_count += 1
                         except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
