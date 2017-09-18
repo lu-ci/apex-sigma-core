@@ -182,6 +182,14 @@ class ApexSigma(client_class):
                     self.loop.create_task(event.execute(before, after))
                     # await event.execute(before, after)
 
+    async def on_message_delete(self, message):
+        if not message.author.bot:
+            event_name = 'message_delete'
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    self.loop.create_task(event.execute(message))
+                    # await event.execute(before, after)
+
     async def on_member_join(self, member):
         if not member.bot:
             event_name = 'member_join'
