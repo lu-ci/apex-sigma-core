@@ -36,6 +36,8 @@ class CooldownControl(object):
             cooldown = end_stamp - now_stamp
             if cooldown < 2:
                 cooldown = round(cooldown, 2)
+            else:
+                cooldown = int(cooldown)
         else:
             cooldown = 0
         return cooldown
