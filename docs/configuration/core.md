@@ -76,7 +76,7 @@ music_only:      false
 prefix:          '>>'
 currency:        'Kud'
 currency_icon:   '⚜'
-website:         'https://auroraproject.xyz/#/sigma'
+website:         'https://lucia.moe/#/sigma'
 ```
 
 * `dev_mode`: Defines if the bot is in development mode or not.

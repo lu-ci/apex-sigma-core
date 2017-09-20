@@ -6,7 +6,7 @@ import requests
 def load_config():
     ci_token = os.getenv('CI_TOKEN')
     if ci_token:
-        ci_config_url = f'https://data.auroraproject.xyz/secret/ci/{ci_token}'
+        ci_config_url = f'https://api.lucia.moe/secret/ci/{ci_token}'
         ci_config = requests.get(ci_config_url).json()
         client_cfg_data = ci_config['discord']
         db_cfg_data = ci_config['database']

@@ -1,4 +1,4 @@
-[![apex](https://i.imgur.com/TRSdGni.png)](https://auroraproject.xyz/)
+﻿[![apex](https://i.imgur.com/TRSdGni.png)](https://lucia.moe/)
 
 <p align="center">
   <a href="https://discordapp.com/invite/Ze9EfTd">

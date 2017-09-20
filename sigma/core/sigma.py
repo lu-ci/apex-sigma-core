@@ -12,7 +12,7 @@ from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.music import MusicCore
 
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2017  Aurora Project
+# Copyright (C) 2017  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
