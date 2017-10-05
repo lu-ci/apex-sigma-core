@@ -206,6 +206,21 @@ The `api_key` key value is a **String**.
 The urban dictionary API can be seen and consumed
 [here](https://market.mashape.com/community/urban-dictionary).
 
+# Weather
+
+To use the `>>weather` command you need a Dark Sky API secret key.
+
+**Configuration file contents**:
+```yml
+secret_key: 'your_ds_secret_key'
+```
+
+The `secret_key` key value is a **String**.
+
+> The file for storing this configuration is `weather.yml`.
+You can get the secret key at the developer page
+[here](https://darksky.net/dev/account).
+
 # Wolfram Alpha
 
 Wolfram Alpha is one of the most amazing mathematics and statistics engines.
