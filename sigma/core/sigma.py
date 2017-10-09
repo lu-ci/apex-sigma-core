@@ -120,6 +120,11 @@ class ApexSigma(client_class):
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
 
+    async def event_runner(self, event_name, *args):
+        if event_name in self.modules.events:
+            for event in self.modules.events[event_name]:
+                self.loop.create_task(event.execute(*args))
+
     async def on_connect(self):
         event_name = 'connect'
         if event_name in self.modules.events:
@@ -129,9 +134,7 @@ class ApexSigma(client_class):
     async def on_shard_ready(self, shard_id):
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
         event_name = 'shard_ready'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute(shard_id))
+        self.loop.create_task(self.event_runner(event_name, shard_id))
 
     async def on_ready(self):
         self.ready = True
@@ -143,9 +146,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         event_name = 'ready'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute())
+        self.loop.create_task(self.event_runner(event_name))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
         if os.getenv('CI_TOKEN'):
@@ -164,75 +165,44 @@ class ApexSigma(client_class):
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
                     self.loop.create_task(self.modules.commands[cmd].execute(message, args))
-                    # await self.modules.commands[cmd].execute(message, args)
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(message))
-                    # await event.execute(message)
+            self.loop.create_task(self.event_runner(event_name, message))
             if self.user.mentioned_in(message):
                 event_name = 'mention'
-                if event_name in self.modules.events:
-                    for event in self.modules.events[event_name]:
-                        self.loop.create_task(event.execute(message))
-                        # await event.execute(message)
+                self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
             event_name = 'message_edit'
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(before, after))
-                    # await event.execute(before, after)
+            self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_message_delete(self, message):
         if not message.author.bot:
             event_name = 'message_delete'
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(message))
-                    # await event.execute(before, after)
+            self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_member_join(self, member):
         if not member.bot:
             event_name = 'member_join'
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(member))
-                    # await event.execute(member)
+            self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_remove(self, member):
         if not member.bot:
             event_name = 'member_remove'
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(member))
-                    # await event.execute(member)
+            self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_update(self, before, after):
         if not before.bot:
             event_name = 'member_update'
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    self.loop.create_task(event.execute(before, after))
-                    # await event.execute(before, after)
+            self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_guild_join(self, guild):
         event_name = 'guild_join'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute(guild))
-                # await event.execute(guild)
+        self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_guild_remove(self, guild):
         event_name = 'guild_remove'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute(guild))
-                # await event.execute(guild)
+        self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_voice_state_update(self, member, before, after):
         event_name = 'voice_state_update'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute(member, before, after))
-                # await event.execute(member, before, after)
+        self.loop.create_task(self.event_runner(event_name, member, before, after))
