@@ -6,6 +6,7 @@ import pymongo
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.config import Configuration
+from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
@@ -53,6 +54,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.init_music()
         self.log.info('---------------------------------')
+        self.info = Information()
         self.init_modules(init=True)
         self.start_time = arrow.utcnow()
         self.message_count = 0
