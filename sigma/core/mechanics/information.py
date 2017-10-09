@@ -5,6 +5,7 @@ class Information(object):
     def __init__(self):
         self.version = Version()
         self.authors = Authors()
+        self.donors = Donors()
 
 
 class Version(object):
