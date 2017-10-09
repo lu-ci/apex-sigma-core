@@ -5,7 +5,7 @@ import discord
 import pymongo
 
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.config import load_config
+from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.cooldown import CooldownControl
@@ -30,7 +30,7 @@ from sigma.core.mechanics.music import MusicCore
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
 
-init_cfg = load_config()
+init_cfg = Configuration()
 
 if init_cfg.dsc.bot:
     client_class = discord.AutoShardedClient
@@ -69,7 +69,7 @@ class ApexSigma(client_class):
 
     def init_config(self):
         self.log.info('Loading Configuration...')
-        self.cfg = load_config()
+        self.cfg = init_cfg
         self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
         self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('Core Configuration Data Loaded')
