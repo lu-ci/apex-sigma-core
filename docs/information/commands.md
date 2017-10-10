@@ -1,6 +1,6 @@
 **Hey there!** We need your **help**! Come support us on [**Patreon**](https://www.patreon.com/ApexSigma)!
 
-## Command Index
+## Module Index
 - [ADMINISTRATION](#administration)
 - [FUN](#fun)
 - [GAMES](#games)
@@ -42,7 +42,7 @@ Commands | Description | Example
 `>>takeitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takeitem abcdef1234567890`
 `>>test` `>>t` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### FUN
 Commands | Description | Example
@@ -72,7 +72,7 @@ Commands | Description | Example
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays it's source as well, of course. | `>>visualnovelquote`
 `>>xkcd` | If you like humerous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### GAMES
 Commands | Description | Example
@@ -91,15 +91,16 @@ Commands | Description | Example
 `>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword from alerts and invasions. When this keyword appears during an event all roles bound to it's triggers will be mentioned. | `>>wftag aura Aura Squad`
 `>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the inputted username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
 `>>worldofwarships` `>>wows` | Grabs the player statistics for the game World of Warships. First the region and then the username. | `>>worldofwarships EU AXAz0r`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### HELP
 Commands | Description | Example
 ----------|-------------|--------
 `>>commands` | Shows the commands in a module group category. To view all the module group categories, use the modules command. | `>>commands minigames`
+`>>donate` | Shows donation information for Sigma. | `>>donate`
 `>>help` | Provides the link to Sigma's website and support server. As well as show information about a command if something in inputted. | `>>help fish`
 `>>modules` | Shows all the module categories. | `>>modules`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### INTERACTIONS
 Commands | Description | Example
@@ -131,7 +132,7 @@ Commands | Description | Example
 `>>slap` | When a punch is too barbaric a slap should be just elegant enough. | `>>slap @person`
 `>>stab` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` | Jiiiiiiiiiii~ | `>>stare @person`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### MATHEMATICS
 Commands | Description | Example
@@ -143,7 +144,7 @@ Commands | Description | Example
 `>>timeconvert` `>>tconv` | Converts the given time in the given time zone to the inputted time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` | It wipes your entire Markov chain, if you have one. | `>>wipechain`
 `>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operation. | `>>wolframalpha 69+42`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### MINIGAMES
 Commands | Description | Example
@@ -171,7 +172,7 @@ Commands | Description | Example
 `>>unscramble` `>>usg` | A minigame where you guess the scrambled word. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>unscramble`
 `>>upgrades` | Shows the user's current upgrades. You can view another person's upgrades by tagetting them. | `>>upgrades @person`
 `>>vnchargame` `>>vncg` | A minigame where you guess the name of the visual novel character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>vnchargame`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### MISCELANOUS
 Commands | Description | Example
@@ -182,7 +183,7 @@ Commands | Description | Example
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
 `>>randombetween` `>>ranin` | Outputs a random number between two inputted numbers. | `>>randombetween 59 974`
 `>>remind` `>>remindme` `>>setreminder` `>>alarm` | Sets a timer that will mention the author when it's done. The time format is H:M:S. You can technically type 999:999:999. Really no limit to that. | `>>remind 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### MODERATION
 Commands | Description | Example
@@ -198,7 +199,7 @@ Commands | Description | Example
 `>>warn` | Adds a user to the warning list along with the reason stated. The used will also receive a direct message from the bot stating they have been warned. Warnings can be cleared with the unwarn command. | `>>warn @person Bit my dog`
 `>>warning` `>>warninfo` | Shows information regarding a user's warning. Both the mention of the user and the warning ID are required. | `>>warning @person 12af`
 `>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead, | `>>warnings @person`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### MUSIC
 Commands | Description | Example
@@ -213,7 +214,7 @@ Commands | Description | Example
 `>>skip` `>>next` | Skips the currently playing song. | `>>skip`
 `>>summon` `>>move` | If the bot isn't connected to any channel, it'll connect to yours. If it is connected, it will move to you. | `>>summon`
 `>>unqueue` `>>remove` | Removes a song from the queue. Minimum number is 1 and the maximum is however many items the queu has. Even though list indexes start at zero. | `>>unqueue 5`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### NIHONGO
 Commands | Description | Example
@@ -221,7 +222,7 @@ Commands | Description | Example
 `>>jisho` | Searches Jisho, which is the Japanese language dictionary, for your input. Resulting in various information regarding your lookup. | `>>jisho Kawaii`
 `>>wanikani` `>>wk` | Shows the mentioned person's WaniKani statistics. If no person is mentioned it will show the author's stats. This requires the person to have a WaniKani API key stored with the wksave command. | `>>wanikani @person`
 `>>wanikanisave` `>>wksave` | Saves your WaniKani API key in the database so the wanikani command can be used. | `>>wanikanisave 123456798`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### NSFW
 Commands | Description | Example
@@ -236,7 +237,7 @@ Commands | Description | Example
 `>>rule34` | Searches Rule34 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>rule34 switch`
 `>>xbooru` | Searches Xbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>xbooru ovum`
 `>>yandere` | Searches yandere for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>yandere naked_apron`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### PERMISSIONS
 Commands | Description | Example
@@ -251,7 +252,7 @@ Commands | Description | Example
 `>>unpermitchannel` | Removes the channel override for a disabled command or module. Follow the usage example, C for command, M for module. | `>>unpermitchannel m:fun #channel`
 `>>unpermitrole` | Removes permissions from a role that can use a disabled command or module group to do so. It needs to be specified if it is a command or module group. If it is a command use C and if it is a module use M following the example. | `>>unpermitrole m:minigames Gamblers`
 `>>unpermituser` | Unpermits a user from using a previously overridden command or module. It needs to be specified if it's a command or module group. If it is a command use C, if it is a module use M, following the usage example. | `>>unpermituser m:fun @person`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### ROLES
 Commands | Description | Example
@@ -261,7 +262,7 @@ Commands | Description | Example
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
 `>>listselfroles` `>>listranks` `>>listroles` `>>ranks` `>>roles` `>>lsrl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>listselfroles Overlord`
 `>>togglerole` `>>togglerank` `>>rank` `>>trl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>togglerole Overlord`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### SEARCHES
 Commands | Description | Example
@@ -286,7 +287,7 @@ Commands | Description | Example
 `>>weather` `>>we` | Shows meteorological information about the inputed location. You can additionall add a unit argument at the end of the lookup. The allowed units are... auto: automatically select units based on geographic location ca: same as si, except that windSpeed is in kilometers per hour uk2: same as si, except that nearestStormDistance and visibility are in miles and windSpeed is in miles per hour us: Imperial units (the default) si: SI units If no unit is selected it default to auto.  | `>>weather Belgrade unit:si`
 `>>wikipedia` `>>wiki` | Returns the summary of a wikipedia page that you inputted the search for. If a search is too general, an error will be returned. | `>>wikipedia Thread (Computing)`
 `>>youtube` `>>yt` | A simple youtube search. Outputs the resulting video's information and URL. You can add "-text" at the end of your search to make it a normal URL to the video. Instead of an embed with information. | `>>youtube Game Grumps`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### SETTINGS
 Commands | Description | Example
@@ -312,7 +313,7 @@ Commands | Description | Example
 `>>removecommand` `>>remcmd` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removecommand hi`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. | `>>unflip`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### STATISTICS
 Commands | Description | Example
@@ -324,7 +325,7 @@ Commands | Description | Example
 `>>topcurrency` `>>topkud` | Shows the top 10 people in the Kud leaderboards. You can specify if you want to see the top people that are local, global, or by their current kud. The leaderboard shows the local server's leaderboard by default. | `>>topcurrency global`
 `>>topexperience` `>>topxp` | Shows the top 10 people in the Experience leaderboards. You can specify if you want to see the top people that are local, global, or by their current xp. The leaderboard shows the local server's leaderboard by default. | `>>topexperience local`
 `>>wallet` `>>currency` `>>money` `>>kud` | Shows how much of Sigma's internal currency you currently have. As well as how much you've earned on the current server and in total. Kud is earned by being an active member of the community. Yes, this is meant to be vague. | `>>wallet @person`
-[Back To Top](#index)
+[Back To Top](#module-index)
 
 ### UTILITY
 Commands | Description | Example
@@ -348,4 +349,4 @@ Commands | Description | Example
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows various information and data on the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the inputted game. | `>>whoplays Overwatch`
-[Back To Top](#index)
+[Back To Top](#module-index)
