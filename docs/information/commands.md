@@ -330,7 +330,7 @@ Commands | Description | Example
 ### UTILITY
 Commands | Description | Example
 ----------|-------------|--------
-`>>avatar` `>>av` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. | `>>avatar @person`
+`>>avatar` `>>av` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "gif" to the end of the command to indicate that it's a gif. Or you can add "auto" to make the color strip the dominant color of the image. | `>>avatar @person`
 `>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server where the command is used and shows their status. | `>>bots`
 `>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the return message to be an embed, add "text" at the end. | `>>channelid #channel`
