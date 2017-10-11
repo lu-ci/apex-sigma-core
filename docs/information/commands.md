@@ -180,9 +180,12 @@ Commands | Description | Example
 `>>afk` | Sets you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores commands. | `>>afk Sleeping or eating, probably both!`
 `>>choose` | The bot will select a thing from the inputed list. Separate list items with a semicolon and space. | `>>choose Sleep; Eat; Code; Lewd Stuff`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. | `>>httpstatus 404`
+`>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created. The location where they are set to execute in. And in what time they execute in. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
 `>>randombetween` `>>ranin` | Outputs a random number between two inputted numbers. | `>>randombetween 59 974`
-`>>remind` `>>remindme` `>>setreminder` `>>alarm` | Sets a timer that will mention the author when it's done. The time format is H:M:S. You can technically type 999:999:999. Really no limit to that. | `>>remind 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
+`>>reminderinfo` `>>reminder` `>>rminfo` `>>rmi` | Shows information about your reminder with the given ID. Such as when it executes and where. | `>>reminderinfo f93f`
+`>>remindme` `>>remind` `>>setreminder` `>>alarm` `>>rmme` | Sets a timer that will mention the author when it's done. The time format is H:M:S, but is not limited to the constraints of their types. Meaning you can type "200:5000:999999" if you wish. Reminders are limited to 90 days, and you are limited to 15 reminders. | `>>remindme 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
+`>>removereminder` `>>delreminder` `>>delrm` | Deletes a reminder of yours with the inputted ID. | `>>removereminder 1a9e`
 [Back To Top](#module-index)
 
 ### MODERATION
