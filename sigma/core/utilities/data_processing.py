@@ -5,11 +5,15 @@ import aiohttp
 from PIL import Image
 
 
-def user_avatar(user):
+def user_avatar(user, gif=False):
     if user.avatar_url:
         output = user.avatar_url
     else:
         output = user.default_avatar_url
+    if gif:
+        output = f"{'.'.join(output.split('.')[:-1])}.gif"
+    else:
+        output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
     return output
 
 
