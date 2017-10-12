@@ -60,7 +60,7 @@ Commands | Description | Example
 `>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about the man's best friend. | `>>dogfact`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
-`>>givecookie` | Gives a cookie to a person. Remember to give them to only nice people. You can give only one cookie every hour. | `>>givecookie @person`
+`>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them to only nice people. You can give only one cookie every hour. | `>>givecookie @person`
 `>>joke` | Outputs a pretty much regular joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>kon` `>>fluffytail` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but due to some being borderline. The command rating is naturally set to "Borderline". | `>>kitsunemimi`
 `>>leetspeak` `>>leet` `>>l33t` | Turns your inputted statement into l33t text. You can add which level of leet you want your text to be converted to. As it's displayed in the usage example. The accepted levels are basic, advanced and ultimate. | `>>leetspeak owned level:ultimate`
@@ -264,7 +264,7 @@ Commands | Description | Example
 `>>addselfrole` `>>addrank` `>>asr` | Sets a role as self assignable. Roles that are self assignable, any user can assign to themselves. To assign a self assignbale role to yourself, use the togglerole command. | `>>addselfrole Cheese Lover`
 `>>autorole` `>>autorank` | Sets which role should be given to joining members. When a new user enters the server, this role will be assigned to them. The role can not be something that is above the bot's highest role. If you want to disable the autorole, input "disable" as the role name. | `>>autorole Newcomer`
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
-`>>listselfroles` `>>listranks` `>>listroles` `>>ranks` `>>roles` `>>lsrl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>listselfroles Overlord`
+`>>listselfroles` `>>listranks` `>>listroles` `>>ranks` `>>roles` `>>lsrl` | Lists all self assignable roles present on the server. | `>>listselfroles`
 `>>togglerole` `>>togglerank` `>>rank` `>>trl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>togglerole Overlord`
 [Back To Top](#module-index)
 
