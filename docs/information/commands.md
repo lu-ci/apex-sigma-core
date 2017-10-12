@@ -26,19 +26,19 @@ Commands | Description | Example
 `>>announce` | Announces a message to every server that Sigma is connected to. Servers can opt out of this with the noannouncements command. (Bot Owner Only) | `>>announce Hello world!`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
-`>>blacklistuser` `>>blackusr` | Marks a user as blacklisted disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
+`>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. (Bot Owner Only) | `>>evaluate print('hello world')`
 `>>geterror` | Gets an error's details using the given token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>givecurrency` `>>givekud` `>>givemoney` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>givecurrency 150 @person`
-`>>giveitem` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>giveitem @person plants Blue Delta`
-`>>reload` | Reloads all of the module in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
+`>>giveitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>giveitem @person plants Blue Delta`
+`>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
 `>>send` | Sends a message to a user, channel or server. The first argument needs to be the destination parameter. The destination parameter consists of the destination type and ID. The types are U for User and C for Channel. The type and ID are separated by a colon, or two dots put more simply. (Bot Owner Only) | `>>send u:0123456789 We are watching...`
-`>>setavatar` | Sets the avatar of the bot either to the linked image or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
+`>>setavatar` | Sets the avatar of the bot either to the linked or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
 `>>setstatus` | Sets the current playing status of the bot. To use this, the automatic status rotation needs to be disabled. It can be toggled with the togglestatus command. (Bot Owner Only) | `>>setstatus with fishies`
 `>>setusername` | Sets the name of the bot to the inputted text. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setusername Supreme Bot`
 `>>shutdown` | Forces the bot to disconnect from Discord and shut down all processes. (Bot Owner Only) | `>>shutdown`
-`>>sysexec` `>>sh` | Executes a shell command. Extreme warnings. (Bot Owner Only) | `>>sysexec echo 'Hello'`
+`>>sysexec` `>>sh` | Executes a shell command. Extreme warning! (Bot Owner Only) | `>>sysexec echo 'Hello'`
 `>>takecurrency` `>>takekud` `>>takemoney` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takecurrency 150 @person`
 `>>takeitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takeitem abcdef1234567890`
 `>>test` `>>t` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
@@ -61,7 +61,7 @@ Commands | Description | Example
 `>>dogfact` `>>doggofact` | Outputs a random fact about the man's best friend. | `>>dogfact`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them to only nice people. You can give only one cookie every hour. | `>>givecookie @person`
-`>>joke` | Outputs a pretty much regular joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
+`>>joke` | Outputs a joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>kon` `>>fluffytail` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but due to some being borderline. The command rating is naturally set to "Borderline". | `>>kitsunemimi`
 `>>leetspeak` `>>leet` `>>l33t` | Turns your inputted statement into l33t text. You can add which level of leet you want your text to be converted to. As it's displayed in the usage example. The accepted levels are basic, advanced and ultimate. | `>>leetspeak owned level:ultimate`
 `>>nekomimi` `>>neko` `>>nyaa` | Displays a random nekomimi image. In case you don't know what a nekomimi is, it's a catgirl. All images are sourced from Safebooru, but due to some being borderline. The command rating is naturally set to "Borderline". | `>>nekomimi`
@@ -71,7 +71,7 @@ Commands | Description | Example
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | Everyone's favorite character from Parks and Recreation. This command will output a random quote from Ron Swanson. | `>>ronswanson`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays it's source as well, of course. | `>>visualnovelquote`
-`>>xkcd` | If you like humerous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
+`>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
 [Back To Top](#module-index)
 
@@ -81,14 +81,14 @@ Commands | Description | Example
 `>>bhranking` `>>bhlb` `>>brawlhallaleaderboad` `>>brawlhallaranking` | Grabs the current top players on the Brawlhalla leaderboards. You can append a region to the command to get the leaderboard for that region. If no region is specified, it will use the global ranking page. | `>>bhranking EU`
 `>>osu` | Generates a signature image with the users stats for osu. | `>>osu AXAz0r`
 `>>pokemon` `>>pkmn` | Shows details for the inputted Pokemon as well as a cute little GIF of them. | `>>pokemon Snorlax`
-`>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted here. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
+`>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
 `>>wfalerts` `>>wfa` | Shows the currently ongoing alerts in Warframe. As well as their respective rewards. | `>>wfalerts`
-`>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted here. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
+`>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
 `>>wffissures` `>>wffissure` `>>wff` | Shows the current fissure locations in Warframe. As well as their tiers, locations and mission types. | `>>wffissures`
 `>>wfloc` `>>wfdrop` `>>wfprime` | Searches for, and outputs, a prime's drop location. Relics that are vaulted will be marked with an asterisk. | `>>wfloc Fragor Prime`
 `>>wfpricecheck` `>>wfpc` `>>wfmarket` | Checks the price for the searched item. This will only list items by members that are currently online and in the game. | `>>wfpricecheck Blind Rage`
 `>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
-`>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted here. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
+`>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
 `>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword from alerts and invasions. When this keyword appears during an event all roles bound to it's triggers will be mentioned. | `>>wftag aura Aura Squad`
 `>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the inputted username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
 `>>worldofwarships` `>>wows` | Grabs the player statistics for the game World of Warships. First the region and then the username. | `>>worldofwarships EU AXAz0r`
@@ -121,7 +121,7 @@ Commands | Description | Example
 `>>hug` | Even a bot like me can appreciate a hug! The person you mention will surely as well. | `>>hug @person`
 `>>kiss` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, it's a good excuse. | `>>lick @person`
-`>>lovecalculator` `>>lovecalc` | Shows the love between two things. Which can be either two users or a user and a thingamabob. Just make sure if you want to see how much @Calum loves Kud you put the user in the first place. | `>>lovecalculator @person1 @person2`
+`>>lovecalculator` `>>lovecalc` | Shows the love between two tagged users. | `>>lovecalculator @person1 @person2`
 `>>pat` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
 `>>peck` | A hit and run style quickie kiss. | `>>peck @person`
 `>>poke` | Poke, poke~ Are you alive? | `>>poke @person`
@@ -144,7 +144,7 @@ Commands | Description | Example
 `>>makehash` `>>hash` | Creates a hash using the inputed has type. These are all the hash types you can use. sha512, sha3_224, sha3_512, MD4, dsaWithSHA, ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1, sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA, SHA384, blake2b, dsaEncryption, SHA256, sha384, sha, DSA, shake_128, sha224, SHA1, shake_256, sha256, MD5, blake2s, md5, sha3_256, whirlpool | `>>makehash md5 Nabzie is best tree.`
 `>>timeconvert` `>>tconv` | Converts the given time in the given time zone to the inputted time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` | It wipes your entire Markov chain, if you have one. | `>>wipechain`
-`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operation. | `>>wolframalpha 69+42`
+`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operations. | `>>wolframalpha 69+42`
 [Back To Top](#module-index)
 
 ### MINIGAMES
@@ -153,18 +153,18 @@ Commands | Description | Example
 `>>animechargame` `>>anichargame` `>>anicg` | A minigame where you guess the name of the anime character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>animechargame hint`
 `>>buyupgrade` `>>shop` | Opens Sigma's profession upgrade shop. | `>>buyupgrade`
 `>>coinflip` `>>cf` | Flips a coin. Nothing complex. You can try guessing the results by typing either Heads or Tails. | `>>coinflip Heads`
-`>>eightball` `>>8ball` | The 8Ball has answers to ALL your question. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
+`>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type and rarity. | `>>filtersell rarity:Legendary`
 `>>finditem` | Looks up information about an item. The first argument needs to be the item type. For example if it is a fish, meat, plant or material. And the rest is the name of the item. | `>>finditem fish Jitteroon`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
-`>>forage` | Go hiking and search nature for all the delicious bounty it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
+`>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
 `>>inspect` | Inspects an item that is in your inventory. | `>>inspect Nabfischz`
-`>>inventory` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has unlimited slots. You can also specify the page number you want to see. The inventory is sorted by item rarity. | `>>inventory 2 @person`
+`>>inventory` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded. You can also specify the page number you want to see. The inventory is sorted by item rarity. | `>>inventory 2 @person`
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>joinrace` `>>jr` | Joins a race instance if any are ongoing. | `>>joinrace`
 `>>mathgame` `>>mg` | A mathematics minigame. You are given a problem, solve it. Numbers are rounded to 2 decimals. You can also specify how hard you want the problem to be. The scale goes from 1-9. The default difficulty is 3. The time and Kud reward scale with the difficulty and number of hard operators. | `>>mathgame 4`
-`>>quiz` | A quiz minigame with various quizes to choose from. With a lot more coming soon | `>>quiz`
-`>>race` | Creates a race in the current text channel. To join the race use the joinrace command. A race needs at least 2 people to start. And has a maximum of 10 participants. You can specify a required buy-in to join the race. The winner gets the entire pool minus 10% that goes to the track upkeep. | `>>race 20`
+`>>quiz` | A quiz minigame with various quizzes to choose from. With a lot more coming soon | `>>quiz`
+`>>race` | Creates a race in the current text channel. To join the race use the joinrace command. A race needs at least 2 people to start, and has a maximum of 10 participants. You can specify a required buy-in to join the race. The winner gets the entire pool minus 10% that goes to the track upkeep. | `>>race 20`
 `>>raceoverride` `>>raceover` | Overrides the race in case a bug occurs. | `>>raceoverride`
 `>>roll` `>>dice` | Gives a random number from 0 to 100. You can specify the highest number the function calls by adding a number after the command. The Number TECHNICALLY does not have a limit but the bigger you use, the bigger the message, which just looks plain spammy. | `>>roll 501`
 `>>rps` `>>rockpaperscissors` | Play Rock-Paper-Scissors with the bot. No cheating, we swear. Maybe she just doesn't like you. | `>>rps s`
@@ -178,7 +178,7 @@ Commands | Description | Example
 ### MISCELANOUS
 Commands | Description | Example
 ----------|-------------|--------
-`>>afk` | Sets you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores commands. | `>>afk Sleeping or eating, probably both!`
+`>>afk` | Sets you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores messages that start with the command prefix. | `>>afk Sleeping or eating, probably both!`
 `>>choose` | The bot will select a thing from the inputed list. Separate list items with a semicolon and space. | `>>choose Sleep; Eat; Code; Lewd Stuff`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. | `>>httpstatus 404`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created. The location where they are set to execute in. And in what time they execute in. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
@@ -192,17 +192,17 @@ Commands | Description | Example
 ### MODERATION
 Commands | Description | Example
 ----------|-------------|--------
-`>>ban` | Ban a user from the server. This will also remove all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>ban @person Way, WAY too spicy for us...`
+`>>ban` | Bans a user from the server. This will also remove all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>ban @person Way, WAY too spicy for us...`
 `>>kick` | Kicks a user from the server. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>kick @person Couldn't handle the spice.`
 `>>purge` `>>prune` | Deletes X number of messages posted by the mentioned person. If a user is not provided, it will prune the last X messages regardless of poster. If a number is not provided it will prune the last 100 messages. If neither number nor user is provided, it will prune the bots messages. Requires the user who calls the command to have the Manage Messages permission. | `>>purge X @person`
 `>>softban` `>>sb` | Soft-Ban a user from the server. This bans the user and immediatelly unbans them. Useful if you want to purge all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>softban @person Some spice needed de-spicing.`
 `>>textmute` `>>tmute` | Disallows the user from typing. Well technically, it will make the bot auto delete any message they send. You can add a message at the end to be sent to the user as the reason why. | `>>textmute @person Was too spicy!`
-`>>textunmute` `>>tunmute` | Disallows the user from typing. Well technically, it will make the bot auto delete any message they send. | `>>textunmute @person`
+`>>textunmute` `>>tunmute` | Removes the tagged person from the list of muted users. Making the bot no longer delete their messages. | `>>textunmute @person`
 `>>unban` | Unbans a banned user by inputted username. | `>>unban Chicken Shluggets`
 `>>unwarn` `>>clearwarnings` `>>clearwarns` | Clears a user's warning. A user target and warning ID are required. You can input "all" instead of an idea to clear all their warnings. | `>>unwarn @person all`
 `>>warn` | Adds a user to the warning list along with the reason stated. The used will also receive a direct message from the bot stating they have been warned. Warnings can be cleared with the unwarn command. | `>>warn @person Bit my dog`
 `>>warning` `>>warninfo` | Shows information regarding a user's warning. Both the mention of the user and the warning ID are required. | `>>warning @person 12af`
-`>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead, | `>>warnings @person`
+`>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead. | `>>warnings @person`
 [Back To Top](#module-index)
 
 ### MUSIC
@@ -217,13 +217,13 @@ Commands | Description | Example
 `>>shuffle` | Randomizes the current song queue. | `>>shuffle`
 `>>skip` `>>next` | Skips the currently playing song. | `>>skip`
 `>>summon` `>>move` | If the bot isn't connected to any channel, it'll connect to yours. If it is connected, it will move to you. | `>>summon`
-`>>unqueue` `>>remove` | Removes a song from the queue. Minimum number is 1 and the maximum is however many items the queu has. Even though list indexes start at zero. | `>>unqueue 5`
+`>>unqueue` `>>remove` | Removes a song from the queue. Minimum number is 1 and the maximum is however many items the queue has. Even though list indexes start at zero. | `>>unqueue 5`
 [Back To Top](#module-index)
 
 ### NIHONGO
 Commands | Description | Example
 ----------|-------------|--------
-`>>jisho` | Searches Jisho, which is the Japanese language dictionary, for your input. Resulting in various information regarding your lookup. | `>>jisho Kawaii`
+`>>jisho` | Searches Jisho, which is the Japanese language dictionary, for your input. Resulting in a display of various types of information regarding your lookup. | `>>jisho Kawaii`
 `>>wanikani` `>>wk` | Shows the mentioned person's WaniKani statistics. If no person is mentioned it will show the author's stats. This requires the person to have a WaniKani API key stored with the wksave command. | `>>wanikani @person`
 `>>wanikanisave` `>>wksave` | Saves your WaniKani API key in the database so the wanikani command can be used. | `>>wanikanisave 123456798`
 [Back To Top](#module-index)
@@ -272,25 +272,25 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>anime` `>>animu` `>>kitsuanime` | Searches Kitsu.io for the inputted anime. The outputed results will be information like the number of episodes, user rating, air time, plot summary, and poster image. | `>>anime Plastic Memories`
-`>>antonyms` `>>antonym` `>>ant` | Looks up words that have opposite meaning for the given term. | `>>antonyms late`
+`>>antonyms` `>>antonym` `>>ant` | Looks up words that have opposite meanings for the given term. | `>>antonyms late`
 `>>cryptocurrency` `>>cryptocur` `>>crypcur` `>>ecoin` | Shows the statistics for the imputted crypto currency. Stats include the current market cap, price, supply, volume, change. | `>>cryptocurrency ethereum`
 `>>deezer` `>>music` `>>findsong` | Searches Deezer for infomation on the given song. The output will include a song preview link. | `>>deezer Highway to Hell`
-`>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective.  Specify the mode in the first argument. adjectives, adjective, adj or a - to look up nouns that are often described by an adjective. nouns, noun or n - to look up adjectives that are often used to describe a noun.  | `>>describe noun ocean`
-`>>dictionary` `>>dict` `>>definition` `>>define` `>>def` | Searches the oxford dictionary for the definition of your input. | `>>dictionary cork`
-`>>homophones` `>>homophone` | Looks up words that sound like the given term. | `>>homophones coarse`
+`>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun.  | `>>describe noun ocean`
+`>>dictionary` `>>dict` `>>definition` `>>define` `>>def` | Searches the Oxford dictionary for the definition of your input. | `>>dictionary cork`
+`>>homophones` `>>homophone` | Looks up words that sound like the given one. | `>>homophones coarse`
 `>>imdb` `>>movie` | Searches the Internet Movie DataBase for your input. Gives you the poster, release year and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the inputted manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
-`>>recipe` `>>food` | Searches for a dish, or dishes that use inputted ingredients, and outputs one that might be a good match for your search querry. | `>>recipe Chicken in Curry Sauce`
+`>>recipe` `>>food` | Searches for a dish, or dishes that use inputted ingredients, and outputs one that might be a good match for your search query. | `>>recipe Chicken in Curry Sauce`
 `>>reddit` | Enter a subreddit and it will show a random post from the current top posts in hot. This is by default, you can specify where to grab it from as an appended argument to the end. The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop and RandomTop. Random arguments choose randomly from a list of 100 first entries. | `>>reddit ProgrammerHumor`
 `>>rhymes` `>>rhyme` | Looks up words that rhymes with the given term. | `>>rhymes forgetful`
 `>>safebooru` `>>safe` | Returns a random image from the safebooru image repository. You can specify tags to narrow the range down, otherwise it's completely random. | `>>safebooru kawaii`
 `>>soundslike` `>>soundlike` | Looks up words that are spelled similarly to the given term. | `>>soundslike elefint`
 `>>spelledlike` `>>spelllike` `>>spellike` `>>spellcheck` | Looks up words that are spelled similarly to the given term. Supports the following wildcards ? - one character * - one or many characters  | `>>spelledlike coneticut`
-`>>synonyms` `>>synonym` `>>syn` | Looks up words that have exact or nearly same meaning for the given term. | `>>synonyms ocean`
+`>>synonyms` `>>synonym` `>>syn` | Looks up words that have exact or nearly the same meaning for the given term. | `>>synonyms ocean`
 `>>urbandictionary` `>>urbandict` `>>urban` `>>ud` | Looks up the definition for a word or term in the Urban Dictionary. It is strongly suggested to take these with a grain of salt. | `>>urbandictionary dictionary`
 `>>weather` `>>we` | Shows meteorological information about the inputed location. You can additionall add a unit argument at the end of the lookup. The allowed units are... auto: automatically select units based on geographic location ca: same as si, except that windSpeed is in kilometers per hour uk2: same as si, except that nearestStormDistance and visibility are in miles and windSpeed is in miles per hour us: Imperial units (the default) si: SI units If no unit is selected it default to auto.  | `>>weather Belgrade unit:si`
 `>>wikipedia` `>>wiki` | Returns the summary of a wikipedia page that you inputted the search for. If a search is too general, an error will be returned. | `>>wikipedia Thread (Computing)`
-`>>youtube` `>>yt` | A simple youtube search. Outputs the resulting video's information and URL. You can add "-text" at the end of your search to make it a normal URL to the video. Instead of an embed with information. | `>>youtube Game Grumps`
+`>>youtube` `>>yt` | A simple YouTube search. Outputs the resulting video's information and URL. You can add "-text" at the end of your search to make it a normal URL to the video. Instead of an embed with information. | `>>youtube Game Grumps`
 [Back To Top](#module-index)
 
 ### SETTINGS
@@ -304,13 +304,13 @@ Commands | Description | Example
 `>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter is sent, the message will be removed and the author will be notified. | `>>blockwords crap`
 `>>bye` `>>goodbye` | Toggles if the bot should say when users leave the server. The goodbye feature is active by default. | `>>bye`
 `>>byechannel` `>>byech` | Sets the channel the goodbye messages should be sent to. Of course unless byedm is active. | `>>byechannel #welcome`
-`>>byemessage` `>>byemsg` | This sets the message shown to leaving members when they entre the server. There are certain syntaxes for controling what is displayed. {user_name} - Basic text of the leaving user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the leaving user. {user_id} - The leaving user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>byemessage Hello {user_mention}, welcome to {server_name}!`
+`>>byemessage` `>>byemsg` | This sets the message shown on the server when a member leaves. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the leaving user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the leaving user. {user_id} - The leaving user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>byemessage Hello {user_mention}, welcome to {server_name}!`
 `>>chatterbot` | Toggles if the Chatterbot functions should be active. If active, when a message starts with a mention of Sigma, she will respond. This setting is active by default. | `>>chatterbot`
 `>>deletecommands` `>>delcmds` | Toggles if messages that are a command should be automatically deleted. | `>>deletecommands`
 `>>greet` | Toggles if the bot should greet users when they enter the server. The greeting feature is active by default. | `>>greet`
-`>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to. Of course unless greetdm is active. | `>>greetchannel #welcome`
+`>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if the bot should greet users by sending them a Direct Message, instead of writing the message in a channel. | `>>greetdm`
-`>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they entre the server. There are certain syntaxes for controling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
+`>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they enter server. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
 `>>logedits` | Toggles if message editing should be logged in the server's logging channel. | `>>logedits`
 `>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
@@ -338,19 +338,19 @@ Commands | Description | Example
 `>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server where the command is used and shows their status. | `>>bots`
 `>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the return message to be an embed, add "text" at the end. | `>>channelid #channel`
-`>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows various information and data on the mentioned channel. If no user is mentioned, it will show data for the channel the command is written in. | `>>channelinformation #channel`
+`>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data about the mentioned channel. If no channel is mentioned, it will show data for the channel that the command is used in. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the inputted color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
-`>>roleinformation` `>>roleinfo` `>>rinfo` | Shows various information and data for the inputted role. | `>>roleinformation`
+`>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data about the inputted role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
 `>>rolepopulation` `>>rolepop` | Shows the population of the inputted role. If no arguments are provided, it will show the top 20 roles by population. | `>>rolepopulation Warlard`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. | `>>serverid`
-`>>serverinformation` `>>serverinfo` `>>sinfo` | Shows various information and data of the server the command is used in. | `>>serverinformation`
+`>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data about the server that the command is used in. | `>>serverinformation`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
-`>>statistics` `>>stats` | Shows Sigma's current statistics. Population and message and command counts and rates since startup. As well as when the bot last started. | `>>statistics`
+`>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. As well as when the bot last started. | `>>statistics`
 `>>status` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
-`>>userinformation` `>>userinfo` `>>uinfo` | Shows various information and data on the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
+`>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data about the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the inputted game. | `>>whoplays Overwatch`
 [Back To Top](#module-index)
