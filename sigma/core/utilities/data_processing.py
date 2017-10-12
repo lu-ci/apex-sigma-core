@@ -171,7 +171,10 @@ def rgb_to_hex(rgb_tuple):
     hex_str = ''
     for piece in rgb_tuple:
         hex_piece = str(hex(piece))
-        hex_str += hex_piece.split('x')[1]
+        hex_piece = hex_piece.split('x')[1]
+        if len(hex_piece) == 1:
+            hex_piece = '0' + hex_piece
+        hex_str += hex_piece
     hex_out = int(f'0x{hex_str}', 16)
     return hex_out
 
@@ -182,7 +185,7 @@ async def get_image_colors(img_url):
             img_data = await img_session.read()
             img_data = io.BytesIO(img_data)
     with Image.open(img_data) as img:
-        img = img.convert('RGBA')
+        img = img.convert('RGB')
         img_h = img.height
         img_w = img.width
         color_count = img_h * img_w
