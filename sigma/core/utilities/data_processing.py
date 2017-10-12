@@ -180,27 +180,30 @@ def rgb_to_hex(rgb_tuple):
 
 
 async def get_image_colors(img_url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(img_url) as img_session:
-            img_data = await img_session.read()
-            img_data = io.BytesIO(img_data)
-    with Image.open(img_data) as img:
-        img = img.convert('RGB')
-        img_h = img.height
-        img_w = img.width
-        color_count = img_h * img_w
-        colors = img.getcolors(color_count)
-        sorted_by_rgb = sorted(colors, key=lambda x: x[1])
-        grouped_colors = group_by_accuracy(sorted_by_rgb)
-        mean = []
-        for i in range(3):
-            for j in range(3):
-                for k in range(3):
-                    grouped_image_color = grouped_colors[i][j][k]
-                    if 0 != len(grouped_image_color):
-                        color_mean = get_weighted_mean(grouped_image_color)
-                        mean.append(color_mean)
-        mean = sorted(mean, reverse=True)
+    if img_url:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(img_url) as img_session:
+                img_data = await img_session.read()
+                img_data = io.BytesIO(img_data)
+        with Image.open(img_data) as img:
+            img = img.convert('RGBA')
+            img_h = img.height
+            img_w = img.width
+            color_count = img_h * img_w
+            colors = img.getcolors(color_count)
+            sorted_by_rgb = sorted(colors, key=lambda x: x[1])
+            grouped_colors = group_by_accuracy(sorted_by_rgb)
+            mean = []
+            for i in range(3):
+                for j in range(3):
+                    for k in range(3):
+                        grouped_image_color = grouped_colors[i][j][k]
+                        if 0 != len(grouped_image_color):
+                            color_mean = get_weighted_mean(grouped_image_color)
+                            mean.append(color_mean)
+            mean = sorted(mean, reverse=True)
         dominant = mean[0][1]
-        dominant = rgb_to_hex(dominant)
+    else:
+        dominant = (105, 105, 105)
+    dominant = rgb_to_hex(dominant)
     return dominant
