@@ -13,6 +13,7 @@ class GlobalCommandPermissions(object):
         self.black_srv = False
         self.owner_denied = False
         self.partner_denied = False
+        self.module_denied = False
         self.dm_denied = False
         self.permitted = True
         self.response = None
@@ -47,11 +48,28 @@ class GlobalCommandPermissions(object):
         else:
             self.nsfw_denied = False
 
+    def check_black_mdl(self, black_user_file):
+        if 'Modules' in black_user_file:
+            if self.cmd.category in black_user_file['Modules']:
+                black_user = True
+                self.module_denied = True
+            else:
+                black_user = False
+        else:
+            black_user = False
+        return black_user
+
     def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = black_user_collection.find_one({'UserID': self.message.author.id})
         if black_user_file:
-            self.black_user = True
+            if 'Total' in black_user_file:
+                if black_user_file['Total']:
+                    self.black_user = True
+                else:
+                    self.black_user = self.check_black_mdl(black_user_file)
+            else:
+                self.black_user = self.check_black_mdl(black_user_file)
         else:
             self.black_user = False
 

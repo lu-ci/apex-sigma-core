@@ -92,8 +92,9 @@ class SigmaCommand(object):
 
     def log_unpermitted(self, perms):
         log_text = f'ACCESS DENIED | '
-        log_text += f'BUSR: {perms.black_user} | BSRV: {perms.black_srv} | OWNR: {perms.owner_denied} | '
-        log_text += f'DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | VIP: {perms.partner_denied}'
+        log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
+        log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
+        log_text += f'VIP: {perms.partner_denied}'
         self.log.warning(log_text)
 
     def add_usage_exp(self, message):
@@ -204,7 +205,7 @@ class SigmaCommand(object):
                         except discord.Forbidden:
                             pass
                 else:
-                    self.log.warning('ACCESS DENIED: This module or command is not allowed on this server.')
+                    self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
                     await self.respond_with_icon(message, '⛔')
             else:
                 self.log_unpermitted(perms)
