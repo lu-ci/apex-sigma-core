@@ -104,6 +104,8 @@ ENV/
 # Config files
 /config/*
 !/config/.gitkeep
+!/config/core/.gitkeep
+!/config/plugins/.gitkeep
 
 # Cached Directory
 /cache
