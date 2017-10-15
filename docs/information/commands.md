@@ -88,6 +88,7 @@ Commands | Description | Example
 `>>wfinvasionchannel` `>>wfic` | Designates a channel for Warframe invasions. When a new invasion shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfinvasionchannel #wf-invasions`
 `>>wfinvasions` `>>wfinvasion` `>>wfi` | Shows the current ongoing invasions in Warframe. As well as their factions, locations and rewards. | `>>wfinvasions`
 `>>wfloc` `>>wfdrop` `>>wfprime` | Searches for, and outputs, a prime's drop location. Relics that are vaulted will be marked with an asterisk. | `>>wfloc Fragor Prime`
+`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. You can add "exact" as a command arguement. This will make the time cycle responses appear in the H:M:S format. | `>>wfplainsofeidolon exact`
 `>>wfpricecheck` `>>wfpc` `>>wfmarket` | Checks the price for the searched item. This will only list items by members that are currently online and in the game. | `>>wfpricecheck Blind Rage`
 `>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
 `>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
