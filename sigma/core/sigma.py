@@ -1,6 +1,7 @@
 import os
 import errno
 import arrow
+import shutil
 import discord
 import pymongo
 
@@ -62,8 +63,9 @@ class ApexSigma(client_class):
 
     @staticmethod
     def create_cache():
-        if not os.path.exists('cache'):
-            os.makedirs('cache')
+        if os.path.exists('cache'):
+            shutil.rmtree('cache')
+        os.makedirs('cache')
 
     def init_logger(self):
         self.log = create_logger('Sigma')
