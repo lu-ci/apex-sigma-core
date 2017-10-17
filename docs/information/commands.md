@@ -155,6 +155,7 @@ Commands | Description | Example
 `>>animechargame` `>>anichargame` `>>anicg` | A minigame where you guess the name of the anime character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>animechargame hint`
 `>>buyupgrade` `>>shop` | Opens Sigma's profession upgrade shop. | `>>buyupgrade`
 `>>coinflip` `>>cf` | Flips a coin. Nothing complex. You can try guessing the results by typing either Heads or Tails. | `>>coinflip Heads`
+`>>cook` `>>make` | Uses a recipe to create an item from raw resources that you've gathered. You can see all available recipes with the recipes command. | `>>cook Shade Tea`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type and rarity. | `>>filtersell rarity:Legendary`
 `>>finditem` | Looks up information about an item. The first argument needs to be the item type. For example if it is a fish, meat, plant or material. And the rest is the name of the item. | `>>finditem fish Jitteroon`
@@ -168,12 +169,14 @@ Commands | Description | Example
 `>>quiz` | A quiz minigame with various quizzes to choose from. With a lot more coming soon | `>>quiz`
 `>>race` | Creates a race in the current text channel. To join the race use the joinrace command. A race needs at least 2 people to start, and has a maximum of 10 participants. You can specify a required buy-in to join the race. The winner gets the entire pool minus 10% that goes to the track upkeep. | `>>race 20`
 `>>raceoverride` `>>raceover` | Overrides the race in case a bug occurs. | `>>raceoverride`
+`>>recipes` | Lists all recipes available for making. The recipe list is limited to 10 items per page. You can specify the number of the page that you want to view. | `>>recipes`
 `>>roll` `>>dice` | Gives a random number from 0 to 100. You can specify the highest number the function calls by adding a number after the command. The Number TECHNICALLY does not have a limit but the bigger you use, the bigger the message, which just looks plain spammy. | `>>roll 501`
 `>>rps` `>>rockpaperscissors` | Play Rock-Paper-Scissors with the bot. No cheating, we swear. Maybe she just doesn't like you. | `>>rps s`
 `>>sell` | Sells an item from your inventory. Input all instead of the item name to sell your entire inventory. | `>>sell Copula`
 `>>slots` | Spin the slot machine, maybe you win, maybe you don't. Who knows? It costs 10 Kud to spin the slot machine by default. But you can specify how much you want to put in the machine. And the rewards are based on how many of the same icon you get in the middle row. Rewards are different for each icon. The slots can be spun only once every 60 seconds. | `>>slots 52`
 `>>unscramble` `>>usg` | A minigame where you guess the scrambled word. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>unscramble`
 `>>upgrades` | Shows the user's current upgrades. You can view another person's upgrades by tagetting them. | `>>upgrades @person`
+`>>viewrecipe` `>>recipe` `>>vrec` | Shows information about a recipe. Such as the ingredients required, value of the item, and it's description. | `>>viewrecipe Shade Tea`
 `>>vnchargame` `>>vncg` | A minigame where you guess the name of the visual novel character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>vnchargame`
 [Back To Top](#module-index)
 
@@ -279,10 +282,10 @@ Commands | Description | Example
 `>>deezer` `>>music` `>>findsong` | Searches Deezer for infomation on the given song. The output will include a song preview link. | `>>deezer Highway to Hell`
 `>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun.  | `>>describe noun ocean`
 `>>dictionary` `>>dict` `>>definition` `>>define` `>>def` | Searches the Oxford dictionary for the definition of your input. | `>>dictionary cork`
+`>>foodrecipe` `>>frec` `>>food` | Searches for a dish, or dishes that use inputted ingredients, and outputs one that might be a good match for your search query. | `>>foodrecipe Chicken in Curry Sauce`
 `>>homophones` `>>homophone` | Looks up words that sound like the given one. | `>>homophones coarse`
 `>>imdb` `>>movie` | Searches the Internet Movie DataBase for your input. Gives you the poster, release year and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the inputted manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
-`>>recipe` `>>food` | Searches for a dish, or dishes that use inputted ingredients, and outputs one that might be a good match for your search query. | `>>recipe Chicken in Curry Sauce`
 `>>reddit` | Enter a subreddit and it will show a random post from the current top posts in hot. This is by default, you can specify where to grab it from as an appended argument to the end. The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop and RandomTop. Random arguments choose randomly from a list of 100 first entries. | `>>reddit ProgrammerHumor`
 `>>rhymes` `>>rhyme` | Looks up words that rhymes with the given term. | `>>rhymes forgetful`
 `>>safebooru` `>>safe` | Returns a random image from the safebooru image repository. You can specify tags to narrow the range down, otherwise it's completely random. | `>>safebooru kawaii`

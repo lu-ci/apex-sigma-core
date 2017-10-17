@@ -1,7 +1,7 @@
 beta: false
-build_date: 1508252365
-codename: Shouko
+build_date: 1508283226
+codename: Poivron
 version:
   major: 3
-  minor: 42
-  patch: 1260
+  minor: 46
+  patch: 1289

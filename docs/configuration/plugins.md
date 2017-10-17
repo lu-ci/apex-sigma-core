@@ -114,7 +114,7 @@ Or by activating Developer Mode in Discord's Appearance settings,
 right clicking the channel of your choice, and clicking Copy ID,
 they ID will be copied to your clipboard.
 
-# Recipe
+# Food Recipe
 
 Unfortunately a tool for finding recipes was actually really hard to find.
 Or rather, a good and reliable, but free and open one, to be precise.
@@ -127,7 +127,7 @@ api_key: 'my_f2f_api_key_here'
 
 The `api_key` key value is a **String**.
 
-> The file for storing this configuration is `recipe.yml`.
+> The file for storing this configuration is `foodrecipe.yml`.
 You can obtain an API key from their API page
 [here](http://food2fork.com/about/api).
 
