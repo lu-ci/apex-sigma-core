@@ -141,7 +141,6 @@ Commands | Description | Example
 ### MATHEMATICS
 Commands | Description | Example
 ----------|-------------|--------
-`>>analyze` `>>sentiment` | Sentimental analysis of the given text. | `>>analyze Fill my mouth with spaghetti, senpai!`
 `>>collectchain` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person`
 `>>impersonate` `>>mimic` | Tries to impersonate the mentioned user if a chain file for them exists. | `>>impersonate @person`
 `>>makehash` `>>hash` | Creates a hash using the inputed has type. These are all the hash types you can use. sha512, sha3_224, sha3_512, MD4, dsaWithSHA, ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1, sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA, SHA384, blake2b, dsaEncryption, SHA256, sha384, sha, DSA, shake_128, sha224, SHA1, shake_256, sha256, MD5, blake2s, md5, sha3_256, whirlpool | `>>makehash md5 Nabzie is best tree.`

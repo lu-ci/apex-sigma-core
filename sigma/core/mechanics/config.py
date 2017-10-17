@@ -39,6 +39,10 @@ class PreferencesConfig(object):
             self.dscbots_token = pref_cfg_data['dscbots_token']
         else:
             self.dscbots_token = None
+        if 'movelog_channel' in pref_cfg_data:
+            self.movelog_channel = pref_cfg_data['movelog_channel']
+        else:
+            self.movelog_channel = None
 
 
 class Configuration(object):
