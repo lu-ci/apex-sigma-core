@@ -59,7 +59,7 @@ class Database(pymongo.MongoClient):
         }
         return output
 
-    def add_experience(self, user, guild, points):
+    def add_experience(self, user, guild, points, additive=True):
         database = self[self.bot.cfg.db.database]
         collection = database['ExperienceSystem']
         entry = collection.find_one({'UserID': user.id})
@@ -77,7 +77,8 @@ class Database(pymongo.MongoClient):
             global_xp = 0
             guilds = {}
         guild_id = str(guild.id)
-        global_xp += points
+        if additive:
+            global_xp += points
         if guild_id in guilds:
             guild_points = guilds[guild_id]
         else:
@@ -122,7 +123,7 @@ class Database(pymongo.MongoClient):
         }
         return output
 
-    def add_currency(self, user, guild, points):
+    def add_currency(self, user, guild, points, additive=True):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
         entry = collection.find_one({'UserID': user.id})
@@ -146,7 +147,8 @@ class Database(pymongo.MongoClient):
             current_amount = 0
             guilds = {}
         guild_id = str(guild.id)
-        global_amount += points
+        if additive:
+            global_amount += points
         if guild_id in guilds:
             guild_points = guilds[guild_id]
         else:
