@@ -79,6 +79,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>bhranking` `>>bhlb` `>>brawlhallaleaderboad` `>>brawlhallaranking` | Grabs the current top players on the Brawlhalla leaderboards. You can append a region to the command to get the leaderboard for that region. If no region is specified, it will use the global ranking page. | `>>bhranking EU`
+`>>fireemblemheroes` `>>feh` | Searches data in the Fire Emblem Heroes game. Such as hero, weapon and skill information. | `>>fireemblemheroes Ninian`
 `>>osu` | Generates a signature image with the users stats for osu. | `>>osu AXAz0r`
 `>>pokemon` `>>pkmn` | Shows details for the inputted Pokemon as well as a cute little GIF of them. | `>>pokemon Snorlax`
 `>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
