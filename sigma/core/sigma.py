@@ -162,6 +162,7 @@ class ApexSigma(client_class):
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
+                args = list(filter(lambda a: a != '', args))
                 cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
