@@ -214,6 +214,6 @@ class SigmaCommand(object):
                 await self.respond_with_icon(message, '⛔')
                 if perms.response:
                     try:
-                        await message.author.send(embed=perms.response)
+                        await message.channel.send(embed=perms.response)
                     except discord.Forbidden:
                         pass
