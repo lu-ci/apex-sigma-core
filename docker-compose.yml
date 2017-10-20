@@ -1,0 +1,24 @@
+version: "3.2"
+
+volumes:
+  mongodb:
+
+services:
+  database:
+    image: "mongo:3"
+    ports:
+      - "27017"
+    volumes:
+      - "mongodb:/data/db"
+
+  bot:
+    build:
+      context: .
+      args:
+        app_user: "sigma"
+    volumes:
+      - ".:/app"
+    environment:
+      MONGO_URL: "mongo://"
+    depends_on:
+      - "database"
