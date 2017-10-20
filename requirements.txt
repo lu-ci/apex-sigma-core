@@ -18,3 +18,5 @@ watchdog
 wikipedia
 wolframalpha
 youtube_dl
+fuzzywuzzy[speedup]
+wikitextparser
