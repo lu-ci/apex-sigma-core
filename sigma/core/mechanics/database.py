@@ -77,13 +77,13 @@ class Database(pymongo.MongoClient):
             global_xp = 0
             guilds = {}
         guild_id = str(guild.id)
-        if additive:
-            global_xp += points
         if guild_id in guilds:
             guild_points = guilds[guild_id]
         else:
             guild_points = 0
-        guild_points += points
+        if additive:
+            global_xp += points
+            guild_points += points
         guild_data = {guild_id: guild_points}
         guilds.update(guild_data)
         xp_data = {
@@ -147,14 +147,14 @@ class Database(pymongo.MongoClient):
             current_amount = 0
             guilds = {}
         guild_id = str(guild.id)
-        if additive:
-            global_amount += points
         if guild_id in guilds:
             guild_points = guilds[guild_id]
         else:
             guild_points = 0
         current_amount += points
-        guild_points += points
+        if additive:
+            global_amount += points
+            guild_points += points
         guild_data = {guild_id: guild_points}
         guilds.update(guild_data)
         xp_data = {
