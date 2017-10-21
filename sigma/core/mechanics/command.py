@@ -4,10 +4,10 @@ import discord
 import secrets
 import traceback
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.utilities.stats_processing import add_cmd_stat
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.command_requirements import CommandRequirements
-from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
@@ -189,7 +189,7 @@ class SigmaCommand(object):
                             error_embed = discord.Embed(color=0xBE1931)
                             error_embed.add_field(name=title, value=err_text)
                             try:
-                                await message.author.send(embed=error_embed)
+                                await message.channel.send(embed=error_embed)
                             except discord.Forbidden:
                                 pass
                     else:
@@ -203,7 +203,7 @@ class SigmaCommand(object):
                         reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
                         reqs_embed.set_footer(text=f'{self.bot.get_prefix(message)}{self.name}')
                         try:
-                            await message.author.send(embed=reqs_embed)
+                            await message.channel.send(embed=reqs_embed)
                         except discord.Forbidden:
                             pass
                 else:
