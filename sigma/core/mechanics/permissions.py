@@ -108,6 +108,7 @@ class GlobalCommandPermissions(object):
             color = 0xBE1931
             title = '⛔ Bot Owner Only'
             desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
+            desc += f'Unless you are in the `{self.bot.get_prefix(self.message)}owners` list, you can not use that.'
         elif self.nsfw_denied:
             if self.message.guild:
                 color = 0x744EAA
