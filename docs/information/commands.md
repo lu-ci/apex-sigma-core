@@ -33,6 +33,7 @@ Commands | Description | Example
 `>>givecurrency` `>>givekud` `>>givemoney` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>givecurrency 150 @person`
 `>>giveitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>giveitem @person plants Blue Delta`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
+`>>removereaction` `>>removereact` `>>delreact` | Remove a reaction with the inputed ID. (Bot Owner Only) | `>>removereaction 1ba2e263f287522f`
 `>>send` | Sends a message to a user, channel or server. The first argument needs to be the destination parameter. The destination parameter consists of the destination type and ID. The types are U for User and C for Channel. The type and ID are separated by a colon, or two dots put more simply. (Bot Owner Only) | `>>send u:0123456789 We are watching...`
 `>>setavatar` | Sets the avatar of the bot either to the linked or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
 `>>setstatus` | Sets the current playing status of the bot. To use this, the automatic status rotation needs to be disabled. It can be toggled with the togglestatus command. (Bot Owner Only) | `>>setstatus with fishies`
@@ -224,9 +225,11 @@ Commands | Description | Example
 `>>disconnect` `>>stop` | Stops the music, disconnects the bot from the current voice channel, and purges the music queue. | `>>disconnect`
 `>>musicoverride` `>>overridemusic` `>>musickill` `>>killmusic` | Overrides the current music player in instances where sigma is stuck in a channel. This will not purge the queue, just disconnect the bot. | `>>musicoverride`
 `>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information regarding the currently playing song. | `>>nowplaying`
+`>>pause` | Pauses the music player. | `>>pause`
 `>>play` `>>start` | Starts playing the music queue. | `>>play`
 `>>queue` `>>add` | Queues up a song to play from YouTube. Either from a direct URL or text search. Playlists are supported but take a long time to process. | `>>queue Kaskade Disarm You Illenium Remix`
 `>>repeat` | Toggles if the current queue should be repeated. Whenever a song is played, it's re-added to the end of the queue. | `>>repeat`
+`>>resume` | Resumes the music player. | `>>resume`
 `>>shuffle` | Randomizes the current song queue. | `>>shuffle`
 `>>skip` `>>next` | Skips the currently playing song. | `>>skip`
 `>>summon` `>>move` | If the bot isn't connected to any channel, it'll connect to yours. If it is connected, it will move to you. | `>>summon`
@@ -324,8 +327,11 @@ Commands | Description | Example
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if the bot should greet users by sending them a Direct Message, instead of writing the message in a channel. | `>>greetdm`
 `>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they enter server. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
+`>>logavatars` | Toggles if avatar changes should be logged. | `>>logavatars`
 `>>logedits` | Toggles if message editing should be logged in the server's logging channel. | `>>logedits`
 `>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
+`>>lognames` | Toggles if username changes should be logged. This does not log nickname changes. See the lognicknames command. | `>>lognames`
+`>>lognicknames` | Toggles if nickname changes should be logged. This does not log username changes. See the lognames command. | `>>lognicknames`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
 `>>removecommand` `>>remcmd` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removecommand hi`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. | `>>unblockwords boobs`
