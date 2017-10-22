@@ -67,7 +67,8 @@ class QueueItem(object):
     async def create_player(self, voice_client):
         await self.download()
         audio_source = discord.FFmpegPCMAudio(self.location)
-        voice_client.play(audio_source)
+        if not voice_client.is_playing():
+            voice_client.play(audio_source)
 
 
 class MusicCore(object):
