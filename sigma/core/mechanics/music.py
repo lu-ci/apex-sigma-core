@@ -4,6 +4,7 @@ import asyncio
 import hashlib
 import functools
 import youtube_dl
+from asyncio.queues import Queue
 from concurrent.futures import ThreadPoolExecutor
 
 ytdl_params = {
@@ -75,7 +76,6 @@ class MusicCore(object):
         self.db = bot.db
         self.loop = asyncio.get_event_loop()
         self.threads = ThreadPoolExecutor(2)
-        self.players = {}
         self.queues = {}
         self.currents = {}
         self.repeaters = []
@@ -91,24 +91,15 @@ class MusicCore(object):
         if guild_id in self.queues:
             queue = self.queues[guild_id]
         else:
-            queue = []
+            queue = Queue()
             self.queues.update({guild_id: queue})
         return queue
 
-    def queue_add(self, guild_id, requester, item_info):
-        if item_info is not None:
-            queue = self.get_queue(guild_id)
-            item = QueueItem(requester, item_info)
-            queue.append(item)
-            self.queues.update({guild_id: queue})
-
-    def queue_get(self, guild_id):
-        queue = self.get_queue(guild_id)
-        item = queue.pop(0)
-        self.queues.update({guild_id: queue})
-        return item
-
-    def queue_del(self, guild_id, order_number):
-        queue = self.get_queue(guild_id)
-        queue.remove(queue[order_number])
-        self.queues.update({guild_id: queue})
+    async def listify_queue(self, queue):
+        item_list = []
+        while not queue.empty():
+            item = await queue.get()
+            item_list.append(item)
+        for item in item_list:
+            await queue.put(item)
+        return item_list
