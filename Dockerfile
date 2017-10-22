@@ -3,9 +3,10 @@ FROM "python:3.6-slim"
 LABEL maintainer="dev.patrick.auernig@gmail.com"
 
 # Build dependencies
-RUN apt-get update \
+RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     build-essential \
+    libav-tools \
  && rm -rf /var/lib/apt/lists/*
 
 # User setup
