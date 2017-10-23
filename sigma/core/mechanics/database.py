@@ -159,7 +159,7 @@ class Database(pymongo.MongoClient):
         guilds.update(guild_data)
         xp_data = {
             'current': current_amount,
-            'global': global_amount,
+            'global': int(global_amount),
             'guilds': guilds
         }
         update_target = {'UserID': user.id}
