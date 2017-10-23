@@ -8,7 +8,7 @@
 - [INTERACTIONS](#interactions)
 - [MATHEMATICS](#mathematics)
 - [MINIGAMES](#minigames)
-- [MISCELANOUS](#miscelanous)
+- [MISCALLANEOUS](#miscallaneous)
 - [MODERATION](#moderation)
 - [MUSIC](#music)
 - [NIHONGO](#nihongo)
@@ -189,7 +189,7 @@ Commands | Description | Example
 `>>vnchargame` `>>vncg` | A minigame where you guess the name of the visual novel character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>vnchargame`
 [Back To Top](#module-index)
 
-### MISCELANOUS
+### MISCALLANEOUS
 Commands | Description | Example
 ----------|-------------|--------
 `>>afk` | Sets you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores messages that start with the command prefix. | `>>afk Sleeping or eating, probably both!`
