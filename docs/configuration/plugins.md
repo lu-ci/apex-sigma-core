@@ -68,7 +68,7 @@ You can obtain the application credentials from Oxford's developer page
 
 # Rare Fish Logging Channel
 
-Item collection commands such as `>>fish` and `>>forage` have the feature to log
+Item collection commands such as `>>fish`, `>>forage` and `>>hunt` have the feature to log
 finding an item of Rarity 5 (Prime) or higher to a specific channel. Meant to be
 used as a type of a hall of fame of people who got luck and found a rare item.
 
@@ -92,13 +92,13 @@ they ID will be copied to your clipboard.
 
 # Rare Plant Logging Channel
 
-Item collection commands such as `>>fish` and `>>forage` have the feature to log
+Item collection commands such as `>>fish`, `>>forage` and `>>hunt` have the feature to log
 finding an item of Rarity 5 (Prime) or higher to a specific channel. Meant to be
 used as a type of a hall of fame of people who got luck and found a rare item.
 
 **Example of log message**:
 
-![Rare Fish Found Example](https://i.imgur.com/rywvZ6p.png)
+![Rare Plant Found Example](https://i.imgur.com/rywvZ6p.png)
 
 **Configuration file contents**:
 ```yml
@@ -108,6 +108,30 @@ item_channel: 01234567890123456789
 The `item_channel` key value is an **Integer**.
 
 > The file that stores this configuration is `forage.yml`.
+You can obtain a channel's ID by using the `>>cid` command in that channel,
+or by targeting a channel with the same command.
+Or by activating Developer Mode in Discord's Appearance settings,
+right clicking the channel of your choice, and clicking Copy ID,
+they ID will be copied to your clipboard.
+
+# Rare Animal Logging Channel
+
+Item collection commands such as `>>fish`, `>>forage` and `>>hunt` have the feature to log
+finding an item of Rarity 5 (Prime) or higher to a specific channel. Meant to be
+used as a type of a hall of fame of people who got luck and found a rare item.
+
+**Example of log message**:
+
+![Rare Animal Found Example](https://i.imgur.com/jr3ajvg.png)
+
+**Configuration file contents**:
+```yml
+item_channel: 01234567890123456789
+```
+
+The `item_channel` key value is an **Integer**.
+
+> The file that stores this configuration is `hunt.yml`.
 You can obtain a channel's ID by using the `>>cid` command in that channel,
 or by targeting a channel with the same command.
 Or by activating Developer Mode in Discord's Appearance settings,
