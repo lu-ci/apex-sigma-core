@@ -1,3 +1,4 @@
+import arrow
 import pymongo
 
 
@@ -205,6 +206,8 @@ class Database(pymongo.MongoClient):
         )
 
     def add_to_inventory(self, user, item_data):
+        stamp = arrow.utcnow().timestamp
+        item_data.update({'Timestamp': stamp})
         inv = self.get_inventory(user)
         inv.append(item_data)
         self.update_inv(user, inv)
