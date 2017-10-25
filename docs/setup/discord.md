@@ -71,7 +71,7 @@ ID: 353367205146001420
 Token: MzUzMzY3MjA1MTQ2MDAxNDIw.DIuq0Q.Me4j6mufIPy_0XJh-JlRgRZ7864
 ```
 
-If you have made any, safe changes.
+If you have made any, save changes.
 Now that you have the credentials needed, keep them handy.
 
 ## Inviting The Bot
