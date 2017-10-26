@@ -184,6 +184,7 @@ Commands | Description | Example
 `>>rps` `>>rockpaperscissors` | Play Rock-Paper-Scissors with the bot. No cheating, we swear. Maybe she just doesn't like you. | `>>rps s`
 `>>sell` | Sells an item from your inventory. Input all instead of the item name to sell your entire inventory. | `>>sell Copula`
 `>>slots` | Spin the slot machine, maybe you win, maybe you don't. Who knows? It costs 10 Kud to spin the slot machine by default. But you can specify how much you want to put in the machine. And the rewards are based on how many of the same icon you get in the middle row. Rewards are different for each icon. The slots can be spun only once every 60 seconds. | `>>slots 52`
+`>>trivia` `>>triv` `>>t` | A trivia minigame. You are given a question and have to input the number of your answer. Guess correctly and you win 5-15 Kud, depending on the difficulty. You have 20 seconds to answer the question. | `>>trivia`
 `>>unscramble` `>>usg` | A minigame where you guess the scrambled word. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>unscramble`
 `>>upgrades` | Shows the user's current upgrades. You can view another person's upgrades by tagetting them. | `>>upgrades @person`
 `>>viewrecipe` `>>recipe` `>>vrec` | Shows information about a recipe. Such as the ingredients required, value of the item, and it's description. | `>>viewrecipe Shade Tea`
