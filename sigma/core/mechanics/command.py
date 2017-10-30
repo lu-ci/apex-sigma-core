@@ -101,10 +101,10 @@ class SigmaCommand(object):
 
     def add_usage_exp(self, message):
         if message.guild:
-            if not self.bot.cooldown.on_cooldown('UsageExperience', message.author):
+            if not self.bot.cool_down.on_cooldown('UsageExperience', message.author):
                 exp_points = 1 + secrets.randbelow(9)
                 self.db.add_experience(message.author, message.guild, exp_points)
-                self.bot.cooldown.set_cooldown('UsageExperience', message.author, 30)
+                self.bot.cool_down.set_cooldown('UsageExperience', message.author, 30)
 
     @staticmethod
     async def respond_with_icon(message, icon):
