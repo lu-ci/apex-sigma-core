@@ -128,7 +128,7 @@ class Database(pymongo.MongoClient):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
         entry = collection.find_one({'UserID': user.id})
-        points = abs(points)
+        points = int(abs(points) * 1.2)
         if entry:
             if 'current' in entry:
                 current_amount = entry['current']
