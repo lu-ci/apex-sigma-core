@@ -1,7 +1,7 @@
-import os
-from time import time
-from datetime import datetime as date
 import logging
+import os
+from datetime import datetime as date
+from time import time
 
 log_fmt = '%(levelname)-8s %(asctime)s %(name)-20s %(message)s'
 

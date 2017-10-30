@@ -1,11 +1,12 @@
-import os
-import discord
 import asyncio
-import hashlib
 import functools
-import youtube_dl
+import hashlib
+import os
 from asyncio.queues import Queue
 from concurrent.futures import ThreadPoolExecutor
+
+import discord
+import youtube_dl
 
 ytdl_params = {
     'format': 'bestaudio/best',

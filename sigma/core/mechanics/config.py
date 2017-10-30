@@ -1,7 +1,9 @@
-import os
-import yaml
 import errno
+import os
+
 import requests
+import yaml
+
 from .logger import create_logger
 
 

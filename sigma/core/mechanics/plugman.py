@@ -1,9 +1,11 @@
-import os
-import yaml
 import importlib
-from sigma.core.mechanics.logger import create_logger
+import os
+
+import yaml
+
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.logger import create_logger
 
 
 class PluginManager(object):

@@ -1,17 +1,18 @@
-import os
 import errno
-import arrow
+import os
 import shutil
+
+import arrow
 import discord
 import pymongo
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.config import Configuration
+from sigma.core.mechanics.cooldown import CooldownControl
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.plugman import PluginManager
-from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.music import MusicCore
+from sigma.core.mechanics.plugman import PluginManager
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Lucia's Cipher
