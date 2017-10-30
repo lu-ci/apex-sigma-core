@@ -97,7 +97,8 @@ class MusicCore(object):
             self.queues.update({guild_id: queue})
         return queue
 
-    async def listify_queue(self, queue):
+    @staticmethod
+    async def listify_queue(queue):
         item_list = []
         while not queue.empty():
             item = await queue.get()
