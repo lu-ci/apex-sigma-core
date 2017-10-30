@@ -128,7 +128,7 @@ class Database(pymongo.MongoClient):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
         entry = collection.find_one({'UserID': user.id})
-        points = int(abs(points) * 1.2)
+        points = abs(points)
         if entry:
             if 'current' in entry:
                 current_amount = entry['current']
@@ -152,10 +152,11 @@ class Database(pymongo.MongoClient):
             guild_points = guilds[guild_id]
         else:
             guild_points = 0
-        current_amount += points
         if additive:
+            points = int(points * 1.2)
             global_amount += points
             guild_points += points
+        current_amount += points
         guild_data = {guild_id: guild_points}
         guilds.update(guild_data)
         xp_data = {
