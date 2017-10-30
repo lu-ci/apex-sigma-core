@@ -45,6 +45,14 @@ class ApexSigma(client_class):
     def __init__(self):
         super().__init__()
         self.ready = False
+        # State attributes before initialization.
+        self.log = None
+        self.cfg = None
+        self.db = None
+        self.cool_down = None
+        self.music = None
+        self.modules = None
+        # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
         self.log.info('---------------------------------')
