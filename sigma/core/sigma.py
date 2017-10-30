@@ -52,7 +52,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.init_database()
         self.log.info('---------------------------------')
-        self.init_cooldown()
+        self.init_cool_down()
         self.log.info('---------------------------------')
         self.init_music()
         self.log.info('---------------------------------')
@@ -92,10 +92,10 @@ class ApexSigma(client_class):
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
 
-    def init_cooldown(self):
-        self.log.info('Loading Cooldown Controls...')
-        self.cooldown = CooldownControl(self)
-        self.log.info('Cooldown Controls Successfully Enabled')
+    def init_cool_down(self):
+        self.log.info('Loading Cool-down Controls...')
+        self.cool_down = CooldownControl(self)
+        self.log.info('Cool-down Controls Successfully Enabled')
 
     def init_music(self):
         self.log.info('Loading Music Controller...')
