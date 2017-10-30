@@ -63,11 +63,11 @@ class PluginManager(object):
                                             command_function = importlib.import_module(command_module_location)
                                             importlib.reload(command_function)
                                             command_data.update({'path': module_root_location})
-                                            command = SigmaCommand(self.bot, command_function, plugin_data, command_data)
-                                            if command.alts:
-                                                for alt in command.alts:
-                                                    self.alts.update({alt: command.name})
-                                            self.commands.update({command_data['name']: command})
+                                            cmd = SigmaCommand(self.bot, command_function, plugin_data, command_data)
+                                            if cmd.alts:
+                                                for alt in cmd.alts:
+                                                    self.alts.update({alt: cmd.name})
+                                            self.commands.update({command_data['name']: cmd})
                             if self.bot.cfg.dsc.bot:
                                 if not self.bot.cfg.pref.music_only:
                                     if 'events' in plugin_data:
