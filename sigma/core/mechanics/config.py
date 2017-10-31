@@ -10,41 +10,35 @@ from .logger import create_logger
 class DiscordConfig(object):
     def __init__(self, client_cfg_data):
         self.raw = client_cfg_data
-        self.token = client_cfg_data['token']
-        self.owners = client_cfg_data['owners']
-        self.bot = client_cfg_data['bot']
+        self.token = client_cfg_data.get('token')
+        self.owners = client_cfg_data.get('owners')
+        self.bot = client_cfg_data.get('bot')
 
 
 class DatabaseConfig(object):
     def __init__(self, db_cfg_data):
         self.raw = db_cfg_data
-        self.database = db_cfg_data['database']
-        self.auth = db_cfg_data['auth']
-        self.host = db_cfg_data['host']
-        self.port = db_cfg_data['port']
-        self.username = db_cfg_data['username']
-        self.password = db_cfg_data['password']
+        self.database = db_cfg_data.get('database')
+        self.auth = db_cfg_data.get('auth')
+        self.host = db_cfg_data.get('host')
+        self.port = db_cfg_data.get('port')
+        self.username = db_cfg_data.get('username')
+        self.password = db_cfg_data.get('password')
 
 
 class PreferencesConfig(object):
     def __init__(self, pref_cfg_data):
         self.raw = pref_cfg_data
-        self.dev_mode = pref_cfg_data['dev_mode']
-        self.status_rotation = pref_cfg_data['status_rotation']
-        self.prefix = pref_cfg_data['prefix']
-        self.currency = pref_cfg_data['currency']
-        self.currency_icon = pref_cfg_data['currency_icon']
-        self.website = pref_cfg_data['website']
-        self.text_only = pref_cfg_data['text_only']
-        self.music_only = pref_cfg_data['music_only']
-        if 'dscbots_token' in pref_cfg_data:
-            self.dscbots_token = pref_cfg_data['dscbots_token']
-        else:
-            self.dscbots_token = None
-        if 'movelog_channel' in pref_cfg_data:
-            self.movelog_channel = pref_cfg_data['movelog_channel']
-        else:
-            self.movelog_channel = None
+        self.dev_mode = pref_cfg_data.get('dev_mode')
+        self.status_rotation = pref_cfg_data.get('status_rotation')
+        self.prefix = pref_cfg_data.get('prefix')
+        self.currency = pref_cfg_data.get('currency')
+        self.currency_icon = pref_cfg_data.get('currency_icon')
+        self.website = pref_cfg_data.get('website')
+        self.text_only = pref_cfg_data.get('text_only')
+        self.music_only = pref_cfg_data.get('music_only')
+        self.dscbots_token = pref_cfg_data.get('dscbots_token')
+        self.movelog_channel = pref_cfg_data.get('movelog_channel')
 
 
 class Configuration(object):
@@ -54,9 +48,9 @@ class Configuration(object):
         if ci_token:
             ci_config_url = f'https://api.lucia.moe/secret/ci/{ci_token}'
             ci_config = requests.get(ci_config_url).json()
-            self.client_cfg_data = ci_config['discord']
-            self.db_cfg_data = ci_config['database']
-            self.pref_cfg_data = ci_config['preferences']
+            self.client_cfg_data = ci_config.get('discord')
+            self.db_cfg_data = ci_config.get('database')
+            self.pref_cfg_data = ci_config.get('preferences')
         else:
             cli_cfg_path = 'config/core/discord.yml'
             db_cfg_path = 'config/core/database.yml'
