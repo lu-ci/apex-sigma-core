@@ -153,7 +153,6 @@ class Database(pymongo.MongoClient):
         else:
             guild_points = 0
         if additive:
-            points = int(points * 1.2)
             global_amount += points
             guild_points += points
         current_amount += points
