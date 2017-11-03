@@ -52,6 +52,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
+        self.launched = False
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -156,8 +157,10 @@ class ApexSigma(client_class):
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
-        event_name = 'ready'
-        self.loop.create_task(self.event_runner(event_name))
+        self.loop.create_task(self.event_runner('ready'))
+        if not self.launched:
+            self.loop.create_task(self.event_runner('launch'))
+            self.launched = True
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
         if os.getenv('CI_TOKEN'):
