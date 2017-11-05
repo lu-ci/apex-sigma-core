@@ -13,6 +13,7 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.threading import QueueControl
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Lucia's Cipher
@@ -52,6 +53,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
+        self.queue = QueueControl()
         self.launched = False
         # Initialize startup methods and attributes.
         self.create_cache()
@@ -135,7 +137,9 @@ class ApexSigma(client_class):
     async def event_runner(self, event_name, *args):
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute(*args))
+                # self.loop.create_task(event.execute(*args))
+                task = event, *args
+                await self.queue.queue.put(task)
 
     async def on_connect(self):
         event_name = 'connect'
@@ -179,7 +183,10 @@ class ApexSigma(client_class):
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
-                    self.loop.create_task(self.modules.commands[cmd].execute(message, args))
+                    command = self.modules.commands[cmd]
+                    # self.loop.create_task(command.execute(message, args))
+                    task = command, message, args
+                    await self.queue.queue.put(task)
             self.loop.create_task(self.event_runner(event_name, message))
             if self.user.mentioned_in(message):
                 event_name = 'mention'
