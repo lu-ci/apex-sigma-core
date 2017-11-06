@@ -13,6 +13,7 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.threading import QueueControl
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Lucia's Cipher
@@ -52,6 +53,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
+        self.queue = QueueControl()
         self.launched = False
         # Initialize startup methods and attributes.
         self.create_cache()
@@ -136,7 +138,8 @@ class ApexSigma(client_class):
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 # self.loop.create_task(event.execute(*args))
-                await event.execute(*args)
+                task = event, *args
+                await self.queue.queue.put(task)
 
     async def on_connect(self):
         event_name = 'connect'
@@ -182,56 +185,46 @@ class ApexSigma(client_class):
                 if cmd in self.modules.commands:
                     command = self.modules.commands[cmd]
                     # self.loop.create_task(command.execute(message, args))
-                    await command.execute(message, args)
-            # self.loop.create_task(self.event_runner(event_name, message))
-            await self.event_runner(event_name, message)
+                    task = command, message, args
+                    await self.queue.queue.put(task)
+            self.loop.create_task(self.event_runner(event_name, message))
             if self.user.mentioned_in(message):
                 event_name = 'mention'
-                # self.loop.create_task(self.event_runner(event_name, message))
-                await self.event_runner(event_name, message)
+                self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
             event_name = 'message_edit'
-            # self.loop.create_task(self.event_runner(event_name, before, after))
-            await self.event_runner(event_name, before, after)
+            self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_message_delete(self, message):
         if not message.author.bot:
             event_name = 'message_delete'
-            # self.loop.create_task(self.event_runner(event_name, message))
-            await self.event_runner(event_name, message)
+            self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_member_join(self, member):
         if not member.bot:
             event_name = 'member_join'
-            # self.loop.create_task(self.event_runner(event_name, member))
-            await self.event_runner(event_name, member)
+            self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_remove(self, member):
         if not member.bot:
             event_name = 'member_remove'
-            # self.loop.create_task(self.event_runner(event_name, member))
-            await self.event_runner(event_name, member)
+            self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_update(self, before, after):
         if not before.bot:
             event_name = 'member_update'
-            # self.loop.create_task(self.event_runner(event_name, before, after))
-            await self.event_runner(event_name, before, after)
+            self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_guild_join(self, guild):
         event_name = 'guild_join'
-        # self.loop.create_task(self.event_runner(event_name, guild))
-        await self.event_runner(event_name, guild)
+        self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_guild_remove(self, guild):
         event_name = 'guild_remove'
-        # self.loop.create_task(self.event_runner(event_name, guild))
-        await self.event_runner(event_name, guild)
+        self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_voice_state_update(self, member, before, after):
         event_name = 'voice_state_update'
-        # self.loop.create_task(self.event_runner(event_name, member, before, after))
-        await self.event_runner(event_name, member, before, after)
-
+        self.loop.create_task(self.event_runner(event_name, member, before, after))
