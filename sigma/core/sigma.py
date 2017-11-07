@@ -171,6 +171,14 @@ class ApexSigma(client_class):
             self.log.info('Continuous Integration Environment Detected')
             exit()
 
+    def get_cmd_and_args(self, message, args, mention=False):
+        args = list(filter(lambda a: a != '', args))
+        if mention:
+            cmd = args.pop(0).lower()
+        else:
+            cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
+        return cmd, args
+
     async def on_message(self, message):
         self.message_count += 1
         if not message.author.bot:
@@ -178,8 +186,17 @@ class ApexSigma(client_class):
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
-                args = list(filter(lambda a: a != '', args))
-                cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
+                cmd, args = self.get_cmd_and_args(message, args)
+            elif message.content.startswith(self.user.mention):
+                args = message.content.split(' ')[1:]
+                cmd, args = self.get_cmd_and_args(message, args, mention=True)
+            elif message.content.startswith(f'<@!{self.user.id}>'):
+                args = message.content.split(' ')[1:]
+                cmd, args = self.get_cmd_and_args(message, args, mention=True)
+            else:
+                cmd = None
+                args = []
+            if cmd:
                 if cmd in self.modules.alts:
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
