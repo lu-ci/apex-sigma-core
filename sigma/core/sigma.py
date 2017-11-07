@@ -179,6 +179,12 @@ class ApexSigma(client_class):
             cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
         return cmd, args
 
+    def clean_self_mentions(self, message):
+        for mention in message.mentions:
+            if mention.id == self.user.id:
+                message.mentions.remove(mention)
+                break
+
     async def on_message(self, message):
         self.message_count += 1
         if not message.author.bot:
@@ -189,6 +195,7 @@ class ApexSigma(client_class):
                 cmd, args = self.get_cmd_and_args(message, args)
             elif message.content.startswith(self.user.mention):
                 args = message.content.split(' ')[1:]
+                self.clean_self_mentions(message)
                 cmd, args = self.get_cmd_and_args(message, args, mention=True)
             elif message.content.startswith(f'<@!{self.user.id}>'):
                 args = message.content.split(' ')[1:]
