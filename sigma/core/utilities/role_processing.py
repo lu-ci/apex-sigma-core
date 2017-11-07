@@ -1,13 +1,17 @@
+import discord
+
+
 def mat_rl(role_name, server=None, user=None):
-    match = None
-    generator = None
     if server:
         generator = server.roles
     elif user:
         generator = user.roles
-    for role in generator:
-        if role.name.lower() == role_name.lower():
-            match = role
+    else:
+        generator = None
+    if generator:
+        match = discord.utils.find(lambda x: x.name.lower() == role_name.lower(), generator)
+    else:
+        match = None
     return match
 
 
