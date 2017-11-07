@@ -189,6 +189,10 @@ class ApexSigma(client_class):
         self.message_count += 1
         if not message.author.bot:
             event_name = 'message'
+            self.loop.create_task(self.event_runner(event_name, message))
+            if self.user.mentioned_in(message):
+                event_name = 'mention'
+                self.loop.create_task(self.event_runner(event_name, message))
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
@@ -211,10 +215,6 @@ class ApexSigma(client_class):
                     # self.loop.create_task(command.execute(message, args))
                     task = command, message, args
                     await self.queue.queue.put(task)
-            self.loop.create_task(self.event_runner(event_name, message))
-            if self.user.mentioned_in(message):
-                event_name = 'mention'
-                self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
