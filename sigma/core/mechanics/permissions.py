@@ -153,35 +153,55 @@ class ServerCommandPermissions(object):
         self.msg = message
         self.permitted = self.check_perms()
 
-    def check_overwrites(self, perms):
-        overwritten = False
-        cmd_exc = perms['CommandExceptions']
+    def check_mdl_overwrites(self, perms):
+        mdl_overwritten = False
         mdl_exc = perms['ModuleExceptions']
         author = self.msg.author
-        if cmd_exc:
-            if self.cmd.name in cmd_exc:
-                exceptions = cmd_exc[self.cmd.name]
-                if author.id in exceptions['Users']:
-                    overwritten = True
-                if self.msg.channel.id in exceptions['Channels']:
-                    overwritten = True
-                for role in author.roles:
-                    if role.id in exceptions['Roles']:
-                        overwritten = True
-                        break
         if mdl_exc:
             mdl_name = self.cmd.plugin_info['category']
             if mdl_name in mdl_exc:
                 exceptions = mdl_exc[mdl_name]
                 if author.id in exceptions['Users']:
-                    overwritten = True
+                    mdl_overwritten = True
                 if self.msg.channel.id in exceptions['Channels']:
-                    overwritten = True
+                    mdl_overwritten = True
                 for role in author.roles:
                     if role.id in exceptions['Roles']:
-                        overwritten = True
+                        mdl_overwritten = True
                         break
-        return overwritten
+        return mdl_overwritten
+
+    def check_cmd_overwrites(self, perms):
+        cmd_overwritten = False
+        cmd_exc = perms['CommandExceptions']
+        author = self.msg.author
+        if cmd_exc:
+            if self.cmd.name in cmd_exc:
+                exceptions = cmd_exc[self.cmd.name]
+                if author.id in exceptions['Users']:
+                    cmd_overwritten = True
+                if self.msg.channel.id in exceptions['Channels']:
+                    cmd_overwritten = True
+                for role in author.roles:
+                    if role.id in exceptions['Roles']:
+                        cmd_overwritten = True
+                        break
+        return cmd_overwritten
+
+    @staticmethod
+    def cross_permits(mdl_o, cmd_o, cmd_d):
+        if mdl_o and cmd_o:
+            override = True
+        elif mdl_o and not cmd_o:
+            override = False
+        elif not mdl_o and cmd_o:
+            if cmd_d:
+                override = True
+            else:
+                override = False
+        else:
+            override = False
+        return override
 
     def check_perms(self):
         if self.msg.guild:
@@ -195,13 +215,23 @@ class ServerCommandPermissions(object):
                 else:
                     cmd = self.cmd.name
                     mdl = self.cmd.plugin_info['category']
-                    if mdl in perms['DisabledModules'] or cmd in perms['DisabledCommands']:
-                        if self.check_overwrites(perms):
-                            permitted = True
+                    if mdl in perms['DisabledModules']:
+                        if self.check_mdl_overwrites(perms):
+                            mdl_permitted = True
                         else:
-                            permitted = False
+                            mdl_permitted = False
                     else:
-                        permitted = True
+                        mdl_permitted = True
+                    if cmd in perms['DisabledCommands']:
+                        cmd_disabled = True
+                        if self.check_cmd_overwrites(perms):
+                            cmd_permitted = True
+                        else:
+                            cmd_permitted = False
+                    else:
+                        cmd_disabled = False
+                        cmd_permitted = True
+                    permitted = self.cross_permits(mdl_permitted, cmd_permitted, cmd_disabled)
             else:
                 permitted = True
         else:
