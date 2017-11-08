@@ -174,7 +174,10 @@ class ApexSigma(client_class):
     def get_cmd_and_args(self, message, args, mention=False):
         args = list(filter(lambda a: a != '', args))
         if mention:
-            cmd = args.pop(0).lower()
+            if args:
+                cmd = args.pop(0).lower()
+            else:
+                cmd = None
         else:
             cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
         return cmd, args
