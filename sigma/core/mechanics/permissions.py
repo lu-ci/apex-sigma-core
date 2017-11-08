@@ -190,10 +190,19 @@ class ServerCommandPermissions(object):
 
     @staticmethod
     def cross_permits(mdl_o, cmd_o, mdl_d, cmd_d):
-        if mdl_o or cmd_o:
-            override = True
+        if mdl_d or cmd_d:
+            if mdl_o:
+                if cmd_d:
+                    if cmd_o:
+                        override = True
+                    else:
+                        override = False
+                else:
+                    override = True
+            else:
+                override = False
         else:
-            override = False
+            override = True
         return override
 
     def check_perms(self):
