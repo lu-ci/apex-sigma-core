@@ -189,12 +189,8 @@ class ServerCommandPermissions(object):
         return cmd_overwritten
 
     @staticmethod
-    def cross_permits(mdl_o, cmd_o):
-        if mdl_o and cmd_o:
-            override = True
-        elif mdl_o and not cmd_o:
-            override = False
-        elif not mdl_o and cmd_o:
+    def cross_permits(mdl_o, cmd_o, mdl_d, cmd_d):
+        if mdl_o or cmd_o:
             override = True
         else:
             override = False
@@ -212,27 +208,17 @@ class ServerCommandPermissions(object):
                 else:
                     cmd = self.cmd.name
                     mdl = self.cmd.plugin_info['category']
+                    mdl_override = self.check_mdl_overwrites(perms)
                     if mdl in perms['DisabledModules']:
-                        if self.check_mdl_overwrites(perms):
-                            mdl_override = True
-                        else:
-                            mdl_override = False
+                        mdl_disabled = True
                     else:
-                        if self.check_mdl_overwrites(perms):
-                            mdl_override = True
-                        else:
-                            mdl_override = False
+                        mdl_disabled = False
+                    cmd_override = self.check_cmd_overwrites(perms)
                     if cmd in perms['DisabledCommands']:
-                        if self.check_cmd_overwrites(perms):
-                            cmd_override = True
-                        else:
-                            cmd_override = False
+                        cmd_disabled = True
                     else:
-                        if self.check_cmd_overwrites(perms):
-                            cmd_override = True
-                        else:
-                            cmd_override = False
-                    permitted = self.cross_permits(mdl_override, cmd_override)
+                        cmd_disabled = False
+                    permitted = self.cross_permits(mdl_override, cmd_override, mdl_disabled, cmd_disabled)
             else:
                 permitted = True
         else:
