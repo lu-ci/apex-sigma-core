@@ -200,7 +200,10 @@ class ServerCommandPermissions(object):
                 else:
                     override = True
             else:
-                override = False
+                if cmd_o:
+                    override = True
+                else:
+                    override = False
         else:
             override = True
         return override
