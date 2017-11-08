@@ -189,16 +189,13 @@ class ServerCommandPermissions(object):
         return cmd_overwritten
 
     @staticmethod
-    def cross_permits(mdl_o, cmd_o, cmd_d):
+    def cross_permits(mdl_o, cmd_o):
         if mdl_o and cmd_o:
             override = True
         elif mdl_o and not cmd_o:
             override = False
         elif not mdl_o and cmd_o:
-            if cmd_d:
-                override = True
-            else:
-                override = False
+            override = True
         else:
             override = False
         return override
@@ -217,21 +214,25 @@ class ServerCommandPermissions(object):
                     mdl = self.cmd.plugin_info['category']
                     if mdl in perms['DisabledModules']:
                         if self.check_mdl_overwrites(perms):
-                            mdl_permitted = True
+                            mdl_override = True
                         else:
-                            mdl_permitted = False
+                            mdl_override = False
                     else:
-                        mdl_permitted = True
+                        if self.check_mdl_overwrites(perms):
+                            mdl_override = True
+                        else:
+                            mdl_override = False
                     if cmd in perms['DisabledCommands']:
-                        cmd_disabled = True
                         if self.check_cmd_overwrites(perms):
-                            cmd_permitted = True
+                            cmd_override = True
                         else:
-                            cmd_permitted = False
+                            cmd_override = False
                     else:
-                        cmd_disabled = False
-                        cmd_permitted = True
-                    permitted = self.cross_permits(mdl_permitted, cmd_permitted, cmd_disabled)
+                        if self.check_cmd_overwrites(perms):
+                            cmd_override = True
+                        else:
+                            cmd_override = False
+                    permitted = self.cross_permits(mdl_override, cmd_override)
             else:
                 permitted = True
         else:
