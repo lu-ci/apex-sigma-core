@@ -20,7 +20,7 @@ async def add_cmd_stat(db, cmd, message, args):
             'author': message.author.id,
             'channel': channel_id,
             'guild': guild_id,
-            'timestamp': arrow.utcnow().timestamp
+            'timestamp': arrow.utcnow().float_timestamp
         }
         db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
 
