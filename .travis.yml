@@ -4,9 +4,6 @@ python:
   - "3.6-dev"
 services:
   - "mongodb"
-env:
-  global:
-    - CI=1
 install: "pip install -Ur requirements.txt"
 script:
   - python run.py
