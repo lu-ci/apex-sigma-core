@@ -5,7 +5,8 @@ python:
 services:
   - "mongodb"
 env:
-  - CI=1
+  global:
+    - CI=1
 install: "pip install -Ur requirements.txt"
 script:
   - python run.py
