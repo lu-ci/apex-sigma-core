@@ -55,6 +55,7 @@ class ApexSigma(client_class):
         self.modules = None
         self.queue = QueueControl()
         self.launched = False
+        self.cache = {}
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
