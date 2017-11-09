@@ -1,8 +1,8 @@
-import secrets
+﻿import secrets
 
 import discord
 
-from sigma.plugins.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
+from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
 embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',

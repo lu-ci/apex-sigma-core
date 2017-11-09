@@ -2,7 +2,7 @@
 
 import discord
 
-from sigma.plugins.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
+from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
 embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', 'ὃ⍜ὅ', 'ㅇㅅㅇ',

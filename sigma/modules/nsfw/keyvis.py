@@ -2,7 +2,7 @@
 
 import discord
 
-from sigma.plugins.nsfw.mech.visual_novels import key_vn_list
+from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
 async def keyvis(cmd, message, args):

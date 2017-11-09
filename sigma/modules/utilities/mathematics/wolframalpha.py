@@ -1,7 +1,7 @@
 ﻿import discord
 import wolframalpha as wa_wrapper
 
-from sigma.plugins.minigames.quiz.mathgame import ongoing_list as math_chs
+from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 
 
 async def wolframalpha(cmd, message, args):

@@ -4,7 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import arrow
 import discord
 
-from sigma.plugins.core_functions.details.user_data_fill import generate_member_data
+from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
 
 def clean_guild_icon(icon_url):
