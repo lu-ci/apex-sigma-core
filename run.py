@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 import errno
 import sys
+import os
 
 from sigma.core.sigma import ApexSigma
 
@@ -12,4 +13,8 @@ except AssertionError:
 
 if __name__ == '__main__':
     sigma = ApexSigma()
-    sigma.run()
+    ci_token = os.getenv('CI_TOKEN')
+    if ci_token:
+        exit(0)
+    else:
+        sigma.run()

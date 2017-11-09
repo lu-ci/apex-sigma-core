@@ -15,7 +15,6 @@ praw
 psutil
 pymongo
 pyyaml
-requests
 watchdog
 wikipedia
 wolframalpha
