@@ -28,7 +28,7 @@ class PluginManager(object):
         self.alts = {}
         self.commands = {}
         self.events = {}
-        directory = 'sigma/plugins'
+        directory = 'sigma/modules'
         for root, dirs, files in os.walk(directory):
             for file in files:
                 if file == 'module.yml':
