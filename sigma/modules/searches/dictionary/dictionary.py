@@ -32,11 +32,12 @@ async def dictionary(cmd, message, args):
                     etyms = ent.get('etymologies')
                     feats = ent.get('grammaticalFeatures')
                     feat_block = []
-                    for feat in feats:
-                        feat_text = feat.get('text')
-                        feat_type = feat.get('type')
-                        feat_line = f'{feat_text} {feat_type}'
-                        feat_block.append(feat_line)
+                    if feats:
+                        for feat in feats:
+                            feat_text = feat.get('text')
+                            feat_type = feat.get('type')
+                            feat_line = f'{feat_text} {feat_type}'
+                            feat_block.append(feat_line)
                     senses = ent.get('senses')
                     definition_block = []
                     example_block = []
@@ -44,10 +45,11 @@ async def dictionary(cmd, message, args):
                         definitions = sense.get('definitions')
                         definition_block += definitions
                         examples = sense.get('examples')
-                        for example in examples:
-                            example = example.get('text')
-                            if example:
-                                example_block.append(example)
+                        if examples:
+                            for example in examples:
+                                example = example.get('text')
+                                if example:
+                                    example_block.append(example)
                     response = discord.Embed(color=0x3B88C3, title=f'📘 Oxford Dictionary: `{term}`')
                     if etyms:
                         response.add_field(name='Etymologies', value='\n'.join(etyms), inline=False)
