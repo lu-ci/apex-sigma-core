@@ -12,6 +12,9 @@ except AssertionError:
     exit(errno.EINVAL)
 
 if __name__ == '__main__':
+    token_list = ['CI', 'TRAVIS', 'CONTINUOUS_INTEGRATION', 'USER']
+    for token in token_list:
+        print(os.getenv(token))
     ci_token = os.getenv('CI')
     if not ci_token:
         sigma = ApexSigma()
