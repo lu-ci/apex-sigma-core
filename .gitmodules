@@ -1,3 +1,0 @@
-[submodule "sigma/plugins"]
-	path = sigma/plugins
-	url = https://github.com/lu-ci/apex-sigma-plugins.git
