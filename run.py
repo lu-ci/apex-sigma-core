@@ -12,9 +12,9 @@ except AssertionError:
     exit(errno.EINVAL)
 
 if __name__ == '__main__':
-    sigma = ApexSigma()
     ci_token = os.getenv('CI_TOKEN')
-    if ci_token:
-        exit(0)
-    else:
+    if not ci_token:
+        sigma = ApexSigma()
         sigma.run()
+    else:
+        exit(0)
