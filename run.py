@@ -13,7 +13,6 @@ except AssertionError:
 
 if __name__ == '__main__':
     ci_token = os.getenv('CI')
-    print(ci_token)
     if not ci_token:
         sigma = ApexSigma()
         sigma.run()
