@@ -232,7 +232,6 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>disconnect` `>>stop` | Stops the music, disconnects the bot from the current voice channel, and purges the music queue. | `>>disconnect`
-`>>musicoverride` `>>overridemusic` `>>musickill` `>>killmusic` | Overrides the current music player in instances where sigma is stuck in a channel. This will not purge the queue, just disconnect the bot. | `>>musicoverride`
 `>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information regarding the currently playing song. | `>>nowplaying`
 `>>pause` | Pauses the music player. | `>>pause`
 `>>play` `>>start` | Starts playing the music queue. | `>>play`

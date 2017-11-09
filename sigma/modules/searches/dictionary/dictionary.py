@@ -22,25 +22,42 @@ async def dictionary(cmd, message, args):
                     except json.JSONDecodeError:
                         data = {'results': []}
             if data['results']:
-                data = data['results'][0]['lexicalEntries'][0]['entries'][0]
-                if 'etymologies' in data:
-                    etymology = data['etymologies'][0]
+                data = data['results'][0]
+                lex = data.get('lexicalEntries')
+                if lex:
+                    lex = lex[0]
+                    cat = lex.get('lexicalCategory')
+                    term = lex.get('text')
+                    ent = lex.get('entries')[0]
+                    etyms = ent.get('etymologies')
+                    feats = ent.get('grammaticalFeatures')
+                    feat_block = []
+                    for feat in feats:
+                        feat_text = feat.get('text')
+                        feat_type = feat.get('type')
+                        feat_line = f'{feat_text} {feat_type}'
+                        feat_block.append(feat_line)
+                    senses = ent.get('senses')
+                    definition_block = []
+                    example_block = []
+                    for sense in senses:
+                        definitions = sense.get('definitions')
+                        definition_block += definitions
+                        examples = sense.get('examples')
+                        for example in examples:
+                            example = example.get('text')
+                            if example:
+                                example_block.append(example)
+                    response = discord.Embed(color=0x3B88C3, title=f'📘 Oxford Dictionary: `{term}`')
+                    if etyms:
+                        response.add_field(name='Etymologies', value='\n'.join(etyms), inline=False)
+                    if definition_block:
+                        response.add_field(name='Definitions', value='\n'.join(definition_block), inline=False)
+                    if example_block:
+                        response.add_field(name='Examples', value=', '.join(example_block), inline=False)
+                    response.set_footer(text=f'Category: {cat} | Features: {", ".join(feat_block)}')
                 else:
-                    etymology = 'No etymology found.'
-                senses = []
-                for sense in data['senses']:
-                    if "domains" in sense and 'definitions' in sense:
-                        senses.append(f'{sense["domains"][0]}: {sense["definitions"][0]}.')
-                notes = []
-                if 'notes' in data:
-                    for note in data['notes']:
-                        notes.append(f"{note['text']}.")
-                response = discord.Embed(color=0x3B88C3, title=f'📘 Oxford Dictionary: `{qry}`')
-                response.add_field(name='Etymology', value=etymology, inline=False)
-                if senses:
-                    response.add_field(name='Senses', value='\n'.join(senses[:10]), inline=False)
-                if notes:
-                    response.add_field(name='Notes', value='\n'.join(notes[:3]))
+                    response = discord.Embed(color=0x696969, title='🔍 No lexical data found.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 No results.')
         else:
