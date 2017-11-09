@@ -19,7 +19,7 @@ async def wf_loop(ev):
         try:
             await cycle_function(ev)
         except Exception:
-            pass
+            ev.log.error('The warframe clockwork couldn\'t complete a cycle.')
         await asyncio.sleep(5)
 
 

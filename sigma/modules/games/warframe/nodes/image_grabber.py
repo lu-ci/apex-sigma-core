@@ -51,6 +51,6 @@ async def alt_grab_image(name, cut=False):
     root = html.fromstring(page)
     try:
         item_image = root.cssselect('.infobox')[0][1][0][0].attrib.get('href')
-    except IndexError:
+    except Exception:
         item_image = root.cssselect('.pi-image-thumbnail')[0].attrib.get('src')
     return item_image

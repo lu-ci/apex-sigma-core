@@ -89,7 +89,7 @@ async def generate_alert_embed(data):
     if data['rewards']['item']:
         try:
             reward_icon = await grab_image(data['rewards']['item'])
-        except IndexError:
+        except Exception:
             reward_icon = 'http://i.imgur.com/99ennZD.png'
         alert_desc += f' + {data["rewards"]["item"]}'
     else:
