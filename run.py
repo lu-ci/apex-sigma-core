@@ -12,7 +12,7 @@ except AssertionError:
     exit(errno.EINVAL)
 
 if __name__ == '__main__':
-    ci_token = os.getenv('CI_TOKEN')
+    ci_token = os.getenv('CI')
     if not ci_token:
         sigma = ApexSigma()
         sigma.run()

@@ -5,7 +5,7 @@ python:
 services:
   - "mongodb"
 env:
-  - CI_TOKEN=2ef41698053df5314f3a54ddba960042100575a5384d57b5abfa85dea43c4885
+  - CI=1
 install: "pip install -Ur requirements.txt"
 script:
   - python run.py
