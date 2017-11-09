@@ -18,9 +18,9 @@
 
 <div align="center">
 
-Travis | Codacy | Code Climate
------- | ------ | ------------
-[![Build Status](https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master)](https://travis-ci.org/lu-ci/apex-sigma-core) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/92279c9ac1c04528b6d1d20aa45bc18d)](https://www.codacy.com/app/Aurora-Project/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade) | [![Maintainability](https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability)](https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability)
+Travis | CircleCI | Codacy | Code Climate
+------ | -------- | ------ | ------------
+[![Build Status](https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master)](https://travis-ci.org/lu-ci/apex-sigma-core) | [![CircleCI](https://circleci.com/gh/lu-ci/apex-sigma-core.svg?style=svg)](https://circleci.com/gh/lu-ci/apex-sigma-core) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/92279c9ac1c04528b6d1d20aa45bc18d)](https://www.codacy.com/app/Aurora-Project/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade) | [![Maintainability](https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability)](https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability)
 
 </div>
 
