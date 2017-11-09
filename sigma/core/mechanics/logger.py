@@ -23,27 +23,36 @@ def create_logger(name):
     "Add a new logger"
     return Logger.create(name)
 
+def with_logger(name=None, level=None):
+    "Decorator to make a logger available in the decorated class."
+
+    def decorator(cls):
+        cls.log = Logger.create(name or cls.__name__, level=level)
+        return cls
+
+    return decorator
+
 class Logger(object):
     "The logger core"
 
     loggers = {}
 
-    def __init__(self, name):
+    def __init__(self, name, *, level=None):
         self.default_fmt = '%(levelname)-8s %(asctime)s %(name)-20s %(message)s'
         self.default_date_fmt = '%Y.%m.%d %H:%M:%S'
         self.name = name
         self._logger = logging.getLogger(self.name)
-        self._logger.setLevel(logging.INFO)
+        self._logger.setLevel(level or logging.INFO)
         self.created = False
 
     @classmethod
-    def get(cls, name):
+    def get(cls, name, *, level=None):
         "Get a logger with :name: or create a new one."
 
         if name in cls.loggers.keys():
             return cls.loggers.get(name)
         else:
-            cls.loggers[name] = cls(name)
+            cls.loggers[name] = cls(name, level=level)
             return cls.loggers[name]
 
     def info(self, message):
@@ -65,10 +74,10 @@ class Logger(object):
         return self._logger.exception(message)
 
     @classmethod
-    def create(cls, name):
+    def create(cls, name, *, level=None):
         "Create a logger with :name: if it has not been created before."
 
-        logger = cls.get(name)
+        logger = cls.get(name, level=level)
         if logger.created:
             return
 
