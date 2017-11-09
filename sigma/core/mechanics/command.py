@@ -92,19 +92,15 @@ class SigmaCommand(object):
         self.bot.cache.update({'cmd_intervals': intervals})
         return last_user_stamp
 
-    def log_command_usage(self, message, args):
+    def log_command_usage(self, message, command_id):
         if message.guild:
             cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
             cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
         else:
             cmd_location = 'DIRECT MESSAGE'
-        if args:
-            arguments = ' '.join(args)
-        else:
-            arguments = None
         cmd_interval = self.get_command_interval(message.author.id)
         author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-        log_text = f'USR: {author_full} | {cmd_location} | IVAL: {cmd_interval} | ARGS: {arguments}'
+        log_text = f'USR: {author_full} | {cmd_location} | IVAL: {cmd_interval} | ID: {command_id}'
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
@@ -187,14 +183,15 @@ class SigmaCommand(object):
                 self.bot.cool_down.cmd.set_cooldown(cd_identifier)
                 perms = GlobalCommandPermissions(self, message)
                 guild_allowed = ServerCommandPermissions(self, message)
-                self.log_command_usage(message, args)
+                command_id = secrets.token_hex(4)
+                self.log_command_usage(message, command_id)
                 if perms.permitted:
                     if guild_allowed.permitted:
                         requirements = CommandRequirements(self, message)
                         if requirements.reqs_met:
                             try:
                                 await getattr(self.command, self.name)(self, message, args)
-                                await add_cmd_stat(self.db, self, message, args)
+                                await add_cmd_stat(self.db, self, message, args, command_id)
                                 self.add_usage_exp(message)
                                 self.bot.command_count += 1
                             except self.get_exception() as e:
