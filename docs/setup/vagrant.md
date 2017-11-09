@@ -18,7 +18,6 @@ Open a command prompt/terminal and `cd` into the location you want Sigma to be i
 ```sh
 git clone https://github.com/aurora-pro/apex-sigma-core.git
 cd apex-sigma-core
-git submodule update --init --recursive
 ```
 
 ## Configuration

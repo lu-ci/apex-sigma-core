@@ -67,7 +67,6 @@ To start off you need to navigate to your home directory and pull the repository
 cd ~
 git clone https://github.com/aurora-pro/apex-sigma-core.git
 cd apex-sigma-core
-git submodule update --init --recursive
 ```
 
 Now you need to update Sigma's Python PIP modules.
