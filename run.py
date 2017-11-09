@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.6
 import errno
-import sys
 import os
+import sys
 
 from sigma.core.sigma import ApexSigma
 
