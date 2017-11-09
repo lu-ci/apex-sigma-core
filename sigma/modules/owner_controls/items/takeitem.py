@@ -8,7 +8,7 @@ item_core = None
 async def takeitem(cmd, message, args):
     global item_core
     if not item_core:
-        item_core = ItemCore('sigma/plugins/minigames/professions/res/data')
+        item_core = ItemCore('sigma/modules/minigames/professions/res/data')
     if args:
         id_lookup = args[0]
         inv_item = cmd.db[cmd.db.db_cfg.database].Inventory.find_one({'Items.item_id': id_lookup})

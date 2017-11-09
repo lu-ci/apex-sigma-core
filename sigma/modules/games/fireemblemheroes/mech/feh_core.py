@@ -1,4 +1,4 @@
-from fuzzywuzzy import fuzz, process
+﻿from fuzzywuzzy import fuzz, process
 
 from .scrapper_core import FEHScrapper
 
@@ -6,7 +6,7 @@ from .scrapper_core import FEHScrapper
 class FireEmblemHeroesCore(object):
     def __init__(self, db):
         self.db = db
-        self.data_dir = 'sigma/plugins/games/fireemblemheroes/mech/data'
+        self.data_dir = 'sigma/modules/games/fireemblemheroes/mech/data'
         self.scrapper = FEHScrapper(self)
         self.colors = self.scrapper.get_yaml_data(self.data_dir + '/colors.yml')
         self.move_icons = self.scrapper.get_yaml_data(self.data_dir + '/move_icons.yml')

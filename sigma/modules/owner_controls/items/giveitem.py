@@ -8,7 +8,7 @@ item_core = None
 async def giveitem(cmd, message, args):
     global item_core
     if not item_core:
-        item_core = ItemCore('sigma/plugins/minigames/professions/res/data')
+        item_core = ItemCore('sigma/modules/minigames/professions/res/data')
     if args:
         if message.mentions:
             if len(args) >= 3:
