@@ -1,0 +1,20 @@
+engines:
+  git-legal:
+    enabled: true
+  fixme:
+    enabled: true
+  markdownlint:
+    enabled: true
+  pep8:
+    enabled: true
+  radon:
+    enabled: true
+  sonar-python:
+    enabled: true
+
+ratings:
+  paths:
+    - "**.md"
+    - "**.sh"
+    - "**.py"
+    - "requirements.txt"
