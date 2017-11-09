@@ -30,6 +30,7 @@ Commands | Description | Example
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. (Bot Owner Only) | `>>evaluate print('hello world')`
+`>>getcommand` `>>getcmd` | Gets command information by the command's statistics ID. (Bot Owner Only) | `>>getcommand 1a2b5c187d13e`
 `>>geterror` | Gets an error's details using the given token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>givecurrency` `>>givekud` `>>givemoney` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>givecurrency 150 @person`
 `>>giveitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>giveitem @person plants Blue Delta`

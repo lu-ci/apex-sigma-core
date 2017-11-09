@@ -3,11 +3,6 @@ import arrow
 
 async def add_cmd_stat(db, cmd, message, args, command_id):
     if not message.author.bot:
-        command_data = {
-            'name': cmd.name,
-        }
-        for key in ['nsfw', 'owner', 'partner', 'dmable']:
-            command_data[key] = getattr(cmd, key)
         if message.guild:
             channel_id = message.channel.id
             guild_id = message.guild.id
@@ -15,7 +10,7 @@ async def add_cmd_stat(db, cmd, message, args, command_id):
             channel_id = None
             guild_id = None
         stat_data = {
-            'command': command_data,
+            'command': cmd.name,
             'args': args,
             'author': message.author.id,
             'channel': channel_id,
