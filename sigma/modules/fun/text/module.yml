@@ -1,0 +1,35 @@
+name:             Fun Text Commands
+
+category:         fun
+
+enabled:          true
+
+commands:
+  - name:         reversetext
+    alts:
+      - "reverse"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hello"
+    description:
+      Reverses the text that you input into the command.
+
+  - name:         dab
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Pseudo-dank metrics or whatever.
+
+  - name:         leetspeak
+    alts:
+      - "leet"
+      - "l33t"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} owned level:ultimate"
+    description:
+      Turns your inputted statement into l33t text.
+      You can add which level of leet you want your text to be converted to.
+      As it's displayed in the usage example.
+      The accepted levels are basic, advanced and ultimate.

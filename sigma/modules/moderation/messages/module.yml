@@ -1,0 +1,52 @@
+name:             Message Moderation
+
+category:         moderation
+
+enabled:          true
+
+commands:
+  - name:         purge
+    alts:
+      - "prune"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} X @person"
+    requirements:
+      - "manage_messages"
+    description:
+      Deletes X number of messages posted by the mentioned person.
+      If a user is not provided, it will prune the last X messages regardless of poster.
+      If a number is not provided it will prune the last 100 messages.
+      If neither number nor user is provided, it will prune the bots messages.
+      Requires the user who calls the command to have the Manage Messages permission.
+
+  - name:         textmute
+    alts:
+      - "tmute"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person Was too spicy!"
+    requirements:
+      - "manage_messages"
+    description:
+      Disallows the user from typing.
+      Well technically, it will make the bot auto delete any message they send.
+      You can add a message at the end to be sent to the user as the reason why.
+
+  - name:         textunmute
+    alts:
+      - "tunmute"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    requirements:
+      - "manage_messages"
+    description:
+      Removes the tagged person from the list of muted users.
+      Making the bot no longer delete their messages.
+
+events:
+  - name:         mute_checker
+    type:         message
+    global:       true
+    enabled:      true

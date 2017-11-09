@@ -1,0 +1,8 @@
+description:
+  Xenobites, tiny creatures who have become the bane of many adventurers.
+  These insatiable menaces have a ravenous appetite, and the ability to mimic whatever surface they happen to be touching.
+  Their largest strength, however, lies in sheer numbers...
+name: Xenobite
+rarity: 1
+type: Animal
+value: 30

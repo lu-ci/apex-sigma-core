@@ -1,0 +1,62 @@
+name:             Greeting Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         greet
+    global:       true
+    enabled:      true
+    description:
+      Toggles if the bot should greet users when they enter the server.
+      The greeting feature is active by default.
+
+  - name:         greetdm
+    alts:
+      - "greetpm"
+    global:       true
+    enabled:      true
+    description:
+      Toggles if the bot should greet users by sending them a Direct Message,
+      instead of writing the message in a channel.
+
+  - name:         greetchannel
+    alts:
+      - "greetch"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #welcome"
+    description:
+      Sets the channel the greeting messages should be sent to, unless greetdm is active.
+
+  - name:         greetmessage
+    alts:
+      - "greetmsg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
+    description:  |
+      This sets the message shown to joining members when they enter server.
+      There are certain syntaxes for controlling what is displayed.
+      {user_name} - Basic text of the joining user's name.
+      {user_discriminator} - The numbers after the # in the user's name.
+      {user_mention} - A mention tag of the joining user.
+      {user_id} - The joining user's discord ID.
+      {server_name} - Text showing the server's name.
+      {server_id} - The server's discord ID.
+      {owner_name} - Basic text showing the name of the server owner.
+      {owner_discriminator} - The numbers after the # in the owner's name.
+      {owner_mention} - A mention tag of the server's owner.
+      {owner_id} - The server owner's discord ID.
+
+events:
+  - name:         greet_sender
+    type:         member_join
+    global:       true
+    enabled:      true
+
+  - name:         join_logger
+    type:         member_join
+    global:       true
+    enabled:      true

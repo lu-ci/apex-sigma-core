@@ -1,0 +1,59 @@
+name:            Event Stats
+
+category:        administration
+
+enabled:         true
+
+events:
+  - name:        ev_message
+    type:        message
+    global:      true
+    enabled:     true
+    permissions:
+      rating:    0
+      dmable:    true
+    description:
+      Controls message event statistics.
+
+  - name:        ev_mention
+    type:        mention
+    global:      true
+    enabled:     true
+    permissions:
+      rating:    0
+      dmable:    true
+    description:
+      Control bot mention event statistics.
+
+  - name:        ev_member_join
+    type:        member_join
+    global:      true
+    enabled:     true
+    permissions:
+      rating:    0
+      dmable:    true
+    description:
+      Control member join event statistics.
+
+  - name:        ev_member_remove
+    type:        member_leave
+    global:      true
+    enabled:     true
+    permissions:
+      rating:    0
+      dmable:    true
+    description:
+      Control member remove event statistics.
+
+  - name:        population_clockwork
+    type:        ready
+    enabled:     true
+
+  - name:        stats_logger
+    type:        ready
+    enabled:     true
+
+  - name:        discordbots_clock
+    type:        ready
+    global:      true
+    enabled:     true

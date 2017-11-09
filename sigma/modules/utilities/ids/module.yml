@@ -1,0 +1,42 @@
+name:             ID Number Utilities
+
+category:         utility
+
+enabled:          true
+
+commands:
+  - name:         userid
+    alts:
+      - "uid"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the User ID of the mentioned user.
+      If no user is mentioned, it will show the author's ID.
+      If you don't want the return message to be an embed, add "text" at the end.
+
+  - name:         channelid
+    alts:
+      - "chid"
+      - "cid"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #channel"
+    description:
+      Shows the User ID of the mentioned channel.
+      If no channel is mentioned,
+      it will show the ID of the channel the command is used in.
+      If you don't want the return message to be an embed, add "text" at the end.
+
+  - name:         serverid
+    alts:
+      - "guildid"
+      - "srvid"
+      - "sid"
+      - "gid"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the Server ID of the server the command is used in.

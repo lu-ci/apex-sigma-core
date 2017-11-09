@@ -1,0 +1,26 @@
+name:             WaniKani Commands
+
+category:         nihongo
+
+enabled:          true
+
+commands:
+  - name:         wanikani
+    alts:
+      - "wk"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the mentioned person's WaniKani statistics.
+      If no person is mentioned it will show the author's stats.
+      This requires the person to have a WaniKani API key stored with the wksave command.
+
+  - name:         wanikanisave
+    alts:
+      - "wksave"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 123456798"
+    description:
+      Saves your WaniKani API key in the database so the wanikani command can be used.

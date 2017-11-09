@@ -1,0 +1,97 @@
+name:             Information Utilities
+
+category:         utility
+
+enabled:          true
+
+commands:
+  - name:         userinformation
+    alts:
+      - "userinfo"
+      - "uinfo"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows information and data about the mentioned user.
+      If no user is mentioned, it will show data for the message author.
+
+  - name:         channelinformation
+    alts:
+      - "channelinfo"
+      - "chinfo"
+      - "cinfo"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #channel"
+    description:
+      Shows information and data about the mentioned channel.
+      If no channel is mentioned, it will show data for the channel that the command is used in.
+
+  - name:         serverinformation
+    alts:
+      - "serverinfo"
+      - "sinfo"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows information and data about the server that the command is used in.
+
+  - name:         roleinformation
+    alts:
+      - "roleinfo"
+      - "rinfo"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows information and data about the inputted role.
+      Roles mentions do not work here, lookup is done via role name.
+
+  - name:         permissions
+    alts:
+      - "perms"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows which permissions a user has and which they do not.
+      If no user is mentioned, it will target the message author.
+
+  - name:         owners
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows a list of Sigma's owners.
+      Users in this list have access to the administration module.
+
+  - name:         status
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the status of Sigma's machine.
+      Processor information, memory, storage, network, etc.
+
+  - name:         statistics
+    alts:
+      - "stats"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows Sigma's current statistics.
+      Population, message and command counts, and rates since startup.
+      As well as when the bot last started.
+
+  - name:         botinformation
+    alts:
+      - "botinfo"
+      - "info"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows information about the bot, version, codename, authors, etc.

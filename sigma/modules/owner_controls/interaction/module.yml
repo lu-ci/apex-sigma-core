@@ -1,0 +1,44 @@
+name:             Admin Interaction Control
+
+category:         administration
+
+enabled:          true
+
+commands:
+  - name:         announce
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} Hello world!"
+    description:
+      Announces a message to every server that Sigma is connected to.
+      Servers can opt out of this with the noannouncements command.
+
+  - name:         send
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} u:0123456789 We are watching..."
+    description:
+      Sends a message to a user, channel or server.
+      The first argument needs to be the destination parameter.
+      The destination parameter consists of the destination type and ID.
+      The types are U for User and C for Channel.
+      The type and ID are separated by a colon, or two dots put more simply.
+
+  - name:         eject
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Makes Sigma leave a Discord server.

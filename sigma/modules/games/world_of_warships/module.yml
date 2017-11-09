@@ -1,0 +1,16 @@
+name:             World of Warships Stats
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         worldofwarships
+    alts:
+      - "wows"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} EU AXAz0r"
+    description:
+      Grabs the player statistics for the game World of Warships.
+      First the region and then the username.

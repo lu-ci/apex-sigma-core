@@ -1,0 +1,9 @@
+description:
+  A Greblin could be mistaken for a Goblin at a casual glance, but closer inspection reveals their mottled skin is actually a series of complicated runic designs;
+  Upon close inspection the runes are found to relate to spells such as dispel magic, counterspell and detect magic.
+  They are also more feral than goblins, usually found hunched over on all fours, and whilst intelligent and capable of speech they prefer to growl, grunt and snarl.
+  It isn't unheard of however for a greblin to disguise itself as a goblin and attempt to blend into goblinoid society.
+name: Greblin
+rarity: 2
+type: Animal
+value: 50

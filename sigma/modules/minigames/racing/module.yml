@@ -1,0 +1,35 @@
+name:             Racing Minigame
+
+category:         minigames
+
+enabled:          true
+
+commands:
+  - name:         race
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 20"
+    description:
+      Creates a race in the current text channel.
+      To join the race use the joinrace command.
+      A race needs at least 2 people to start, and has a maximum of 10 participants.
+      You can specify a required buy-in to join the race.
+      The winner gets the entire pool minus 10% that goes to the track upkeep.
+
+  - name:         joinrace
+    alts:
+      - "jr"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Joins a race instance if any are ongoing.
+
+  - name:         raceoverride
+    alts:
+      - "raceover"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Overrides the race in case a bug occurs.

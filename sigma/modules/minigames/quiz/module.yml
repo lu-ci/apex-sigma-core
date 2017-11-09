@@ -1,0 +1,78 @@
+name:             Quiz
+
+category:         minigames
+
+enabled:          true
+
+commands:
+  - name:         quiz
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      A quiz minigame with various quizzes to choose from.
+      With a lot more coming soon
+
+  - name:         vnchargame
+    alts:
+      - "vncg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      A minigame where you guess the name of the visual novel character shown.
+      You can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters of the shortest part of the characters name.
+      If the hint is used, the Kud reward is split in half.
+
+  - name:         trivia
+    alts:
+      - "triv"
+      - "t"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      A trivia minigame.
+      You are given a question and have to input the number of your answer.
+      Guess correctly and you win 5-15 Kud, depending on the difficulty.
+      You have 20 seconds to answer the question.
+
+  - name:         animechargame
+    alts:
+      - "anichargame"
+      - "anicg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hint"
+    description:
+      A minigame where you guess the name of the anime character shown.
+      You can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters of the shortest part of the characters name.
+      If the hint is used, the Kud reward is split in half.
+
+  - name:         mathgame
+    alts:
+      - "mg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 4"
+    description:
+      A mathematics minigame.
+      You are given a problem, solve it.
+      Numbers are rounded to 2 decimals.
+      You can also specify how hard you want the problem to be.
+      The scale goes from 1-9.
+      The default difficulty is 3.
+      The time and Kud reward scale with the difficulty and number of hard operators.
+
+  - name:         unscramble
+    alts:
+      - "usg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      A minigame where you guess the scrambled word.
+      You have 30 seconds to guess the word shown.
+      The Kud reward is equal to the number of letters in the word.

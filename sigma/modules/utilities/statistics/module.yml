@@ -1,0 +1,37 @@
+name:             Statistical Utilities
+
+category:         utility
+
+enabled:          true
+
+commands:
+  - name:         bots
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Lists the bots on the server where the command is used and shows their status.
+
+  - name:         ingame
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the top played games on the server.
+
+  - name:         whoplays
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Overwatch"
+    description:
+      Generates a list of users playing the inputted game.
+
+  - name:         rolepopulation
+    alts:
+      - "rolepop"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Warlard"
+    description:
+      Shows the population of the inputted role.
+      If no arguments are provided, it will show the top 20 roles by population.

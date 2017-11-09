@@ -1,0 +1,55 @@
+name:             Preference Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         prefix
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} !!"
+    description:
+      Sets the prefix that Sigma should respond to.
+      This will be bound to your server and you can set it to anything you'd like.
+      However, the prefix can not contain spaces. They will be automatically removed.
+
+  - name:         unflip
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles if Sigma should respond to tables being flipped.
+
+  - name:         deletecommands
+    alts:
+      - "delcmds"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles if messages that are a command should be automatically deleted.
+
+  - name:         chatterbot
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles if the Chatterbot functions should be active.
+      If active, when a message starts with a mention of Sigma, she will respond.
+      This setting is active by default.
+
+  - name:         loggingchannel
+    alts:
+      - "logchannel"
+      - "logch"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #logging"
+    description:
+      Designates a channel where server events will be logged to.
+      The stuff that is logged is member movement and moderator actions.
+      Such as warns, bans, muting members and pruning channels.
+      To disable the logging channel, input "disable" as the channel argument.
+
+

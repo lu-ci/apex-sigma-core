@@ -1,0 +1,33 @@
+name:             Custom Command Controls
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         addcommand
+    alts:
+      - "addcmd"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hi Hello world!"
+    description:
+      Adds a custom command trigger to the server.
+      Whenever this trigger word is used with a command prefix the inputted response will be provided.
+      Command requires the Manage Server permission.
+
+  - name:         removecommand
+    alts:
+      - "remcmd"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hi"
+    description:
+      Removes a custom command trigger used for custom commands from the server.
+      Command requires the Manage Server permission.
+
+events:
+  - name:         custom_command
+    type:         message
+    global:       true
+    enabled:      true

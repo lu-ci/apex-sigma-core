@@ -1,0 +1,41 @@
+name:             Guild Economy
+
+category:         fun
+
+enabled:          true
+
+commands:
+  - name:         vault
+    alts:
+      - "bank"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current amount of Kud in the guild's vault.
+
+  - name:         givetovault
+    alts:
+      - "givetobank"
+      - "gtv"
+      - "gtb"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      The vault is a server specific Kud storage system.
+      Members can contribute to the vault with this command.
+      Adding to the vault taxes 5% of the Kud.
+      The kud can then be awarded to users using the award command.
+
+  - name:         award
+    alts:
+      - "pay"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 500 @person"
+    description:
+      Awards a chosen amount of Kud from the vault to a targeted person.
+      The amount of Kud needs to go first, followed by the target.
+      Only server managers can award Kud from the vault.
+      Anybody can contribute to the vault with the givetovault command.

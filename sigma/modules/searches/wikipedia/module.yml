@@ -1,0 +1,16 @@
+name:             Wikipedia Commands
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         wikipedia
+    alts:
+      - "wiki"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Thread (Computing)"
+    description:
+      Returns the summary of a wikipedia page that you inputted the search for.
+      If a search is too general, an error will be returned.

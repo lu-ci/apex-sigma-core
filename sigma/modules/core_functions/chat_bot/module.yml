@@ -1,0 +1,11 @@
+name:            Chatterbot Mechanics
+
+category:        administration
+
+enabled:         true
+
+events:
+  - name:        chat_bot
+    type:        mention
+    global:      true
+    enabled:     true

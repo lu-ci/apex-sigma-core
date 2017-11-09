@@ -1,0 +1,77 @@
+name:             Bot Profile Control
+
+category:         administration
+
+enabled:          true
+
+commands:
+  - name:         setavatar
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} https://my_fomain.net/my_avatar.png"
+    description:
+      Sets the avatar of the bot either to the linked or attached image.
+      The officially supported formats for bot avatars are JPG and PNG images.
+      Note that bots, like all users, have limited profile changes per time period.
+
+  - name:         setusername
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} Supreme Bot"
+    description:
+      Sets the name of the bot to the inputted text.
+      Note that bots, like all users, have limited profile changes per time period.
+
+  - name:         setstatus
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} with fishies"
+    description:
+      Sets the current playing status of the bot.
+      To use this, the automatic status rotation needs to be disabled.
+      It can be toggled with the togglestatus command.
+
+  - name:         addstatus
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} with tentacles"
+    description:
+      Adds a status message to Sigma's database for automatic status rotation.
+
+  - name:         removestatus
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 1d9cae144f"
+    description:
+      Removes a status with the inputed ID from Sigma's status database.
+
+  - name:         togglestatus
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles if the automatic status rotation is enabled or disabled.

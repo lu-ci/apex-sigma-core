@@ -1,0 +1,18 @@
+name:             Slot Minigames
+
+category:         minigames
+
+enabled:          true
+
+commands:
+  - name:         slots
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 52"
+    description:
+      Spin the slot machine, maybe you win, maybe you don't.
+      Who knows? It costs 10 Kud to spin the slot machine by default.
+      But you can specify how much you want to put in the machine.
+      And the rewards are based on how many of the same icon you get
+      in the middle row. Rewards are different for each icon.
+      The slots can be spun only once every 60 seconds.

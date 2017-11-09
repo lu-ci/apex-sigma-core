@@ -1,0 +1,13 @@
+name: Deathwish Coffee
+type: Drink
+ingredients:
+  - "shagbark"
+  - "jackalantan"
+  - "ixora"
+value: 1900
+description:
+  Start your day with a kick!
+  Experience greatness with the worlds strongest coffee.
+  This smooth dark roast was developed by the strongest shinobi
+  to have ever lived. It is made from robusta beans and has average
+  of 800 milligrams of caffeine per 12 oz serving.

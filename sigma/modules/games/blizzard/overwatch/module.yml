@@ -1,0 +1,18 @@
+name:             Overwatch
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         overwatch
+    alts:
+      - "owstats"
+      - "ow"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} EU Aurora#22978"
+    description:
+      Outputs the Overwatch statistics for the given player from the given region.
+      Do note that the battletag is case sensitive,
+      Aurora#22978 is not the same as aurora#22978

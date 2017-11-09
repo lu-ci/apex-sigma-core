@@ -1,0 +1,61 @@
+name:             SelfRole Controls
+
+category:         roles
+
+enabled:          true
+
+commands:
+  - name:         addselfrole
+    alts:
+      - "addrank"
+      - "asr"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Cheese Lover"
+    requirements:
+      - "manage_roles"
+    description:
+      Sets a role as self assignable.
+      Roles that are self assignable, any user can assign to themselves.
+      To assign a self assignbale role to yourself, use the togglerole command.
+
+  - name:         delselfrole
+    alts:
+      - "delrank"
+      - "rsr"
+      - "dsr"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Meat Lover"
+    requirements:
+      - "manage_roles"
+    description:
+      Removes a role from the list of self assignable roles.
+
+  - name:         listselfroles
+    alts:
+      - "listranks"
+      - "listroles"
+      - "ranks"
+      - "roles"
+      - "lsrl"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Lists all self assignable roles present on the server.
+
+  - name:         togglerole
+    alts:
+      - "togglerank"
+      - "rank"
+      - "trl"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Overlord"
+    requirements:
+      - "manage_roles"
+    description:
+      Toggles a self assignable role.
+      If you don't have the role, it will be given to you.
+      If you do have the role, it will be removed from you.

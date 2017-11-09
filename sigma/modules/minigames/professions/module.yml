@@ -1,0 +1,138 @@
+name:             Profession Minigames
+
+category:         minigames
+
+enabled:          true
+
+commands:
+  - name:         inventory
+    alts:
+     - "bag"
+     - "storage"
+     - "backpack"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 2 @person"
+    description:
+      Shows your current inventory.
+      The inventory has 64 slots at the start but can be upgraded.
+      You can also specify the page number you want to see.
+      The inventory is sorted by item rarity.
+
+  - name:         inspect
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Nabfischz"
+    description:
+      Inspects an item that is in your inventory.
+
+  - name:         recipes
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Lists all recipes available for making.
+      The recipe list is limited to 10 items per page.
+      You can specify the number of the page that you want to view.
+
+  - name:         cook
+    alts:
+      - "make"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Shade Tea"
+    description:
+      Uses a recipe to create an item from raw resources that you've gathered.
+      You can see all available recipes with the recipes command.
+
+  - name:         viewrecipe
+    alts:
+      - "recipe"
+      - "vrec"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Shade Tea"
+    description:
+      Shows information about a recipe.
+      Such as the ingredients required, value of the item, and it's description.
+
+  - name:         finditem
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} fish Jitteroon"
+    description:
+      Looks up information about an item.
+      The first argument needs to be the item type.
+      For example if it is a fish, meat, plant or material.
+      And the rest is the name of the item.
+
+  - name:         sell
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Copula"
+    description:
+      Sells an item from your inventory.
+      Input all instead of the item name to sell your entire inventory.
+
+  - name:         buyupgrade
+    alts:
+      - "shop"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Opens Sigma's profession upgrade shop.
+
+  - name:         upgrades
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the user's current upgrades.
+      You can view another person's upgrades by tagetting them.
+
+  - name:         filtersell
+    alts:
+      - "fsell"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} rarity:Legendary"
+    description:
+      Sells all items that have a certain attribute.
+      The accepted attributes are name, type and rarity.
+
+  - name:         fish
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Cast a lure and try to catch some fish.
+      You can fish once every 60 seconds, better not scare the fish away.
+
+  - name:         hunt
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Go into the wilderness and hunt for game.
+      You can hunt once every 60 seconds, everyone needs rest.
+
+  - name:         forage
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Go hiking and search nature for all the delicious bounties it has.
+      Look for plants that you might want to use for cooking in the future.
+      Foraging is tiring so you need to rest for 60 seconds after looking for plants.
+
+  - name:         inventorystats
+    alts:
+      - "invstats"
+      - "bagstats"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the statistics of a user's inventory.
+      The number of items per type and per rarity.

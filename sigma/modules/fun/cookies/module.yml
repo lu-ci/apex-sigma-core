@@ -1,0 +1,23 @@
+name:             Cookie Commands
+
+category:         fun
+
+enabled:          true
+
+commands:
+  - name:         cookies
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows how many cookies you have, or how many a mentioned user has.
+
+  - name:         givecookie
+    alts:
+      - "gibcookie"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Gives a cookie to a person. Remember to give them to only nice people.
+      You can give only one cookie every hour.

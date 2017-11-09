@@ -1,0 +1,180 @@
+name:             Warframe Commands
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         wfloc
+    alts:
+      - "wfdrop"
+      - "wfprime"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Fragor Prime"
+    description:
+      Searches for, and outputs, a prime's drop location.
+      Relics that are vaulted will be marked with an asterisk.
+
+  - name:         wfpricecheck
+    alts:
+      - "wfpc"
+      - "wfmarket"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Blind Rage"
+    description:
+      Checks the price for the searched item.
+      This will only list items by members that are currently online and in the game.
+
+  - name:         wfalerts
+    alts:
+      - "wfa"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the currently ongoing alerts in Warframe.
+      As well as their respective rewards.
+
+  - name:         wfsortie
+    alts:
+      - "wfsorties"
+      - "wfs"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the ongoing sortie missions in Warframe.
+
+  - name:         wffissures
+    alts:
+      - "wffissure"
+      - "wff"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current fissure locations in Warframe.
+      As well as their tiers, locations and mission types.
+
+  - name:         wfinvasions
+    alts:
+      - "wfinvasion"
+      - "wfi"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current ongoing invasions in Warframe.
+      As well as their factions, locations and rewards.
+
+  - name:         wfnews
+    alts:
+      - "wfn"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current ative news in Warframe.
+
+  - name:         wftrials
+    alts:
+      - "wftrial"
+      - "wfraids"
+      - "wfraid"
+      - "wft"
+      - "wfr"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} AXAz0r"
+    description:
+      Shows raid statistics for the inputted username.
+      Note that DE hasn't been tracking this data forever.
+      So some really old raids won't be shown due to having no data.
+      The shortest raid time shown only counts victorious raids.
+
+  - name:         wfplainsofeidolon
+    alts:
+      - "wfpoe"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} exact"
+    description:
+      Shows the current time on the Plains of Eidolon in warframe.
+      As well as the next day/night cycle rotations.
+      You can add "exact" as a command arguement.
+      This will make the time cycle responses appear in the H:M:S format.
+
+  - name:         wfalertchannel
+    alts:
+      - "wfac"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-alerts"
+    description:
+      Designates a channel for Warframe alerts.
+      When a new alert shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfinvasionchannel
+    alts:
+      - "wfic"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-invasions"
+    description:
+      Designates a channel for Warframe invasions.
+      When a new invasion shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfnewschannel
+    alts:
+      - "wfnc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-news"
+    description:
+      Designates a channel for Warframe news.
+      When Digital Extremes posts a new event for Warframe, it pops up there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wffissurechannel
+    alts:
+      - "wffc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-fissures"
+    description:
+      Designates a channel for Warframe void fissures.
+      When a new void fissure shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfsortiechannel
+    alts:
+      - "wfsc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-sorties"
+    description:
+      Designates a channel for Warframe sorties.
+      When a new sortie shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wftag
+    alts:
+      - "wftagrole"
+      - "wfnotify"
+      - "wfbind"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} aura Aura Squad"
+    description:
+      Binds a certain keyword from alerts and invasions.
+      When this keyword appears during an event all roles
+      bound to it's triggers will be mentioned.
+
+events:
+  - name:    wf_clockwork
+    type:    ready
+    enabled: true

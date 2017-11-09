@@ -1,0 +1,27 @@
+name:             Autorole Controls
+
+category:         roles
+
+enabled:          true
+
+commands:
+  - name:         autorole
+    alts:
+      - "autorank"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Newcomer"
+    requirements:
+      - "manage_roles"
+    description:
+      Sets which role should be given to joining members.
+      When a new user enters the server, this role will be assigned to them.
+      The role can not be something that is above the bot's highest role.
+      If you want to disable the autorole, input "disable" as the role name.
+
+
+events:
+  - name:         autorole_control
+    type:         member_join
+    global:       true
+    enabled:      true

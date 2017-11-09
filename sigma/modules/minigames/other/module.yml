@@ -1,0 +1,50 @@
+name:             Other Minigames
+
+category:         minigames
+
+enabled:          true
+
+commands:
+  - name:         eightball
+    alts:
+      - "8ball"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Will I ever be pretty?"
+    description:
+      The 8Ball has answers to ALL your questions.
+      Come one, come all, and ask the mighty allknowing 8Ball!
+      Provide a question at the end of the command and await the miraculous answer!
+
+  - name:         rps
+    alts:
+      - "rockpaperscissors"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} s"
+    description:
+      Play Rock-Paper-Scissors with the bot.
+      No cheating, we swear. Maybe she just doesn't like you.
+
+  - name:         coinflip
+    alts:
+      - "cf"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Heads"
+    description:
+      Flips a coin. Nothing complex.
+      You can try guessing the results by typing either Heads or Tails.
+
+  - name:         roll
+    alts:
+      - "dice"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 501"
+    description:
+      Gives a random number from 0 to 100.
+      You can specify the highest number the function calls by
+      adding a number after the command.
+      The Number TECHNICALLY does not have a limit but the bigger you use,
+      the bigger the message, which just looks plain spammy.

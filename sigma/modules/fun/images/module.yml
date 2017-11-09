@@ -1,0 +1,48 @@
+name:             Image Commands
+
+category:         fun
+
+enabled:          true
+
+commands:
+  - name:         cat
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Outputs a random cat image.
+      Furry felines like it when their owners observe them.
+
+  - name:         dog
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Outputs a random dog image.
+      Cutest, loyalest little woofers.
+
+  - name:         kitsunemimi
+    alts:
+      - "kon"
+      - "fluffytail"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Displays a random kitsunemimi image.
+      In case you don't know what a kitsunemimi is, it's a foxgirl.
+      All images are sourced from Safebooru, but due to some being borderline.
+      The command rating is naturally set to "Borderline".
+
+  - name:         nekomimi
+    alts:
+      - "neko"
+      - "nyaa"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Displays a random nekomimi image.
+      In case you don't know what a nekomimi is, it's a catgirl.
+      All images are sourced from Safebooru, but due to some being borderline.
+      The command rating is naturally set to "Borderline".

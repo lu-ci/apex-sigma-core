@@ -1,0 +1,36 @@
+name:             Currency Control
+
+category:         administration
+
+enabled:          true
+
+commands:
+  - name:         givecurrency
+    alts:
+      - "givekud"
+      - "givemoney"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     false
+    usage:        "{pfx}{cmd} 150 @person"
+    description:
+      Awards the mentioned user with the inputted amount of currency.
+      The currency goes first and then the user mention as shown in the example.
+
+  - name:         takecurrency
+    alts:
+      - "takekud"
+      - "takemoney"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     false
+    usage:        "{pfx}{cmd} 150 @person"
+    description:
+      Takes away the inputted amount of corrency from the mentioned user.
+      The currency goes first and then the user mention as shown in the example.

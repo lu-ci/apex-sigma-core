@@ -1,0 +1,18 @@
+name:             Financial Searches
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         cryptocurrency
+    alts:
+      - "cryptocur"
+      - "crypcur"
+      - "ecoin"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} ethereum"
+    description:
+      Shows the statistics for the imputted crypto currency.
+      Stats include the current market cap, price, supply, volume, change.

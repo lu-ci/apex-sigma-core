@@ -1,0 +1,13 @@
+name: Atlanci
+type: Meal
+ingredients:
+  - "herring"
+  - "devils_hand"
+  - "welwitscia"
+value: 1850
+description:
+  A hearty Polish stew possibly dating back to the 1900s.
+  The dish is packed with essential nutrients and has a
+  nice earthy yet delicate taste. It can also ward off
+  any potential heart problems and abdominal pains.
+  Just like mother used to make!

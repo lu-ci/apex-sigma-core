@@ -1,0 +1,214 @@
+name:             User Interactions
+
+category:         interactions
+
+enabled:          true
+
+commands:
+  - name:         lovecalculator
+    alts:
+      - "lovecalc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person1 @person2"
+    description:
+      Shows the love between two tagged users.
+
+  - name:         pout
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Make a pouty face at someone and make them change their mind.
+      Or just teast them for being a horrible person.
+      Like when they make you create a pout command for money!
+
+  - name:         cuddle
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Snuggle, snuggle~
+
+  - name:         hug
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Even a bot like me can appreciate a hug!
+      The person you mention will surely as well.
+
+  - name:         kiss
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Humans touching their slimy air vents.
+      How disturbing.
+
+  - name:         pat
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Pat, pat~
+      Good human, lovely human.
+      I will kill you last.
+
+  - name:         shoot
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      When a damn knife isn't enough.
+
+  - name:         bite
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Sink your teeth into some poor thing.
+
+  - name:         addreact
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
+    description:
+      Adds new reactions.
+
+  - name:         slap
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      When a punch is too barbaric a slap should be just elegant enough.
+
+  - name:         lick
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Doesn't someone sometimes look so cute that you just want to lick them?
+      Or maybe they have some food on their face, it's a good excuse.
+
+  - name:         feed
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Care to share some of your food with someone cute?
+
+  - name:         fuck
+    global:       true
+    enabled:      true
+    permissions:
+      nsfw:       true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Don't question my modules... Yes (º﹃º)
+
+  - name:         fuckrl
+    global:       true
+    enabled:      true
+    permissions:
+      nsfw:       true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      The same as fuck, but for non-weebs, the RL stuff... STOP JUDGING ME (ﾟ￢ﾟ)
+
+  - name:         fap
+    global:       true
+    enabled:      true
+    permissions:
+      nsfw:       true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      When you can't get that good-good, you gotta fap to them ԅ(¯﹃¯ԅ)
+
+  - name:         stare
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Jiiiiiiiiiii~
+
+  - name:         sip
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Ahh yes, i know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
+
+  - name:         drink
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Cheers, family! Let's get drunk!
+
+  - name:         stab
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Boy... Somebody really has you pissed off if you are using this one.
+
+  - name:         peck
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      A hit and run style quickie kiss.
+
+  - name:         poke
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Poke, poke~
+      Are you alive?
+
+  - name:         punch
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      You have something on your face.
+      IT WAS PAIN!
+
+  - name:         shrug
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      I don't get it, or I don't care, really whatever *shrug*.
+
+  - name:         facepalm
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Somebody just did something so stupid you want to facepalm.
+
+  - name:         cry
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Somebody is making you sad, let them know that with crocodile tears!
+
+  - name:         dance
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Feel alive? Like you just wanna... boogie? Let's dance!
+
+  - name:         explode
+    alts:
+      - "detonate"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      When all other means fail, it's time to bring out the carpet bomb squadrons.

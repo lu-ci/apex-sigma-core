@@ -1,0 +1,10 @@
+description:
+  Kapra are mysterious entities that wander the darker regions of the planes.
+  Although they resemble an emaciated goat or ibex, the Kapra is neither.
+  Theories on the Kapra's origins range from the mundane to the absurd.
+  Some hold that they are descended from fey creatures corrupted by negative energies.
+  Others believe they are born of the sins of mortals, cursed to be hunted by the manifestation of their evil deeds.
+name: Kapra
+rarity: 1
+type: Animal
+value: 30

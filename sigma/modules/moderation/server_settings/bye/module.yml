@@ -1,0 +1,55 @@
+name:             Goobye Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         bye
+    alts:
+      - "goodbye"
+    global:       true
+    enabled:      true
+    description:
+      Toggles if the bot should say when users leave the server.
+      The goodbye feature is active by default.
+
+  - name:         byechannel
+    alts:
+      - "byech"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #welcome"
+    description:
+      Sets the channel the goodbye messages should be sent to.
+
+  - name:         byemessage
+    alts:
+      - "byemsg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
+    description:  |
+      This sets the message shown on the server when a member leaves.
+      There are certain syntaxes for controlling what is displayed.
+      {user_name} - Basic text of the leaving user's name.
+      {user_discriminator} - The numbers after the # in the user's name.
+      {user_mention} - A mention tag of the leaving user.
+      {user_id} - The leaving user's discord ID.
+      {server_name} - Text showing the server's name.
+      {server_id} - The server's discord ID.
+      {owner_name} - Basic text showing the name of the server owner.
+      {owner_discriminator} - The numbers after the # in the owner's name.
+      {owner_mention} - A mention tag of the server's owner.
+      {owner_id} - The server owner's discord ID.
+
+events:
+  - name:         bye_sender
+    type:         member_remove
+    global:       true
+    enabled:      true
+
+  - name:         leave_logger
+    type:         member_remove
+    global:       true
+    enabled:      true

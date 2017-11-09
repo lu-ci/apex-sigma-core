@@ -1,0 +1,14 @@
+name:             Jisho Commands
+
+category:         nihongo
+
+enabled:          true
+
+commands:
+  - name:         jisho
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Kawaii"
+    description:
+      Searches Jisho, which is the Japanese language dictionary, for your input.
+      Resulting in a display of various types of information regarding your lookup.

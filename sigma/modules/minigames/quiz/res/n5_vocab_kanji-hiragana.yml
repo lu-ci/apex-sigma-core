@@ -1,0 +1,2016 @@
+quiz: 'JLPT N5 Vocabulary (Kanji - Hiragana)'
+question_template: "What's the reading for ${question}?"
+questions:
+  - questions:
+      - 会う
+    answers:
+      - あう
+  - questions:
+      - 青
+    answers:
+      - あお
+  - questions:
+      - 青い
+    answers:
+      - あおい
+  - questions:
+      - 赤
+    answers:
+      - あか
+  - questions:
+      - 赤い
+    answers:
+      - あかい
+  - questions:
+      - 明い
+    answers:
+      - あかるい
+  - questions:
+      - 秋
+    answers:
+      - あき
+  - questions:
+      - 開く
+    answers:
+      - あく
+  - questions:
+      - 開ける
+    answers:
+      - あける
+  - questions:
+      - 上げる
+    answers:
+      - あげる
+  - questions:
+      - 朝
+    answers:
+      - あさ
+  - questions:
+      - 朝御飯
+    answers:
+      - あさごはん
+  - questions:
+      - 足
+    answers:
+      - あし
+  - questions:
+      - 明日
+    answers:
+      - あした
+  - questions:
+      - 遊ぶ
+    answers:
+      - あそぶ
+  - questions:
+      - 暖かい
+    answers:
+      - あたたかい
+  - questions:
+      - 頭
+    answers:
+      - あたま
+  - questions:
+      - 新しい
+    answers:
+      - あたらしい
+  - questions:
+      - 暑い
+    answers:
+      - あつい
+  - questions:
+      - 熱い
+    answers:
+      - あつい
+  - questions:
+      - 厚い
+    answers:
+      - あつい
+  - questions:
+      - 後
+    answers:
+      - あと
+  - questions:
+      - 兄
+    answers:
+      - あに
+  - questions:
+      - 姉
+    answers:
+      - あね
+  - questions:
+      - 危ない
+    answers:
+      - あぶない
+  - questions:
+      - 甘い
+    answers:
+      - あまい
+  - questions:
+      - 雨
+    answers:
+      - あめ
+  - questions:
+      - 飴
+    answers:
+      - あめ
+  - questions:
+      - 洗う
+    answers:
+      - あらう
+  - questions:
+      - 歩く
+    answers:
+      - あるく
+  - questions:
+      - 言う
+    answers:
+      - いう
+  - questions:
+      - 家
+    answers:
+      - いえ
+  - questions:
+      - 行く
+    answers:
+      - いく
+      - ゆく
+  - questions:
+      - 池
+    answers:
+      - いけ
+  - questions:
+      - 医者
+    answers:
+      - いしゃ
+  - questions:
+      - 忙しい
+    answers:
+      - いそがしい
+  - questions:
+      - 痛い
+    answers:
+      - いたい
+  - questions:
+      - 一
+    answers:
+      - いち
+  - questions:
+      - 一日
+    answers:
+      - いちにち
+      - ついたち
+  - questions:
+      - 五日
+    answers:
+      - いつか
+  - questions:
+      - 一緒
+    answers:
+      - いっしょ
+  - questions:
+      - 五つ
+    answers:
+      - いつつ
+  - questions:
+      - 犬
+    answers:
+      - いぬ
+  - questions:
+      - 今
+    answers:
+      - いま
+  - questions:
+      - 意味
+    answers:
+      - いみ
+  - questions:
+      - 妹
+    answers:
+      - いもうと
+  - questions:
+      - 嫌
+    answers:
+      - いや
+  - questions:
+      - 入口
+    answers:
+      - いりぐち
+  - questions:
+      - 居る
+    answers:
+      - いる
+  - questions:
+      - 要る
+    answers:
+      - いる
+  - questions:
+      - 入れる
+    answers:
+      - いれる
+  - questions:
+      - 色
+    answers:
+      - いろ
+  - questions:
+      - 上
+    answers:
+      - うえ
+  - questions:
+      - 後ろ
+    answers:
+      - うしろ
+  - questions:
+      - 薄い
+    answers:
+      - うすい
+  - questions:
+      - 歌
+    answers:
+      - うた
+  - questions:
+      - 歌う
+    answers:
+      - うたう
+  - questions:
+      - 生まれる
+    answers:
+      - うまれる
+  - questions:
+      - 海
+    answers:
+      - うみ
+  - questions:
+      - 売る
+    answers:
+      - うる
+  - questions:
+      - 煩い
+    answers:
+      - うるさい
+  - questions:
+      - 上着
+    answers:
+      - うわぎ
+  - questions:
+      - 絵
+    answers:
+      - え
+  - questions:
+      - 映画
+    answers:
+      - えいが
+  - questions:
+      - 映画館
+    answers:
+      - えいがかん
+  - questions:
+      - 英語
+    answers:
+      - えいご
+  - questions:
+      - 駅
+    answers:
+      - えき
+  - questions:
+      - 鉛筆
+    answers:
+      - えんぴつ
+  - questions:
+      - 多い
+    answers:
+      - おおい
+  - questions:
+      - 大きい
+    answers:
+      - おおきい
+  - questions:
+      - 大きな
+    answers:
+      - おおきな
+  - questions:
+      - 大勢
+    answers:
+      - おおぜい
+  - questions:
+      - お母さん
+    answers:
+      - おかあさん
+  - questions:
+      - お菓子
+    answers:
+      - おかし
+  - questions:
+      - お金
+    answers:
+      - おかね
+  - questions:
+      - 起きる
+    answers:
+      - おきる
+  - questions:
+      - 置く
+    answers:
+      - おく
+  - questions:
+      - 奥さん
+    answers:
+      - おくさん
+  - questions:
+      - お酒
+    answers:
+      - おさけ
+  - questions:
+      - お皿
+    answers:
+      - おさら
+  - questions:
+      - 伯父
+      - 叔父
+    answers:
+      - おじいさん
+      - おじさん
+  - questions:
+      - 教える
+    answers:
+      - おしえる
+  - questions:
+      - 押す
+    answers:
+      - おす
+  - questions:
+      - 遅い
+    answers:
+      - おそい
+  - questions:
+      - お茶
+    answers:
+      - おちゃ
+  - questions:
+      - お手洗い
+    answers:
+      - おてあらい
+  - questions:
+      - お父さん
+    answers:
+      - おとうさん
+  - questions:
+      - 弟
+    answers:
+      - おとうと
+  - questions:
+      - 男
+    answers:
+      - おとこ
+  - questions:
+      - 男の子
+    answers:
+      - おとこのこ
+  - questions:
+      - 一昨日
+    answers:
+      - おととい
+  - questions:
+      - 一昨年
+    answers:
+      - おととし
+  - questions:
+      - 大人
+    answers:
+      - おとな
+  - questions:
+      - 同じ
+    answers:
+      - おなじ
+  - questions:
+      - お兄さん
+    answers:
+      - おにいさん
+  - questions:
+      - お姉さん
+    answers:
+      - おねえさん
+  - questions:
+      - 伯母さん
+      - 叔母さん
+    answers:
+      - おばさん
+  - questions:
+      - お風呂
+    answers:
+      - おふろ
+  - questions:
+      - お弁当
+    answers:
+      - おべんとう
+  - questions:
+      - 覚える
+    answers:
+      - おぼえる
+  - questions:
+      - 重い
+    answers:
+      - おもい
+  - questions:
+      - 泳ぐ
+    answers:
+      - およぐ
+  - questions:
+      - 降りる
+    answers:
+      - おりる
+  - questions:
+      - 終る
+    answers:
+      - おわる
+  - questions:
+      - 音楽
+    answers:
+      - おんがく
+  - questions:
+      - 女
+    answers:
+      - おんな
+  - questions:
+      - 女の子
+    answers:
+      - おんなのこ
+  - questions:
+      - 外国
+    answers:
+      - がいこく
+  - questions:
+      - 外国人
+    answers:
+      - がいこくじん
+  - questions:
+      - 会社
+    answers:
+      - かいしゃ
+  - questions:
+      - 階段
+    answers:
+      - かいだん
+  - questions:
+      - 買い物
+    answers:
+      - かいもの
+  - questions:
+      - 買う
+    answers:
+      - かう
+  - questions:
+      - 返す
+    answers:
+      - かえす
+  - questions:
+      - 帰る
+    answers:
+      - かえる
+  - questions:
+      - 書く
+    answers:
+      - かく
+  - questions:
+      - 学生
+    answers:
+      - がくせい
+  - questions:
+      - 傘
+    answers:
+      - かさ
+  - questions:
+      - 貸す
+    answers:
+      - かす
+  - questions:
+      - 風
+    answers:
+      - かぜ
+  - questions:
+      - 風邪
+    answers:
+      - かぜ
+  - questions:
+      - 家族
+    answers:
+      - かぞく
+  - questions:
+      - 方
+    answers:
+      - かた
+  - questions:
+      - 学校
+    answers:
+      - がっこう
+  - questions:
+      - 家庭
+    answers:
+      - かてい
+  - questions:
+      - 角
+    answers:
+      - かど
+  - questions:
+      - 花瓶
+    answers:
+      - かびん
+  - questions:
+      - 紙
+    answers:
+      - かみ
+  - questions:
+      - 火曜日
+    answers:
+      - かようび
+  - questions:
+      - 辛い
+    answers:
+      - からい
+  - questions:
+      - 体
+    answers:
+      - からだ
+  - questions:
+      - 借りる
+    answers:
+      - かりる
+  - questions:
+      - 軽い
+    answers:
+      - かるい
+  - questions:
+      - 川
+      - 河
+    answers:
+      - かわ
+  - questions:
+      - 漢字
+    answers:
+      - かんじ
+  - questions:
+      - 木
+    answers:
+      - き
+  - questions:
+      - 黄色
+    answers:
+      - きいろ
+  - questions:
+      - 黄色い
+    answers:
+      - きいろい
+  - questions:
+      - 消える
+    answers:
+      - きえる
+  - questions:
+      - 聞く
+    answers:
+      - きく
+  - questions:
+      - 北
+    answers:
+      - きた
+  - questions:
+      - 汚い
+    answers:
+      - きたない
+  - questions:
+      - 喫茶店
+    answers:
+      - きっさてん
+  - questions:
+      - 切手
+    answers:
+      - きって
+  - questions:
+      - 切符
+    answers:
+      - きっぷ
+  - questions:
+      - 昨日
+    answers:
+      - きのう
+  - questions:
+      - 九
+    answers:
+      - きゅう
+      - く
+  - questions:
+      - 牛肉
+    answers:
+      - ぎゅうにく
+  - questions:
+      - 牛乳
+    answers:
+      - ぎゅうにゅう
+  - questions:
+      - 今日
+    answers:
+      - きょう
+  - questions:
+      - 教室
+    answers:
+      - きょうしつ
+  - questions:
+      - 兄弟
+    answers:
+      - きょうだい
+  - questions:
+      - 去年
+    answers:
+      - きょねん
+  - questions:
+      - 嫌い
+    answers:
+      - きらい
+  - questions:
+      - 切る
+    answers:
+      - きる
+  - questions:
+      - 着る
+    answers:
+      - きる
+  - questions:
+      - 銀行
+    answers:
+      - ぎんこう
+  - questions:
+      - 金曜日
+    answers:
+      - きんようび
+  - questions:
+      - 薬
+    answers:
+      - くすり
+  - questions:
+      - 果物
+    answers:
+      - くだもの
+  - questions:
+      - 口
+    answers:
+      - くち
+  - questions:
+      - 靴
+    answers:
+      - くつ
+  - questions:
+      - 靴下
+    answers:
+      - くつした
+  - questions:
+      - 国
+    answers:
+      - くに
+  - questions:
+      - 曇り
+    answers:
+      - くもり
+  - questions:
+      - 曇る
+    answers:
+      - くもる
+  - questions:
+      - 暗い
+    answers:
+      - くらい
+  - questions:
+      - 来る
+    answers:
+      - くる
+  - questions:
+      - 車
+    answers:
+      - くるま
+  - questions:
+      - 黒
+    answers:
+      - くろ
+  - questions:
+      - 黒い
+    answers:
+      - くろい
+  - questions:
+      - 警官
+    answers:
+      - けいかん
+  - questions:
+      - 今朝
+    answers:
+      - けさ
+  - questions:
+      - 消す
+    answers:
+      - けす
+  - questions:
+      - 結構
+    answers:
+      - けっこう
+  - questions:
+      - 結婚
+    answers:
+      - けっこん
+  - questions:
+      - 月曜日
+    answers:
+      - げつようび
+  - questions:
+      - 玄関
+    answers:
+      - げんかん
+  - questions:
+      - 元気
+    answers:
+      - げんき
+  - questions:
+      - 五
+    answers:
+      - ご
+  - questions:
+      - 公園
+    answers:
+      - こうえん
+  - questions:
+      - 交差点
+    answers:
+      - こうさてん
+  - questions:
+      - 紅茶
+    answers:
+      - こうちゃ
+  - questions:
+      - 交番
+    answers:
+      - こうばん
+  - questions:
+      - 声
+    answers:
+      - こえ
+  - questions:
+      - 午後
+    answers:
+      - ごご
+  - questions:
+      - 九日
+    answers:
+      - ここのか
+  - questions:
+      - 九つ
+    answers:
+      - ここのつ
+  - questions:
+      - 午前
+    answers:
+      - ごぜん
+  - questions:
+      - 答える
+    answers:
+      - こたえる
+  - questions:
+      - 今年
+    answers:
+      - ことし
+  - questions:
+      - 言葉
+    answers:
+      - ことば
+  - questions:
+      - 子供
+    answers:
+      - こども
+  - questions:
+      - 御飯
+    answers:
+      - ごはん
+  - questions:
+      - 困る
+    answers:
+      - こまる
+  - questions:
+      - 今月
+    answers:
+      - こんげつ
+  - questions:
+      - 今週
+    answers:
+      - こんしゅう
+  - questions:
+      - 今晩
+    answers:
+      - こんばん
+  - questions:
+      - 財布
+    answers:
+      - さいふ
+  - questions:
+      - 魚
+    answers:
+      - さかな
+  - questions:
+      - 先
+    answers:
+      - さき
+  - questions:
+      - 咲く
+    answers:
+      - さく
+  - questions:
+      - 作文
+    answers:
+      - さくぶん
+  - questions:
+      - 差す
+    answers:
+      - さす
+  - questions:
+      - 雑誌
+    answers:
+      - ざっし
+  - questions:
+      - 砂糖
+    answers:
+      - さとう
+  - questions:
+      - 寒い
+    answers:
+      - さむい
+  - questions:
+      - さ来年
+    answers:
+      - さらいねん
+  - questions:
+      - 三
+    answers:
+      - さん
+  - questions:
+      - 散歩
+    answers:
+      - さんぽする
+  - questions:
+      - 四
+    answers:
+      - し
+      - よん
+  - questions:
+      - 塩
+    answers:
+      - しお
+  - questions:
+      - 時間
+    answers:
+      - じかん
+  - questions:
+      - 仕事
+    answers:
+      - しごと
+  - questions:
+      - 辞書
+    answers:
+      - じしょ
+  - questions:
+      - 静か
+    answers:
+      - しずか
+  - questions:
+      - 下
+    answers:
+      - した
+  - questions:
+      - 七
+    answers:
+      - しち
+      - なな
+  - questions:
+      - 質問
+    answers:
+      - しつもん
+  - questions:
+      - 自転車
+    answers:
+      - じてんしゃ
+  - questions:
+      - 自動車
+    answers:
+      - じどうしゃ
+  - questions:
+      - 死ぬ
+    answers:
+      - しぬ
+  - questions:
+      - 字引
+    answers:
+      - じびき
+  - questions:
+      - 自分
+    answers:
+      - じぶん
+  - questions:
+      - 閉まる
+    answers:
+      - しまる
+  - questions:
+      - 閉める
+    answers:
+      - しめる
+  - questions:
+      - 締める
+    answers:
+      - しめる
+  - questions:
+      - 写真
+    answers:
+      - しゃしん
+  - questions:
+      - 十
+    answers:
+      - じゅう  とお
+  - questions:
+      - 授業
+    answers:
+      - じゅぎょう
+  - questions:
+      - 宿題
+    answers:
+      - しゅくだい
+  - questions:
+      - 上手
+    answers:
+      - じょうず
+  - questions:
+      - 丈夫
+    answers:
+      - じょうぶ
+  - questions:
+      - 食堂
+    answers:
+      - しょくどう
+  - questions:
+      - 知る
+    answers:
+      - しる
+  - questions:
+      - 白
+    answers:
+      - しろ
+  - questions:
+      - 白い
+    answers:
+      - しろい
+  - questions:
+      - 新聞
+    answers:
+      - しんぶん
+  - questions:
+      - 水曜日
+    answers:
+      - すいようび
+  - questions:
+      - 吸う
+    answers:
+      - すう
+  - questions:
+      - 好き
+    answers:
+      - すき
+  - questions:
+      - 少ない
+    answers:
+      - すくない
+  - questions:
+      - 少し
+    answers:
+      - すこし
+  - questions:
+      - 涼しい
+    answers:
+      - すずしい
+  - questions:
+      - 住む
+    answers:
+      - すむ
+  - questions:
+      - 座る
+    answers:
+      - すわる
+  - questions:
+      - 背
+    answers:
+      - せ
+  - questions:
+      - 生徒
+    answers:
+      - せいと
+  - questions:
+      - 背広
+    answers:
+      - せびろ
+  - questions:
+      - 狭い
+    answers:
+      - せまい
+  - questions:
+      - 千
+    answers:
+      - せん
+  - questions:
+      - 先月
+    answers:
+      - せんげつ
+  - questions:
+      - 先週
+    answers:
+      - せんしゅう
+  - questions:
+      - 先生
+    answers:
+      - せんせい
+  - questions:
+      - 洗濯
+    answers:
+      - せんたく
+  - questions:
+      - 全部
+    answers:
+      - ぜんぶ
+  - questions:
+      - 掃除
+    answers:
+      - そうじする
+  - questions:
+      - 外
+    answers:
+      - そと
+  - questions:
+      - 空
+    answers:
+      - そら
+  - questions:
+      - 大学
+    answers:
+      - だいがく
+  - questions:
+      - 大使館
+    answers:
+      - たいしかん
+  - questions:
+      - 大丈夫
+    answers:
+      - だいじょうぶ
+  - questions:
+      - 大好き
+    answers:
+      - だいすき
+  - questions:
+      - 大切
+    answers:
+      - たいせつ
+  - questions:
+      - 台所
+    answers:
+      - だいどころ
+  - questions:
+      - 高い
+    answers:
+      - たかい
+  - questions:
+      - 出す
+    answers:
+      - だす
+  - questions:
+      - 立つ
+    answers:
+      - たつ
+  - questions:
+      - 建物
+    answers:
+      - たてもの
+  - questions:
+      - 楽しい
+    answers:
+      - たのしい
+  - questions:
+      - 頼む
+    answers:
+      - たのむ
+  - questions:
+      - 食べ物
+    answers:
+      - たべもの
+  - questions:
+      - 食べる
+    answers:
+      - たべる
+  - questions:
+      - 卵
+    answers:
+      - たまご
+  - questions:
+      - 誰
+    answers:
+      - だれ
+      - だれか
+  - questions:
+      - 誕生日
+    answers:
+      - たんじょうび
+  - questions:
+      - 小さい
+    answers:
+      - ちいさい
+  - questions:
+      - 小さな
+    answers:
+      - ちいさな
+  - questions:
+      - 近い
+    answers:
+      - ちかい
+  - questions:
+      - 違う
+    answers:
+      - ちがう
+  - questions:
+      - 近く
+    answers:
+      - ちかく
+  - questions:
+      - 地下鉄
+    answers:
+      - ちかてつ
+  - questions:
+      - 地図
+    answers:
+      - ちず
+  - questions:
+      - 茶色
+    answers:
+      - ちゃいろ
+  - questions:
+      - 使う
+    answers:
+      - つかう
+  - questions:
+      - 疲れる
+    answers:
+      - つかれる
+  - questions:
+      - 次
+    answers:
+      - つぎ
+  - questions:
+      - 着く
+    answers:
+      - つく
+  - questions:
+      - 机
+    answers:
+      - つくえ
+  - questions:
+      - 作る
+    answers:
+      - つくる
+  - questions:
+      - 勤める
+    answers:
+      - つとめる
+  - questions:
+      - 冷たい
+    answers:
+      - つめたい
+  - questions:
+      - 強い
+    answers:
+      - つよい
+  - questions:
+      - 手
+    answers:
+      - て
+  - questions:
+      - 出かける
+    answers:
+      - でかける
+  - questions:
+      - 手紙
+    answers:
+      - てがみ
+  - questions:
+      - 出口
+    answers:
+      - でぐち
+  - questions:
+      - 出る
+    answers:
+      - でる
+  - questions:
+      - 天気
+    answers:
+      - てんき
+  - questions:
+      - 電気
+    answers:
+      - でんき
+  - questions:
+      - 電車
+    answers:
+      - でんしゃ
+  - questions:
+      - 電話
+    answers:
+      - でんわ
+  - questions:
+      - 戸
+    answers:
+      - と
+  - questions:
+      - 動物
+    answers:
+      - どうぶつ
+  - questions:
+      - 遠い
+    answers:
+      - とおい
+  - questions:
+      - 十日
+    answers:
+      - とおか
+  - questions:
+      - 時々
+    answers:
+      - ときどき
+  - questions:
+      - 時計
+    answers:
+      - とけい
+  - questions:
+      - 所
+    answers:
+      - ところ
+  - questions:
+      - 年
+    answers:
+      - とし
+  - questions:
+      - 図書館
+    answers:
+      - としょかん
+  - questions:
+      - 隣
+    answers:
+      - となり
+  - questions:
+      - 飛ぶ
+    answers:
+      - とぶ
+  - questions:
+      - 止まる
+    answers:
+      - とまる
+  - questions:
+      - 友達
+    answers:
+      - ともだち
+  - questions:
+      - 土曜日
+    answers:
+      - どようび
+  - questions:
+      - 鳥
+    answers:
+      - とり
+  - questions:
+      - とり肉
+    answers:
+      - とりにく
+  - questions:
+      - 取る
+    answers:
+      - とる
+  - questions:
+      - 撮る
+    answers:
+      - とる
+  - questions:
+      - 中
+    answers:
+      - なか
+  - questions:
+      - 長い
+    answers:
+      - ながい
+  - questions:
+      - 鳴く
+    answers:
+      - なく
+  - questions:
+      - 無くす
+    answers:
+      - なくす
+  - questions:
+      - 夏
+    answers:
+      - なつ
+  - questions:
+      - 夏休み
+    answers:
+      - なつやすみ
+  - questions:
+      - 七つ
+    answers:
+      - ななつ
+  - questions:
+      - 七日
+    answers:
+      - なのか
+  - questions:
+      - 名前
+    answers:
+      - なまえ
+  - questions:
+      - 習う
+    answers:
+      - ならう
+  - questions:
+      - 並ぶ
+    answers:
+      - ならぶ
+  - questions:
+      - 並べる
+    answers:
+      - ならべる
+  - questions:
+      - 何
+    answers:
+      - なん
+      - なに
+  - questions:
+      - 二
+    answers:
+      - に
+  - questions:
+      - 賑やか
+    answers:
+      - にぎやか
+  - questions:
+      - 肉
+    answers:
+      - にく
+  - questions:
+      - 西
+    answers:
+      - にし
+  - questions:
+      - 日曜日
+    answers:
+      - にちようび
+  - questions:
+      - 荷物
+    answers:
+      - にもつ
+  - questions:
+      - 庭
+    answers:
+      - にわ
+  - questions:
+      - 脱ぐ
+    answers:
+      - ぬぐ
+  - questions:
+      - 温い
+    answers:
+      - ぬるい
+  - questions:
+      - 猫
+    answers:
+      - ねこ
+  - questions:
+      - 寝る
+    answers:
+      - ねる
+  - questions:
+      - 登る
+    answers:
+      - のぼる
+  - questions:
+      - 飲み物
+    answers:
+      - のみもの
+  - questions:
+      - 飲む
+    answers:
+      - のむ
+  - questions:
+      - 乗る
+    answers:
+      - のる
+  - questions:
+      - 歯
+    answers:
+      - は
+  - questions:
+      - 灰皿
+    answers:
+      - はいざら
+  - questions:
+      - 入る
+    answers:
+      - はいる
+  - questions:
+      - 葉書
+    answers:
+      - はがき
+  - questions:
+      - 箱
+    answers:
+      - はこ
+  - questions:
+      - 橋
+    answers:
+      - はし
+  - questions:
+      - 始まる
+    answers:
+      - はじまる
+  - questions:
+      - 初め
+      - 始め
+    answers:
+      - はじめ
+  - questions:
+      - 初めて
+    answers:
+      - はじめて
+  - questions:
+      - 走る
+    answers:
+      - はしる
+  - questions:
+      - 二十歳
+    answers:
+      - はたち
+  - questions:
+      - 働く
+    answers:
+      - はたらく
+  - questions:
+      - 八
+    answers:
+      - はち
+  - questions:
+      - 二十日
+    answers:
+      - はつか
+  - questions:
+      - 花
+    answers:
+      - はな
+  - questions:
+      - 鼻
+    answers:
+      - はな
+  - questions:
+      - 話
+    answers:
+      - はなし
+  - questions:
+      - 話す
+    answers:
+      - はなす
+  - questions:
+      - 早い
+    answers:
+      - はやい
+  - questions:
+      - 速い
+    answers:
+      - はやい
+  - questions:
+      - 春
+    answers:
+      - はる
+  - questions:
+      - 貼る
+    answers:
+      - はる
+  - questions:
+      - 晴れ
+    answers:
+      - はれ
+  - questions:
+      - 晴れる
+    answers:
+      - はれる
+  - questions:
+      - 半
+    answers:
+      - はん
+  - questions:
+      - 晩
+    answers:
+      - ばん
+  - questions:
+      - 番号
+    answers:
+      - ばんごう
+  - questions:
+      - 晩御飯
+    answers:
+      - ばんごはん
+  - questions:
+      - 半分
+    answers:
+      - はんぶん
+  - questions:
+      - 東
+    answers:
+      - ひがし
+  - questions:
+      - 引く
+    answers:
+      - ひく
+  - questions:
+      - 弾く
+    answers:
+      - ひく
+  - questions:
+      - 低い
+    answers:
+      - ひくい
+  - questions:
+      - 飛行機
+    answers:
+      - ひこうき
+  - questions:
+      - 左
+    answers:
+      - ひだり
+  - questions:
+      - 人
+    answers:
+      - ひと
+  - questions:
+      - 一つ
+    answers:
+      - ひとつ
+  - questions:
+      - 一月
+    answers:
+      - ひとつき
+  - questions:
+      - 一人
+    answers:
+      - ひとり
+  - questions:
+      - 暇
+    answers:
+      - ひま
+  - questions:
+      - 百
+    answers:
+      - ひゃく
+  - questions:
+      - 病院
+    answers:
+      - びょういん
+  - questions:
+      - 病気
+    answers:
+      - びょうき
+  - questions:
+      - 昼
+    answers:
+      - ひる
+  - questions:
+      - 昼御飯
+    answers:
+      - ひるごはん
+  - questions:
+      - 広い
+    answers:
+      - ひろい
+  - questions:
+      - 封筒
+    answers:
+      - ふうとう
+  - questions:
+      - 吹く
+    answers:
+      - ふく
+  - questions:
+      - 服
+    answers:
+      - ふく
+  - questions:
+      - 二つ
+    answers:
+      - ふたつ
+  - questions:
+      - 豚肉
+    answers:
+      - ぶたにく
+  - questions:
+      - 二人
+    answers:
+      - ふたり
+  - questions:
+      - 二日
+    answers:
+      - ふつか
+  - questions:
+      - 太い
+    answers:
+      - ふとい
+  - questions:
+      - 冬
+    answers:
+      - ふゆ
+  - questions:
+      - 降る
+    answers:
+      - ふる
+  - questions:
+      - 古い
+    answers:
+      - ふるい
+  - questions:
+      - 文章
+    answers:
+      - ぶんしょう
+  - questions:
+      - 下手
+    answers:
+      - へた
+  - questions:
+      - 部屋
+    answers:
+      - へや
+  - questions:
+      - 辺
+    answers:
+      - へん
+  - questions:
+      - 勉強
+    answers:
+      - べんきょうする
+  - questions:
+      - 便利
+    answers:
+      - べんり
+  - questions:
+      - 帽子
+    answers:
+      - ぼうし
+  - questions:
+      - 欲しい
+    answers:
+      - ほしい
+  - questions:
+      - 細い
+    answers:
+      - ほそい
+  - questions:
+      - 本
+    answers:
+      - ほん
+  - questions:
+      - 本棚
+    answers:
+      - ほんだな
+  - questions:
+      - 毎朝
+    answers:
+      - まいあさ
+  - questions:
+      - 毎月
+    answers:
+      - まいげつ
+      - まいつき
+  - questions:
+      - 毎週
+    answers:
+      - まいしゅう
+  - questions:
+      - 毎日
+    answers:
+      - まいにち
+  - questions:
+      - 毎年
+    answers:
+      - まいねん
+      - まいとし
+  - questions:
+      - 毎晩
+    answers:
+      - まいばん
+  - questions:
+      - 前
+    answers:
+      - まえ
+  - questions:
+      - 曲る
+    answers:
+      - まがる
+  - questions:
+      - 町
+    answers:
+      - まち
+  - questions:
+      - 待つ
+    answers:
+      - まつ
+  - questions:
+      - 窓
+    answers:
+      - まど
+  - questions:
+      - 丸い
+      - 円い
+    answers:
+      - まるい
+  - questions:
+      - 万
+    answers:
+      - まん
+  - questions:
+      - 万年筆
+    answers:
+      - まんねんひつ
+  - questions:
+      - 磨く
+    answers:
+      - みがく
+  - questions:
+      - 右
+    answers:
+      - みぎ
+  - questions:
+      - 短い
+    answers:
+      - みじかい
+  - questions:
+      - 水
+    answers:
+      - みず
+  - questions:
+      - 店
+    answers:
+      - みせ
+  - questions:
+      - 見せる
+    answers:
+      - みせる
+  - questions:
+      - 道
+    answers:
+      - みち
+  - questions:
+      - 三日
+    answers:
+      - みっか
+  - questions:
+      - 三つ
+    answers:
+      - みっつ
+  - questions:
+      - 緑
+    answers:
+      - みどり
+  - questions:
+      - 皆さん
+    answers:
+      - みなさん
+  - questions:
+      - 南
+    answers:
+      - みなみ
+  - questions:
+      - 耳
+    answers:
+      - みみ
+  - questions:
+      - 見る
+      - 観る
+    answers:
+      - みる
+  - questions:
+      - 六日
+    answers:
+      - むいか
+  - questions:
+      - 向こう
+    answers:
+      - むこう
+  - questions:
+      - 難しい
+    answers:
+      - むずかしい
+  - questions:
+      - 六つ
+    answers:
+      - むっつ
+  - questions:
+      - 村
+    answers:
+      - むら
+  - questions:
+      - 目
+    answers:
+      - め
+  - questions:
+      - 眼鏡
+    answers:
+      - めがね
+  - questions:
+      - もう一度
+    answers:
+      - もういちど
+  - questions:
+      - 木曜日
+    answers:
+      - もくようび
+  - questions:
+      - 持つ
+    answers:
+      - もつ
+  - questions:
+      - 物
+    answers:
+      - もの
+  - questions:
+      - 門
+    answers:
+      - もん
+  - questions:
+      - 問題
+    answers:
+      - もんだい
+  - questions:
+      - 八百屋
+    answers:
+      - やおや
+  - questions:
+      - 野菜
+    answers:
+      - やさい
+  - questions:
+      - 易しい
+    answers:
+      - やさしい
+  - questions:
+      - 安い
+    answers:
+      - やすい
+  - questions:
+      - 休み
+    answers:
+      - やすみ
+  - questions:
+      - 休む
+    answers:
+      - やすむ
+  - questions:
+      - 八つ
+    answers:
+      - やっつ
+  - questions:
+      - 山
+    answers:
+      - やま
+  - questions:
+      - 夕方
+    answers:
+      - ゆうがた
+  - questions:
+      - 夕飯
+    answers:
+      - ゆうはん
+  - questions:
+      - 郵便局
+    answers:
+      - ゆうびんきょく
+  - questions:
+      - 昨夜
+    answers:
+      - ゆうべ
+  - questions:
+      - 有名
+    answers:
+      - ゆうめい
+  - questions:
+      - 雪
+    answers:
+      - ゆき
+  - questions:
+      - 八日
+    answers:
+      - ようか
+  - questions:
+      - 洋服
+    answers:
+      - ようふく
+  - questions:
+      - 横
+    answers:
+      - よこ
+  - questions:
+      - 四日
+    answers:
+      - よっか
+  - questions:
+      - 四つ
+    answers:
+      - よっつ
+  - questions:
+      - 呼ぶ
+    answers:
+      - よぶ
+  - questions:
+      - 読む
+    answers:
+      - よむ
+  - questions:
+      - 夜
+    answers:
+      - よる
+  - questions:
+      - 弱い
+    answers:
+      - よわい
+  - questions:
+      - 来月
+    answers:
+      - らいげつ
+  - questions:
+      - 来週
+    answers:
+      - らいしゅう
+  - questions:
+      - 来年
+    answers:
+      - らいねん
+  - questions:
+      - 留学生
+    answers:
+      - りゅうがくせい
+  - questions:
+      - 両親
+    answers:
+      - りょうしん
+  - questions:
+      - 料理
+    answers:
+      - りょうり
+  - questions:
+      - 旅行
+    answers:
+      - りょこう
+  - questions:
+      - 零
+    answers:
+      - れい
+  - questions:
+      - 冷蔵庫
+    answers:
+      - れいぞうこ
+  - questions:
+      - 練習
+    answers:
+      - れんしゅうする
+  - questions:
+      - 廊下
+    answers:
+      - ろうか
+  - questions:
+      - 六
+    answers:
+      - ろく
+  - questions:
+      - 若い
+    answers:
+      - わかい
+  - questions:
+      - 分かる
+    answers:
+      - わかる
+  - questions:
+      - 忘れる
+    answers:
+      - わすれる
+  - questions:
+      - 私
+    answers:
+      - わたし
+      - わたくし
+  - questions:
+      - 渡す
+    answers:
+      - わたす
+  - questions:
+      - 渡る
+    answers:
+      - わたる
+  - questions:
+      - 悪い
+    answers:
+      - わるい

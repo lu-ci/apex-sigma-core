@@ -1,0 +1,53 @@
+name:             Moderator Punishments
+
+category:         moderation
+
+enabled:          true
+
+commands:
+  - name:         kick
+    global:       true
+    enabled:      true
+    requirements:
+      - "kick_members"
+    usage:        "{pfx}{cmd} @person Couldn't handle the spice."
+    description:
+      Kicks a user from the server.
+      The user can only be targeted by a mention tag.
+      This is to preserve compatibility with logging and audits.
+
+  - name:         ban
+    global:       true
+    enabled:      true
+    requirements:
+      - "ban_members"
+    usage:        "{pfx}{cmd} @person Way, WAY too spicy for us..."
+    description:
+      Bans a user from the server.
+      This will also remove all messages from that user in the last 24h.
+      The user can only be targeted by a mention tag.
+      This is to preserve compatibility with logging and audits.
+
+  - name:         softban
+    alts:
+      - "sb"
+    global:       true
+    enabled:      true
+    requirements:
+      - "ban_members"
+    usage:        "{pfx}{cmd} @person Some spice needed de-spicing."
+    description:
+      Soft-Ban a user from the server.
+      This bans the user and immediatelly unbans them.
+      Useful if you want to purge all messages from that user in the last 24h.
+      The user can only be targeted by a mention tag.
+      This is to preserve compatibility with logging and audits.
+
+  - name:         unban
+    global:       true
+    enabled:      true
+    requirements:
+      - "ban_members"
+    usage:        "{pfx}{cmd} Chicken Shluggets"
+    description:
+      Unbans a banned user by inputted username.

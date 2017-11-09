@@ -1,0 +1,52 @@
+name:            Development
+
+category:        administration
+
+enabled:         true
+
+commands:
+  - name:        evaluate
+    alts:
+      - "evaluate"
+      - "eval"
+      - "py"
+      - "python"
+      - "code"
+      - "exec"
+    enabled:     true
+    permissions:
+      rating:    0
+      owner:     true
+      dmable:    true
+    usage:       "{pfx}{cmd} print('hello world')"
+    description:
+      Executes raw python code.
+      This should be used with caution.
+
+  - name:        sysexec
+    alts:
+      - "sh"
+    enabled:     true
+    permissions:
+      rating:    0
+      owner:     true
+      dmable:    true
+    usage:       "{pfx}{cmd} echo 'Hello'"
+    description:
+      Executes a shell command. Extreme warning!
+
+  - name:        test
+    enabled:     true
+    permissions:
+      rating:    0
+      owner:     true
+      dmable:    false
+    usage:       "{pfx}{cmd}"
+    description:
+      For testing purposes, obviously.
+      Used as a placeholder for testing functions.
+
+events:
+  - name:        version_updater
+    type:        ready
+    enabled:     true

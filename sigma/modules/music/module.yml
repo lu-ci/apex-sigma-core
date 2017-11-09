@@ -1,0 +1,106 @@
+name:            Music
+
+category:        music
+
+enabled:         true
+
+commands:
+  - name:        queue
+    alts:
+      - "add"
+    enabled:     true
+    usage:       "{pfx}{cmd} Kaskade Disarm You Illenium Remix"
+    description:
+      Queues up a song to play from YouTube.
+      Either from a direct URL or text search.
+      Playlists are supported but take a long time to process.
+
+  - name:        play
+    alts:
+      - "start"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Starts playing the music queue.
+
+  - name:        pause
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Pauses the music player.
+
+  - name:        resume
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Resumes the music player.
+
+  - name:        disconnect
+    alts:
+      - "stop"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Stops the music, disconnects the bot from the current voice channel,
+      and purges the music queue.
+
+  - name:        musicoverride
+    alts:
+      - "overridemusic"
+      - "musickill"
+      - "killmusic"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Overrides the current music player in instances where sigma is stuck in a channel.
+      This will not purge the queue, just disconnect the bot.
+
+  - name:        summon
+    alts:
+      - "move"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      If the bot isn't connected to any channel, it'll connect to yours.
+      If it is connected, it will move to you.
+
+  - name:        repeat
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Toggles if the current queue should be repeated.
+      Whenever a song is played, it's re-added to the end of the queue.
+
+  - name:        unqueue
+    alts:
+      - "remove"
+    enabled:     true
+    usage:       "{pfx}{cmd} 5"
+    description:
+      Removes a song from the queue.
+      Minimum number is 1 and the maximum is however many items the queue has.
+      Even though list indexes start at zero.
+
+  - name:        skip
+    alts:
+      - "next"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Skips the currently playing song.
+
+  - name:        nowplaying
+    alts:
+      - "currentsong"
+      - "playing"
+      - "np"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Shows information regarding the currently playing song.
+
+  - name:        shuffle
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Randomizes the current song queue.

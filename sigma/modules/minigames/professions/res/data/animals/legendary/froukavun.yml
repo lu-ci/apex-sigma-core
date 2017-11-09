@@ -1,0 +1,9 @@
+description:
+  Froukavun are an Orc-like race of elementals that dwell on the border between the plane of Water and the plane of Ice.
+  Their bodies are composed of ice and flesh, their skin is a dull gray, dusted with frost.
+  Parts of their bodies are pure ice, which grows as they age, the older the Froukavun is, the more ice covers its body.
+  Because of their icy body, they are inherently slower as they age. However, if their bodies are relieved of ice, they gain more freedom of movement.
+name: Froukavun
+rarity: 4
+type: Animal
+value: 100

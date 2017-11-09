@@ -1,0 +1,61 @@
+name:             Blacklist Control
+
+category:         administration
+
+enabled:          true
+
+commands:
+  - name:         blacklistuser
+    alts:
+      - "blackusr"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Marks a user as blacklisted, disallowing them to use any command.
+
+  - name:         blacklistserver
+    alts:
+      - "blacklistguild"
+      - "blacksrv"
+      - "blackguild"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Marks a server as blacklisted.
+      This disallows any user on that server from using commands.
+
+  - name:         blacklistmodule
+    alts:
+      - "blackmodule"
+      - "blackmdl"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789 minigames"
+    description:
+      Disallows a person from using a specific module category.
+
+  - name:         wipeawards
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Removes a user's currency, experience and cookie data.
+      Used when wanting to remove a blacklisted user's ill gotten gains.

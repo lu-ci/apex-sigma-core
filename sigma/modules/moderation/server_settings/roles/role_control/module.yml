@@ -1,0 +1,34 @@
+name:             Role Controls
+
+category:         roles
+
+enabled:          true
+
+commands:
+  - name:         giverole
+    alts:
+      - "giverank"
+      - "grole"
+      - "grank"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person Grandma"
+    requirements:
+      - "manage_roles"
+    description:
+      Gives the inputed role to the tagged user.
+      The role must be below Sigma in Discord hierarchy.
+
+  - name:         removerole
+    alts:
+      - "removerank"
+      - "rrole"
+      - "rrank"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @person Wangly"
+    requirements:
+      - "manage_roles"
+    description:
+      Removes the inputed role from the tagged user.
+      The role must be below Sigma in Discord hierarchy.

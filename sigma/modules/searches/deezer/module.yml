@@ -1,0 +1,17 @@
+name:             Deezer Commands
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         deezer
+    alts:
+      - "music"
+      - "findsong"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Highway to Hell"
+    description:
+      Searches Deezer for infomation on the given song.
+      The output will include a song preview link.
