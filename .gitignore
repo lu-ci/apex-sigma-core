@@ -107,6 +107,7 @@ ENV/
 !/config/.gitkeep
 !/config/core/.gitkeep
 !/config/plugins/.gitkeep
+/doctest/*
 
 # Cached Directory
 /cache
