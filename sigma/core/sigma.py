@@ -1,3 +1,10 @@
+"""
+Sigma Core:
+    Apex Sigma's central core.
+    Loads and initializes all core submodules.
+    Handles all Discord events and command calls.
+"""
+
 import errno
 import os
 import shutil
@@ -76,15 +83,18 @@ class ApexSigma(client_class):
 
     @staticmethod
     def create_cache():
+        """Cleans and creates the cache folder."""
         if os.path.exists('cache'):
             shutil.rmtree('cache')
         os.makedirs('cache')
 
     def init_logger(self):
+        """Initializes the Logger."""
         self.log = create_logger('Sigma')
         self.log.info('Logger Created')
 
     def init_config(self):
+        """Loads and initializes the configuration."""
         self.log.info('Loading Configuration...')
         self.cfg = init_cfg
         self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
@@ -92,6 +102,7 @@ class ApexSigma(client_class):
         self.log.info('Core Configuration Data Loaded')
 
     def init_database(self):
+        """Establishes a database connection."""
         self.log.info('Connecting to Database...')
         self.db = Database(self, self.cfg.db)
         try:
@@ -105,21 +116,25 @@ class ApexSigma(client_class):
         self.log.info('Successfully Connected to Database')
 
     def init_cool_down(self):
+        """Adds the Cooldown Control class."""
         self.log.info('Loading Cool-down Controls...')
         self.cool_down = CooldownControl(self)
         self.log.info('Cool-down Controls Successfully Enabled')
 
     def init_music(self):
+        """Loads and adds the Music core controls."""
         self.log.info('Loading Music Controller...')
         self.music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
 
     def init_modules(self, init=False):
+        """Loads all modules, events, commands."""
         if init:
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)
 
     def get_prefix(self, message):
+        """Retrieves the prefix based on settings."""
         prefix = self.cfg.pref.prefix
         if message.guild:
             pfx_search = self.db.get_guild_settings(message.guild.id, 'Prefix')
@@ -128,6 +143,7 @@ class ApexSigma(client_class):
         return prefix
 
     def run(self):
+        """Starts the Discord connection process."""
         try:
             self.log.info('Connecting to Discord Gateway...')
             super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
@@ -136,6 +152,7 @@ class ApexSigma(client_class):
             exit(errno.EPERM)
 
     async def event_runner(self, event_name, *args):
+        """Generic handler for all event calls."""
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 # self.loop.create_task(event.execute(*args))
@@ -143,17 +160,20 @@ class ApexSigma(client_class):
                 await self.queue.queue.put(task)
 
     async def on_connect(self):
+        """Emits an event when the client connets."""
         event_name = 'connect'
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute())
 
     async def on_shard_ready(self, shard_id):
+        """Emits an event when a shard is ready."""
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
         event_name = 'shard_ready'
         self.loop.create_task(self.event_runner(event_name, shard_id))
 
     async def on_ready(self):
+        """Emits an event when the entire client is ready."""
         self.ready = True
         self.log.info('---------------------------------')
         self.log.info('Apex Sigma Fully Loaded and Ready')
@@ -173,6 +193,7 @@ class ApexSigma(client_class):
             exit()
 
     def get_cmd_and_args(self, message, args, mention=False):
+        """Gets the command and arguemnts from the message."""
         args = list(filter(lambda a: a != '', args))
         if mention:
             if args:
@@ -184,12 +205,19 @@ class ApexSigma(client_class):
         return cmd, args
 
     def clean_self_mentions(self, message):
+        """Removes self mentions in commands that don't use a prefix."""
         for mention in message.mentions:
             if mention.id == self.user.id:
                 message.mentions.remove(mention)
                 break
 
     async def on_message(self, message):
+        """
+        Emits a message event when any message is sent.
+        Sends the message content through get_cmd_and_args()
+        and returns the results if the message contains a command.
+        If it does, the appropriate command will be called.
+        """
         self.message_count += 1
         if not message.author.bot:
             event_name = 'message'
@@ -221,38 +249,46 @@ class ApexSigma(client_class):
                     await self.queue.queue.put(task)
 
     async def on_message_edit(self, before, after):
+        """Emits an event when a message is edited."""
         if not before.author.bot:
             event_name = 'message_edit'
             self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_message_delete(self, message):
+        """Emits an event when a message is deleted."""
         if not message.author.bot:
             event_name = 'message_delete'
             self.loop.create_task(self.event_runner(event_name, message))
 
     async def on_member_join(self, member):
+        """Emits an event when a member joins a guild."""
         if not member.bot:
             event_name = 'member_join'
             self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_remove(self, member):
+        """Emits an event when a member leaves a guild."""
         if not member.bot:
             event_name = 'member_remove'
             self.loop.create_task(self.event_runner(event_name, member))
 
     async def on_member_update(self, before, after):
+        """Emits an event when a member updates their profile."""
         if not before.bot:
             event_name = 'member_update'
             self.loop.create_task(self.event_runner(event_name, before, after))
 
     async def on_guild_join(self, guild):
+        """Emits an event when the client joins a guild."""
         event_name = 'guild_join'
         self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_guild_remove(self, guild):
+        """Emits an event when the client leaves a guild."""
         event_name = 'guild_remove'
         self.loop.create_task(self.event_runner(event_name, guild))
 
     async def on_voice_state_update(self, member, before, after):
+        """Emits an event when a member changes their voice state."""
         event_name = 'voice_state_update'
         self.loop.create_task(self.event_runner(event_name, member, before, after))
