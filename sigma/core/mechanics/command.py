@@ -60,7 +60,7 @@ class SigmaCommand(SigmaModuleComponent):
 
     @property
     def alts(self):
-        return config.get('alts', [])
+        return self.config.get('alts', [])
 
     @property
     def requirements(self):
@@ -91,11 +91,10 @@ class SigmaCommand(SigmaModuleComponent):
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
-        log_text = f'ACCESS DENIED | '
-        log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
-        log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
-        log_text += f'VIP: {perms.partner_denied}'
-        self.log.warning(log_text)
+        self.log.warning('ACCESS DENIED | '
+                         f'{perms.permission_string} | '
+                         f'USR: {perms.user.name} [{perms.user.id}] | '
+                         f'SRV: {perms.server.name} [{perms.server.id}]')
 
     def add_usage_exp(self, message):
         if message.guild:
