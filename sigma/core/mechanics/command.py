@@ -13,16 +13,17 @@ from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
+    """
+    Sigma Command:
+    Module dedicated to the functions within a command class.
+    Everything regarding a command's execution after detection is here.
+    :param bot:
+    :param command:
+    :param plugin_info:
+    :param command_info:
+    """
+
     def __init__(self, bot, command, plugin_info, command_info):
-        """
-        Sigma Command:
-            Module dedicated to the functions within a command class.
-            Everything regarding a command's execution after detection is here.
-        :param bot:
-        :param command:
-        :param plugin_info:
-        :param command_info:
-        """
         self.bot = bot
         self.db = self.bot.db
         self.command = command

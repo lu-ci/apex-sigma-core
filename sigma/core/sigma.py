@@ -43,21 +43,20 @@ else:
 
 
 class ApexSigma(client_class):
+    """
+    Apex Sigma's central core.
+    Loads and initializes all core submodules.
+    Handles all Discord events and command calls.
+    Class container of Apex Sigma initialized with
+    a discord.py client class.
+    If the client is set to be an official bot client
+    the class is set to discord.AutoShardedClient(),
+    otherwise, if the bot is set to run on a user account,
+    as a self-bot, it uses the discord.Client() class.
+    Resposible for handling events with re-based asyncronous
+    `on_<event>` event calls.
+    """
     def __init__(self):
-        """
-        Sigma Core:
-            Apex Sigma's central core.
-            Loads and initializes all core submodules.
-            Handles all Discord events and command calls.
-            Class container of Apex Sigma initialized with
-            a discord.py client class.
-            If the client is set to be an official bot client
-            the class is set to discord.AutoShardedClient(),
-            otherwise, if the bot is set to run on a user account,
-            as a self-bot, it uses the discord.Client() class.
-            Resposible for handling events with re-based asyncronous
-            `on_<event>` event calls.
-        """
         super().__init__()
         self.ready = False
         # State attributes before initialization.
