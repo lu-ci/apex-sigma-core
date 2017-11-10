@@ -1,13 +1,14 @@
 class CommandRequirements(object):
+    """
+    Command Requirements:
+    Ran on each message with a command.
+    Makes the requirement class for a command.
+    Used for checking if the bot has the needed permissions.
+    :param cmd:
+    :param message:
+    """
+
     def __init__(self, cmd, message):
-        """
-        Command Requirements:
-            Ran on each message with a command.
-            Makes the requirement class for a command.
-            Used for checking if the bot has the needed permissions.
-        :param cmd:
-        :param message:
-        """
         self.cmd = cmd
         self.msg = message
         self.reqs = cmd.requirements

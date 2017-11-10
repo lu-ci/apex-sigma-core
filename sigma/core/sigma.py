@@ -56,6 +56,7 @@ class ApexSigma(client_class):
     Resposible for handling events with re-based asyncronous
     `on_<event>` event calls.
     """
+
     def __init__(self):
         super().__init__()
         self.ready = False
