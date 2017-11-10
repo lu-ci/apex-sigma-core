@@ -15,9 +15,14 @@ async def summon(cmd, message, args):
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ We are in the same channel.')
                 else:
-                    await message.author.voice.channel.connect()
-                    title = f'🚩 Connected to {message.author.voice.channel.name}.'
-                    response = discord.Embed(color=0xdd2e44, title=title)
+                    try:
+                        await message.author.voice.channel.connect()
+                        title = f'🚩 Connected to {message.author.voice.channel.name}.'
+                        response = discord.Embed(color=0xdd2e44, title=title)
+                    except TimeoutError:
+                        if message.guild.voice_client:
+                            await message.guild.voice_client.disconnect()
+                        response = discord.Embed(color=0xBE1931, title='❗ I timed out while trying to connect.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ I am not allowed to speak in {vc.name}.')
         else:
