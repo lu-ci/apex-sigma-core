@@ -1,4 +1,4 @@
-Apex Sigma Core
+Core
 ===============
 
 .. automodule:: sigma.core.sigma

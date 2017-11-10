@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Apex Sigma: The Database Giant's documentation!
-==========================================================
+Apex Sigma: Documentation
+=========================
 
 .. toctree::
    :maxdepth: 2
@@ -14,7 +14,7 @@ Welcome to Apex Sigma: The Database Giant's documentation!
    mechanics
 
 
-Indices and tables
+Indices and Tables
 ==================
 
 * :ref:`genindex`

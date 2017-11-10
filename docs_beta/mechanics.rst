@@ -1,4 +1,4 @@
-Apex Sigma Mechanics
+Mechanics
 ====================
 
 Command
@@ -9,18 +9,18 @@ Command
     :undoc-members:
     :show-inheritance:
 
-Plugin Manager
-====================
-
-.. automodule:: sigma.core.mechanics.plugman
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Event
 ====================
 
 .. automodule:: sigma.core.mechanics.event
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Plugin Manager
+====================
+
+.. automodule:: sigma.core.mechanics.plugman
     :members:
     :undoc-members:
     :show-inheritance:
