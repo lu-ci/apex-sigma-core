@@ -1,10 +1,3 @@
-"""
-Sigma Core:
-    Apex Sigma's central core.
-    Loads and initializes all core submodules.
-    Handles all Discord events and command calls.
-"""
-
 import errno
 import os
 import shutil
@@ -51,6 +44,12 @@ else:
 
 class ApexSigma(client_class):
     def __init__(self):
+        """
+        Sigma Core:
+            Apex Sigma's central core.
+            Loads and initializes all core submodules.
+            Handles all Discord events and command calls.
+        """
         super().__init__()
         self.ready = False
         # State attributes before initialization.
