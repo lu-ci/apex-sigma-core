@@ -1,7 +1,7 @@
 import arrow
 
 
-async def add_cmd_stat(db, cmd, message, args, command_id):
+async def add_cmd_stat(db, cmd, message, args):
     if not message.author.bot:
         if message.guild:
             channel_id = message.channel.id
@@ -15,8 +15,7 @@ async def add_cmd_stat(db, cmd, message, args, command_id):
             'author': message.author.id,
             'channel': channel_id,
             'guild': guild_id,
-            'timestamp': arrow.utcnow().float_timestamp,
-            'id': command_id
+            'timestamp': arrow.utcnow().float_timestamp
         }
         db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
 

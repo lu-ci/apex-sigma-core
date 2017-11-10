@@ -108,11 +108,11 @@ class SigmaCommand(object):
             cmd_exception = Exception
         return cmd_exception
 
-    def log_command_usage(self, message, command_id):
+    def log_command_usage(self, message, args):
         """
         Logs the command usage to the logger.
         :param message:
-        :param command_id:
+        :param args:
         :return:
         """
         if message.guild:
@@ -121,7 +121,7 @@ class SigmaCommand(object):
         else:
             cmd_location = 'DIRECT MESSAGE'
         author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-        log_text = f'USR: {author_full} | {cmd_location} | ID: {command_id}'
+        log_text = f'USR: {author_full} | {cmd_location} | ARGS: {" ".join(args)}'
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
@@ -238,15 +238,14 @@ class SigmaCommand(object):
                 self.bot.cool_down.cmd.set_cooldown(cd_identifier)
                 perms = GlobalCommandPermissions(self, message)
                 guild_allowed = ServerCommandPermissions(self, message)
-                command_id = secrets.token_hex(4)
-                self.log_command_usage(message, command_id)
+                self.log_command_usage(message, args)
                 if perms.permitted:
                     if guild_allowed.permitted:
                         requirements = CommandRequirements(self, message)
                         if requirements.reqs_met:
                             try:
                                 await getattr(self.command, self.name)(self, message, args)
-                                await add_cmd_stat(self.db, self, message, args, command_id)
+                                await add_cmd_stat(self.db, self, message, args)
                                 self.add_usage_exp(message)
                                 self.bot.command_count += 1
                             except self.get_exception() as e:
