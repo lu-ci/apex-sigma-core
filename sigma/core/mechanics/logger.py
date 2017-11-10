@@ -5,26 +5,28 @@ Sigma Logger:
   Otherwise logs will be written to stdout.
 """
 
+import logging
 import os
 import sys
-
-import logging
 from logging.handlers import TimedRotatingFileHandler
 
 systemd_journal_available = False
 
 try:
     from systemd import journal
+
     systemd_journal_available = True
 except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
+
 def create_logger(name):
-    "Add a new logger"
+    """Add a new logger"""
     return Logger.create(name)
 
+
 def with_logger(name=None, level=None):
-    "Decorator to make a logger available in the decorated class."
+    """Decorator to make a logger available in the decorated class."""
 
     def decorator(cls):
         cls.log = Logger.create(name or cls.__name__, level=level)
@@ -32,8 +34,9 @@ def with_logger(name=None, level=None):
 
     return decorator
 
+
 class Logger(object):
-    "The logger core"
+    """The logger core"""
 
     loggers = {}
 
@@ -47,7 +50,7 @@ class Logger(object):
 
     @classmethod
     def get(cls, name, *, level=None):
-        "Get a logger with :name: or create a new one."
+        """Get a logger with :name: or create a new one."""
 
         if name in cls.loggers.keys():
             return cls.loggers.get(name)
@@ -65,17 +68,17 @@ class Logger(object):
         return self._logger.error(message)
 
     def warn(self, message):
-        return self._logger.warn(message)
+        return self.warning(message)
 
     def warning(self, message):
-        return self._logger.warn(message)
+        return self._logger.warning(message)
 
     def exception(self, message):
         return self._logger.exception(message)
 
     @classmethod
     def create(cls, name, *, level=None):
-        "Create a logger with :name: if it has not been created before."
+        """Create a logger with :name: if it has not been created before."""
 
         logger = cls.get(name, level=level)
         if logger.created:
@@ -91,7 +94,7 @@ class Logger(object):
         return logger
 
     def add_handler(self, handler, fmt=None, date_fmt=None):
-        "Add a new log handler with format handlers."
+        """Add a new log handler with format handlers."""
 
         fmt = fmt or self.default_fmt
         date_fmt = date_fmt or self.default_date_fmt
@@ -100,15 +103,14 @@ class Logger(object):
 
     @staticmethod
     def add_journal_handler(logger):
-        "Add a log handler that logs to the Systemd journal."
-
+        """Add a log handler that logs to the Systemd journal."""
         handler = journal.JournaldLogHandler(identifier='sigma')
         log_fmt = '[%(name)-10s]: %(message)s'
         logger.add_handler(handler, log_fmt)
 
     @staticmethod
     def add_stdout_handler(logger):
-        "Add a log hander that logs to the standard output."
+        """Add a log hander that logs to the standard output."""
         handler = logging.StreamHandler()
         logger.add_handler(handler)
 
