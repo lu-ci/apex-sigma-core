@@ -86,7 +86,9 @@ class SigmaCommand(object):
         else:
             cmd_location = 'DIRECT MESSAGE'
         author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-        log_text = f'USR: {author_full} | {cmd_location} | ARGS: {" ".join(args)}'
+        log_text = f'USR: {author_full} | {cmd_location}'
+        if args:
+            log_text += f' | ARGS: {" ".join(args)}'
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
