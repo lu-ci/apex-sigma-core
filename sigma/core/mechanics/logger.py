@@ -50,7 +50,8 @@ class Logger(object):
         :param name:
         :param level:
         """
-        self.default_fmt = '%(levelname)-8s %(asctime)s %(name)-20s %(message)s'
+
+        self.default_fmt = '[ {levelname:^8s} | {asctime:s} | {name:<25.25s} ] {message:s}'
         self.default_date_fmt = '%Y.%m.%d %H:%M:%S'
         self.name = name
         self._logger = logging.getLogger(self.name)
@@ -107,14 +108,14 @@ class Logger(object):
 
         fmt = fmt or self.default_fmt
         date_fmt = date_fmt or self.default_date_fmt
-        handler.setFormatter(logging.Formatter(fmt, date_fmt))
+        handler.setFormatter(logging.Formatter(fmt=fmt, datefmt=date_fmt, style='{'))
         self._logger.addHandler(handler)
 
     @staticmethod
     def add_journal_handler(logger):
         """Add a log handler that logs to the Systemd journal."""
         handler = journal.JournaldLogHandler(identifier='sigma')
-        log_fmt = '[%(name)-10s]: %(message)s'
+        log_fmt = '[ {levelname:.1s} | {name:<25.25s} ]: {message:s}'
         logger.add_handler(handler, log_fmt)
 
     @staticmethod
