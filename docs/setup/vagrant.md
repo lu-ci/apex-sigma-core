@@ -4,12 +4,16 @@
 
 ## Requirements
 
-* UTF-8 Text Editor: [Notepad++](https://notepad-plus-plus.org/download/) or [Atom](https://atom.io/) (*Recommended*)
+* UTF-8 Text Editor:
+  * [Atom](https://atom.io/)
+  * [VS Code](https://code.visualstudio.com/Download)
+  * [Notepad++](https://notepad-plus-plus.org/download/)
 * Oracle VM VirtualBox: [Download](https://www.virtualbox.org/wiki/Downloads)
 * HashiCorp Vagrant: [Download](https://www.vagrantup.com/downloads.html)
 * GIT Client: [Download](https://git-scm.com/)
 
 > Please install **all** the above packages before continuing.
+> Except of course the editor, just choose one of those.
 
 ## Cloning The Repository
 

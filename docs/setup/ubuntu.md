@@ -65,7 +65,7 @@ To start off you need to navigate to your home directory and pull the repository
 
 ```sh
 cd ~
-git clone https://github.com/aurora-pro/apex-sigma-core.git
+git clone https://github.com/lu-ci/apex-sigma-core.git
 cd apex-sigma-core
 ```
 
