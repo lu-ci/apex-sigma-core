@@ -1,69 +1,107 @@
 import errno
 import os
-
 import yaml
 
 from .logger import create_logger
 
+class Config(object):
+    log = create_logger("Config")
 
-class DiscordConfig(object):
-    def __init__(self, client_cfg_data):
-        self.raw = client_cfg_data
-        self.token = client_cfg_data.get('token')
-        self.owners = client_cfg_data.get('owners')
-        self.bot = client_cfg_data.get('bot')
+    def __init__(self, config, *, defaults={}):
+        self.config = defaults
+        self.config.update(config)
 
+        for key, value in self.config.items():
+            self.__setattr__(key, value)
 
-class DatabaseConfig(object):
-    def __init__(self, db_cfg_data):
-        self.raw = db_cfg_data
-        self.database = db_cfg_data.get('database')
-        self.auth = db_cfg_data.get('auth')
-        self.host = db_cfg_data.get('host')
-        self.port = db_cfg_data.get('port')
-        self.username = db_cfg_data.get('username')
-        self.password = db_cfg_data.get('password')
-
-
-class PreferencesConfig(object):
-    def __init__(self, pref_cfg_data):
-        self.raw = pref_cfg_data
-        self.dev_mode = pref_cfg_data.get('dev_mode')
-        self.status_rotation = pref_cfg_data.get('status_rotation')
-        self.prefix = pref_cfg_data.get('prefix')
-        self.currency = pref_cfg_data.get('currency')
-        self.currency_icon = pref_cfg_data.get('currency_icon')
-        self.website = pref_cfg_data.get('website')
-        self.text_only = pref_cfg_data.get('text_only')
-        self.music_only = pref_cfg_data.get('music_only')
-        self.dscbots_token = pref_cfg_data.get('dscbots_token')
-        self.movelog_channel = pref_cfg_data.get('movelog_channel')
-
-
-class Configuration(object):
-    def __init__(self):
-        self.log = create_logger('Config')
-        cli_cfg_path = 'config/core/discord.yml'
-        db_cfg_path = 'config/core/database.yml'
-        pref_cfg_config = 'config/core/preferences.yml'
-        if os.path.exists(cli_cfg_path):
-            with open(cli_cfg_path, encoding='utf-8') as discord_config:
-                self.client_cfg_data = yaml.safe_load(discord_config)
-        else:
-            self.log.error('Missing Discord Configuration File!')
+    @classmethod
+    def from_file(cls, filename, *, defaults={}, required=True):
+        if os.path.exists(filename):
+            with open(filename, encoding='utf-8') as config_file:
+                config = yaml.safe_load(config_file)
+                return cls(config, defaults=defaults)
+        elif required:
+            cls.log.error('Missing Discord Configuration File!')
             exit(errno.ENOENT)
-        if os.path.exists(db_cfg_path):
-            with open(db_cfg_path, encoding='utf-8') as discord_config:
-                self.db_cfg_data = yaml.safe_load(discord_config)
         else:
-            self.log.error('Missing Database Configuration File!')
-            exit(errno.ENOENT)
-        if os.path.exists(pref_cfg_config):
-            with open(pref_cfg_config, encoding='utf-8') as discord_config:
-                self.pref_cfg_data = yaml.safe_load(discord_config)
-        else:
-            self.log.error('Missing Preferences Configuration File!')
-            exit(errno.ENOENT)
-        self.dsc = DiscordConfig(self.client_cfg_data)
-        self.db = DatabaseConfig(self.db_cfg_data)
-        self.pref = PreferencesConfig(self.pref_cfg_data)
+            return cls(defaults)
+
+class Version(Config):
+    def __init__(self, config):
+        super().__init__(config, defaults={
+            "major": config.get("version", {}).get("major", 0),
+            "minor": config.get("version", {}).get("minor", 0),
+            "patch": config.get("version", {}).get("patch", 0)
+        })
+
+    def __str__(self):
+        ver = f"{self.major}.{self.minor}.{self.patch}"
+        ver += " Beta" if self.beta else ""
+        return ver
+
+# General config
+def load_discord_config():
+    return Config.from_file('config/core/discord.yml', defaults={
+        "token": None,
+        "owners": [],
+        "bot": True
+    })
+
+def load_database_config():
+    return Config.from_file('config/core/database.yml', required=False, defaults={
+        "database": "aurora",
+        "auth": False,
+        "host": "localhost",
+        "port": 27017,
+        "username": 'admin',
+        "password": 'admin'
+    })
+
+def load_preferences():
+    return Config.from_file('config/core/preferences.yml', defaults={
+        "dev_mode": False,
+        "status_rotation": True,
+        "text_only": False,
+        "music_only": False,
+        "prefix": ">>",
+        "currency": "Kud",
+        "currency_icon": "⚜",
+        "website": "https://lucia.moe/#/sigma",
+        "dscbots_token": None,
+        "movelog_channel": None,
+        "key_to_my_heart": "redacted"
+    })
+
+def configuration():
+    log = create_logger("Configuration")
+    log.info('Loading Configuration...')
+    config = Config({
+        "dsc": load_discord_config(),
+        "db": load_database_config(),
+        "pref": load_preferences()
+    })
+    log.info('Core Configuration Data Loaded')
+    return config
+
+# Info
+def information():
+    return Config({
+        "version": version(),
+        "authors": authors(),
+        "donors": donors()
+    })
+
+def authors():
+    with open('info/authors.yml', encoding='utf-8') as authors_file:
+        authors_data = yaml.safe_load(authors_file)
+        return [Config(author) for author in authors_data]
+
+def donors():
+    with open('info/donors.yml', encoding='utf-8') as donors_file:
+        donors_data = yaml.safe_load(donors_file)
+        return [Config(donor) for donor in donors_data.get("donors", [])]
+
+def version():
+    with open('info/version.yml', encoding='utf-8') as version_file:
+        version_data = yaml.safe_load(version_file)
+        return Version(version_data)
