@@ -161,7 +161,6 @@ Commands | Description | Example
 `>>encrypt` | Encrypts the message of your choice using the Sigma Heart Key. The message can be decrypted using the decrypt command. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>encrypt I will always be here to talk to you for as long as you want.`
 `>>impersonate` `>>mimic` | Tries to impersonate the mentioned user if a chain file for them exists. This command is on a 20 second cooldown due to it's weight. | `>>impersonate @person`
 `>>makehash` `>>hash` | Creates a hash using the inputed has type. These are all the hash types you can use. sha512, sha3_224, sha3_512, MD4, dsaWithSHA, ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1, sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA, SHA384, blake2b, dsaEncryption, SHA256, sha384, sha, DSA, shake_128, sha224, SHA1, shake_256, sha256, MD5, blake2s, md5, sha3_256, whirlpool | `>>makehash md5 Nabzie is best tree.`
-`>>timeconvert` `>>tconv` | Converts the given time in the given time zone to the inputted time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` | It wipes your entire Markov chain, if you have one. | `>>wipechain`
 `>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operations. | `>>wolframalpha 69+42`
 [Back To Top](#module-index)
