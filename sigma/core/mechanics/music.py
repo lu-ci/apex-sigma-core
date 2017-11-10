@@ -8,6 +8,8 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import youtube_dl
 
+from sigma.core.mechanics.logger import create_logger
+
 ytdl_params = {
     'format': 'bestaudio/best',
     'extractaudio': True,
@@ -74,6 +76,8 @@ class QueueItem(object):
 
 class MusicCore(object):
     def __init__(self, bot):
+        self.log = create_logger("Music Core")
+        self.log.info('Loading Music Controller...')
         self.bot = bot
         self.db = bot.db
         self.loop = asyncio.get_event_loop()
@@ -83,6 +87,7 @@ class MusicCore(object):
         self.repeaters = []
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+        self.log.info('Music Controller Initialized and Ready')
 
     async def extract_info(self, url):
         task = functools.partial(self.ytdl.extract_info, url, False)

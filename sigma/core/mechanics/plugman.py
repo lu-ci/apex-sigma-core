@@ -16,13 +16,21 @@ from sigma.core.mechanics.logger import create_logger
 class PluginManager(object):
     def __init__(self, bot, init):
         self.log = create_logger("Plugin Manager")
+        if init:
+            self.log.info('Loading Sigma Modules')
         self.bot = bot
         self.prefix = bot.cfg.pref.prefix
         self.path = None
         self.init = init
         self.modules = {}
-        self.load_all_modules()
         self._alts = {}
+
+        self.load_all_modules()
+
+        if self.init:
+            self.log.info(f'Loaded {len(self.commands)} Commands and '
+                          f'{len(self.events)} Events')
+            self.log.info('---------------------------------')
 
     @property
     def events(self):

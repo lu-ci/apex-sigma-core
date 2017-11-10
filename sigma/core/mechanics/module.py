@@ -11,8 +11,6 @@ class SigmaModule(SigmaModuleComponent):
         self.events = {}
         self._alts = {}
 
-        self.log.info(f'Initialized module with path {self.path}')
-
         if self.manager.init:
             self.log.info(f'Loading the {self.name} Module')
 
@@ -42,15 +40,11 @@ class SigmaModule(SigmaModuleComponent):
         return (cmd_name, cmd)
 
     def load_commands(self, commands_config):
-        if self.manager.init:
+        if self.manager.init and commands_config:
             self.log.info('Loading Commands')
 
         for command_config in commands_config:
             self.load_command(command_config)
-
-        if self.manager.init:
-            self.log.info(f'Loaded {len(self.commands)} Commands')
-            self.log.info('---------------------------------')
 
     def load_event(self, event_config):
         "Load a :single: event and add it to the events list"
@@ -66,7 +60,7 @@ class SigmaModule(SigmaModuleComponent):
         "Load :all: events."
 
         if self.bot.cfg.dsc.bot and not self.bot.cfg.pref.music_only:
-            if self.manager.init:
+            if self.manager.init and events_config:
                 self.log.info('Loading Events')
 
             for event_config in events_config:
