@@ -13,16 +13,6 @@ from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
-    """
-    Sigma Command:
-    Module dedicated to the functions within a command class.
-    Everything regarding a command's execution after detection is here.
-    :param bot:
-    :param command:
-    :param plugin_info:
-    :param command_info:
-    """
-
     def __init__(self, bot, command, plugin_info, command_info):
         self.bot = bot
         self.db = self.bot.db
@@ -47,12 +37,6 @@ class SigmaCommand(object):
         self.load_command_config()
 
     def insert_command_info(self):
-        """
-        When the command information is passed to the command class,
-        the command's data is appended to it's class.
-        Method is in need of fixes for efficienty and cleaner code.
-        :return:
-        """
         if 'alts' in self.command_info:
             self.alts = self.command_info['alts']
         if 'usage' in self.command_info:
@@ -77,31 +61,18 @@ class SigmaCommand(object):
             self.desc += '\n(Bot Owner Only)'
 
     def load_command_config(self):
-        """
-        Loads the command's specific config from config/plugins.
-        :return:
-        """
         config_path = f'config/plugins/{self.name}.yml'
         if os.path.exists(config_path):
             with open(config_path) as config_file:
                 self.cfg = yaml.safe_load(config_file)
 
     def resource(self, res_path):
-        """
-        A reference used for returning a path to a nested resource.
-        :param res_path:
-        :return:
-        """
         module_path = self.path
         res_path = f'{module_path}/res/{res_path}'
         res_path = res_path.replace('\\', '/')
         return res_path
 
     def get_exception(self):
-        """
-        Gets the exception to permit based on the dev mode settings.
-        :return:
-        """
         if self.bot.cfg.pref.dev_mode:
             cmd_exception = SyntaxError
         else:
@@ -109,12 +80,6 @@ class SigmaCommand(object):
         return cmd_exception
 
     def log_command_usage(self, message, args):
-        """
-        Logs the command usage to the logger.
-        :param message:
-        :param args:
-        :return:
-        """
         if message.guild:
             cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
             cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
@@ -125,11 +90,6 @@ class SigmaCommand(object):
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
-        """
-        Logs a command execution fail due to permissions.
-        :param perms:
-        :return:
-        """
         log_text = f'ACCESS DENIED | '
         log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
         log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
@@ -137,11 +97,6 @@ class SigmaCommand(object):
         self.log.warning(log_text)
 
     def add_usage_exp(self, message):
-        """
-        Adds experience to the user for the command being used.
-        :param message:
-        :return:
-        """
         if message.guild:
             if not self.bot.cool_down.on_cooldown('UsageExperience', message.author):
                 exp_points = 1 + secrets.randbelow(9)
@@ -150,30 +105,12 @@ class SigmaCommand(object):
 
     @staticmethod
     async def respond_with_icon(message, icon):
-        """
-        Responds to the message with a given icon.
-        Usually used for permission denial errors.
-        :param message:
-        :param icon:
-        :return:
-        """
         try:
             await message.add_reaction(icon)
         except discord.DiscordException:
             pass
 
     def log_error(self, message, args, exception, error_token):
-        """
-        Logs when an error occurs.
-        The log is placed into both the log handlers and the database.
-        A token is generated for each error to help with lookups.
-        And to preserve possibly sensitive data.
-        :param message:
-        :param args:
-        :param exception:
-        :param error_token:
-        :return:
-        """
         if message.guild:
             gnam = message.guild.name
             gid = message.guild.id
@@ -214,12 +151,6 @@ class SigmaCommand(object):
         self.log.error(log_text)
 
     async def execute(self, message, args):
-        """
-        Starts the command execution process.
-        :param message:
-        :param args:
-        :return:
-        """
         if self.bot.ready:
             if message.guild:
                 delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')

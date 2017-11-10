@@ -36,9 +36,9 @@ class Logger(object):
     def __init__(self, name, *, level=None):
         """
         Sigma Logger:
-            This log module will log to a file at "{project_root}/log" which will be rotated daily.
-            Logs will also be written to the Systemd Journal if it's available.
-            Otherwise logs will be written to stdout.
+        This log module will log to a file at "{project_root}/log" which will be rotated daily.
+        Logs will also be written to the Systemd Journal if it's available.
+        Otherwise logs will be written to stdout.
         :param name:
         :param level:
         """
