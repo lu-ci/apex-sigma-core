@@ -2,7 +2,6 @@
 import secrets
 import traceback
 
-import arrow
 import discord
 import yaml
 
@@ -80,27 +79,14 @@ class SigmaCommand(object):
             cmd_exception = Exception
         return cmd_exception
 
-    def get_command_interval(self, uid):
-        intervals = self.bot.cache.get('cmd_intervals')
-        if not intervals:
-            intervals = {}
-        last_user_stamp = intervals.get(uid)
-        if last_user_stamp:
-            now = arrow.utcnow().float_timestamp
-            last_user_stamp = round(now - last_user_stamp, 3)
-        intervals.update({uid: arrow.utcnow().float_timestamp})
-        self.bot.cache.update({'cmd_intervals': intervals})
-        return last_user_stamp
-
     def log_command_usage(self, message, command_id):
         if message.guild:
             cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
             cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
         else:
             cmd_location = 'DIRECT MESSAGE'
-        cmd_interval = self.get_command_interval(message.author.id)
         author_full = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-        log_text = f'USR: {author_full} | {cmd_location} | IVAL: {cmd_interval} | ID: {command_id}'
+        log_text = f'USR: {author_full} | {cmd_location} | ID: {command_id}'
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
