@@ -5,6 +5,7 @@ chatterbot
 cryptography
 https://github.com/Rapptz/discord.py/archive/rewrite.zip#egg=discord.py[voice]
 ftfy
+fuzzywuzzy[speedup]
 geopy
 humanfriendly
 lxml
@@ -17,7 +18,6 @@ pymongo
 pyyaml
 watchdog
 wikipedia
+wikitextparser
 wolframalpha
 youtube_dl
-fuzzywuzzy[speedup]
-wikitextparser
