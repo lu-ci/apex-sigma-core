@@ -1,8 +1,8 @@
 """
 Sigma Logger:
-  This log module will log to a file at "{project_root}/log" which will be rotated daily.
-  Logs will also be written to the Systemd Journal if it's available.
-  Otherwise logs will be written to stdout.
+    This log module will log to a file at "{project_root}/log" which will be rotated daily.
+    Logs will also be written to the Systemd Journal if it's available.
+    Otherwise logs will be written to stdout.
 """
 
 import logging
