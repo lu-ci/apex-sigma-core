@@ -99,7 +99,7 @@ commands:
     alts:
       - "tconv"
     global:       true
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} 18:57 UTC>PST"
     description:
       Converts the given time in the given time zone to the inputted time zone.
