@@ -2,12 +2,13 @@ import arrow
 
 
 class CommandCooldown(object):
+    """
+    A class used for a command-specific cooldown.
+    Meant to be used for rate limiting command spam.
+    A user is able to use a specific command only once per 1.35s.
+    """
+
     def __init__(self):
-        """
-        A class used for a command-specific cooldown.
-        Meant to be used for rate limiting command spam.
-        A user is able to use a specific command only once per 1.35s.
-        """
         self.cooldowns = {}
         self.interval = 1.35
 
@@ -51,13 +52,14 @@ class CommandCooldown(object):
 
 
 class CooldownControl(object):
+    """
+    The cooldown control core.
+    A collection of functions to read cooldown data from mongo.
+    Cooldowns are stored as MongoDB files so they persist.
+    :param bot:
+    """
+
     def __init__(self, bot):
-        """
-        The cooldown control core.
-        A collection of functions to read cooldown data from mongo.
-        Cooldowns are stored as MongoDB files so they persist.
-        :param bot:
-        """
         self.bot = bot
         self.cmd = CommandCooldown()
         self.db = self.bot.db
