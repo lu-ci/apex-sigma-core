@@ -83,7 +83,7 @@ class Logger(object):
 
         logger = cls.get(name, level=level)
         if logger.created:
-            return
+            return logger
 
         if systemd_journal_available:
             cls.add_journal_handler(logger)
