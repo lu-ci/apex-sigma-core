@@ -1,4 +1,4 @@
-﻿# About Sigma
+﻿# Apex Sigma: The Database Giant
 
 **Apex Sigma** was created to connect to as many API endpoints as possible to bring you large amounts of data you might possibly need. **Wikipedia** articles, **reddit** posts, funny cat videos from **YouTube**, tasty **recipes**, **dictionary** definition, both official and urban, **anime** data and loads more. Alongside a plethora of search capabilities, Sigma has intuitive **moderation** modules to help you organize, optimize, and control, your **Discord** server. To help your community liven up and grow while having fun, it also comes with numerous fun **utilities**, **minigames** and user **interactions** for your enjoyment.
 
