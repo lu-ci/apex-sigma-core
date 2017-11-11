@@ -4,6 +4,9 @@ import importlib
 
 from sigma.core.mechanics.logger import create_logger
 
+class Disabled(Exception):
+    pass
+
 class SigmaModuleComponent(object):
     def __init__(self, parent, config):
         self.config = config
@@ -20,7 +23,7 @@ class SigmaModuleComponent(object):
     @classmethod
     def from_config(cls, parent, config):
         if not config['enabled']:
-            return
+            raise Disabled
 
         component = cls(parent, config)
         return (component.name, component)

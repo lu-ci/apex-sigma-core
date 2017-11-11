@@ -12,6 +12,7 @@ import os
 
 from sigma.core.mechanics.module import SigmaModule
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.module_component import Disabled
 
 class PluginManager(object):
     def __init__(self, bot, init):
@@ -59,9 +60,12 @@ class PluginManager(object):
         return tmp
 
     def load_module(self, file):
-        mod_name, mod = SigmaModule.from_file(self, file)
-        self.modules[mod_name] = mod
-        return (mod_name, mod)
+        try:
+            mod_name, mod = SigmaModule.from_file(self, file)
+            self.modules[mod_name] = mod
+            return (mod_name, mod)
+        except Disabled:
+            pass
 
     def unload_module(self, name):
         pass

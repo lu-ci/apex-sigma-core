@@ -1,4 +1,5 @@
 from sigma.core.mechanics.module_component import SigmaModuleComponent
+from sigma.core.mechanics.module_component import Disabled
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.event import SigmaEvent
 
@@ -34,10 +35,12 @@ class SigmaModule(SigmaModuleComponent):
         elif self.bot.cfg.pref.text_only and self.category == 'music':
             return
 
-        cmd_name, cmd = SigmaCommand.from_config(self, command_config)
-        self.commands[cmd_name] = cmd
-
-        return (cmd_name, cmd)
+        try:
+            cmd_name, cmd = SigmaCommand.from_config(self, command_config)
+            self.commands[cmd_name] = cmd
+            return (cmd_name, cmd)
+        except Disabled:
+            pass
 
     def load_commands(self, commands_config):
         if self.manager.init and commands_config:
@@ -49,12 +52,14 @@ class SigmaModule(SigmaModuleComponent):
     def load_event(self, event_config):
         "Load a :single: event and add it to the events list"
 
-        event_name, event = SigmaEvent.from_config(self, event_config)
-        event_list = self.events.get(event.type, [])
-        event_list.append(event)
-        self.events[event.type] = event_list
-
-        return (event_name, event)
+        try:
+            event_name, event = SigmaEvent.from_config(self, event_config)
+            event_list = self.events.get(event.type, [])
+            event_list.append(event)
+            self.events[event.type] = event_list
+            return (event_name, event)
+        except Disabled:
+            pass
 
     def load_events(self, events_config):
         "Load :all: events."
