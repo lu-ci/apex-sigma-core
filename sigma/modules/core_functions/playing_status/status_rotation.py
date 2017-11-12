@@ -34,14 +34,18 @@ async def status_clockwork(ev):
                     status_cache.append(status_text)
             if status_cache:
                 status = status_cache.pop(secrets.randbelow(len(status_cache)))
-                mode_roll = secrets.randbelow(3)
+                mode_roll = secrets.randbelow(5)
                 if mode_roll == 0:
-                    hashes = list(hashlib.algorithms_guaranteed)
-                    hgen = hashlib.new(secrets.choice(hashes))
-                    hgen.update(status.encode('utf-8'))
-                    digest = hgen.hexdigest()
-                    cut = secrets.randbelow(11)
-                    cut_text = digest[cut:-(cut + 10)]
+                    try:
+                        hashes = list(hashlib.algorithms_guaranteed)
+                        hgen = hashlib.new(secrets.choice(hashes))
+                        hgen.update(status.encode('utf-8'))
+                        digest = hgen.hexdigest()
+                    except Exception:
+                        pass
+                    max_end = len(digest) - 10
+                    cut = secrets.randbelow(max_end)
+                    cut_text = digest[cut:(cut + 10)]
                     status = random_capitalize(cut_text)
                     sign_roll = secrets.randbelow(2)
                     if sign_roll:
