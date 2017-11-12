@@ -42,6 +42,7 @@ async def status_clockwork(ev):
                         hgen.update(status.encode('utf-8'))
                         digest = hgen.hexdigest()
                     except Exception:
+                        digest = status
                         ev.log.error('Status rotation failed to create a hash.')
                     max_end = len(digest) - 10
                     cut = secrets.randbelow(max_end)
