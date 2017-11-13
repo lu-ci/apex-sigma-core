@@ -2,7 +2,6 @@
 import secrets
 import traceback
 
-import arrow
 import discord
 import yaml
 
@@ -92,12 +91,6 @@ class SigmaCommand(object):
             log_text += f' | ARGS: {" ".join(args)}'
         self.log.info(log_text)
 
-    def log_performance_stats(self, exec_stamp):
-        now = arrow.now().float_timestamp
-        exec_time = round(now - exec_stamp, 5)
-        stat_text = f'EXECUTION TIME: {exec_time}'
-        self.log.info(stat_text)
-
     def log_unpermitted(self, perms):
         log_text = f'ACCESS DENIED | '
         log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
@@ -184,12 +177,10 @@ class SigmaCommand(object):
                         requirements = CommandRequirements(self, message)
                         if requirements.reqs_met:
                             try:
-                                start_exec = arrow.now().float_timestamp
                                 await getattr(self.command, self.name)(self, message, args)
                                 await add_cmd_stat(self.db, self, message, args)
                                 self.add_usage_exp(message)
                                 self.bot.command_count += 1
-                                self.log_performance_stats(start_exec)
                             except self.get_exception() as e:
                                 await self.respond_with_icon(message, '❗')
                                 err_token = secrets.token_hex(16)
