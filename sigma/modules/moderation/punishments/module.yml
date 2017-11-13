@@ -51,3 +51,28 @@ commands:
     usage:        "{pfx}{cmd} Chicken Shluggets"
     description:
       Unbans a banned user by inputted username.
+
+  - name:         hardmute
+    alts:
+      - "hmute"
+    global:       true
+    enabled:      true
+    requirements:
+      - "manage_channels"
+    usage:        "{pfx}{cmd} @person For talking about the fight club."
+    description:
+      Hard-mutes the target user.
+      Users who are hard-muted are disallowed from typing to any channel.
+      There is no message deletion, this is a permission based mute.
+
+  - name:         hardunmute
+    alts:
+      - "hunmute"
+    global:       true
+    enabled:      true
+    requirements:
+      - "manage_channels"
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Unmutes a hard-muted person.
+      Allowing them to send messages again.

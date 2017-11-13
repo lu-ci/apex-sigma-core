@@ -216,6 +216,8 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>ban` | Bans a user from the server. This will also remove all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>ban @person Way, WAY too spicy for us...`
+`>>hardmute` `>>hmute` | Hard-mutes the target user. Users who are hard-muted are disallowed from typing to any channel. There is no message deletion, this is a permission based mute. | `>>hardmute @person For talking about the fight club.`
+`>>hardunmute` `>>hunmute` | Unmutes a hard-muted person. Allowing them to send messages again. | `>>hardunmute @person`
 `>>kick` | Kicks a user from the server. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>kick @person Couldn't handle the spice.`
 `>>purge` `>>prune` | Deletes X number of messages posted by the mentioned person. If a user is not provided, it will prune the last X messages regardless of poster. If a number is not provided it will prune the last 100 messages. If neither number nor user is provided, it will prune the bots messages. Requires the user who calls the command to have the Manage Messages permission. | `>>purge X @person`
 `>>softban` `>>sb` | Soft-Ban a user from the server. This bans the user and immediatelly unbans them. Useful if you want to purge all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>softban @person Some spice needed de-spicing.`
