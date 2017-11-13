@@ -24,4 +24,5 @@ async def update_population_stats_node(ev):
                 'member_count': member_count
             }
         }
+        ev.db[database][collection].update_one(update_target, update_data)
         await asyncio.sleep(60)
