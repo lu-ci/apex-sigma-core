@@ -40,7 +40,7 @@ async def hardunmute(cmd, message, args):
                                 pass
                     log_embed = generate_log_embed(message, target, args)
                     await log_event(cmd.db, message.guild, log_embed)
-                    title = f'✅ {target.name}#{target.discriminator} has been hard-muted.'
+                    title = f'✅ {target.name}#{target.discriminator} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is euqal or above you.')
@@ -49,5 +49,5 @@ async def hardunmute(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targetted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(title='⛔ Access Denied. Manage Channels needed.', color=0xBE1931)
     await message.channel.send(embed=response)

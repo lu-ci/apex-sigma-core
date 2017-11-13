@@ -49,5 +49,5 @@ async def hardmute(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targetted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(title='⛔ Access Denied. Manage Channels needed.', color=0xBE1931)
     await message.channel.send(embed=response)
