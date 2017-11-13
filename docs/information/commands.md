@@ -365,6 +365,7 @@ Commands | Description | Example
 `>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the return message to be an embed, add "text" at the end. | `>>channelid #channel`
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data about the mentioned channel. If no channel is mentioned, it will show data for the channel that the command is used in. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the inputted color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
+`>>convertcurrency` `>>convert` | Converts the amount of money inputed. The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed. | `>>convertcurrency 50 EUR in USD`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`

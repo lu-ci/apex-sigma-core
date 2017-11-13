@@ -16,6 +16,16 @@ commands:
       Shortens a URL for you using BitLy.
       All URLs returned via Sigma are without ads, merely shortened using the service.
 
+  - name:         convertcurrency
+    alts:
+      - "convert"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 50 EUR in USD"
+    description:
+      Converts the amount of money inputed.
+      The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed.
+
   - name:         color
     alts:
       - "colour"
