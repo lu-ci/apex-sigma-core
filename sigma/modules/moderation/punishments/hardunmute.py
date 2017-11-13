@@ -34,7 +34,10 @@ async def hardunmute(cmd, message, args):
                 if hierarchy_auth:
                     for channel in message.guild.channels:
                         if isinstance(channel, discord.TextChannel):
-                            await channel.set_permissions(target, overwrite=None, reason=reason)
+                            try:
+                                await channel.set_permissions(target, overwrite=None, reason=reason)
+                            except discord.Forbidden:
+                                pass
                     log_embed = generate_log_embed(message, target, args)
                     await log_event(cmd.db, message.guild, log_embed)
                     title = f'✅ {target.name}#{target.discriminator} has been hard-muted.'
