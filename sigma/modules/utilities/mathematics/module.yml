@@ -40,6 +40,8 @@ commands:
       Only one person can use the command at the time due to the processing load it takes.
 
   - name:         wipechain
+    alts:
+      - "clearchain"
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd}"

@@ -46,14 +46,10 @@ events:
       Control member remove event statistics.
 
   - name:        population_clockwork
-    type:        ready
-    enabled:     true
-
-  - name:        stats_logger
-    type:        ready
+    type:        launch
     enabled:     true
 
   - name:        discordbots_clock
-    type:        ready
+    type:        launch
     global:      true
     enabled:     true

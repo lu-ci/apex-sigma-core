@@ -1,5 +1,9 @@
 import arrow
 
+from sigma.modules.core_functions.stats.stats_temp_storage import StatisticsStorage
+
+stats_handler = None
+
 
 async def add_cmd_stat(db, cmd, message, args):
     if not message.author.bot:
@@ -15,24 +19,16 @@ async def add_cmd_stat(db, cmd, message, args):
             'author': message.author.id,
             'channel': channel_id,
             'guild': guild_id,
-            'timestamp': arrow.utcnow().float_timestamp
+            'timestamp': {
+                'created': arrow.get(message.created_at),
+                'executed': arrow.utcnow().float_timestamp
+            }
         }
         db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
 
 
 async def add_special_stats(db, stat_name):
-    collection = 'SpecialStats'
-    def_stat_data = {
-        'name': stat_name,
-        'count': 0
-    }
-    check = db[db.db_cfg.database][collection].find_one({"name": stat_name})
-    if not check:
-        db[db.db_cfg.database][collection].insert_one(def_stat_data)
-        ev_count = 0
-    else:
-        ev_count = check['count']
-    ev_count += 1
-    updatetarget = {"name": stat_name}
-    updatedata = {"$set": {'count': ev_count}}
-    db[db.db_cfg.database][collection].update_one(updatetarget, updatedata)
+    global stats_handler
+    if not stats_handler:
+        stats_handler = StatisticsStorage(db, stat_name)
+    stats_handler.add_stat()

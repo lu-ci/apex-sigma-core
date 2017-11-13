@@ -176,5 +176,5 @@ commands:
 
 events:
   - name:    wf_clockwork
-    type:    ready
+    type:    launch
     enabled: true

@@ -16,16 +16,12 @@ async def update_population_stats_node(ev):
         server_count = len(list(ev.bot.guilds))
         member_count = len(list(ev.bot.get_all_members()))
         channel_count = len(list(ev.bot.get_all_channels()))
-        # Guilds
         update_target = {"name": 'population'}
-        update_data = {"$set": {'guild_count': server_count}}
-        ev.db[database][collection].update_one(update_target, update_data)
-        # Members
-        update_target = {"name": 'population'}
-        update_data = {"$set": {'member_count': member_count}}
-        ev.db[database][collection].update_one(update_target, update_data)
-        # Channels
-        update_target = {"name": 'population'}
-        update_data = {"$set": {'channel_count': channel_count}}
-        ev.db[database][collection].update_one(update_target, update_data)
+        update_data = {
+            "$set": {
+                'guild_count': server_count,
+                'channel_count': channel_count,
+                'member_count': member_count
+            }
+        }
         await asyncio.sleep(60)
