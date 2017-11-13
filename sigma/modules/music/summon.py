@@ -1,4 +1,6 @@
-﻿import discord
+﻿from concurrent.futures import TimeoutError
+
+import discord
 
 
 async def summon(cmd, message, args):
