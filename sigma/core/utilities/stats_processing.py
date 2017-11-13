@@ -20,7 +20,7 @@ async def add_cmd_stat(db, cmd, message, args):
             'channel': channel_id,
             'guild': guild_id,
             'timestamp': {
-                'created': arrow.get(message.created_at),
+                'created': arrow.get(message.created_at).float_timestamp,
                 'executed': arrow.utcnow().float_timestamp
             }
         }
