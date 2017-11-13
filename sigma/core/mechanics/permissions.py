@@ -38,11 +38,14 @@ class GlobalCommandPermissions(object):
 
     def check_nsfw(self):
         if isinstance(self.message.channel, discord.TextChannel):
-            if self.cmd.nsfw:
-                if self.message.channel.is_nsfw():
-                    self.nsfw_denied = False
+            if self.message.author.id not in self.bot.cfg.dsc.owners:
+                if self.cmd.nsfw:
+                    if self.message.channel.is_nsfw():
+                        self.nsfw_denied = False
+                    else:
+                        self.nsfw_denied = True
                 else:
-                    self.nsfw_denied = True
+                    self.nsfw_denied = False
             else:
                 self.nsfw_denied = False
         else:
