@@ -1,33 +1,94 @@
-import errno
-import os
-import yaml
+"""
+Sigma Configuration
+"""
 
-from .logger import create_logger
+import os
+from itertools import zip_longest
+import yaml
+from sigma.core.mechanics.logger import create_logger
+
+class SigmaConfigurationError(Exception):
+    pass
+
+class InvalidConfiguration(SigmaConfigurationError):
+    pass
+
+class MissingConfiguration(SigmaConfigurationError):
+    def __init__(self, file):
+        message = f"Missing configuration file: {file}"
+        super().__init__(message)
 
 class Config(object):
     log = create_logger("Config")
 
     def __init__(self, config, *, defaults={}):
-        self.config = defaults
-        self.config.update(config)
+        if not isinstance(config, dict):
+            raise InvalidConfiguration
 
-        for key, value in self.config.items():
-            self.__setattr__(key, value)
+        self._defaults = dict(defaults)
+        self._config = dict(defaults)
+        self._config.update(config)
+        self._config_store = {}
+
+        self.__populate()
+
+    def __getattribute__(self, name):
+        try:
+            return super(Config, self).__getattribute__(name)
+        except AttributeError:
+            return self.__set(name, None)
+
+    def __repr__(self):
+        return str(self._config_store)
+
+    def __populate(self):
+        for key, value in self._config.items():
+            if isinstance(value, dict):
+                self.__populate_dict(key, value)
+            elif isinstance(value, list):
+                self.__populate_list(key, value)
+            else:
+                self.__set(key, value)
+
+    def __populate_dict(self, key, dic):
+        default = self._defaults.get(key, {})
+        self.__set(key, Config(dic, defaults=default))
+
+    def __populate_list(self, key, lst):
+        items = zip_longest(lst, self._defaults.get(key, []), fillvalue=None)
+        tmp = []
+        for elem, default in items:
+            if isinstance(elem, dict):
+                tmp.append(Config(elem, defaults=(default or {})))
+            else:
+                tmp.append(elem)
+        self.__set(key, tmp)
+
+    def __set(self, key, value):
+        self._config_store[key] = value
+        return self.__setattr__(key, value)
+
+    @classmethod
+    def new(cls, config, *, defaults={}):
+        if isinstance(config, list):
+            return [cls(conf, defaults=defaults) for conf in config]
+
+        return cls(config, defaults=defaults)
 
     @classmethod
     def from_file(cls, filename, *, defaults={}, required=True):
         if os.path.exists(filename):
             with open(filename, encoding='utf-8') as config_file:
                 config = yaml.safe_load(config_file)
-                return cls(config, defaults=defaults)
+                return cls.new(config, defaults=defaults)
         elif required:
-            cls.log.error('Missing Discord Configuration File!')
-            exit(errno.ENOENT)
-        else:
-            return cls(defaults)
+            cls.log.error(f"Missing configuration file: {filename}")
+            raise MissingConfiguration(filename)
+
+        return cls.new(defaults)
 
 class Version(Config):
-    def __init__(self, config):
+    def __init__(self, config, *, defaults={}):
         super().__init__(config, defaults={
             "major": config.get("version", {}).get("major", 0),
             "minor": config.get("version", {}).get("minor", 0),
@@ -40,68 +101,46 @@ class Version(Config):
         return ver
 
 # General config
-def load_discord_config():
-    return Config.from_file('config/core/discord.yml', defaults={
-        "token": None,
-        "owners": [],
-        "bot": True
-    })
-
-def load_database_config():
-    return Config.from_file('config/core/database.yml', required=False, defaults={
-        "database": "aurora",
-        "auth": False,
-        "host": "localhost",
-        "port": 27017,
-        "username": 'admin',
-        "password": 'admin'
-    })
-
-def load_preferences():
-    return Config.from_file('config/core/preferences.yml', defaults={
-        "dev_mode": False,
-        "status_rotation": True,
-        "text_only": False,
-        "music_only": False,
-        "prefix": ">>",
-        "currency": "Kud",
-        "currency_icon": "⚜",
-        "website": "https://lucia.moe/#/sigma",
-        "dscbots_token": None,
-        "movelog_channel": None,
-        "key_to_my_heart": "redacted"
-    })
-
 def configuration():
     log = create_logger("Configuration")
     log.info('Loading Configuration...')
+
     config = Config({
-        "dsc": load_discord_config(),
-        "db": load_database_config(),
-        "pref": load_preferences()
+        "dsc": Config.from_file('config/core/discord.yml', defaults={
+            "token": None,
+            "owners": [],
+            "bot": True
+        }),
+        "db": Config.from_file('config/core/database.yml', required=False, defaults={
+            "database": "aurora",
+            "auth": False,
+            "host": "localhost",
+            "port": 27017,
+            "username": 'admin',
+            "password": 'admin'
+        }),
+        "pref": Config.from_file('config/core/preferences.yml', required=False, defaults={
+            "dev_mode": False,
+            "status_rotation": True,
+            "text_only": False,
+            "music_only": False,
+            "prefix": ">>",
+            "currency": "Kud",
+            "currency_icon": "⚜",
+            "website": "https://lucia.moe/#/sigma",
+            "dscbots_token": None,
+            "movelog_channel": None,
+            "key_to_my_heart": "redacted"
+        })
     })
+
     log.info('Core Configuration Data Loaded')
     return config
 
 # Info
 def information():
     return Config({
-        "version": version(),
-        "authors": authors(),
-        "donors": donors()
+        "version": Version.from_file("info/version.yml"),
+        "authors": Config.from_file("info/authors.yml"),
+        "donors": Config.from_file("info/donors.yml"),
     })
-
-def authors():
-    with open('info/authors.yml', encoding='utf-8') as authors_file:
-        authors_data = yaml.safe_load(authors_file)
-        return [Config(author) for author in authors_data]
-
-def donors():
-    with open('info/donors.yml', encoding='utf-8') as donors_file:
-        donors_data = yaml.safe_load(donors_file)
-        return [Config(donor) for donor in donors_data.get("donors", [])]
-
-def version():
-    with open('info/version.yml', encoding='utf-8') as version_file:
-        version_data = yaml.safe_load(version_file)
-        return Version(version_data)
