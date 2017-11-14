@@ -46,7 +46,8 @@ async def status(cmd, message, args):
     if cmd.bot.cfg.dsc.bot:
         current_shard = message.guild.shard_id
         shard_latency = int(cmd.bot.latencies[current_shard][1] * 1000)
-        verbose_description = f'{message.guild.name} is handled by Shard #{current_shard}. '
-        verbose_description += f' The latency is {shard_latency}ms.'
+        verbose_description = f'Shard: #{current_shard} | '
+        verbose_description += f'Latency: {shard_latency}ms | '
+        verbose_description += f'Queue: {cmd.bot.queue.queue.qsize()}'
         response.description = verbose_description
     await message.channel.send(embed=response)
