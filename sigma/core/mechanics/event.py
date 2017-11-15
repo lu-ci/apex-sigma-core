@@ -1,4 +1,5 @@
 import discord
+import arrow
 
 from sigma.core.mechanics.logger import create_logger
 
@@ -65,3 +66,10 @@ class SigmaEvent(object):
                 pass
             except self.get_exception() as e:
                 self.log_error(e)
+        end_stamp = arrow.utcnow().float_timestamp
+        diff = round(end_stamp - start_stamp, 5)
+        exec_time = f'{self.name} Execution time: {diff}s'
+        if diff < 5:
+            self.log.debug(exec_time)
+        else:
+            self.log.warning(exec_time)
