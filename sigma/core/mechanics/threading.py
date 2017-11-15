@@ -13,5 +13,6 @@ class QueueControl(object):
     async def queue_loop(self):
         while True:
             item, *args = await self.queue.get()
+            # item.execute, *args
             task = functools.partial(self.loop.create_task, item.execute(*args))
             await self.loop.run_in_executor(self.threads, task)
