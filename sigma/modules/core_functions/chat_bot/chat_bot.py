@@ -1,12 +1,10 @@
 import functools
-from concurrent.futures import ThreadPoolExecutor
 
+from multiprocessing.pool import ThreadPool
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
 cb = None
-
-threads = ThreadPoolExecutor(2)
 
 
 def init_chatterbot(ev):
@@ -43,7 +41,8 @@ async def chat_bot(ev, message):
                         if message.content.startswith(mention) or message.content.startswith(mention_alt):
                             interaction = ' '.join(args[1:])
                             task = functools.partial(cb.get_response, interaction)
-                            await ev.bot.loop.run_in_executor(threads, task)
-                            cb_resp = cb.get_response(interaction)
+                            pool = ThreadPool(1)
+                            async_response = pool.apply_async(task)
+                            cb_resp = async_response.get()
                             response = f'{message.author.mention} {cb_resp}'
                             await message.channel.send(response)

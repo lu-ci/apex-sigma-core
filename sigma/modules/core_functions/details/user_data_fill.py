@@ -1,6 +1,5 @@
 ﻿import functools
-from concurrent.futures import ThreadPoolExecutor
-
+from multiprocessing.pool import ThreadPool
 import arrow
 
 
@@ -36,7 +35,7 @@ async def generate_member_data(member):
 
 async def user_data_fill(ev):
     ev.log.info('Filling member details...')
-    threads = ThreadPoolExecutor(2)
+    pool = ThreadPool(1)
     start_stamp = arrow.utcnow().float_timestamp
     ev.bot.cool_down.set_cooldown(ev.name, 'member_details', 3600)
     mem_coll = ev.db[ev.db.db_cfg.database].UserDetails
@@ -50,7 +49,8 @@ async def user_data_fill(ev):
                     mem_data = await generate_member_data(member)
                     member_list.append(mem_data)
         task = functools.partial(mem_coll.insert, member_list)
-        await ev.bot.loop.run_in_executor(threads, task)
+        async_fill = pool.apply_async(task)
+        async_fill.get()
         shard_end = arrow.utcnow().float_timestamp
         shard_diff = round(shard_end - shard_start, 3)
         ev.log.info(f'Filled Shard #{x} Members in {shard_diff}s.')
