@@ -7,7 +7,7 @@ import discord
 async def imdb(cmd, message, args):
     if args:
         search = '%20'.join(args)
-        api_url = f'http://sg.media-imdb.com/suggests/{search[0]}/{search}.json'
+        api_url = f'http://sg.media-imdb.com/suggests/{search[0].lower()}/{search}.json'
         async with aiohttp.ClientSession() as session:
             async with session.get(api_url) as data:
                 search_data = await data.text()
