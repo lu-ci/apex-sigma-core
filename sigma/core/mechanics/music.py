@@ -2,7 +2,7 @@ import asyncio
 import functools
 import hashlib
 import os
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor
 from asyncio.queues import Queue
 
 import discord
@@ -43,7 +43,7 @@ class QueueItem(object):
         self.duration = int(self.item_info['duration'])
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
-        self.pool = ThreadPool(1)
+        self.threads = ThreadPoolExecutor()
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
         self.token = self.tokenize()
@@ -62,8 +62,7 @@ class QueueItem(object):
             if not os.path.exists(out_location):
                 self.ytdl.params['outtmpl'] = out_location
                 task = functools.partial(self.ytdl.extract_info, self.url)
-                async_download = self.pool.apply_async(task)
-                async_download.get()
+                await self.loop.run_in_executor(self.threads, task)
                 self.downloaded = True
             self.location = out_location
 
@@ -80,7 +79,7 @@ class MusicCore(object):
         self.bot = bot
         self.db = bot.db
         self.loop = asyncio.get_event_loop()
-        self.pool = ThreadPool(1)
+        self.threads = ThreadPoolExecutor()
         self.queues = {}
         self.currents = {}
         self.repeaters = []
@@ -89,8 +88,7 @@ class MusicCore(object):
 
     async def extract_info(self, url):
         task = functools.partial(self.ytdl.extract_info, url, False)
-        async_extract = self.pool.apply_async(task)
-        information = async_extract.get()
+        information = await self.loop.run_in_executor(self.threads, task)
         return information
 
     def get_queue(self, guild_id):

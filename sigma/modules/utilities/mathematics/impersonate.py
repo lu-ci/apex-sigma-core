@@ -1,10 +1,11 @@
 ﻿import functools
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor
 
 import discord
 import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
+
 
 async def impersonate(cmd, message, args):
     if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
@@ -21,14 +22,12 @@ async def impersonate(cmd, message, args):
             init_message = await message.channel.send(embed=init_embed)
             chain_data = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
             if chain_data:
-                pool = ThreadPool(1)
+                threads = ThreadPoolExecutor()
                 total_string = ' '.join(chain_data['Chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
-                async_chain = pool.apply_async(chain_function)
-                chain = async_chain.get()
+                chain = cmd.bot.loop.run_in_executor(threads, chain_function)
                 sentence_function = functools.partial(chain.make_short_sentence, 500)
-                async_sentence = pool.apply_async(sentence_function)
-                sentence = async_sentence.get(30)
+                sentence = cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:
                     response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
                 else:

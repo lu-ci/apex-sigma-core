@@ -1,6 +1,7 @@
 import functools
 import secrets
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor
+
 import discord
 import praw
 from prawcore.exceptions import Redirect, NotFound
@@ -26,7 +27,7 @@ def grab_post(subreddit, argument):
 
 async def reddit(cmd, message, args):
     global reddit_client
-    pool = ThreadPool(1)
+    threads = ThreadPoolExecutor()
     if 'client_id' in cmd.cfg and 'client_secret' in cmd.cfg:
         if args:
             client_id = cmd.cfg['client_id']
@@ -39,8 +40,7 @@ async def reddit(cmd, message, args):
                 subreddit = reddit_client.subreddit(subreddit)
                 grab_func = functools.partial(grab_post, subreddit, argument)
                 try:
-                    async_grab = pool.apply_async(grab_func)
-                    post = async_grab.get()
+                    post = await cmd.bot.loop.run_in_executor(threads, grab_func)
                 except NotFound:
                     post = None
                 if post:

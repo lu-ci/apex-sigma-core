@@ -2,7 +2,7 @@
 
 import arrow
 import discord
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
 
@@ -41,7 +41,7 @@ def count_channels(channels):
 
 async def server_data_fill(ev):
     ev.log.info('Filling server details...')
-    pool = ThreadPool(1)
+    threads = ThreadPoolExecutor()
     start_stamp = arrow.utcnow().float_timestamp
     srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
     srv_coll.drop()
@@ -78,8 +78,7 @@ async def server_data_fill(ev):
                 }
                 server_list.append(srv_data)
         task = functools.partial(srv_coll.insert, server_list)
-        async_fill = pool.apply_async(task)
-        async_fill.get()
+        await ev.bot.loop.run_in_executor(threads, task)
         shard_end = arrow.utcnow().float_timestamp
         shard_diff = round(shard_end - shard_start, 3)
         ev.log.info(f'Filled Shard #{x} Servers in {shard_diff}s.')
