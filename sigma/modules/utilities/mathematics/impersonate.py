@@ -25,9 +25,9 @@ async def impersonate(cmd, message, args):
                 threads = ThreadPoolExecutor()
                 total_string = ' '.join(chain_data['Chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
-                chain = cmd.bot.loop.run_in_executor(threads, chain_function)
+                chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
                 sentence_function = functools.partial(chain.make_short_sentence, 500)
-                sentence = cmd.bot.loop.run_in_executor(threads, sentence_function)
+                sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:
                     response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
                 else:
