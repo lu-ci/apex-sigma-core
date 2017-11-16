@@ -11,7 +11,7 @@ async def wikipedia(cmd, message, args):
         try:
             threads = ThreadPoolExecutor()
             summary_task = functools.partial(wp.summary, q)
-            result = await ev.bot.loop.run_in_executor(threads, summary_task)
+            result = await cmd.bot.loop.run_in_executor(threads, summary_task)
             title = f'Wikipedia: {q.upper()}'
             title_url = f'https://en.wikipedia.org/wiki/{q}'
             wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
