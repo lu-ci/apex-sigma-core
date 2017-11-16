@@ -44,7 +44,7 @@ async def status_clockwork(ev):
                     except Exception:
                         digest = status
                         ev.log.error('Status rotation failed to create a hash.')
-                    max_end = len(digest) - 10
+                    max_end = abs(len(digest) - 10)
                     cut = secrets.randbelow(max_end)
                     cut_text = digest[cut:(cut + 10)]
                     status = random_capitalize(cut_text)
