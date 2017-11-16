@@ -1,4 +1,5 @@
 import discord
+import re
 
 from .mech.feh_core import FireEmblemHeroesCore
 
@@ -12,6 +13,7 @@ async def fireemblemheroes(cmd, message, args):
     response = discord.Embed()
     if args:
         query = ' '.join(args).lower()
+        query = re.sub(r'[1-9*]', '', query).strip()  # Strip numbers and asterisks from query
         record = feh_core.lookup(query)
         if record:
             if record['type'] == 'hero':
