@@ -1,8 +1,9 @@
 ﻿import functools
+from concurrent.futures import ThreadPoolExecutor
 
 import arrow
 import discord
-from concurrent.futures import ThreadPoolExecutor
+
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
 

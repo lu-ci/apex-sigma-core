@@ -2,8 +2,8 @@ import asyncio
 import functools
 import hashlib
 import os
-from concurrent.futures import ThreadPoolExecutor
 from asyncio.queues import Queue
+from concurrent.futures import ThreadPoolExecutor
 
 import discord
 import youtube_dl

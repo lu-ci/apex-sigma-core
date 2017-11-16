@@ -1,5 +1,6 @@
-import discord
 import re
+
+import discord
 
 from .mech.feh_core import FireEmblemHeroesCore
 
