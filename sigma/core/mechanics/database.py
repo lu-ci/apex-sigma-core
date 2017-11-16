@@ -1,9 +1,12 @@
+import errno
 import arrow
 import pymongo
 
+from sigma.core.mechanics.logger import create_logger
 
 class Database(pymongo.MongoClient):
     def __init__(self, bot, db_cfg):
+        self.log = create_logger("Database")
         self.bot = bot
         self.db_cfg = db_cfg
         if self.db_cfg.auth:
@@ -11,7 +14,22 @@ class Database(pymongo.MongoClient):
             self.db_address += f'@{self.db_cfg.host}:{self.db_cfg.port}/'
         else:
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
+
         super().__init__(self.db_address)
+        self.connect()
+
+    def connect(self):
+        self.log.info('Connecting to Database...')
+        try:
+            self.test.collection.find_one({})
+        except pymongo.errors.ServerSelectionTimeoutError:
+            self.log.error('A Connection To The Database Host Failed!')
+            exit(errno.ETIMEDOUT)
+        except pymongo.errors.OperationFailure:
+            self.log.error('Database Access Operation Failed!')
+            exit(errno.EACCES)
+
+        self.log.info('Successfully Connected to Database')
 
     def insert_guild_settings(self, guild_id):
         settings_data = {'ServerID': guild_id}

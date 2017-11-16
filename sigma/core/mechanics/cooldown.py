@@ -1,5 +1,6 @@
 import arrow
 
+from sigma.core.mechanics.logger import create_logger
 
 class CommandCooldown(object):
     def __init__(self):
@@ -29,10 +30,13 @@ class CommandCooldown(object):
 
 class CooldownControl(object):
     def __init__(self, bot):
+        self.log = create_logger("Cooldown Control")
+        self.log.info('Loading Cool-down Controls...')
         self.bot = bot
         self.cmd = CommandCooldown()
         self.db = self.bot.db
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
+        self.log.info('Cool-down Controls Successfully Enabled')
 
     def on_cooldown(self, cmd, user):
         if isinstance(user, str):

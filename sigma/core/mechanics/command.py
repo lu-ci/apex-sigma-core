@@ -1,76 +1,75 @@
 ﻿import os
 import secrets
 import traceback
+import inspect
 
 import discord
-import yaml
 
+from sigma.core.mechanics.module_component import SigmaModuleComponent
 from sigma.core.mechanics.command_requirements import CommandRequirements
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
+class SigmaCommand(SigmaModuleComponent):
+    """
+    Represents a Sigma Discord command.
 
-class SigmaCommand(object):
-    def __init__(self, bot, command, plugin_info, command_info):
-        self.bot = bot
-        self.db = self.bot.db
-        self.command = command
-        self.plugin_info = plugin_info
-        self.command_info = command_info
-        self.name = self.command_info['name']
-        self.path = self.command_info['path']
-        self.category = self.plugin_info['category']
+    Parameters
+    ----------
+    module: SigmaModule
+        The module this command belongs to.
+    config: dict
+        Command configuration.
+
+    Attributes
+    ----------
+    usage: string
+        The command usage help message.
+        {pfx} and {cmd} will be replaced by prefix and
+        command name respectively.
+    desc: string
+        Short description of the command's functionality.
+    alts: list(string)
+        List of aliases for this command.
+    requirements: list(string)
+        List of required permissions to use this command.
+    """
+    def __init__(self, module, config):
+        super().__init__(module, config)
+
         self.log = create_logger(self.name.upper())
-        self.nsfw = False
+        self.module = module
         self.cfg = {}
         self.cache = {}
-        self.owner = False
-        self.partner = False
-        self.dmable = False
-        self.requirements = ['send_messages', 'embed_links']
-        self.alts = None
-        self.usage = f'{bot.cfg.pref.prefix}{self.name}'
-        self.desc = 'No description provided.'
-        self.insert_command_info()
-        self.load_command_config()
 
-    def insert_command_info(self):
-        if 'alts' in self.command_info:
-            self.alts = self.command_info['alts']
-        if 'usage' in self.command_info:
-            self.usage = self.command_info['usage']
-            self.usage = self.usage.replace('{pfx}', self.bot.cfg.pref.prefix)
-            self.usage = self.usage.replace('{cmd}', self.name)
-        if 'description' in self.command_info:
-            self.desc = self.command_info['description']
-        if 'requirements' in self.command_info:
-            self.requirements += self.command_info['requirements']
-        if 'permissions' in self.command_info:
-            permissions = self.command_info['permissions']
-            if 'nsfw' in permissions:
-                self.nsfw = permissions['nsfw']
-            if 'owner' in permissions:
-                self.owner = permissions['owner']
-            if 'partner' in permissions:
-                self.partner = permissions['partner']
-            if 'dmable' in permissions:
-                self.dmable = permissions['dmable']
+    @property
+    def usage(self):
+        usage = self.config.get('usage', f'{self.prefix}{self.name}')
+        usage = usage.replace('{pfx}', self.prefix)
+        usage = usage.replace('{cmd}', self.name)
+        return usage
+
+    @property
+    def desc(self):
+        tmp = self.config.get('description', 'No description provided.')
         if self.owner:
-            self.desc += '\n(Bot Owner Only)'
+            tmp += '\n(Bot Owner Only)'
+        return tmp
 
-    def load_command_config(self):
-        config_path = f'config/plugins/{self.name}.yml'
-        if os.path.exists(config_path):
-            with open(config_path) as config_file:
-                self.cfg = yaml.safe_load(config_file)
+    @property
+    def alts(self):
+        return self.config.get('alts', [])
 
-    def resource(self, res_path):
-        module_path = self.path
-        res_path = f'{module_path}/res/{res_path}'
-        res_path = res_path.replace('\\', '/')
-        return res_path
+    @property
+    def requirements(self):
+        requirements = ['send_messages', 'embed_links']
+        return (requirements + self.config.get('requirements', []))
+
+    @property
+    def command(self):
+        return self.load_path(os.path.join(self.path, self.name))
 
     def get_exception(self):
         if self.bot.cfg.pref.dev_mode:
@@ -92,11 +91,10 @@ class SigmaCommand(object):
         self.log.info(log_text)
 
     def log_unpermitted(self, perms):
-        log_text = f'ACCESS DENIED | '
-        log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
-        log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
-        log_text += f'VIP: {perms.partner_denied}'
-        self.log.warning(log_text)
+        self.log.warning('ACCESS DENIED | '
+                         f'{perms.permission_string} | '
+                         f'USR: {perms.user.name} [{perms.user.id}] | '
+                         f'SRV: {perms.server.name} [{perms.server.id}]')
 
     def add_usage_exp(self, message):
         if message.guild:
@@ -152,75 +150,130 @@ class SigmaCommand(object):
         log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
+    def is_ready(self, message):
+        return self.bot.ready
+
+    def can_use(self, message):
+        if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
+            self.log.warning(f'{message.author.name} tried using me.')
+            return False
+
+        return True
+
+    async def off_cooldown(self, message):
+        cd_identifier = f'{self.name}_{message.author.id}'
+
+        if self.bot.cool_down.cmd.on_cooldown(cd_identifier):
+            await self.respond_with_icon(message, '🕦')
+            return False
+
+        self.bot.cool_down.cmd.set_cooldown(cd_identifier)
+        return True
+
+    async def has_permissions(self, message):
+        perms = GlobalCommandPermissions(self, message)
+
+        if perms.permitted:
+            return True
+
+        self.log_unpermitted(perms)
+        await self.respond_with_icon(message, '⛔')
+
+        if perms.response:
+            try:
+                await message.channel.send(embed=perms.response)
+            except discord.Forbidden:
+                pass
+
+        return False
+
+    async def can_send_guild_message(self, message):
+        guild_allowed = ServerCommandPermissions(self, message)
+
+        if guild_allowed.permitted:
+            return True
+
+        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+        await self.respond_with_icon(message, '⛔')
+        return False
+
+    async def meets_requirements(self, message):
+        requirements = CommandRequirements(self, message)
+
+        if requirements.reqs_met:
+            return True
+
+        await self.respond_with_icon(message, '❗')
+
+        reqs_embed = discord.Embed(color=0xBE1931)
+        reqs_error_title = f'❗ I am missing permissions!'
+        reqs_error_list = ''
+
+        for req in requirements.missing_list:
+            req = req.replace('_', ' ').title()
+            reqs_error_list += f'\n- {req}'
+
+        reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+        reqs_embed.set_footer(text=f'{self.bot.get_prefix(message)}{self.name}')
+
+        try:
+            await message.channel.send(embed=reqs_embed)
+        except discord.Forbidden:
+            pass
+
+        return False
+
+    async def can_execute(self, message):
+        tests = [
+            self.is_ready, self.can_use, self.off_cooldown,
+            self.has_permissions, self.can_send_guild_message, self.meets_requirements
+        ]
+
+        for test in tests:
+            result = test(message)
+            if inspect.isawaitable(result):
+                result = await result
+            if not result:
+                return False
+
+        return True
+
     async def execute(self, message, args):
-        if self.bot.ready:
-            if message.guild:
-                delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
-                if delete_command_message:
-                    try:
-                        await message.delete()
-                    except discord.Forbidden:
-                        pass
-                    except discord.NotFound:
-                        pass
-            if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
-                self.log.warning(f'{message.author.name} tried using me.')
-                return
-            cd_identifier = f'{self.name}_{message.author.id}'
-            if not self.bot.cool_down.cmd.on_cooldown(cd_identifier):
-                self.bot.cool_down.cmd.set_cooldown(cd_identifier)
-                perms = GlobalCommandPermissions(self, message)
-                guild_allowed = ServerCommandPermissions(self, message)
-                self.log_command_usage(message, args)
-                if perms.permitted:
-                    if guild_allowed.permitted:
-                        requirements = CommandRequirements(self, message)
-                        if requirements.reqs_met:
-                            try:
-                                await getattr(self.command, self.name)(self, message, args)
-                                await add_cmd_stat(self.db, self, message, args)
-                                self.add_usage_exp(message)
-                                self.bot.command_count += 1
-                            except self.get_exception() as e:
-                                await self.respond_with_icon(message, '❗')
-                                err_token = secrets.token_hex(16)
-                                self.log_error(message, args, e, err_token)
-                                prefix = self.bot.get_prefix(message)
-                                title = '❗ An Error Occurred!'
-                                err_text = 'Something seems to have gone wrong.'
-                                err_text += '\nPlease send this token to our support server.'
-                                err_text += f'\nThe invite link is in the **{prefix}help** command.'
-                                err_text += f'\nToken: **{err_token}**'
-                                error_embed = discord.Embed(color=0xBE1931)
-                                error_embed.add_field(name=title, value=err_text)
-                                try:
-                                    await message.channel.send(embed=error_embed)
-                                except discord.Forbidden:
-                                    pass
-                        else:
-                            await self.respond_with_icon(message, '❗')
-                            reqs_embed = discord.Embed(color=0xBE1931)
-                            reqs_error_title = f'❗ I am missing permissions!'
-                            reqs_error_list = ''
-                            for req in requirements.missing_list:
-                                req = req.replace('_', ' ').title()
-                                reqs_error_list += f'\n- {req}'
-                            reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                            reqs_embed.set_footer(text=f'{self.bot.get_prefix(message)}{self.name}')
-                            try:
-                                await message.channel.send(embed=reqs_embed)
-                            except discord.Forbidden:
-                                pass
-                    else:
-                        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                        await self.respond_with_icon(message, '⛔')
-                else:
-                    self.log_unpermitted(perms)
-                    await self.respond_with_icon(message, '⛔')
-                    if perms.response:
-                        try:
-                            await message.channel.send(embed=perms.response)
-                        except discord.Forbidden:
-                            pass
-            else:
-                await self.respond_with_icon(message, '🕦')
+        command_id = secrets.token_hex(4)
+
+        if not await self.can_execute(message):
+            return
+
+        self.log_command_usage(message, command_id)
+
+        if message.guild:
+            delete_command_message = self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
+            if delete_command_message:
+                try:
+                    await message.delete()
+                except discord.Forbidden:
+                    pass
+                except discord.NotFound:
+                    pass
+
+        try:
+            await getattr(self.command, self.name)(self, message, args)
+            await add_cmd_stat(self.db, self, message, args, command_id)
+            self.add_usage_exp(message)
+            self.bot.command_count += 1
+        except self.get_exception() as e:
+            await self.respond_with_icon(message, '❗')
+            err_token = secrets.token_hex(16)
+            self.log_error(message, args, e, err_token)
+            prefix = self.bot.get_prefix(message)
+            title = '❗ An Error Occurred!'
+            err_text = 'Something seems to have gone wrong.'
+            err_text += '\nPlease send this token to our support server.'
+            err_text += f'\nThe invite link is in the **{prefix}help** command.'
+            err_text += f'\nToken: **{err_token}**'
+            error_embed = discord.Embed(color=0xBE1931)
+            error_embed.add_field(name=title, value=err_text)
+            try:
+                await message.channel.send(embed=error_embed)
+            except discord.Forbidden:
+                pass

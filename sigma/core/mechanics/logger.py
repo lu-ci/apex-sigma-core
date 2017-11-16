@@ -12,20 +12,28 @@ try:
 except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
+def create_logger(name, *, to_title=False, level=None):
+    "Add a new logger"
 
-def create_logger(name):
-    """Add a new logger"""
-    return Logger.create(name)
+    if to_title:
+        logname = titleize(name)
+    else:
+        logname = name
 
+    return Logger.create(logname, level=level)
 
-def with_logger(name=None, level=None):
-    """Decorator to make a logger available in the decorated class."""
+def titleize(string):
+    """
+    Convert a string from :ModuleName: to :Module Name:
+    """
 
-    def decorator(cls):
-        cls.log = Logger.create(name or cls.__name__, level=level)
-        return cls
-
-    return decorator
+    new_string = ""
+    for i, char in enumerate(string):
+        if char.isupper() and i != 0:
+            new_string += " " + char
+        else:
+            new_string += char
+    return new_string
 
 
 class Logger(object):
@@ -42,11 +50,12 @@ class Logger(object):
         :param name:
         :param level:
         """
-        self.default_fmt = '%(levelname)-8s %(asctime)s %(name)-20s %(message)s'
+
+        self.default_fmt = '[ {levelname:^8s} | {asctime:s} | {name:<25.25s} ] {message:s}'
         self.default_date_fmt = '%Y.%m.%d %H:%M:%S'
         self.name = name
         self._logger = logging.getLogger(self.name)
-        self._logger.setLevel(level or logging.INFO)
+        self._logger.setLevel(level or logging.DEBUG)
         self.created = False
 
     @classmethod
@@ -99,14 +108,14 @@ class Logger(object):
 
         fmt = fmt or self.default_fmt
         date_fmt = date_fmt or self.default_date_fmt
-        handler.setFormatter(logging.Formatter(fmt, date_fmt))
+        handler.setFormatter(logging.Formatter(fmt=fmt, datefmt=date_fmt, style='{'))
         self._logger.addHandler(handler)
 
     @staticmethod
     def add_journal_handler(logger):
         """Add a log handler that logs to the Systemd journal."""
         handler = journal.JournaldLogHandler(identifier='sigma')
-        log_fmt = '[%(name)-10s]: %(message)s'
+        log_fmt = '[ {levelname:.1s} | {name:<25.25s} ]: {message:s}'
         logger.add_handler(handler, log_fmt)
 
     @staticmethod

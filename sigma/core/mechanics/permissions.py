@@ -1,125 +1,116 @@
-﻿import discord
+from itertools import zip_longest
+import discord
 
 
 class GlobalCommandPermissions(object):
     def __init__(self, command, message):
+        self.user = message.author
+        self.server = message.guild
         self.message = message
         self.bot = command.bot
         self.cmd = command
         self.db = command.db
-        # Default States
-        self.nsfw_denied = False
-        self.black_user = False
-        self.black_srv = False
-        self.owner_denied = False
-        self.partner_denied = False
-        self.module_denied = False
-        self.dm_denied = False
-        self.permitted = True
-        self.response = None
-        # Check Calls
+
+        self.short_perm = ['u', 's', 'm', 'o', 'd', 'n', 'v']
+        perms = ["black_user", "black_srv", "module_denied",
+                 "owner_denied", "dm_denied", "nsfw_denied", "partner_denied", ]
+        self.permissions = dict(zip_longest(perms, [False], fillvalue=False))
+
         self.check_nsfw()
         self.check_dmable()
         self.check_black_srv()
         self.check_black_usr()
         self.check_owner()
-        self.check_final()
-        # Get Response
-        self.generate_response()
 
     def check_dmable(self):
         if not self.message.guild:
-            if self.cmd.dmable:
-                self.dm_denied = False
-            else:
-                self.dm_denied = True
-        else:
-            self.dm_denied = False
+            self.permissions['dm_denied'] = not self.cmd.dmable
+        return self.permissions['dm_denied']
 
     def check_nsfw(self):
         if isinstance(self.message.channel, discord.TextChannel):
-            if self.message.author.id not in self.bot.cfg.dsc.owners:
-                if self.cmd.nsfw:
-                    if self.message.channel.is_nsfw():
-                        self.nsfw_denied = False
-                    else:
-                        self.nsfw_denied = True
-                else:
-                    self.nsfw_denied = False
-            else:
-                self.nsfw_denied = False
-        else:
-            self.nsfw_denied = False
+            if self.cmd.nsfw:
+                self.permissions['nsfw_denied'] = not self.message.channel.is_nsfw()
+        return self.permissions['nsfw_denied']
 
-    def check_black_mdl(self, black_user_file):
-        if 'Modules' in black_user_file:
-            if self.cmd.category in black_user_file['Modules']:
-                black_user = True
-                self.module_denied = True
-            else:
-                black_user = False
-        else:
-            black_user = False
-        return black_user
+    def check_black_mdl(self, file):
+        self.permissions['module_denied'] = self.cmd.category in file.get('Modules', {})
+        return self.permissions['module_denied']
 
     def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = black_user_collection.find_one({'UserID': self.message.author.id})
+
         if black_user_file:
             if 'Total' in black_user_file:
                 if black_user_file['Total']:
-                    self.black_user = True
+                    self.permissions['black_user'] = True
                 else:
-                    self.black_user = self.check_black_mdl(black_user_file)
+                    self.permissions['black_user'] = self.check_black_mdl(black_user_file)
             else:
-                self.black_user = self.check_black_mdl(black_user_file)
-        else:
-            self.black_user = False
+                self.permissions['black_user'] = self.check_black_mdl(black_user_file)
 
     def check_black_srv(self):
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
             black_srv_file = black_srv_collection.find_one({'ServerID': self.message.guild.id})
+
             if black_srv_file:
-                self.black_srv = True
-            else:
-                self.black_srv = False
-        else:
-            self.black_srv = False
+                self.permissions['black_srv'] = True
 
     def check_owner(self):
         auth = self.message.author
         ownrs = self.bot.cfg.dsc.owners
-        if self.cmd.owner:
-            if auth.id in ownrs:
-                self.owner_denied = False
-            else:
-                self.owner_denied = True
-        else:
-            self.owner_denied = False
 
-    def generate_response(self):
-        if self.black_srv:
+        if self.cmd.owner and auth.id not in ownrs:
+            self.permissions['owner_denied'] = True
+
+    @property
+    def permitted(self):
+        return not any(self.permissions.values())
+
+    @property
+    def permission_string(self):
+        """
+        Uppercase letters mean no permission, lowercase ones mean permission granted.
+
+        U: User Blacklist
+        S: Server Blacklist
+        M: Module Blacklist
+        O: Bot Owner
+        D: Direct Message
+        N: NSFW Usage
+        V: Partner
+        """
+
+        tmp = ''
+        for i, denied in enumerate(self.permissions.values()):
+            tmp += (self.short_perm[i].upper() if denied else self.short_perm[i])
+        return tmp
+
+    @property
+    def response(self):
+        if self.permissions['black_srv']:
             return
-        elif self.black_user:
+        elif self.permissions['black_user']:
             return
-        elif self.dm_denied:
+        elif self.permissions['dm_denied']:
             color = 0xBE1931
             title = f'⛔ Can\'t Be Used In Direct Messages'
             desc = f'Please use {self.bot.get_prefix(self.message)}{self.cmd.name} on a server where I am present.'
-        elif self.owner_denied:
+        elif self.permissions['owner_denied']:
             color = 0xBE1931
             title = '⛔ Bot Owner Only'
             desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
             desc += f'\nUnless you are in the `{self.bot.get_prefix(self.message)}owners` list, you can not use that.'
-        elif self.nsfw_denied:
+        elif self.permissions['nsfw_denied']:
             if self.message.guild:
                 color = 0x744EAA
                 title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
                 desc = 'Make sure the NSFW marker is enabled in the channel settings.'
             else:
                 return
-        elif self.partner_denied:
+        elif self.permissions['partner_denied']:
             color = 0x3B88C3
             title = '💎 Partner Servers Only'
             desc = 'Some commands are limited to only be usable by partners.'
@@ -129,24 +120,10 @@ class GlobalCommandPermissions(object):
             desc += '[`Patreon`](https://www.patreon.com/ApexSigma) page.'
         else:
             return
+
         response = discord.Embed(color=color)
         response.add_field(name=title, value=desc)
-        self.response = response
-
-    def check_final(self):
-        checklist = [
-            self.dm_denied,
-            self.nsfw_denied,
-            self.black_srv,
-            self.black_user,
-            self.owner_denied,
-            self.partner_denied,
-        ]
-        for check in checklist:
-            if check is True:
-                self.permitted = False
-                break
-
+        return response
 
 class ServerCommandPermissions(object):
     def __init__(self, command, message):

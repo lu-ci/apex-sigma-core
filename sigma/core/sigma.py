@@ -1,16 +1,15 @@
 import errno
 import os
 import shutil
-
 import arrow
 import discord
 import pymongo
 
-from sigma.core.mechanics.config import Configuration
+from sigma.core.mechanics.config import configuration
+from sigma.core.mechanics.config import information
+from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.information import Information
-from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.mechanics.threading import QueueControl
@@ -34,7 +33,7 @@ from sigma.core.mechanics.threading import QueueControl
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
 
-init_cfg = Configuration()
+init_cfg = configuration()
 
 if init_cfg.dsc.bot:
     client_class = discord.AutoShardedClient
@@ -47,29 +46,27 @@ class ApexSigma(client_class):
         super().__init__()
         self.ready = False
         # State attributes before initialization.
-        self.log = None
-        self.cfg = None
-        self.db = None
-        self.cool_down = None
-        self.music = None
-        self.modules = None
+        self.cfg = init_cfg
         self.queue = QueueControl()
         self.launched = False
         self.cache = {}
         # Initialize startup methods and attributes.
         self.create_cache()
-        self.init_logger()
+
+        self.log = create_logger('Sigma')
         self.log.info('---------------------------------')
-        self.init_config()
+        self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
+        self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('---------------------------------')
-        self.init_database()
+        self.db = Database(self, self.cfg.db)
         self.log.info('---------------------------------')
-        self.init_cool_down()
+        self.cool_down = CooldownControl(self)
         self.log.info('---------------------------------')
-        self.init_music()
+        self.music = MusicCore(self)
         self.log.info('---------------------------------')
-        self.info = Information()
-        self.init_modules(init=True)
+        self.info = information()
+        self.modules = PluginManager(self, init=True)
+
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
@@ -79,45 +76,6 @@ class ApexSigma(client_class):
         if os.path.exists('cache'):
             shutil.rmtree('cache')
         os.makedirs('cache')
-
-    def init_logger(self):
-        self.log = create_logger('Sigma')
-        self.log.info('Logger Created')
-
-    def init_config(self):
-        self.log.info('Loading Configuration...')
-        self.cfg = init_cfg
-        self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
-        self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
-        self.log.info('Core Configuration Data Loaded')
-
-    def init_database(self):
-        self.log.info('Connecting to Database...')
-        self.db = Database(self, self.cfg.db)
-        try:
-            self.db.test.collection.find_one({})
-        except pymongo.errors.ServerSelectionTimeoutError:
-            self.log.error('A Connection To The Database Host Failed!')
-            exit(errno.ETIMEDOUT)
-        except pymongo.errors.OperationFailure:
-            self.log.error('Database Access Operation Failed!')
-            exit(errno.EACCES)
-        self.log.info('Successfully Connected to Database')
-
-    def init_cool_down(self):
-        self.log.info('Loading Cool-down Controls...')
-        self.cool_down = CooldownControl(self)
-        self.log.info('Cool-down Controls Successfully Enabled')
-
-    def init_music(self):
-        self.log.info('Loading Music Controller...')
-        self.music = MusicCore(self)
-        self.log.info('Music Controller Initialized and Ready')
-
-    def init_modules(self, init=False):
-        if init:
-            self.log.info('Loading Sigma Modules')
-        self.modules = PluginManager(self, init)
 
     def get_prefix(self, message):
         prefix = self.cfg.pref.prefix
