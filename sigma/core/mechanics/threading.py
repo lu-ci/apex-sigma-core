@@ -1,5 +1,7 @@
 import asyncio
 
+import arrow
+
 
 class QueueControl(object):
     def __init__(self):
@@ -10,4 +12,9 @@ class QueueControl(object):
     async def queue_loop(self):
         while True:
             item, *args = await self.queue.get()
-            self.loop.create_task(item.execute(*args))
+            start_stamp = arrow.utcnow().float_timestamp
+            await item.execute(*args)
+            end_stamp = arrow.utcnow().float_timestamp
+            diff = round(end_stamp - start_stamp, 5)
+            if diff >= 5:
+                item.log.warning(f'{item.name} Execution Time: {diff}')
