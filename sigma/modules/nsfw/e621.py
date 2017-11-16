@@ -11,8 +11,9 @@ async def e621(cmd, message, args):
         url = url_base + '?tags=' + '+'.join(args)
     else:
         url = url_base + '?tags=nude'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'}
     async with aiohttp.ClientSession() as session:
-        async with session.get(url) as data:
+        async with session.get(url, headers=headers) as data:
             data = await data.read()
             data = json.loads(data)
     if data:
