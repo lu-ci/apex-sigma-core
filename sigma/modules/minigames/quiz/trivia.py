@@ -47,7 +47,14 @@ async def trivia(cmd, message, args):
                 async with aiohttp.ClientSession() as session:
                     async with session.get(trivia_api_url) as number_get:
                         number_response = await number_get.read()
-                        data = json.loads(number_response)
+                        try:
+                            data = json.loads(number_response)
+                        except json.JSONDecodeError:
+                            if message.author.id in ongoing_list:
+                                ongoing_list.remove(message.author.id)
+                            decode_error = discord.Embed(color=0xBE1931, title='❗ Couldn\'t retrieve a question.')
+                            await message.channel.send(embed=decode_error)
+                            return
                         trivia_cache += data['results']
             data = trivia_cache.pop(secrets.randbelow(len(trivia_cache)))
             cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
