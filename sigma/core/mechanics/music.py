@@ -29,7 +29,7 @@ class QueueItem(object):
     def __init__(self, requester, item_info):
         self.requester = requester
         self.item_info = item_info
-        self.url = self.item_info['webpage_url']
+        self.url = self.item_info.get('webpage_url')
         self.video_id = self.item_info['id']
         if 'uploader' in self.item_info:
             self.uploader = self.item_info['uploader']
@@ -57,20 +57,22 @@ class QueueItem(object):
         return final
 
     async def download(self):
-        out_location = f'cache/{self.token}'
-        if not os.path.exists(out_location):
-            self.ytdl.params['outtmpl'] = out_location
-            task = functools.partial(self.ytdl.extract_info, self.url)
-            async_download = self.pool.apply_async(task)
-            async_download.get()
-            self.downloaded = True
-        self.location = out_location
+        if self.url:
+            out_location = f'cache/{self.token}'
+            if not os.path.exists(out_location):
+                self.ytdl.params['outtmpl'] = out_location
+                task = functools.partial(self.ytdl.extract_info, self.url)
+                async_download = self.pool.apply_async(task)
+                async_download.get()
+                self.downloaded = True
+            self.location = out_location
 
     async def create_player(self, voice_client):
         await self.download()
-        audio_source = discord.FFmpegPCMAudio(self.location)
-        if not voice_client.is_playing():
-            voice_client.play(audio_source)
+        if self.location:
+            audio_source = discord.FFmpegPCMAudio(self.location)
+            if not voice_client.is_playing():
+                voice_client.play(audio_source)
 
 
 class MusicCore(object):
