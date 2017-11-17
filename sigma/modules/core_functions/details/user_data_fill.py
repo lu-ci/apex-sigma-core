@@ -22,15 +22,18 @@ async def clean_avatar(member):
 
 
 async def generate_member_data(member):
-    mem_data = {
-        'Name': member.name,
-        'Nickname': member.display_name,
-        'Discriminator': member.discriminator,
-        'UserID': member.id,
-        'ServerID': member.guild.id,
-        'Avatar': await clean_avatar(member),
-        'Color': str(member.color)
-    }
+    if member:
+        mem_data = {
+            'Name': member.name,
+            'Nickname': member.display_name,
+            'Discriminator': member.discriminator,
+            'UserID': member.id,
+            'ServerID': member.guild.id,
+            'Avatar': await clean_avatar(member),
+            'Color': str(member.color)
+        }
+    else:
+        mem_data = None
     return mem_data
 
 
@@ -47,8 +50,9 @@ async def user_data_fill(ev):
         for guild in ev.bot.guilds:
             if guild.shard_id == x:
                 for member in guild.members:
-                    mem_data = await generate_member_data(member)
-                    member_list.append(mem_data)
+                    if member:
+                        mem_data = await generate_member_data(member)
+                        member_list.append(mem_data)
         task = functools.partial(mem_coll.insert, member_list)
         await ev.bot.loop.run_in_executor(threads, task)
         shard_end = arrow.utcnow().float_timestamp
