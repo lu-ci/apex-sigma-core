@@ -79,7 +79,8 @@ async def play(cmd, message, args):
                     await message.guild.voice_client.disconnect()
                     if message.guild.id in cmd.bot.music.queues:
                         del cmd.bot.music.queues[message.guild.id]
-                await cmd.bot.modules.commands['donate'].execute(message, ['mini'])
+                if 'donate' in cmd.bot.modules.commands:
+                    await cmd.bot.modules.commands['donate'].execute(message, ['mini'])
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
         else:
