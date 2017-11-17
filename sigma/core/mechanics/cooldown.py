@@ -62,7 +62,10 @@ class CooldownControl(object):
             now_stamp = arrow.utcnow().float_timestamp
             cooldown = end_stamp - now_stamp
             if cooldown < 2:
-                cooldown = round(cooldown, 2)
+                if cooldown <= 0:
+                    cooldown = 0.01
+                else:
+                    cooldown = round(cooldown, 2)
             else:
                 cooldown = int(cooldown)
         else:
