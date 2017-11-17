@@ -24,6 +24,8 @@ async def reload(cmd, message, args):
         cmd.log.info('---------------------------------')
     else:
         command_name = ' '.join(args)
+        if command_name in cmd.bot.modules.alts:
+            command_name = cmd.bot.modules.alts[command_name]
         response = discord.Embed()
         if command_name not in cmd.bot.modules.commands.keys():
             response.colour = 0xBE1931
