@@ -325,6 +325,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>addcommand` `>>addcmd` | Adds a custom command trigger to the server. Whenever this trigger word is used with a command prefix the inputted response will be provided. Command requires the Manage Server permission. | `>>addcommand hi Hello world!`
+`>>addresponder` `>>addres` | Adds an auto-responder to the server. An automatic responder will reply with the set message to any sentence that conaints the chosen trigger in it as a standalone word. | `>>addresponder hi Hello there!`
 `>>asciionlynames` `>>forceascii` | Toggles if only ASCII characters are allowed in names. The bot will check members each 60s for an invalid name and rename them if they are not proper. To change the default temporary name, use the asciitempname command. | `>>asciionlynames`
 `>>asciitempname` `>>asciitemp` | Changes the default temporary name for those who the temp name was enforced on. | `>>asciitempname <ChangeMePleaseI'mLonely>`
 `>>blockedwords` | Lists all blocked words on the server. | `>>blockedwords`
@@ -341,7 +342,8 @@ Commands | Description | Example
 `>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they enter server. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
 `>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
-`>>removecommand` `>>remcmd` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removecommand hi`
+`>>removecommand` `>>remcmd` `>>delcmd` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removecommand hi`
+`>>removeresponder` `>>remres` `>>delres` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removeresponder hi`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. | `>>unflip`
 [Back To Top](#module-index)

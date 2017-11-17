@@ -15,7 +15,7 @@ async def removecommand(cmd, message, args):
             else:
                 response = discord.Embed(title='❗ Can\'t moify an existing core command', color=0xBE1931)
         else:
-            response = discord.Embed(title='❗ Nothing Was Inputted', color=0xBE1931)
+            response = discord.Embed(title='❗ Nothing was inputted.', color=0xBE1931)
     else:
         response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)

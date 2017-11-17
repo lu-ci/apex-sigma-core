@@ -9,3 +9,8 @@ events:
     type:         message
     global:       true
     enabled:      true
+
+  - name:         auto_responder
+    type:         message
+    global:       true
+    enabled:      true

@@ -19,6 +19,29 @@ commands:
   - name:         removecommand
     alts:
       - "remcmd"
+      - "delcmd"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hi"
+    description:
+      Removes a custom command trigger used for custom commands from the server.
+      Command requires the Manage Server permission.
+
+  - name:         addresponder
+    alts:
+      - "addres"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} hi Hello there!"
+    description:
+      Adds an auto-responder to the server.
+      An automatic responder will reply with the set message to any sentence
+      that conaints the chosen trigger in it as a standalone word.
+
+  - name:         removeresponder
+    alts:
+      - "remres"
+      - "delres"
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi"
