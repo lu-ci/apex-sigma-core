@@ -1,4 +1,5 @@
 import string
+from sigma.core.utilities.data_processing import command_message_parser
 
 
 def clean_word(text):
@@ -21,5 +22,7 @@ async def auto_responder(ev, message):
                 for arg in arguments:
                     arg = clean_word(arg)
                     if arg in triggers:
-                        await message.channel.send(triggers[arg])
+                        response = triggers[arg]
+                        response = command_message_parser(message, response)
+                        await message.channel.send(response)
                         break

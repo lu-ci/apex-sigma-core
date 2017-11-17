@@ -11,10 +11,24 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello world!"
-    description:
+    description: |
       Adds a custom command trigger to the server.
       Whenever this trigger word is used with a command prefix the inputted response will be provided.
       Command requires the Manage Server permission.
+      Custom commands can have special dynamic arguments in them.
+      {author_name}: Message author name.
+      {author_nick}: Message author nickname.
+      {author_mention}: Tag the message author.
+      {author_id}: Message author's ID.
+      {channel_name}: Channel name.
+      {channel_mention}: Channel tag.
+      {channel_id}: Channel ID.
+      {server_name}: Server name.
+      {server_id}: Server ID.
+      {target_name}: Target name.
+      {target_nick}: Target nickname.
+      {target_mention}: Tag the target.
+      {target_id}: Target ID.
 
   - name:         removecommand
     alts:
@@ -33,10 +47,24 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello there!"
-    description:
+    description: |
       Adds an auto-responder to the server.
       An automatic responder will reply with the set message to any sentence
       that conaints the chosen trigger in it as a standalone word.
+      Responders can have special dynamic arguments in them like custom commands do.
+      {author_name}: Message author name.
+      {author_nick}: Message author nickname.
+      {author_mention}: Tag the message author.
+      {author_id}: Message author's ID.
+      {channel_name}: Channel name.
+      {channel_mention}: Channel tag.
+      {channel_id}: Channel ID.
+      {server_name}: Server name.
+      {server_id}: Server ID.
+      {target_name}: Target name.
+      {target_nick}: Target nickname.
+      {target_mention}: Tag the target.
+      {target_id}: Target ID.
 
   - name:         removeresponder
     alts:
