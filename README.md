@@ -12,6 +12,8 @@
 
 [![Discord Banner](https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2)](https://discordapp.com/invite/aEUCHwX)
 
+[![Discord Bots](https://discordbots.org/api/widget/216437513709944832.png)](https://discordbots.org/bot/216437513709944832?utm_source=widget)
+
 </div>
 
 ## Development
