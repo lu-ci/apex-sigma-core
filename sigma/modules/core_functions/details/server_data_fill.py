@@ -42,7 +42,6 @@ def count_channels(channels):
 
 async def server_data_fill(ev):
     ev.log.info('Filling server details...')
-    threads = ThreadPoolExecutor()
     start_stamp = arrow.utcnow().float_timestamp
     srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
     srv_coll.drop()
@@ -79,7 +78,8 @@ async def server_data_fill(ev):
                 }
                 server_list.append(srv_data)
         task = functools.partial(srv_coll.insert, server_list)
-        await ev.bot.loop.run_in_executor(threads, task)
+        with ThreadPoolExecutor() as threads:
+            await ev.bot.loop.run_in_executor(threads, task)
         shard_end = arrow.utcnow().float_timestamp
         shard_diff = round(shard_end - shard_start, 3)
         ev.log.info(f'Filled Shard #{x} Servers in {shard_diff}s.')

@@ -27,7 +27,6 @@ def grab_post(subreddit, argument):
 
 async def reddit(cmd, message, args):
     global reddit_client
-    threads = ThreadPoolExecutor()
     if 'client_id' in cmd.cfg and 'client_secret' in cmd.cfg:
         if args:
             client_id = cmd.cfg['client_id']
@@ -40,7 +39,8 @@ async def reddit(cmd, message, args):
                 subreddit = reddit_client.subreddit(subreddit)
                 grab_func = functools.partial(grab_post, subreddit, argument)
                 try:
-                    post = await cmd.bot.loop.run_in_executor(threads, grab_func)
+                    with ThreadPoolExecutor() as threads:
+                        post = await cmd.bot.loop.run_in_executor(threads, grab_func)
                 except NotFound:
                     post = None
                 if post:

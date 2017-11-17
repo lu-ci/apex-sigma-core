@@ -41,7 +41,7 @@ async def chat_bot(ev, message):
                         if message.content.startswith(mention) or message.content.startswith(mention_alt):
                             interaction = ' '.join(args[1:])
                             task = functools.partial(cb.get_response, interaction)
-                            threads = ThreadPoolExecutor()
-                            cb_resp = await ev.bot.loop.run_in_executor(threads, task)
+                            with ThreadPoolExecutor() as threads:
+                                cb_resp = await ev.bot.loop.run_in_executor(threads, task)
                             response = f'{message.author.mention} {cb_resp}'
                             await message.channel.send(response)

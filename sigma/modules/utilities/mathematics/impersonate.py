@@ -22,12 +22,12 @@ async def impersonate(cmd, message, args):
             init_message = await message.channel.send(embed=init_embed)
             chain_data = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
             if chain_data:
-                threads = ThreadPoolExecutor()
                 total_string = ' '.join(chain_data['Chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
-                chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                sentence_function = functools.partial(chain.make_short_sentence, 500)
-                sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                with ThreadPoolExecutor() as threads:
+                    chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
+                    sentence_function = functools.partial(chain.make_short_sentence, 500)
+                    sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:
                     response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
                 else:
