@@ -9,18 +9,3 @@ events:
     type:         message
     global:       true
     enabled:      true
-
-  - name:         press_f_adder
-    type:         message
-    global:       true
-    enabled:      true
-
-  - name:         just_monika
-    type:         message
-    global:       true
-    enabled:      true
-
-  - name:         nablie_plant
-    type:         message
-    global:       true
-    enabled:      true
