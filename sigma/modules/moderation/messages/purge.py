@@ -51,12 +51,19 @@ async def purge(cmd, message, args):
         if not valid_count:
             response = discord.Embed(color=0xBE1931, title=f'❗ {args[0]} is not a valid number.')
         else:
-            def purge_check(msg):
+            def purge_target_check(msg):
                 if not msg.pinned:
                     if msg.author.id == target.id:
                         clean = True
                     else:
                         clean = False
+                else:
+                    clean = False
+                return clean
+
+            def purge_wide_check(msg):
+                if not msg.pinned:
+                    clean = True
                 else:
                     clean = False
                 return clean
@@ -67,13 +74,13 @@ async def purge(cmd, message, args):
                 pass
             if target:
                 try:
-                    deleted = await message.channel.purge(limit=count, check=purge_check)
+                    deleted = await message.channel.purge(limit=count, check=purge_target_check)
                 except Exception:
                     deleted = []
                     pass
             else:
                 try:
-                    deleted = await message.channel.purge(limit=count)
+                    deleted = await message.channel.purge(limit=count, check=purge_wide_check)
                 except Exception:
                     deleted = []
                     pass
