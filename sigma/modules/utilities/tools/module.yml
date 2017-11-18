@@ -36,3 +36,12 @@ commands:
     description:
       Shows the inputted color.
       It accepts either a HEX code or an RGB array.
+
+  - name:         lmgtfy
+    alts:
+      - "letmegooglethatforyou"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Sexy Sneks"
+    description:
+      Outputs a link that will google the query for you.
