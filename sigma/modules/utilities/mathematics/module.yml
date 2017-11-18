@@ -101,7 +101,18 @@ commands:
     alts:
       - "tconv"
     global:       true
-    enabled:      false
+    enabled:      true
     usage:        "{pfx}{cmd} 18:57 UTC>PST"
     description:
       Converts the given time in the given time zone to the inputted time zone.
+
+  - name:         currenttime
+    alts:
+      - "time"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} PDT"
+    description:
+      Shows the current time in UTC.
+      You can specify a time zone as well.
+      If you wish to convert time, use the timeconvert command.
