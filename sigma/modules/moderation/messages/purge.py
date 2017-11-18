@@ -51,8 +51,15 @@ async def purge(cmd, message, args):
         if not valid_count:
             response = discord.Embed(color=0xBE1931, title=f'❗ {args[0]} is not a valid number.')
         else:
-            def author_check(msg):
-                return msg.author.id == target.id
+            def purge_check(msg):
+                if not msg.pinned:
+                    if msg.author.id == target.id:
+                        clean = True
+                    else:
+                        clean = False
+                else:
+                    clean = False
+                return clean
 
             try:
                 await message.delete()
@@ -60,7 +67,7 @@ async def purge(cmd, message, args):
                 pass
             if target:
                 try:
-                    deleted = await message.channel.purge(limit=count, check=author_check)
+                    deleted = await message.channel.purge(limit=count, check=purge_check)
                 except Exception:
                     deleted = []
                     pass
