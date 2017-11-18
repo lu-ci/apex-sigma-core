@@ -14,7 +14,7 @@ async def customcommands(cmd, message, args):
                 page = 1
         else:
             page = 1
-        custom_commands = list(custom_commands.keys())
+        custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)
         if page < 1:
             page = 1
@@ -25,8 +25,8 @@ async def customcommands(cmd, message, args):
             ender = 's'
         else:
             ender = ''
-        summary = f'Showing {len(commands)} commands from Page #{page}.'
-        summary += f'\n{message.guild.name} has {cmd_count} custom command{ender}.'
+        summary = f'Showing **{len(commands)}** commands from Page **#{page}**.'
+        summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
         pfx = cmd.bot.get_prefix(message)
         loop_index = start_range
         cmd_list_lines = []
