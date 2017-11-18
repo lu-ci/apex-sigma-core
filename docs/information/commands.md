@@ -74,7 +74,6 @@ Commands | Description | Example
 `>>nekomimi` `>>neko` `>>nyaa` | Displays a random nekomimi image. In case you don't know what a nekomimi is, it's a catgirl. All images are sourced from Safebooru, but due to some being borderline. The command rating is naturally set to "Borderline". | `>>nekomimi`
 `>>numberfact` `>>numfact` `>>numf` | Searches for interesting things about a given number. You can also insert a date in the DAY/MON format. You can specify a type of number you want retrived in the format TYPE:NUMBER. The allowed types are trivia, math, date, year. You can also specify "random" instead of a number to make it a random number. | `>>numberfact 42`
 `>>pun` | If you do not know what a pun is... Oh you poor innocent soul. This command will produce a lovely little pun for you. Enjoy the cringe! | `>>pun`
-`>>quote` | Gives you a random inspirational or deep quote. | `>>quote`
 `>>randomcomicgenerator` `>>rcg` | Uses the Cyanide and Happiness random comic generator for buttloads of fun. Personally the favorite comic command. | `>>randomcomicgenerator`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | Everyone's favorite character from Parks and Recreation. This command will output a random quote from Ron Swanson. | `>>ronswanson`
@@ -156,6 +155,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>checkheartkey` `>>chk` | Checks if the key you have inputted is the heart key of Sigma. If the key inputted has at least part of the true key, it will say so. | `>>checkheartkey b7V01YuKJ7Le1FQSZS_gvPtvI9kFa0ZDHH_-QfzZsFA=`
 `>>collectchain` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person #channel`
+`>>currenttime` `>>time` | Shows the current time in UTC. You can specify a time zone as well. If you wish to convert time, use the timeconvert command. | `>>currenttime PDT`
 `>>decrypt` | Decrypts any message that was encrypted using the Sigma Heart Key. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>decrypt H7U2JfWkr0zCApDPDkO`
 `>>dokidoki` `>>doki` `>>dd` | Makes a random markov chain based sentence from a random Doki Doki Literature Club character quote. You can force which character to quote by adding their name as an argument to the command. And you can force a glitch by adding ":glitch" as the ending argument. | `>>dokidoki`
 `>>encrypt` | Encrypts the message of your choice using the Sigma Heart Key. The message can be decrypted using the decrypt command. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>encrypt I will always be here to talk to you for as long as you want.`
@@ -207,6 +207,7 @@ Commands | Description | Example
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. | `>>httpstatus 404`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created. The location where they are set to execute in. And in what time they execute in. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
+`>>quote` | Quotes a message from it's given ID. | `>>quote 381449702589202432`
 `>>randombetween` `>>ranin` | Outputs a random number between two inputted numbers. | `>>randombetween 59 974`
 `>>reminderinfo` `>>reminder` `>>rminfo` `>>rmi` | Shows information about your reminder with the given ID. Such as when it executes and where. | `>>reminderinfo f93f`
 `>>remindme` `>>remind` `>>setreminder` `>>alarm` `>>rmme` | Sets a timer that will mention the author when it's done. The time format is H:M:S, but is not limited to the constraints of their types. Meaning you can type "200:5000:999999" if you wish. Reminders are limited to 90 days, and you are limited to 15 reminders. | `>>remindme 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
@@ -336,6 +337,7 @@ Commands | Description | Example
 `>>byechannel` `>>byech` | Sets the channel the goodbye messages should be sent to. | `>>byechannel #welcome`
 `>>byemessage` `>>byemsg` | This sets the message shown on the server when a member leaves. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the leaving user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the leaving user. {user_id} - The leaving user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>byemessage Hello {user_mention}, welcome to {server_name}!`
 `>>chatterbot` | Toggles if the Chatterbot functions should be active. If active, when a message starts with a mention of Sigma, she will respond. This setting is active by default. | `>>chatterbot`
+`>>customcommands` `>>custcmds` | Shows a list of the server's custom commands. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>customcommands 4`
 `>>deletecommands` `>>delcmds` | Toggles if messages that are a command should be automatically deleted. | `>>deletecommands`
 `>>greet` | Toggles if the bot should greet users when they enter the server. The greeting feature is active by default. | `>>greet`
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
@@ -364,7 +366,7 @@ Commands | Description | Example
 ### UTILITY
 Commands | Description | Example
 ----------|-------------|--------
-`>>avatar` `>>av` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "gif" to the end of the command to indicate that it's a gif. Or you can add "auto" to make the color strip the dominant color of the image. | `>>avatar @person`
+`>>avatar` `>>av` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "gif" to the end of the command to indicate that it's a gif. Or you can add "auto" to make the color strip the dominant color of the image. You can also add "static" to the end to make it return the full sized static version of your avatar. | `>>avatar @person`
 `>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server where the command is used and shows their status. | `>>bots`
 `>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the return message to be an embed, add "text" at the end. | `>>channelid #channel`
