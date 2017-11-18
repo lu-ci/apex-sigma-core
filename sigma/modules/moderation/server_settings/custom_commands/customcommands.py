@@ -30,7 +30,7 @@ async def customcommands(cmd, message, args):
         pfx = cmd.bot.get_prefix(message)
         loop_index = start_range
         cmd_list_lines = []
-        for key in custom_commands:
+        for key in commands:
             loop_index += 1
             list_line = f'**{loop_index}**: {pfx}{key}'
             cmd_list_lines.append(list_line)
