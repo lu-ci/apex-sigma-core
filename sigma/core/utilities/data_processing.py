@@ -14,10 +14,13 @@ def user_avatar(user, gif=False, static=False):
     if gif:
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
-        if user.avatar.startswith('a') and not static:
-            output = f"{'.'.join(output.split('.')[:-1])}.gif"
+        if user.avatar:
+            if user.avatar.startswith('a') and not static:
+                output = f"{'.'.join(output.split('.')[:-1])}.gif"
+            else:
+                output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
         else:
-            output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
+            output = user.default_avatar_url
     return output
 
 
