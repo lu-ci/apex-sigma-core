@@ -6,7 +6,7 @@ import arrow
 from PIL import Image
 
 
-def user_avatar(user, gif=False):
+def user_avatar(user, gif=False, static=False):
     if user.avatar_url:
         output = user.avatar_url
     else:
@@ -14,7 +14,10 @@ def user_avatar(user, gif=False):
     if gif:
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
-        output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
+        if user.avatar.startswith('a') and not static:
+            output = f"{'.'.join(output.split('.')[:-1])}.gif"
+        else:
+            output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
     return output
 
 
