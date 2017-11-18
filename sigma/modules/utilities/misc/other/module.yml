@@ -40,3 +40,10 @@ commands:
     usage:        "{pfx}{cmd} 59 974"
     description:
       Outputs a random number between two inputted numbers.
+
+  - name:         quote
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 381449702589202432"
+    description:
+      Quotes a message from it's given ID.
