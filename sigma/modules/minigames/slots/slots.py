@@ -36,6 +36,7 @@ async def slots(cmd, message, args):
     if current_kud >= bet:
         if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
             upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+            sabotage_file = db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
             if upgrade_file is None:
                 cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                 upgrade_file = {}
@@ -56,7 +57,10 @@ async def slots(cmd, message, args):
                         symbol_choice = secrets.choice(symbols)
                         init_symb.append(symbol_choice)
                     else:
-                        roll = secrets.randbelow(bet + 40)
+                        if sabotage_file:
+                            roll = 999999999
+                        else:
+                            roll = secrets.randbelow(bet + 40)
                         if roll == 0:
                             symbol_choice = secrets.choice(init_symb)
                         else:
