@@ -48,6 +48,19 @@ commands:
     description:
       Disallows a person from using a specific module category.
 
+  - name:         sabotageuser
+    alts:
+      - "sabusr"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Sabotages a user making them have extreme bad luck in various modules.
+
   - name:         wipeawards
     global:       true
     enabled:      true

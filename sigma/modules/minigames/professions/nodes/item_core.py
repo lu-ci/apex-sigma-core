@@ -86,7 +86,11 @@ class ItemCore(object):
             8: 999000000,
             9: 999750000
         }
-        roll = secrets.randbelow(1000000000) + (upgrade_level * 250) + 1
+        sabotage_file = db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
+        if sabotage_file:
+            roll = 0
+        else:
+            roll = secrets.randbelow(1000000000) + (upgrade_level * 250) + 1
         lowest = 0
         for rarity in rarities:
             if rarities[rarity] <= roll:
