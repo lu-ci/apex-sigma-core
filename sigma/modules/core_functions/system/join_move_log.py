@@ -14,8 +14,8 @@ async def join_move_log(ev, guild):
             user_count += 1
     owner = guild.owner
     log_lines = f'Guild: {guild.name}[{guild.id}] | '
-    log_lines += f'\nOwner: {owner.name} [{owner.id}] | '
-    log_lines += f'\nMembers: {user_count} | Bots: {bot_count}'
+    log_lines += f'Owner: {owner.name} [{owner.id}] | '
+    log_lines += f'Members: {user_count} | Bots: {bot_count}'
     ev.log.info(log_lines)
     if ev.bot.cfg.pref.movelog_channel:
         mlc_id = ev.bot.cfg.pref.movelog_channel
