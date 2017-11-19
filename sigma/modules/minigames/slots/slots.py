@@ -36,7 +36,7 @@ async def slots(cmd, message, args):
     if current_kud >= bet:
         if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
             upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
-            sabotage_file = db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
+            sabotage_file = cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
             if upgrade_file is None:
                 cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                 upgrade_file = {}
