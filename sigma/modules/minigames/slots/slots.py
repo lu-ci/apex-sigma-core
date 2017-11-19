@@ -5,16 +5,26 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 
 rarity_rewards = {
-    '💎': 150,
-    '🔱': 100,
-    '💠': 75,
-    '🍁': 50,
-    '🍆': 30,
-    '☀': 25,
-    '🍌': 20,
-    '☢': 15,
-    '☎': 10,
-    '🔥': 5
+    '🍆': 5,
+    '🍒': 10,
+    '⚓': 15,
+    '🏵': 20,
+    '💖': 25,
+    '🏮': 30,
+    '🍥': 35,
+    '💵': 40,
+    '💳': 45,
+    '🎁': 50,
+    '🐬': 55,
+    '🐦': 60,
+    '🌟': 65,
+    '🦊': 70,
+    '🦋': 75,
+    '🐍': 80,
+    '🍬': 85,
+    '💎': 90,
+    '🔰': 95,
+    '⚜': 100
 }
 
 symbols = []
@@ -60,7 +70,7 @@ async def slots(cmd, message, args):
                         if sabotage_file:
                             roll = 999999999
                         else:
-                            roll = secrets.randbelow(bet + 40)
+                            roll = secrets.randbelow(bet + 25)
                         if roll == 0:
                             symbol_choice = secrets.choice(init_symb)
                         else:
