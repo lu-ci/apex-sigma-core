@@ -5,6 +5,18 @@ from .move_log_embed import make_move_log_embed
 
 
 async def join_move_log(ev, guild):
+    bot_count = 0
+    user_count = 0
+    for user in guild.members:
+        if user.bot:
+            bot_count += 1
+        else:
+            user_count += 1
+    owner = guild.owner
+    log_lines = f'Guild: {guild.name}[{guild.id}] | '
+    log_lines += f'\nOwner: {owner.name} [{owner.id}] | '
+    log_lines += f'\nMembers: {user_count} | Bots: {bot_count}'
+    ev.log.info(log_lines)
     if ev.bot.cfg.pref.movelog_channel:
         mlc_id = ev.bot.cfg.pref.movelog_channel
         mlc = discord.utils.find(lambda x: x.id == mlc_id, ev.bot.get_all_channels())
