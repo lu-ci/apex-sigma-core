@@ -70,7 +70,7 @@ async def slots(cmd, message, args):
                         if sabotage_file:
                             roll = 999999999
                         else:
-                            roll = secrets.randbelow(bet + 25)
+                            roll = secrets.randbelow(bet + (bet // 2) + 10)
                         if roll == 0:
                             symbol_choice = secrets.choice(init_symb)
                         else:
