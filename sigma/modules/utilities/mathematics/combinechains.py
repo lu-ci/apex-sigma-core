@@ -9,8 +9,8 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 def combine_names(user_one, user_two):
-    cutoff_one = len(user_one.name) // 2
-    cutoff_two = len(user_two.name) // 2
+    cutoff_one = len(user_one.display_name) // 2
+    cutoff_two = len(user_two.display_name) // 2
     piece_one = user_one.name[:cutoff_one]
     piece_two = user_two.name[cutoff_two:]
     output = piece_one + piece_two
