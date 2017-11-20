@@ -97,6 +97,17 @@ commands:
       Tries to impersonate the mentioned user if a chain file for them exists.
       This command is on a 20 second cooldown due to it's weight.
 
+  - name:         combinechains
+    alts:
+      - "combine"
+      - "cmbch"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} @target_one @target_two"
+    description:
+      Like the impersonate command.
+      This one however targets two uers and uses their chains to generated a mixed response.
+
   - name:         timeconvert
     alts:
       - "tconv"
