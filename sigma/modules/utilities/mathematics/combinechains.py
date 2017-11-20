@@ -39,15 +39,15 @@ async def combinechains(cmd, message, args):
                     combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
                     sentence_function = functools.partial(combination.make_short_sentence, 500)
                     sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    if not sentence:
-                        response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
-                    else:
-                        icon_choice = secrets.choice([target_one, target_two])
-                        combined_name = combine_names(target_one, target_two)
-                        response = discord.Embed(color=0xbdddf4)
-                        response.set_author(name=combined_name, icon_url=user_avatar(icon_choice))
-                        response.add_field(name='💭 Hmm... something like...', value=sentence)
-                    await init_message.edit(embed=response)
+                if not sentence:
+                    response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
+                else:
+                    icon_choice = secrets.choice([target_one, target_two])
+                    combined_name = combine_names(target_one, target_two)
+                    response = discord.Embed(color=0xbdddf4)
+                    response.set_author(name=combined_name, icon_url=user_avatar(icon_choice))
+                    response.add_field(name='💭 Hmm... something like...', value=sentence)
+                await init_message.edit(embed=response)
             else:
                 no_chain = discord.Embed(color=0xBE1931, title='❗ One of the users does not have a chain.')
                 await message.channel.send(embed=no_chain)
