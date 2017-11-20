@@ -28,3 +28,5 @@ class QueueControl(object):
                     warn_line = f' {item.name} | Execution Time: {round(diff, 3)} | Last Function: {last_function}'
                     self.log.warning(warn_line)
                 last_function = item.name
+            else:
+                await asyncio.sleep(1)
