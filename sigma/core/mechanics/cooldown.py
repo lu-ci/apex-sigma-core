@@ -32,6 +32,7 @@ class CooldownControl(object):
         self.bot = bot
         self.cmd = CommandCooldown()
         self.db = self.bot.db
+        self.cache = {}
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
 
     def on_cooldown(self, cmd, user):
@@ -39,7 +40,10 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cds.find_one({'name': cd_name})
+        if cd_name in self.cache:
+            entry = self.cache.get(cd_name)
+        else:
+            entry = self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().timestamp
@@ -56,7 +60,10 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cds.find_one({'name': cd_name})
+        if cd_name in self.cache:
+            entry = self.cache.get(cd_name)
+        else:
+            entry = self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().float_timestamp
@@ -77,7 +84,11 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cds.find_one({'name': cd_name})
+        if cd_name in self.cache:
+            entry = self.cache.get(cd_name)
+            del self.cache[cd_name]
+        else:
+            entry = self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
         if entry:
             self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
