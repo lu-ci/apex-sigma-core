@@ -138,7 +138,6 @@ class ApexSigma(client_class):
     async def event_runner(self, event_name, *args):
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
-                # self.loop.create_task(event.execute(*args))
                 task = event, *args
                 await self.queue.queue.put(task)
 
