@@ -17,7 +17,7 @@ async def impersonate(cmd, message, args):
         else:
             target = message.author
         if target:
-            cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
+            cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 10)
             init_embed = discord.Embed(color=0xbdddf4, title='💭 Hmm... Let me think...')
             init_message = await message.channel.send(embed=init_embed)
             chain_data = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})

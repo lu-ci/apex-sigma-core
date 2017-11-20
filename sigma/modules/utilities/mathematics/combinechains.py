@@ -25,7 +25,7 @@ async def combinechains(cmd, message, args):
             chain_one = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target_one.id})
             chain_two = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target_two.id})
             if chain_one and chain_two:
-                cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
+                cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 10)
                 init_embed = discord.Embed(color=0xbdddf4, title='💭 Hmm... Let me think...')
                 init_message = await message.channel.send(embed=init_embed)
                 string_one = ' '.join(chain_one.get('Chain'))
