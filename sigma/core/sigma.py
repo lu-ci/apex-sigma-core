@@ -189,11 +189,9 @@ class ApexSigma(client_class):
     async def on_message(self, message):
         self.message_count += 1
         if not message.author.bot:
-            event_name = 'message'
-            self.loop.create_task(self.event_runner(event_name, message))
+            self.loop.create_task(self.event_runner('message', message))
             if self.user.mentioned_in(message):
-                event_name = 'mention'
-                self.loop.create_task(self.event_runner(event_name, message))
+                self.loop.create_task(self.event_runner('mention', message))
             prefix = self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
@@ -213,43 +211,35 @@ class ApexSigma(client_class):
                     cmd = self.modules.alts[cmd]
                 if cmd in self.modules.commands:
                     command = self.modules.commands[cmd]
-                    # self.loop.create_task(command.execute(message, args))
                     task = command, message, args
                     await self.queue.queue.put(task)
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
-            event_name = 'message_edit'
-            self.loop.create_task(self.event_runner(event_name, before, after))
+            self.loop.create_task(self.event_runner('mesage_edit', before, after))
 
     async def on_message_delete(self, message):
         if not message.author.bot:
-            event_name = 'message_delete'
-            self.loop.create_task(self.event_runner(event_name, message))
+            self.loop.create_task(self.event_runner('message_delete', message))
 
     async def on_member_join(self, member):
         if not member.bot:
-            event_name = 'member_join'
-            self.loop.create_task(self.event_runner(event_name, member))
+            self.loop.create_task(self.event_runner('member_join', member))
 
     async def on_member_remove(self, member):
         if not member.bot:
-            event_name = 'member_remove'
-            self.loop.create_task(self.event_runner(event_name, member))
+            self.loop.create_task(self.event_runner('member_remove', member))
 
     async def on_member_update(self, before, after):
         if not before.bot:
-            event_name = 'member_update'
-            self.loop.create_task(self.event_runner(event_name, before, after))
+            self.loop.create_task(self.event_runner('member_update', before, after))
 
     async def on_guild_join(self, guild):
-        event_name = 'guild_join'
-        self.loop.create_task(self.event_runner(event_name, guild))
+        self.loop.create_task(self.event_runner('guild_join', guild))
 
     async def on_guild_remove(self, guild):
-        event_name = 'guild_remove'
-        self.loop.create_task(self.event_runner(event_name, guild))
+        self.loop.create_task(self.event_runner('guild_remove', guild))
 
     async def on_voice_state_update(self, member, before, after):
-        event_name = 'voice_state_update'
-        self.loop.create_task(self.event_runner(event_name, member, before, after))
+        if not member.bot:
+            self.loop.create_task(self.event_runner('voice_state_update', member, before, after))
