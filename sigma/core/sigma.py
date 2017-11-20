@@ -53,7 +53,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
-        self.queue = QueueControl()
+        self.queue = QueueControl(self)
         self.launched = False
         self.cache = {}
         # Initialize startup methods and attributes.

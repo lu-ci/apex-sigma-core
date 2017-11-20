@@ -6,7 +6,8 @@ from sigma.core.mechanics.logger import create_logger
 
 
 class QueueControl(object):
-    def __init__(self):
+    def __init__(self, bot):
+        self.bot = bot
         self.log = create_logger('Threader')
         self.loop = asyncio.get_event_loop()
         self.queue = asyncio.Queue()
@@ -16,13 +17,14 @@ class QueueControl(object):
     async def queue_loop(self):
         last_function = None
         while True:
-            item, *args = await self.queue.get()
-            start_stamp = arrow.utcnow().float_timestamp
-            task = functools.partial(self.loop.create_task, item.execute(*args))
-            await self.loop.run_in_executor(self.threads, task)
-            end_stamp = arrow.utcnow().float_timestamp
-            diff = end_stamp - start_stamp
-            if diff > 3:
-                warn_line = f' {item.name} | Execution Time: {round(diff, 3)} | Last Function: {last_function}'
-                self.log.warning(warn_line)
-            last_function = item.name
+            if self.bot.ready:
+                item, *args = await self.queue.get()
+                start_stamp = arrow.utcnow().float_timestamp
+                task = functools.partial(self.loop.create_task, item.execute(*args))
+                await self.loop.run_in_executor(self.threads, task)
+                end_stamp = arrow.utcnow().float_timestamp
+                diff = end_stamp - start_stamp
+                if diff > 3:
+                    warn_line = f' {item.name} | Execution Time: {round(diff, 3)} | Last Function: {last_function}'
+                    self.log.warning(warn_line)
+                last_function = item.name
