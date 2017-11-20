@@ -68,39 +68,41 @@ class Database(pymongo.MongoClient):
         return output
 
     def add_experience(self, user, guild, points, additive=True):
-        database = self[self.bot.cfg.db.database]
-        collection = database['ExperienceSystem']
-        entry = collection.find_one({'UserID': user.id})
-        if entry:
-            if 'global' in entry:
-                global_xp = entry['global']
+        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+        if not sabotage_file:
+            database = self[self.bot.cfg.db.database]
+            collection = database['ExperienceSystem']
+            entry = collection.find_one({'UserID': user.id})
+            if entry:
+                if 'global' in entry:
+                    global_xp = entry['global']
+                else:
+                    global_xp = 0
+                if 'guilds' in entry:
+                    guilds = entry['guilds']
+                else:
+                    guilds = {}
             else:
+                collection.insert_one({'UserID': user.id})
                 global_xp = 0
-            if 'guilds' in entry:
-                guilds = entry['guilds']
-            else:
                 guilds = {}
-        else:
-            collection.insert_one({'UserID': user.id})
-            global_xp = 0
-            guilds = {}
-        guild_id = str(guild.id)
-        if guild_id in guilds:
-            guild_points = guilds[guild_id]
-        else:
-            guild_points = 0
-        if additive:
-            global_xp += points
-            guild_points += points
-        guild_data = {guild_id: guild_points}
-        guilds.update(guild_data)
-        xp_data = {
-            'global': global_xp,
-            'guilds': guilds
-        }
-        update_target = {'UserID': user.id}
-        update_data = {'$set': xp_data}
-        collection.update_one(update_target, update_data)
+            guild_id = str(guild.id)
+            if guild_id in guilds:
+                guild_points = guilds[guild_id]
+            else:
+                guild_points = 0
+            if additive:
+                global_xp += points
+                guild_points += points
+            guild_data = {guild_id: guild_points}
+            guilds.update(guild_data)
+            xp_data = {
+                'global': global_xp,
+                'guilds': guilds
+            }
+            update_target = {'UserID': user.id}
+            update_data = {'$set': xp_data}
+            collection.update_one(update_target, update_data)
 
     def get_currency(self, user, guild):
         database = self[self.bot.cfg.db.database]
@@ -132,47 +134,49 @@ class Database(pymongo.MongoClient):
         return output
 
     def add_currency(self, user, guild, points, additive=True):
-        database = self[self.bot.cfg.db.database]
-        collection = database['CurrencySystem']
-        entry = collection.find_one({'UserID': user.id})
-        points = abs(points)
-        if entry:
-            if 'current' in entry:
-                current_amount = entry['current']
+        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+        if not sabotage_file:
+            database = self[self.bot.cfg.db.database]
+            collection = database['CurrencySystem']
+            entry = collection.find_one({'UserID': user.id})
+            points = abs(points)
+            if entry:
+                if 'current' in entry:
+                    current_amount = entry['current']
+                else:
+                    current_amount = 0
+                if 'global' in entry:
+                    global_amount = entry['global']
+                else:
+                    global_amount = 0
+                if 'guilds' in entry:
+                    guilds = entry['guilds']
+                else:
+                    guilds = {}
             else:
-                current_amount = 0
-            if 'global' in entry:
-                global_amount = entry['global']
-            else:
+                collection.insert_one({'UserID': user.id})
                 global_amount = 0
-            if 'guilds' in entry:
-                guilds = entry['guilds']
-            else:
+                current_amount = 0
                 guilds = {}
-        else:
-            collection.insert_one({'UserID': user.id})
-            global_amount = 0
-            current_amount = 0
-            guilds = {}
-        guild_id = str(guild.id)
-        if guild_id in guilds:
-            guild_points = guilds[guild_id]
-        else:
-            guild_points = 0
-        if additive:
-            global_amount += points
-            guild_points += points
-        current_amount += points
-        guild_data = {guild_id: guild_points}
-        guilds.update(guild_data)
-        xp_data = {
-            'current': current_amount,
-            'global': int(global_amount),
-            'guilds': guilds
-        }
-        update_target = {'UserID': user.id}
-        update_data = {'$set': xp_data}
-        collection.update_one(update_target, update_data)
+            guild_id = str(guild.id)
+            if guild_id in guilds:
+                guild_points = guilds[guild_id]
+            else:
+                guild_points = 0
+            if additive:
+                global_amount += points
+                guild_points += points
+            current_amount += points
+            guild_data = {guild_id: guild_points}
+            guilds.update(guild_data)
+            xp_data = {
+                'current': current_amount,
+                'global': int(global_amount),
+                'guilds': guilds
+            }
+            update_target = {'UserID': user.id}
+            update_data = {'$set': xp_data}
+            collection.update_one(update_target, update_data)
 
     def rmv_currency(self, user, points):
         database = self[self.bot.cfg.db.database]
@@ -213,11 +217,13 @@ class Database(pymongo.MongoClient):
         )
 
     def add_to_inventory(self, user, item_data):
-        stamp = arrow.utcnow().timestamp
-        item_data.update({'Timestamp': stamp})
-        inv = self.get_inventory(user)
-        inv.append(item_data)
-        self.update_inv(user, inv)
+        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+        if not sabotage_file:
+            stamp = arrow.utcnow().timestamp
+            item_data.update({'Timestamp': stamp})
+            inv = self.get_inventory(user)
+            inv.append(item_data)
+            self.update_inv(user, inv)
 
     def del_from_inventory(self, user, item_id):
         inv = self.get_inventory(user)
