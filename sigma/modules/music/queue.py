@@ -51,23 +51,27 @@ async def queue(cmd, message, args):
                         pl_title = extracted_info['title']
                         entries = extracted_info['entries']
                         for song_entry in entries:
-                            queue_item = QueueItem(message.author, song_entry)
-                            queue_container = cmd.bot.music.get_queue(message.guild.id)
-                            await queue_container.put(queue_item)
+                            if song_entry:
+                                queue_item = QueueItem(message.author, song_entry)
+                                queue_container = cmd.bot.music.get_queue(message.guild.id)
+                                await queue_container.put(queue_item)
                         final_resp = discord.Embed(color=0xFFCC66,
                                                    title=f'💽 Added {len(entries)} songs from {pl_title}.')
                     else:
-                        queue_item = QueueItem(message.author, song_item)
-                        queue_container = cmd.bot.music.get_queue(message.guild.id)
-                        await queue_container.put(queue_item)
-                        duration = str(datetime.timedelta(seconds=int(song_item['duration'])))
-                        requester = f'{message.author.name}#{message.author.discriminator}'
-                        final_resp = discord.Embed(color=0x66CC66)
-                        final_resp.add_field(name='✅ Added To Queue', value=song_item['title'])
-                        if 'thumbnail' in song_item:
-                            final_resp.set_thumbnail(url=song_item['thumbnail'])
-                        final_resp.set_author(name=requester, icon_url=user_avatar(message.author))
-                        final_resp.set_footer(text=f'Duration: {duration}')
+                        if song_item:
+                            queue_item = QueueItem(message.author, song_item)
+                            queue_container = cmd.bot.music.get_queue(message.guild.id)
+                            await queue_container.put(queue_item)
+                            duration = str(datetime.timedelta(seconds=int(song_item['duration'])))
+                            requester = f'{message.author.name}#{message.author.discriminator}'
+                            final_resp = discord.Embed(color=0x66CC66)
+                            final_resp.add_field(name='✅ Added To Queue', value=song_item['title'])
+                            if 'thumbnail' in song_item:
+                                final_resp.set_thumbnail(url=song_item['thumbnail'])
+                            final_resp.set_author(name=requester, icon_url=user_avatar(message.author))
+                            final_resp.set_footer(text=f'Duration: {duration}')
+                        else:
+                            final_resp = discord.Embed(color=0x696969, title='🔍 Addition returned a null item.')
                     await init_res_msg.edit(embed=final_resp)
                 else:
                     final_resp = discord.Embed(color=0x696969, title='🔍 No results.')
