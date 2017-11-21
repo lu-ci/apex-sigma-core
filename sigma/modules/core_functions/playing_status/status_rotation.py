@@ -34,22 +34,15 @@ async def status_clockwork(ev):
                     status_cache.append(status_text)
             if status_cache:
                 status = status_cache.pop(secrets.randbelow(len(status_cache)))
-                mode_roll = secrets.randbelow(5)
+                mode_roll = secrets.randbelow(10)
                 if mode_roll == 0:
-                    try:
-                        hashes = list(hashlib.algorithms_guaranteed)
-                        hgen = hashlib.new(secrets.choice(hashes))
-                        hgen.update(status.encode('utf-8'))
-                        digest = hgen.hexdigest()
-                        max_end = abs(len(digest) - 10)
-                        cut = secrets.randbelow(max_end)
-                        cut_text = digest[cut:(cut + 10)]
-                        status = random_capitalize(cut_text)
-                        sign_roll = secrets.randbelow(2)
-                        if sign_roll:
-                            status += '='
-                    except Exception as e:
-                        ev.log.error(f'Status rotation failed to create a hash. | Error: {e.with_traceback}')
+                    hgen = hashlib.new('md5')
+                    hgen.update(status.encode('utf-8'))
+                    digest = hgen.hexdigest()
+                    max_end = abs(len(digest) - 10)
+                    cut = secrets.randbelow(max_end)
+                    cut_text = digest[cut:(cut + 10)]
+                    status = random_capitalize(cut_text)
                 game = discord.Game(name=status)
                 try:
                     await ev.bot.change_presence(game=game)
