@@ -6,6 +6,8 @@ enabled:          true
 
 commands:
   - name:         boobs
+    alts:
+      - "tits"
     global:       true
     enabled:      true
     permissions:
@@ -15,6 +17,8 @@ commands:
       Outputs a random NSFW image focusing on the breasts of the model.
 
   - name:         butts
+    alts:
+      - "ass"
     global:       true
     enabled:      true
     permissions:
@@ -24,6 +28,8 @@ commands:
       Outputs a random NSFW image focusing on the ass of the model.
 
   - name:         danbooru
+    alts:
+      - "danb"
     global:       true
     enabled:      true
     permissions:
@@ -48,6 +54,8 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         gelbooru
+    alts:
+      - "gelb"
     global:       true
     enabled:      true
     permissions:
@@ -60,6 +68,8 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         xbooru
+    alts:
+      - "xb"
     global:       true
     enabled:      true
     permissions:
@@ -92,6 +102,8 @@ commands:
       This command is rated explicit due to some CGs being explicit.
 
   - name:         konachan
+    alts:
+      - "kchan"
     global:       true
     enabled:      true
     permissions:
@@ -104,6 +116,8 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         rule34
+    alts:
+      - "r34"
     global:       true
     enabled:      true
     permissions:
@@ -116,6 +130,8 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         yandere
+    alts:
+      - "yre"
     global:       true
     enabled:      true
     permissions:

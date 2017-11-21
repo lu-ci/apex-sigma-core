@@ -60,6 +60,7 @@ commands:
     alts:
       - "yomama"
       - "yomoma"
+      - "ym"
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd}"
