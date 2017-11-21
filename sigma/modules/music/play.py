@@ -49,9 +49,9 @@ async def play(cmd, message, args):
                 await cmd.bot.modules.commands['summon'].execute(message, args)
             if args:
                 await cmd.bot.modules.commands['queue'].execute(message, args)
-            queue = cmd.bot.music.get_queue(message.guild.id)
-            if not queue.empty():
-                while not queue.empty():
+            if not cmd.bot.music.get_queue(message.guild.id).empty():
+                while not cmd.bot.music.get_queue(message.guild.id).empty():
+                    queue = cmd.bot.music.get_queue(message.guild.id)
                     if not message.guild.voice_client:
                         return
                     if message.guild.voice_client.is_playing():
