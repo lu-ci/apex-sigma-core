@@ -8,7 +8,7 @@ from lxml import html
 
 
 async def joke(cmd, message, args):
-    randomizer = secrets.randbelow(6644) + 1
+    randomizer = secrets.randbelow(6644)
     joke_url = f'http://jokes.cc.com/feeds/random/{randomizer}'
     async with aiohttp.ClientSession() as session:
         async with session.get(joke_url) as data:
