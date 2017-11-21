@@ -9,9 +9,12 @@ async def removecommand(cmd, message, args):
                 custom_commands = cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
                 if custom_commands is None:
                     custom_commands = {}
-                del custom_commands[trigger]
-                cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
-                response = discord.Embed(title=f'✅ {trigger} has been removed', color=0x66CC66)
+                if trigger in custom_commands:
+                    del custom_commands[trigger]
+                    cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                    response = discord.Embed(title=f'✅ {trigger} has been removed', color=0x66CC66)
+                else:
+                    response = discord.Embed(title='❗ I didn\'t find such a command.', color=0xBE1931)
             else:
                 response = discord.Embed(title='❗ Can\'t moify an existing core command', color=0xBE1931)
         else:
