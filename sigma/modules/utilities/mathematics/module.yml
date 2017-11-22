@@ -101,6 +101,7 @@ commands:
     alts:
       - "combine"
       - "cmbch"
+      - "mix"
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @target_one @target_two"
