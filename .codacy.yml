@@ -1,0 +1,22 @@
+languages:
+  - "python"
+
+exclude_paths:
+  - config/engines.yml
+
+engines:
+  duplication:
+    enabled: true
+
+  metrics:
+    enabled: true
+
+  pylint:
+    enabled: true
+    python_version: 3
+
+  prospector:
+    enabled: true
+
+  bandit:
+    enabled: true
