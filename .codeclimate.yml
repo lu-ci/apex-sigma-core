@@ -1,4 +1,4 @@
-engines:
+plugins:
   git-legal:
     enabled: true
   fixme:
