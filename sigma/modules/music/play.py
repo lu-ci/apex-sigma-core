@@ -9,11 +9,12 @@ from sigma.core.utilities.stats_processing import add_special_stats
 
 def player_listening(voice_client):
     user_count = 0
-    for member in voice_client.channel.members:
-        if not member.bot:
-            if not member.voice.self_deaf:
-                if not member.voice.deaf:
-                    user_count += 1
+    if voice_client:
+        for member in voice_client.channel.members:
+            if not member.bot:
+                if not member.voice.self_deaf:
+                    if not member.voice.deaf:
+                        user_count += 1
     if user_count:
         active = True
     else:
@@ -75,7 +76,8 @@ async def play(cmd, message, args):
                         else:
                             active = False
                             break
-                    message.guild.voice_client.stop()
+                    if message.guild.voice_client:
+                        message.guild.voice_client.stop()
                     if not active:
                         break
                 response = discord.Embed(color=0x3B88C3, title='🎵 Queue complete.')
