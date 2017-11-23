@@ -1,10 +1,31 @@
 import functools
 from concurrent.futures import ThreadPoolExecutor
 
+import discord
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
 cb = None
+
+
+def clean_mentions(members, text):
+    args = text.split(' ')
+    out = []
+    for arg in args:
+        if arg.startswith('<@') and arg.endswith('>'):
+            try:
+                uid = arg[2:-1]
+                user = discord.utils.find(lambda x: x.id == int(uid), members)
+                if user:
+                    addition = user.name
+                else:
+                    addition = 'Someone'
+            except ValueError:
+                addition = 'Someone'
+        else:
+            addition = arg
+        out.append(addition)
+    return ' '.join(out)
 
 
 def init_chatterbot(ev):
@@ -40,8 +61,10 @@ async def chat_bot(ev, message):
                         mention_alt = f'<@!{ev.bot.user.id}>'
                         if message.content.startswith(mention) or message.content.startswith(mention_alt):
                             interaction = ' '.join(args[1:])
-                            task = functools.partial(cb.get_response, interaction)
-                            with ThreadPoolExecutor() as threads:
-                                cb_resp = await ev.bot.loop.run_in_executor(threads, task)
-                            response = f'{message.author.mention} {cb_resp}'
-                            await message.channel.send(response)
+                            if interaction:
+                                task = functools.partial(cb.get_response, interaction)
+                                with ThreadPoolExecutor() as threads:
+                                    cb_resp = await ev.bot.loop.run_in_executor(threads, task)
+                                cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
+                                response = f'{message.author.mention} {cb_resp}'
+                                await message.channel.send(response)
