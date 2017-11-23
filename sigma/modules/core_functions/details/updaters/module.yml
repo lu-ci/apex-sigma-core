@@ -2,7 +2,7 @@ name:            Object Detail Updaters
 
 category:        administration
 
-enabled:         true
+enabled:         false
 
 events:
   - name:        user_data_join
