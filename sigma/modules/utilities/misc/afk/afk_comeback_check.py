@@ -3,19 +3,26 @@
 import discord
 
 
-def sigma_mention_check(mentions, sigma_id):
+def sigma_mention_check(content, sigma_id):
     sigma_present = False
-    if mentions:
-        for mention in mentions:
-            if mention.id == sigma_id:
-                sigma_present = True
+    if content:
+        first_arg = content.split(' ')[0]
+        if first_arg.startswith('<@') and first_arg.endswith('>'):
+            try:
+                uid = int(first_arg[2:-1])
+                if uid == sigma_id:
+                    sigma_present = True
+            except ValueError:
+                uid = None
+            except IndexError:
+                uid = None
     return sigma_present
 
 
 async def afk_comeback_check(ev, message):
     if message.guild:
         if not message.content.startswith(ev.bot.get_prefix(message)):
-            if not sigma_mention_check(message.mentions, ev.bot.user.id):
+            if not sigma_mention_check(message.content, ev.bot.user.id):
                 afk_data = ev.db[ev.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
                 if afk_data:
                     ev.db[ev.db.db_cfg.database]['AwayUsers'].delete_one({'UserID': message.author.id})
