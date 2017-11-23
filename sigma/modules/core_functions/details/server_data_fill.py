@@ -1,4 +1,5 @@
-﻿import functools
+﻿import asyncio
+import functools
 from concurrent.futures import ThreadPoolExecutor
 
 import arrow
@@ -80,6 +81,7 @@ async def server_data_fill(ev):
         task = functools.partial(srv_coll.insert, server_list)
         with ThreadPoolExecutor() as threads:
             await ev.bot.loop.run_in_executor(threads, task)
+            await asyncio.sleep(2)
         shard_end = arrow.utcnow().float_timestamp
         shard_diff = round(shard_end - shard_start, 3)
         ev.log.info(f'Filled Shard #{x} Servers in {shard_diff}s.')
