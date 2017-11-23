@@ -9,6 +9,7 @@ cb = None
 
 
 def clean_mentions(members, text):
+    text = str(text)
     args = text.split(' ')
     out = []
     for arg in args:
