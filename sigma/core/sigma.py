@@ -239,6 +239,9 @@ class ApexSigma(client_class):
     async def on_guild_remove(self, guild):
         self.loop.create_task(self.event_runner('guild_remove', guild))
 
+    async def on_guild_update(self, guild):
+        self.loop.create_task(self.event_runner('guild_update', guild))
+
     async def on_voice_state_update(self, member, before, after):
         if not member.bot:
             self.loop.create_task(self.event_runner('voice_state_update', member, before, after))

@@ -1,4 +1,5 @@
 import string
+
 from sigma.core.utilities.data_processing import command_message_parser
 
 
