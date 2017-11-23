@@ -37,7 +37,11 @@ class QueueItem(object):
             self.uploader = 'Unknown'
         self.title = self.item_info['title']
         if 'thumbnail' in self.item_info:
-            self.thumbnail = self.item_info['thumbnail']
+            thumb = self.item_info['thumbnail']
+            if thumb:
+                self.thumbnail = thumb
+            else:
+                self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
         else:
             self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
         self.duration = int(self.item_info['duration'])
@@ -48,6 +52,7 @@ class QueueItem(object):
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
         self.token = self.tokenize()
         self.location = None
+        print(self.thumbnail)
 
     def tokenize(self):
         name = 'yt_' + self.video_id
