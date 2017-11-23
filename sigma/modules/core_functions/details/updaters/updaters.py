@@ -4,7 +4,7 @@ from sigma.modules.core_functions.details.server_data_fill import count_channels
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
 
-def member_updater(coll, member):
+async def member_updater(coll, member):
     member_file = coll.find({'UserID': member.id, 'ServerID': member.guild.id})
     member_data = generate_member_data(member)
     if member_file:
