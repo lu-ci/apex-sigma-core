@@ -23,14 +23,10 @@ def player_listening(voice_client):
 
 def player_active(voice_client):
     if voice_client:
-        listening = player_listening(voice_client)
-        if listening:
-            playing = voice_client.is_playing()
-            paused = voice_client.is_paused()
-            if playing or paused:
-                active = True
-            else:
-                active = False
+        playing = voice_client.is_playing()
+        paused = voice_client.is_paused()
+        if playing or paused:
+            active = True
         else:
             active = False
     else:
@@ -72,8 +68,16 @@ async def play(cmd, message, args):
                     song_embed.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
                     song_embed.set_footer(text=f'Duration: {duration}')
                     await init_song_msg.edit(embed=song_embed)
+                    active = False
                     while player_active(message.guild.voice_client):
-                        await asyncio.sleep(2)
+                        if player_listening(message.guild.voice_client):
+                            await asyncio.sleep(2)
+                        else:
+                            active = False
+                            break
+                    message.guild.voice_client.stop()
+                    if not active:
+                        break
                 response = discord.Embed(color=0x3B88C3, title='🎵 Queue complete.')
                 if message.guild.voice_client:
                     await message.guild.voice_client.disconnect()
