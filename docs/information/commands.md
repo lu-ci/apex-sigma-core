@@ -156,7 +156,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>checkheartkey` `>>chk` | Checks if the key you have inputted is the heart key of Sigma. If the key inputted has at least part of the true key, it will say so. | `>>checkheartkey b7V01YuKJ7Le1FQSZS_gvPtvI9kFa0ZDHH_-QfzZsFA=`
 `>>collectchain` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person #channel`
-`>>combinechains` `>>combine` `>>cmbch` | Like the impersonate command. This one however targets two uers and uses their chains to generated a mixed response. | `>>combinechains @target_one @target_two`
+`>>combinechains` `>>combine` `>>cmbch` `>>mix` | Like the impersonate command. This one however targets two uers and uses their chains to generated a mixed response. | `>>combinechains @target_one @target_two`
 `>>currenttime` `>>time` | Shows the current time in UTC. You can specify a time zone as well. If you wish to convert time, use the timeconvert command. | `>>currenttime PDT`
 `>>decrypt` | Decrypts any message that was encrypted using the Sigma Heart Key. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>decrypt H7U2JfWkr0zCApDPDkO`
 `>>dokidoki` `>>doki` `>>dd` | Makes a random markov chain based sentence from a random Doki Doki Literature Club character quote. You can force which character to quote by adding their name as an argument to the command. And you can force a glitch by adding ":glitch" as the ending argument. | `>>dokidoki`
