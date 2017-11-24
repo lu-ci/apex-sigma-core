@@ -35,7 +35,7 @@ commands:
     usage:        "{pfx}{cmd}"
     description:
       Starts a sequence guessing game.
-      6 symbols will randomly be chosen and
+      4 symbols will randomly be chosen and
       you have to guess them in 6 tries or fewer.
       When a symbol is in the corret position the diamond will be blue.
       If it is in the sequence but incorrect position, it will be yellow.

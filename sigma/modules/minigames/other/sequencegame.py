@@ -8,7 +8,8 @@ symbols = ['❤', '♦', '♠', '♣', '⭐', '⚡']
 
 
 def check_answer(arguments, sequence):
-    arguments = arguments[:6]
+    arguments = list(filter(lambda a: a != '', arguments))
+    arguments = arguments[:4]
     loop_index = 0
     results = []
     correct = True
@@ -29,7 +30,7 @@ def check_answer(arguments, sequence):
 async def sequencegame(cmd, message, args):
     if message.author.id not in ongoing:
         chosen = []
-        while len(chosen) < 6:
+        while len(chosen) < 4:
             symbol = secrets.choice(symbols)
             chosen.append(symbol)
         title = '🎯 You have 90 seconds for each atempt.'
@@ -41,8 +42,8 @@ async def sequencegame(cmd, message, args):
         def answer_check(msg):
             if message.author.id == msg.author.id:
                 if message.channel.id == msg.channel.id:
-                    message_args = msg.content.split(' ')
-                    if len(message_args) == 6:
+                    message_args = list(filter(lambda a: a != '', msg.content.split(' ')))
+                    if len(message_args) == 4:
                         good = False
                         for arg in message_args:
                             if arg in symbols:
