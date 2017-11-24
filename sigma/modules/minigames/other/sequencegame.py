@@ -80,11 +80,11 @@ async def sequencegame(cmd, message, args):
                 finished = True
                 virtory = False
                 timeout = True
-                timeout_title = f'🕙 Time\'s up! It was {"".join(chosen)}...'
+                timeout_title = f'🕙 Time\'s up! It was {"".join(chosen)}'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
         if not virtory and not timeout:
-            lose_title = f'💥 Ooh, sorry, it was {"".join(chosen)}...'
+            lose_title = f'💥 Ooh, sorry, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await message.channel.send(embed=final_embed)
     else:
