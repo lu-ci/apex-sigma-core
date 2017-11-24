@@ -13,7 +13,6 @@ def check_answer(arguments, sequence):
     results = []
     correct = True
     for arg in arguments:
-        loop_index += 1
         if arg == sequence[loop_index]:
             sign = '🔷'
         elif arg in sequence:
@@ -22,6 +21,7 @@ def check_answer(arguments, sequence):
         else:
             sign = '🔻'
             correct = False
+        loop_index += 1
         results.append(sign)
     return correct, results
 
