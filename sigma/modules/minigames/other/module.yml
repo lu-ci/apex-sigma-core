@@ -26,6 +26,22 @@ commands:
       Play Rock-Paper-Scissors with the bot.
       No cheating, we swear. Maybe she just doesn't like you.
 
+  - name:         sequencegame
+    alts:
+      - "sequence"
+      - "sqcg"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Starts a sequence guessing game.
+      6 symbols will randomly be chosen and
+      you have to guess them in 6 tries or fewer.
+      When a symbol is in the corret position the diamond will be blue.
+      If it is in the sequence but incorrect position, it will be yellow.
+      If the symbol is not in the sequence, a red triangle will be shown.
+      The symbols can repeat, the Kud award is 50.
+
   - name:         coinflip
     alts:
       - "cf"
