@@ -37,6 +37,21 @@ commands:
       Shows the inputted color.
       It accepts either a HEX code or an RGB array.
 
+  - name:         translation
+    alts:
+      - "translate"
+      - "trans"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} EN>JA Hello there!"
+    description:
+      Translates a language from and to the given ones.
+      If a conversion input is not stated, the first argument will be considered the input language.
+      And the output will be in english.
+      The language codes used abide by the ISO 639-1 format.
+      For the whole list, you can go to this wikipedia article.
+      https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
   - name:         lmgtfy
     alts:
       - "letmegooglethatforyou"

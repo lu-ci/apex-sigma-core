@@ -16,6 +16,7 @@ praw
 psutil
 pymongo
 pyyaml
+translate
 watchdog
 wikipedia
 wikitextparser
