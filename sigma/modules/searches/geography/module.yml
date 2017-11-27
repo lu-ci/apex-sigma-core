@@ -14,4 +14,5 @@ commands:
     usage:        "{pfx}{cmd} Belgrade"
     description: |
       Searches Google Maps for the inputted location.
+      If specific details aren't found about the location, it will result in a broad search.
 

@@ -18,7 +18,9 @@ async def mapsearch(cmd, message, args):
                 response = discord.Embed(color=0xdd4e40)
                 response.set_author(name=f'{location}', icon_url=map_icon, url=maps_url)
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Location not found.')
+                maps_url = f'https://www.google.rs/maps/search/{search_url}'
+                response = discord.Embed(color=0xdd4e40)
+                response.set_author(name=f'Broad Search: {search.title()}', icon_url=map_icon, url=maps_url)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No location inputted.')
     else:
