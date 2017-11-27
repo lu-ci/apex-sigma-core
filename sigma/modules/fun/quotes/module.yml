@@ -5,7 +5,9 @@ category:         fun
 enabled:          true
 
 commands:
-  - name:         quote
+  - name:         famousquote
+    alts:
+      - "fquote"
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd}"

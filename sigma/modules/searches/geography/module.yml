@@ -1,0 +1,17 @@
+name:             Geography Commands
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         mapsearch
+    alts:
+      - "maps"
+      - "map"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Belgrade"
+    description: |
+      Searches Google Maps for the inputted location.
+
