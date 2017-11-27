@@ -40,7 +40,7 @@ async def hardmute(cmd, message, args):
                                 pass
                     log_embed = generate_log_embed(message, target, args)
                     await log_event(cmd.db, message.guild, log_embed)
-                    title = f'✅ {target.name}#{target.discriminator} has been hard-muted.'
+                    title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     to_target_title = f'🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)

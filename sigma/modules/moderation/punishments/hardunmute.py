@@ -8,8 +8,8 @@ from sigma.core.utilities.server_bound_logging import log_event
 
 def generate_log_embed(message, target, args):
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-    log_embed.set_author(name='A Member Has Been Hard Muted', icon_url=user_avatar(target))
-    log_embed.add_field(name='🔇 Muted User',
+    log_embed.set_author(name='A Member Has Been Hard Un-Muted', icon_url=user_avatar(target))
+    log_embed.add_field(name='🔊 Un-Muted User',
                         value=f'{target.mention}\n{target.name}#{target.discriminator}', inline=True)
     author = message.author
     log_embed.add_field(name='🛡 Responsible',
@@ -40,7 +40,7 @@ async def hardunmute(cmd, message, args):
                                 pass
                     log_embed = generate_log_embed(message, target, args)
                     await log_event(cmd.db, message.guild, log_embed)
-                    title = f'✅ {target.name}#{target.discriminator} has been hard-unmuted.'
+                    title = f'✅ {target.display_name} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is euqal or above you.')
