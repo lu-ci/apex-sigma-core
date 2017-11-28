@@ -92,7 +92,6 @@ Commands | Description | Example
 `>>fireemblemheroes` `>>feh` | Searches data in the Fire Emblem Heroes game. Such as hero, weapon and skill information. | `>>fireemblemheroes Ninian`
 `>>osu` | Generates a signature image with the users stats for osu. | `>>osu AXAz0r`
 `>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the given player from the given region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978 | `>>overwatch EU Aurora#22978`
-`>>pokemon` `>>pkmn` | Shows details for the inputted Pokemon as well as a cute little GIF of them. | `>>pokemon Snorlax`
 `>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
 `>>wfalerts` `>>wfa` | Shows the currently ongoing alerts in Warframe. As well as their respective rewards. | `>>wfalerts`
 `>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
@@ -267,7 +266,6 @@ Commands | Description | Example
 `>>butts` `>>ass` | Outputs a random NSFW image focusing on the ass of the model. | `>>butts`
 `>>danbooru` `>>danb` | Searches Danbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>danbooru kawaii`
 `>>e621` | Searches E621 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>e621 knot`
-`>>gelbooru` `>>gelb` | Searches Gelbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>gelbooru ovum`
 `>>keyvis` | This command returns a Key Visual Arts VN CG. It picks a random VN and a random CG from that VN. You can specify the VN you want the CG to be from. "kud" - Kud Wafter "air" - Air "kanon" - Kanon "little" - Little Busters "clan" - Clannad "plan" - Planetarian "rewr" - Rewrite "harv" - Rewrite Harvest Festa This command is rated explicit due to some CGs being explicit.  | `>>keyvis kud`
 `>>konachan` `>>kchan` | Searches Konachan for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>konachan thighhighs`
 `>>rule34` `>>r34` | Searches Rule34 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>rule34 switch`

@@ -57,7 +57,7 @@ commands:
     alts:
       - "gelb"
     global:       true
-    enabled:      true
+    enabled:      false
     permissions:
       nsfw:       true
     usage:        "{pfx}{cmd} ovum"

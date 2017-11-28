@@ -9,7 +9,7 @@ commands:
     alts:
       - "pkmn"
     global:       true
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} Snorlax"
     description:
       Shows details for the inputted Pokemon as well as a cute little GIF of them.
