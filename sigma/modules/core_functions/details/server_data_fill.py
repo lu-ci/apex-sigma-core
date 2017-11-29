@@ -41,50 +41,59 @@ def count_channels(channels):
     return text, voice, categories
 
 
-async def server_data_fill(ev):
-    ev.log.info('Filling server details...')
-    start_stamp = arrow.utcnow().float_timestamp
+async def generate_server_data(guild):
+    users, bots = count_members(guild.members)
+    text_channels, voice_channels, categories = count_channels(guild.channels)
+    srv_data = {
+        'Name': guild.name,
+        'ServerID': guild.id,
+        'Icon': clean_guild_icon(guild.icon_url),
+        'Owner': await generate_member_data(guild.owner),
+        'Population': {
+            'Users': users,
+            'Bots': bots,
+            'Total': users + bots
+        },
+        'Channels': {
+            'Text': text_channels,
+            'Voice': voice_channels,
+            'Categories': categories
+        },
+        'Created': {
+            'Timestamp': {
+                'Float': arrow.get(guild.created_at).float_timestamp,
+                'Integer': arrow.get(guild.created_at).timestamp,
+            },
+            'Text': arrow.get(guild.created_at).format('DD. MMM. YYYY HH:MM:SS'),
+        },
+        'Roles': len(guild.roles)
+    }
+    return srv_data
+
+
+async def push_to_database(ev, server_list):
     srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
-    srv_coll.drop()
-    for x in range(0, ev.bot.shard_count):
-        shard_start = arrow.utcnow().float_timestamp
+    task = functools.partial(srv_coll.insert, server_list)
+    with ThreadPoolExecutor() as threads:
+        await ev.bot.loop.run_in_executor(threads, task)
+
+
+async def server_data_fill(ev):
+    if ev.bot.guilds:
+        ev.log.info('Filling server details...')
+        start_stamp = arrow.utcnow().float_timestamp
+        srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
+        srv_coll.drop()
         server_list = []
         for guild in ev.bot.guilds:
-            if guild.shard_id == x:
-                users, bots = count_members(guild.members)
-                text_channels, voice_channels, categories = count_channels(guild.channels)
-                srv_data = {
-                    'Name': guild.name,
-                    'ServerID': guild.id,
-                    'Icon': clean_guild_icon(guild.icon_url),
-                    'Owner': await generate_member_data(guild.owner),
-                    'Population': {
-                        'Users': users,
-                        'Bots': bots,
-                        'Total': users + bots
-                    },
-                    'Channels': {
-                        'Text': text_channels,
-                        'Voice': voice_channels,
-                        'Categories': categories
-                    },
-                    'Created': {
-                        'Timestamp': {
-                            'Float': arrow.get(guild.created_at).float_timestamp,
-                            'Integer': arrow.get(guild.created_at).timestamp,
-                        },
-                        'Text': arrow.get(guild.created_at).format('DD. MMM. YYYY HH:MM:SS'),
-                    },
-                    'Roles': len(guild.roles)
-                }
-                server_list.append(srv_data)
-        task = functools.partial(srv_coll.insert, server_list)
-        with ThreadPoolExecutor() as threads:
-            await ev.bot.loop.run_in_executor(threads, task)
-            await asyncio.sleep(2)
-        shard_end = arrow.utcnow().float_timestamp
-        shard_diff = round(shard_end - shard_start, 3)
-        ev.log.info(f'Filled Shard #{x} Servers in {shard_diff}s.')
-    end_stamp = arrow.utcnow().float_timestamp
-    diff = round(end_stamp - start_stamp, 3)
-    ev.log.info(f'Server detail filler finished in {diff}s')
+            srv_data = await generate_server_data(guild)
+            server_list.append(srv_data)
+            if len(server_list) >= 100:
+                await push_to_database(ev, server_list)
+                server_list = []
+                await asyncio.sleep(0.5)
+        if server_list:
+            await push_to_database(ev, server_list)
+        end_stamp = arrow.utcnow().float_timestamp
+        diff = round(end_stamp - start_stamp, 3)
+        ev.log.info(f'Server detail filler finished in {diff}s')
