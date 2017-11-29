@@ -38,28 +38,30 @@ async def generate_member_data(member):
     return mem_data
 
 
+async def push_to_database(ev, member_list):
+    mem_coll = ev.db[ev.db.db_cfg.database].UserDetails
+    task = functools.partial(mem_coll.insert, member_list)
+    with ThreadPoolExecutor() as threads:
+        await ev.bot.loop.run_in_executor(threads, task)
+
+
 async def user_data_fill(ev):
     ev.log.info('Filling member details...')
     start_stamp = arrow.utcnow().float_timestamp
     ev.bot.cool_down.set_cooldown(ev.name, 'member_details', 3600)
     mem_coll = ev.db[ev.db.db_cfg.database].UserDetails
     mem_coll.drop()
-    for x in range(0, ev.bot.shard_count):
-        shard_start = arrow.utcnow().float_timestamp
-        member_list = []
-        for guild in ev.bot.guilds:
-            if guild.shard_id == x:
-                for member in guild.members:
-                    if member:
-                        mem_data = await generate_member_data(member)
-                        member_list.append(mem_data)
-        task = functools.partial(mem_coll.insert, member_list)
-        with ThreadPoolExecutor() as threads:
-            await ev.bot.loop.run_in_executor(threads, task)
-            await asyncio.sleep(2)
-        shard_end = arrow.utcnow().float_timestamp
-        shard_diff = round(shard_end - shard_start, 3)
-        ev.log.info(f'Filled Shard #{x} Members in {shard_diff}s.')
+    member_list = []
+    for member in ev.bot.get_all_members():
+        if member:
+            mem_data = await generate_member_data(member)
+            member_list.append(mem_data)
+        if len(member_list) >= 500:
+            await push_to_database(ev, member_list)
+            member_list = []
+            await asyncio.sleep(0.5)
+    if member_list:
+        await push_to_database(ev, member_list)
     end_stamp = arrow.utcnow().float_timestamp
     diff = round(end_stamp - start_stamp, 3)
     ev.log.info(f'Member detail filler finished in {diff}s.')
