@@ -61,6 +61,10 @@ async def play(cmd, message, args):
                         await queue.put(item)
                     init_song_embed = discord.Embed(color=0x3B88C3, title=f'🔽 Downloading {item.title}...')
                     init_song_msg = await message.channel.send(embed=init_song_embed)
+                    if not message.guild.voice_client:
+                        no_client = discord.Embed(color=0xBE1931, title='❗ The voice client seems to have broken.')
+                        await message.channel.send(embed=no_client)
+                        return
                     await item.create_player(message.guild.voice_client)
                     await add_special_stats(cmd.db, 'songs_played')
                     cmd.bot.music.currents.update({message.guild.id: item})
