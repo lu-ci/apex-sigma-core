@@ -21,7 +21,7 @@ If you feel like it, you can just aggregate all of them.
 ```sh
 sudo apt-get install git ffmpeg build-essential checkinstall
 sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev
-sudo apt-get install libsqlite3-dev tk-devlibgdbm-dev libc6-dev libbz2-dev
+sudo apt-get install libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 ```
 
 ## Installing Python 3.6
