@@ -27,13 +27,16 @@ async def clockwork_function_reminder_clockwork(ev):
                 else:
                     target = None
                 if target:
-                    response = discord.Embed(color=0x1ABC9C, timestamp=arrow.get(reminder['CreationStamp']).datetime)
+                    dt_stamp = arrow.get(reminder['CreationStamp']).datetime
+                    title = f'⏰ Your Reminder'
+                    response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)
+                    response.description = reminder.get('TextMessage')
                     if author:
                         response.set_author(name=author.name, icon_url=user_avatar(author))
-                    response.add_field(name='⏰ Reminder Message', value=f"```\n{reminder['TextMessage']}\n```")
+                    response.set_footer(text=f'Reminder: {reminder.get("ReminderID")}')
                     try:
                         if author:
-                            await target.send(author.mention, embed=response)
+                            await target.send(f'{author.mention}, your reminder executed.', embed=response)
                         else:
                             await target.send(embed=response)
                     except discord.ClientException:
