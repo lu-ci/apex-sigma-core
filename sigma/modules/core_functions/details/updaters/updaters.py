@@ -7,7 +7,7 @@ from sigma.modules.core_functions.details.user_data_fill import generate_member_
 
 
 async def member_updater(coll, member):
-    member_file = coll.find({'UserID': member.id, 'ServerID': member.guild.id})
+    member_file = coll.find_one({'UserID': member.id, 'ServerID': member.guild.id})
     member_data = await generate_member_data(member)
     if member_file:
         target = {'UserID': member.id, 'ServerID': member.guild.id}
