@@ -46,7 +46,7 @@ Commands | Description | Example
 `>>sysexec` `>>sh` | Executes a shell command. Extreme warning! (Bot Owner Only) | `>>sysexec echo 'Hello'`
 `>>takecurrency` `>>takekud` `>>takemoney` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takecurrency 150 @person`
 `>>takeitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takeitem abcdef1234567890`
-`>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
+`>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
