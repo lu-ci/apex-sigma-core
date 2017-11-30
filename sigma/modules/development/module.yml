@@ -37,10 +37,6 @@ commands:
 
   - name:        test
     enabled:     true
-    permissions:
-      rating:    0
-      owner:     true
-      dmable:    false
     usage:       "{pfx}{cmd}"
     description:
       For testing purposes, obviously.
