@@ -1,10 +1,7 @@
-import re
-
 import discord
-
 from .mech.feh_core import FireEmblemHeroesCore
-
 feh_core = None
+
 
 async def fireemblemheroes(cmd, message, args):
     global feh_core
@@ -92,7 +89,7 @@ async def fireemblemheroes(cmd, message, args):
             elif record_type == 'passive':
                 author_icon = record['icon']
                 response_colour = feh_core.colors['Neutral']
-                stats = [f"Passive type' {record['passive type']}"]
+                stats = [f"Passive type {record['passive type']}"]
                 if record['passive type'] != 'S':
                     stats.append(f"SP {record['sp cost']}")
                 if record['inherit restriction']:
