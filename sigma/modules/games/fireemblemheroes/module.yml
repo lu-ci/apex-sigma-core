@@ -18,4 +18,4 @@ commands:
 events:
   - name:        feh_dbcheck
     type:        ready
-    enabled:     true
+    enabled:     false

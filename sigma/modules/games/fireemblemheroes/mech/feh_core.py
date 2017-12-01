@@ -41,6 +41,7 @@ class FireEmblemHeroesCore(object):
     def lookup(self, query):
         matches = process.extract(query, self.index.keys(), scorer=fuzz.ratio)
         result = None
+        # Workaround for fuzzywuzzy stripping + and inability to access + variants of weapons because of that
         if query[-1] == '+':
             for match in matches:
                 if match[0].find('+') != -1:

@@ -6,33 +6,44 @@ from .mech.feh_core import FireEmblemHeroesCore
 
 feh_core = None
 
-
 async def fireemblemheroes(cmd, message, args):
     global feh_core
     if not feh_core:
         feh_core = FireEmblemHeroesCore(cmd.db)
     response = discord.Embed()
-    if args:
+    if not args:
+        response.title = '❗ Nothing inputted.'
+        response.colour = 0xBE1931
+    else:
         query = ' '.join(args).lower()
-        query = re.sub(r'[1-9*]', '', query).strip()  # Strip numbers and asterisks from query
         record = feh_core.lookup(query)
-        if record:
-            if record['type'] == 'hero':
-                response.set_author(name=f"{record['name']}: {record['title']}",
-                                    url=record['url'],
-                                    icon_url=feh_core.weapon_icons[record['color']][record['weapon type']])
-                response.set_thumbnail(url=record['icon'])
-                response.colour = feh_core.colors[record['color']]
+        if not record:
+            response.title = '🔍 No results.'
+            response.colour = 0x696969
+        else:
+            record_type = record['type']
+            author_name = record['name']
+
+            if record_type in ['hero', 'weapon']:
+                author_icon = feh_core.weapon_icons[record['color']][record['weapon type']]
+                response_colour = feh_core.colors[record['color']]
+
+            if record_type == 'hero':
+                author_name += f": {record['title']}"
                 footer_text = f"{record['rarity']} | {record['color']} {record['weapon type']}"
                 rarity = feh_core.get_specified_rarity(args[0])
                 if not rarity:
-                    response.description = record['bio']
+                    # Rarity not specified, respond with hero bio if available and hero skills
+                    if record['bio']:
+                        response.description = record['bio']
                     for field in ['weapons', 'assists', 'specials', 'passives']:
                         if record[field]:
                             response.add_field(name=field.capitalize(), value=record[field], inline=False)
                 else:
+                    # Rarity is specified, respond with stats for specified rarity
                     if rarity < 1 or rarity > 5 or rarity is False or str(rarity) not in record['stats'].keys():
                         # If specified rarity is not in 1-5⭐ range or not specified at all or doesn't exist
+                        # Default to 5⭐
                         rarity = '5'
                     else:
                         rarity = str(rarity)
@@ -42,72 +53,62 @@ async def fireemblemheroes(cmd, message, args):
                         response.add_field(name=f'{rarity}\★ {stat_type} stats:', value=stats)
                     footer_text += ' | BST: ' + str(record['bst'][rarity])
                 response.set_footer(icon_url=feh_core.move_icons[record['movement type']], text=footer_text)
-            elif record['type'] == 'weapon':
-                response.set_author(name=record['name'],
-                                    url=record['url'],
-                                    icon_url=feh_core.weapon_icons[record['color']][record['weapon type']])
-                response.set_thumbnail(url=record['icon'])
-                response.colour = feh_core.colors[record['color']]
-                stats = {
-                    'Might': record['might'],
-                    'Range': record['range'],
-                    'SP Cost': record['sp cost'],
-                    "Exclusive": 'Yes' if record['exclusive'] else 'No'
-                }
-                response.add_field(name='Stats', value='\n'.join([f'**{key}**: {stats[key]}' for key in stats]))
+            elif record_type == 'weapon':
+                stats = [f"Might {record['might']}", f"Range {record['range']}", f"SP {record['sp cost']}"]
+                if record['exclusive']:
+                    stats.append('Is exclusive')
+                response.add_field(name='Stats', value=', '.join(stats), inline=False)
                 if record['special effect']:
-                    response.add_field(name='Special Effect', value=record['special effect'], inline=False)
-                if record['heroes with']:
-                    hero_list_title = f"List of heroes with {record['name']}"
-                    response.add_field(name=hero_list_title, value=record['heroes with'], inline=False)
-                if record['see also']:
-                    response.set_footer(text=f"See also: {record['see also']}")
-            elif record['type'] == 'assist':
-                assist_icon = 'https://feheroes.gamepedia.com/media/feheroes.gamepedia.com/9/9a/Icon_Skill_Assist.png'
-                response.set_author(name=record['name'], url=record['url'], icon_url=assist_icon)
-                response.colour = 0x05DEBB
-                stats = {
-                    'Range': record['range'],
-                    'SP Cost': record['sp cost'],
-                    "Inherit Restriction": record['inherit restriction']
-                }
-                response.add_field(name='Stats', value='\n'.join([f'**{key}**: {stats[key]}' for key in stats]))
+                    response.add_field(name='Effect', value=record['special effect'], inline=False)
+                if record['evolution']:
+                    response.add_field(name='Evolves into', value=f"{record['evolution']['into']} ({record['evolution']['cost']})")
+                if record['upgrade effect']:
+                    response.add_field(name='Upgraded effect', value=record['upgrade effect'], inline=False)
+                if record['upgrades']:
+                    upgrades = ''
+                    for upgrade_type in ['passive', 'stat']:
+                        if record['upgrades'][upgrade_type]:
+                            upgrades = f"| " + '\n| '.join(record['upgrades'][upgrade_type])
+                    if upgrades:
+                        response.add_field(name='Upgrades', value=upgrades, inline=False)
+                    if record['upgrades']['cost']:
+                        response.add_field(name='Upgrade cost', value=record['upgrades']['cost'], inline=False)
+            elif record_type == 'assist':
+                author_icon = 'https://feheroes.gamepedia.com/media/feheroes.gamepedia.com/9/9a/Icon_Skill_Assist.png'
+                response_colour = 0x05DEBB
+                stats = [f"Range {record['range']}", f"SP {record['sp cost']}"]
+                if record['inherit restriction']:
+                    stats.append(record['inherit restriction'])
+                response.add_field(name='Stats', value=', '.join(stats))
                 response.add_field(name='Effect', value=record['effect'])
-                response.add_field(name=f"List of heroes with {record['name']}", value=record['heroes with'])
-            elif record['type'] == 'special':
-                special_icon = 'https://feheroes.gamepedia.com/media/feheroes.gamepedia.com/2/25/Icon_Skill_Special.png'
-                response.set_author(name=record['name'], url=record['url'], icon_url=special_icon)
-                response.colour = 0xE29DE7
-                stats = {
-                    'Cooldown': record['cooldown'],
-                    'SP Cost': record['sp cost'],
-                    "Inherit Restriction": record['inherit restriction']
-                }
-                response.add_field(name='Stats', value='\n'.join([f'**{key}**: {stats[key]}' for key in stats]),
-                                   inline=False)
+            elif record_type == 'special':
+                author_icon = 'https://feheroes.gamepedia.com/media/feheroes.gamepedia.com/2/25/Icon_Skill_Special.png'
+                response_colour = 0xE29DE7
+                stats = [f"Cooldown {record['cooldown']}", f"SP {record['sp cost']}"]
+                if record['inherit restriction']:
+                    stats.append(record['inherit restriction'])
+                response.add_field(name='Stats', value=', '.join(stats), inline=False)
                 response.add_field(name='Effect', value=record['effect'], inline=False)
-                response.add_field(name=f"List of heroes with {record['name']}", value=record['heroes with'])
-            elif record['type'] == 'passive':
-                icon = record['icon']
-                response.set_author(name=record['name'], url=record['url'],
-                                    icon_url=icon)
-                response.set_thumbnail(url=icon)
-                response.colour = feh_core.colors['Neutral']
-                stats = {'Passive Type': record['passive type']}
+            elif record_type == 'passive':
+                author_icon = record['icon']
+                response_colour = feh_core.colors['Neutral']
+                stats = [f"Passive type' {record['passive type']}"]
                 if record['passive type'] != 'S':
-                    stats['SP Cost'] = record['sp cost']
-                    stats['Inherit Restriction'] = record['inherit restriction']
-                response.add_field(name='Stats', value='\n'.join([f'**{key}**: {stats[key]}' for key in stats]),
-                                   inline=False)
+                    stats.append(f"SP {record['sp cost']}")
+                if record['inherit restriction']:
+                    stats.append(record['inherit restriction'])
+                response.add_field(name='Stats', value=', '.join(stats), inline=False)
                 response.add_field(name='Effect', value=record['effect'])
+
+            response.set_author(name=author_name, url=record['url'], icon_url=author_icon)
+            response.colour = response_colour
+            if record_type not in ['assist', 'special']:
+                if record['icon']:
+                    response.set_thumbnail(url=record['icon'])
+
+            if record_type not in ['hero']:
                 if record['heroes with']:
-                    response.add_field(name=f"List of heroes with {record['name']}", value=record['heroes with'])
-                if record['see also']:
-                    response.set_footer(text=f"See also: {record['see also']}")
-        else:
-            response.title = '🔍 No results.'
-            response.colour = 0x696969
-    else:
-        response.title = '❗ Nothing inputted.'
-        response.colour = 0xBE1931
+                    response.add_field(name=f"List of heroes with {record['name']}",
+                                       value=record['heroes with'],
+                                       inline=False)
     await message.channel.send(embed=response)
