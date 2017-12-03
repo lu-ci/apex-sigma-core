@@ -2,27 +2,26 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import discord
-import wikipedia as wp
+import wikipedia as wiki
 
 
 async def wikipedia(cmd, message, args):
     if args:
-        q = ' '.join(args).lower()
         try:
-            summary_task = functools.partial(wp.summary, q)
+            summary_task = functools.partial(wiki.page, ' '.join(args).lower())
             with ThreadPoolExecutor() as threads:
-                result = await cmd.bot.loop.run_in_executor(threads, summary_task)
-            title = f'Wikipedia: {q.upper()}'
-            title_url = f'https://en.wikipedia.org/wiki/{q.replace(" ", "_")}'
-            wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
-            if len(result) >= 800:
-                result = result[:800] + '...'
+                page = await cmd.bot.loop.run_in_executor(threads, summary_task)
+
             response = discord.Embed(color=0xF9F9F9)
-            response.set_author(name=title, url=title_url, icon_url=wiki_icon)
-            response.description = result
-        except wp.PageError:
+            response.set_author(
+                name=f'Wikipedia: {page.title}',
+                url=page.url,
+                icon_url='https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
+            )
+            response.description = f'{page.summary[:800]}...'
+        except wiki.PageError:
             response = discord.Embed(color=0x696969, title='🔍 No results.')
-        except wp.DisambiguationError:
+        except wiki.DisambiguationError:
             response = discord.Embed(color=0xBE1931, title='❗ Search too broad, please be more specific.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
