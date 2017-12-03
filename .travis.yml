@@ -2,8 +2,12 @@ language: python
 python:
   - "3.6"
   - "3.6-dev"
+
+cache: pip
+
 services:
   - "mongodb"
+
 install: "pip install -Ur requirements.txt"
 script:
   - echo "Setup finished!"
