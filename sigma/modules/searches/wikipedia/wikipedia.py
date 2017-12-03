@@ -13,7 +13,7 @@ async def wikipedia(cmd, message, args):
             with ThreadPoolExecutor() as threads:
                 result = await cmd.bot.loop.run_in_executor(threads, summary_task)
             title = f'Wikipedia: {q.upper()}'
-            title_url = f'https://en.wikipedia.org/wiki/{q}'
+            title_url = f'https://en.wikipedia.org/wiki/{q.replace(" ", "_")}'
             wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
             if len(result) >= 800:
                 result = result[:800] + '...'
