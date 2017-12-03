@@ -65,3 +65,14 @@ commands:
     usage:        "{pfx}{cmd} 1ba2e263f287522f"
     description:
       Remove a reaction with the inputed ID.
+
+  - name:         getreaction
+    alts:
+      - "getreact"
+    global:       true
+    enabled:      true
+    permissions:
+      rating:     0
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 4242ea69"
