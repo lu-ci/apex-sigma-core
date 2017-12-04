@@ -32,6 +32,8 @@ async def emote(cmd, message, args):
             all_emotes = emote_cache.get('emotes')
         if eid:
             emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup and x.id == eid, all_emotes)
+            if not emote_choice:
+                emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup and x.guild.id == eid, all_emotes)
         else:
             sid = message.guild.id
             emote_priority = discord.utils.find(lambda x: x.name.lower() == lookup and x.guild.id == sid, all_emotes)
