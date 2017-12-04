@@ -5,16 +5,16 @@ from sigma.modules.games.warframe.commons.parsers.news_parser import get_news_da
 
 
 async def news_clockwork(ev):
-    try:
-        ev.bot.loop.create_task(cycler(ev))
-    except Exception as err:
-        ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
+    ev.bot.loop.create_task(cycler(ev))
 
 
 async def cycler(ev):
     while True:
-        news = await get_news_data(ev.db)
-        if news:
-            response = generate_news_embed(news)
-            await send_to_channels(ev, response, 'WarframeNewsChannel')
+        try:
+            news = await get_news_data(ev.db)
+            if news:
+                response = generate_news_embed(news)
+                await send_to_channels(ev, response, 'WarframeNewsChannel')
+        except Exception as err:
+            ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
         await asyncio.sleep(2)
