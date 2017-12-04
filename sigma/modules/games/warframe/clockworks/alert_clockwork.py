@@ -16,5 +16,5 @@ async def cycler(ev):
                 response = await generate_alert_embed(alerts)
                 await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
         except Exception as err:
-            ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
+            pass
         await asyncio.sleep(2)

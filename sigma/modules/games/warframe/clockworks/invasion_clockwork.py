@@ -16,5 +16,5 @@ async def cycler(ev):
                 response = await generate_invasion_embed(invasions)
                 await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
         except Exception as err:
-            ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
+            pass
         await asyncio.sleep(2)

@@ -40,5 +40,3 @@ async def send_to_channels(ev, embed, marker, triggers=None):
             pass
         except discord.NotFound:
             pass
-        except Exception:
-            pass
