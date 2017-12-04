@@ -1,0 +1,74 @@
+name:             Warframe Settings
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         wfalertchannel
+    alts:
+      - "wfac"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-alerts"
+    description:
+      Designates a channel for Warframe alerts.
+      When a new alert shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfinvasionchannel
+    alts:
+      - "wfic"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-invasions"
+    description:
+      Designates a channel for Warframe invasions.
+      When a new invasion shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfnewschannel
+    alts:
+      - "wfnc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-news"
+    description:
+      Designates a channel for Warframe news.
+      When Digital Extremes posts a new event for Warframe, it pops up there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wffissurechannel
+    alts:
+      - "wffc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-fissures"
+    description:
+      Designates a channel for Warframe void fissures.
+      When a new void fissure shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wfsortiechannel
+    alts:
+      - "wfsc"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-sorties"
+    description:
+      Designates a channel for Warframe sorties.
+      When a new sortie shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
+
+  - name:         wftag
+    alts:
+      - "wftagrole"
+      - "wfnotify"
+      - "wfbind"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} aura Aura Squad"
+    description:
+      Binds a certain keyword from alerts and invasions.
+      When this keyword appears during an event all roles
+      bound to it's triggers will be mentioned.

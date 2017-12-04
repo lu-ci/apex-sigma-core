@@ -1,0 +1,45 @@
+name:             Warframe Utilities
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         wfpricecheck
+    alts:
+      - "wfpc"
+      - "wfmarket"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Blind Rage"
+    description:
+      Checks the price for the searched item.
+      This will only list items by members that are currently online and in the game.
+
+  - name:         wftrials
+    alts:
+      - "wftrial"
+      - "wfraids"
+      - "wfraid"
+      - "wft"
+      - "wfr"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} AXAz0r"
+    description:
+      Shows raid statistics for the inputted username.
+      Note that DE hasn't been tracking this data forever.
+      So some really old raids won't be shown due to having no data.
+      The shortest raid time shown only counts victorious raids.
+
+  - name:         wfplainsofeidolon
+    alts:
+      - "wfpoe"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} exact"
+    description:
+      Shows the current time on the Plains of Eidolon in warframe.
+      As well as the next day/night cycle rotations.
+      You can add "exact" as a command arguement.
+      This will make the time cycle responses appear in the H:M:S format.

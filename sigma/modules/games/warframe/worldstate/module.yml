@@ -1,0 +1,57 @@
+name:             Warframe World Information
+
+category:         games
+
+enabled:          true
+
+commands:
+  - name:         wfalerts
+    alts:
+      - "wfa"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the currently ongoing alerts in Warframe.
+      As well as their respective rewards.
+
+  - name:         wfsortie
+    alts:
+      - "wfsorties"
+      - "wfs"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the ongoing sortie missions in Warframe.
+
+  - name:         wffissures
+    alts:
+      - "wffissure"
+      - "wff"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current fissure locations in Warframe.
+      As well as their tiers, locations and mission types.
+
+  - name:         wfinvasions
+    alts:
+      - "wfinvasion"
+      - "wfi"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current ongoing invasions in Warframe.
+      As well as their factions, locations and rewards.
+
+  - name:         wfnews
+    alts:
+      - "wfn"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the current ative news in Warframe.

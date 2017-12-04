@@ -43,6 +43,6 @@ def generate_news_embed(data):
     headline = message_content['Message']
     news_url = data['Prop']
     response = discord.Embed(color=0x336699, title=headline, timestamp=event_datetime, url=news_url)
-    if data['ImageUrl']:
+    if data.get('ImageUrl'):
         response.set_image(url=data['ImageUrl'])
     return response

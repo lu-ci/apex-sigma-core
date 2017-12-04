@@ -1,7 +1,7 @@
 import aiohttp
 import discord
 
-from .nodes.invasion_functions import parse_invasion_data
+from sigma.modules.games.warframe.commons.parsers.invasion_parser import parse_invasion_data
 
 
 async def wfinvasions(cmd, message, args):

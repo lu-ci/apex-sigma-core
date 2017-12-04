@@ -2,7 +2,7 @@ import json
 
 import aiohttp
 
-from .nodes.sortie_functions import generate_sortie_embed
+from sigma.modules.games.warframe.commons.parsers.sortie_parser import generate_sortie_embed
 
 
 async def wfsortie(cmd, message, args):

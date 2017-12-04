@@ -7,13 +7,6 @@ import discord
 
 
 async def wfplainsofeidolon(cmd, message, args):
-    if args:
-        if args[0].lower().startswith('ex'):
-            exact = True
-        else:
-            exact = False
-    else:
-        exact = False
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
     try:
         async with aiohttp.ClientSession() as session:
@@ -32,17 +25,12 @@ async def wfplainsofeidolon(cmd, message, args):
         nox = (int(poe_data['Activation']['$date']['$numberLong']) + (1000 * 60 * 100)) / 1000
         end = int(poe_data['Expiry']['$date']['$numberLong']) / 1000
         curr = arrow.utcnow().float_timestamp
-        if exact:
-            sta_hum = str(datetime.timedelta(seconds=curr - sta)).split('.')[0] + ' Ago'
-            if curr < nox:
-                nox_hum = 'In ' + str(datetime.timedelta(seconds=nox - curr)).split('.')[0]
-            else:
-                nox_hum = str(datetime.timedelta(seconds=curr - nox)).split('.')[0] + ' Ago'
-            end_hum = 'In ' + str(datetime.timedelta(seconds=end - curr)).split('.')[0]
+        sta_hum = str(datetime.timedelta(seconds=curr - sta)).split('.')[0] + ' Ago'
+        if curr < nox:
+            nox_hum = 'In ' + str(datetime.timedelta(seconds=nox - curr)).split('.')[0]
         else:
-            sta_hum = arrow.get(sta).humanize().title()
-            nox_hum = arrow.get(nox).humanize().title()
-            end_hum = arrow.get(end).humanize().title()
+            nox_hum = str(datetime.timedelta(seconds=curr - nox)).split('.')[0] + ' Ago'
+        end_hum = 'In ' + str(datetime.timedelta(seconds=end - curr)).split('.')[0]
         text_desc = f'Current Day: **{sta_hum}**'
         if curr < nox:
             color = 0xffac33

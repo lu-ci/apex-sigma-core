@@ -4,7 +4,7 @@ import aiohttp
 import arrow
 import discord
 
-from .nodes.alert_functions import parse_alert_data
+from sigma.modules.games.warframe.commons.parsers.alert_parser import parse_alert_data
 
 
 async def wfalerts(cmd, message, args):

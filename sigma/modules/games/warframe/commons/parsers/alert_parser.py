@@ -75,7 +75,6 @@ async def get_alert_data(db):
 
 
 async def generate_alert_embed(data):
-    from .image_grabber import grab_image
     timestamp_start = data['stamps']['start']
     timestamp_end = data['stamps']['end']
     duration_sec = timestamp_end - timestamp_start
@@ -87,10 +86,7 @@ async def generate_alert_embed(data):
     alert_desc += f'\nLocation: {data["node"]} ({data["planet"]})'
     alert_desc += f'\nReward: {data["rewards"]["credits"]}cr'
     if data['rewards']['item']:
-        try:
-            reward_icon = await grab_image(data['rewards']['item'])
-        except Exception:
-            reward_icon = 'http://i.imgur.com/99ennZD.png'
+        reward_icon = 'http://i.imgur.com/99ennZD.png'
         alert_desc += f' + {data["rewards"]["item"]}'
     else:
         reward_icon = 'https://i.imgur.com/WeUJXIx.png'

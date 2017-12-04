@@ -1,0 +1,27 @@
+name:             Warframe Clockworks
+
+category:         games
+
+enabled:          true
+
+events:
+  - name:         alert_clockwork
+    type:         launch
+    enabled:      true
+
+  - name:         fissure_clockwork
+    type:         launch
+    enabled:      true
+
+  - name:         invasion_clockwork
+    type:         launch
+    enabled:      true
+
+  - name:         news_clockwork
+    type:         launch
+    enabled:      true
+
+  - name:         sortie_clockwork
+    type:         launch
+    enabled:      true
+
