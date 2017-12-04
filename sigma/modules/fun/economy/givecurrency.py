@@ -7,7 +7,7 @@ async def givecurrency(cmd, message, args):
             if message.mentions:
                 target = message.mentions[0]
                 try:
-                    amount = int(args[0])
+                    amount = abs(int(args[0]))
                 except ValueError:
                     amount = None
                 if amount:
