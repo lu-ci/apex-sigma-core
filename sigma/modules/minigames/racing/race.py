@@ -71,8 +71,8 @@ async def race(cmd, message, args):
                 cmd.db.rmv_currency(user['user'], buyin)
             if race_instance['buyin']:
                 winnings = race_instance["buyin"] * len(race_instance['users'])
-                cmd.db.add_currency(leader['user'], message.guild, int(winnings * 0.9), additive=False)
-                win_title += f' And got {int(winnings * 0.9)} {currency}.'
+                cmd.db.add_currency(leader['user'], message.guild, winnings, additive=False)
+                win_title += f' And got {winnings} {currency}.'
             win_response = discord.Embed(color=colors[leader['icon']], title=win_title)
             await message.channel.send(embed=win_response)
         else:

@@ -13,10 +13,9 @@ async def givecurrency(cmd, message, args):
                 if amount:
                     current_kud = cmd.db.get_currency(message.author, message.guild)['current']
                     if current_kud >= amount:
-                        amount_end = int(amount * 0.95)
                         cmd.db.rmv_currency(message.author, amount)
-                        cmd.db.add_currency(target, message.guild, amount_end, additive=False)
-                        title = f'✅ Transfered {amount_end} to {target.display_name}.'
+                        cmd.db.add_currency(target, message.guild, amount, additive=False)
+                        title = f'✅ Transfered {amount} to {target.display_name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have that much.')
