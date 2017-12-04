@@ -28,13 +28,15 @@ Commands | Description | Example
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
+`>>destroycurrency` `>>destroykud` `>>descurr` `>>deskud` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroycurrency 150 @person`
+`>>destroyitem` `>>desitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. (Bot Owner Only) | `>>evaluate print('hello world')`
+`>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
+`>>generateitem` `>>genitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>generateitem @person plants Blue Delta`
 `>>getcommand` `>>getcmd` | Gets command information by the command's statistics ID. (Bot Owner Only) | `>>getcommand 1a2b5c187d13e`
 `>>geterror` | Gets an error's details using the given token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>getreaction` `>>getreact` | No description provided. (Bot Owner Only) | `>>getreaction 4242ea69`
-`>>givecurrency` `>>givekud` `>>givemoney` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>givecurrency 150 @person`
-`>>giveitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>giveitem @person plants Blue Delta`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
 `>>removereaction` `>>removereact` `>>delreact` | Remove a reaction with the inputed ID. (Bot Owner Only) | `>>removereaction 1ba2e263f287522f`
 `>>removestatus` | Removes a status with the inputed ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
@@ -45,8 +47,6 @@ Commands | Description | Example
 `>>setusername` | Sets the name of the bot to the inputted text. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setusername Supreme Bot`
 `>>shutdown` | Forces the bot to disconnect from Discord and shut down all processes. (Bot Owner Only) | `>>shutdown`
 `>>sysexec` `>>sh` | Executes a shell command. Extreme warning! (Bot Owner Only) | `>>sysexec echo 'Hello'`
-`>>takecurrency` `>>takekud` `>>takemoney` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takecurrency 150 @person`
-`>>takeitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>takeitem abcdef1234567890`
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
@@ -67,6 +67,7 @@ Commands | Description | Example
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you are a good kid. | `>>dadjoke`
 `>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about the man's best friend. | `>>dogfact`
+`>>emote` `>>emoji` | Pseudo-dank metrics or whatever. | `>>emote`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them to only nice people. You can give only one cookie every hour. | `>>givecookie @person`

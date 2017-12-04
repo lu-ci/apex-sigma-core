@@ -5,7 +5,7 @@ from sigma.modules.minigames.professions.nodes.item_core import ItemCore
 item_core = None
 
 
-async def takeitem(cmd, message, args):
+async def destroyitem(cmd, message, args):
     global item_core
     if not item_core:
         item_core = ItemCore('sigma/modules/minigames/professions/res/data')

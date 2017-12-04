@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def takecurrency(cmd, message, args):
+async def destroycurrency(cmd, message, args):
     if message.mentions:
         if len(args) >= 2:
             target = message.mentions[0]

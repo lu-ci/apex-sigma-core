@@ -5,7 +5,9 @@ category:         administration
 enabled:          true
 
 commands:
-  - name:         giveitem
+  - name:         generateitem
+    alts:
+      - "genitem"
     global:       true
     enabled:      true
     permissions:
@@ -16,7 +18,9 @@ commands:
     description:
       Creates and gives an item to the tagged user from the inputted category.
 
-  - name:         takeitem
+  - name:         destroyitem
+    alts:
+      - "desitem"
     global:       true
     enabled:      true
     permissions:

@@ -5,10 +5,11 @@ category:         administration
 enabled:          true
 
 commands:
-  - name:         givecurrency
+  - name:         generatecurrency
     alts:
-      - "givekud"
-      - "givemoney"
+      - "generatekud"
+      - "gencurr"
+      - "genkud"
     global:       true
     enabled:      true
     permissions:
@@ -20,10 +21,11 @@ commands:
       Awards the mentioned user with the inputted amount of currency.
       The currency goes first and then the user mention as shown in the example.
 
-  - name:         takecurrency
+  - name:         destroycurrency
     alts:
-      - "takekud"
-      - "takemoney"
+      - "destroykud"
+      - "descurr"
+      - "deskud"
     global:       true
     enabled:      true
     permissions:

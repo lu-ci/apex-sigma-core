@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def givecurrency(cmd, message, args):
+async def generatecurrency(cmd, message, args):
     if message.mentions:
         if len(args) >= 2:
             target = message.mentions[0]
