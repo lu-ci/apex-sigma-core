@@ -40,5 +40,5 @@ async def send_to_channels(ev, embed, marker, triggers=None):
             pass
         except discord.NotFound:
             pass
-        except Exception as err:
-            ev.log.error(f'Couldn\'t complete a sending. | Error: {err.with_traceback}')
+        except Exception:
+            pass
