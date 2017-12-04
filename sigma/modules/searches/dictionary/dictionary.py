@@ -41,15 +41,16 @@ async def dictionary(cmd, message, args):
                     senses = ent.get('senses')
                     definition_block = []
                     example_block = []
-                    for sense in senses:
-                        definitions = sense.get('definitions')
-                        definition_block += definitions
-                        examples = sense.get('examples')
-                        if examples:
-                            for example in examples:
-                                example = example.get('text')
-                                if example:
-                                    example_block.append(example)
+                    if senses:
+                        for sense in senses:
+                            definitions = sense.get('definitions')
+                            definition_block += definitions
+                            examples = sense.get('examples')
+                            if examples:
+                                for example in examples:
+                                    example = example.get('text')
+                                    if example:
+                                        example_block.append(example)
                     response = discord.Embed(color=0x3B88C3, title=f'📘 Oxford Dictionary: `{term}`')
                     if etyms:
                         response.add_field(name='Etymologies', value='\n'.join(etyms), inline=False)
