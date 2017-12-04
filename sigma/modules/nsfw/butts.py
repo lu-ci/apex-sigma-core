@@ -1,5 +1,5 @@
 ﻿import secrets
-
+import json
 import aiohttp
 import discord
 
@@ -10,7 +10,8 @@ async def butts(cmd, message, args):
     url_api = api_base + str(number)
     async with aiohttp.ClientSession() as session:
         async with session.get(url_api) as data:
-            data = await data.json()
+            data = await data.read()
+            data = json.loads(data)
             data = data[0]
     image_url = 'http://media.obutts.ru/' + data['preview']
     model = data['model']

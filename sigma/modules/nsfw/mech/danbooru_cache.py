@@ -1,5 +1,5 @@
 import secrets
-
+import json
 import aiohttp
 
 links = {}
@@ -18,7 +18,8 @@ async def get_dan_post(tag):
         resource = 'https://danbooru.donmai.us/post/index.json?&tags=' + tag
         async with aiohttp.ClientSession() as session:
             async with session.get(resource) as data:
-                data = await data.json()
+                data = await data.read()
+                data = json.loads(data)
         temp_list = []
         for post in data:
             if 'file_url' in post:
