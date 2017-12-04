@@ -67,7 +67,7 @@ Commands | Description | Example
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you are a good kid. | `>>dadjoke`
 `>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about the man's best friend. | `>>dogfact`
-`>>emote` `>>emoji` | Pseudo-dank metrics or whatever. | `>>emote`
+`>>emote` `>>emoji` `>>em` | Searches for an emoji by name. Additionally, you can search for a specific emoji using an ID like this lcPain:309405155298639872 | `>>emote lcPain`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them to only nice people. You can give only one cookie every hour. | `>>givecookie @person`

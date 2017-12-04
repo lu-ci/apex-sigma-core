@@ -21,6 +21,17 @@ commands:
     description:
       Pseudo-dank metrics or whatever.
 
+  - name:         emote
+    alts:
+      - "emoji"
+      - "em"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} lcPain"
+    description:
+      Searches for an emoji by name.
+      Additionally, you can search for a specific emoji using an ID like this lcPain:309405155298639872
+
   - name:         leetspeak
     alts:
       - "leet"
