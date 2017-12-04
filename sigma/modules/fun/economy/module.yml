@@ -5,6 +5,17 @@ category:         fun
 enabled:          true
 
 commands:
+  - name:         givecurrency
+    alts:
+      - "givecurr"
+      - "givekud"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 100 @person"
+    description:
+      Transfers Kud between you and a targetted person.
+      5% of the Kud is taxed in the transfer.
+
   - name:         vault
     alts:
       - "bank"
