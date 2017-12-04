@@ -15,7 +15,7 @@ def emote_filler(guilds):
 
 async def emote(cmd, message, args):
     if args:
-        lookup = args[0]
+        lookup = args[0].lower()
         if ':' in lookup:
             split_args = lookup.split(':')
             lookup = split_args[0]
