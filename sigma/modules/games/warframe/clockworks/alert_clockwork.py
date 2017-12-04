@@ -5,7 +5,10 @@ from sigma.modules.games.warframe.commons.parsers.alert_parser import get_alert_
 
 
 async def alert_clockwork(ev):
-    ev.bot.loop.create_task(cycler(ev))
+    try:
+        ev.bot.loop.create_task(cycler(ev))
+    except Exception as err:
+        ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
 
 
 async def cycler(ev):

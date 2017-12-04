@@ -5,8 +5,10 @@ from sigma.modules.games.warframe.commons.parsers.news_parser import get_news_da
 
 
 async def news_clockwork(ev):
-    ev.bot.loop.create_task(cycler(ev))
-
+    try:
+        ev.bot.loop.create_task(cycler(ev))
+    except Exception as err:
+        ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
 
 async def cycler(ev):
     while True:
