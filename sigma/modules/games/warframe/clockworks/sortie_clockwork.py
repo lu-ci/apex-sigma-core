@@ -10,6 +10,7 @@ async def sortie_clockwork(ev):
     except Exception as err:
         ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
 
+
 async def cycler(ev):
     while True:
         sorties = await get_sortie_data(ev.db)

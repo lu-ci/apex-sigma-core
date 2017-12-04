@@ -1,5 +1,7 @@
 import discord
+
 from .mech.feh_core import FireEmblemHeroesCore
+
 feh_core = None
 
 
@@ -58,7 +60,8 @@ async def fireemblemheroes(cmd, message, args):
                 if record['special effect']:
                     response.add_field(name='Effect', value=record['special effect'], inline=False)
                 if record['evolution']:
-                    response.add_field(name='Evolves into', value=f"{record['evolution']['into']} ({record['evolution']['cost']})")
+                    response.add_field(name='Evolves into',
+                                       value=f"{record['evolution']['into']} ({record['evolution']['cost']})")
                 if record['upgrade effect']:
                     response.add_field(name='Upgraded effect', value=record['upgrade effect'], inline=False)
                 if record['upgrades']:

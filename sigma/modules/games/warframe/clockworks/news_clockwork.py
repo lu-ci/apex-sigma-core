@@ -10,6 +10,7 @@ async def news_clockwork(ev):
     except Exception as err:
         ev.log.error(f'Couldn\'t complete a cycle. | Error: {err.with_traceback}')
 
+
 async def cycler(ev):
     while True:
         news = await get_news_data(ev.db)

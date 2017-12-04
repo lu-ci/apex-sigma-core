@@ -1,5 +1,6 @@
 from discord import Embed
 
+
 async def getreaction(cmd, message, args):
     if not args:
         return

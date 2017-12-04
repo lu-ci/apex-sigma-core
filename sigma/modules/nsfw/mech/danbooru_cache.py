@@ -1,5 +1,6 @@
-import secrets
 import json
+import secrets
+
 import aiohttp
 
 links = {}
