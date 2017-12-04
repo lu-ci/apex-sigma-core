@@ -36,7 +36,5 @@ async def send_to_channels(ev, embed, marker, triggers=None):
                 await channel.send(mentions, embed=embed)
             else:
                 await channel.send(embed=embed)
-        except discord.Forbidden:
-            pass
-        except discord.NotFound:
+        except Exception:
             pass
