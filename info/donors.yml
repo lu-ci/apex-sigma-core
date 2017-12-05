@@ -64,7 +64,7 @@ donors:
     avatar: "https://i.imgur.com/CeB0qBr.png"
     duid:   253358589601644548
   - name:   "FireWoodCut"
-    tier:   4
+    tier:   0
     avatar: "https://i.imgur.com/cTYmSAy.jpg"
     duid:   58277187530268672
   - name:   "DanDay21"
@@ -87,10 +87,6 @@ donors:
     tier:   0
     avatar: "https://i.imgur.com/5omfQTb.png"
     duid:   290596897180352512
-#  - name:   "NoR"
-#    tier:   6
-#    avatar: "https://i.imgur.com/NGp7sBd.png"
-#    duid:   341464747390140427
   - name:   "Heide"
     tier:   0
     avatar: "https://i.imgur.com/WjVdLkR.png"
