@@ -1,5 +1,6 @@
 import arrow
 import yaml
+import json
 
 
 async def version_updater(ev):
@@ -25,3 +26,6 @@ async def version_updater(ev):
         with open('info/version.yml', 'w') as version_out:
             yaml.dump(data_out, version_out, default_flow_style=False)
         ev.log.info('Updated Version File.')
+
+        with open('info/version.json', 'w') as version_out:
+            json.dump({"version": f'{major}.{minor}.{patch}'}, version_out)
