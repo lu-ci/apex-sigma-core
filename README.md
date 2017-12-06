@@ -19,11 +19,48 @@
 ## Development
 
 <div align="center">
-
-Travis | CircleCI | AppVeyor | Codacy | Code Climate | Sigma |
------- | -------- | -------- | ------ | ------------ | ----- |
-[![Build Status](https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master)](https://travis-ci.org/lu-ci/apex-sigma-core) | [![CircleCI](https://circleci.com/gh/lu-ci/apex-sigma-core.svg?style=svg)](https://circleci.com/gh/lu-ci/apex-sigma-core) | [![Build status](https://ci.appveyor.com/api/projects/status/qikyl4vybkgbjrj0?svg=true)](https://ci.appveyor.com/project/AXAz0r/apex-sigma-core) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5c32a94ed464faba56ff5d0789ce94a)](https://www.codacy.com/app/lu-ci/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade) | [![Maintainability](https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability)](https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability) | [![sigma](https://img.shields.io/badge/dynamic/json.svg?label=Sigma&colorB=&prefix=v&suffix=&query=$.version&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flu-ci%2Fapex-sigma-core%2Fmaster%2Finfo%2Fversion.json)](https://lucia.moe/#/sigma)
-
+  <table>
+    <thead>
+      <th>Travis</th>
+      <th>CircleCI</th>
+      <th>AppVeyor</th>
+      <th>Codacy</th>
+      <th>Code Climate</th>
+      <th>Sigma</th>
+    </thead>
+    <tbody>
+      <td>
+        <a href="https://travis-ci.org/lu-ci/apex-sigma-core">
+          <img src="https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master" alt="Build Status">
+        </a>
+      </td>
+      <td>
+        <a href="https://circleci.com/gh/lu-ci/apex-sigma-core">
+          <img src="https://circleci.com/gh/lu-ci/apex-sigma-core.svg?style=svg" alt="CircleCI">
+        </a>
+      </td>
+      <td>
+        <a href="https://ci.appveyor.com/project/AXAz0r/apex-sigma-core">
+          <img src="https://ci.appveyor.com/api/projects/status/qikyl4vybkgbjrj0?svg=true" alt="Build status">
+        </a>
+      </td>
+      <td>
+        <a href="https://www.codacy.com/app/lu-ci/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade">
+          <img src="https://api.codacy.com/project/badge/Grade/e5c32a94ed464faba56ff5d0789ce94a" alt="Codacy Badge">
+        </a>
+      </td>
+      <td>
+        <a href="https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability">
+          <img src="https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability" alt="Maintainability">
+        </a>
+      </td>
+      <td>
+        <a href="https://lucia.moe/#/sigma">
+          <img src="https://img.shields.io/badge/dynamic/json.svg?label=Sigma&colorB=1b6f5f&prefix=v&suffix=&query=$.version&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flu-ci%2Fapex-sigma-core%2Fmaster%2Finfo%2Fversion.json" alt="Sigma">
+        </a>
+      </td>
+    </tbody>
+  </table>
 </div>
 
 ## About
