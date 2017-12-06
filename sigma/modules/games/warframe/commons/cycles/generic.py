@@ -21,7 +21,7 @@ def get_triggers(db, triggers, guild):
             wf_tags = {}
         if wf_tags:
             if trigger in wf_tags:
-                bound_role = discord.utils.find(lambda x: x.id == wf_tags[trigger], guild.roles)
+                bound_role = discord.utils.find(lambda x: x.id == wf_tags.get(trigger), guild.roles)
                 if bound_role:
                     mentions.append(bound_role.mention)
     return ' '.join(mentions)
