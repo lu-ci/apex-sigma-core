@@ -20,9 +20,9 @@
 
 <div align="center">
 
-Travis | CircleCI | AppVeyor | Codacy | Code Climate
------- | -------- | -------- | ------ | ------------
-[![Build Status](https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master)](https://travis-ci.org/lu-ci/apex-sigma-core) | [![CircleCI](https://circleci.com/gh/lu-ci/apex-sigma-core.svg?style=svg)](https://circleci.com/gh/lu-ci/apex-sigma-core) | [![Build status](https://ci.appveyor.com/api/projects/status/qikyl4vybkgbjrj0?svg=true)](https://ci.appveyor.com/project/AXAz0r/apex-sigma-core) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5c32a94ed464faba56ff5d0789ce94a)](https://www.codacy.com/app/lu-ci/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade) | [![Maintainability](https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability)](https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability)
+Travis | CircleCI | AppVeyor | Codacy | Code Climate | Sigma |
+------ | -------- | -------- | ------ | ------------ | ----- |
+[![Build Status](https://travis-ci.org/lu-ci/apex-sigma-core.svg?branch=master)](https://travis-ci.org/lu-ci/apex-sigma-core) | [![CircleCI](https://circleci.com/gh/lu-ci/apex-sigma-core.svg?style=svg)](https://circleci.com/gh/lu-ci/apex-sigma-core) | [![Build status](https://ci.appveyor.com/api/projects/status/qikyl4vybkgbjrj0?svg=true)](https://ci.appveyor.com/project/AXAz0r/apex-sigma-core) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5c32a94ed464faba56ff5d0789ce94a)](https://www.codacy.com/app/lu-ci/apex-sigma-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lu-ci/apex-sigma-core&amp;utm_campaign=Badge_Grade) | [![Maintainability](https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability)](https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability) | [![sigma](https://img.shields.io/badge/dynamic/json.svg?label=Sigma&colorB=&prefix=v&suffix=&query=$.version&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flu-ci%2Fapex-sigma-core%2Fmaster%2Finfo%2Fversion.json)](https://lucia.moe/#/sigma)
 
 </div>
 
