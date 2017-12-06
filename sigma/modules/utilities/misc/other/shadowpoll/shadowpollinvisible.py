@@ -10,7 +10,7 @@ async def shadowpollinvisible(cmd, message, args):
             if author == message.author.id:
                 visible = poll_file['settings']['visible']
                 if visible:
-                    poll_file['settings'].update({'visible': True})
+                    poll_file['settings'].update({'visible': False})
                     cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0x161616, title=f'🕶 Poll {poll_file["id"]} is now invisible.')
                 else:
