@@ -10,11 +10,8 @@ async def alert_clockwork(ev):
 
 async def alert_cycler(ev):
     while True:
-        try:
-            alerts, triggers = await get_alert_data(ev.db)
-            if alerts:
-                response = await generate_alert_embed(alerts)
-                await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
-        except Exception as err:
-            pass
+        alerts, triggers = await get_alert_data(ev.db)
+        if alerts:
+            response = await generate_alert_embed(alerts)
+            await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
         await asyncio.sleep(2)

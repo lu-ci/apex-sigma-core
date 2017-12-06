@@ -10,11 +10,8 @@ async def fissure_clockwork(ev):
 
 async def fissure_cycler(ev):
     while True:
-        try:
-            fissures = await get_fissure_data(ev.db)
-            if fissures:
-                response = generate_fissure_embed(fissures)
-                await send_to_channels(ev, response, 'WarframeFissureChannel')
-        except Exception as err:
-            pass
+        fissures = await get_fissure_data(ev.db)
+        if fissures:
+            response = generate_fissure_embed(fissures)
+            await send_to_channels(ev, response, 'WarframeFissureChannel')
         await asyncio.sleep(2)

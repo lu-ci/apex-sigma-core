@@ -10,11 +10,8 @@ async def invasion_clockwork(ev):
 
 async def invasion_cycler(ev):
     while True:
-        try:
             invasions, triggers = await get_invasion_data(ev.db)
             if invasions:
                 response = await generate_invasion_embed(invasions)
                 await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
-        except Exception as err:
-            pass
-        await asyncio.sleep(2)
+            await asyncio.sleep(2)
