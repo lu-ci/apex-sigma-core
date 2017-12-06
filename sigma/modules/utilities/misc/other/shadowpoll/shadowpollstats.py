@@ -15,7 +15,10 @@ def count_votes(poll_file):
 
 
 def make_bar(points, total):
-    fill = int((points / total) * 10)
+    try:
+        fill = int((points / total) * 10)
+    except ZeroDivisionError:
+        fill = 0
     empty = 10 - fill
     bar = f'[{fill * "▣"}{empty * "▢"}]'
     return bar
