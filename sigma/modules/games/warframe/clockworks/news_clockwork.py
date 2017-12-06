@@ -15,6 +15,6 @@ async def cycler(ev):
             if news:
                 response = generate_news_embed(news)
                 await send_to_channels(ev, response, 'WarframeNewsChannel')
-        except Exception as err:
+        except SyntaxError as err:
             pass
         await asyncio.sleep(2)

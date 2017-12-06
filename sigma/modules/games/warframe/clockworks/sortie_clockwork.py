@@ -15,6 +15,6 @@ async def cycler(ev):
             if sorties:
                 response = generate_sortie_embed(sorties)
                 await send_to_channels(ev, response, 'WarframeSortieChannel')
-        except Exception as err:
+        except SyntaxError as err:
             pass
         await asyncio.sleep(2)

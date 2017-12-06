@@ -15,6 +15,6 @@ async def cycler(ev):
             if fissures:
                 response = generate_fissure_embed(fissures)
                 await send_to_channels(ev, response, 'WarframeFissureChannel')
-        except Exception as err:
+        except SyntaxError as err:
             pass
         await asyncio.sleep(2)
