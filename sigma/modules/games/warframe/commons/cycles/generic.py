@@ -25,7 +25,7 @@ def get_triggers(db, triggers, guild):
                 bound_role = discord.utils.find(lambda x: x.id == role_id, guild.roles)
                 if bound_role:
                     mentions.append(bound_role.mention)
-    return ' '.join(mentions)
+    return mentions
 
 
 async def send_to_channels(ev, embed, marker, triggers=None):
@@ -34,6 +34,10 @@ async def send_to_channels(ev, embed, marker, triggers=None):
     for channel in channels:
         if triggers:
             mentions = get_triggers(ev.db, triggers, channel.guild)
-            await channel.send(mentions, embed=embed)
+            if mentions:
+                mentions = ' '.join(mentions)
+                await channel.send(mentions, embed=embed)
+            else:
+                await channel.send(embed=embed)
         else:
             await channel.send(embed=embed)
