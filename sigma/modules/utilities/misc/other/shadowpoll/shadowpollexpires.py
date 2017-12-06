@@ -34,7 +34,7 @@ async def shadowpollexpires(cmd, message, args):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid time input.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing the time input.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and expiration time.')
     await message.channel.send(embed=response)

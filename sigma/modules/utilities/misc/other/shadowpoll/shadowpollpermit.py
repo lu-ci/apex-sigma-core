@@ -33,7 +33,7 @@ async def shadowpollpermit(cmd, message, args):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Target not located.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing permission target.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and target.')
     await message.channel.send(embed=response)
