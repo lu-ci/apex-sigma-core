@@ -27,7 +27,6 @@ async def shadowpollstats(cmd, message, args):
         poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
-            active = poll_file['settings']['active']
             visible = poll_file['settings']['visible']
             if author == message.author.id or visible:
                 total = len(list(poll_file['votes']))
