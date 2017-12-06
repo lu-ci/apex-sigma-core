@@ -6,7 +6,7 @@ def count_votes(poll_file):
     for vote in poll_file['votes'].keys():
         vote_index = poll_file['votes'].get(vote)
         if vote_index in vote_coll:
-            curr = vote_index.get(vote_coll)
+            curr = vote_coll.get(vote_index)
         else:
             curr = 0
         curr += 1
