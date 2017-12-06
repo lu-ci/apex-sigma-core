@@ -51,7 +51,7 @@
       </td>
       <td>
         <a href="https://codeclimate.com/github/lu-ci/apex-sigma-core/maintainability">
-          <img src="https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability" alt="Maintainability">
+          <img src="https://api.codeclimate.com/v1/badges/ec81aa40bed5644d78e2/maintainability.png" alt="Maintainability">
         </a>
       </td>
       <td>
