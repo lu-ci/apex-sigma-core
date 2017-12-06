@@ -1,12 +1,12 @@
 import discord
 
 
-def get_channels(db, all_channels, marker):
+def get_channels(ev, marker):
     channel_list = []
-    setting_files = db[db.db_cfg.database].ServerSettings.find({marker: {'$exists': True}})
+    setting_files = ev.db[ev.db.db_cfg.database].ServerSettings.find({marker: {'$exists': True}})
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
-        channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
+        channel = discord.utils.find(lambda x: x.id == channel_id, ev.bot.get_all_channels())
         if channel:
             channel_list.append(channel)
     return channel_list
@@ -29,7 +29,7 @@ def get_triggers(db, triggers, guild):
 
 async def send_to_channels(ev, embed, marker, triggers=None):
     channel_list = ev.bot.get_all_channels()
-    channels = get_channels(ev.db, channel_list, marker)
+    channels = get_channels(ev, marker)
     ev.log.info(f'{marker}: {len(channels)}')
     for channel in channels:
         ev.log.info(f'{marker}: #{channel.name}')
