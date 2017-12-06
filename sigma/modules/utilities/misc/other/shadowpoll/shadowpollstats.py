@@ -15,7 +15,7 @@ def count_votes(poll_file):
 
 
 def make_bar(points, total):
-    fill = (points // total) * 10
+    fill = int((points / total) * 10)
     empty = 10 - fill
     bar = f'[{fill * "▣"}{empty * "▢"}]'
     return bar
