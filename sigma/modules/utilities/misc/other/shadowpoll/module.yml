@@ -63,6 +63,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22 48:30:59"
+    permissions:
+      dmable: true
     description:
       Sets a poll to automatically close after the given time elapses.
       The time to close is counted from the command execution, not the initial opening of the poll.
@@ -75,6 +77,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Closes/deactivated a shadow poll.
       Closed polls can not be voted on and can not be viewed unless they are set to be visible.
@@ -85,6 +89,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Opens a previously closed poll.
       If the poll has an expiration timer, it will be wiped.
@@ -96,6 +102,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Marks a poll as visible.
       If a poll is visible anybody can see it's statistics.
@@ -108,6 +116,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Reverts a shadow poll back to invisible.
       Making it's statistics only accessible to the author.
@@ -120,6 +130,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Permanently deletes a shadow poll.
 
@@ -129,6 +141,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Completely resets a poll's statistics.
       Deleting all the data about who voted for what option.
@@ -163,6 +177,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Shows statistics for the given poll.
       Total count of votes and votes for each option as well as percentages.
@@ -173,6 +189,8 @@ commands:
     global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
     description:
       Shows all the users that voted on a shadow poll and what they voted on.
       This command can only be used by the author of the poll.

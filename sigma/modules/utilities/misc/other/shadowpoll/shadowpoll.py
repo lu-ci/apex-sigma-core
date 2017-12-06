@@ -33,7 +33,7 @@ def generate_data(message, poll_args):
             'roles': []
         },
         'settings': {
-            'visible': True,
+            'visible': False,
             'expires': None,
             'active': True
         }
