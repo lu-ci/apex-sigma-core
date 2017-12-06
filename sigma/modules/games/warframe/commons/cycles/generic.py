@@ -6,10 +6,9 @@ def get_channels(db, all_channels, marker):
     setting_files = db[db.db_cfg.database].ServerSettings.find({marker: {'$exists': True}})
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
-        if channel_id:
-            channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
-            if channel:
-                channel_list.append(channel)
+        channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
+        if channel:
+            channel_list.append(channel)
     return channel_list
 
 
