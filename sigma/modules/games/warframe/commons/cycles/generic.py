@@ -30,10 +30,8 @@ def get_triggers(db, triggers, guild):
 async def send_to_channels(ev, embed, marker, triggers=None):
     channel_list = ev.bot.get_all_channels()
     channels = get_channels(ev, marker)
-    ev.log.info(f'{marker}: {len(channels)}')
     for channel in channels:
         try:
-            ev.log.info(f'{marker}: #{channel.name}')
             if triggers:
                 mentions = get_triggers(ev.db, triggers, channel.guild)
                 if mentions:
