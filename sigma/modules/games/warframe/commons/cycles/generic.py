@@ -28,7 +28,8 @@ def get_triggers(db, triggers, guild):
 
 
 async def send_to_channels(ev, embed, marker, triggers=None):
-    channels = get_channels(ev.db, ev.bot.get_all_channels(), marker)
+    channel_list = ev.bot.get_all_channels()
+    channels = get_channels(ev.db, channel_list, marker)
     for channel in channels:
         try:
             if triggers:
