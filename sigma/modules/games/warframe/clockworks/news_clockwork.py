@@ -10,8 +10,11 @@ async def news_clockwork(ev):
 
 async def news_cycler(ev):
     while True:
-        news = await get_news_data(ev.db)
-        if news:
-            response = generate_news_embed(news)
-            await send_to_channels(ev, response, 'WarframeNewsChannel')
+        try:
+            news = await get_news_data(ev.db)
+            if news:
+                response = generate_news_embed(news)
+                await send_to_channels(ev, response, 'WarframeNewsChannel')
+        except Exception as err:
+            pass
         await asyncio.sleep(2)

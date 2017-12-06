@@ -10,8 +10,11 @@ async def sortie_clockwork(ev):
 
 async def sortie_cycler(ev):
     while True:
-        sorties = await get_sortie_data(ev.db)
-        if sorties:
-            response = generate_sortie_embed(sorties)
-            await send_to_channels(ev, response, 'WarframeSortieChannel')
+        try:
+            sorties = await get_sortie_data(ev.db)
+            if sorties:
+                response = generate_sortie_embed(sorties)
+                await send_to_channels(ev, response, 'WarframeSortieChannel')
+        except Exception as err:
+            pass
         await asyncio.sleep(2)
