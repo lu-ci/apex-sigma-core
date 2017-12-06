@@ -31,10 +31,8 @@ def get_triggers(db, triggers, guild):
 async def send_to_channels(ev, embed, marker, triggers=None):
     channel_list = ev.bot.get_all_channels()
     channels = get_channels(ev.db, channel_list, marker)
-    for chan in channels:
-        if chan.id == '313423857824432129':
-            ev.log.info(f'{marker}: #{chan.name}')
     for channel in channels:
+        ev.log.info(f'{marker}: #{channel.name}')
         if triggers:
             mentions = get_triggers(ev.db, triggers, channel.guild)
             if mentions:
