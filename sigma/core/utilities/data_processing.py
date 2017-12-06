@@ -15,7 +15,7 @@ def user_avatar(user, gif=False, static=False):
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
         if user.avatar:
-            if user.avatar.startswith('a') and not static:
+            if user.avatar.startswith('a_') and not static:
                 output = f"{'.'.join(output.split('.')[:-1])}.gif"
             else:
                 output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"

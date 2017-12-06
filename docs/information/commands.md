@@ -217,6 +217,21 @@ Commands | Description | Example
 `>>reminderinfo` `>>reminder` `>>rminfo` `>>rmi` | Shows information about your reminder with the given ID. Such as when it executes and where. | `>>reminderinfo f93f`
 `>>remindme` `>>remind` `>>setreminder` `>>alarm` `>>rmme` | Sets a timer that will mention the author when it's done. The time format is H:M:S, but is not limited to the constraints of their types. Meaning you can type "200:5000:999999" if you wish. Reminders are limited to 90 days, and you are limited to 15 reminders. | `>>remindme 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
 `>>removereminder` `>>delreminder` `>>delrm` | Deletes a reminder of yours with the inputted ID. | `>>removereminder 1a9e`
+`>>shadowpoll` | Makes a private shadow poll. The user that voted on the shadow poll can only be seen by it's creator. Additional commands can set an expiration timer for the shadow poll and the visibility of the poll's current vote count and percentages. | `>>shadowpoll Ban Nuggetlord?; Yes; Yes; Yes; No; Soft`
+`>>shadowpollclose` `>>spclose` | Closes/deactivated a shadow poll. Closed polls can not be voted on and can not be viewed unless they are set to be visible. | `>>shadowpollclose 1bca22`
+`>>shadowpolldelete` `>>spdelete` `>>spdel` | Permanently deletes a shadow poll. | `>>shadowpolldelete 1bca22`
+`>>shadowpollexpires` `>>spexpiration` `>>spexpires` `>>spexpire` | Sets a poll to automatically close after the given time elapses. The time to close is counted from the command execution, not the initial opening of the poll. When the poll expires the author will be notified of the expiration. Only the poll's creator can edit it's expiration time. | `>>shadowpollexpires 1bca22 48:30:59`
+`>>shadowpollinvisible` `>>spinvisible` `>>spinvis` | Reverts a shadow poll back to invisible. Making it's statistics only accessible to the author. All shadow polls are invisible by default. | `>>shadowpollinvisible 1bca22`
+`>>shadowpolllist` `>>splist` | Lists all shadow polls that you have created. You can also list the polls that are active and created in the current server or channel by adding a "server" or "channel" argument to the command. Polls that have expired or that are closed are marked with an exclamation mark. | `>>shadowpolllist channel`
+`>>shadowpollopen` `>>spopen` | Opens a previously closed poll. If the poll has an expiration timer, it will be wiped. | `>>shadowpollopen 1bca22`
+`>>shadowpollpermit` `>>sppermit` `>>spperm` | Permits a role, channel or user to vote in the poll. If no permission settings are set, anybody can vote on the poll. If any permissions are set, only items permitted can vote in the poll. Tag a user to permit a user, tag a channel to permit a channel, or type the name of the role you want to permit. | `>>shadowpollpermit 1bca22 #council`
+`>>shadowpollstats` `>>spstats` | Shows statistics for the given poll. Total count of votes and votes for each option as well as percentages. | `>>shadowpollstats 1bca22`
+`>>shadowpollunpermit` `>>spunpermit` `>>spunperm` | Unpermits a previously permitted object from voting on the poll. For more information check the description of the sppermit command. | `>>shadowpollunpermit 1bca22 Disowned`
+`>>shadowpollview` `>>spview` | Displays a shadow poll's question and possible options. If the poll is not active and not finished, information will not be displayed. Unless of course the one who uses the view command is the poll's creator. | `>>shadowpollview 1bca22`
+`>>shadowpollvisible` `>>spvisible` `>>spvis` | Marks a poll as visible. If a poll is visible anybody can see it's statistics. Such as total vote count and how many votes go to each choice. | `>>shadowpollvisible 1bca22`
+`>>shadowpollvote` `>>spvote` | Votes on a shadow poll. Choosing multiple options is not allowed. Re-using the command will result in your vote being changed. | `>>shadowpollvote 1bca22`
+`>>shadowpollvoters` `>>spvoters` | Shows all the users that voted on a shadow poll and what they voted on. This command can only be used by the author of the poll. | `>>shadowpollvoters 1bca22`
+`>>shadowpollwipe` `>>spwipe` | Completely resets a poll's statistics. Deleting all the data about who voted for what option. | `>>shadowpollwipe 1bca22`
 [Back To Top](#module-index)
 
 ### MODERATION

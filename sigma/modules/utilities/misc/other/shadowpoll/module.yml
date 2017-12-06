@@ -1,0 +1,183 @@
+name:             Shadow Poll Utilities
+
+category:         miscellaneous
+
+enabled:          true
+
+commands:
+  - name:         shadowpoll
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} Ban Nuggetlord?; Yes; Yes; Yes; No; Soft"
+    permissions:
+      dmable: true
+    description:
+      Makes a private shadow poll.
+      The user that voted on the shadow poll can only be seen by it's creator.
+      Additional commands can set an expiration timer for the shadow poll and
+      the visibility of the poll's current vote count and percentages.
+
+  - name:         shadowpollview
+    alts:
+      - "spview"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
+    description:
+      Displays a shadow poll's question and possible options.
+      If the poll is not active and not finished, information will not be displayed.
+      Unless of course the one who uses the view command is the poll's creator.
+
+  - name:         shadowpollvote
+    alts:
+      - "spvote"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    permissions:
+      dmable: true
+    description:
+      Votes on a shadow poll.
+      Choosing multiple options is not allowed.
+      Re-using the command will result in your vote being changed.
+
+  - name:         shadowpolllist
+    alts:
+      - "splist"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} channel"
+    description:
+      Lists all shadow polls that you have created.
+      You can also list the polls that are active and created in the current
+      server or channel by adding a "server" or "channel" argument to the command.
+      Polls that have expired or that are closed are marked with an exclamation mark.
+
+  - name:         shadowpollexpires
+    alts:
+      - "spexpiration"
+      - "spexpires"
+      - "spexpire"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22 48:30:59"
+    description:
+      Sets a poll to automatically close after the given time elapses.
+      The time to close is counted from the command execution, not the initial opening of the poll.
+      When the poll expires the author will be notified of the expiration.
+      Only the poll's creator can edit it's expiration time.
+
+  - name:         shadowpollclose
+    alts:
+      - "spclose"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Closes/deactivated a shadow poll.
+      Closed polls can not be voted on and can not be viewed unless they are set to be visible.
+
+  - name:         shadowpollopen
+    alts:
+      - "spopen"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Opens a previously closed poll.
+      If the poll has an expiration timer, it will be wiped.
+
+  - name:         shadowpollvisible
+    alts:
+      - "spvisible"
+      - "spvis"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Marks a poll as visible.
+      If a poll is visible anybody can see it's statistics.
+      Such as total vote count and how many votes go to each choice.
+
+  - name:         shadowpollinvisible
+    alts:
+      - "spinvisible"
+      - "spinvis"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Reverts a shadow poll back to invisible.
+      Making it's statistics only accessible to the author.
+      All shadow polls are invisible by default.
+
+  - name:         shadowpolldelete
+    alts:
+      - "spdelete"
+      - "spdel"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Permanently deletes a shadow poll.
+
+  - name:         shadowpollwipe
+    alts:
+      - "spwipe"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Completely resets a poll's statistics.
+      Deleting all the data about who voted for what option.
+
+  - name:         shadowpollpermit
+    alts:
+      - "sppermit"
+      - "spperm"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22 #council"
+    description:
+      Permits a role, channel or user to vote in the poll.
+      If no permission settings are set, anybody can vote on the poll.
+      If any permissions are set, only items permitted can vote in the poll.
+      Tag a user to permit a user, tag a channel to permit a channel, or type the name of the role you want to permit.
+
+  - name:         shadowpollunpermit
+    alts:
+      - "spunpermit"
+      - "spunperm"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22 Disowned"
+    description:
+      Unpermits a previously permitted object from voting on the poll.
+      For more information check the description of the sppermit command.
+
+  - name:         shadowpollstats
+    alts:
+      - "spstats"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Shows statistics for the given poll.
+      Total count of votes and votes for each option as well as percentages.
+
+  - name:         shadowpollvoters
+    alts:
+      - "spvoters"
+    global:       true
+    enabled:      true
+    usage:        "{pfx}{cmd} 1bca22"
+    description:
+      Shows all the users that voted on a shadow poll and what they voted on.
+      This command can only be used by the author of the poll.
+
+events:
+  - name: expiration_clock
+    type: launch
+    enabled: true
