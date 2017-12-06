@@ -11,12 +11,9 @@ async def alert_clockwork(ev):
 async def alert_cycler(ev):
     while True:
         try:
-            ev.log.info('Grabbing alert data.')
             alerts, triggers = await get_alert_data(ev.db)
             if alerts:
-                ev.log.info('There are alerts. Generating embed.')
                 response = await generate_alert_embed(alerts)
-                ev.log.info('Sending to channels')
                 await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
         except Exception as err:
             pass
