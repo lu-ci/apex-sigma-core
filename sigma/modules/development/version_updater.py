@@ -1,6 +1,7 @@
+import json
+
 import arrow
 import yaml
-import json
 
 
 async def version_updater(ev):

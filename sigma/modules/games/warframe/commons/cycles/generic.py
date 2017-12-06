@@ -32,13 +32,16 @@ async def send_to_channels(ev, embed, marker, triggers=None):
     channels = get_channels(ev, marker)
     ev.log.info(f'{marker}: {len(channels)}')
     for channel in channels:
-        ev.log.info(f'{marker}: #{channel.name}')
-        if triggers:
-            mentions = get_triggers(ev.db, triggers, channel.guild)
-            if mentions:
-                mentions = ' '.join(mentions)
-                await channel.send(mentions, embed=embed)
+        try:
+            ev.log.info(f'{marker}: #{channel.name}')
+            if triggers:
+                mentions = get_triggers(ev.db, triggers, channel.guild)
+                if mentions:
+                    mentions = ' '.join(mentions)
+                    await channel.send(mentions, embed=embed)
+                else:
+                    await channel.send(embed=embed)
             else:
                 await channel.send(embed=embed)
-        else:
-            await channel.send(embed=embed)
+        except discord.ClientException:
+            pass
