@@ -5,12 +5,20 @@ def origin(x, poll_file):
     return x.id == poll_file["origin"]["server"]
 
 
-def check_roles(allowed_roles, user_roles):
+def check_roles(allowed_roles, all_users, user):
+    members = []
+    for member in all_users:
+        if isinstance(member, discord.Member):
+            if member.id == user.id:
+                members.append(member)
     authorized = False
-    for allowed_role in allowed_roles:
-        role = discord.utils.find(lambda x: x.id == allowed_role, user_roles)
-        if role:
-            authorized = True
+    for member_item in members:
+        for allowed_role in allowed_roles:
+            role = discord.utils.find(lambda x: x.id == allowed_role, member_item.roles)
+            if role:
+                authorized = True
+                break
+        if authorized:
             break
     return authorized
 
@@ -41,19 +49,7 @@ async def shadowpollvote(cmd, message, args):
                             if not chn_p and not rol_p and not usr_p:
                                 authorized = True
                             else:
-                                if message.guild:
-                                    rol_auth = check_roles(rol_p, message.author.roles)
-                                else:
-                                    guild = discord.utils.find(lambda x: origin(x, poll_file), cmd.bot.guilds)
-                                    if guild:
-                                        author = discord.utils.find(lambda x: x.id == message.author.id, guild.members)
-                                        if author:
-                                            rol_auth = check_roles(rol_p, author.roles)
-                                        else:
-                                            rol_auth = False
-                                    else:
-                                        rol_auth = False
-                                    rol_auth = False
+                                rol_auth = check_roles(rol_p, cmd.bot.get_all_members(), message.author)
                                 if message.channel:
                                     chn_auth = message.channel.id in chn_p
                                 else:
