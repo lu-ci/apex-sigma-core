@@ -3,12 +3,12 @@ import discord
 
 def get_channels(ev, marker):
     channel_list = []
-    setting_files = ev.db[ev.db.db_cfg.database].ServerSettings.find({marker: {'$exists': True}})
-    for setting_file in setting_files:
-        channel_id = setting_file.get(marker)
-        channel = discord.utils.find(lambda x: x.id == channel_id, ev.bot.get_all_channels())
-        if channel:
-            channel_list.append(channel)
+    for guild in ev.bot.guilds:
+        channel_id = ev.db.get_guild_settings(guild.id, marker)
+        if channel_id:
+            channel = discord.utils.find(lambda x: x.id == channel_id, ev.bot.get_all_channels())
+            if channel:
+                channel_list.append(channel)
     return channel_list
 
 
