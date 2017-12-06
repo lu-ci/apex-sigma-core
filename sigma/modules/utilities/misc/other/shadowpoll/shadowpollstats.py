@@ -45,7 +45,11 @@ async def shadowpollstats(cmd, message, args):
                     if len(option) > 10:
                         option = option[:7] + '...'
                     bar = make_bar(points, total)
-                    stat_line = f'[{points}] {bar} {int((points / total) * 100)}% - {option}'
+                    try:
+                        perc_base = points / total
+                    except ZeroDivisionError:
+                        perc_base = 0
+                    stat_line = f'[{points}] {bar} {int(perc_base * 100)}% - {option}'
                     output += f'\n{stat_line}'
                 response = discord.Embed(color=0xF9F9F9, title=f'📊 Poll {poll_id} Statistics.')
                 response.description = f'```\n{output}\n```'
