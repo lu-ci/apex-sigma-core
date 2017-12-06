@@ -13,19 +13,13 @@ async def shadowpollvoters(cmd, message, args):
                     response = discord.Embed(color=0xF9F9F9, title=f'📨 Poll {poll_id} Voters')
                     voter_lines = []
                     members = cmd.bot.get_all_members()
-                    options_dict = {}
-                    loop_index = 0
-                    for option in poll_file['poll']['answers']:
-                        loop_index += 1
-                        options_dict.update({loop_index: option})
                     for voter_id in poll_file['votes'].keys():
                         voter_id = int(voter_id)
                         voter = discord.utils.find(lambda x: x.id == voter_id, members)
-                        voter_choice = options_dict.get(poll_file['votes'].get(str(voter_id)))
                         if voter:
-                            voter_line = f'{voter.name}#{voter.discriminator} - {voter_choice}'
+                            voter_line = f'{voter.name}#{voter.discriminator}'
                         else:
-                            voter_line = f'{voter_id} - {voter_choice}'
+                            voter_line = f'{voter_id}'
                         voter_lines.append(voter_line)
                     response.description = '\n'.join(voter_lines)
                 else:
