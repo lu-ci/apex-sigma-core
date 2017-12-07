@@ -34,7 +34,6 @@ Commands | Description | Example
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. (Bot Owner Only) | `>>evaluate print('hello world')`
 `>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
 `>>generateitem` `>>genitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>generateitem @person plants Blue Delta`
-`>>getcommand` `>>getcmd` | Gets command information by the command's statistics ID. (Bot Owner Only) | `>>getcommand 1a2b5c187d13e`
 `>>geterror` | Gets an error's details using the given token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>getreaction` `>>getreact` | No description provided. (Bot Owner Only) | `>>getreaction 4242ea69`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
