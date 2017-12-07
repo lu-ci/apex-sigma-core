@@ -11,7 +11,8 @@ async def givecurrency(cmd, message, args):
                 except ValueError:
                     amount = None
                 if amount:
-                    current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
+                    current_kud = await cmd.db.get_currency(message.author, message.guild)
+                    current_kud = current_kud['current']
                     if current_kud >= amount:
                         await cmd.db.rmv_currency(message.author, amount)
                         await cmd.db.add_currency(target, message.guild, amount, additive=False)

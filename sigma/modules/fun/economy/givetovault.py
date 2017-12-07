@@ -9,7 +9,8 @@ async def givetovault(cmd, message, args):
             amount = None
         if amount:
             currency = cmd.bot.cfg.pref.currency
-            current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
+            current_kud = await cmd.db.get_currency(message.author, message.guild)
+            current_kud = current_kud['current']
             if current_kud >= amount:
                 current_vault = await cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
                 if current_vault is None:

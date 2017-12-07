@@ -35,7 +35,8 @@ for symbol in rarity_rewards:
 async def slots(cmd, message, args):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
-    current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
+    current_kud = await cmd.db.get_currency(message.author, message.guild)
+    current_kud = current_kud['current']
     if args:
         try:
             bet = abs(int(args[0]))

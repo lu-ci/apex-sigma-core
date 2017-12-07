@@ -61,7 +61,8 @@ async def buyupgrade(cmd, message, args):
             if answer_message.content.lower() != 'cancel':
                 upgrade_number = int(answer_message.content) - 1
                 upgrade = upgrade_list[upgrade_number]
-                current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
+                current_kud = await cmd.db.get_currency(message.author, message.guild)
+                current_kud = current_kud['current']
                 upgrade_id = upgrade['id']
                 if upgrade_id in upgrade_file:
                     upgrade_level = upgrade_file[upgrade_id]

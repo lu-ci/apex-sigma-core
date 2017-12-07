@@ -8,7 +8,8 @@ async def destroycurrency(cmd, message, args):
             if not target.bot:
                 try:
                     amount = abs(int(args[0]))
-                    target_amount = await cmd.db.get_currency(target, message.guild)['current']
+                    target_amount = await cmd.db.get_currency(target, message.guild)
+                    target_amount = target_amount['current']
                     if amount <= target_amount:
                         await cmd.db.rmv_currency(target, amount)
                         title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {cmd.bot.cfg.pref.currency} '
