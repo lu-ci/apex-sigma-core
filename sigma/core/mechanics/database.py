@@ -138,7 +138,7 @@ class Database(motor.AsyncIOMotorClient):
         if not sabotage_file:
             database = self[self.bot.cfg.db.database]
             collection = database['CurrencySystem']
-            entry = collection.find_one({'UserID': user.id})
+            entry = await collection.find_one({'UserID': user.id})
             points = abs(points)
             if entry:
                 if 'current' in entry:
