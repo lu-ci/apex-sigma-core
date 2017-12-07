@@ -4,7 +4,7 @@ from .mech.interaction_mechanics import grab_interaction, get_target, make_foote
 
 
 async def cry(cmd, message, args):
-    interaction = grab_interaction(cmd.db, 'cry')
+    interaction = await grab_interaction(cmd.db, 'cry')
     target = get_target(message)
     auth = message.author
     if not target or target.id == message.author.id:

@@ -188,7 +188,7 @@ class SigmaCommand(object):
                             except self.get_exception() as e:
                                 await self.respond_with_icon(message, '❗')
                                 err_token = secrets.token_hex(16)
-                                self.log_error(message, args, e, err_token)
+                                await self.log_error(message, args, e, err_token)
                                 prefix = await self.bot.get_prefix(message)
                                 title = '❗ An Error Occurred!'
                                 err_text = 'Something seems to have gone wrong.'
