@@ -45,7 +45,7 @@ async def filtersell(cmd, message, args):
                             sell_value += item_ob_id.value
                             sell_count += 1
                             sell_id_list.append(item['item_id'])
-                    sell_item_ids(cmd.db, message.author, sell_id_list)
+                    await sell_item_ids(cmd.db, message.author, sell_id_list)
                     await cmd.db.add_currency(message.author, message.guild, sell_value)
                     currency = cmd.bot.cfg.pref.currency
                     sell_title = f'💶 You sold {sell_count} items for {sell_value} {currency}.'
