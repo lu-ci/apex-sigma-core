@@ -26,7 +26,7 @@ async def remindme(cmd, message, args):
             in_seconds = convert_to_seconds(time_req)
             upper_limit = 7776000
             if in_seconds <= upper_limit:
-                rem_count = cmd.db[cmd.db.db_cfg.database].Reminders.find({'UserID': message.author.id}).count()
+                rem_count = await cmd.db[cmd.db.db_cfg.database].Reminders.find({'UserID': message.author.id}).count()
                 rem_limit = 15
                 if rem_count < rem_limit:
                     if len(args) > 1:
@@ -49,7 +49,7 @@ async def remindme(cmd, message, args):
                         'ServerID': message.guild.id,
                         'TextMessage': text_message
                     }
-                    cmd.db[cmd.db.db_cfg.database]['Reminders'].insert_one(reminder_data)
+                    await cmd.db[cmd.db.db_cfg.database]['Reminders'].insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)
                     response.description = text_message
                     response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(message.author))

@@ -7,7 +7,7 @@ from sigma.core.utilities.data_processing import user_avatar
 async def shadowpollview(cmd, message, args):
     if args:
         poll_id = ''.join(args).lower()
-        poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             active = poll_file['settings']['active']
             visible = poll_file['settings']['visible']

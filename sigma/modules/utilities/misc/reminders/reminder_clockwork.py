@@ -17,7 +17,7 @@ async def clockwork_function_reminder_clockwork(ev):
             current_stamp = arrow.utcnow().timestamp
             execution_stamp = reminder['ExecutionStamp']
             if current_stamp > execution_stamp:
-                ev.db[ev.db.db_cfg.database]['Reminders'].delete_one({'ReminderID': reminder['ReminderID']})
+                await ev.db[ev.db.db_cfg.database]['Reminders'].delete_one({'ReminderID': reminder['ReminderID']})
                 channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], ev.bot.get_all_channels())
                 author = discord.utils.find(lambda x: x.id == reminder['UserID'], ev.bot.get_all_members())
                 if channel:

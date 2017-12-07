@@ -6,7 +6,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def topexperience(cmd, message, args):
-    coll = cmd.db[cmd.db.db_cfg.database]['ExperienceSystem']
+    coll = cmd.db[cmd.db.db_cfg.database].ExperienceSystem
     if args:
         mode = ' '.join(args)
         if mode.lower() == 'current':
@@ -25,10 +25,10 @@ async def topexperience(cmd, message, args):
         title = f'XP Leaderboard on {message.guild.name}.'
         key_look = None
     if key_look:
-        kud_list = coll.find().sort([(key_look, pymongo.DESCENDING)]).limit(10)
+        kud_list = await coll.find().sort([(key_look, pymongo.DESCENDING)]).limit(10).to_list(None)
     else:
-        kud_list = coll.find({f'guilds.{message.guild.id}': {'$exists': True}}).sort(
-            [(f'guilds.{message.guild.id}', pymongo.DESCENDING)]).limit(10)
+        kud_list = await coll.find({f'guilds.{message.guild.id}': {'$exists': True}}).sort(
+            [(f'guilds.{message.guild.id}', pymongo.DESCENDING)]).limit(10).to_list(None)
     user_list = []
     list_headers = ['Username', 'Experience']
     for xp_item in kud_list:

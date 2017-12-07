@@ -3,7 +3,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 
 
-def count_all_commands(db, user):
+async def count_all_commands(db, user):
     cmd_items = db[db.db_cfg.database]['CommandStats'].aggregate(
         [
             {'$match': {
@@ -17,6 +17,7 @@ def count_all_commands(db, user):
             }}
         ]
     )
+    cmd_items = await cmd_items.to_list(None)
     output = {}
     total = 0
     for x in cmd_items:
@@ -31,7 +32,7 @@ async def profile(cmd, message, args):
     else:
         target = message.author
     avatar = user_avatar(target)
-    commands, total_commands = count_all_commands(cmd.db, target)
+    commands, total_commands = await count_all_commands(cmd.db, target)
     exp = await cmd.db.get_experience(target, message.guild)
     global_level = int((exp['global'] // ((((exp['global'] // 690) * 0.0125) + 1) * 690)))
     top_cmd = {'cmd': None, 'val': 0}

@@ -6,7 +6,7 @@ async def getreaction(cmd, message, args):
         return
 
     react_id = args[0].lower()
-    react_item = cmd.db[cmd.db.db_cfg.database].Interactions.find_one({'ReactionID': react_id})
+    react_item = await cmd.db[cmd.db.db_cfg.database].Interactions.find_one({'ReactionID': react_id})
     if not react_item:
         return
 

@@ -27,7 +27,7 @@ def make_bar(points, total):
 async def shadowpollstats(cmd, message, args):
     if args:
         poll_id = args[0].lower()
-        poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             visible = poll_file['settings']['visible']

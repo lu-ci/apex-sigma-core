@@ -29,9 +29,9 @@ async def get_fissure_data(db):
     fissure_out = None
     for fissure in fissure_data:
         event_id = fissure['_id']['id']
-        db_check = db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
+        db_check = await db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
         if not db_check:
-            db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
+            await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             fissure_out = fissure
             break
     return fissure_out

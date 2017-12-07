@@ -16,7 +16,7 @@ async def cycler(ev):
         for poll_file in poll_files:
             poll_id = poll_file['id']
             poll_file['settings'].update({'active': False})
-            ev.db[ev.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+            await ev.db[ev.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
             author = discord.utils.find(lambda x: x.id == poll_file['origin']['author'], ev.bot.get_all_members())
             if author:
                 response = discord.Embed(color=0xff3333, title=f'⏰ Your poll {poll_file["id"]} has expired.')

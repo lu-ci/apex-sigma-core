@@ -10,9 +10,9 @@ ongoing = []
 async def buyupgrade(cmd, message, args):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
-        upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
         if upgrade_file is None:
-            cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+            await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
             upgrade_file = {}
         upgrade_text = ''
         upgrade_index = 0
@@ -76,7 +76,7 @@ async def buyupgrade(cmd, message, args):
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
-                    cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id}, upgrade_data)
+                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id}, upgrade_data)
                     await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)

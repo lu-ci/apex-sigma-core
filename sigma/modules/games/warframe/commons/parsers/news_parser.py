@@ -24,9 +24,9 @@ async def get_news_data(db):
     news_out = None
     for news in news_data:
         event_id = news['_id']['$oid']
-        db_check = db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
+        db_check = await db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
         if not db_check:
-            db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
+            await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             if language_check(news):
                 news_out = news
                 break

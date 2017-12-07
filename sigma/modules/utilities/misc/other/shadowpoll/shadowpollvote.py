@@ -32,7 +32,7 @@ async def shadowpollvote(cmd, message, args):
             except ValueError:
                 choice_num = None
             if choice_num:
-                poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     choice_count = len(poll_file['poll']['answers'])
                     if 0 > choice_num > choice_count:

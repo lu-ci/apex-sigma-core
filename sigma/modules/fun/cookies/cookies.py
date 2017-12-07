@@ -7,7 +7,7 @@ async def cookies(cmd, message, args):
     else:
         target = message.author
     cookie_coll = cmd.db[cmd.db.db_cfg.database].Cookies
-    cookie_file = cookie_coll.find_one({'UserID': target.id})
+    cookie_file = await cookie_coll.find_one({'UserID': target.id})
     if cookie_file:
         cookie_count = cookie_file['Cookies']
     else:

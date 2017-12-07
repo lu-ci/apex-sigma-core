@@ -14,7 +14,7 @@ async def myreminders(cmd, message, args):
         lookup_data = {'UserID': message.author.id, 'ChannelID': message.channel.id}
     else:
         lookup_data = {'UserID': message.author.id}
-    all_reminders = cmd.db[cmd.db.db_cfg.database].Reminders.find(lookup_data)
+    all_reminders = await cmd.db[cmd.db.db_cfg.database].Reminders.find(lookup_data)
     reminder_count = all_reminders.count()
     if reminder_count:
         if reminder_count == 1:

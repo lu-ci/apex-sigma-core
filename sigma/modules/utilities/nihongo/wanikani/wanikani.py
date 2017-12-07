@@ -10,7 +10,7 @@ async def wanikani(cmd, message, args):
         target = message.mentions[0]
     else:
         target = message.author
-    api_document = cmd.db[cmd.db.db_cfg.database]['WaniKani'].find_one({'UserID': target.id})
+    api_document = await cmd.db[cmd.db.db_cfg.database]['WaniKani'].find_one({'UserID': target.id})
     if api_document:
         try:
             api_key = api_document['WKAPIKey']

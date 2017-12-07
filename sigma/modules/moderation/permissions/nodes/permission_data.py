@@ -18,9 +18,9 @@ def generate_cmd_data(cmd_name):
     return {cmd_name: generic_data}
 
 
-def get_all_perms(db, message):
-    perms = db[db.db_cfg.database].Permissions.find_one({'ServerID': message.guild.id})
+async def get_all_perms(db, message):
+    perms = await db[db.db_cfg.database].Permissions.find_one({'ServerID': message.guild.id})
     if not perms:
         perms = generate_default_data(message)
-        db[db.db_cfg.database].Permissions.insert_one(perms)
+        await db[db.db_cfg.database].Permissions.insert_one(perms)
     return perms

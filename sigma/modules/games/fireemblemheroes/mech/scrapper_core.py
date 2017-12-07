@@ -70,7 +70,7 @@ class FEHScrapper(object):
         return url
 
     async def get_page(self, url):
-        cache = self.wiki_cache.find_one({'url': url})
+        cache = await self.wiki_cache.find_one({'url': url})
         if cache and not self.no_cache:
             record = cache
         else:
@@ -82,7 +82,7 @@ class FEHScrapper(object):
                 'data': data,
                 'timestamp': arrow.utcnow().timestamp
             }
-            self.wiki_cache.insert_one(record)
+            await self.wiki_cache.insert_one(record)
         return record
 
     @staticmethod

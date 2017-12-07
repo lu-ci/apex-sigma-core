@@ -3,9 +3,9 @@ import asyncio
 
 async def population_clockwork(ev):
     collection = 'GeneralStats'
-    search = ev.db[ev.bot.cfg.db.database][collection].find_one({'name': 'population'})
+    search = await ev.db[ev.bot.cfg.db.database][collection].find_one({'name': 'population'})
     if not search:
-        ev.db[ev.bot.cfg.db.database][collection].insert_one({'name': 'population'})
+        await ev.db[ev.bot.cfg.db.database][collection].insert_one({'name': 'population'})
     ev.bot.loop.create_task(update_population_stats_node(ev))
 
 
@@ -24,5 +24,5 @@ async def update_population_stats_node(ev):
                 'member_count': member_count
             }
         }
-        ev.db[database][collection].update_one(update_target, update_data)
+        await ev.db[database][collection].update_one(update_target, update_data)
         await asyncio.sleep(60)

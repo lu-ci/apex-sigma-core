@@ -4,14 +4,14 @@ import discord
 async def shadowpollvisible(cmd, message, args):
     if args:
         poll_id = args[0].lower()
-        poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             if author == message.author.id:
                 visible = poll_file['settings']['visible']
                 if not visible:
                     poll_file['settings'].update({'visible': True})
-                    cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                    await cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0xF9F9F9, title=f'👁 Poll {poll_file["id"]} is now visible.')
                 else:
                     response = discord.Embed(color=0xBE1931, title=f'❗ Poll {poll_file["id"]} is already visible.')

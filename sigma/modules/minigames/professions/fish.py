@@ -11,9 +11,9 @@ async def fish(cmd, message, args):
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-        upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
         if upgrade_file is None:
-            cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+            await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
             upgrade_file = {}
         inv = await cmd.db.get_inventory(message.author)
         if 'storage' in upgrade_file:

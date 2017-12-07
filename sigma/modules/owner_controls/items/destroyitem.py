@@ -11,7 +11,7 @@ async def destroyitem(cmd, message, args):
         item_core = ItemCore('sigma/modules/minigames/professions/res/data')
     if args:
         id_lookup = args[0]
-        inv_item = cmd.db[cmd.db.db_cfg.database].Inventory.find_one({'Items.item_id': id_lookup})
+        inv_item = await cmd.db[cmd.db.db_cfg.database].Inventory.find_one({'Items.item_id': id_lookup})
         if inv_item:
             target = discord.utils.find(lambda x: x.id == inv_item['UserID'], cmd.bot.get_all_members())
             item_data = None

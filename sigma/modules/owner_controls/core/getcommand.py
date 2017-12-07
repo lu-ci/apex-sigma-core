@@ -5,7 +5,7 @@ import discord
 async def getcommand(cmd, message, args):
     if args:
         lookup = ''.join(args).lower()
-        command_file = cmd.db[cmd.db.db_cfg.database].CommandStats.find_one({'id': lookup})
+        command_file = await cmd.db[cmd.db.db_cfg.database].CommandStats.find_one({'id': lookup})
         if command_file:
             auth_name = command_file['author']
             auth_member = discord.utils.find(lambda x: x.id == auth_name, cmd.bot.get_all_members())

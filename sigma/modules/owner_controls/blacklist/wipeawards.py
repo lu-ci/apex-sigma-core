@@ -12,7 +12,7 @@ async def wipeawards(cmd, message, args):
             lookup = {'UserID': uid}
             collections = ['CurrencySystem', 'Cookies', 'ExperienceSystem', 'Inventory']
             for collection in collections:
-                cmd.db[cmd.db.db_cfg.database][collection].delete_one(lookup)
+                await cmd.db[cmd.db.db_cfg.database][collection].delete_one(lookup)
             target = discord.utils.find(lambda x: x.id == uid, cmd.bot.get_all_members())
             if target:
                 unam = f'{target.name}#{target.discriminator}'

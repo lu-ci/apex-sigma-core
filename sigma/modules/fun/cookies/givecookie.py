@@ -12,9 +12,9 @@ async def givecookie(cmd, message, args):
             if message.author.id != target.id:
                 if not target.bot:
                     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-                        upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+                        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
                         if upgrade_file is None:
-                            cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+                            await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                             upgrade_file = {}
                         cookie_coll = cmd.db[cmd.db.db_cfg.database].Cookies
                         base_cooldown = 3600
@@ -23,15 +23,15 @@ async def givecookie(cmd, message, args):
                         else:
                             stamina = 0
                         cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina * 0.2)))
-                        file_check = cookie_coll.find_one({'UserID': target.id})
+                        file_check = await cookie_coll.find_one({'UserID': target.id})
                         if not file_check:
                             cookies = 0
                             data = {'UserID': target.id, 'Cookies': 0}
-                            cookie_coll.insert_one(data)
+                            await cookie_coll.insert_one(data)
                         else:
                             cookies = file_check['Cookies']
                         cookies += 1
-                        cookie_coll.update_one({'UserID': target.id}, {'$set': {'Cookies': cookies}})
+                        await cookie_coll.update_one({'UserID': target.id}, {'$set': {'Cookies': cookies}})
                         await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
                         title = f'🍪 You gave a cookie to {target.display_name}.'
                         response = discord.Embed(color=0xd99e82, title=title)

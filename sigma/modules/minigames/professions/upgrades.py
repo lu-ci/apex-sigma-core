@@ -34,9 +34,9 @@ async def upgrades(cmd, message, args):
         target = message.mentions[0]
     else:
         target = message.author
-    upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id})
+    upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id})
     if upgrade_file is None:
-        cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': target.id})
+        await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': target.id})
         upgrade_file = {}
     upgrade_text = ''
     upgrade_index = 0

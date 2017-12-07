@@ -41,7 +41,7 @@ async def collectchain(cmd, message, args):
                 else:
                     target_chn = message.channel
                 collected = 0
-                collection = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
+                collection = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
                 if collection:
                     collection = collection['Chain']
                 else:
@@ -80,12 +80,12 @@ async def collectchain(cmd, message, args):
                                                             break
                 except Exception:
                     pass
-                cmd.db[cmd.db.db_cfg.database]['MarkovChains'].delete_one({'UserID': target.id})
+                await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].delete_one({'UserID': target.id})
                 data = {
                     'UserID': target.id,
                     'Chain': collection
                 }
-                cmd.db[cmd.db.db_cfg.database]['MarkovChains'].insert_one(data)
+                await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].insert_one(data)
                 in_use = False
                 in_use_by = None
                 dm_response = discord.Embed(color=0x66CC66, title=f'📖 {target.name}\'s chain is done!')

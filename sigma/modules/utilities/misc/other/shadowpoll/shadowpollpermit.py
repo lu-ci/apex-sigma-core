@@ -16,13 +16,13 @@ async def shadowpollpermit(cmd, message, args):
                 perm_type = 'roles'
                 target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
             if target:
-                poll_file = cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     author = poll_file['origin']['author']
                     if author == message.author.id:
                         if target.id not in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].append(target.id)
-                            cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                            await cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                             response = discord.Embed(color=0x66CC66, title=f'✅ {target.name} has been permitted.')
                         else:
                             response = discord.Embed(color=0xBE1931, title=f'❗ {target.name} is already permitted.')

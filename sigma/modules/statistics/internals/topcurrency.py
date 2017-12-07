@@ -6,7 +6,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def topcurrency(cmd, message, args):
-    coll = cmd.db[cmd.db.db_cfg.database]['CurrencySystem']
+    coll = cmd.db[cmd.db.db_cfg.database].CurrencySystem
     currency = cmd.bot.cfg.pref.currency
     if args:
         mode = ' '.join(args)
@@ -26,10 +26,10 @@ async def topcurrency(cmd, message, args):
         title = f'{currency} Leaderboard on {message.guild.name}.'
         key_look = None
     if key_look:
-        kud_list = coll.find().sort([(key_look, pymongo.DESCENDING)]).limit(10)
+        kud_list = await coll.find().sort([(key_look, pymongo.DESCENDING)]).limit(10).to_list(None)
     else:
-        kud_list = coll.find({f'guilds.{message.guild.id}': {'$exists': True}}).sort(
-            [(f'guilds.{message.guild.id}', pymongo.DESCENDING)]).limit(10)
+        kud_list = await coll.find({f'guilds.{message.guild.id}': {'$exists': True}}).sort(
+            [(f'guilds.{message.guild.id}', pymongo.DESCENDING)]).limit(10).to_list(None)
     user_list = []
     list_headers = ['Username', currency]
     for kud_item in kud_list:

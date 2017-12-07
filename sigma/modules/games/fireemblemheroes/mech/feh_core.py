@@ -17,18 +17,18 @@ class FireEmblemHeroesCore(object):
             loop.run_until_complete(self.init_index())
 
     async def feh_dbcheck(self):
-        item_count = self.db[self.db.db_cfg.database].FEHData.count()
+        item_count = await self.db[self.db.db_cfg.database].FEHData.count()
         if not item_count:
             scrapped_data = await self.scrapper.scrap_all()
-            self.insert_into_db(scrapped_data)
+            await self.insert_into_db(scrapped_data)
 
-    def insert_into_db(self, data):
+    async def insert_into_db(self, data):
         all_data = []
         for items in data:
             for item_id in items:
                 all_data.append(items[item_id])
         if all_data:
-            self.db[self.db.db_cfg.database].FEHData.insert_many(all_data)
+            await self.db[self.db.db_cfg.database].FEHData.insert_many(all_data)
 
     async def init_index(self):
         all_data = await self.db[self.db.db_cfg.database].FEHData.find().to_list(None)

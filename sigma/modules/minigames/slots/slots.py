@@ -45,10 +45,10 @@ async def slots(cmd, message, args):
         bet = 10
     if current_kud >= bet:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-            upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
-            sabotage_file = cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
+            upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+            sabotage_file = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
             if upgrade_file is None:
-                cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+                await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                 upgrade_file = {}
             base_cooldown = 60
             if 'stamina' in upgrade_file:

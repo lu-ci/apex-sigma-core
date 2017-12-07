@@ -2,7 +2,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 
-def count_all_commands(db):
+async def count_all_commands(db):
     dbase = db[db.db_cfg.database]
     cmd_items = dbase['CommandStats'].aggregate(
         [
@@ -14,6 +14,7 @@ def count_all_commands(db):
             }}
         ]
     )
+    cmd_items = await cmd_items.to_list(None)
     output = {}
     total = 0
     for x in cmd_items:
@@ -23,7 +24,7 @@ def count_all_commands(db):
 
 
 async def topcommands(cmd, message, args):
-    cmd_dict, total = count_all_commands(cmd.db)
+    cmd_dict, total = await count_all_commands(cmd.db)
     cmd_key_list = sorted(cmd_dict, key=cmd_dict.__getitem__, reverse=True)
     stats_top = f'A total of {total} commands have been recorded.'
     stats_desc_list = []

@@ -36,7 +36,7 @@ async def permitrole(cmd, message, args):
                         if cmd_name in cmd.bot.modules.alts:
                             cmd_name = cmd.bot.modules.alts[cmd_name]
                     if cmd_name in check_group:
-                        perms = get_all_perms(cmd.db, message)
+                        perms = await get_all_perms(cmd.db, message)
                         cmd_exc = perms[exception_group]
                         if cmd_name in perms[exception_group]:
                             inner_exc = cmd_exc[cmd_name]
@@ -51,7 +51,7 @@ async def permitrole(cmd, message, args):
                             inner_exc.update({'Roles': exc_usrs})
                             cmd_exc.update({cmd_name: inner_exc})
                             perms.update({exception_group: cmd_exc})
-                            cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
                                                                                   {'$set': perms})
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
