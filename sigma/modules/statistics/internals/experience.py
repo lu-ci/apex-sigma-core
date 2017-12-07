@@ -9,7 +9,7 @@ async def experience(cmd, message, args):
     else:
         target = message.author
     avatar = user_avatar(target)
-    exp = cmd.db.get_experience(target, message.guild)
+    exp = await cmd.db.get_experience(target, message.guild)
     response = discord.Embed(color=0x47ded4)
     response.set_author(name=f'{target.display_name}\'s Experience Data', icon_url=avatar)
     guild_title = '🎪 Local'

@@ -8,7 +8,7 @@ async def togglerole(cmd, message, args):
         lookup = ' '.join(args)
         target_role = matching_role(message.guild, lookup)
         if target_role:
-            self_roles = cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
+            self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
             if self_roles is None:
                 self_roles = []
             if target_role.id in self_roles:

@@ -21,11 +21,12 @@ def sigma_mention_check(content, sigma_id):
 
 async def afk_comeback_check(ev, message):
     if message.guild:
-        if not message.content.startswith(ev.bot.get_prefix(message)):
+        pfx = await ev.bot.get_prefix(message)
+        if not message.content.startswith(pfx):
             if not sigma_mention_check(message.content, ev.bot.user.id):
-                afk_data = ev.db[ev.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
+                afk_data = await ev.db[ev.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
                 if afk_data:
-                    ev.db[ev.db.db_cfg.database]['AwayUsers'].delete_one({'UserID': message.author.id})
+                    await ev.db[ev.db.db_cfg.database]['AwayUsers'].delete_one({'UserID': message.author.id})
                     response = discord.Embed(color=0x3B88C3, title='ℹ I have removed your AFK status.')
                     removal = await message.channel.send(embed=response)
                     await asyncio.sleep(5)

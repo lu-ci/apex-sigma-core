@@ -10,7 +10,7 @@ async def warnings(cmd, message, args):
             target = message.mentions[0]
         else:
             target = message.author
-    guild_warnings = cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
+    guild_warnings = await cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
     if guild_warnings is None:
         guild_warnings = {}
     uid = str(target.id)
@@ -36,9 +36,10 @@ async def warnings(cmd, message, args):
             else:
                 ender = 'times'
             warning_title = f'⚠ {target.name} was warned {len(warning_list)} {ender}'
+            pfx = await cmd.bot.get_prefix(message)
             response = discord.Embed(color=0xFFCC4D)
             response.add_field(name=warning_title, value=warning_output, inline=False)
-            response.set_footer(text=f'Use {cmd.bot.get_prefix(message)}warning [target] [id] to see the details.')
+            response.set_footer(text=f'Use {pfx}warning [target] [id] to see the details.')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 {target.name} does not have any warnings.')
     await message.channel.send(embed=response)

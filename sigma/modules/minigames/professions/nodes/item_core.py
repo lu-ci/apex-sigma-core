@@ -64,11 +64,11 @@ class ItemCore(object):
                             self.all_items.append(item_object)
 
     @staticmethod
-    def roll_rarity(db, uid):
+    async def roll_rarity(db, uid):
         upgrade_id = 'luck'
-        upgrade_file = db[db.db_cfg.database].Upgrades.find_one({'UserID': uid})
+        upgrade_file = await db[db.db_cfg.database].Upgrades.find_one({'UserID': uid})
         if upgrade_file is None:
-            db[db.db_cfg.database].Upgrades.insert_one({'UserID': uid})
+            await db[db.db_cfg.database].Upgrades.insert_one({'UserID': uid})
             upgrade_file = {}
         if upgrade_id in upgrade_file:
             upgrade_level = upgrade_file[upgrade_id]
@@ -86,7 +86,7 @@ class ItemCore(object):
             8: 999000000,
             9: 999750000
         }
-        sabotage_file = db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
+        sabotage_file = await db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
         if sabotage_file:
             roll = 0
         else:

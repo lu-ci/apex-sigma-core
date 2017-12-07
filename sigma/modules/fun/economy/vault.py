@@ -3,7 +3,7 @@ import discord
 
 async def vault(cmd, message, args):
     currency = cmd.bot.cfg.pref.currency
-    current_vault = cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
+    current_vault = await cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
     if current_vault is None:
         current_vault = 0
     current_vault = int(current_vault)

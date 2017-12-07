@@ -2,7 +2,7 @@ name:            Object Detail Updaters
 
 category:        administration
 
-enabled:         false
+enabled:         true
 
 events:
   - name:        user_data_join
@@ -19,8 +19,4 @@ events:
 
   - name:        server_data_update
     type:        guild_update
-    enabled:     true
-
-  - name:        updater_clock
-    type:        launch
     enabled:     true

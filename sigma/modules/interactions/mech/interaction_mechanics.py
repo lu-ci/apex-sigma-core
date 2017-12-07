@@ -6,20 +6,18 @@ import discord
 interaction_cache = {}
 
 
-def update_id(db, interaction):
+async def update_id(db, interaction):
     new_id = secrets.token_hex(4)
     new_data = copy.deepcopy(interaction)
     new_data.update({'ReactionID': new_id})
-    db[db.db_cfg.database]['Interactions'].update_one(interaction, {'$set': new_data})
+    await db[db.db_cfg.database]['Interactions'].update_one(interaction, {'$set': new_data})
 
 
-def get_interaction_list(db, intername):
-    interactions = db[db.db_cfg.database]['Interactions'].find({'Name': intername})
-    interactions = list(interactions)
-    return interactions
+async def get_interaction_list(db, intername):
+    return await db[db.db_cfg.database]['Interactions'].find({'Name': intername}).to_list(None)
 
 
-def grab_interaction(db, intername):
+async def grab_interaction(db, intername):
     if intername not in interaction_cache:
         fill = True
     else:
@@ -28,21 +26,25 @@ def grab_interaction(db, intername):
         else:
             fill = False
     if fill:
-        interactions = get_interaction_list(db, intername)
+        interactions = await get_interaction_list(db, intername)
         refill = False
         for interaction in interactions:
             inter_id = interaction.get('ReactionID')
             if not inter_id:
-                update_id(db, interaction)
+                await update_id(db, interaction)
                 refill = True
         if refill:
-            interactions = get_interaction_list(db, intername)
+            interactions = await get_interaction_list(db, intername)
         interaction_cache.update({intername: interactions})
     if interaction_cache[intername]:
         choice = interaction_cache[intername].pop(secrets.randbelow(len(interaction_cache[intername])))
     else:
         choice = {'URL': 'https://i.imgur.com/m59E4nx.gif', 'UserID': None, 'ServerID': None, 'ReactionID': None}
     return choice
+
+
+def target_check(x, lookup):
+    return x.display_name.lower() == lookup.lower() or x.name.lower() == lookup.lower()
 
 
 def get_target(message):
@@ -52,8 +54,7 @@ def get_target(message):
         if message.content:
             lookup = ' '.join(message.content.split(' ')[1:])
             target = discord.utils.find(
-                lambda x: x.display_name.lower() == lookup.lower() or x.name.lower() == lookup.lower(),
-                message.guild.members)
+                lambda x: target_check(x, lookup), message.guild.members)
         else:
             target = None
     return target

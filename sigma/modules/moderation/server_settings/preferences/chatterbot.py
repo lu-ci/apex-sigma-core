@@ -3,14 +3,14 @@
 
 async def chatterbot(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
-        curr_settings = cmd.db.get_guild_settings(message.guild.id, 'ChatterBot')
+        curr_settings = await cmd.db.get_guild_settings(message.guild.id, 'ChatterBot')
         if curr_settings is None:
             curr_settings = False
         if curr_settings:
-            cmd.db.set_guild_settings(message.guild.id, 'ChatterBot', False)
+            await cmd.db.set_guild_settings(message.guild.id, 'ChatterBot', False)
             ending = 'disabled'
         else:
-            cmd.db.set_guild_settings(message.guild.id, 'ChatterBot', True)
+            await cmd.db.set_guild_settings(message.guild.id, 'ChatterBot', True)
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Chatterbot has been {ending}.')
     else:

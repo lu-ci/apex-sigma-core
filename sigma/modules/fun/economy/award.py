@@ -18,13 +18,13 @@ async def award(cmd, message, args):
                 if amount:
                     if target:
                         currency = cmd.bot.cfg.pref.currency
-                        current_vault = cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
+                        current_vault = await cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
                         if current_vault is None:
                             current_vault = 0
                         if current_vault >= amount:
-                            cmd.db.add_currency(message.author, message.guild, amount, additive=False)
+                            await cmd.db.add_currency(message.author, message.guild, amount, additive=False)
                             current_vault -= amount
-                            cmd.db.set_guild_settings(message.guild.id, 'CurrencyVault', current_vault)
+                            await cmd.db.set_guild_settings(message.guild.id, 'CurrencyVault', current_vault)
                             title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'
                             response = discord.Embed(color=0x77B255, title=title_text)
                         else:

@@ -9,7 +9,7 @@ async def wallet(cmd, message, args):
     else:
         target = message.author
     avatar = user_avatar(target)
-    currency = cmd.db.get_currency(target, message.guild)
+    currency = await cmd.db.get_currency(target, message.guild)
     currency_name = cmd.bot.cfg.pref.currency
     currency_icon = cmd.bot.cfg.pref.currency_icon
     response = discord.Embed(color=0xaa8dd8)

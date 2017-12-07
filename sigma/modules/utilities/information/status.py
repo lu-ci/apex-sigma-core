@@ -33,11 +33,13 @@ async def status(cmd, message, args):
     cpu_text = f'Count: **{psutil.cpu_count()} ({psutil.cpu_count(logical=False)})**'
     cpu_text += f'\nUsage: **{psutil.cpu_percent()}%**'
     cpu_text += f'\nClock: **{cpu_clock} MHz**'
-    used_mem = humanfriendly.format_size(psutil.virtual_memory().available, binary=True)
-    total_mem = humanfriendly.format_size(psutil.virtual_memory().total, binary=True)
+    avail_mem = psutil.virtual_memory().available
+    total_mem = psutil.virtual_memory().total
+    used_mem = humanfriendly.format_size(total_mem - avail_mem, binary=True)
+    total_mem = humanfriendly.format_size(total_mem, binary=True)
     mem_text = f'Used: **{used_mem}**'
     mem_text += f'\nTotal: **{total_mem}**'
-    mem_text += f'\nPercent: **{int(100 - psutil.virtual_memory().percent)}%**'
+    mem_text += f'\nPercent: **{int(psutil.virtual_memory().percent)}%**'
     response = discord.Embed(color=os_color)
     response.set_author(name=socket.gethostname(), icon_url=os_icon)
     response.add_field(name='General', value=general_text)

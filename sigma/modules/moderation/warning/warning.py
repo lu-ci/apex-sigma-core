@@ -8,7 +8,7 @@ async def warning(cmd, message, args):
             if len(args) == 2:
                 target = message.mentions[0]
                 lookup = args[1].lower()
-                guild_warnings = cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
+                guild_warnings = await cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
                 if guild_warnings is None:
                     guild_warnings = {}
                 uid = str(target.id)

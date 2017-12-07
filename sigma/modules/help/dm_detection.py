@@ -6,7 +6,9 @@
 async def dm_detection(ev, message):
     if not message.guild:
         if not message.author.bot:
-            pfx = ev.bot.get_prefix(message)
+            pfx = await ev.bot.get_prefix(message)
             if not message.content.startswith(pfx):
                 log_dm(ev, message)
-                await ev.bot.modules.commands['help'].execute(message, [])
+                if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):
+                    await ev.bot.modules.commands['help'].execute(message, [])
+                    await ev.bot.cool_down.set_cooldown(ev.name, message.author, 30)

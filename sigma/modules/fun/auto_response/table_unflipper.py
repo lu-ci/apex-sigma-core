@@ -6,7 +6,7 @@ from sigma.core.utilities.stats_processing import add_special_stats
 async def table_unflipper(ev, message):
     if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in message.content.replace(' ', ''):
         if message.guild:
-            flip_settings = ev.db.get_guild_settings(message.guild.id, 'Unflip')
+            flip_settings = await ev.db.get_guild_settings(message.guild.id, 'Unflip')
             if flip_settings is None:
                 unflip = False
             else:
@@ -21,10 +21,8 @@ async def table_unflipper(ev, message):
                      '┬─┬ ノ(ಠ\_ಠノ)',
                      '┻━┻~~~~  ╯(°□° ╯)',
                      '┻━┻====  ╯(°□° ╯)',
-                     '┣ﾍ(^▽^ﾍ)Ξ(ﾟ▽ﾟ*)ﾉ┳━┳ There we go~♪',
                      ' ┬──┬﻿ ¯\_(ツ)',
                      '(ヘ･_･)ヘ┳━┳',
-                     'ヘ(´° □°)ヘ┳━┳',
-                     '┣ﾍ(≧∇≦ﾍ)… (≧∇≦)/┳━┳']
+                     'ヘ(´° □°)ヘ┳━┳']
             table_resp = secrets.choice(table)
             await message.channel.send(table_resp)

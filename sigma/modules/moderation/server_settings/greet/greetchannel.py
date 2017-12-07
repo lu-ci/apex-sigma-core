@@ -14,7 +14,7 @@ async def greetchannel(cmd, message, args):
             target_channel = None
         if target_channel:
             if message.guild.me.permissions_in(target_channel).send_messages:
-                cmd.db.set_guild_settings(message.guild.id, 'GreetChannel', target_channel.id)
+                await cmd.db.set_guild_settings(message.guild.id, 'GreetChannel', target_channel.id)
                 response = discord.Embed(color=0x77B255, title=f'✅ Greeting Channel Changed To {target_channel.name}')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')

@@ -29,4 +29,4 @@ async def version_updater(ev):
         ev.log.info('Updated Version File.')
 
         with open('info/version.json', 'w') as version_out:
-            json.dump({"version": f'{major}.{minor}.{patch}'}, version_out)
+            json.dump({"version": f'{codename}'}, version_out)

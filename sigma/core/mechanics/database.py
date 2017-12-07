@@ -1,8 +1,8 @@
 import arrow
-import pymongo
+from motor import motor_asyncio as motor
 
 
-class Database(pymongo.MongoClient):
+class Database(motor.AsyncIOMotorClient):
     def __init__(self, bot, db_cfg):
         self.bot = bot
         self.db_cfg = db_cfg
@@ -14,19 +14,19 @@ class Database(pymongo.MongoClient):
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
         super().__init__(self.db_address)
 
-    def insert_guild_settings(self, guild_id):
+    async def insert_guild_settings(self, guild_id):
         settings_data = {'ServerID': guild_id}
-        self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
+        await self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
 
-    def get_guild_settings(self, guild_id, setting_name):
+    async def get_guild_settings(self, guild_id, setting_name):
         if guild_id in self.settings_cache:
             guild_settings = self.settings_cache.get(guild_id)
         else:
-            guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
+            guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
             self.settings_cache.update({guild_id: guild_settings})
         if not guild_settings:
             setting_value = None
-            self.insert_guild_settings(guild_id)
+            await self.insert_guild_settings(guild_id)
         else:
             if setting_name in guild_settings:
                 setting_value = guild_settings[setting_name]
@@ -34,20 +34,20 @@ class Database(pymongo.MongoClient):
                 setting_value = None
         return setting_value
 
-    def set_guild_settings(self, guild_id, setting_name, value):
+    async def set_guild_settings(self, guild_id, setting_name, value):
         if guild_id in self.settings_cache:
             del self.settings_cache[guild_id]
-        guild_settings = self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
+        guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
-            self.insert_guild_settings(guild_id)
+            await self.insert_guild_settings(guild_id)
         update_target = {"ServerID": guild_id}
         update_data = {"$set": {setting_name: value}}
-        self[self.bot.cfg.db.database].ServerSettings.update_one(update_target, update_data)
+        await self[self.bot.cfg.db.database].ServerSettings.update_one(update_target, update_data)
 
-    def get_experience(self, user, guild):
+    async def get_experience(self, user, guild):
         database = self[self.bot.cfg.db.database]
         collection = database['ExperienceSystem']
-        entry = collection.find_one({'UserID': user.id})
+        entry = await collection.find_one({'UserID': user.id})
         if entry:
             if 'global' in entry:
                 global_xp = entry['global']
@@ -67,12 +67,12 @@ class Database(pymongo.MongoClient):
         }
         return output
 
-    def add_experience(self, user, guild, points, additive=True):
-        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+    async def add_experience(self, user, guild, points, additive=True):
+        sabotage_file = await self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
         if not sabotage_file:
             database = self[self.bot.cfg.db.database]
             collection = database['ExperienceSystem']
-            entry = collection.find_one({'UserID': user.id})
+            entry = await collection.find_one({'UserID': user.id})
             if entry:
                 if 'global' in entry:
                     global_xp = entry['global']
@@ -83,7 +83,7 @@ class Database(pymongo.MongoClient):
                 else:
                     guilds = {}
             else:
-                collection.insert_one({'UserID': user.id})
+                await collection.insert_one({'UserID': user.id})
                 global_xp = 0
                 guilds = {}
             guild_id = str(guild.id)
@@ -102,12 +102,12 @@ class Database(pymongo.MongoClient):
             }
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
-            collection.update_one(update_target, update_data)
+            await collection.update_one(update_target, update_data)
 
-    def get_currency(self, user, guild):
+    async def get_currency(self, user, guild):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
-        entry = collection.find_one({'UserID': user.id})
+        entry = await collection.find_one({'UserID': user.id})
         if entry:
             if 'global' in entry:
                 global_amount = entry['global']
@@ -133,8 +133,8 @@ class Database(pymongo.MongoClient):
         }
         return output
 
-    def add_currency(self, user, guild, points, additive=True):
-        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+    async def add_currency(self, user, guild, points, additive=True):
+        sabotage_file = await self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
         if not sabotage_file:
             database = self[self.bot.cfg.db.database]
             collection = database['CurrencySystem']
@@ -154,7 +154,7 @@ class Database(pymongo.MongoClient):
                 else:
                     guilds = {}
             else:
-                collection.insert_one({'UserID': user.id})
+                await collection.insert_one({'UserID': user.id})
                 global_amount = 0
                 current_amount = 0
                 guilds = {}
@@ -176,12 +176,12 @@ class Database(pymongo.MongoClient):
             }
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
-            collection.update_one(update_target, update_data)
+            await collection.update_one(update_target, update_data)
 
-    def rmv_currency(self, user, points):
+    async def rmv_currency(self, user, points):
         database = self[self.bot.cfg.db.database]
         collection = database['CurrencySystem']
-        entry = collection.find_one({'UserID': user.id})
+        entry = await collection.find_one({'UserID': user.id})
         points = abs(points)
         if entry:
             if 'current' in entry:
@@ -189,7 +189,7 @@ class Database(pymongo.MongoClient):
             else:
                 current_amount = 0
         else:
-            collection.insert_one({'UserID': user.id})
+            await collection.insert_one({'UserID': user.id})
             current_amount = 0
         current_amount -= points
         xp_data = {
@@ -197,43 +197,38 @@ class Database(pymongo.MongoClient):
         }
         update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
-        collection.update_one(update_target, update_data)
+        await collection.update_one(update_target, update_data)
 
-    def get_inventory(self, user):
-        inventory = self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
+    async def get_inventory(self, user):
+        inventory = await self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
         if not inventory:
-            self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
+            await self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
             inventory = []
         else:
             inventory = inventory['Items']
         return inventory
 
-    def update_inv(self, user, inv):
-        self[self.db_cfg.database]['Inventory'].update_one(
-            {'UserID': user.id},
-            {
-                '$set': {'Items': inv}
-            }
-        )
+    async def update_inv(self, user, inv):
+        await self[self.db_cfg.database]['Inventory'].update_one({'UserID': user.id}, {'$set': {'Items': inv}})
 
-    def add_to_inventory(self, user, item_data):
-        sabotage_file = self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
+    async def add_to_inventory(self, user, item_data):
+        sabotage_file = await self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
         if not sabotage_file:
             stamp = arrow.utcnow().timestamp
             item_data.update({'Timestamp': stamp})
-            inv = self.get_inventory(user)
+            inv = await self.get_inventory(user)
             inv.append(item_data)
-            self.update_inv(user, inv)
+            await self.update_inv(user, inv)
 
-    def del_from_inventory(self, user, item_id):
-        inv = self.get_inventory(user)
+    async def del_from_inventory(self, user, item_id):
+        inv = await self.get_inventory(user)
         for item in inv:
             if item['item_id'] == item_id:
                 inv.remove(item)
-        self.update_inv(user, inv)
+        await self.update_inv(user, inv)
 
-    def get_inventory_item(self, user, item_file_id):
-        inv = self.get_inventory(user)
+    async def get_inventory_item(self, user, item_file_id):
+        inv = await self.get_inventory(user)
         output = None
         for item in inv:
             if item['item_file_id'].lower() == item_file_id.lower():

@@ -1,9 +1,10 @@
 import discord
 
 
-def get_channels(ev, marker):
+async def get_channels(ev, marker):
     channel_list = []
-    setting_files = ev.db[ev.db.db_cfg.database].ServerSettings.find({marker: {'$exists': True}})
+    lookup = {marker: {'$exists': True}}
+    setting_files = await ev.db[ev.db.db_cfg.database].ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
         channel = discord.utils.find(lambda x: x.id == channel_id, ev.bot.get_all_channels())
@@ -12,10 +13,10 @@ def get_channels(ev, marker):
     return channel_list
 
 
-def get_triggers(db, triggers, guild):
+async def get_triggers(db, triggers, guild):
     mentions = []
     for trigger in triggers:
-        wf_tags = db.get_guild_settings(guild.id, 'WarframeTags')
+        wf_tags = await db.get_guild_settings(guild.id, 'WarframeTags')
         if wf_tags is None:
             wf_tags = {}
         if wf_tags:
@@ -29,11 +30,11 @@ def get_triggers(db, triggers, guild):
 
 async def send_to_channels(ev, embed, marker, triggers=None):
     channel_list = ev.bot.get_all_channels()
-    channels = get_channels(ev, marker)
+    channels = await get_channels(ev, marker)
     for channel in channels:
         try:
             if triggers:
-                mentions = get_triggers(ev.db, triggers, channel.guild)
+                mentions = await get_triggers(ev.db, triggers, channel.guild)
                 if mentions:
                     mentions = ' '.join(mentions)
                     await channel.send(mentions, embed=embed)

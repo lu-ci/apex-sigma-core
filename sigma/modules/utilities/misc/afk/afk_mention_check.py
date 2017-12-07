@@ -6,7 +6,8 @@ import discord
 
 async def afk_mention_check(ev, message):
     if message.guild:
-        if not message.content.startswith(ev.bot.get_prefix(message)):
+        pfx = await ev.bot.get_prefix(message)
+        if not message.content.startswith(pfx):
             if message.mentions:
                 target = message.mentions[0]
                 afk_data = ev.db[ev.db.db_cfg.database]['AwayUsers'].find_one({'UserID': target.id})

@@ -15,7 +15,7 @@ async def inventorystats(cmd, message, args):
         target = message.mentions[0]
     else:
         target = message.author
-    inv = cmd.db.get_inventory(target)
+    inv = await cmd.db.get_inventory(target)
     item_o_list = []
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])

@@ -1,4 +1,5 @@
-﻿from fuzzywuzzy import fuzz, process
+﻿import asyncio
+from fuzzywuzzy import fuzz, process
 
 from .scrapper_core import FEHScrapper
 
@@ -12,7 +13,8 @@ class FireEmblemHeroesCore(object):
         self.move_icons = self.scrapper.get_yaml_data(self.data_dir + '/move_icons.yml')
         self.weapon_icons = self.scrapper.get_yaml_data(self.data_dir + '/weapon_icons.yml')
         self.index = {}
-        self.init_index()
+        with asyncio.get_event_loop() as loop:
+            loop.run_until_complete(self.init_index())
 
     async def feh_dbcheck(self):
         item_count = self.db[self.db.db_cfg.database].FEHData.count()
@@ -28,8 +30,8 @@ class FireEmblemHeroesCore(object):
         if all_data:
             self.db[self.db.db_cfg.database].FEHData.insert_many(all_data)
 
-    def init_index(self):
-        all_data = self.db[self.db.db_cfg.database].FEHData.find()
+    async def init_index(self):
+        all_data = await self.db[self.db.db_cfg.database].FEHData.find().to_list(None)
         for record in all_data:
             self.index[record['id']] = record['id']
             try:
@@ -38,7 +40,7 @@ class FireEmblemHeroesCore(object):
             except KeyError:
                 pass
 
-    def lookup(self, query):
+    async def lookup(self, query):
         matches = process.extract(query, self.index.keys(), scorer=fuzz.ratio)
         result = None
         # Workaround for fuzzywuzzy stripping + and inability to access + variants of weapons because of that
@@ -50,7 +52,7 @@ class FireEmblemHeroesCore(object):
         else:
             result = matches[0][0]
         if result:
-            result = self.db[self.db.db_cfg.database].FEHData.find_one({'id': self.index[result]})
+            result = await self.db[self.db.db_cfg.database].FEHData.find_one({'id': self.index[result]})
         return result
 
     @staticmethod

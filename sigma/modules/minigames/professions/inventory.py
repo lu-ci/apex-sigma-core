@@ -36,7 +36,7 @@ async def inventory(cmd, message, args):
             page_number = 1
     start_range = (page_number - 1) * 10
     end_range = page_number * 10
-    inv = cmd.db.get_inventory(target)
+    inv = await cmd.db.get_inventory(target)
     total_inv = len(inv)
     item_o_list = []
     for item in inv:

@@ -12,7 +12,7 @@ async def reminder_clockwork(ev):
 
 async def clockwork_function_reminder_clockwork(ev):
     while True:
-        reminders = ev.db[ev.db.db_cfg.database]['Reminders'].find({})
+        reminders = await ev.db[ev.db.db_cfg.database]['Reminders'].find({}).to_list(None)
         for reminder in reminders:
             current_stamp = arrow.utcnow().timestamp
             execution_stamp = reminder['ExecutionStamp']

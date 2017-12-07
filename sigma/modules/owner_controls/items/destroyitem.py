@@ -21,7 +21,7 @@ async def destroyitem(cmd, message, args):
                     break
             item_id = item_data['item_id']
             item_file_id = item_data['item_file_id']
-            cmd.db.del_from_inventory(target, item_id)
+            await cmd.db.del_from_inventory(target, item_id)
             item_o = item_core.get_item_by_file_id(item_file_id)
             connector = 'a'
             if item_o.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:

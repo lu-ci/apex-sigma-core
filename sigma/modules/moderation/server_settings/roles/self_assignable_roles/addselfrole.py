@@ -11,14 +11,14 @@ async def addselfrole(cmd, message, args):
             if target_role:
                 role_bellow = bool(target_role.position < message.guild.me.top_role.position)
                 if role_bellow:
-                    selfroles = cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
+                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
                     if selfroles is None:
                         selfroles = []
                     if target_role.id in selfroles:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is already self assignable.')
                     else:
                         selfroles.append(target_role.id)
-                        cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', selfroles)
+                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', selfroles)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} added.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')

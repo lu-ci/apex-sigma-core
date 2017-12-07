@@ -62,7 +62,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.init_config()
         self.log.info('---------------------------------')
-        self.init_database()
+        self.loop.run_until_complete(self.init_database())
         self.log.info('---------------------------------')
         self.init_cool_down()
         self.log.info('---------------------------------')
@@ -91,11 +91,11 @@ class ApexSigma(client_class):
         self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('Core Configuration Data Loaded')
 
-    def init_database(self):
+    async def init_database(self):
         self.log.info('Connecting to Database...')
         self.db = Database(self, self.cfg.db)
         try:
-            self.db.test.collection.find_one({})
+            await self.db[self.db.db_cfg.database].collection.find_one({})
         except pymongo.errors.ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
@@ -119,10 +119,10 @@ class ApexSigma(client_class):
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)
 
-    def get_prefix(self, message):
+    async def get_prefix(self, message):
         prefix = self.cfg.pref.prefix
         if message.guild:
-            pfx_search = self.db.get_guild_settings(message.guild.id, 'Prefix')
+            pfx_search = await self.db.get_guild_settings(message.guild.id, 'Prefix')
             if pfx_search:
                 prefix = pfx_search
         return prefix
@@ -168,7 +168,7 @@ class ApexSigma(client_class):
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 
-    def get_cmd_and_args(self, message, args, mention=False):
+    async def get_cmd_and_args(self, message, args, mention=False):
         args = list(filter(lambda a: a != '', args))
         if mention:
             if args:
@@ -176,7 +176,8 @@ class ApexSigma(client_class):
             else:
                 cmd = None
         else:
-            cmd = args.pop(0)[len(self.get_prefix(message)):].lower()
+            pfx = await self.get_prefix(message)
+            cmd = args.pop(0)[len(pfx):].lower()
         return cmd, args
 
     def clean_self_mentions(self, message):
@@ -191,17 +192,17 @@ class ApexSigma(client_class):
             self.loop.create_task(self.event_runner('message', message))
             if self.user.mentioned_in(message):
                 self.loop.create_task(self.event_runner('mention', message))
-            prefix = self.get_prefix(message)
+            prefix = await self.get_prefix(message)
             if message.content.startswith(prefix):
                 args = message.content.split(' ')
-                cmd, args = self.get_cmd_and_args(message, args)
+                cmd, args = await self.get_cmd_and_args(message, args)
             elif message.content.startswith(self.user.mention):
                 args = message.content.split(' ')[1:]
                 self.clean_self_mentions(message)
-                cmd, args = self.get_cmd_and_args(message, args, mention=True)
+                cmd, args = await self.get_cmd_and_args(message, args, mention=True)
             elif message.content.startswith(f'<@!{self.user.id}>'):
                 args = message.content.split(' ')[1:]
-                cmd, args = self.get_cmd_and_args(message, args, mention=True)
+                cmd, args = await self.get_cmd_and_args(message, args, mention=True)
             else:
                 cmd = None
                 args = []
@@ -239,8 +240,8 @@ class ApexSigma(client_class):
     async def on_guild_remove(self, guild):
         self.loop.create_task(self.event_runner('guild_remove', guild))
 
-    async def on_guild_update(self, guild):
-        self.loop.create_task(self.event_runner('guild_update', guild))
+    async def on_guild_update(self, before, after):
+        self.loop.create_task(self.event_runner('guild_update', before, after))
 
     async def on_voice_state_update(self, member, before, after):
         if not member.bot:

@@ -31,7 +31,7 @@ async def warn(cmd, message, args):
                 reason = ' '.join(args[1:])
             else:
                 reason = 'Reason not provided.'
-            guild_warnings = cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
+            guild_warnings = await cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
             if guild_warnings is None:
                 guild_warnings = {}
             uid = str(target.id)
@@ -52,7 +52,7 @@ async def warn(cmd, message, args):
             }
             warning_list.append(warning_data)
             guild_warnings.update({uid: warning_list})
-            cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
+            await cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
             response = discord.Embed(color=0x77B255, title=f'✅ {target.name}#{target.discriminator} has been warned.')
             to_target = discord.Embed(color=0xFFCC4D)
             to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')

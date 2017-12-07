@@ -38,7 +38,7 @@ def get_correct_index(question_list, answer):
 
 async def trivia(cmd, message, args):
     global trivia_cache
-    if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if message.author.id not in ongoing_list:
             ongoing_list.append(message.author.id)
             allotted_time = 20
@@ -57,7 +57,7 @@ async def trivia(cmd, message, args):
                             return
                         trivia_cache += data['results']
             data = trivia_cache.pop(secrets.randbelow(len(trivia_cache)))
-            cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
             question = data['question']
             question = ftfy.fix_text(question)
             category = data['category']
@@ -114,7 +114,7 @@ async def trivia(cmd, message, args):
                     answer_index = None
                 correct_index = get_correct_index(choice_list, correct_answer)
                 if answer_index == correct_index or answer_message.content.lower() == correct_answer.lower():
-                    cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
+                    await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
                     author = answer_message.author.display_name
                     currency = cmd.bot.cfg.pref.currency
                     win_title = f'🎉 Correct, {author}, it was {correct_answer}. You won {kud_reward} {currency}!'
@@ -133,6 +133,6 @@ async def trivia(cmd, message, args):
             ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
             await message.channel.send(embed=ongoing_error)
     else:
-        timeout = cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
         await message.channel.send(embed=on_cooldown)

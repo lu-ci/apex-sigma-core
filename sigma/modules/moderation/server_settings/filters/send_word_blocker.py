@@ -8,11 +8,11 @@ from .cleaners import clean_content
 async def send_word_blocker(ev, message):
     if message.guild:
         if isinstance(message.author, discord.Member):
-            prefix = ev.bot.get_prefix(message)
+            prefix = await ev.bot.get_prefix(message)
             if not message.content.startswith(prefix):
                 text = clean_content(message.content.lower())
                 elements = text.split(' ')
-                blocked_words = ev.db.get_guild_settings(message.guild.id, 'BlockedWords')
+                blocked_words = await ev.db.get_guild_settings(message.guild.id, 'BlockedWords')
                 if blocked_words is None:
                     blocked_words = []
                 remove = False

@@ -20,7 +20,8 @@ async def race(cmd, message, args):
         if buyin > 0:
             start_title = f'🚀 A {buyin} {currency} race is starting in 30 seconds.'
         create_response = discord.Embed(color=0x3B88C3, title=start_title)
-        create_response.set_footer(text=f'We need 2 participants! Type {cmd.bot.get_prefix(message)}joinrace to join!')
+        pfx = await cmd.bot.get_prefix(message)
+        create_response.set_footer(text=f'We need 2 participants! Type {pfx}joinrace to join!')
         await message.channel.send(embed=create_response)
         await asyncio.sleep(30)
         race_instance = races[message.channel.id]
@@ -68,10 +69,10 @@ async def race(cmd, message, args):
                 await asyncio.sleep(2)
             win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
             for user in race_instance['users']:
-                cmd.db.rmv_currency(user['user'], buyin)
+                await cmd.db.rmv_currency(user['user'], buyin)
             if race_instance['buyin']:
                 winnings = race_instance["buyin"] * len(race_instance['users'])
-                cmd.db.add_currency(leader['user'], message.guild, winnings, additive=False)
+                await cmd.db.add_currency(leader['user'], message.guild, winnings, additive=False)
                 win_title += f' And got {winnings} {currency}.'
             win_response = discord.Embed(color=colors[leader['icon']], title=win_title)
             await message.channel.send(embed=win_response)

@@ -1,4 +1,6 @@
-﻿import discord
+﻿import asyncio
+
+import discord
 
 
 class GlobalCommandPermissions(object):
@@ -7,6 +9,7 @@ class GlobalCommandPermissions(object):
         self.bot = command.bot
         self.cmd = command
         self.db = command.db
+        self.loop = asyncio.get_event_loop()
         # Default States
         self.nsfw_denied = False
         self.black_user = False
@@ -20,12 +23,8 @@ class GlobalCommandPermissions(object):
         # Check Calls
         self.check_nsfw()
         self.check_dmable()
-        self.check_black_srv()
-        self.check_black_usr()
         self.check_owner()
         self.check_final()
-        # Get Response
-        self.generate_response()
 
     def check_dmable(self):
         if not self.message.guild:
@@ -59,9 +58,9 @@ class GlobalCommandPermissions(object):
             black_user = False
         return black_user
 
-    def check_black_usr(self):
+    async def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
-        black_user_file = black_user_collection.find_one({'UserID': self.message.author.id})
+        black_user_file = await black_user_collection.find_one({'UserID': self.message.author.id})
         if black_user_file:
             if 'Total' in black_user_file:
                 if black_user_file['Total']:
@@ -73,10 +72,10 @@ class GlobalCommandPermissions(object):
         else:
             self.black_user = False
 
-    def check_black_srv(self):
+    async def check_black_srv(self):
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
-            black_srv_file = black_srv_collection.find_one({'ServerID': self.message.guild.id})
+            black_srv_file = await black_srv_collection.find_one({'ServerID': self.message.guild.id})
             if black_srv_file:
                 self.black_srv = True
             else:
@@ -95,7 +94,8 @@ class GlobalCommandPermissions(object):
         else:
             self.owner_denied = False
 
-    def generate_response(self):
+    async def generate_response(self):
+        prefix = await self.bot.get_prefix(self.message)
         if self.black_srv:
             return
         elif self.black_user:
@@ -103,12 +103,11 @@ class GlobalCommandPermissions(object):
         elif self.dm_denied:
             color = 0xBE1931
             title = f'⛔ Can\'t Be Used In Direct Messages'
-            desc = f'Please use {self.bot.get_prefix(self.message)}{self.cmd.name} on a server where I am present.'
+            desc = f'Please use {prefix}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xBE1931
             title = '⛔ Bot Owner Only'
             desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
-            desc += f'\nUnless you are in the `{self.bot.get_prefix(self.message)}owners` list, you can not use that.'
         elif self.nsfw_denied:
             if self.message.guild:
                 color = 0x744EAA
@@ -151,7 +150,7 @@ class ServerCommandPermissions(object):
         self.db = self.cmd.db
         self.bot = self.cmd.bot
         self.msg = message
-        self.permitted = self.check_perms()
+        self.permitted = True
 
     def check_mdl_overwrites(self, perms):
         mdl_overwritten = False
@@ -208,13 +207,13 @@ class ServerCommandPermissions(object):
             override = True
         return override
 
-    def check_perms(self):
+    async def check_perms(self):
         if self.msg.guild:
             author = self.msg.author
             is_guild_admin = author.permissions_in(self.msg.channel).administrator
             if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
                 # Crunderwood was here...
-                perms = self.db[self.bot.cfg.db.database].Permissions.find_one({'ServerID': self.msg.guild.id})
+                perms = await self.db[self.bot.cfg.db.database].Permissions.find_one({'ServerID': self.msg.guild.id})
                 if not perms:
                     permitted = True
                 else:

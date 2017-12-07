@@ -56,7 +56,7 @@ async def chat_bot(ev, message):
         if args[1].lower() not in ev.bot.modules.alts:
             if args[1].lower() not in ev.bot.modules.commands:
                 if message.guild:
-                    active = ev.db.get_guild_settings(message.guild.id, 'ChatterBot')
+                    active = await ev.db.get_guild_settings(message.guild.id, 'ChatterBot')
                     if active:
                         mention = f'<@{ev.bot.user.id}>'
                         mention_alt = f'<@!{ev.bot.user.id}>'

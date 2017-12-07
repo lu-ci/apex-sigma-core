@@ -15,7 +15,7 @@ async def addreact(cmd, message, args):
                 reaction_url = '%20'.join(args[1:])
                 if reaction_url.startswith('http'):
                     if reaction_url.endswith('.gif'):
-                        exist_check = cmd.db[cmd.db.db_cfg.database]['Interactions'].find_one({'URL': reaction_url})
+                        exist_check = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find_one({'URL': reaction_url})
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
                             reaction_data = {
@@ -25,10 +25,9 @@ async def addreact(cmd, message, args):
                                 'URL': reaction_url,
                                 'ReactionID': reaction_id
                             }
-                            cmd.db[cmd.db.db_cfg.database]['Interactions'].insert_one(reaction_data)
-                            interactions = cmd.db[cmd.db.db_cfg.database]['Interactions'].find(
-                                {'Name': reaction_name.lower()})
-                            inter_count = len(list(interactions))
+                            await cmd.db[cmd.db.db_cfg.database]['Interactions'].insert_one(reaction_data)
+                            lookup = {'Name': reaction_name.lower()}
+                            inter_count = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find(lookup).count()
                             title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
                             response = discord.Embed(color=0x77B255, title=title)
                             if 'log_ch' in cmd.cfg:

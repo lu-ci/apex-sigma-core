@@ -36,7 +36,7 @@ async def textmute(cmd, message, args):
                 if not above_hier:
                     response = discord.Embed(title='⛔ Can\'t mute someone equal or above you.', color=0xBE1931)
                 else:
-                    mute_list = cmd.db.get_guild_settings(message.guild.id, 'MutedUsers')
+                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'MutedUsers')
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
@@ -44,7 +44,7 @@ async def textmute(cmd, message, args):
                         response = discord.Embed(title=resp_title, color=0xBE1931)
                     else:
                         mute_list.append(target.id)
-                        cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
+                        await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been text muted.')
                         log_embed = generate_log_embed(message, target, args)
                         await log_event(cmd.db, message.guild, log_embed)

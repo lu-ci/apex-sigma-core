@@ -4,7 +4,7 @@
 async def unblockwords(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_words = cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')
+            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')
             if blocked_words is None:
                 blocked_words = []
             removed_words = []
@@ -12,7 +12,7 @@ async def unblockwords(cmd, message, args):
                 if word.lower() in blocked_words:
                     blocked_words.remove(word.lower())
                     removed_words.append(word.lower())
-            cmd.db.set_guild_settings(message.guild.id, 'BlockedWords', blocked_words)
+            await cmd.db.set_guild_settings(message.guild.id, 'BlockedWords', blocked_words)
             if removed_words:
                 color = 0x66CC66
                 title = f'✅ I have removed {len(removed_words)} from the blacklist.'

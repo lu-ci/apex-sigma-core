@@ -12,7 +12,7 @@ async def cycler(ev):
     poll_coll = ev.db[ev.db.db_cfg.database].ShadowPolls
     while True:
         now = arrow.utcnow().timestamp
-        poll_files = poll_coll.find({'settings.expires': {'$lt': now}, 'settings.active': True})
+        poll_files = await poll_coll.find({'settings.expires': {'$lt': now}, 'settings.active': True}).to_list(None)
         for poll_file in poll_files:
             poll_id = poll_file['id']
             poll_file['settings'].update({'active': False})

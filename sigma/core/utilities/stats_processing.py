@@ -24,7 +24,7 @@ async def add_cmd_stat(db, cmd, message, args):
                 'executed': arrow.utcnow().float_timestamp
             }
         }
-        db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
+        await db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
 
 
 async def add_special_stats(db, stat_name):

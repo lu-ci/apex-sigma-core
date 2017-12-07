@@ -23,7 +23,7 @@ async def cook(cmd, message, args):
         if recipe:
             req_satisfied = True
             for ingredient in recipe.ingredients:
-                user_inv = cmd.db.get_inventory(message.author)
+                user_inv = await cmd.db.get_inventory(message.author)
                 in_inventory = False
                 for item in user_inv:
                     if item['item_file_id'] == ingredient.file_id:
@@ -34,9 +34,9 @@ async def cook(cmd, message, args):
                     req_satisfied = False
             if req_satisfied:
                 cooked_item_data = item_core.get_item_by_name(recipe.name).generate_inventory_item()
-                cmd.db.add_to_inventory(message.author, cooked_item_data)
+                await cmd.db.add_to_inventory(message.author, cooked_item_data)
                 for req_item in used_items:
-                    cmd.db.del_from_inventory(message.author, req_item['item_id'])
+                    await cmd.db.del_from_inventory(message.author, req_item['item_id'])
                 quality = cook_quality[cooked_item_data['quality']]
                 connector = 'a'
                 if quality[0].lower() in ['a', 'e', 'i', 'o', 'u']:

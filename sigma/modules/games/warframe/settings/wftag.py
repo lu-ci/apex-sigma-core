@@ -13,7 +13,7 @@ async def wftag(cmd, message, args):
                         alert_role = role
                         break
                 if alert_role:
-                    wf_tags = cmd.db.get_guild_settings(message.guild.id, 'WarframeTags')
+                    wf_tags = await cmd.db.get_guild_settings(message.guild.id, 'WarframeTags')
                     if wf_tags is None:
                         wf_tags = {}
                     if alert_tag not in wf_tags:
@@ -21,7 +21,7 @@ async def wftag(cmd, message, args):
                     else:
                         response_title = f'`{alert_tag.upper()}` has been updated to bind to {alert_role.name}'
                     wf_tags.update({alert_tag: alert_role.id})
-                    cmd.db.set_guild_settings(message.guild.id, 'WarframeTags', wf_tags)
+                    await cmd.db.set_guild_settings(message.guild.id, 'WarframeTags', wf_tags)
                     response = discord.Embed(title=f'✅ {response_title}', color=0x66CC66)
                 else:
                     response = discord.Embed(title=f'❗ {alert_role_search.upper()} Was Not Found', color=0xBE1931)

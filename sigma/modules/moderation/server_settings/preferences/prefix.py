@@ -3,7 +3,7 @@
 
 async def prefix(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
-        current_prefix = cmd.bot.get_prefix(message)
+        current_prefix = await cmd.bot.get_prefix(message)
         if args:
             new_prefix = ''.join(args)
             if len(new_prefix) >= 2:
@@ -12,7 +12,7 @@ async def prefix(cmd, message, args):
                     if new_prefix == cmd.bot.cfg.pref.prefix:
                         new_prefix = None
                         prefix_text = cmd.bot.cfg.pref.prefix
-                    cmd.db.set_guild_settings(message.guild.id, 'Prefix', new_prefix)
+                    await cmd.db.set_guild_settings(message.guild.id, 'Prefix', new_prefix)
                     response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
                     response = discord.Embed(color=0x77B255, title=response_title)
                 else:

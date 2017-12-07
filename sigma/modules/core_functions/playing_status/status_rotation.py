@@ -28,7 +28,7 @@ async def status_clockwork(ev):
     while True:
         if ev.bot.cfg.pref.status_rotation:
             if not status_cache:
-                status_files = ev.db[ev.db.db_cfg.database].StatusFiles.find()
+                status_files = await ev.db[ev.db.db_cfg.database].StatusFiles.find().to_list(None)
                 for status_file in status_files:
                     status_text = status_file.get('Text')
                     status_cache.append(status_text)

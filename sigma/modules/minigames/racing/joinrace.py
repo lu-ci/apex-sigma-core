@@ -8,7 +8,7 @@ async def joinrace(cmd, message, args):
     if message.channel.id in races:
         race = races[message.channel.id]
         buyin = race['buyin']
-        kud = cmd.db.get_currency(message.author, message.guild)['current']
+        kud = await cmd.db.get_currency(message.author, message.guild)['current']
         if kud >= buyin:
             if len(race['users']) < 10:
                 user_found = False

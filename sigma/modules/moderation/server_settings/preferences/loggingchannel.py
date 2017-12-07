@@ -10,7 +10,7 @@ async def loggingchannel(cmd, message, args):
         else:
             if args:
                 if args[0].lower() == 'disable':
-                    cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', None)
+                    await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', None)
                     response = discord.Embed(color=0x77B255, title=f'✅ Logging channel disabled.')
                     await message.channel.send(embed=response)
                     return
@@ -21,7 +21,7 @@ async def loggingchannel(cmd, message, args):
         if target_chn:
             me = message.guild.me
             if me.permissions_in(target_chn).send_messages:
-                cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', target_chn.id)
+                await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', target_chn.id)
                 response = discord.Embed(color=0x77B255, title=f'✅ #{target_chn.name} set as the logging channel.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t write to that channel.')

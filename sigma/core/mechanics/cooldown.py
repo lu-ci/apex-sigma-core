@@ -35,7 +35,7 @@ class CooldownControl(object):
         self.cache = {}
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
 
-    def on_cooldown(self, cmd, user):
+    async def on_cooldown(self, cmd, user):
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
         else:
@@ -43,7 +43,7 @@ class CooldownControl(object):
         if cd_name in self.cache:
             entry = self.cache.get(cd_name)
         else:
-            entry = self.cds.find_one({'name': cd_name})
+            entry = await self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().timestamp
@@ -55,7 +55,7 @@ class CooldownControl(object):
             cooldown = False
         return cooldown
 
-    def get_cooldown(self, cmd, user):
+    async def get_cooldown(self, cmd, user):
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
         else:
@@ -63,7 +63,7 @@ class CooldownControl(object):
         if cd_name in self.cache:
             entry = self.cache.get(cd_name)
         else:
-            entry = self.cds.find_one({'name': cd_name})
+            entry = await self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().float_timestamp
@@ -79,7 +79,7 @@ class CooldownControl(object):
             cooldown = 0
         return cooldown
 
-    def set_cooldown(self, cmd, user, amount):
+    async def set_cooldown(self, cmd, user, amount):
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
         else:
@@ -88,13 +88,13 @@ class CooldownControl(object):
             entry = self.cache.get(cd_name)
             del self.cache[cd_name]
         else:
-            entry = self.cds.find_one({'name': cd_name})
+            entry = await self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
         if entry:
-            self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
+            await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
         else:
             cd_data = {
                 'name': cd_name,
                 'end_stamp': end_stamp
             }
-            self.cds.insert_one(cd_data)
+            await self.cds.insert_one(cd_data)

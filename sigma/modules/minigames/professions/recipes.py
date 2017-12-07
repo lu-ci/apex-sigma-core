@@ -8,10 +8,10 @@ from .nodes.recipe_core import RecipeCore
 recipe_core = None
 
 
-def check_requirements(cmd, message, recipe):
+async def check_requirements(cmd, message, recipe):
     req_satisfied = True
     for ingredient in recipe.ingredients:
-        user_inv = cmd.db.get_inventory(message.author)
+        user_inv = await cmd.db.get_inventory(message.author)
         in_inventory = False
         for item in user_inv:
             if item['item_file_id'] == ingredient.file_id:
@@ -47,7 +47,7 @@ async def recipes(cmd, message, args):
     stats_text += f'\nThere is a total of {len(recipe_core.recipes)} recipes.'
     if recipe_list:
         for recipe in recipe_list:
-            req_satisfied = check_requirements(cmd, message, recipe)
+            req_satisfied = await check_requirements(cmd, message, recipe)
             recipe_boop_list.append([recipe.name, recipe.type, recipe.value, req_satisfied])
         recipe_table = boop(recipe_boop_list, recipe_boop_head)
         response = discord.Embed(color=recipe_color)

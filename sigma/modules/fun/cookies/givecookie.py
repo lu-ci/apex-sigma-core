@@ -11,7 +11,7 @@ async def givecookie(cmd, message, args):
         if time_diff > 2592000:
             if message.author.id != target.id:
                 if not target.bot:
-                    if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+                    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
                         upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
                         if upgrade_file is None:
                             cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
@@ -32,11 +32,11 @@ async def givecookie(cmd, message, args):
                             cookies = file_check['Cookies']
                         cookies += 1
                         cookie_coll.update_one({'UserID': target.id}, {'$set': {'Cookies': cookies}})
-                        cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
+                        await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
                         title = f'🍪 You gave a cookie to {target.display_name}.'
                         response = discord.Embed(color=0xd99e82, title=title)
                     else:
-                        timeout_seconds = cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+                        timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
                         if timeout_seconds > 60:
                             timeout_seconds = arrow.utcnow().timestamp + timeout_seconds
                             timeout = arrow.get(timeout_seconds).humanize()

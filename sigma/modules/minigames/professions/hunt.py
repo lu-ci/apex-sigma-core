@@ -10,12 +10,12 @@ async def hunt(cmd, message, args):
     global item_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))
-    if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
         if upgrade_file is None:
             cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
             upgrade_file = {}
-        inv = cmd.db.get_inventory(message.author)
+        inv = await cmd.db.get_inventory(message.author)
         if 'storage' in upgrade_file:
             storage = upgrade_file['storage']
         else:
@@ -28,8 +28,8 @@ async def hunt(cmd, message, args):
             else:
                 stamina = 0
             cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina * 0.5)))
-            cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-            rarity = item_core.roll_rarity(cmd.db, message.author.id)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
+            rarity = await item_core.roll_rarity(cmd.db, message.author.id)
             if args:
                 if message.author.id in cmd.bot.cfg.dsc.owners:
                     try:
@@ -48,7 +48,7 @@ async def hunt(cmd, message, args):
                 item_color = item.color
                 response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                 data_for_inv = item.generate_inventory_item()
-                cmd.db.add_to_inventory(message.author, data_for_inv)
+                await cmd.db.add_to_inventory(message.author, data_for_inv)
             response = discord.Embed(color=item_color, title=response_title)
             response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
             if rarity >= 5:
@@ -58,6 +58,6 @@ async def hunt(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Your inventory is full.')
     else:
-        timeout = cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You are resting for another {timeout} seconds.')
     await message.channel.send(embed=response)

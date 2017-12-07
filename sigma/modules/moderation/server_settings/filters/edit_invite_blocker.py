@@ -8,7 +8,7 @@ async def edit_invite_blocker(ev, before, after):
     if after.guild:
         if isinstance(after.author, discord.Member):
             if not after.author.permissions_in(after.channel).manage_guild:
-                active = ev.db.get_guild_settings(after.guild.id, 'BlockInvites')
+                active = await ev.db.get_guild_settings(after.guild.id, 'BlockInvites')
                 if active is None:
                     active = False
                 if active:

@@ -61,7 +61,7 @@ async def buyupgrade(cmd, message, args):
             if answer_message.content.lower() != 'cancel':
                 upgrade_number = int(answer_message.content) - 1
                 upgrade = upgrade_list[upgrade_number]
-                current_kud = cmd.db.get_currency(message.author, message.guild)['current']
+                current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
                 upgrade_id = upgrade['id']
                 if upgrade_id in upgrade_file:
                     upgrade_level = upgrade_file[upgrade_id]
@@ -77,7 +77,7 @@ async def buyupgrade(cmd, message, args):
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
                     cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id}, upgrade_data)
-                    cmd.db.rmv_currency(message.author, upgrade_price)
+                    await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
                 else:

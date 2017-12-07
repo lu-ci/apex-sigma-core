@@ -7,10 +7,10 @@ async def byemessage(cmd, message, args):
     else:
         if args:
             goodbye_text = ' '.join(args)
-            cmd.db.set_guild_settings(message.guild.id, 'ByeMessage', goodbye_text)
+            await cmd.db.set_guild_settings(message.guild.id, 'ByeMessage', goodbye_text)
             response = discord.Embed(title='✅ New Goodbye Message Set', color=0x77B255)
         else:
-            current_goodbye = cmd.db.get_guild_settings(message.guild.id, 'ByeMessage')
+            current_goodbye = await cmd.db.get_guild_settings(message.guild.id, 'ByeMessage')
             if current_goodbye is None:
                 current_goodbye = '{user_name} has left {server_name}.'
             response = discord.Embed(color=0x3B88C3)

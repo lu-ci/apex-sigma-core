@@ -24,7 +24,7 @@ async def filtersell(cmd, message, args):
         if len(arguments) >= 2:
             mode = arguments[0].lower()
             lookup = ' '.join(arguments[1:])
-            inv = cmd.db.get_inventory(message.author)
+            inv = await cmd.db.get_inventory(message.author)
             if inv:
                 sell_count = 0
                 sell_value = 0
@@ -46,7 +46,7 @@ async def filtersell(cmd, message, args):
                             sell_count += 1
                             sell_id_list.append(item['item_id'])
                     sell_item_ids(cmd.db, message.author, sell_id_list)
-                    cmd.db.add_currency(message.author, message.guild, sell_value)
+                    await cmd.db.add_currency(message.author, message.guild, sell_value)
                     currency = cmd.bot.cfg.pref.currency
                     sell_title = f'💶 You sold {sell_count} items for {sell_value} {currency}.'
                     response = discord.Embed(color=0xc6e4b5, title=sell_title)

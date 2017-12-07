@@ -1,8 +1,4 @@
-﻿import asyncio
-import functools
-from concurrent.futures import ThreadPoolExecutor
-
-import arrow
+﻿import arrow
 import discord
 
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
@@ -71,29 +67,18 @@ async def generate_server_data(guild):
     return srv_data
 
 
-async def push_to_database(ev, server_list):
-    srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
-    task = functools.partial(srv_coll.insert, server_list)
-    with ThreadPoolExecutor() as threads:
-        await ev.bot.loop.run_in_executor(threads, task)
-
-
 async def server_data_fill(ev):
     if ev.bot.guilds:
         ev.log.info('Filling server details...')
         start_stamp = arrow.utcnow().float_timestamp
         srv_coll = ev.db[ev.db.db_cfg.database].ServerDetails
-        srv_coll.drop()
+        await srv_coll.drop()
         server_list = []
         for guild in ev.bot.guilds:
             srv_data = await generate_server_data(guild)
             server_list.append(srv_data)
-            if len(server_list) >= 100:
-                await push_to_database(ev, server_list)
-                server_list = []
-                await asyncio.sleep(0.5)
         if server_list:
-            await push_to_database(ev, server_list)
+            await srv_coll.insert_many(server_list)
         end_stamp = arrow.utcnow().float_timestamp
         diff = round(end_stamp - start_stamp, 3)
         ev.log.info(f'Server detail filler finished in {diff}s')

@@ -35,7 +35,7 @@ for symbol in rarity_rewards:
 async def slots(cmd, message, args):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
-    current_kud = cmd.db.get_currency(message.author, message.guild)['current']
+    current_kud = await cmd.db.get_currency(message.author, message.guild)['current']
     if args:
         try:
             bet = abs(int(args[0]))
@@ -44,7 +44,7 @@ async def slots(cmd, message, args):
     else:
         bet = 10
     if current_kud >= bet:
-        if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+        if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
             upgrade_file = cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
             sabotage_file = cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
             if upgrade_file is None:
@@ -56,8 +56,8 @@ async def slots(cmd, message, args):
             else:
                 stamina = 0
             cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina * 0.5)))
-            cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-            cmd.db.rmv_currency(message.author, bet)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
+            await cmd.db.rmv_currency(message.author, bet)
             out_list = []
             for x in range(0, 3):
                 temp_list = []
@@ -115,7 +115,7 @@ async def slots(cmd, message, args):
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'
                 footer = f'{currency_icon} {winnings} {currency} has been awarded.'
-                cmd.db.add_currency(message.author, message.guild, winnings, additive=False)
+                await cmd.db.add_currency(message.author, message.guild, winnings, additive=False)
             else:
                 color = 0x232323
                 title = '💣 Oh my, you lost...'
@@ -132,7 +132,7 @@ async def slots(cmd, message, args):
             response.add_field(name=title, value=slot_lines)
             response.set_footer(text=footer)
         else:
-            timeout = cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+            timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
             response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')
     else:
         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')

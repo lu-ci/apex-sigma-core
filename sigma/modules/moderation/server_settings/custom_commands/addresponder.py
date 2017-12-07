@@ -8,7 +8,7 @@ async def addresponder(cmd, message, args):
                 trigger = args[0].lower()
                 if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                     content = ' '.join(args[1:])
-                    auto_respones = cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
+                    auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
                     if auto_respones is None:
                         auto_respones = {}
                     if trigger in auto_respones:
@@ -16,7 +16,7 @@ async def addresponder(cmd, message, args):
                     else:
                         res_text = 'added'
                     auto_respones.update({trigger: content})
-                    cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
+                    await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
                     response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
                 else:
                     response = discord.Embed(title='❗ Can\'t have the same name as a core command.', color=0xBE1931)

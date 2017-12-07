@@ -48,7 +48,7 @@ async def unscramble(cmd, message, args):
 
         try:
             answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-            cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
+            await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
             author = answer_message.author.display_name
             currency = cmd.bot.cfg.pref.currency
             win_title = f'🎉 Correct, {author}, it was {word_choice}. You won {kud_reward} {currency}!'

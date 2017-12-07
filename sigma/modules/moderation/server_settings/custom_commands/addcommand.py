@@ -8,7 +8,7 @@ async def addcommand(cmd, message, args):
                 trigger = args[0].lower()
                 if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                     content = ' '.join(args[1:])
-                    custom_commands = cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
+                    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
                     if custom_commands is None:
                         custom_commands = {}
                     if trigger in custom_commands:
@@ -16,7 +16,7 @@ async def addcommand(cmd, message, args):
                     else:
                         res_text = 'added'
                     custom_commands.update({trigger: content})
-                    cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                    await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
                     response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
                 else:
                     response = discord.Embed(title='❗ Can\'t replace an existing core command', color=0xBE1931)

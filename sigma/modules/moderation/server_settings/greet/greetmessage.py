@@ -7,10 +7,10 @@ async def greetmessage(cmd, message, args):
     else:
         if args:
             greeting_text = ' '.join(args)
-            cmd.db.set_guild_settings(message.guild.id, 'GreetMessage', greeting_text)
+            await cmd.db.set_guild_settings(message.guild.id, 'GreetMessage', greeting_text)
             response = discord.Embed(title='✅ New Greeting Message Set', color=0x77B255)
         else:
-            current_greeting = cmd.db.get_guild_settings(message.guild.id, 'GreetMessage')
+            current_greeting = await cmd.db.get_guild_settings(message.guild.id, 'GreetMessage')
             if current_greeting is None:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             response = discord.Embed(color=0x3B88C3)

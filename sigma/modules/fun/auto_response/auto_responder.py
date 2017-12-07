@@ -14,9 +14,9 @@ def clean_word(text):
 async def auto_responder(ev, message):
     if message.guild:
         if message.content:
-            pfx = ev.bot.get_prefix(message)
+            pfx = await ev.bot.get_prefix(message)
             if not message.content.startswith(pfx):
-                triggers = ev.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
+                triggers = await ev.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
                 if triggers is None:
                     triggers = {}
                 arguments = message.content.split(' ')

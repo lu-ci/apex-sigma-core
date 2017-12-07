@@ -20,7 +20,7 @@ async def viewrecipe(cmd, message, args):
             recipe.ingredients.sort(key=lambda x: x.name)
             req_satisfied = True
             for ingredient in recipe.ingredients:
-                user_inv = cmd.db.get_inventory(message.author)
+                user_inv = await cmd.db.get_inventory(message.author)
                 in_inventory = False
                 for item in user_inv:
                     if item['item_file_id'] == ingredient.file_id:

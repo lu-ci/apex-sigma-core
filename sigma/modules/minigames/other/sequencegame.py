@@ -69,7 +69,7 @@ async def sequencegame(cmd, message, args):
                 if correct:
                     finished = True
                     virtory = True
-                    cmd.db.add_currency(answer.author, message.guild, 50)
+                    await cmd.db.add_currency(answer.author, message.guild, 50)
                     win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 Kud!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
                     await message.channel.send(embed=win_embed)

@@ -3,7 +3,7 @@ import discord
 
 
 async def afk(cmd, message, args):
-    afk_data = cmd.db[cmd.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
+    afk_data = await cmd.db[cmd.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
     if afk_data:
         response = discord.Embed(color=0xBE1931, title='❗ You are already marked as AFK.')
     else:
@@ -16,7 +16,7 @@ async def afk(cmd, message, args):
             'Timestamp': arrow.utcnow().timestamp,
             'Reason': afk_reason
         }
-        cmd.db[cmd.db.db_cfg.database]['AwayUsers'].insert_one(in_data)
+        await cmd.db[cmd.db.db_cfg.database]['AwayUsers'].insert_one(in_data)
         url = None
         for piece in afk_reason.split():
             if piece.startswith('http'):

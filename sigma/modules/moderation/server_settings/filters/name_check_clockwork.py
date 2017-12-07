@@ -22,7 +22,7 @@ async def name_checker(ev):
     while True:
         guild_ids = []
         guilds = []
-        actives = ev.db[ev.db.db_cfg.database].ServerSettings.find({'ASCIIOnlyNames': True})
+        actives = await ev.db[ev.db.db_cfg.database].ServerSettings.find({'ASCIIOnlyNames': True}).to_list(None)
         for doc in actives:
             gid = doc['ServerID']
             guild_ids.append(gid)
@@ -31,7 +31,7 @@ async def name_checker(ev):
             if active_guild:
                 guilds.append(active_guild)
         for guild in guilds:
-            temp_name = ev.db.get_guild_settings(guild.id, 'ASCIIOnlyTempName')
+            temp_name = await ev.db.get_guild_settings(guild.id, 'ASCIIOnlyTempName')
             if temp_name is None:
                 temp_name = '<ChangeMyName>'
             members = guild.members
@@ -46,6 +46,8 @@ async def name_checker(ev):
                     try:
                         new_name = clean_name(nam, temp_name)
                         await member.edit(nick=new_name, reason='ASCII name enforcement.')
+                    except discord.NotFound:
+                        pass
                     except discord.Forbidden:
                         pass
         await asyncio.sleep(60)

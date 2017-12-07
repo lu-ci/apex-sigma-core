@@ -37,14 +37,14 @@ async def unwarn(cmd, message, args):
             if len(args) == 2:
                 target = message.mentions[0]
                 warn_id = args[1].lower()
-                guild_warnings = cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
+                guild_warnings = await cmd.db.get_guild_settings(message.guild.id, 'WarnedUsers')
                 if guild_warnings is None:
                     guild_warnings = {}
                 uid = str(target.id)
                 if uid in guild_warnings:
                     if warn_id == 'all':
                         del guild_warnings[uid]
-                        cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
+                        await cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
                         response = discord.Embed(color=0x77B255,
                                                  title=f'✅ {target.name}\'s warnings have been cleared.')
                         log_embed = generate_clean_log_embed(message, target)
@@ -58,7 +58,7 @@ async def unwarn(cmd, message, args):
                                 break
                         if warning:
                             warn_list.remove(warning)
-                            cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
+                            await cmd.db.set_guild_settings(message.guild.id, 'WarnedUsers', guild_warnings)
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ {target.name}\'s warning {warn_id} has been removed.')
                             log_embed = generate_specific_log_embed(message, target, warning)

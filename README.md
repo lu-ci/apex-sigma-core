@@ -56,7 +56,7 @@
       </td>
       <td>
         <a href="https://lucia.moe/#/sigma">
-          <img src="https://img.shields.io/badge/dynamic/json.svg?label=Sigma&colorB=1b6f5f&prefix=v&suffix=&query=$.version&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flu-ci%2Fapex-sigma-core%2Fmaster%2Finfo%2Fversion.json" alt="Sigma">
+          <img src="https://img.shields.io/badge/dynamic/json.svg?label=Sigma&colorB=1b6f5f&prefix=&suffix=&query=$.version&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flu-ci%2Fapex-sigma-core%2Fmaster%2Finfo%2Fversion.json" alt="Sigma">
         </a>
       </td>
     </tbody>

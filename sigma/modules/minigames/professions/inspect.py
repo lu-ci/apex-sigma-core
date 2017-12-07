@@ -10,12 +10,12 @@ async def inspect(cmd, message, args):
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))
     if args:
-        inv = cmd.db.get_inventory(message.author)
+        inv = await cmd.db.get_inventory(message.author)
         if inv:
             lookup = ' '.join(args)
             item_o = item_core.get_item_by_name(lookup)
             if item_o:
-                item = cmd.db.get_inventory_item(message.author, item_o.file_id)
+                item = await cmd.db.get_inventory_item(message.author, item_o.file_id)
             else:
                 item = None
             if item:

@@ -10,6 +10,7 @@ geopy
 humanfriendly
 lxml
 markovify
+motor
 overwatch-api
 Pillow
 praw

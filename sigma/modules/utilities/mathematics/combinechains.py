@@ -18,14 +18,14 @@ def combine_names(user_one, user_two):
 
 
 async def combinechains(cmd, message, args):
-    if not cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if len(message.mentions) == 2:
             target_one = message.mentions[0]
             target_two = message.mentions[1]
             chain_one = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target_one.id})
             chain_two = cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target_two.id})
             if chain_one and chain_two:
-                cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
+                await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
                 init_embed = discord.Embed(color=0xbdddf4, title='💭 Hmm... Let me think...')
                 init_message = await message.channel.send(embed=init_embed)
                 string_one = ' '.join(chain_one.get('Chain'))
@@ -55,6 +55,6 @@ async def combinechains(cmd, message, args):
             no_target = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
             await message.channel.send(embed=no_target)
     else:
-        timeout = cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
         await message.channel.send(embed=on_cooldown)

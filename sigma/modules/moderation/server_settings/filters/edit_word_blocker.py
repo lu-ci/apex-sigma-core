@@ -8,11 +8,11 @@ from .cleaners import clean_content
 async def edit_word_blocker(ev, before, after):
     if after.guild:
         if isinstance(after.author, discord.Member):
-            prefix = ev.bot.get_prefix(after)
+            prefix = await ev.bot.get_prefix(after)
             if not after.content.startswith(prefix):
                 text = clean_content(after.content.lower())
                 elements = text.split(' ')
-                blocked_words = ev.db.get_guild_settings(after.guild.id, 'BlockedWords')
+                blocked_words = await ev.db.get_guild_settings(after.guild.id, 'BlockedWords')
                 if blocked_words is None:
                     blocked_words = []
                 remove = False
