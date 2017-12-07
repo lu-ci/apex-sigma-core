@@ -57,7 +57,8 @@ async def collectchain(cmd, message, args):
                             if log.content:
                                 if log.content != '':
                                     if len(log.content) > 3:
-                                        if not check_for_bot_prefixes(cmd.bot.get_prefix(message), log.content):
+                                        pfx = await cmd.bot.get_prefix(message)
+                                        if not check_for_bot_prefixes(pfx, log.content):
                                             if 'http' not in log.content and '```' not in log.content:
                                                 if '"' not in log.content:
                                                     content = log.content
