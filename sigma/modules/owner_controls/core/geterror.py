@@ -4,7 +4,7 @@ import discord
 async def geterror(cmd, message, args):
     if args:
         token = args[0]
-        error_file = cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'Token': token})
+        error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'Token': token})
         if error_file:
             response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{token}`')
             cmd_text = f'Command: **{error_file["Message"]["Command"]}**'

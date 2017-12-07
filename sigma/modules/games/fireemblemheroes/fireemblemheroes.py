@@ -9,13 +9,14 @@ async def fireemblemheroes(cmd, message, args):
     global feh_core
     if not feh_core:
         feh_core = FireEmblemHeroesCore(cmd.db)
+        await feh_core.init_index()
     response = discord.Embed()
     if not args:
         response.title = '❗ Nothing inputted.'
         response.colour = 0xBE1931
     else:
         query = ' '.join(args).lower()
-        record = feh_core.lookup(query)
+        record = await feh_core.lookup(query)
         if not record:
             response.title = '🔍 No results.'
             response.colour = 0x696969

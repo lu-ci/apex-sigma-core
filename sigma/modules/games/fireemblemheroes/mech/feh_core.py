@@ -1,5 +1,4 @@
-﻿import asyncio
-from fuzzywuzzy import fuzz, process
+﻿from fuzzywuzzy import fuzz, process
 
 from .scrapper_core import FEHScrapper
 
@@ -13,8 +12,6 @@ class FireEmblemHeroesCore(object):
         self.move_icons = self.scrapper.get_yaml_data(self.data_dir + '/move_icons.yml')
         self.weapon_icons = self.scrapper.get_yaml_data(self.data_dir + '/weapon_icons.yml')
         self.index = {}
-        with asyncio.get_event_loop() as loop:
-            loop.run_until_complete(self.init_index())
 
     async def feh_dbcheck(self):
         item_count = await self.db[self.db.db_cfg.database].FEHData.count()

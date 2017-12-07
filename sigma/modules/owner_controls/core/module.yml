@@ -39,19 +39,6 @@ commands:
     description:
       Gets an error's details using the given token.
 
-  - name:         getcommand
-    alts:
-      - "getcmd"
-    global:       true
-    enabled:      true
-    permissions:
-      rating:     0
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} 1a2b5c187d13e"
-    description:
-      Gets command information by the command's statistics ID.
-
   - name:         removereaction
     alts:
       - "removereact"
