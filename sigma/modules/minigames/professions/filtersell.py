@@ -5,13 +5,13 @@ from .nodes.item_core import ItemCore
 item_core = None
 
 
-def sell_item_ids(db, user, items):
-    inv = db.get_inventory(user)
+async def sell_item_ids(db, user, items):
+    inv = await db.get_inventory(user)
     for item in items:
         for inv_item in inv:
             if inv_item['item_id'] == item:
                 inv.remove(inv_item)
-    db.update_inv(user, inv)
+    await db.update_inv(user, inv)
 
 
 async def filtersell(cmd, message, args):
