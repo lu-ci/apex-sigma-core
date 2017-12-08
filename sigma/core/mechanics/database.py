@@ -6,7 +6,6 @@ class Database(motor.AsyncIOMotorClient):
     def __init__(self, bot, db_cfg):
         self.bot = bot
         self.db_cfg = db_cfg
-        self.settings_cache = {}
         if self.db_cfg.auth:
             self.db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'
             self.db_address += f'@{self.db_cfg.host}:{self.db_cfg.port}/'
@@ -19,24 +18,15 @@ class Database(motor.AsyncIOMotorClient):
         await self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
 
     async def get_guild_settings(self, guild_id, setting_name):
-        if guild_id in self.settings_cache:
-            guild_settings = self.settings_cache.get(guild_id)
-        else:
-            guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
-            self.settings_cache.update({guild_id: guild_settings})
+        guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             setting_value = None
             await self.insert_guild_settings(guild_id)
         else:
-            if setting_name in guild_settings:
-                setting_value = guild_settings[setting_name]
-            else:
-                setting_value = None
+            setting_value = guild_settings.get(setting_name)
         return setting_value
 
     async def set_guild_settings(self, guild_id, setting_name, value):
-        if guild_id in self.settings_cache:
-            del self.settings_cache[guild_id]
         guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             await self.insert_guild_settings(guild_id)
