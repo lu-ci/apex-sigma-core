@@ -36,5 +36,5 @@ async def send_word_blocker(ev, message):
                         log_embed = discord.Embed(color=0xFFCC4D)
                         log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                         await log_event(ev.db, message.guild, log_embed)
-                    except discord.ClientException:
-                        pass
+                    except discord.ClientException as err:
+                        ev.log.error(err)
