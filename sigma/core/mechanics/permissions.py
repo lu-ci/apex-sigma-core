@@ -234,4 +234,5 @@ class ServerCommandPermissions(object):
                 permitted = True
         else:
             permitted = True
+        self.permitted = permitted
         return permitted

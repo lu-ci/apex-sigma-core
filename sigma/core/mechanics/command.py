@@ -174,8 +174,8 @@ class SigmaCommand(object):
                 await perms.check_black_usr()
                 await perms.generate_response()
                 guild_allowed = ServerCommandPermissions(self, message)
-                self.log_command_usage(message, args)
                 await guild_allowed.check_perms()
+                self.log_command_usage(message, args)
                 if perms.permitted:
                     if guild_allowed.permitted:
                         requirements = CommandRequirements(self, message)
