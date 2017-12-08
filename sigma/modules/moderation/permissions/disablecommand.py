@@ -20,7 +20,7 @@ async def disablecommand(cmd, message, args):
                     disabled_commands.append(cmd_name)
                     perms.update({'DisabledCommands': disabled_commands})
                     await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                          {'$set': perms})
+                                                                                {'$set': perms})
                     response = discord.Embed(color=0x77B255, title=f'✅ `{cmd_name.upper()}` disabled.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Command Not Found')

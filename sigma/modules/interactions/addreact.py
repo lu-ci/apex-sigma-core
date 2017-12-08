@@ -15,7 +15,8 @@ async def addreact(cmd, message, args):
                 reaction_url = '%20'.join(args[1:])
                 if reaction_url.startswith('http'):
                     if reaction_url.endswith('.gif'):
-                        exist_check = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find_one({'URL': reaction_url})
+                        exist_check = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find_one(
+                            {'URL': reaction_url})
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
                             reaction_data = {

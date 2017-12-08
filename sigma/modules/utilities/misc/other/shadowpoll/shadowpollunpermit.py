@@ -24,7 +24,8 @@ async def shadowpollunpermit(cmd, message, args):
                     if author == message.author.id:
                         if target.id in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].remove(target.id)
-                            await cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                            await cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id},
+                                                                                        {'$set': poll_file})
                             response = discord.Embed(color=0x66CC66, title=f'✅ {target.name} has been unpermitted.')
                         else:
                             response = discord.Embed(color=0xBE1931, title=f'❗ {target.name} is not permitted.')

@@ -49,7 +49,7 @@ async def unpermitrole(cmd, message, args):
                             cmd_exc.update({cmd_name: inner_exc})
                             perms.update({exception_group: cmd_exc})
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                  {'$set': perms})
+                                                                                        {'$set': perms})
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can no longer use `{cmd_name}`.')
                         else:

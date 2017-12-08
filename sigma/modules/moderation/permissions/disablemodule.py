@@ -18,7 +18,7 @@ async def disablemodule(cmd, message, args):
                     disabled_modules.append(mdl_name)
                     perms.update({'DisabledModules': disabled_modules})
                     await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                          {'$set': perms})
+                                                                                {'$set': perms})
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` disabled.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Module Not Found')

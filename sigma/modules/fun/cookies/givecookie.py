@@ -12,7 +12,8 @@ async def givecookie(cmd, message, args):
             if message.author.id != target.id:
                 if not target.bot:
                     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-                        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+                        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one(
+                            {'UserID': message.author.id})
                         if upgrade_file is None:
                             await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                             upgrade_file = {}

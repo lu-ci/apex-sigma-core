@@ -1,4 +1,5 @@
 import discord
+
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
 

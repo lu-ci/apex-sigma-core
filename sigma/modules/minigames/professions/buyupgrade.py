@@ -77,7 +77,8 @@ async def buyupgrade(cmd, message, args):
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
-                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id}, upgrade_data)
+                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id},
+                                                                             upgrade_data)
                     await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
