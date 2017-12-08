@@ -48,6 +48,10 @@ async def user_data_fill(ev):
         if member:
             mem_data = await generate_member_data(member)
             member_list.append(mem_data)
+            if len(member_list) >= 500:
+                await mem_coll.insert_many(member_list)
+                member_list = []
+                await asyncio.sleep(0.5)
     if member_list:
         await mem_coll.insert_many(member_list)
     end_stamp = arrow.utcnow().float_timestamp

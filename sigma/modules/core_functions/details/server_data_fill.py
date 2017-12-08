@@ -1,4 +1,5 @@
 ﻿import arrow
+import asyncio
 import discord
 
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
@@ -77,6 +78,10 @@ async def server_data_fill(ev):
         for guild in ev.bot.guilds:
             srv_data = await generate_server_data(guild)
             server_list.append(srv_data)
+            if len(server_list) >= 100:
+                await srv_coll.insert_many(server_list)
+                server_list = []
+                await asyncio.sleep(0.5)
         if server_list:
             await srv_coll.insert_many(server_list)
         end_stamp = arrow.utcnow().float_timestamp
