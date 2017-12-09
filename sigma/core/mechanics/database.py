@@ -1,12 +1,14 @@
 import arrow
 from motor import motor_asyncio as motor
 
+from sigma.core.mechanics.caching import Cacher
+
 
 class Database(motor.AsyncIOMotorClient):
     def __init__(self, bot, db_cfg):
         self.bot = bot
         self.db_cfg = db_cfg
-        self.settings_cache = {}
+        self.cache = Cacher()
         if self.db_cfg.auth:
             self.db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'
             self.db_address += f'@{self.db_cfg.host}:{self.db_cfg.port}/'
@@ -19,11 +21,10 @@ class Database(motor.AsyncIOMotorClient):
         await self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
 
     async def get_guild_settings(self, guild_id, setting_name):
-        if guild_id in self.settings_cache:
-            guild_settings = self.settings_cache.get(guild_id)
-        else:
+        guild_settings = self.cache.get_cache(guild_id)
+        if guild_settings is None:
             guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
-            self.settings_cache.update({guild_id: guild_settings})
+            self.cache.set_cache(guild_id, guild_settings)
         if not guild_settings:
             setting_value = None
             await self.insert_guild_settings(guild_id)
@@ -35,8 +36,7 @@ class Database(motor.AsyncIOMotorClient):
         return setting_value
 
     async def set_guild_settings(self, guild_id, setting_name, value):
-        if guild_id in self.settings_cache:
-            self.settings_cache.pop(guild_id)
+        self.cache.del_cache(guild_id)
         guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if not guild_settings:
             await self.insert_guild_settings(guild_id)

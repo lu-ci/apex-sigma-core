@@ -1,5 +1,7 @@
 import arrow
 
+from sigma.core.mechanics.caching import Cacher
+
 
 class CommandCooldown(object):
     def __init__(self):
@@ -32,7 +34,7 @@ class CooldownControl(object):
         self.bot = bot
         self.cmd = CommandCooldown()
         self.db = self.bot.db
-        self.cache = {}
+        self.cache = Cacher()
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
 
     async def on_cooldown(self, cmd, user):
@@ -40,9 +42,8 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        if cd_name in self.cache:
-            entry = self.cache.get(cd_name)
-        else:
+        entry = self.cache.get_cache(cd_name)
+        if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
@@ -60,9 +61,8 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        if cd_name in self.cache:
-            entry = self.cache.get(cd_name)
-        else:
+        entry = self.cache.get_cache(cd_name)
+        if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry['end_stamp']
@@ -84,9 +84,9 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        if cd_name in self.cache:
-            entry = self.cache.get(cd_name)
-            del self.cache[cd_name]
+        entry = self.cache.get_cache(cd_name)
+        if entry:
+            self.cache.del_cache(cd_name)
         else:
             entry = await self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
