@@ -38,6 +38,8 @@ async def count_all_commands(db):
 
 
 async def topcommands(cmd, message, args):
+    response = discord.Embed(color=0x1B6F5F, title='Processing statistics...')
+    init_message = await message.channel.send(embed=response)
     cmd_dict, total = await count_all_commands(cmd.db)
     cmd_key_list = sorted(cmd_dict, key=cmd_dict.__getitem__, reverse=True)
     stats_top = f'A total of {total} commands have been recorded.'
@@ -48,4 +50,4 @@ async def topcommands(cmd, message, args):
     response = discord.Embed(color=0x1B6F5F)
     response.add_field(name='Command Count', value=stats_top, inline=False)
     response.add_field(name='Command List', value=stats_desc, inline=False)
-    await message.channel.send(embed=response)
+    await init_message.edit(embed=response)
