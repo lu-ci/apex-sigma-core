@@ -4,13 +4,13 @@ import threading
 class Cacher(object):
     def __init__(self):
         self.data = {}
-        self.sem = threading.Semaphore()
+        self.sem = threading.Event()
 
     def lock(self):
-        self.sem.acquire(timeout=5)
+        self.sem.set()
 
     def unlock(self):
-        self.sem.release()
+        self.sem.clear()
 
     def get_cache(self, key):
         self.lock()
