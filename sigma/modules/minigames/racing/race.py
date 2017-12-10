@@ -38,7 +38,7 @@ async def race(cmd, message, args):
                 lines = '```\n'
                 for participant in race_instance['users']:
                     if not skip:
-                        move = secrets.randbelow(5)
+                        move = secrets.randbelow(5) + 1
                     else:
                         move = 0
                     val = values[participant['user'].id]
