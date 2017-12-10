@@ -27,13 +27,13 @@ async def count_all_commands(db):
     cmd_items = await cmd_items.to_list(None)
     cmd_items_new = await cmd_items_new.to_list(None)
     cmd_items += cmd_items_new
+    cmd_items = filter(lambda a: isinstance(a['_id']['command'], str), cmd_items)
     output = {}
     total = 0
     for x in cmd_items:
         item_id = x['_id']['command']
-        if item_id is not None:
-            output.update({item_id: x['count']})
-            total += x['count']
+        output.update({item_id: x['count']})
+        total += x['count']
     return output, total
 
 
