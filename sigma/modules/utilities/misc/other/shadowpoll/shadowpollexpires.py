@@ -24,7 +24,7 @@ async def shadowpollexpires(cmd, message, args):
                         end_datet = arrow.get(end_stamp).datetime
                         poll_file['settings'].update({'expires': end_stamp})
                         poll_coll = cmd.db[cmd.db.db_cfg.database].ShadowPolls
-                        poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
+                        await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                         title = f'⏰ Poll set to expire {end_human}.'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=end_datet)
                     else:

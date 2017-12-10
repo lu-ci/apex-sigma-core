@@ -66,7 +66,7 @@ async def shadowpollvote(cmd, message, args):
                                     ender = 'recorded'
                                 poll_file['votes'].update({str(message.author.id): choice_num})
                                 poll_coll = cmd.db[cmd.db.db_cfg.database].ShadowPolls
-                                poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
+                                await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                                 response = discord.Embed(color=0x66CC66, title=f'✅ Your choice has been {ender}.')
                             else:
                                 response = discord.Embed(color=0xFFCC4D, title='🔒 Not authorized to vote.')
