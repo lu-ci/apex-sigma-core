@@ -22,6 +22,9 @@ names = {
 
 
 def combine_names(name_one, name_two):
+    order_roll = secrets.randbelow(2)
+    if order_roll == 0:
+        name_one, name_two = name_two, name_one
     cutoff_one = len(name_one) // 2
     cutoff_two = len(name_two) // 2
     piece_one = name_one[:cutoff_one]
