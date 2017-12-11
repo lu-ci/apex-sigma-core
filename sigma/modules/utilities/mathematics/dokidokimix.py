@@ -61,7 +61,7 @@ def glitch_name(name):
     out_name = ''
     non_unicode = '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿'
     for char in name:
-        glitch_roll = secrets.randbelow(3)
+        glitch_roll = secrets.randbelow(5)
         if glitch_roll == 0:
             add_char = secrets.choice(non_unicode)
         else:
