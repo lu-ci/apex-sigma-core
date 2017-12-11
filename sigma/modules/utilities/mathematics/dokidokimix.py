@@ -14,36 +14,27 @@ files = {
 }
 
 
-def get_file_data(file_list, key):
-    string_list = []
+def get_file_data(file_name, key):
     key = key.encode('utf-8')
     cipher = Fernet(key)
-    for file_name in file_list:
-        with open(f'doki/{file_name}.luci', 'rb') as quote_file:
-            quotes = quote_file.read()
-        try:
-            decrypted = cipher.decrypt(quotes).decode('utf-8')
-            string_list.append(decrypted)
-        except (InvalidToken, InvalidSignature):
-            string_list = None
-            break
-    return string_list
+    with open(f'doki/{file_name}.luci', 'rb') as quote_file:
+        quotes = quote_file.read()
+    try:
+        string_out = cipher.decrypt(quotes).decode('utf-8')
+    except (InvalidToken, InvalidSignature):
+        string_out = None
+    return string_out
 
 
-def get_char_files(args):
+def get_char_file(args):
     if args:
         char_qry = args[-1].lower()
         if char_qry[0] in files:
-            quote_files = [files.get(char_qry[0])]
-        elif char_qry == 'all':
-            quote_files = []
-            for key in files:
-                file_name = files.get(key)
-                quote_files.append(file_name)
+            quote_files = files.get(char_qry[0])
         else:
-            quote_files = [files.get(secrets.choice(list(files)))]
+            quote_files = files.get(secrets.choice(list(files)))
     else:
-        quote_files = [files.get(secrets.choice(list(files)))]
+        quote_files = files.get(secrets.choice(list(files)))
     return quote_files
 
 
@@ -80,13 +71,13 @@ async def dokidokimix(cmd, message, args):
         target_chain = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
         if target_chain:
             if target_chain['Chain']:
-                quote_files = get_char_files(args)
-                string_list = get_file_data(quote_files, key)
+                quote_file = get_char_file(args)
+                string_list = [get_file_data(quote_file, key)]
                 if string_list is not None:
                     user_string = ' '.join(target_chain['Chain'])
                     string_list.append(user_string)
                     chain_collection = await generate_chains(cmd.bot.loop, string_list)
-                    disposition = [1.5] * (len(chain_collection) - 1) + [0.5]
+                    disposition = [1.5, 0.5]
                     combine_task = functools.partial(markovify.combine, chain_collection, disposition)
                     sentences = []
                     with ThreadPoolExecutor() as threads:
