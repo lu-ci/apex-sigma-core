@@ -8,7 +8,7 @@ async def removeresponder(cmd, message, args):
             if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                 auto_responses = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
                 if auto_responses is None:
-                    auto_respones = {}
+                    auto_responses = {}
                 if trigger in auto_responses:
                     del auto_responses[trigger]
                     await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_responses)
