@@ -13,6 +13,22 @@ files = {
     'n': 'family_values'
 }
 
+names = {
+    'm': 'Monika',
+    'y': 'Yuri',
+    's': 'Sayori',
+    'n': 'Natsuki'
+}
+
+
+def combine_names(name_one, name_two):
+    cutoff_one = len(name_one) // 2
+    cutoff_two = len(name_two) // 2
+    piece_one = name_one[:cutoff_one]
+    piece_two = name_two[cutoff_two:]
+    output = piece_one + piece_two
+    return output
+
 
 def get_file_data(file_name, key):
     key = key.encode('utf-8')
@@ -30,12 +46,13 @@ def get_char_file(args):
     if args:
         char_qry = args[-1].lower()
         if char_qry[0] in files:
-            quote_files = files.get(char_qry[0])
+            char_ident = char_qry[0]
         else:
-            quote_files = files.get(secrets.choice(list(files)))
+            char_ident = secrets.choice(list(files))
     else:
-        quote_files = files.get(secrets.choice(list(files)))
-    return quote_files
+        char_ident = secrets.choice(list(files))
+    quote_files = files.get(char_ident)
+    return char_ident, quote_files
 
 
 async def generate_chains(loop, string_list):
@@ -71,7 +88,7 @@ async def dokidokimix(cmd, message, args):
         target_chain = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
         if target_chain:
             if target_chain['Chain']:
-                quote_file = get_char_file(args)
+                char_ident, quote_file = get_char_file(args)
                 string_list = [get_file_data(quote_file, key)]
                 if string_list is not None:
                     user_string = ' '.join(target_chain['Chain'])
@@ -80,12 +97,20 @@ async def dokidokimix(cmd, message, args):
                     combine_task = functools.partial(markovify.combine, chain_collection, [3.0, 1.0])
                     with ThreadPoolExecutor() as threads:
                         combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                        sentence_function = functools.partial(combination.make_short_sentence, 500)
-                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    if sentence:
-                        g_nam = glitch_name(target.name)
+                        sentence_function = functools.partial(combination.make_short_sentence, 150)
+                        sentences = []
+                        while len(sentences) < 3:
+                            sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                            if sentence:
+                                sentences.append(sentence)
+                            else:
+                                sentences = None
+                                break
+                    if sentences:
+                        comb_name = combine_names(target.name, names.get(char_ident))
+                        g_nam = glitch_name(comb_name)
                         response = discord.Embed(color=0xE75A70, title=f'💟 {g_nam}')
-                        response.description = sentence
+                        response.description = '. '.join(sentences)
                     else:
                         response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
                 else:
