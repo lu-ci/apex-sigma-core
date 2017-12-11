@@ -61,16 +61,15 @@ def clean(text, author):
 
 
 async def dokidoki(cmd, message, args):
-    char_letters = ['m', 'n', 'y', 's']
     char = None
     glitch = False
     if args:
-        if args[0][0].lower() in char_letters:
+        if args[0][0].lower() in files:
             char = args[0][0].lower()
         if args[-1].startswith(':g'):
             glitch = True
     if not char:
-        char = secrets.choice(char_letters)
+        char = secrets.choice(list(files))
     char_file = files[char]
     with open(f'doki/{char_file}.luci', 'rb') as quote_file:
         quotes = quote_file.read()

@@ -22,18 +22,21 @@ async def impersonate(cmd, message, args):
             init_message = await message.channel.send(embed=init_embed)
             chain_data = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
             if chain_data:
-                total_string = ' '.join(chain_data['Chain'])
-                chain_function = functools.partial(markovify.Text, total_string)
-                with ThreadPoolExecutor() as threads:
-                    chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                    sentence_function = functools.partial(chain.make_short_sentence, 500)
-                    sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                if not sentence:
-                    response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
+                if chain_data['Chain']:
+                    total_string = ' '.join(chain_data['Chain'])
+                    chain_function = functools.partial(markovify.Text, total_string)
+                    with ThreadPoolExecutor() as threads:
+                        chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
+                        sentence_function = functools.partial(chain.make_short_sentence, 500)
+                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    if not sentence:
+                        response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
+                    else:
+                        response = discord.Embed(color=0xbdddf4)
+                        response.set_author(name=target.name, icon_url=user_avatar(target))
+                        response.add_field(name='💭 Hmm... something like...', value=sentence)
                 else:
-                    response = discord.Embed(color=0xbdddf4)
-                    response.set_author(name=target.name, icon_url=user_avatar(target))
-                    response.add_field(name='💭 Hmm... something like...', value=sentence)
+                    response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s chain has no data.')
             else:
                 response = discord.Embed(color=0x696969)
                 prefix = cmd.bot.get_prefix(message)
