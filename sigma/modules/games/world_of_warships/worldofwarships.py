@@ -21,6 +21,7 @@ async def worldofwarships(cmd, message, args):
             if len(args) > 1:
                 game_region = args[0].lower()
                 if game_region in regions:
+                    game_region = regions.get(game_region)
                     username = ' '.join(args[1:])
                     user_search_url_base = f'https://api.worldofwarships.{game_region}'
                     user_search_url_base += f'/wows/account/list/?application_id={app_id}&search={username}'
