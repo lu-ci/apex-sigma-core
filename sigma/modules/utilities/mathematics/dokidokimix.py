@@ -24,7 +24,7 @@ def get_file_data(file_list, key):
         try:
             decrypted = cipher.decrypt(quotes).decode('utf-8')
             string_list.append(decrypted)
-        except InvalidToken or InvalidSignature:
+        except (InvalidToken, InvalidSignature):
             string_list = None
             break
     return string_list
