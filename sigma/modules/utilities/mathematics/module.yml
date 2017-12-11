@@ -70,7 +70,7 @@ commands:
     description:
       A combination between the impersonate and the dokidoki command.
       Will generate a sentence based on a user's chain and based on quotes of a DDLC character.
-      If no character is inputed, it will use Monika.
+      If no character is inputed, it will use a random one.
       You can also type "all" for the character and the command will use quotes from all the characters.
 
   - name:         checkheartkey
