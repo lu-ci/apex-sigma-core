@@ -78,20 +78,14 @@ async def dokidokimix(cmd, message, args):
                     string_list.append(user_string)
                     chain_collection = await generate_chains(cmd.bot.loop, string_list)
                     combine_task = functools.partial(markovify.combine, chain_collection, [3.0, 1.0])
-                    sentences = []
                     with ThreadPoolExecutor() as threads:
                         combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
                         sentence_function = functools.partial(combination.make_short_sentence, 500)
-                        while len(sentences) < 3:
-                            sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                            if sentence:
-                                sentences.append(sentence)
-                            else:
-                                break
-                    if sentences:
+                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    if sentence:
                         g_nam = glitch_name(target.name)
                         response = discord.Embed(color=0xE75A70, title=f'💟 {g_nam}')
-                        response.description = '. '.join(sentences)
+                        response.description = sentence
                     else:
                         response = discord.Embed(color=0xBE1931, title='😖 I could not think of anything...')
                 else:
