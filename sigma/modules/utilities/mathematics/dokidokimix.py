@@ -77,7 +77,7 @@ async def dokidokimix(cmd, message, args):
                     user_string = ' '.join(target_chain['Chain'])
                     string_list.append(user_string)
                     chain_collection = await generate_chains(cmd.bot.loop, string_list)
-                    disposition = [1.5, 0.5]
+                    disposition = [1.5, 1]
                     combine_task = functools.partial(markovify.combine, chain_collection, disposition)
                     sentences = []
                     with ThreadPoolExecutor() as threads:
