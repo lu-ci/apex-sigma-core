@@ -21,7 +21,7 @@ async def blacklistmodule(cmd, message, args):
                             break
                     if module_exists:
                         black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                        black_user_file = black_user_collection.find_one({'UserID': target.id})
+                        black_user_file = await black_user_collection.find_one({'UserID': target.id})
                         if black_user_file:
                             if 'Modules' in black_user_file:
                                 modules = black_user_file['Modules']
@@ -36,10 +36,10 @@ async def blacklistmodule(cmd, message, args):
                                 icon = '🔒'
                                 result = f'added to the `{lookup.lower()}` blacklist.'
                             up_data = {'$set': {'UserID': target.id, 'Modules': modules}}
-                            black_user_collection.update_one({'UserID': target.id}, up_data)
+                            await black_user_collection.update_one({'UserID': target.id}, up_data)
                         else:
                             new_data = {'UserID': target.id, 'Modules': [lookup.lower()]}
-                            black_user_collection.insert_one(new_data)
+                            await black_user_collection.insert_one(new_data)
                             icon = '🔒'
                             result = f'added to the `{lookup.lower()}` blacklist.'
                         title = f'{icon} {target.name}#{target.discriminator} has been {result}.'

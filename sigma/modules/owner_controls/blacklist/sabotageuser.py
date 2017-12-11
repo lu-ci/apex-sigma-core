@@ -13,13 +13,13 @@ async def sabotageuser(cmd, message, args):
             target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.get_all_members())
             if target:
                 sabotage_collection = cmd.db[cmd.bot.cfg.db.database].SabotagedUsers
-                sabotage_file = sabotage_collection.find_one({'UserID': target.id})
+                sabotage_file = await sabotage_collection.find_one({'UserID': target.id})
                 if sabotage_file:
-                    cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.delete_one({'UserID': target.id})
+                    await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.delete_one({'UserID': target.id})
                     result = 'unsabotaged'
                     icon = '🔓'
                 else:
-                    cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.insert_one({'UserID': target.id})
+                    await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.insert_one({'UserID': target.id})
                     result = 'sabotaged'
                     icon = '🔒'
                 title = f'{icon} {target.name} has been {result}.'

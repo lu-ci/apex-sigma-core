@@ -13,13 +13,13 @@ async def blacklistserver(cmd, message, args):
             target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.guilds)
             if target:
                 black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedServers
-                black_user_file = black_user_collection.find_one({'ServerID': target.id})
+                black_user_file = await black_user_collection.find_one({'ServerID': target.id})
                 if black_user_file:
-                    cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.delete_one({'ServerID': target.id})
+                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.delete_one({'ServerID': target.id})
                     result = 'removed from the blacklist'
                     icon = '🔓'
                 else:
-                    cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'ServerID': target.id})
+                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'ServerID': target.id})
                     result = 'blacklisted'
                     icon = '🔒'
                 title = f'{icon} {target.name} has been {result}.'
