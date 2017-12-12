@@ -16,33 +16,28 @@ class Database(motor.AsyncIOMotorClient):
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
         super().__init__(self.db_address)
 
-    async def insert_guild_settings(self, guild_id):
-        settings_data = {'ServerID': guild_id}
-        await self[self.bot.cfg.db.database].ServerSettings.insert_one(settings_data)
-
     async def get_guild_settings(self, guild_id, setting_name):
         guild_settings = self.cache.get_cache(guild_id)
         if guild_settings is None:
             guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
+            self.cache.del_cache(guild_id)
             self.cache.set_cache(guild_id, guild_settings)
         if not guild_settings:
             setting_value = None
-            await self.insert_guild_settings(guild_id)
         else:
-            if setting_name in guild_settings:
-                setting_value = guild_settings[setting_name]
-            else:
-                setting_value = None
+            setting_value = guild_settings.get(setting_name)
         return setting_value
 
     async def set_guild_settings(self, guild_id, setting_name, value):
         self.cache.del_cache(guild_id)
         guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
-        if not guild_settings:
-            await self.insert_guild_settings(guild_id)
-        update_target = {"ServerID": guild_id}
-        update_data = {"$set": {setting_name: value}}
-        await self[self.bot.cfg.db.database].ServerSettings.update_one(update_target, update_data)
+        if guild_settings:
+            update_target = {"ServerID": guild_id}
+            update_data = {"$set": {setting_name: value}}
+            await self[self.bot.cfg.db.database].ServerSettings.update_one(update_target, update_data)
+        else:
+            update_data = {"ServerID": guild_id, setting_name: value}
+            await self[self.bot.cfg.db.database].ServerSettings.insert_one(update_data)
 
     async def get_experience(self, user, guild):
         database = self[self.bot.cfg.db.database]
@@ -202,7 +197,6 @@ class Database(motor.AsyncIOMotorClient):
     async def get_inventory(self, user):
         inventory = await self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
         if not inventory:
-            await self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
             inventory = []
         else:
             inventory = inventory['Items']
