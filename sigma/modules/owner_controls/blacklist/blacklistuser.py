@@ -23,9 +23,9 @@ async def blacklistuser(cmd, message, args):
                         update_data = {'$set': {'UserID': target.id, 'Total': True}}
                         icon = '🔒'
                         result = 'blacklisted'
-                    await black_user_collection.update_one({'UserID': target.id}, update_data)
+                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers.update_one({'UserID': target.id}, update_data)
                 else:
-                    await black_user_collection.insert_one({'UserID': target.id, 'Total': True})
+                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers.insert_one({'UserID': target.id, 'Total': True})
                     result = 'blacklisted'
                     icon = '🔒'
                 title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
