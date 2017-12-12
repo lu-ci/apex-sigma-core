@@ -7,7 +7,7 @@ enabled:          true
 commands:
   - name:         quiz
     global:       true
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd}"
     description:
       A quiz minigame with various quizzes to choose from.

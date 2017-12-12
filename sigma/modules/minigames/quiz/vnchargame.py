@@ -92,7 +92,7 @@ async def vnchargame(cmd, message, args):
                 timeout_title = f'🕙 Time\'s up! It was {char_name} from {vn_title}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
-        except IndexError:
+        except (IndexError, KeyError):
             grab_error = discord.Embed(color=0xBE1931, title='❗ I failed to grab a character, try again.')
             await message.channel.send(embed=grab_error)
         if message.channel.id in ongoing_list:
