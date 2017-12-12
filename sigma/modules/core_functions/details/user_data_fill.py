@@ -2,6 +2,12 @@
 
 import arrow
 
+finished = False
+
+
+def get_user_dump_finish():
+    return finished
+
 
 async def clean_avatar(member):
     av_url = member.avatar_url or member.default_avatar
@@ -37,6 +43,7 @@ async def generate_member_data(member):
 
 
 async def user_data_fill(ev):
+    global finished
     ev.log.info('Filling member details...')
     start_stamp = arrow.utcnow().float_timestamp
     mem_coll = ev.db[ev.db.db_cfg.database].UserDetails
@@ -54,4 +61,5 @@ async def user_data_fill(ev):
         await mem_coll.insert_many(member_list)
     end_stamp = arrow.utcnow().float_timestamp
     diff = round(end_stamp - start_stamp, 3)
+    finished = True
     ev.log.info(f'Member detail filler finished in {diff}s.')

@@ -6,6 +6,13 @@ import discord
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
 
+finished = False
+
+
+def get_guild_dump_finish():
+    return finished
+
+
 def clean_guild_icon(icon_url):
     if icon_url:
         icon_url = '.'.join(icon_url.split('.')[:-1]) + '.png'
@@ -70,6 +77,7 @@ async def generate_server_data(guild):
 
 
 async def server_data_fill(ev):
+    global finished
     if ev.bot.guilds:
         ev.log.info('Filling server details...')
         start_stamp = arrow.utcnow().float_timestamp
@@ -87,4 +95,5 @@ async def server_data_fill(ev):
             await srv_coll.insert_many(server_list)
         end_stamp = arrow.utcnow().float_timestamp
         diff = round(end_stamp - start_stamp, 3)
+        finished = True
         ev.log.info(f'Server detail filler finished in {diff}s')
