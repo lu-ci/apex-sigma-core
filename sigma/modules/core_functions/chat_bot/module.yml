@@ -2,7 +2,7 @@ name:            Chatterbot Mechanics
 
 category:        administration
 
-enabled:         true
+enabled:         false
 
 events:
   - name:        chat_bot
