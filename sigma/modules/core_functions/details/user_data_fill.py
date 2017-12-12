@@ -46,7 +46,7 @@ async def user_data_fill(ev):
         if member:
             mem_data = await generate_member_data(member)
             member_list.append(mem_data)
-            if len(member_list) >= 500:
+            if len(member_list) >= 1000:
                 await mem_coll.insert_many(member_list)
                 member_list = []
                 await asyncio.sleep(0.5)

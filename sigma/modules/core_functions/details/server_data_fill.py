@@ -79,7 +79,7 @@ async def server_data_fill(ev):
         for guild in ev.bot.guilds:
             srv_data = await generate_server_data(guild)
             server_list.append(srv_data)
-            if len(server_list) >= 100:
+            if len(server_list) >= 1000:
                 await srv_coll.insert_many(server_list)
                 server_list = []
                 await asyncio.sleep(0.5)
