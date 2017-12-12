@@ -29,7 +29,6 @@ class Database(motor.AsyncIOMotorClient):
         return setting_value
 
     async def set_guild_settings(self, guild_id, setting_name, value):
-        self.cache.del_cache(guild_id)
         guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
         if guild_settings:
             update_target = {"ServerID": guild_id}
@@ -38,6 +37,7 @@ class Database(motor.AsyncIOMotorClient):
         else:
             update_data = {"ServerID": guild_id, setting_name: value}
             await self[self.bot.cfg.db.database].ServerSettings.insert_one(update_data)
+        self.cache.del_cache(guild_id)
 
     async def get_experience(self, user, guild):
         database = self[self.bot.cfg.db.database]
