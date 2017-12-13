@@ -188,7 +188,6 @@ Commands | Description | Example
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>joinrace` `>>jr` | Joins a race instance if any are ongoing. | `>>joinrace`
 `>>mathgame` `>>mg` | A mathematics minigame. You are given a problem, solve it. Numbers are rounded to 2 decimals. You can also specify how hard you want the problem to be. The scale goes from 1-9. The default difficulty is 3. The time and Kud reward scale with the difficulty and number of hard operators. | `>>mathgame 4`
-`>>quiz` | A quiz minigame with various quizzes to choose from. With a lot more coming soon | `>>quiz`
 `>>race` | Creates a race in the current text channel. To join the race use the joinrace command. A race needs at least 2 people to start, and has a maximum of 10 participants. You can specify a required buy-in to join the race. The winner gets the entire pool minus 10% that goes to the track upkeep. | `>>race 20`
 `>>raceoverride` `>>raceover` | Overrides the race in case a bug occurs. | `>>raceoverride`
 `>>recipes` | Lists all recipes available for making. The recipe list is limited to 10 items per page. You can specify the number of the page that you want to view. | `>>recipes`
