@@ -32,8 +32,10 @@ async def hardunmute(cmd, message, args):
             if hierarchy_me:
                 hierarchy_auth = hierarchy_permit(message.author, target)
                 if hierarchy_auth:
+                    ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
+                    ongoing_msg = await message.channel.send(embed=ongoing)
                     for channel in message.guild.channels:
-                        if isinstance(channel, discord.TextChannel):
+                        if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
                                 await channel.set_permissions(target, overwrite=None, reason=reason)
                             except discord.Forbidden:
@@ -42,6 +44,7 @@ async def hardunmute(cmd, message, args):
                     await log_event(cmd.db, message.guild, log_embed)
                     title = f'✅ {target.display_name} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)
+                    await ongoing_msg.delete()
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is euqal or above you.')
             else:

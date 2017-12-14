@@ -32,12 +32,15 @@ async def hardmute(cmd, message, args):
             if hierarchy_me:
                 hierarchy_auth = hierarchy_permit(message.author, target)
                 if hierarchy_auth:
+                    ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
+                    ongoing_msg = await message.channel.send(embed=ongoing)
                     for channel in message.guild.channels:
-                        if isinstance(channel, discord.TextChannel):
+                        if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
-                                await channel.set_permissions(target, send_messages=False)
+                                await channel.set_permissions(target, send_messages=False, add_reactions=False)
                             except discord.Forbidden:
                                 pass
+                    await ongoing_msg.delete()
                     log_embed = generate_log_embed(message, target, args)
                     await log_event(cmd.db, message.guild, log_embed)
                     title = f'✅ {target.display_name} has been hard-muted.'
