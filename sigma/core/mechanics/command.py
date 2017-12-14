@@ -30,33 +30,23 @@ class SigmaCommand(object):
         self.partner = False
         self.dmable = False
         self.requirements = ['send_messages', 'embed_links']
-        self.alts = None
-        self.usage = f'{bot.cfg.pref.prefix}{self.name}'
+        self.alts = []
+        self.usage = '{pfx}{cmd}'
         self.desc = 'No description provided.'
         self.insert_command_info()
         self.load_command_config()
 
     def insert_command_info(self):
-        if 'alts' in self.command_info:
-            self.alts = self.command_info['alts']
-        if 'usage' in self.command_info:
-            self.usage = self.command_info['usage']
-            self.usage = self.usage.replace('{pfx}', self.bot.cfg.pref.prefix)
-            self.usage = self.usage.replace('{cmd}', self.name)
-        if 'description' in self.command_info:
-            self.desc = self.command_info['description']
-        if 'requirements' in self.command_info:
-            self.requirements += self.command_info['requirements']
-        if 'permissions' in self.command_info:
-            permissions = self.command_info['permissions']
-            if 'nsfw' in permissions:
-                self.nsfw = permissions['nsfw']
-            if 'owner' in permissions:
-                self.owner = permissions['owner']
-            if 'partner' in permissions:
-                self.partner = permissions['partner']
-            if 'dmable' in permissions:
-                self.dmable = permissions['dmable']
+        self.alts = self.command_info.get('alts') or []
+        self.usage = self.command_info.get('usage') or '{pfx}{cmd}'
+        self.desc = self.command_info.get('description') or 'No description provided.'
+        self.requirements += self.command_info.get('requirements') or []
+        permissions = self.command_info.get('permissions')
+        if permissions:
+            self.nsfw = bool(permissions.get('nsfw'))
+            self.owner = bool(permissions.get('owner'))
+            self.partner = bool(permissions.get('partner'))
+            self.dmable = bool(permissions.get('dmable'))
         if self.owner:
             self.desc += '\n(Bot Owner Only)'
 
@@ -204,14 +194,14 @@ class SigmaCommand(object):
                         else:
                             await self.respond_with_icon(message, '❗')
                             reqs_embed = discord.Embed(color=0xBE1931)
-                            reqs_error_title = f'❗ I am missing permissions!'
+                            reqs_error_title = f'❗ Sigma is missing permissions!'
                             reqs_error_list = ''
                             for req in requirements.missing_list:
                                 req = req.replace('_', ' ').title()
                                 reqs_error_list += f'\n- {req}'
                             prefix = await self.bot.get_prefix(message)
                             reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                            reqs_embed.set_footer(text=f'{prefix}{self.name}')
+                            reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
                             try:
                                 await message.channel.send(embed=reqs_embed)
                             except discord.Forbidden:
