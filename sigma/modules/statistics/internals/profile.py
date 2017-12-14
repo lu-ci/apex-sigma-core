@@ -4,20 +4,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def count_all_commands(db, user):
-    cmd_items_old = await db[db.db_cfg.database]['CommandStats'].aggregate(
-        [
-            {'$match': {
-                'author': user.id
-            }},
-            {"$group": {
-                "_id": {
-                    "command": "$command.name",
-                },
-                "count": {"$sum": 1}
-            }}
-        ]
-    ).to_list(None)
-    cmd_items_new = await db[db.db_cfg.database]['CommandStats'].aggregate(
+    cmd_items = await db[db.db_cfg.database]['CommandStats'].aggregate(
         [
             {'$match': {
                 'author': user.id
@@ -30,8 +17,6 @@ async def count_all_commands(db, user):
             }}
         ]
     ).to_list(None)
-    cmd_items = cmd_items_new + cmd_items_old
-    cmd_items = filter(lambda a: isinstance(a['_id']['command'], str), cmd_items)
     output = {}
     total = 0
     for x in cmd_items:

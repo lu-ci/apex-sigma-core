@@ -8,16 +8,6 @@ async def count_all_commands(db):
         [
             {"$group": {
                 "_id": {
-                    "command": "$command.name",
-                },
-                "count": {"$sum": 1}
-            }}
-        ]
-    )
-    cmd_items_new = dbase['CommandStats'].aggregate(
-        [
-            {"$group": {
-                "_id": {
                     "command": "$command",
                 },
                 "count": {"$sum": 1}
@@ -25,9 +15,6 @@ async def count_all_commands(db):
         ]
     )
     cmd_items = await cmd_items.to_list(None)
-    cmd_items_new = await cmd_items_new.to_list(None)
-    cmd_items += cmd_items_new
-    cmd_items = filter(lambda a: isinstance(a['_id']['command'], str), cmd_items)
     output = {}
     total = 0
     for x in cmd_items:
