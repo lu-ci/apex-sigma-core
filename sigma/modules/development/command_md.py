@@ -34,8 +34,9 @@ async def command_md(ev):
                 if command.alts:
                     for alt in command.alts:
                         command_names += f' `{prefix}{alt}`'
+                usage = command.usage.replace('{cmd}', command.name).replace('{pfx}', '')
                 command_desc = command.desc.replace('\n', ' ')
-                command_usage = f'{prefix}{command.usage[2:]}'
+                command_usage = f'{prefix}{usage}'
                 output += f'\n{command_names} | {command_desc} | `{command_usage}`'
             output += '\n[Back To Top](#module-index)'
         with open('docs/information/commands.md', 'w', encoding='utf-8') as commands_md_file:

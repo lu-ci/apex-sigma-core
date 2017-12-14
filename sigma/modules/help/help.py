@@ -7,9 +7,11 @@ async def help(cmd, message, args):
         if cmd_name in cmd.bot.modules.alts:
             cmd_name = cmd.bot.modules.alts[cmd_name]
         if cmd_name in cmd.bot.modules.commands:
+            pfx = await cmd.bot.get_prefix(message)
             command = cmd.bot.modules.commands[cmd_name]
+            usage = command.usage.replace('{pfx}', pfx).replace('{cmd}', command.name)
             response = discord.Embed(color=0x1B6F5F, title=f'📄 {command.name.upper()} Usage and Information')
-            response.add_field(name='Usage Example', value=f'`{command.usage}`', inline=False)
+            response.add_field(name='Usage Example', value=f'`{usage}`', inline=False)
             response.add_field(name='Command Description', value=f'```\n{command.desc}\n```', inline=False)
             if command.alts:
                 response.add_field(name='Command Aliases', value=f'```\n{", ".join(command.alts)}\n```')
