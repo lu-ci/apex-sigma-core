@@ -39,6 +39,8 @@ commands:
 
   - name:        test
     enabled:     true
+    permissions:
+      owner:     true
     description:
       For testing purposes, obviously.
       Used as a placeholder for testing functions.
