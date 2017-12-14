@@ -1,6 +1,6 @@
 import discord
 
-from sigma.core.mechanics.permissions import GlobalCommandPermissions
+from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
 
 
@@ -22,10 +22,8 @@ async def custom_command(ev, message):
             if message.content != prefix:
                 cmd = message.content[len(prefix):].lower().split()[0]
                 if cmd not in ev.bot.modules.commands:
-                    perms = GlobalCommandPermissions(ev, message)
-                    await perms.check_black_srv()
-                    await perms.check_black_usr()
-                    await perms.generate_response()
+                    perms = ServerCommandPermissions(ev, message)
+                    await perms.check_perms()
                     if perms.permitted:
                         custom_commands = await ev.db.get_guild_settings(message.guild.id, 'CustomCommands')
                         if custom_commands is None:
