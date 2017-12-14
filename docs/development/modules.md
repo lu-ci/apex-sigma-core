@@ -95,7 +95,7 @@ We grabbed the bot's latency accessible through the client's attribute of `.late
 The code of the `on_message`, that is the `message` event in Sigma that will result in automatically unflipped tables. This code resides in `unflipper.py` as created earlier and specified in the `module.yml`.
 
 ```py
-async def unflipped(ev, message):
+async def unflipper(ev, message):
     flipped_table = '(╯°□°）╯︵ ┻━┻'
     if flipped_table in message.content:
         unflipped_table = '┬─┬﻿ ノ( ゜-゜ノ)'

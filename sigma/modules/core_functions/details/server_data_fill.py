@@ -5,7 +5,6 @@ import discord
 
 from sigma.modules.core_functions.details.user_data_fill import generate_member_data
 
-
 finished = False
 
 
