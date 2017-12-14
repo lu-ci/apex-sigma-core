@@ -10,7 +10,6 @@ commands:
       - "urbandict"
       - "urban"
       - "ud"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} dictionary"
     description:
@@ -23,7 +22,6 @@ commands:
       - "definition"
       - "define"
       - "def"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} cork"
     description:
@@ -33,7 +31,6 @@ commands:
     alts:
       - "synonym"
       - "syn"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} ocean"
     description:
@@ -43,7 +40,6 @@ commands:
     alts:
       - "antonym"
       - "ant"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} late"
     description:
@@ -52,7 +48,6 @@ commands:
   - name:         homophones
     alts:
       - "homophone"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} coarse"
     description:
@@ -61,7 +56,6 @@ commands:
   - name:         describe
     alts:
       - "desc"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} noun ocean"
     description: |
@@ -73,7 +67,6 @@ commands:
   - name:         rhymes
     alts:
       - "rhyme"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} forgetful"
     description:
@@ -84,7 +77,6 @@ commands:
       - "spelllike"
       - "spellike"
       - "spellcheck"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} coneticut"
     description:  |
@@ -96,7 +88,6 @@ commands:
   - name:         soundslike
     alts:
       - "soundlike"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} elefint"
     description:

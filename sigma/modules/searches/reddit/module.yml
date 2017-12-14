@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         reddit
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} ProgrammerHumor"
     description:

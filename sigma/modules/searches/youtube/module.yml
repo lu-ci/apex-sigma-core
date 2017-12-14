@@ -8,7 +8,6 @@ commands:
   - name:         youtube
     alts:
       - "yt"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Game Grumps"
     description:

@@ -9,7 +9,6 @@ commands:
     alts:
       - "frec"
       - "food"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Chicken in Curry Sauce"
     description:

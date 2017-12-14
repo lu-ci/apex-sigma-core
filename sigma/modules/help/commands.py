@@ -26,5 +26,20 @@ async def commands(cmd, message, args):
             response = discord.Embed(color=0x696969, title='🔍 Nothing was found...')
     else:
         pfx = await cmd.bot.get_prefix(message)
-        response = discord.Embed(color=0xBE1931, title=f'❗ Please input a module from {pfx}modules.')
+        command_list = cmd.bot.modules.commands
+        module_list = []
+        for command in command_list:
+            command = command_list[command]
+            category = command.category.upper()
+            if category not in module_list:
+                module_list.append(category)
+        module_list = sorted(module_list)
+        output = ''
+        for module_item in module_list:
+            output += f'\n- {module_item}'
+        module_list_out = f'```py\nThere are {len(module_list)} modules.\n```'
+        response = discord.Embed(color=0x1B6F5F)
+        response.add_field(name='Sigma Modules', value=module_list_out, inline=False)
+        response.add_field(name='Module List', value=f'```yml\n{output}\n```', inline=False)
+        response.set_footer(text=f'Type {pfx}{cmd.name} [module] to see commands in that module.')
     await message.channel.send(embed=response)

@@ -9,7 +9,6 @@ commands:
     alts:
       - "userinfo"
       - "uinfo"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -21,7 +20,6 @@ commands:
       - "channelinfo"
       - "chinfo"
       - "cinfo"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #channel"
     description:
@@ -32,9 +30,7 @@ commands:
     alts:
       - "serverinfo"
       - "sinfo"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows information and data about the server that the command is used in.
 
@@ -42,9 +38,7 @@ commands:
     alts:
       - "roleinfo"
       - "rinfo"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows information and data about the inputted role.
       Roles mentions do not work here, lookup is done via role name.
@@ -52,7 +46,6 @@ commands:
   - name:         permissions
     alts:
       - "perms"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -60,17 +53,13 @@ commands:
       If no user is mentioned, it will target the message author.
 
   - name:         owners
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows a list of Sigma's owners.
       Users in this list have access to the administration module.
 
   - name:         status
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the status of Sigma's machine.
       Processor information, memory, storage, network, etc.
@@ -78,9 +67,7 @@ commands:
   - name:         statistics
     alts:
       - "stats"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows Sigma's current statistics.
       Population, message and command counts, and rates since startup.
@@ -90,8 +77,6 @@ commands:
     alts:
       - "botinfo"
       - "info"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows information about the bot, version, codename, authors, etc.

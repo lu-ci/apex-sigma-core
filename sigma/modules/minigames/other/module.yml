@@ -8,7 +8,6 @@ commands:
   - name:         eightball
     alts:
       - "8ball"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Will I ever be pretty?"
     description:
@@ -19,20 +18,17 @@ commands:
   - name:         rps
     alts:
       - "rockpaperscissors"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} s"
     description:
       Play Rock-Paper-Scissors with the bot.
-      No cheating, we swear. Maybe she just doesn't like you.
+      No cheating, we swear. She just doesn't like you.
 
   - name:         sequencegame
     alts:
       - "sequence"
       - "sqcg"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Starts a sequence guessing game.
       4 symbols will randomly be chosen and
@@ -45,7 +41,6 @@ commands:
   - name:         coinflip
     alts:
       - "cf"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Heads"
     description:
@@ -55,12 +50,9 @@ commands:
   - name:         roll
     alts:
       - "dice"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd} 501"
+    usage:        "{pfx}{cmd} 5d10 +2"
     description:
-      Gives a random number from 0 to 100.
-      You can specify the highest number the function calls by
-      adding a number after the command.
-      The Number TECHNICALLY does not have a limit but the bigger you use,
-      the bigger the message, which just looks plain spammy.
+      Rolls a number from 0 to the one you provided.
+      You can also roll dice as in the example above.
+      Following the format [Number of Dice]d[MaxNumber] +[Bonus].

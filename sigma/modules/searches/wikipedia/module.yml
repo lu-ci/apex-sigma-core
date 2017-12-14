@@ -8,7 +8,6 @@ commands:
   - name:         wikipedia
     alts:
       - "wiki"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Thread (Computing)"
     description:

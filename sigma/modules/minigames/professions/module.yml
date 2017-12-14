@@ -10,26 +10,22 @@ commands:
      - "bag"
      - "storage"
      - "backpack"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 2 @person"
     description:
       Shows your current inventory.
-      The inventory has 64 slots at the start but can be upgraded.
+      The inventory has 64 slots at the start but can be upgraded in the shop.
       You can also specify the page number you want to see.
       The inventory is sorted by item rarity.
 
   - name:         inspect
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Nabfischz"
     description:
       Inspects an item that is in your inventory.
 
   - name:         recipes
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Lists all recipes available for making.
       The recipe list is limited to 10 items per page.
@@ -38,7 +34,6 @@ commands:
   - name:         cook
     alts:
       - "make"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Shade Tea"
     description:
@@ -49,7 +44,6 @@ commands:
     alts:
       - "recipe"
       - "vrec"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Shade Tea"
     description:
@@ -57,17 +51,13 @@ commands:
       Such as the ingredients required, value of the item, and it's description.
 
   - name:         finditem
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} fish Jitteroon"
     description:
       Looks up information about an item.
-      The first argument needs to be the item type.
-      For example if it is a fish, meat, plant or material.
-      And the rest is the name of the item.
+      Like inspect, but you don't need to have the item.
 
   - name:         sell
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Copula"
     description:
@@ -77,14 +67,11 @@ commands:
   - name:         buyupgrade
     alts:
       - "shop"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Opens Sigma's profession upgrade shop.
 
   - name:         upgrades
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -94,7 +81,6 @@ commands:
   - name:         filtersell
     alts:
       - "fsell"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} rarity:Legendary"
     description:
@@ -102,25 +88,19 @@ commands:
       The accepted attributes are name, type and rarity.
 
   - name:         fish
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Cast a lure and try to catch some fish.
       You can fish once every 60 seconds, better not scare the fish away.
 
   - name:         hunt
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Go into the wilderness and hunt for game.
       You can hunt once every 60 seconds, everyone needs rest.
 
   - name:         forage
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Go hiking and search nature for all the delicious bounties it has.
       Look for plants that you might want to use for cooking in the future.
@@ -130,7 +110,6 @@ commands:
     alts:
       - "invstats"
       - "bagstats"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:

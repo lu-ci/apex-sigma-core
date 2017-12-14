@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         kick
-    global:       true
     enabled:      true
     requirements:
       - "kick_members"
@@ -17,7 +16,6 @@ commands:
       This is to preserve compatibility with logging and audits.
 
   - name:         ban
-    global:       true
     enabled:      true
     requirements:
       - "ban_members"
@@ -31,7 +29,6 @@ commands:
   - name:         softban
     alts:
       - "sb"
-    global:       true
     enabled:      true
     requirements:
       - "ban_members"
@@ -44,7 +41,6 @@ commands:
       This is to preserve compatibility with logging and audits.
 
   - name:         unban
-    global:       true
     enabled:      true
     requirements:
       - "ban_members"
@@ -55,7 +51,6 @@ commands:
   - name:         hardmute
     alts:
       - "hmute"
-    global:       true
     enabled:      true
     requirements:
       - "manage_channels"
@@ -68,7 +63,6 @@ commands:
   - name:         hardunmute
     alts:
       - "hunmute"
-    global:       true
     enabled:      true
     requirements:
       - "manage_channels"

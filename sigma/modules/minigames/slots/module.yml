@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         slots
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 52"
     description:

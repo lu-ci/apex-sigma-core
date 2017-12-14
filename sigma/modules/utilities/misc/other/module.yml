@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         choose
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Sleep; Eat; Code; Lewd Stuff"
     description:
@@ -16,7 +15,6 @@ commands:
   - name:         poll
     requirements:
       - "add_reactions"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Want to eat?; Yes; No; Hand me the cheese!"
     description:
@@ -26,7 +24,6 @@ commands:
   - name:         httpstatus
     alts:
       - "http"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 404"
     description:
@@ -35,14 +32,12 @@ commands:
   - name:         randombetween
     alts:
       - "ranin"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 59 974"
     description:
       Outputs a random number between two inputted numbers.
 
   - name:         quote
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 381449702589202432"
     description:

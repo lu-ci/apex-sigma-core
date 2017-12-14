@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         greet
-    global:       true
     enabled:      true
     description:
       Toggles if the bot should greet users when they enter the server.
@@ -15,7 +14,6 @@ commands:
   - name:         greetdm
     alts:
       - "greetpm"
-    global:       true
     enabled:      true
     description:
       Toggles if the bot should greet users by sending them a Direct Message,
@@ -24,7 +22,6 @@ commands:
   - name:         greetchannel
     alts:
       - "greetch"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #welcome"
     description:
@@ -33,10 +30,9 @@ commands:
   - name:         greetmessage
     alts:
       - "greetmsg"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
-    description:  |
+    description: |
       This sets the message shown to joining members when they enter server.
       There are certain syntaxes for controlling what is displayed.
       {user_name} - Basic text of the joining user's name.
@@ -53,10 +49,8 @@ commands:
 events:
   - name:         greet_sender
     type:         member_join
-    global:       true
     enabled:      true
 
   - name:         join_logger
     type:         member_join
-    global:       true
     enabled:      true

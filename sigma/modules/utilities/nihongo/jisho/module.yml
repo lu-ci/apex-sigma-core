@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         jisho
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Kawaii"
     description:

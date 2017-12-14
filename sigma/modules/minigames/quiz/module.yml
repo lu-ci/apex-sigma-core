@@ -6,9 +6,7 @@ enabled:          true
 
 commands:
   - name:         quiz
-    global:       true
     enabled:      false
-    usage:        "{pfx}{cmd}"
     description:
       A quiz minigame with various quizzes to choose from.
       With a lot more coming soon
@@ -16,9 +14,7 @@ commands:
   - name:         vnchargame
     alts:
       - "vncg"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       A minigame where you guess the name of the visual novel character shown.
       You can add "hint" in the command to make it show the character's scrambled name.
@@ -29,9 +25,7 @@ commands:
     alts:
       - "triv"
       - "t"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       A trivia minigame.
       You are given a question and have to input the number of your answer.
@@ -42,7 +36,6 @@ commands:
     alts:
       - "anichargame"
       - "anicg"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hint"
     description:
@@ -54,7 +47,6 @@ commands:
   - name:         mathgame
     alts:
       - "mg"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 4"
     description:
@@ -69,9 +61,7 @@ commands:
   - name:         unscramble
     alts:
       - "usg"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       A minigame where you guess the scrambled word.
       You have 30 seconds to guess the word shown.

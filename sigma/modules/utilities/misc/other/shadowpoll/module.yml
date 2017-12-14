@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         shadowpoll
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Ban Nuggetlord?; Yes; Yes; Yes; No; Soft"
     permissions:
@@ -20,7 +19,6 @@ commands:
   - name:         shadowpollview
     alts:
       - "spview"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -33,7 +31,6 @@ commands:
   - name:         shadowpollvote
     alts:
       - "spvote"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -46,7 +43,6 @@ commands:
   - name:         shadowpolllist
     alts:
       - "splist"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} channel"
     description:
@@ -60,7 +56,6 @@ commands:
       - "spexpiration"
       - "spexpires"
       - "spexpire"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22 48:30:59"
     permissions:
@@ -74,7 +69,6 @@ commands:
   - name:         shadowpollclose
     alts:
       - "spclose"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -86,7 +80,6 @@ commands:
   - name:         shadowpollopen
     alts:
       - "spopen"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -99,7 +92,6 @@ commands:
     alts:
       - "spvisible"
       - "spvis"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -113,7 +105,6 @@ commands:
     alts:
       - "spinvisible"
       - "spinvis"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -127,7 +118,6 @@ commands:
     alts:
       - "spdelete"
       - "spdel"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -138,7 +128,6 @@ commands:
   - name:         shadowpollwipe
     alts:
       - "spwipe"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -151,7 +140,6 @@ commands:
     alts:
       - "sppermit"
       - "spperm"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22 #council"
     description:
@@ -164,7 +152,6 @@ commands:
     alts:
       - "spunpermit"
       - "spunperm"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22 Disowned"
     description:
@@ -174,7 +161,6 @@ commands:
   - name:         shadowpollstats
     alts:
       - "spstats"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:
@@ -186,7 +172,6 @@ commands:
   - name:         shadowpollvoters
     alts:
       - "spvoters"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1bca22"
     permissions:

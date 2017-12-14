@@ -8,7 +8,6 @@ commands:
   - name:         autorole
     alts:
       - "autorank"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Newcomer"
     requirements:
@@ -19,9 +18,7 @@ commands:
       The role can not be something that is above the bot's highest role.
       If you want to disable the autorole, input "disable" as the role name.
 
-
 events:
   - name:         autorole_control
     type:         member_join
-    global:       true
     enabled:      true

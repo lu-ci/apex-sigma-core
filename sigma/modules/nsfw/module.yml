@@ -8,29 +8,24 @@ commands:
   - name:         boobs
     alts:
       - "tits"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
-    usage:        "{pfx}{cmd}"
     description:
       Outputs a random NSFW image focusing on the breasts of the model.
 
   - name:         butts
     alts:
       - "ass"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
-    usage:        "{pfx}{cmd}"
     description:
       Outputs a random NSFW image focusing on the ass of the model.
 
   - name:         danbooru
     alts:
       - "danb"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -42,7 +37,6 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         e621
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -56,7 +50,6 @@ commands:
   - name:         gelbooru
     alts:
       - "gelb"
-    global:       true
     enabled:      false
     permissions:
       nsfw:       true
@@ -70,7 +63,6 @@ commands:
   - name:         xbooru
     alts:
       - "xb"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -82,7 +74,6 @@ commands:
       If your search has spaces replace them with underscores "_".
 
   - name:         keyvis
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -104,7 +95,6 @@ commands:
   - name:         konachan
     alts:
       - "kchan"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -118,7 +108,6 @@ commands:
   - name:         rule34
     alts:
       - "r34"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true
@@ -132,7 +121,6 @@ commands:
   - name:         yandere
     alts:
       - "yre"
-    global:       true
     enabled:      true
     permissions:
       nsfw:       true

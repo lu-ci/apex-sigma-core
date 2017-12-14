@@ -6,10 +6,8 @@ enabled:          true
 
 commands:
   - name:         setavatar
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} https://my_fomain.net/my_avatar.png"
@@ -19,10 +17,8 @@ commands:
       Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setusername
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} Supreme Bot"
@@ -31,10 +27,8 @@ commands:
       Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setstatus
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} with fishies"
@@ -44,10 +38,8 @@ commands:
       It can be toggled with the togglestatus command.
 
   - name:         addstatus
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} with tentacles"
@@ -55,10 +47,8 @@ commands:
       Adds a status message to Sigma's database for automatic status rotation.
 
   - name:         removestatus
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 1d9cae144f"
@@ -66,12 +56,9 @@ commands:
       Removes a status with the inputed ID from Sigma's status database.
 
   - name:         togglestatus
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if the automatic status rotation is enabled or disabled.

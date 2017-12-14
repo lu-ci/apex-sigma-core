@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         prefix
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} !!"
     description:
@@ -15,25 +14,19 @@ commands:
       However, the prefix can not contain spaces. They will be automatically removed.
 
   - name:         unflip
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if Sigma should respond to tables being flipped.
 
   - name:         deletecommands
     alts:
       - "delcmds"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if messages that are a command should be automatically deleted.
 
   - name:         chatterbot
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if the Chatterbot functions should be active.
       If active, when a message starts with a mention of Sigma, she will respond.
@@ -43,7 +36,6 @@ commands:
     alts:
       - "logchannel"
       - "logch"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #logging"
     description:
@@ -51,5 +43,3 @@ commands:
       The stuff that is logged is member movement and moderator actions.
       Such as warns, bans, muting members and pruning channels.
       To disable the logging channel, input "disable" as the channel argument.
-
-

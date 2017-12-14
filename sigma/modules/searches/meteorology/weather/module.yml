@@ -8,7 +8,6 @@ commands:
   - name:         weather
     alts:
       - "we"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Belgrade unit:si"
     description: |

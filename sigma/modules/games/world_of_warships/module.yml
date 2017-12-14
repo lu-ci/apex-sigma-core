@@ -8,7 +8,6 @@ commands:
   - name:         worldofwarships
     alts:
       - "wows"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} EU AXAz0r"
     description:

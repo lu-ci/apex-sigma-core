@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         warn
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person Bit my dog"
     description:
@@ -17,7 +16,6 @@ commands:
   - name:         warnings
     alts:
       - "warns"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -28,7 +26,6 @@ commands:
   - name:         warning
     alts:
       - "warninfo"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person 12af"
     description:
@@ -39,7 +36,6 @@ commands:
     alts:
       - "clearwarnings"
       - "clearwarns"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person all"
     description:

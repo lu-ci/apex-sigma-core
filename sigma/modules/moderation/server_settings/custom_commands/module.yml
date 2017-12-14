@@ -8,7 +8,6 @@ commands:
   - name:         addcommand
     alts:
       - "addcmd"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello world!"
     description: |
@@ -32,19 +31,18 @@ commands:
 
   - name:         removecommand
     alts:
+      - "deletecommand"
       - "remcmd"
       - "delcmd"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
       Removes a custom command trigger used for custom commands from the server.
-      Command requires the Manage Server permission.
+      This requires the Manage Server permission.
 
   - name:         addresponder
     alts:
       - "addres"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello there!"
     description: |
@@ -68,9 +66,9 @@ commands:
 
   - name:         removeresponder
     alts:
+      - "deleteresponder"
       - "remres"
       - "delres"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
@@ -79,8 +77,9 @@ commands:
 
   - name:         customcommands
     alts:
+      - "customcmds"
       - "custcmds"
-    global:       true
+      - "ccmds"
     enabled:      true
     usage:        "{pfx}{cmd} 4"
     description:
@@ -91,5 +90,4 @@ commands:
 events:
   - name:         custom_command
     type:         message
-    global:       true
     enabled:      true

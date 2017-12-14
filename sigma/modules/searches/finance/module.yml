@@ -10,7 +10,6 @@ commands:
       - "cryptocur"
       - "crypcur"
       - "ecoin"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} ethereum"
     description:

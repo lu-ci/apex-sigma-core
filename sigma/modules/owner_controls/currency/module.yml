@@ -10,10 +10,8 @@ commands:
       - "generatekud"
       - "gencurr"
       - "genkud"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     false
     usage:        "{pfx}{cmd} 150 @person"
@@ -26,10 +24,8 @@ commands:
       - "destroykud"
       - "descurr"
       - "deskud"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     false
     usage:        "{pfx}{cmd} 150 @person"

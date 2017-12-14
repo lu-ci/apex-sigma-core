@@ -9,7 +9,6 @@ commands:
     alts:
       - "maps"
       - "map"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Belgrade"
     description: |

@@ -8,7 +8,6 @@ commands:
   - name:         purge
     alts:
       - "prune"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} X @person"
     requirements:
@@ -23,7 +22,6 @@ commands:
   - name:         textmute
     alts:
       - "tmute"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person Was too spicy!"
     requirements:
@@ -32,11 +30,12 @@ commands:
       Disallows the user from typing.
       Well technically, it will make the bot auto delete any message they send.
       You can add a message at the end to be sent to the user as the reason why.
+      Users with the Administrator permission are ignored, their messages will not be deleted.
+      Requires the user who calls the command to have the Manage Messages permission.
 
   - name:         textunmute
     alts:
       - "tunmute"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     requirements:
@@ -44,9 +43,9 @@ commands:
     description:
       Removes the tagged person from the list of muted users.
       Making the bot no longer delete their messages.
+      Requires the user who calls the command to have the Manage Messages permission.
 
 events:
   - name:         mute_checker
     type:         message
-    global:       true
     enabled:      true

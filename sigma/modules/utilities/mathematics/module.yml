@@ -8,7 +8,6 @@ commands:
   - name:         wolframalpha
     alts:
       - "wa"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 69+42"
     description:
@@ -18,7 +17,6 @@ commands:
   - name:         makehash
     alts:
       - "hash"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} md5 Nabzie is best tree."
     description:
@@ -32,7 +30,6 @@ commands:
       sha256, MD5, blake2s, md5, sha3_256, whirlpool
 
   - name:         collectchain
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person #channel"
     description:
@@ -42,9 +39,7 @@ commands:
   - name:         wipechain
     alts:
       - "clearchain"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       It wipes your entire Markov chain, if you have one.
 
@@ -52,30 +47,15 @@ commands:
     alts:
       - "doki"
       - "dd"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Makes a random markov chain based sentence from a random Doki Doki Literature Club character quote.
       You can force which character to quote by adding their name as an argument to the command.
       And you can force a glitch by adding ":glitch" as the ending argument.
 
-  - name:         dokidokimix
-    alts:
-      - "dokimix"
-      - "ddmix"
-    global:       true
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Monika"
-    description:
-      A combination between the impersonate and the dokidoki command.
-      Will generate a sentence based on a user's chain and based on quotes of a DDLC character.
-      If no character is inputed, it will use a random one.
-
   - name:         checkheartkey
     alts:
       - "chk"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} b7V01YuKJ7Le1FQSZS_gvPtvI9kFa0ZDHH_-QfzZsFA="
     description:
@@ -83,7 +63,6 @@ commands:
       If the key inputted has at least part of the true key, it will say so.
 
   - name:         encrypt
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} I will always be here to talk to you for as long as you want."
     description:
@@ -92,7 +71,6 @@ commands:
       You can add ":t" at the end to force it to be raw text instead of an embed.
 
   - name:         decrypt
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} H7U2JfWkr0zCApDPDkO"
     description:
@@ -102,7 +80,6 @@ commands:
   - name:         impersonate
     alts:
       - "mimic"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -114,7 +91,6 @@ commands:
       - "combine"
       - "cmbch"
       - "mix"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @target_one @target_two"
     description:
@@ -124,7 +100,6 @@ commands:
   - name:         timeconvert
     alts:
       - "tconv"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 18:57 UTC>PST"
     description:
@@ -133,7 +108,6 @@ commands:
   - name:         currenttime
     alts:
       - "time"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} PDT"
     description:

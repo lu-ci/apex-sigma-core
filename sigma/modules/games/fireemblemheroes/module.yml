@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         fireemblemheroes
-    global:       true
     alts:
       - "feh"
     enabled:      true

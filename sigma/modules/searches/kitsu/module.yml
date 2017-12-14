@@ -9,7 +9,6 @@ commands:
     alts:
       - "animu"
       - "kitsuanime"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Plastic Memories"
     description:
@@ -21,7 +20,6 @@ commands:
     alts:
       - "mango"
       - "kitsumanga"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} A Silent Voice"
     description:

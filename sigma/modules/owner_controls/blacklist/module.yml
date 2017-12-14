@@ -8,10 +8,8 @@ commands:
   - name:         blacklistuser
     alts:
       - "blackusr"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
@@ -23,10 +21,8 @@ commands:
       - "blacklistguild"
       - "blacksrv"
       - "blackguild"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
@@ -38,10 +34,8 @@ commands:
     alts:
       - "blackmodule"
       - "blackmdl"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789 minigames"
@@ -51,10 +45,8 @@ commands:
   - name:         sabotageuser
     alts:
       - "sabusr"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
@@ -62,10 +54,8 @@ commands:
       Sabotages a user making them have extreme bad luck in various modules.
 
   - name:         wipeawards
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"

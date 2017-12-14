@@ -8,35 +8,31 @@ commands:
   - name:         reversetext
     alts:
       - "reverse"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} hello"
     description:
       Reverses the text that you input into the command.
 
   - name:         dab
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
-      Pseudo-dank metrics or whatever.
+      All words escape me on what this command does, just use it.
 
   - name:         emote
     alts:
       - "emoji"
       - "em"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} lcPain"
     description:
-      Searches for an emoji by name.
-      Additionally, you can search for a specific emoji using an ID like this lcPain:309405155298639872
+      Searches for an emoji by name. To make the search more precise
+      you can add the ID of the emote or server that has that emote like
+      in this example "lcMonika:200751504175398912".
 
   - name:         leetspeak
     alts:
       - "leet"
       - "l33t"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} owned level:ultimate"
     description:

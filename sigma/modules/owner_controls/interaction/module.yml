@@ -5,23 +5,9 @@ category:         administration
 enabled:          true
 
 commands:
-  - name:         announce
-    global:       true
-    enabled:      true
-    permissions:
-      rating:     0
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} Hello world!"
-    description:
-      Announces a message to every server that Sigma is connected to.
-      Servers can opt out of this with the noannouncements command.
-
   - name:         send
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} u:0123456789 We are watching..."
@@ -33,10 +19,8 @@ commands:
       The type and ID are separated by a colon, or two dots put more simply.
 
   - name:         eject
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"

@@ -15,34 +15,39 @@ commands:
       - "exec"
     enabled:     true
     permissions:
-      rating:    0
       owner:     true
       dmable:    true
     usage:       "{pfx}{cmd} print('hello world')"
     description:
-      Executes raw python code.
-      This should be used with caution.
+      Executes raw python code. This should be used with caution.
+      You should never use this unless you are certain of what you are doing.
 
   - name:        sysexec
     alts:
       - "sh"
     enabled:     true
     permissions:
-      rating:    0
       owner:     true
       dmable:    true
     usage:       "{pfx}{cmd} echo 'Hello'"
     description:
       Executes a shell command. Extreme warning!
+      This executes commands in the Operating System's Shell.
+      Command Prompt on Windows and Bash on Linux.
+      It will execute things on the same level of authority as the program is ran by.
+      Meaning, don't do something stupid and wipe your damn root.
 
   - name:        test
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       For testing purposes, obviously.
       Used as a placeholder for testing functions.
 
 events:
   - name:        version_updater
+    type:        ready
+    enabled:     true
+
+  - name:        command_md
     type:        ready
     enabled:     true

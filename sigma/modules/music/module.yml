@@ -19,19 +19,16 @@ commands:
     alts:
       - "start"
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Starts playing the music queue.
 
   - name:        pause
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Pauses the music player.
 
   - name:        resume
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Resumes the music player.
 
@@ -39,7 +36,6 @@ commands:
     alts:
       - "stop"
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Stops the music, disconnects the bot from the current voice channel,
       and purges the music queue.
@@ -48,14 +44,12 @@ commands:
     alts:
       - "move"
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       If the bot isn't connected to any channel, it'll connect to yours.
       If it is connected, it will move to you.
 
   - name:        repeat
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Toggles if the current queue should be repeated.
       Whenever a song is played, it's re-added to the end of the queue.
@@ -74,7 +68,6 @@ commands:
     alts:
       - "next"
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Skips the currently playing song.
 
@@ -84,12 +77,10 @@ commands:
       - "playing"
       - "np"
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Shows information regarding the currently playing song.
 
   - name:        shuffle
     enabled:     true
-    usage:       "{pfx}{cmd}"
     description:
       Randomizes the current song queue.

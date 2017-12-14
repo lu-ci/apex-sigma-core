@@ -8,7 +8,6 @@ commands:
   - name:         imdb
     alts:
       - "movie"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Blade Runner"
     description:

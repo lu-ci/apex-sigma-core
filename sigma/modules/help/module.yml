@@ -6,44 +6,42 @@ enabled:          true
 
 commands:
   - name:         help
-    global:       true
+    alts:
+      - "h"
     enabled:      true
     permissions:
-      rating:     0
       dmable:     true
     usage:        "{pfx}{cmd} fish"
     description:
       Provides the link to Sigma's website and support server.
       As well as show information about a command if something in inputted.
 
-  - name:         modules
-    global:       true
-    enabled:      true
-    permissions:
-      rating:     0
-      dmable:     true
-    usage:        "{pfx}{cmd}"
-    description:
-      Shows all the module categories.
-
   - name:         commands
-    global:       true
+    alts:
+      - "modules"
+      - "cmds"
+      - "mdls"
     enabled:      true
     permissions:
-      rating:     0
       dmable:     true
     usage:        "{pfx}{cmd} minigames"
     description:
-      Shows the commands in a module group category.
-      To view all the module group categories, use the modules command.
+      If not module name is inputed, it will show the list of available modules.
+      To see the commands in a module category, input that modules name.
 
-  - name:         donate
-    global:       true
+  - name:         invite
+    alts:
+      - "inv"
     enabled:      true
     permissions:
-      rating:     0
       dmable:     true
-    usage:        "{pfx}{cmd}"
+    description:
+      Provides Sigma's invitation link to add her to your server.
+
+  - name:         donate
+    enabled:      true
+    permissions:
+      dmable:     true
     description:
       Shows donation information for Sigma.
 
@@ -51,8 +49,4 @@ commands:
 events:
   - name:         dm_detection
     type:         message
-    global:       true
     enabled:      true
-    permissions:
-      rating:     0
-      dmable:     true

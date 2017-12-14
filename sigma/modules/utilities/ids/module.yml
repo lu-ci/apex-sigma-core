@@ -8,7 +8,6 @@ commands:
   - name:         userid
     alts:
       - "uid"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -20,7 +19,6 @@ commands:
     alts:
       - "chid"
       - "cid"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #channel"
     description:
@@ -35,8 +33,6 @@ commands:
       - "srvid"
       - "sid"
       - "gid"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the Server ID of the server the command is used in.

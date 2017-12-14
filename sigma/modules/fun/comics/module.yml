@@ -8,9 +8,7 @@ commands:
   - name:         cyanideandhappiness
     alts:
       - "cnh"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Outputs an image of a random Cyanide and Happiness comic.
       Explosm makes awesome comics and animations.
@@ -18,17 +16,13 @@ commands:
   - name:         randomcomicgenerator
     alts:
       - "rcg"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Uses the Cyanide and Happiness random comic generator for buttloads of fun.
       Personally the favorite comic command.
 
   - name:         xkcd
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       If you like humorous things and know a bit of technology,
       you will lose a lot of time reading these.

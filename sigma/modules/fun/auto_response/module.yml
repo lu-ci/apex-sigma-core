@@ -1,4 +1,4 @@
-﻿name:             Table Unflipping
+﻿name:             Automatic Response Events
 
 category:         miscellaneous
 
@@ -7,10 +7,8 @@ enabled:          true
 events:
   - name:         table_unflipper
     type:         message
-    global:       true
     enabled:      true
 
   - name:         auto_responder
     type:         message
-    global:       true
     enabled:      true

@@ -10,7 +10,6 @@ commands:
       - "currency"
       - "money"
       - "kud"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -25,7 +24,6 @@ commands:
       - "level"
       - "exp"
       - "xp"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -36,7 +34,6 @@ commands:
   - name:         profile
     alts:
       - "mystats"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -46,7 +43,6 @@ commands:
   - name:         topcurrency
     alts:
       - "topkud"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} global"
     description:
@@ -57,7 +53,6 @@ commands:
   - name:         topexperience
     alts:
       - "topxp"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} local"
     description:
@@ -68,15 +63,11 @@ commands:
   - name:         topcommands
     alts:
       - "topcmds"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the top 20 most used commands globally.
 
   - name:         topcookies
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the top 20 users who have the most cookies.

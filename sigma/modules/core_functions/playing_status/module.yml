@@ -7,8 +7,4 @@ enabled:          true
 events:
   - name:         status_rotation
     type:         ready
-    global:       true
     enabled:      true
-    permissions:
-      rating:     0
-      dmable:     true

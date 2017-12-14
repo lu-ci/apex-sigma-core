@@ -9,7 +9,6 @@ commands:
     alts:
       - "addrank"
       - "asr"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Cheese Lover"
     requirements:
@@ -24,7 +23,6 @@ commands:
       - "delrank"
       - "rsr"
       - "dsr"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Meat Lover"
     requirements:
@@ -39,9 +37,7 @@ commands:
       - "ranks"
       - "roles"
       - "lsrl"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Lists all self assignable roles present on the server.
 
@@ -50,7 +46,6 @@ commands:
       - "togglerank"
       - "rank"
       - "trl"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Overlord"
     requirements:

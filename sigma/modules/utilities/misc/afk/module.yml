@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         afk
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Sleeping or eating, probably both!"
     description:
@@ -18,10 +17,8 @@ commands:
 events:
   - name:         afk_comeback_check
     type:         message
-    global:       true
     enabled:      true
 
   - name:         afk_mention_check
     type:         message
-    global:       true
     enabled:      true

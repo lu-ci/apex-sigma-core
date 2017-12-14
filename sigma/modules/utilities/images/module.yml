@@ -8,7 +8,6 @@ commands:
   - name:         avatar
     alts:
       - "av"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -22,8 +21,6 @@ commands:
     alts:
       - "srvicon"
       - "icon"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the server's icon image.

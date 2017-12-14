@@ -8,9 +8,7 @@ commands:
   - name:         famousquote
     alts:
       - "fquote"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Gives you a random inspirational or deep quote.
 
@@ -18,7 +16,6 @@ commands:
     alts:
       - "numfact"
       - "numf"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 42"
     description:
@@ -31,45 +28,37 @@ commands:
   - name:         fortune
     alts:
       - "fortune-mod"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Linux users, and raw UNIX users in general will know the fortune-mod.
       This command uses their entire database to output one of their quotes.
 
   - name:         bash
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       If you are old enough to know what IRC is or remember how it looked like,
       then you will appreciate the quotes that the bash command produces.
 
   - name:         catfact
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Outputs a random fact about your lovely furry assh~
-      Eerrrr... I mean, companion!
+      eerrrr... I mean, companion!
 
   - name:         dogfact
     alts:
       - "doggofact"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
-      Outputs a random fact about the man's best friend.
+      Outputs a random fact about man's best friend.
 
   - name:         visualnovelquote
     alts:
       - "vnquote"
       - "vnq"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Outputs a random quote from a random VN.
       Displays it's source as well, of course.
+      If the source visual novel of the quote is NSFW,
+      the image will be hidden and the footer will state that.

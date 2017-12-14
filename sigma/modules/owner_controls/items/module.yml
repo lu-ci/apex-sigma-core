@@ -8,10 +8,8 @@ commands:
   - name:         generateitem
     alts:
       - "genitem"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     false
     usage:        "{pfx}{cmd} @person plants Blue Delta"
@@ -21,10 +19,8 @@ commands:
   - name:         destroyitem
     alts:
       - "desitem"
-    global:       true
     enabled:      true
     permissions:
-      rating:     0
       owner:      true
       dmable:     false
     usage:        "{pfx}{cmd} abcdef1234567890"

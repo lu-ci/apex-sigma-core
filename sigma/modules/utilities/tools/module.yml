@@ -9,7 +9,6 @@ commands:
     alts:
       - "shorten"
       - "bitly"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} https://i.redd.it/ngwebbf5nwfz.jpg"
     description:
@@ -19,7 +18,6 @@ commands:
   - name:         convertcurrency
     alts:
       - "convert"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 50 EUR in USD"
     description:
@@ -30,7 +28,6 @@ commands:
     alts:
       - "colour"
       - "clr"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #1abc9c"
     description:
@@ -41,7 +38,6 @@ commands:
     alts:
       - "translate"
       - "trans"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} EN>JA Hello there!"
     description:
@@ -55,7 +51,6 @@ commands:
   - name:         lmgtfy
     alts:
       - "letmegooglethatforyou"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Sexy Sneks"
     description:

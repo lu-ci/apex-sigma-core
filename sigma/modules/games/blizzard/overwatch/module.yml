@@ -9,7 +9,6 @@ commands:
     alts:
       - "owstats"
       - "ow"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} EU Aurora#22978"
     description:

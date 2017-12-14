@@ -6,7 +6,6 @@ enabled:          true
 
 commands:
   - name:         race
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 20"
     description:
@@ -19,17 +18,14 @@ commands:
   - name:         joinrace
     alts:
       - "jr"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
-      Joins a race instance if any are ongoing.
+      Joins a race instance if any are ongoing in the current channel.
 
   - name:         raceoverride
     alts:
       - "raceover"
-    global:       true
+      - "killrace"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Overrides the race in case a bug occurs.

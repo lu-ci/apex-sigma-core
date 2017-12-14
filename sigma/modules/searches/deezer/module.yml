@@ -9,7 +9,6 @@ commands:
     alts:
       - "music"
       - "findsong"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Highway to Hell"
     description:

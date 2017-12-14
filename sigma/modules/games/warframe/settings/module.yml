@@ -8,7 +8,6 @@ commands:
   - name:         wfalertchannel
     alts:
       - "wfac"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #wf-alerts"
     description:
@@ -19,7 +18,6 @@ commands:
   - name:         wfinvasionchannel
     alts:
       - "wfic"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #wf-invasions"
     description:
@@ -30,7 +28,6 @@ commands:
   - name:         wfnewschannel
     alts:
       - "wfnc"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #wf-news"
     description:
@@ -41,7 +38,6 @@ commands:
   - name:         wffissurechannel
     alts:
       - "wffc"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #wf-fissures"
     description:
@@ -52,7 +48,6 @@ commands:
   - name:         wfsortiechannel
     alts:
       - "wfsc"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} #wf-sorties"
     description:
@@ -65,7 +60,6 @@ commands:
       - "wftagrole"
       - "wfnotify"
       - "wfbind"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} aura Aura Squad"
     description:

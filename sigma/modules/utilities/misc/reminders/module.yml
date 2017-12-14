@@ -11,7 +11,6 @@ commands:
       - "setreminder"
       - "alarm"
       - "rmme"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!"
     description:
@@ -24,7 +23,6 @@ commands:
     alts:
       - "reminders"
       - "rms"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} here"
     description:
@@ -38,7 +36,6 @@ commands:
       - "reminder"
       - "rminfo"
       - "rmi"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} f93f"
     description:
@@ -49,7 +46,6 @@ commands:
     alts:
       - "delreminder"
       - "delrm"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 1a9e"
     description:

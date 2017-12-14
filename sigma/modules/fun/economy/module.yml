@@ -1,4 +1,4 @@
-name:             Guild Economy
+name:             Economy Commands
 
 category:         fun
 
@@ -9,18 +9,17 @@ commands:
     alts:
       - "givecurr"
       - "givekud"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 100 @person"
     description:
       Transfers Kud between you and a targetted person.
+      The Kud amount goes first and the target tag afterwards
+      like it is given in the example above.
 
   - name:         vault
     alts:
       - "bank"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the current amount of Kud in the guild's vault.
 
@@ -29,9 +28,8 @@ commands:
       - "givetobank"
       - "gtv"
       - "gtb"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
+    usage:        "{pfx}{cmd} 500"
     description:
       The vault is a server specific Kud storage system.
       Members can contribute to the vault with this command.
@@ -40,7 +38,6 @@ commands:
   - name:         award
     alts:
       - "pay"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 500 @person"
     description:

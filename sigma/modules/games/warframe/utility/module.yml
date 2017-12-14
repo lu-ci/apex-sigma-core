@@ -9,12 +9,12 @@ commands:
     alts:
       - "wfpc"
       - "wfmarket"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} Blind Rage"
     description:
       Checks the price for the searched item.
       This will only list items by members that are currently online and in the game.
+      The API requires a precise item name.
 
   - name:         wftrials
     alts:
@@ -23,7 +23,6 @@ commands:
       - "wfraid"
       - "wft"
       - "wfr"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} AXAz0r"
     description:
@@ -35,7 +34,6 @@ commands:
   - name:         wfplainsofeidolon
     alts:
       - "wfpoe"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} exact"
     description:

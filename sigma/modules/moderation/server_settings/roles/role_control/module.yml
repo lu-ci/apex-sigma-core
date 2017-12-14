@@ -10,7 +10,6 @@ commands:
       - "giverank"
       - "grole"
       - "grank"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person Grandma"
     requirements:
@@ -24,7 +23,6 @@ commands:
       - "removerank"
       - "rrole"
       - "rrank"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person Wangly"
     requirements:

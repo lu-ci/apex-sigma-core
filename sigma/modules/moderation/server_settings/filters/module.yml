@@ -8,7 +8,6 @@ commands:
   - name:         blockwords
     alts:
       - "blockword"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} crap"
     description:
@@ -19,9 +18,7 @@ commands:
   - name:         blockinvites
     alts:
       - "filterinvites"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if invite links should be automatically removed.
       When an invite link is removed, the message author is notified and the removal is logged.
@@ -30,9 +27,7 @@ commands:
   - name:         asciionlynames
     alts:
       - "forceascii"
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles if only ASCII characters are allowed in names.
       The bot will check members each 60s for an invalid name and rename them if they are not proper.
@@ -41,7 +36,6 @@ commands:
   - name:         asciitempname
     alts:
       - "asciitemp"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} <ChangeMePleaseI'mLonely>"
     description:
@@ -50,41 +44,33 @@ commands:
   - name:         unblockwords
     alts:
       - "unblockword"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked word allowing people to send messages containing it.
 
   - name:         blockedwords
-    global:       true
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Lists all blocked words on the server.
 
 events:
   - name:         send_word_blocker
     type:         message
-    global:       true
     enabled:      true
 
   - name:         edit_word_blocker
     type:         message_edit
-    global:       true
     enabled:      true
 
   - name:         send_invite_blocker
     type:         message
-    global:       true
     enabled:      true
 
   - name:         edit_invite_blocker
     type:         message_edit
-    global:       true
     enabled:      true
 
   - name:         name_check_clockwork
     type:         ready
-    global:       true
     enabled:      true

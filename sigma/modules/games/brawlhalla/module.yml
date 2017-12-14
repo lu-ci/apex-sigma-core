@@ -10,7 +10,6 @@ commands:
       - "bhlb"
       - "brawlhallaleaderboad"
       - "brawlhallaranking"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} EU"
     description:

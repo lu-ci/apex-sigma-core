@@ -8,7 +8,6 @@ commands:
   - name:         safebooru
     alts:
       - "safe"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} kawaii"
     description:

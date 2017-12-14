@@ -8,7 +8,6 @@ commands:
   - name:         wanikani
     alts:
       - "wk"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -19,7 +18,6 @@ commands:
   - name:         wanikanisave
     alts:
       - "wksave"
-    global:       true
     enabled:      true
     usage:        "{pfx}{cmd} 123456798"
     description:
