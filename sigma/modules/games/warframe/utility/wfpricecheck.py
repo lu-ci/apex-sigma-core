@@ -11,7 +11,7 @@ async def get_lowest_trader(order_url):
         async with session.get(order_url) as data:
             page_data = await data.read()
             data = json.loads(page_data)
-    seller = None
+    sellers = []
     if data:
         if not data.get('error'):
             if data['payload']['orders']:
@@ -20,9 +20,10 @@ async def get_lowest_trader(order_url):
                     if order['order_type'] == 'sell':
                         if order['platform'] == 'pc':
                             if order['user']['status'] == 'ingame':
-                                seller = order
-                                break
-    return seller
+                                sellers.append(order)
+                                if len(sellers) >= 3:
+                                    break
+    return sellers
 
 
 async def wfpricecheck(cmd, message, args):
@@ -44,19 +45,23 @@ async def wfpricecheck(cmd, message, args):
                 if set_item['url_name'] == lookup:
                     item = set_item
             if item:
-                seller = await get_lowest_trader(orders_url)
-                if seller:
-                    seller_text = f'Name: **{seller["user"]["ingame_name"]}**'
-                    seller_text += f' | Price: **{seller["platinum"]}**p'
+                sellers = await get_lowest_trader(orders_url)
+                if sellers:
+                    seller_lines = []
+                    for seller in sellers:
+                        seller_line = f'Name: **{seller["user"]["ingame_name"]}**'
+                        seller_line += f' | Price: **{seller["platinum"]}**p'
+                        seller_lines.append(seller_line)
+                    seller_text = '\n'.join(seller_lines)
                 else:
-                    seller_text = 'No seller found.'
+                    seller_text = 'No sellers found.'
                 page_url = f'https://warframe.market/items/{lookup}'
                 thumb = asset_base + item['icon']
                 name = item['en']['item_name']
                 response = discord.Embed(color=0xFFCC66)
-                response.set_author(name='Warframe Market Search', icon_url=plat_img, url=page_url)
+                response.description = seller_text
+                response.set_author(name=f'Warframe Market: {name}', icon_url=plat_img, url=page_url)
                 response.set_thumbnail(url=thumb)
-                response.add_field(name=name, value=seller_text)
             else:
                 response = discord.Embed(color=0x696969, title=f'🔍 Item not found.')
         else:
