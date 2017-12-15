@@ -34,8 +34,8 @@ commands:
 
   - name:         unwarn
     alts:
-      - "clearwarnings"
-      - "clearwarns"
+      - "clearwarning"
+      - "clearwarn"
     enabled:      true
     usage:        "{pfx}{cmd} @person all"
     description:
