@@ -4,7 +4,7 @@ from sigma.core.utilities.role_processing import user_matching_role, matching_ro
 
 
 async def giverole(cmd, message, args):
-    if message.author.permissions_in(message.channel).manage_roles:
+    if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) >= 2:
                 if message.mentions:

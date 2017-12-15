@@ -307,11 +307,13 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>addselfrole` `>>addrank` `>>asr` | Sets a role as self assignable. Roles that are self assignable, any user can assign to themselves. To assign a self assignbale role to yourself, use the togglerole command. | `>>addselfrole Cheese Lover`
 `>>autorole` `>>autorank` | Sets which role should be given to joining members. When a new user enters the server, this role will be assigned to them. The role can not be something that is above the bot's highest role. If you want to disable the autorole, input "disable" as the role name. | `>>autorole Newcomer`
+`>>bindinvite` `>>binv` | Binds an invite to a role. When a member joins using that invite the stated role will be given to them. | `>>bindinvite aEUCHwX Cheese Lovers`
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
 `>>giverole` `>>giverank` `>>grole` `>>grank` | Gives the inputed role to the tagged user. The role must be below Sigma in Discord hierarchy. | `>>giverole @person Grandma`
 `>>listselfroles` `>>listranks` `>>listroles` `>>ranks` `>>roles` `>>lsrl` | Lists all self assignable roles present on the server. | `>>listselfroles`
 `>>removerole` `>>removerank` `>>rrole` `>>rrank` | Removes the inputed role from the tagged user. The role must be below Sigma in Discord hierarchy. | `>>removerole @person Wangly`
 `>>togglerole` `>>togglerank` `>>rank` `>>trl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>togglerole Overlord`
+`>>unbindinvite` `>>unbinv` | Unbinds a previously bound invite from it's bound role. If the invite with that ID no longer exists on your server add ":f" to the end to force remove it. Please not that if you are force removing an invite that it is case sensitive. | `>>unbindinvite aEUCHwX`
 [Back To Top](#module-index)
 
 ### SEARCHES

@@ -18,7 +18,54 @@ commands:
       The role can not be something that is above the bot's highest role.
       If you want to disable the autorole, input "disable" as the role name.
 
+  - name:         bindinvite
+    alts:
+      - "bindinvs"
+      - "binvite"
+      - "binv"
+    enabled:      true
+    usage:        "{pfx}{cmd} aEUCHwX Cheese Lovers"
+    requirements:
+      - "manage_roles"
+      - "create_instant_invite"
+    description:
+      Binds an invite to a role.
+      When a member joins using that invite the stated role will be given to them.
+
+  - name:         boundinvites
+    alts:
+      - "boundinvs"
+      - "binvites"
+      - "binvs"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Lists all the invites that are bound and what they are bound to.
+
+  - name:         unbindinvite
+    alts:
+      - "unbinvite"
+      - "unbindinv"
+      - "unbinv"
+    enabled:      true
+    usage:        "{pfx}{cmd} aEUCHwX"
+    requirements:
+      - "manage_roles"
+      - "create_instant_invite"
+    description:
+      Unbinds a previously bound invite from it's bound role.
+      If the invite with that ID no longer exists on your server add ":f" to the end to force remove it.
+      Please not that if you are force removing an invite that it is case sensitive.
+
 events:
   - name:         autorole_control
+    type:         member_join
+    enabled:      true
+
+  - name:         bound_role_cacher
+    type:         ready
+    enabled:      true
+
+  - name:         bound_role_control
     type:         member_join
     enabled:      true

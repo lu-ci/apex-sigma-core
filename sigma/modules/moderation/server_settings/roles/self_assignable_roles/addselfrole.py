@@ -4,7 +4,7 @@ from sigma.core.utilities.role_processing import matching_role
 
 
 async def addselfrole(cmd, message, args):
-    if message.author.permissions_in(message.channel).manage_roles:
+    if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args)
             target_role = matching_role(message.guild, lookup)

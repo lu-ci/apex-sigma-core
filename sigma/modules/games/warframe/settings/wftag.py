@@ -2,7 +2,7 @@
 
 
 async def wftag(cmd, message, args):
-    if message.author.permissions_in(message.channel).manage_roles:
+    if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) > 1:
                 alert_tag = args[0].lower()
