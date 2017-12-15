@@ -101,12 +101,13 @@ Commands | Description | Example
 `>>wfinvasions` `>>wfinvasion` `>>wfi` | Shows the current ongoing invasions in Warframe. As well as their factions, locations and rewards. | `>>wfinvasions`
 `>>wfnews` `>>wfn` | Shows the current ative news in Warframe. | `>>wfnews`
 `>>wfnewschannel` `>>wfnc` | Designates a channel for Warframe news. When Digital Extremes posts a new event for Warframe, it pops up there. To disable this, write disable after the command instead of a channel. | `>>wfnewschannel #wf-news`
-`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. You can add "exact" as a command arguement. This will make the time cycle responses appear in the H:M:S format. | `>>wfplainsofeidolon exact`
+`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
 `>>wfpricecheck` `>>wfpc` `>>wfmarket` | Checks the price for the searched item. This will only list items by members that are currently online and in the game. The API requires a precise item name. | `>>wfpricecheck Blind Rage`
 `>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
 `>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
 `>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword from alerts and invasions. When this keyword appears during an event all roles bound to it's triggers will be mentioned. | `>>wftag aura Aura Squad`
 `>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the inputted username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
+`>>wfvoidtrader` `>>wfbarokiteer` `>>wfbaro` `>>baro` `>>wfvt` | Shows the items that Baro Ki'Teer is currently selling as well as the statistics such as total number of items, total amount of ducats and credits needed and where he's located. | `>>wfvoidtrader`
 `>>worldofwarships` `>>wows` | Grabs the player statistics for the game World of Warships. First the region and then the username. | `>>worldofwarships EU AXAz0r`
 [Back To Top](#module-index)
 

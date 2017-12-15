@@ -45,3 +45,25 @@ commands:
     enabled:      true
     description:
       Shows the current ative news in Warframe.
+
+  - name:         wfplainsofeidolon
+    alts:
+      - "wfpoe"
+    enabled:      true
+    usage:        "{pfx}{cmd} exact"
+    description:
+      Shows the current time on the Plains of Eidolon in warframe.
+      As well as the next day/night cycle rotations.
+
+  - name:         wfvoidtrader
+    alts:
+      - "wfbarokiteer"
+      - "wfbaro"
+      - "baro"
+      - "wfvt"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the items that Baro Ki'Teer is currently selling
+      as well as the statistics such as total number of items,
+      total amount of ducats and credits needed and where he's located.
