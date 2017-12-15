@@ -45,6 +45,7 @@ commands:
   - name:         removereminder
     alts:
       - "delreminder"
+      - "unremind"
       - "delrm"
     enabled:      true
     usage:        "{pfx}{cmd} 1a9e"
