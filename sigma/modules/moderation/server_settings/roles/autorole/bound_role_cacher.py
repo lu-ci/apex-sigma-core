@@ -6,6 +6,10 @@ cache = {}
 def get_changed_invite(guild_id, bound_list, invites):
     invite = None
     cached = cache.get(guild_id)
+    if cached is None:
+        cached = []
+    if invites is None:
+        cached = []
     cache.update({guild_id: invites})
     if invites:
         for cached_inv in cached:
