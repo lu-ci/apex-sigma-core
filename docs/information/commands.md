@@ -214,7 +214,7 @@ Commands | Description | Example
 `>>randombetween` `>>ranin` | Outputs a random number between two inputted numbers. | `>>randombetween 59 974`
 `>>reminderinfo` `>>reminder` `>>rminfo` `>>rmi` | Shows information about your reminder with the given ID. Such as when it executes and where. | `>>reminderinfo f93f`
 `>>remindme` `>>remind` `>>setreminder` `>>alarm` `>>rmme` | Sets a timer that will mention the author when it's done. The time format is H:M:S, but is not limited to the constraints of their types. Meaning you can type "200:5000:999999" if you wish. Reminders are limited to 90 days, and you are limited to 15 reminders. | `>>remindme 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
-`>>removereminder` `>>delreminder` `>>delrm` | Deletes a reminder of yours with the inputted ID. | `>>removereminder 1a9e`
+`>>removereminder` `>>delreminder` `>>unremind` `>>delrm` | Deletes a reminder of yours with the inputted ID. | `>>removereminder 1a9e`
 `>>shadowpoll` | Makes a private shadow poll. The user that voted on the shadow poll can only be seen by it's creator. Additional commands can set an expiration timer for the shadow poll and the visibility of the poll's current vote count and percentages. | `>>shadowpoll Ban Nuggetlord?; Yes; Yes; Yes; No; Soft`
 `>>shadowpollclose` `>>spclose` | Closes/deactivated a shadow poll. Closed polls can not be voted on and can not be viewed unless they are set to be visible. | `>>shadowpollclose 1bca22`
 `>>shadowpolldelete` `>>spdelete` `>>spdel` | Permanently deletes a shadow poll. | `>>shadowpolldelete 1bca22`
@@ -244,7 +244,7 @@ Commands | Description | Example
 `>>textmute` `>>tmute` | Disallows the user from typing. Well technically, it will make the bot auto delete any message they send. You can add a message at the end to be sent to the user as the reason why. Users with the Administrator permission are ignored, their messages will not be deleted. Requires the user who calls the command to have the Manage Messages permission. | `>>textmute @person Was too spicy!`
 `>>textunmute` `>>tunmute` | Removes the tagged person from the list of muted users. Making the bot no longer delete their messages. Requires the user who calls the command to have the Manage Messages permission. | `>>textunmute @person`
 `>>unban` | Unbans a banned user by inputted username. | `>>unban Chicken Shluggets`
-`>>unwarn` `>>clearwarnings` `>>clearwarns` | Clears a user's warning. A user target and warning ID are required. You can input "all" instead of an idea to clear all their warnings. | `>>unwarn @person all`
+`>>unwarn` `>>clearwarning` `>>clearwarn` | Clears a user's warning. A user target and warning ID are required. You can input "all" instead of an idea to clear all their warnings. | `>>unwarn @person all`
 `>>warn` | Adds a user to the warning list along with the reason stated. The used will also receive a direct message from the bot stating they have been warned. Warnings can be cleared with the unwarn command. | `>>warn @person Bit my dog`
 `>>warning` `>>warninfo` | Shows information regarding a user's warning. Both the mention of the user and the warning ID are required. | `>>warning @person 12af`
 `>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead. | `>>warnings @person`

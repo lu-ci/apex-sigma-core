@@ -86,8 +86,3 @@ commands:
       Shows a list of the server's custom commands.
       The list is separated into pages of 10 items each.
       You can specify the page number you want to see.
-
-events:
-  - name:         custom_command
-    type:         message
-    enabled:      true

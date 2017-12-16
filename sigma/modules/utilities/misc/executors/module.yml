@@ -1,0 +1,10 @@
+name:             Other Misc Utilities
+
+category:         miscellaneous
+
+enabled:          true
+
+events:
+  - name:         custom_command
+    type:         message
+    enabled:      true
