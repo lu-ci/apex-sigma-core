@@ -24,7 +24,6 @@ def get_changed_invite(guild_id, bound_list, invites):
 
 async def bound_role_cacher(ev):
     ev.log.info('Starting invite caching...')
-    global complete
     for guild in ev.bot.guilds:
         if guild.me.guild_permissions.create_instant_invite:
             try:
