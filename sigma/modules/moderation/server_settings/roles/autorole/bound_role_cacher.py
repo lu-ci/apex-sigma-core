@@ -1,6 +1,11 @@
 import discord
 
 cache = {}
+complete = False
+
+
+def is_done():
+    return complete
 
 
 def get_changed_invite(guild_id, bound_list, invites):
@@ -23,6 +28,7 @@ def get_changed_invite(guild_id, bound_list, invites):
 
 
 async def bound_role_cacher(ev):
+    global complete
     for guild in ev.bot.guilds:
         if guild.me.guild_permissions.create_instant_invite:
             try:
@@ -30,3 +36,5 @@ async def bound_role_cacher(ev):
             except discord.Forbidden:
                 invites = []
             cache.update({guild.id: invites})
+    complete = True
+    ev.log.info('Finished caching roles.')
