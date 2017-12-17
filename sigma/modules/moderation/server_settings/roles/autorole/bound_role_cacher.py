@@ -9,7 +9,7 @@ def get_changed_invite(guild_id, bound_list, invites):
     if cached is None:
         cached = []
     if invites is None:
-        cached = []
+        invites = []
     cache.update({guild_id: invites})
     if invites:
         for cached_inv in cached:
