@@ -8,16 +8,17 @@ def get_changed_invite(guild_id, bound_list, invites):
     cached = cache.get(guild_id)
     if cached is None:
         cached = []
+    cache.update({guild_id: invites})
     if invites is None:
         invites = []
-    cache.update({guild_id: invites})
     if invites:
         for cached_inv in cached:
             for curr_inv in invites:
-                if cached_inv.uses != curr_inv.uses:
-                    if curr_inv.id in bound_list:
-                        invite = curr_inv
-                        break
+                if cached_inv.id == curr_inv.id:
+                    if cached_inv.uses != curr_inv.uses:
+                        if curr_inv.id in bound_list:
+                            invite = curr_inv
+                            break
     return invite
 
 
