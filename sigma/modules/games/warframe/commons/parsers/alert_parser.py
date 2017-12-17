@@ -4,6 +4,8 @@ import aiohttp
 import arrow
 import discord
 
+from sigma.modules.games.warframe.commons.parsers.image_parser import FailedIconGrab, grab_image
+
 aura_list = [
     'brief respite', 'corrosive projection', 'dead eye',
     'emp aura', 'empowered blades', 'enemy radar', 'energy siphon',
@@ -13,6 +15,10 @@ aura_list = [
     'shotgun amp', 'shotgun scavenger', 'sniper scavenger',
     'speed holster', 'sprint boost', 'stand united', 'steel charge'
 ]
+
+overriden_icons = {
+    'endo': 'https://vignette.wikia.nocookie.net/warframe/images/f/f2/EndoIconRenderLarge.png'
+}
 
 
 def parse_alert_data(alert_data):
@@ -71,7 +77,24 @@ async def get_alert_data(db):
             triggers = item_reward.lower().split(' ')
             if item_reward.lower() in aura_list:
                 triggers.append('aura')
+            else:
+                if 'aura' in triggers:
+                    triggers.remove('aura')
     return alert_out, triggers
+
+
+def get_item_name(reward):
+    pieces = reward.title().split(' ')
+    try:
+        int(pieces[0])
+        resource = True
+    except ValueError:
+        resource = False
+    if resource:
+        rw_name = '_'.join(pieces[1:])
+    else:
+        rw_name = '_'.join(pieces)
+    return rw_name
 
 
 async def generate_alert_embed(data):
@@ -86,7 +109,17 @@ async def generate_alert_embed(data):
     alert_desc += f'\nLocation: {data["node"]} ({data["planet"]})'
     alert_desc += f'\nReward: {data["rewards"]["credits"]}cr'
     if data['rewards']['item']:
-        reward_icon = 'http://i.imgur.com/99ennZD.png'
+        if 'riven' in data['rewards']['item']:
+            reward_icon = 'https://i.imgur.com/RAQvxog.png'
+        else:
+            try:
+                reward_name = get_item_name(data['rewards']['item'])
+                if reward_name.lower() in overriden_icons:
+                    reward_icon = overriden_icons.get(reward_name.lower())
+                else:
+                    reward_icon = await grab_image(reward_name)
+            except FailedIconGrab:
+                reward_icon = 'https://i.imgur.com/99ennZD.png'
         alert_desc += f' + {data["rewards"]["item"]}'
     else:
         reward_icon = 'https://i.imgur.com/WeUJXIx.png'
