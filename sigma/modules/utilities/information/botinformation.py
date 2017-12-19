@@ -5,8 +5,8 @@ import discord
 
 
 async def botinformation(cmd, message, args):
-    version_data = cmd.bot.info.version.raw
-    author_data = cmd.bot.info.authors.raw
+    version_data = cmd.bot.info.get_version().raw
+    author_data = cmd.bot.info.get_authors().raw
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     support_url = 'https://discordapp.com/invite/aEUCHwX'
     ver_nest = version_data["version"]

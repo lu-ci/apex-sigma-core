@@ -10,12 +10,11 @@ async def version_check(ev):
             data = await version_data.read()
             data = json.loads(data)
     official_stamp = data['build_date']
-    current_stamp = ev.bot.info.version.timestamp
+    version = ev.bot.info.get_version()
+    current_stamp = version.timestamp
     if official_stamp > current_stamp:
-        current = f'{ev.bot.info.version.major}.{ev.bot.info.version.minor}.{ev.bot.info.version.patch}'
-        current += f' {ev.bot.info.version.codename}'
-        latest = f'{data["version"]["major"]}.{data["version"]["minor"]}.{data["version"]["patch"]}'
-        latest += f' {data["codename"]}'
+        current = f'{version.major}.{version.minor}.{version.patch} {version.codename}'
+        latest = f'{data["version"]["major"]}.{data["version"]["minor"]}.{data["version"]["patch"]} {data["codename"]}'
         ev.log.warning('---------------------------------')
         ev.log.warning('Your Sigma version is outdated.')
         ev.log.warning(f'CURRENT: {current}')

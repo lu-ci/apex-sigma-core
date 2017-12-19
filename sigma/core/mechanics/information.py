@@ -2,10 +2,17 @@ import yaml
 
 
 class Information(object):
-    def __init__(self):
-        self.version = Version()
-        self.authors = Authors()
-        self.donors = Donors()
+    @staticmethod
+    def get_version():
+        return Version()
+
+    @staticmethod
+    def get_authors():
+        return Authors()
+
+    @staticmethod
+    def get_donors():
+        return Donors()
 
 
 class Version(object):
