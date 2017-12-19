@@ -6,6 +6,7 @@ import discord
 import yaml
 
 from sigma.core.mechanics.command_requirements import CommandRequirements
+from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
@@ -64,7 +65,7 @@ class SigmaCommand(object):
 
     def get_exception(self):
         if self.bot.cfg.pref.dev_mode:
-            cmd_exception = SyntaxError
+            cmd_exception = DummyException
         else:
             cmd_exception = Exception
         return cmd_exception

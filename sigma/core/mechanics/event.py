@@ -1,5 +1,6 @@
 import discord
 
+from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 
 
@@ -17,7 +18,7 @@ class SigmaEvent(object):
 
     def get_exception(self):
         if self.bot.cfg.pref.dev_mode:
-            ev_exception = SyntaxError
+            ev_exception = DummyException
         else:
             ev_exception = Exception
         return ev_exception
