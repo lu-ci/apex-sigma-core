@@ -1,14 +1,12 @@
 ﻿import discord
 
-from sigma.core.utilities.role_processing import matching_role
-
 
 async def autorole(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             lookup = ' '.join(args)
             if lookup.lower() != 'disable':
-                target_role = matching_role(message.guild, lookup)
+                target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
                 if target_role:
                     role_bellow = bool(target_role.position < message.guild.me.top_role.position)
                     if role_bellow:

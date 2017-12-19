@@ -1,7 +1,5 @@
 import discord
 
-from sigma.core.utilities.role_processing import user_matching_role, matching_role
-
 
 async def removerole(cmd, message, args):
     if message.author.guild_permissions.manage_roles:
@@ -10,11 +8,11 @@ async def removerole(cmd, message, args):
                 if message.mentions:
                     target = message.mentions[0]
                     lookup = ' '.join(args[1:])
-                    role = matching_role(message.guild, lookup)
+                    role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
                     if role:
                         permit_self = (message.guild.me.top_role.position >= role.position)
                         if permit_self:
-                            user_has_role = user_matching_role(target, lookup)
+                            user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), target.roles)
                             if user_has_role:
                                 author = f'{message.author.name}#{message.author.discriminator}'
                                 await target.remove_roles(role, reason=f'Role removed by {author}.')

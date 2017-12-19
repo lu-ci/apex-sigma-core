@@ -1,6 +1,5 @@
 ﻿import discord
 
-from sigma.core.utilities.role_processing import matching_role
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -11,7 +10,7 @@ async def unpermitrole(cmd, message, args):
                 response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
             else:
                 target_name = ' '.join(args[1:])
-                target = matching_role(message.guild, target_name)
+                target = discord.utils.find(lambda x: x.name.lower() == target_name.lower(), message.guild.roles)
                 if target:
                     error_response = discord.Embed(color=0xBE1931, title='❗ Bad Input')
                     try:

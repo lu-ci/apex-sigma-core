@@ -1,13 +1,11 @@
 ﻿import discord
 
-from sigma.core.utilities.role_processing import matching_role
-
 
 async def delselfrole(cmd, message, args):
     if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args)
-            target_role = matching_role(message.guild, lookup)
+            target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
             if target_role:
                 role_bellow = bool(target_role.position < message.guild.me.top_role.position)
                 if role_bellow:
