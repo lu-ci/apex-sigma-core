@@ -30,21 +30,18 @@ class QueueItem(object):
         self.requester = requester
         self.item_info = item_info
         self.url = self.item_info.get('webpage_url')
-        self.video_id = self.item_info['id']
-        if 'uploader' in self.item_info:
-            self.uploader = self.item_info['uploader']
-        else:
-            self.uploader = 'Unknown'
+        self.video_id = self.item_info.get('id') or self.url
+        self.uploader = self.item_info.get('uploader') or 'Unknown'
         self.title = self.item_info['title']
         if 'thumbnail' in self.item_info:
-            thumb = self.item_info['thumbnail']
+            thumb = self.item_info.get('thumbnail')
             if thumb:
                 self.thumbnail = thumb
             else:
                 self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
         else:
             self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
-        self.duration = int(self.item_info['duration'])
+        self.duration = int(self.item_info.get('duration') or 0)
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
         self.threads = ThreadPoolExecutor()
