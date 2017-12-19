@@ -25,10 +25,7 @@ class Database(motor.AsyncIOMotorClient):
             await self[self.bot.cfg.db.database].ServerSettings.insert_one({'ServerID': guild_id})
             setting_value = None
         else:
-            if setting_name in guild_settings:
-                setting_value = guild_settings[setting_name]
-            else:
-                setting_value = None
+            setting_value = guild_settings.get(setting_name)
         return setting_value
 
     async def set_guild_settings(self, guild_id, setting_name, value):
@@ -47,15 +44,10 @@ class Database(motor.AsyncIOMotorClient):
         collection = database['ExperienceSystem']
         entry = await collection.find_one({'UserID': user.id})
         if entry:
-            if 'global' in entry:
-                global_xp = entry['global']
-            else:
-                global_xp = 0
+            global_xp = entry.get('global') or 0
             guild_id = str(guild.id)
-            if guild_id in entry['guilds']:
-                guild_xp = entry['guilds'][guild_id]
-            else:
-                guild_xp = 0
+            guilds = entry.get('guilds') or {}
+            guild_xp = guilds.get(guild_id) or 0
         else:
             global_xp = 0
             guild_xp = 0
@@ -72,23 +64,14 @@ class Database(motor.AsyncIOMotorClient):
             collection = database['ExperienceSystem']
             entry = await collection.find_one({'UserID': user.id})
             if entry:
-                if 'global' in entry:
-                    global_xp = entry['global']
-                else:
-                    global_xp = 0
-                if 'guilds' in entry:
-                    guilds = entry['guilds']
-                else:
-                    guilds = {}
+                global_xp = entry.get('global') or 0
+                guilds = entry.get('guilds') or {}
             else:
                 await collection.insert_one({'UserID': user.id})
                 global_xp = 0
                 guilds = {}
             guild_id = str(guild.id)
-            if guild_id in guilds:
-                guild_points = guilds[guild_id]
-            else:
-                guild_points = 0
+            guild_points = guilds.get(guild_id) or 0
             if additive:
                 global_xp += points
                 guild_points += points
@@ -107,19 +90,11 @@ class Database(motor.AsyncIOMotorClient):
         collection = database['CurrencySystem']
         entry = await collection.find_one({'UserID': user.id})
         if entry:
-            if 'global' in entry:
-                global_amount = entry['global']
-            else:
-                global_amount = 0
-            current_amount = entry['current']
+            global_amount = entry.get('global') or 0
+            current_amount = entry.get('current') or 0
             guild_id = str(guild.id)
-            if 'guilds' in entry:
-                if guild_id in entry['guilds']:
-                    guild_amount = entry['guilds'][guild_id]
-                else:
-                    guild_amount = 0
-            else:
-                guild_amount = 0
+            guilds = entry.get('guilds') or {}
+            guild_amount = guilds.get(guild_id) or 0
         else:
             current_amount = 0
             global_amount = 0
@@ -139,28 +114,16 @@ class Database(motor.AsyncIOMotorClient):
             entry = await collection.find_one({'UserID': user.id})
             points = abs(points)
             if entry:
-                if 'current' in entry:
-                    current_amount = entry['current']
-                else:
-                    current_amount = 0
-                if 'global' in entry:
-                    global_amount = entry['global']
-                else:
-                    global_amount = 0
-                if 'guilds' in entry:
-                    guilds = entry['guilds']
-                else:
-                    guilds = {}
+                current_amount = entry.get('current') or 0
+                global_amount = entry.get('global') or 0
+                guilds = entry.get('guilds') or 0
             else:
                 await collection.insert_one({'UserID': user.id})
                 global_amount = 0
                 current_amount = 0
                 guilds = {}
             guild_id = str(guild.id)
-            if guild_id in guilds:
-                guild_points = guilds[guild_id]
-            else:
-                guild_points = 0
+            guild_points = guilds.get(guild_id) or 0
             if additive:
                 global_amount += points
                 guild_points += points
@@ -182,10 +145,7 @@ class Database(motor.AsyncIOMotorClient):
         entry = await collection.find_one({'UserID': user.id})
         points = abs(points)
         if entry:
-            if 'current' in entry:
-                current_amount = entry['current']
-            else:
-                current_amount = 0
+            current_amount = entry.get('current') or 0
         else:
             await collection.insert_one({'UserID': user.id})
             current_amount = 0
@@ -203,7 +163,7 @@ class Database(motor.AsyncIOMotorClient):
             await self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
             inventory = []
         else:
-            inventory = inventory['Items']
+            inventory = inventory.get('Items')
         return inventory
 
     async def update_inv(self, user, inv):
