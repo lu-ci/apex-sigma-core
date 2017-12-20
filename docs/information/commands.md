@@ -10,6 +10,7 @@
 - [MINIGAMES](#minigames)
 - [MISCELLANEOUS](#miscellaneous)
 - [MODERATION](#moderation)
+- [MUSIC](#music)
 - [NIHONGO](#nihongo)
 - [NSFW](#nsfw)
 - [PERMISSIONS](#permissions)
@@ -248,6 +249,22 @@ Commands | Description | Example
 `>>warn` | Adds a user to the warning list along with the reason stated. The used will also receive a direct message from the bot stating they have been warned. Warnings can be cleared with the unwarn command. | `>>warn @person Bit my dog`
 `>>warning` `>>warninfo` | Shows information regarding a user's warning. Both the mention of the user and the warning ID are required. | `>>warning @person 12af`
 `>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead. | `>>warnings @person`
+[Back To Top](#module-index)
+
+### MUSIC
+Commands | Description | Example
+----------|-------------|--------
+`>>disconnect` `>>stop` | Stops the music, disconnects the bot from the current voice channel, and purges the music queue. | `>>disconnect`
+`>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information regarding the currently playing song. | `>>nowplaying`
+`>>pause` | Pauses the music player. | `>>pause`
+`>>play` `>>start` | Starts playing the music queue. | `>>play`
+`>>queue` `>>add` | Queues up a song to play from YouTube. Either from a direct URL or text search. Playlists are supported but take a long time to process. | `>>queue Kaskade Disarm You Illenium Remix`
+`>>repeat` | Toggles if the current queue should be repeated. Whenever a song is played, it's re-added to the end of the queue. | `>>repeat`
+`>>resume` | Resumes the music player. | `>>resume`
+`>>shuffle` | Randomizes the current song queue. | `>>shuffle`
+`>>skip` `>>next` | Skips the currently playing song. | `>>skip`
+`>>summon` `>>move` | If the bot isn't connected to any channel, it'll connect to yours. If it is connected, it will move to you. | `>>summon`
+`>>unqueue` `>>remove` | Removes a song from the queue. Minimum number is 1 and the maximum is however many items the queue has. Even though list indexes start at zero. | `>>unqueue 5`
 [Back To Top](#module-index)
 
 ### NIHONGO
