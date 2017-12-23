@@ -116,7 +116,7 @@ class Database(motor.AsyncIOMotorClient):
             if entry:
                 current_amount = entry.get('current') or 0
                 global_amount = entry.get('global') or 0
-                guilds = entry.get('guilds') or 0
+                guilds = entry.get('guilds') or {}
             else:
                 await collection.insert_one({'UserID': user.id})
                 global_amount = 0
