@@ -160,9 +160,10 @@ class SigmaCommand(object):
             if not self.bot.cool_down.cmd.on_cooldown(cd_identifier):
                 self.bot.cool_down.cmd.set_cooldown(cd_identifier)
                 perms = GlobalCommandPermissions(self, message)
-                await perms.check_black_srv()
                 await perms.check_black_usr()
+                await perms.check_black_srv()
                 await perms.generate_response()
+                perms.check_final()
                 guild_allowed = ServerCommandPermissions(self, message)
                 await guild_allowed.check_perms()
                 self.log_command_usage(message, args)

@@ -24,7 +24,6 @@ class GlobalCommandPermissions(object):
         self.check_nsfw()
         self.check_dmable()
         self.check_owner()
-        self.check_final()
 
     def check_dmable(self):
         if not self.message.guild:
