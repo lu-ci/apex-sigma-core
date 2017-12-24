@@ -1,8 +1,8 @@
-import json
 import hashlib
+import json
+
 import aiohttp
 import discord
-
 
 ac_imgs = {
     'angst': 'https://vignette.wikia.nocookie.net/warframe/images/e/ec/StrikerAcolyte.png',
@@ -50,7 +50,7 @@ async def get_acolyte_data(db):
 
 
 def generate_acolyte_embed(acd):
-    details = f'Health: **{round(acd.get("health") * 100, 2)}**'
+    details = f'Health: **{round(acd.get("health") * 100, 2)}%**'
     details += f'\nLocation: **{acd.get("location")}**'
     response = discord.Embed(color=0x990000, title=f'{acd.get("name")} has been found!')
     response.set_thumbnail(url=ac_imgs.get(acd.get("name").lower()))

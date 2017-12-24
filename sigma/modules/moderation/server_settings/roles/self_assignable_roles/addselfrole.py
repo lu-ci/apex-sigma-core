@@ -1,7 +1,6 @@
 ﻿import discord
 
 
-
 async def addselfrole(cmd, message, args):
     if message.author.guild_permissions.manage_roles:
         if args:
