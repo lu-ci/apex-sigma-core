@@ -1,5 +1,6 @@
 import hashlib
 import json
+import arrow
 
 import aiohttp
 import discord
@@ -15,7 +16,8 @@ ac_imgs = {
 
 
 def make_acolyte_id(ac_name, ac_location):
-    hash_string = f'acolyte_{ac_name}_{ac_location}'
+    time_sect = arrow.utcnow().format('YYYY-MM-DD-HH')
+    hash_string = f'acolyte_{ac_name}_{ac_location}_ {time_sect}'
     cryp = hashlib.new('md5')
     cryp.update(hash_string.encode('utf-8'))
     return cryp.hexdigest()
@@ -52,7 +54,7 @@ async def get_acolyte_data(db):
 def generate_acolyte_embed(acd):
     details = f'Health: **{round(acd.get("health") * 100, 2)}%**'
     details += f'\nLocation: **{acd.get("location")}**'
-    response = discord.Embed(color=0x990000, title=f'{acd.get("name")} has been found!')
+    response = discord.Embed(color=0xcc0000, title=f'{acd.get("name")} has been found!')
     response.set_thumbnail(url=ac_imgs.get(acd.get("name").lower()))
     response.description = details
     return response

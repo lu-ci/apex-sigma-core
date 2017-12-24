@@ -36,7 +36,7 @@ async def wfacolytes(cmd, message, args):
             entry = [name, health, location]
             data_list.append(entry)
         data_table = format_pretty_table(data_list, headers)
-        response = discord.Embed(color=0x990000)
+        response = discord.Embed(color=0xcc0000)
         response.set_author(name='Warframe Acolyte Data', icon_url=stalker_icon)
         response.description = f'```hs\n{data_table}\n```'
     await message.channel.send(embed=response)
