@@ -46,6 +46,14 @@ commands:
     description:
       Shows the current ative news in Warframe.
 
+  - name:         wfacolytes
+    alts:
+      - "wfacol"
+    enabled:      true
+    description:
+      Shows data on the Stalker's acolytes.
+      Their names, locations and health.
+
   - name:         wfplainsofeidolon
     alts:
       - "wfpoe"

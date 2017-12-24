@@ -16,8 +16,19 @@ def remove_revision(url):
     return out_url
 
 
+def clean_generics(name):
+    sections = name.split('_')
+    sects_low = [x.lower() for x in sections]
+    if 'vauban' in sects_low:
+        name = 'Vauban'
+    elif sects_low[-1] == 'blueprint':
+        name = '_'.join(sections[:-1])
+    return name
+
+
 async def grab_image(name):
     try:
+        name = clean_generics(name)
         page_url = f'http://warframe.wikia.com/wiki/{name}'
         async with aiohttp.ClientSession() as session:
             async with session.get(page_url) as item_page_call:

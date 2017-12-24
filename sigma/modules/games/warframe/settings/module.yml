@@ -15,6 +15,16 @@ commands:
       When a new alert shows up the news will be posted there.
       To disable this, write disable after the command instead of a channel.
 
+  - name:         wfacolytechannel
+    alts:
+      - "wfacolc"
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-acolytes"
+    description:
+      Designates a channel for Warframe acolyte notifications.
+      When an acolute is found it shows up there.
+      To disable this, write disable after the command instead of a channel.
+
   - name:         wfinvasionchannel
     alts:
       - "wfic"

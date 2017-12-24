@@ -21,6 +21,10 @@ events:
     type:         ready
     enabled:      true
 
+  - name:         acolyte_clockwork
+    type:         ready
+    enabled:      true
+
   - name:         sortie_clockwork
     type:         ready
     enabled:      true
