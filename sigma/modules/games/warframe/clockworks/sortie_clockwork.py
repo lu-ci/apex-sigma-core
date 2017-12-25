@@ -15,6 +15,6 @@ async def sortie_cycler(ev):
             if sorties:
                 response = generate_sortie_embed(sorties)
                 await send_to_channels(ev, response, 'WarframeSortieChannel')
-        except Exception as err:
+        except Exception:
             pass
         await asyncio.sleep(2)

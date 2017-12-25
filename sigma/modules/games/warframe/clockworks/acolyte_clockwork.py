@@ -15,6 +15,6 @@ async def acolyte_cycler(ev):
             if acolytes:
                 response = generate_acolyte_embed(acolytes)
                 await send_to_channels(ev, response, 'WarframeAcolyteChannel', triggers)
-        except SyntaxError as err:
+        except Exception:
             pass
         await asyncio.sleep(2)

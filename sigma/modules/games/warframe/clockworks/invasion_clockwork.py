@@ -15,6 +15,6 @@ async def invasion_cycler(ev):
             if invasions:
                 response = await generate_invasion_embed(invasions)
                 await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
-        except Exception as err:
+        except Exception:
             pass
         await asyncio.sleep(2)

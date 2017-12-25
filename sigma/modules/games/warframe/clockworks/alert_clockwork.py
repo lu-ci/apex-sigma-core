@@ -15,6 +15,6 @@ async def alert_cycler(ev):
             if alerts:
                 response = await generate_alert_embed(alerts)
                 await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
-        except Exception as err:
+        except Exception:
             pass
         await asyncio.sleep(2)
