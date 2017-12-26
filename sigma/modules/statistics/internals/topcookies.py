@@ -21,6 +21,10 @@ async def topcookies(cmd, message, args):
             unam = user.name
         else:
             unam = '{Unknown}'
+
+        if len(unam) > 13:
+            unam = f'{unam[0:13]}...'
+
         cookie_list.append([unam, cookie_file['Cookies']])
     cookie_table = boop(cookie_list, ['User', 'Cookies'])
     top_text = f'A total of {cookie_count} cookies have been given.'
