@@ -1,0 +1,14 @@
+name:             Experience Awarding
+
+category:         administration
+
+enabled:          true
+
+events:
+  - name:         experience_activity
+    type:         message
+    enabled:      true
+
+  - name:         experience_daily
+    type:         message
+    enabled:      true
