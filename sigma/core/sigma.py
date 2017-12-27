@@ -136,10 +136,11 @@ class ApexSigma(client_class):
             exit(errno.EPERM)
 
     async def event_runner(self, event_name, *args):
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                task = event, *args
-                await self.queue.queue.put(task)
+        if self.ready:
+            if event_name in self.modules.events:
+                for event in self.modules.events[event_name]:
+                    task = event, *args
+                    await self.queue.queue.put(task)
 
     async def on_connect(self):
         event_name = 'connect'
