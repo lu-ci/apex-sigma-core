@@ -22,7 +22,6 @@ class Database(motor.AsyncIOMotorClient):
             guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
             self.cache.set_cache(guild_id, guild_settings)
         if not guild_settings:
-            await self[self.bot.cfg.db.database].ServerSettings.insert_one({'ServerID': guild_id})
             setting_value = None
         else:
             setting_value = guild_settings.get(setting_name)
