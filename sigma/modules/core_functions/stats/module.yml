@@ -2,7 +2,7 @@ name:            Event Stats
 
 category:        administration
 
-enabled:         true
+enabled:         false
 
 events:
   - name:        ev_message
