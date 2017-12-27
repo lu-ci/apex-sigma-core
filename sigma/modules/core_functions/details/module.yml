@@ -2,7 +2,7 @@ name:            Object Detail Fillers
 
 category:        administration
 
-enabled:         true
+enabled:         false
 
 events:
   - name:        user_data_fill
