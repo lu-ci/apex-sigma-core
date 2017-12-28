@@ -217,7 +217,7 @@ class ApexSigma(client_class):
 
     async def on_message_edit(self, before, after):
         if not before.author.bot:
-            self.loop.create_task(self.event_runner('mesage_edit', before, after))
+            self.loop.create_task(self.event_runner('message_edit', before, after))
 
     async def on_message_delete(self, message):
         if not message.author.bot:
