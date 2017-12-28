@@ -19,7 +19,7 @@ class Database(motor.AsyncIOMotorClient):
     async def get_guild_settings(self, guild_id, setting_name):
         guild_settings = self.cache.get_cache(guild_id)
         if guild_settings is None:
-            guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id})
+            guild_settings = await self[self.bot.cfg.db.database].ServerSettings.find_one({'ServerID': guild_id}) or {}
             self.cache.set_cache(guild_id, guild_settings)
         if not guild_settings:
             setting_value = None
