@@ -1,30 +1,17 @@
-import arrow
-
 from sigma.modules.core_functions.stats.stats_temp_storage import StatisticsStorage
 
 stats_handler = None
 
 
-async def add_cmd_stat(db, cmd, message, args):
-    if not message.author.bot:
-        if message.guild:
-            channel_id = message.channel.id
-            guild_id = message.guild.id
-        else:
-            channel_id = None
-            guild_id = None
-        stat_data = {
-            'command': cmd.name,
-            'args': args,
-            'author': message.author.id,
-            'channel': channel_id,
-            'guild': guild_id,
-            'timestamp': {
-                'created': arrow.get(message.created_at).float_timestamp,
-                'executed': arrow.utcnow().float_timestamp
-            }
-        }
-        await db[db.db_cfg.database]['CommandStats'].insert_one(stat_data)
+async def add_cmd_stat(cmd):
+    lookup_target = {'command': cmd.name}
+    stat_file = await cmd.db[cmd.db.db_cfg.database]['CommandStats'].find_one(lookup_target)
+    if stat_file:
+        count = stat_file.get('count')
+        await cmd.db[cmd.db.db_cfg.database]['CommandStats'].update_one(lookup_target, {'$set': {'count': count}})
+    else:
+        count = 1
+        await cmd.db[cmd.db.db_cfg.database]['CommandStats'].insert_one({'name': cmd.name, 'count': count})
 
 
 async def add_special_stats(db, stat_name):
