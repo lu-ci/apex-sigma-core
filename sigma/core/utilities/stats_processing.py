@@ -11,7 +11,7 @@ async def add_cmd_stat(cmd):
         await cmd.db[cmd.db.db_cfg.database]['CommandStats'].update_one(lookup_target, {'$set': {'count': count}})
     else:
         count = 1
-        await cmd.db[cmd.db.db_cfg.database]['CommandStats'].insert_one({'name': cmd.name, 'count': count})
+        await cmd.db[cmd.db.db_cfg.database]['CommandStats'].insert_one({'command': cmd.name, 'count': count})
 
 
 async def add_special_stats(db, stat_name):
