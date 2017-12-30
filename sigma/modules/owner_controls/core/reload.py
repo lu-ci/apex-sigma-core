@@ -1,9 +1,10 @@
 ﻿from importlib import reload as reimport
-
+from sigma.modules.development.version_updater import version_updater
 import discord
 
 
 async def reload(cmd, message, args):
+    await version_updater(cmd)
     if not args:
         cmd.log.info('---------------------------------')
         cmd.log.info('Reloading all modules...')
