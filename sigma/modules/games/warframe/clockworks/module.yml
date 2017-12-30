@@ -23,7 +23,7 @@ events:
 
   - name:         acolyte_clockwork
     type:         ready
-    enabled:      true
+    enabled:      false
 
   - name:         sortie_clockwork
     type:         ready
