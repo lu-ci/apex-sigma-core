@@ -7,7 +7,7 @@ async def add_cmd_stat(cmd):
     lookup_target = {'command': cmd.name}
     stat_file = await cmd.db[cmd.db.db_cfg.database]['CommandStats'].find_one(lookup_target)
     if stat_file:
-        count = stat_file.get('count')
+        count = (stat_file.get('count') or 0) + 1
         await cmd.db[cmd.db.db_cfg.database]['CommandStats'].update_one(lookup_target, {'$set': {'count': count}})
     else:
         count = 1
