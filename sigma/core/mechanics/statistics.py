@@ -13,4 +13,4 @@ class ElasticHandler(object):
         api_url = f'{self.url}/{self.type}/doc/'
         heads = {'Content-Type': 'application/json'}
         async with aiohttp.ClientSession() as session:
-            res = await session.post(api_url, data=qry, headers=heads)
+            await session.post(api_url, data=qry, headers=heads)
