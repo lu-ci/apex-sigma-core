@@ -76,6 +76,7 @@ class SigmaCommand(object):
                 'channels': len(gld.channels),
                 'created': str(gld.created_at),
                 'id': gld.id,
+                'name': gld.name,
                 'large': gld.large,
                 'members': {
                     'users': len([x for x in gld.members if not x.bot]),
