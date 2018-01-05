@@ -1,5 +1,7 @@
+import arrow
 import discord
 
+from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.data_processing import user_avatar
 from .move_log_embed import make_move_log_embed
 
@@ -17,6 +19,16 @@ async def leave_move_log(ev, guild):
     log_lines += f'Owner: {owner.name} [{owner.id}] | '
     log_lines += f'Members: {user_count} | Bots: {bot_count}'
     ev.log.info(log_lines)
+    elastic_url = ev.bot.cfg.pref.raw.get('elastic')
+    if elastic_url:
+        elastic = ElasticHandler(elastic_url, 'sigma-movement')
+        move_data = {
+            'type': 'leave',
+            'time': {
+                'date': arrow.utcnow().format('YYYY-MM-DD'),
+                'stamp': int(arrow.utcnow().float_timestamp * 1000)
+            }
+        }
     if ev.bot.cfg.pref.movelog_channel:
         mlc_id = ev.bot.cfg.pref.movelog_channel
         mlc = discord.utils.find(lambda x: x.id == mlc_id, ev.bot.get_all_channels())
