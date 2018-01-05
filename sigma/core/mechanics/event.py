@@ -45,7 +45,7 @@ class SigmaEvent(object):
                 }
             }
         }
-        await self.stats.push(stat_data)
+        await self.stats.post(stat_data)
 
     async def execute(self, *args):
         if self.bot.ready:
