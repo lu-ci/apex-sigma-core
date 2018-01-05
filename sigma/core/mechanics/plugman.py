@@ -101,7 +101,7 @@ class PluginManager(object):
         for root, dirs, files in os.walk(directory):
             for file in files:
                 if file == 'module.yml':
-                    file_path = (os.path.join(root, file))
+                    file_path = os.path.join(root, file)
                     with open(file_path, encoding='utf-8') as plugin_file:
                         module_data = yaml.safe_load(plugin_file)
                         if module_data.get('enabled'):
