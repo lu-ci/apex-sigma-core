@@ -2,6 +2,7 @@
 import secrets
 import traceback
 
+import arrow
 import discord
 import yaml
 
@@ -99,6 +100,16 @@ class SigmaCommand(object):
                 'author': ath_data,
                 'channel': chn_data,
                 'guild': gld_data
+            },
+            'time': {
+                'executed': {
+                    'date': arrow.utcnow().format('YYYY-MM-DD'),
+                    'stamp': arrow.utcnow().float_timestamp
+                },
+                'created': {
+                    'date': arrow.get(message.created_at).format('YYYY-MM-DD'),
+                    'stamp': arrow.get(message.created_at).float_timestamp
+                }
             }
         }
         await self.stats.post(stat_data)
