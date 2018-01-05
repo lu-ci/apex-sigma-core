@@ -49,7 +49,6 @@ class QueueItem(object):
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
         self.token = self.tokenize()
         self.location = None
-        print(self.thumbnail)
 
     def tokenize(self):
         name = 'yt_' + self.video_id
