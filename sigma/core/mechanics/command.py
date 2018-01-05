@@ -104,11 +104,11 @@ class SigmaCommand(object):
             'time': {
                 'executed': {
                     'date': arrow.utcnow().format('YYYY-MM-DD'),
-                    'stamp': arrow.utcnow().float_timestamp
+                    'stamp': int(arrow.utcnow().float_timestamp * 1000)
                 },
                 'created': {
                     'date': arrow.get(message.created_at).format('YYYY-MM-DD'),
-                    'stamp': arrow.get(message.created_at).float_timestamp
+                    'stamp': int(arrow.utcnow().float_timestamp * 1000)
                 }
             }
         }
