@@ -28,6 +28,7 @@ async def join_move_log(ev, guild):
                 'stamp': int(arrow.utcnow().float_timestamp * 1000)
             }
         }
+        elastic.post(move_data)
     if ev.bot.cfg.pref.movelog_channel:
         mlc_id = ev.bot.cfg.pref.movelog_channel
         mlc = discord.utils.find(lambda x: x.id == mlc_id, ev.bot.get_all_channels())
