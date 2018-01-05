@@ -158,7 +158,8 @@ class SigmaCommand(object):
     async def add_usage_exp(self, message):
         if message.guild:
             if not await self.bot.cool_down.on_cooldown('UsageExperience', message.author):
-                await self.db.add_experience(message.author, message.guild, 500)
+                award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
+                await self.db.add_experience(message.author, message.guild, award_xp)
                 await self.bot.cool_down.set_cooldown('UsageExperience', message.author, 450)
 
     @staticmethod
