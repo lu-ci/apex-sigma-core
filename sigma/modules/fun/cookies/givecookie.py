@@ -10,8 +10,8 @@ async def givecookie(cmd, message, args):
         author_stamp = arrow.get(message.author.created_at).float_timestamp
         current_stamp = arrow.utcnow().float_timestamp
         time_diff = current_stamp - author_stamp
-        if sabotage_author:
-            if sabotage_target:
+        if not sabotage_author:
+            if not sabotage_target:
                 if time_diff > 2592000:
                     if message.author.id != target.id:
                         if not target.bot:
@@ -58,9 +58,9 @@ async def givecookie(cmd, message, args):
                     title = f'❗ Sorry, your account is too young to give cookies.'
                     response = discord.Embed(color=0xBE1931, title=title)
             else:
-                response = discord.Embed(color=0xBE1931, title='It seems this user is alergic to cookies.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ It seems that {target.name} is alergic to cookies.')
         else:
-            response = discord.Embed(color=0xBE1931, title='It seems that your oven is broken.')
+            response = discord.Embed(color=0xBE1931, title='❗ It seems that your oven is broken.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     await message.channel.send(embed=response)
