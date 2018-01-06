@@ -44,6 +44,18 @@ commands:
       The Kud reward is equal to the number of characters of the shortest part of the characters name.
       If the hint is used, the Kud reward is split in half.
 
+  - name:         mangachargame
+    alts:
+      - "mangochargame"
+      - "mancg"
+    enabled:      true
+    usage:        "{pfx}{cmd} hint"
+    description:
+      A minigame where you guess the name of the manga character shown.
+      You can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters of the shortest part of the characters name.
+      If the hint is used, the Kud reward is split in half.
+
   - name:         mathgame
     alts:
       - "mg"
