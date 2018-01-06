@@ -48,6 +48,10 @@ commands:
       Enables a previously disabled module.
 
   - name:        permituser
+    alts:
+      - "pusr"
+      - "permusr"
+      - "permitu"
     enabled:     true
     usage:       "{pfx}{cmd} c:pun @person"
     description:
@@ -56,6 +60,10 @@ commands:
       If it is a command use C, if it is a module use M, following the usage example.
 
   - name:        unpermituser
+    alts:
+      - "upusr"
+      - "unpermusr"
+      - "unpermitu"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun @person"
     description:
@@ -64,6 +72,10 @@ commands:
       If it is a command use C, if it is a module use M, following the usage example.
 
   - name:        permitchannel
+    alts:
+      - "pch"
+      - "permch"
+      - "permitc"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
@@ -71,6 +83,10 @@ commands:
       Follow the usage example, C for command, M for module.
 
   - name:        unpermitchannel
+    alts:
+      - "upch"
+      - "unpermch"
+      - "unpermitc"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
@@ -78,6 +94,10 @@ commands:
       Follow the usage example, C for command, M for module.
 
   - name:        permitrole
+    alts:
+      - "prl"
+      - "permrl"
+      - "permitr"
     enabled:     true
     usage:       "{pfx}{cmd} c:csshumor Wizards"
     description:
@@ -86,6 +106,10 @@ commands:
       If it is a command use C and if it is a module use M following the example.
 
   - name:        unpermitrole
+    alts:
+      - "uprl"
+      - "unpermrl"
+      - "unpermitrl"
     enabled:     true
     usage:       "{pfx}{cmd} m:minigames Gamblers"
     description:
