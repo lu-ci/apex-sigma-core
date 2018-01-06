@@ -14,10 +14,10 @@ async def afk(cmd, message, args):
         'Reason': afk_reason
     }
     if afk_data:
-        title = 'Your status has been updated.'
+        title = 'Your status has been updated'
         await cmd.db[cmd.db.db_cfg.database]['AwayUsers'].update_one({'UserID': message.author.id}, {'$set': in_data})
     else:
-        title = 'You have been marked as away.'
+        title = 'You have been marked as away'
         await cmd.db[cmd.db.db_cfg.database]['AwayUsers'].insert_one(in_data)
     url = None
     for piece in afk_reason.split():
