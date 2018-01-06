@@ -36,9 +36,9 @@ async def manga(cmd, message, args):
                 if rating:
                     rating = attr['averageRating'][:5]
                 else:
-                    rating = 'None'
+                    rating = 'Unknown'
             else:
-                rating = 'None'
+                rating = 'Unknown'
             volume_count = attr['volumeCount']
             chapter_count = attr['chapterCount']
             start_date = attr['startDate']

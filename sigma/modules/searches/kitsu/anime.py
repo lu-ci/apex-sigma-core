@@ -32,9 +32,13 @@ async def anime(cmd, message, args):
             else:
                 jp_title = attr['titles']['en_jp']
             if 'averageRating' in attr:
-                rating = attr['averageRating'][:5]
+                rating = attr['averageRating']
+                if rating:
+                    rating = attr['averageRating'][:5]
+                else:
+                    rating = 'Unknown'
             else:
-                rating = 'None'
+                rating = 'Unknown'
             episode_count = attr['episodeCount']
             episode_length = attr['episodeLength']
             start_date = attr['startDate']
