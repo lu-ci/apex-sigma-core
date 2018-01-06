@@ -62,5 +62,15 @@ async def givecookie(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ It seems that your oven is broken.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
+        if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+            response = discord.Embed(color=0xd99e82, title='🍪 Your cookie is ready to be given.')
+        else:
+            timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+            if timeout_seconds > 60:
+                timeout_seconds = arrow.utcnow().timestamp + timeout_seconds
+                timeout = arrow.get(timeout_seconds).humanize()
+            else:
+                timeout = f'in {timeout_seconds} seconds'
+            timeout_title = f'🕙 You can give another cookie {timeout}.'
+            response = discord.Embed(color=0x696969, title=timeout_title)
     await message.channel.send(embed=response)
