@@ -12,5 +12,8 @@ class ElasticHandler(object):
         qry = json.dumps(data)
         api_url = f'{self.url}/{self.type}/doc/'
         heads = {'Content-Type': 'application/json'}
-        async with aiohttp.ClientSession() as session:
-            await session.post(api_url, data=qry, headers=heads)
+        try:
+            async with aiohttp.ClientSession() as session:
+                await session.post(api_url, data=qry, headers=heads)
+        except Exception:
+            pass
