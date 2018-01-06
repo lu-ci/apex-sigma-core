@@ -14,7 +14,15 @@ async def manga(cmd, message, args):
                 data = await data.read()
                 data = json.loads(data)
         if data['data']:
-            ani_url = data['data'][0]['links']['self']
+            ani_url = None
+            for result in data['data']:
+                for title_key in result.get('attributes').get('titles'):
+                    atr_title = result.get('attributes').get('titles').get(title_key)
+                    if qry.lower() == atr_title.lower() or atr_title.lower().startswith(qry.lower()):
+                        ani_url = result.get('linkgs').get('self')
+                        break
+            if not ani_url:
+                ani_url = data['data'][0]['links']['self']
             async with aiohttp.ClientSession() as session:
                 async with session.get(ani_url) as data:
                     data = await data.read()
