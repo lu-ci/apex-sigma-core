@@ -22,9 +22,12 @@ async def inspect(cmd, message, args):
                 response = item_o.make_inspect_embed(cmd.bot.cfg.pref.currency)
                 response.set_footer(text=f'ItemID: {item["item_id"]}')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup} in your inventory.')
+                response = None
         else:
-            response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty, {message.author.name}...')
+            response = None
     else:
         response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
-    await message.channel.send(embed=response)
+    if response:
+        await message.channel.send(embed=response)
+    else:
+        await cmd.bot.modules.commands.get('finditem').execute(message, args)
