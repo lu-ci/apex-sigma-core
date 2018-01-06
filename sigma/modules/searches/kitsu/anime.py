@@ -43,11 +43,6 @@ async def anime(cmd, message, args):
             episode_length = attr['episodeLength']
             start_date = attr['startDate']
             end_date = attr['endDate']
-            nsfw = attr['nsfw']
-            if nsfw:
-                nsfw = 'Yes (º﹃º)'
-            else:
-                nsfw = 'No (ಠ\\_ಠ)'
             anime_desc = f'Title: {jp_title}'
             anime_desc += f'\nRating: {rating}%'
             anime_desc += f'\nAir Time: {start_date} - {end_date}'
@@ -56,7 +51,6 @@ async def anime(cmd, message, args):
                 anime_desc += f'\nDuration: {episode_length} Minutes'
             else:
                 anime_desc += '\nDuration: Unknown'
-            anime_desc += f'\nIs NSFW: {nsfw}'
             response = discord.Embed(color=0xff3300)
             response.set_author(name=f'{en_title or jp_title}', icon_url=kitsu_icon,
                                 url=f'https://kitsu.io/anime/{slug}')
