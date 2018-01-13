@@ -274,6 +274,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>jisho` | Searches Jisho, which is the Japanese language dictionary, for your input. Resulting in a display of various types of information regarding your lookup. | `>>jisho Kawaii`
+`>>kanji` | Searches Jisho, which is the Japanese language dictionary, for specified kanji. Returns stroke count, stroke order, parts, variants, meanings and readings. | `>>kanji 夢`
 `>>wanikani` `>>wk` | Shows the mentioned person's WaniKani statistics. If no person is mentioned it will show the author's stats. This requires the person to have a WaniKani API key stored with the wksave command. | `>>wanikani @person`
 `>>wanikanisave` `>>wksave` | Saves your WaniKani API key in the database so the wanikani command can be used. | `>>wanikanisave 123456798`
 [Back To Top](#module-index)
