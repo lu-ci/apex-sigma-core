@@ -32,7 +32,7 @@ async def status(cmd, message, args):
         cpu_clock = 'Unknown'
     cpu_text = f'Count: **{psutil.cpu_count()} ({psutil.cpu_count(logical=False)})**'
     cpu_text += f'\nUsage: **{psutil.cpu_percent()}%**'
-    cpu_text += f'\nClock: **{cpu_clock} MHz**'
+    cpu_text += f'\nClock: **{cpu_clock:.2f} MHz**'
     avail_mem = psutil.virtual_memory().available
     total_mem = psutil.virtual_memory().total
     used_mem = humanfriendly.format_size(total_mem - avail_mem, binary=True)
