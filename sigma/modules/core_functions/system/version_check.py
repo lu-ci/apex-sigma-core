@@ -4,7 +4,7 @@ import aiohttp
 
 
 async def version_check(ev):
-    version_url = 'https://api.lucia.moe/data/version'
+    version_url = 'https://api.lucia.moe/rest/sigma/version'
     async with aiohttp.ClientSession() as session:
         async with session.get(version_url) as version_data:
             data = await version_data.read()
