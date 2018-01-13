@@ -1,4 +1,6 @@
-﻿# Apex Sigma: The Database Giant
+﻿[![Sigma Banner](https://i.imgur.com/TRSdGni.png)](https://lucia.moe/)
+
+# Apex Sigma: The Database Giant
 
 **Apex Sigma** was created to connect to as many API endpoints as possible to bring you large amounts of data you might possibly need. **Wikipedia** articles, **reddit** posts, funny cat videos from **YouTube**, tasty **recipes**, **dictionary** definition, both official and urban, **anime** data and loads more. Alongside a plethora of search capabilities, Sigma has intuitive **moderation** modules to help you organize, optimize, and control, your **Discord** server. To help your community liven up and grow while having fun, it also comes with numerous fun **utilities**, **minigames** and user **interactions** for your enjoyment.
 
@@ -20,9 +22,9 @@ If you feel like helping out Sigma and Alex, please do consider supporting us on
 ## Features
 > All of Sigma's features and commands can be seen at her Website's command page [here](https://lucia.moe/#/sigma/commands). And if you ever have question we strongly encourage you to drop by our official [Discord](https://discordapp.com/invite/aEUCHwX) server.
 
-### Administration
+### Development
 
-Sigma is an open source project and free software licensed under the [GPLv3](https://github.com/aurora-pro/apex-sigma-core/blob/master/LICENSE.md) license. This means that anybody can clone her repository and use her. The **administration** module group helps those who host and run Sigma control her every aspect, which in turn means that this module is limited only to those who host and control Sigma.
+Sigma is an open source project and free software licensed under the [GPLv3](https://github.com/aurora-pro/apex-sigma-core/blob/master/LICENSE.md) license. This means that anybody can clone her repository and use her. The **development** module group helps those who host and run Sigma control her every aspect, which in turn means that this module is limited only to those who host and control Sigma.
 
 ### Fun
 

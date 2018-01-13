@@ -1,7 +1,7 @@
 **Hey there!** We need your **help**! Come support us on [**Patreon**](https://www.patreon.com/ApexSigma)!
 
 ## Module Index
-- [ADMINISTRATION](#administration)
+- [DEVELOPMENT](#development)
 - [FUN](#fun)
 - [GAMES](#games)
 - [HELP](#help)
@@ -20,7 +20,7 @@
 - [STATISTICS](#statistics)
 - [UTILITY](#utility)
 
-### ADMINISTRATION
+### DEVELOPMENT
 Commands | Description | Example
 ----------|-------------|--------
 `>>addstatus` | Adds a status message to Sigma's database for automatic status rotation. (Bot Owner Only) | `>>addstatus with tentacles`
