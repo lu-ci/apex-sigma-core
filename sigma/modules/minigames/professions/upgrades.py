@@ -10,8 +10,8 @@ def calculate_upgrade(up_id, level):
             'end': 'Seconds'
         },
         'luck': {
-            'amount': level * 250,
-            'end': 'Bonus'
+            'amount': 100 - (level * 0.5),
+            'end': '% Range'
         },
         'storage': {
             'amount': 64 + (level * 8),
