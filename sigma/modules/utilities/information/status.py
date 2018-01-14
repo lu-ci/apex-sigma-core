@@ -27,9 +27,9 @@ async def status(cmd, message, args):
     general_text += f'\nStarted: **{arrow.get(psutil.boot_time()).humanize()}**'
     cpu_clock = psutil.cpu_freq()
     if cpu_clock:
-        cpu_clock = f'{cpu_clock.current:.2f}'
+        cpu_clock = round(cpu_clock.current, 2)
     else:
-        cpu_clock = 'Unknown'
+        cpu_clock = 'X'
     cpu_text = f'Count: **{psutil.cpu_count()} ({psutil.cpu_count(logical=False)})**'
     cpu_text += f'\nUsage: **{psutil.cpu_percent()}%**'
     cpu_text += f'\nClock: **{cpu_clock} MHz**'
