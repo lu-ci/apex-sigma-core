@@ -46,7 +46,7 @@ async def play(cmd, message, args):
                 same_bound = False
         if same_bound:
             if not message.guild.voice_client:
-                await cmd.bot.modules.commands['summon'].execute(message, args)
+                await cmd.bot.modules.commands['summon'].execute(message, [])
             if args:
                 await cmd.bot.modules.commands['queue'].execute(message, args)
             if not cmd.bot.music.get_queue(message.guild.id).empty():
@@ -84,7 +84,7 @@ async def play(cmd, message, args):
                     if message.guild.id in cmd.bot.music.queues:
                         del cmd.bot.music.queues[message.guild.id]
                 if 'donate' in cmd.bot.modules.commands:
-                    await cmd.bot.modules.commands['donate'].execute(message, ['mini'])
+                    await cmd.bot.modules.commands['donate'].execute(message, [])
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
         else:
