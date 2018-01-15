@@ -5,9 +5,7 @@ import sys
 
 from sigma.core.sigma import ApexSigma
 
-try:
-    assert sys.version_info >= (3, 6)
-except AssertionError:
+if not sys.version_info >= (3, 6):
     print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
     exit(errno.EINVAL)
 
