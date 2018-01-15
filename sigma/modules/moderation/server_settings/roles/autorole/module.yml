@@ -32,6 +32,16 @@ commands:
       Binds an invite to a role.
       When a member joins using that invite the stated role will be given to them.
 
+  - name:         syncinvites
+    alts:
+      - "syncinvs"
+      - "sinvs"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Forces an update of the invite cache for your server.
+      For use if you have suspicions that the bound role counters are out of sync.
+
   - name:         boundinvites
     alts:
       - "boundinvs"
