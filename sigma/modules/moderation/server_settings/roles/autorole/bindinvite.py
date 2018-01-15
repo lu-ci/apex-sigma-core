@@ -3,6 +3,7 @@ import discord
 
 async def bindinvite(cmd, message, args):
     if message.author.guild_permissions.create_instant_invite:
+        await cmd.bot.modules.commands.get('syncinvites').execute(message, ['noresp'])
         if len(args) >= 2:
             invite_id = args[0]
             role_name = ' '.join(args[1:])
