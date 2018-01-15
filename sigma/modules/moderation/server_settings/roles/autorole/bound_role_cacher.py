@@ -23,12 +23,15 @@ def get_changed_invite(guild_id, bound_list, invites):
 
 
 async def bound_role_cacher(ev):
+    counter = 0
     ev.log.info('Starting invite caching...')
     for guild in ev.bot.guilds:
-        if guild.me.guild_permissions.create_instant_invite:
-            try:
-                invites = await guild.invites()
-            except discord.Forbidden:
-                invites = []
-            cache.update({guild.id: invites})
-    ev.log.info('Finished caching invites.')
+        if await ev.db.get_guild_settings(guild.id, 'BoundInvites'):
+            if guild.me.guild_permissions.create_instant_invite:
+                try:
+                    invites = await guild.invites()
+                    counter += 1
+                except discord.Forbidden:
+                    invites = []
+                cache.update({guild.id: invites})
+    ev.log.info(f'Finished caching invites for {counter} guilds.')
