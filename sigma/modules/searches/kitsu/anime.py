@@ -19,7 +19,7 @@ async def anime(cmd, message, args):
                 for title_key in result.get('attributes').get('titles'):
                     atr_title = result.get('attributes').get('titles').get(title_key)
                     if qry.lower() == atr_title.lower() or atr_title.lower().startswith(qry.lower()):
-                        ani_url = result.get('linkgs').get('self')
+                        ani_url = result.get('links').get('self')
                         break
             if not ani_url:
                 ani_url = data['data'][0]['links']['self']
