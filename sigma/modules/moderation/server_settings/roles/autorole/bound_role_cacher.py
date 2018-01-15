@@ -3,6 +3,10 @@ import discord
 cache = {}
 
 
+def update_invites(guild, invites):
+    cache.update({guild.id: invites})
+
+
 def get_changed_invite(guild_id, bound_list, invites):
     invite = None
     cached = cache.get(guild_id)
