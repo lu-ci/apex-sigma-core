@@ -3,13 +3,13 @@ upgrade_list = [
         'id': 'stamina',
         'name': 'Endurance Training',
         'cost': 1000,
-        'desc': 'Reduces profession cool-downs by 0.5%.'
+        'desc': 'Reduces profession cool-downs.'
     },
     {
         'id': 'luck',
         'name': 'Lucky Enchantment',
         'cost': 750,
-        'desc': 'Decreases the rarity roll range by 0.5%.'
+        'desc': 'Increases the chance for rare items'
     },
     {
         'id': 'storage',
@@ -21,12 +21,12 @@ upgrade_list = [
         'id': 'oven',
         'name': 'Super Heated Oven',
         'cost': 500,
-        'desc': 'Decreases the cookie giving cool-down by 1%.'
+        'desc': 'Decreases the cookie giving cool-down.'
     },
     {
         'id': 'casino',
         'name': 'Casino Investment',
         'cost': 500,
-        'desc': 'Reduces the slot machine cool-down by 0.5%.'
+        'desc': 'Reduces the slot machine cool-down.'
     }
 ]

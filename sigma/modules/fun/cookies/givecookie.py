@@ -24,11 +24,11 @@ async def givecookie(cmd, message, args):
                                     upgrade_file = {}
                                 cookie_coll = cmd.db[cmd.db.db_cfg.database].Cookies
                                 base_cooldown = 3600
-                                if 'stamina' in upgrade_file:
-                                    stamina = upgrade_file['stamina']
+                                if 'oven' in upgrade_file:
+                                    stamina = upgrade_file['oven']
                                 else:
                                     stamina = 0
-                                cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina))
+                                cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina / 1.25)))
                                 file_check = await cookie_coll.find_one({'UserID': target.id})
                                 if not file_check:
                                     cookies = 0

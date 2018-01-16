@@ -5,26 +5,26 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 
 rarity_rewards = {
-    '🍆': 10,
-    '🍒': 20,
-    '⚓': 30,
-    '🏵': 40,
-    '💖': 50,
-    '🏮': 60,
-    '🍥': 70,
-    '💵': 80,
-    '💳': 90,
-    '🎁': 100,
-    '🐬': 110,
-    '🐦': 120,
-    '🌟': 130,
-    '🦊': 140,
-    '🦋': 150,
-    '🐍': 160,
-    '🍬': 170,
-    '💎': 180,
-    '🔰': 190,
-    '⚜': 200
+    '🍆': 5,
+    '🍒': 5,
+    '⚓': 10,
+    '🏵': 10,
+    '💖': 15,
+    '🏮': 15,
+    '🍥': 20,
+    '💵': 20,
+    '💳': 25,
+    '🎁': 25,
+    '🐬': 30,
+    '🐦': 30,
+    '🌟': 35,
+    '🦊': 35,
+    '🦋': 40,
+    '🐍': 40,
+    '🍬': 45,
+    '💎': 45,
+    '🔰': 50,
+    '⚜': 50
 }
 
 symbols = []
@@ -56,7 +56,7 @@ async def slots(cmd, message, args):
                 stamina = upgrade_file['casino']
             else:
                 stamina = 0
-            cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina * 0.5)))
+            cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / 1.25)))
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
             await cmd.db.rmv_currency(message.author, bet)
             out_list = []
@@ -123,8 +123,8 @@ async def slots(cmd, message, args):
                 footer = f'{currency_icon} {bet} {currency} has been deducted.'
             if announce:
                 if 'win_channel' in cmd.cfg:
-                    target_channel = discord.utils.find(lambda c: c.id == cmd.cfg['win_channel'],
-                                                        cmd.bot.get_all_channels())
+                    win_ch_id = cmd.cfg['win_channel']
+                    target_channel = discord.utils.find(lambda c: c.id == win_ch_id, cmd.bot.get_all_channels())
                     announce_embed = discord.Embed(color=0xf9f9f9, title=f'🎰 A user just got 3 {combination[0]}.')
                     announce_embed.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
                     announce_embed.set_footer(text=f'On: {message.guild.name}.', icon_url=message.guild.icon_url)
