@@ -99,7 +99,9 @@ class ItemCore(object):
             upgrade_level = upgrade_file[upgrade_id]
         else:
             upgrade_level = 0
-        top_roll = int(1000000 * (((100 - (upgrade_level * 0.5)) / 1.25) / 100))
+        top_roll = int(1000000000 * (((100 - (upgrade_level * 0.5)) / 1.25) / 100))
+        if top_roll < 1000:
+            top_roll = 1000
         rarities = self.create_roll_range(top_roll)
         sabotage_file = await db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
         if sabotage_file:

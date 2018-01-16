@@ -57,6 +57,8 @@ async def slots(cmd, message, args):
             else:
                 stamina = 0
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / 1.25)))
+            if cooldown < 12:
+                cooldown = 12
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
             await cmd.db.rmv_currency(message.author, bet)
             out_list = []
