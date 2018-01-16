@@ -52,8 +52,8 @@ async def slots(cmd, message, args):
                 await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                 upgrade_file = {}
             base_cooldown = 60
-            if 'stamina' in upgrade_file:
-                stamina = upgrade_file['stamina']
+            if 'casino' in upgrade_file:
+                stamina = upgrade_file['casino']
             else:
                 stamina = 0
             cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina * 0.5)))
