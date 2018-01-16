@@ -1,24 +1,41 @@
 import asyncio
 import secrets
 
-import yaml
+import json
+import aiohttp
 import discord
 
 from .mech.utils import scramble
 
-
-def load_word_cache():
-    global word_cache
-    with open('sigma/modules/minigames/quiz/res/words.yml', encoding='utf-8') as word_file:
-        word_cache = yaml.safe_load(word_file)
-
-
 ongoing_list = []
 word_cache = {}
-load_word_cache()
+updating = False
+
+
+async def load_word_cache():
+    global word_cache
+    word_list_url = 'https://raw.githubusercontent.com/adambom/dictionary/master/dictionary.json'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(word_list_url) as source_session:
+            source_data = await source_session.read()
+            big_word_cache = json.loads(source_data)
+            for word in big_word_cache.keys():
+                if len(word) > 3 and len(word.split(' ')) == 1:
+                    word_cache.update({word.lower(): big_word_cache.get(word)})
 
 
 async def unscramble(cmd, message, args):
+    global word_cache, updating
+    if updating:
+        update_resp = discord.Embed(color=0x696969, title='🕙 Please wait while word list is updated...')
+        await message.channel.send(embed=update_resp)
+        return
+    if not word_cache and not updating:
+        updating = True
+        update_resp = discord.Embed(color=0x696969, title='🕙 Updating word list, please wait...')
+        await message.channel.send(embed=update_resp)
+        await load_word_cache()
+        updating = False
     if message.channel.id not in ongoing_list:
         ongoing_list.append(message.channel.id)
         words = list(word_cache.keys())
