@@ -1,38 +1,31 @@
 import asyncio
 import secrets
 
-import aiohttp
+import yaml
 import discord
 
 from .mech.utils import scramble
 
+
+def load_word_cache():
+    global word_cache
+    with open('sigma/modules/minigames/quiz/res/words.yml', encoding='utf-8') as word_file:
+        word_cache = yaml.safe_load(word_file)
+
+
 ongoing_list = []
+word_cache = {}
+load_word_cache()
 
 
 async def unscramble(cmd, message, args):
     if message.channel.id not in ongoing_list:
         ongoing_list.append(message.channel.id)
-        source_urls = [
-            'http://www.wordgenerator.net/application/p.php?type=1&id=dictionary_words&spaceflag=false',
-            'http://www.wordgenerator.net/application/p.php?type=1&id=charades_easy&spaceflag=false',
-            'http://www.wordgenerator.net/application/p.php?type=1&id=charades_moderate&spaceflag=false',
-            'http://www.wordgenerator.net/application/p.php?type=1&id=charades_hard&spaceflag=false',
-            'http://www.wordgenerator.net/application/p.php?type=1&id=charades_very_hard&spaceflag=false',
-            'http://www.wordgenerator.net/application/p.php?type=1&id=animal_names&spaceflag=false'
-        ]
-        source_url = secrets.choice(source_urls)
-        async with aiohttp.ClientSession() as session:
-            async with session.get(source_url) as source_session:
-                source_text = await source_session.text()
-        words = source_text.split(',')
-        clean_words = []
-        for word in words:
-            if word:
-                if len(word) > 3:
-                    clean_words.append(word)
-        word_choice = secrets.choice(clean_words)
+        words = list(word_cache.keys())
+        word_choice = secrets.choice(words)
+        word_description = word_cache.get(word_choice)
         kud_reward = len(word_choice)
-        scrambled = scramble(word_choice)
+        scrambled = scramble(word_choice.title())
         question_embed = discord.Embed(color=0x3B88C3, title=f'🔣 {scrambled}')
         await message.channel.send(embed=question_embed)
 
@@ -55,8 +48,9 @@ async def unscramble(cmd, message, args):
             win_embed = discord.Embed(color=0x77B255, title=win_title)
             await message.channel.send(embed=win_embed)
         except asyncio.TimeoutError:
-            timeout_title = f'🕙 Time\'s up! It was {word_choice}...'
+            timeout_title = f'🕙 Time\'s up!'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
+            timeout_embed.add_field(name=f'It was {word_choice.lower()}.', value=word_description)
             await message.channel.send(embed=timeout_embed)
         if message.channel.id in ongoing_list:
             ongoing_list.remove(message.channel.id)
