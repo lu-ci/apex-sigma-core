@@ -29,7 +29,7 @@ async def givecookie(cmd, message, args):
                                 else:
                                     stamina = 0
                                 cooldown = base_cooldown - (base_cooldown / 100)
-                                cooldown = int((cooldown * (stamina / (1.25 * (0.01 * stamina)))))
+                                cooldown = int((cooldown * (stamina / (1.25 + (0.01 * stamina)))))
                                 file_check = await cookie_coll.find_one({'UserID': target.id})
                                 if not file_check:
                                     cookies = 0
