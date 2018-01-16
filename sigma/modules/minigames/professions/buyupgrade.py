@@ -72,7 +72,7 @@ async def buyupgrade(cmd, message, args):
                 if upgrade_level == 0:
                     upgrade_price = base_price
                 else:
-                    price_mod = int(base_price * upgrade_level * (1.15 + (0.085 * upgrade_level)))
+                    price_mod = int(base_price * upgrade_level * (1.20 + (0.115 * upgrade_level)))
                     upgrade_price = price_mod + (price_mod // 2)
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
@@ -85,7 +85,7 @@ async def buyupgrade(cmd, message, args):
                 else:
                     response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
             else:
-                response = discord.Embed(color=0xF9F9F9, title='🛍 Stop exited.')
+                response = discord.Embed(color=0xF9F9F9, title='🛍 Shop exited.')
             try:
                 await shop_listing.delete()
             except discord.NotFound:

@@ -28,7 +28,8 @@ async def givecookie(cmd, message, args):
                                     stamina = upgrade_file['oven']
                                 else:
                                     stamina = 0
-                                cooldown = int(base_cooldown - ((base_cooldown / 100) * (stamina / 1.25)))
+                                cooldown = base_cooldown - (base_cooldown / 100)
+                                cooldown = int((cooldown * (stamina / (1.25 * (0.01 * stamina)))))
                                 file_check = await cookie_coll.find_one({'UserID': target.id})
                                 if not file_check:
                                     cookies = 0

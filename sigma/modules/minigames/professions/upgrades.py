@@ -6,11 +6,11 @@ from .nodes.upgrades import upgrade_list
 def calculate_upgrade(up_id, level):
     up_table = {
         'stamina': {
-            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / 1.25))))),
+            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
             'end': 'Seconds'
         },
         'luck': {
-            'amount': 100 - int(((level * 0.5) / 1.25)),
+            'amount': 100 - int(((level * 0.5) / (1.25 + (0.01 * level)))),
             'end': '% Range'
         },
         'storage': {
@@ -18,11 +18,11 @@ def calculate_upgrade(up_id, level):
             'end': 'Spaces'
         },
         'oven': {
-            'amount': -(3600 - (int(3600 - ((3600 / 100) * (level / 1.25))))),
+            'amount': -(3600 - (int(3600 - ((3600 / 100) * (level / (1.25 + (0.01 * level))))))),
             'end': 'Seconds'
         },
         'casino': {
-            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / 1.25))))),
+            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
             'end': 'Seconds'
         }
     }
