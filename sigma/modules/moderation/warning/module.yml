@@ -19,6 +19,7 @@ commands:
   - name:         listwarnings
     alts:
       - "warns"
+      - "warnings"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -27,3 +28,22 @@ commands:
       the issuer of the warning, and when the warning was issued.
       A moderator with manage messages permissions can view any user's warnings
       while users without said permission can only view the list of theirs.
+
+  - name:         viewwarning
+    alts:
+      - "warning"
+      - "warninginfo"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person 1abc"
+    description:
+      Shows detailed information for the given user's warning.
+      Both the user mention and the warning ID are needed for the command.
+
+  - name:         removewarning
+    alts:
+      - "unwarn"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person 1abc"
+    description:
+      Shows detailed information for the given user's warning.
+      Both the user mention and the warning ID are needed for the command.

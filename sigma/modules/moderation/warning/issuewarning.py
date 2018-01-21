@@ -34,14 +34,14 @@ def warning_data(author: discord.Member, target: discord.Member, reason: str):
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_data: dict):
-    author_avatar = user_avatar(author)
+    target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
     response = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
-    response.set_author(name=f'{target.name} has been warned by {author.name}.')
+    response.set_author(name=f'{target.name} has been warned by {author.name}.', icon_url=target_avatar)
     response.add_field(name='⚠ Warned User', value=target_descrp, inline=True)
     response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
-    response.add_field(name='📄 Reason', value=warn_data.get('reason'), inline=False)
+    response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] UserID: {target.id}')
 
 
