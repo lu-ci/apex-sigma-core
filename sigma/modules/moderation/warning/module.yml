@@ -1,44 +1,17 @@
-name:             Warning Control
+name:             Warning Commands
 
 category:         moderation
 
 enabled:          true
 
 commands:
-  - name:         warn
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Bit my dog"
-    description:
-      Adds a user to the warning list along with the reason stated.
-      The used will also receive a direct message from the bot stating they have been warned.
-      Warnings can be cleared with the unwarn command.
-
-  - name:         warnings
+  - name:         issuewarning
     alts:
-      - "warns"
+      - "warn"
     enabled:      true
-    usage:        "{pfx}{cmd} @person"
+    usage:        "{pfx}{cmd} @person Took too long in the bathroom."
     description:
-      Shows what the mentioned user was warned for.
-      If the user who calls the command doesn't have the manage message permission,
-      it will show their warnings instead.
-
-  - name:         warning
-    alts:
-      - "warninfo"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person 12af"
-    description:
-      Shows information regarding a user's warning.
-      Both the mention of the user and the warning ID are required.
-
-  - name:         unwarn
-    alts:
-      - "clearwarning"
-      - "clearwarn"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person all"
-    description:
-      Clears a user's warning.
-      A user target and warning ID are required.
-      You can input "all" instead of an idea to clear all their warnings.
+      Issues a warning to a user with the reason stated.
+      The warning reason is not mandatory. When the user is warned
+      they will be sent a direct message about it. Each warning
+      has a unique ID that you can call and view with the warninginfo command.
