@@ -3,6 +3,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 
 
 def generate_log_embed(message, target):
@@ -30,7 +31,7 @@ async def unban(cmd: SigmaCommand, message: discord.Message, args: list):
             if target:
                 await message.guild.unban(target, reason=f'By {message.author.name}.')
                 log_embed = generate_log_embed(message, target)
-                await log_event(cmd.db, message.guild, log_embed)
+                await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
                 response = discord.Embed(title=f'✅ {target.name} has been unbanned.', color=0x77B255)
             else:
                 response = discord.Embed(title=f'🔍 {lookup} not found in the ban list.')

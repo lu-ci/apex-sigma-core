@@ -1,6 +1,7 @@
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 
 
 async def send_invite_blocker(ev, message):
@@ -36,4 +37,4 @@ async def send_invite_blocker(ev, message):
                                              icon_url=user_avatar(message.author))
                         log_embed.set_footer(
                             text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
-                        await log_event(ev.db, message.guild, log_embed)
+                        await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogFilters')

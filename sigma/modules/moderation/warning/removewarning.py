@@ -3,6 +3,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import permission_denied
 
 
@@ -15,6 +16,7 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_data: di
     response.add_field(name='⚠ Warned User', value=target_descrp, inline=True)
     response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] UserID: {target.id}')
+    return response
 
 
 async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -36,6 +38,8 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_cfg.database].Warnings.update_one(lookup, change_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deactivated.')
+                    log_embed = make_log_embed(message.author, target, warn_data)
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 {target.name} has no {warn_id} warning.')
             else:

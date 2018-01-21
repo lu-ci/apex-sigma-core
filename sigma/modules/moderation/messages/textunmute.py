@@ -3,6 +3,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -48,4 +49,5 @@ async def textunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
                         log_embed = generate_log_embed(message, target, args)
+                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
     await message.channel.send(embed=response)

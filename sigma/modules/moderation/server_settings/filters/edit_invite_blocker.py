@@ -1,6 +1,7 @@
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 
 
 async def edit_invite_blocker(ev, before, after):
@@ -23,7 +24,7 @@ async def edit_invite_blocker(ev, before, after):
                                 except discord.NotFound:
                                     pass
                     if invite_found:
-                        title = '⛓ Invite links are not allowed on this server.'
+                        title = f'⛓ Invite links are not allowed on {after.guild.name}.'
                         response = discord.Embed(color=0xF9F9F9, title=title)
                         await after.delete()
                         try:
@@ -36,4 +37,4 @@ async def edit_invite_blocker(ev, before, after):
                                              icon_url=user_avatar(after.author))
                         log_embed.set_footer(
                             text=f'Posted In: #{after.channel.name} | Leads To: {invite_found.guild.name}')
-                        await log_event(ev.db, after.guild, log_embed)
+                        await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogFilters')

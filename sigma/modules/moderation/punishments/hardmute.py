@@ -3,6 +3,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -42,7 +43,7 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                                 pass
                     await ongoing_msg.delete()
                     log_embed = generate_log_embed(message, target, args)
-                    await log_event(cmd.db, message.guild, log_embed)
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     to_target_title = f'🔇 You have been hard-muted.'

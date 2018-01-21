@@ -6,6 +6,7 @@
 - [GAMES](#games)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
+- [LOGGING](#logging)
 - [MATHEMATICS](#mathematics)
 - [MINIGAMES](#minigames)
 - [MISCELLANEOUS](#miscellaneous)
@@ -153,6 +154,19 @@ Commands | Description | Example
 `>>slap` | When a punch is too barbaric a slap should be just elegant enough. | `>>slap @person`
 `>>stab` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` | Jiiiiiiiiiii~ | `>>stare @person`
+[Back To Top](#module-index)
+
+### LOGGING
+Commands | Description | Example
+----------|-------------|--------
+`>>logbans` | Toggles logging of when users get banned. | `>>logbans`
+`>>logfilters` | Toggles logging of when a user's message is deleted due to containing a blacklisted word or when posting links when they are not allowed. | `>>logfilters`
+`>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
+`>>logkicks` | Toggles logging of when users get kicked. | `>>logkicks`
+`>>logmovement` | Toggles logging of when users join and/or leave the server. | `>>logmovement`
+`>>logmutes` | Toggles logging of when users get text muted/unmuted and hard muted/unmuted. | `>>logmutes`
+`>>logpurges` | Toggles logging of when a channel gets purged. | `>>logpurges`
+`>>logwarnings` | Toggles logging of when users get warned or unwarned. | `>>logwarnings`
 [Back To Top](#module-index)
 
 ### MATHEMATICS
@@ -369,7 +383,6 @@ Commands | Description | Example
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if the bot should greet users by sending them a Direct Message, instead of writing the message in a channel. | `>>greetdm`
 `>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they enter server. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
-`>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
 `>>removecommand` `>>deletecommand` `>>remcmd` `>>delcmd` | Removes a custom command trigger used for custom commands from the server. This requires the Manage Server permission. | `>>removecommand hi`
 `>>removeresponder` `>>deleteresponder` `>>remres` `>>delres` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removeresponder hi`

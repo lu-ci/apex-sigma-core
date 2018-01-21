@@ -2,6 +2,7 @@
 import discord
 
 from sigma.core.utilities.data_processing import get_time_difference, user_avatar
+from sigma.core.utilities.event_logging import log_event
 
 
 async def leave_logger(ev, member):
@@ -11,4 +12,4 @@ async def leave_logger(ev, member):
     new_acc, diff_msg = get_time_difference(member, leave=True)
     response.add_field(name='🕑 Member Joined', value=f'{diff_msg.title()}', inline=True)
     response.set_footer(text=f'UserID: {member.id}')
-    await log_event(ev.db, member.guild, response)
+    await log_event(ev.bot, member.guild, ev.db, response, 'LogMovement')

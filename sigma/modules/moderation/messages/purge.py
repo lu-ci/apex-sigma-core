@@ -1,8 +1,29 @@
 ﻿import asyncio
 
+import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
+
+
+def generate_log_embed(message, target, channel, deleted):
+    response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
+    response.set_author(name=f'#{channel.name} Has Been Pruned', icon_url=user_avatar(message.author))
+    if target:
+        target_text = f'{target.mention}\n{target.name}#{target.discriminator}'
+    else:
+        target_text = 'No Filter'
+    response.add_field(name='🗑 Prune Details',
+                       value=f'Amount: {len(deleted)} Messages\nTarget: {target_text}',
+                       inline=True)
+    author = message.author
+    response.add_field(name='🛡 Responsible',
+                       value=f'{author.mention}\n{author.name}#{author.discriminator}',
+                       inline=True)
+    response.set_footer(text=f'ChannelID: {channel.id}')
+    return response
 
 
 async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -66,7 +87,7 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
                     pass
             response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
             log_embed = generate_log_embed(message, target, message.channel, deleted)
-            await log_event(cmd.db, message.guild, log_embed)
+            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogPurges')
     del_response = await message.channel.send(embed=response)
     await asyncio.sleep(5)
     try:

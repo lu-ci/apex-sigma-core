@@ -1,0 +1,61 @@
+name:             Logging Toggles
+
+category:         logging
+
+enabled:          true
+
+commands:
+  - name:         loggingchannel
+    alts:
+      - "logchannel"
+      - "logch"
+    enabled:      true
+    usage:        "{pfx}{cmd} #logging"
+    description:
+      Designates a channel where server events will be logged to.
+      The stuff that is logged is member movement and moderator actions.
+      Such as warns, bans, muting members and pruning channels.
+      To disable the logging channel, input "disable" as the channel argument.
+
+  - name:         logmovement
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when users join and/or leave the server.
+
+  - name:         logbans
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when users get banned.
+
+  - name:         logkicks
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when users get kicked.
+
+  - name:         logwarnings
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when users get warned or unwarned.
+
+  - name:         logpurges
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when a channel gets purged.
+
+  - name:         logmutes
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when users get text muted/unmuted and hard muted/unmuted.
+
+  - name:         logfilters
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of when a user's message is deleted due to containing
+      a blacklisted word or when posting links when they are not allowed.

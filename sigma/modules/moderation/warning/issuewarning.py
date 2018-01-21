@@ -5,6 +5,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import permission_denied
 
 
@@ -43,6 +44,7 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_data: di
     response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
     response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] UserID: {target.id}')
+    return response
 
 
 async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -56,6 +58,15 @@ async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_cfg.database].Warnings.insert_one(warn_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
+                    log_embed = make_log_embed(message.author, target, warn_data)
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')
+                    to_target = discord.Embed(color=0xFFCC4D)
+                    to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
+                    to_target.set_footer(text=f'From {message.guild.name}', icon_url=message.guild.icon_url)
+                    try:
+                        await target.send(embed=to_target)
+                    except Exception:
+                        pass
                 else:
                     response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t target bots.')
             else:

@@ -3,6 +3,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -46,7 +47,7 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                                 pass
                             await target.ban(reason=f'By {message.author.name}: {reason}')
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.db, message.guild, log_embed)
+                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
                         else:
                             response = discord.Embed(title='⛔ Can\'t ban above my highest role.', color=0xBE1931)
                     else:
