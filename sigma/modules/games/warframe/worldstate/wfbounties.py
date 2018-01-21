@@ -17,7 +17,7 @@ def capital_split(word):
     return out
 
 
-async def wfbounties(cmd, message, args):
+async def wfbounties(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         try:
             btier = abs(int(args[0]))

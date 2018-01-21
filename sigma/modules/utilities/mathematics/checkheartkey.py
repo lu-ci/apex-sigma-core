@@ -1,7 +1,7 @@
 import discord
 
 
-async def checkheartkey(cmd, message, args):
+async def checkheartkey(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ''.join(args)
         key = cmd.bot.cfg.pref.raw.get('key_to_my_heart')

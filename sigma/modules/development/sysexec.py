@@ -2,7 +2,7 @@ import subprocess
 
 
 # noinspection PyBroadException
-async def sysexec(cmd, message, args):
+async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         try:
             process = subprocess.Popen(args, stdout=subprocess.PIPE)

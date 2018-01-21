@@ -1,7 +1,7 @@
 import discord
 
 
-async def geterror(cmd, message, args):
+async def geterror(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         token = args[0]
         error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'Token': token})

@@ -3,7 +3,7 @@
 import discord
 
 
-async def evaluate(cmd, message, args):
+async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         status = discord.Embed(color=0xBE1931, title='❗ Nothing Inputted To Process')
     else:

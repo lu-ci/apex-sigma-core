@@ -3,7 +3,7 @@ import json
 import discord
 
 
-async def httpstatus(cmd, message, args):
+async def httpstatus(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0]
         with open(cmd.resource('http_status.json'), 'r', encoding='utf-8') as status_file:

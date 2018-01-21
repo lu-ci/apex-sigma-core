@@ -10,7 +10,7 @@ def percentify(small, big):
     return out
 
 
-async def rolepopulation(cmd, message, args):
+async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rl_qry = ' '.join(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), message.guild.roles)

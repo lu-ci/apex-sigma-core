@@ -5,7 +5,7 @@ import aiohttp
 import discord
 
 
-async def e621(cmd, message, args):
+async def e621(cmd: SigmaCommand, message: discord.Message, args: list):
     url_base = 'https://e621.net/post/index.json'
     if args:
         url = url_base + '?tags=' + '+'.join(args)

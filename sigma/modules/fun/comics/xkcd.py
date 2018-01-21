@@ -5,7 +5,7 @@ import aiohttp
 import discord
 
 
-async def xkcd(cmd, message, args):
+async def xkcd(cmd: SigmaCommand, message: discord.Message, args: list):
     comic_no = secrets.randbelow(1724) + 1
     comic_url = f'http://xkcd.com/{comic_no}'
     joke_url = f'{comic_url}/info.0.json'

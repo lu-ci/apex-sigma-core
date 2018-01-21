@@ -14,7 +14,7 @@ async def sell_item_ids(db, user, items):
     await db.update_inv(user, inv)
 
 
-async def filtersell(cmd, message, args):
+async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
     global item_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))

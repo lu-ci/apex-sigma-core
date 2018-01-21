@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def describe(cmd, message, args):
+async def describe(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed()
     if args:
         mode = args[0]

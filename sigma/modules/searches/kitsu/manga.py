@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def manga(cmd, message, args):
+async def manga(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         qry = '%20'.join(args)
         url = f'https://kitsu.io/api/edge/manga?filter[text]={qry}'

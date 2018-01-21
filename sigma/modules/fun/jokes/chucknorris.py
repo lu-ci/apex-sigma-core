@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def chucknorris(cmd, message, args):
+async def chucknorris(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = discord.Embed(color=0xFFDC5D)
     joke_url = 'https://api.chucknorris.io/jokes/random'
     async with aiohttp.ClientSession() as session:

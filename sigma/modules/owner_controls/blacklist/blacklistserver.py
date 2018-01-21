@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def blacklistserver(cmd, message, args):
+async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         target_id = ''.join(args)
         try:

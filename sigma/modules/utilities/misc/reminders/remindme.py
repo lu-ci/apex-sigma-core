@@ -19,7 +19,7 @@ def convert_to_seconds(time_input):
     return output
 
 
-async def remindme(cmd, message, args):
+async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         time_req = args[0]
         try:

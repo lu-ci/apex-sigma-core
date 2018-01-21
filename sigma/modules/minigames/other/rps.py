@@ -3,7 +3,7 @@
 import discord
 
 
-async def rps(cmd, message, args):
+async def rps(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         embed = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
         await message.channel.send(None, embed=embed)

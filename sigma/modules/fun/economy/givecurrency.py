@@ -1,7 +1,7 @@
 import discord
 
 
-async def givecurrency(cmd, message, args):
+async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             if message.mentions:

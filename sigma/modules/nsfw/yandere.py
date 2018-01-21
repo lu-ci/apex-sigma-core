@@ -5,7 +5,7 @@ import aiohttp
 import discord
 
 
-async def yandere(cmd, message, args):
+async def yandere(cmd: SigmaCommand, message: discord.Message, args: list):
     url_base = 'https://yande.re/post.json?limit=100&tags='
     if not args:
         tags = 'nude'

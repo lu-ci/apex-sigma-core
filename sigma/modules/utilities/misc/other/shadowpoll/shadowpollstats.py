@@ -24,7 +24,7 @@ def make_bar(points, total):
     return bar
 
 
-async def shadowpollstats(cmd, message, args):
+async def shadowpollstats(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         poll_id = args[0].lower()
         poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})

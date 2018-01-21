@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def userid(cmd, message, args):
+async def userid(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
         if args[-1].lower() == 'text':

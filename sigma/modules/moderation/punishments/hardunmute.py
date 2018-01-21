@@ -3,7 +3,6 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.permission_processing import hierarchy_permit
-from sigma.core.utilities.server_bound_logging import log_event
 
 
 def generate_log_embed(message, target, args):
@@ -21,7 +20,7 @@ def generate_log_embed(message, target, args):
 
 
 async def hardunmute(cmd, message, args):
-    if message.author.permissions_in(message.channel).manage_channels:
+    if message.autho(cmd: SigmaCommand, message: discord.Message, args: list)sage.channel).manage_channels:
         if message.mentions:
             target = message.mentions[0]
             if len(args) > 1:

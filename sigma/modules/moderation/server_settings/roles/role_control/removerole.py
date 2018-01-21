@@ -1,7 +1,7 @@
 import discord
 
 
-async def removerole(cmd, message, args):
+async def removerole(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) >= 2:

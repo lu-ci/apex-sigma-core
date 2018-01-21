@@ -2,7 +2,7 @@ import arrow
 import discord
 
 
-async def statistics(cmd, message, args):
+async def statistics(cmd: SigmaCommand, message: discord.Message, args: list):
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     sigma_title = 'Apex Sigma: Statistics'
     support_url = 'https://discordapp.com/invite/aEUCHwX'

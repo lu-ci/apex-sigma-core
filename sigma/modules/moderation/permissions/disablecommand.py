@@ -3,7 +3,7 @@
 from .nodes.permission_data import get_all_perms
 
 
-async def disablecommand(cmd, message, args):
+async def disablecommand(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if not message.author.permissions_in(message.channel).manage_guild:
             response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)

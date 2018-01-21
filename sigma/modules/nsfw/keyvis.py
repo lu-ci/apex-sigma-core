@@ -5,7 +5,7 @@ import discord
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
-async def keyvis(cmd, message, args):
+async def keyvis(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         keys = []
         for key in key_vn_list:

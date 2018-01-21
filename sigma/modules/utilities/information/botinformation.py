@@ -4,7 +4,7 @@ import arrow
 import discord
 
 
-async def botinformation(cmd, message, args):
+async def botinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     version_data = cmd.bot.info.get_version().raw
     author_data = cmd.bot.info.get_authors().raw
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'

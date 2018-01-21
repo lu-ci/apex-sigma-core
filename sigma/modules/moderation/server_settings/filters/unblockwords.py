@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def unblockwords(cmd, message, args):
+async def unblockwords(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')

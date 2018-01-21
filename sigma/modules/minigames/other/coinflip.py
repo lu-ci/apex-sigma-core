@@ -3,7 +3,7 @@
 import discord
 
 
-async def coinflip(cmd, message, args):
+async def coinflip(cmd: SigmaCommand, message: discord.Message, args: list):
     result = secrets.choice(['heads', 'tails'])
     urls = {
         'heads': 'https://i.imgur.com/528MDba.png',

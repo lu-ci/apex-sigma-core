@@ -22,7 +22,7 @@ async def check_requirements(cmd, message, recipe):
     return req_satisfied
 
 
-async def recipes(cmd, message, args):
+async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     global recipe_core
     if not recipe_core:
         recipe_core = RecipeCore(cmd.resource('data'))

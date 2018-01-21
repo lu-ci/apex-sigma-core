@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def eject(cmd, message, args):
+async def eject(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         guild_id = ''.join(args)
         try:

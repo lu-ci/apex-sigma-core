@@ -27,7 +27,7 @@ def check_answer(arguments, sequence):
     return correct, results
 
 
-async def sequencegame(cmd, message, args):
+async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id not in ongoing:
         chosen = []
         while len(chosen) < 4:

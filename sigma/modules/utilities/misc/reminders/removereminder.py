@@ -1,7 +1,7 @@
 import discord
 
 
-async def removereminder(cmd, message, args):
+async def removereminder(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rem_id = args[0].lower()
         lookup_data = {'UserID': message.author.id, 'ReminderID': rem_id}

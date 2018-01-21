@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def dictionary(cmd, message, args):
+async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
         headers = {
             'Accept': 'application/json',

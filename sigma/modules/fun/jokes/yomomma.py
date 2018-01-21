@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def yomomma(cmd, message, args):
+async def yomomma(cmd: SigmaCommand, message: discord.Message, args: list):
     resource = 'http://api.yomomma.info/'
     async with aiohttp.ClientSession() as session:
         async with session.get(resource) as data:

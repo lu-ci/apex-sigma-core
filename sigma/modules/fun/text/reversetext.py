@@ -1,7 +1,7 @@
 import discord
 
 
-async def reversetext(cmd, message, args):
+async def reversetext(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         text = ' '.join(args)
         reverse_output = reversed(text)

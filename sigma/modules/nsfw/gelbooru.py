@@ -18,7 +18,7 @@ async def fill_gelbooru_cache(tags):
                 cache.update({tags: list(posts)})
 
 
-async def gelbooru(cmd, message, args):
+async def gelbooru(cmd: SigmaCommand, message: discord.Message, args: list):
     global cache
     tags = '+'.join(args)
     if not tags:

@@ -3,7 +3,7 @@ import datetime
 import discord
 
 
-async def youtube(cmd, message, args):
+async def youtube(cmd: SigmaCommand, message: discord.Message, args: list):
     yt_icon = 'https://i.imgur.com/qoH1MUP.png'
     yt_color = 0xcf2227
     text_mode = False

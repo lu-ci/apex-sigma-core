@@ -3,7 +3,7 @@ import secrets
 import discord
 
 
-async def randombetween(cmd, message, args):
+async def randombetween(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) == 2:
             try:

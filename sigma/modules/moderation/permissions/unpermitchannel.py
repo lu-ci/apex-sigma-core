@@ -3,7 +3,7 @@
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
-async def unpermitchannel(cmd, message, args):
+async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             if not message.author.permissions_in(message.channel).manage_guild:

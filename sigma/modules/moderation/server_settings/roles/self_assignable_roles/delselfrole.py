@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def delselfrole(cmd, message, args):
+async def delselfrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args)

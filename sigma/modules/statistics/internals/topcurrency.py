@@ -5,7 +5,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def topcurrency(cmd, message, args):
+async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     coll = cmd.db[cmd.db.db_cfg.database].CurrencySystem
     currency = cmd.bot.cfg.pref.currency
     if args:

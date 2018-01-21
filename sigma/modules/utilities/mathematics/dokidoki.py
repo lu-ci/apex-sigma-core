@@ -60,7 +60,7 @@ def clean(text, author):
     return output
 
 
-async def dokidoki(cmd, message, args):
+async def dokidoki(cmd: SigmaCommand, message: discord.Message, args: list):
     char = None
     glitch = False
     if args:

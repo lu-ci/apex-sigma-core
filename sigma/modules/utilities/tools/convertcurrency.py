@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def convertcurrency(cmd, message, args):
+async def convertcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) == 4:
             amount = args[0]

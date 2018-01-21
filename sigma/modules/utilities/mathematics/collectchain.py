@@ -18,7 +18,7 @@ def check_for_bot_prefixes(prefix, text):
 
 
 # noinspection PyBroadException
-async def collectchain(cmd, message, args):
+async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     global in_use
     global in_use_by
     if in_use:

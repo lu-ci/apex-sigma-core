@@ -3,7 +3,7 @@ from sigma.modules.development.version_updater import version_updater
 import discord
 
 
-async def reload(cmd, message, args):
+async def reload(cmd: SigmaCommand, message: discord.Message, args: list):
     await version_updater(cmd)
     if not args:
         cmd.log.info('---------------------------------')

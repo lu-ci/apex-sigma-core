@@ -38,7 +38,7 @@ def player_active(voice_client):
     return active
 
 
-async def play(cmd, message, args):
+async def play(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

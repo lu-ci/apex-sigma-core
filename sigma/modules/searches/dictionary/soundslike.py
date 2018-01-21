@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def soundslike(cmd, message, args):
+async def soundslike(cmd: SigmaCommand, message: discord.Message, args: list):
     # strip spaces from args
     args = list(filter(lambda a: a != '', args))
     response = discord.Embed()

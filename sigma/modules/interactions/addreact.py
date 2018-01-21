@@ -3,7 +3,7 @@ import secrets
 import discord
 
 
-async def addreact(cmd, message, args):
+async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             reaction_name = args[0]

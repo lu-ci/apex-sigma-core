@@ -2,7 +2,7 @@
 import discord
 
 
-async def givecookie(cmd, message, args):
+async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         target = message.mentions[0]
         sabotage_target = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': target.id})

@@ -1,7 +1,7 @@
 import secrets
 
 
-async def dab(cmd, message, args):
+async def dab(cmd: SigmaCommand, message: discord.Message, args: list):
     faces = [
         ' ( ˙-˙ )', '( ﾟ_ﾟ )', '（・・）', '( ・-・ )', '（・＿・)',
         '(ʘᗩʘ’)', '◎ܫ◎', '（゜◇゜）', '꒪ꄱ꒪', 'Σ(O_O；)', 'ಠ_ಠ',

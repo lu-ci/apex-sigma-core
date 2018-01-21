@@ -6,7 +6,7 @@ import arrow
 import discord
 
 
-async def wfplainsofeidolon(cmd, message, args):
+async def wfplainsofeidolon(cmd: SigmaCommand, message: discord.Message, args: list):
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
     try:
         async with aiohttp.ClientSession() as session:

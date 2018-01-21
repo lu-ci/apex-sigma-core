@@ -1,30 +1,8 @@
 ﻿import asyncio
 
-import arrow
 import discord
 
-from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.server_bound_logging import log_event
 
-
-def generate_log_embed(message, target, channel, deleted):
-    response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-    response.set_author(name=f'#{channel.name} Has Been Pruned', icon_url=user_avatar(message.author))
-    if target:
-        target_text = f'{target.mention}\n{target.name}#{target.discriminator}'
-    else:
-        target_text = 'No Filter'
-    response.add_field(name='🗑 Prune Details',
-                       value=f'Amount: {len(deleted)} Messages\nTarget: {target_text}', inline=True)
-    author = message.author
-    response.add_field(name='🛡 Responsible',
-                       value=f'{author.mention}\n{author.name}#{author.discriminator}',
-                       inline=True)
-    response.set_footer(text=f'ChannelID: {channel.id}')
-    return response
-
-
-# noinspection PyBroadException
 async def purge(cmd, message, args):
     if not message.author.permissions_in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
@@ -47,7 +25,7 @@ async def purge(cmd, message, args):
                 except ValueError:
                     valid_count = False
         if count > 100:
-            count = 100
+            cou(cmd: SigmaCommand, message: discord.Message, args: list)
         if not valid_count:
             response = discord.Embed(color=0xBE1931, title=f'❗ {args[0]} is not a valid number.')
         else:

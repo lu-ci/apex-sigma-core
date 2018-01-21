@@ -5,7 +5,7 @@ from .nodes.recipe_core import RecipeCore
 recipe_core = None
 
 
-async def viewrecipe(cmd, message, args):
+async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
     global recipe_core
     if not recipe_core:
         recipe_core = RecipeCore(cmd.resource('data'))

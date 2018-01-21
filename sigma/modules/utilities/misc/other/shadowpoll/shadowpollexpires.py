@@ -4,7 +4,7 @@ import discord
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
-async def shadowpollexpires(cmd, message, args):
+async def shadowpollexpires(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) == 2:
             poll_id = args[0].lower()

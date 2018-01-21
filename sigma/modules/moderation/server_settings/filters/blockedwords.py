@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def blockedwords(cmd, message, args):
+async def blockedwords(cmd: SigmaCommand, message: discord.Message, args: list):
     blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')
     if not blocked_words:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked words.')

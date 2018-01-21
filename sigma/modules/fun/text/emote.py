@@ -13,7 +13,7 @@ def emote_filler(guilds):
     return emote_list
 
 
-async def emote(cmd, message, args):
+async def emote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
         if ':' in lookup:

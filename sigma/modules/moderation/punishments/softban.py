@@ -3,7 +3,6 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.permission_processing import hierarchy_permit
-from sigma.core.utilities.server_bound_logging import log_event
 
 
 def generate_log_embed(message, target, reason):
@@ -20,7 +19,7 @@ def generate_log_embed(message, target, reason):
 
 
 async def softban(cmd, message, args):
-    if message.author.permissions_in(message.channel).ban_members:
+    if message.au(cmd: SigmaCommand, message: discord.Message, args: list)message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]
             if cmd.bot.user.id != target.id:

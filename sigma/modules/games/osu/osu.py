@@ -5,7 +5,7 @@ from lxml import html
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 
 
-async def osu(cmd, message, args):
+async def osu(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         osu_input = '%20'.join(args)
         try:

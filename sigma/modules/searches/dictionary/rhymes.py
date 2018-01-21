@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def rhymes(cmd, message, args):
+async def rhymes(cmd: SigmaCommand, message: discord.Message, args: list):
     # strip spaces from args
     args = list(filter(lambda a: a != '', args))
     response = discord.Embed()

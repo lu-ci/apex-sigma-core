@@ -5,7 +5,7 @@ import aiohttp
 import discord
 
 
-async def butts(cmd, message, args):
+async def butts(cmd: SigmaCommand, message: discord.Message, args: list):
     api_base = 'http://api.obutts.ru/butts/'
     number = secrets.randbelow(4296) + 1
     url_api = api_base + str(number)

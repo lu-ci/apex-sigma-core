@@ -3,7 +3,7 @@
 import discord
 
 
-async def poll(cmd, message, args):
+async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         out_content = discord.Embed(type='rich', color=0xBE1931,
                                     title='❗ Missing Arguments.')

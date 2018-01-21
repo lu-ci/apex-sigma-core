@@ -3,7 +3,7 @@ import discord
 from .mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def bite(cmd, message, args):
+async def bite(cmd: SigmaCommand, message: discord.Message, args: list):
     interaction = await grab_interaction(cmd.db, 'bite')
     target = get_target(message)
     auth = message.author

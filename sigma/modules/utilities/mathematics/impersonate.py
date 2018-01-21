@@ -7,7 +7,7 @@ import markovify
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def impersonate(cmd, message, args):
+async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:
             if message.mentions:

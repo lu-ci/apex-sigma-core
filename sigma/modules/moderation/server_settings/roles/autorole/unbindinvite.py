@@ -1,7 +1,7 @@
 import discord
 
 
-async def unbindinvite(cmd, message, args):
+async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.create_instant_invite:
         if args:
             invite_id = args[0]

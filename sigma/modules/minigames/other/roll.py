@@ -3,7 +3,7 @@
 import discord
 
 
-async def roll(cmd, message, args):
+async def roll(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if 'd' in args[0].lower():
             params = args[0].lower().split('d')

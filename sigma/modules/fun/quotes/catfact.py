@@ -7,7 +7,7 @@ import discord
 facts = []
 
 
-async def catfact(cmd, message, args):
+async def catfact(cmd: SigmaCommand, message: discord.Message, args: list):
     global facts
     if not facts:
         resource = 'http://www.animalplanet.com/xhr.php'

@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def shortenurl(cmd, message, args):
+async def shortenurl(cmd: SigmaCommand, message: discord.Message, args: list):
     text_cont = None
     if 'access_token' in cmd.cfg:
         access_token = cmd.cfg['access_token']

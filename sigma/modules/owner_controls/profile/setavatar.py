@@ -2,7 +2,7 @@
 import discord
 
 
-async def setavatar(cmd, message, args):
+async def setavatar(cmd: SigmaCommand, message: discord.Message, args: list):
     if args or message.attachments:
         if message.attachments:
             image_url = message.attachments[0].url

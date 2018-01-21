@@ -5,7 +5,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def myreminders(cmd, message, args):
+async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
     here = False
     if args:
         if args[-1].lower() == 'here':

@@ -4,7 +4,7 @@ import discord
 from PIL import Image
 
 
-async def color(cmd, message, args):
+async def color(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) == 1:
             color_input = args[0]

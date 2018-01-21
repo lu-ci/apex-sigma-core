@@ -17,7 +17,7 @@ def combine_names(user_one, user_two):
     return output
 
 
-async def combinechains(cmd, message, args):
+async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list):
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if len(message.mentions) == 2:
             target_one = message.mentions[0]

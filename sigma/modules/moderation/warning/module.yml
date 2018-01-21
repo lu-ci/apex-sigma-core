@@ -15,3 +15,15 @@ commands:
       The warning reason is not mandatory. When the user is warned
       they will be sent a direct message about it. Each warning
       has a unique ID that you can call and view with the warninginfo command.
+
+  - name:         listwarnings
+    alts:
+      - "warns"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Lists all active warnings issued to the target user.
+      The list is compact and shows only the warning IDs,
+      the issuer of the warning, and when the warning was issued.
+      A moderator with manage messages permissions can view any user's warnings
+      while users without said permission can only view the list of theirs.

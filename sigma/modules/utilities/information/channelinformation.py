@@ -2,7 +2,7 @@ import arrow
 import discord
 
 
-async def channelinformation(cmd, message, args):
+async def channelinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.channel_mentions:
         chan = message.channel_mentions[0]
     else:

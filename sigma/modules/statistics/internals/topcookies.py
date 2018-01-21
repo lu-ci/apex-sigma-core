@@ -3,7 +3,7 @@ import pymongo
 from humanfriendly.tables import format_pretty_table as boop
 
 
-async def topcookies(cmd, message, args):
+async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     all_cookies = cmd.db[cmd.db.db_cfg.database].Cookies.find({}).sort('Cookies', pymongo.DESCENDING).limit(20)
     all_cookies = await all_cookies.to_list(None)
     cookie_count = cmd.db[cmd.db.db_cfg.database].Cookies.aggregate(

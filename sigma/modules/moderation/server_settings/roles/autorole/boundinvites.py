@@ -1,7 +1,7 @@
 import discord
 
 
-async def boundinvites(cmd, message, args):
+async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.create_instant_invite:
         bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites')
         if bound_invites:

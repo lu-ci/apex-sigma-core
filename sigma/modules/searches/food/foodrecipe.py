@@ -4,7 +4,7 @@ import aiohttp
 import discord
 
 
-async def foodrecipe(cmd, message, args):
+async def foodrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'api_key' in cmd.cfg:
         api_key = cmd.cfg['api_key']
         if args:

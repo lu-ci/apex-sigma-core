@@ -1,7 +1,7 @@
 import discord
 
 
-async def removeresponder(cmd, message, args):
+async def removeresponder(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()

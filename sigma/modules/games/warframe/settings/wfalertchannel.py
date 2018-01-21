@@ -1,7 +1,7 @@
 import discord
 
 
-async def wfalertchannel(cmd, message, args):
+async def wfalertchannel(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]

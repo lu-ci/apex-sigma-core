@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def permissions(cmd, message, args):
+async def permissions(cmd: SigmaCommand, message: discord.Message, args: list):
     allowed_list = []
     disallowed_list = []
     if message.mentions:

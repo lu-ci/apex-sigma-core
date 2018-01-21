@@ -5,7 +5,7 @@ import discord
 import wikipedia as wiki
 
 
-async def wikipedia(cmd, message, args):
+async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         try:
             summary_task = functools.partial(wiki.page, ' '.join(args).lower())

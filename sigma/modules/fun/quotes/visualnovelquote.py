@@ -3,7 +3,7 @@ import discord
 from lxml import html
 
 
-async def visualnovelquote(cmd, message, args):
+async def visualnovelquote(cmd: SigmaCommand, message: discord.Message, args: list):
     source_page = 'https://vndb.org/r'
     vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
     async with aiohttp.ClientSession() as session:

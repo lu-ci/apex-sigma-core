@@ -2,7 +2,7 @@ import discord
 import translate
 
 
-async def translation(cmd, message, args):
+async def translation(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             trans_arg = args[0]

@@ -1,7 +1,7 @@
 import discord
 
 
-async def shutdown(cmd, message, args):
+async def shutdown(cmd: SigmaCommand, message: discord.Message, args: list):
     status = discord.Embed(title=f'☠ {cmd.bot.user.name} Shutting Down.', color=0x808080)
     await message.channel.send(None, embed=status)
     cmd.log.info(f'Terminated by {message.author.name}#{message.author.discriminator}')

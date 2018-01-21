@@ -43,7 +43,7 @@ def get_dis_and_deg(unit, forecast):
     return dis, deg
 
 
-async def weather(cmd, message, args):
+async def weather(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'secret_key' in cmd.cfg:
         secret_key = cmd.cfg['secret_key']
         if args:

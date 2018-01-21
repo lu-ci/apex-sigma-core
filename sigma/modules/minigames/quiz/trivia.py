@@ -36,7 +36,7 @@ def get_correct_index(question_list, answer):
     return index
 
 
-async def trivia(cmd, message, args):
+async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
     global trivia_cache
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if message.author.id not in ongoing_list:

@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def channelid(cmd, message, args):
+async def channelid(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
         if args[-1].lower() == 'text':

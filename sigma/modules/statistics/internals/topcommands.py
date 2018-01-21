@@ -24,7 +24,7 @@ async def count_all_commands(db):
     return output, total
 
 
-async def topcommands(cmd, message, args):
+async def topcommands(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed(color=0x1B6F5F, title='Processing statistics...')
     init_message = await message.channel.send(embed=response)
     cmd_dict, total = await count_all_commands(cmd.db)

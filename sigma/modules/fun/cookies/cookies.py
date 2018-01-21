@@ -1,7 +1,7 @@
 import discord
 
 
-async def cookies(cmd, message, args):
+async def cookies(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         target = message.mentions[0]
     else:

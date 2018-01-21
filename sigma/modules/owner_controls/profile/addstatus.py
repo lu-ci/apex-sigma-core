@@ -3,7 +3,7 @@ import secrets
 import discord
 
 
-async def addstatus(cmd, message, args):
+async def addstatus(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         status_text = ' '.join(args)
         status_exists = await cmd.db[cmd.db.db_cfg.database].StatusFiles.find_one({'Text': status_text})

@@ -16,7 +16,7 @@ async def fill_r34_cache(tags):
             cache.update({tags: list(posts)})
 
 
-async def rule34(cmd, message, args):
+async def rule34(cmd: SigmaCommand, message: discord.Message, args: list):
     global cache
     tags = '+'.join(args)
     if not tags:

@@ -3,7 +3,7 @@ import discord
 from lxml import html
 
 
-async def randomcomicgenerator(cmd, message, args):
+async def randomcomicgenerator(cmd: SigmaCommand, message: discord.Message, args: list):
     comic_url = 'http://explosm.net/rcg/'
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:
         async with session.get(comic_url) as data:

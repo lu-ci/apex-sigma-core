@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def setusername(cmd, message, args):
+async def setusername(cmd: SigmaCommand, message: discord.Message, args: list):
     name_input = ' '.join(args)
     try:
         await cmd.bot.user.edit(username=name_input)

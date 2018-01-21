@@ -1,7 +1,6 @@
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.server_bound_logging import log_event
 
 
 async def edit_invite_blocker(ev, before, after):

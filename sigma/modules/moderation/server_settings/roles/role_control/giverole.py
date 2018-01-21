@@ -1,7 +1,7 @@
 import discord
 
 
-async def giverole(cmd, message, args):
+async def giverole(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) >= 2:

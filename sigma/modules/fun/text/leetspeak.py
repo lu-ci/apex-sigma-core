@@ -3,7 +3,7 @@ import discord
 from lxml import html
 
 
-async def leetspeak(cmd, message, args):
+async def leetspeak(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         levels = ['basic', 'advanced', 'ultimate']
         if args[-1].startswith('level:'):

@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def blacklistuser(cmd, message, args):
+async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         target_id = args[0]
         try:

@@ -8,7 +8,7 @@ import yaml
 active_quizzes = {}
 
 
-async def quiz(cmd, message, args):
+async def quiz(cmd: SigmaCommand, message: discord.Message, args: list):
     # exit if quiz is already active in the channel
     if message.channel.id in active_quizzes:
         return

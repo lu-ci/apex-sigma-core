@@ -5,7 +5,7 @@ import discord
 from lxml import html
 
 
-async def cyanideandhappiness(cmd, message, args):
+async def cyanideandhappiness(cmd: SigmaCommand, message: discord.Message, args: list):
     comic_img_url = None
     comic_url = None
     while not comic_img_url:

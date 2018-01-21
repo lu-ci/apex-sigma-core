@@ -1,7 +1,7 @@
 import discord
 
 
-async def vault(cmd, message, args):
+async def vault(cmd: SigmaCommand, message: discord.Message, args: list):
     currency = cmd.bot.cfg.pref.currency
     current_vault = await cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
     if current_vault is None:

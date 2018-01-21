@@ -5,7 +5,7 @@ from lxml import html
 cache = []
 
 
-async def bash(cmd, message, args):
+async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
     if len(cache) == 0:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://bash.org/?random1') as page:

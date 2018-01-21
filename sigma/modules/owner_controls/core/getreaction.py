@@ -1,7 +1,7 @@
 from discord import Embed
 
 
-async def getreaction(cmd, message, args):
+async def getreaction(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         return
 

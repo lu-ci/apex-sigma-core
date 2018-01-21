@@ -1,7 +1,7 @@
 ﻿import discord
 
 
-async def greetmessage(cmd, message, args):
+async def greetmessage(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
         response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     else:

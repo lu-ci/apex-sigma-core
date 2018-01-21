@@ -3,7 +3,7 @@ import discord
 from .mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def fap(cmd, message, args):
+async def fap(cmd: SigmaCommand, message: discord.Message, args: list):
     interaction = await grab_interaction(cmd.db, 'fap')
     target = get_target(message)
     auth = message.author

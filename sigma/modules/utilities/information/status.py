@@ -20,7 +20,7 @@ def get_os_icon():
     return icon, color
 
 
-async def status(cmd, message, args):
+async def status(cmd: SigmaCommand, message: discord.Message, args: list):
     os_icon, os_color = get_os_icon()
     general_text = f'Latency: **{int(cmd.bot.latency * 1000)}ms**'
     general_text += f'\nPlatform: **{sys.platform.upper()}**'

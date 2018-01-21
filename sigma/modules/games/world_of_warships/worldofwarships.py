@@ -14,7 +14,7 @@ regions = {
 }
 
 
-async def worldofwarships(cmd, message, args):
+async def worldofwarships(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'app_id' in cmd.cfg:
         app_id = cmd.cfg['app_id']
         if args:

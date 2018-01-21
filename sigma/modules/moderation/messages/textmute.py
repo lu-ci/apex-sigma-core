@@ -3,7 +3,6 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.permission_processing import hierarchy_permit
-from sigma.core.utilities.server_bound_logging import log_event
 
 
 def generate_log_embed(message, target, args):
@@ -21,7 +20,7 @@ def generate_log_embed(message, target, args):
 
 
 async def textmute(cmd, message, args):
-    if not message.author.permissions_in(message.channel).manage_messages:
+    if not message(cmd: SigmaCommand, message: discord.Message, args: list)in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     else:
         if not message.mentions:
@@ -47,7 +46,6 @@ async def textmute(cmd, message, args):
                         await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been text muted.')
                         log_embed = generate_log_embed(message, target, args)
-                        await log_event(cmd.db, message.guild, log_embed)
                         if len(args) > 1:
                             reason = ' '.join(args[1:])
                         else:

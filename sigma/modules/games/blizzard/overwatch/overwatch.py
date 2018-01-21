@@ -30,7 +30,7 @@ def clean_numbers(stats):
     return stats
 
 
-async def overwatch(cmd, message, args):
+async def overwatch(cmd: SigmaCommand, message: discord.Message, args: list):
     init_resp = discord.Embed(color=0xff9c00)
     init_resp.set_author(name='Processing information...', icon_url=ow_icon)
     init_resp_msg = await message.channel.send(embed=init_resp)
