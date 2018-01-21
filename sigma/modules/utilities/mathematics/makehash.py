@@ -1,7 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import hashlib
+﻿import hashlib
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def makehash(cmd: SigmaCommand, message: discord.Message, args: list):

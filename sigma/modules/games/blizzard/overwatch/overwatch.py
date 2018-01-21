@@ -1,8 +1,9 @@
 ﻿import asyncio
-from sigma.core.mechanics.command import SigmaCommand
 
 import discord
 from overwatch_api.core import AsyncOWAPI
+
+from sigma.core.mechanics.command import SigmaCommand
 
 ow_cli = AsyncOWAPI(request_timeout=30)
 ow_icon = 'https://i.imgur.com/YZ4w2ey.png'

@@ -1,4 +1,3 @@
-from sigma.core.mechanics.command import SigmaCommand
 import functools
 import secrets
 from concurrent.futures import ThreadPoolExecutor
@@ -6,6 +5,8 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import praw
 from prawcore.exceptions import Redirect, NotFound
+
+from sigma.core.mechanics.command import SigmaCommand
 
 reddit_client = None
 

@@ -1,9 +1,10 @@
 import json
 import secrets
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 facts = []
 

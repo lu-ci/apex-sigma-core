@@ -1,8 +1,8 @@
 ﻿import arrow
 import discord
 
-from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
 
 
 def generate_log_embed(message, target):

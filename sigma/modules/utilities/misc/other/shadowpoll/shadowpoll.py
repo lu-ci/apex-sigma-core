@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import secrets
 
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def generate_data(message, poll_args):

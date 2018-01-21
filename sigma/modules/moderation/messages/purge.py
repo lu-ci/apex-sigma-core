@@ -1,7 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import asyncio
+﻿import asyncio
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def purge(cmd: SigmaCommand, message: discord.Message, args: list):

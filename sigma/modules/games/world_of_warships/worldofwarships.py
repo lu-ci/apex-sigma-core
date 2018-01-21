@@ -1,9 +1,10 @@
 ﻿import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 wows_icon = 'https://i.imgur.com/Cv53UoN.png'
 wows_color = 0x066661

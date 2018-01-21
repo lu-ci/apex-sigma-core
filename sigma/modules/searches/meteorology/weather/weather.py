@@ -1,10 +1,10 @@
-from sigma.core.mechanics.command import SigmaCommand
 import json
 
 import aiohttp
 import discord
 from geopy.geocoders import Nominatim
 
+from sigma.core.mechanics.command import SigmaCommand
 from .visual_storage import icons
 
 

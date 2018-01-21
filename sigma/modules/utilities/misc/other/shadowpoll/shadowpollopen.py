@@ -1,5 +1,6 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def shadowpollopen(cmd: SigmaCommand, message: discord.Message, args: list):

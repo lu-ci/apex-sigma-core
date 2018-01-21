@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import os
 
 import discord
 from PIL import Image
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def color(cmd: SigmaCommand, message: discord.Message, args: list):

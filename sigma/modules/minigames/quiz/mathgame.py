@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import asyncio
 import secrets
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 ongoing_list = []
 

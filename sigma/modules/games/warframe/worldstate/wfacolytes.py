@@ -1,9 +1,10 @@
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
 from humanfriendly.tables import format_pretty_table
+
+from sigma.core.mechanics.command import SigmaCommand
 
 stalker_icon = 'https://vignette.wikia.nocookie.net/warframe/images/0/06/9PxL9MAPh4.png'
 

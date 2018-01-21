@@ -1,6 +1,6 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import discord
+﻿import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.race_storage import *
 
 

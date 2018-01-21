@@ -1,8 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import secrets
+﻿import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 

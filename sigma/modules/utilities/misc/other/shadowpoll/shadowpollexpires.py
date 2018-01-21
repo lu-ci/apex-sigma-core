@@ -1,7 +1,7 @@
-from sigma.core.mechanics.command import SigmaCommand
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 

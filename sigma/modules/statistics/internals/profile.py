@@ -1,6 +1,6 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 

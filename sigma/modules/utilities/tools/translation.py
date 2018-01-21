@@ -1,6 +1,7 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
 import translate
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def translation(cmd: SigmaCommand, message: discord.Message, args: list):

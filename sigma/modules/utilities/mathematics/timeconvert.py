@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import arrow
 import discord
 import yaml
 from arrow.parser import ParserError
+
+from sigma.core.mechanics.command import SigmaCommand
 
 tz_aliases = None
 tz_offsets = None

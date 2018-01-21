@@ -1,7 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-from concurrent.futures import TimeoutError
+﻿from concurrent.futures import TimeoutError
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def summon(cmd: SigmaCommand, message: discord.Message, args: list):

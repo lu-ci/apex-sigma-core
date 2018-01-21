@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import sys
 
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def botinformation(cmd: SigmaCommand, message: discord.Message, args: list):

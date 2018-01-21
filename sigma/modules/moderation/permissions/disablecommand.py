@@ -1,6 +1,6 @@
 ﻿import discord
-from sigma.core.mechanics.command import SigmaCommand
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.permission_data import get_all_perms
 
 

@@ -1,7 +1,8 @@
-from sigma.core.mechanics.command import SigmaCommand
 import datetime
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def youtube(cmd: SigmaCommand, message: discord.Message, args: list):

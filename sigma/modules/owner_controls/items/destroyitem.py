@@ -1,6 +1,6 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import discord
+﻿import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.professions.nodes.item_core import ItemCore
 
 item_core = None

@@ -1,8 +1,9 @@
-import discord
 import arrow
+import discord
+
+from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.data_processing import user_avatar
 from .move_log_embed import make_move_log_embed
-from sigma.core.mechanics.statistics import ElasticHandler
 
 
 async def join_move_log(ev, guild):

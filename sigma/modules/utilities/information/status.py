@@ -1,4 +1,3 @@
-from sigma.core.mechanics.command import SigmaCommand
 import socket
 import sys
 
@@ -6,6 +5,8 @@ import arrow
 import discord
 import humanfriendly
 import psutil
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def get_os_icon():

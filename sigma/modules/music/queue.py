@@ -1,9 +1,9 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import datetime
+﻿import datetime
 
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.music import QueueItem
 from sigma.core.utilities.data_processing import user_avatar
 

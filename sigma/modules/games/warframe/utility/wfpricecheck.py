@@ -1,8 +1,9 @@
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 plat_img = 'http://i.imgur.com/wa6J9bz.png'
 

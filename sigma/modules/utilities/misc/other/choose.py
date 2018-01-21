@@ -1,7 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import secrets
+﻿import secrets
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def choose(cmd: SigmaCommand, message: discord.Message, args: list):

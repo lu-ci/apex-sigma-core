@@ -1,6 +1,7 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
 from cryptography.fernet import Fernet, InvalidToken, InvalidSignature
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def encrypt(cmd: SigmaCommand, message: discord.Message, args: list):

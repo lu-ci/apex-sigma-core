@@ -1,5 +1,6 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import update_invites
 
 

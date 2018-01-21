@@ -1,6 +1,6 @@
 import discord
-from sigma.core.mechanics.command import SigmaCommand
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.feh_core import FireEmblemHeroesCore
 
 feh_core = None

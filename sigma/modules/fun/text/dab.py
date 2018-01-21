@@ -1,6 +1,9 @@
 import secrets
-from sigma.core.mechanics.command import SigmaCommand
+
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
+
 
 async def dab(cmd: SigmaCommand, message: discord.Message, args: list):
     faces = [

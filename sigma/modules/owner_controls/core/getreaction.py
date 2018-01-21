@@ -1,5 +1,8 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
+
+
 async def getreaction(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         return

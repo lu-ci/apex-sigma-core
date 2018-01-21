@@ -1,9 +1,11 @@
-import json
 import datetime
+import json
+
 import aiohttp
 import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
+
 from sigma.core.mechanics.command import SigmaCommand
 
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'

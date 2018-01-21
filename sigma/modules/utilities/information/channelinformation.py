@@ -1,6 +1,7 @@
-from sigma.core.mechanics.command import SigmaCommand
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def channelinformation(cmd: SigmaCommand, message: discord.Message, args: list):

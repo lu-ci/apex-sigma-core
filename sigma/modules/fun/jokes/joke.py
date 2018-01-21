@@ -1,11 +1,12 @@
 import json
 import secrets
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
 import ftfy
 from lxml import html
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def joke(cmd: SigmaCommand, message: discord.Message, args: list):

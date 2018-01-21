@@ -1,8 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import json
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def shortenurl(cmd: SigmaCommand, message: discord.Message, args: list):

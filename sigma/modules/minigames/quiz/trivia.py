@@ -1,5 +1,4 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import asyncio
+﻿import asyncio
 import json
 import secrets
 
@@ -7,6 +6,7 @@ import aiohttp
 import discord
 import ftfy
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 ongoing_list = []

@@ -1,6 +1,7 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import aiohttp
+﻿import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def setavatar(cmd: SigmaCommand, message: discord.Message, args: list):

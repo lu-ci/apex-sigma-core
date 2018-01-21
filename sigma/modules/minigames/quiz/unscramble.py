@@ -1,11 +1,11 @@
-from sigma.core.mechanics.command import SigmaCommand
 import asyncio
+import json
 import secrets
 
-import json
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.utils import scramble
 
 ongoing_list = []

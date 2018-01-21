@@ -1,9 +1,10 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import functools
+﻿import functools
 from concurrent.futures import ThreadPoolExecutor
 
 import discord
 import wikipedia as wiki
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):

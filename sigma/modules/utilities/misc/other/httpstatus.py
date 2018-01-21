@@ -1,7 +1,8 @@
-from sigma.core.mechanics.command import SigmaCommand
 import json
 
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def httpstatus(cmd: SigmaCommand, message: discord.Message, args: list):

@@ -1,9 +1,10 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import json
+﻿import json
 
 import aiohttp
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):

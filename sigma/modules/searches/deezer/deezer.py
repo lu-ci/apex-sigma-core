@@ -1,10 +1,11 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import datetime
+﻿import datetime
 import json
 import secrets
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def deezer(cmd: SigmaCommand, message: discord.Message, args: list):

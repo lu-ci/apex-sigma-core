@@ -1,6 +1,6 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.recipe_core import RecipeCore
 
 recipe_core = None

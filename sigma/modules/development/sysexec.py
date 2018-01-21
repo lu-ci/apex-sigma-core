@@ -1,6 +1,9 @@
 import subprocess
+
 import discord
+
 from sigma.core.mechanics.command import SigmaCommand
+
 
 async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:

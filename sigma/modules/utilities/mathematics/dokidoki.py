@@ -1,9 +1,10 @@
-from sigma.core.mechanics.command import SigmaCommand
 import secrets
 
 import discord
 import markovify
 from cryptography.fernet import Fernet, InvalidToken
+
+from sigma.core.mechanics.command import SigmaCommand
 
 titles = {
     'n': 'People can try...',

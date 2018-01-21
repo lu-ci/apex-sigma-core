@@ -1,10 +1,11 @@
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import arrow
 import discord
 import yaml
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def capital_split(word):

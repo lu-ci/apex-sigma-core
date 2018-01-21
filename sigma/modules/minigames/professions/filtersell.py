@@ -1,6 +1,6 @@
 ﻿import discord
-from sigma.core.mechanics.command import SigmaCommand
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.item_core import ItemCore
 
 item_core = None

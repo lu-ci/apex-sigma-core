@@ -1,10 +1,11 @@
-from sigma.core.mechanics.command import SigmaCommand
 import asyncio
 import os
 import secrets
 
 import discord
 import yaml
+
+from sigma.core.mechanics.command import SigmaCommand
 
 active_quizzes = {}
 

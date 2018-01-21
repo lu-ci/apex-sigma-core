@@ -1,10 +1,10 @@
 import datetime
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.warframe.commons.parsers.alert_parser import parse_alert_data
 
 

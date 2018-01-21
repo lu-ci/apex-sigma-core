@@ -1,10 +1,11 @@
 import datetime
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 tier_names = {
     'VoidT1': 'Lith',

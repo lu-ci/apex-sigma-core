@@ -1,9 +1,9 @@
-from sigma.core.mechanics.command import SigmaCommand
 import secrets
 
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.recipe_core import RecipeCore
 
 recipe_core = None

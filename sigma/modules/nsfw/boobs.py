@@ -1,9 +1,10 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import json
+﻿import json
 import secrets
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def boobs(cmd: SigmaCommand, message: discord.Message, args: list):

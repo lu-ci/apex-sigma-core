@@ -1,6 +1,7 @@
-from sigma.core.mechanics.command import SigmaCommand
 import discord
 from geopy.geocoders import Nominatim
+
+from sigma.core.mechanics.command import SigmaCommand
 
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 

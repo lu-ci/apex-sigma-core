@@ -1,9 +1,10 @@
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import arrow
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def get_english_message(data):

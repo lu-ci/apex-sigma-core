@@ -2,6 +2,7 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 from lxml import html
+
 from sigma.core.mechanics.command import SigmaCommand
 
 

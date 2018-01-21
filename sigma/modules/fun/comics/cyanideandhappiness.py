@@ -1,9 +1,10 @@
 import secrets
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
 from lxml import html
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def cyanideandhappiness(cmd: SigmaCommand, message: discord.Message, args: list):

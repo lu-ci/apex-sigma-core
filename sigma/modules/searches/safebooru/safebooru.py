@@ -1,9 +1,10 @@
-from sigma.core.mechanics.command import SigmaCommand
 import secrets
 
 import aiohttp
 import discord
 from lxml import html
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):

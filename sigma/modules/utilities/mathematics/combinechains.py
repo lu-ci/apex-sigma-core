@@ -1,4 +1,3 @@
-from sigma.core.mechanics.command import SigmaCommand
 import functools
 import secrets
 from concurrent.futures import ThreadPoolExecutor
@@ -6,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import markovify
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 

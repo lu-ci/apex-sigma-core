@@ -1,9 +1,10 @@
 import secrets
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
 from lxml import html
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def cat(cmd: SigmaCommand, message: discord.Message, args: list):

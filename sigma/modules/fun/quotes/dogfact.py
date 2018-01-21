@@ -1,8 +1,9 @@
 import json
-from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def dogfact(cmd: SigmaCommand, message: discord.Message, args: list):

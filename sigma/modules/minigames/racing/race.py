@@ -1,8 +1,8 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import asyncio
+﻿import asyncio
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.race_storage import *
 
 

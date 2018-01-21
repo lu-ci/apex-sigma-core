@@ -1,5 +1,6 @@
-﻿from sigma.core.mechanics.command import SigmaCommand
-import discord
+﻿import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def match_role(x, t):
