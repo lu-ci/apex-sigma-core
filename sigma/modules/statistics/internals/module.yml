@@ -39,35 +39,3 @@ commands:
     description:
       Shows Sigma's statistics for the mentioned user.
       Their current experience, level and most used commands.
-
-  - name:         topcurrency
-    alts:
-      - "topkud"
-    enabled:      true
-    usage:        "{pfx}{cmd} global"
-    description:
-      Shows the top 10 people in the Kud leaderboards.
-      You can specify if you want to see the top people that are local, global, or by their current kud.
-      The leaderboard shows the local server's leaderboard by default.
-
-  - name:         topexperience
-    alts:
-      - "topxp"
-    enabled:      true
-    usage:        "{pfx}{cmd} local"
-    description:
-      Shows the top 10 people in the Experience leaderboards.
-      You can specify if you want to see the top people that are local, global, or by their current xp.
-      The leaderboard shows the local server's leaderboard by default.
-
-  - name:         topcommands
-    alts:
-      - "topcmds"
-    enabled:      true
-    description:
-      Shows the top 20 most used commands globally.
-
-  - name:         topcookies
-    enabled:      true
-    description:
-      Shows the top 20 users who have the most cookies.

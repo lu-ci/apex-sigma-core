@@ -1,5 +1,6 @@
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
 async def help(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:

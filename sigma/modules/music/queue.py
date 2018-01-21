@@ -1,4 +1,5 @@
-﻿import datetime
+﻿from sigma.core.mechanics.command import SigmaCommand
+import datetime
 
 import discord
 from humanfriendly.tables import format_pretty_table as boop

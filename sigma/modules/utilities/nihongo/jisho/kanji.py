@@ -1,3 +1,4 @@
+from sigma.core.mechanics.command import SigmaCommand
 import aiohttp
 import discord
 from lxml import html

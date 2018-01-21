@@ -1,4 +1,5 @@
-﻿import arrow
+﻿from sigma.core.mechanics.command import SigmaCommand
+import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
@@ -19,8 +20,8 @@ def generate_log_embed(message, target, args):
     return log_embed
 
 
-async def textmute(cmd, message, args):
-    if not message(cmd: SigmaCommand, message: discord.Message, args: list)in(message.channel).manage_messages:
+async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
+    if not message.author.permissions_in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     else:
         if not message.mentions:

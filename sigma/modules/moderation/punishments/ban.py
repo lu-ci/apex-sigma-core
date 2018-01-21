@@ -1,4 +1,5 @@
-﻿import arrow
+﻿from sigma.core.mechanics.command import SigmaCommand
+import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
@@ -18,8 +19,8 @@ def generate_log_embed(message, target, reason):
     return log_response
 
 
-async def ban(cmd, message, args):
-    if messag(cmd: SigmaCommand, message: discord.Message, args: list)_in(message.channel).ban_members:
+async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
+    if message.author.permissions_in(message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]
             if cmd.bot.user.id != target.id:

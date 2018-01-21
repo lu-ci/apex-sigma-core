@@ -1,4 +1,5 @@
 import secrets
+from sigma.core.mechanics.command import SigmaCommand
 
 import discord
 

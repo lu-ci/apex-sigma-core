@@ -1,4 +1,5 @@
-﻿import hashlib
+﻿from sigma.core.mechanics.command import SigmaCommand
+import hashlib
 
 import discord
 

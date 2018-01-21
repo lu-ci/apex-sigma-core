@@ -1,6 +1,7 @@
 ﻿import aiohttp
 import discord
 from lxml import html
+from sigma.core.mechanics.command import SigmaCommand
 
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 

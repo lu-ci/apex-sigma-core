@@ -1,4 +1,5 @@
-﻿from asyncio.queues import Queue
+﻿from sigma.core.mechanics.command import SigmaCommand
+from asyncio.queues import Queue
 
 import discord
 

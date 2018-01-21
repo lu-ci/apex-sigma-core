@@ -2,6 +2,7 @@ import aiohttp
 import discord
 import ftfy
 
+from sigma.core.mechanics.command import SigmaCommand
 
 async def pun(cmd: SigmaCommand, message: discord.Message, args: list):
     pun_url = 'http://www.punoftheday.com/cgi-bin/arandompun.pl'

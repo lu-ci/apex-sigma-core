@@ -1,4 +1,5 @@
-﻿from concurrent.futures import TimeoutError
+﻿from sigma.core.mechanics.command import SigmaCommand
+from concurrent.futures import TimeoutError
 
 import discord
 

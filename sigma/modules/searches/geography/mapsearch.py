@@ -1,3 +1,4 @@
+from sigma.core.mechanics.command import SigmaCommand
 import discord
 from geopy.geocoders import Nominatim
 

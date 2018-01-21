@@ -1,4 +1,5 @@
-﻿import operator
+﻿from sigma.core.mechanics.command import SigmaCommand
+import operator
 
 import discord
 from humanfriendly.tables import format_pretty_table as boop

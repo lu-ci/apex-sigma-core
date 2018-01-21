@@ -1,5 +1,6 @@
 import aiohttp
 import discord
+from sigma.core.mechanics.command import SigmaCommand
 
 from sigma.modules.games.warframe.commons.parsers.invasion_parser import parse_invasion_data
 

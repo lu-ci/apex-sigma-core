@@ -1,4 +1,5 @@
-﻿import asyncio
+﻿from sigma.core.mechanics.command import SigmaCommand
+import asyncio
 import json
 import secrets
 

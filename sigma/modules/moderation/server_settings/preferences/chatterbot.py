@@ -1,4 +1,5 @@
-﻿import discord
+﻿from sigma.core.mechanics.command import SigmaCommand
+import discord
 
 
 async def chatterbot(cmd: SigmaCommand, message: discord.Message, args: list):

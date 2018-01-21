@@ -1,6 +1,7 @@
 import aiohttp
 from lxml import html
-
+from sigma.core.mechanics.command import SigmaCommand
+import discord
 
 async def csshumor(cmd: SigmaCommand, message: discord.Message, args: list):
     url = 'https://csshumor.com/'

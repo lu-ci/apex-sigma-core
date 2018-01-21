@@ -1,4 +1,5 @@
-﻿import arrow
+﻿from sigma.core.mechanics.command import SigmaCommand
+import arrow
 import discord
 
 

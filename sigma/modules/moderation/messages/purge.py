@@ -1,9 +1,10 @@
-﻿import asyncio
+﻿from sigma.core.mechanics.command import SigmaCommand
+import asyncio
 
 import discord
 
 
-async def purge(cmd, message, args):
+async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     else:
@@ -25,7 +26,7 @@ async def purge(cmd, message, args):
                 except ValueError:
                     valid_count = False
         if count > 100:
-            cou(cmd: SigmaCommand, message: discord.Message, args: list)
+            count = 100
         if not valid_count:
             response = discord.Embed(color=0xBE1931, title=f'❗ {args[0]} is not a valid number.')
         else:

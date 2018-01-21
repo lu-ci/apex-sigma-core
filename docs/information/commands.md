@@ -158,7 +158,6 @@ Commands | Description | Example
 ### MATHEMATICS
 Commands | Description | Example
 ----------|-------------|--------
-`>>checkheartkey` `>>chk` | Checks if the key you have inputted is the heart key of Sigma. If the key inputted has at least part of the true key, it will say so. | `>>checkheartkey b7V01YuKJ7Le1FQSZS_gvPtvI9kFa0ZDHH_-QfzZsFA=`
 `>>collectchain` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person #channel`
 `>>combinechains` `>>combine` `>>cmbch` `>>mix` | Like the impersonate command. This one however targets two uers and uses their chains to generated a mixed response. | `>>combinechains @target_one @target_two`
 `>>currenttime` `>>time` | Shows the current time in UTC. You can specify a time zone as well. If you wish to convert time, use the timeconvert command. | `>>currenttime PDT`
@@ -242,16 +241,14 @@ Commands | Description | Example
 `>>ban` | Bans a user from the server. This will also remove all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>ban @person Way, WAY too spicy for us...`
 `>>hardmute` `>>hmute` | Hard-mutes the target user. Users who are hard-muted are disallowed from typing to any channel. There is no message deletion, this is a permission based mute. | `>>hardmute @person For talking about the fight club.`
 `>>hardunmute` `>>hunmute` | Unmutes a hard-muted person. Allowing them to send messages again. | `>>hardunmute @person`
+`>>issuewarning` `>>warn` | Issues a warning to a user with the reason stated. The warning reason is not mandatory. When the user is warned they will be sent a direct message about it. Each warning has a unique ID that you can call and view with the warninginfo command. | `>>issuewarning @person Took too long in the bathroom.`
 `>>kick` | Kicks a user from the server. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>kick @person Couldn't handle the spice.`
+`>>listwarnings` `>>warns` | Lists all active warnings issued to the target user. The list is compact and shows only the warning IDs, the issuer of the warning, and when the warning was issued. A moderator with manage messages permissions can view any user's warnings while users without said permission can only view the list of theirs. | `>>listwarnings @person`
 `>>purge` `>>prune` | Deletes X number of messages posted by the mentioned person. If a user is not provided, it will prune the last X messages regardless of poster. If a number is not provided it will prune the last 100 messages. If neither number nor user is provided, it will prune the bots messages. Requires the user who calls the command to have the Manage Messages permission. | `>>purge X @person`
 `>>softban` `>>sb` | Soft-Ban a user from the server. This bans the user and immediatelly unbans them. Useful if you want to purge all messages from that user in the last 24h. The user can only be targeted by a mention tag. This is to preserve compatibility with logging and audits. | `>>softban @person Some spice needed de-spicing.`
 `>>textmute` `>>tmute` | Disallows the user from typing. Well technically, it will make the bot auto delete any message they send. You can add a message at the end to be sent to the user as the reason why. Users with the Administrator permission are ignored, their messages will not be deleted. Requires the user who calls the command to have the Manage Messages permission. | `>>textmute @person Was too spicy!`
 `>>textunmute` `>>tunmute` | Removes the tagged person from the list of muted users. Making the bot no longer delete their messages. Requires the user who calls the command to have the Manage Messages permission. | `>>textunmute @person`
 `>>unban` | Unbans a banned user by inputted username. | `>>unban Chicken Shluggets`
-`>>unwarn` `>>clearwarning` `>>clearwarn` | Clears a user's warning. A user target and warning ID are required. You can input "all" instead of an idea to clear all their warnings. | `>>unwarn @person all`
-`>>warn` | Adds a user to the warning list along with the reason stated. The used will also receive a direct message from the bot stating they have been warned. Warnings can be cleared with the unwarn command. | `>>warn @person Bit my dog`
-`>>warning` `>>warninfo` | Shows information regarding a user's warning. Both the mention of the user and the warning ID are required. | `>>warning @person 12af`
-`>>warnings` `>>warns` | Shows what the mentioned user was warned for. If the user who calls the command doesn't have the manage message permission, it will show their warnings instead. | `>>warnings @person`
 [Back To Top](#module-index)
 
 ### MUSIC
@@ -383,10 +380,6 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
 `>>profile` `>>mystats` | Shows Sigma's statistics for the mentioned user. Their current experience, level and most used commands. | `>>profile @person`
-`>>topcommands` `>>topcmds` | Shows the top 20 most used commands globally. | `>>topcommands`
-`>>topcookies` | Shows the top 20 users who have the most cookies. | `>>topcookies`
-`>>topcurrency` `>>topkud` | Shows the top 10 people in the Kud leaderboards. You can specify if you want to see the top people that are local, global, or by their current kud. The leaderboard shows the local server's leaderboard by default. | `>>topcurrency global`
-`>>topexperience` `>>topxp` | Shows the top 10 people in the Experience leaderboards. You can specify if you want to see the top people that are local, global, or by their current xp. The leaderboard shows the local server's leaderboard by default. | `>>topexperience local`
 `>>wallet` `>>currency` `>>money` `>>kud` | Shows how much of Sigma's internal currency you currently have. As well as how much you've earned on the current server and in total. Kud is earned by being an active member of the community. Yes, this is meant to be vague. | `>>wallet @person`
 [Back To Top](#module-index)
 

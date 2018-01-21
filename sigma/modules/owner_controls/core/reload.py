@@ -1,4 +1,5 @@
-﻿from importlib import reload as reimport
+﻿from sigma.core.mechanics.command import SigmaCommand
+from importlib import reload as reimport
 from sigma.modules.development.version_updater import version_updater
 import discord
 

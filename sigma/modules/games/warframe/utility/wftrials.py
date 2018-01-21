@@ -1,5 +1,6 @@
 ﻿import datetime
 import json
+from sigma.core.mechanics.command import SigmaCommand
 
 import aiohttp
 import discord

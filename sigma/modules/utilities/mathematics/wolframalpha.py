@@ -1,4 +1,5 @@
-﻿import discord
+﻿from sigma.core.mechanics.command import SigmaCommand
+import discord
 import wolframalpha as wa_wrapper
 
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs

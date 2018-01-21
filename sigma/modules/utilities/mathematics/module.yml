@@ -53,15 +53,6 @@ commands:
       You can force which character to quote by adding their name as an argument to the command.
       And you can force a glitch by adding ":glitch" as the ending argument.
 
-  - name:         checkheartkey
-    alts:
-      - "chk"
-    enabled:      true
-    usage:        "{pfx}{cmd} b7V01YuKJ7Le1FQSZS_gvPtvI9kFa0ZDHH_-QfzZsFA="
-    description:
-      Checks if the key you have inputted is the heart key of Sigma.
-      If the key inputted has at least part of the true key, it will say so.
-
   - name:         encrypt
     enabled:      true
     usage:        "{pfx}{cmd} I will always be here to talk to you for as long as you want."

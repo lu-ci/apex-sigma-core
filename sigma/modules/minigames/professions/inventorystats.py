@@ -1,5 +1,6 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
+from sigma.core.mechanics.command import SigmaCommand
 
 from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore

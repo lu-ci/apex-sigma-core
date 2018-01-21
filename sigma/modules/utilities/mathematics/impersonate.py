@@ -1,4 +1,5 @@
-﻿import functools
+﻿from sigma.core.mechanics.command import SigmaCommand
+import functools
 from concurrent.futures import ThreadPoolExecutor
 
 import discord

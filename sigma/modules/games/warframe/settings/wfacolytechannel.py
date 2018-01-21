@@ -1,5 +1,6 @@
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
 async def wfacolytechannel(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_channels:

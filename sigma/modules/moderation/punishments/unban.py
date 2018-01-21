@@ -2,6 +2,7 @@
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def generate_log_embed(message, target):
@@ -16,8 +17,8 @@ def generate_log_embed(message, target):
     return log_response
 
 
-async def unban(cmd, message, args):
-    if message.(cmd: SigmaCommand, message: discord.Message, args: list)n(message.channel).ban_members:
+async def unban(cmd: SigmaCommand, message: discord.Message, args: list):
+    if message.author.permissions_in(message.channel).ban_members:
         if args:
             lookup = ' '.join(args)
             target = None

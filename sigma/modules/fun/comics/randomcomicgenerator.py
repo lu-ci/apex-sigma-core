@@ -2,6 +2,7 @@ import aiohttp
 import discord
 from lxml import html
 
+from sigma.core.mechanics.command import SigmaCommand
 
 async def randomcomicgenerator(cmd: SigmaCommand, message: discord.Message, args: list):
     comic_url = 'http://explosm.net/rcg/'

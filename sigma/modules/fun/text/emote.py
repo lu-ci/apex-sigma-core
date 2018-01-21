@@ -1,5 +1,6 @@
 import arrow
 import discord
+from sigma.core.mechanics.command import SigmaCommand
 
 emote_cache = {'stamp': 0, 'emotes': []}
 

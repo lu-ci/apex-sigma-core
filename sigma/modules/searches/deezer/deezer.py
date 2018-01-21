@@ -1,4 +1,5 @@
-﻿import datetime
+﻿from sigma.core.mechanics.command import SigmaCommand
+import datetime
 import json
 import secrets
 

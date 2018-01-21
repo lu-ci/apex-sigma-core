@@ -1,4 +1,5 @@
 ﻿import discord
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list):

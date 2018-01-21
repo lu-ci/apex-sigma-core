@@ -1,4 +1,5 @@
 ﻿import asyncio
+from sigma.core.mechanics.command import SigmaCommand
 
 import discord
 from overwatch_api.core import AsyncOWAPI

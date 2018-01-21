@@ -1,7 +1,7 @@
 import subprocess
+import discord
+from sigma.core.mechanics.command import SigmaCommand
 
-
-# noinspection PyBroadException
 async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         try:

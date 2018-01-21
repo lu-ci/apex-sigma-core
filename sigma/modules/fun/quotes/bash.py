@@ -1,9 +1,10 @@
 import aiohttp
 from discord import Embed
 from lxml import html
+from sigma.core.mechanics.command import SigmaCommand
 
 cache = []
-
+import discord
 
 async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
     if len(cache) == 0:
