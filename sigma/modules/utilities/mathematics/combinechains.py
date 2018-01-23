@@ -1,11 +1,12 @@
 import functools
 import secrets
 from concurrent.futures import ThreadPoolExecutor
-from .nodes.spacifier import POSifiedText
+
 import discord
 import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
+from .nodes.spacifier import POSifiedText
 
 
 def combine_names(user_one, user_two):

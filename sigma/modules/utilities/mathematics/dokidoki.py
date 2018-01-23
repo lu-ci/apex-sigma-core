@@ -2,6 +2,7 @@ import secrets
 
 import discord
 from cryptography.fernet import Fernet, InvalidToken
+
 from .nodes.spacifier import POSifiedText
 
 titles = {
