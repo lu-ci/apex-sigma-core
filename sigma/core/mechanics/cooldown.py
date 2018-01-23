@@ -84,8 +84,6 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-            if user.id in self.bot.cfg.dsc.owners:
-                amount = 0
         entry = self.cache.get_cache(cd_name)
         if entry:
             self.cache.del_cache(cd_name)
