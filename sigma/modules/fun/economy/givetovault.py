@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def givetovault(cmd: SigmaCommand, message: discord.Message, args: list):
+async def givetovault(cmd, message, args):
     if args:
         try:
             amount = int(abs(int(args[0])))

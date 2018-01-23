@@ -1,10 +1,8 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
+async def listwarnings(cmd, message, args):
     if message.author.guild_permissions.manage_messages:
         if message.mentions:
             target = message.mentions[0]

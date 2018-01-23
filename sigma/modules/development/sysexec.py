@@ -1,11 +1,7 @@
 import subprocess
 
-import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
-
-async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
+async def sysexec(cmd, message, args):
     if args:
         try:
             process = subprocess.Popen(args, stdout=subprocess.PIPE)

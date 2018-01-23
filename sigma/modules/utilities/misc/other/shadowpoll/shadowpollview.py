@@ -1,11 +1,10 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def shadowpollview(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpollview(cmd, message, args):
     if args:
         poll_id = ''.join(args).lower()
         poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})

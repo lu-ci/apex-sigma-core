@@ -3,10 +3,8 @@ import operator
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
+async def ingame(cmd, message, args):
     games = {}
     online_count = 0
     playing_count = 0

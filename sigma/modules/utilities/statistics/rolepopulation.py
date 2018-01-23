@@ -3,8 +3,6 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
-
 
 def percentify(small, big):
     prc_flt = small / big
@@ -12,7 +10,7 @@ def percentify(small, big):
     return out
 
 
-async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def rolepopulation(cmd, message, args):
     if args:
         rl_qry = ' '.join(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), message.guild.roles)

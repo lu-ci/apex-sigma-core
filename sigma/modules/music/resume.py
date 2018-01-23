@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def resume(cmd: SigmaCommand, message: discord.Message, args: list):
+async def resume(cmd, message, args):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

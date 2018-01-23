@@ -3,7 +3,6 @@ import secrets
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
 from .nodes.recipe_core import RecipeCore
 
 recipe_core = None
@@ -23,7 +22,7 @@ async def check_requirements(cmd, message, recipe):
     return req_satisfied
 
 
-async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
+async def recipes(cmd, message, args):
     global recipe_core
     if not recipe_core:
         recipe_core = RecipeCore(cmd.resource('data'))

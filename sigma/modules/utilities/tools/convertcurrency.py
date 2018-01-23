@@ -3,10 +3,8 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def convertcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
+async def convertcurrency(cmd, message, args):
     if args:
         if len(args) == 4:
             amount = args[0]

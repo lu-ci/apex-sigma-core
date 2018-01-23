@@ -1,10 +1,9 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from .mech.danbooru_cache import get_dan_post
 
 
-async def danbooru(cmd: SigmaCommand, message: discord.Message, args: list):
+async def danbooru(cmd, message, args):
     if not args:
         tag = 'nude'
     else:

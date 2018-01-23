@@ -1,10 +1,8 @@
 import discord
 import translate
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def translation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def translation(cmd, message, args):
     if args:
         if len(args) >= 2:
             trans_arg = args[0]

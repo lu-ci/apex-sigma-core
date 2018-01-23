@@ -3,10 +3,8 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def chucknorris(cmd: SigmaCommand, message: discord.Message, args: list):
+async def chucknorris(cmd, message, args):
     embed = discord.Embed(color=0xFFDC5D)
     joke_url = 'https://api.chucknorris.io/jokes/random'
     async with aiohttp.ClientSession() as session:

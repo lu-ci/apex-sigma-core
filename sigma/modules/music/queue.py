@@ -3,12 +3,11 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.music import QueueItem
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def queue(cmd: SigmaCommand, message: discord.Message, args: list):
+async def queue(cmd, message, args):
     if args:
         if message.author.voice:
             same_bound = True

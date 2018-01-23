@@ -4,10 +4,8 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def cat(cmd: SigmaCommand, message: discord.Message, args: list):
+async def cat(cmd, message, args):
     if 'api_key' in cmd.cfg:
         cat_api_key = cmd.cfg['api_key']
         api_url = f'http://thecatapi.com/api/images/get?format=xml&results_per_page=100&api_key={cat_api_key}'

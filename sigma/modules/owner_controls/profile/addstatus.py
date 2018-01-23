@@ -2,10 +2,8 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def addstatus(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addstatus(cmd, message, args):
     if args:
         status_text = ' '.join(args)
         status_exists = await cmd.db[cmd.db.db_cfg.database].StatusFiles.find_one({'Text': status_text})

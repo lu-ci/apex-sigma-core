@@ -1,11 +1,10 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def avatar(cmd: SigmaCommand, message: discord.Message, args: list):
+async def avatar(cmd, message, args):
     gif = False
     static = False
     auto_color = False

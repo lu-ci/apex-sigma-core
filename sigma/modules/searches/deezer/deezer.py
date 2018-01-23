@@ -5,10 +5,8 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def deezer(cmd: SigmaCommand, message: discord.Message, args: list):
+async def deezer(cmd, message, args):
     if args:
         search = '%20'.join(args)
         qry_url = f'http://api.deezer.com/search/track?q={search}'

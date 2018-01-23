@@ -3,7 +3,6 @@ import datetime
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.stats_processing import add_special_stats
 
@@ -39,7 +38,7 @@ def player_active(voice_client):
     return active
 
 
-async def play(cmd: SigmaCommand, message: discord.Message, args: list):
+async def play(cmd, message, args):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

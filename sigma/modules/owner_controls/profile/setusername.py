@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def setusername(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setusername(cmd, message, args):
     name_input = ' '.join(args)
     try:
         await cmd.bot.user.edit(username=name_input)

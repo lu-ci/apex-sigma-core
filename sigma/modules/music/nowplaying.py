@@ -2,11 +2,10 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def nowplaying(cmd: SigmaCommand, message: discord.Message, args: list):
+async def nowplaying(cmd, message, args):
     if message.guild.id in cmd.bot.music.currents:
         item = cmd.bot.music.currents[message.guild.id]
         duration = str(datetime.timedelta(seconds=item.duration))

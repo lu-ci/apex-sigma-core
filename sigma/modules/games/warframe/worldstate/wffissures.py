@@ -5,8 +5,6 @@ import aiohttp
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
 tier_names = {
     'VoidT1': 'Lith',
     'VoidT2': 'Meso',
@@ -16,7 +14,7 @@ tier_names = {
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 
-async def wffissures(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wffissures(cmd, message, args):
     fissure_url = 'https://deathsnacks.com/wf/data/activemissions.json'
     async with aiohttp.ClientSession() as session:
         async with session.get(fissure_url) as data:

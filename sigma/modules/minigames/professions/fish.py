@@ -1,13 +1,12 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore
 
 item_core = None
 
 
-async def fish(cmd: SigmaCommand, message: discord.Message, args: list):
+async def fish(cmd, message, args):
     global item_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))

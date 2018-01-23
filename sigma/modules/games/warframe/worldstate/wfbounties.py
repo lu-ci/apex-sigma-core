@@ -5,8 +5,6 @@ import arrow
 import discord
 import yaml
 
-from sigma.core.mechanics.command import SigmaCommand
-
 
 def capital_split(word):
     out = ''
@@ -19,7 +17,7 @@ def capital_split(word):
     return out
 
 
-async def wfbounties(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfbounties(cmd, message, args):
     if args:
         try:
             btier = abs(int(args[0]))

@@ -1,7 +1,6 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 in_use = False
@@ -19,7 +18,7 @@ def check_for_bot_prefixes(prefix, text):
 
 
 # noinspection PyBroadException
-async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
+async def collectchain(cmd, message, args):
     global in_use
     global in_use_by
     if in_use:

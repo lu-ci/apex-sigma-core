@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def chatterbot(cmd: SigmaCommand, message: discord.Message, args: list):
+async def chatterbot(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         curr_settings = await cmd.db.get_guild_settings(message.guild.id, 'ChatterBot')
         if curr_settings is None:

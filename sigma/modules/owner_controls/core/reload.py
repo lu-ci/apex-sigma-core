@@ -2,11 +2,10 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.development.version_updater import version_updater
 
 
-async def reload(cmd: SigmaCommand, message: discord.Message, args: list):
+async def reload(cmd, message, args):
     await version_updater(cmd)
     if not args:
         cmd.log.info('---------------------------------')

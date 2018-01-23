@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def unflip(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unflip(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         flip_settings = await cmd.db.get_guild_settings(message.guild.id, 'Unflip')
         if flip_settings is None:

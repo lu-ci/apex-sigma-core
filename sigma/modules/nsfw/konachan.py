@@ -4,10 +4,8 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def konachan(cmd: SigmaCommand, message: discord.Message, args: list):
+async def konachan(cmd, message, args):
     url_base = 'https://konachan.com/post.json?limit=100&tags='
     if not args:
         tags = 'nude'

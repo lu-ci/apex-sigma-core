@@ -2,10 +2,8 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
+async def evaluate(cmd, message, args):
     if not args:
         status = discord.Embed(color=0xBE1931, title='❗ Nothing Inputted To Process')
     else:

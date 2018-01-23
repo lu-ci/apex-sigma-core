@@ -4,10 +4,8 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):
+async def safebooru(cmd, message, args):
     if not args:
         tag = 'cute'
     else:

@@ -5,7 +5,6 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import markovify
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
@@ -18,7 +17,7 @@ def combine_names(user_one, user_two):
     return output
 
 
-async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list):
+async def combinechains(cmd, message, args):
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if len(message.mentions) == 2:
             target_one = message.mentions[0]

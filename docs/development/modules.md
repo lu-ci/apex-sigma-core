@@ -76,7 +76,7 @@ events:                          # List of events in the module.
 The code of the actual `>>ping` command and function. The following code goes into `ping.py` that we created.
 
 ```py
-async def ping(cmd: SigmaCommand, message: discord.Message, args: list):
+async def ping(cmd, message, args):
     bot_latency = round(cmd.bot.latency * 1000, 2)
     response = f'Pong! Latency: {bot_latency}ms'
     await message.channel.send(response)

@@ -2,7 +2,6 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
@@ -16,7 +15,7 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
                 '(○｀ω´○)', '(●ↀωↀ●)', '(｡･ω･｡)', '(*Φ皿Φ*)', '§ꊘ⃑٥ꊘ⃐§', ']*ΦωΦ)ノ']
 
 
-async def nekomimi(cmd: SigmaCommand, message: discord.Message, args: list):
+async def nekomimi(cmd, message, args):
     global links
     if not links:
         filler_message = discord.Embed(color=0xff6699, title='🐱 One moment, filling Sigma with catgirls...')

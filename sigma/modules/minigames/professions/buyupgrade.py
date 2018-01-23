@@ -2,13 +2,12 @@ import asyncio
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from .nodes.upgrades import upgrade_list
 
 ongoing = []
 
 
-async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
+async def buyupgrade(cmd, message, args):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
         upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})

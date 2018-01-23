@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def addresponder(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addresponder(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 2:

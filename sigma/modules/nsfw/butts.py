@@ -4,10 +4,8 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def butts(cmd: SigmaCommand, message: discord.Message, args: list):
+async def butts(cmd, message, args):
     api_base = 'http://api.obutts.ru/butts/'
     number = secrets.randbelow(4296) + 1
     url_api = api_base + str(number)

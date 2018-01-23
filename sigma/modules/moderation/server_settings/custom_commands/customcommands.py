@@ -1,10 +1,9 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):
+async def customcommands(cmd, message, args):
     custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
     if custom_commands:
         if args:

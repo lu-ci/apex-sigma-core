@@ -3,10 +3,8 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def rhymes(cmd: SigmaCommand, message: discord.Message, args: list):
+async def rhymes(cmd, message, args):
     # strip spaces from args
     args = list(filter(lambda a: a != '', args))
     response = discord.Embed()

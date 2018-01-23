@@ -1,11 +1,10 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
+async def reminderinfo(cmd, message, args):
     if args:
         rem_id = args[0].lower()
         lookup_data = {'UserID': message.author.id, 'ReminderID': rem_id}

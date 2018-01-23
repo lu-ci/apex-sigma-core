@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def help(cmd: SigmaCommand, message: discord.Message, args: list):
+async def help(cmd, message, args):
     if args:
         cmd_name = ''.join(args).lower()
         if cmd_name in cmd.bot.modules.alts:

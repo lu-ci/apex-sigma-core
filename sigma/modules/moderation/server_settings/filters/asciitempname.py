@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def asciitempname(cmd: SigmaCommand, message: discord.Message, args: list):
+async def asciitempname(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             new_name = ' '.join(args)

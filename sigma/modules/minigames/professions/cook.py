@@ -1,6 +1,5 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore
 from .nodes.properties import cook_quality
@@ -10,7 +9,7 @@ item_core = None
 recipe_core = None
 
 
-async def cook(cmd: SigmaCommand, message: discord.Message, args: list):
+async def cook(cmd, message, args):
     global item_core
     global recipe_core
     if not item_core:

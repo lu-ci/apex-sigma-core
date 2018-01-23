@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def shadowpollunpermit(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpollunpermit(cmd, message, args):
     if args:
         if len(args) >= 2:
             poll_id = args[0].lower()

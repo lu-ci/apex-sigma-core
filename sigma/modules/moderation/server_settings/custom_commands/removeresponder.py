@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def removeresponder(cmd: SigmaCommand, message: discord.Message, args: list):
+async def removeresponder(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()

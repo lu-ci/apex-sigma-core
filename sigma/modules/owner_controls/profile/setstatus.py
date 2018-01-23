@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def setstatus(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setstatus(cmd, message, args):
     if cmd.bot.cfg.pref.status_rotation:
         response = discord.Embed(color=0xBE1931, title='❗ I can\'t, automatic rotation is enabled.')
     else:

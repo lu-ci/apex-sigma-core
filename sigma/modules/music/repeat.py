@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def repeat(cmd: SigmaCommand, message: discord.Message, args: list):
+async def repeat(cmd, message, args):
     if message.guild.voice_client:
         if message.author.voice:
             if message.guild.voice_client.channel.id == message.author.voice.channel.id:

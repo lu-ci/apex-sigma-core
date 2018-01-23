@@ -3,10 +3,8 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def spelledlike(cmd: SigmaCommand, message: discord.Message, args: list):
+async def spelledlike(cmd, message, args):
     # strip spaces from args
     print(args)
     args = list(filter(lambda a: a != '', args))

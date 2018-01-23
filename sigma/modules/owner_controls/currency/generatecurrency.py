@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def generatecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
+async def generatecurrency(cmd, message, args):
     if message.mentions:
         if len(args) >= 2:
             target = message.mentions[0]

@@ -3,10 +3,8 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def describe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def describe(cmd, message, args):
     response = discord.Embed()
     if args:
         mode = args[0]

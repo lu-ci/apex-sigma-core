@@ -3,10 +3,8 @@ import os
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def dog(cmd: SigmaCommand, message: discord.Message, args: list):
+async def dog(cmd, message, args):
     doggie_url = 'http://www.randomdoggiegenerator.com/randomdoggie.php'
     async with aiohttp.ClientSession() as session:
         async with session.get(doggie_url) as data:

@@ -1,10 +1,9 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from .nodes.permission_data import get_all_perms
 
 
-async def enablecommand(cmd: SigmaCommand, message: discord.Message, args: list):
+async def enablecommand(cmd, message, args):
     if args:
         if not message.author.permissions_in(message.channel).manage_guild:
             response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)

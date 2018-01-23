@@ -4,8 +4,6 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
-
 cache = {}
 
 
@@ -20,7 +18,7 @@ async def fill_gelbooru_cache(tags):
                 cache.update({tags: list(posts)})
 
 
-async def gelbooru(cmd: SigmaCommand, message: discord.Message, args: list):
+async def gelbooru(cmd, message, args):
     global cache
     tags = '+'.join(args)
     if not tags:

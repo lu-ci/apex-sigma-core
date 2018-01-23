@@ -5,12 +5,10 @@ import secrets
 import discord
 import yaml
 
-from sigma.core.mechanics.command import SigmaCommand
-
 active_quizzes = {}
 
 
-async def quiz(cmd: SigmaCommand, message: discord.Message, args: list):
+async def quiz(cmd, message, args):
     # exit if quiz is already active in the channel
     if message.channel.id in active_quizzes:
         return

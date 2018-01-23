@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def lmgtfy(cmd: SigmaCommand, message: discord.Message, args: list):
+async def lmgtfy(cmd, message, args):
     if args:
         lookup = '%20'.join(args)
         google_icon = 'https://maxcdn.icons8.com/Share/icon/Logos/google_logo1600.png'

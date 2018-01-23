@@ -1,10 +1,8 @@
 ﻿import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def setavatar(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setavatar(cmd, message, args):
     if args or message.attachments:
         if message.attachments:
             image_url = message.attachments[0].url

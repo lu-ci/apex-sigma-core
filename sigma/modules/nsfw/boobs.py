@@ -4,10 +4,8 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def boobs(cmd: SigmaCommand, message: discord.Message, args: list):
+async def boobs(cmd, message, args):
     api_base = 'http://api.oboobs.ru/boobs/'
     number = secrets.randbelow(10303) + 1
     url_api = api_base + str(number)

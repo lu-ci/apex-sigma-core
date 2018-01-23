@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
+async def commands(cmd, message, args):
     if args:
         lookup = ' '.join(args).lower()
         command_items = cmd.bot.modules.commands

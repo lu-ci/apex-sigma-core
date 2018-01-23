@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def cookies(cmd: SigmaCommand, message: discord.Message, args: list):
+async def cookies(cmd, message, args):
     if message.mentions:
         target = message.mentions[0]
     else:

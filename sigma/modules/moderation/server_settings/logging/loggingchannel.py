@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list):
+async def loggingchannel(cmd, message, args):
     if not message.author.permissions_in(message.channel).manage_guild:
         response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     else:

@@ -4,8 +4,6 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
-
 cache = {}
 
 
@@ -18,7 +16,7 @@ async def fill_r34_cache(tags):
             cache.update({tags: list(posts)})
 
 
-async def rule34(cmd: SigmaCommand, message: discord.Message, args: list):
+async def rule34(cmd, message, args):
     global cache
     tags = '+'.join(args)
     if not tags:

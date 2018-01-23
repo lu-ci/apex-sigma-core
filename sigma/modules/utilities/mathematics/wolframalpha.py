@@ -1,11 +1,10 @@
 ﻿import discord
 import wolframalpha as wa_wrapper
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 
 
-async def wolframalpha(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wolframalpha(cmd, message, args):
     if message.channel.id not in math_chs:
         if 'app_id' in cmd.cfg:
             if not args:

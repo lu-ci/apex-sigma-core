@@ -1,10 +1,9 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def logwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
+async def logwarnings(cmd, message, args):
     if message.author.guild_permissions.manage_guild:
         log_event = await cmd.db.get_guild_settings(message.guild.id, 'LogWarnings')
         if log_event:

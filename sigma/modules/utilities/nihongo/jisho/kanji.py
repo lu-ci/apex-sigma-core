@@ -2,10 +2,8 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
+async def kanji(cmd, message, args):
     limit = 1
     jisho_q = ''.join(args)[:limit]
 

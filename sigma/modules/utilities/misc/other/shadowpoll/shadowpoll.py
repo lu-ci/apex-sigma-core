@@ -3,8 +3,6 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
 
 def generate_data(message, poll_args):
     uid = message.author.id
@@ -43,7 +41,7 @@ def generate_data(message, poll_args):
     return poll_file_data
 
 
-async def shadowpoll(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpoll(cmd, message, args):
     if args:
         poll_args = ' '.join(args).split('; ')
         if len(poll_args) >= 3:

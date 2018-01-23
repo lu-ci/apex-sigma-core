@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def autorole(cmd: SigmaCommand, message: discord.Message, args: list):
+async def autorole(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             lookup = ' '.join(args)

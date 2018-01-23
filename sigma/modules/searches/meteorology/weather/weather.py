@@ -4,7 +4,6 @@ import aiohttp
 import discord
 from geopy.geocoders import Nominatim
 
-from sigma.core.mechanics.command import SigmaCommand
 from .visual_storage import icons
 
 
@@ -44,7 +43,7 @@ def get_dis_and_deg(unit, forecast):
     return dis, deg
 
 
-async def weather(cmd: SigmaCommand, message: discord.Message, args: list):
+async def weather(cmd, message, args):
     if 'secret_key' in cmd.cfg:
         secret_key = cmd.cfg['secret_key']
         if args:

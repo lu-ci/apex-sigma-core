@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
+async def whoplays(cmd, message, args):
     if not args:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

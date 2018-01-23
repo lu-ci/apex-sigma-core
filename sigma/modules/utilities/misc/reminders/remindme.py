@@ -3,7 +3,6 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
@@ -20,7 +19,7 @@ def convert_to_seconds(time_input):
     return output
 
 
-async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
+async def remindme(cmd, message, args):
     if args:
         time_req = args[0]
         try:

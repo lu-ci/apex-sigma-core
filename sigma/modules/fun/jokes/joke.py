@@ -6,10 +6,8 @@ import discord
 import ftfy
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
+async def joke(cmd, message, args):
     randomizer = secrets.randbelow(6644)
     joke_url = f'http://jokes.cc.com/feeds/random/{randomizer}'
     async with aiohttp.ClientSession() as session:

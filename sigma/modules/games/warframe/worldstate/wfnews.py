@@ -4,8 +4,6 @@ import aiohttp
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
 
 def get_english_message(data):
     message_content = None
@@ -16,7 +14,7 @@ def get_english_message(data):
     return message_content
 
 
-async def wfnews(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfnews(cmd, message, args):
     news_url = 'http://content.warframe.com/dynamic/worldState.php'
     async with aiohttp.ClientSession() as session:
         async with session.get(news_url) as data:

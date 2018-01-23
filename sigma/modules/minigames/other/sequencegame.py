@@ -3,8 +3,6 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
 ongoing = []
 symbols = ['❤', '♦', '♠', '♣', '⭐', '⚡']
 
@@ -29,7 +27,7 @@ def check_answer(arguments, sequence):
     return correct, results
 
 
-async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
+async def sequencegame(cmd, message, args):
     if message.author.id not in ongoing:
         chosen = []
         while len(chosen) < 4:

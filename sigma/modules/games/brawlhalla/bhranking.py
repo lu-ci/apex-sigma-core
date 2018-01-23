@@ -3,10 +3,8 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def bhranking(cmd: SigmaCommand, message: discord.Message, args: list):
+async def bhranking(cmd, message, args):
     regions = ['global', 'us-e', 'eu', 'sea', 'br2', 'aus', 'us-w']
     url_base = 'http://www.brawlhalla.com/rankings/1v1/'
     if not args:

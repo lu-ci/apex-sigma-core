@@ -1,12 +1,11 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from .nodes.recipe_core import RecipeCore
 
 recipe_core = None
 
 
-async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def viewrecipe(cmd, message, args):
     global recipe_core
     if not recipe_core:
         recipe_core = RecipeCore(cmd.resource('data'))

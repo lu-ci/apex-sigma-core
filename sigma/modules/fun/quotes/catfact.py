@@ -4,12 +4,10 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-
 facts = []
 
 
-async def catfact(cmd: SigmaCommand, message: discord.Message, args: list):
+async def catfact(cmd, message, args):
     global facts
     if not facts:
         resource = 'http://www.animalplanet.com/xhr.php'

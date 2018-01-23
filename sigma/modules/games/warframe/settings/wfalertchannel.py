@@ -1,9 +1,7 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def wfalertchannel(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfalertchannel(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]

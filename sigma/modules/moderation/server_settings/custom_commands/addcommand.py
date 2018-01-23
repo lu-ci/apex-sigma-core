@@ -1,9 +1,7 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addcommand(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 2:

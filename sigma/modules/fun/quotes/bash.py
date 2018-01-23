@@ -2,13 +2,10 @@ import aiohttp
 from discord import Embed
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
-
 cache = []
-import discord
 
 
-async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
+async def bash(cmd, message, args):
     if len(cache) == 0:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://bash.org/?random1') as page:

@@ -2,10 +2,8 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def coinflip(cmd: SigmaCommand, message: discord.Message, args: list):
+async def coinflip(cmd, message, args):
     result = secrets.choice(['heads', 'tails'])
     urls = {
         'heads': 'https://i.imgur.com/528MDba.png',

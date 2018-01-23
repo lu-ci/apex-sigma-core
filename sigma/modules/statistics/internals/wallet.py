@@ -1,10 +1,9 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def wallet(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wallet(cmd, message, args):
     if message.mentions:
         target = message.mentions[0]
     else:

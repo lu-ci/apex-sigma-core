@@ -5,13 +5,12 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
 from .mech.utils import scramble
 
 ongoing_list = []
 
 
-async def vnchargame(cmd: SigmaCommand, message: discord.Message, args: list):
+async def vnchargame(cmd, message, args):
     if message.channel.id not in ongoing_list:
         try:
             ongoing_list.append(message.channel.id)

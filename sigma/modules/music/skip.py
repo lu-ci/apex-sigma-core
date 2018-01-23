@@ -1,10 +1,9 @@
 ﻿import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def skip(cmd: SigmaCommand, message: discord.Message, args: list):
+async def skip(cmd, message, args):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

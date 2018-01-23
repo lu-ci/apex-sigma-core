@@ -4,10 +4,8 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import wikipedia as wiki
 
-from sigma.core.mechanics.command import SigmaCommand
 
-
-async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wikipedia(cmd, message, args):
     if args:
         try:
             summary_task = functools.partial(wiki.page, ' '.join(args).lower())

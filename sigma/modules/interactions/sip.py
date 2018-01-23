@@ -1,10 +1,9 @@
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from .mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def sip(cmd: SigmaCommand, message: discord.Message, args: list):
+async def sip(cmd, message, args):
     interaction = await grab_interaction(cmd.db, 'sip')
     target = get_target(message)
     auth = message.author
