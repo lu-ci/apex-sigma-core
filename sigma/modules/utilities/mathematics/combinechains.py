@@ -1,7 +1,7 @@
 import functools
 import secrets
 from concurrent.futures import ThreadPoolExecutor
-
+from .nodes.spacifier import POSifiedText
 import discord
 import markovify
 
@@ -31,8 +31,8 @@ async def combinechains(cmd, message, args):
                 string_one = ' '.join(chain_one.get('Chain'))
                 string_two = ' '.join(chain_two.get('Chain'))
                 with ThreadPoolExecutor() as threads:
-                    chain_task_one = functools.partial(markovify.Text, string_one)
-                    chain_task_two = functools.partial(markovify.Text, string_two)
+                    chain_task_one = functools.partial(POSifiedText, string_one)
+                    chain_task_two = functools.partial(POSifiedText, string_two)
                     markov_one = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
                     markov_two = await cmd.bot.loop.run_in_executor(threads, chain_task_two)
                     combine_task = functools.partial(markovify.combine, [markov_one, markov_two], [1, 1])

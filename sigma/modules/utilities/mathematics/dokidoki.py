@@ -3,6 +3,7 @@ import secrets
 import discord
 import markovify
 from cryptography.fernet import Fernet, InvalidToken
+from .nodes.spacifier import POSifiedText
 
 titles = {
     'n': 'People can try...',
@@ -93,7 +94,7 @@ async def dokidoki(cmd, message, args):
                 thumbnail = secrets.choice(chars[char])
             lines = []
             for x in range(0, line_count):
-                output = markovify.Text(ciphered).make_short_sentence(500, tries=100)
+                output = POSifiedText(ciphered).make_short_sentence(500, tries=100)
                 output = clean(output, message.author)
                 if glitch:
                     output = cipher.encrypt(output.encode('utf-8')).decode('utf-8')

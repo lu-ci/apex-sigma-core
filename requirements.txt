@@ -17,6 +17,7 @@ praw
 psutil
 pymongo
 pyyaml
+spacy
 translate
 watchdog
 wikipedia

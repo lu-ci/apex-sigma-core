@@ -2,9 +2,9 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import discord
-import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
+from .nodes.spacifier import POSifiedText
 
 
 async def impersonate(cmd, message, args):
@@ -24,7 +24,7 @@ async def impersonate(cmd, message, args):
             if chain_data:
                 if chain_data['Chain']:
                     total_string = ' '.join(chain_data['Chain'])
-                    chain_function = functools.partial(markovify.Text, total_string)
+                    chain_function = functools.partial(POSifiedText, total_string)
                     with ThreadPoolExecutor() as threads:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
                         sentence_function = functools.partial(chain.make_short_sentence, 500)
