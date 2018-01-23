@@ -9,7 +9,7 @@ async def acolyte_clockwork(ev):
 
 
 async def acolyte_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             acolytes, triggers = await get_acolyte_data(ev.db)
             if acolytes:

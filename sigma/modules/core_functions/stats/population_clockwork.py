@@ -10,7 +10,7 @@ async def population_clockwork(ev):
 
 
 async def update_population_stats_node(ev):
-    while True:
+    while ev.bot.is_ready():
         collection = 'GeneralStats'
         database = ev.bot.cfg.db.database
         server_count = len(list(ev.bot.guilds))

@@ -54,7 +54,6 @@ class ApexSigma(client_class):
         self.music = None
         self.modules = None
         self.queue = QueueControl(self)
-        self.launched = False
         self.cache = {}
         # Initialize startup methods and attributes.
         self.create_cache()
@@ -163,9 +162,6 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.event_runner('ready'))
-        if not self.launched:
-            self.loop.create_task(self.event_runner('launch'))
-            self.launched = True
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 

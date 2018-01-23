@@ -9,7 +9,7 @@ async def news_clockwork(ev):
 
 
 async def news_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             news = await get_news_data(ev.db)
             if news:

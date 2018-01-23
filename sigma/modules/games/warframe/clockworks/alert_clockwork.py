@@ -9,7 +9,7 @@ async def alert_clockwork(ev):
 
 
 async def alert_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             alerts, triggers = await get_alert_data(ev.db)
             if alerts:

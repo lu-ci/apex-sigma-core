@@ -9,7 +9,7 @@ async def invasion_clockwork(ev):
 
 
 async def invasion_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             invasions, triggers = await get_invasion_data(ev.db)
             if invasions:

@@ -10,7 +10,7 @@ async def expiration_clock(ev):
 
 async def cycler(ev):
     poll_coll = ev.db[ev.db.db_cfg.database].ShadowPolls
-    while True:
+    while ev.bot.is_ready():
         now = arrow.utcnow().timestamp
         poll_files = await poll_coll.find({'settings.expires': {'$lt': now}, 'settings.active': True}).to_list(None)
         for poll_file in poll_files:

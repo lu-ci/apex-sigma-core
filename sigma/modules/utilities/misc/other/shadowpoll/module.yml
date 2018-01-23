@@ -182,5 +182,5 @@ commands:
 
 events:
   - name: expiration_clock
-    type: launch
+    type: ready
     enabled: true

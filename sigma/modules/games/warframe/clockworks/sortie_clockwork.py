@@ -9,7 +9,7 @@ async def sortie_clockwork(ev):
 
 
 async def sortie_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             sorties = await get_sortie_data(ev.db)
             if sorties:

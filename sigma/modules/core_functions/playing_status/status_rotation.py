@@ -25,7 +25,7 @@ async def status_rotation(ev):
 
 
 async def status_clockwork(ev):
-    while True:
+    while ev.bot.is_ready():
         if ev.bot.cfg.pref.status_rotation:
             if not status_cache:
                 status_files = await ev.db[ev.db.db_cfg.database].StatusFiles.find().to_list(None)

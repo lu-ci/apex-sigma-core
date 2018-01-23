@@ -19,7 +19,7 @@ async def name_check_clockwork(ev):
 
 
 async def name_checker(ev):
-    while True:
+    while ev.bot.is_ready():
         guild_ids = []
         guilds = []
         actives = await ev.db[ev.db.db_cfg.database].ServerSettings.find({'ASCIIOnlyNames': True}).to_list(None)

@@ -22,9 +22,9 @@ events:
     enabled:     true
 
   - name:        population_clockwork
-    type:        launch
+    type:        ready
     enabled:     true
 
   - name:        discordbots_clock
-    type:        launch
+    type:        ready
     enabled:     true

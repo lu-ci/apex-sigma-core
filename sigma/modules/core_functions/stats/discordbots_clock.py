@@ -10,7 +10,7 @@ async def discordbots_clock(ev):
 
 
 async def clockwork_updater(ev, token):
-    while True:
+    while ev.bot.is_ready():
         guild_count = len(ev.bot.guilds)
         headers = {'Authorization': token}
         data = {'server_count': guild_count}

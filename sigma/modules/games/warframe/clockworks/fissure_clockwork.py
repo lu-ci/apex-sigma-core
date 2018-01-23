@@ -9,7 +9,7 @@ async def fissure_clockwork(ev):
 
 
 async def fissure_cycler(ev):
-    while True:
+    while ev.bot.is_ready():
         try:
             fissures = await get_fissure_data(ev.db)
             if fissures:
