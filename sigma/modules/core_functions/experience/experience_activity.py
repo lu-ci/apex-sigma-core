@@ -6,4 +6,4 @@ async def experience_activity(ev, message):
             else:
                 award_xp = 150
             await ev.db.add_experience(message.author, message.guild, award_xp)
-            await ev.bot.cool_down.set_cooldown(ev.name, message.author, 90)
+            await ev.bot.cool_down.set_cooldown(ev.name, message.author, 80)
