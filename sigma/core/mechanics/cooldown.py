@@ -93,8 +93,5 @@ class CooldownControl(object):
         if entry:
             await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
         else:
-            cd_data = {
-                'name': cd_name,
-                'end_stamp': end_stamp
-            }
+            cd_data = {'name': cd_name, 'end_stamp': end_stamp}
             await self.cds.insert_one(cd_data)
