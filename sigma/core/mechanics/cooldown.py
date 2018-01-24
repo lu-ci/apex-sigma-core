@@ -64,6 +64,7 @@ class CooldownControl(object):
         entry = self.cache.get_cache(cd_name)
         if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
+            self.cache.set_cache(cd_name, entry)
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().float_timestamp
@@ -84,14 +85,11 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cache.get_cache(cd_name)
-        if entry:
-            self.cache.del_cache(cd_name)
-        else:
-            entry = await self.cds.find_one({'name': cd_name})
+        entry = await self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
         if entry:
             await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
         else:
             cd_data = {'name': cd_name, 'end_stamp': end_stamp}
             await self.cds.insert_one(cd_data)
+        self.cache.del_cache(cd_name)
