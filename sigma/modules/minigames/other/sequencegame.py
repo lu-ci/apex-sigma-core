@@ -30,7 +30,7 @@ async def sequencegame(cmd, message, args):
         while len(chosen) < 4:
             symbol = secrets.choice(symbols)
             chosen.append(symbol)
-        title = '🎯 You have 90 seconds for each atempt.'
+        title = f'🎯 {message.author.display_name}, you have 90 seconds for each attempt.'
         desc = f'Symbols you can use: {"".join(symbols)}'
         start_embed = discord.Embed(color=0xf9f9f9)
         start_embed.add_field(name=title, value=desc)
@@ -71,20 +71,21 @@ async def sequencegame(cmd, message, args):
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
                     await message.channel.send(embed=win_embed)
                 else:
-                    atempt_title = f'💣 {tries}/6: {"".join(results)}'
-                    atempt_embed = discord.Embed(color=0x262626, title=atempt_title)
-                    await message.channel.send(embed=atempt_embed)
+                    attempt_title = f'💣 {answer.author.display_name} {tries}/6: {"".join(results)}'
+                    attempt_embed = discord.Embed(color=0x262626, title=attempt_title)
+                    await message.channel.send(embed=attempt_embed)
             except asyncio.TimeoutError:
                 finished = True
                 victory = False
                 timeout = True
-                timeout_title = f'🕙 Time\'s up! It was {"".join(chosen)}'
+                timeout_title = f'🕙 Time\'s up {message.author.display_name}! It was {"".join(chosen)}'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
         if not victory and not timeout:
-            lose_title = f'💥 Ooh, sorry, it was {"".join(chosen)}'
+            lose_title = f'💥 Ooh, sorry {message.author.display_name}, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await message.channel.send(embed=final_embed)
     else:
-        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
+        ongoing_error = discord.Embed(color=0xBE1931,
+                                      title=f'❗ {message.author.display_name}, there is one already ongoing.')
         await message.channel.send(embed=ongoing_error)
