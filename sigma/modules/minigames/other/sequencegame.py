@@ -8,12 +8,10 @@ symbols = ['❤', '♦', '♠', '♣', '⭐', '⚡']
 
 
 def check_answer(arguments, sequence):
-    arguments = list(filter(lambda a: a != '', arguments))
-    arguments = arguments[:4]
-    loop_index = 0
+    arguments = [char for char in arguments if char in symbols]
     results = []
     correct = True
-    for arg in arguments:
+    for loop_index, arg in enumerate(arguments):
         if arg == sequence[loop_index]:
             sign = '🔷'
         elif arg in sequence:
@@ -22,7 +20,6 @@ def check_answer(arguments, sequence):
         else:
             sign = '🔻'
             correct = False
-        loop_index += 1
         results.append(sign)
     return correct, results
 
@@ -42,7 +39,7 @@ async def sequencegame(cmd, message, args):
         def answer_check(msg):
             if message.author.id == msg.author.id:
                 if message.channel.id == msg.channel.id:
-                    message_args = list(filter(lambda a: a != '', msg.content.split(' ')))
+                    message_args = [char for char in msg.content if char in symbols]
                     if len(message_args) == 4:
                         good = False
                         for arg in message_args:
@@ -58,17 +55,17 @@ async def sequencegame(cmd, message, args):
             return good
 
         finished = False
-        virtory = False
+        victory = False
         timeout = False
         tries = 0
         while not finished and tries < 6:
             try:
                 answer = await cmd.bot.wait_for('message', check=answer_check, timeout=90)
-                correct, results = check_answer(answer.content.split(' '), chosen)
+                correct, results = check_answer(answer.content, chosen)
                 tries += 1
                 if correct:
                     finished = True
-                    virtory = True
+                    victory = True
                     await cmd.db.add_currency(answer.author, message.guild, 50)
                     win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 Kud!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
@@ -79,12 +76,12 @@ async def sequencegame(cmd, message, args):
                     await message.channel.send(embed=atempt_embed)
             except asyncio.TimeoutError:
                 finished = True
-                virtory = False
+                victory = False
                 timeout = True
                 timeout_title = f'🕙 Time\'s up! It was {"".join(chosen)}'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
-        if not virtory and not timeout:
+        if not victory and not timeout:
             lose_title = f'💥 Ooh, sorry, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await message.channel.send(embed=final_embed)
