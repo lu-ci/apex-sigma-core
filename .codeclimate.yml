@@ -10,10 +10,11 @@ plugins:
     checks:
       E501:
         enabled: false
-      Complexity:
-        enabled: false
   radon:
     enabled: true
+    checks:
+      Complexity:
+        enabled: false
   sonar-python:
     enabled: false
 
