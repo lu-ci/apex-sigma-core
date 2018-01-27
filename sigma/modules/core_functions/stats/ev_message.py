@@ -1,4 +1,4 @@
-from .stats_temp_storage import StatisticsStorage
+from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats = None
 

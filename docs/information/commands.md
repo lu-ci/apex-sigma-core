@@ -91,7 +91,6 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>bhranking` `>>bhlb` `>>brawlhallaleaderboad` `>>brawlhallaranking` | Grabs the current top players on the Brawlhalla leaderboards. You can append a region to the command to get the leaderboard for that region. If no region is specified, it will use the global ranking page. | `>>bhranking EU`
-`>>fireemblemheroes` `>>feh` | Searches data in the Fire Emblem Heroes game. Such as hero, weapon and skill information. | `>>fireemblemheroes Ninian`
 `>>osu` | Generates a signature image with the user's stats for osu!. | `>>osu AXAz0r`
 `>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the given player from the given region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978 | `>>overwatch EU Aurora#22978`
 `>>wfacolytechannel` `>>wfacolc` | Designates a channel for Warframe acolyte notifications. When an acolute is found it shows up there. To disable this, write disable after the command instead of a channel. | `>>wfacolytechannel #wf-acolytes`

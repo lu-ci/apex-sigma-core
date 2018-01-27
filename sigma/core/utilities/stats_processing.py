@@ -1,4 +1,4 @@
-from sigma.modules.core_functions.stats.stats_temp_storage import StatisticsStorage
+from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats_handler = None
 
