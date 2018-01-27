@@ -2,7 +2,7 @@ name:             Fire Emblem Heroes Commands
 
 category:         games
 
-enabled:          true
+enabled:          false
 
 commands:
   - name:         fireemblemheroes
