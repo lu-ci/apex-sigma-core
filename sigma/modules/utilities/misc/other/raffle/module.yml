@@ -19,6 +19,23 @@ commands:
       a message will appear in the channel the reaffle was made in
       and the creator of the raffle and the winner will be tagged.
 
+  - name:         redrawraffle
+    alts:
+      - "redraw"
+    enabled:      true
+    requirements:
+      - "add_reactions"
+    usage:        "{pfx}{cmd} 1abc9c"
+    description:
+      Redraws a raffle in case that's ever needed.
+      This command is only usable by the author of the raffle.
+      To redraw a raffle use the raffle's ID that can be found in it's footer.
+      This command has no response aside from a reaction to your message.
+      If all is well, a green check will appear, if the user is not the author, it will be a no entry sign,
+      if a raffle with that ID is not found, a magnifying glass will be the reaction, if no arguments are
+      provided, it will be an exclamation mark.
+      A raffle needs to be marked as ended before it can be redrawn.
+
 events:
   - name: raffle_clockwork
     type: ready

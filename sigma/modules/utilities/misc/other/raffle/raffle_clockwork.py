@@ -16,9 +16,9 @@ async def cycler(ev):
     raffle_coll = ev.db[ev.db.db_cfg.database].Raffles
     while ev.bot.is_ready():
         now = arrow.utcnow().float_timestamp
-        raffle = await raffle_coll.find_one({'End': {'$lt': now}})
+        raffle = await raffle_coll.find_one({'End': {'$lt': now}, 'Active': True})
         if raffle:
-            await raffle_coll.delete_one(raffle)
+            await raffle_coll.update_one(raffle, {'$set': {'Active': False}})
             cid = raffle.get('Channel')
             aid = raffle.get('Author')
             mid = raffle.get('Message')
@@ -37,7 +37,6 @@ async def cycler(ev):
                                 if not user.bot:
                                     contestants.append(user)
                             break
-                    await message.delete()
                     if contestants:
                         winner = secrets.choice(contestants)
                         amen = f'<@{aid}>'
