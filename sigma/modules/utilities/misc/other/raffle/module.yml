@@ -16,7 +16,7 @@ commands:
       Starts a raffle with a given timer and title.
       Entering the raffle works by reacting to Sigma's embed message
       with an automatically given reaction. When the timer runs out
-      a message will appear in the channel the reaffle was made in
+      a message will appear in the channel the raffle was made in
       and the creator of the raffle and the winner will be tagged.
 
   - name:         redrawraffle
