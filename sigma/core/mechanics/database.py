@@ -15,6 +15,16 @@ class Database(motor.AsyncIOMotorClient):
         else:
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
         super().__init__(self.db_address)
+        self.bot.loop.create_task(self.precache_settings())
+
+    async def precache_settings(self):
+        self.bot.log.info('Pre-Caching all guild settings...')
+        all_settings = await self[self.db_cfg.database].ServerSettings.find({}).to_list(None)
+        for setting_file in all_settings:
+            guild_id = setting_file.get('ServerID')
+            if guild_id:
+                self.cache.set_cache(guild_id, setting_file)
+        self.bot.log.info(f'Finished pre-caching {len(all_settings)} guild settings.')
 
     async def get_guild_settings(self, guild_id, setting_name):
         guild_settings = self.cache.get_cache(guild_id)
