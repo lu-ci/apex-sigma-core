@@ -15,7 +15,7 @@ plugins:
   radon:
     enabled: true
   sonar-python:
-    enabled: true
+    enabled: false
 
 ratings:
   paths:
