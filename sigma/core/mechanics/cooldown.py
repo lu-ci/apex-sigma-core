@@ -45,6 +45,7 @@ class CooldownControl(object):
         entry = self.cache.get_cache(cd_name)
         if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
+            self.cache.set_cache(cd_name, entry)
         if entry:
             end_stamp = entry['end_stamp']
             now_stamp = arrow.utcnow().timestamp
