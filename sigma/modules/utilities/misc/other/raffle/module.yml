@@ -1,0 +1,25 @@
+name:             Other Misc Utilities
+
+category:         miscellaneous
+
+enabled:          true
+
+commands:
+  - name:         raffle
+    alts:
+      - "giveaway"
+    enabled:      true
+    requirements:
+      - "add_reactions"
+    usage:        "{pfx}{cmd} 48:30:59 50,000 Kud"
+    description:
+      Starts a raffle with a given timer and title.
+      Entering the raffle works by reacting to Sigma's embed message
+      with an automatically given reaction. When the timer runs out
+      a message will appear in the channel the reaffle was made in
+      and the creator of the raffle and the winner will be tagged.
+
+events:
+  - name: raffle_clockwork
+    type: ready
+    enabled: true

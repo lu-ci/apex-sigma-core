@@ -6,6 +6,19 @@ import arrow
 from PIL import Image
 
 
+def convert_to_seconds(time_input):
+    indent_list = time_input.split(':')
+    if len(indent_list) == 3:
+        output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
+    elif len(indent_list) == 2:
+        output = (60 * int(indent_list[0]) + int(indent_list[1]))
+    elif len(indent_list) == 1:
+        output = int(indent_list[0])
+    else:
+        raise LookupError
+    return output
+
+
 def user_avatar(user, gif=False, static=False):
     if user.avatar_url:
         output = user.avatar_url

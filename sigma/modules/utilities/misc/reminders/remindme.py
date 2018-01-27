@@ -3,20 +3,7 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.utilities.data_processing import user_avatar
-
-
-def convert_to_seconds(time_input):
-    indent_list = time_input.split(':')
-    if len(indent_list) == 3:
-        output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
-    elif len(indent_list) == 2:
-        output = (60 * int(indent_list[0]) + int(indent_list[1]))
-    elif len(indent_list) == 1:
-        output = int(indent_list[0])
-    else:
-        raise LookupError
-    return output
+from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 
 
 async def remindme(cmd, message, args):
