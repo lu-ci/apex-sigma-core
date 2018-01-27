@@ -4,11 +4,13 @@ plugins:
   fixme:
     enabled: true
   markdownlint:
-    enabled: true
+    enabled: false
   pep8:
     enabled: true
     checks:
       E501:
+        enabled: false
+      Complexity:
         enabled: false
   radon:
     enabled: true
