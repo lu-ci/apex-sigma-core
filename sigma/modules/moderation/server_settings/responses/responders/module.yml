@@ -1,45 +1,10 @@
-name:             Custom Command Controls
+name:             Custom Responder Controls
 
 category:         settings
 
 enabled:          true
 
 commands:
-  - name:         addcommand
-    alts:
-      - "addcmd"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi Hello world!"
-    description: |
-      Adds a custom command trigger to the server.
-      Whenever this trigger word is used with a command prefix the inputted response will be provided.
-      Command requires the Manage Server permission.
-      Custom commands can have special dynamic arguments in them.
-      {author_name}: Message author name.
-      {author_nick}: Message author nickname.
-      {author_mention}: Tag the message author.
-      {author_id}: Message author's ID.
-      {channel_name}: Channel name.
-      {channel_mention}: Channel tag.
-      {channel_id}: Channel ID.
-      {server_name}: Server name.
-      {server_id}: Server ID.
-      {target_name}: Target name.
-      {target_nick}: Target nickname.
-      {target_mention}: Tag the target.
-      {target_id}: Target ID.
-
-  - name:         removecommand
-    alts:
-      - "deletecommand"
-      - "remcmd"
-      - "delcmd"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi"
-    description:
-      Removes a custom command trigger used for custom commands from the server.
-      This requires the Manage Server permission.
-
   - name:         addresponder
     alts:
       - "addres"
@@ -75,14 +40,12 @@ commands:
       Removes a custom command trigger used for custom commands from the server.
       Command requires the Manage Server permission.
 
-  - name:         customcommands
+  - name:         responders
     alts:
-      - "customcmds"
-      - "custcmds"
-      - "ccmds"
+      - "resps"
     enabled:      true
     usage:        "{pfx}{cmd} 4"
     description:
-      Shows a list of the server's custom commands.
+      Shows a list of the server's custom responder triggers.
       The list is separated into pages of 10 items each.
       You can specify the page number you want to see.

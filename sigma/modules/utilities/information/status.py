@@ -21,6 +21,8 @@ def get_os_icon():
 
 
 async def status(cmd, message, args):
+    uptime_set = arrow.utcnow().float_timestamp - cmd.bot.start_time.float_timestamp
+    processed = round(cmd.bot.queue.processed / uptime_set, 3)
     os_icon, os_color = get_os_icon()
     general_text = f'Latency: **{int(cmd.bot.latency * 1000)}ms**'
     general_text += f'\nPlatform: **{sys.platform.upper()}**'
@@ -50,6 +52,6 @@ async def status(cmd, message, args):
         shard_latency = int(cmd.bot.latencies[current_shard][1] * 1000)
         verbose_description = f'Shard: #{current_shard} | '
         verbose_description += f'Latency: {shard_latency}ms | '
-        verbose_description += f'Queue: {cmd.bot.queue.queue.qsize()}'
+        verbose_description += f'Activity: {processed} ev/s'
         response.description = verbose_description
     await message.channel.send(embed=response)

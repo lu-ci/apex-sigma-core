@@ -1,0 +1,37 @@
+name:             Custom Reactor Controls
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         addreactor
+    alts:
+      - "addreac"
+    enabled:      true
+    usage:        "{pfx}{cmd} hi <:lcHello:309405155604824074>"
+    description: |
+      Adds an automatic reactor to the server.
+      Whenever the given trigger word is detected the bot will
+      react to the message with the given reaction.
+      The :lcHello: above given in the example is a custom emote.
+
+  - name:         removereactor
+    alts:
+      - "deletereactor"
+      - "remreac"
+      - "delreac"
+    enabled:      true
+    usage:        "{pfx}{cmd} hi"
+    description:
+      Removes an automatic reaction trigger.
+
+  - name:         reactors
+    alts:
+      - "reacs"
+    enabled:      true
+    usage:        "{pfx}{cmd} 4"
+    description:
+      Shows a list of the server's reaction triggers.
+      The list is separated into pages of 10 items each.
+      You can specify the page number you want to see.

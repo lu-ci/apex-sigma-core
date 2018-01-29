@@ -26,7 +26,7 @@ async def customcommands(cmd, message, args):
                 ender = 's'
             else:
                 ender = ''
-            summary = f'Showing **{len(commands)}** commands from Page **#{page}**.'
+            summary = f'Showing **{len(commands)}** command{ender} from Page **#{page}**.'
             summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
             pfx = await cmd.bot.get_prefix(message)
             loop_index = start_range

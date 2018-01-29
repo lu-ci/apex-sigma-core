@@ -9,6 +9,10 @@ events:
     type:         message
     enabled:      true
 
+  - name:         auto_reactor
+    type:         message
+    enabled:      true
+
   - name:         auto_responder
     type:         message
     enabled:      true

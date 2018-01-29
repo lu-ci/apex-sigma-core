@@ -8,9 +8,7 @@ async def addcommand(cmd, message, args):
                 trigger = args[0].lower()
                 if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                     content = ' '.join(args[1:])
-                    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
-                    if custom_commands is None:
-                        custom_commands = {}
+                    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
                     if trigger in custom_commands:
                         res_text = 'updated'
                     else:
@@ -21,7 +19,7 @@ async def addcommand(cmd, message, args):
                 else:
                     response = discord.Embed(title='❗ Can\'t replace an existing core command', color=0xBE1931)
             else:
-                response = discord.Embed(title='❗ Missing Message To Send', color=0xBE1931)
+                response = discord.Embed(title='❗ Invalid number of arguments.', color=0xBE1931)
         else:
             response = discord.Embed(title='❗ Nothing was inputted.', color=0xBE1931)
     else:

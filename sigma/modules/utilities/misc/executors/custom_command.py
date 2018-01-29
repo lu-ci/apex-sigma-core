@@ -21,7 +21,7 @@ async def custom_command(ev, message):
         if message.content.startswith(prefix):
             if message.content != prefix:
                 cmd = message.content[len(prefix):].lower().split()[0]
-                if cmd not in ev.bot.modules.commands:
+                if cmd not in ev.bot.modules.commands and cmd not in ev.bot.modules.alts:
                     perms = ServerCommandPermissions(ev, message)
                     await perms.check_perms()
                     if perms.permitted:
