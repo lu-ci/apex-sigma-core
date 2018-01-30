@@ -79,7 +79,7 @@ async def softban(cmd, message, args):
                             log_embed = generate_log_embed(message, target, reason)
                             await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
                         else:
-                            response = discord.Embed(title='⛔ Can\'t ban above my highest role.', color=0xBE1931)
+                            response = discord.Embed(title='⛔ Target is above my highest role.', color=0xBE1931)
                     else:
                         response = discord.Embed(title='⛔ Can\'t soft-ban someone equal or above you.', color=0xBE1931)
                 else:
