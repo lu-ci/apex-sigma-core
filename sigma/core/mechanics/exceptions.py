@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 class DummyException(Exception):
     def __init__(self):
         self.message = 'This is a dummy exception, it should never be raised.'
