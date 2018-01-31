@@ -62,11 +62,11 @@ async def hardunmute(cmd, message, args):
                     response = discord.Embed(color=0x77B255, title=title)
                     await ongoing_msg.delete()
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ That user is euqal or above you.')
+                    response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t mute a user equal or above me.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targetted.')
+            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = discord.Embed(title='⛔ Access Denied. Manage Channels needed.', color=0xBE1931)
     await message.channel.send(embed=response)

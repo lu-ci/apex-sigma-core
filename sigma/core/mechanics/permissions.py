@@ -100,9 +100,9 @@ class GlobalCommandPermissions(object):
 
     def check_owner(self):
         auth = self.message.author
-        ownrs = self.bot.cfg.dsc.owners
+        owners = self.bot.cfg.dsc.owners
         if self.cmd.owner:
-            if auth.id in ownrs:
+            if auth.id in owners:
                 self.owner_denied = False
             else:
                 self.owner_denied = True

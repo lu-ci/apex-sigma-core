@@ -27,5 +27,5 @@ async def removereaction(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Reaction not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputed.')
+        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
     await message.channel.send(embed=response)

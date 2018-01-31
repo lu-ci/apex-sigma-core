@@ -28,5 +28,5 @@ async def removestatus(cmd, message, args):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Status ID not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputed.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

@@ -32,7 +32,7 @@ aura_list = [
     'speed holster', 'sprint boost', 'stand united', 'steel charge'
 ]
 
-overriden_icons = {
+overridden_icons = {
     'endo': 'https://vignette.wikia.nocookie.net/warframe/images/f/f2/EndoIconRenderLarge.png'
 }
 
@@ -130,8 +130,8 @@ async def generate_alert_embed(data):
         else:
             try:
                 reward_name = get_item_name(data['rewards']['item'])
-                if reward_name.lower() in overriden_icons:
-                    reward_icon = overriden_icons.get(reward_name.lower())
+                if reward_name.lower() in overridden_icons:
+                    reward_icon = overridden_icons.get(reward_name.lower())
                 else:
                     reward_icon = await grab_image(reward_name)
             except FailedIconGrab:

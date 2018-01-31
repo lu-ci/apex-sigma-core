@@ -159,7 +159,7 @@ class Logger(object):
     @staticmethod
     def add_stdout_handler(logger):
         """
-        Add a log hander that logs to the standard output.
+        Add a log handler that logs to the standard output.
         :param logger:
         :return:
         """

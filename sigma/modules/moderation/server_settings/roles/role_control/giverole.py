@@ -41,7 +41,7 @@ async def giverole(cmd, message, args):
                     else:
                         response = discord.Embed(color=0xBE1931, title=f'❗ I couldn\'t find {lookup}.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ No user targetted.')
+                    response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
         else:

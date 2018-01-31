@@ -75,7 +75,7 @@ async def givecookie(cmd, message, args):
                     title = f'❗ Sorry, your account is too young to give cookies.'
                     response = discord.Embed(color=0xBE1931, title=title)
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ It seems that {target.name} is alergic to cookies.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ It seems that {target.name} is allergic to cookies.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ It seems that your oven is broken.')
     else:

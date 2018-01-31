@@ -32,8 +32,8 @@ async def grab_post_list(tags):
         for post in posts:
             if 'file_url' in post.attrib:
                 file_url = post.attrib['file_url']
-                extention = file_url.split('.')[-1]
-                if extention in ['png', 'jpg', 'jpeg', 'gif']:
+                extension = file_url.split('.')[-1]
+                if extension in ['png', 'jpg', 'jpeg', 'gif']:
                     height = int(post.attrib['height'])
                     width = int(post.attrib['width'])
                     if width < 2000 and height < 2000:
