@@ -121,7 +121,7 @@ class GlobalCommandPermissions(object):
             desc = f'Please use {prefix}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xBE1931
-            title = '⛔ Bot Owner Only'
+            title = '⛔ Developer Only'
             desc = f'I\'m sorry {self.message.author.display_name}. I\'m afraid I can\'t let you do that.'
         elif self.nsfw_denied:
             if self.message.guild:
