@@ -20,7 +20,6 @@ import secrets
 
 import aiohttp
 import discord
-import ftfy
 
 from sigma.core.utilities.data_processing import user_avatar
 
@@ -75,10 +74,8 @@ async def trivia(cmd, message, args):
             data = trivia_cache.pop(secrets.randbelow(len(trivia_cache)))
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
             question = data['question']
-            question = ftfy.fix_text(question)
             category = data['category']
             correct_answer = data['correct_answer']
-            correct_answer = ftfy.fix_text(correct_answer)
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
             kud_reward = awards.get(difficulty) or '10'
@@ -91,7 +88,6 @@ async def trivia(cmd, message, args):
                 choice_line = f'[{choice_number}] {choice}'
                 choice_lines.append(choice_line)
             choice_text = '\n'.join(choice_lines)
-            choice_text = ftfy.fix_text(choice_text)
             if difficulty == 'easy':
                 starter = 'An'
             else:
