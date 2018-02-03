@@ -25,6 +25,16 @@ async def syncinvites(cmd, message, args):
     except discord.Forbidden:
         invites = []
     update_invites(message.guild, invites)
+    bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites') or {}
+    keys_to_remove = []
+    for invite_code in bound_invites.keys():
+        find_code = discord.utils.find(lambda x: x.id == invite_code, invites)
+        if not find_code:
+            keys_to_remove.append(invite_code)
+    if keys_to_remove:
+        for key_to_remove in keys_to_remove:
+            bound_invites.pop(key_to_remove)
+    await cmd.db.set_guild_settings(message.guild.id, 'BoundInvites', bound_invites)
     noresp = False
     if args:
         if args[0] == 'noresp':
