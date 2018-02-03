@@ -16,8 +16,10 @@
 
 import json
 import secrets
+
 import aiohttp
 import discord
+import ftfy
 from lxml import html
 
 
@@ -40,6 +42,7 @@ async def joke(cmd, message, args):
             joke_text += f'\n{element.text}'
     while '  ' in joke_text:
         joke_text = joke_text.replace('  ', ' ')
+    joke_text = ftfy.fix_text(joke_text)
     embed = discord.Embed(color=0xFFDC5D)
     embed.add_field(name='😆 Have A Random Joke', value=joke_text)
     await message.channel.send(None, embed=embed)
