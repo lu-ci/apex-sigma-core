@@ -19,6 +19,7 @@ import json
 import aiohttp
 import discord
 from geopy.geocoders import Nominatim
+from urllib.error import HTTPError
 
 from .visual_storage import icons
 
@@ -66,43 +67,49 @@ async def weather(cmd, message, args):
             search, unit = get_unit_and_search(args)
             if search:
                 geo_parser = Nominatim()
-                location = geo_parser.geocode(search)
-                if location:
-                    lat = location.latitude
-                    lon = location.longitude
-                    req_url = f'https://api.darksky.net/forecast/{secret_key}/{lat},{lon}?units={unit}'
-                    async with aiohttp.ClientSession() as session:
-                        async with session.get(req_url) as data:
-                            search_data = await data.read()
-                            data = json.loads(search_data)
-                    curr = data['currently']
-                    icon = curr['icon']
-                    forecast = data['daily']['summary']
-                    dis, deg = get_dis_and_deg(unit, forecast)
-                    forecast_title = f'{icons[icon]["icon"]} {curr["summary"]}'
-                    response = discord.Embed(color=icons[icon]['color'], title=forecast_title)
-                    response.description = f'Location: {location}'
-                    response.add_field(name='📄 Forecast', value=forecast, inline=False)
-                    info_title = f'🌡 Temperature'
-                    info_text = f'Temperature: {curr["temperature"]}{deg}'
-                    info_text += f'\nFeels Like: {curr["apparentTemperature"]}{deg}'
-                    info_text += f'\nDew Point: {curr["dewPoint"]}{deg}'
-                    response.add_field(name=info_title, value=info_text, inline=True)
-                    wind_title = '💨 Wind'
-                    wind_text = f'Speed: {curr["windSpeed"]} {dis}/H'
-                    wind_text += f'\nGust: {curr["windGust"]} {dis}/H'
-                    wind_text += f'\nBearing: {curr["windBearing"]}°'
-                    response.add_field(name=wind_title, value=wind_text, inline=True)
-                    other_title = '📉 Other'
-                    other_text = f'Humidity: {curr["humidity"]*100}%'
-                    other_text += f'\nPressure: {curr["pressure"]}mbar'
-                    if 'visibility' in curr:
-                        other_text += f'\nVisibility: {curr["visibility"]} {dis}'
-                    else:
-                        other_text += f'\nVisibility: Unknown'
-                    response.add_field(name=other_title, value=other_text, inline=True)
+                try:
+                    location = geo_parser.geocode(search)
+                except HTTPError as error:
+                    # Geocoder HTTP Error 503: Service Unavailable, for example
+                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {error}')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Location not found.')
+                    if location:
+                        lat = location.latitude
+                        lon = location.longitude
+                        req_url = f'https://api.darksky.net/forecast/{secret_key}/{lat},{lon}?units={unit}'
+                        async with aiohttp.ClientSession() as session:
+                            async with session.get(req_url) as data:
+                                search_data = await data.read()
+                                data = json.loads(search_data)
+                        curr = data['currently']
+                        icon = curr['icon']
+                        forecast = data['daily']['summary']
+                        dis, deg = get_dis_and_deg(unit, forecast)
+                        forecast_title = f'{icons[icon]["icon"]} {curr["summary"]}'
+                        response = discord.Embed(color=icons[icon]['color'], title=forecast_title)
+                        response.description = f'Location: {location}'
+                        response.add_field(name='📄 Forecast', value=forecast, inline=False)
+                        info_title = f'🌡 Temperature'
+                        info_text = f'Temperature: {curr["temperature"]}{deg}'
+                        info_text += f'\nFeels Like: {curr["apparentTemperature"]}{deg}'
+                        info_text += f'\nDew Point: {curr["dewPoint"]}{deg}'
+                        response.add_field(name=info_title, value=info_text, inline=True)
+                        wind_title = '💨 Wind'
+                        wind_text = f'Speed: {curr["windSpeed"]} {dis}/H'
+                        wind_text += f'\nGust: {curr["windGust"]} {dis}/H'
+                        wind_text += f'\nBearing: {curr["windBearing"]}°'
+                        response.add_field(name=wind_title, value=wind_text, inline=True)
+                        other_title = '📉 Other'
+                        other_text = f'Humidity: {curr["humidity"]*100}%'
+                        other_text += f'\nPressure: {curr["pressure"]}mbar'
+                        if 'visibility' in curr:
+                            other_text += f'\nVisibility: {curr["visibility"]} {dis}'
+                        else:
+                            other_text += f'\nVisibility: Unknown'
+                        response.add_field(name=other_title, value=other_text, inline=True)
+                    else:
+                        response = discord.Embed(color=0x696969, title='🔍 Location not found.')
+
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ No location inputted.')
         else:
