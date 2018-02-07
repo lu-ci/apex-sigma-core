@@ -4,7 +4,7 @@ import shutil
 
 import arrow
 import discord
-import pymongo
+from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
@@ -95,10 +95,10 @@ class ApexSigma(client_class):
         self.db = Database(self, self.cfg.db)
         try:
             await self.db[self.db.db_cfg.database].collection.find_one({})
-        except pymongo.errors.ServerSelectionTimeoutError:
+        except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
-        except pymongo.errors.OperationFailure:
+        except OperationFailure:
             self.log.error('Database Access Operation Failed!')
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
