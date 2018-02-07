@@ -24,6 +24,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def impersonate(cmd, message, args):
+    success = False
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:
             if message.mentions:
@@ -51,6 +52,7 @@ async def impersonate(cmd, message, args):
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=target.name, icon_url=user_avatar(target))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)
+                        success = True
                 else:
                     response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s chain has no data.')
             else:
@@ -60,6 +62,11 @@ async def impersonate(cmd, message, args):
                 value = f'You can make one with `{prefix}collectchain @{target.name} #channel`!'
                 response.add_field(name=title, value=value)
             await init_message.edit(embed=response)
+            if cmd.cfg.get('chain_channel') and success:
+                chain_channel_id = cmd.cfg.get('chain_channel')
+                chain_channel = discord.utils.find(lambda x: x.id == chain_channel_id, cmd.bot.get_all_channels())
+                if chain_channel:
+                    cmd.bot.loop.create_task(chain_channel.send(embed=response))
         else:
             no_target = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             await message.channel.send(embed=no_target)
