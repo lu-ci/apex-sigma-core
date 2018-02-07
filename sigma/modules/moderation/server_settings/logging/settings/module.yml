@@ -35,6 +35,27 @@ commands:
     description:
       Toggles logging of when users get kicked.
 
+  - name:         logedits
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of messages being edited.
+
+  - name:         logdeletions
+    alts:
+      - "logdeletes"
+      - "logdels"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles logging of messages being deleted.
+
+  - name:         logmodule
+    enabled:      true
+    usage:        "{pfx}{cmd} moderation"
+    description:
+      Toggles logging of commands in the specified module being used.
+
   - name:         logwarnings
     enabled:      true
     usage:        "{pfx}{cmd}"

@@ -51,6 +51,3 @@ events:
     type:         member_join
     enabled:      true
 
-  - name:         join_logger
-    type:         member_join
-    enabled:      true

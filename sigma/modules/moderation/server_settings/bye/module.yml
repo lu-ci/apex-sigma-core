@@ -45,6 +45,3 @@ events:
     type:         member_remove
     enabled:      true
 
-  - name:         leave_logger
-    type:         member_remove
-    enabled:      true

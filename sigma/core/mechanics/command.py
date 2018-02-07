@@ -87,8 +87,6 @@ class SigmaCommand(object):
         else:
             chn_data = None
         if gld:
-            own = gld.owner
-            own_data = self.get_usr_data(own)
             gld_data = {
                 'channels': len(gld.channels),
                 'created': str(gld.created_at),
@@ -272,6 +270,7 @@ class SigmaCommand(object):
                                     await self.add_elastic_stats(message, args)
                                 await self.add_usage_exp(message)
                                 self.bot.command_count += 1
+                                self.bot.loop.create_task(self.bot.event_runner('command', self, message, args))
                             except self.get_exception() as e:
                                 await self.respond_with_icon(message, '❗')
                                 err_token = secrets.token_hex(16)

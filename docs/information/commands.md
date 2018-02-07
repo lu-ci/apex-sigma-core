@@ -159,9 +159,12 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>logbans` | Toggles logging of when users get banned. | `>>logbans`
+`>>logdeletions` `>>logdeletes` `>>logdels` | Toggles logging of messages being deleted. | `>>logdeletions`
+`>>logedits` | Toggles logging of messages being edited. | `>>logedits`
 `>>logfilters` | Toggles logging of when a user's message is deleted due to containing a blacklisted word or when posting links when they are not allowed. | `>>logfilters`
 `>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
 `>>logkicks` | Toggles logging of when users get kicked. | `>>logkicks`
+`>>logmodule` | Toggles logging of commands in the specified module being used. | `>>logmodule moderation`
 `>>logmovement` | Toggles logging of when users join and/or leave the server. | `>>logmovement`
 `>>logmutes` | Toggles logging of when users get text muted/unmuted and hard muted/unmuted. | `>>logmutes`
 `>>logpurges` | Toggles logging of when a channel gets purged. | `>>logpurges`
