@@ -19,7 +19,6 @@ import json
 import aiohttp
 import discord
 from geopy.geocoders import Nominatim
-from urllib.error import HTTPError
 
 from .visual_storage import icons
 
@@ -45,8 +44,12 @@ def get_unit_and_search(args):
 
 def get_dis_and_deg(unit, forecast):
     if unit in ['si', 'ca', 'uk2']:
-        deg = '°C'
-        dis = 'KM'
+        if unit == 'uk2':
+            deg = '°C'
+            dis = 'M'
+        else:
+            deg = '°C'
+            dis = 'KM'
     elif unit == 'auto':
         if '°C' in forecast:
             deg = '°C'
@@ -69,9 +72,8 @@ async def weather(cmd, message, args):
                 geo_parser = Nominatim()
                 try:
                     location = geo_parser.geocode(search)
-                except HTTPError as error:
-                    # Geocoder HTTP Error 503: Service Unavailable, for example
-                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {error}')
+                except Exception as error:
+                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {error.lower()}.')
                 else:
                     if location:
                         lat = location.latitude
