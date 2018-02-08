@@ -28,5 +28,5 @@ async def edit_logger(ev, before, after):
             log_embed.set_author(name=log_title, icon_url=user_avatar(after.author))
             log_embed.add_field(name='➖ Before', value=before.content, inline=False)
             log_embed.add_field(name='➕ after', value=after.content, inline=False)
-            log_embed.set_footer(text=f'Message ID: {after.id}')
+            log_embed.set_footer(text=f'Message {after.id} in #{after.channel.name}')
             await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogEdits')
