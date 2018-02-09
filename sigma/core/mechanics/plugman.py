@@ -25,7 +25,7 @@ from sigma.core.mechanics.logger import create_logger
 
 
 class PluginManager(object):
-    def __init__(self, bot, init):
+    def __init__(self, bot, init: bool):
         self.bot = bot
         self.init = init
         self.log = create_logger('Plugin Manager')
@@ -41,11 +41,11 @@ class PluginManager(object):
             self.log.info('---------------------------------')
 
     @staticmethod
-    def clean_path(path):
+    def clean_path(path: str):
         out = path.replace('/', '.').replace('\\', '.')
         return out
 
-    def load_module(self, root, module_data):
+    def load_module(self, root: str, module_data: dict):
         if self.init:
             self.log.info(f'Loading the {module_data.get("name")} Module')
         if 'commands' in module_data:
@@ -55,13 +55,13 @@ class PluginManager(object):
                 if 'events' in module_data:
                     self.load_events(root, module_data)
 
-    def load_function(self, root, data):
+    def load_function(self, root: str, data: dict):
         module_location = self.clean_path(os.path.join(root, data.get("name")))
         module_function = importlib.import_module(module_location)
         importlib.reload(module_function)
         return module_function
 
-    def load_commands(self, root, module_data):
+    def load_commands(self, root: str, module_data: dict):
         if module_data.get('category') not in self.categories:
             self.categories.append(module_data.get('category'))
         for command_data in module_data.get('commands'):
@@ -69,12 +69,12 @@ class PluginManager(object):
                 if command_data.get('enabled'):
                     self.load_command_executable(root, command_data, module_data)
 
-    def load_events(self, root, module_data):
+    def load_events(self, root: str, module_data: dict):
         for event_data in module_data.get('events'):
             if event_data.get('enabled'):
-                self.load_event_execuable(root, event_data, module_data)
+                self.load_event_executable(root, event_data, module_data)
 
-    def load_command_executable(self, root, command_data, plugin_data):
+    def load_command_executable(self, root: str, command_data: dict, plugin_data: dict):
         command_data.update({'path': os.path.join(root)})
         command_function = self.load_function(root, command_data)
         cmd = SigmaCommand(self.bot, command_function, plugin_data, command_data)
@@ -83,7 +83,7 @@ class PluginManager(object):
                 self.alts.update({alt: cmd.name})
         self.commands.update({command_data.get('name'): cmd})
 
-    def load_event_execuable(self, root, event_data, plugin_data):
+    def load_event_executable(self, root: str, event_data: dict, plugin_data: dict):
         event_function = self.load_function(root, event_data)
         event = SigmaEvent(self.bot, event_function, plugin_data, event_data)
         if event.event_type in self.events:
@@ -93,7 +93,7 @@ class PluginManager(object):
         event_list.append(event)
         self.events.update({event.event_type: event_list})
 
-    def should_add(self, module_data):
+    def should_add(self, module_data: dict):
         if self.bot.cfg.pref.music_only:
             if module_data.get('category') == 'music':
                 add_cmd = True

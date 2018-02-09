@@ -33,7 +33,7 @@ def log_command_usage(log, message, command):
 
 async def custom_command(ev, message):
     if message.guild:
-        prefix = await ev.bot.get_prefix(message)
+        prefix = await ev.db.get_prefix(message)
         if message.content.startswith(prefix):
             if message.content != prefix:
                 cmd = message.content[len(prefix):].lower().split()[0]

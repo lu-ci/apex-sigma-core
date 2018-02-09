@@ -22,7 +22,7 @@ import discord
 
 async def afk_mention_check(ev, message):
     if message.guild:
-        pfx = await ev.bot.get_prefix(message)
+        pfx = await ev.db.get_prefix(message)
         if not message.content.startswith(pfx):
             if message.mentions:
                 target = message.mentions[0]

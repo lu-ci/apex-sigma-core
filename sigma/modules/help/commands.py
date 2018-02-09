@@ -41,7 +41,7 @@ async def commands(cmd, message, args):
         else:
             response = discord.Embed(color=0x696969, title='🔍 Nothing was found...')
     else:
-        pfx = await cmd.bot.get_prefix(message)
+        pfx = await cmd.db.get_prefix(message)
         command_list = cmd.bot.modules.commands
         module_list = []
         for command in command_list:

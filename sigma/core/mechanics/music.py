@@ -42,7 +42,7 @@ ytdl_params = {
 
 
 class QueueItem(object):
-    def __init__(self, requester, item_info):
+    def __init__(self, requester: discord.Member, item_info: dict):
         self.requester = requester
         self.item_info = item_info
         self.url = self.item_info.get('webpage_url')
@@ -83,7 +83,7 @@ class QueueItem(object):
                 self.downloaded = True
             self.location = out_location
 
-    async def create_player(self, voice_client):
+    async def create_player(self, voice_client: discord.VoiceClient):
         await self.download()
         if self.location:
             audio_source = discord.FFmpegPCMAudio(self.location)
@@ -103,21 +103,21 @@ class MusicCore(object):
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
-    async def extract_info(self, url):
+    async def extract_info(self, url: str):
         task = functools.partial(self.ytdl.extract_info, url, False)
         information = await self.loop.run_in_executor(self.threads, task)
         return information
 
-    def get_queue(self, guild_id):
+    def get_queue(self, guild_id: int):
         if guild_id in self.queues:
-            queue = self.queues[guild_id]
+            queue = self.queues.get(guild_id)
         else:
             queue = Queue()
             self.queues.update({guild_id: queue})
         return queue
 
     @staticmethod
-    async def listify_queue(queue):
+    async def listify_queue(queue: asyncio.Queue):
         item_list = []
         while not queue.empty():
             item = await queue.get()

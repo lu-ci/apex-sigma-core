@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 def log_dm(ev, message):
     author_text = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
     ev.log.info(f'DM From {author_text}: {message.content}')
@@ -22,7 +23,7 @@ def log_dm(ev, message):
 async def dm_detection(ev, message):
     if not message.guild:
         if not message.author.bot:
-            pfx = await ev.bot.get_prefix(message)
+            pfx = await ev.db.get_prefix(message)
             if not message.content.startswith(pfx):
                 log_dm(ev, message)
                 if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):

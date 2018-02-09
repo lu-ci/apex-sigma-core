@@ -19,36 +19,9 @@ import arrow
 from sigma.core.mechanics.caching import Cacher
 
 
-class CommandCooldown(object):
-    def __init__(self):
-        self.cooldowns = {}
-        self.interval = 1.35
-
-    def get_cooldown(self, ident):
-        cd_data = self.cooldowns.get(ident) or 0
-        now = arrow.utcnow().float_timestamp
-        cd = cd_data - now
-        return cd
-
-    def set_cooldown(self, ident):
-        now = arrow.utcnow().float_timestamp
-        new_stamp = now + self.interval
-        self.cooldowns.update({ident: new_stamp})
-
-    def on_cooldown(self, ident):
-        cd_data = self.cooldowns.get(ident) or 0
-        now = arrow.utcnow().float_timestamp
-        if cd_data > now:
-            on_cd = True
-        else:
-            on_cd = False
-        return on_cd
-
-
 class CooldownControl(object):
     def __init__(self, bot):
         self.bot = bot
-        self.cmd = CommandCooldown()
         self.db = self.bot.db
         self.cache = Cacher()
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem

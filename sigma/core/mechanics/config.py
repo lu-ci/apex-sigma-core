@@ -23,7 +23,7 @@ from .logger import create_logger
 
 
 class DiscordConfig(object):
-    def __init__(self, client_cfg_data):
+    def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data
         self.token = client_cfg_data.get('token')
         self.owners = client_cfg_data.get('owners')
@@ -31,7 +31,7 @@ class DiscordConfig(object):
 
 
 class DatabaseConfig(object):
-    def __init__(self, db_cfg_data):
+    def __init__(self, db_cfg_data: dict):
         self.raw = db_cfg_data
         self.database = db_cfg_data.get('database')
         self.auth = db_cfg_data.get('auth')
@@ -42,7 +42,7 @@ class DatabaseConfig(object):
 
 
 class PreferencesConfig(object):
-    def __init__(self, pref_cfg_data):
+    def __init__(self, pref_cfg_data: dict):
         self.raw = pref_cfg_data
         self.dev_mode = pref_cfg_data.get('dev_mode')
         self.status_rotation = pref_cfg_data.get('status_rotation')

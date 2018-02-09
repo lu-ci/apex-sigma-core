@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats_handler = None
@@ -30,7 +31,7 @@ async def add_cmd_stat(cmd):
         await cmd.db[cmd.db.db_cfg.database]['CommandStats'].insert_one({'command': cmd.name, 'count': count})
 
 
-async def add_special_stats(db, stat_name):
+async def add_special_stats(db: Database, stat_name: str):
     global stats_handler
     if not stats_handler:
         stats_handler = StatisticsStorage(db, stat_name)

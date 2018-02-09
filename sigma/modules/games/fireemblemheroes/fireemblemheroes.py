@@ -26,6 +26,8 @@ async def fireemblemheroes(cmd, message, args):
     if not feh_core:
         feh_core = FireEmblemHeroesCore(cmd.db)
         await feh_core.init_index()
+    author_icon = None
+    response_colour = None
     response = discord.Embed()
     if not args:
         response.title = '❗ Nothing inputted.'

@@ -15,13 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import arrow
+import discord
 from motor import motor_asyncio as motor
 
 from sigma.core.mechanics.caching import Cacher
+from sigma.core.mechanics.config import DatabaseConfig
 
 
 class Database(motor.AsyncIOMotorClient):
-    def __init__(self, bot, db_cfg):
+    def __init__(self, bot, db_cfg: DatabaseConfig):
         self.bot = bot
         self.db_cfg = db_cfg
         self.cache = Cacher()
@@ -31,7 +33,14 @@ class Database(motor.AsyncIOMotorClient):
         else:
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
         super().__init__(self.db_address)
-        self.bot.loop.create_task(self.precache_settings())
+
+    async def get_prefix(self, message: discord.Message):
+        prefix = self.bot.cfg.pref.prefix
+        if message.guild:
+            pfx_search = await self.get_guild_settings(message.guild.id, 'Prefix')
+            if pfx_search:
+                prefix = pfx_search
+        return prefix
 
     async def precache_settings(self):
         self.bot.log.info('Pre-Caching all guild settings...')

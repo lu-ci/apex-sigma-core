@@ -19,7 +19,7 @@ import discord
 
 async def prefix(cmd, message, args):
     if message.author.permissions_in(message.channel).manage_guild:
-        current_prefix = await cmd.bot.get_prefix(message)
+        current_prefix = await cmd.db.get_prefix(message)
         if args:
             new_prefix = ''.join(args)
             if len(new_prefix) >= 2:

@@ -53,6 +53,7 @@ async def hardunmute(cmd, message, args):
                     for channel in message.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
+                                # noinspection PyTypeChecker
                                 await channel.set_permissions(target, overwrite=None, reason=reason)
                             except discord.Forbidden:
                                 pass

@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 async def experience_activity(ev, message):
     if message.guild:
         if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):

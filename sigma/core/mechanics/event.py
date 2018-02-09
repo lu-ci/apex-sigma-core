@@ -39,7 +39,7 @@ class SigmaEvent(object):
             ev_exception = Exception
         return ev_exception
 
-    def log_error(self, exception):
+    def log_error(self, exception: Exception):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 

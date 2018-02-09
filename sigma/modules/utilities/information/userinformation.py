@@ -42,7 +42,7 @@ async def userinformation(cmd, message, args):
     member_text += f'\nModerator: **{is_moderator}**'
     member_text += f'\nJoined: **{member_join_time}**'
     response.add_field(name='Member Info', value=member_text, inline=True)
-    pfx = await cmd.bot.get_prefix(message)
+    pfx = await cmd.db.get_prefix(message)
     footer = f'To see the user\'s avatar use the {pfx}avatar command.'
     response.set_footer(text=footer)
     await message.channel.send(None, embed=response)

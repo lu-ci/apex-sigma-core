@@ -37,7 +37,7 @@ def sigma_mention_check(content, sigma_id):
 
 async def afk_comeback_check(ev, message):
     if message.guild:
-        pfx = await ev.bot.get_prefix(message)
+        pfx = await ev.db.get_prefix(message)
         if not message.content.startswith(pfx):
             if not sigma_mention_check(message.content, ev.bot.user.id):
                 afk_data = await ev.db[ev.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})

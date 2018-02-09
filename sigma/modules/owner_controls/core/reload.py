@@ -18,8 +18,8 @@ from importlib import reload as reimport
 
 import discord
 
-from sigma.modules.development.version_updater import version_updater
 from sigma.modules.development.command_md import command_md
+from sigma.modules.development.version_updater import version_updater
 
 
 async def reload(cmd, message, args):

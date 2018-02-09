@@ -22,11 +22,11 @@ import arrow
 import discord
 import yaml
 
-from sigma.core.mechanics.command_requirements import CommandRequirements
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
+from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
@@ -60,7 +60,7 @@ class SigmaCommand(object):
         self.load_command_config()
 
     @staticmethod
-    def get_usr_data(usr):
+    def get_usr_data(usr: discord.User):
         usr_data = {
             'color': str(usr.color) if isinstance(usr, discord.Member) else '#000000',
             'created': str(usr.created_at),
@@ -73,7 +73,7 @@ class SigmaCommand(object):
         }
         return usr_data
 
-    async def add_elastic_stats(self, message, args):
+    async def add_elastic_stats(self, message: discord.Message, args: list):
         ath = message.author
         chn = message.channel if message.channel else None
         gld = message.guild if message.guild else None
@@ -148,7 +148,7 @@ class SigmaCommand(object):
             with open(config_path) as config_file:
                 self.cfg = yaml.safe_load(config_file)
 
-    def resource(self, res_path):
+    def resource(self, res_path: str):
         module_path = self.path
         res_path = f'{module_path}/res/{res_path}'
         res_path = res_path.replace('\\', '/')
@@ -161,7 +161,7 @@ class SigmaCommand(object):
             cmd_exception = Exception
         return cmd_exception
 
-    def log_command_usage(self, message, args):
+    def log_command_usage(self, message: discord.Message, args: list):
         if message.guild:
             cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
             cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
@@ -173,14 +173,14 @@ class SigmaCommand(object):
             log_text += f' | ARGS: {" ".join(args)}'
         self.log.info(log_text)
 
-    def log_unpermitted(self, perms):
+    def log_unpermitted(self, perms: GlobalCommandPermissions):
         log_text = f'ACCESS DENIED | '
         log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
         log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
         log_text += f'VIP: {perms.partner_denied}'
         self.log.warning(log_text)
 
-    async def add_usage_exp(self, message):
+    async def add_usage_exp(self, message: discord.Message):
         if message.guild:
             if not await self.bot.cool_down.on_cooldown('UsageExperience', message.author):
                 award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
@@ -188,13 +188,13 @@ class SigmaCommand(object):
                 await self.bot.cool_down.set_cooldown('UsageExperience', message.author, 450)
 
     @staticmethod
-    async def respond_with_icon(message, icon):
+    async def respond_with_icon(message: discord.Message, icon: str or discord.Emoji):
         try:
             await message.add_reaction(icon)
         except discord.DiscordException:
             pass
 
-    async def log_error(self, message, args, exception, error_token):
+    async def log_error(self, message: discord.Message, args: list, exception: Exception, error_token: str):
         if message.guild:
             gnam = message.guild.name
             gid = message.guild.id
@@ -234,7 +234,7 @@ class SigmaCommand(object):
         log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
-    async def execute(self, message, args):
+    async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
             if message.guild:
                 delete_command_message = await self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
@@ -248,70 +248,65 @@ class SigmaCommand(object):
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
                 self.log.warning(f'{message.author.name} tried using me.')
                 return
-            cd_identifier = f'{self.name}_{message.author.id}'
-            if not self.bot.cool_down.cmd.on_cooldown(cd_identifier):
-                self.bot.cool_down.cmd.set_cooldown(cd_identifier)
-                perms = GlobalCommandPermissions(self, message)
-                await perms.check_black_usr()
-                await perms.check_black_srv()
-                await perms.generate_response()
-                perms.check_final()
-                guild_allowed = ServerCommandPermissions(self, message)
-                await guild_allowed.check_perms()
-                self.log_command_usage(message, args)
-                if perms.permitted:
-                    if guild_allowed.permitted:
-                        requirements = CommandRequirements(self, message)
-                        if requirements.reqs_met:
-                            try:
-                                await getattr(self.command, self.name)(self, message, args)
-                                await add_cmd_stat(self)
-                                if self.stats:
-                                    await self.add_elastic_stats(message, args)
-                                await self.add_usage_exp(message)
-                                self.bot.command_count += 1
-                                self.bot.loop.create_task(self.bot.event_runner('command', self, message, args))
-                            except self.get_exception() as e:
-                                await self.respond_with_icon(message, '❗')
-                                err_token = secrets.token_hex(16)
-                                await self.log_error(message, args, e, err_token)
-                                prefix = await self.bot.get_prefix(message)
-                                title = '❗ An Error Occurred!'
-                                err_text = 'Something seems to have gone wrong.'
-                                err_text += '\nPlease send this token to our support server.'
-                                err_text += f'\nThe invite link is in the **{prefix}help** command.'
-                                err_text += f'\nToken: **{err_token}**'
-                                error_embed = discord.Embed(color=0xBE1931)
-                                error_embed.add_field(name=title, value=err_text)
-                                try:
-                                    await message.channel.send(embed=error_embed)
-                                except discord.Forbidden:
-                                    pass
-                        else:
+            perms = GlobalCommandPermissions(self, message)
+            await perms.check_black_usr()
+            await perms.check_black_srv()
+            await perms.generate_response()
+            perms.check_final()
+            guild_allowed = ServerCommandPermissions(self, message)
+            await guild_allowed.check_perms()
+            self.log_command_usage(message, args)
+            if perms.permitted:
+                if guild_allowed.permitted:
+                    requirements = CommandRequirements(self, message)
+                    if requirements.reqs_met:
+                        try:
+                            await getattr(self.command, self.name)(self, message, args)
+                            await add_cmd_stat(self)
+                            if self.stats:
+                                await self.add_elastic_stats(message, args)
+                            await self.add_usage_exp(message)
+                            self.bot.command_count += 1
+                            self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
+                        except self.get_exception() as e:
                             await self.respond_with_icon(message, '❗')
-                            reqs_embed = discord.Embed(color=0xBE1931)
-                            reqs_error_title = f'❗ Sigma is missing permissions!'
-                            reqs_error_list = ''
-                            for req in requirements.missing_list:
-                                req = req.replace('_', ' ').title()
-                                reqs_error_list += f'\n- {req}'
-                            prefix = await self.bot.get_prefix(message)
-                            reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                            reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
+                            err_token = secrets.token_hex(16)
+                            await self.log_error(message, args, e, err_token)
+                            prefix = await self.db.get_prefix(message)
+                            title = '❗ An Error Occurred!'
+                            err_text = 'Something seems to have gone wrong.'
+                            err_text += '\nPlease send this token to our support server.'
+                            err_text += f'\nThe invite link is in the **{prefix}help** command.'
+                            err_text += f'\nToken: **{err_token}**'
+                            error_embed = discord.Embed(color=0xBE1931)
+                            error_embed.add_field(name=title, value=err_text)
                             try:
-                                await message.channel.send(embed=reqs_embed)
+                                await message.channel.send(embed=error_embed)
                             except discord.Forbidden:
                                 pass
                     else:
-                        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                        await self.respond_with_icon(message, '⛔')
-                else:
-                    self.log_unpermitted(perms)
-                    await self.respond_with_icon(message, '⛔')
-                    if perms.response:
+                        await self.respond_with_icon(message, '❗')
+                        reqs_embed = discord.Embed(color=0xBE1931)
+                        reqs_error_title = f'❗ Sigma is missing permissions!'
+                        reqs_error_list = ''
+                        for req in requirements.missing_list:
+                            req = req.replace('_', ' ').title()
+                            reqs_error_list += f'\n- {req}'
+                        prefix = await self.db.get_prefix(message)
+                        reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                        reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
                         try:
-                            await message.channel.send(embed=perms.response)
+                            await message.channel.send(embed=reqs_embed)
                         except discord.Forbidden:
                             pass
+                else:
+                    self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+                    await self.respond_with_icon(message, '⛔')
             else:
-                await self.respond_with_icon(message, '🕦')
+                self.log_unpermitted(perms)
+                await self.respond_with_icon(message, '⛔')
+                if perms.response:
+                    try:
+                        await message.channel.send(embed=perms.response)
+                    except discord.Forbidden:
+                        pass

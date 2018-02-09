@@ -29,7 +29,7 @@ except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
 
-def create_logger(name, *, to_title=False, level=None):
+def create_logger(name: str, *, to_title: bool = False, level=None):
     """
     Add a new logger.
     :param name:
@@ -45,7 +45,7 @@ def create_logger(name, *, to_title=False, level=None):
     return Logger.create(logname, level=level)
 
 
-def titleize(string):
+def titleize(string: str):
     """
     Convert a string from :ModuleName: to :Module Name:.
     :param string:
@@ -71,7 +71,7 @@ class Logger(object):
     """
     loggers = {}
 
-    def __init__(self, name, *, level=None):
+    def __init__(self, name: str, *, level=None):
         self.default_fmt = '[ {levelname:^8s} | {asctime:s} | {name:<25.25s} ] {message:s}'
         self.default_date_fmt = '%Y.%m.%d %H:%M:%S'
         self.name = name
@@ -80,7 +80,7 @@ class Logger(object):
         self.created = False
 
     @classmethod
-    def get(cls, name, *, level=None):
+    def get(cls, name: str, *, level=None):
         """
         Get a logger with :name: or create a new one.
         :param name:
@@ -93,26 +93,26 @@ class Logger(object):
             cls.loggers[name] = cls(name, level=level)
             return cls.loggers[name]
 
-    def info(self, message):
+    def info(self, message: str):
         return self._logger.info(message)
 
-    def debug(self, message):
+    def debug(self, message: str):
         return self._logger.debug(message)
 
-    def error(self, message):
+    def error(self, message: str):
         return self._logger.error(message)
 
-    def warn(self, message):
+    def warn(self, message: str):
         return self.warning(message)
 
-    def warning(self, message):
+    def warning(self, message: str):
         return self._logger.warning(message)
 
-    def exception(self, message):
+    def exception(self, message: str):
         return self._logger.exception(message)
 
     @classmethod
-    def create(cls, name, *, level=None):
+    def create(cls, name: str, *, level=None):
         """
         Create a logger with :name: if it has not been created before.
         :param name:
@@ -132,7 +132,7 @@ class Logger(object):
         logger.created = True
         return logger
 
-    def add_handler(self, handler, fmt=None, date_fmt=None):
+    def add_handler(self, handler: logging.Handler, fmt=None, date_fmt=None):
         """
         Add a new log handler with format handlers.
         :param handler:

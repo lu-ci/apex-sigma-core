@@ -9,11 +9,11 @@ from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
-from sigma.core.mechanics.threading import QueueControl
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2017  Lucia's Cipher
@@ -53,7 +53,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
-        self.queue = QueueControl(self)
+        self.queue = ExecutionClockwork(self)
         self.cache = {}
         # Initialize startup methods and attributes.
         self.create_cache()
@@ -95,6 +95,7 @@ class ApexSigma(client_class):
         self.db = Database(self, self.cfg.db)
         try:
             await self.db[self.db.db_cfg.database].collection.find_one({})
+            await self.db.precache_settings()
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
@@ -118,14 +119,6 @@ class ApexSigma(client_class):
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)
 
-    async def get_prefix(self, message):
-        prefix = self.cfg.pref.prefix
-        if message.guild:
-            pfx_search = await self.db.get_guild_settings(message.guild.id, 'Prefix')
-            if pfx_search:
-                prefix = pfx_search
-        return prefix
-
     def run(self):
         try:
             self.log.info('Connecting to Discord Gateway...')
@@ -134,23 +127,16 @@ class ApexSigma(client_class):
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
 
-    async def event_runner(self, event_name, *args):
-        if self.ready:
-            if event_name in self.modules.events:
-                for event in self.modules.events[event_name]:
-                    task = event, *args
-                    await self.queue.queue.put(task)
-
     async def on_connect(self):
         event_name = 'connect'
         if event_name in self.modules.events:
             for event in self.modules.events[event_name]:
                 self.loop.create_task(event.execute())
 
-    async def on_shard_ready(self, shard_id):
+    async def on_shard_ready(self, shard_id: int):
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
         event_name = 'shard_ready'
-        self.loop.create_task(self.event_runner(event_name, shard_id))
+        self.loop.create_task(self.queue.event_runner(event_name, shard_id))
 
     async def on_ready(self):
         self.ready = True
@@ -161,85 +147,48 @@ class ApexSigma(client_class):
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
-        self.loop.create_task(self.event_runner('ready'))
+        self.loop.create_task(self.queue.event_runner('ready'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 
-    async def get_cmd_and_args(self, message, args, mention=False):
-        args = list(filter(lambda a: a != '', args))
-        if mention:
-            if args:
-                cmd = args.pop(0).lower()
-            else:
-                cmd = None
-        else:
-            pfx = await self.get_prefix(message)
-            cmd = args.pop(0)[len(pfx):].lower()
-        return cmd, args
-
-    def clean_self_mentions(self, message):
-        for mention in message.mentions:
-            if mention.id == self.user.id:
-                message.mentions.remove(mention)
-                break
-
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         self.message_count += 1
         if not message.author.bot:
-            self.loop.create_task(self.event_runner('message', message))
+            self.loop.create_task(self.queue.event_runner('message', message))
             if self.user.mentioned_in(message):
-                self.loop.create_task(self.event_runner('mention', message))
-            prefix = await self.get_prefix(message)
-            if message.content.startswith(prefix):
-                args = message.content.split(' ')
-                cmd, args = await self.get_cmd_and_args(message, args)
-            elif message.content.startswith(self.user.mention):
-                args = message.content.split(' ')[1:]
-                self.clean_self_mentions(message)
-                cmd, args = await self.get_cmd_and_args(message, args, mention=True)
-            elif message.content.startswith(f'<@!{self.user.id}>'):
-                args = message.content.split(' ')[1:]
-                cmd, args = await self.get_cmd_and_args(message, args, mention=True)
-            else:
-                cmd = None
-                args = []
-            if cmd:
-                if cmd in self.modules.alts:
-                    cmd = self.modules.alts[cmd]
-                if cmd in self.modules.commands:
-                    command = self.modules.commands[cmd]
-                    task = command, message, args
-                    await self.queue.queue.put(task)
+                self.loop.create_task(self.queue.event_runner('mention', message))
+            await self.queue.command_runner(message)
 
-    async def on_message_edit(self, before, after):
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
         if not before.author.bot:
-            self.loop.create_task(self.event_runner('message_edit', before, after))
+            self.loop.create_task(self.queue.event_runner('message_edit', before, after))
 
-    async def on_message_delete(self, message):
+    async def on_message_delete(self, message: discord.Message):
         if not message.author.bot:
-            self.loop.create_task(self.event_runner('message_delete', message))
+            self.loop.create_task(self.queue.event_runner('message_delete', message))
 
-    async def on_member_join(self, member):
+    async def on_member_join(self, member: discord.Member):
         if not member.bot:
-            self.loop.create_task(self.event_runner('member_join', member))
+            self.loop.create_task(self.queue.event_runner('member_join', member))
 
-    async def on_member_remove(self, member):
+    async def on_member_remove(self, member: discord.Member):
         if not member.bot:
-            self.loop.create_task(self.event_runner('member_remove', member))
+            self.loop.create_task(self.queue.event_runner('member_remove', member))
 
-    async def on_member_update(self, before, after):
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
         if not before.bot:
-            self.loop.create_task(self.event_runner('member_update', before, after))
+            self.loop.create_task(self.queue.event_runner('member_update', before, after))
 
-    async def on_guild_join(self, guild):
-        self.loop.create_task(self.event_runner('guild_join', guild))
+    async def on_guild_join(self, guild: discord.Guild):
+        self.loop.create_task(self.queue.event_runner('guild_join', guild))
 
-    async def on_guild_remove(self, guild):
-        self.loop.create_task(self.event_runner('guild_remove', guild))
+    async def on_guild_remove(self, guild: discord.Guild):
+        self.loop.create_task(self.queue.event_runner('guild_remove', guild))
 
-    async def on_guild_update(self, before, after):
-        self.loop.create_task(self.event_runner('guild_update', before, after))
+    async def on_guild_update(self, before: discord.Guild, after: discord.Guild):
+        self.loop.create_task(self.queue.event_runner('guild_update', before, after))
 
-    async def on_voice_state_update(self, member, before, after):
+    async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
+                                    after: discord.VoiceState):
         if not member.bot:
-            self.loop.create_task(self.event_runner('voice_state_update', member, before, after))
+            self.loop.create_task(self.queue.event_runner('voice_state_update', member, before, after))

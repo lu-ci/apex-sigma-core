@@ -14,24 +14,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 
-from sigma.core.mechanics.logger import create_logger
+class CommandRequirements(object):
+    def __init__(self, cmd, message):
+        self.cmd = cmd
+        self.msg = message
+        self.reqs = cmd.requirements
+        self.chn = self.msg.channel
+        self.reqs_met = True
+        self.missing_list = []
+        self.check_requirements()
 
-
-class QueueControl(object):
-    def __init__(self, bot):
-        self.bot = bot
-        self.log = create_logger('Threader')
-        self.queue = asyncio.Queue()
-        self.bot.loop.create_task(self.queue_loop())
-        self.processed = 0
-
-    async def queue_loop(self):
-        while True:
-            if self.bot.ready:
-                item, *args = await self.queue.get()
-                self.bot.loop.create_task(item.execute(*args))
-                self.processed += 1
-            else:
-                await asyncio.sleep(1)
+    def check_requirements(self):
+        if self.msg.guild:
+            for requirement in self.reqs:
+                req_status = getattr(self.msg.guild.me.permissions_in(self.chn), requirement)
+                if not req_status:
+                    self.missing_list.append(requirement)
+                    self.reqs_met = False

@@ -19,10 +19,11 @@ import re
 
 import aiohttp
 import arrow
+import discord
 from PIL import Image
 
 
-def convert_to_seconds(time_input):
+def convert_to_seconds(time_input: str):
     indent_list = time_input.split(':')
     if len(indent_list) == 3:
         output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
@@ -35,7 +36,7 @@ def convert_to_seconds(time_input):
     return output
 
 
-def user_avatar(user, gif=False, static=False):
+def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
     if user.avatar_url:
         output = user.avatar_url
     else:
@@ -53,7 +54,7 @@ def user_avatar(user, gif=False, static=False):
     return output
 
 
-def command_message_parser(message, text):
+def command_message_parser(message: discord.Message, text: str):
     gld = message.guild
     ath = message.author
     chn = message.channel
@@ -82,7 +83,7 @@ def command_message_parser(message, text):
     return command_text
 
 
-def movement_message_parser(member, text):
+def movement_message_parser(member: discord.Member, text: str):
     guild = member.guild
     translator = {
         '{user_name}': member.name,
@@ -102,7 +103,7 @@ def movement_message_parser(member, text):
     return greeting_text
 
 
-def get_time_difference(member, leave=False):
+def get_time_difference(member: discord.Member, leave: bool = False):
     if leave:
         creation_time = member.joined_at
     else:
@@ -118,20 +119,17 @@ def get_time_difference(member, leave=False):
     return new_acc, human_msg
 
 
-async def search_youtube(qry):
+async def search_youtube(qry: str):
     url_base = "https://www.youtube.com/results?"
-    params = {
-        "q": qry
-    }
     async with aiohttp.ClientSession() as session:
-        async with session.get(f'{url_base}', params=params) as data:
+        async with session.get(f'{url_base}', params={"q": qry}) as data:
             html_content = await data.text()
             search_results = re.findall(r'href=\"/watch\?v=(.{11})', html_content)
             video_url = f'https://www.youtube.com/watch?v={search_results[0]}'
     return video_url
 
 
-def rgb_maximum(colors_tuple):
+def rgb_maximum(colors_tuple: list):
     r_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][0])
     g_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][1])
     b_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][2])
@@ -157,7 +155,7 @@ def rgb_maximum(colors_tuple):
     }
 
 
-def group_by_accuracy(sorted_tuple):
+def group_by_accuracy(sorted_tuple: list):
     rgb_maximum_json = rgb_maximum(sorted_tuple)
     r_min = rgb_maximum_json["r_min"]
     g_min = rgb_maximum_json["g_min"]
@@ -183,7 +181,7 @@ def group_by_accuracy(sorted_tuple):
     return rgb
 
 
-def get_weighted_mean(grouped_image_color):
+def get_weighted_mean(grouped_image_color: list):
     sigma_count = 0
     sigma_r = 0
     sigma_g = 0
@@ -203,7 +201,7 @@ def get_weighted_mean(grouped_image_color):
     return weighted_mean
 
 
-def rgb_to_hex(rgb_tuple):
+def rgb_to_hex(rgb_tuple: tuple):
     hex_str = ''
     for piece in rgb_tuple:
         hex_piece = str(hex(piece))
@@ -215,7 +213,7 @@ def rgb_to_hex(rgb_tuple):
     return hex_out
 
 
-async def get_image_colors(img_url):
+async def get_image_colors(img_url: str):
     if img_url:
         async with aiohttp.ClientSession() as session:
             async with session.get(img_url) as img_session:

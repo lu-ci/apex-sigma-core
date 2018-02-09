@@ -19,9 +19,11 @@ import json
 
 import aiohttp
 
+from sigma.core.mechanics.database import Database
+
 
 class ElasticHandler(object):
-    def __init__(self, url, index):
+    def __init__(self, url: str, index: str):
         self.url = url
         self.type = index
 
@@ -37,7 +39,7 @@ class ElasticHandler(object):
 
 
 class StatisticsStorage(object):
-    def __init__(self, db, name):
+    def __init__(self, db: Database, name: str):
         self.db = db
         self.loop = asyncio.get_event_loop()
         self.name = name

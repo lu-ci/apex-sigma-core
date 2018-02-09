@@ -42,18 +42,19 @@ async def kanji(cmd, message, args):
     else:
         search_url = f'http://jisho.org/search/{jisho_q}%20%23kanji'
         jisho_icon = 'https://i.imgur.com/X1fCJLV.png'
-        for kanji in kanji_data[:limit]:
+        for kanji_page in kanji_data[:limit]:
+            stroke_source = kanji_page.cssselect('.stroke_diagram img')[0].attrib.get('src')
             kanji_data = {
-                'kanji': kanji.cssselect('.literal.japanese')[0].text.strip(),
-                'strokes': kanji.cssselect('.specs strong')[0].text,
-                'stroke order': 'http://classic.jisho.org' + kanji.cssselect('.stroke_diagram img')[0].attrib['src'],
+                'kanji': kanji_page.cssselect('.literal.japanese')[0].text.strip(),
+                'strokes': kanji_page.cssselect('.specs strong')[0].text,
+                'stroke order': f'http://classic.jisho.org{stroke_source}',
                 'meta': {'radical': None, 'parts': [], 'variants': []},
                 'readings': {'kun': [], 'on': [], 'names': []},
                 'meanings': []
             }
 
             # Parse radical and parts data
-            for element in kanji.cssselect('.connections')[0]:
+            for element in kanji_page.cssselect('.connections')[0]:
                 if element.tag == 'strong':
                     data_type = element.text.strip()[:-1].lower()
                     if data_type == 'radical':
@@ -65,7 +66,7 @@ async def kanji(cmd, message, args):
                         kanji_data['meta'][data_type] = tuple(element.text.strip())
 
             # Parse readings
-            for element in kanji.cssselect('.readings .japanese_readings')[0]:
+            for element in kanji_page.cssselect('.readings .japanese_readings')[0]:
                 if element.tag == 'strong':
                     reading_type = element.text.split(' ')[1][:-1]  # kun or on
                 elif element.tag == 'a':
@@ -77,7 +78,7 @@ async def kanji(cmd, message, args):
                         kanji_data['readings'][reading_type].append(element.text)
 
             # Parse meanings
-            meanings = kanji.cssselect('.meanings .english_meanings p')[0]
+            meanings = kanji_page.cssselect('.meanings .english_meanings p')[0]
             kanji_data['meanings'].append(meanings.text[:-1])  # append the first meaning
             for element in meanings:
                 if element.tag == 'span':

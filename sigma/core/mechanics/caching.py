@@ -14,17 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 class Cacher(object):
     def __init__(self):
         self.data = {}
 
-    def get_cache(self, key):
+    def get_cache(self, key: str or int):
         value = self.data.get(key)
         return value
 
-    def set_cache(self, key, value):
+    def set_cache(self, key: str or int, value):
         self.data.update({key: value})
 
-    def del_cache(self, key):
+    def del_cache(self, key: str or int):
         if key in self.data:
             self.data.pop(key)

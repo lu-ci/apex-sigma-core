@@ -20,7 +20,7 @@ import discord
 
 
 class GlobalCommandPermissions(object):
-    def __init__(self, command, message):
+    def __init__(self, command, message: discord.Message):
         self.message = message
         self.bot = command.bot
         self.cmd = command
@@ -62,13 +62,11 @@ class GlobalCommandPermissions(object):
         else:
             self.nsfw_denied = False
 
-    def check_black_mdl(self, black_user_file):
-        if 'Modules' in black_user_file:
-            if self.cmd.category in black_user_file['Modules']:
-                black_user = True
-                self.module_denied = True
-            else:
-                black_user = False
+    def check_black_mdl(self, black_user_file: dict):
+        black_modules = black_user_file.get('Modules') or {}
+        if self.cmd.category in black_modules:
+            black_user = True
+            self.module_denied = True
         else:
             black_user = False
         return black_user
@@ -110,7 +108,7 @@ class GlobalCommandPermissions(object):
             self.owner_denied = False
 
     async def generate_response(self):
-        prefix = await self.bot.get_prefix(self.message)
+        prefix = await self.db.get_prefix(self.message)
         if self.black_srv:
             return
         elif self.black_user:
@@ -160,64 +158,58 @@ class GlobalCommandPermissions(object):
 
 
 class ServerCommandPermissions(object):
-    def __init__(self, command, message):
+    def __init__(self, command, message: discord.Message):
         self.cmd = command
         self.db = self.cmd.db
         self.bot = self.cmd.bot
         self.msg = message
         self.permitted = True
 
-    def check_mdl_overwrites(self, perms):
+    def check_mdl_overwrites(self, perms: dict):
         mdl_overwritten = False
-        mdl_exc = perms['ModuleExceptions']
+        mdl_exc = perms.get('ModuleExceptions') or {}
         author = self.msg.author
         if mdl_exc:
-            mdl_name = self.cmd.plugin_info['category']
+            mdl_name = self.cmd.plugin_info.get('category') or 'unknown'
             if mdl_name in mdl_exc:
                 exceptions = mdl_exc[mdl_name]
-                if author.id in exceptions['Users']:
+                if author.id in exceptions.get('Users') or []:
                     mdl_overwritten = True
-                if self.msg.channel.id in exceptions['Channels']:
+                if self.msg.channel.id in exceptions.get('Channels') or []:
                     mdl_overwritten = True
                 for role in author.roles:
-                    if role.id in exceptions['Roles']:
+                    if role.id in exceptions.get('Roles') or []:
                         mdl_overwritten = True
                         break
         return mdl_overwritten
 
-    def check_cmd_overwrites(self, perms):
+    def check_cmd_overwrites(self, perms: dict):
         cmd_overwritten = False
-        cmd_exc = perms['CommandExceptions']
+        cmd_exc = perms.get('CommandExceptions') or {}
         author = self.msg.author
         if cmd_exc:
             if self.cmd.name in cmd_exc:
-                exceptions = cmd_exc[self.cmd.name]
-                if author.id in exceptions['Users']:
+                exceptions = cmd_exc.get(self.cmd.name)
+                if author.id in exceptions.get('Users') or []:
                     cmd_overwritten = True
-                if self.msg.channel.id in exceptions['Channels']:
+                if self.msg.channel.id in exceptions.get('Channels') or []:
                     cmd_overwritten = True
                 for role in author.roles:
-                    if role.id in exceptions['Roles']:
+                    if role.id in exceptions.get('Roles') or []:
                         cmd_overwritten = True
                         break
         return cmd_overwritten
 
     @staticmethod
-    def cross_permits(mdl_o, cmd_o, mdl_d, cmd_d):
+    def cross_permits(mdl_o: bool, cmd_o: bool, mdl_d: bool, cmd_d: bool):
         if mdl_d or cmd_d:
             if mdl_o:
                 if cmd_d:
-                    if cmd_o:
-                        override = True
-                    else:
-                        override = False
+                    override = cmd_o
                 else:
                     override = True
             else:
-                if cmd_o:
-                    override = True
-                else:
-                    override = False
+                override = cmd_o
         else:
             override = True
         return override
@@ -233,17 +225,13 @@ class ServerCommandPermissions(object):
                     permitted = True
                 else:
                     cmd = self.cmd.name
-                    mdl = self.cmd.plugin_info['category']
+                    mdl = self.cmd.plugin_info.get('category') or 'unknown'
                     mdl_override = self.check_mdl_overwrites(perms)
-                    if mdl in perms['DisabledModules']:
-                        mdl_disabled = True
-                    else:
-                        mdl_disabled = False
+                    disabled_modules = perms.get('DisabledModules') or []
+                    mdl_disabled = mdl in disabled_modules
                     cmd_override = self.check_cmd_overwrites(perms)
-                    if cmd in perms['DisabledCommands']:
-                        cmd_disabled = True
-                    else:
-                        cmd_disabled = False
+                    disabled_commands = perms.get('DisabledCommands') or []
+                    cmd_disabled = cmd in disabled_commands
                     permitted = self.cross_permits(mdl_override, cmd_override, mdl_disabled, cmd_disabled)
             else:
                 permitted = True
