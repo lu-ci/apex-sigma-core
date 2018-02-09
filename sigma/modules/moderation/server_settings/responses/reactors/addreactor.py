@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def addreactor(cmd, message, args):
+
+async def addreactor(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) == 2:

@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def wanikanisave(cmd, message, args):
+
+async def wanikanisave(cmd: SigmaCommand, message: discord.Message, args: list):
     try:
         await message.delete()
     except discord.ClientException:

@@ -17,6 +17,7 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
@@ -36,7 +37,7 @@ def generate_log_embed(message, target, args):
     return log_embed
 
 
-async def hardmute(cmd, message, args):
+async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.mentions:
             target = message.mentions[0]

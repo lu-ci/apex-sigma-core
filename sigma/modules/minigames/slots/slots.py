@@ -18,6 +18,7 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 rarity_rewards = {
@@ -48,7 +49,7 @@ for symbol in rarity_rewards:
     symbols.append(symbol)
 
 
-async def slots(cmd, message, args):
+async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
     current_kud = await cmd.db.get_currency(message.author, message.guild)

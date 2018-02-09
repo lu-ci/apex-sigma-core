@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def removereaction(cmd, message, args):
+
+async def removereaction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
         interaction_item = await cmd.db[cmd.db.db_cfg.database].Interactions.find_one({'ReactionID': lookup})

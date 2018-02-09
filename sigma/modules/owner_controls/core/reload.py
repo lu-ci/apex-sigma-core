@@ -18,11 +18,12 @@ from importlib import reload as reimport
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.development.command_md import command_md
 from sigma.modules.development.version_updater import version_updater
 
 
-async def reload(cmd, message, args):
+async def reload(cmd: SigmaCommand, message: discord.Message, args: list):
     await version_updater(cmd)
     await command_md(cmd)
     if not args:

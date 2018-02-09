@@ -16,6 +16,7 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.upgrades import upgrade_list
 
 
@@ -45,7 +46,7 @@ def calculate_upgrade(up_id, level):
     return up_table[up_id]
 
 
-async def upgrades(cmd, message, args):
+async def upgrades(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         target = message.mentions[0]
     else:

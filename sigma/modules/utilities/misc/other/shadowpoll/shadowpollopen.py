@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def shadowpollopen(cmd, message, args):
+
+async def shadowpollopen(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         poll_id = args[0].lower()
         poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})

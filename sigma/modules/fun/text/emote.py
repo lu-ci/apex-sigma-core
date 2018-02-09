@@ -17,6 +17,8 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 emote_cache = {'stamp': 0, 'emotes': []}
 
 
@@ -29,7 +31,7 @@ def emote_filler(guilds):
     return emote_list
 
 
-async def emote(cmd, message, args):
+async def emote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
         if ':' in lookup:

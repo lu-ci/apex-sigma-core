@@ -20,10 +20,11 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import markovify
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def impersonate(cmd, message, args):
+async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
     success = False
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:

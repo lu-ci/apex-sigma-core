@@ -18,8 +18,10 @@ import aiohttp
 import discord
 import ftfy
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def pun(cmd, message, args):
+
+async def pun(cmd: SigmaCommand, message: discord.Message, args: list):
     pun_url = 'http://www.punoftheday.com/cgi-bin/arandompun.pl'
     async with aiohttp.ClientSession() as session:
         async with session.get(pun_url) as data:

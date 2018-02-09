@@ -17,8 +17,10 @@
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def numberfact(cmd, message, args):
+
+async def numberfact(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ''.join(args)
         if ':' in lookup:

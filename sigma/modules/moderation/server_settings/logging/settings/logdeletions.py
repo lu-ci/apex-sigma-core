@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def logdeletions(cmd, message, args):
+async def logdeletions(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_guild:
         log_event = await cmd.db.get_guild_settings(message.guild.id, 'LogDeletions')
         if log_event:

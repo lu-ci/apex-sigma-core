@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def wipeawards(cmd, message, args):
+
+async def wipeawards(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         uid = args[0]
         try:

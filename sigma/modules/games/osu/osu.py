@@ -18,10 +18,12 @@ import aiohttp
 import discord
 from lxml import html
 
+from sigma.core.mechanics.command import SigmaCommand
+
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 
 
-async def osu(cmd, message, args):
+async def osu(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         osu_input = '%20'.join(args)
         try:

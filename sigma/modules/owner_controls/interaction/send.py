@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def send(cmd, message, args):
+
+async def send(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         mode, identifier = args[0].split(':')
         identifier = int(identifier)

@@ -19,8 +19,10 @@ import json
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def ronswanson(cmd, message, args):
+
+async def ronswanson(cmd: SigmaCommand, message: discord.Message, args: list):
     api_url = 'http://ron-swanson-quotes.herokuapp.com/v2/quotes'
     async with aiohttp.ClientSession() as session:
         async with session.get(api_url) as data:

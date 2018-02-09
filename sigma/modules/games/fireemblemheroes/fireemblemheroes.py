@@ -16,12 +16,13 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.feh_core import FireEmblemHeroesCore
 
 feh_core = None
 
 
-async def fireemblemheroes(cmd, message, args):
+async def fireemblemheroes(cmd: SigmaCommand, message: discord.Message, args: list):
     global feh_core
     if not feh_core:
         feh_core = FireEmblemHeroesCore(cmd.db)

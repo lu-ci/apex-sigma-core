@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def lovecalculator(cmd, message, args):
+
+async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         if len(message.mentions) == 2:
             first_item = message.mentions[0].display_name

@@ -17,10 +17,12 @@
 import discord
 from geopy.geocoders import Nominatim
 
+from sigma.core.mechanics.command import SigmaCommand
+
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
 
-async def mapsearch(cmd, message, args):
+async def mapsearch(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         search = ' '.join(args)
         search_url = '+'.join(args)

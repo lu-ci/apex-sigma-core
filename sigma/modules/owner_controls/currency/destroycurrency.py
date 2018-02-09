@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def destroycurrency(cmd, message, args):
+
+async def destroycurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         if len(args) >= 2:
             target = message.mentions[0]

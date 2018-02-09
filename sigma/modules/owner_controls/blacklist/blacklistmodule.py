@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def blacklistmodule(cmd, message, args):
+
+async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             target_id = args[0]

@@ -20,6 +20,8 @@ import aiohttp
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 wows_icon = 'https://i.imgur.com/Cv53UoN.png'
 wows_color = 0x066661
 regions = {
@@ -30,7 +32,7 @@ regions = {
 }
 
 
-async def worldofwarships(cmd, message, args):
+async def worldofwarships(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'app_id' in cmd.cfg:
         app_id = cmd.cfg['app_id']
         if args:

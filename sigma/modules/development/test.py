@@ -13,7 +13,10 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
-async def test(cmd, message, args):
+async def test(cmd: SigmaCommand, message: discord.Message, args: list):
     await message.channel.send('All good!')

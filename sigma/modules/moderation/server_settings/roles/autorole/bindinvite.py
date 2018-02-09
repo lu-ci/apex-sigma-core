@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def bindinvite(cmd, message, args):
+
+async def bindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.create_instant_invite:
         await cmd.bot.modules.commands.get('syncinvites').execute(message, ['noresp'])
         if len(args) >= 2:

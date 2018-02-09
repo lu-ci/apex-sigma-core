@@ -19,10 +19,12 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 ongoing_list = []
 
 
-async def mathgame(cmd, message, args):
+async def mathgame(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.channel.id not in ongoing_list:
         ongoing_list.append(message.channel.id)
         if args:

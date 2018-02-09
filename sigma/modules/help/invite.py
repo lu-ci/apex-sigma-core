@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def invite(cmd, message, args):
+
+async def invite(cmd: SigmaCommand, message: discord.Message, args: list):
     inv_title = 'Click here to invite me.'
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     invite_url = f'https://discordapp.com/oauth2/authorize?client_id={cmd.bot.user.id}&scope=bot&permissions=8'

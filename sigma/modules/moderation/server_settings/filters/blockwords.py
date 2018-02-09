@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def blockwords(cmd, message, args):
+
+async def blockwords(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')

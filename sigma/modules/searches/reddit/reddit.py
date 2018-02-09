@@ -22,6 +22,8 @@ import discord
 import praw
 from prawcore.exceptions import Redirect, NotFound
 
+from sigma.core.mechanics.command import SigmaCommand
+
 reddit_client = None
 
 
@@ -41,7 +43,7 @@ def grab_post(subreddit, argument):
     return post
 
 
-async def reddit(cmd, message, args):
+async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
     global reddit_client
     if 'client_id' in cmd.cfg and 'client_secret' in cmd.cfg:
         if args:

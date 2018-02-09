@@ -17,8 +17,10 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def afk(cmd, message, args):
+
+async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
     afk_data = await cmd.db[cmd.db.db_cfg.database]['AwayUsers'].find_one({'UserID': message.author.id})
     if args:
         afk_reason = ' '.join(args)

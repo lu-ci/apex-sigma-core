@@ -16,6 +16,8 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 
 def origin(x, poll_file):
     return x.id == poll_file["origin"]["server"]
@@ -39,7 +41,7 @@ def check_roles(allowed_roles, all_users, user):
     return authorized
 
 
-async def shadowpollvote(cmd, message, args):
+async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) == 2:
             poll_id = args[0].lower()

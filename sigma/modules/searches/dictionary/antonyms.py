@@ -19,8 +19,10 @@ import json
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def antonyms(cmd, message, args):
+
+async def antonyms(cmd: SigmaCommand, message: discord.Message, args: list):
     # strip spaces from args
     args = list(filter(lambda a: a != '', args))
     response = discord.Embed()

@@ -17,8 +17,10 @@
 import discord
 from cryptography.fernet import Fernet, InvalidToken, InvalidSignature
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def decrypt(cmd, message, args):
+
+async def decrypt(cmd: SigmaCommand, message: discord.Message, args: list):
     key = cmd.bot.cfg.pref.raw.get('key_to_my_heart')
     text = False
     if key:

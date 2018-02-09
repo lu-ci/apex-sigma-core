@@ -16,12 +16,14 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 
 def match_role(x, t):
     return x.name.lower() == t.name.lower()
 
 
-async def togglerole(cmd, message, args):
+async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ' '.join(args)
         target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)

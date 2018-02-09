@@ -19,6 +19,8 @@ import asyncio
 import discord
 from overwatch_api.core import AsyncOWAPI
 
+from sigma.core.mechanics.command import SigmaCommand
+
 ow_cli = AsyncOWAPI(request_timeout=30)
 ow_icon = 'https://i.imgur.com/YZ4w2ey.png'
 region_convert = {
@@ -46,7 +48,7 @@ def clean_numbers(stats):
     return stats
 
 
-async def overwatch(cmd, message, args):
+async def overwatch(cmd: SigmaCommand, message: discord.Message, args: list):
     init_resp = discord.Embed(color=0xff9c00)
     init_resp.set_author(name='Processing information...', icon_url=ow_icon)
     init_resp_msg = await message.channel.send(embed=init_resp)

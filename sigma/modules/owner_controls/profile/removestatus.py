@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def removestatus(cmd, message, args):
+
+async def removestatus(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         status_id = ''.join(args)
         status_data = {'ID': status_id}

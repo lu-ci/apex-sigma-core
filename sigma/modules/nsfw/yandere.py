@@ -20,8 +20,10 @@ import secrets
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def yandere(cmd, message, args):
+
+async def yandere(cmd: SigmaCommand, message: discord.Message, args: list):
     url_base = 'https://yande.re/post.json?limit=100&tags='
     if not args:
         tags = 'nude'

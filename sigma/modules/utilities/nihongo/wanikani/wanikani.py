@@ -20,8 +20,10 @@ import aiohttp
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def wanikani(cmd, message, args):
+
+async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
         target = message.mentions[0]
     else:

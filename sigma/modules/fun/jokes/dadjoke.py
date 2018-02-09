@@ -19,8 +19,10 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def dadjoke(cmd, message, args):
+
+async def dadjoke(cmd: SigmaCommand, message: discord.Message, args: list):
     with open(cmd.resource('dadjokes.json'), 'r', encoding='utf-8') as dadjokes_file:
         jokes = dadjokes_file.read()
         jokes = json.loads(jokes)

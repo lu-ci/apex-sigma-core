@@ -13,9 +13,12 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
-async def redrawraffle(cmd, message, args):
+async def redrawraffle(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rafid = args[0].lower()
         raffle = await cmd.db[cmd.db.db_cfg.database].Raffles.find_one({'ID': rafid, 'Active': False})

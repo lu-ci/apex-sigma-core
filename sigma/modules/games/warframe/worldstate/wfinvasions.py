@@ -17,10 +17,11 @@
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.warframe.commons.parsers.invasion_parser import parse_invasion_data
 
 
-async def wfinvasions(cmd, message, args):
+async def wfinvasions(cmd: SigmaCommand, message: discord.Message, args: list):
     invasion_url = 'https://deathsnacks.com/wf/data/invasion_raw.txt'
     async with aiohttp.ClientSession() as session:
         async with session.get(invasion_url) as data:

@@ -18,8 +18,10 @@ import hashlib
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def makehash(cmd, message, args):
+
+async def makehash(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         embed = discord.Embed(color=0xBE1931, title='❗ No hash inputted and nothing to hash.')
         await message.channel.send(None, embed=embed)

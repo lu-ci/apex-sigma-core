@@ -18,8 +18,10 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def addreact(cmd, message, args):
+
+async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             reaction_name = args[0]

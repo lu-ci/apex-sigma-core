@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def blacklistserver(cmd, message, args):
+
+async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         target_id = ''.join(args)
         try:

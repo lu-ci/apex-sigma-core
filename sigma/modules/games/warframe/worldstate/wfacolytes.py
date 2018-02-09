@@ -20,10 +20,12 @@ import aiohttp
 import discord
 from humanfriendly.tables import format_pretty_table
 
+from sigma.core.mechanics.command import SigmaCommand
+
 stalker_icon = 'https://vignette.wikia.nocookie.net/warframe/images/0/06/9PxL9MAPh4.png'
 
 
-async def wfacolytes(cmd, message, args):
+async def wfacolytes(cmd: SigmaCommand, message: discord.Message, args: list):
     try:
         api_url = 'https://api.tenno.tools/worldstate/pc'
         async with aiohttp.ClientSession() as session:

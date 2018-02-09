@@ -20,6 +20,8 @@ import discord
 import markovify
 from cryptography.fernet import Fernet, InvalidToken
 
+from sigma.core.mechanics.command import SigmaCommand
+
 titles = {
     'n': 'People can try...',
     'y': 'I flicker back...',
@@ -76,7 +78,7 @@ def clean(text, author):
     return output
 
 
-async def dokidoki(cmd, message, args):
+async def dokidoki(cmd: SigmaCommand, message: discord.Message, args: list):
     char = None
     glitch = False
     if args:

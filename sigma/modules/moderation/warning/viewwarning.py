@@ -17,11 +17,12 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def viewwarning(cmd, message, args):
+async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_messages:
         if message.mentions:
             if len(args) == 2:

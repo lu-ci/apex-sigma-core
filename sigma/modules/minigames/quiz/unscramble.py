@@ -21,6 +21,7 @@ import secrets
 import aiohttp
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.utils import scramble
 
 ongoing_list = []
@@ -40,7 +41,7 @@ async def load_word_cache():
                     word_cache.update({word.lower(): big_word_cache.get(word)})
 
 
-async def unscramble(cmd, message, args):
+async def unscramble(cmd: SigmaCommand, message: discord.Message, args: list):
     global word_cache, updating
     if updating:
         update_resp = discord.Embed(color=0x696969, title='🕙 Please wait while word list is updated...')

@@ -19,10 +19,12 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 fortune_files = []
 
 
-async def fortune(cmd, message, args):
+async def fortune(cmd: SigmaCommand, message: discord.Message, args: list):
     if not fortune_files:
         for fortune_file in os.listdir(cmd.resource('fortune')):
             with open(cmd.resource(f'fortune/{fortune_file}')) as forfile:

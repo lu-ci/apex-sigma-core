@@ -18,6 +18,8 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
+
 positive = [
     'Absolutely.',
     'I am certain that that\'s a yes.',
@@ -81,7 +83,7 @@ negative = [
 ]
 
 
-async def eightball(cmd, message, args):
+async def eightball(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         roll = secrets.randbelow(4)
         if roll == 0:

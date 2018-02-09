@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def togglestatus(cmd, message, args):
+
+async def togglestatus(cmd: SigmaCommand, message: discord.Message, args: list):
     if cmd.bot.cfg.pref.status_rotation:
         cmd.bot.cfg.pref.status_rotation = False
         response = discord.Embed(color=0x77B255, title=f'✅ Status rotation **disabled**.')

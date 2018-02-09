@@ -17,8 +17,10 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def serverinformation(cmd, message, args):
+
+async def serverinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     gld = message.guild
     own = gld.owner
     response = discord.Embed(color=0x1B6F5F)

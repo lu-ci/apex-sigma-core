@@ -22,6 +22,8 @@ import discord
 import humanfriendly
 import psutil
 
+from sigma.core.mechanics.command import SigmaCommand
+
 
 def get_os_icon():
     if sys.platform == 'win32':
@@ -36,7 +38,7 @@ def get_os_icon():
     return icon, color
 
 
-async def status(cmd, message, args):
+async def status(cmd: SigmaCommand, message: discord.Message, args: list):
     uptime_set = arrow.utcnow().float_timestamp - cmd.bot.start_time.float_timestamp
     processed = round(cmd.bot.queue.processed / uptime_set, 3)
     os_icon, os_color = get_os_icon()

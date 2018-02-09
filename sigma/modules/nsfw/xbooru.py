@@ -20,6 +20,8 @@ import aiohttp
 import discord
 from lxml import html
 
+from sigma.core.mechanics.command import SigmaCommand
+
 cache = {}
 
 
@@ -32,7 +34,7 @@ async def fill_xbooru_cache(tags):
             cache.update({tags: list(posts)})
 
 
-async def xbooru(cmd, message, args):
+async def xbooru(cmd: SigmaCommand, message: discord.Message, args: list):
     global cache
     tags = '+'.join(args)
     if not tags:

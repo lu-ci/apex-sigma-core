@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def listselfroles(cmd, message, args):
+
+async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list):
     self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
     if self_roles is None:
         self_roles = []

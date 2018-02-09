@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.race_storage import *
 
 
-async def joinrace(cmd, message, args):
+async def joinrace(cmd: SigmaCommand, message: discord.Message, args: list):
     currency = f'{cmd.bot.cfg.pref.currency}'
     if message.channel.id in races:
         race = races[message.channel.id]

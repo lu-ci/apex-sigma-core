@@ -22,10 +22,12 @@ import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.mechanics.command import SigmaCommand
+
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 
 
-async def wfvoidtrader(cmd, message, args):
+async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get('https://deathsnacks.com/wf/data/voidtraders.json') as data:

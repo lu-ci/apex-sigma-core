@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def eject(cmd, message, args):
+
+async def eject(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         guild_id = ''.join(args)
         try:

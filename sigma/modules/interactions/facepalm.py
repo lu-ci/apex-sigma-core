@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def facepalm(cmd, message, args):
+async def facepalm(cmd: SigmaCommand, message: discord.Message, args: list):
     interaction = await grab_interaction(cmd.db, 'facepalm')
     target = get_target(message)
     auth = message.author

@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def bye(cmd, message, args):
+
+async def bye(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
         embed = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     else:

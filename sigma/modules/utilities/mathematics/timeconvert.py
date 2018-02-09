@@ -19,11 +19,13 @@ import discord
 import yaml
 from arrow.parser import ParserError
 
+from sigma.core.mechanics.command import SigmaCommand
+
 tz_aliases = None
 tz_offsets = None
 
 
-async def timeconvert(cmd, message, args):
+async def timeconvert(cmd: SigmaCommand, message: discord.Message, args: list):
     global tz_aliases
     global tz_offsets
     if not tz_aliases:

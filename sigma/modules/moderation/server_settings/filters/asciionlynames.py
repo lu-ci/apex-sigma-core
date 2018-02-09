@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def asciionlynames(cmd, message, args):
+
+async def asciionlynames(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         active = await cmd.db.get_guild_settings(message.guild.id, 'ASCIIOnlyNames')
         if active is None:

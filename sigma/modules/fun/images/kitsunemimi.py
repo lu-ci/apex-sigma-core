@@ -18,6 +18,7 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
@@ -25,7 +26,7 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
                 '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
-async def kitsunemimi(cmd, message, args):
+async def kitsunemimi(cmd: SigmaCommand, message: discord.Message, args: list):
     global links
     if not links:
         filler_message = discord.Embed(color=0xff3300, title='🦊 One moment, filling Sigma with foxes...')

@@ -16,8 +16,12 @@
 
 import secrets
 
+import discord
 
-async def dab(cmd, message, args):
+from sigma.core.mechanics.command import SigmaCommand
+
+
+async def dab(cmd: SigmaCommand, message: discord.Message, args: list):
     faces = [
         ' ( ˙-˙ )', '( ﾟ_ﾟ )', '（・・）', '( ・-・ )', '（・＿・)',
         '(ʘᗩʘ’)', '◎ܫ◎', '（゜◇゜）', '꒪ꄱ꒪', 'Σ(O_O；)', 'ಠ_ಠ',

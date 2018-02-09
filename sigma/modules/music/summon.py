@@ -18,8 +18,10 @@ from concurrent.futures import TimeoutError
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def summon(cmd, message, args):
+
+async def summon(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.voice:
         me = message.guild.me
         vc = message.author.voice.channel

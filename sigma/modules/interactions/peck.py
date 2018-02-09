@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def peck(cmd, message, args):
+async def peck(cmd: SigmaCommand, message: discord.Message, args: list):
     interaction = await grab_interaction(cmd.db, 'peck')
     target = get_target(message)
     auth = message.author

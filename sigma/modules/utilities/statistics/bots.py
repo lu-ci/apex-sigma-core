@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def bots(cmd, message, args):
+
+async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
     online_bots = []
     offline_bots = []
     total_bots = 0

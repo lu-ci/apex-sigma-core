@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def reactors(cmd, message, args):
+async def reactors(cmd: SigmaCommand, message: discord.Message, args: list):
     reactor_files = await cmd.db.get_guild_settings(message.guild.id, 'ReactorTriggers')
     if reactor_files:
         if args:

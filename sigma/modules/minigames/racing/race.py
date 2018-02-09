@@ -18,10 +18,11 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.race_storage import *
 
 
-async def race(cmd, message, args):
+async def race(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.channel.id not in races:
         if args:
             try:

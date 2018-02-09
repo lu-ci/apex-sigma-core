@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def quote(cmd, message, args):
+async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0]
         try:

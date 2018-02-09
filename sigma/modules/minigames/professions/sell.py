@@ -16,12 +16,13 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 from .nodes.item_core import ItemCore
 
 item_core = None
 
 
-async def sell(cmd, message, args):
+async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
     global item_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))

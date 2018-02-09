@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.command import SigmaCommand
 
-async def prefix(cmd, message, args):
+
+async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         current_prefix = await cmd.db.get_prefix(message)
         if args:
