@@ -221,3 +221,39 @@ class Database(motor.AsyncIOMotorClient):
                 output = item
                 break
         return output
+
+    async def update_state(self, entity, **events):
+        """
+        Updates an existing state's value. Creates a state
+        if it does not exist. Also creates a database for
+        each entity type when needed.
+
+        :param entity: Any discord object with an id attribute
+        :param events: A dict of event states
+        """
+        if not(hasattr(entity, "id")):
+            raise TypeError(f"'{entity}' is not an Entity!")
+
+        collection = self[self.db_cfg.database][f'{entity.__class__.__name__}States']
+        await collection.update(
+            {f"{entity.__class__.__name__}ID": entity.id},
+            {"$set": events},
+            upsert=True
+        )
+
+    async def get_state(self, entity, event):
+        """
+        :param entity: Any discord object with an id attribute
+        :param event: An event passed as str
+        :return: Returns the state if found or returns None
+        """
+        if not(hasattr(entity, "id")):
+            raise TypeError(f"'{entity}' is not an Entity!")
+
+        collection = self[self.db_cfg.database][f'{entity.__class__.__name__}States']
+        record = await collection.find_one({f"{entity.__class__.__name__}ID": entity.id})
+        if record is None:
+            return record
+        else:
+            state = record[event]
+            return state
