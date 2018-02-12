@@ -43,22 +43,21 @@ async def wfsyndicates(cmd: SigmaCommand, message: discord.Message, args: list):
         async with session.get(api_endpoint) as data:
             page_data = await data.read()
             data = json.loads(page_data)
-    if data.get('syndicates'):
-        for syndicate in data.get('syndicates'):
-            items_text = ''
-            for item in syndicate.get('offerings')[:item_count]:
-                plat_price = item.get("platPrice") if isinstance(item.get("platPrice"), int) else None
-                synd_price = item.get("standingCost")
-                items_text += f'[{item.get("name")}]({wfmarket+item.get("marketURL")}):'
-                if plat_price:
-                    items_text += f' {plat_price} p'
-                else:
-                    items_text += f' ?? p'
-                items_text += f' | {"{:,}".format(synd_price)} Standing'
-                if plat_price:
-                    items_text += f' ({"{:.2f}".format(plat_price / synd_price * 1000)} p/KS)'
-                items_text += '\n'
-            response.add_field(name=syndicate.get('name'), value=items_text)
+    for syndicate in data.get('syndicates') or []:
+        items_text = ''
+        for item in syndicate.get('offerings')[:item_count]:
+            plat_price = item.get("platPrice") if isinstance(item.get("platPrice"), int) else None
+            synd_price = item.get("standingCost")
+            items_text += f'[{item.get("name")}]({wfmarket+item.get("marketURL")}):'
+            if plat_price:
+                items_text += f' {plat_price} p'
+            else:
+                items_text += f' ?? p'
+            items_text += f' | {"{:,}".format(synd_price)} Standing'
+            if plat_price:
+                items_text += f' ({"{:.2f}".format(plat_price / synd_price * 1000)} p/KS)'
+            items_text += '\n'
+        response.add_field(name=syndicate.get('name'), value=items_text)
     try:
         await init_resp_msg.edit(embed=response)
     except discord.NotFound:
