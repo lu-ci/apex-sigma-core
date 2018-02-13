@@ -67,6 +67,15 @@ commands:
       If the invite with that ID no longer exists on your server add ":f" to the end to force remove it.
       Please not that if you are force removing an invite that it is case sensitive.
 
+  - name:         rolepersist
+    alts:
+      - "persistrole"
+      - "rp"
+    enabled:      true
+    usage:        "{pfx}{cmd} true"
+    description:
+      Enable or disable the option to keep all roles of a member if they decide to rejoin the server.
+
 events:
   - name:         autorole_control
     type:         member_join
@@ -78,4 +87,12 @@ events:
 
   - name:         bound_role_control
     type:         member_join
+    enabled:      true
+
+  - name:         rolepersist_join_handler
+    type:         member_join
+    enabled:      true
+
+  - name:         rolepersist_update_handler
+    type:         member_update
     enabled:      true
