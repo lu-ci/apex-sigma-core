@@ -99,8 +99,8 @@ class ApexSigma(client_class):
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
-        except OperationFailure:
-            self.log.error('Database Access Operation Failed!')
+        except OperationFailure as error:
+            self.log.error(f"Database Access Operation Failed: {error.details['errmsg']}")
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
 
