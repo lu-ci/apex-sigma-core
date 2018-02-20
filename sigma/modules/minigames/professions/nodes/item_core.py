@@ -80,7 +80,7 @@ class ItemCore(object):
                             self.all_items.append(item_object)
 
     @staticmethod
-    def create_roll_range(top_roll):
+    def create_roll_range(upgrade):
         chances = {
             0: 35,
             1: 25,
@@ -93,14 +93,16 @@ class ItemCore(object):
             8: 0.075,
             9: 0.025
         }
+        roll_base = 1000000000
         rarities = {}
         global_boundary = 0
         for rarity in chances.keys():
             if rarity == list(chances.keys())[0]:
-                roll_boundary = 0
+                chance = 0
             else:
-                chance = chances.get(rarity - 1) / 100
-                roll_boundary = top_roll * chance
+                rarity_chance = chances.get(rarity - 1) / 100
+                chance = rarity_chance - (rarity_chance * (0.001 * upgrade))
+            roll_boundary = roll_base * chance
             global_boundary += roll_boundary
             rarities.update({rarity: global_boundary})
         return rarities
@@ -115,15 +117,12 @@ class ItemCore(object):
             upgrade_level = upgrade_file[upgrade_id]
         else:
             upgrade_level = 0
-        top_roll = int(1000000000 * (((100 - (upgrade_level * 0.5)) / 1.25) / 100))
-        if top_roll < 1000:
-            top_roll = 1000
-        rarities = self.create_roll_range(top_roll)
+        rarities = self.create_roll_range(upgrade_level)
         sabotage_file = await db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
         if sabotage_file:
             roll = 0
         else:
-            roll = secrets.randbelow(top_roll)
+            roll = secrets.randbelow(1000000000)
         lowest = 0
         for rarity in rarities:
             if rarities[rarity] <= roll:
