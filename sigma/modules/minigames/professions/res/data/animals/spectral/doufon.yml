@@ -1,0 +1,9 @@
+description:
+  Bat-like creatures with a body that looks like three connected spheres.
+  They struggle to fly as they're fairly heavy and slow.
+  Their meat is often served roasted or grilled and has an
+  aroma that people describe as slightly sweet.
+name: Doufon
+rarity: 6
+type: Animal
+value: 400
