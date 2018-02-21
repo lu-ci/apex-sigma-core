@@ -81,7 +81,7 @@ class ItemCore(object):
 
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):
-        return (rarity_chance - ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
+        return (rarity_chance + ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
 
     def create_roll_range(self, upgrade):
         chances = {
@@ -115,8 +115,10 @@ class ItemCore(object):
             rarity_index = rarity - 1
             rarity_chance = chances.get(rarity_index)
             rarity_modifier = modifiers.get(rarity_index)
-            if rarity == list(chances.keys())[0]:
+            if rarity == 0:
                 chance = 0
+            elif rarity == 1:
+                chance = (rarity_chance - ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
             else:
                 chance = self.get_chance(upgrade, rarity_chance, rarity_modifier)
             roll_boundary = int(roll_base * chance)
