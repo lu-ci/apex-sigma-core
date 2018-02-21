@@ -101,7 +101,7 @@ class ItemCore(object):
                 chance = 0
             else:
                 rarity_chance = chances.get(rarity - 1) / 100
-                chance = rarity_chance - (rarity_chance * (0.001 * upgrade))
+                chance = rarity_chance - (rarity_chance * ((0.001 * upgrade) / (1.15 + (upgrade * 0.008))))
             roll_boundary = roll_base * chance
             global_boundary += roll_boundary
             rarities.update({rarity: global_boundary})
