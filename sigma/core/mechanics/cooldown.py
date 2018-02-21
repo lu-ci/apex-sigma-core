@@ -74,6 +74,8 @@ class CooldownControl(object):
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
         else:
+            if user.id in self.bot.cfg.dsc.owners:
+                amount = 0
             cd_name = f'cd_{cmd}_{user.id}'
         entry = await self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().timestamp + amount
