@@ -1,0 +1,9 @@
+description:
+  A necrotic pustule is created when a creature is killed by weak necrotic magic. 
+  The body of the creature peels and decays away leaving nothing but the cyst, given some semblence of sentience and engorged by the lifeforce of its host.
+  The pustule will aimlessly wander leaving a trail of decayed flora in its wake.
+  It will continue to do this until it is harvested or mistaken for food by an unfortunate scavenger.
+name: Necrotic Pustule
+rarity: 4
+type: Animal
+value: 100
