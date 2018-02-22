@@ -250,18 +250,18 @@ class SigmaCommand(object):
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
                 self.log.warning(f'{message.author.name} tried using me.')
                 return
-            perms = GlobalCommandPermissions(self, message)
-            await perms.check_black_usr()
-            await perms.check_black_srv()
-            await perms.generate_response()
-            perms.check_final()
-            guild_allowed = ServerCommandPermissions(self, message)
-            await guild_allowed.check_perms()
-            self.log_command_usage(message, args)
-            if perms.permitted:
-                if guild_allowed.permitted:
-                    if not self.cd.is_cooling(message):
-                        self.cd.set_cooling(message)
+            if not self.cd.is_cooling(message):
+                perms = GlobalCommandPermissions(self, message)
+                await perms.check_black_usr()
+                await perms.check_black_srv()
+                await perms.generate_response()
+                perms.check_final()
+                guild_allowed = ServerCommandPermissions(self, message)
+                await guild_allowed.check_perms()
+                self.log_command_usage(message, args)
+                self.cd.set_cooling(message)
+                if perms.permitted:
+                    if guild_allowed.permitted:
                         requirements = CommandRequirements(self, message)
                         if requirements.reqs_met:
                             try:
@@ -304,15 +304,15 @@ class SigmaCommand(object):
                             except discord.Forbidden:
                                 pass
                     else:
-                        await self.respond_with_icon(message, '🕙')
+                        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+                        await self.respond_with_icon(message, '⛔')
                 else:
-                    self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+                    self.log_unpermitted(perms)
                     await self.respond_with_icon(message, '⛔')
+                    if perms.response:
+                        try:
+                            await message.channel.send(embed=perms.response)
+                        except discord.Forbidden:
+                            pass
             else:
-                self.log_unpermitted(perms)
-                await self.respond_with_icon(message, '⛔')
-                if perms.response:
-                    try:
-                        await message.channel.send(embed=perms.response)
-                    except discord.Forbidden:
-                        pass
+                await self.respond_with_icon(message, '🕙')
