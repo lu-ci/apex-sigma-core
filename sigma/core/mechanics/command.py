@@ -29,12 +29,14 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.stats_processing import add_cmd_stat
+from sigma.core.mechanics.cooldown import CommandRateLimiter
 
 
 class SigmaCommand(object):
     def __init__(self, bot, command, plugin_info, command_info):
         self.bot = bot
         self.db = self.bot.db
+        self.cd = CommandRateLimiter(self)
         self.command = command
         self.plugin_info = plugin_info
         self.command_info = command_info
@@ -258,47 +260,51 @@ class SigmaCommand(object):
             self.log_command_usage(message, args)
             if perms.permitted:
                 if guild_allowed.permitted:
-                    requirements = CommandRequirements(self, message)
-                    if requirements.reqs_met:
-                        try:
-                            await getattr(self.command, self.name)(self, message, args)
-                            await add_cmd_stat(self)
-                            if self.stats:
-                                await self.add_elastic_stats(message, args)
-                            await self.add_usage_exp(message)
-                            self.bot.command_count += 1
-                            self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
-                        except self.get_exception() as e:
-                            await self.respond_with_icon(message, '❗')
-                            err_token = secrets.token_hex(16)
-                            await self.log_error(message, args, e, err_token)
-                            prefix = await self.db.get_prefix(message)
-                            title = '❗ An Error Occurred!'
-                            err_text = 'Something seems to have gone wrong.'
-                            err_text += '\nPlease send this token to our support server.'
-                            err_text += f'\nThe invite link is in the **{prefix}help** command.'
-                            err_text += f'\nToken: **{err_token}**'
-                            error_embed = discord.Embed(color=0xBE1931)
-                            error_embed.add_field(name=title, value=err_text)
+                    if not self.cd.is_cooling(message):
+                        self.cd.set_cooling(message)
+                        requirements = CommandRequirements(self, message)
+                        if requirements.reqs_met:
                             try:
-                                await message.channel.send(embed=error_embed)
+                                await getattr(self.command, self.name)(self, message, args)
+                                await add_cmd_stat(self)
+                                if self.stats:
+                                    await self.add_elastic_stats(message, args)
+                                await self.add_usage_exp(message)
+                                self.bot.command_count += 1
+                                self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
+                            except self.get_exception() as e:
+                                await self.respond_with_icon(message, '❗')
+                                err_token = secrets.token_hex(16)
+                                await self.log_error(message, args, e, err_token)
+                                prefix = await self.db.get_prefix(message)
+                                title = '❗ An Error Occurred!'
+                                err_text = 'Something seems to have gone wrong.'
+                                err_text += '\nPlease send this token to our support server.'
+                                err_text += f'\nThe invite link is in the **{prefix}help** command.'
+                                err_text += f'\nToken: **{err_token}**'
+                                error_embed = discord.Embed(color=0xBE1931)
+                                error_embed.add_field(name=title, value=err_text)
+                                try:
+                                    await message.channel.send(embed=error_embed)
+                                except discord.Forbidden:
+                                    pass
+                        else:
+                            await self.respond_with_icon(message, '❗')
+                            reqs_embed = discord.Embed(color=0xBE1931)
+                            reqs_error_title = f'❗ Sigma is missing permissions!'
+                            reqs_error_list = ''
+                            for req in requirements.missing_list:
+                                req = req.replace('_', ' ').title()
+                                reqs_error_list += f'\n- {req}'
+                            prefix = await self.db.get_prefix(message)
+                            reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                            reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
+                            try:
+                                await message.channel.send(embed=reqs_embed)
                             except discord.Forbidden:
                                 pass
                     else:
-                        await self.respond_with_icon(message, '❗')
-                        reqs_embed = discord.Embed(color=0xBE1931)
-                        reqs_error_title = f'❗ Sigma is missing permissions!'
-                        reqs_error_list = ''
-                        for req in requirements.missing_list:
-                            req = req.replace('_', ' ').title()
-                            reqs_error_list += f'\n- {req}'
-                        prefix = await self.db.get_prefix(message)
-                        reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                        reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
-                        try:
-                            await message.channel.send(embed=reqs_embed)
-                        except discord.Forbidden:
-                            pass
+                        await self.respond_with_icon(message, '🕙')
                 else:
                     self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
                     await self.respond_with_icon(message, '⛔')

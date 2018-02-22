@@ -19,6 +19,21 @@ import arrow
 from sigma.core.mechanics.caching import Cacher
 
 
+class CommandRateLimiter(object):
+    def __init__(self, cmd):
+        self.cmd = cmd
+        self.stamps = {}
+
+    def is_cooling(self, message):
+        timeout = 1.25
+        last_stamp = self.stamps.get(message.author.id) or 0
+        curr_stamp = arrow.utcnow().float_timestamp
+        return (last_stamp + timeout) > curr_stamp
+
+    def set_cooling(self, message):
+        self.stamps.update({message.author.id: arrow.utcnow().float_timestamp})
+
+
 class CooldownControl(object):
     def __init__(self, bot):
         self.bot = bot
