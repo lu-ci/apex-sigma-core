@@ -39,8 +39,9 @@ async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list
                 break
         if chosen_curr:
             slug = chosen_curr['slug']
+            currency_id = chosen_curr['id']
             currency_url = f'https://api.coinmarketcap.com/v1/ticker/{slug}/?convert=EUR'
-            curr_img = f'https://files.coinmarketcap.com/static/img/coins/128x128/{slug}.png'
+            curr_img = f'https://files.coinmarketcap.com/static/img/coins/128x128/{currency_id}.png'
             curr_page_url = f'https://coinmarketcap.com/currencies/{slug}/'
             async with aiohttp.ClientSession() as session:
                 async with session.get(currency_url) as currency_session:
