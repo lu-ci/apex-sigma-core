@@ -40,6 +40,12 @@ commands:
       Uses a recipe to create an item from raw resources that you've gathered.
       You can see all available recipes with the recipes command.
 
+  - name:         chances
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows a table with your item chance statistics.
+
   - name:         viewrecipe
     alts:
       - "recipe"
