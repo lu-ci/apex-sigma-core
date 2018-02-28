@@ -43,6 +43,18 @@ commands:
     description:
       Remove a reaction with the inputed ID.
 
+  - name:         resetleaderboards
+    alts:
+      - "resetlbs"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd}"
+    description:
+      Resets the global leaderboard data.
+      Global experience, currency and cookies.
+
   - name:         getreaction
     alts:
       - "getreact"
