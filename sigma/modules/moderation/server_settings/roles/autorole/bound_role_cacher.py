@@ -15,22 +15,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
-import asyncio
 
 cache = {}
-changes = {}
 
 
 def update_invites(guild, invites):
     cache.update({guild.id: invites})
 
 
-def get_changed_invite(guild_id, member_id, bound_list, invites):
-    invite = changes.get(f'{guild_id}_{member_id}')
+def get_changed_invite(guild_id, bound_list, invites):
+    invite = None
     cached = cache.get(guild_id)
-    cache.update({guild_id: invites})
     if cached is None:
         cached = []
+    cache.update({guild_id: invites})
     if invites is None:
         invites = []
     if invites:
@@ -48,9 +46,7 @@ async def bound_role_cacher(ev):
     counter = 0
     ev.log.info('Starting invite caching...')
     for guild in ev.bot.guilds:
-        has_bound_invs = await ev.db.get_guild_settings(guild.id, 'BoundInvites')
-        has_bound_greets = await ev.db.get_guild_settings(guild.id, 'BoundGreetings')
-        if has_bound_invs or has_bound_greets:
+        if await ev.db.get_guild_settings(guild.id, 'BoundInvites'):
             if guild.me.guild_permissions.create_instant_invite:
                 try:
                     invites = await guild.invites()
@@ -59,11 +55,3 @@ async def bound_role_cacher(ev):
                     invites = []
                 cache.update({guild.id: invites})
     ev.log.info(f'Finished caching invites for {counter} guilds.')
-    ev.bot.loop.create_task(change_cleaner())
-
-
-async def change_cleaner():
-    global changes
-    while True:
-        changes = {}
-        await asyncio.sleep(300)

@@ -27,24 +27,6 @@ commands:
     description:
       Sets the channel the greeting messages should be sent to, unless greetdm is active.
 
-  - name:         bindgreeting
-    alts:
-      - "bgreet"
-    enabled:      true
-    usage:        "{pfx}{cmd} 1abc9c Hello blue fellow!"
-    description:
-      Binds a greeting message to a certain invite link.
-      When the invite is used the greeting message sent to the user will be the one bound to the invite.
-      If an unbound invite is used the default one will be used.
-
-  - name:         unbindgreeting
-    alts:
-      - "unbgreet"
-    enabled:      true
-    usage:        "{pfx}{cmd} 1abc9c"
-    description:
-      Unbinds a greeting message from an invite link.
-
   - name:         greetmessage
     alts:
       - "greetmsg"
