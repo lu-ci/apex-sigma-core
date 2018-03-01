@@ -34,6 +34,8 @@ awards = {
     'hard': 15
 }
 
+streaks = {}
+
 
 def shuffle_questions(question_list):
     output = []
@@ -54,6 +56,7 @@ def get_correct_index(question_list, answer):
 
 
 async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
+    global streaks
     global trivia_cache
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if message.author.id not in ongoing_list:
@@ -82,7 +85,8 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             correct_answer = ftfy.fix_text(correct_answer)
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
-            kud_reward = awards.get(difficulty) or '10'
+            reward_mult = streaks.get(message.author.id) or 0
+            kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 0.8)))
             choice_list = [correct_answer] + incorrect_answers
             choice_list = shuffle_questions(choice_list)
             choice_number = 0
@@ -131,16 +135,19 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                     answer_index = None
                 correct_index = get_correct_index(choice_list, correct_answer)
                 if answer_index == correct_index or answer_message.content.lower() == correct_answer.lower():
+                    streaks.update({message.author.id: reward_mult + 1})
                     await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
                     author = answer_message.author.display_name
                     currency = cmd.bot.cfg.pref.currency
                     win_title = f'🎉 Correct, {author}, it was {correct_answer}. You won {kud_reward} {currency}!'
                     final_embed = discord.Embed(color=0x77B255, title=win_title)
                 else:
+                    streaks.pop(message.author.id)
                     lose_title = f'💣 Ooh, sorry, it was {correct_answer}...'
                     final_embed = discord.Embed(color=0x262626, title=lose_title)
                 await message.channel.send(embed=final_embed)
             except asyncio.TimeoutError:
+                streaks.pop(message.author.id)
                 timeout_title = f'🕙 Time\'s up! It was {correct_answer}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
