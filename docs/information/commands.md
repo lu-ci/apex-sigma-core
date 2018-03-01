@@ -379,6 +379,7 @@ Commands | Description | Example
 `>>addresponder` `>>addres` | Adds an auto-responder to the server. An automatic responder will reply with the set message to any sentence that conaints the chosen trigger in it as a standalone word. Responders can have special dynamic arguments in them like custom commands do. {author_name}: Message author name. {author_nick}: Message author nickname. {author_mention}: Tag the message author. {author_id}: Message author's ID. {channel_name}: Channel name. {channel_mention}: Channel tag. {channel_id}: Channel ID. {server_name}: Server name. {server_id}: Server ID. {target_name}: Target name. {target_nick}: Target nickname. {target_mention}: Tag the target. {target_id}: Target ID.  | `>>addresponder hi Hello there!`
 `>>asciionlynames` `>>forceascii` | Toggles if only ASCII characters are allowed in names. The bot will check members each 60s for an invalid name and rename them if they are not proper. To change the default temporary name, use the asciitempname command. | `>>asciionlynames`
 `>>asciitempname` `>>asciitemp` | Changes the default temporary name for those who the temp name was enforced on. | `>>asciitempname <ChangeMePleaseI'mLonely>`
+`>>bindgreeting` `>>bgreet` | Binds a greeting message to a certain invite link. When the invite is used the greeting message sent to the user will be the one bound to the invite. If an unbound invite is used the default one will be used. | `>>bindgreeting 1abc9c Hello blue fellow!`
 `>>blockedwords` | Lists all blocked words on the server. | `>>blockedwords`
 `>>blockinvites` `>>filterinvites` | Toggles if invite links should be automatically removed. When an invite link is removed, the message author is notified and the removal is logged. This ignores anybody with a Manage Server permission. | `>>blockinvites`
 `>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter is sent, the message will be removed and the author will be notified. | `>>blockwords crap`
@@ -398,6 +399,7 @@ Commands | Description | Example
 `>>removereactor` `>>deletereactor` `>>remreac` `>>delreac` | Removes an automatic reaction trigger. | `>>removereactor hi`
 `>>removeresponder` `>>deleteresponder` `>>remres` `>>delres` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removeresponder hi`
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
+`>>unbindgreeting` `>>unbgreet` | Unbinds a greeting message from an invite link. | `>>unbindgreeting 1abc9c`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. | `>>unflip`
 [Back To Top](#module-index)

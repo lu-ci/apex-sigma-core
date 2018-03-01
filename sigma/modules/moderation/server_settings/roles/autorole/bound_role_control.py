@@ -27,7 +27,7 @@ async def bound_role_control(ev, member):
         if bound_invites:
             invites = await member.guild.invites()
             bound_list = list(bound_invites)
-            changed_inv = get_changed_invite(member.guild.id, bound_list, invites)
+            changed_inv = get_changed_invite(member.guild.id, member.id, bound_list, invites)
             if changed_inv:
                 role_id = bound_invites.get(changed_inv.id)
                 target_role = discord.utils.find(lambda x: x.id == role_id, member.guild.roles)
