@@ -142,12 +142,14 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                     win_title = f'🎉 Correct, {author}, it was {correct_answer}. You won {kud_reward} {currency}!'
                     final_embed = discord.Embed(color=0x77B255, title=win_title)
                 else:
-                    streaks.pop(message.author.id)
+                    if message.author.id in streaks:
+                        streaks.pop(message.author.id)
                     lose_title = f'💣 Ooh, sorry, it was {correct_answer}...'
                     final_embed = discord.Embed(color=0x262626, title=lose_title)
                 await message.channel.send(embed=final_embed)
             except asyncio.TimeoutError:
-                streaks.pop(message.author.id)
+                if message.author.id in streaks:
+                    streaks.pop(message.author.id)
                 timeout_title = f'🕙 Time\'s up! It was {correct_answer}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
