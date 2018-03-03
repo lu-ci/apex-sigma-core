@@ -93,20 +93,20 @@ async def weather(cmd: SigmaCommand, message: discord.Message, args: list):
                         response.description = f'Location: {location}'
                         response.add_field(name='📄 Forecast', value=forecast, inline=False)
                         info_title = f'🌡 Temperature'
-                        info_text = f'Temperature: {curr["temperature"]}{deg}'
-                        info_text += f'\nFeels Like: {curr["apparentTemperature"]}{deg}'
-                        info_text += f'\nDew Point: {curr["dewPoint"]}{deg}'
+                        info_text = f'Current: {round(curr["temperature"], 2)}{deg}'
+                        info_text += f'\nFeels Like: {round(curr["apparentTemperature"], 2)}{deg}'
+                        info_text += f'\nDew Point: {round(curr["dewPoint"], 2)}{deg}'
                         response.add_field(name=info_title, value=info_text, inline=True)
                         wind_title = '💨 Wind'
-                        wind_text = f'Speed: {curr["windSpeed"]} {dis}/H'
-                        wind_text += f'\nGust: {curr["windGust"]} {dis}/H'
+                        wind_text = f'Speed: {round(curr["windSpeed"], 2)} {dis}/H'
+                        wind_text += f'\nGust: {round(curr["windGust"], 2)} {dis}/H'
                         wind_text += f'\nBearing: {curr["windBearing"]}°'
                         response.add_field(name=wind_title, value=wind_text, inline=True)
                         other_title = '📉 Other'
-                        other_text = f'Humidity: {curr["humidity"]*100}%'
-                        other_text += f'\nPressure: {curr["pressure"]}mbar'
+                        other_text = f'Humidity: {round(curr["humidity"]*100, 2)}%'
+                        other_text += f'\nPressure: {round(curr["pressure"], 2)}mbar'
                         if 'visibility' in curr:
-                            other_text += f'\nVisibility: {curr["visibility"]} {dis}'
+                            other_text += f'\nVisibility: {round(curr["visibility"], 2)} {dis}'
                         else:
                             other_text += f'\nVisibility: Unknown'
                         response.add_field(name=other_title, value=other_text, inline=True)
