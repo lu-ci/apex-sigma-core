@@ -26,10 +26,14 @@ async def unblockwords(cmd: SigmaCommand, message: discord.Message, args: list):
             if blocked_words is None:
                 blocked_words = []
             removed_words = []
-            for word in args:
-                if word.lower() in blocked_words:
-                    blocked_words.remove(word.lower())
-                    removed_words.append(word.lower())
+            if args[-1].lower() == '-all':
+                removed_words = blocked_words
+                blocked_words = []
+            else:
+                for word in args:
+                    if word.lower() in blocked_words:
+                        blocked_words.remove(word.lower())
+                        removed_words.append(word.lower())
             await cmd.db.set_guild_settings(message.guild.id, 'BlockedWords', blocked_words)
             if removed_words:
                 color = 0x66CC66

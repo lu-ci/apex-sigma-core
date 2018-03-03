@@ -48,6 +48,7 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked word allowing people to send messages containing it.
+      To purge the entire word filter enter -all as the command argument.
 
   - name:         blockedwords
     enabled:      true
