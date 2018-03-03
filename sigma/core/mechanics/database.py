@@ -98,10 +98,12 @@ class Database(motor.AsyncIOMotorClient):
             if not entry:
                 entry = await collection.find_one({'UserID': user.id})
             if entry:
+                total_xp = entry.get('total') or 0
                 global_xp = entry.get('global') or 0
                 guilds = entry.get('guilds') or {}
             else:
                 await collection.insert_one({'UserID': user.id})
+                total_xp = entry.get('total') or 0
                 global_xp = 0
                 guilds = {}
             guild_id = str(guild.id)
@@ -109,9 +111,10 @@ class Database(motor.AsyncIOMotorClient):
             if additive:
                 global_xp += points
                 guild_points += points
+                total_xp += points
             guild_data = {guild_id: guild_points}
             guilds.update(guild_data)
-            xp_data = {'global': global_xp, 'guilds': guilds}
+            xp_data = {'global': global_xp, 'guilds': guilds, 'total': total_xp}
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
             await collection.update_one(update_target, update_data)
@@ -147,9 +150,11 @@ class Database(motor.AsyncIOMotorClient):
             if entry:
                 current_amount = entry.get('current') or 0
                 global_amount = entry.get('global') or 0
+                total_amount = entry.get('total') or 0
                 guilds = entry.get('guilds') or {}
             else:
                 await collection.insert_one({'UserID': user.id})
+                total_amount = 0
                 global_amount = 0
                 current_amount = 0
                 guilds = {}
@@ -158,10 +163,11 @@ class Database(motor.AsyncIOMotorClient):
             if additive:
                 global_amount += points
                 guild_points += points
+                total_amount += points
             current_amount += points
             guild_data = {guild_id: guild_points}
             guilds.update(guild_data)
-            xp_data = {'current': current_amount, 'global': int(global_amount), 'guilds': guilds}
+            xp_data = {'current': current_amount, 'global': int(global_amount), 'guilds': guilds, 'total': total_amount}
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
             await collection.update_one(update_target, update_data)
