@@ -20,6 +20,7 @@
 - [SETTINGS](#settings)
 - [STATISTICS](#statistics)
 - [UTILITY](#utility)
+- [VOICE](#voice)
 
 ### DEVELOPMENT
 Commands | Description | Example
@@ -436,4 +437,10 @@ Commands | Description | Example
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data about the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the inputted game. | `>>whoplays Overwatch`
+[Back To Top](#module-index)
+
+### VOICE
+Commands | Description | Example
+----------|-------------|--------
+`>>tmpvoice` `>>tempvoice` | Create a temporary voice channel that will be deleted after a timeout if it is empty. | `>>tmpvoice New Channel Name`
 [Back To Top](#module-index)
