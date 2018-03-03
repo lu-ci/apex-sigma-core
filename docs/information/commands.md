@@ -20,7 +20,6 @@
 - [SETTINGS](#settings)
 - [STATISTICS](#statistics)
 - [UTILITY](#utility)
-- [VOICE](#voice)
 
 ### DEVELOPMENT
 Commands | Description | Example
@@ -81,6 +80,7 @@ Commands | Description | Example
 `>>numberfact` `>>numfact` `>>numf` | Searches for interesting things about a given number. You can also insert a date in the DAY/MON format. You can specify a type of number you want retrived in the format TYPE:NUMBER. The allowed types are trivia, math, date, year. You can also specify "random" instead of a number to make it a random number. | `>>numberfact 42`
 `>>pun` | If you do not know what a pun is... Oh you poor innocent soul. This command will produce a lovely little pun for you. Enjoy the cringe! | `>>pun`
 `>>randomcomicgenerator` `>>rcg` | Uses the Cyanide and Happiness random comic generator for buttloads of fun. Personally the favorite comic command. | `>>randomcomicgenerator`
+`>>realprogrammers` `>>realdevelopers` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | Everyone's favorite character from Parks and Recreation. This command will output a random quote from Ron Swanson. | `>>ronswanson`
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
@@ -437,10 +437,4 @@ Commands | Description | Example
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data about the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the inputted game. | `>>whoplays Overwatch`
-[Back To Top](#module-index)
-
-### VOICE
-Commands | Description | Example
-----------|-------------|--------
-`>>tmpvoice` `>>tempvoice` | Create a temporary voice channel that will be deleted after a timeout if it is empty. | `>>tmpvoice New Channel Name`
 [Back To Top](#module-index)
