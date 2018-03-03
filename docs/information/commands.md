@@ -230,6 +230,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>afk` | Sets you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores messages that start with the command prefix. | `>>afk Sleeping or eating, probably both!`
 `>>choose` | The bot will select a thing from the inputed list. Separate list items with a semicolon and space. | `>>choose Sleep; Eat; Code; Lewd Stuff`
+`>>endraffle` `>>endraf` | Prematurely ends a raffle. Usable only by the raffle's creator. The responses are the same as the redraw command. If an active raffle with the given id is not found, it will be a magnifying glass. If you are not the creator of the raffle, a no entry sign. If no ID is given, an exclamation. | `>>endraffle 1abc9c`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. | `>>httpstatus 404`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created. The location where they are set to execute in. And in what time they execute in. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
