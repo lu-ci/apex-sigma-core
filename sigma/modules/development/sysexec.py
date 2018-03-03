@@ -15,22 +15,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import subprocess
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 
+def from_output(cmd: SigmaCommand, output: bytes) -> str:
+    return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
 
 async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
+    response = None
     if args:
         try:
-            process = subprocess.Popen(args, stdout=subprocess.PIPE)
-            output, error = process.communicate()
-            response = f"```\n{output.decode('utf-8')}\n```"
-            if error:
-                cmd.log.info(f'Error in SysExec: {error}')
-        except Exception:
-            response = 'An error occurred.'
+            process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            await message.add_reaction('✔')
+            response = from_output(cmd, process.stdout)
+        except (OSError, subprocess.SubprocessError) as e:
+            cmd.log.error(e)
+            await message.add_reaction('❗')
     else:
         response = 'No input.'
-    await message.channel.send(response)
+
+    if response:
+        await message.channel.send(response)
