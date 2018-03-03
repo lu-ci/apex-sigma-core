@@ -19,18 +19,24 @@ import asyncio
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.invasion_parser import get_invasion_data, generate_invasion_embed
 
+wfa_loop_running = False
+
 
 async def invasion_clockwork(ev):
-    ev.bot.loop.create_task(invasion_cycler(ev))
+    global wfa_loop_running
+    if not wfa_loop_running:
+        wfa_loop_running = True
+        ev.bot.loop.create_task(invasion_cycler(ev))
 
 
 async def invasion_cycler(ev):
-    while ev.bot.is_ready():
-        try:
-            invasions, triggers = await get_invasion_data(ev.db)
-            if invasions:
-                response = await generate_invasion_embed(invasions)
-                await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
-        except Exception:
-            pass
+    while True:
+        if ev.bot.is_ready():
+            try:
+                invasions, triggers = await get_invasion_data(ev.db)
+                if invasions:
+                    response = await generate_invasion_embed(invasions)
+                    await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
+            except Exception:
+                pass
         await asyncio.sleep(2)

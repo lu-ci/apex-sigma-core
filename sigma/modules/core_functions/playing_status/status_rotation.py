@@ -21,6 +21,7 @@ import secrets
 import discord
 
 status_cache = []
+status_loop_running = False
 
 
 def random_capitalize(text):
@@ -36,32 +37,35 @@ def random_capitalize(text):
 
 
 async def status_rotation(ev):
-    if ev.bot.cfg.pref.status_rotation:
+    global status_loop_running
+    if not status_loop_running:
+        status_loop_running = True
         ev.bot.loop.create_task(status_clockwork(ev))
 
 
 async def status_clockwork(ev):
-    while ev.bot.is_ready():
-        if ev.bot.cfg.pref.status_rotation:
-            if not status_cache:
-                status_files = await ev.db[ev.db.db_cfg.database].StatusFiles.find().to_list(None)
-                for status_file in status_files:
-                    status_text = status_file.get('Text')
-                    status_cache.append(status_text)
-            if status_cache:
-                status = status_cache.pop(secrets.randbelow(len(status_cache)))
-                mode_roll = secrets.randbelow(10)
-                if mode_roll == 0:
-                    hgen = hashlib.new('md5')
-                    hgen.update(status.encode('utf-8'))
-                    digest = hgen.hexdigest()
-                    max_end = abs(len(digest) - 10)
-                    cut = secrets.randbelow(max_end)
-                    cut_text = digest[cut:(cut + 10)]
-                    status = random_capitalize(cut_text)
-                game = discord.Game(name=status)
-                try:
-                    await ev.bot.change_presence(game=game)
-                except discord.ConnectionClosed:
-                    pass
+    while True:
+        if ev.bot.is_ready():
+            if ev.bot.cfg.pref.status_rotation:
+                if not status_cache:
+                    status_files = await ev.db[ev.db.db_cfg.database].StatusFiles.find().to_list(None)
+                    for status_file in status_files:
+                        status_text = status_file.get('Text')
+                        status_cache.append(status_text)
+                if status_cache:
+                    status = status_cache.pop(secrets.randbelow(len(status_cache)))
+                    mode_roll = secrets.randbelow(10)
+                    if mode_roll == 0:
+                        hgen = hashlib.new('md5')
+                        hgen.update(status.encode('utf-8'))
+                        digest = hgen.hexdigest()
+                        max_end = abs(len(digest) - 10)
+                        cut = secrets.randbelow(max_end)
+                        cut_text = digest[cut:(cut + 10)]
+                        status = random_capitalize(cut_text)
+                    game = discord.Game(name=status)
+                    try:
+                        await ev.bot.change_presence(game=game)
+                    except discord.ConnectionClosed:
+                        pass
         await asyncio.sleep(60)

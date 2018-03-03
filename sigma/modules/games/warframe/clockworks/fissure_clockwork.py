@@ -19,18 +19,24 @@ import asyncio
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.fissure_parser import get_fissure_data, generate_fissure_embed
 
+wff_loop_running = False
+
 
 async def fissure_clockwork(ev):
-    ev.bot.loop.create_task(fissure_cycler(ev))
+    global wff_loop_running
+    if not wff_loop_running:
+        wff_loop_running = True
+        ev.bot.loop.create_task(fissure_cycler(ev))
 
 
 async def fissure_cycler(ev):
-    while ev.bot.is_ready():
-        try:
-            fissures = await get_fissure_data(ev.db)
-            if fissures:
-                response = generate_fissure_embed(fissures)
-                await send_to_channels(ev, response, 'WarframeFissureChannel')
-        except Exception:
-            pass
+    while True:
+        if ev.bot.is_ready():
+            try:
+                fissures = await get_fissure_data(ev.db)
+                if fissures:
+                    response = generate_fissure_embed(fissures)
+                    await send_to_channels(ev, response, 'WarframeFissureChannel')
+            except Exception:
+                pass
         await asyncio.sleep(2)
