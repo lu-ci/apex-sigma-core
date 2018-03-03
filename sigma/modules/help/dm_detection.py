@@ -14,10 +14,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import discord
+
 
 def log_dm(ev, message):
     author_text = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
     ev.log.info(f'DM From {author_text}: {message.content}')
+
+
+async def has_invite(ev, arguments):
+    invite_found = False
+    for arg in arguments:
+        triggers = ['.gg', '.com', 'http']
+        for trigger in triggers:
+            if trigger in arg:
+                try:
+                    await ev.bot.get_invite(arg)
+                    invite_found = True
+                    break
+                except discord.NotFound:
+                    pass
+    return invite_found
 
 
 async def dm_detection(ev, message):
@@ -25,7 +42,12 @@ async def dm_detection(ev, message):
         if not message.author.bot:
             pfx = await ev.db.get_prefix(message)
             if not message.content.startswith(pfx):
-                log_dm(ev, message)
+                if await has_invite(ev, message.content.split()):
+                    command = 'invite'
+                    await ev.bot.modules.commands['invite'].execute(message, [])
+                else:
+                    log_dm(ev, message)
+                    command = 'help'
                 if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):
-                    await ev.bot.modules.commands['help'].execute(message, [])
-                    await ev.bot.cool_down.set_cooldown(ev.name, message.author, 30)
+                    await ev.bot.modules.commands[command].execute(message, [])
+                await ev.bot.cool_down.set_cooldown(ev.name, message.author, 30)
