@@ -68,7 +68,7 @@ class SigmaCommand(object):
             'created': str(usr.created_at),
             'discriminator': usr.discriminator,
             'display_name': usr.display_name,
-            'game': (usr.game.name if usr.game else None) if isinstance(usr, discord.Member) else None,
+            'game': (usr.activity.name if usr.activity else None) if isinstance(usr, discord.Member) else None,
             'id': usr.id,
             'name': usr.name,
             'status': str(usr.status) if isinstance(usr, discord.Member) else None

@@ -63,9 +63,9 @@ async def status_clockwork(ev):
                         cut = secrets.randbelow(max_end)
                         cut_text = digest[cut:(cut + 10)]
                         status = random_capitalize(cut_text)
-                    game = discord.Game(name=status)
+                    activity = discord.Activity(name=status, type=discord.ActivityType.playing)
                     try:
-                        await ev.bot.change_presence(game=game)
+                        await ev.bot.change_presence(activity=activity)
                     except discord.ConnectionClosed:
                         pass
         await asyncio.sleep(60)

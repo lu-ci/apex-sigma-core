@@ -28,9 +28,9 @@ async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
         x = 0
         y = 0
         for member in message.guild.members:
-            if member.game:
+            if member.activity:
                 x += 1
-                if str(member.game).lower() == game_title.lower():
+                if str(member.activity).lower() == game_title.lower():
                     y += 1
                     gamer_list += member.name + ', '
         gamer_list = gamer_list[:-2]

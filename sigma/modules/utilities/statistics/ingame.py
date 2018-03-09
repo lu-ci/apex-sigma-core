@@ -33,8 +33,8 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
         if status != 'offline':
             online_count += 1
         if not member.bot:
-            if member.game:
-                game_name = str(member.game)
+            if member.activity:
+                game_name = str(member.activity)
                 repl_name = game_name.replace(' ', '')
                 if repl_name != '':
                     playing_count += 1
