@@ -25,33 +25,33 @@ from .logger import create_logger
 class DiscordConfig(object):
     def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data
-        self.token = client_cfg_data.get('token')
-        self.owners = client_cfg_data.get('owners')
-        self.bot = client_cfg_data.get('bot')
+        self.token = client_cfg_data.get('token') or 'You got no token, son!'
+        self.owners = client_cfg_data.get('owners') or [137951917644054529]
+        self.bot = client_cfg_data.get('bot') or True
 
 
 class DatabaseConfig(object):
     def __init__(self, db_cfg_data: dict):
         self.raw = db_cfg_data
-        self.database = db_cfg_data.get('database')
-        self.auth = db_cfg_data.get('auth')
-        self.host = db_cfg_data.get('host')
-        self.port = db_cfg_data.get('port')
-        self.username = db_cfg_data.get('username')
-        self.password = db_cfg_data.get('password')
+        self.database = db_cfg_data.get('database') or 'sigma'
+        self.auth = db_cfg_data.get('auth') or False
+        self.host = db_cfg_data.get('host') or '127.0.0.1'
+        self.port = db_cfg_data.get('port') or 27017
+        self.username = db_cfg_data.get('username') or 'user'
+        self.password = db_cfg_data.get('password') or 'pass'
 
 
 class PreferencesConfig(object):
     def __init__(self, pref_cfg_data: dict):
         self.raw = pref_cfg_data
-        self.dev_mode = pref_cfg_data.get('dev_mode')
-        self.status_rotation = pref_cfg_data.get('status_rotation')
-        self.prefix = pref_cfg_data.get('prefix')
-        self.currency = pref_cfg_data.get('currency')
-        self.currency_icon = pref_cfg_data.get('currency_icon')
-        self.website = pref_cfg_data.get('website')
-        self.text_only = pref_cfg_data.get('text_only')
-        self.music_only = pref_cfg_data.get('music_only')
+        self.dev_mode = pref_cfg_data.get('dev_mode') or False
+        self.status_rotation = pref_cfg_data.get('status_rotation') or True
+        self.prefix = pref_cfg_data.get('prefix') or '>>'
+        self.currency = pref_cfg_data.get('currency') or 'Kud'
+        self.currency_icon = pref_cfg_data.get('currency_icon') or '⚜'
+        self.website = pref_cfg_data.get('website') or 'https://lucia.moe/#/sigma'
+        self.text_only = pref_cfg_data.get('text_only') or False
+        self.music_only = pref_cfg_data.get('music_only') or False
         self.dscbots_token = pref_cfg_data.get('dscbots_token')
         self.movelog_channel = pref_cfg_data.get('movelog_channel')
 
