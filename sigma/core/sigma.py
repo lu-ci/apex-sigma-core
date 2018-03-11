@@ -188,7 +188,6 @@ class ApexSigma(client_class):
     async def on_guild_update(self, before: discord.Guild, after: discord.Guild):
         self.loop.create_task(self.queue.event_runner('guild_update', before, after))
 
-    async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
-                                    after: discord.VoiceState):
+    async def on_voice_state_update(self, member: discord.Member, b: discord.VoiceState, a: discord.VoiceState):
         if not member.bot:
-            self.loop.create_task(self.queue.event_runner('voice_state_update', member, before, after))
+            self.loop.create_task(self.queue.event_runner('voice_state_update', member, b, a))
