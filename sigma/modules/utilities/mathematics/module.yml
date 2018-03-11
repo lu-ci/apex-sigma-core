@@ -105,3 +105,8 @@ commands:
       Shows the current time in UTC.
       You can specify a time zone as well.
       If you wish to convert time, use the timeconvert command.
+
+events:
+  - name: collector_clockwork
+    type: ready
+    enabled: true

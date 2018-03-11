@@ -14,114 +14,39 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import arrow
+
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-
-in_use = False
-in_use_by = None
+from .collector_clockwork import check_queued, get_target, get_channel, get_queue_size, add_to_queue
 
 
-def check_for_bot_prefixes(prefix, text):
-    common_pfx = [prefix, '!', '/', '\\', '~', '.', '>', '-', '_', '?']
-    prefixed = False
-    for pfx in common_pfx:
-        if text.startswith(pfx):
-            prefixed = True
-            break
-    return prefixed
+class CollectorItem(object):
+    def __init__(self, ath, usr, chn):
+        self.ath = ath
+        self.usr = usr
+        self.chn = chn
 
 
-# noinspection PyBroadException
 async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
-    global in_use
-    global in_use_by
-    if in_use:
-        response = discord.Embed(color=0x696969, title='🛠 Currently in use. Try Again Later.')
-        response.set_author(name=f'{in_use_by.name}', icon_url=user_avatar(in_use_by))
-        await message.channel.send(None, embed=response)
-    else:
-        if message.mentions:
-            target = message.mentions[0]
+    target_usr = get_target(message)
+    starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
+    ender = 'your' if message.author.id == target_usr.id else 'their'
+    if not check_queued(target_usr.id):
+        target_chn = get_channel(message)
+        if not target_usr.bot:
+            cltr_itm = CollectorItem(message.author, target_usr, target_chn)
+            await add_to_queue(cltr_itm)
+            qsize = get_queue_size()
+            title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
+            response = discord.Embed(color=0x66CC66)
+            response.set_author(name=title, icon_url=user_avatar(target_usr))
         else:
-            if args:
-                target = discord.utils.find(lambda x: x.name.lower() == ' '.join(args).lower(), message.guild.members)
+            if target_usr.id == cmd.bot.user.id:
+                response = discord.Embed(color=0xBE1931, title='❗ My chains are not interesting, trust me.')
             else:
-                target = message.author
-        if target:
-            if not target.bot:
-                start_time = arrow.utcnow().timestamp
-                if message.channel_mentions:
-                    target_chn = message.channel_mentions[0]
-                else:
-                    target_chn = message.channel
-                collected = 0
-                collection = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
-                if collection:
-                    collection = collection['Chain']
-                else:
-                    collection = []
-                in_use = True
-                in_use_by = message.author
-                ch_response = discord.Embed(color=0x66CC66,
-                                            title='📖 Collecting... You will be sent a DM when I\'m done.')
-                await message.channel.send(None, embed=ch_response)
-                try:
-                    async for log in target_chn.history(limit=100000):
-                        if log.author.id == target.id:
-                            if log.content:
-                                if log.content != '':
-                                    if len(log.content) > 3:
-                                        pfx = await cmd.db.get_prefix(message)
-                                        if not check_for_bot_prefixes(pfx, log.content):
-                                            if 'http' not in log.content and '```' not in log.content:
-                                                if '"' not in log.content:
-                                                    content = log.content
-                                                    if log.mentions:
-                                                        for mention in log.mentions:
-                                                            content = content.replace(mention.mention, mention.name)
-                                                    if log.channel_mentions:
-                                                        for mention in log.channel_mentions:
-                                                            content = content.replace(mention.mention, mention.name)
-                                                    unallowed_chars = ['`', '\n', '\\', '\\n']
-                                                    for char in unallowed_chars:
-                                                        content = content.replace(char, '')
-                                                    if len(content) > 12:
-                                                        if not content.endswith(('.' or '?' or '!')):
-                                                            content += '.'
-                                                    if content not in collection:
-                                                        collection.append(content)
-                                                        collected += 1
-                                                        if collected >= 5000:
-                                                            break
-                except Exception:
-                    pass
-                await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].delete_one({'UserID': target.id})
-                data = {
-                    'UserID': target.id,
-                    'Chain': collection
-                }
-                await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].insert_one(data)
-                in_use = False
-                in_use_by = None
-                dm_response = discord.Embed(color=0x66CC66, title=f'📖 {target.name}\'s chain is done!')
-                dm_response.add_field(name='Amount Collected', value=f'```\n{collected}\n```')
-                dm_response.add_field(name='Total Amount', value=f'```\n{len(collection)}\n```')
-                dm_response.add_field(name='Time Elapsed', value=f'```\n{arrow.utcnow().timestamp - start_time}s\n```')
-                try:
-                    await message.author.send(None, embed=dm_response)
-                except discord.Forbidden:
-                    pass
-                await message.channel.send(None, embed=dm_response)
-                if message.author.id != target.id:
-                    tgt_msg = discord.Embed(color=0x66CC66,
-                                            title=f'📖 {message.author.name} has made a markov chain for you.')
-                    try:
-                        await target.send(None, embed=tgt_msg)
-                    except discord.Forbidden:
-                        pass
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ Nope, no bot chains allowed.')
-                await message.channel.send(embed=response)
+                response = discord.Embed(color=0xBE1931, title='❗ I refuse to collect a chain for a bot.')
+    else:
+        response = discord.Embed(color=0xBE1931, title=f'❗ {starter} already in the collection queue.')
+    await message.channel.send(embed=response)
