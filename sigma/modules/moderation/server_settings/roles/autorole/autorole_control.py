@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+import asyncio
 
 
 async def autorole_control(ev, member):
@@ -22,4 +23,7 @@ async def autorole_control(ev, member):
     if curr_role_id:
         curr_role = discord.utils.find(lambda x: x.id == curr_role_id, member.guild.roles)
         if curr_role:
+            timeout = await ev.db.get_guild_settings(member.guild.id, 'AutoroleTimeout')
+            if timeout:
+                await asyncio.sleep(timeout)
             await member.add_roles(curr_role, reason='Appointed guild autorole.')

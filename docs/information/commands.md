@@ -336,6 +336,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>addselfrole` `>>addrank` `>>asr` | Sets a role as self assignable. Roles that are self assignable, any user can assign to themselves. To assign a self assignbale role to yourself, use the togglerole command. | `>>addselfrole Cheese Lover`
 `>>autorole` `>>autorank` | Sets which role should be given to joining members. When a new user enters the server, this role will be assigned to them. The role can not be something that is above the bot's highest role. If you want to disable the autorole, input "disable" as the role name. | `>>autorole Newcomer`
+`>>autoroletimeout` `>>arltimeout` `>>arlt` | Sets the number of seconds the bot should wait before assigning the set auto-role. To disable the timeout, simply input 0 as the timeout, nothing special. | `>>autoroletimeout 600`
 `>>bindinvite` `>>bindinvs` `>>binvite` `>>binv` | Binds an invite to a role. When a member joins using that invite the stated role will be given to them. | `>>bindinvite aEUCHwX Cheese Lovers`
 `>>boundinvites` `>>boundinvs` `>>binvites` `>>binvs` | Lists all the invites that are bound and what they are bound to. | `>>boundinvites`
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
