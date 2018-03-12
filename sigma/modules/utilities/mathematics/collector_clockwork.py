@@ -76,7 +76,7 @@ def check_for_bad_content(text):
 def clean_bad_chars(text):
     unallowed_chars = ['`', '\n', '\\', '\\n']
     for char in unallowed_chars:
-        content = text.replace(char, '')
+        text = text.replace(char, '')
     return text
 
 
