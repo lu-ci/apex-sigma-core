@@ -40,7 +40,7 @@ async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list
                     counter += 1
             response = discord.Embed(color=role_search.color)
             response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
-            response.add_field(name=f'{role_search.name} Population', value=f'```[y\n{counter}\n```')
+            response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 {rl_qry} not found.')
     else:
