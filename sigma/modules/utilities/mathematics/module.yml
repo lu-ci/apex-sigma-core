@@ -30,11 +30,34 @@ commands:
       sha256, MD5, blake2s, md5, sha3_256, whirlpool
 
   - name:         collectchain
+    alts:
+      - "collch"
     enabled:      true
     usage:        "{pfx}{cmd} @person #channel"
     description:
       Collects messages sent by the mentioned user and saves it as a chain.
       Only one person can use the command at the time due to the processing load it takes.
+
+  - name:         blockcollector
+    alts:
+      - "nochain"
+      - "nocollector"
+      - "disablechain"
+      - "disablecollector"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles the ability for other users to collect a chain for you.
+      If active, only you will be able to collect a markov chain for yourself.
+      If not, the collector works as always, where anybody can start a chain collection for you.
+
+  - name:         markovchain
+    alts:
+      - "chain"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows how many items you have in your chain, or the targetted users'.
 
   - name:         wipechain
     alts:
