@@ -29,7 +29,7 @@ Commands | Description | Example
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>destroycurrency` `>>destroykud` `>>descurr` `>>deskud` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroycurrency 150 @person`
-`>>destroyitem` `>>desitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
+`>>destroyitem` `>>desitem` | Destroys the item with the given ID. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. You should never use this unless you are certain of what you are doing. (Bot Owner Only) | `>>evaluate print('hello world')`
 `>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
