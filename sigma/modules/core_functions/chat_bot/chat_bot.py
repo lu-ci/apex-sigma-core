@@ -70,21 +70,19 @@ async def chat_bot(ev, message):
             init_chatterbot(ev)
         args = message.content.split(' ')
         if len(args) > 1:
-            if args[1].lower() not in ev.bot.modules.alts:
-                if args[1].lower() not in ev.bot.modules.commands:
-                    if message.guild:
-                        active = await ev.db.get_guild_settings(message.guild.id, 'ChatterBot')
-                        if active:
-                            mention = f'<@{ev.bot.user.id}>'
-                            mention_alt = f'<@!{ev.bot.user.id}>'
-                            if message.content.startswith(mention) or message.content.startswith(mention_alt):
-                                interaction = ' '.join(args[1:])
-                                if interaction:
-                                    task = functools.partial(cb.get_response, interaction)
-                                    with ThreadPoolExecutor() as threads:
-                                        cb_resp = await ev.bot.loop.run_in_executor(threads, task)
-                                    cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
-                                    response = f'{message.author.mention} {cb_resp}'
-                                    await message.channel.send(response)
+            if message.guild:
+                active = await ev.db.get_guild_settings(message.guild.id, 'ChatterBot')
+                if active:
+                    mention = f'<@{ev.bot.user.id}>'
+                    mention_alt = f'<@!{ev.bot.user.id}>'
+                    if message.content.startswith(mention) or message.content.startswith(mention_alt):
+                        interaction = ' '.join(args[1:])
+                        if interaction:
+                            task = functools.partial(cb.get_response, interaction)
+                            with ThreadPoolExecutor() as threads:
+                                cb_resp = await ev.bot.loop.run_in_executor(threads, task)
+                            cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
+                            response = f'{message.author.mention} {cb_resp}'
+                            await message.channel.send(response)
     except IndexError:
         pass
