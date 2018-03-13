@@ -26,7 +26,8 @@ async def markovchain(cmd: SigmaCommand, message: discord.Message, args: list):
     if collection:
         chain = collection.get('Chain')
         starter = 'You have' if target.id == message.author.id else f'{target.name} has'
-        response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} {len(chain)} items in their chain.')
+        ender = 'your' if target.id == message.author.id else 'their'
+        response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} {len(chain)} items in {ender} chain.')
     else:
         starter = 'You don\'t have' if target.id == message.author.id else f'{target.name} doesn\'t have'
         response = discord.Embed(color=0x696969, title=f'🔍 {starter} a collected chain.')
