@@ -54,12 +54,12 @@ dBase:
   - "You squeeze the trigger, but someone corrupted the index and the bullet shoots you in the eye."
   - "You squeeze the trigger, but the bullet moves so slowly that by the time your foot feels the pain you've forgotten why you shot yourself anyway."
 DCL:
-  - "$ MOUNT/DENSITY=.45/LABEL=BULLET/MESSAGE='BYE' BULLET::BULLET$GUN SYS$BULLET\n
+  - "```dcl\n$ MOUNT/DENSITY=.45/LABEL=BULLET/MESSAGE='BYE' BULLET::BULLET$GUN SYS$BULLET\n
     $ SET GUN/LOAD/SAFETY=OFF/SIGHT=NONE/HAND=LEFT/CHAMBER=1/ACTION=AUTOMATIC/LOG/ALL/GULL SYS$GUN_3$DUA3:[000000] GUN.GUN\n
     $ SHOOT/LOG/AUTO SYS$GUN SYS$SYSTEM:[FOOT] FOOT.FOOT\n
     %DCL-W-ACTIMAGE, error activating image GUN\n
     -CLI-E-IMGNAME image file $3$DUA240:[GUN] GUN.EXE;1\n
-    -IMGACT-F-NOTNATIVE, image is not an OpenVMS Alpha AXP image"
+    -IMGACT-F-NOTNATIVE, image is not an OpenVMS Alpha AXP image\n```"
 Delphi:
   - "You try to shoot yourself in the foot but discover that the bullets you already had are not compatible with the new gun version, but Borland promises a fix real soon now."
 Eiffel:
