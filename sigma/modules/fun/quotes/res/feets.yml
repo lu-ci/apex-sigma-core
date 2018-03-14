@@ -91,7 +91,7 @@ Java:
 JavaScript:
   - "You find that Microsoft and Sun have released incompatible class libraries both implementing Gun objects. You then find that although there are plenty of Foot objects implemented in the past in many other languages, you cannot get access to one. But, seeing as JavaScript is so cool, you don't care and go around shooting anything else you can find."
 LaTeX:
-  - "compy$ more foot_shooting.tex\n
+  - "```tex\ncompy$ more foot_shooting.tex\n
   \\documentclass[12pt]{article}\n
   \\usepackage{latexgun,latexshoot}\n
   \\begin{document}\n
@@ -101,7 +101,7 @@ LaTeX:
   \\end{document}\n
   compy$ latex foot_shooting\n
   ...\n
-  line 6: undefined control sequence \\pain"
+  line 6: undefined control sequence \\pain\n```"
 Lisp:
   - "You shoot yourself in the appendage which holds the gun with which you shoot yourself in the appendage which holds the gun with which you shoot yourself in the appendage which holds the gun with which you shoot..."
   - "You attempt to shoot yourself in the foot, but the gun jams on a stray parenthesis."
@@ -191,12 +191,12 @@ SNOBOL:
 SQL:
   - "You cut your foot off, send it out to a service bureau, and when it returns it has a hole in it, but it will no longer fit the attachment at the end of your leg."
 UNIX:
-  - "% ls\n
+  - "```sh\n% ls\n
   foot.c foot.h foot.o toe.c toe.o\n
   % rm * .o\n
   rm: .o: No such file or directory\n
   % ls\n
-  %"
+  %\n```"
 Visual Basic:
   - "You'll only appear to have shot yourself in the foot, but you'll have so much fun doing it you won't care."
   - "You do a Google search on how to shoot yourself in the foot using Visual Basic. You find seventeen completely different ways to do it, none of which are properly structured. You paste the first example into the IDE and compile. It brushes your teeth."
