@@ -49,7 +49,7 @@ class ExecutionClockwork(object):
             cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
             command = self.bot.modules.commands.get(cmd)
             if command:
-                if self.bot.cfg.pref.text_only:
+                if self.bot.cfg.pref.text_only and command.category == 'music':
                     music_disabled = 'Music has been temporarily disabled and will return'
                     music_disabled += ' once development on the new music core is finished.'
                     music_disabled += ' This is aimed to be in April.'
