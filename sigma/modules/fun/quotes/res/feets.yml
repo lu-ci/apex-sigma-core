@@ -176,7 +176,7 @@ SNOBOL:
 SQL:
   - "You cut your foot off, send it out to a service bureau, and when it returns it has a hole in it, but it will no longer fit the attachment at the end of your leg."
 UNIX:
-  - "```sh\n% ls\nfoot.c foot.h foot.o toe.c toe.o\n% rm * .o\nrm: .o: No such file or directory\n% ls\n%\n```"
+  - "```sh\nls\nfoot.c foot.h foot.o toe.c toe.o\nrm * .o\nrm: .o: No such file or directory\nls\n...\n```"
 Visual Basic:
   - "You'll only appear to have shot yourself in the foot, but you'll have so much fun doing it you won't care."
   - "You do a Google search on how to shoot yourself in the foot using Visual Basic. You find seventeen completely different ways to do it, none of which are properly structured. You paste the first example into the IDE and compile. It brushes your teeth."
