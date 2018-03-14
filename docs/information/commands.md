@@ -83,6 +83,7 @@ Commands | Description | Example
 `>>realprogrammers` `>>realdevelopers` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | Everyone's favorite character from Parks and Recreation. This command will output a random quote from Ron Swanson. | `>>ronswanson`
+`>>shootfoot` `>>sf` | Tells you how to shoot yourself in the foot with the given programming language. If no language is provided, it will pick a random one. | `>>shootfoot Python`
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays it's source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
