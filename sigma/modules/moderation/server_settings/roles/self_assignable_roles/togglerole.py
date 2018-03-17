@@ -37,11 +37,11 @@ async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
                     user_role_match = discord.utils.find(lambda x: match_role(x, target_role), message.author.roles)
                     if not user_role_match:
                         await message.author.add_roles(target_role, reason='Role self assigned.')
-                        addition_title = f'✅ {target_role.name} has been **added** to you.'
+                        addition_title = f'✅ {target_role.name} has been added to you, {message.author.name}.'
                         response = discord.Embed(color=0x77B255, title=addition_title)
                     else:
                         await message.author.remove_roles(target_role, reason='Role self assigned.')
-                        removal_title = f'💣 {target_role.name} has been **removed** from you.'
+                        removal_title = f'💣 {target_role.name} has been removed from you, {message.author.name}'
                         response = discord.Embed(color=0x262626, title=removal_title)
                 else:
                     role_hierarchy_error = '❗ This role is above my highest role. I can not manage it.'
