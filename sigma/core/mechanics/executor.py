@@ -41,33 +41,22 @@ class ExecutionClockwork(object):
             cmd = args.pop(0)[len(pfx):].lower()
         return cmd, args
 
-    def clean_self_mentions(self, message: discord.Message):
-        for mention in message.mentions:
-            if mention.id == self.bot.user.id:
-                message.mentions.remove(mention)
-                break
-
     async def command_runner(self, message: discord.Message):
         prefix = await self.bot.db.get_prefix(message)
         if message.content.startswith(prefix):
             args = message.content.split(' ')
             cmd, args = await self.get_cmd_and_args(message, args)
-        elif message.content.startswith(self.bot.user.mention):
-            args = message.content.split(' ')[1:]
-            self.clean_self_mentions(message)
-            cmd, args = await self.get_cmd_and_args(message, args, mention=True)
-        elif message.content.startswith(f'<@!{self.bot.user.id}>'):
-            args = message.content.split(' ')[1:]
-            cmd, args = await self.get_cmd_and_args(message, args, mention=True)
-        else:
-            cmd = None
-            args = []
-        if cmd:
             cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
             command = self.bot.modules.commands.get(cmd)
             if command:
-                task = command, message, args
-                await self.queue.put(task)
+                if self.bot.cfg.pref.text_only and command.category == 'music':
+                    music_disabled = 'Music has been temporarily disabled and will return'
+                    music_disabled += ' once development on the new music core is finished.'
+                    music_disabled += ' This is aimed to be in April.'
+                    await message.channel.send(music_disabled)
+                else:
+                    task = command, message, args
+                    await self.queue.put(task)
 
     async def event_runner(self, event_name: str, *args):
         if self.bot.ready:
