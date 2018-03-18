@@ -41,7 +41,7 @@ async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list
             slug = chosen_curr['slug']
             currency_id = chosen_curr['id']
             currency_url = f'https://api.coinmarketcap.com/v1/ticker/{slug}/?convert=EUR'
-            curr_img = f'https://files.coinmarketcap.com/static/img/coins/128x128/{currency_id}.png'
+            curr_img = f'https://s2.coinmarketcap.com/static/img/coins/32x32/{currency_id}.png'
             curr_page_url = f'https://coinmarketcap.com/currencies/{slug}/'
             async with aiohttp.ClientSession() as session:
                 async with session.get(currency_url) as currency_session:
@@ -56,6 +56,7 @@ async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list
             change_text = f'Last Hour: **{curr_data["percent_change_1h"]}%**'
             change_text += f'\nLast Day: **{curr_data["percent_change_24h"]}%**'
             change_text += f'\nLast Week: **{curr_data["percent_change_7d"]}%**'
+            print(curr_img)
             img_color = await get_image_colors(curr_img)
             humantime = arrow.get(curr_data['last_updated']).humanize()
             response = discord.Embed(color=img_color, timestamp=arrow.get(curr_data['last_updated']).datetime)
