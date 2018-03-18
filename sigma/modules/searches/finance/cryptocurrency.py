@@ -27,7 +27,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ' '.join(args).lower()
-        quick_search_url = 'https://files.coinmarketcap.com/generated/search/quick_search.json'
+        quick_search_url = 'https://s2.coinmarketcap.com/generated/search/quick_search.json'
         async with aiohttp.ClientSession() as session:
             async with session.get(quick_search_url) as qs_session:
                 search_data = await qs_session.read()
