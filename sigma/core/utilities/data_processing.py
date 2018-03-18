@@ -242,7 +242,7 @@ async def get_image_colors(img_url: str):
                                 mean.append(color_mean)
                 mean = sorted(mean, reverse=True)
             dominant = mean[0][1]
-            cached_color.update({img_url: dominant})
+            color_cache.update({img_url: dominant})
         else:
             dominant = cached_color
     else:
