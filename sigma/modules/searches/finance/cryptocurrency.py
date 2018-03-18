@@ -56,7 +56,6 @@ async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list
             change_text = f'Last Hour: **{curr_data["percent_change_1h"]}%**'
             change_text += f'\nLast Day: **{curr_data["percent_change_24h"]}%**'
             change_text += f'\nLast Week: **{curr_data["percent_change_7d"]}%**'
-            print(curr_img)
             img_color = await get_image_colors(curr_img)
             humantime = arrow.get(curr_data['last_updated']).humanize()
             response = discord.Embed(color=img_color, timestamp=arrow.get(curr_data['last_updated']).datetime)
