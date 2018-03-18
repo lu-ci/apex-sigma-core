@@ -14,16 +14,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import discord
-import asyncio
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
-async def autorole_control(ev, member):
-    curr_role_id = await ev.db.get_guild_settings(member.guild.id, 'AutoRole')
-    if curr_role_id:
-        curr_role = discord.utils.find(lambda x: x.id == curr_role_id, member.guild.roles)
-        if curr_role:
-            timeout = await ev.db.get_guild_settings(member.guild.id, 'AutoroleTimeout')
-            if timeout:
-                await asyncio.sleep(timeout)
-            await member.add_roles(curr_role, reason='Appointed guild autorole.')
+async def blockcollector(cmd: SigmaCommand, message: discord.Message, args: list):
+    block_data = {'UserID': message.author.id}
+    block_coll = cmd.db[cmd.db.db_cfg.database].BlockedChains
+    block_file = await block_coll.find_one(block_data)
+    if not block_file:
+        await block_coll.insert_one(block_data)
+        response_title = '✅ Other users are no longer able to collect a chain for you.'
+    else:
+        await block_coll.delete_one(block_data)
+        response_title = '✅ Other users can once again collect a chain for you.'
+    response = discord.Embed(color=0x66CC66, title=response_title)
+    await message.channel.send(embed=response)

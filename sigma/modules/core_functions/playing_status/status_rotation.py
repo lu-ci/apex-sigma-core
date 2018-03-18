@@ -65,7 +65,10 @@ async def status_clockwork(ev):
                         status = random_capitalize(cut_text)
                     activity = discord.Activity(name=status, type=discord.ActivityType.playing)
                     try:
-                        await ev.bot.change_presence(activity=activity)
+                        if ev.bot.cfg.pref.dev_mode:
+                            await ev.bot.change_presence(activity=activity, status=discord.Status.dnd)
+                        else:
+                            await ev.bot.change_presence(activity=activity)
                     except discord.ConnectionClosed:
                         pass
         await asyncio.sleep(60)

@@ -40,9 +40,10 @@ class SigmaCommand(object):
         self.command = command
         self.plugin_info = plugin_info
         self.command_info = command_info
-        self.name = self.command_info['name']
-        self.path = self.command_info['path']
-        self.category = self.plugin_info['category']
+        self.name = self.command_info.get('name')
+        self.path = self.command_info.get('path')
+        self.category = self.plugin_info.get('category')
+        self.subcategory = self.plugin_info.get('subcategory')
         self.log = create_logger(self.name.upper())
         self.nsfw = False
         self.cfg = {}
@@ -175,13 +176,6 @@ class SigmaCommand(object):
             log_text += f' | ARGS: {" ".join(args)}'
         self.log.info(log_text)
 
-    def log_unpermitted(self, perms: GlobalCommandPermissions):
-        log_text = f'ACCESS DENIED | '
-        log_text += f'BUSR: {perms.black_user} | MDL: {perms.module_denied} | BSRV: {perms.black_srv} | '
-        log_text += f'OWNR: {perms.owner_denied} | DM: {perms.dm_denied} | NSFW: {perms.nsfw_denied} | '
-        log_text += f'VIP: {perms.partner_denied}'
-        self.log.warning(log_text)
-
     async def add_usage_exp(self, message: discord.Message):
         if message.guild:
             if not await self.bot.cool_down.on_cooldown('UsageExperience', message.author):
@@ -307,7 +301,7 @@ class SigmaCommand(object):
                         self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
                         await self.respond_with_icon(message, '⛔')
                 else:
-                    self.log_unpermitted(perms)
+                    perms.log_unpermitted()
                     await self.respond_with_icon(message, '⛔')
                     if perms.response:
                         try:

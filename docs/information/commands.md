@@ -29,7 +29,7 @@ Commands | Description | Example
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>destroycurrency` `>>destroykud` `>>descurr` `>>deskud` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroycurrency 150 @person`
-`>>destroyitem` `>>desitem` | Takes away the inputted amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
+`>>destroyitem` `>>desitem` | Destroys the item with the given ID. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>evaluate` `>>eval` `>>py` `>>python` `>>code` `>>exec` | Executes raw python code. This should be used with caution. You should never use this unless you are certain of what you are doing. (Bot Owner Only) | `>>evaluate print('hello world')`
 `>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the inputted amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
@@ -83,6 +83,7 @@ Commands | Description | Example
 `>>realprogrammers` `>>realdevelopers` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | Everyone's favorite character from Parks and Recreation. This command will output a random quote from Ron Swanson. | `>>ronswanson`
+`>>shootfoot` `>>sf` | Tells you how to shoot yourself in the foot with the given programming language. If no language is provided, it will pick a random one. | `>>shootfoot Python`
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays it's source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
@@ -177,7 +178,8 @@ Commands | Description | Example
 ### MATHEMATICS
 Commands | Description | Example
 ----------|-------------|--------
-`>>collectchain` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person #channel`
+`>>blockcollector` `>>nochain` `>>nocollector` `>>disablechain` `>>disablecollector` | Toggles the ability for other users to collect a chain for you. If active, only you will be able to collect a markov chain for yourself. If not, the collector works as always, where anybody can start a chain collection for you. | `>>blockcollector`
+`>>collectchain` `>>collch` | Collects messages sent by the mentioned user and saves it as a chain. Only one person can use the command at the time due to the processing load it takes. | `>>collectchain @person #channel`
 `>>combinechains` `>>combine` `>>cmbch` `>>mix` | Like the impersonate command. This one however targets two uers and uses their chains to generated a mixed response. | `>>combinechains @target_one @target_two`
 `>>currenttime` `>>time` | Shows the current time in UTC. You can specify a time zone as well. If you wish to convert time, use the timeconvert command. | `>>currenttime PDT`
 `>>decrypt` | Decrypts any message that was encrypted using the Sigma Heart Key. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>decrypt H7U2JfWkr0zCApDPDkO`
@@ -185,6 +187,7 @@ Commands | Description | Example
 `>>encrypt` | Encrypts the message of your choice using the Sigma Heart Key. The message can be decrypted using the decrypt command. You can add ":t" at the end to force it to be raw text instead of an embed. | `>>encrypt I will always be here to talk to you for as long as you want.`
 `>>impersonate` `>>mimic` | Tries to impersonate the mentioned user if a chain file for them exists. This command is on a 20 second cooldown due to it's weight. | `>>impersonate @person`
 `>>makehash` `>>hash` | Creates a hash using the inputed has type. These are all the hash types you can use. sha512, sha3_224, sha3_512, MD4, dsaWithSHA, ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1, sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA, SHA384, blake2b, dsaEncryption, SHA256, sha384, sha, DSA, shake_128, sha224, SHA1, shake_256, sha256, MD5, blake2s, md5, sha3_256, whirlpool | `>>makehash md5 Nabzie is best tree.`
+`>>markovchain` `>>chain` | Shows how many items you have in your chain, or the targetted users'. | `>>markovchain @person`
 `>>timeconvert` `>>tconv` | Converts the given time in the given time zone to the inputted time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` `>>clearchain` | It wipes your entire Markov chain, if you have one. | `>>wipechain`
 `>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operations. | `>>wolframalpha 69+42`
@@ -336,6 +339,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>addselfrole` `>>addrank` `>>asr` | Sets a role as self assignable. Roles that are self assignable, any user can assign to themselves. To assign a self assignbale role to yourself, use the togglerole command. | `>>addselfrole Cheese Lover`
 `>>autorole` `>>autorank` | Sets which role should be given to joining members. When a new user enters the server, this role will be assigned to them. The role can not be something that is above the bot's highest role. If you want to disable the autorole, input "disable" as the role name. | `>>autorole Newcomer`
+`>>autoroletimeout` `>>arltimeout` `>>arlt` | Sets the number of seconds the bot should wait before assigning the set auto-role. To disable the timeout, simply input 0 as the timeout, nothing special. | `>>autoroletimeout 600`
 `>>bindinvite` `>>bindinvs` `>>binvite` `>>binv` | Binds an invite to a role. When a member joins using that invite the stated role will be given to them. | `>>bindinvite aEUCHwX Cheese Lovers`
 `>>boundinvites` `>>boundinvs` `>>binvites` `>>binvs` | Lists all the invites that are bound and what they are bound to. | `>>boundinvites`
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
