@@ -18,16 +18,6 @@ commands:
       The role can not be something that is above the bot's highest role.
       If you want to disable the autorole, input "disable" as the role name.
 
-  - name:         autoroletimeout
-    alts:
-      - "arltimeout"
-      - "arlt"
-    enabled:      true
-    usage:        "{pfx}{cmd} 600"
-    description:
-      Sets the number of seconds the bot should wait before assigning the set auto-role.
-      To disable the timeout, simply input 0 as the timeout, nothing special.
-
   - name:         bindinvite
     alts:
       - "bindinvs"

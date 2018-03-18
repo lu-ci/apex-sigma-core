@@ -99,6 +99,11 @@ class PluginManager(object):
                 add_cmd = True
             else:
                 add_cmd = False
+        elif self.bot.cfg.pref.text_only:
+            if module_data.get('category') != 'music':
+                add_cmd = True
+            else:
+                add_cmd = False
         else:
             add_cmd = True
         return add_cmd

@@ -25,4 +25,5 @@ commands:
       dmable:     false
     usage:        "{pfx}{cmd} abcdef1234567890"
     description:
-      Destroys the item with the given ID.
+      Takes away the inputted amount of corrency from the mentioned user.
+      The currency goes first and then the user mention as shown in the example.

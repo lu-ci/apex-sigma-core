@@ -156,39 +156,6 @@ class GlobalCommandPermissions(object):
                 self.permitted = False
                 break
 
-    def log_unpermitted(self):
-        """
-        ### Flags:
-            - `u`: User Blacklisted
-            - `s`: Server Blacklisted
-            - `o`: Owner Only
-            - `m`: Module Blacklisted
-            - `d`: Direct Message Not Allowed
-            - `n`: NSFW Channels Only
-            - `v`: Parter Only
-        ### Example:
-            `u---dn-` *User blacklisted, use in DM and use of NSFW command when not in NSFW channel.*
-        """
-
-        conds = [
-            self.black_user,
-            self.black_srv,
-            self.owner_denied,
-            self.module_denied,
-            self.dm_denied,
-            self.nsfw_denied,
-            self.partner_denied
-        ]
-        letters = ['u', 's', 'o', 'm', 'd', 'n', 'v']
-        fmt = ''.join(map(lambda c, l: l if c else '-', conds, letters))
-
-        self.cmd.log.warning((
-            f'ACCESS DENIED'
-            f' | {fmt}'
-            f' | USR: {self.message.author} ({self.message.author.id})'
-            f' | SRV: {self.message.guild} ({self.message.guild.id})'
-        ))
-
 
 class ServerCommandPermissions(object):
     def __init__(self, command, message: discord.Message):

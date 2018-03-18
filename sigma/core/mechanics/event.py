@@ -27,10 +27,9 @@ class SigmaEvent(object):
         self.event = event
         self.plugin_info = plugin_info
         self.event_info = event_info
-        self.event_type = self.event_info.get('type')
-        self.name = self.event_info.get('name')
-        self.category = self.plugin_info.get('category')
-        self.subcategory = self.plugin_info.get('subcategory')
+        self.event_type = self.event_info['type']
+        self.name = self.event_info['name']
+        self.category = self.plugin_info['category']
         self.log = create_logger(self.name.upper())
 
     def get_exception(self):

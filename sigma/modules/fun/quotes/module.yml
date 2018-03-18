@@ -33,15 +33,6 @@ commands:
       Linux users, and raw UNIX users in general will know the fortune-mod.
       This command uses their entire database to output one of their quotes.
 
-  - name:         shootfoot
-    alts:
-      - "sf"
-    enabled:      true
-    usage:        "{pfx}{cmd} Python"
-    description:
-      Tells you how to shoot yourself in the foot with the given programming language.
-      If no language is provided, it will pick a random one.
-
   - name:         bash
     enabled:      true
     description:
