@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -56,7 +57,7 @@ async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list)
         role_list = sorted(role_list)
         for rl in role_list:
             rl_out += '\n- ' + rl
-        embed = discord.Embed(color=0x1ABC9C)
+        embed = discord.Embed(color=get_image_colors(message.guild.icon_url))
         embed.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
         embed.add_field(name=f'Self Assignable Role Stats', value=summary, inline=False)
         embed.add_field(name=f'List of Self Assignable Roles', value=f'{rl_out}', inline=False)
