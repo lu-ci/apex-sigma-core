@@ -40,9 +40,10 @@ class SigmaCommand(object):
         self.command = command
         self.plugin_info = plugin_info
         self.command_info = command_info
-        self.name = self.command_info['name']
-        self.path = self.command_info['path']
-        self.category = self.plugin_info['category']
+        self.name = self.command_info.get('name')
+        self.path = self.command_info.get('path')
+        self.category = self.plugin_info.get('category')
+        self.subcategory = self.plugin_info.get('subcategory')
         self.log = create_logger(self.name.upper())
         self.nsfw = False
         self.cfg = {}

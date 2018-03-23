@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-
+from json.decoder import JSONDecodeError
 import aiohttp
 
 
@@ -26,7 +26,7 @@ async def version_check(ev):
             async with session.get(version_url) as version_data:
                 data = await version_data.read()
                 data = json.loads(data)
-    except aiohttp.client_exceptions.ClientConnectorError:
+    except (aiohttp.client_exceptions.ClientConnectorError, JSONDecodeError):
         data = None
     if data:
         official_stamp = data['build_date']
