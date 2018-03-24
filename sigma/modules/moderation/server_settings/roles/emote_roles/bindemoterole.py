@@ -27,18 +27,21 @@ async def bindemoterole(cmd: SigmaCommand, message: discord.Message, args: list)
             emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
             if group_id in emote_groups:
                 bound_roles = emote_groups.get(group_id)
-                guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)
-                if guild_role:
-                    role_name = guild_role.name
-                    if guild_role.id not in bound_roles:
-                        bound_roles.append(guild_role.id)
-                        emote_groups.update({group_id: bound_roles})
-                        await cmd.db.set_guild_settings(message.guild.id, emote_groups)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ Added {role_name} to group {group_id}.')
+                if bound_roles >= 10:
+                    guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)
+                    if guild_role:
+                        role_name = guild_role.name
+                        if guild_role.id not in bound_roles:
+                            bound_roles.append(guild_role.id)
+                            emote_groups.update({group_id: bound_roles})
+                            await cmd.db.set_guild_settings(message.guild.id, emote_groups)
+                            response = discord.Embed(color=0x66CC66, title=f'✅ Added {role_name} to group {group_id}.')
+                        else:
+                            response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is bound to {group_id}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is already bound to {group_id}.')
+                        response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find the {role_search} role.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find the {role_search} role.')
+                    response = discord.Embed(color=0xBE1931, title='❗ Groups are limited to 10 roles.')
             else:
                 response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
         else:
