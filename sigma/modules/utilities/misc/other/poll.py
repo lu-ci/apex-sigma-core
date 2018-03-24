@@ -45,7 +45,7 @@ async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
                                     title='❗ Maximum is 9 choices.')
         await message.channel.send(None, embed=out_content)
         return
-    icon_list_base = ['🍏', '🍍', '🍐', '🌶', '🍆', '🍋', '🍌', '🍅', '🍓', '🍇']
+    icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
     choice_text = ''
     op_num = 0
     emoji_list = []
