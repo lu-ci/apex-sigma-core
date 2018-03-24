@@ -29,22 +29,24 @@ def user_has_role(role, user_roles):
 
 async def emote_role_toggle(ev: SigmaEvent, emoji: discord.PartialEmoji, mid: int, cid: int, uid: int):
     channel = discord.utils.find(lambda c: c.id == cid, ev.bot.get_all_channels())
-    guild = channel.guild
-    if guild:
-        user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
-        if not user.bot:
-            message = await channel.get_message(mid)
-            guild_togglers = await ev.db.get_guild_settings(guild.id, 'EmoteRoleTogglers') or {}
-            smid = str(mid)
-            if smid in guild_togglers:
-                if ev.event_type == 'raw_reaction_add':
-                    await message.remove_reaction(emoji.name, user)
-                queue_id = f'{user.id}_{guild.id}_{message.id}'
-                role_id = guild_togglers.get(smid).get(emoji.name)
-                if role_id:
-                    role_item = discord.utils.find(lambda x: x.id == role_id, guild.roles)
-                    if role_item:
-                        if user_has_role(role_item, user.roles):
-                            await user.remove_roles(role_item)
-                        else:
-                            await user.add_roles(role_item)
+    if channel:
+        guild = channel.guild
+        if guild:
+            user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
+            if user:
+                if not user.bot:
+                    message = await channel.get_message(mid)
+                    guild_togglers = await ev.db.get_guild_settings(guild.id, 'EmoteRoleTogglers') or {}
+                    smid = str(mid)
+                    if smid in guild_togglers:
+                        if ev.event_type == 'raw_reaction_add':
+                            await message.remove_reaction(emoji.name, user)
+                        queue_id = f'{user.id}_{guild.id}_{message.id}'
+                        role_id = guild_togglers.get(smid).get(emoji.name)
+                        if role_id:
+                            role_item = discord.utils.find(lambda x: x.id == role_id, guild.roles)
+                            if role_item:
+                                if user_has_role(role_item, user.roles):
+                                    await user.remove_roles(role_item)
+                                else:
+                                    await user.add_roles(role_item)
