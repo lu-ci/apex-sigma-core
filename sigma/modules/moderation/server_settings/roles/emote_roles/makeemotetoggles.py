@@ -57,7 +57,7 @@ async def makeemotetoggles(cmd: SigmaCommand, message: discord.Message, args: li
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()
-            has_desc = True if args[-1].lower() == 'nodesc' else False
+            has_desc = False if args[-1].lower() == 'nodesc' else True
             target_ch = message.channel_mentions[0] if message.channel_mentions else message.channel
             emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
             if group_id in emote_groups:
