@@ -34,11 +34,11 @@ async def emote_role_toggle(ev: SigmaEvent, emoji: discord.PartialEmoji, mid: in
         user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
         if not user.bot:
             message = await channel.get_message(mid)
-            if ev.event_type == 'raw_reaction_add':
-                await message.remove_reaction(emoji.name, user)
             guild_togglers = await ev.db.get_guild_settings(guild.id, 'EmoteRoleTogglers') or {}
             smid = str(mid)
             if smid in guild_togglers:
+                if ev.event_type == 'raw_reaction_add':
+                    await message.remove_reaction(emoji.name, user)
                 queue_id = f'{user.id}_{guild.id}_{message.id}'
                 role_id = guild_togglers.get(smid).get(emoji.name)
                 if role_id:
