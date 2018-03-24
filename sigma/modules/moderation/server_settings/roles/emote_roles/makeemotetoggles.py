@@ -39,10 +39,7 @@ async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: 
         binding_line = f'{icon_key} - {role.name}'
         emote_block_lines.append(binding_line)
     emote_block = ' '.join(emote_block_lines)
-    toggler_description = 'Press the emote icon under this message corresponding to the role you want.'
-    toggler_description += ' Pressing an emote icon again before the role is given will cancel that role.'
-    toggler_description += ' Role giving is on a 3 second clockwork. This means that you have 3 seconds'
-    toggler_description += ' to make a batch of roles, or cancel a role from being given.'
+    toggler_description = 'Press the emote icon under this message corresponding to the role that you want to toggle.'
     toggler = discord.Embed(color=await get_image_colors(guild.icon_url))
     toggler.set_author(name=f'{guild.name}\'s Group {group_id} Emote Role Toggles', icon_url=guild.icon_url)
     if description:

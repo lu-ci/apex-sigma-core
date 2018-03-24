@@ -1,0 +1,50 @@
+# Apex Sigma: The Database Giant Discord Bot.
+# Copyright (C) 2017  Lucia's Cipher
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import discord
+
+from sigma.core.mechanics.event import SigmaEvent
+
+
+def user_has_role(role, user_roles):
+    has = False
+    for user_role in user_roles:
+        if user_role.id == role.id:
+            has = True
+            break
+    return has
+
+
+async def emote_role_toggle(ev: SigmaEvent, emoji: discord.PartialEmoji, mid: int, cid: int, uid: int):
+    channel = discord.utils.find(lambda c: c.id == cid, ev.bot.get_all_channels())
+    guild = channel.guild
+    if guild:
+        user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
+        if not user.bot:
+            message = await channel.get_message(mid)
+            if ev.event_type == 'raw_reaction_add':
+                await message.remove_reaction(emoji.name, user)
+            guild_togglers = await ev.db.get_guild_settings(guild.id, 'EmoteRoleTogglers') or {}
+            smid = str(mid)
+            if smid in guild_togglers:
+                queue_id = f'{user.id}_{guild.id}_{message.id}'
+                role_id = guild_togglers.get(smid).get(emoji.name)
+                if role_id:
+                    role_item = discord.utils.find(lambda x: x.id == role_id, guild.roles)
+                    if role_item:
+                        if user_has_role(role_item, user.roles):
+                            await user.remove_roles(role_item)
+                        else:
+                            await user.add_roles(role_item)
