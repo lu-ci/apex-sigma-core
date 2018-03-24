@@ -51,7 +51,7 @@ async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
         response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
         response.add_field(name=f'Emote Role Group Summary', value=summary, inline=False)
         response.add_field(name=f'List of Emote Role Groups', value=f'{rl_out}', inline=False)
-        response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}vemrg command.')
+        response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 {message.guild.name} has no emote role groups.')
     await message.channel.send(embed=response)
