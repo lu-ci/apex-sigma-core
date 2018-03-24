@@ -47,7 +47,7 @@ async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
         group_list = sorted(group_list)
         for rl in group_list:
             rl_out += f'\n`{rl}`: {len(list(emote_groups.get(rl).keys()))} Roles'
-        response = discord.Embed(color=get_image_colors(message.guild.icon_url))
+        response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
         response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
         response.add_field(name=f'Emote Role Group Summary', value=summary, inline=False)
         response.add_field(name=f'List of Emote Role Groups', value=f'{rl_out}', inline=False)

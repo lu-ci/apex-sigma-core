@@ -40,7 +40,7 @@ async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
                 role_names = sorted(role_names)
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'
-                response = discord.Embed(color=get_image_colors(message.guild.icon_url))
+                response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
                 response.set_author(name=f'{message.guild.name}\'s Emote Role Group Information')
                 response.add_field(name=f'Group {group_id} Summary', value=summary, inline=False)
                 response.add_field(name=f'Roles In Group {group_id}', value='\n'.join(role_names))
