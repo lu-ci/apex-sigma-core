@@ -83,7 +83,3 @@ events:
   - name:         emote_role_toggle
     type:         raw_reaction_add
     enabled:      true
-
-  - name:         emote_role_toggle
-    type:         raw_reaction_remove
-    enabled:      true
