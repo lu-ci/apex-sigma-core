@@ -19,7 +19,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
+async def listemoterolegroups(cmd: SigmaCommand, message: discord.Message, args: list):
     emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
     group_list = list(emote_groups.keys())
     if emote_groups:
@@ -46,7 +46,7 @@ async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
         rl_out = ''
         group_list = sorted(group_list)
         for rl in group_list:
-            rl_out += f'\n`{rl}`: {len(list(emote_groups.get(rl).keys()))} Roles'
+            rl_out += f'\n`{rl}`: {len(list(emote_groups.get(rl)))} Roles'
         response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
         response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
         response.add_field(name=f'Emote Role Group Summary', value=summary, inline=False)
