@@ -44,17 +44,13 @@ async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
         return
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
     choice_text = ''
-    op_num = 0
     emoji_list = []
     for option in poll_choices:
         emoji = icon_list_base.pop(secrets.randbelow(len(icon_list_base)))
         emoji_list.append(emoji)
         choice_text += '\n' + emoji + ' - **' + option + '**'
-        op_num += 1
     out_content = discord.Embed(color=message.author.top_role.color)
     out_content.add_field(name=poll_name, value=choice_text)
     poll_message = await message.channel.send(None, embed=out_content)
-    ic_num = 0
     for emoji in emoji_list:
         await poll_message.add_reaction(emoji=emoji)
-        ic_num += 1
