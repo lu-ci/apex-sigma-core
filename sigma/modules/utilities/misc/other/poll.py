@@ -54,7 +54,7 @@ async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
         emoji_list.append(emoji)
         choice_text += '\n' + emoji + ' - **' + option + '**'
         op_num += 1
-    out_content = discord.Embed(color=0x1ABC9C)
+    out_content = discord.Embed(color=message.author.top_role.color)
     out_content.add_field(name=poll_name, value=choice_text)
     poll_message = await message.channel.send(None, embed=out_content)
     ic_num = 0
