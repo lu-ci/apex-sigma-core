@@ -191,3 +191,11 @@ class ApexSigma(client_class):
     async def on_voice_state_update(self, member: discord.Member, b: discord.VoiceState, a: discord.VoiceState):
         if not member.bot:
             self.loop.create_task(self.queue.event_runner('voice_state_update', member, b, a))
+
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
+        if not user.bot:
+            self.loop.create_task(self.queue.event_runner('reaction_add', reaction, user))
+
+    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
+        if not user.bot:
+            self.loop.create_task(self.queue.event_runner('reaction_remove', reaction, user))
