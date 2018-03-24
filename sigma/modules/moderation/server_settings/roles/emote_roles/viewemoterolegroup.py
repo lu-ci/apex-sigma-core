@@ -36,7 +36,7 @@ async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
                     else:
                         group_role.remove(group_role)
                 emote_groups.update({group_id: group_roles})
-                await cmd.db.set_guild_settings(message.guild.id, emote_groups)
+                await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
                 role_names = sorted(role_names)
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'
