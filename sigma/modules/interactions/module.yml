@@ -185,3 +185,8 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       When all other means fail, it's time to bring out the carpet bomb squadrons.
+
+events:
+  - name:         remover_detector
+    type:         raw_reaction_add
+    enabled:      true
