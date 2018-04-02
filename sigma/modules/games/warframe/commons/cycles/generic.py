@@ -57,5 +57,5 @@ async def send_to_channels(ev, embed, marker, triggers=None):
                     await channel.send(embed=embed)
             else:
                 await channel.send(embed=embed)
-        except discord.ClientException:
+        except Exception:
             pass
