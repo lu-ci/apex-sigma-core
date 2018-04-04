@@ -15,11 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore
-from humanfriendly.tables import format_pretty_table as boop
 from .nodes.properties import rarity_names
 
 item_core = None
@@ -56,5 +56,3 @@ async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
     response.add_field(name='General Stats', value=description, inline=False)
     response.add_field(name='Chances Table', value=f'```bat\n{out_table}\n```', inline=False)
     await message.channel.send(embed=response)
-
-

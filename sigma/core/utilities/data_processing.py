@@ -22,7 +22,6 @@ import arrow
 import discord
 from PIL import Image
 
-
 color_cache = {}
 
 

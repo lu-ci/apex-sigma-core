@@ -32,4 +32,3 @@ async def markovchain(cmd: SigmaCommand, message: discord.Message, args: list):
         starter = 'You don\'t have' if target.id == message.author.id else f'{target.name} doesn\'t have'
         response = discord.Embed(color=0x696969, title=f'🔍 {starter} a collected chain.')
     await message.channel.send(embed=response)
-

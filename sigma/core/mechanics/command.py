@@ -22,6 +22,7 @@ import arrow
 import discord
 import yaml
 
+from sigma.core.mechanics.cooldown import CommandRateLimiter
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
@@ -29,7 +30,6 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.core.mechanics.cooldown import CommandRateLimiter
 
 
 class SigmaCommand(object):

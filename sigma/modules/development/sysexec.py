@@ -15,12 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import subprocess
+
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 
+
 def from_output(cmd: SigmaCommand, output: bytes) -> str:
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
+
 
 async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
     response = None

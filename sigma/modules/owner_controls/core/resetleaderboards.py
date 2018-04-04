@@ -26,4 +26,3 @@ async def resetleaderboards(cmd: SigmaCommand, message: discord.Message, args: l
     await cmd.db[cmd.db.db_cfg.database].ExperienceSystem.update_many({}, {"$set": {"global": 0}})
     response = discord.Embed(color=0xFFCC4D, title=f'🔥 The global leaderboards have been destroyed.')
     await message.channel.send(embed=response)
-

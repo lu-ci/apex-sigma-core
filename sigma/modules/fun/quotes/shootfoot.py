@@ -15,11 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import secrets
+
 import discord
 import yaml
-import secrets
-from sigma.core.mechanics.command import SigmaCommand
 
+from sigma.core.mechanics.command import SigmaCommand
 
 feet_data = None
 

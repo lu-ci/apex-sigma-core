@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
@@ -28,7 +29,8 @@ async def bindemoterole(cmd: SigmaCommand, message: discord.Message, args: list)
             if group_id in emote_groups:
                 bound_roles = emote_groups.get(group_id)
                 if len(bound_roles) < 10:
-                    guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)
+                    guild_roles = message.guild.roles
+                    guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), guild_roles)
                     if guild_role:
                         role_name = guild_role.name
                         if guild_role.id not in bound_roles:

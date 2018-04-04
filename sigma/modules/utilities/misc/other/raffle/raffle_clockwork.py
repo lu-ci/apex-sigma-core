@@ -23,7 +23,6 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 
-
 raffle_loop_running = False
 
 
