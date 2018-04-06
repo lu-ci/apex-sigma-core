@@ -65,9 +65,8 @@ class PluginManager(object):
         if module_data.get('category') not in self.categories:
             self.categories.append(module_data.get('category'))
         for command_data in module_data.get('commands'):
-            if self.should_add(module_data):
-                if command_data.get('enabled'):
-                    self.load_command_executable(root, command_data, module_data)
+            if command_data.get('enabled'):
+                self.load_command_executable(root, command_data, module_data)
 
     def load_events(self, root: str, module_data: dict):
         for event_data in module_data.get('events'):
@@ -92,16 +91,6 @@ class PluginManager(object):
             event_list = []
         event_list.append(event)
         self.events.update({event.event_type: event_list})
-
-    def should_add(self, module_data: dict):
-        if self.bot.cfg.pref.music_only:
-            if module_data.get('category') == 'music':
-                add_cmd = True
-            else:
-                add_cmd = False
-        else:
-            add_cmd = True
-        return add_cmd
 
     def load_all_modules(self):
         self.alts = {}
