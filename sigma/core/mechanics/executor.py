@@ -50,11 +50,9 @@ class ExecutionClockwork(object):
             command = self.bot.modules.commands.get(cmd)
             if command:
                 if self.bot.cfg.pref.text_only and command.category == 'music':
-                    return 
-                    # music_disabled = 'Music has been temporarily disabled and will return'
-                    # music_disabled += ' once development on the new music core is finished.'
-                    # music_disabled += ' This is aimed to be in April.'
-                    # await message.channel.send(music_disabled)
+                    return
+                elif self.bot.cfg.pref.music_only and command.category != 'music':
+                    return
                 else:
                     task = command, message, args
                     await self.queue.put(task)
