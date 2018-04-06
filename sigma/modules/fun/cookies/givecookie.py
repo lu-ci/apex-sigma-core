@@ -94,6 +94,6 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                 timeout = arrow.get(timeout_seconds).humanize()
             else:
                 timeout = f'in {timeout_seconds} seconds'
-            timeout_title = f'🕙 You can give another cookie {timeout}.'
+            timeout_title = f'🕙 Your cookie will be baked {timeout}.'
             response = discord.Embed(color=0x696969, title=timeout_title)
     await message.channel.send(embed=response)
