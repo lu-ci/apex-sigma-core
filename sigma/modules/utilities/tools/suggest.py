@@ -34,13 +34,16 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
     sugg_ghr = cmd.cfg.get('repo')
     sugg_ght = cmd.cfg.get('token')
     if sugg_ght and sugg_ghr and sugg_ghu:
-        auth = aiohttp.BasicAuth(sugg_ghu, sugg_ght)
-        sugg_token = secrets.token_hex(4)
-        issue_data = {'title': f'Suggestion {sugg_token}', 'body': create_body(message, args, sugg_token)}
-        repo_url = f'https://api.github.com/repos/{sugg_ghr}/issues'
-        async with aiohttp.ClientSession(auth=auth) as session:
-            await session.post(repo_url, json=issue_data)
-        response = discord.Embed(color=0x77B255, title='✅ New suggestion submitted.')
+        if args:
+            auth = aiohttp.BasicAuth(sugg_ghu, sugg_ght)
+            sugg_token = secrets.token_hex(4)
+            issue_data = {'title': f'Suggestion {sugg_token}', 'body': create_body(message, args, sugg_token)}
+            repo_url = f'https://api.github.com/repos/{sugg_ghr}/issues'
+            async with aiohttp.ClientSession(auth=auth) as session:
+                await session.post(repo_url, json=issue_data)
+            response = discord.Embed(color=0x77B255, title='✅ New suggestion submitted.')
+        else:
+            response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
     else:
         response = discord.Embed(title='❗ Missing GitHub confirguation.', color=0xBE1931)
     await message.channel.send(embed=response)
