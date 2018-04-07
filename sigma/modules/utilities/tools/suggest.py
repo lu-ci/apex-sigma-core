@@ -23,9 +23,9 @@ from sigma.core.mechanics.command import SigmaCommand
 
 def create_body(msg: discord.Message, args: list, token: str):
     content = f'# Suggestion {token}\n\n## Submitter'
-    content += f'\n\nMember: **{msg.author.name}**#*{msg.author.discriminator}* [`{msg.author.id}`]'
-    content += f'\nGuild: **{msg.guild.name}** [`{msg.guild.id}`]'
-    content += f'\n\n## Content\n\n```\n{" ".join(args)}\n```'
+    content += f'\n\nSubmitted by **{msg.author.name}**#{msg.author.discriminator} [{msg.author.id}]'
+    content += f'from **{msg.guild.name}** [{msg.guild.id}].'
+    content += f'\n\n## Content\n\n> {" ".join(args)}'
     return content
 
 
