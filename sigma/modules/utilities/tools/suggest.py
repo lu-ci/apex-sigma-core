@@ -48,7 +48,7 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
                 sugg_chn = discord.utils.find(lambda x: x.id == sugg_chn_id, cmd.bot.get_all_channels())
                 if sugg_chn:
                     try:
-                        sugg_msg = await sugg_chn.send(body)
+                        sugg_msg = await sugg_chn.send(f'```md\n{body}\n```')
                         await sugg_msg.add_reaction('⬆')
                         await sugg_msg.add_reaction('⬇')
                     except Exception:
