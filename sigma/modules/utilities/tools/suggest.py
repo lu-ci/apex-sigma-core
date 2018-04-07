@@ -37,11 +37,22 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             auth = aiohttp.BasicAuth(sugg_ghu, sugg_ght)
             sugg_token = secrets.token_hex(4)
-            issue_data = {'title': f'Suggestion {sugg_token}', 'body': create_body(message, args, sugg_token)}
+            body = create_body(message, args, sugg_token)
+            issue_data = {'title': f'Suggestion {sugg_token}', 'body': body}
             repo_url = f'https://api.github.com/repos/{sugg_ghr}/issues'
             async with aiohttp.ClientSession(auth=auth) as session:
                 await session.post(repo_url, json=issue_data)
             response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
+            sugg_chn_id = cmd.cfg.get('channel')
+            if sugg_chn_id:
+                sugg_chn = discord.utils.find(lambda x: x.id == sugg_chn_id, cmd.bot.get_all_channels())
+                if sugg_chn:
+                    try:
+                        sugg_msg = await sugg_chn.send(body)
+                        await sugg_msg.add_reaction('⬆')
+                        await sugg_msg.add_reaction('⬇')
+                    except Exception:
+                        pass
         else:
             response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
     else:
