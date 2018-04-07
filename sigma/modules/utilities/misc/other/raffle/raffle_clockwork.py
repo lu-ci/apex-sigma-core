@@ -33,6 +33,13 @@ async def raffle_clockwork(ev):
         ev.bot.loop.create_task(cycler(ev))
 
 
+def extra_shuffle(some_list):
+    new_list = []
+    while some_list:
+        new_list.append(some_list.pop(secrets.randbelow(len(some_list))))
+    return new_list
+
+
 async def cycler(ev):
     raffle_coll = ev.db[ev.db.db_cfg.database].Raffles
     while True:
@@ -61,14 +68,15 @@ async def cycler(ev):
                                             contestants.append(user)
                                     break
                             if contestants:
+                                contestants = extra_shuffle(contestants)
                                 winner = secrets.choice(contestants)
                                 amen = f'<@{aid}>'
                                 wmen = f'<@{winner.id}>'
                                 ender = '' if titl[-1] in string.punctuation else '!'
                                 win_text = f'{icon} Hey {amen}, {wmen} won your raffle!'
                                 win_embed = discord.Embed(color=colr)
-                                win_embed.set_author(name=f'{winner.name} won {titl.lower()}{ender}',
-                                                     icon_url=user_avatar(winner))
+                                win_title = f'{winner.name} won {titl.lower()}{ender}'
+                                win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                 await channel.send(win_text, embed=win_embed)
             except Exception:
                 pass
