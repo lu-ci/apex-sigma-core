@@ -25,6 +25,7 @@
 Commands | Description | Example
 ----------|-------------|--------
 `>>addstatus` | Adds a status message to Sigma's database for automatic status rotation. (Bot Owner Only) | `>>addstatus with tentacles`
+`>>awardleaderboards` `>>awardlbs` | Awards all the global leaderboards. Basically gives a large amount of Kud to the top 20 users in each leaderboard category. Currency earned, experience, and cookies. (Bot Owner Only) | `>>awardleaderboards`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
@@ -445,6 +446,7 @@ Commands | Description | Example
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. As well as when the bot last started. | `>>statistics`
 `>>status` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
+`>>suggest` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>suggest Add some new stuff!!!`
 `>>translation` `>>translate` `>>trans` | Translates a language from and to the given ones. If a conversion input is not stated, the first argument will be considered the input language. And the output will be in english. The language codes used abide by the ISO 639-1 format. For the whole list, you can go to this wikipedia article. https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes | `>>translation EN>JA Hello there!`
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data about the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
