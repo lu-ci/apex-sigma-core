@@ -55,6 +55,19 @@ commands:
       Resets the global leaderboard data.
       Global experience, currency and cookies.
 
+  - name:         awardleaderboards
+    alts:
+      - "awardlbs"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd}"
+    description:
+      Awards all the global leaderboards.
+      Basically gives a large amount of Kud to the top 20 users
+      in each leaderboard category. Currency earned, experience, and cookies.
+
   - name:         getreaction
     alts:
       - "getreact"
