@@ -41,7 +41,7 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
             repo_url = f'https://api.github.com/repos/{sugg_ghr}/issues'
             async with aiohttp.ClientSession(auth=auth) as session:
                 await session.post(repo_url, json=issue_data)
-            response = discord.Embed(color=0x77B255, title='✅ New suggestion submitted.')
+            response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
         else:
             response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
     else:
