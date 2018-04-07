@@ -19,6 +19,7 @@ import discord
 import secrets
 import aiohttp
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
 
 
 def create_body(msg: discord.Message, args: list, token: str):
@@ -27,6 +28,15 @@ def create_body(msg: discord.Message, args: list, token: str):
     content += f'from **{msg.guild.name}** [{msg.guild.id}].'
     content += f'\n\n## Content\n\n> {" ".join(args)}'
     return content
+
+
+def make_sugg_embed(msg: discord.Message, args: list, token: str):
+    sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
+    sugg_embed.description = " ".join(args)
+    author_name = f'{msg.author.name}#{msg.author.discriminator}'
+    sugg_embed.set_author(name=author_name, icon_url=user_avatar(msg.author))
+    sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=f'[{token}] From {msg.guild.name}.')
+    return sugg_embed
 
 
 async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -40,15 +50,15 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
             body = create_body(message, args, sugg_token)
             issue_data = {'title': f'Suggestion {sugg_token}', 'body': body}
             repo_url = f'https://api.github.com/repos/{sugg_ghr}/issues'
-            async with aiohttp.ClientSession(auth=auth) as session:
-                await session.post(repo_url, json=issue_data)
+            # async with aiohttp.ClientSession(auth=auth) as session:
+            #     await session.post(repo_url, json=issue_data)
             response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
             sugg_chn_id = cmd.cfg.get('channel')
             if sugg_chn_id:
                 sugg_chn = discord.utils.find(lambda x: x.id == sugg_chn_id, cmd.bot.get_all_channels())
                 if sugg_chn:
                     try:
-                        sugg_msg = await sugg_chn.send(f'```md\n{body}\n```')
+                        sugg_msg = await sugg_chn.send(embed=make_sugg_embed(message, args, sugg_token))
                         await sugg_msg.add_reaction('⬆')
                         await sugg_msg.add_reaction('⬇')
                     except Exception:
