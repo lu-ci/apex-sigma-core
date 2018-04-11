@@ -46,7 +46,14 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     else:
-        valid_count = True
+        purge_images = 'attachments' in args
+        purge_filter = None
+        arg_index = 0
+        for arg in args:
+            if arg.startswith('content:'):
+                purge_filter = " ".join([arg.split(':')[1]] + args[arg_index + 1:])
+                break
+            arg_index += 1
         target = cmd.bot.user
         count = 100
         if message.mentions:
@@ -55,55 +62,75 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
                 try:
                     count = int(args[0])
                 except ValueError:
-                    valid_count = False
+                    count = 100
         else:
             if args:
                 target = None
                 try:
                     count = int(args[0])
                 except ValueError:
-                    valid_count = False
+                    count = 100
         if count > 100:
             count = 100
-        if not valid_count:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {args[0]} is not a valid number.')
-        else:
-            def purge_target_check(msg):
-                if not msg.pinned:
-                    if msg.author.id == target.id:
+
+        def purge_target_check(msg):
+            if not msg.pinned:
+                if msg.author.id == target.id:
+                    if purge_images:
+                        if msg.attachments:
+                            clean = True
+                        else:
+                            clean = False
+                    elif purge_filter:
+                        if purge_filter.lower() in msg.content.lower():
+                            clean = True
+                        else:
+                            clean = False
+                    else:
+                        clean = True
+                else:
+                    clean = False
+            else:
+                clean = False
+            return clean
+
+        def purge_wide_check(msg):
+            if not msg.pinned:
+                if purge_images:
+                    if msg.attachments:
+                        clean = True
+                    else:
+                        clean = False
+                elif purge_filter:
+                    if purge_filter.lower() in msg.content.lower():
                         clean = True
                     else:
                         clean = False
                 else:
-                    clean = False
-                return clean
-
-            def purge_wide_check(msg):
-                if not msg.pinned:
                     clean = True
-                else:
-                    clean = False
-                return clean
-
-            try:
-                await message.delete()
-            except discord.NotFound:
-                pass
-            if target:
-                try:
-                    deleted = await message.channel.purge(limit=count, check=purge_target_check)
-                except Exception:
-                    deleted = []
-                    pass
             else:
-                try:
-                    deleted = await message.channel.purge(limit=count, check=purge_wide_check)
-                except Exception:
-                    deleted = []
-                    pass
-            response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
-            log_embed = generate_log_embed(message, target, message.channel, deleted)
-            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogPurges')
+                clean = False
+            return clean
+
+        try:
+            await message.delete()
+        except discord.NotFound:
+            pass
+        if target:
+            try:
+                deleted = await message.channel.purge(limit=count, check=purge_target_check)
+            except Exception:
+                deleted = []
+                pass
+        else:
+            try:
+                deleted = await message.channel.purge(limit=count, check=purge_wide_check)
+            except Exception:
+                deleted = []
+                pass
+        response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
+        log_embed = generate_log_embed(message, target, message.channel, deleted)
+        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogPurges')
     del_response = await message.channel.send(embed=response)
     await asyncio.sleep(5)
     try:

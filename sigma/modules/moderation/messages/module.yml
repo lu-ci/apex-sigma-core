@@ -18,6 +18,10 @@ commands:
       If a number is not provided it will prune the last 100 messages.
       If neither number nor user is provided, it will prune the bots messages.
       Requires the user who calls the command to have the Manage Messages permission.
+      If you add "attachments" to the command arguments it will only purge messages that have attachments.
+      If you add "content:something you want gone" to the command arguments it will only delete messages
+      that have the inputted content after "content:" in them, which can be a word or a sentence.
+      Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
 
   - name:         textmute
     alts:
