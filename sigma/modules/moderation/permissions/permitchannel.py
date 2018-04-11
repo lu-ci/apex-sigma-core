@@ -68,14 +68,14 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
                                 inner_exc.update({'Channels': exc_usrs})
                                 cmd_exc.update({cmd_name: inner_exc})
                                 perms.update({exception_group: cmd_exc})
+                        if bad_item:
+                            response_title = f'⚠ #{bad_item.name} can already use {cmd_name}.'
+                            response = discord.Embed(color=0xFFCC4D, title=response_title)
+                        else:
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
                                 {'ServerID': message.guild.id}, {'$set': perms}
                             )
-                        if bad_item:
-                            response_title = f'⚠ #{bad_item.name} can already use `{cmd_name}`'
-                            response = discord.Embed(color=0xFFCC4D, title=response_title)
-                        else:
-                            response_title = f'✅ {len(targets)} channels can now use `{cmd_name}`.'
+                            response_title = f'✅ {len(targets)} channels can now use {cmd_name}.'
                             response = discord.Embed(color=0x77B255, title=response_title)
                     else:
                         response = discord.Embed(color=0x696969, title='🔍 Command/Module Not Found')

@@ -27,7 +27,7 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                 response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
             else:
                 if message.channel_mentions:
-                    target = message.channel_mentions[0]
+                    targets = message.channel_mentions
                     error_response = discord.Embed(color=0xBE1931, title='❗ Bad Input')
                     try:
                         perm_mode, cmd_name = args[0].split(':')
@@ -58,18 +58,28 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                         else:
                             inner_exc = generate_cmd_data(cmd_name)[cmd_name]
                         exc_usrs = inner_exc['Channels']
-                        if target.id in exc_usrs:
-                            exc_usrs.remove(target.id)
-                            inner_exc.update({'Channels': exc_usrs})
-                            cmd_exc.update({cmd_name: inner_exc})
-                            perms.update({exception_group: cmd_exc})
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                        {'$set': perms})
-                            response = discord.Embed(color=0x77B255,
-                                                     title=f'✅ `#{target.name}` can no longer use `{cmd_name}`.')
+                        bad_item = False
+                        for target in targets:
+                            if target.id in exc_usrs:
+                                exc_usrs.remove(target.id)
+                                inner_exc.update({'Channels': exc_usrs})
+                                cmd_exc.update({cmd_name: inner_exc})
+                                perms.update({exception_group: cmd_exc})
+                                await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                    {'ServerID': message.guild.id}, {'$set': perms}
+                                )
+                            else:
+                                bad_item = target
+                                break
+                        if not bad_item:
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                {'ServerID': message.guild.id}, {'$set': perms}
+                            )
+                            response_title = f'✅ {len(targets)} channels can no longer use {cmd_name}.'
+                            response = discord.Embed(color=0x77B255, title=response_title)
                         else:
-                            response = discord.Embed(color=0xFFCC4D,
-                                                     title=f'⚠ #{target.name} is not able to use `{cmd_name}`')
+                            response_title = f'⚠ {bad_item.name} is not able to use {cmd_name}.'
+                            response = discord.Embed(color=0xFFCC4D, title=response_title)
                     else:
                         response = discord.Embed(color=0x696969, title='🔍 Command/Module Not Found')
                 else:
