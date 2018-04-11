@@ -40,6 +40,14 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]
+            if len(args) >= 2:
+                try:
+                    clean_days = int(args[-1])
+                except ValueError:
+                    clean_days = 0
+            else:
+                clean_days = 0
+            clean_days = clean_days if clean_days in [0, 1, 7] else 0
             if cmd.bot.user.id != target.id:
                 if message.author.id != target.id:
                     above_hier = hierarchy_permit(message.author, target)
@@ -61,7 +69,8 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                                 await target.send(embed=to_target)
                             except discord.Forbidden:
                                 pass
-                            await target.ban(reason=f'By {message.author.name}: {reason}')
+                            audit_reason = f'By {message.author.name}: {reason}'
+                            await target.ban(reason=audit_reason, delete_message_days=clean_days)
                             log_embed = generate_log_embed(message, target, reason)
                             await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
                         else:
