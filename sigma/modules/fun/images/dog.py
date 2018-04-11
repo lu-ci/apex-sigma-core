@@ -14,20 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 
 import aiohttp
 import discord
+import json
 
 from sigma.core.mechanics.command import SigmaCommand
 
 
 async def dog(cmd: SigmaCommand, message: discord.Message, args: list):
-    doggie_url = 'http://www.randomdoggiegenerator.com/randomdoggie.php'
+    doggie_url = 'https://api.thedogapi.co.uk/v2/dog.php'
     async with aiohttp.ClientSession() as session:
         async with session.get(doggie_url) as data:
-            doggie_image = await data.read()
-            with open(f'cache/pupper_{message.id}.png', 'wb') as pupper_img:
-                pupper_img.write(doggie_image)
-    await message.channel.send(file=discord.File(f'cache/pupper_{message.id}.png'))
-    os.remove(f'cache/pupper_{message.id}.png')
+            doggie_data = await data.read()
+    image_url = json.loads(doggie_data).get('data')[0].get('url')
+    response = discord.Embed(color=0xf9f9f9, title='🐶 Woof!')
+    response.set_image(url=image_url)
+    await message.channel.send(embed=response)
