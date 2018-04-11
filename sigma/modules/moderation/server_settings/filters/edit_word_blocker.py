@@ -24,7 +24,7 @@ from .cleaners import clean_content
 async def edit_word_blocker(ev, before, after):
     if after.guild:
         if isinstance(after.author, discord.Member):
-            if not after.author.permissions_in(after.channel).manage_guild:
+            if not after.author.permissions_in(after.channel).administrator:
                 prefix = await ev.db.get_prefix(after)
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())

@@ -24,7 +24,7 @@ from .cleaners import clean_content
 async def send_word_blocker(ev, message):
     if message.guild:
         if isinstance(message.author, discord.Member):
-            if not message.author.permissions_in(message.channel).manage_guild:
+            if not message.author.permissions_in(message.channel).administrator:
                 prefix = await ev.db.get_prefix(message)
                 if not message.content.startswith(prefix):
                     text = clean_content(message.content.lower())
