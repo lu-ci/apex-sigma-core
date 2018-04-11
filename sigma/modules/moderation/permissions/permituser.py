@@ -27,7 +27,7 @@ async def permituser(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
             else:
                 if message.mentions:
-                    target = message.mentions[0]
+                    targets = message.mentions
                     error_response = discord.Embed(color=0xBE1931, title='❗ Bad Input')
                     try:
                         perm_mode, cmd_name = args[0].split(':')
@@ -58,18 +58,24 @@ async def permituser(cmd: SigmaCommand, message: discord.Message, args: list):
                         else:
                             inner_exc = generate_cmd_data(cmd_name)[cmd_name]
                         exc_usrs = inner_exc['Users']
-                        if target.id in exc_usrs:
-                            response = discord.Embed(color=0xFFCC4D,
-                                                     title=f'⚠ {target.name} can already use `{cmd_name}`')
+                        bad_item = False
+                        for target in targets:
+                            if target.id in exc_usrs:
+                                bad_item = target
+                            else:
+                                exc_usrs.append(target.id)
+                                inner_exc.update({'Users': exc_usrs})
+                                cmd_exc.update({cmd_name: inner_exc})
+                                perms.update({exception_group: cmd_exc})
+                        await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                            {'ServerID': message.guild.id}, {'$set': perms}
+                        )
+                        if bad_item:
+                            response_title = f'⚠ {bad_item.name} can already use `{cmd_name}`'
+                            response = discord.Embed(color=0xFFCC4D, title=response_title)
                         else:
-                            exc_usrs.append(target.id)
-                            inner_exc.update({'Users': exc_usrs})
-                            cmd_exc.update({cmd_name: inner_exc})
-                            perms.update({exception_group: cmd_exc})
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                        {'$set': perms})
-                            response = discord.Embed(color=0x77B255,
-                                                     title=f'✅ `{target.name}` can now use `{cmd_name}`.')
+                            response_title = f'✅ {len(targets)} users can now use `{cmd_name}`.'
+                            response = discord.Embed(color=0x77B255, title=response_title)
                     else:
                         response = discord.Embed(color=0x696969, title='🔍 Command/Module Not Found')
                 else:
