@@ -16,13 +16,27 @@
 
 import arrow
 import discord
-
+import secrets
 from sigma.core.mechanics.command import SigmaCommand
 
 
 async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
+    someoned = False
     if message.mentions:
         target = message.mentions[0]
+    else:
+        if args:
+            if args[0].lower() == '@someone':
+                members = message.guild.members
+                target = secrets.choice(
+                    [member for member in members if not (member.bot or member.id == message.author.id)]
+                )
+                someoned = True
+            else:
+                target = None
+        else:
+            target = None
+    if target:
         sabotage_target = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': target.id})
         sabotage_author = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
         author_stamp = arrow.get(message.author.created_at).float_timestamp
@@ -35,7 +49,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                         if not target.bot:
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
                                 upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one(
-                                    {'UserID': message.author.id})
+                                    {'UserID': message.author.id}
+                                )
                                 if upgrade_file is None:
                                     insert_data = {'UserID': message.author.id}
                                     await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one(insert_data)
@@ -62,7 +77,10 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                                 cookie_data = {'Cookies': cookies, 'Total': total}
                                 await cookie_coll.update_one({'UserID': target.id}, {'$set': cookie_data})
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-                                title = f'🍪 You gave a cookie to {target.display_name}.'
+                                if someoned:
+                                    title = f'🍪 You threw a cookie and it landed in {target.display_name}\'s mouth.'
+                                else:
+                                    title = f'🍪 You gave a cookie to {target.display_name}.'
                                 response = discord.Embed(color=0xd99e82, title=title)
                             else:
                                 timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
