@@ -24,6 +24,7 @@ async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):
         bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites')
         if bound_invites:
             output_lines = []
+            output_role_data = []
             for key in bound_invites:
                 role_id = bound_invites.get(key)
                 target_role = discord.utils.find(lambda x: x.id == role_id, message.guild.roles)
@@ -31,6 +32,9 @@ async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):
                     role_name = target_role.name
                 else:
                     role_name = '{Role Missing}'
+                output_role_data.append([key, role_name])
+            output_role_data = sorted(output_role_data, key=lambda x: x[1])
+            for key, role_name in output_role_data:
                 out_line = f'`{key}`: {role_name}'
                 output_lines.append(out_line)
             response = discord.Embed(color=0xF9F9F9, title='⛓ List of Bound Invites')
