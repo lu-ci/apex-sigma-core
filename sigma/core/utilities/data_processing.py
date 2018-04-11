@@ -78,7 +78,8 @@ def command_message_parser(message: discord.Message, text: str):
         '{target_name}': tgt.name,
         '{target_nick}': tgt.display_name,
         '{target_mention}': tgt.mention,
-        '{target_id}': str(tgt.id)
+        '{target_id}': str(tgt.id),
+        '{population}': str(len(gld.members))
     }
     for key in translator:
         command_text = command_text.replace(key, translator[key])
@@ -97,7 +98,8 @@ def movement_message_parser(member: discord.Member, text: str):
         '{owner_name}': guild.owner.name,
         '{owner_mention}': guild.owner.mention,
         '{owner_discriminator}': guild.owner.discriminator,
-        '{owner_id}': str(guild.owner.id)
+        '{owner_id}': str(guild.owner.id),
+        '{population}': str(len(guild.members))
     }
     greeting_text = text
     for key in translator:
