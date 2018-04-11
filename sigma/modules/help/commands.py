@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 
 async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -28,12 +29,23 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
             command = command_items[command]
             category = command.category.lower()
             if category == lookup:
-                command_list.append(command)
+                if message.guild:
+                    permission = ServerCommandPermissions(command, message)
+                    await permission.check_perms()
+                else:
+                    permission = None
+                command_list.append([command, permission])
         if command_list:
-            module_list = sorted(command_list, key=lambda x: x.name)
+            module_list = sorted(command_list, key=lambda x: x[0].name)
             output = ''
-            for module_item in module_list:
-                output += f'\n- {module_item.name}'
+            for module_item, module_perm in module_list:
+                if module_perm:
+                    if module_perm.permitted:
+                        output += f'\n- {module_item.name}'
+                    else:
+                        output += f'\n- ⛔ {module_item.name}'
+                else:
+                    output += f'\n- {module_item.name}'
                 if module_item.alts:
                     output += f' [{", ".join(module_item.alts)}]'
             title_text = f'```py\nThere are {len(module_list)} commands.\n```'
