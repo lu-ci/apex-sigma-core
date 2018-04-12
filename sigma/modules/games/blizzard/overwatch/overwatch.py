@@ -14,38 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
-
 import discord
-from overwatch_api.core import AsyncOWAPI
 
 from sigma.core.mechanics.command import SigmaCommand
-
-ow_cli = AsyncOWAPI(request_timeout=30)
-ow_icon = 'https://i.imgur.com/YZ4w2ey.png'
-region_convert = {
-    'europe': 'eu',
-    'korea': 'kr',
-    'na': 'us',
-    'americas': 'us',
-    'america': 'us',
-    'china': 'cn',
-    'japan': 'jp'
-}
-
-
-def clean_numbers(stats):
-    for key in stats:
-        try:
-            int_value = int(stats[key])
-            if int_value != stats[key]:
-                int_value = round(stats[key], 2)
-            stats.update({key: int_value})
-        except ValueError:
-            pass
-        except TypeError:
-            pass
-    return stats
+from sigma.modules.games.blizzard.overwatch.mech.utility import ow_icon, region_convert, clean_numbers, get_profile
 
 
 async def overwatch(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -56,36 +28,21 @@ async def overwatch(cmd: SigmaCommand, message: discord.Message, args: list):
         if len(args) >= 2:
             region = args[0].lower()
             if region in region_convert:
-                region = region_convert[region]
+                region = region_convert.get(region)
             region_list = ['eu', 'kr', 'us', 'cn', 'jp']
             if region in region_list:
                 battletag = ' '.join(args[1:])
-                # noinspection PyBroadException
-                try:
-                    profile = await ow_cli.get_profile(battletag, regions=region)
-                    timeout = False
-                    failed = False
-                except asyncio.TimeoutError:
-                    profile = None
-                    timeout = True
-                    failed = False
-                except Exception:
-                    profile = None
-                    timeout = False
-                    failed = True
+                profile, timeout, failed = await get_profile(battletag, region)
                 if not failed:
                     if not timeout:
                         if profile:
-                            profile = profile[region]
-                            stats = profile['stats']['quickplay']
+                            profile = profile.get(region)
+                            stats = profile.get('stats').get('quickplay')
                             profile_url = 'https://playoverwatch.com/en-us/career/pc/'
                             profile_url += f'{region}/{battletag.replace("#", "-")}'
-                            gen = clean_numbers(stats['overall_stats'])
-                            gms = clean_numbers(stats['game_stats'])
-                            if gen['prestige']:
-                                gen_section = f'Level: **{(gen["prestige"] * 100) + gen["level"]}**'
-                            else:
-                                gen_section = f'Level: **{gen.get("level")}**'
+                            gen = clean_numbers(stats.get('overall_stats'))
+                            gms = clean_numbers(stats.get('game_stats'))
+                            gen_section = f'Level: **{((gen.get("prestige") or 0) * 100) + gen.get("level")}**'
                             gen_section += f' | Won: **{gen.get("wins")}**'
                             gen_section += f' | Rank: **{gen.get("comprank")}**'
                             gen_section += f'\nBronze: **{gms.get("medals_bronze")}**'
