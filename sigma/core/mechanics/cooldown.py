@@ -41,6 +41,12 @@ class CooldownControl(object):
         self.cache = Cacher()
         self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
 
+    async def cache_cooldowns(self):
+        cooldowns = await self.cds.find({}).to_list(None)
+        for cooldown in cooldowns:
+            self.cache.set_cache(cooldown.get('name'), cooldown)
+        self.bot.log.info(f'Finished pre-caching {len(cooldowns)} cooldowns.')
+
     async def on_cooldown(self, cmd, user):
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'

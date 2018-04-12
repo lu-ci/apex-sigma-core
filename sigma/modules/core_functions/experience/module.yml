@@ -9,6 +9,6 @@ events:
     type:         message
     enabled:      true
 
-  - name:         experience_daily
-    type:         message
+  - name:         experience_clock
+    type:         ready
     enabled:      true

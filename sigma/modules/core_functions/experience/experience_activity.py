@@ -14,6 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import secrets
+
+from sigma.modules.core_functions.experience.experience_clock import add_exp
+
 
 async def experience_activity(ev, message):
     if message.guild:
@@ -22,5 +26,6 @@ async def experience_activity(ev, message):
                 award_xp = 180
             else:
                 award_xp = 150
-            await ev.db.add_experience(message.author, message.guild, award_xp)
+            award_xp += secrets.randbelow(5) * 18
+            add_exp(message.author, message.guild, award_xp)
             await ev.bot.cool_down.set_cooldown(ev.name, message.author, 80)
