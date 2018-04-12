@@ -364,6 +364,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>anime` `>>animu` `>>kitsuanime` | Searches Kitsu.io for the inputted anime. The outputed results will be information like the number of episodes, user rating, air time, plot summary, and poster image. | `>>anime Plastic Memories`
 `>>antonyms` `>>antonym` `>>ant` | Looks up words that have opposite meanings for the given term. | `>>antonyms late`
+`>>busplus` | Returns the bus departure times from both terminus locations for the given line number. This is only for the Belgrade BusPlus transit tracking system. It will display the departure times for the current, previous and next hour. | `>>busplus 18`
 `>>cryptocurrency` `>>cryptocur` `>>crypcur` `>>ecoin` | Shows the statistics for the imputted crypto currency. Stats include the current market cap, price, supply, volume, change. | `>>cryptocurrency ethereum`
 `>>deezer` `>>music` `>>findsong` | Searches Deezer for infomation on the given song. The output will include a song preview link. | `>>deezer Highway to Hell`
 `>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun.  | `>>describe noun ocean`

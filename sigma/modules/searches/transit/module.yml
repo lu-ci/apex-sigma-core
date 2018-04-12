@@ -1,0 +1,14 @@
+name:             BusPlus Commands
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         busplus
+    enabled:      true
+    usage:        "{pfx}{cmd} 18"
+    description:
+      Returns the bus departure times from both terminus locations
+      for the given line number. This is only for the Belgrade BusPlus transit
+      tracking system. It will display the departure times for the current, previous and next hour.
