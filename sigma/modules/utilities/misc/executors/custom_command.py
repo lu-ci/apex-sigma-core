@@ -35,7 +35,7 @@ async def custom_command(ev, message):
     if message.guild:
         prefix = await ev.db.get_prefix(message)
         if message.content.startswith(prefix):
-            if message.content != prefix:
+            if message.content != prefix and not message.content.startswith(prefix + ' '):
                 cmd = message.content[len(prefix):].lower().split()[0]
                 if cmd not in ev.bot.modules.commands and cmd not in ev.bot.modules.alts:
                     perms = ServerCommandPermissions(ev, message)
