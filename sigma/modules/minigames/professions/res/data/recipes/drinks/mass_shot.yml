@@ -1,0 +1,12 @@
+name: Mass Shot
+type: Drink
+ingredients:
+  - "singing_spiral"
+  - "gorter"
+  - "nipinum"
+value: 800
+description:
+  One and done. Drinking one of these is like swallowing a rock,
+  a very smooth rock. Strong, heavy, delicious. Some even compare it
+  to drinking pure mercury. Don't plan on asking how they'd know that.
+  Consume with caution.
