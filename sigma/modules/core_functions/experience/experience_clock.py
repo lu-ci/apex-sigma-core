@@ -26,7 +26,7 @@ exp_storage = []
 def add_exp(member, guild, amount):
     global exp_storage
     storage_item = discord.utils.find(lambda x: x[0].id == member.id, exp_storage)
-    curr_exp = storage_item[3] if storage_item else 0
+    curr_exp = storage_item[2] if storage_item else 0
     new_exp = curr_exp + amount
     exp_storage = list(filter(lambda x: x[0].id != member.id, exp_storage))
     exp_storage.append([member, guild, new_exp])

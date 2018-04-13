@@ -14,18 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import secrets
 
-from sigma.modules.core_functions.experience.experience_clock import add_exp
-from sigma.modules.core_functions.experience.experience_cooldown import is_on_xp_cooldown
+import arrow
+cd_storage = {}
 
 
-async def experience_activity(ev, message):
-    if message.guild:
-        if not is_on_xp_cooldown(message.author.id):
-            if len(message.guild.members) >= 100:
-                award_xp = 180
-            else:
-                award_xp = 150
-            award_xp += secrets.randbelow(5) * 18
-            add_exp(message.author, message.guild, award_xp)
+def is_on_xp_cooldown(user_id: int):
+    user_stamp = cd_storage.get(user_id) or 0
+    curr_stamp = arrow.utcnow().float_timestamp
+    if user_stamp + 80 < curr_stamp:
+        cd_storage.update({user_id: curr_stamp})
+        on_cd = False
+    else:
+        on_cd = True
+    return on_cd
+
