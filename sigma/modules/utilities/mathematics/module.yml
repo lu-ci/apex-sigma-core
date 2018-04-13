@@ -36,7 +36,9 @@ commands:
     usage:        "{pfx}{cmd} @person #channel"
     description:
       Collects messages sent by the mentioned user and saves it as a chain.
-      Only one person can use the command at the time due to the processing load it takes.
+      Only one chain can be collected at a time so a queue is implemented.
+      If a user isn't tagged, it will collect a chain for you.
+      And if a channel isn't tagged, it will collect items from the one that the command is used in.
 
   - name:         blockcollector
     alts:
@@ -99,6 +101,10 @@ commands:
     description:
       Tries to impersonate the mentioned user if a chain file for them exists.
       This command is on a 20 second cooldown due to it's weight.
+      The more items in your chain you have, the better the output.
+      Having a low number of items, or having items that aren't good enough, might
+      result in Sigma not being able to generate anything. The optimal amount is 5000 items.
+      You can check how many items you have with the chain command.
 
   - name:         combinechains
     alts:
