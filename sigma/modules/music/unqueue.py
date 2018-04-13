@@ -41,14 +41,23 @@ async def unqueue(cmd: SigmaCommand, message: discord.Message, args: list):
                             queue_size = len(queue_list)
                             if order_num <= queue_size - 1:
                                 item = queue_list[order_num]
-                                queue_list.remove(item)
-                                new_queue = Queue()
-                                for list_item in queue_list:
-                                    await new_queue.put(list_item)
-                                cmd.bot.music.queues.update({message.guild.id: new_queue})
-                                response = discord.Embed(color=0x66CC66, title=f'✅ Removed {item.title}.')
-                                requester = f'{message.author.name}#{message.author.discriminator}'
-                                response.set_author(name=requester, icon_url=user_avatar(message.author))
+                                is_mod = message.author.guild_permissions.manage_guild
+                                is_req = item.requester.id == message.author.id
+                                if is_mod or is_req:
+                                    queue_list.remove(item)
+                                    new_queue = Queue()
+                                    for list_item in queue_list:
+                                        await new_queue.put(list_item)
+                                    cmd.bot.music.queues.update({message.guild.id: new_queue})
+                                    response = discord.Embed(color=0x66CC66, title=f'✅ Removed {item.title}.')
+                                    requester = f'{message.author.name}#{message.author.discriminator}'
+                                    response.set_author(name=requester, icon_url=user_avatar(message.author))
+                                else:
+                                    auth_deny_desc = f'Sorry, {message.author.name}. To remove a song you need to be'
+                                    auth_deny_desc += ' the person who requested it, or have the Manage Server'
+                                    auth_deny_desc += f' permission on {message.guild.name}.'
+                                    response = discord.Embed(color=0xBE1931)
+                                    response.add_field(name='⛔ Access Denied', value=auth_deny_desc)
                             else:
                                 response = discord.Embed(color=0xBE1931, title='❗ Input out of range.')
                         except ValueError:
