@@ -51,7 +51,10 @@ async def get_gem_data(gem_name: str, gem_url: str):
         page_html = lx.fromstring(page_html_raw)
         isb = page_html.cssselect('.item-stats')[0]
         gem_info = "\n".join([row.text_content().strip() for row in isb[0]])
-        gem_level = int(isb[1][0][0][0].text or 0)
+        try:
+            gem_level = int(isb[1][0][0][0].text or 0)
+        except IndexError:
+            gem_level = 0
         gem_desc = isb[2].text
         gem_image = page_html.cssselect(".image")[1][0].attrib.get("src")
         spell_image = page_html.cssselect(".image")[0][0].attrib.get("src")
@@ -100,14 +103,17 @@ async def poeactive(cmd: SigmaCommand, message: discord.Message, args: list):
         if gem_entry:
             gem_data = await get_gem_data(gem_entry.get('name'), gem_entry.get('url'))
             if gem_data:
-                gem_info_block = f'**Level**: {gem_data.get("level")}'
+                if gem_data.get('level'):
+                    gem_info_block = f'**Level**: {gem_data.get("level")}'
+                else:
+                    gem_info_block = ''
                 for detail in gem_data.get('info').get('details'):
                     gem_info_block += f'\n**{detail[0]}**: {detail[1]}'
                 img_data = gem_data.get('image')
                 gem_img: str = img_data.get('gem')
                 spell_img: str = img_data.get('spell')
                 title = f'Active Skill Gem: {gem_data.get("name")}'
-                response = discord.Embed(color=await get_image_colors(gem_img))
+                response = discord.Embed(color=await get_image_colors(spell_img))
                 response.description = gem_data.get('desc')
                 response.set_thumbnail(url=spell_img)
                 response.set_author(name=title, icon_url=gem_img, url=gem_data.get('url'))
