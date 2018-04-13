@@ -209,7 +209,7 @@ Commands | Description | Example
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
 `>>inspect` | Inspects an item that is in your inventory. | `>>inspect Nabfischz`
-`>>inventory` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. | `>>inventory 2 @person`
+`>>inventory` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>joinrace` `>>jr` | Joins a race instance if any are ongoing in the current channel. | `>>joinrace`
 `>>mangachargame` `>>mangochargame` `>>mancg` | A minigame where you guess the name of the manga character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>mangachargame hint`

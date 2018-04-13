@@ -19,15 +19,31 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
+from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 from .nodes.item_core import ItemCore
 
 item_core = None
+reci_core = None
+
+
+def is_ingredient(recipes: list, item: SigmaRawItem):
+    is_ingr = False
+    for recipe in recipes:
+        for ingredient in recipe.ingredients:
+            if ingredient.file_id == item.file_id:
+                is_ingr = True
+                break
+    return is_ingr
 
 
 async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     global item_core
+    global reci_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))
+    if not reci_core:
+        reci_core = RecipeCore(cmd.resource('data'))
     if message.mentions:
         target = message.mentions[0]
     else:
@@ -62,12 +78,20 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     item_o_list = sorted(item_o_list, key=lambda x: x.rarity, reverse=True)
     inv = item_o_list[start_range:end_range]
     if inv:
+        all_reci = reci_core.recipes
         headers = ['Type', 'Item', 'Value', 'Rarity']
         to_format = []
         total_value = 0
         for item_o_item in inv:
+            in_rec = '*' if is_ingredient(all_reci, item_o_item) else ''
             to_format.append(
-                [item_o_item.type, item_o_item.name, f'{item_o_item.value}', f'{item_o_item.rarity_name.title()}'])
+                [
+                    item_o_item.type,
+                    f'{item_o_item.name}{in_rec}',
+                    f'{item_o_item.value}',
+                    f'{item_o_item.rarity_name.title()}'
+                ]
+            )
         for item_o_item in item_o_list:
             total_value += item_o_item.value
         output = boop(to_format, column_names=headers)

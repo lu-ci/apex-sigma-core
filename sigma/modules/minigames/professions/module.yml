@@ -17,6 +17,7 @@ commands:
       The inventory has 64 slots at the start but can be upgraded in the shop.
       You can also specify the page number you want to see.
       The inventory is sorted by item rarity.
+      Items used in recipes are marked with an asterisk.
 
   - name:         inspect
     enabled:      true
