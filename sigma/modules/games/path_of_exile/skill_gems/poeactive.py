@@ -110,7 +110,7 @@ async def poeactive(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=await get_image_colors(gem_img))
                 response.description = gem_data.get('desc')
                 response.set_thumbnail(url=spell_img)
-                response.set_author(name=title, icon_url=gem_img)
+                response.set_author(name=title, icon_url=gem_img, url=gem_data.get('url'))
                 response.add_field(name='Information', value=gem_info_block, inline=False)
                 response.set_footer(text=f'Types: {" | ".join(gem_data.get("info").get("types"))}')
             else:
