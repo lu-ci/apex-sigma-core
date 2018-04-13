@@ -50,48 +50,66 @@ commands:
   - name:        permituser
     alts:
       - "pusr"
+      - "pusrs"
       - "permusr"
+      - "permusrs"
       - "permitu"
+      - "permitus"
+      - "permitusers"
     enabled:     true
     usage:       "{pfx}{cmd} c:pun @person"
     description:
       Specifies a user that can use a disabled command or module.
       It needs to be specified if it's a command or module group.
       If it is a command use C, if it is a module use M, following the usage example.
+      Multiple users can be tagged.
 
   - name:        unpermituser
     alts:
       - "upusr"
+      - "upusrs"
       - "unpermusr"
+      - "unpermusrs"
       - "unpermitu"
+      - "unpermitus"
+      - "unpermitusers"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun @person"
     description:
       Unpermits a user from using a previously overridden command or module.
       It needs to be specified if it's a command or module group.
       If it is a command use C, if it is a module use M, following the usage example.
+      Multiple users can be tagged.
 
   - name:        permitchannel
     alts:
       - "pch"
+      - "pchs"
       - "permch"
+      - "permchs"
       - "permitc"
+      - "permitcs"
+      - "permitchannels"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
       Allows a previously disabled command or module to be used in the specified channel.
-      Follow the usage example, C for command, M for module.
+      Follow the usage example, C for command, M for module. Multiple channels can be tagged.
 
   - name:        unpermitchannel
     alts:
       - "upch"
+      - "upchs"
       - "unpermch"
+      - "unpermchs"
       - "unpermitc"
+      - "unpermitcs"
+      - "unpermitchannels"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
       Removes the channel override for a disabled command or module.
-      Follow the usage example, C for command, M for module.
+      Follow the usage example, C for command, M for module. Multiple channels can be tagged.
 
   - name:        permitrole
     alts:

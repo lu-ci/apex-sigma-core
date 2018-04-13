@@ -75,7 +75,10 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
                                 {'ServerID': message.guild.id}, {'$set': perms}
                             )
-                            response_title = f'✅ {len(targets)} channels can no longer use {cmd_name}.'
+                            if len(targets) > 1:
+                                response_title = f'✅ {len(targets)} channels can no longer use {cmd_name}.'
+                            else:
+                                response_title = f'✅ #{targets[0].name} can no longer use {cmd_name}.'
                             response = discord.Embed(color=0x77B255, title=response_title)
                         else:
                             response_title = f'⚠ {bad_item.name} is not able to use {cmd_name}.'
