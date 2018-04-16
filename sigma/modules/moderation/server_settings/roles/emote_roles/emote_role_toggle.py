@@ -34,8 +34,8 @@ async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
     bid = bot.user.id
     present_emoji = []
     for reaction in msg.reactions:
-        if reaction.emoji.name in togglers:
-            present_emoji.append(reaction.emoji.name)
+        if reaction.emoji in togglers:
+            present_emoji.append(reaction.emoji)
         async for emoji_author in reaction.users():
             if emoji_author.id != bid:
                 await msg.remove_reaction(reaction.emoji, emoji_author)
@@ -66,7 +66,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
                                 if ev.event_type == 'raw_reaction_add':
                                     try:
                                         await check_emotes(ev.bot, message, guild_togglers.get(smid))
-                                    except discord.NotFound:
+                                    except (discord.NotFound, discord.Forbidden):
                                         pass
                                 role_id = guild_togglers.get(smid).get(emoji.name)
                                 if role_id:
