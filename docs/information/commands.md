@@ -345,20 +345,26 @@ Commands | Description | Example
 `>>autoroletimeout` `>>arltimeout` `>>arlt` | Sets the number of seconds the bot should wait before assigning the set auto-role. To disable the timeout, simply input 0 as the timeout, nothing special. | `>>autoroletimeout 600`
 `>>bindemoterole` `>>berl` | Binds a role to an emote role group. Emote role groups are limited to have 10 roles per group. | `>>bindemoterole 5a8e3 King Killers`
 `>>bindinvite` `>>bindinvs` `>>binvite` `>>binv` | Binds an invite to a role. When a member joins using that invite the stated role will be given to them. | `>>bindinvite aEUCHwX Cheese Lovers`
+`>>bindrole` `>>brl` | Binds a role to a role group. Role groups are limited to have 32 roles per group. | `>>bindrole 5a8e3 King Killers`
 `>>boundinvites` `>>boundinvs` `>>binvites` `>>binvs` | Lists all the invites that are bound and what they are bound to. | `>>boundinvites`
 `>>deleteemoterolegroup` `>>derg` `>>rerg` | Deletes an emote role group. This cannot be undone. Emote role groups are created with the makeemoterolegroup command. | `>>deleteemoterolegroup 5a8e3`
+`>>deleterolegroup` `>>drg` `>>rrg` | Deletes a role group. This cannot be undone. Role groups are created with the makerolegroup command. | `>>deleterolegroup 5a8e3`
 `>>delselfrole` `>>delrank` `>>rsr` `>>dsr` | Removes a role from the list of self assignable roles. | `>>delselfrole Meat Lover`
 `>>giverole` `>>giverank` `>>grole` `>>grank` | Gives the inputed role to the tagged user. The role must be below Sigma in Discord hierarchy. | `>>giverole @person Grandma`
 `>>listemoterolegroups` `>>lerg` | Lists emote role groups on the server. The list is paginated, you can enter the page you want to see after the command name as an argument. To view a role groups details, such as the populace and roles that are bound to that group, use the viewemoterolegroup command. | `>>listemoterolegroups 2`
+`>>listrolegroups` `>>lrg` | Lists role groups on the server. The list is paginated, you can enter the page you want to see after the command name as an argument. To view a role groups details, such as the populace and roles that are bound to that group, use the viewrolegroup command. | `>>listrolegroups 2`
 `>>listselfroles` `>>listranks` `>>listroles` `>>ranks` `>>roles` `>>lsrl` | Lists all self assignable roles present on the server. | `>>listselfroles`
 `>>makeemoterolegroup` `>>merg` `>>cerg` | Creates a role group for binding emote role to. Emote roles need to be limited to groups due to generating emote toggle messages for said roles which have limited emote numbers. As a good side effect, this also allows placing multiple emote toggle messages in different places with slight alterations. | `>>makeemoterolegroup`
 `>>makeemotetoggles` `>>metg` | Makes the core message that cotains the emotes for the emote role toggles. You enter the ID of the emote role group you want to make a toggler for and can also specify the channel you want it to go. If no channel is specified the toggler is created in the current channel. The toggler message contains instruction on how to use the toggles. You can add "nodesc" to the end of the command if you don't want the toggle instructions to be displayed in the toggler message. | `>>makeemotetoggles 5a8e3 #channel`
+`>>makerolegroup` `>>mrg` `>>crg` | Creates a role group for binding a role to. Role groups are limited to 32 roles per group. | `>>makerolegroup`
 `>>removerole` `>>removerank` `>>rrole` `>>rrank` | Removes the inputed role from the tagged user. The role must be below Sigma in Discord hierarchy. | `>>removerole @person Wangly`
 `>>syncinvites` `>>syncinvs` `>>sinvs` | Forces an update of the invite cache for your server. For use if you have suspicions that the bound role counters are out of sync. | `>>syncinvites`
 `>>togglerole` `>>togglerank` `>>rank` `>>trl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>togglerole Overlord`
 `>>unbindemoterole` `>>uberl` | Unbind a role from an emote role group. | `>>unbindemoterole 5a8e3 Serpent Squires`
 `>>unbindinvite` `>>unbinvite` `>>unbindinv` `>>unbinv` | Unbinds a previously bound invite from it's bound role. If the invite with that ID no longer exists on your server add ":f" to the end to force remove it. Please not that if you are force removing an invite that it is case sensitive. | `>>unbindinvite aEUCHwX`
+`>>unbindrole` `>>ubrl` | Unbind a role from a role group. | `>>unbindrole 5a8e3 Serpent Squires`
 `>>viewemoterolegroup` `>>verg` | Shows emote role group details such as roles that are in the group, and the total population of the group roles. | `>>viewemoterolegroup 5a8e3`
+`>>viewrolegroup` `>>vrg` | Shows role group details such as roles that are in the group, and the total population of the group roles. | `>>viewrolegroup 5a8e3`
 [Back To Top](#module-index)
 
 ### SEARCHES

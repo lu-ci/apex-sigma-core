@@ -1,0 +1,64 @@
+name:             Role Group Controls
+
+category:         roles
+
+enabled:          true
+
+commands:
+  - name:         makerolegroup
+    alts:
+      - "mrg"
+      - "crg"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Creates a role group for binding a role to.
+      Role groups are limited to 32 roles per group.
+
+  - name:         deleterolegroup
+    alts:
+      - "drg"
+      - "rrg"
+    enabled:      true
+    usage:        "{pfx}{cmd} 5a8e3"
+    description:
+      Deletes a role group. This cannot be undone.
+      Role groups are created with the makerolegroup command.
+
+  - name:         listrolegroups
+    alts:
+      - "lrg"
+    enabled:      true
+    usage:        "{pfx}{cmd} 2"
+    description:
+      Lists role groups on the server.
+      The list is paginated, you can enter the page you want to see
+      after the command name as an argument.
+      To view a role groups details, such as the populace and
+      roles that are bound to that group, use the viewrolegroup command.
+
+  - name:         viewrolegroup
+    alts:
+      - "vrg"
+    enabled:      true
+    usage:        "{pfx}{cmd} 5a8e3"
+    description:
+      Shows role group details such as roles that are in the group,
+      and the total population of the group roles.
+
+  - name:         bindrole
+    alts:
+      - "brl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 5a8e3 King Killers"
+    description:
+      Binds a role to a role group.
+      Role groups are limited to have 32 roles per group.
+
+  - name:         unbindrole
+    alts:
+      - "ubrl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 5a8e3 Serpent Squires"
+    description:
+      Unbind a role from a role group.
