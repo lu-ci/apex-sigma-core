@@ -17,6 +17,8 @@ import discord
 from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.sigma import ApexSigma
+from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 
 def user_has_role(role, user_roles):
@@ -26,6 +28,20 @@ def user_has_role(role, user_roles):
             has = True
             break
     return has
+
+
+async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
+    bid = bot.user.id
+    present_emoji = []
+    for reaction in msg.reactions:
+        if reaction.emoji.name in togglers:
+            present_emoji.append(reaction.emoji.name)
+        async for emoji_author in reaction.users():
+            if emoji_author.id != bid:
+                await msg.remove_reaction(reaction.emoji, emoji_author)
+    for toggler in togglers:
+        if toggler not in present_emoji:
+            await msg.add_reaction(toggler)
 
 
 async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
@@ -38,6 +54,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
         guild = channel.guild
         if guild:
             guild_togglers = await ev.db.get_guild_settings(guild.id, 'EmoteRoleTogglers') or {}
+            role_groups = await ev.db.get_guild_settings(guild.id, 'RoleGroups') or {}
             if guild_togglers:
                 user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
                 if user:
@@ -48,7 +65,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
                             if smid in guild_togglers:
                                 if ev.event_type == 'raw_reaction_add':
                                     try:
-                                        await message.remove_reaction(emoji.name, user)
+                                        await check_emotes(ev.bot, message, guild_togglers.get(smid))
                                     except discord.NotFound:
                                         pass
                                 role_id = guild_togglers.get(smid).get(emoji.name)
@@ -56,6 +73,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
                                     role_item = discord.utils.find(lambda x: x.id == role_id, guild.roles)
                                     if role_item:
                                         if user_has_role(role_item, user.roles):
+                                            await appropriate_roles(message.author, role_item, role_groups)
                                             await user.remove_roles(role_item)
                                         else:
                                             await user.add_roles(role_item)
