@@ -94,8 +94,6 @@ async def animechargame(cmd: SigmaCommand, message: discord.Message, args: list)
                 kud_reward = kud_reward // 2
                 scrambled_name = scramble(char_name)
                 question_embed.description = f'Name: {scrambled_name}'
-            reward_mult = streaks.get(message.author.id) or 0
-            kud_reward = int(kud_reward * (1 + (reward_mult * 0.8)))
             await message.channel.send(embed=question_embed)
 
             def check_answer(msg):
@@ -112,16 +110,18 @@ async def animechargame(cmd: SigmaCommand, message: discord.Message, args: list)
 
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
+                reward_mult = streaks.get(message.channel.id) or 0
+                kud_reward = int(kud_reward * (1 + (reward_mult * 0.8)))
                 await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency
-                streaks.update({message.author.id: reward_mult + 1})
+                streaks.update({message.channel.id: reward_mult + 1})
                 win_title = f'🎉 Correct, {author}, it was {char_name}. You won {kud_reward} {currency}!'
                 win_embed = discord.Embed(color=0x77B255, title=win_title)
                 await message.channel.send(embed=win_embed)
             except asyncio.TimeoutError:
-                if message.author.id in streaks:
-                    streaks.pop(message.author.id)
+                if message.channel.id in streaks:
+                    streaks.pop(message.channel.id)
                 timeout_title = f'🕙 Time\'s up! It was {char_name} from {anime_title}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
