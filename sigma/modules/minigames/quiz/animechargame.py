@@ -66,7 +66,7 @@ async def animechargame(cmd: SigmaCommand, message: discord.Message, args: list)
             character_list = []
             for char_obj in character_object_list:
                 if 'href' in char_obj[0].attrib:
-                    if '/character/' in char_obj[0].attrib['href']:
+                    if char_obj[1].text_content().strip() == 'Main':
                         character_list.append(char_obj)
             char_choice = secrets.choice(character_list)
             char_url = char_choice[0].attrib['href']
