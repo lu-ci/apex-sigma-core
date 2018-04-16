@@ -14,11 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
+from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
 
 
-async def remover_detector(ev: SigmaEvent, emoji: discord.PartialEmoji, mid: int, cid: int, uid: int):
+async def remover_detector(ev: SigmaEvent, payload: RawReactionActionEvent):
+    uid = payload.user_id
+    cid = payload.channel_id
+    mid = payload.message_id
+    emoji = payload.emoji
     if uid in ev.bot.cfg.dsc.owners:
         log_ch_id = ev.bot.modules.commands.get('addreact').cfg.get('log_ch')
         if cid is not None and cid == log_ch_id:

@@ -4,6 +4,7 @@ import shutil
 
 import arrow
 import discord
+from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
 from sigma.core.mechanics.config import Configuration
@@ -201,8 +202,8 @@ class ApexSigma(client_class):
         if not user.bot:
             self.loop.create_task(self.queue.event_runner('reaction_remove', reaction, user))
 
-    async def on_raw_reaction_add(self, emoji: discord.PartialEmoji, mid: int, cid: int, uid: int):
-        self.loop.create_task(self.queue.event_runner('raw_reaction_add', emoji, mid, cid, uid))
+    async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
+        self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
 
-    async def on_raw_reaction_remove(self, emoji: discord.PartialEmoji, mid: int, cid: int, uid: int):
-        self.loop.create_task(self.queue.event_runner('raw_reaction_remove', emoji, mid, cid, uid))
+    async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
+        self.loop.create_task(self.queue.event_runner('raw_reaction_remove', payload))
