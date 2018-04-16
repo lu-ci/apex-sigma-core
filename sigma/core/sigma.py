@@ -17,7 +17,7 @@ from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
 
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2017  Lucia's Cipher
+# Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
