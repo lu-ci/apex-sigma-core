@@ -110,13 +110,13 @@ item_colors = {
 cook_icons = {
     'drink': '🍶',
     'meal': '🍱',
-    'desert': '🍰'
+    'dessert': '🍰'
 }
 
 cook_colors = {
     'drink': 0x55ACEE,
     'meal': 0xDD2E44,
-    'desert': 0xF9F9F9
+    'dessert': 0xF9F9F9
 }
 
 cook_quality = {
