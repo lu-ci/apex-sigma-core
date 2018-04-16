@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
+from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def send_invite_blocker(ev, message):
@@ -40,6 +41,11 @@ async def send_invite_blocker(ev, message):
                                 except discord.NotFound:
                                     pass
                     if invite_found:
+                        invite_warn = await ev.db.get_guild_settings(message.guild.id, 'InviteAutoWarn')
+                        if invite_warn:
+                            reason = f'Sent an invite to {invite_found.guild.name}.'
+                            warn_data = warning_data(message.guild.me, message.author, reason)
+                            await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
                         title = '⛓ Invite links are not allowed on this server.'
                         response = discord.Embed(color=0xF9F9F9, title=title)
                         await message.delete()

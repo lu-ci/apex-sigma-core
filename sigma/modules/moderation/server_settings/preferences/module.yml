@@ -18,6 +18,18 @@ commands:
     description:
       Toggles if Sigma should respond to tables being flipped.
 
+  - name:         filterautowarn
+    enabled:      true
+    description:
+      When a user triggers the blacklisted word filter, they will receive a warning.
+      Like the warn command does, but automated.
+
+  - name:         inviteautowarn
+    enabled:      true
+    description:
+      When a user triggers the invite blocker, they will receive a warning.
+      Like the warn command does, but automated.
+
   - name:         deletecommands
     alts:
       - "delcmds"

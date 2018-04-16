@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
+from sigma.modules.moderation.warning.issuewarning import warning_data
 from .cleaners import clean_content
 
 
@@ -41,6 +42,10 @@ async def edit_word_blocker(ev, before, after):
                             break
                     if remove:
                         try:
+                            filter_warn = await ev.db.get_guild_settings(after.guild.id, 'FilterAutoWarn')
+                            if filter_warn:
+                                warn_data = warning_data(after.guild.me, after.author, f'Said "{reason}".')
+                                await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
                             await after.delete()
                             title = f'🔥 Your message was deleted for containing "{reason}".'
                             to_author = discord.Embed(color=0xFFCC4D, title=title)
