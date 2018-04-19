@@ -63,11 +63,6 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
                 value = f'You can make one with `{prefix}collectchain @{target.name} #channel`!'
                 response.add_field(name=title, value=value)
             await init_message.edit(embed=response)
-            if cmd.cfg.get('chain_channel') and success:
-                chain_channel_id = cmd.cfg.get('chain_channel')
-                chain_channel = discord.utils.find(lambda x: x.id == chain_channel_id, cmd.bot.get_all_channels())
-                if chain_channel:
-                    cmd.bot.loop.create_task(chain_channel.send(embed=response))
         else:
             no_target = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             await message.channel.send(embed=no_target)
