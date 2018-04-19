@@ -24,18 +24,21 @@ async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             if len(args) >= 2:
                 trigger = args[0].lower()
-                if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
-                    content = ' '.join(args[1:])
-                    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
-                    if trigger in custom_commands:
-                        res_text = 'updated'
+                if '.' not in trigger:
+                    if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
+                        content = ' '.join(args[1:])
+                        custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
+                        if trigger in custom_commands:
+                            res_text = 'updated'
+                        else:
+                            res_text = 'added'
+                        custom_commands.update({trigger: content})
+                        await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                        response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
                     else:
-                        res_text = 'added'
-                    custom_commands.update({trigger: content})
-                    await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
-                    response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
+                        response = discord.Embed(title='❗ Can\'t replace an existing core command', color=0xBE1931)
                 else:
-                    response = discord.Embed(title='❗ Can\'t replace an existing core command', color=0xBE1931)
+                    response = discord.Embed(title='❗ The command can not have a dot in it.', color=0xBE1931)
             else:
                 response = discord.Embed(title='❗ Invalid number of arguments.', color=0xBE1931)
         else:

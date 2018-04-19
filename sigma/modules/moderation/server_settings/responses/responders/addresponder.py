@@ -24,15 +24,18 @@ async def addresponder(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             if len(args) >= 2:
                 trigger = args[0].lower()
-                content = ' '.join(args[1:])
-                auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers') or {}
-                if trigger in auto_respones:
-                    res_text = 'updated'
+                if '.' not in trigger:
+                    content = ' '.join(args[1:])
+                    auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers') or {}
+                    if trigger in auto_respones:
+                        res_text = 'updated'
+                    else:
+                        res_text = 'added'
+                    auto_respones.update({trigger: content})
+                    await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
+                    response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
                 else:
-                    res_text = 'added'
-                auto_respones.update({trigger: content})
-                await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
-                response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
+                    response = discord.Embed(title='❗ The trigger must not contain a dot.', color=0xBE1931)
             else:
                 response = discord.Embed(title='❗ Missing Message To Send', color=0xBE1931)
         else:
