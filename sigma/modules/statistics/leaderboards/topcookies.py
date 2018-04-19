@@ -34,10 +34,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     all_users = cmd.bot.get_all_members()
     leader_docs = []
     for data_doc in all_docs:
-        if sort_key == 'global' or sort_key == 'total':
-            user_value = data_doc.get(sort_key) or 0
-        else:
-            user_value = data_doc.get('guilds').get(str(message.guild.id)) or 0
+        user_value = data_doc.get(sort_key) or 0
         user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_users)
         if user_object:
             leader_docs.append([user_object, user_value])
