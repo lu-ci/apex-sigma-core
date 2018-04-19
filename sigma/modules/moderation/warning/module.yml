@@ -28,6 +28,8 @@ commands:
       the issuer of the warning, and when the warning was issued.
       A moderator with manage messages permissions can view any user's warnings
       while users without said permission can only view the list of theirs.
+      The warning list is paginated, 5 warnings per page.
+      Just add the page number to the end of the command to see that page.
 
   - name:         viewwarning
     alts:
