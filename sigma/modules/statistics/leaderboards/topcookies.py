@@ -30,7 +30,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[0].lower() == 'total':
             sort_key = 'Total'
             lb_category = 'Total'
-    all_docs = await cmd.db[cmd.db.db_cfg.database].Cookies.find({}).sort(sort_key, -1).limit(99).to_list(None)
+    all_docs = await cmd.db[cmd.db.db_cfg.database].Cookies.find({}).sort(sort_key, -1).limit(50).to_list(None)
     all_users = cmd.bot.get_all_members()
     leader_docs = []
     for data_doc in all_docs:
