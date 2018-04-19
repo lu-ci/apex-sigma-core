@@ -35,14 +35,13 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = 'total'
             lb_category = 'Total'
     all_docs = await cmd.db[cmd.db.db_cfg.database].CurrencySystem.find({}).sort(sort_key, -1).limit(50).to_list(None)
-    all_users = cmd.bot.get_all_members()
     leader_docs = []
     for data_doc in all_docs:
         if sort_key == 'global' or sort_key == 'total':
             user_value = data_doc.get(sort_key) or 0
         else:
             user_value = data_doc.get('guilds').get(str(message.guild.id)) or 0
-        user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_users)
+        user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), cmd.bot.get_all_members())
         if user_object:
             leader_docs.append([user_object, user_value])
             if len(leader_docs) >= 20:
