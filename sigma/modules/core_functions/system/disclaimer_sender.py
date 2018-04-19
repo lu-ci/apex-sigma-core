@@ -45,7 +45,11 @@ You are NOT allowed to:
 
 
 async def disclaimer_sender(ev: SigmaEvent, guild: discord.Guild):
-    if guild.system_channel:
-        await guild.system_channel.send(disclaimer)
-    else:
+    try:
         await guild.owner.send(disclaimer)
+    except discord.Forbidden:
+        if guild.system_channel:
+            try:
+                await guild.system_channel.send(disclaimer)
+            except discord.Forbidden:
+                pass
