@@ -19,6 +19,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
 
 
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -39,7 +40,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             leader_docs.append([user_object, user_value])
             if len(leader_docs) >= 20:
                 break
-    table_data = [[doc[0].name[:12], str(doc[1])] for doc in leader_docs]
+    table_data = [[clean_name(doc[0].name, 'Unknown')[:12], str(doc[1])] for doc in leader_docs]
     table_body = boop(table_data, ['User Name', value_name])
     response = discord.Embed(color=await get_image_colors(lb_icon))
     response.set_author(name=f'{lb_category} {value_name} Leaderboard', icon_url=lb_icon)
