@@ -21,7 +21,7 @@ cd_storage = {}
 
 def is_on_xp_cooldown(user_id: int):
     user_stamp = cd_storage.get(user_id) or 0
-    curr_stamp = arrow.utcnow().float_timestamp
+    curr_stamp = arrow.utcnow().timestamp
     if user_stamp + 80 < curr_stamp:
         cd_storage.update({user_id: curr_stamp})
         on_cd = False
