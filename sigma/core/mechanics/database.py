@@ -84,10 +84,12 @@ class Database(motor.AsyncIOMotorClient):
             guild_id = str(guild.id)
             guilds = entry.get('guilds') or {}
             guild_xp = guilds.get(guild_id) or 0
+            total_xp = entry.get('total') or 0
         else:
             global_xp = 0
             guild_xp = 0
-        output = {'global': global_xp, 'guild': guild_xp}
+            total_xp = 0
+        output = {'global': global_xp, 'guild': guild_xp, 'total': total_xp}
         return output
 
     async def add_experience(self, user, guild, points, additive=True):
@@ -132,11 +134,13 @@ class Database(motor.AsyncIOMotorClient):
             guild_id = str(guild.id)
             guilds = entry.get('guilds') or {}
             guild_amount = guilds.get(guild_id) or 0
+            total_amount = entry.get('total') or 0
         else:
             current_amount = 0
             global_amount = 0
             guild_amount = 0
-        output = {'current': current_amount, 'global': global_amount, 'guild': guild_amount}
+            total_amount = 0
+        output = {'current': current_amount, 'global': global_amount, 'guild': guild_amount, 'total': total_amount}
         return output
 
     async def add_currency(self, user, guild, points, additive=True):

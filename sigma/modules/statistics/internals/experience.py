@@ -31,9 +31,15 @@ async def experience(cmd: SigmaCommand, message: discord.Message, args: list):
     response.set_author(name=f'{target.display_name}\'s Experience Data', icon_url=avatar)
     guild_title = '🎪 Local'
     global_title = '🌍 Global'
-    local_level = int(exp['guild'] / 13266.85)
-    global_level = int(exp['global'] / 13266.85)
-    response.add_field(name=guild_title, value=f"```py\nXP: {exp['guild']}\nLevel: {local_level}\n```", inline=True)
-    response.add_field(name=global_title, value=f"```py\nXP: {exp['global']}\nLevel: {global_level}\n```", inline=True)
+    total_title = '📟 Total'
+    guild_exp = exp.get('guild')
+    global_exp = exp.get('global')
+    total_exp = exp.get('total')
+    local_level = int(guild_exp / 13266.85)
+    global_level = int(global_exp / 13266.85)
+    total_level = int(total_exp / 13266.85)
+    response.add_field(name=guild_title, value=f"```py\nXP: {guild_exp}\nLevel: {local_level}\n```", inline=True)
+    response.add_field(name=global_title, value=f"```py\nXP: {global_exp}\nLevel: {global_level}\n```", inline=True)
+    response.add_field(name=total_title, value=f"```py\nXP: {total_exp}\nLevel: {total_level}\n```", inline=True)
     response.set_footer(text=f'🔰 Experience is earned by being an active guild member.')
     await message.channel.send(embed=response)
