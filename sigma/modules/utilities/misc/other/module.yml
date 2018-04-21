@@ -29,6 +29,15 @@ commands:
     description:
       Shows information about a HTTP response status code.
 
+  - name:         edgecalculator
+    alts:
+      - "edgecalc"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Calculates how edgy the targeted person is.
+      If no user is tagged, the target will be the one who uses the command.
+
   - name:         randombetween
     alts:
       - "ranin"
