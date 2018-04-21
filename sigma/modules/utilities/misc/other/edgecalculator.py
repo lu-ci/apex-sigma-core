@@ -38,9 +38,9 @@ async def edgecalculator(cmd: SigmaCommand, message: discord.Message, args: list
     target = message.mentions[0] if message.mentions else message.author
     avatar = user_avatar(target)
     name = target.name
-    username_edge = ((len(name) - len([c for c in name if c not in string.ascii_letters])) / len(name)) * 33
-    image_edge = ((765 - sum(hex_to_rgb(hexify_int(await get_image_colors(avatar))))) / 765) * 33
-    color_edge = ((765 - sum(hex_to_rgb(hexify_int(target.color.value)))) / 765) * 33
+    username_edge = ((len(name) - len([c for c in name if c not in string.ascii_letters])) / len(name)) * 30
+    image_edge = ((765 - sum(hex_to_rgb(hexify_int(await get_image_colors(avatar))))) / 765) * 60
+    color_edge = ((765 - sum(hex_to_rgb(hexify_int(target.color.value)))) / 765) * 10
     total_edge = round(image_edge + color_edge + username_edge, 2)
     bar_len = int(20 * (total_edge / 100))
     empty_len = 20 - bar_len
