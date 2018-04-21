@@ -37,8 +37,6 @@ async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
                 if role_bellow:
                     user_role_match = discord.utils.find(lambda x: match_role(x, target_role), message.author.roles)
                     if not user_role_match:
-                        role_groups = await cmd.db.get_guild_settings(message.guild.id, 'RoleGroups') or {}
-                        await appropriate_roles(message.author, target_role, role_groups)
                         await message.author.add_roles(target_role, reason='Role self assigned.')
                         addition_title = f'✅ {target_role.name} has been added to you, {message.author.name}.'
                         response = discord.Embed(color=0x77B255, title=addition_title)

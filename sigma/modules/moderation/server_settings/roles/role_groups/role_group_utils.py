@@ -34,6 +34,6 @@ async def appropriate_roles(member: discord.Member, role: discord.Role, role_gro
         if other_roles:
             for other_role in other_roles:
                 try:
-                    await member.remove_roles(other_role)
+                    await member.remove_roles(other_role, reason=f'Role group {match_group} limitation.')
                 except discord.Forbidden:
                     pass

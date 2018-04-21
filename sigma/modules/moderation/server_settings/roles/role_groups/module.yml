@@ -62,3 +62,8 @@ commands:
     usage:        "{pfx}{cmd} 5a8e3 Serpent Squires"
     description:
       Unbind a role from a role group.
+
+events:
+  - name:         role_group_check
+    type:         member_update
+    enabled:      true
