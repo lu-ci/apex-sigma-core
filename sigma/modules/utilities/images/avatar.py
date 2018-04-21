@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
 async def avatar(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -43,6 +44,6 @@ async def avatar(cmd: SigmaCommand, message: discord.Message, args: list):
         color = target.color
     embed = discord.Embed(color=color)
     if auto_color:
-        embed.description = f'Dominant Color: #{str(hex(color)).split("x")[1].upper()}'
+        embed.description = f'Dominant Color: #{hexify_int(color)}'
     embed.set_image(url=ava_url)
     await message.channel.send(None, embed=embed)
