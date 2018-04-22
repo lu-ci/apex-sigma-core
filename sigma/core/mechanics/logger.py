@@ -17,7 +17,8 @@
 import logging
 import os
 import sys
-from logging.handlers import TimedRotatingFileHandler
+
+import arrow
 
 systemd_journal_available = False
 
@@ -177,6 +178,7 @@ class Logger(object):
         log_dir = 'log'
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
-        filename = os.path.join(log_dir, 'sigma.log')
-        handler = TimedRotatingFileHandler(filename, when='d', interval=1, encoding='utf-8', utc=True)
+        now = arrow.utcnow()
+        filename = os.path.join(log_dir, f'sigma.{now.format("YYYY-MM-DD")}.log')
+        handler = logging.FileHandler(filename)
         logger.add_handler(handler)
