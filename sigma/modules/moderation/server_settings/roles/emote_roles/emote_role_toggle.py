@@ -18,7 +18,6 @@ from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
-from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 
 def user_has_role(role, user_roles):

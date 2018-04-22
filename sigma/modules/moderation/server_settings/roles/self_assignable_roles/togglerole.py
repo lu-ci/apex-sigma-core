@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 
 def match_role(x, t):

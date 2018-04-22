@@ -16,6 +16,7 @@
 
 
 import arrow
+
 cd_storage = {}
 
 
@@ -28,4 +29,3 @@ def is_on_xp_cooldown(user_id: int):
     else:
         on_cd = True
     return on_cd
-

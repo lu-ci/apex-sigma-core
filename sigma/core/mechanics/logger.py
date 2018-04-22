@@ -170,8 +170,7 @@ class Logger(object):
     @staticmethod
     def add_file_handler(logger):
         """
-        Add a log handler that writes logs to a auto rotated file.
-        The file will be rotated every day.
+        Adds a regular file handler for the logging.
         :param logger:
         :return:
         """
