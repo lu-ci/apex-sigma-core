@@ -33,7 +33,7 @@ async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list
         rl_qry = ' '.join(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), message.guild.roles)
         if role_search:
-+           counter = len(role_search.members)
+            counter = len(role_search.members)
             response = discord.Embed(color=role_search.color)
             response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
             response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
@@ -44,7 +44,7 @@ async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list
         for role in message.guild.roles:
             if role.id != message.guild.id:
                 role_key = role.name
-+               role_count = len(role.members)
+                role_count = len(role.members)
                 role_dict.update({role_key: role_count})
         sorted_roles = sorted(role_dict.items(), key=operator.itemgetter(1), reverse=True)
         output = []
