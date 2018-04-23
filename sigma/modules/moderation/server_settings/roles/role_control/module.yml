@@ -30,3 +30,13 @@ commands:
     description:
       Removes the inputed role from the tagged user.
       The role must be below Sigma in Discord hierarchy.
+
+  - name: pruneroles
+    alts:
+      - "proles"
+    enabled: true
+    usage : "{pfx}{cmd}"
+    requirements:
+      - "manage_roles"
+    description:
+      Removes all empty roles from the server.
