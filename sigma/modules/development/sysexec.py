@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-def from_output(cmd: SigmaCommand, output: bytes) -> str:
+def from_output(output: bytes) -> str:
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
 
 
@@ -31,7 +31,7 @@ async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
         try:
             process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
             await message.add_reaction('✔')
-            response = from_output(cmd, process.stdout)
+            response = from_output(process.stdout)
         except (OSError, subprocess.SubprocessError) as e:
             cmd.log.error(e)
             await message.add_reaction('❗')
