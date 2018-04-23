@@ -49,7 +49,7 @@ async def rolepopulation(cmd: SigmaCommand, message: discord.Message, args: list
         sorted_roles = sorted(role_dict.items(), key=operator.itemgetter(1), reverse=True)
         output = []
         for srole in sorted_roles[:20]:
-            output.append([srole[0], srole[1], f'{str(percentify(srole[1], len(message.guild.members) - 1))}%'])
+            output.append([srole[0], srole[1], f'{str(percentify(srole[1], len(message.guild.members)))}%'])
         out_text = boop(output)
         stats_block = f'```py\nShowing {len(output)} roles out of {len(message.guild.roles) - 1}\n```'
         response = discord.Embed(color=0x3B88C3)
