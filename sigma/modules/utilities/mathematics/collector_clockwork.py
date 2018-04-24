@@ -19,6 +19,8 @@ import string
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 collector_loop_running = False
 
 
@@ -115,14 +117,14 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
         pass
 
 
-async def collector_clockwork(ev):
+async def collector_clockwork(ev: SigmaEvent):
     global collector_loop_running
     if not collector_loop_running:
         collector_loop_running = True
         ev.bot.loop.create_task(cycler(ev))
 
 
-async def cycler(ev):
+async def cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             cltr_item = await ev.db[ev.db.db_cfg.database].CollectorQueue.find_one_and_delete({})

@@ -37,6 +37,5 @@ async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
             await message.add_reaction('❗')
     else:
         response = 'No input.'
-
     if response:
         await message.channel.send(response)

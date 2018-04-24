@@ -18,10 +18,12 @@ import asyncio
 
 import aiohttp
 
+from sigma.core.mechanics.event import SigmaEvent
+
 dbots_loop_runnin = False
 
 
-async def discordbots_clock(ev):
+async def discordbots_clock(ev: SigmaEvent):
     global dbots_loop_runnin
     if ev.bot.cfg.pref.dscbots_token and not dbots_loop_runnin:
         dbots_loop_runnin = True
@@ -29,7 +31,7 @@ async def discordbots_clock(ev):
         ev.bot.loop.create_task(clockwork_updater(ev, token))
 
 
-async def clockwork_updater(ev, token):
+async def clockwork_updater(ev: SigmaEvent, token):
     while True:
         if ev.bot.is_ready():
             guild_count = len(ev.bot.guilds)

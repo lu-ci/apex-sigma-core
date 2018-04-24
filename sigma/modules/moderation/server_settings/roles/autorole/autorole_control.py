@@ -18,8 +18,10 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def autorole_control(ev, member):
+
+async def autorole_control(ev: SigmaEvent, member):
     curr_role_id = await ev.db.get_guild_settings(member.guild.id, 'AutoRole')
     if curr_role_id:
         curr_role = discord.utils.find(lambda x: x.id == curr_role_id, member.guild.roles)

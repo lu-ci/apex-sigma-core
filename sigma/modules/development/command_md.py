@@ -16,8 +16,10 @@
 
 import os
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def command_md(ev):
+
+async def command_md(ev: SigmaEvent):
     if ev.bot.cfg.pref.dev_mode:
         if not os.path.exists('docs/information'):
             os.makedirs('docs/information')

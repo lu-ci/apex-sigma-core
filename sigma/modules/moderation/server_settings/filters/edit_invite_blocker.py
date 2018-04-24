@@ -16,12 +16,13 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def edit_invite_blocker(ev, before, after):
+async def edit_invite_blocker(ev: SigmaEvent, before, after):
     if after.guild:
         if isinstance(after.author, discord.Member):
             if not after.author.permissions_in(after.channel).administrator:

@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import movement_message_parser
 
 
-async def greet_sender(ev, member):
+async def greet_sender(ev: SigmaEvent, member):
     greet_active = await ev.db.get_guild_settings(member.guild.id, 'Greet')
     if greet_active is True or greet_active is None:
         greet_dm = await ev.db.get_guild_settings(member.guild.id, 'GreetDM')

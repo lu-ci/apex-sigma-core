@@ -19,6 +19,8 @@ import string
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 cleaner_loop_running = False
 
 
@@ -32,14 +34,14 @@ def clean_name(name, default):
     return end_name
 
 
-async def name_check_clockwork(ev):
+async def name_check_clockwork(ev: SigmaEvent):
     global cleaner_loop_running
     if not cleaner_loop_running:
         cleaner_loop_running = True
         ev.bot.loop.create_task(name_checker(ev))
 
 
-async def name_checker(ev):
+async def name_checker(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             guild_ids = []

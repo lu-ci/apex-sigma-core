@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def mute_checker(ev, message):
+
+async def mute_checker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
             if message.author.id not in ev.bot.cfg.dsc.owners:

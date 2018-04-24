@@ -16,11 +16,14 @@
 
 import secrets
 
+import discord
+
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.core_functions.experience.experience_clock import add_exp
 from sigma.modules.core_functions.experience.experience_cooldown import is_on_xp_cooldown
 
 
-async def experience_activity(ev, message):
+async def experience_activity(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if not is_on_xp_cooldown(message.author.id):
             if len(message.guild.members) >= 100:

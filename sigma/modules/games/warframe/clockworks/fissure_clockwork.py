@@ -16,20 +16,21 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.fissure_parser import get_fissure_data, generate_fissure_embed
 
 wff_loop_running = False
 
 
-async def fissure_clockwork(ev):
+async def fissure_clockwork(ev: SigmaEvent):
     global wff_loop_running
     if not wff_loop_running:
         wff_loop_running = True
         ev.bot.loop.create_task(fissure_cycler(ev))
 
 
-async def fissure_cycler(ev):
+async def fissure_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:

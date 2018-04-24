@@ -16,6 +16,8 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 cache = {}
 
 
@@ -42,7 +44,7 @@ def get_changed_invite(guild_id, bound_list, invites):
     return invite
 
 
-async def bound_role_cacher(ev):
+async def bound_role_cacher(ev: SigmaEvent):
     counter = 0
     ev.log.info('Starting invite caching...')
     for guild in ev.bot.guilds:

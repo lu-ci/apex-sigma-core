@@ -16,10 +16,12 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
+
 pop_loop_running = False
 
 
-async def population_clockwork(ev):
+async def population_clockwork(ev: SigmaEvent):
     global pop_loop_running
     collection = 'GeneralStats'
     search = await ev.db[ev.bot.cfg.db.database][collection].find_one({'name': 'population'})
@@ -30,7 +32,7 @@ async def population_clockwork(ev):
         ev.bot.loop.create_task(update_population_stats_node(ev))
 
 
-async def update_population_stats_node(ev):
+async def update_population_stats_node(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             collection = 'GeneralStats'

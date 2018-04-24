@@ -16,11 +16,12 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from .move_log_embed import make_move_log_embed
 
 
-async def leave_move_log(ev, guild):
+async def leave_move_log(ev: SigmaEvent, guild):
     bot_count = 0
     user_count = 0
     for user in guild.members:

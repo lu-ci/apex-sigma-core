@@ -19,8 +19,10 @@ import json
 import arrow
 import yaml
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def version_updater(ev):
+
+async def version_updater(ev: SigmaEvent):
     if ev.bot.cfg.pref.dev_mode:
         with open('info/version.yml', 'r') as version_file:
             current_version_data = yaml.safe_load(version_file)

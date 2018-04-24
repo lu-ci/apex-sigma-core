@@ -16,20 +16,21 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.alert_parser import get_alert_data, generate_alert_embed
 
 wfa_loop_running = False
 
 
-async def alert_clockwork(ev):
+async def alert_clockwork(ev: SigmaEvent):
     global wfa_loop_running
     if not wfa_loop_running:
         wfa_loop_running = True
         ev.bot.loop.create_task(alert_cycler(ev))
 
 
-async def alert_cycler(ev):
+async def alert_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:

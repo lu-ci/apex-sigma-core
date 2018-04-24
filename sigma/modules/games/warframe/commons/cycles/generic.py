@@ -16,8 +16,10 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def get_channels(ev, marker):
+
+async def get_channels(ev: SigmaEvent, marker):
     channel_list = []
     lookup = {marker: {'$exists': True}}
     setting_files = await ev.db[ev.db.db_cfg.database].ServerSettings.find(lookup).to_list(None)
@@ -44,7 +46,7 @@ async def get_triggers(db, triggers, guild):
     return mentions
 
 
-async def send_to_channels(ev, embed, marker, triggers=None):
+async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):
     channels = await get_channels(ev, marker)
     for channel in channels:
         try:

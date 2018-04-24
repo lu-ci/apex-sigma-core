@@ -19,19 +19,20 @@ import asyncio
 import arrow
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 
 rem_loop_running = False
 
 
-async def reminder_clockwork(ev):
+async def reminder_clockwork(ev: SigmaEvent):
     global rem_loop_running
     if not rem_loop_running:
         rem_loop_running = True
         ev.bot.loop.create_task(clockwork_function_reminder_clockwork(ev))
 
 
-async def clockwork_function_reminder_clockwork(ev):
+async def clockwork_function_reminder_clockwork(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             reminders = await ev.db[ev.db.db_cfg.database]['Reminders'].find({}).to_list(None)

@@ -16,20 +16,21 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.acolyte_parser import get_acolyte_data, generate_acolyte_embed
 
 wfaco_loop_running = False
 
 
-async def acolyte_clockwork(ev):
+async def acolyte_clockwork(ev: SigmaEvent):
     global wfaco_loop_running
     if not wfaco_loop_running:
         wfaco_loop_running = True
         ev.bot.loop.create_task(acolyte_cycler(ev))
 
 
-async def acolyte_cycler(ev):
+async def acolyte_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:

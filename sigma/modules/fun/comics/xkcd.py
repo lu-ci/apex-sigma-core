@@ -33,6 +33,6 @@ async def xkcd(cmd: SigmaCommand, message: discord.Message, args: list):
             joke_json = json.loads(joke_json)
     image_url = joke_json['img']
     comic_title = joke_json['title']
-    embed = discord.Embed(color=0xF9F9F9, title=f'🚽 XKCD: {comic_title}')
-    embed.set_image(url=image_url)
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xF9F9F9, title=f'🚽 XKCD: {comic_title}')
+    response.set_image(url=image_url)
+    await message.channel.send(None, embed=response)

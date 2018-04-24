@@ -16,20 +16,21 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.sortie_parser import get_sortie_data, generate_sortie_embed
 
 wfs_loop_running = False
 
 
-async def sortie_clockwork(ev):
+async def sortie_clockwork(ev: SigmaEvent):
     global wfs_loop_running
     if not wfs_loop_running:
         wfs_loop_running = True
         ev.bot.loop.create_task(sortie_cycler(ev))
 
 
-async def sortie_cycler(ev):
+async def sortie_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:

@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import movement_message_parser
 
 
-async def bye_sender(ev, member):
+async def bye_sender(ev: SigmaEvent, member):
     bye_active = await ev.db.get_guild_settings(member.guild.id, 'Bye')
     if bye_active is True or bye_active is None:
         bye_channel_id = await ev.db.get_guild_settings(member.guild.id, 'ByeChannel')

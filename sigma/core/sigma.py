@@ -116,7 +116,7 @@ class ApexSigma(client_class):
         self.music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
 
-    def init_modules(self, init=False):
+    def init_modules(self, init: bool = False):
         if init:
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)

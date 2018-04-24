@@ -16,11 +16,12 @@ import arrow
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def edit_logger(ev, before, after):
+async def edit_logger(ev: SigmaEvent, before, after):
     if after.guild:
         if before.content and after.content and (before.content != after.content):
             log_title = f'{after.author.name}#{after.author.discriminator} edited their message.'

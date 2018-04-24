@@ -16,10 +16,13 @@
 
 import secrets
 
+import discord
+
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.stats_processing import add_special_stats
 
 
-async def table_unflipper(ev, message):
+async def table_unflipper(ev: SigmaEvent, message: discord.Message):
     if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in message.content.replace(' ', ''):
         if message.guild:
             flip_settings = await ev.db.get_guild_settings(message.guild.id, 'Unflip')

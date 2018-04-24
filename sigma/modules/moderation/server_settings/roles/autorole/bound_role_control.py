@@ -16,10 +16,11 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import get_changed_invite
 
 
-async def bound_role_control(ev, member):
+async def bound_role_control(ev: SigmaEvent, member):
     if member.guild.me.guild_permissions.create_instant_invite:
         bound_invites = await ev.db.get_guild_settings(member.guild.id, 'BoundInvites')
         if bound_invites is None:

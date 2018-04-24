@@ -16,6 +16,9 @@
 
 import string
 
+import discord
+
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import command_message_parser
 
 
@@ -27,7 +30,7 @@ def clean_word(text):
     return output
 
 
-async def auto_responder(ev, message):
+async def auto_responder(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if message.content:
             pfx = await ev.db.get_prefix(message)

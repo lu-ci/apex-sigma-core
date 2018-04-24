@@ -16,6 +16,7 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
 
@@ -31,7 +32,7 @@ def log_command_usage(log, message, command):
     log.info(log_text)
 
 
-async def custom_command(ev, message):
+async def custom_command(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         prefix = await ev.db.get_prefix(message)
         if message.content.startswith(prefix):

@@ -20,6 +20,8 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 status_cache = []
 status_loop_running = False
 
@@ -36,14 +38,14 @@ def random_capitalize(text):
     return new_text
 
 
-async def status_rotation(ev):
+async def status_rotation(ev: SigmaEvent):
     global status_loop_running
     if not status_loop_running:
         status_loop_running = True
         ev.bot.loop.create_task(status_clockwork(ev))
 
 
-async def status_clockwork(ev):
+async def status_clockwork(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             if ev.bot.cfg.pref.status_rotation:

@@ -16,13 +16,15 @@
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 
-def log_dm(ev, message):
+
+def log_dm(ev: SigmaEvent, message: discord.Message):
     author_text = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
     ev.log.info(f'DM From {author_text}: {message.content}')
 
 
-async def has_invite(ev, arguments):
+async def has_invite(ev: SigmaEvent, arguments):
     invite_found = False
     for arg in arguments:
         triggers = ['.gg', '.com', 'http']
@@ -37,7 +39,7 @@ async def has_invite(ev, arguments):
     return invite_found
 
 
-async def dm_detection(ev, message):
+async def dm_detection(ev: SigmaEvent, message: discord.Message):
     if not message.guild:
         if not message.author.bot:
             pfx = await ev.db.get_prefix(message)

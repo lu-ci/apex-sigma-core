@@ -19,8 +19,10 @@ from json.decoder import JSONDecodeError
 
 import aiohttp
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def version_check(ev):
+
+async def version_check(ev: SigmaEvent):
     version_url = 'https://api.lucia.moe/rest/sigma/version'
     try:
         async with aiohttp.ClientSession() as session:

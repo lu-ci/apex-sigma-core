@@ -13,10 +13,10 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+from sigma.core.mechanics.event import SigmaEvent
 from .mech.feh_core import FireEmblemHeroesCore
 
 
-async def feh_dbcheck(ev):
+async def feh_dbcheck(ev: SigmaEvent):
     feh_core = FireEmblemHeroesCore(ev.db)
     await feh_core.feh_dbcheck()

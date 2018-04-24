@@ -19,8 +19,10 @@ import asyncio
 import arrow
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 
-async def afk_mention_check(ev, message):
+
+async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         pfx = await ev.db.get_prefix(message)
         if not message.content.startswith(pfx):

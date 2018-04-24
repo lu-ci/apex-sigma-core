@@ -32,18 +32,17 @@ def add_exp(member, guild, amount):
     exp_storage.append([member, guild, new_exp])
 
 
-async def experience_clock(ev):
+async def experience_clock(ev: SigmaEvent):
     global exp_clock_running
     if not exp_clock_running:
-        ev.bot.loop.create_task(exp_clock_cycler(ev))
+        ev.bot.loop.create_task(exp_clock_cycler(ev: SigmaEvent))
 
-
-async def exp_clock_cycler(ev):
-    global exp_storage
-    while True:
-        if ev.bot.is_ready():
-            for exp_item in exp_storage:
-                await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
-                await asyncio.sleep(0.00125)
-            exp_storage = []
-        await asyncio.sleep(300)
+    async def exp_clock_cycler(ev: SigmaEvent):
+        global exp_storage
+        while True:
+            if ev.bot.is_ready():
+                for exp_item in exp_storage:
+                    await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
+                    await asyncio.sleep(0.00125)
+                exp_storage = []
+            await asyncio.sleep(300)

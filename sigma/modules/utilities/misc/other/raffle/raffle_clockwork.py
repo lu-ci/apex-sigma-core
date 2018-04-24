@@ -21,12 +21,13 @@ import string
 import arrow
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 
 raffle_loop_running = False
 
 
-async def raffle_clockwork(ev):
+async def raffle_clockwork(ev: SigmaEvent):
     global raffle_loop_running
     if not raffle_loop_running:
         raffle_loop_running = True
@@ -40,7 +41,7 @@ def extra_shuffle(some_list):
     return new_list
 
 
-async def cycler(ev):
+async def cycler(ev: SigmaEvent):
     raffle_coll = ev.db[ev.db.db_cfg.database].Raffles
     while True:
         if ev.bot.is_ready():

@@ -16,11 +16,12 @@ import arrow
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def delete_logger(ev, message):
+async def delete_logger(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if message.content:
             log_title = f'{message.author.name}#{message.author.discriminator}\'s message was deleted.'

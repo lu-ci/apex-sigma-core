@@ -18,6 +18,8 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 
 def sigma_mention_check(content, sigma_id):
     sigma_present = False
@@ -35,7 +37,7 @@ def sigma_mention_check(content, sigma_id):
     return sigma_present
 
 
-async def afk_comeback_check(ev, message):
+async def afk_comeback_check(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         pfx = await ev.db.get_prefix(message)
         if not message.content.startswith(pfx):

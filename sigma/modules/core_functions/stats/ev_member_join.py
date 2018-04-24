@@ -13,13 +13,15 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import discord
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats = None
 
 
-async def ev_member_join(ev, message):
+async def ev_member_join(ev: SigmaEvent, message: discord.Message):
     global stats
     if stats is None:
         stats = StatisticsStorage(ev.db, 'member_join')

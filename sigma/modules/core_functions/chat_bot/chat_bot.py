@@ -21,6 +21,8 @@ import discord
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
+from sigma.core.mechanics.event import SigmaEvent
+
 cb = None
 
 
@@ -45,7 +47,7 @@ def clean_mentions(members, text):
     return ' '.join(out)
 
 
-def init_chatterbot(ev):
+def init_chatterbot(ev: SigmaEvent):
     global cb
     if ev.db.chatterbot.statements.count():
         train = False
@@ -64,7 +66,7 @@ def init_chatterbot(ev):
         ev.log.info('Chatterbot Training Complete')
 
 
-async def chat_bot(ev, message):
+async def chat_bot(ev: SigmaEvent, message: discord.Message):
     try:
         if not cb:
             init_chatterbot(ev)

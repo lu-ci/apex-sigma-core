@@ -16,20 +16,21 @@
 
 import asyncio
 
+from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.news_parser import get_news_data, generate_news_embed
 
 wfn_loop_running = False
 
 
-async def news_clockwork(ev):
+async def news_clockwork(ev: SigmaEvent):
     global wfn_loop_running
     if not wfn_loop_running:
         wfn_loop_running = True
         ev.bot.loop.create_task(news_cycler(ev))
 
 
-async def news_cycler(ev):
+async def news_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:
