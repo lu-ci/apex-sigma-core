@@ -15,27 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-import json
-
-import aiohttp
 
 from sigma.core.mechanics.database import Database
-
-
-class ElasticHandler(object):
-    def __init__(self, url: str, index: str):
-        self.url = url
-        self.type = index
-
-    async def post(self, data):
-        qry = json.dumps(data)
-        api_url = f'{self.url}/{self.type}/doc/'
-        heads = {'Content-Type': 'application/json'}
-        try:
-            async with aiohttp.ClientSession() as session:
-                await session.post(api_url, data=qry, headers=heads)
-        except Exception:
-            pass
 
 
 class StatisticsStorage(object):

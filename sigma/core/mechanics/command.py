@@ -18,7 +18,6 @@ import os
 import secrets
 import traceback
 
-import arrow
 import discord
 import yaml
 
@@ -28,7 +27,6 @@ from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
-from sigma.core.mechanics.statistics import ElasticHandler
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
@@ -48,10 +46,6 @@ class SigmaCommand(object):
         self.nsfw = False
         self.cfg = {}
         self.cache = {}
-        if self.bot.cfg.pref.raw.get('elastic'):
-            self.stats = ElasticHandler(self.bot.cfg.pref.raw.get('elastic'), 'sigma-command')
-        else:
-            self.stats = None
         self.owner = False
         self.partner = False
         self.dmable = False
@@ -75,61 +69,6 @@ class SigmaCommand(object):
             'status': str(usr.status) if isinstance(usr, discord.Member) else None
         }
         return usr_data
-
-    async def add_elastic_stats(self, message: discord.Message, args: list):
-        ath = message.author
-        chn = message.channel if message.channel else None
-        gld = message.guild if message.guild else None
-        ath_data = self.get_usr_data(ath)
-        if chn:
-            chn_data = {
-                'id': chn.id,
-                'nsfw': chn.is_nsfw() if not isinstance(chn, discord.DMChannel) else False,
-                'name': chn.name if not isinstance(chn, discord.DMChannel) else f'{ath.name}#{ath.discriminator}',
-            }
-        else:
-            chn_data = None
-        if gld:
-            gld_data = {
-                'channels': len(gld.channels),
-                'created': str(gld.created_at),
-                'id': gld.id,
-                'name': gld.name,
-                'large': gld.large,
-                'members': {
-                    'users': len([x for x in gld.members if not x.bot]),
-                    'bots': len([x for x in gld.members if x.bot]),
-                    'total': len(gld.members)
-                },
-                'region': str(gld.region),
-                'roles': len(gld.roles)
-            }
-        else:
-            gld_data = None
-        stat_data = {
-            'command': {
-                'name': self.name,
-                'category': self.category,
-                'nsfw': self.nsfw
-            },
-            'arguments': args,
-            'origin': {
-                'author': ath_data,
-                'channel': chn_data,
-                'guild': gld_data
-            },
-            'time': {
-                'executed': {
-                    'date': arrow.utcnow().format('YYYY-MM-DD'),
-                    'stamp': int(arrow.utcnow().float_timestamp * 1000)
-                },
-                'created': {
-                    'date': arrow.get(message.created_at).format('YYYY-MM-DD'),
-                    'stamp': int(arrow.utcnow().float_timestamp * 1000)
-                }
-            }
-        }
-        await self.stats.post(stat_data)
 
     def insert_command_info(self):
         self.alts = self.command_info.get('alts') or []
@@ -261,8 +200,6 @@ class SigmaCommand(object):
                             try:
                                 await getattr(self.command, self.name)(self, message, args)
                                 await add_cmd_stat(self)
-                                if self.stats:
-                                    await self.add_elastic_stats(message, args)
                                 await self.add_usage_exp(message)
                                 self.bot.command_count += 1
                                 self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
