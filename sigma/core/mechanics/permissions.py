@@ -181,13 +181,14 @@ class GlobalCommandPermissions(object):
         ]
         letters = ['u', 's', 'o', 'm', 'd', 'n', 'v']
         fmt = ''.join(map(lambda c, l: l if c else '-', conds, letters))
-
-        self.cmd.log.warning((
+        log_line = (
             f'ACCESS DENIED'
             f' | {fmt}'
             f' | USR: {self.message.author} ({self.message.author.id})'
-            f' | SRV: {self.message.guild} ({self.message.guild.id})'
-        ))
+        )
+        if self.message.guild:
+            log_line += ' | SRV: {self.message.guild} ({self.message.guild.id})'
+        self.cmd.log.warning(log_line)
 
 
 class ServerCommandPermissions(object):
