@@ -240,6 +240,7 @@ Commands | Description | Example
 `>>edgecalculator` `>>edgecalc` | Calculates how edgy the targeted person is. If no user is tagged, the target will be the one who uses the command. | `>>edgecalculator @person`
 `>>endraffle` `>>endraf` | Prematurely ends a raffle. Usable only by the raffle's creator. The responses are the same as the redraw command. If an active raffle with the given id is not found, it will be a magnifying glass. If you are not the creator of the raffle, a no entry sign. If no ID is given, an exclamation. | `>>endraffle 1abc9c`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. | `>>httpstatus 404`
+`>>listraffles` `>>listraf` `>>lraf` | Lists all your ongoing raffles and their information. Such as in how long they end and where they are ongoing. | `>>listraffles`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created. The location where they are set to execute in. And in what time they execute in. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
 `>>quote` | Quotes a message from it's given ID. | `>>quote 381449702589202432`

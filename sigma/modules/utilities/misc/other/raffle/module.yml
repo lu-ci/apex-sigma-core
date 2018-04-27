@@ -50,6 +50,18 @@ commands:
       If you are not the creator of the raffle, a no entry sign.
       If no ID is given, an exclamation.
 
+  - name:         listraffles
+    alts:
+      - "listraf"
+      - "lraf"
+    enabled:      true
+    requirements:
+      - "add_reactions"
+    usage:        "{pfx}{cmd}"
+    description:
+      Lists all your ongoing raffles and their information.
+      Such as in how long they end and where they are ongoing.
+
 events:
   - name: raffle_clockwork
     type: ready
