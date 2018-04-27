@@ -13,17 +13,15 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import json
 
-import functools
-from concurrent.futures import ThreadPoolExecutor
-
+import aiohttp
 import discord
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
 
 from sigma.core.mechanics.event import SigmaEvent
 
-cb = None
+
+cb_api = 'https://api.lucia.moe/rest/sigma/chatterbot'
 
 
 def clean_mentions(members, text):
@@ -47,29 +45,8 @@ def clean_mentions(members, text):
     return ' '.join(out)
 
 
-def init_chatterbot(ev: SigmaEvent):
-    global cb
-    if ev.db.chatterbot.statements.count():
-        train = False
-    else:
-        train = True
-    cb = ChatBot(
-        "Sigma",
-        database='chatterbot',
-        database_uri=ev.db.db_address,
-        storage_adapter='chatterbot.storage.MongoDatabaseAdapter'
-    )
-    if train:
-        ev.log.info('Training Chatterbot...')
-        cb.set_trainer(ChatterBotCorpusTrainer)
-        cb.train('chatterbot.corpus.english')
-        ev.log.info('Chatterbot Training Complete')
-
-
 async def chat_bot(ev: SigmaEvent, message: discord.Message):
     try:
-        if not cb:
-            init_chatterbot(ev)
         args = message.content.split(' ')
         if len(args) > 1:
             if message.guild:
@@ -80,11 +57,15 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                     if message.content.startswith(mention) or message.content.startswith(mention_alt):
                         interaction = ' '.join(args[1:])
                         if interaction:
-                            task = functools.partial(cb.get_response, interaction)
-                            with ThreadPoolExecutor() as threads:
-                                cb_resp = await ev.bot.loop.run_in_executor(threads, task)
+                            async with aiohttp.ClientSession() as session:
+                                api_data = await session.post(cb_api, json={'interaction': interaction})
+                                api_bytes = await api_data.read()
+                            cb_data = json.loads(api_bytes)
+                            cb_resp = cb_data.get('response')
+                            if not cb_resp:
+                                cb_resp = 'Sorry bud, I\'m not feeling too well, let\'s talk later...'
                             cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
-                            response = f'{message.author.mention} {cb_resp}'
+                            response = f'<:lcSigma:281523687725989898> | {message.author.mention} {cb_resp}'
                             await message.channel.send(response)
     except IndexError:
         pass
