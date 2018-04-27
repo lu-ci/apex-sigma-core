@@ -24,8 +24,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def coinflip(cmd: SigmaCommand, message: discord.Message, args: list):
     result = secrets.choice(['heads', 'tails'])
     urls = {
-        'heads': 'https://i.imgur.com/528MDba.png',
-        'tails': 'https://i.imgur.com/A42nfrB.png'
+        'heads': 'https://i.imgur.com/qLPkn7k.png',
+        'tails': 'https://i.imgur.com/Xx5dY4M.png'
     }
     embed = discord.Embed(color=0x1abc9c)
     if args:
