@@ -43,3 +43,12 @@ commands:
       Toggles if the Chatterbot functions should be active.
       If active, when a message starts with a mention of Sigma, she will respond.
       This setting is active by default.
+
+  - name:         colorroles
+    enabled:      true
+    description:
+      Toggles the color role feature.
+      This is deactivated by default. Once enabled
+      members can use the colorme command to get a role with their requested color hex.
+      Roles created with this feature have a SCR prefix in them and are created to be just one place under
+      Sigma's top role with no permission changes.
