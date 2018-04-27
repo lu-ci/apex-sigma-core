@@ -47,7 +47,7 @@ async def colorme(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No.')
+            response = discord.Embed(color=0xBE1931, title='❗ No color HEX provided.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'⛔ Color roles are not enabled.')
     await message.channel.send(embed=response)
