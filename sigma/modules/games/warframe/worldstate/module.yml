@@ -73,6 +73,18 @@ commands:
     description:
       Shows the rewards and mission information for the selected bounty tier.
 
+  - name:         wfsales
+    alts:
+      - "wfsale"
+    enabled:      true
+    usage:        "{pfx}{cmd} 2 all"
+    description:
+      Shows items that are currently on sale in Warframe's market.
+      This list shows only items that have reduced prices by default.
+      If you want it to list all promoted items regardless of reduction
+      add "all" to the end of the command as in the example.
+      The item list is also paginated.
+
   - name:         wfvoidtrader
     alts:
       - "wfbarokiteer"
