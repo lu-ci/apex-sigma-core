@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
 
 
 async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -48,9 +49,12 @@ async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
     for option in poll_choices:
         emoji = icon_list_base.pop(secrets.randbelow(len(icon_list_base)))
         emoji_list.append(emoji)
-        choice_text += '\n' + emoji + ' - **' + option + '**'
+        choice_text += f'\n{emoji} - {option}'
     out_content = discord.Embed(color=message.author.top_role.color)
-    out_content.add_field(name=poll_name, value=choice_text)
-    poll_message = await message.channel.send(None, embed=out_content)
+    out_content.set_author(name=f'{message.author.name}\'s Poll', icon_url=user_avatar(message.author))
+    out_content.description = poll_name
+    out_content.add_field(name='Choices', value=choice_text)
+    out_content.set_footer(text=f'[{secrets.token_hex(3)}] React with your vote below!')
+    poll_message = await message.channel.send(embed=out_content)
     for emoji in emoji_list:
         await poll_message.add_reaction(emoji=emoji)
