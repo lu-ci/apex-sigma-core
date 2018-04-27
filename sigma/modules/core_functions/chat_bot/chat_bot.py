@@ -65,7 +65,7 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                             if not cb_resp:
                                 cb_resp = 'Sorry bud, I\'m not feeling too well, let\'s talk later...'
                             cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
-                            response = f'<:lcSigma:281523687725989898> | {message.author.mention} {cb_resp}'
+                            response = f'{message.author.mention} {cb_resp}'
                             await message.channel.send(response)
     except IndexError:
         pass
