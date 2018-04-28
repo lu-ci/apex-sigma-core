@@ -24,3 +24,14 @@ commands:
     enabled:      true
     description:
       Shows the server's icon image.
+
+  - name:         emote
+    alts:
+      - "emoji"
+      - "em"
+    enabled:      true
+    usage:        "{pfx}{cmd} lcPain"
+    description:
+      Searches for an emoji by name. To make the search more precise
+      you can add the ID of the emote or server that has that emote like
+      in this example "lcMonika:200751504175398912".

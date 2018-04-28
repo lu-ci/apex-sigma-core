@@ -68,7 +68,6 @@ Commands | Description | Example
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you are a good kid. | `>>dadjoke`
 `>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
-`>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server that has that emote like in this example "lcMonika:200751504175398912". | `>>emote lcPain`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself. If you target @someone with the command, the cookie will be given to a random member of the server. | `>>givecookie @person`
@@ -314,7 +313,6 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>boobs` `>>tits` | Outputs a random NSFW image focusing on the breasts of the model. | `>>boobs`
 `>>butts` `>>ass` | Outputs a random NSFW image focusing on the ass of the model. | `>>butts`
-`>>danbooru` `>>danb` | Searches Danbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>danbooru kawaii`
 `>>e621` | Searches E621 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>e621 knot`
 `>>gelbooru` `>>gelb` | Searches Gelbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>gelbooru ovum`
 `>>keyvis` | This command returns a Key Visual Arts VN CG. It picks a random VN and a random CG from that VN. You can specify the VN you want the CG to be from. "kud" - Kud Wafter "air" - Air "kanon" - Kanon "little" - Little Busters "clan" - Clannad "plan" - Planetarian "rewr" - Rewrite "harv" - Rewrite Harvest Festa This command is rated explicit due to some CGs being explicit.  | `>>keyvis kud`
@@ -453,6 +451,7 @@ Commands | Description | Example
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data about the mentioned channel. If no channel is mentioned, it will show data for the channel that the command is used in. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the inputted color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>convertcurrency` `>>convert` | Converts the amount of money inputed. The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed. | `>>convertcurrency 50 EUR in USD`
+`>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server that has that emote like in this example "lcMonika:200751504175398912". | `>>emote lcPain`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the query for you. | `>>lmgtfy Sexy Sneks`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
