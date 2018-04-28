@@ -25,7 +25,6 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
-    success = False
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:
             if message.mentions:
@@ -53,7 +52,6 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=target.name, icon_url=user_avatar(target))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)
-                        success = True
                 else:
                     response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s chain has no data.')
             else:
