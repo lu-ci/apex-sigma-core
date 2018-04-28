@@ -18,6 +18,8 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.event import SigmaEvent
+
 exp_clock_running = False
 
 exp_storage = []
@@ -35,14 +37,15 @@ def add_exp(member, guild, amount):
 async def experience_clock(ev: SigmaEvent):
     global exp_clock_running
     if not exp_clock_running:
-        ev.bot.loop.create_task(exp_clock_cycler(ev: SigmaEvent))
+        ev.bot.loop.create_task(exp_clock_cycler(ev))
 
-    async def exp_clock_cycler(ev: SigmaEvent):
-        global exp_storage
-        while True:
-            if ev.bot.is_ready():
-                for exp_item in exp_storage:
-                    await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
-                    await asyncio.sleep(0.00125)
-                exp_storage = []
-            await asyncio.sleep(300)
+
+async def exp_clock_cycler(ev: SigmaEvent):
+    global exp_storage
+    while True:
+        if ev.bot.is_ready():
+            for exp_item in exp_storage:
+                await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
+                await asyncio.sleep(0.00125)
+            exp_storage = []
+        await asyncio.sleep(300)

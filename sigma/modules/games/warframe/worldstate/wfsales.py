@@ -21,7 +21,6 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
 
-
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'
 
 
