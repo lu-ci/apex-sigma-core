@@ -179,5 +179,5 @@ class Logger(object):
             os.mkdir(log_dir)
         now = arrow.utcnow()
         filename = os.path.join(log_dir, f'sigma.{now.format("YYYY-MM-DD")}.log')
-        handler = logging.FileHandler(filename)
+        handler = logging.FileHandler(filename, encoding='utf-8')
         logger.add_handler(handler)
