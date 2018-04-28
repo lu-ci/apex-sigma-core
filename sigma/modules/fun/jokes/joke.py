@@ -29,6 +29,9 @@ async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
         with open(cmd.resource('stupidstuff.json'), 'r', encoding='utf-8') as joke_file:
             jokes = json.loads(joke_file.read())
             [joke_cache.append(joke_item) for joke_item in jokes if len(joke_item.get('body')) < 512]
+        with open(cmd.resource('wocka.json'), 'r', encoding='utf-8') as joke_file:
+            jokes = json.loads(joke_file.read())
+            [joke_cache.append(joke_item) for joke_item in jokes if len(joke_item.get('body')) < 512]
     joke_data = joke_cache.pop(secrets.randbelow(len(joke_cache)))
     joke_text = joke_data.get('body')
     embed = discord.Embed(color=0xFFDC5D)
