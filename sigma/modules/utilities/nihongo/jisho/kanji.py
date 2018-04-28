@@ -57,6 +57,7 @@ async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
 
             # Parse radical and parts data
             for element in kanji_page.cssselect('.connections')[0]:
+                data_type = element.text.strip().lower()
                 if element.tag == 'strong':
                     data_type = element.text.strip()[:-1].lower()
                     if data_type == 'radical':
@@ -69,6 +70,7 @@ async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
 
             # Parse readings
             for element in kanji_page.cssselect('.readings .japanese_readings')[0]:
+                reading_type = element.text.split(' ')[1]
                 if element.tag == 'strong':
                     reading_type = element.text.split(' ')[1][:-1]  # kun or on
                 elif element.tag == 'a':
