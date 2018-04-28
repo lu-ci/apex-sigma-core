@@ -16,19 +16,25 @@
 
 
 import json
+import secrets
 
 import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 
+dog_cache = []
+
 
 async def dog(cmd: SigmaCommand, message: discord.Message, args: list):
-    doggie_url = 'https://api.thedogapi.co.uk/v2/dog.php'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(doggie_url) as data:
-            doggie_data = await data.read()
-    image_url = json.loads(doggie_data).get('data')[0].get('url')
+    doggie_url = 'https://api.thedogapi.co.uk/v2/dog.php?limit=100'
+    if not dog_cache:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(doggie_url) as data:
+                doggie_data = await data.read()
+                doggie_data = json.loads(doggie_data).get('data')
+                [dog_cache.append(ddata) for ddata in doggie_data]
+    image_url = dog_cache.pop(secrets.randbelow(len(dog_cache))).get('url')
     response = discord.Embed(color=0xf9f9f9, title='🐶 Woof!')
     response.set_image(url=image_url)
     await message.channel.send(embed=response)

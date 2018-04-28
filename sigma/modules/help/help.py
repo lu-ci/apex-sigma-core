@@ -18,6 +18,13 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 
+lucia_image = 'https://i.imgur.com/xpDpHqz.png'
+sigma_image = 'https://i.imgur.com/mGyqMe1.png'
+sigma_title = 'Apex Sigma: The Database Giant'
+patreon_url = 'https://www.patreon.com/ApexSigma'
+paypal_url = 'https://www.paypal.me/AleksaRadovic'
+support_url = 'https://discordapp.com/invite/aEUCHwX'
+
 
 async def help(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
@@ -36,12 +43,6 @@ async def help(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0x696969, title='🔍 No such command was found...')
     else:
-        lucia_image = 'https://i.imgur.com/xpDpHqz.png'
-        sigma_image = 'https://i.imgur.com/mGyqMe1.png'
-        sigma_title = 'Apex Sigma: The Database Giant'
-        patreon_url = 'https://www.patreon.com/ApexSigma'
-        paypal_url = 'https://www.paypal.me/AleksaRadovic'
-        support_url = 'https://discordapp.com/invite/aEUCHwX'
         response = discord.Embed(color=0x1B6F5F)
         response.set_author(name=sigma_title, icon_url=sigma_image, url=cmd.bot.cfg.pref.website)
         invite_url = f'https://discordapp.com/oauth2/authorize?client_id={cmd.bot.user.id}&scope=bot&permissions=8'

@@ -29,7 +29,7 @@ async def randomcomicgenerator(cmd: SigmaCommand, message: discord.Message, args
     root = html.fromstring(page)
     comic_element = root.cssselect('#rcg-comic')
     try:
-        comic_img_url = comic_element[0][0].attrib['src']
+        comic_img_url = comic_element[0][0].attrib.get('src')
         if comic_img_url.startswith('//'):
             comic_img_url = 'https:' + comic_img_url
         response = discord.Embed(color=0xFF6600)

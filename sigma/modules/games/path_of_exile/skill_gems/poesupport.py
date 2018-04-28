@@ -21,12 +21,12 @@ import lxml.html as lx
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
-gem_list_cache = {}
-gem_data_cache = {}
+passive_gem_list_cache = {}
+passive_gem_data_cache = {}
 
 
 async def fill_gem_cache():
-    if not gem_list_cache:
+    if not passive_gem_list_cache:
         active_sg_url = 'https://pathofexile.gamepedia.com/List_of_support_skill_gems'
         async with aiohttp.ClientSession() as session:
             async with session.get(active_sg_url) as data:
@@ -38,12 +38,12 @@ async def fill_gem_cache():
             gem_dkey = gem_name.replace(' ', '_').lower()
             url_pointer = gem_item[0][1].attrib.get("href")
             gem_link = f'https://pathofexile.gamepedia.com{url_pointer}'
-            gem_list_cache.update({gem_dkey: {'name': gem_name, 'url': gem_link}})
+            passive_gem_list_cache.update({gem_dkey: {'name': gem_name, 'url': gem_link}})
 
 
 async def get_gem_data(gem_name: str, gem_url: str):
     gem_key = gem_name.replace(' ', '_').lower()
-    gem_data = gem_data_cache.get(gem_key)
+    gem_data = passive_gem_data_cache.get(gem_key)
     if not gem_data:
         async with aiohttp.ClientSession() as session:
             async with session.get(gem_url) as data:
@@ -69,15 +69,15 @@ async def get_gem_data(gem_name: str, gem_url: str):
                 'spell': spell_image
             }
         }
-        gem_data_cache.update({gem_key: gem_data})
+        passive_gem_data_cache.update({gem_key: gem_data})
     return gem_data
 
 
 def find_broad(lookup: str):
     out = None
-    for key in gem_list_cache:
+    for key in passive_gem_list_cache:
         if lookup in key:
-            out = gem_list_cache.get(key)
+            out = passive_gem_list_cache.get(key)
             break
     return out
 
@@ -99,7 +99,7 @@ async def poesupport(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_gem_cache()
-        gem_entry = gem_list_cache.get(lookup_key) or find_broad(lookup_key)
+        gem_entry = passive_gem_list_cache.get(lookup_key) or find_broad(lookup_key)
         if gem_entry:
             gem_data = await get_gem_data(gem_entry.get('name'), gem_entry.get('url'))
             if gem_data:

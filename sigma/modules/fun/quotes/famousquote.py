@@ -35,15 +35,10 @@ async def famousquote(cmd: SigmaCommand, message: discord.Message, args: list):
                 except json.JSONDecodeError:
                     tries += 1
     if data:
-        text = data['quoteText']
+        text = data.get('quoteText')
         while text.endswith(' '):
             text = text[:-1]
-        if 'quoteAuthor' in data:
-            author = data['quoteAuthor']
-        else:
-            author = 'Unknown'
-        if not author:
-            author = 'Unknown'
+        author = data.get('quoteAuthor') or 'Unknown'
         quote_text = f'\"{text}\"'
     else:
         author = 'Sir Winston Churchill'

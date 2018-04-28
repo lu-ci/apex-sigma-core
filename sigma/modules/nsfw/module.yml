@@ -23,19 +23,6 @@ commands:
     description:
       Outputs a random NSFW image focusing on the ass of the model.
 
-  - name:         danbooru
-    alts:
-      - "danb"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} kawaii"
-    description:
-      Searches Danbooru for the given tag.
-      If no tag is given, the keyword "nude" will be used.
-      As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
-
   - name:         e621
     enabled:      true
     permissions:

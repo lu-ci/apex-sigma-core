@@ -22,17 +22,20 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 
+cat_cache = []
+
 
 async def cat(cmd: SigmaCommand, message: discord.Message, args: list):
-    if 'api_key' in cmd.cfg:
-        cat_api_key = cmd.cfg['api_key']
-        api_url = f'http://thecatapi.com/api/images/get?format=xml&results_per_page=100&api_key={cat_api_key}'
-    else:
-        api_url = f'http://thecatapi.com/api/images/get?format=xml&results_per_page=100'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as raw_page:
-            results = html.fromstring(await raw_page.text())[0][0]
-    choice = secrets.choice(results)
+    cat_api_key = cmd.cfg.get('api_key')
+    api_url = 'http://thecatapi.com/api/images/get?format=xml&results_per_page=100'
+    if cat_api_key:
+        api_url += f'&api_key={cat_api_key}'
+    if not cat_cache:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_url) as raw_page:
+                results = html.fromstring(await raw_page.text())[0][0]
+                [cat_cache.append(res) for res in results]
+    choice = cat_cache.pop(secrets.randbelow(len(cat_cache)))
     image_url = str(choice[0].text)
     embed = discord.Embed(color=0xFFDC5D, title='🐱 Meow~')
     embed.set_image(url=image_url)

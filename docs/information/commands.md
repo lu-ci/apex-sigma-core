@@ -94,7 +94,6 @@ Commands | Description | Example
 ### GAMES
 Commands | Description | Example
 ----------|-------------|--------
-`>>bhranking` `>>bhlb` `>>brawlhallaleaderboad` `>>brawlhallaranking` | Grabs the current top players on the Brawlhalla leaderboards. You can append a region to the command to get the leaderboard for that region. If no region is specified, it will use the global ranking page. | `>>bhranking EU`
 `>>osu` | Generates a signature image with the user's stats for osu!. | `>>osu AXAz0r`
 `>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the given player from the given region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978 | `>>overwatch EU Aurora#22978`
 `>>poeactive` `>>poeasg` | Shows information about a Path of Exile Active Skill Gem. | `>>poeactive Cold Snap`

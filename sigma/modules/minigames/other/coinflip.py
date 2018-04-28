@@ -22,23 +22,17 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def coinflip(cmd: SigmaCommand, message: discord.Message, args: list):
-    result = secrets.choice(['heads', 'tails'])
-    urls = {
-        'heads': 'https://i.imgur.com/qLPkn7k.png',
-        'tails': 'https://i.imgur.com/Xx5dY4M.png'
-    }
-    embed = discord.Embed(color=0x1abc9c)
+    coin_images = {'heads': 'https://i.imgur.com/qLPkn7k.png', 'tails': 'https://i.imgur.com/Xx5dY4M.png'}
+    result = secrets.choice(list(coin_images.keys()))
+    response = discord.Embed(color=0x1B6F5F)
     if args:
-        choice = args[0]
-        if choice.lower().startswith('t') or choice.lower().startswith('h'):
+        choice = args[0].lower()
+        if choice.startswith('t') or choice.startswith('h'):
             if choice.lower().startswith('t'):
                 choice = 'tails'
             else:
                 choice = 'heads'
-            if result == choice.lower():
-                out = '☑ Nice guess!'
-            else:
-                out = '🇽 Better luck next time!'
-            embed = discord.Embed(color=0x1abc9c, title=out)
-    embed.set_image(url=urls[result])
-    await message.channel.send(None, embed=embed)
+            out = '☑ Nice guess!' if result == choice.lower() else '🇽 Better luck next time!'
+            response = discord.Embed(color=0x1B6F5F, title=out)
+    response.set_image(url=coin_images.get(result))
+    await message.channel.send(None, embed=response)

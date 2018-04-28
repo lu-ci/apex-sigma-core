@@ -31,7 +31,9 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
             if args[0].lower() == '@someone':
                 members = message.guild.members
                 target = secrets.choice(
-                    [member for member in members if not (member.bot or member.id == message.author.id)]
+                    [
+                        member for member in members if not (member.bot or member.id == message.author.id)
+                    ]
                 )
                 someoned = True
             else:
@@ -52,17 +54,10 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
                                 upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one(
                                     {'UserID': message.author.id}
-                                )
-                                if upgrade_file is None:
-                                    insert_data = {'UserID': message.author.id}
-                                    await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one(insert_data)
-                                    upgrade_file = {}
+                                ) or {}
                                 cookie_coll = cmd.db[cmd.db.db_cfg.database].Cookies
                                 base_cooldown = 3600
-                                if 'oven' in upgrade_file:
-                                    stamina = upgrade_file['oven']
-                                else:
-                                    stamina = 0
+                                stamina = upgrade_file.get('oven') or 0
                                 stamina_mod = stamina / (1.25 + (0.01 * stamina))
                                 cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
                                 file_check = await cookie_coll.find_one({'UserID': target.id})

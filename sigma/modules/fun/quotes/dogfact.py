@@ -28,7 +28,7 @@ async def dogfact(cmd: SigmaCommand, message: discord.Message, args: list):
         async with session.get(api_url) as data:
             data = await data.read()
             data = json.loads(data)
-    fact = data['facts'][0]
+    fact = data.get('facts')[0]
     response = discord.Embed(color=0xccd6dd)
     response.add_field(name='🐶 Did you know...', value=fact)
     await message.channel.send(None, embed=response)

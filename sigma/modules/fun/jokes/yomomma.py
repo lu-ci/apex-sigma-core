@@ -28,7 +28,7 @@ async def yomomma(cmd: SigmaCommand, message: discord.Message, args: list):
         async with session.get(resource) as data:
             data = await data.read()
             data = json.loads(data)
-    joke = data['joke']
+    joke = data.get('joke')
     if not joke.endswith('.'):
         joke += '.'
     embed = discord.Embed(color=0xFFDC5D)

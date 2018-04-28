@@ -86,12 +86,8 @@ negative = [
 async def eightball(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         roll = secrets.randbelow(4)
-        if roll == 0:
-            answers = negative
-        elif roll == 1:
-            answers = neural
-        else:
-            answers = positive
+        rollmap = {0: negative, 1: neural}
+        answers = rollmap.get(roll) or positive
         answer = secrets.choice(answers)
         response = discord.Embed(color=0x232323, title=f'🎱 {answer}')
     else:

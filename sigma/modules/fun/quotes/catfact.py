@@ -37,7 +37,7 @@ async def catfact(cmd: SigmaCommand, message: discord.Message, args: list):
                 data = json.loads(data)
                 facts = data
     fact = secrets.choice(facts)
-    fact_text = fact['description'].strip()
+    fact_text = fact.get('description').strip()
     embed = discord.Embed(color=0xFFDC5D)
     embed.add_field(name='🐱 Did you know...', value=fact_text)
     await message.channel.send(None, embed=embed)

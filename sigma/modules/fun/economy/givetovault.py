@@ -28,7 +28,7 @@ async def givetovault(cmd: SigmaCommand, message: discord.Message, args: list):
         if amount:
             currency = cmd.bot.cfg.pref.currency
             current_kud = await cmd.db.get_currency(message.author, message.guild)
-            current_kud = current_kud['current']
+            current_kud = current_kud.get('current')
             if current_kud >= amount:
                 current_vault = await cmd.db.get_guild_settings(message.guild.id, 'CurrencyVault')
                 if current_vault is None:

@@ -26,10 +26,10 @@ async def dadjoke(cmd: SigmaCommand, message: discord.Message, args: list):
     with open(cmd.resource('dadjokes.json'), 'r', encoding='utf-8') as dadjokes_file:
         jokes = dadjokes_file.read()
         jokes = json.loads(jokes)
-    joke_list = jokes['JOKES']
+    joke_list = jokes.get('JOKES')
     end_joke_choice = secrets.choice(joke_list)
-    end_joke = end_joke_choice['setup']
-    punchline = end_joke_choice['punchline']
+    end_joke = end_joke_choice.get('setup')
+    punchline = end_joke_choice.get('punchline')
     embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='😖 Have An Awful Dad Joke', value=f'{end_joke}\n...\n{punchline}')
+    embed.add_field(name='😖 Have An Awful Dad Joke', value=f'{end_joke}... {punchline}')
     await message.channel.send(None, embed=embed)
