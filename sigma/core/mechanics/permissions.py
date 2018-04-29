@@ -187,7 +187,7 @@ class GlobalCommandPermissions(object):
             f' | USR: {self.message.author} ({self.message.author.id})'
         )
         if self.message.guild:
-            log_line += ' | SRV: {self.message.guild} ({self.message.guild.id})'
+            log_line += f' | SRV: {self.message.guild} ({self.message.guild.id})'
         self.cmd.log.warning(log_line)
 
 
