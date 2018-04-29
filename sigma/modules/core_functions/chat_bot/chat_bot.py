@@ -47,7 +47,7 @@ def clean_mentions(members, text):
 async def chat_bot(ev: SigmaEvent, message: discord.Message):
     try:
         args = message.content.split(' ')
-        if len(args) > 1:
+        if len(args) > 1 and len(message.content) < 512:
             if message.guild:
                 active = await ev.db.get_guild_settings(message.guild.id, 'ChatterBot')
                 if active:
@@ -56,8 +56,12 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                     if message.content.startswith(mention) or message.content.startswith(mention_alt):
                         interaction = ' '.join(args[1:])
                         if interaction:
+                            inter_data = {
+                                'interaction': interaction,
+                                'conversation': message.author.id
+                            }
                             async with aiohttp.ClientSession() as session:
-                                api_data = await session.post(cb_api, json={'interaction': interaction})
+                                api_data = await session.post(cb_api, json=inter_data)
                                 api_bytes = await api_data.read()
                             cb_data = json.loads(api_bytes)
                             cb_resp = cb_data.get('response')
