@@ -64,7 +64,7 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
                 if post:
                     if not post.over_18 or message.channel.is_nsfw():
                         reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
-                        post_desc = f'Author: {post.author.name}'
+                        post_desc = f'Author: {post.author.name if post.author else "Anonymous"}'
                         post_desc += f' | Score: {post.score}'
                         post_desc += f' | Views: {post.view_count}'
                         author_link = f'https://www.reddit.com{post.permalink}'
