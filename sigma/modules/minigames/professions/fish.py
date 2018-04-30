@@ -52,7 +52,10 @@ async def fish(cmd: SigmaCommand, message: discord.Message, args: list):
             if args:
                 if message.author.id in cmd.bot.cfg.dsc.owners:
                     try:
-                        rarity = int(args[0])
+                        if int(args[0]) <= 9:
+                            rarity = int(args[0])
+                        else:
+                            pass
                     except TypeError:
                         pass
             item = item_core.pick_item_in_rarity('fish', rarity)
