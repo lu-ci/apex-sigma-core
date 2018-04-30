@@ -34,6 +34,7 @@ from sigma.core.mechanics.plugman import PluginManager
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
+
 ci_token = os.getenv('CI')
 if not ci_token:
     init_cfg = Configuration()

@@ -3,7 +3,6 @@
 ## Module Index
 - [DEVELOPMENT](#development)
 - [FUN](#fun)
-- [GAMES](#games)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
 - [LOGGING](#logging)
@@ -14,12 +13,16 @@
 - [MUSIC](#music)
 - [NIHONGO](#nihongo)
 - [NSFW](#nsfw)
+- [OSU](#osu)
+- [OVERWATCH](#overwatch)
+- [PATH OF EXILE](#path of exile)
 - [PERMISSIONS](#permissions)
 - [ROLES](#roles)
 - [SEARCHES](#searches)
 - [SETTINGS](#settings)
 - [STATISTICS](#statistics)
 - [UTILITY](#utility)
+- [WARFRAME](#warframe)
 
 ### DEVELOPMENT
 Commands | Description | Example
@@ -88,36 +91,6 @@ Commands | Description | Example
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays it's source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` `>>ym` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
-[Back To Top](#module-index)
-
-### GAMES
-Commands | Description | Example
-----------|-------------|--------
-`>>osu` | Generates a signature image with the user's stats for osu!. | `>>osu AXAz0r`
-`>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the given player from the given region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978 | `>>overwatch EU Aurora#22978`
-`>>poeactive` `>>poeasg` | Shows information about a Path of Exile Active Skill Gem. | `>>poeactive Cold Snap`
-`>>poesupport` `>>poessg` | Shows information about a Path of Exile Support Skill Gem. | `>>poesupport Iron Will`
-`>>wfacolytechannel` `>>wfacolc` | Designates a channel for Warframe acolyte notifications. When an acolute is found it shows up there. To disable this, write disable after the command instead of a channel. | `>>wfacolytechannel #wf-acolytes`
-`>>wfacolytes` `>>wfacol` | Shows data on the Stalker's acolytes. Their names, locations and health. | `>>wfacolytes`
-`>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
-`>>wfalerts` `>>wfa` | Shows the currently ongoing alerts in Warframe. As well as their respective rewards. | `>>wfalerts`
-`>>wfbounties` `>>wfbounty` `>>wfjobs` `>>wfb` | Shows the rewards and mission information for the selected bounty tier. | `>>wfbounties 4`
-`>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
-`>>wffissures` `>>wffissure` `>>wff` | Shows the current fissure locations in Warframe. As well as their tiers, locations and mission types. | `>>wffissures`
-`>>wfinvasionchannel` `>>wfic` | Designates a channel for Warframe invasions. When a new invasion shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfinvasionchannel #wf-invasions`
-`>>wfinvasions` `>>wfinvasion` `>>wfi` | Shows the current ongoing invasions in Warframe. As well as their factions, locations and rewards. | `>>wfinvasions`
-`>>wfnews` `>>wfn` | Shows the current ative news in Warframe. | `>>wfnews`
-`>>wfnewschannel` `>>wfnc` | Designates a channel for Warframe news. When Digital Extremes posts a new event for Warframe, it pops up there. To disable this, write disable after the command instead of a channel. | `>>wfnewschannel #wf-news`
-`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
-`>>wfpricecheck` `>>wfpc` `>>wfmarket` | Checks the price for the searched item. This will only list items by members that are currently online and in the game. The API requires a precise item name. | `>>wfpricecheck Blind Rage`
-`>>wfsales` `>>wfsale` | Shows items that are currently on sale in Warframe's market. This list shows only items that have reduced prices by default. If you want it to list all promoted items regardless of reduction add "all" to the end of the command as in the example. The item list is also paginated. | `>>wfsales 2 all`
-`>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
-`>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
-`>>wfsyndicates` `>>wfsyndicate` `>>wfsyndi` `>>wfsy` | Lists the best tradable offerings sold by each syndicate. Items with no current sell offers are listed first. Otherwise items are listed from most valuable to least valuable. This command is used to help you decide what to sell in case you have to much standing. For price checking refer to `wfpricecheck` aka. `wfpc` instead. | `>>wfsyndicates`
-`>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword from alerts and invasions. When this keyword appears during an event all roles bound to it's triggers will be mentioned. | `>>wftag aura Aura Squad`
-`>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the inputted username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
-`>>wfvoidtrader` `>>wfbarokiteer` `>>wfbaro` `>>baro` `>>wfvt` | Shows the items that Baro Ki'Teer is currently selling as well as the statistics such as total number of items, total amount of ducats and credits needed and where he's located. | `>>wfvoidtrader`
-`>>worldofwarships` `>>wows` | Grabs the player statistics for the game World of Warships. First the region and then the username. | `>>worldofwarships EU AXAz0r`
 [Back To Top](#module-index)
 
 ### HELP
@@ -322,6 +295,25 @@ Commands | Description | Example
 `>>yandere` `>>yre` | Searches yandere for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>yandere naked_apron`
 [Back To Top](#module-index)
 
+### OSU
+Commands | Description | Example
+----------|-------------|--------
+`>>osu` | Generates a signature image with the user's stats for osu!. | `>>osu AXAz0r`
+[Back To Top](#module-index)
+
+### OVERWATCH
+Commands | Description | Example
+----------|-------------|--------
+`>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the given player from the given region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978 | `>>overwatch EU Aurora#22978`
+[Back To Top](#module-index)
+
+### PATH OF EXILE
+Commands | Description | Example
+----------|-------------|--------
+`>>poeactive` `>>poeasg` | Shows information about a Path of Exile Active Skill Gem. | `>>poeactive Cold Snap`
+`>>poesupport` `>>poessg` | Shows information about a Path of Exile Support Skill Gem. | `>>poesupport Iron Will`
+[Back To Top](#module-index)
+
 ### PERMISSIONS
 Commands | Description | Example
 ----------|-------------|--------
@@ -469,4 +461,29 @@ Commands | Description | Example
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data about the mentioned user. If no user is mentioned, it will show data for the message author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the inputted game. | `>>whoplays Overwatch`
+[Back To Top](#module-index)
+
+### WARFRAME
+Commands | Description | Example
+----------|-------------|--------
+`>>wfacolytechannel` `>>wfacolc` | Designates a channel for Warframe acolyte notifications. When an acolute is found it shows up there. To disable this, write disable after the command instead of a channel. | `>>wfacolytechannel #wf-acolytes`
+`>>wfacolytes` `>>wfacol` | Shows data on the Stalker's acolytes. Their names, locations and health. | `>>wfacolytes`
+`>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
+`>>wfalerts` `>>wfa` | Shows the currently ongoing alerts in Warframe. As well as their respective rewards. | `>>wfalerts`
+`>>wfbounties` `>>wfbounty` `>>wfjobs` `>>wfb` | Shows the rewards and mission information for the selected bounty tier. | `>>wfbounties 4`
+`>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
+`>>wffissures` `>>wffissure` `>>wff` | Shows the current fissure locations in Warframe. As well as their tiers, locations and mission types. | `>>wffissures`
+`>>wfinvasionchannel` `>>wfic` | Designates a channel for Warframe invasions. When a new invasion shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfinvasionchannel #wf-invasions`
+`>>wfinvasions` `>>wfinvasion` `>>wfi` | Shows the current ongoing invasions in Warframe. As well as their factions, locations and rewards. | `>>wfinvasions`
+`>>wfnews` `>>wfn` | Shows the current ative news in Warframe. | `>>wfnews`
+`>>wfnewschannel` `>>wfnc` | Designates a channel for Warframe news. When Digital Extremes posts a new event for Warframe, it pops up there. To disable this, write disable after the command instead of a channel. | `>>wfnewschannel #wf-news`
+`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
+`>>wfpricecheck` `>>wfpc` `>>wfmarket` | Checks the price for the searched item. This will only list items by members that are currently online and in the game. The API requires a precise item name. | `>>wfpricecheck Blind Rage`
+`>>wfsales` `>>wfsale` | Shows items that are currently on sale in Warframe's market. This list shows only items that have reduced prices by default. If you want it to list all promoted items regardless of reduction add "all" to the end of the command as in the example. The item list is also paginated. | `>>wfsales 2 all`
+`>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
+`>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
+`>>wfsyndicates` `>>wfsyndicate` `>>wfsyndi` `>>wfsy` | Lists the best tradable offerings sold by each syndicate. Items with no current sell offers are listed first. Otherwise items are listed from most valuable to least valuable. This command is used to help you decide what to sell in case you have to much standing. For price checking refer to `wfpricecheck` aka. `wfpc` instead. | `>>wfsyndicates`
+`>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword from alerts and invasions. When this keyword appears during an event all roles bound to it's triggers will be mentioned. | `>>wftag aura Aura Squad`
+`>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the inputted username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
+`>>wfvoidtrader` `>>wfbarokiteer` `>>wfbaro` `>>baro` `>>wfvt` | Shows the items that Baro Ki'Teer is currently selling as well as the statistics such as total number of items, total amount of ducats and credits needed and where he's located. | `>>wfvoidtrader`
 [Back To Top](#module-index)
