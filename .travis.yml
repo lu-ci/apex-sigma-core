@@ -10,4 +10,5 @@ services:
 
 install: "pip install -Ur requirements.txt"
 script:
+  - python run.py
   - echo "Setup finished!"

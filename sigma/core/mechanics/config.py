@@ -49,7 +49,7 @@ class PreferencesConfig(object):
         self.prefix = pref_cfg_data.get('prefix') or '>>'
         self.currency = pref_cfg_data.get('currency') or 'Kud'
         self.currency_icon = pref_cfg_data.get('currency_icon') or '⚜'
-        self.website = pref_cfg_data.get('website') or 'https://lucia.moe/#/sigma'
+        self.website = pref_cfg_data.get('website') or 'https://lucia.moe/sigma'
         self.text_only = pref_cfg_data.get('text_only') or False
         self.music_only = pref_cfg_data.get('music_only') or False
         self.dscbots_token = pref_cfg_data.get('dscbots_token')

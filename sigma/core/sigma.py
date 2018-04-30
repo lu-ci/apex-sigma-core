@@ -34,13 +34,15 @@ from sigma.core.mechanics.plugman import PluginManager
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
-
-init_cfg = Configuration()
-
-if init_cfg.dsc.bot:
-    client_class = discord.AutoShardedClient
+ci_token = os.getenv('CI')
+if not ci_token:
+    init_cfg = Configuration()
+    if init_cfg.dsc.bot:
+        client_class = discord.AutoShardedClient
+    else:
+        client_class = discord.Client
 else:
-    client_class = discord.Client
+    client_class = discord.AutoShardedClient
 
 
 class ApexSigma(client_class):
