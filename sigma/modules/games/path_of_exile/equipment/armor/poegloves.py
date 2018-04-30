@@ -23,22 +23,24 @@ from sigma.core.mechanics.command import SigmaCommand
 glove_list_cache = {}
 glove_data_cache = {}
 glove_icon = 'https://i.imgur.com/6fDDMqO.png'
+item_urls = ['https://pathofexile.gamepedia.com/Gloves', 'https://pathofexile.gamepedia.com/List_of_unique_gloves']
 
 
 async def fill_gloves_cache():
     if not glove_list_cache:
-        active_sg_url = 'https://pathofexile.gamepedia.com/Gloves'
-        async with aiohttp.ClientSession() as session:
-            async with session.get(active_sg_url) as data:
-                page_html_raw = await data.text()
-        page_html = lx.fromstring(page_html_raw)
-        armor_items = page_html.cssselect('.c-item-hoverbox')
-        for armor_item in armor_items:
-            armor_name = armor_item[0][0].text
-            armor_dkey = armor_name.replace(' ', '_').lower()
-            url_pointer = armor_item[0][0].attrib.get("href")
-            armor_link = f'https://pathofexile.gamepedia.com{url_pointer}'
-            glove_list_cache.update({armor_dkey: {'name': armor_name, 'url': armor_link}})
+        for active_sg_url in item_urls:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(active_sg_url) as data:
+                    page_html_raw = await data.text()
+            page_html = lx.fromstring(page_html_raw)
+            armor_items = page_html.cssselect('.c-item-hoverbox')
+            for armor_item in armor_items:
+                armor_name = armor_item[0][0].text
+                if armor_name:
+                    armor_dkey = armor_name.replace(' ', '_').lower()
+                    url_pointer = armor_item[0][0].attrib.get("href")
+                    armor_link = f'https://pathofexile.gamepedia.com{url_pointer}'
+                    glove_list_cache.update({armor_dkey: {'name': armor_name, 'url': armor_link}})
 
 
 async def get_armor_data(armor_name: str, armor_url: str):
@@ -121,7 +123,7 @@ async def poegloves(cmd: SigmaCommand, message: discord.Message, args: list):
                 response.set_thumbnail(url=img_data)
                 response.set_author(name=title, icon_url=glove_icon, url=armor_entry.get('url'))
                 response.add_field(name='Information', value=armor_info_block, inline=False)
-                response.set_footer(text=f'{armor_entry.get("requirements")}')
+                response.set_footer(text=armor_entry.get("requirements"))
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid glove data received.')
         else:
