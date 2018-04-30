@@ -222,7 +222,7 @@ class SigmaCommand(object):
                         else:
                             await self.respond_with_icon(message, '❗')
                             reqs_embed = discord.Embed(color=0xBE1931)
-                            reqs_error_title = f'❗ Sigma is missing permissions!'
+                            reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
                             reqs_error_list = ''
                             for req in requirements.missing_list:
                                 req = req.replace('_', ' ').title()

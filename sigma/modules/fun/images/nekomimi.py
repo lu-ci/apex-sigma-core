@@ -35,7 +35,8 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
 async def nekomimi(cmd: SigmaCommand, message: discord.Message, args: list):
     global links
     if not links:
-        filler_message = discord.Embed(color=0xff6699, title='🐱 One moment, filling Sigma with catgirls...')
+        name = cmd.bot.user.name
+        filler_message = discord.Embed(color=0xff6699, title=f'🐱 One moment, filling {name} with catgirls...')
         fill_notify = await message.channel.send(embed=filler_message)
         links = await grab_post_list('cat_ears')
         filler_done = discord.Embed(color=0xff6699, title=f'🐱 We added {len(links)} catgirls!')

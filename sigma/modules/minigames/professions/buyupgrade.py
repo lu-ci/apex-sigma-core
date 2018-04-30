@@ -51,7 +51,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
             upgrade_text += f'\n**{upgrade_index}**: Level {next_upgrade} {upgrade["name"]}'
             upgrade_text += f' - {upgrade_price} {currency}'
             upgrade_text += f'\n > {upgrade["desc"]}'
-        upgrade_list_embed = discord.Embed(color=0xF9F9F9, title='🛍 Sigma\'s Profession Upgrade Shop')
+        upgrade_list_embed = discord.Embed(color=0xF9F9F9, title='🛍 Profession Upgrade Shop')
         upgrade_list_embed.description = upgrade_text
         upgrade_list_embed.set_footer(text='Please input the number of the upgrade you want.')
         shop_listing = await message.channel.send(embed=upgrade_list_embed)

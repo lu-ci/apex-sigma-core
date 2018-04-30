@@ -69,7 +69,7 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
             output += f'\n- {module_item}'
         module_list_out = f'```py\nThere are {len(module_list)} modules.\n```'
         response = discord.Embed(color=0x1B6F5F)
-        response.add_field(name='Sigma Modules', value=module_list_out, inline=False)
+        response.add_field(name='Modules', value=module_list_out, inline=False)
         response.add_field(name='Module List', value=f'```yml\n{output}\n```', inline=False)
         response.set_footer(text=f'Type {pfx}{cmd.name} [module] to see commands in that module.')
     await message.channel.send(embed=response)
