@@ -311,6 +311,11 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>poeactive` `>>poeasg` | Shows information about a Path of Exile Active Skill Gem. | `>>poeactive Cold Snap`
+`>>poebody` | Shows information about a Path of Exile Body Armor piece of equipment. | `>>poebody Arena Plate`
+`>>poeboots` | Shows information about Path of Exile boots. | `>>poeboots Arena Plate`
+`>>poegloves` | Shows information about Path of Exile boots. | `>>poegloves Arena Plate`
+`>>poehelmet` | Shows information about Path of Exile helmets. | `>>poehelmet Arena Plate`
+`>>poeshield` | Shows information about Path of Exile shields. | `>>poeshield Arena Plate`
 `>>poesupport` `>>poessg` | Shows information about a Path of Exile Support Skill Gem. | `>>poesupport Iron Will`
 [Back To Top](#module-index)
 

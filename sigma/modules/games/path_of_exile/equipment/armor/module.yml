@@ -1,0 +1,36 @@
+name:             Path of Exile Body Armor Commands
+
+category:         path of exile
+
+enabled:          true
+
+commands:
+  - name:         poebody
+    enabled:      true
+    usage:        "{pfx}{cmd} Arena Plate"
+    description:
+      Shows information about a Path of Exile Body Armor piece of equipment.
+
+  - name:         poeboots
+    enabled:      true
+    usage:        "{pfx}{cmd} Arena Plate"
+    description:
+      Shows information about Path of Exile boots.
+
+  - name:         poegloves
+    enabled:      true
+    usage:        "{pfx}{cmd} Arena Plate"
+    description:
+      Shows information about Path of Exile boots.
+
+  - name:         poeshield
+    enabled:      true
+    usage:        "{pfx}{cmd} Arena Plate"
+    description:
+      Shows information about Path of Exile shields.
+
+  - name:         poehelmet
+    enabled:      true
+    usage:        "{pfx}{cmd} Arena Plate"
+    description:
+      Shows information about Path of Exile helmets.

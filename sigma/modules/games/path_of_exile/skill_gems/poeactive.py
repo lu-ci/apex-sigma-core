@@ -55,7 +55,10 @@ async def get_gem_data(gem_name: str, gem_url: str):
             gem_level = int(isb[1][0][0][0].text or 0)
         except IndexError:
             gem_level = 0
-        gem_desc = isb[2].text
+        try:
+            gem_desc = isb[2].text
+        except IndexError:
+            gem_desc = None
         gem_image = page_html.cssselect(".image")[1][0].attrib.get("src")
         spell_image = page_html.cssselect(".image")[0][0].attrib.get("src")
         gem_data = {
