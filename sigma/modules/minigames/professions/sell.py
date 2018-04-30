@@ -40,7 +40,6 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     count += 1
                     await cmd.db.del_from_inventory(message.author, invitem['item_id'])
                 await cmd.db.add_currency(message.author, message.guild, value)
-                currency = cmd.bot.cfg.pref.currency
                 response = discord.Embed(color=0xc6e4b5, title=f'💶 You sold {count} items for {value} {currency}.')
             else:
                 item_o = item_core.get_item_by_name(lookup)
