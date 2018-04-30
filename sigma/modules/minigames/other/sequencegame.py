@@ -78,6 +78,7 @@ async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
         tries = 0
         while not finished and tries < 6:
             try:
+                currency = cmd.bot.cfg.pref.currency
                 answer = await cmd.bot.wait_for('message', check=answer_check, timeout=90)
                 correct, results = check_answer(answer.content, chosen)
                 tries += 1
@@ -85,7 +86,7 @@ async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
                     finished = True
                     victory = True
                     await cmd.db.add_currency(answer.author, message.guild, 50)
-                    win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 Kud!'
+                    win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 {currency}!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
                     await message.channel.send(embed=win_embed)
                 else:
