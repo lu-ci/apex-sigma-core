@@ -65,6 +65,7 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                                 api_bytes = await api_data.read()
                             cb_data = json.loads(api_bytes)
                             cb_resp = cb_data.get('response')
+                            cb_resp = cb_resp.replace('{usr}', message.author.name)
                             if not cb_resp:
                                 cb_resp = 'Sorry bud, I\'m not feeling too well, let\'s talk later...'
                             cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
