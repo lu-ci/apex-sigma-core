@@ -205,8 +205,8 @@ class Database(motor.AsyncIOMotorClient):
         else:
             untradable_amount -= points
             if untradable_amount < 0:
-                current_amount -= untradable_amount
-        xp_data = {'current': current_amount,'untradable': untradable_amount}
+                current_amount -= abs(untradable_amount)
+        xp_data = {'current': current_amount, 'untradable': untradable_amount}
         update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         await collection.update_one(update_target, update_data)
