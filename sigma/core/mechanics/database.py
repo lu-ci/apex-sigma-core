@@ -122,7 +122,7 @@ class Database(motor.AsyncIOMotorClient):
             await collection.update_one(update_target, update_data)
             self.cache.del_cache(f'exp_{user.id}')
 
-    async def get_currency(self, user, guild):
+    async def get_currency(self, user, guild, trade=False):
         collection = self[self.bot.cfg.db.database]['CurrencySystem']
         entry = self.cache.get_cache(f'kud_{user.id}')
         if not entry:
@@ -130,7 +130,10 @@ class Database(motor.AsyncIOMotorClient):
             self.cache.set_cache(f'kud_{user.id}', entry)
         if entry:
             global_amount = entry.get('global') or 0
-            current_amount = entry.get('current') or 0
+            if trade:
+                current_amount = entry.get('current') or 0
+            else:
+                current_amount = (entry.get('current') or 0) + (entry.get('untradable') or 0)
             guild_id = str(guild.id)
             guilds = entry.get('guilds') or {}
             guild_amount = guilds.get(guild_id) or 0
@@ -156,11 +159,13 @@ class Database(motor.AsyncIOMotorClient):
                 global_amount = entry.get('global') or 0
                 total_amount = entry.get('total') or 0
                 guilds = entry.get('guilds') or {}
+                untradable_amount = entry.get('untradable') or 0
             else:
                 await collection.insert_one({'UserID': user.id})
                 total_amount = 0
                 global_amount = 0
                 current_amount = 0
+                untradable_amount = 0
                 guilds = {}
             guild_id = str(guild.id)
             guild_points = guilds.get(guild_id) or 0
@@ -168,28 +173,40 @@ class Database(motor.AsyncIOMotorClient):
                 global_amount += points
                 guild_points += points
                 total_amount += points
-            current_amount += points
+                current_amount += points
+            else:
+                untradable_amount += points
             guild_data = {guild_id: guild_points}
             guilds.update(guild_data)
-            xp_data = {'current': current_amount, 'global': int(global_amount), 'guilds': guilds, 'total': total_amount}
+            xp_data = {
+                'current': current_amount,
+                'untradable': untradable_amount,
+                'global': int(global_amount),
+                'guilds': guilds,
+                'total': total_amount
+            }
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
             await collection.update_one(update_target, update_data)
             self.cache.del_cache(f'kud_{user.id}')
 
-    async def rmv_currency(self, user, points):
+    async def rmv_currency(self, user, points, trade=False):
         collection = self[self.bot.cfg.db.database]['CurrencySystem']
         points = abs(points)
         entry = self.cache.get_cache(f'kud_{user.id}')
         if not entry:
             entry = await collection.find_one({'UserID': user.id})
-        if entry:
-            current_amount = entry.get('current') or 0
+            if not entry:
+                await collection.insert_one({'UserID': user.id})
+        current_amount = entry.get('current') or 0
+        untradable_amount = entry.get('untradable') or 0
+        if trade:
+            current_amount -= points
         else:
-            await collection.insert_one({'UserID': user.id})
-            current_amount = 0
-        current_amount -= points
-        xp_data = {'current': current_amount}
+            untradable_amount -= points
+            if untradable_amount < 0:
+                current_amount -= untradable_amount
+        xp_data = {'current': current_amount,'untradable': untradable_amount}
         update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         await collection.update_one(update_target, update_data)
