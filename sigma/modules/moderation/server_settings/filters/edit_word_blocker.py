@@ -58,6 +58,7 @@ async def edit_word_blocker(ev: SigmaEvent, before, after):
                             title = f'I deleted {author}\'s message for containing "{reason}".'
                             log_embed = discord.Embed(color=0xFFCC4D)
                             log_embed.set_author(name=title, icon_url=user_avatar(after.author))
+                            log_embed.set_footer(text=f'Channel: #{after.channel.name} [{after.channel.id}]')
                             await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogFilters')
                         except discord.ClientException:
                             pass

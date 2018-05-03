@@ -58,6 +58,7 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             title = f'I deleted {author}\'s message for containing "{reason}".'
                             log_embed = discord.Embed(color=0xFFCC4D)
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
+                            log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
                             await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogFilters')
                         except discord.ClientException:
                             pass
