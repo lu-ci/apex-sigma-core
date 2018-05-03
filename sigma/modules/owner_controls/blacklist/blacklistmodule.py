@@ -46,11 +46,11 @@ async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: lis
                             else:
                                 modules = []
                             if lookup.lower() in modules:
-                                modules.append(lookup.lower())
+                                modules.remove(lookup.lower())
                                 icon = '🔓'
                                 result = f'removed from the `{lookup.lower()}` blacklist.'
                             else:
-                                modules.remove(lookup.lower())
+                                modules.append(lookup.lower())
                                 icon = '🔒'
                                 result = f'added to the `{lookup.lower()}` blacklist.'
                             up_data = {'$set': {'UserID': target.id, 'Modules': modules}}
