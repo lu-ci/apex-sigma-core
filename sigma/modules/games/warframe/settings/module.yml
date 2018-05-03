@@ -76,3 +76,4 @@ commands:
       Binds a certain keyword from alerts and invasions.
       When this keyword appears during an event all roles
       bound to it's triggers will be mentioned.
+      Enter "disable" instead of a role name to remove the tag binding.
