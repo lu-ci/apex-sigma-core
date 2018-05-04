@@ -45,5 +45,5 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(title='❗ Cannot find suggestion channel.', color=0xBE1931)
     else:
-        response = discord.Embed(title='❗ Missing suggestion channel confirguation.', color=0xBE1931)
+        response = discord.Embed(title='❗ Missing suggestion channel configuration.', color=0xBE1931)
     await message.channel.send(embed=response)
