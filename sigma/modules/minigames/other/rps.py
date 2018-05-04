@@ -46,7 +46,6 @@ async def rps(cmd: SigmaCommand, message: discord.Message, args: list):
                 icon = '💣'
                 color = 0x292929
                 notifier = 'You lose'
-                response = discord.Embed(color=0xBE1931, title='❗ You lose!')
             else:
                 icon = '💎'
                 color = 0x3B88C3
