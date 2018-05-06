@@ -100,7 +100,6 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       Tries to impersonate the mentioned user if a chain file for them exists.
-      This command is on a 20 second cooldown due to it's weight.
       The more items in your chain you have, the better the output.
       Having a low number of items, or having items that aren't good enough, might
       result in Sigma not being able to generate anything. The optimal amount is 5000 items.

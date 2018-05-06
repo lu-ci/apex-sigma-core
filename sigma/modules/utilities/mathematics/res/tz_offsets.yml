@@ -377,6 +377,7 @@ canada/pacific: -0800
 canada/saskatchewan: '-0600'
 canada/yukon: -0800
 cet: '0100'
+cest: '0200'
 chile/continental: '-0400'
 chile/easterisland: '-0600'
 cst6cdt: '-0600'
