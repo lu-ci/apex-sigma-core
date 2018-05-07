@@ -24,7 +24,7 @@ upgrade_list = [
     {
         'id': 'luck',
         'name': 'Lucky Enchantment',
-        'cost': 400,
+        'cost': 300,
         'desc': 'Increases the chance for rare items'
     },
     {

@@ -27,7 +27,7 @@ def calculate_upgrade(up_id, level):
             'end': 'Seconds'
         },
         'luck': {
-            'amount': int((0.5 * level) / (1.5 + (0.005 * level))),
+            'amount': int((0.5 * level) / (1.5 + (0.0018 * level))),
             'end': '% Luckier'
         },
         'storage': {
