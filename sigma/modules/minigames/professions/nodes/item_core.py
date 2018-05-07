@@ -110,7 +110,7 @@ class ItemCore(object):
         }
         rarities = {}
         global_boundary = 0
-        roll_base = 1000000000
+        roll_base = 25000
         for rarity in chances.keys():
             rarity_index = rarity - 1
             rarity_chance = chances.get(rarity_index)
