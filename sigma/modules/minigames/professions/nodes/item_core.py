@@ -61,7 +61,7 @@ class ItemCore(object):
 
     def init_items(self):
         raw_item_types = ['fish', 'plant', 'animal']
-        cooked_item_types = ['drink', 'meal', 'desert']
+        cooked_item_types = ['drink', 'meal', 'dessert']
         for root, dirs, files in os.walk(f'{self.base_dir}'):
             for file in files:
                 if file.endswith('.yml'):
