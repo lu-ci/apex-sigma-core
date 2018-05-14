@@ -1,11 +1,9 @@
 aiohttp
 arrow
 cssselect
-chatterbot
 cryptography
 https://github.com/Rapptz/discord.py/archive/rewrite.zip#egg=discord.py[voice]
 ftfy
-fuzzywuzzy[speedup]
 geopy
 humanfriendly
 lxml
@@ -18,8 +16,6 @@ psutil
 pymongo
 pyyaml
 translate
-watchdog
 wikipedia
-wikitextparser
 wolframalpha
 youtube_dl
