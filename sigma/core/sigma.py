@@ -7,6 +7,7 @@ import discord
 from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
+from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
@@ -58,7 +59,7 @@ class ApexSigma(client_class):
         self.music = None
         self.modules = None
         self.queue = ExecutionClockwork(self)
-        self.cache = {}
+        self.cache = Cacher()
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -123,6 +124,17 @@ class ApexSigma(client_class):
         if init:
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)
+
+    def get_all_members(self):
+        now = arrow.utcnow().timestamp
+        timestamp = self.cache.get_cache('all_members_stamp') or 0
+        if now > timestamp + 60:
+            members = list(super().get_all_members())
+            self.cache.set_cache('all_members', members)
+            self.cache.set_cache('all_members_stamp', now)
+        else:
+            members = self.cache.get_cache('all_members')
+        return members
 
     def run(self):
         try:
