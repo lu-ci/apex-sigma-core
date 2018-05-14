@@ -18,15 +18,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.utilities.mathematics.impersonate import chain_entry_cache
 
 
 async def markovchain(cmd: SigmaCommand, message: discord.Message, args: list):
     target = message.mentions[0] if message.mentions else message.author
-    collection = chain_entry_cache.get_cache(target.id)
-    if not collection:
-        collection = await cmd.db[cmd.db.db_cfg.database].MarkovChains.find_one({'UserID': target.id})
-        chain_entry_cache.set_cache(target.id, collection)
+    collection = await cmd.db[cmd.db.db_cfg.database].MarkovChains.find_one({'UserID': target.id})
     if collection:
         chain = collection.get('Chain')
         starter = 'You have' if target.id == message.author.id else f'{target.name} has'

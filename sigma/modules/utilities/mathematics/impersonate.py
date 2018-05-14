@@ -24,7 +24,6 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
-chain_entry_cache = Cacher()
 chain_object_cache = Cacher()
 
 
@@ -37,11 +36,7 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         target = message.author
     if target:
-        await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
-        chain_data = chain_entry_cache.get_cache(target.id)
-        if not chain_data:
-            chain_data = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
-            chain_entry_cache.set_cache(target.id, chain_data)
+        chain_data = await cmd.db[cmd.db.db_cfg.database]['MarkovChains'].find_one({'UserID': target.id})
         if chain_data:
             if chain_data['Chain']:
                 total_string = ' '.join(chain_data['Chain'])
