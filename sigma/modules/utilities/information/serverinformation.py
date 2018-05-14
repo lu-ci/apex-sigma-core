@@ -18,12 +18,13 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def serverinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     gld = message.guild
     own = gld.owner
-    response = discord.Embed(color=0x1B6F5F)
+    response = discord.Embed(color=await get_image_colors(gld.icon_url))
     response.set_author(name=gld.name, icon_url=gld.icon_url)
     creation_time = arrow.get(gld.created_at).format('DD. MMMM YYYY')
     bot_count = 0
