@@ -136,6 +136,17 @@ class ApexSigma(client_class):
             members = self.cache.get_cache('all_members')
         return members
 
+    def get_all_channels(self):
+        now = arrow.utcnow().timestamp
+        timestamp = self.cache.get_cache('all_channels_stamp') or 0
+        if now > timestamp + 60:
+            channels = list(super().get_all_channels())
+            self.cache.set_cache('all_channels', channels)
+            self.cache.set_cache('all_channels_stamp', now)
+        else:
+            channels = self.cache.get_cache('all_channels')
+        return channels
+
     def run(self):
         try:
             self.log.info('Connecting to Discord Gateway...')
