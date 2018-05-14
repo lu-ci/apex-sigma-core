@@ -1,0 +1,37 @@
+name:             Owner Information Lookup
+
+category:         development
+
+enabled:          true
+
+commands:
+  - name:         ouserinformation
+    alts:
+      - "ouserinfo"
+      - "ouinfo"
+    enabled:      true
+    usage:        "{pfx}{cmd} AXAz0r#0001"
+    description:
+      Shows information and data about the target user.
+      The lookup is by either Name#Discriminator or by User ID.
+
+
+  - name:         oserverinformation
+    alts:
+      - "oserverinfo"
+      - "osinfo"
+    enabled:      true
+    usage:        "{pfx}{cmd} Lucia's Cipher"
+    description:
+      Shows information and data about the target server.
+      The server lookup is by either name or ID.
+
+  - name:         usermembership
+    alts:
+      - "usrmemb"
+      - "umemb"
+    enabled:      true
+    usage:        "{pfx}{cmd} 137951917644054529"
+    description:
+      Shows membership information and data about the target server.
+      The server lookup is by either name or ID.

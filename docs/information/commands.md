@@ -40,6 +40,8 @@ Commands | Description | Example
 `>>generateitem` `>>genitem` | Creates and gives an item to the tagged user from the inputted category. (Bot Owner Only) | `>>generateitem @person plants Blue Delta`
 `>>geterror` | Gets an error's details using the given token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>getreaction` `>>getreact` | No description provided. (Bot Owner Only) | `>>getreaction 4242ea69`
+`>>oserverinformation` `>>oserverinfo` `>>osinfo` | Shows information and data about the target server. The server lookup is by either name or ID. | `>>oserverinformation Lucia's Cipher`
+`>>ouserinformation` `>>ouserinfo` `>>ouinfo` | Shows information and data about the target user. The lookup is by either Name#Discriminator or by User ID. | `>>ouserinformation AXAz0r#0001`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
 `>>removereaction` `>>removereact` `>>delreact` | Remove a reaction with the inputed ID. (Bot Owner Only) | `>>removereaction 1ba2e263f287522f`
 `>>removestatus` | Removes a status with the inputed ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
@@ -53,6 +55,7 @@ Commands | Description | Example
 `>>sysexec` `>>sh` | Executes a shell command. Extreme warning! This executes commands in the Operating System's Shell. Command Prompt on Windows and Bash on Linux. It will execute things on the same level of authority as the program is ran by. Meaning, don't do something stupid and wipe your damn root. (Bot Owner Only) | `>>sysexec echo 'Hello'`
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
+`>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data about the target server. The server lookup is by either name or ID. | `>>usermembership 137951917644054529`
 `>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
