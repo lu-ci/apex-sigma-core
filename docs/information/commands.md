@@ -140,6 +140,7 @@ Commands | Description | Example
 ### LOGGING
 Commands | Description | Example
 ----------|-------------|--------
+`>>log` | Toggles logging of multiple log types at once. You can enter "all" to turn on all logs. Or "none" to disable all logs. It can also accept a list of log types separated by a semicolon and space "; ". The accepted log types are bans, deletions, edits, filters, kicks, movement, mutes, purges, warnigs. The log types in the list will be toggled when entered. If they were active, they will be deactivated, and vice versa. | `>>log kicks; bans; movement;`
 `>>logbans` | Toggles logging of when users get banned. | `>>logbans`
 `>>logdeletions` `>>logdeletes` `>>logdels` | Toggles logging of messages being deleted. | `>>logdeletions`
 `>>logedits` | Toggles logging of messages being edited. | `>>logedits`

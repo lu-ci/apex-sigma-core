@@ -49,10 +49,8 @@ async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
     chance = round((range_top / top_roll) * 100, 5)
     out_line = [rarity_names.get(9).title(), f'{chance}%']
     out_lines.append(out_line)
-    description = f'Your luck is **Lv{upgrade_level}** with a top roll of **{top_roll}**.'
     out_table = boop(out_lines, table_head)
     response = discord.Embed(color=0x1b6f5f)
     response.set_author(name=f'{target.name}\'s Item Chances', icon_url=user_avatar(target))
-    response.add_field(name='General Stats', value=description, inline=False)
-    response.add_field(name='Chances Table', value=f'```bat\n{out_table}\n```', inline=False)
+    response.add_field(name=f'Lv{upgrade_level} Chances Table', value=f'```bat\n{out_table}\n```', inline=False)
     await message.channel.send(embed=response)
