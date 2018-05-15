@@ -55,7 +55,7 @@ Commands | Description | Example
 `>>sysexec` `>>sh` | Executes a shell command. Extreme warning! This executes commands in the Operating System's Shell. Command Prompt on Windows and Bash on Linux. It will execute things on the same level of authority as the program is ran by. Meaning, don't do something stupid and wipe your damn root. (Bot Owner Only) | `>>sysexec echo 'Hello'`
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
-`>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data about the target server. The server lookup is by either name or ID. | `>>usermembership 137951917644054529`
+`>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data about the target user. The lookup is by either Name#Discriminator or by User ID. | `>>usermembership 137951917644054529`
 `>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
