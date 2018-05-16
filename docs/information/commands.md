@@ -365,6 +365,7 @@ Commands | Description | Example
 `>>removerole` `>>removerank` `>>rrole` `>>rrank` | Removes the inputed role from the tagged user. The role must be below Sigma in Discord hierarchy. | `>>removerole @person Wangly`
 `>>syncinvites` `>>syncinvs` `>>sinvs` | Forces an update of the invite cache for your server. For use if you have suspicions that the bound role counters are out of sync. | `>>syncinvites`
 `>>togglerole` `>>togglerank` `>>rank` `>>trl` | Toggles a self assignable role. If you don't have the role, it will be given to you. If you do have the role, it will be removed from you. | `>>togglerole Overlord`
+`>>toggleselfrole` `>>togglerank` `>>tsr` | The addselfrole and delselfrole in one. It toggles the self-assignability of a role | `>>toggleselfrole Meat Lover`
 `>>unbindemoterole` `>>uberl` | Unbind a role from an emote role group. | `>>unbindemoterole 5a8e3 Serpent Squires`
 `>>unbindinvite` `>>unbinvite` `>>unbindinv` `>>unbinv` | Unbinds a previously bound invite from it's bound role. If the invite with that ID no longer exists on your server add ":f" to the end to force remove it. Please not that if you are force removing an invite that it is case sensitive. | `>>unbindinvite aEUCHwX`
 `>>unbindrole` `>>ubrl` | Unbind a role from a role group. | `>>unbindrole 5a8e3 Serpent Squires`

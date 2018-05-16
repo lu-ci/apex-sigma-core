@@ -30,6 +30,18 @@ commands:
     description:
       Removes a role from the list of self assignable roles.
 
+  - name:         toggleselfrole
+    alts:
+      - "togglerank"
+      - "tsr"
+    enabled:      true
+    usage:        "{pfx}{cmd} Meat Lover"
+    requirements:
+      - "manage_roles"
+    description:
+      The addselfrole and delselfrole in one.
+      It toggles the self-assignability of a role
+
   - name:         listselfroles
     alts:
       - "listranks"
