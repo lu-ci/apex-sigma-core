@@ -33,5 +33,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 137951917644054529"
     description:
-      Shows membership information and data about the target server.
-      The server lookup is by either name or ID.
+      Shows membership information and data about the target user.
+      The lookup is by either Name#Discriminator or by User ID.

@@ -44,7 +44,7 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
                 for guild in presence:
                     try:
                         invs = await guild.invites()
-                        inv = invs[0]
+                        inv = invs[0] if invs else None
                     except discord.Forbidden:
                         inv = None
                     if inv:
