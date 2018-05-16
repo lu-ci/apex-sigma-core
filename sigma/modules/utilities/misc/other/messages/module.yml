@@ -1,0 +1,24 @@
+name:             Message Utilities
+
+category:         miscellaneous
+
+enabled:          true
+
+commands:
+  - name:         echo
+    alts:
+      - "say"
+    enabled:      true
+    usage:        "{pfx}{cmd} Beep, bop-boop!"
+    description:
+      Makes the bot repeat what you entered, simple enough.
+
+  - name:         embedecho
+    alts:
+      - "esay"
+      - "eecho"
+    enabled:      true
+    usage:        "{pfx}{cmd} Beep, bop-boop!"
+    description:
+      Just like echo, but the message is an embed object
+      that has you as the author, your color, and the time it was executed.
