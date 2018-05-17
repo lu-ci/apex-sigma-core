@@ -32,7 +32,6 @@ commands:
 
   - name:         toggleselfrole
     alts:
-      - "togglerank"
       - "tsr"
     enabled:      true
     usage:        "{pfx}{cmd} Meat Lover"
