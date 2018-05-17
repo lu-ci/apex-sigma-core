@@ -22,14 +22,26 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 ongoing = []
-symbols = ['❤', '♦', '♠', '♣', '⭐', '⚡']
+symbol_groups = (
+    ('♥', '❤'),  # :hearts:, :heart:
+    ('♦',),      # :diamonds:
+    ('♠',),      # :spades:
+    ('♣',),      # :clubs:
+    ('⭐',),      # :star:
+    ('⚡',)       # :zap:
+)
+all_symbols = [symbol for group in symbol_groups for symbol in group]
+first_symbols = [group[0] for group in symbol_groups]
 
 
 def check_answer(arguments, sequence):
-    arguments = [char for char in arguments if char in symbols]
+    filtered_args = [group[0]
+                     for char in arguments
+                     for group in symbol_groups
+                     if char in group]
     results = []
     correct = True
-    for loop_index, arg in enumerate(arguments):
+    for loop_index, arg in enumerate(filtered_args):
         if arg == sequence[loop_index]:
             sign = '🔷'
         elif arg in sequence:
@@ -43,34 +55,34 @@ def check_answer(arguments, sequence):
 
 
 async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.author.id not in ongoing:
-        chosen = []
-        while len(chosen) < 4:
-            symbol = secrets.choice(symbols)
-            chosen.append(symbol)
+    if message.author.id in ongoing:
+        ongoing_error = discord.Embed(color=0xBE1931,
+                                      title=f'❗ {message.author.display_name}, there is one already ongoing.')
+        await message.channel.send(embed=ongoing_error)
+        return
+
+    try:
+        ongoing.append(message.author.id)
+        chosen = [secrets.choice(first_symbols) for _ in range(4)]
         title = f'🎯 {message.author.display_name}, you have 90 seconds for each attempt.'
-        desc = f'Symbols you can use: {"".join(symbols)}'
+        desc = f'Symbols you can use: {"".join(first_symbols)}'
         start_embed = discord.Embed(color=0xf9f9f9)
         start_embed.add_field(name=title, value=desc)
         await message.channel.send(embed=start_embed)
 
         def answer_check(msg):
-            if message.author.id == msg.author.id:
-                if message.channel.id == msg.channel.id:
-                    message_args = [char for char in msg.content if char in symbols]
-                    if len(message_args) == 4:
-                        good = False
-                        for arg in message_args:
-                            if arg in symbols:
-                                good = True
-                                break
-                    else:
-                        good = False
-                else:
-                    good = False
-            else:
-                good = False
-            return good
+            if message.author.id != msg.author.id:
+                return
+            if message.channel.id != msg.channel.id:
+                return
+
+            message_args = [char for char in msg.content if char in all_symbols]
+            if len(message_args) != 4:
+                return
+
+            for arg in message_args:
+                if arg in all_symbols:
+                    return True
 
         finished = False
         victory = False
@@ -78,13 +90,13 @@ async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
         tries = 0
         while not finished and tries < 6:
             try:
-                currency = cmd.bot.cfg.pref.currency
                 answer = await cmd.bot.wait_for('message', check=answer_check, timeout=90)
                 correct, results = check_answer(answer.content, chosen)
                 tries += 1
                 if correct:
                     finished = True
                     victory = True
+                    currency = cmd.bot.cfg.pref.currency
                     await cmd.db.add_currency(answer.author, message.guild, 50)
                     win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 {currency}!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
@@ -100,11 +112,13 @@ async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
                 timeout_title = f'🕙 Time\'s up {message.author.display_name}! It was {"".join(chosen)}'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
+
         if not victory and not timeout:
             lose_title = f'💥 Ooh, sorry {message.author.display_name}, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await message.channel.send(embed=final_embed)
-    else:
-        ongoing_error = discord.Embed(color=0xBE1931,
-                                      title=f'❗ {message.author.display_name}, there is one already ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        ongoing.remove(message.author.id)
+    except Exception:
+        if message.author.id in ongoing:
+            ongoing.remove(message.author.id)
+        raise
