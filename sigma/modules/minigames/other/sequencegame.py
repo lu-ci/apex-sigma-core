@@ -35,10 +35,7 @@ first_symbols = [group[0] for group in symbol_groups]
 
 
 def check_answer(arguments, sequence):
-    filtered_args = [group[0]
-                     for char in arguments
-                     for group in symbol_groups
-                     if char in group]
+    filtered_args = [group[0] for char in arguments for group in symbol_groups if char in group]
     results = []
     correct = True
     for loop_index, arg in enumerate(filtered_args):
