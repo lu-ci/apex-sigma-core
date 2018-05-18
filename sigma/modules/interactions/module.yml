@@ -21,12 +21,6 @@ commands:
       Or just teast them for being a horrible person.
       Like when they make you create a pout command for money!
 
-  - name:         cuddle
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Snuggle, snuggle~
-
   - name:         highfive
     enabled:      true
     usage:        "{pfx}{cmd} @person"
