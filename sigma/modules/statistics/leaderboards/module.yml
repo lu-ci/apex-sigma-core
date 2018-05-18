@@ -6,6 +6,8 @@ enabled:          true
 
 commands:
   - name:         topcookies
+    alts:
+      - "toprep"
     enabled:      true
     usage:        "{pfx}{cmd} global"
     description:
