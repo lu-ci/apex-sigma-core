@@ -34,10 +34,10 @@ async def sortie_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:
-                sorties = await get_sortie_data(ev.db)
+                sorties, triggers = await get_sortie_data(ev.db)
                 if sorties:
                     response = generate_sortie_embed(sorties)
-                    await send_to_channels(ev, response, 'WarframeSortieChannel')
+                    await send_to_channels(ev, response, 'WarframeSortieChannel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(2)

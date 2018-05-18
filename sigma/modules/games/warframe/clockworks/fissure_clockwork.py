@@ -34,10 +34,10 @@ async def fissure_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:
-                fissures = await get_fissure_data(ev.db)
+                fissures, triggers = await get_fissure_data(ev.db)
                 if fissures:
                     response = generate_fissure_embed(fissures)
-                    await send_to_channels(ev, response, 'WarframeFissureChannel')
+                    await send_to_channels(ev, response, 'WarframeFissureChannel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(2)

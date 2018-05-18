@@ -86,7 +86,7 @@ async def get_invasion_data(db):
             await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             invasion_out = invasion
             break
-    triggers = []
+    triggers = ['invasion']
     if invasion_out:
         item_rewards = [invasion_out['rewards']['one'], invasion_out['rewards']['two']]
         for item_reward in item_rewards:

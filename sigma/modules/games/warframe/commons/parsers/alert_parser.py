@@ -86,7 +86,7 @@ async def get_alert_data(db):
             await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             alert_out = alert
             break
-    triggers = []
+    triggers = ['alert']
     if alert_out:
         item_reward = alert_out['rewards']['item']
         if item_reward:

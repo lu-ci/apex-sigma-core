@@ -34,7 +34,7 @@ async def get_sortie_data(db):
         return None
     else:
         await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
-        return sortie_data
+        return sortie_data, ['sortie']
 
 
 def generate_sortie_embed(data):

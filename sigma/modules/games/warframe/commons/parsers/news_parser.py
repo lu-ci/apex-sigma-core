@@ -38,6 +38,7 @@ async def get_news_data(db):
             news_data = json.loads(news_data)
     news_data = news_data['Events']
     news_out = None
+    triggers = ['news']
     for news in news_data:
         event_id = news['_id']['$oid']
         db_check = await db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
@@ -45,8 +46,9 @@ async def get_news_data(db):
             await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             if language_check(news):
                 news_out = news
+                triggers += [piece.lower() for piece in news.get('Message').lower().split()]
                 break
-    return news_out
+    return news_out, triggers
 
 
 def generate_news_embed(data):

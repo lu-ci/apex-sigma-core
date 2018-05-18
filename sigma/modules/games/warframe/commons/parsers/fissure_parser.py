@@ -21,18 +21,11 @@ import aiohttp
 import arrow
 import discord
 
-tier_names = {
-    'VoidT1': 'Lith',
-    'VoidT2': 'Meso',
-    'VoidT3': 'Neo',
-    'VoidT4': 'Axi'
-}
+tier_names = {'VoidT1': 'Lith', 'VoidT2': 'Meso', 'VoidT3': 'Neo', 'VoidT4': 'Axi'}
 
 relic_images = {
-    'lith': 'http://i.imgur.com/B6DzvKG.png',
-    'meso': 'http://i.imgur.com/RLWqK6Y.png',
-    'neo': 'http://i.imgur.com/nNRJaHn.png',
-    'axi': 'http://i.imgur.com/xnx0PSB.png'
+    'lith': 'http://i.imgur.com/B6DzvKG.png', 'meso': 'http://i.imgur.com/RLWqK6Y.png',
+    'neo': 'http://i.imgur.com/nNRJaHn.png', 'axi': 'http://i.imgur.com/xnx0PSB.png'
 }
 
 
@@ -43,14 +36,19 @@ async def get_fissure_data(db):
             fissure_data = await data.read()
             fissure_data = json.loads(fissure_data)
     fissure_out = None
+    triggers = ['fissure']
     for fissure in fissure_data:
         event_id = fissure['_id']['id']
         db_check = await db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
         if not db_check:
             await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             fissure_out = fissure
+            for trigger_piece in fissure.get('Node').split():
+                trigger_piece = trigger_piece.strip('()').lower()
+                triggers.append(trigger_piece)
+            triggers.append(tier_names.get(fissure.get('Modifier')))
             break
-    return fissure_out
+    return fissure_out, triggers
 
 
 def generate_fissure_embed(data):
