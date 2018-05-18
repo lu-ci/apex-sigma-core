@@ -180,6 +180,7 @@ Commands | Description | Example
 `>>chances` | Shows a table with your item chance statistics. | `>>chances @person`
 `>>coinflip` `>>cf` | Flips a coin. Nothing complex. You can try guessing the results by typing either Heads or Tails. | `>>coinflip Heads`
 `>>cook` `>>make` | Uses a recipe to create an item from raw resources that you've gathered. You can see all available recipes with the recipes command. | `>>cook Shade Tea`
+`>>drawcard` `>>draw` | Draws the given number of cards. The number of cards to draw can't be above 10. The decks are persistent, so if you don't have enough cards left you can make a new deck with the "newdeck", command. | `>>drawcard 3`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type and rarity. | `>>filtersell rarity:Legendary`
 `>>finditem` | Looks up information about an item. Like inspect, but you don't need to have the item. | `>>finditem fish Jitteroon`
@@ -192,6 +193,7 @@ Commands | Description | Example
 `>>joinrace` `>>jr` | Joins a race instance if any are ongoing in the current channel. | `>>joinrace`
 `>>mangachargame` `>>mangochargame` `>>mancg` | A minigame where you guess the name of the manga character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>mangachargame hint`
 `>>mathgame` `>>mg` | A mathematics minigame. You are given a problem, solve it. Numbers are rounded to 2 decimals. You can also specify how hard you want the problem to be. The scale goes from 1-9. The default difficulty is 3. The time and Kud reward scale with the difficulty and number of hard operators. | `>>mathgame 4`
+`>>newdeck` | Rebuilds your deck of cards. | `>>newdeck`
 `>>race` | Creates a race in the current text channel. To join the race use the joinrace command. A race needs at least 2 people to start, and has a maximum of 10 participants. You can specify a required buy-in to join the race. The winner gets the entire pool minus 10% that goes to the track upkeep. | `>>race 20`
 `>>raceoverride` `>>raceover` `>>killrace` | Overrides the race in case a bug occurs. | `>>raceoverride`
 `>>recipes` | Lists all recipes available for making. The recipe list is limited to 10 items per page. You can specify the number of the page that you want to view. | `>>recipes`

@@ -56,3 +56,20 @@ commands:
       Rolls a number from 0 to the one you provided.
       You can also roll dice as in the example above.
       Following the format [Number of Dice]d[MaxNumber] +[Bonus].
+
+  - name:         drawcard
+    alts:
+      - "draw"
+    enabled:      true
+    usage:        "{pfx}{cmd} 3"
+    description:
+      Draws the given number of cards. The number of cards to draw can't be above 10.
+      The decks are persistent, so if you don't have enough cards left
+      you can make a new deck with the "newdeck", command.
+
+  - name:         newdeck
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Rebuilds your deck of cards.
+
