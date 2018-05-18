@@ -123,3 +123,14 @@ commands:
     description:
       Shows the statistics of a user's inventory.
       The number of items per type and per rarity.
+
+  - name:         itemstatistics
+    alts:
+      - "itemstats"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the statistics of a user's item history.
+      How much of which item they've caught, that is.
+      Sorted by the most caught to the least caught items.
+      Items that were never obtained are not shown.

@@ -64,6 +64,7 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
                 response_title = f'🗑 You failed to catch anything.'
             else:
                 item = item_core.pick_item_in_rarity('animal', rarity)
+                await item_core.add_item_statistic(cmd.db, item, message.author)
                 connector = 'a'
                 if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                     connector = 'an'

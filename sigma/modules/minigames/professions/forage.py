@@ -59,6 +59,7 @@ async def forage(cmd: SigmaCommand, message: discord.Message, args: list):
                     except TypeError:
                         pass
             item = item_core.pick_item_in_rarity('plant', rarity)
+            await item_core.add_item_statistic(cmd.db, item, message.author)
             connector = 'a'
             if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                 connector = 'an'

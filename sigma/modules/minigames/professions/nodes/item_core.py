@@ -20,6 +20,7 @@ import secrets
 import discord
 import yaml
 
+from sigma.core.mechanics.database import Database
 from sigma.core.utilities.data_processing import user_avatar
 from .item_object import SigmaRawItem, SigmaCookedItem
 from .properties import rarity_names, item_colors, item_icons
@@ -153,6 +154,17 @@ class ItemCore(object):
             else:
                 break
         return lowest
+
+    @staticmethod
+    async def add_item_statistic(db: Database, item: SigmaRawItem, member: discord.Member):
+        member_stats = await db[db.db_cfg.database].ItemStatistics.find_one({'UserID': member.id})
+        if member_stats is None:
+            await db[db.db_cfg.database].ItemStatistics.insert_one({'UserID': member.id})
+            member_stats = {}
+        item_count = member_stats.get(item.file_id) or 0
+        item_count += 1
+        updata = {'$set': {item.file_id: item_count}}
+        await db[db.db_cfg.database].ItemStatistics.update_one({'UserID': member.id}, updata)
 
     @staticmethod
     async def notify_channel_of_special(message, all_channels, channel_id, item):
