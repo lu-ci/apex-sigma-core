@@ -27,6 +27,13 @@ commands:
     description:
       Snuggle, snuggle~
 
+  - name:         highfive
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Give somebody a high-five cause high-fives are awesome!
+
+
   - name:         hug
     enabled:      true
     usage:        "{pfx}{cmd} @person"

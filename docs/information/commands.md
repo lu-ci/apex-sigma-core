@@ -120,6 +120,7 @@ Commands | Description | Example
 `>>feed` | Care to share some of your food with someone cute? | `>>feed @person`
 `>>fuck` | Don't question my modules... Yes (º﹃º) | `>>fuck @person`
 `>>fuckrl` | The same as fuck, but for non-weebs, the RL stuff... STOP JUDGING ME (ﾟ￢ﾟ) | `>>fuckrl @person`
+`>>highfive` | Give somebody a high-five cause high-fives are awesome! | `>>highfive @person`
 `>>hug` | Even a bot like me can appreciate a hug! The person you mention will surely as well. | `>>hug @person`
 `>>kiss` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, it's a good excuse. | `>>lick @person`
