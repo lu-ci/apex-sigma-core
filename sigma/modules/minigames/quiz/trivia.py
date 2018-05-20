@@ -26,12 +26,38 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 ongoing_list = []
-trivia_cache = []
 
 awards = {
-    'easy': 5,
-    'medium': 10,
-    'hard': 15
+    'easy': 10,
+    'medium': 20,
+    'hard': 50
+}
+
+categories = {
+    9: ['general'],
+    10: ['books', 'book'],
+    11: ['film', 'films', 'movie', 'movies'],
+    12: ['music'],
+    13: ['musical', 'musicals', 'theatre', 'theater'],
+    14: ['tv', 'television'],
+    15: ['games', 'gaming'],
+    16: ['boardgames', 'board'],
+    17: ['science', 'nature'],
+    18: ['computers', 'it', 'technology', 'tech'],
+    19: ['mathematics', 'math'],
+    20: ['mythology', 'myth'],
+    21: ['sports', 'sport'],
+    22: ['geography', 'geo'],
+    23: ['history'],
+    24: ['politics'],
+    25: ['art'],
+    26: ['celebrities', 'celebrity', 'celebs', 'celeb'],
+    27: ['animals'],
+    28: ['vehicles'],
+    29: ['comics'],
+    30: ['gadgets'],
+    31: ['japan', 'japanese', 'anime', 'manga', 'animu', 'mango'],
+    32: ['cartoons', 'cartoon', 'animations', 'animation']
 }
 
 streaks = {}
@@ -57,26 +83,29 @@ def get_correct_index(question_list, answer):
 
 async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
     global streaks
-    global trivia_cache
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if message.author.id not in ongoing_list:
             ongoing_list.append(message.author.id)
             allotted_time = 20
-            if not trivia_cache:
-                trivia_api_url = 'https://opentdb.com/api.php?amount=50'
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(trivia_api_url) as number_get:
-                        number_response = await number_get.read()
-                        try:
-                            data = json.loads(number_response)
-                        except json.JSONDecodeError:
-                            if message.author.id in ongoing_list:
-                                ongoing_list.remove(message.author.id)
-                            decode_error = discord.Embed(color=0xBE1931, title='❗ Couldn\'t retrieve a question.')
-                            await message.channel.send(embed=decode_error)
-                            return
-                        trivia_cache += data['results']
-            data = trivia_cache.pop(secrets.randbelow(len(trivia_cache)))
+            trivia_api_url = 'https://opentdb.com/api.php?amount=1'
+            if args:
+                catlook = args[0].lower()
+                for cat in categories:
+                    cat_alts = categories.get(cat)
+                    if catlook in cat_alts:
+                        trivia_api_url += f'&category={cat}'
+                        break
+            async with aiohttp.ClientSession() as session:
+                async with session.get(trivia_api_url) as number_get:
+                    number_response = await number_get.read()
+                    try:
+                        data = json.loads(number_response).get('results')[0]
+                    except json.JSONDecodeError:
+                        if message.author.id in ongoing_list:
+                            ongoing_list.remove(message.author.id)
+                        decode_error = discord.Embed(color=0xBE1931, title='❗ Couldn\'t retrieve a question.')
+                        await message.channel.send(embed=decode_error)
+                        return
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
             question = data['question']
             question = ftfy.fix_text(question)
