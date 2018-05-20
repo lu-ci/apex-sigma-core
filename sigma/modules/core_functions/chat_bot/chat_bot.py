@@ -13,14 +13,28 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import json
 
-import aiohttp
 import discord
+from chatterbot import ChatBot
 
 from sigma.core.mechanics.event import SigmaEvent
 
-cb_api = 'https://api.lucia.moe/rest/sigma/chatterbot'
+
+cb_cache = None
+inter_cache = {}
+
+
+def get_cb(db):
+    global cb_cache
+    if not cb_cache:
+        cb_cache = ChatBot(
+            "Sigma",
+            database='chatterbot',
+            database_uri=db.db_address,
+            storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
+            output_format='text'
+        )
+    return cb_cache
 
 
 def clean_mentions(members, text):
@@ -56,19 +70,14 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                     if message.content.startswith(mention) or message.content.startswith(mention_alt):
                         interaction = ' '.join(args[1:])
                         if interaction:
-                            inter_data = {
-                                'interaction': interaction,
-                                'conversation': message.author.id
-                            }
-                            async with aiohttp.ClientSession() as session:
-                                api_data = await session.post(cb_api, json=inter_data)
-                                api_bytes = await api_data.read()
-                            cb_data = json.loads(api_bytes)
-                            cb_resp = cb_data.get('response')
-                            cb_resp = cb_resp.replace('{usr}', message.author.name)
-                            if not cb_resp:
+                            cb = get_cb(ev.db)
+                            conversation = message.channel.id
+                            interaction = cb.input.process_input_statement(interaction)
+                            _, response = cb.generate_response(interaction, conversation)
+                            cb.output.process_response(response)
+                            if not response:
                                 cb_resp = 'Sorry bud, I\'m not feeling too well, let\'s talk later...'
-                            cb_resp = clean_mentions(ev.bot.get_all_members(), cb_resp)
+                            cb_resp = clean_mentions(ev.bot.get_all_members(), response)
                             response = f'{message.author.mention} {cb_resp}'
                             await message.channel.send(response)
     except IndexError:

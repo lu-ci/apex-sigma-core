@@ -111,7 +111,6 @@ Commands | Description | Example
 `>>addreact` | Adds new reactions. | `>>addreact reaction my.gif.link/fancy.gif`
 `>>bite` | Sink your teeth into some poor thing. | `>>bite @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
-`>>cuddle` | Snuggle, snuggle~ | `>>cuddle @person`
 `>>dance` | Feel alive? Like you just wanna... boogie? Let's dance! | `>>dance @person`
 `>>drink` | Cheers, family! Let's get drunk! | `>>drink @person`
 `>>explode` `>>detonate` | When all other means fail, it's time to bring out the carpet bomb squadrons. | `>>explode @person`
