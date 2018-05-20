@@ -57,6 +57,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(target_lookup, t_up_data)
                     response = discord.Embed(color=0xe75a70, title=f'💔 You have divorced {target.name}...')
                     await send_divorce(message.author, target, True)
+                    await cmd.db.rmv_currency(message.author, 10000)
                 else:
                     currency = cmd.bot.cfg.pref.currency
                     no_kud = f'❗ You don\'t have 10,000 {currency} to get a divorce.'
