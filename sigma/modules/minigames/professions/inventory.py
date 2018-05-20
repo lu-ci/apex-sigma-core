@@ -22,6 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 from .nodes.item_core import ItemCore
+from operator import attrgetter
 
 item_core = None
 reci_core = None
@@ -75,7 +76,8 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])
         item_o_list.append(item_o)
-    item_o_list = sorted(item_o_list, key=lambda x: x.rarity, reverse=True)
+    item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
+    item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
     inv = item_o_list[start_range:end_range]
     if inv:
         all_reci = reci_core.recipes

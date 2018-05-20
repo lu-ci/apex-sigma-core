@@ -31,7 +31,8 @@ class CommandRateLimiter(object):
         return (last_stamp + timeout) > curr_stamp
 
     def set_cooling(self, message):
-        self.stamps.update({message.author.id: arrow.utcnow().float_timestamp})
+        if message.author.id not in self.cmd.bot.cfg.dsc.owners:
+            self.stamps.update({message.author.id: arrow.utcnow().float_timestamp})
 
 
 class CooldownControl(object):
