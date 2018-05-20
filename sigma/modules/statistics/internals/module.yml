@@ -30,12 +30,3 @@ commands:
       Shows how much of Sigma's internal experience you obtained.
       Experience is earned by being an active member of the community.
       Yes, this is meant to be vague.
-
-  - name:         profile
-    alts:
-      - "mystats"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows Sigma's statistics for the mentioned user.
-      Their current experience, level and most used commands.
