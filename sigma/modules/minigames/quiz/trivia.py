@@ -88,12 +88,14 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             ongoing_list.append(message.author.id)
             allotted_time = 20
             trivia_api_url = 'https://opentdb.com/api.php?amount=1'
+            cat_chosen = False
             if args:
                 catlook = args[0].lower()
                 for cat in categories:
                     cat_alts = categories.get(cat)
                     if catlook in cat_alts:
                         trivia_api_url += f'&category={cat}'
+                        cat_chosen = True
                         break
             async with aiohttp.ClientSession() as session:
                 async with session.get(trivia_api_url) as number_get:
@@ -164,7 +166,8 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                     answer_index = None
                 correct_index = get_correct_index(choice_list, correct_answer)
                 if answer_index == correct_index or answer_message.content.lower() == correct_answer.lower():
-                    streaks.update({message.author.id: reward_mult + 1})
+                    if not cat_chosen:
+                        streaks.update({message.author.id: reward_mult + 1})
                     await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
                     author = answer_message.author.display_name
                     currency = cmd.bot.cfg.pref.currency
