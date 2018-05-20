@@ -1,0 +1,28 @@
+name:             Marriage Commands
+
+category:         utility
+
+enabled:          true
+
+commands:
+  - name:         marry
+    alts:
+      - "propose"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Proposes to the target parson.
+      Or accepts their marriage proposal if they proposed to you.
+
+  - name:         divorce
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Divorces the target person that you are married with.
+      Divorces cost 10,000 Kud, unless you're just canceling a proposal.
+
+  - name:         spouses
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows the target user's list of spouses, that is, people that they've married.

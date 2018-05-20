@@ -458,9 +458,11 @@ Commands | Description | Example
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data about the mentioned channel. If no channel is mentioned, it will show data for the channel that the command is used in. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the inputted color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>convertcurrency` `>>convert` | Converts the amount of money inputed. The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed. | `>>convertcurrency 50 EUR in USD`
+`>>divorce` | Divorces the target person that you are married with. Divorces cost 10,000 Kud, unless you're just canceling a proposal. | `>>divorce @person`
 `>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server that has that emote like in this example "lcMonika:200751504175398912". | `>>emote lcPain`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the query for you. | `>>lmgtfy Sexy Sneks`
+`>>marry` `>>propose` | Proposes to the target parson. Or accepts their marriage proposal if they proposed to you. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data about the inputted role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
@@ -469,6 +471,7 @@ Commands | Description | Example
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data about the server that the command is used in. | `>>serverinformation`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
+`>>spouses` | Shows the target user's list of spouses, that is, people that they've married. | `>>spouses @person`
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. As well as when the bot last started. | `>>statistics`
 `>>status` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>suggest` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>suggest Add some new stuff!!!`
