@@ -19,7 +19,6 @@ from chatterbot import ChatBot
 
 from sigma.core.mechanics.event import SigmaEvent
 
-
 cb_cache = None
 inter_cache = {}
 

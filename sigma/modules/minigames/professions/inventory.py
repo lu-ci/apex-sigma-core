@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from operator import attrgetter
+
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
@@ -22,7 +24,6 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 from .nodes.item_core import ItemCore
-from operator import attrgetter
 
 item_core = None
 reci_core = None
