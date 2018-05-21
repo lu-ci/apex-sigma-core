@@ -36,7 +36,7 @@ awards = {
 categories = {
     9: ['general'],
     10: ['books', 'book'],
-    11: ['films', 'film', 'movie', 'movies'],
+    11: ['films', 'film', 'movies', 'movie'],
     12: ['music'],
     13: ['musicals', 'musical', 'theatre', 'theater'],
     14: ['tv', 'television'],
