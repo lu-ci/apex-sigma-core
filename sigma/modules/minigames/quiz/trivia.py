@@ -41,7 +41,7 @@ categories = {
     13: ['musicals', 'musical', 'theatre', 'theater'],
     14: ['tv', 'television'],
     15: ['games', 'game', 'gaming'],
-    16: ['boardgames', 'boardgame' 'board'],
+    16: ['boardgames', 'boardgame', 'boards', 'board'],
     17: ['science', 'nature'],
     18: ['computers', 'computer', 'it', 'technology', 'tech'],
     19: ['mathematics', 'math', 'maths'],
