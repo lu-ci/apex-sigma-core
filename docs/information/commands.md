@@ -457,7 +457,7 @@ Commands | Description | Example
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data about the mentioned channel. If no channel is mentioned, it will show data for the channel that the command is used in. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the inputted color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>convertcurrency` `>>convert` | Converts the amount of money inputed. The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed. | `>>convertcurrency 50 EUR in USD`
-`>>divorce` | Divorces the target person that you are married with. Divorces cost 10,000 Kud, unless you're just canceling a proposal. | `>>divorce @person`
+`>>divorce` | Divorces the target person that you are married with. Divorces cost 10 Kud per minute that you were married, unless you're just canceling a proposal. | `>>divorce @person`
 `>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server that has that emote like in this example "lcMonika:200751504175398912". | `>>emote lcPain`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the query for you. | `>>lmgtfy Sexy Sneks`
