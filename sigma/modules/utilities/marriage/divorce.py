@@ -13,7 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
@@ -45,7 +45,10 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
             if message.author.id in t_spouse_ids and target.id in a_spouse_ids:
                 current_kud = await cmd.db.get_currency(message.author, message.guild)
                 current_kud = current_kud.get('current') or 0
-                if current_kud >= 10000:
+                marry_stamp = discord.utils.find(lambda s: s.get('UserID') == target.id, a_spouses).get('Time')
+                time_diff = arrow.utcnow().timestamp - marry_stamp
+                div_cost = time_diff // 6
+                if current_kud >= div_cost:
                     for sp in a_spouses:
                         if sp.get('UserID') == target.id:
                             a_spouses.remove(sp)
@@ -58,10 +61,10 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(target_lookup, t_up_data)
                     response = discord.Embed(color=0xe75a70, title=f'💔 You have divorced {target.name}...')
                     await send_divorce(message.author, target, True)
-                    await cmd.db.rmv_currency(message.author, 10000)
+                    await cmd.db.rmv_currency(message.author, div_cost)
                 else:
                     currency = cmd.bot.cfg.pref.currency
-                    no_kud = f'❗ You don\'t have 10,000 {currency} to get a divorce.'
+                    no_kud = f'❗ You don\'t have {div_cost} {currency} to get a divorce.'
                     response = discord.Embed(color=0xBE1931, title=no_kud)
             elif target.id in a_spouse_ids:
                 for sp in a_spouses:
