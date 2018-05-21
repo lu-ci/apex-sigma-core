@@ -119,7 +119,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
             reward_mult = streaks.get(message.author.id) or 0
-            kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 3.25) / (1 + (0.03 / reward_mult))))
+            kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 3.25) / (1 + (0.03 * reward_mult))))
             choice_list = [correct_answer] + incorrect_answers
             choice_list = shuffle_questions(choice_list)
             choice_number = 0
