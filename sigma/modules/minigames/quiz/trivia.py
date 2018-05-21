@@ -17,6 +17,7 @@
 import asyncio
 import json
 import secrets
+import re
 
 import aiohttp
 import discord
@@ -111,6 +112,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
             question = data['question']
             question = ftfy.fix_text(question)
+            question = re.sub(r'([**_~`])', r'\\\1', question)  # escape markdown formatting
             category = data['category']
             correct_answer = data['correct_answer']
             correct_answer = ftfy.fix_text(correct_answer)
