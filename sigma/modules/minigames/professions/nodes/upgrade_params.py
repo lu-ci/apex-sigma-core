@@ -44,5 +44,11 @@ upgrade_list = [
         'name': 'Casino Investment',
         'cost': 200,
         'desc': 'Reduces the slot machine cool-down.'
+    },
+    {
+        'id': 'harem',
+        'name': 'Harem Expansion',
+        'cost': 2500,
+        'desc': 'Increases your harem size by 1.'
     }
 ]

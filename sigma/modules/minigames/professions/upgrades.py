@@ -41,6 +41,10 @@ def calculate_upgrade(up_id, level):
         'casino': {
             'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
             'end': 'Seconds'
+        },
+        'harem': {
+            'amount': 10 + level,
+            'end': 'Spaces'
         }
     }
     return up_table[up_id]
