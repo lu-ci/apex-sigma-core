@@ -84,7 +84,12 @@ def get_correct_index(question_list, answer):
 
 async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
     global streaks
-    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+    if await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+        on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
+        await message.channel.send(embed=on_cooldown)
+
+    try:
         if message.author.id not in ongoing_list:
             ongoing_list.append(message.author.id)
             allotted_time = 20
@@ -143,22 +148,12 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             await message.channel.send(embed=question_embed)
 
             def check_answer(msg):
-                if message.channel.id == msg.channel.id:
-                    if message.author.id == msg.author.id:
-                        try:
-                            int(msg.content)
-                            number = True
-                        except ValueError:
-                            number = False
-                        if number or (msg.content.title() in choice_list):
-                            correct = True
-                        else:
-                            correct = False
-                    else:
-                        correct = False
-                else:
-                    correct = False
-                return correct
+                if message.channel.id != msg.channel.id:
+                    return
+                if message.author.id != msg.author.id:
+                    return
+                if msg.content.isdigit() or (msg.content.title() in choice_list):
+                    return True
 
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=allotted_time)
@@ -194,7 +189,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
             await message.channel.send(embed=ongoing_error)
-    else:
-        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
-        on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
-        await message.channel.send(embed=on_cooldown)
+    except Exception:
+        if message.author.id in ongoing_list:
+            ongoing_list.remove(message.author.id)
+        raise
