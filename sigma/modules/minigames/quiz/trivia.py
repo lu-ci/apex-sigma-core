@@ -88,6 +88,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
         await message.channel.send(embed=on_cooldown)
+        return
 
     try:
         if message.author.id not in ongoing_list:
