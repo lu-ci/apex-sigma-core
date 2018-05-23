@@ -28,7 +28,7 @@ async def generateitem(cmd: SigmaCommand, message: discord.Message, args: list):
         item_core = ItemCore('sigma/modules/minigames/professions/res/data')
     if args:
         if message.mentions:
-            if len(args) >= 3:
+            if len(args) >= 2:
                 target = message.mentions[0]
                 lookup = ' '.join(args[1:])
                 item = item_core.get_item_by_name(lookup)
