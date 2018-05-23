@@ -72,6 +72,7 @@ Commands | Description | Example
 `>>cyanideandhappiness` `>>cnh` | Outputs an image of a random Cyanide and Happiness comic. Explosm makes awesome comics and animations. | `>>cyanideandhappiness`
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you are a good kid. | `>>dadjoke`
+`>>daily` | Gives an amount of kud to you each 22 hours. The amount is modified by the number of days in a row that you've collected your daily Kud up to 10 days, as well as a little random factor in there just for fun. While the Kud can be collected each 22h, the streak is reset 48h after the last one was collected. | `>>daily`
 `>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
@@ -472,7 +473,7 @@ Commands | Description | Example
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
 `>>spouses` | Shows the target user's list of spouses, that is, people that they've married. | `>>spouses @person`
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. As well as when the bot last started. | `>>statistics`
-`>>status` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
+`>>status` `>>ping` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>suggest` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>suggest Add some new stuff!!!`
 `>>translation` `>>translate` `>>trans` | Translates a language from and to the given ones. If a conversion input is not stated, the first argument will be considered the input language. And the output will be in english. The language codes used abide by the ISO 639-1 format. For the whole list, you can go to this wikipedia article. https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes | `>>translation EN>JA Hello there!`
 `>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the return message to be an embed, add "text" at the end. | `>>userid @person`

@@ -59,6 +59,8 @@ commands:
       Users in this list have access to the administration module.
 
   - name:         status
+    alts:
+      - "ping"
     enabled:      true
     description:
       Shows the status of Sigma's machine.

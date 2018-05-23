@@ -45,3 +45,12 @@ commands:
       The amount of Kud needs to go first, followed by the target.
       Only server managers can award Kud from the vault.
       Anybody can contribute to the vault with the givetovault command.
+
+  - name:         daily
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Gives an amount of kud to you each 22 hours.
+      The amount is modified by the number of days in a row that you've collected
+      your daily Kud up to 10 days, as well as a little random factor in there just for fun.
+      While the Kud can be collected each 22h, the streak is reset 48h after the last one was collected.
