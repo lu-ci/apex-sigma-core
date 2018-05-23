@@ -23,7 +23,7 @@ async def send_proposal(author: discord.Member, target: discord.Member, is_propo
     if is_proposal:
         proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {author.name} has proposed to you!')
     else:
-        proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {author.name} has accept your proposal!')
+        proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {author.name} has accepted your proposal!')
     try:
         await target.send(embed=proposal)
     except discord.Forbidden:

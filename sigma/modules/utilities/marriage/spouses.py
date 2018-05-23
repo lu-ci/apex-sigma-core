@@ -28,6 +28,7 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
     profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one({'UserID': target.id}) or {}
     splist = profile.get('Spouses') or []
     starter = 'You are' if target.id == message.author.id else f'{target.name} is'
+    middle = 'have' if target.id == message.author.id else 'has'
     if splist:
         spdata = []
         for sp in splist:
@@ -45,5 +46,5 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         response.description = f'```hs\n{spbody}\n```'
         response.set_footer(text=f'{target.name}\'s harem has {len(splist)}/{limit} people in it.')
     else:
-        response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor have proposed, to anyone.')
+        response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {middle} proposed, to anyone.')
     await message.channel.send(embed=response)
