@@ -33,8 +33,16 @@ async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
-    upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
-    upgrade_level = upgrade_file.get('luck') or 0
+    if args:
+        try:
+            upgrade_level = int(args[-1])
+        except ValueError:
+            upgrade_level = None
+    else:
+        upgrade_level = None
+    if upgrade_level is None:
+        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
+        upgrade_level = upgrade_file.get('luck') or 0
     top_roll, rarities = item_core.create_roll_range(upgrade_level)
     out_lines = []
     table_head = ['Rarity', 'Chance']
