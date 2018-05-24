@@ -113,7 +113,6 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
             two_comb_three = bool(combination[1] == combination[2])
             if three_comb:
                 win = True
-                announce = True
                 winnings = int(bet * (rarity_rewards[combination[0]] * (bet // 2)))
             elif two_comb_one or two_comb_two or two_comb_three:
                 if combination[0] == combination[1]:
@@ -125,11 +124,9 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     win_comb = None
                 win = True
-                announce = False
                 winnings = int(bet * (rarity_rewards[win_comb] * (bet // 5)))
             else:
                 win = False
-                announce = False
                 winnings = 0
             if win:
                 color = 0x5dadec
@@ -140,14 +137,6 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                 color = 0x232323
                 title = '💣 Oh my, you lost...'
                 footer = f'{currency_icon} {bet} {currency} has been deducted.'
-            if announce:
-                if 'win_channel' in cmd.cfg:
-                    win_ch_id = cmd.cfg['win_channel']
-                    target_channel = discord.utils.find(lambda c: c.id == win_ch_id, cmd.bot.get_all_channels())
-                    announce_embed = discord.Embed(color=0xf9f9f9, title=f'🎰 A user just got 3 {combination[0]}.')
-                    announce_embed.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-                    announce_embed.set_footer(text=f'On: {message.guild.name}.', icon_url=message.guild.icon_url)
-                    await target_channel.send(embed=announce_embed)
             response = discord.Embed(color=color)
             response.add_field(name=title, value=slot_lines)
             response.set_footer(text=footer)

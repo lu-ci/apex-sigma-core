@@ -165,17 +165,3 @@ class ItemCore(object):
         item_count += 1
         updata = {'$set': {item.file_id: item_count}}
         await db[db.db_cfg.database].ItemStatistics.update_one({'UserID': member.id}, updata)
-
-    @staticmethod
-    async def notify_channel_of_special(message, all_channels, channel_id, item):
-        if channel_id:
-            target = discord.utils.find(lambda x: x.id == channel_id, all_channels)
-            if target:
-                connector = 'a'
-                if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-                    connector = 'an'
-                response_title = f'{item.icon} {connector.title()} {item.rarity_name} {item.name} has been found!'
-                response = discord.Embed(color=item.color, title=response_title)
-                response.set_author(name=f'{message.author.display_name}', icon_url=user_avatar(message.author))
-                response.set_footer(text=f'From {message.guild.name}.', icon_url=message.guild.icon_url)
-                await target.send(embed=response)

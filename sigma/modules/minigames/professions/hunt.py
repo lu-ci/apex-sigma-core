@@ -74,10 +74,6 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
                 await cmd.db.add_to_inventory(message.author, data_for_inv)
             response = discord.Embed(color=item_color, title=response_title)
             response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-            if rarity >= 5:
-                if 'item_channel' in cmd.cfg:
-                    await item_core.notify_channel_of_special(message, cmd.bot.get_all_channels(),
-                                                              cmd.cfg['item_channel'], item)
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Your inventory is full.')
     else:
