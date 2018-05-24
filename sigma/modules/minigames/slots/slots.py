@@ -138,6 +138,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                 title = '💣 Oh my, you lost...'
                 footer = f'{currency_icon} {bet} {currency} has been deducted.'
             response = discord.Embed(color=color)
+            response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
             response.add_field(name=title, value=slot_lines)
             response.set_footer(text=footer)
         else:
