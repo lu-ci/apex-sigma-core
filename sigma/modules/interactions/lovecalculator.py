@@ -21,13 +21,21 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
-        if len(message.mentions) == 2:
-            first_item = message.mentions[0].display_name
-            second_item = message.mentions[1].display_name
-            value_one_one = int(str(message.mentions[0].id)[6])
-            value_one_two = int(str(message.mentions[0].id)[9])
-            value_two_one = int(str(message.mentions[1].id)[6])
-            value_two_two = int(str(message.mentions[1].id)[9])
+        if len(message.mentions) in [1, 2]:
+            first_tar = None
+            second_tar = None
+            if len(message.mentions) == 1:
+                first_tar = message.author
+                second_tar = message.mentions[0]
+            elif len(message.mentions) == 2:
+                first_tar = message.mentions[0]
+                second_tar = message.mentions[1]
+            first_item = first_tar.display_name
+            second_item = second_tar.display_name
+            value_one_one = int(str(first_tar.id)[6])
+            value_one_two = int(str(first_tar.id)[9])
+            value_two_one = int(str(second_tar.id)[6])
+            value_two_two = int(str(second_tar.id)[9])
             mod_one = (10 - abs(value_one_one - value_two_one)) * 10
             mod_two = (10 - abs(value_one_two - value_two_two)) * 10
             value = (mod_one + mod_two) // 2
@@ -39,7 +47,7 @@ async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list
             response.add_field(name='Second Item', value=f'```haskell\n{second_item}\n```', inline=True)
             response.add_field(name='Value', value=f'```css\n{bar_text}\n```', inline=False)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid target number.')
+            response = discord.Embed(color=0xBE1931, title='❗ No targets given.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)
