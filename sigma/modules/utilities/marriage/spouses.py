@@ -25,10 +25,24 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
+    if args:
+        page = args[0]
+        try:
+            page = int(page)
+        except ValueError:
+            page = 1
+    else:
+        page = 1
+    if page < 1:
+        page = 1
+    start_range = 5 * (page - 1)
+    end_range = 5 * page
     profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one({'UserID': target.id}) or {}
     splist = profile.get('Spouses') or []
+    spcount = len(splist)
+    splist = splist[start_range:end_range]
     starter = 'You are' if target.id == message.author.id else f'{target.name} is'
-    middle = 'have' if target.id == message.author.id else 'has'
+    mid = 'have' if target.id == message.author.id else 'has'
     if splist:
         spdata = []
         for sp in splist:
@@ -44,7 +58,10 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         limit = 10 + (upgrades.get('harem') or 0)
         response = discord.Embed(color=0xf9f9f9, title=f'💍 {starter} married to...')
         response.description = f'```hs\n{spbody}\n```'
-        response.set_footer(text=f'{target.name}\'s harem has {len(splist)}/{limit} people in it.')
+        response.set_footer(text=f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.')
     else:
-        response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {middle} proposed, to anyone.')
+        if page == 1:
+            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
+        else:
+            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} has nobody on page {page}.')
     await message.channel.send(embed=response)

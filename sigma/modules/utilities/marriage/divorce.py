@@ -47,7 +47,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                 current_kud = current_kud.get('current') or 0
                 marry_stamp = discord.utils.find(lambda s: s.get('UserID') == target.id, a_spouses).get('Time')
                 time_diff = arrow.utcnow().timestamp - marry_stamp
-                div_cost = time_diff // 6
+                div_cost = int(time_diff * 0.04)
                 if current_kud >= div_cost:
                     for sp in a_spouses:
                         if sp.get('UserID') == target.id:

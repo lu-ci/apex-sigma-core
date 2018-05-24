@@ -19,7 +19,7 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       Divorces the target person that you are married with.
-      Divorces cost 10 Kud per minute that you were married, unless you're just canceling a proposal.
+      Divorces cost 15 Kud per hour that you were married, unless you're just canceling a proposal.
 
   - name:         spouses
     enabled:      true

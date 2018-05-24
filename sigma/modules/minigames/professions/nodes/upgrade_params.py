@@ -48,7 +48,7 @@ upgrade_list = [
     {
         'id': 'harem',
         'name': 'Harem Expansion',
-        'cost': 2500,
+        'cost': 400,
         'desc': 'Increases your harem size by 1.'
     }
 ]

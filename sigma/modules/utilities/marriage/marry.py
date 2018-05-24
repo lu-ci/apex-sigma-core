@@ -50,7 +50,7 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
                 t_spouses = target_profile.get('Spouses') or []
                 t_spouse_ids = [s.get('UserID') for s in t_spouses]
                 a_limited = True if len(a_spouses) >= author_limit else False
-                t_limited = True if len(t_spouses) >= target_limit else False
+                t_limited = True if len(t_spouses) > target_limit else False
                 if not a_limited and not t_limited:
                     if target.id not in a_spouse_ids:
                         a_spouses.append({'UserID': target.id, 'Time': arrow.utcnow().timestamp})
