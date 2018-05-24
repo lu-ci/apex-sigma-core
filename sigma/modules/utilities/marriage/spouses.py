@@ -63,5 +63,5 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         if page == 1:
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
         else:
-            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} has nobody on page {page}.')
+            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} {mid} nobody on page {page}.')
     await message.channel.send(embed=response)
