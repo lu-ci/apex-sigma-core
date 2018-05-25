@@ -84,3 +84,13 @@ commands:
     enabled:     true
     description:
       Randomizes the current song queue.
+
+  - name:        lyrics
+    alts:
+      - "lyr"
+    enabled:     true
+    usage:       "{pfx}{cmd} Imagine Dragons - Radioactive"
+    description:
+      Searches for song lyrics for the given artist's song.
+      The artist and song need to be separated with a dash.
+      If no arguments are given, it will try to get the currently playing song's lyrics.

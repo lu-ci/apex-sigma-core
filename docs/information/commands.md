@@ -270,6 +270,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>disconnect` `>>stop` | Stops the music, disconnects the bot from the current voice channel, and purges the music queue. | `>>disconnect`
+`>>lyrics` `>>lyr` | Searches for song lyrics for the given artist's song. The artist and song need to be separated with a dash. If no arguments are given, it will try to get the currently playing song's lyrics. | `>>lyrics Imagine Dragons - Radioactive`
 `>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information regarding the currently playing song. | `>>nowplaying`
 `>>pause` | Pauses the music player. | `>>pause`
 `>>play` `>>start` | Starts playing the music queue. | `>>play`
