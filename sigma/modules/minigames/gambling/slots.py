@@ -64,7 +64,6 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
     if current_kud >= bet:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
             upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
-            sabotage_file = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
             if upgrade_file is None:
                 await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
                 upgrade_file = {}
@@ -87,10 +86,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                         symbol_choice = secrets.choice(symbols)
                         init_symb.append(symbol_choice)
                     else:
-                        if sabotage_file:
-                            roll = 999999999
-                        else:
-                            roll = secrets.randbelow(bet + (bet // 2) + 10)
+                        roll = secrets.randbelow(bet + (bet // 2) + 10)
                         if roll == 0:
                             symbol_choice = secrets.choice(init_symb)
                         else:
@@ -145,5 +141,5 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
             timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
             response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')
     else:
-        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
     await message.channel.send(embed=response)
