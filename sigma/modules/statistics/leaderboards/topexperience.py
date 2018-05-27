@@ -46,9 +46,10 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
         user_level = int(user_value / 13266.85)
         user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_members)
         if user_object:
-            leader_docs.append([user_object, user_level, user_value])
-            if len(leader_docs) >= 20:
-                break
+            if user_value:
+                leader_docs.append([user_object, user_value])
+                if len(leader_docs) >= 20:
+                    break
     table_data = [[clean_name(doc[0].name, 'Unknown')[:12], str(doc[1]), str(doc[2])] for doc in leader_docs]
     table_body = boop(table_data, ['User Name', 'Level', value_name])
     response = discord.Embed(color=await get_image_colors(lb_icon))
