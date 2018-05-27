@@ -22,6 +22,11 @@ commands:
       Divorces cost 15 Kud per hour that you were married, unless you're just canceling a proposal.
 
   - name:         spouses
+    alts:
+      - "wives"
+      - "husbands"
+      - "waifus"
+      - "husbandos"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
