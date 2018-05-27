@@ -39,7 +39,7 @@ async def command_md(ev: SigmaEvent):
         output += '\n'
         output += '\n## Module Index'
         for key in key_list:
-            output += f'\n- [{key.upper()}](#{key.lower()})'
+            output += f'\n- [{key.upper().replace("_", " ")}](#{key.lower()})'
         for key in key_list:
             output += '\n'
             output += f'\n### {key.upper().replace("_", " ")}'
