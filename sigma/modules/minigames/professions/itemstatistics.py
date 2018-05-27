@@ -51,6 +51,7 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     mem_count = len(all_stats)
     all_stats = sorted(all_stats, key=lambda k: k[1], reverse=True)
     all_stats = all_stats[start_range:end_range]
+    total_count = len([i for i in item_core.all_items if i.rarity != 0])
     listing = []
     for stat in all_stats:
         item_o = item_core.get_item_by_file_id(stat[0])
@@ -60,5 +61,5 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     response = discord.Embed(color=0xc16a4f)
     response.set_author(name=f'{target.name}\'s Item Statistics', icon_url=user_avatar(target))
     response.description = f'```hs\n{out_table}\n```'
-    response.set_footer(text=f'{target.name} has found {mem_count} out of {len(item_core.all_items)} items.')
+    response.set_footer(text=f'{target.name} has found {mem_count} out of {total_count} items.')
     await message.channel.send(embed=response)
