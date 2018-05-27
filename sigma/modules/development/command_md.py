@@ -42,7 +42,7 @@ async def command_md(ev: SigmaEvent):
             output += f'\n- [{key.upper()}](#{key.lower()})'
         for key in key_list:
             output += '\n'
-            output += f'\n### {key.upper()}'
+            output += f'\n### {key.upper().replace("_", " ")}'
             output += f'\nCommands | Description | Example'
             output += '\n----------|-------------|--------'
             commands_in_cat = categories[key]
