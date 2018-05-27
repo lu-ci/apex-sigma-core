@@ -472,7 +472,7 @@ Commands | Description | Example
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data about the server that the command is used in. | `>>serverinformation`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
-`>>spouses` | Shows the target user's list of spouses, that is, people that they've married. | `>>spouses @person`
+`>>spouses` `>>wives` `>>husbands` `>>waifus` `>>husbandos` | Shows the target user's list of spouses, that is, people that they've married. | `>>spouses @person`
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. As well as when the bot last started. | `>>statistics`
 `>>status` `>>ping` | Shows the status of Sigma's machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>suggest` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>suggest Add some new stuff!!!`

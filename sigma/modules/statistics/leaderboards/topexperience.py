@@ -27,15 +27,18 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
     sort_key = 'global'
     lb_icon = cmd.bot.user.avatar_url
     lb_category = 'Global'
+    search = {}
     if args:
         if args[0].lower() == 'local':
             sort_key = f'guilds.{message.guild.id}'
+            search = {sort_key: {'$exists': True}}
             lb_icon = message.guild.icon_url or lb_icon
             lb_category = message.guild.name
         elif args[0].lower() == 'total':
             sort_key = 'total'
             lb_category = 'Total'
-    all_docs = await cmd.db[cmd.db.db_cfg.database].ExperienceSystem.find({}).sort(sort_key, -1).limit(50).to_list(None)
+    coll = cmd.db[cmd.db.db_cfg.database].ExperienceSystem
+    all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
     leader_docs = []
     all_members = list(cmd.bot.get_all_members())
     for data_doc in all_docs:
