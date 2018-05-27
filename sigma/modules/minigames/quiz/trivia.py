@@ -16,8 +16,8 @@
 
 import asyncio
 import json
-import secrets
 import re
+import secrets
 
 import aiohttp
 import discord

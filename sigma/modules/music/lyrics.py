@@ -15,10 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import discord
-from sigma.core.mechanics.command import SigmaCommand
-import aiohttp
 import json
+
+import aiohttp
+import discord
+
+from sigma.core.mechanics.command import SigmaCommand
 
 
 def parse_parts(lyr: str):

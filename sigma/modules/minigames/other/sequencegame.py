@@ -24,11 +24,11 @@ from sigma.core.mechanics.command import SigmaCommand
 ongoing = []
 symbol_groups = (
     ('♥', '❤'),  # :hearts:, :heart:
-    ('♦',),      # :diamonds:
-    ('♠',),      # :spades:
-    ('♣',),      # :clubs:
-    ('⭐',),      # :star:
-    ('⚡',)       # :zap:
+    ('♦',),  # :diamonds:
+    ('♠',),  # :spades:
+    ('♣',),  # :clubs:
+    ('⭐',),  # :star:
+    ('⚡',)  # :zap:
 )
 all_symbols = [symbol for group in symbol_groups for symbol in group]
 first_symbols = [group[0] for group in symbol_groups]
