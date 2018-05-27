@@ -34,9 +34,9 @@ async def news_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:
-                news = await get_news_data(ev.db)
+                news, triggers = await get_news_data(ev.db)
                 if news:
-                    response, triggers = generate_news_embed(news)
+                    response = generate_news_embed(news)
                     await send_to_channels(ev, response, 'WarframeNewsChannel', triggers)
             except Exception:
                 pass
