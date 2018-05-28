@@ -46,7 +46,8 @@ async def get_news_data(db):
             await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
             if language_check(news):
                 news_out = news
-                triggers += [piece.lower() for piece in news.get('Message').lower().split()]
+                en_news = discord.utils.find(lambda n: n.get('LanguageCode') == 'en', news.get('Messages'))
+                triggers += [piece.lower() for piece in en_news.get('Message').lower().split()]
                 break
     return news_out, triggers
 
