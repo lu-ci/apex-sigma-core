@@ -34,7 +34,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
             online_count += 1
         if not member.bot:
             if member.activity:
-                game_name = str(member.activity)
+                game_name = member.activity.name
                 repl_name = game_name.replace(' ', '')
                 if repl_name != '':
                     playing_count += 1
@@ -46,20 +46,32 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
                         games.update({game_name: new_count})
     embed = discord.Embed(color=0x1ABC9C)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1))
-    n = 0
+    if args:
+        page = args[0]
+        try:
+            page = int(page)
+        except ValueError:
+            page = 1
+    else:
+        page = 1
+    if page < 1:
+        page = 1
+    start_range = 5 * (page - 1)
+    end_range = 5 * page
     out_table_list = []
     game_count = len(sorted_games)
-    for key, value in reversed(sorted_games):
-        if n < 5:
-            n += 1
-            if len(key) > 32:
-                key = key[:32] + '...'
-            out_table_list.append(
-                [str(n), key.title(), value, str(((value / playing_count) * 10000) // 100).split('.')[0] + '%'])
+    n = 0
+    for key, value in list(reversed(sorted_games))[start_range:end_range]:
+        n += 1
+        index = n + start_range
+        if len(key) > 32:
+            key = key[:32] + '...'
+        out_table_list.append(
+            [str(index), key.title(), value, str(((value / playing_count) * 10000) // 100).split('.')[0] + '%'])
     out = boop(out_table_list)
     general_stats_list = [['Online', online_count], ['In-Game', playing_count], ['Unique Games', game_count]]
     general_stats_out = boop(general_stats_list)
     embed.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name,
-                    value='```haskell\n' + general_stats_out + '\n```', inline=False)
-    embed.add_field(name='🎮 By Game...', value='```haskell\n' + out + '\n```', inline=False)
+                    value='```hs\n' + general_stats_out + '\n```', inline=False)
+    embed.add_field(name=f'🎮 By Game on Page {page}', value='```haskell\n' + out + '\n```', inline=False)
     await message.channel.send(None, embed=embed)

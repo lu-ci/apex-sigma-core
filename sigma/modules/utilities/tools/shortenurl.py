@@ -52,8 +52,7 @@ async def shortenurl(cmd: SigmaCommand, message: discord.Message, args: list):
             elif status_code == 500:
                 response = discord.Embed(color=0xBE1931, title='❗ Bad URL.')
             else:
-                response = discord.Embed(color=0xBE1931,
-                                         title=f'❗ Error {status_code} - {data["status_txt"]} occurred.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ Error {status_code} - {data["status_txt"]}.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

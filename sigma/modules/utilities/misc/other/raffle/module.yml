@@ -29,7 +29,7 @@ commands:
     description:
       Redraws a raffle in case that's ever needed.
       This command is only usable by the author of the raffle.
-      To redraw a raffle use the raffle's ID that can be found in it's footer.
+      To redraw a raffle use the raffle's ID that can be found in its footer.
       This command has no response aside from a reaction to your message.
       If all is well, a green check will appear, if the user is not the author, it will be a no entry sign,
       if a raffle with that ID is not found, a magnifying glass will be the reaction, if no arguments are

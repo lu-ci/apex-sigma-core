@@ -1,4 +1,4 @@
-﻿# Apex Sigma: The Database Giant Discord Bot.
+# Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,25 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 import discord
+import secrets
+from PIL import Image
 
 from sigma.core.mechanics.command import SigmaCommand
-from .nodes.item_core import ItemCore
-
-item_core = None
 
 
-async def finditem(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
-    if args:
-        lookup = ' '.join(args)
-        item = item_core.get_item_by_name(lookup)
-        if item:
-            response = item.make_inspect_embed(cmd.bot.cfg.pref.currency)
-        else:
-            response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup}.')
-    else:
-        response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
-    await message.channel.send(embed=response)
+async def randomcolor(cmd: SigmaCommand, message: discord.Message, args: list):
+    piece_r = secrets.randbelow(256)
+    piece_g = secrets.randbelow(256)
+    piece_b = secrets.randbelow(256)
+    color_tupple = (piece_r, piece_g, piece_b)
+    hexname = f'Color: `#{str(hex(piece_r))[2:]}{str(hex(piece_g))[2:]}{str(hex(piece_b))[2:]}`'
+    image = Image.new('RGB', (128, 128), color_tupple)
+    image.save(f'cache/{message.id}.png')
+    img_file = discord.File(f'cache/{message.id}.png')
+    await message.channel.send(hexname, file=img_file)
+    os.remove(f'cache/{message.id}.png')

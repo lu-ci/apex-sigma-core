@@ -55,8 +55,9 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     listing = []
     for stat in all_stats:
         item_o = item_core.get_item_by_file_id(stat[0])
-        amount = stat[1]
-        listing.append([item_o.name, amount])
+        if item_o.rarity != 0:
+            amount = stat[1]
+            listing.append([item_o.name, amount])
     out_table = boop(listing, ['Item', 'Count'])
     response = discord.Embed(color=0xc16a4f)
     response.set_author(name=f'{target.name}\'s Item Statistics', icon_url=user_avatar(target))

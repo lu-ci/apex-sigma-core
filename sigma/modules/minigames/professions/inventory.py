@@ -77,6 +77,7 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])
         item_o_list.append(item_o)
+    item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
     inv = item_o_list[start_range:end_range]

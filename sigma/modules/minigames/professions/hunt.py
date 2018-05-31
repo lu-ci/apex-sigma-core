@@ -59,12 +59,10 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
                     except TypeError:
                         pass
             if rarity == 0:
-                item = None
                 item_color = 0x67757f
                 response_title = f'🗑 You failed to catch anything.'
             else:
                 item = item_core.pick_item_in_rarity('animal', rarity)
-                await item_core.add_item_statistic(cmd.db, item, message.author)
                 connector = 'a'
                 if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                     connector = 'an'
@@ -72,6 +70,7 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
                 response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                 data_for_inv = item.generate_inventory_item()
                 await cmd.db.add_to_inventory(message.author, data_for_inv)
+                await item_core.add_item_statistic(cmd.db, item, message.author)
             response = discord.Embed(color=item_color, title=response_title)
             response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
         else:

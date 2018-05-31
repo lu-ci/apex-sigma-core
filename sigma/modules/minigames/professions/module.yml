@@ -21,10 +21,15 @@ commands:
       Items used in recipes are marked with an asterisk.
 
   - name:         inspect
+    alts:
+      - "finditem"
     enabled:      true
     usage:        "{pfx}{cmd} Nabfischz"
     description:
-      Inspects an item that is in your inventory.
+      Inspects an item.
+      If you have this item in your inventory an Item ID will be in the footer.
+      Also shows how many times you've caught this item.
+
 
   - name:         recipes
     enabled:      true
@@ -57,13 +62,6 @@ commands:
     description:
       Shows information about a recipe.
       Such as the ingredients required, value of the item, and it's description.
-
-  - name:         finditem
-    enabled:      true
-    usage:        "{pfx}{cmd} fish Jitteroon"
-    description:
-      Looks up information about an item.
-      Like inspect, but you don't need to have the item.
 
   - name:         sell
     enabled:      true

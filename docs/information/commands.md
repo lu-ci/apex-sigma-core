@@ -184,11 +184,10 @@ Commands | Description | Example
 `>>drawcard` `>>draw` | Draws the given number of cards. The number of cards to draw can't be above 10. The decks are persistent, so if you don't have enough cards left you can make a new deck with the "newdeck", command. | `>>drawcard 3`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type and rarity. | `>>filtersell rarity:Legendary`
-`>>finditem` | Looks up information about an item. Like inspect, but you don't need to have the item. | `>>finditem fish Jitteroon`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
-`>>inspect` | Inspects an item that is in your inventory. | `>>inspect Nabfischz`
+`>>inspect` `>>finditem` | Inspects an item. If you have this item in your inventory an Item ID will be in the footer. Also shows how many times you've caught this item. | `>>inspect Nabfischz`
 `>>inventory` `>>i` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>itemstatistics` `>>itemstats` | Shows the statistics of a user's item history. How much of which item they've caught, that is. Sorted by the most caught to the least caught items. Items that were never obtained are not shown. | `>>itemstatistics @person`
@@ -266,6 +265,7 @@ Commands | Description | Example
 `>>textunmute` `>>tunmute` | Removes the tagged person from the list of muted users. Making the bot no longer delete their messages. Requires the user who calls the command to have the Manage Messages permission. | `>>textunmute @person`
 `>>unban` | Unbans a banned user by inputted username. | `>>unban Chicken Shluggets`
 `>>viewwarning` `>>warning` `>>warninginfo` | Shows detailed information for the given user's warning. Both the user mention and the warning ID are needed for the command. | `>>viewwarning @person 1abc`
+`>>voicekick` `>>vkick` | Kicks a user from voice chat. It completely disconnects the target. | `>>voicekick @person`
 [Back To Top](#module-index)
 
 ### MUSIC
@@ -391,6 +391,7 @@ Commands | Description | Example
 `>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun.  | `>>describe noun ocean`
 `>>dictionary` `>>dict` `>>definition` `>>define` `>>def` | Searches the Oxford dictionary for the definition of your input. | `>>dictionary cork`
 `>>foodrecipe` `>>frec` `>>food` | Searches for a dish, or dishes that use inputted ingredients, and outputs one that might be a good match for your search query. | `>>foodrecipe Chicken in Curry Sauce`
+`>>giphy` `>>gif` | Searches Giphy with the given tag and returns a random result. The tag can be multiple words. | `>>giphy kittens`
 `>>homophones` `>>homophone` | Looks up words that sound like the given one. | `>>homophones coarse`
 `>>imdb` `>>movie` | Searches the Internet Movie DataBase for your input. Gives you the poster, release year and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the inputted manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
@@ -468,6 +469,7 @@ Commands | Description | Example
 `>>marry` `>>propose` | Proposes to the target parson. Or accepts their marriage proposal if they proposed to you. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
+`>>randomcolor` `>>randomcolour` `>>rclr` | Shows you a random color block with it's HEX code. | `>>randomcolor`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data about the inputted role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
 `>>rolepopulation` `>>rolepop` | Shows the population of the inputted role. If no arguments are provided, it will show the top 20 roles by population. | `>>rolepopulation Warlard`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
