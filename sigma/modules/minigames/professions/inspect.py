@@ -39,8 +39,13 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = item_o.make_inspect_embed(cmd.bot.cfg.pref.currency)
                 stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
                 all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
+                item_total = 0
+                all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
+                for stat_doc in all_stat_docs:
+                    item_total += stat_doc.get(item.file_id) or 0
                 stat_count = all_stats.get(item_o.file_id) or 0
-                response.set_footer(text=f'You Found: {stat_count} | ItemID: {item["item_id"]}')
+                footer = f'You Found: {stat_count} | Total Found: {item_total} | ItemID: {item["item_id"]}'
+                response.set_footer(text=footer)
             else:
                 response = None
         else:
@@ -54,12 +59,12 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
             stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
             all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
             item_total = 0
-            all_stat_docs = await stat_coll.find({}).to_list(None)
+            all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
             for stat_doc in all_stat_docs:
                 item_total += stat_doc.get(item.file_id) or 0
             stat_count = all_stats.get(item.file_id) or 0
             response = item.make_inspect_embed(cmd.bot.cfg.pref.currency)
-            response.set_footer(text=f'You Found: {stat_count}. Total Found: {item_total}')
+            response.set_footer(text=f'You Found: {stat_count} | Total Found: {item_total}')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup}.')
     await message.channel.send(embed=response)
