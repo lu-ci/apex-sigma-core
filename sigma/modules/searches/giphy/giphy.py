@@ -18,29 +18,31 @@ import json
 
 import aiohttp
 import discord
+import secrets
 
 from sigma.core.mechanics.command import SigmaCommand
 
 
 async def giphy(cmd: SigmaCommand, message: discord.Message, args: list):
-    if 'api_key' and 'mashape_key' in cmd.cfg:
-        api_key = cmd.cfg['api_key']
-        mashape_key = cmd.cfg['mashape_key']
+    api_key = cmd.cfg.get('api_key')
+    if api_key:
         if args:
-            tag = '+'.join(args)
-            url = f'https://giphy.p.mashape.com/v1/gifs/random?api_key={api_key}&tag={tag}'
-            headers = {'X-Mashape-Key': mashape_key, 'Accept': 'application/json'}
+            qry = ' '.join(args)
+            url = f'https://api.giphy.com/v1/gifs/search?q={qry}&api_key={api_key}'
             async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=headers) as data_response:
+                async with session.get(url) as data_response:
                     search_data = await data_response.read()
                     search_data = json.loads(search_data)
             data = search_data.get('data')
             if not data:
                 response = discord.Embed(color=0x696969, title='🔍 No results')
             else:
-                gif_id = data['id']
+                data = secrets.choice(data)
+                gif_id = data.get('id')
                 gif_url = f'https://media.giphy.com/media/{gif_id}/giphy.gif'
-                response = discord.Embed(color=0x00FF99).set_image(url=gif_url)
+                response = discord.Embed(color=0x262626)
+                response.set_image(url=gif_url)
+                response.set_footer(icon_url='https://i.imgur.com/tmDySRu.gif', text='Powered By GIPHY.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
