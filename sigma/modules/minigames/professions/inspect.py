@@ -37,14 +37,29 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 item = None
             if item:
                 response = item_o.make_inspect_embed(cmd.bot.cfg.pref.currency)
-                response.set_footer(text=f'ItemID: {item["item_id"]}')
+                stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
+                all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
+                stat_count = all_stats.get(item_o.file_id) or 0
+                response.set_footer(text=f'You Found: {stat_count} | ItemID: {item["item_id"]}')
             else:
                 response = None
         else:
             response = None
     else:
         response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
-    if response:
-        await message.channel.send(embed=response)
-    else:
-        await cmd.bot.modules.commands.get('finditem').execute(message, args)
+    if not response:
+        lookup = ' '.join(args)
+        item = item_core.get_item_by_name(lookup)
+        if item:
+            stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
+            all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
+            item_total = 0
+            all_stat_docs = await stat_coll.find({}).to_list(None)
+            for stat_doc in all_stat_docs:
+                item_total += stat_doc.get(item.file_id) or 0
+            stat_count = all_stats.get(item.file_id) or 0
+            response = item.make_inspect_embed(cmd.bot.cfg.pref.currency)
+            response.set_footer(text=f'You Found: {stat_count}. Total Found: {item_total}')
+        else:
+            response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup}.')
+    await message.channel.send(embed=response)

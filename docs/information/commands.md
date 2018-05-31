@@ -184,11 +184,10 @@ Commands | Description | Example
 `>>drawcard` `>>draw` | Draws the given number of cards. The number of cards to draw can't be above 10. The decks are persistent, so if you don't have enough cards left you can make a new deck with the "newdeck", command. | `>>drawcard 3`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type and rarity. | `>>filtersell rarity:Legendary`
-`>>finditem` | Looks up information about an item. Like inspect, but you don't need to have the item. | `>>finditem fish Jitteroon`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
-`>>inspect` | Inspects an item that is in your inventory. | `>>inspect Nabfischz`
+`>>inspect` `>>finditem` | Inspects an item. If you have this item in your inventory an Item ID will be in the footer. Also shows how many times you've caught this item. | `>>inspect Nabfischz`
 `>>inventory` `>>i` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>itemstatistics` `>>itemstats` | Shows the statistics of a user's item history. How much of which item they've caught, that is. Sorted by the most caught to the least caught items. Items that were never obtained are not shown. | `>>itemstatistics @person`
