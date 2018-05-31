@@ -40,7 +40,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
                 all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
                 item_total = 0
-                all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
+                all_stat_docs = await stat_coll.find({item_o.file_id: {'$exists': True}}).to_list(None)
                 for stat_doc in all_stat_docs:
                     item_total += stat_doc.get(item_o.file_id) or 0
                 stat_count = all_stats.get(item_o.file_id) or 0
