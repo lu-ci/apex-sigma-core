@@ -1,4 +1,4 @@
-name:             Slot Minigames
+name:             Gambling Minigames
 
 category:         minigames
 
@@ -28,3 +28,11 @@ commands:
       and then the roulette spot choice in the form of [selector]:[value].
       For example color:black or number:15, column:2, dozen:1, half:1, type:odd.
       Good luck.
+
+  - name:         lootbox
+    alts:
+      - "unbox"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Open a lootbox! That's all...
