@@ -265,6 +265,7 @@ Commands | Description | Example
 `>>textunmute` `>>tunmute` | Removes the tagged person from the list of muted users. Making the bot no longer delete their messages. Requires the user who calls the command to have the Manage Messages permission. | `>>textunmute @person`
 `>>unban` | Unbans a banned user by inputted username. | `>>unban Chicken Shluggets`
 `>>viewwarning` `>>warning` `>>warninginfo` | Shows detailed information for the given user's warning. Both the user mention and the warning ID are needed for the command. | `>>viewwarning @person 1abc`
+`>>voicekick` `>>vkick` | Kicks a user from voice chat. It completely disconnects the target. | `>>voicekick @person`
 [Back To Top](#module-index)
 
 ### MUSIC

@@ -15,6 +15,18 @@ commands:
       The user can only be targeted by a mention tag.
       This is to preserve compatibility with logging and audits.
 
+  - name:         voicekick
+    alts:
+      - "vkick"
+    enabled:      true
+    requirements:
+      - "kick_members"
+      - "manage_channels"
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Kicks a user from voice chat.
+      It completely disconnects the target.
+
   - name:         ban
     enabled:      true
     requirements:
