@@ -17,7 +17,7 @@
 
 ## Cloning The Repository
 
-Open a command prompt/terminal and `cd` into the location you want Sigma to be in and clone Sigma's repository and update it's modules using the following commands.
+Open a command prompt/terminal and `cd` into the location you want Sigma to be in and clone Sigma's repository and update its modules using the following commands.
 
 ```sh
 git clone https://github.com/aurora-pro/apex-sigma-core.git
