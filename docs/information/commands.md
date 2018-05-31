@@ -467,6 +467,7 @@ Commands | Description | Example
 `>>marry` `>>propose` | Proposes to the target parson. Or accepts their marriage proposal if they proposed to you. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
+`>>randomcolor` `>>randomcolour` `>>rclr` | Shows you a random color block with it's HEX code. | `>>randomcolor`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data about the inputted role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
 `>>rolepopulation` `>>rolepop` | Shows the population of the inputted role. If no arguments are provided, it will show the top 20 roles by population. | `>>rolepopulation Warlard`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
