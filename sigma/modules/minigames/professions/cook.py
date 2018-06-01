@@ -52,6 +52,7 @@ async def cook(cmd: SigmaCommand, message: discord.Message, args: list):
             if req_satisfied:
                 cooked_item_data = item_core.get_item_by_name(recipe.name).generate_inventory_item()
                 await cmd.db.add_to_inventory(message.author, cooked_item_data)
+                await item_core.add_item_statistic(cmd.db, recipe, message.author)
                 for req_item in used_items:
                     await cmd.db.del_from_inventory(message.author, req_item['item_id'])
                 quality = cook_quality[cooked_item_data['quality']]

@@ -27,14 +27,25 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     sort_key = 'Cookies'
     lb_icon = cmd.bot.user.avatar_url
     lb_category = 'Global'
+    localed = False
     if args:
         if args[0].lower() == 'total':
             sort_key = 'Total'
             lb_category = 'Total'
+        elif args[0].lower() == 'local':
+            lb_category = 'Local'
+            lb_icon = message.guild.icon_url or lb_icon
+            localed = True
     coll = cmd.db[cmd.db.db_cfg.database].Cookies
-    all_docs = await coll.find({}).sort(sort_key, -1).limit(50).to_list(None)
+    if localed:
+        all_docs = await coll.find({}).sort(sort_key, -1).to_list(None)
+    else:
+        all_docs = await coll.find({}).sort(sort_key, -1).limit(50).to_list(None)
     leader_docs = []
-    all_members = list(cmd.bot.get_all_members())
+    if localed:
+        all_members = message.guild.members
+    else:
+        all_members = cmd.bot.get_all_members()
     for data_doc in all_docs:
         user_value = data_doc.get(sort_key) or 0
         user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_members)

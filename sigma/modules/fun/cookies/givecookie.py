@@ -13,13 +13,17 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import datetime
 import secrets
 
 import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+
+
+def check_name(m: discord.Member, lookup: str):
+    return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()
 
 
 async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -37,7 +41,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                 )
                 someoned = True
             else:
-                target = None
+                lookup = ' '.join(args)
+                target = discord.utils.find(lambda m: check_name(m, lookup), message.guild.members)
         else:
             target = None
     if target:
@@ -104,9 +109,12 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xd99e82, title='🍪 Your cookie is ready to be given.')
         else:
             timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
-            if timeout_seconds > 60:
+            if timeout_seconds > 3600:
                 timeout_seconds = arrow.utcnow().timestamp + timeout_seconds
                 timeout = arrow.get(timeout_seconds).humanize()
+            elif timeout_seconds > 60:
+                tdelta = str(datetime.timedelta(seconds=timeout_seconds)).split(':')[1]
+                timeout = f'in {int(tdelta)} minutes'
             else:
                 timeout = f'in {timeout_seconds} seconds'
             timeout_title = f'🕙 Your cookie will be baked {timeout}.'
