@@ -33,6 +33,8 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = 'Total'
             lb_category = 'Total'
         elif args[0].lower() == 'local':
+            lb_category = 'Local'
+            lb_icon = message.guild.icon_url or lb_icon
             localed = True
     coll = cmd.db[cmd.db.db_cfg.database].Cookies
     all_docs = await coll.find({}).sort(sort_key, -1).to_list(None)
