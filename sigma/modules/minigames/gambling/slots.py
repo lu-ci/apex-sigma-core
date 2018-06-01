@@ -88,7 +88,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         roll = secrets.randbelow(bet + (bet // 2) + 10)
                         if roll == 0:
-                            symbol_choice = secrets.choice(init_symb)
+                            symbol_choice = secrets.choice(symbols)
                         else:
                             temp_symb = []
                             for symbol_item in symbols:
