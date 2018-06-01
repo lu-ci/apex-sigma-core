@@ -9,6 +9,8 @@ commands:
     alts:
       - "givecurr"
       - "givekud"
+      - "gibcurr"
+      - "gibkud"
     enabled:      true
     usage:        "{pfx}{cmd} 100 @person"
     description:
