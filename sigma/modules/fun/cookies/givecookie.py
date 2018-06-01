@@ -22,6 +22,10 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
+def check_name(m: discord.Member, lookup: str):
+    return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()
+
+
 async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
     someoned = False
     if message.mentions:
@@ -37,7 +41,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                 )
                 someoned = True
             else:
-                target = None
+                lookup = ' '.join(args)
+                target = discord.utils.find(lambda m: check_name(m, lookup), message.guild.members)
         else:
             target = None
     if target:
