@@ -31,7 +31,7 @@ async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list)
                 role_list.append(srv_role.name)
     role_list = sorted(role_list)
     if not role_list:
-        embed = discord.Embed(type='rich', color=0x3B88C3, title='ℹ No Self Assignable Roles Set')
+        embed = discord.Embed(type='rich', color=0x3B88C3, title='ℹ No self assignable roles set.')
     else:
         if args:
             page = args[0]

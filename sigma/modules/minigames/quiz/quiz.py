@@ -124,5 +124,5 @@ async def quiz(cmd: SigmaCommand, message: discord.Message, args: list):
             await message.channel.send(embed=summary)
             del active_quizzes[message.channel.id]
     except asyncio.TimeoutError:
-        response.title = 'Timed out, please use the command again to pick a quiz'
+        response.title = 'Timed out, please use the command again to pick a quiz.'
         await message.channel.send(embed=response)

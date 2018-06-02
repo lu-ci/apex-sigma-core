@@ -27,7 +27,7 @@ async def wfacolytechannel(cmd: SigmaCommand, message: discord.Message, args: li
             if args:
                 if args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeAcolyteChannel', None)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Acolyte Channel Disabled')
+                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Acolyte Channel disabled.')
                     await message.channel.send(embed=response)
                     return
                 else:

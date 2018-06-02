@@ -51,11 +51,11 @@ async def wftag(cmd: SigmaCommand, message: discord.Message, args: list):
                         await cmd.db.set_guild_settings(message.guild.id, 'WarframeTags', wf_tags)
                         response = discord.Embed(color=0x66CC66, title=f'✅ {response_title}')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ {alert_role_search.upper()} Was Not Found')
+                        response = discord.Embed(color=0xBE1931, title=f'❗ {alert_role_search} not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not Enough Arguments')
+                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing Was Inputted')
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Roles needed.')
     await message.channel.send(embed=response)

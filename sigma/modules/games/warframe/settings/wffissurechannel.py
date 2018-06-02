@@ -27,7 +27,7 @@ async def wffissurechannel(cmd: SigmaCommand, message: discord.Message, args: li
             if args:
                 if args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeFissureChannel', None)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Void Fissure Channel Disabled')
+                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Void Fissure Channel disabled.')
                     await message.channel.send(embed=response)
                     return
                 else:

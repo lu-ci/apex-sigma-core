@@ -27,7 +27,7 @@ async def wfsortiechannel(cmd: SigmaCommand, message: discord.Message, args: lis
             if args:
                 if args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeSortieChannel', None)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Sortie Channel Disabled')
+                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Sortie Channel disabled.')
                     await message.channel.send(embed=response)
                     return
                 else:

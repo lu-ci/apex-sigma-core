@@ -130,7 +130,7 @@ class GlobalCommandPermissions(object):
             return
         elif self.dm_denied:
             color = 0xBE1931
-            title = f'⛔ Can\'t Be Used In Direct Messages'
+            title = f'⛔ Can\'t be used in direct messages.'
             desc = f'Please use {prefix}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xBE1931
@@ -139,7 +139,7 @@ class GlobalCommandPermissions(object):
         elif self.nsfw_denied:
             if self.message.guild:
                 color = 0x744EAA
-                title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}'
+                title = f'🍆 NSFW Commands Are Not Allowed In #{self.message.channel.name}.'
                 desc = 'Make sure the NSFW marker is enabled in the channel settings.'
             else:
                 return
