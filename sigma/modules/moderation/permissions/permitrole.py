@@ -75,7 +75,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
                     else:
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found')
+                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 No {target_name} Role Found')
         else:

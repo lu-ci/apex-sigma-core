@@ -1,4 +1,4 @@
-﻿# Apex Sigma: The Database Giant Discord Bot.
+# Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,28 +19,31 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
+async def renamecommand(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            if len(args) >= 2:
-                trigger = args[0].lower()
-                if '.' not in trigger:
-                    if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
-                        content = ' '.join(args[1:])
+            if len(args) == 2:
+                old_trigger = args[0].lower()
+                new_trigger = args[1].lower()
+                if '.' not in new_trigger:
+                    if new_trigger not in cmd.bot.modules.commands and new_trigger not in cmd.bot.modules.alts:
                         custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
-                        if trigger in custom_commands:
-                            res_text = 'updated'
+                        if old_trigger in custom_commands:
+                            if new_trigger not in custom_commands:
+                                custom_commands.update({new_trigger: custom_commands[old_trigger]})
+                                del custom_commands[old_trigger]
+                                await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                                response = discord.Embed(color=0x66CC66, title=f'✅ {old_trigger} updated.')
+                            else:
+                                response = discord.Embed(color=0xBE1931, title='❗ The new trigger is already a command.')
                         else:
-                            res_text = 'added'
-                        custom_commands.update({trigger: content})
-                        await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
+                            response = discord.Embed(color=0xBE1931, title='❗ Command not found.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Can\'t replace an existing core command.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ The command can\'t have a dot in it.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
