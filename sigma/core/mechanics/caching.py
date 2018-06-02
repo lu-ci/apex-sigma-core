@@ -41,7 +41,7 @@ class Cacher(object):
             cache_data = {key: value, f'{key}_stamp': arrow.utcnow().timestamp}
         else:
             cache_data = {key: value}
-        self.data.update()
+        self.data.update(cache_data)
 
     def del_cache(self, key: str or int):
         if key in self.data:
