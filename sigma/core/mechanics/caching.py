@@ -14,18 +14,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import arrow
+
 
 class Cacher(object):
-    def __init__(self):
+    def __init__(self, timed=False, timeout=None):
         self.data = {}
+        self.timed = timed
+        self.timeout = timeout
 
     def get_cache(self, key: str or int):
-        value = self.data.get(key)
+        if self.timed:
+            now = arrow.utcnow().timestamp
+            stamp = self.data.get(f'{key}_stamp') or 0
+            if now > stamp + self.timeout:
+                self.del_cache(key)
+                value = None
+            else:
+                value = self.data.get(key)
+        else:
+            value = self.data.get(key)
         return value
 
     def set_cache(self, key: str or int, value):
-        self.data.update({key: value})
+        if self.timed:
+            cache_data = {key: value, f'{key}_stamp': arrow.utcnow().timestamp}
+        else:
+            cache_data = {key: value}
+        self.data.update()
 
     def del_cache(self, key: str or int):
         if key in self.data:
             self.data.pop(key)
+            if self.timed:
+                self.data.pop(f'{key}_stamp')
