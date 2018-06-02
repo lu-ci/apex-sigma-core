@@ -26,8 +26,8 @@ async def bye(cmd: SigmaCommand, message: discord.Message, args: list):
         active = await cmd.db.get_guild_settings(message.guild.id, 'Bye')
         if active is False and active is not None:
             await cmd.db.set_guild_settings(message.guild.id, 'Bye', True)
-            embed = discord.Embed(color=0x77B255, title='✅ Goodbye Messages Enabled')
+            embed = discord.Embed(color=0x77B255, title='✅ Goodbye Messages enabled.')
         else:
             await cmd.db.set_guild_settings(message.guild.id, 'Bye', False)
-            embed = discord.Embed(color=0x77B255, title='✅ Goodbye Messages Disabled')
+            embed = discord.Embed(color=0x77B255, title='✅ Goodbye Messages disabled.')
     await message.channel.send(None, embed=embed)

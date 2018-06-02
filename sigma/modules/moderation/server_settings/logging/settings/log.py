@@ -53,5 +53,5 @@ async def log(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0x77B255, title=f'✅ Multiple logging edited.')
             response.description = '\n'.join(results)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No arguments given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

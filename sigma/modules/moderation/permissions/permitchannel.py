@@ -29,7 +29,7 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
             else:
                 if message.channel_mentions:
                     targets = message.channel_mentions
-                    error_response = discord.Embed(color=0xBE1931, title='❗ Bad Input')
+                    error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
                     try:
                         perm_mode, cmd_name = args[0].split(':')
                     except ValueError:
@@ -73,9 +73,8 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
                             response_title = f'⚠ #{bad_item.name} can already use {cmd_name}.'
                             response = discord.Embed(color=0xFFCC4D, title=response_title)
                         else:
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
-                                {'ServerID': message.guild.id}, {'$set': perms}
-                            )
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
+                                                                                        {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} channels can now use {cmd_name}.'
@@ -88,7 +87,7 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 No channel targeted')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
     await message.channel.send(embed=response)

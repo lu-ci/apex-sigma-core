@@ -30,7 +30,7 @@ async def unpermitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                 target_name = ' '.join(args[1:])
                 target = discord.utils.find(lambda x: x.name.lower() == target_name.lower(), message.guild.roles)
                 if target:
-                    error_response = discord.Embed(color=0xBE1931, title='❗ Bad Input')
+                    error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
                     try:
                         perm_mode, cmd_name = args[0].split(':')
                     except ValueError:
@@ -79,7 +79,7 @@ async def unpermitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 {target_name} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
     await message.channel.send(embed=response)

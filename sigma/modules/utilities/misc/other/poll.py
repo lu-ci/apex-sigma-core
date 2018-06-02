@@ -24,7 +24,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
-        out_content = discord.Embed(type='rich', color=0xBE1931, title='❗ Missing Arguments.')
+        out_content = discord.Embed(type='rich', color=0xBE1931, title='❗ Nothing inputted.')
         await message.channel.send(None, embed=out_content)
         return
     all_qry = ' '.join(args)
