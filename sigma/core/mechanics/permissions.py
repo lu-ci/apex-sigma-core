@@ -18,6 +18,11 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.caching import Cacher
+
+gcp_cache = Cacher()
+scp_cache = Cacher()
+
 
 class GlobalCommandPermissions(object):
     def __init__(self, command, message: discord.Message):
@@ -73,7 +78,12 @@ class GlobalCommandPermissions(object):
 
     async def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
-        black_user_file = await black_user_collection.find_one({'UserID': self.message.author.id})
+        black_user_file = gcp_cache.get_cache(self.message.author.id)
+        black_user_file_checked = gcp_cache.get_cache(f'{self.message.author.id}_checked')
+        if not black_user_file and not black_user_file_checked:
+            black_user_file = await black_user_collection.find_one({'UserID': self.message.author.id})
+            gcp_cache.set_cache(self.message.author.id, black_user_file)
+            gcp_cache.set_cache(f'{self.message.author.id}_checked', True)
         if black_user_file:
             if 'Total' in black_user_file:
                 if black_user_file['Total']:
@@ -88,7 +98,12 @@ class GlobalCommandPermissions(object):
     async def check_black_srv(self):
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
-            black_srv_file = await black_srv_collection.find_one({'ServerID': self.message.guild.id})
+            black_srv_file = gcp_cache.get_cache(self.message.guild.id)
+            black_srv_file_checked = gcp_cache.get_cache(f'{self.message.guild.id}_checked')
+            if not black_srv_file and not black_srv_file_checked:
+                black_srv_file = await black_srv_collection.find_one({'ServerID': self.message.guild.id})
+                gcp_cache.set_cache(self.message.guild.id, black_srv_file)
+                gcp_cache.set_cache(f'{self.message.guild.id}_checked', True)
             if black_srv_file:
                 self.black_srv = True
             else:
@@ -198,6 +213,7 @@ class ServerCommandPermissions(object):
         self.bot = self.cmd.bot
         self.msg = message
         self.permitted = True
+        self.perm_coll = self.db[self.bot.cfg.db.database].Permissions
 
     def check_mdl_overwrites(self, perms: dict):
         mdl_overwritten = False
@@ -254,7 +270,10 @@ class ServerCommandPermissions(object):
             is_guild_admin = author.permissions_in(self.msg.channel).administrator
             if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
                 # Crunderwood was here...
-                perms = await self.db[self.bot.cfg.db.database].Permissions.find_one({'ServerID': self.msg.guild.id})
+                perms = scp_cache.get_cache(self.msg.guild.id)
+                if not perms:
+                    perms = await self.perm_coll.find_one({'ServerID': self.msg.guild.id})
+                    scp_cache.set_cache(self.msg.guild.id, perms)
                 if not perms:
                     permitted = True
                 else:
