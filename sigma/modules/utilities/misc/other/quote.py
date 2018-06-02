@@ -50,7 +50,7 @@ async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Message not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid ID given.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No ID given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Missing message ID.')
     await message.channel.send(embed=response)

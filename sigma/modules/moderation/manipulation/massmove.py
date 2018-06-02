@@ -44,11 +44,11 @@ async def massmove(cmd: SigmaCommand, message: discord.Message, args: list):
                     move_title = f'✅ Moved {len(membs_one)} members to {vc_two.name}.'
                     response = discord.Embed(color=0x66CC66, title=move_title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ One or both of the channels wasn\'t found.')
+                    response = discord.Embed(color=0xBE1931, title='❗ One or both of the channels weren\'t found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments, please follow the example.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments. See the usage example.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No arguments given.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

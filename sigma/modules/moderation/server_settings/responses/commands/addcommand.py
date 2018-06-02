@@ -38,11 +38,11 @@ async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         response = discord.Embed(title='❗ Can\'t replace an existing core command', color=0xBE1931)
                 else:
-                    response = discord.Embed(title='❗ The command can not have a dot in it.', color=0xBE1931)
+                    response = discord.Embed(title='❗ The command can\'t have a dot in it.', color=0xBE1931)
             else:
-                response = discord.Embed(title='❗ Invalid number of arguments.', color=0xBE1931)
+                response = discord.Embed(title='❗ Not enough arguments.', color=0xBE1931)
         else:
-            response = discord.Embed(title='❗ Nothing was inputted.', color=0xBE1931)
+            response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
     else:
         response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)

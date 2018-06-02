@@ -67,7 +67,7 @@ async def shadowpoll(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db[cmd.db.db_cfg.database].ShadowPolls.insert_one(poll_data)
             response = discord.Embed(color=0x66CC66, title=f'✅ Shadowpoll `{poll_data["id"]}` has been created.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Too few arguments.')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No input given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

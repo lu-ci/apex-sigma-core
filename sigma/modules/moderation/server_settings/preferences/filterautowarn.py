@@ -25,12 +25,12 @@ async def filterautowarn(cmd: SigmaCommand, message: discord.Message, args: list
         filter_warn = await cmd.db.get_guild_settings(message.guild.id, 'FilterAutoWarn')
         if filter_warn:
             new_value = False
-            ender = 'disabled'
+            ending = 'disabled'
         else:
             new_value = True
-            ender = 'enabled'
+            ending = 'enabled'
         await cmd.db.set_guild_settings(message.guild.id, 'FilterAutoWarn', new_value)
-        response = discord.Embed(color=0x77B255, title=f'✅ Automatic filter warnings have been {ender}.')
+        response = discord.Embed(color=0x77B255, title=f'✅ Automatic filter warnings have been {ending}.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

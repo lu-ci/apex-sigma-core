@@ -59,7 +59,7 @@ async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
             response.add_field(name=f'{ing_icon} Ingredients', value=ingredients, inline=True)
             response.add_field(name='📰 Description', value=recipe.desc, inline=False)
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 I couldn\'t find that.')
+            response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
     await message.channel.send(embed=response)

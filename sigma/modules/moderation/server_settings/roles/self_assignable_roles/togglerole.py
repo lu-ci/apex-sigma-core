@@ -44,12 +44,12 @@ async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
                         removal_title = f'💣 {target_role.name} has been removed from you, {message.author.name}'
                         response = discord.Embed(color=0x262626, title=removal_title)
                 else:
-                    role_hierarchy_error = '❗ This role is above my highest role. I can not manage it.'
+                    role_hierarchy_error = '❗ This role is above my highest role.'
                     response = discord.Embed(color=0xBE1931, title=role_hierarchy_error)
             else:
                 response = discord.Embed(color=0xFFCC4D, title=f'⚠ {target_role} is not self assignable.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 I can\'t find {lookup} on this server.')
+            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

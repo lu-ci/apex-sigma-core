@@ -38,7 +38,9 @@ async def enablecommand(cmd: SigmaCommand, message: discord.Message, args: list)
                                                                                 {'$set': perms})
                     response = discord.Embed(color=0x77B255, title=f'✅ `{cmd_name.upper()}` enabled.')
                 else:
-                    response = discord.Embed(color=0xFFCC4D, title='⚠ Command Not Disabled')
+                    response = discord.Embed(color=0xFFCC4D, title='⚠ Command not disabled')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Command Not Found')
-        await message.channel.send(embed=response)
+                response = discord.Embed(color=0x696969, title='🔍 Command not found')
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+    await message.channel.send(embed=response)

@@ -36,7 +36,9 @@ async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
                                                                                 {'$set': perms})
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` enabled.')
                 else:
-                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module Not Disabled')
+                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module not disabled')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Module Not Found')
-        await message.channel.send(embed=response)
+                response = discord.Embed(color=0x696969, title='🔍 Module not found')
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+    await message.channel.send(embed=response)

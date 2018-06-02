@@ -41,5 +41,5 @@ async def shadowpolllist(cmd: SigmaCommand, message: discord.Message, args: list
         poll_list = '\n'.join(list_lines)
         response.description = poll_list
     else:
-        response = discord.Embed(color=0x696969, title='🔍 I couldn\'t any polls.')
+        response = discord.Embed(color=0x696969, title='🔍 There are no polls.')
     await message.channel.send(embed=response)

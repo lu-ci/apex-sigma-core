@@ -72,11 +72,12 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
                     else:
-                        response = discord.Embed(color=0x696969, title='🔍 Command/Module Not Found')
+                        perm_type = 'Command' if perm_mode == 'c' else 'Module'
+                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 No {target_name} Role Found')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not Enough Arguments')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not Arguments Given')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
     await message.channel.send(embed=response)

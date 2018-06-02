@@ -114,7 +114,7 @@ async def weather(cmd: SigmaCommand, message: discord.Message, args: list):
                         response = discord.Embed(color=0x696969, title='🔍 Location not found.')
 
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No location inputted.')
+                response = discord.Embed(color=0xBE1931, title='❗ Missing location.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

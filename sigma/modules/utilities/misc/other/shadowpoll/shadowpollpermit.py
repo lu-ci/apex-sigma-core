@@ -48,11 +48,11 @@ async def shadowpollpermit(cmd: SigmaCommand, message: discord.Message, args: li
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 I couldn\'t find that poll.')
+                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Target not located.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and target.')
     await message.channel.send(embed=response)

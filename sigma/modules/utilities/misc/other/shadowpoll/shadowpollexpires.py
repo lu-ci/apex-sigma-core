@@ -28,11 +28,6 @@ async def shadowpollexpires(cmd: SigmaCommand, message: discord.Message, args: l
             time_input = args[1]
             try:
                 exp_in = convert_to_seconds(time_input)
-            except ValueError:
-                exp_in = None
-            except LookupError:
-                exp_in = None
-            if exp_in:
                 poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     if poll_file['origin']['author'] == message.author.id:
@@ -47,9 +42,9 @@ async def shadowpollexpires(cmd: SigmaCommand, message: discord.Message, args: l
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 I couldn\'t find that poll.')
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid time input.')
+                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            except (LookupError, ValueError):
+                response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:

@@ -28,12 +28,11 @@ async def unflip(cmd: SigmaCommand, message: discord.Message, args: list):
             unflip_set = flip_settings
         if unflip_set:
             await cmd.db.set_guild_settings(message.guild.id, 'Unflip', False)
-            response_title = f'✅ Table unflipping has been **disabled**.'
-            response = discord.Embed(color=0x77B255, title=response_title)
+            ending = 'disabled'
         else:
             await cmd.db.set_guild_settings(message.guild.id, 'Unflip', True)
-            response_title = f'✅ Table unflipping has been **enabled**.'
-            response = discord.Embed(color=0x77B255, title=response_title)
+            ending = 'enabled'
+        response = discord.Embed(color=0x77B255, title=f'✅ Table unflipping has been {ending}')
     else:
         response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)

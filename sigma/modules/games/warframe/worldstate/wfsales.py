@@ -35,7 +35,6 @@ async def wfsales(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[-1].lower() == 'all':
             discount_only = False
             title = 'List of Promoted Warframe Items'
-    if args:
         try:
             page = int(args[0]) - 1
             if page < 0:

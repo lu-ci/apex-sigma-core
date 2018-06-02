@@ -67,6 +67,6 @@ async def raffle(cmd: SigmaCommand, message: discord.Message, args: list):
         except (LookupError, ValueError):
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No arguments inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if response:
         await message.channel.send(embed=response)

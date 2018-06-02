@@ -30,9 +30,9 @@ async def deleteemoterolegroup(cmd: SigmaCommand, message: discord.Message, args
                 await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Emote role group {group_id} has been deleted.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)

@@ -41,9 +41,9 @@ async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No user was mentioned.')
+                response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user was mentioned.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user was mentioned.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

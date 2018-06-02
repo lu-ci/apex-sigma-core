@@ -59,7 +59,7 @@ async def shadowpollview(cmd: SigmaCommand, message: discord.Message, args: list
             else:
                 response = discord.Embed(color=0xFFCC4D, title='🔒 That poll is not active.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 I couldn\'t find that poll.')
+            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No poll ID given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
     await message.channel.send(embed=response)

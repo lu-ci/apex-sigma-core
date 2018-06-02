@@ -131,5 +131,5 @@ async def animechargame(cmd: SigmaCommand, message: discord.Message, args: list)
         if message.channel.id in ongoing_list:
             ongoing_list.remove(message.channel.id)
     else:
-        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
+        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
         await message.channel.send(embed=ongoing_error)

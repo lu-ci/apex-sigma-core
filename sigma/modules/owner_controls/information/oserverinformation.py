@@ -72,5 +72,5 @@ async def oserverinformation(cmd: SigmaCommand, message: discord.Message, args: 
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Guild not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No lookup given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)

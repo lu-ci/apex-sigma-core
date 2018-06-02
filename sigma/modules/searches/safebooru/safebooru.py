@@ -35,7 +35,7 @@ async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):
             data = await data.read()
     posts = html.fromstring(data)
     if len(posts) == 0:
-        embed = discord.Embed(color=0x696969, title='🔍 Nothing found.')
+        embed = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         choice = secrets.choice(posts)
         image_url = choice.attrib['file_url']

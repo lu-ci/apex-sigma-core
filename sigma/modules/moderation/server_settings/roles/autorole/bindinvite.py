@@ -40,11 +40,11 @@ async def bindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                         title = f'✅ Invite {target_inv.id} bound to {target_role.name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ Can\'t manage roles equal or above me.')
+                        response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ No role named {role_name}.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ An invite with that ID was not found.')
+                response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
     else:

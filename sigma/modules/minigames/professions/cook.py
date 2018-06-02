@@ -65,7 +65,7 @@ async def cook(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ You\'re missing ingredients.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 I couldn\'t find that.')
+            response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
     await message.channel.send(embed=response)

@@ -41,7 +41,6 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
             if len(args) == 2:
                 target = message.mentions[0]
                 warn_id = args[1].lower()
-                warn_id = args[1].lower()
                 lookup = {
                     'guild': message.guild.id,
                     'target.id': target.id,
@@ -61,7 +60,7 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Manage Messages')
+        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     await message.channel.send(embed=response)

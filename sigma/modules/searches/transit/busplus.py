@@ -78,5 +78,5 @@ async def busplus(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Line not found or bad data.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No line number given.')
+        response = discord.Embed(color=0xBE1931, title='❗ Missing line number.')
     await message.channel.send(embed=response)

@@ -37,11 +37,11 @@ async def giverole(cmd: SigmaCommand, message: discord.Message, args: list):
                                 title = f'✅ {target.name} has been given {role.name}.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ User has this role.')
+                                response = discord.Embed(color=0xBE1931, title='❗ That user already has this role.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ That role is above me.')
+                            response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ I couldn\'t find {lookup}.')
+                        response = discord.Embed(color=0xBE1931, title=f'❗ {lookup} not found.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             else:

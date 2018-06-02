@@ -193,7 +193,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             if message.author.id in ongoing_list:
                 ongoing_list.remove(message.author.id)
         else:
-            ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
+            ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
             await message.channel.send(embed=ongoing_error)
     except Exception:
         if message.author.id in ongoing_list:

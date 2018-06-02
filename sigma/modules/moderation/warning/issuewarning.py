@@ -84,11 +84,11 @@ async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
                     except Exception:
                         pass
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t target bots.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn bots.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t target yourself.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn yourself.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Manage Messages')
+        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     await message.channel.send(embed=response)

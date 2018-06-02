@@ -97,5 +97,5 @@ async def race(cmd: SigmaCommand, message: discord.Message, args: list):
             not_enough_response = discord.Embed(color=0xBE1931, title='❗ Not enough participants in the race!')
             await message.channel.send(embed=not_enough_response)
     else:
-        exist_response = discord.Embed(color=0xBE1931, title='❗ A race already exists here!')
-        await message.channel.send(embed=exist_response)
+        ongoing_response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+        await message.channel.send(embed=ongoing_response)

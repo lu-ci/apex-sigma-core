@@ -33,7 +33,7 @@ async def autorole(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 I can\'t find {lookup} on this server.')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
             else:
                 await cmd.db.set_guild_settings(message.guild.id, 'AutoRole', None)
                 response = discord.Embed(color=0x77B255, title=f'✅ Autorole has been disabled.')

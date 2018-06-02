@@ -68,5 +68,5 @@ async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
             start = f'{target.name} doesn\'t' if target.id != message.author.id else 'You don\'t'
             response = discord.Embed(color=0x55acee, title=f'💠 {start} have any warnings.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+        response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     await message.channel.send(embed=response)

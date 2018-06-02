@@ -86,7 +86,7 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
             except Redirect:
                 response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputed.')
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
     await message.channel.send(embed=response)

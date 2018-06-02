@@ -52,7 +52,7 @@ async def rps(cmd: SigmaCommand, message: discord.Message, args: list):
                 notifier = 'You win'
             response = discord.Embed(color=color, title=f'{icon} {my_choice.title()}! {notifier}!')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Unrecognized sign.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid sign.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)

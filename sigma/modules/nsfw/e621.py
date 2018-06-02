@@ -44,5 +44,5 @@ async def e621(cmd: SigmaCommand, message: discord.Message, args: list):
         embed.set_image(url=image_url)
         embed.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
     else:
-        embed = discord.Embed(color=0x696969, title='🔍 Nothing found.')
+        embed = discord.Embed(color=0x696969, title='🔍 No results.')
     await message.channel.send(None, embed=embed)

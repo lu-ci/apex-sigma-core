@@ -45,7 +45,7 @@ async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: lis
             else:
                 response = discord.Embed(color=0x696969, title='🔍 No guild with that ID was found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid Guild ID.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid guild ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No Guild ID was inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Missing guild ID.')
     await message.channel.send(embed=response)

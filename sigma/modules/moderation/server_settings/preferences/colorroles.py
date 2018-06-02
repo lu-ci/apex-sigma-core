@@ -26,12 +26,12 @@ async def colorroles(cmd: SigmaCommand, message: discord.Message, args: list):
         clrrls = await cmd.db.get_guild_settings(message.guild.id, 'ColorRoles')
         if clrrls:
             new_value = False
-            ender = 'disabled'
+            ending = 'disabled'
         else:
             new_value = True
-            ender = 'enabled'
+            ending = 'enabled'
         await cmd.db.set_guild_settings(message.guild.id, 'ColorRoles', new_value)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Color role creation has been {ender}.')
+        response = discord.Embed(color=0x66CC66, title=f'✅ Color role creation has been {ending}.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

@@ -25,12 +25,12 @@ async def inviteautowarn(cmd: SigmaCommand, message: discord.Message, args: list
         filter_inv = await cmd.db.get_guild_settings(message.guild.id, 'InviteAutoWarn')
         if filter_inv:
             new_value = False
-            ender = 'disabled'
+            ending = 'disabled'
         else:
             new_value = True
-            ender = 'enabled'
+            ending = 'enabled'
         await cmd.db.set_guild_settings(message.guild.id, 'InviteAutoWarn', new_value)
-        response = discord.Embed(color=0x77B255, title=f'✅ Automatic invite warnings have been {ender}.')
+        response = discord.Embed(color=0x77B255, title=f'✅ Automatic invite warnings have been {ending}.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

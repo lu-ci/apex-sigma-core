@@ -40,9 +40,9 @@ async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list
             me = message.guild.me
             if me.permissions_in(target_chn).send_messages:
                 await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', target_chn.id)
-                response = discord.Embed(color=0x77B255, title=f'✅ #{target_chn.name} set as the logging channel.')
+                response = discord.Embed(color=0x77B255, title=f'✅ Logging Channel set to #{target_chn.name}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write to that channel.')
+                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel tagged.')
+            response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
     await message.channel.send(embed=response)

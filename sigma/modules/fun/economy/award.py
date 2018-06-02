@@ -52,7 +52,7 @@ async def award(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

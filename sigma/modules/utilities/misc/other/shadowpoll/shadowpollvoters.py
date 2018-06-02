@@ -45,7 +45,7 @@ async def shadowpollvoters(cmd: SigmaCommand, message: discord.Message, args: li
             else:
                 response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 I couldn\'t find that poll.')
+            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
     await message.channel.send(embed=response)
