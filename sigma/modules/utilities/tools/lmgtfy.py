@@ -27,5 +27,5 @@ async def lmgtfy(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xF9F9F9)
         response.set_author(name='Click here to go to the results.', icon_url=google_icon, url=query_url)
     else:
-        response = discord.Embed(title='❗ No search inputted.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ No search inputted.')
     await message.channel.send(embed=response)

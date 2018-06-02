@@ -27,7 +27,7 @@ async def wffissurechannel(cmd: SigmaCommand, message: discord.Message, args: li
             if args:
                 if args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeFissureChannel', None)
-                    response = discord.Embed(title=f'✅ Warframe Void Fissure Channel Disabled', color=0x66CC66)
+                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Void Fissure Channel Disabled')
                     await message.channel.send(embed=response)
                     return
                 else:
@@ -35,7 +35,7 @@ async def wffissurechannel(cmd: SigmaCommand, message: discord.Message, args: li
             else:
                 target_channel = message.channel
         await cmd.db.set_guild_settings(message.guild.id, 'WarframeFissureChannel', target_channel.id)
-        response = discord.Embed(title=f'✅ Warframe Void Fissure Channel set to #{target_channel.name}', color=0x66CC66)
+        response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Void Fissure Channel set to #{target_channel.name}')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Channels needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Channels needed.')
     await message.channel.send(embed=response)

@@ -17,9 +17,13 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
+
+
+tck_cache = Cacher(True, 3600)
 
 
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -38,9 +42,15 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             localed = True
     coll = cmd.db[cmd.db.db_cfg.database].Cookies
     if localed:
-        all_docs = await coll.find({}).sort(sort_key, -1).to_list(None)
+        all_docs = tck_cache.get_cache(f'{sort_key}_local')
     else:
-        all_docs = await coll.find({}).sort(sort_key, -1).limit(50).to_list(None)
+        all_docs = tck_cache.get_cache(sort_key)
+    if not all_docs:
+        all_docs = await coll.find({}).sort(sort_key, -1).to_list(None)
+        if localed:
+            tck_cache.set_cache(f'{sort_key}_local', all_docs)
+        else:
+            tck_cache.set_cache(sort_key, all_docs)
     leader_docs = []
     if localed:
         all_members = message.guild.members

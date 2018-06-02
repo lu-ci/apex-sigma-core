@@ -21,12 +21,12 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def byemessage(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     else:
         if args:
             goodbye_text = ' '.join(args)
             await cmd.db.set_guild_settings(message.guild.id, 'ByeMessage', goodbye_text)
-            response = discord.Embed(title='✅ New Goodbye Message Set', color=0x77B255)
+            response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message Set')
         else:
             current_goodbye = await cmd.db.get_guild_settings(message.guild.id, 'ByeMessage')
             if current_goodbye is None:

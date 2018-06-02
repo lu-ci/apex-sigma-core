@@ -24,7 +24,7 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
-chain_object_cache = Cacher()
+chain_object_cache = Cacher(True, 300)
 
 
 async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):

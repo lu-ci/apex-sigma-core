@@ -29,5 +29,5 @@ async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
         await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
         response = discord.Embed(color=0x66CC66, title=f'✅ Emote role group {group_id} has been created.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

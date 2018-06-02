@@ -124,7 +124,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             correct_answer = ftfy.fix_text(correct_answer)
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
-            reward_mult = streaks.get(message.author.id) or 0
+            reward_mult = streaks.get(message.author.id) or 0 if not cat_chosen else 0
             kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 3.25) / (1 + (0.03 * reward_mult))))
             choice_list = [correct_answer] + incorrect_answers
             choice_list = shuffle_questions(choice_list)
@@ -170,7 +170,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                 correct_index = get_correct_index(choice_list, correct_answer)
                 if answer_index == correct_index or answer_message.content.lower() == correct_answer.lower():
                     if cat_chosen:
-                        streaks.update({message.author.id: reward_mult + 0.075})
+                        streaks.update({message.author.id: reward_mult + 0.005})
                     else:
                         streaks.update({message.author.id: reward_mult + 1})
                     await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)

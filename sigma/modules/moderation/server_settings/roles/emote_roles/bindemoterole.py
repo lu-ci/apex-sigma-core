@@ -48,5 +48,5 @@ async def bindemoterole(cmd: SigmaCommand, message: discord.Message, args: list)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

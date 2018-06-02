@@ -41,7 +41,7 @@ async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         online_bots.append(name)
             if total_bots == 0:
-                response = discord.Embed(title='❗ No bots were found on that server.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='❗ No bots were found on that server.')
             else:
                 response = discord.Embed(color=await get_image_colors(gld.icon_url))
                 response.set_author(name=f'Bots on {gld.name}', icon_url=gld.icon_url)

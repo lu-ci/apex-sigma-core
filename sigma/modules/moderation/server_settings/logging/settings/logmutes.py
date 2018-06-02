@@ -30,5 +30,5 @@ async def logmutes(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db.set_guild_settings(message.guild.id, 'LogMutes', True)
         response = discord.Embed(color=0x77B255, title=f'✅ Mute logging {result}.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

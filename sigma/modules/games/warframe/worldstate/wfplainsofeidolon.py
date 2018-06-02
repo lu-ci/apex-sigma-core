@@ -64,5 +64,5 @@ async def wfplainsofeidolon(cmd: SigmaCommand, message: discord.Message, args: l
         response = discord.Embed(color=color)
         response.add_field(name=f'{icon} {state}', value=text_desc)
     else:
-        response = discord.Embed(title='❗ Could not retrieve Plains of Eidolon data.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Plains of Eidolon data.')
     await message.channel.send(embed=response)

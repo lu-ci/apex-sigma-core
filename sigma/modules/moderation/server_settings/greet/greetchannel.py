@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def greetchannel(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     else:
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]

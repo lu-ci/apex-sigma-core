@@ -59,7 +59,7 @@ async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Command List', value=cmd_list, inline=False)
         else:
-            response = discord.Embed(title='❗ This page is empty.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='❗ This page is empty.')
     else:
-        response = discord.Embed(title='❗ This server has no custom commands.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ This server has no custom commands.')
     await message.channel.send(embed=response)

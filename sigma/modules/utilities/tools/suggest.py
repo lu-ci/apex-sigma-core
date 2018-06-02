@@ -41,9 +41,9 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
                 response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
             else:
-                response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
         else:
-            response = discord.Embed(title='❗ Cannot find suggestion channel.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='❗ Cannot find suggestion channel.')
     else:
-        response = discord.Embed(title='❗ Missing suggestion channel configuration.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ Missing suggestion channel configuration.')
     await message.channel.send(embed=response)

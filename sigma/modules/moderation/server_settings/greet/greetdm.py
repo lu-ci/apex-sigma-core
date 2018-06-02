@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        out_content = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        out_content = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     else:
         active = await cmd.db.get_guild_settings(message.guild.id, 'GreetDM')
         if active:

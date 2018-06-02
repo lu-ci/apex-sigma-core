@@ -77,9 +77,9 @@ async def wfbounties(cmd: SigmaCommand, message: discord.Message, args: list):
                 response.add_field(name='Bounty Rewards', value=', '.join(job_rewards))
                 response.set_footer(text=f'Bounties change {end_arr.humanize()}.', icon_url=cetus_wh)
             else:
-                response = discord.Embed(title='❗ Could not retrieve Plains of Eidolon data.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Plains of Eidolon data.')
         else:
-            response = discord.Embed(title='❗ Invalid tier provided.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid tier provided.')
     else:
-        response = discord.Embed(title='❗ Please provide a bounty tier.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ Please provide a bounty tier.')
     await message.channel.send(embed=response)

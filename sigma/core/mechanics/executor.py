@@ -42,20 +42,21 @@ class ExecutionClockwork(object):
         return cmd, args
 
     async def command_runner(self, message: discord.Message):
-        prefix = await self.bot.db.get_prefix(message)
-        if message.content.startswith(prefix):
-            args = message.content.split(' ')
-            cmd, args = await self.get_cmd_and_args(message, args)
-            cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
-            command = self.bot.modules.commands.get(cmd)
-            if command:
-                if self.bot.cfg.pref.text_only and command.category == 'music':
-                    return
-                elif self.bot.cfg.pref.music_only and command.category != 'music':
-                    return
-                else:
-                    task = command, message, args
-                    await self.queue.put(task)
+        if self.bot.ready:
+            prefix = await self.bot.db.get_prefix(message)
+            if message.content.startswith(prefix):
+                args = message.content.split(' ')
+                cmd, args = await self.get_cmd_and_args(message, args)
+                cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
+                command = self.bot.modules.commands.get(cmd)
+                if command:
+                    if self.bot.cfg.pref.text_only and command.category == 'music':
+                        return
+                    elif self.bot.cfg.pref.music_only and command.category != 'music':
+                        return
+                    else:
+                        task = command, message, args
+                        await self.queue.put(task)
 
     async def event_runner(self, event_name: str, *args):
         if self.bot.ready:

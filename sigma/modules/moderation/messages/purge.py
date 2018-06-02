@@ -44,7 +44,7 @@ def generate_log_embed(message, target, channel, deleted):
 
 async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_messages:
-        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
     else:
         purge_images = 'attachments' in args
         purge_filter = None

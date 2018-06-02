@@ -17,9 +17,13 @@
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
+
+
+tcr_cache = Cacher(True, 3600)
 
 
 async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -38,7 +42,10 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = 'total'
             lb_category = 'Total'
     coll = cmd.db[cmd.db.db_cfg.database].CurrencySystem
-    all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
+    all_docs = tcr_cache.get_cache(sort_key)
+    if not all_docs:
+        all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
+        tcr_cache.set_cache(sort_key, all_docs)
     leader_docs = []
     all_members = list(cmd.bot.get_all_members())
     for data_doc in all_docs:

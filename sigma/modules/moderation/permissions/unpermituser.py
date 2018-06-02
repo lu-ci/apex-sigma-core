@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -24,7 +25,7 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             if not message.author.permissions_in(message.channel).manage_guild:
-                response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
             else:
                 if message.mentions:
                     targets = message.mentions
@@ -69,9 +70,9 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                                 bad_item = target
                                 break
                         if not bad_item:
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
-                                {'ServerID': message.guild.id}, {'$set': perms}
-                            )
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
+                                                                                        {'$set': perms})
+                            scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} users can no longer use {cmd_name}.'
                             else:

@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -24,7 +25,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             if not message.author.permissions_in(message.channel).manage_guild:
-                response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
             else:
                 target_name = ' '.join(args[1:])
                 target = discord.utils.find(lambda x: x.name.lower() == target_name.lower(), message.guild.roles)
@@ -69,6 +70,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                             perms.update({exception_group: cmd_exc})
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
                                                                                         {'$set': perms})
+                            scp_cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
                     else:

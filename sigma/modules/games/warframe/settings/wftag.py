@@ -30,9 +30,9 @@ async def wftag(cmd: SigmaCommand, message: discord.Message, args: list):
                     if alert_tag in wf_tags:
                         wf_tags.pop(alert_tag)
                         await cmd.db.set_guild_settings(message.guild.id, 'WarframeTags', wf_tags)
-                        response = discord.Embed(title=f'✅ Tag unbound.', color=0x66CC66)
+                        response = discord.Embed(color=0x66CC66, title=f'✅ Tag unbound.')
                     else:
-                        response = discord.Embed(title=f'❗ Nothing is bound to {alert_tag}.', color=0xBE1931)
+                        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing is bound to {alert_tag}.')
                 else:
                     alert_role = None
                     for role in message.guild.roles:
@@ -49,13 +49,13 @@ async def wftag(cmd: SigmaCommand, message: discord.Message, args: list):
                             response_title = f'`{alert_tag.upper()}` has been updated to bind to {alert_role.name}'
                         wf_tags.update({alert_tag: alert_role.id})
                         await cmd.db.set_guild_settings(message.guild.id, 'WarframeTags', wf_tags)
-                        response = discord.Embed(title=f'✅ {response_title}', color=0x66CC66)
+                        response = discord.Embed(color=0x66CC66, title=f'✅ {response_title}')
                     else:
-                        response = discord.Embed(title=f'❗ {alert_role_search.upper()} Was Not Found', color=0xBE1931)
+                        response = discord.Embed(color=0xBE1931, title=f'❗ {alert_role_search.upper()} Was Not Found')
             else:
-                response = discord.Embed(title='❗ Not Enough Arguments', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='❗ Not Enough Arguments')
         else:
-            response = discord.Embed(title='❗ Nothing Was Inputted', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing Was Inputted')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Roles needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Roles needed.')
     await message.channel.send(embed=response)

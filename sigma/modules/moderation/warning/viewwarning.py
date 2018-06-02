@@ -57,5 +57,5 @@ async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
     await message.channel.send(embed=response)

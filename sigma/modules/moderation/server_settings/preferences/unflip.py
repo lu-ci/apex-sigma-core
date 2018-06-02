@@ -34,5 +34,5 @@ async def unflip(cmd: SigmaCommand, message: discord.Message, args: list):
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Table unflipping has been {ending}')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

@@ -33,13 +33,13 @@ async def addresponder(cmd: SigmaCommand, message: discord.Message, args: list):
                         res_text = 'added'
                     auto_respones.update({trigger: content})
                     await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
-                    response = discord.Embed(title=f'✅ {trigger} has been {res_text}', color=0x66CC66)
+                    response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                 else:
-                    response = discord.Embed(title='❗ The trigger can\'t have a dot in it.', color=0xBE1931)
+                    response = discord.Embed(color=0xBE1931, title='❗ The trigger can\'t have a dot in it.')
             else:
-                response = discord.Embed(title='❗ Missing message to send', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='❗ Missing message to send')
         else:
-            response = discord.Embed(title='❗ Nothing inputted.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

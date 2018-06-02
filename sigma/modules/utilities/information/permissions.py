@@ -26,7 +26,7 @@ async def permissions(cmd: SigmaCommand, message: discord.Message, args: list):
         user_q = message.mentions[0]
     else:
         user_q = message.author
-    response = discord.Embed(title=f'ℹ {user_q.name}\'s Permissions', color=0x3B88C3)
+    response = discord.Embed(color=0x3B88C3, title=f'ℹ {user_q.name}\'s Permissions')
     for permission in user_q.guild_permissions:
         if permission[1]:
             allowed_list.append(permission[0].replace('_', ' ').title())
