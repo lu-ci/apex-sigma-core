@@ -32,16 +32,16 @@ async def disablemodule(cmd: SigmaCommand, message: discord.Message, args: list)
                 perms = await get_all_perms(cmd.db, message)
                 disabled_modules = perms['DisabledModules']
                 if mdl_name in disabled_modules:
-                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module Already disabled.')
+                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module already disabled.')
                 else:
                     disabled_modules.append(mdl_name)
                     perms.update({'DisabledModules': disabled_modules})
-                    await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                {'$set': perms})
+                    await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                        {'ServerID': message.guild.id}, {'$set': perms})
                     scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` disabled.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Module Not Found')
+                response = discord.Embed(color=0x696969, title='🔍 Module not found')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
     await message.channel.send(embed=response)

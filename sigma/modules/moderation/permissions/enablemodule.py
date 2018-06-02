@@ -34,8 +34,8 @@ async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
                 if mdl_name in disabled_modules:
                     disabled_modules.remove(mdl_name)
                     perms.update({'DisabledModules': disabled_modules})
-                    await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                {'$set': perms})
+                    await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                        {'ServerID': message.guild.id}, {'$set': perms})
                     scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` enabled.')
                 else:
