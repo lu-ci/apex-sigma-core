@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
-    if  args:
+    if args:
         # noinspection PyBroadException
         try:
             execution = " ".join(args)
