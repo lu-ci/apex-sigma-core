@@ -75,9 +75,9 @@ async def unpermitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                                                      title=f'⚠ {target.name} is not able to use `{cmd_name}`')
                     else:
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found')
+                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {target_name} not found')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {target_name} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments')
     else:

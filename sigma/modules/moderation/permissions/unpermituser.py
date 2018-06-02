@@ -84,7 +84,7 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                             response = discord.Embed(color=0xFFCC4D, title=response_title)
                     else:
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found')
+                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 No user targeted')
         else:

@@ -40,6 +40,16 @@ commands:
       Removes a custom command trigger used for custom commands from the server.
       This requires the Manage Server permission.
 
+  - name:         renamecommand
+    alts:
+      - "rencmd"
+    enabled:      true
+    usage:        "{pfx}{cmd} hi howdy"
+    description:
+      Replaces a custom command's trigger without losing the original trigger's contents.
+      The original custom command trigger goes first, followed by what you wish to change it to.
+      This requires the Manage Server permission.
+
   - name:         customcommands
     alts:
       - "customcmds"
