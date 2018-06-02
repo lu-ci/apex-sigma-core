@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def logmodule(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -39,5 +38,5 @@ async def logmodule(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(title='❗ No module given.', color=0xBE1931)
     else:
-        response = permission_denied('Manage Guild')
+        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)

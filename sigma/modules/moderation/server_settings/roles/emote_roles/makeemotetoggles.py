@@ -20,7 +20,6 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 def make_binding_data(roles: list):

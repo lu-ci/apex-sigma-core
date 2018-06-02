@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def logedits(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -31,5 +30,5 @@ async def logedits(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db.set_guild_settings(message.guild.id, 'LogEdits', True)
         response = discord.Embed(color=0x77B255, title=f'✅ Edit logging {result}.')
     else:
-        response = permission_denied('Manage Guild')
+        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
     await message.channel.send(embed=response)
