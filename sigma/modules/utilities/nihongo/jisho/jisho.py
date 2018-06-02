@@ -32,8 +32,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
             rq_json = json.loads(rq_data)
 
     if rq_text.find('503 Service Unavailable') != -1:
-        embed_content = discord.Embed(title='❗ Jisho responded with 503 Service Unavailable.',
-                                      color=0xDB0000)
+        embed_content = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
         await message.channel.send(None, embed=embed_content)
         return
 
@@ -43,8 +42,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
     if request['data']:
         request = request['data'][0]
     else:
-        embed_content = discord.Embed(title="Sorry, couldn't find anything matching `{}`".format(jisho_q),
-                                      color=0xDB0000)
+        embed_content = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
         await message.channel.send(None, embed=embed_content)
         return
 
@@ -52,9 +50,9 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
     starter = ''
     # if the word doesn't have kanji, print out the kana alone
     try:
-        starter += "{} [{}]".format(request['japanese'][0]['word'], request['japanese'][0]['reading'])
+        starter += f"{request['japanese'][0]['word']} [{request['japanese'][0]['reading']}]"
     except KeyError:
-        starter += "{}".format(request['japanese'][0]['reading'])
+        starter += f"{request['japanese'][0]['reading']}"
 
     wk_lvls = []
 
@@ -70,7 +68,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
     for i in range(0, definitons_len):
         etc = []
         if 'english_definitions' in request['senses'][i]:
-            output += '\n{}. {}'.format(i + 1, '; '.join(request['senses'][i]['english_definitions']))
+            output += f"\n{i + 1}. {'; '.join(request['senses'][i]['english_definitions'])}"
         if request['senses'][i]['parts_of_speech']:
             parts_of_speech = ''
             for part_of_speech in request['senses'][i]['parts_of_speech']:
@@ -86,7 +84,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
             except KeyError:
                 pass
         if request['senses'][i]['see_also']:
-            etc.append('See also {}'.format(', '.join(request['senses'][i]['see_also'])))
+            etc.append(f"See also {', '.join(request['senses'][i]['see_also'])}")
 
         if request['senses'][i]['info']:
             etc.append('; '.join(request['senses'][i]['info']))
@@ -100,9 +98,9 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
     if len(request['senses']) > 5:
         hidden = len(request['senses']) - 5
         if hidden == 1:
-            output += '\n\n- {} definition is hidden'.format(hidden)
+            output += f'\n\n- {hidden} definition is hidden'
         else:
-            output += '\n\n- {} definitions are hidden'.format(hidden)
+            output += f'\n\n- {hidden} definitions are hidden'
 
     other_forms = ''
     if len(request['japanese']) > 1:
@@ -120,6 +118,6 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
         if request['is_common']:
             footer_text += ' | Common Word'
         if wk_lvls:
-            footer_text += ' | Wanikani Level {}'.format(', '.join(wk_lvls))
+            footer_text += f" | Wanikani Level {', '.join(wk_lvls)}"
         embed.set_footer(text=footer_text)
     await message.channel.send(None, embed=embed)

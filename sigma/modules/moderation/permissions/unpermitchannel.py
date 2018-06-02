@@ -25,7 +25,7 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
     if args:
         if len(args) >= 2:
             if not message.author.permissions_in(message.channel).manage_guild:
-                response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+                response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
             else:
                 if message.channel_mentions:
                     targets = message.channel_mentions
@@ -86,11 +86,12 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                             response_title = f'⚠ {bad_item.name} is not able to use {cmd_name}.'
                             response = discord.Embed(color=0xFFCC4D, title=response_title)
                     else:
-                        response = discord.Embed(color=0x696969, title='🔍 Command/Module Not Found')
+                        perm_type = 'Command' if perm_mode == 'c' else 'Module'
+                        response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No Channel Targeted')
+                    response = discord.Embed(color=0x696969, title=f'🔍 No channel targeted')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not Enough Arguments')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not Arguments Given')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
     await message.channel.send(embed=response)

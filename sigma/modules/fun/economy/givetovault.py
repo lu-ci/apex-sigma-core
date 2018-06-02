@@ -43,5 +43,5 @@ async def givetovault(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input an amount.')
+        response = discord.Embed(color=0xBE1931, title='❗ Amount missing.')
     await message.channel.send(embed=response)

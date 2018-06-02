@@ -85,7 +85,7 @@ async def wfpricecheck(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 Item not found.')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 Nothing Inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     try:
         await init_resp_msg.edit(embed=response)
     except discord.NotFound:

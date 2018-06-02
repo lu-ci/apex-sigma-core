@@ -30,16 +30,14 @@ async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
             rq_text = await data.text()
 
     if rq_text.find('503 Service Unavailable') != -1:
-        embed_content = discord.Embed(title='❗ Jisho responded with 503 Service Unavailable.',
-                                      color=0xDB0000)
+        embed_content = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
         await message.channel.send(None, embed=embed_content)
         return
 
     kanji_data = html.fromstring(rq_text).cssselect('.kanji_result')
 
     if not kanji_data:
-        embed_content = discord.Embed(title='❗ Found 0 kanji',
-                                      color=0xDB0000)
+        embed_content = discord.Embed(color=0xDB0000, title='❗ Found 0 kanji')
         await message.channel.send(None, embed=embed_content)
     else:
         search_url = f'http://jisho.org/search/{jisho_q}%20%23kanji'

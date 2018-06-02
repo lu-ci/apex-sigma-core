@@ -46,9 +46,9 @@ async def sabotageuser(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ That target is imune.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ That target is immune.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid User ID.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No User ID was inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Missing user ID.')
     await message.channel.send(embed=response)

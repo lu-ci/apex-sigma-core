@@ -41,9 +41,9 @@ async def toggleselfrole(cmd: SigmaCommand, message: discord.Message, args: list
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 I can\'t find {lookup} on this server.')
+                response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Roles needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Roles needed.')
     await message.channel.send(embed=response)

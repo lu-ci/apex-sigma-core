@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def award(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     else:
         if args:
             if len(args) == 2:
@@ -52,7 +52,7 @@ async def award(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

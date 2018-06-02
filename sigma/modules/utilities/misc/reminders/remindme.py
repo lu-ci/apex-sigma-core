@@ -62,10 +62,8 @@ async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
                     response = discord.Embed(color=0xBE1931, title='❗ You already have 15 reminders pending.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Reminders have a limit of 90 days.')
-        except LookupError:
+        except (LookupError, ValueError):
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
-        except ValueError:
-            response = discord.Embed(color=0xBE1931, title='❗ Inputted value is invalid.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No arguments inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

@@ -35,5 +35,5 @@ async def autoroletimeout(cmd: SigmaCommand, message: discord.Message, args: lis
             timeout = await cmd.db.get_guild_settings(message.guild.id, 'AutoroleTimeout') or 0
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

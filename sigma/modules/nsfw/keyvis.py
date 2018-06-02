@@ -29,12 +29,11 @@ async def keyvis(cmd: SigmaCommand, message: discord.Message, args: list):
             keys.append(key)
         choice = secrets.choice(keys)
     else:
-        choice = [x.lower() for x in args][0]
+        choice = args[0].lower()
     try:
         item = key_vn_list[choice]
     except KeyError:
-        embed = discord.Embed(color=0x696969, title='🔍 Nothing found for {:s}...'.format(
-            ' '.join(['`{:s}`'.format(x) for x in args])))
+        embed = discord.Embed(color=0x696969, title=f'🔍 No results')
         await message.channel.send(None, embed=embed)
         return
     image_number = secrets.randbelow(item[2]) + item[1]

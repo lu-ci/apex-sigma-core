@@ -88,5 +88,5 @@ async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0x006666)
             response.set_author(name=f'Void Trader arrives {comes_time} on {data.get("Node")}.', icon_url=baro_icon)
     else:
-        response = discord.Embed(title='❗ Could not retrieve void trader data.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Void Trader data.')
     await message.channel.send(embed=response)

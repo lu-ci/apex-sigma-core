@@ -24,7 +24,7 @@ from .nodes.permission_data import get_all_perms
 async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if not message.author.permissions_in(message.channel).manage_guild:
-            response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
         else:
             mdl_name = args[0].lower()
             if mdl_name in cmd.bot.modules.categories:
@@ -38,7 +38,9 @@ async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
                     scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` enabled.')
                 else:
-                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module Not Disabled')
+                    response = discord.Embed(color=0xFFCC4D, title='⚠ Module not disabled')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Module Not Found')
-        await message.channel.send(embed=response)
+                response = discord.Embed(color=0x696969, title='🔍 Module not found')
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+    await message.channel.send(embed=response)

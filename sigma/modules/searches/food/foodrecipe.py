@@ -34,7 +34,7 @@ async def foodrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
                     search_data = json.loads(search_data)
             count = search_data['count']
             if count == 0:
-                response = discord.Embed(color=0x696969, title='🔍 No results were found for that, sorry.')
+                response = discord.Embed(color=0x696969, title='🔍 No results.')
             else:
                 info = search_data['recipes'][0]
                 title = info['title']

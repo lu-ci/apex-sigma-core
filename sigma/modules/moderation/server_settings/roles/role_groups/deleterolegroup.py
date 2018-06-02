@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def deleterolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -30,9 +29,9 @@ async def deleterolegroup(cmd: SigmaCommand, message: discord.Message, args: lis
                 await cmd.db.set_guild_settings(message.guild.id, 'RoleGroups', role_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Role group {group_id} has been deleted.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

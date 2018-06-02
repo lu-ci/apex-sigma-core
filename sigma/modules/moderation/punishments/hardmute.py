@@ -77,5 +77,5 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Channels needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Channels needed.')
     await message.channel.send(embed=response)

@@ -17,18 +17,17 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def unbindrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()
-            role_search = ' '.join(args[1:])
+            lookup = ' '.join(args[1:])
             role_groups = await cmd.db.get_guild_settings(message.guild.id, 'RoleGroups') or {}
             if group_id in role_groups:
                 bound_roles = role_groups.get(group_id)
-                guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)
+                guild_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
                 if guild_role:
                     role_name = guild_role.name
                     if guild_role.id in bound_roles:
@@ -39,11 +38,11 @@ async def unbindrole(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is not bound to {group_id}.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find the {role_search} role.')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

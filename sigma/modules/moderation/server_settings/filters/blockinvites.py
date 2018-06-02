@@ -32,5 +32,5 @@ async def blockinvites(cmd: SigmaCommand, message: discord.Message, args: list):
             state = 'enabled'
         response = discord.Embed(color=0x66CC66, title=f'✅ Invite link removal has been {state}.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

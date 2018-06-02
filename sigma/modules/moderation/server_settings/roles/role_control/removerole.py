@@ -37,11 +37,11 @@ async def removerole(cmd: SigmaCommand, message: discord.Message, args: list):
                                 title = f'✅ {role.name} has been removed from {target.name}.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ User does not have this role.')
+                                response = discord.Embed(color=0xBE1931, title='❗ That user didn\'t have this role.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ That role is above me.')
+                            response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ I couldn\'t find {lookup}.')
+                        response = discord.Embed(color=0xBE1931, title=f'❗ {lookup} not found.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             else:
@@ -49,5 +49,5 @@ async def removerole(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Manage Roles needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Roles needed.')
     await message.channel.send(embed=response)

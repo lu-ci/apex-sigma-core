@@ -65,9 +65,9 @@ async def kick(cmd: SigmaCommand, message: discord.Message, args: list):
                             log_embed = generate_log_embed(message, target, reason)
                             await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogKicks')
                         else:
-                            response = discord.Embed(title='⛔ Target is above my highest role.', color=0xBE1931)
+                            response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:
-                        response = discord.Embed(title='⛔ Can\'t kick someone equal or above you.', color=0xBE1931)
+                        response = discord.Embed(color=0xBE1931, title='⛔ Can\'t kick someone equal or above you.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ You can\'t kick yourself.')
             else:
@@ -75,5 +75,5 @@ async def kick(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Kick permissions needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Kick permissions needed.')
     await message.channel.send(embed=response)

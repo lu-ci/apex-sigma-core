@@ -72,9 +72,9 @@ async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         response = discord.Embed(color=0xBE1931, title=f'❗ Reaction URL must end with .gif.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Not a valid URL.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ Invalid URL.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ Unrecognized interaction name.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Not enough arguments.')
     else:

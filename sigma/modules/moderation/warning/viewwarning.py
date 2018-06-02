@@ -19,7 +19,6 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -56,7 +55,7 @@ async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Manage Messages')
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
     await message.channel.send(embed=response)

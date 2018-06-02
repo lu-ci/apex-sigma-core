@@ -63,13 +63,13 @@ async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: lis
                         title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
                         response = discord.Embed(color=0xFFCC4D, title=title)
                     else:
-                        response = discord.Embed(color=0x696969, title='🔍 Unrecognized module name.')
+                        response = discord.Embed(color=0x696969, title='🔍 Module not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 User with that ID not found.')
+                    response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid ID.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing was inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

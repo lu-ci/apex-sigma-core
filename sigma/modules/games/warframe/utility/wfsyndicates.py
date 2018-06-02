@@ -53,9 +53,9 @@ async def wfsyndicates(cmd: SigmaCommand, message: discord.Message, args: list):
                 items_text += f' {plat_price} p'
             else:
                 items_text += f' ?? p'
-            items_text += f' | {"{:,}".format(synd_price)} Standing'
+            items_text += f' | {synd_price} Standing'
             if plat_price:
-                items_text += f' ({"{:.2f}".format(plat_price / synd_price * 1000)} p/KS)'
+                items_text += f' ({round(plat_price / synd_price * 1000, 2)} p/KS)'
             items_text += '\n'
         response.add_field(name=syndicate.get('name'), value=items_text)
     try:

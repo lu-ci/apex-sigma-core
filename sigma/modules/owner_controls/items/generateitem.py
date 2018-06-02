@@ -41,11 +41,11 @@ async def generateitem(cmd: SigmaCommand, message: discord.Message, args: list):
                     success_text = f'{item.icon} I have given {connector} {item.name} to {target.display_name}.'
                     response = discord.Embed(color=item.color, title=success_text)
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup}.')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

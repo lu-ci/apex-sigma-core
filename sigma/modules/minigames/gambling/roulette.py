@@ -142,7 +142,7 @@ async def roulette(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid selector and value syntax.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No selector given.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing selector.')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')

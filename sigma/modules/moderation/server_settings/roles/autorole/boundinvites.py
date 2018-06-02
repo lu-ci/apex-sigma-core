@@ -40,7 +40,7 @@ async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xF9F9F9, title='⛓ List of Bound Invites')
             response.description = '\n'.join(output_lines)
         else:
-            response = discord.Embed(title='🔍 No invites have been bound.', color=0x696969)
+            response = discord.Embed(color=0x696969, title='🔍 No invites have been bound.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Create Instant Invites needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Create Instant Invites needed.', )
     await message.channel.send(embed=response)

@@ -37,5 +37,5 @@ async def generatecurrency(cmd: SigmaCommand, message: discord.Message, args: li
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ {cmd.bot.cfg.pref.currency} amount and target needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user was mentioned.')
+        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     await message.channel.send(embed=response)

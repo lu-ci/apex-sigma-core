@@ -22,7 +22,6 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 def warning_data(author: discord.Member, target: discord.Member, reason: str):
@@ -84,11 +83,11 @@ async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
                     except Exception:
                         pass
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t target bots.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn bots.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t target yourself.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn yourself.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Manage Messages')
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
     await message.channel.send(embed=response)

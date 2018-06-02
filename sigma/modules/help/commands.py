@@ -53,7 +53,7 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
             response.add_field(name=f'{lookup.upper()} Commands', value=title_text, inline=False)
             response.add_field(name='Commands List', value=f'```yml\n{output}\n```', inline=False)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Nothing was found...')
+            response = discord.Embed(color=0x696969, title='🔍 Module not found')
     else:
         pfx = await cmd.db.get_prefix(message)
         command_list = cmd.bot.modules.commands

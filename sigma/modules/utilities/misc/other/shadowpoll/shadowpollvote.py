@@ -93,7 +93,7 @@ async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Choice number out of range.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 I couldn\'t find that poll.')
+                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Not a valid choice number.')
         else:

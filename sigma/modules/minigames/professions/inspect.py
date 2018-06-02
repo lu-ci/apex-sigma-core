@@ -51,7 +51,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = None
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if not response:
         lookup = ' '.join(args)
         item = item_core.get_item_by_name(lookup)
@@ -69,5 +69,5 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Sorry but that\'s trash.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup}.')
+            response = discord.Embed(color=0x696969, title=f'🔍 Item not found.')
     await message.channel.send(embed=response)

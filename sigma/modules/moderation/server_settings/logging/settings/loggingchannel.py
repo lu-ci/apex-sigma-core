@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     else:
         if message.channel_mentions:
             target_chn = message.channel_mentions[0]
@@ -40,9 +40,9 @@ async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list
             me = message.guild.me
             if me.permissions_in(target_chn).send_messages:
                 await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', target_chn.id)
-                response = discord.Embed(color=0x77B255, title=f'✅ #{target_chn.name} set as the logging channel.')
+                response = discord.Embed(color=0x77B255, title=f'✅ Logging Channel set to #{target_chn.name}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write to that channel.')
+                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel tagged.')
+            response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
     await message.channel.send(embed=response)

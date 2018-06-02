@@ -46,7 +46,7 @@ async def colorme(cmd: SigmaCommand, message: discord.Message, args: list):
                 addition_title = f'✅ {role_objc.name} has been added to you, {message.author.name}.'
                 response = discord.Embed(color=0x77B255, title=addition_title)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color code.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No color HEX provided.')
     else:

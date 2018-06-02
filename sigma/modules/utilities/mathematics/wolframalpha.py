@@ -43,7 +43,7 @@ async def wolframalpha(cmd: SigmaCommand, message: discord.Message, args: list):
                     title = '❗ We were unable to process that.'
                     response = discord.Embed(color=0xBE1931, title=title)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing API key.')
+            response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Wolfram can\'t be used during an ongoing math game.')
     await message.channel.send(embed=response)

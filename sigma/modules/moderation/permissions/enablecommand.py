@@ -24,7 +24,7 @@ from .nodes.permission_data import get_all_perms
 async def enablecommand(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if not message.author.permissions_in(message.channel).manage_guild:
-            response = discord.Embed(title='⛔ Access Denied. Manage Server needed.', color=0xBE1931)
+            response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
         else:
             cmd_name = args[0].lower()
             if cmd_name in cmd.bot.modules.alts:
@@ -40,7 +40,9 @@ async def enablecommand(cmd: SigmaCommand, message: discord.Message, args: list)
                     scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{cmd_name.upper()}` enabled.')
                 else:
-                    response = discord.Embed(color=0xFFCC4D, title='⚠ Command Not Disabled')
+                    response = discord.Embed(color=0xFFCC4D, title='⚠ Command not disabled')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Command Not Found')
-        await message.channel.send(embed=response)
+                response = discord.Embed(color=0x696969, title='🔍 Command not found')
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+    await message.channel.send(embed=response)

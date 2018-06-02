@@ -20,7 +20,6 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 def make_binding_data(roles: list):
@@ -80,9 +79,9 @@ async def makeemotetoggles(cmd: SigmaCommand, message: discord.Message, args: li
                 await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleTogglers', guild_togglers)
                 response = discord.Embed(color=0x66CC66, title=f'✅ Toggler {group_id} created in {target_ch.name}.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Group ID not inputted.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing group ID.')
     else:
-        response = permission_denied("Manage Server")
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

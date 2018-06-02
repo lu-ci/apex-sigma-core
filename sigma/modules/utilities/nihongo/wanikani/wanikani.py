@@ -71,13 +71,13 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
                     kanji_progress = progression['requested_information']['kanji_progress']
                     kanji_total = progression['requested_information']['kanji_total']
 
-            level = '**Level {}** Apprentice'.format(level)
+            level = f'**Level {level}** Apprentice'
             avatar = f'https://www.gravatar.com/avatar/{avatar}.jpg?s=300&d='
             avatar += 'https://cdn.wanikani.com/default-avatar-300x300-20121121.png'
             creation_date = arrow.get(creation_date).format('MMMM DD, YYYY')
 
-            radicals = 'Radicals: **{}**/**{}**'.format(radicals_progress, radicals_total)
-            kanji = 'Kanji: **{}**/**{}**'.format(kanji_progress, kanji_total)
+            radicals = f'Radicals: **{radicals_progress}**/**{radicals_total}**'
+            kanji = f'Kanji: **{kanji_progress}**/**{kanji_total}**'
 
             embed = discord.Embed(color=target.color)
 
@@ -86,31 +86,31 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
             level_progression += kanji
             embed.add_field(name='Level progression', value=level_progression)
 
-            srs_distibution = 'Apprentice: **{}**\n'.format(apprentice)
-            srs_distibution += 'Guru: **{}**\n'.format(guru)
-            srs_distibution += 'Master: **{}**\n'.format(master)
-            srs_distibution += 'Enlighten: **{}**\n'.format(enlighten)
-            srs_distibution += 'Burned: **{}**'.format(burned)
+            srs_distibution = f'Apprentice: **{apprentice}**\n'
+            srs_distibution += f'Guru: **{guru}**\n'
+            srs_distibution += f'Master: **{master}**\n'
+            srs_distibution += f'Enlighten: **{enlighten}**\n'
+            srs_distibution += f'Burned: **{burned}**'
             embed.add_field(name='SRS distribution', value=srs_distibution)
 
-            study_queue = 'Lessons available: **{}**\n'.format(lessons_available)
-            study_queue += 'Reviews available: **{}**\n'.format(reviews_available)
+            study_queue = f'Lessons available: **{lessons_available}**\n'
+            study_queue += f'Reviews available: **{reviews_available}**\n'
             if lessons_available or reviews_available:
                 next_review = 'now'
             else:
                 next_review = arrow.get(next_review).humanize()
-            study_queue += 'Next review date: **{}**\n'.format(next_review)
-            study_queue += 'Reviews in next hour: **{}**\n'.format(reviews_available_next_hour)
-            study_queue += 'Reviews in next day: **{}**'.format(reviews_available_next_day)
+            study_queue += f'Next review date: **{next_review}**\n'
+            study_queue += f'Reviews in next hour: **{reviews_available_next_hour}**\n'
+            study_queue += f'Reviews in next day: **{reviews_available_next_day}**'
             embed.add_field(name='Study queue', value=study_queue)
 
-            userinfo = '**{}** of **Sect {}**\n'.format(username, sect)
-            userinfo += '**Level {}** Apprentice\n'.format(level)
-            userinfo += 'Serving the Crabigator since {}'.format(creation_date)
+            userinfo = f'**{username}** of **Sect {sect}**\n'
+            userinfo += f'**Level {level}** Apprentice\n'
+            userinfo += f'Serving the Crabigator since {creation_date}'
 
-            embed.set_author(name='{} of Sect {}'.format(username, sect),
-                             url='https://www.wanikani.com/community/people/{}'.format(username), icon_url=avatar)
-            embed.set_footer(text='Serving the Crabigator since {}'.format(creation_date))
+            embed.set_author(name=f'{username} of Sect {sect}',
+                             url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
+            embed.set_footer(text=f'Serving the Crabigator since {creation_date}')
         except KeyError:
             embed = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
     else:

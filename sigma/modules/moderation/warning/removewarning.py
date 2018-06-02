@@ -20,7 +20,6 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_data: dict):
@@ -41,7 +40,6 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
             if len(args) == 2:
                 target = message.mentions[0]
                 warn_id = args[1].lower()
-                warn_id = args[1].lower()
                 lookup = {
                     'guild': message.guild.id,
                     'target.id': target.id,
@@ -61,7 +59,7 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ You didn\'t tag any user.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Manage Messages')
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
     await message.channel.send(embed=response)

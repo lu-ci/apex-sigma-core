@@ -49,7 +49,7 @@ async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ Group {group_id} is empty.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+            response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

@@ -44,5 +44,5 @@ async def destroycurrency(cmd: SigmaCommand, message: discord.Message, args: lis
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ {cmd.bot.cfg.pref.currency} amount and target needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user was mentioned.')
+        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     await message.channel.send(embed=response)

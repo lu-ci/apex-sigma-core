@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def logdeletions(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -31,5 +30,5 @@ async def logdeletions(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db.set_guild_settings(message.guild.id, 'LogDeletions', True)
         response = discord.Embed(color=0x77B255, title=f'✅ Deletion logging {result}.')
     else:
-        response = permission_denied('Manage Guild')
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
     await message.channel.send(embed=response)

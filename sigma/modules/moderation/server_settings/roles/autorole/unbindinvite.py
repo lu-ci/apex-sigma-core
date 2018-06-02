@@ -42,9 +42,9 @@ async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invite {}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ An invite with that ID was not found.')
+                response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
     else:
-        response = discord.Embed(title='⛔ Access Denied. Create Instant Invites needed.', color=0xBE1931)
+        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Create Instant Invites needed.')
     await message.channel.send(embed=response)
