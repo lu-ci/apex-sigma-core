@@ -73,8 +73,9 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
                             response_title = f'⚠ #{bad_item.name} can already use {cmd_name}.'
                             response = discord.Embed(color=0xFFCC4D, title=response_title)
                         else:
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                        {'$set': perms})
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                {'ServerID': message.guild.id}, {'$set': perms}
+                            )
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} channels can now use {cmd_name}.'

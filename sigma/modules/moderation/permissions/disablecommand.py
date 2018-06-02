@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms
+from sigma.core.mechanics.permissions import scp_cache
 
 
 async def disablecommand(cmd: SigmaCommand, message: discord.Message, args: list):
