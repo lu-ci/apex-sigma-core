@@ -28,8 +28,8 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
             if not message.author.permissions_in(message.channel).manage_guild:
                 response = permission_denied('Manage Server')
             else:
-                target_name = ' '.join(args[1:])
-                target = discord.utils.find(lambda x: x.name.lower() == target_name.lower(), message.guild.roles)
+                lookup = ' '.join(args[1:])
+                target = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
                 if target:
                     error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
                     try:
@@ -69,8 +69,8 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                             inner_exc.update({'Roles': exc_usrs})
                             cmd_exc.update({cmd_name: inner_exc})
                             perms.update({exception_group: cmd_exc})
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                        {'$set': perms})
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
@@ -78,7 +78,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
                         response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No {target_name} Role Found')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:

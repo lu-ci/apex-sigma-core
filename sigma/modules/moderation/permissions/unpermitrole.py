@@ -66,8 +66,8 @@ async def unpermitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                             inner_exc.update({'Roles': exc_usrs})
                             cmd_exc.update({cmd_name: inner_exc})
                             perms.update({exception_group: cmd_exc})
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
-                                                                                        {'$set': perms})
+                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can no longer use `{cmd_name}`.')
