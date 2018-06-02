@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):

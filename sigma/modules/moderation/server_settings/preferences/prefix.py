@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -40,5 +41,5 @@ async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

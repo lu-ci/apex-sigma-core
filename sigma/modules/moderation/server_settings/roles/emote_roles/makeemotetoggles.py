@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.data_processing import get_image_colors
 
 
@@ -83,5 +84,5 @@ async def makeemotetoggles(cmd: SigmaCommand, message: discord.Message, args: li
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing group ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

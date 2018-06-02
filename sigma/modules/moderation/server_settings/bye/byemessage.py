@@ -17,11 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def byemessage(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     else:
         if args:
             goodbye_text = ' '.join(args)
