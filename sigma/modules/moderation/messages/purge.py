@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
@@ -44,7 +45,7 @@ def generate_log_embed(message, target, channel, deleted):
 
 async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_messages:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Messages needed.')
+        response = permission_denied('Manage Messages')
     else:
         purge_images = 'attachments' in args
         purge_filter = None

@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def autoroletimeout(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -35,5 +36,5 @@ async def autoroletimeout(cmd: SigmaCommand, message: discord.Message, args: lis
             timeout = await cmd.db.get_guild_settings(message.guild.id, 'AutoroleTimeout') or 0
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

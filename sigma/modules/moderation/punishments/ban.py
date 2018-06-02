@@ -18,6 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
@@ -84,5 +85,5 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Ban permissions needed.')
+        response = permission_denied('Ban permissions')
     await message.channel.send(embed=response)

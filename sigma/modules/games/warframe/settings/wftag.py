@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def wftag(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -57,5 +58,5 @@ async def wftag(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Roles needed.')
+        response = permission_denied('Manage Roles')
     await message.channel.send(embed=response)

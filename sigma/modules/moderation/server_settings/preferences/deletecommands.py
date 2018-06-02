@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def deletecommands(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -32,5 +33,5 @@ async def deletecommands(cmd: SigmaCommand, message: discord.Message, args: list
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Command message deletion has been {ending}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

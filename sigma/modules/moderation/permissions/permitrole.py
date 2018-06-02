@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
@@ -25,7 +26,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             if not message.author.permissions_in(message.channel).manage_guild:
-                response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+                response = permission_denied('Manage Server')
             else:
                 target_name = ' '.join(args[1:])
                 target = discord.utils.find(lambda x: x.name.lower() == target_name.lower(), message.guild.roles)

@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def wfacolytechannel(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -37,5 +38,5 @@ async def wfacolytechannel(cmd: SigmaCommand, message: discord.Message, args: li
         await cmd.db.set_guild_settings(message.guild.id, 'WarframeAcolyteChannel', target_channel.id)
         response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Acolyte Channel set to #{target_channel.name}')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Channels needed.')
+        response = permission_denied('Manage Channels')
     await message.channel.send(embed=response)

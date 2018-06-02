@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -46,5 +47,5 @@ async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Create Instant Invites needed.')
+        response = permission_denied('Create Instant Invites')
     await message.channel.send(embed=response)

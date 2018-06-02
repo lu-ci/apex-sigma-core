@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def autorole(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -48,5 +49,5 @@ async def autorole(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xF9F9F9, title='📇 No autorole set.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Server needed.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)
