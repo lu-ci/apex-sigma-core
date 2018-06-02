@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -69,6 +70,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                             perms.update({exception_group: cmd_exc})
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
                                                                                         {'$set': perms})
+                            scp_cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255,
                                                      title=f'✅ `{target.name}` can now use `{cmd_name}`.')
                     else:

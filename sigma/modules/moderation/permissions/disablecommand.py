@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from .nodes.permission_data import get_all_perms
+from sigma.core.mechanics.permissions import scp_cache
 
 
 async def disablecommand(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -38,6 +39,7 @@ async def disablecommand(cmd: SigmaCommand, message: discord.Message, args: list
                     perms.update({'DisabledCommands': disabled_commands})
                     await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
                                                                                 {'$set': perms})
+                    scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{cmd_name.upper()}` disabled.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Command Not Found')

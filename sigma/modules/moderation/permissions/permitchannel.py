@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -75,6 +76,7 @@ async def permitchannel(cmd: SigmaCommand, message: discord.Message, args: list)
                             await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
                                 {'ServerID': message.guild.id}, {'$set': perms}
                             )
+                            scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} channels can now use {cmd_name}.'
                             else:

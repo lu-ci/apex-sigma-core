@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import scp_cache
 from .nodes.permission_data import get_all_perms
 
 
@@ -34,6 +35,7 @@ async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
                     perms.update({'DisabledModules': disabled_modules})
                     await cmd.db[cmd.db.db_cfg.database].Permissions.update_one({'ServerID': message.guild.id},
                                                                                 {'$set': perms})
+                    scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{mdl_name.upper()}` enabled.')
                 else:
                     response = discord.Embed(color=0xFFCC4D, title='⚠ Module Not Disabled')
