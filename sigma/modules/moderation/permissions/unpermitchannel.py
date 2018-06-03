@@ -78,20 +78,20 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                                 {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
-                                response_title = f'✅ {len(targets)} channels can no longer use {cmd_name}.'
+                                response_title = f'✅ {len(targets)} channels can no longer use `{cmd_name}`.'
                             else:
-                                response_title = f'✅ #{targets[0].name} can no longer use {cmd_name}.'
+                                response_title = f'✅ #{targets[0].name} can no longer use `{cmd_name}`.'
                             response = discord.Embed(color=0x77B255, title=response_title)
                         else:
-                            response_title = f'⚠ {bad_item.name} is not able to use {cmd_name}.'
+                            response_title = f'⚠ {bad_item.name} is not able to use `{cmd_name}`.'
                             response = discord.Embed(color=0xFFCC4D, title=response_title)
                     else:
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
                         response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No channel targeted')
+                    response = discord.Embed(color=0x696969, title=f'🔍 No channel targeted.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

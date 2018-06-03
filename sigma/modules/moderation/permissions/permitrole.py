@@ -63,7 +63,7 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                         exc_usrs = inner_exc['Roles']
                         if target.id in exc_usrs:
                             response = discord.Embed(color=0xFFCC4D,
-                                                     title=f'⚠ {target.name} can already use `{cmd_name}`')
+                                                     title=f'⚠ {target.name} can already use `{cmd_name}`.')
                         else:
                             exc_usrs.append(target.id)
                             inner_exc.update({'Roles': exc_usrs})
@@ -73,14 +73,14 @@ async def permitrole(cmd: SigmaCommand, message: discord.Message, args: list):
                                 {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255,
-                                                     title=f'✅ `{target.name}` can now use `{cmd_name}`.')
+                                                     title=f'✅ {target.name} can now use `{cmd_name}`.')
                     else:
                         perm_type = 'Command' if perm_mode == 'c' else 'Module'
                         response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)
