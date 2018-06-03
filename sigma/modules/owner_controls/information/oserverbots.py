@@ -42,7 +42,7 @@ async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=await get_image_colors(gld.icon_url))
                 response.set_author(name=f'Bots on {gld.name}', icon_url=gld.icon_url)
                 response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
-                response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots)))
+                response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Guild not found.')
     else:

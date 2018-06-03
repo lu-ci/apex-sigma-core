@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -29,9 +30,10 @@ async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
             name = f'{user.name}#{user.discriminator}'
             offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
     if total_bots == 0:
-        embed = discord.Embed(color=0xBE1931, title='❗ No bots were found on this server.')
+        response = discord.Embed(color=0xBE1931, title='❗ No bots were found on this server.')
     else:
-        embed = discord.Embed(color=0x1ABC9C, title='Bot Status on ' + message.guild.name)
-        embed.add_field(name='Online', value='```\n - ' + '\n - '.join(sorted(online_bots)) + '\n```')
-        embed.add_field(name='Offline', value='```\n' + ' - ' + '\n - '.join(sorted(offline_bots)) + '\n```')
-    await message.channel.send(None, embed=embed)
+        response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
+        response.set_author(name=f'Bots on {message.guild.name}', icon_url=message.guild.icon_url)
+        response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
+        response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
+    await message.channel.send(None, embed=response)
