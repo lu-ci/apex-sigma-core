@@ -26,12 +26,8 @@ async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
     for user in message.guild.members:
         if user.bot:
             total_bots += 1
-            name = user.name + '#' + user.discriminator
-            status = str(user.status)
-            if status == 'offline':
-                offline_bots.append(name)
-            else:
-                online_bots.append(name)
+            name = f'{user.name}#{user.discriminator}'
+            offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
     if total_bots == 0:
         embed = discord.Embed(color=0xBE1931, title='❗ No bots were found on this server.')
     else:
