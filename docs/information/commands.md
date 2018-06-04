@@ -439,6 +439,7 @@ Commands | Description | Example
 `>>removecommand` `>>deletecommand` `>>remcmd` `>>delcmd` | Removes a custom command trigger used for custom commands from the server. This requires the Manage Server permission. | `>>removecommand hi`
 `>>removereactor` `>>deletereactor` `>>remreac` `>>delreac` | Removes an automatic reaction trigger. | `>>removereactor hi`
 `>>removeresponder` `>>deleteresponder` `>>remres` `>>delres` | Removes a custom command trigger used for custom commands from the server. Command requires the Manage Server permission. | `>>removeresponder hi`
+`>>renamecommand` `>>rencmd` | Replaces a custom command's trigger without losing the original trigger's contents. The original custom command trigger goes first, followed by what you wish to change it to. This requires the Manage Server permission. | `>>renamecommand hi howdy`
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter enter -all as the command argument. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. | `>>unflip`

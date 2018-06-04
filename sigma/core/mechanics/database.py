@@ -75,20 +75,12 @@ class Database(motor.AsyncIOMotorClient):
 
     async def get_experience(self, user, guild):
         collection = self[self.bot.cfg.db.database]['ExperienceSystem']
-        entry = self.cache.get_cache(f'exp_{user.id}')
-        if not entry:
-            entry = await collection.find_one({'UserID': user.id})
-            self.cache.set_cache(f'exp_{user.id}', entry)
-        if entry:
-            global_xp = entry.get('global') or 0
-            guild_id = str(guild.id)
-            guilds = entry.get('guilds') or {}
-            guild_xp = guilds.get(guild_id) or 0
-            total_xp = entry.get('total') or 0
-        else:
-            global_xp = 0
-            guild_xp = 0
-            total_xp = 0
+        entry = await collection.find_one({'UserID': user.id}) or {}
+        global_xp = entry.get('global') or 0
+        guild_id = str(guild.id)
+        guilds = entry.get('guilds') or {}
+        guild_xp = guilds.get(guild_id) or 0
+        total_xp = entry.get('total') or 0
         output = {'global': global_xp, 'guild': guild_xp, 'total': total_xp}
         return output
 
@@ -96,18 +88,12 @@ class Database(motor.AsyncIOMotorClient):
         sabotage_file = await self[self.db_cfg.database].SabotagedUsers.find_one({'UserID': user.id})
         if not sabotage_file:
             collection = self[self.bot.cfg.db.database]['ExperienceSystem']
-            entry = self.cache.get_cache(f'exp_{user.id}')
+            entry = await collection.find_one({'UserID': user.id}) or {}
             if not entry:
-                entry = await collection.find_one({'UserID': user.id})
-            if entry:
-                total_xp = entry.get('total') or 0
-                global_xp = entry.get('global') or 0
-                guilds = entry.get('guilds') or {}
-            else:
                 await collection.insert_one({'UserID': user.id})
-                total_xp = 0
-                global_xp = 0
-                guilds = {}
+            total_xp = entry.get('total') or 0
+            global_xp = entry.get('global') or 0
+            guilds = entry.get('guilds') or {}
             guild_id = str(guild.id)
             guild_points = guilds.get(guild_id) or 0
             if additive:
@@ -120,26 +106,16 @@ class Database(motor.AsyncIOMotorClient):
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
             await collection.update_one(update_target, update_data)
-            self.cache.del_cache(f'exp_{user.id}')
 
     async def get_currency(self, user, guild):
         collection = self[self.bot.cfg.db.database]['CurrencySystem']
-        entry = self.cache.get_cache(f'kud_{user.id}')
-        if not entry:
-            entry = await collection.find_one({'UserID': user.id})
-            self.cache.set_cache(f'kud_{user.id}', entry)
-        if entry:
-            global_amount = entry.get('global') or 0
-            current_amount = entry.get('current') or 0
-            guild_id = str(guild.id)
-            guilds = entry.get('guilds') or {}
-            guild_amount = guilds.get(guild_id) or 0
-            total_amount = entry.get('total') or 0
-        else:
-            current_amount = 0
-            global_amount = 0
-            guild_amount = 0
-            total_amount = 0
+        entry = await collection.find_one({'UserID': user.id}) or {}
+        global_amount = entry.get('global') or 0
+        current_amount = entry.get('current') or 0
+        guild_id = str(guild.id)
+        guilds = entry.get('guilds') or {}
+        guild_amount = guilds.get(guild_id) or 0
+        total_amount = entry.get('total') or 0
         output = {'current': current_amount, 'global': global_amount, 'guild': guild_amount, 'total': total_amount}
         return output
 
@@ -148,20 +124,13 @@ class Database(motor.AsyncIOMotorClient):
         if not sabotage_file:
             collection = self[self.bot.cfg.db.database]['CurrencySystem']
             points = abs(points)
-            entry = self.cache.get_cache(f'kud_{user.id}')
+            entry = await collection.find_one({'UserID': user.id}) or {}
             if not entry:
-                entry = await collection.find_one({'UserID': user.id})
-            if entry:
-                current_amount = entry.get('current') or 0
-                global_amount = entry.get('global') or 0
-                total_amount = entry.get('total') or 0
-                guilds = entry.get('guilds') or {}
-            else:
                 await collection.insert_one({'UserID': user.id})
-                total_amount = 0
-                global_amount = 0
-                current_amount = 0
-                guilds = {}
+            current_amount = entry.get('current') or 0
+            global_amount = entry.get('global') or 0
+            total_amount = entry.get('total') or 0
+            guilds = entry.get('guilds') or {}
             guild_id = str(guild.id)
             guild_points = guilds.get(guild_id) or 0
             if additive:
@@ -175,33 +144,25 @@ class Database(motor.AsyncIOMotorClient):
             update_target = {'UserID': user.id}
             update_data = {'$set': xp_data}
             await collection.update_one(update_target, update_data)
-            self.cache.del_cache(f'kud_{user.id}')
 
     async def rmv_currency(self, user, points):
         collection = self[self.bot.cfg.db.database]['CurrencySystem']
         points = abs(points)
-        entry = self.cache.get_cache(f'kud_{user.id}')
+        entry = await collection.find_one({'UserID': user.id}) or {}
         if not entry:
-            entry = await collection.find_one({'UserID': user.id})
-        if entry:
-            current_amount = entry.get('current') or 0
-        else:
             await collection.insert_one({'UserID': user.id})
-            current_amount = 0
+        current_amount = entry.get('current') or 0
         current_amount -= points
         xp_data = {'current': current_amount}
         update_target = {'UserID': user.id}
         update_data = {'$set': xp_data}
         await collection.update_one(update_target, update_data)
-        self.cache.del_cache(f'kud_{user.id}')
 
     async def get_inventory(self, user):
-        inventory = await self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id})
+        inventory = await self[self.db_cfg.database]['Inventory'].find_one({'UserID': user.id}) or {}
         if not inventory:
             await self[self.db_cfg.database]['Inventory'].insert_one({'UserID': user.id, 'Items': []})
-            inventory = []
-        else:
-            inventory = inventory.get('Items')
+        inventory = inventory.get('Items') or []
         return inventory
 
     async def update_inv(self, user, inv):
