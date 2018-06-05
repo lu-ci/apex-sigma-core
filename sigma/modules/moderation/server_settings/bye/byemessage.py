@@ -27,7 +27,7 @@ async def byemessage(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             goodbye_text = ' '.join(args)
             await cmd.db.set_guild_settings(message.guild.id, 'ByeMessage', goodbye_text)
-            response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message Set.')
+            response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message set.')
         else:
             current_goodbye = await cmd.db.get_guild_settings(message.guild.id, 'ByeMessage')
             if current_goodbye is None:
