@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 log_keys = [
     'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters',
-    'LogKicks', 'LogMovement', 'LogMutes', 'LogPurges', 'LogWarnigs'
+    'LogKicks', 'LogMovement', 'LogMutes', 'LogPurges', 'LogWarnings'
 ]
 accepted_logs = [lk.lower()[3:] for lk in log_keys]
 
