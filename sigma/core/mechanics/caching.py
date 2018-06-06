@@ -48,3 +48,6 @@ class Cacher(object):
             self.data.pop(key)
             if self.timed:
                 self.data.pop(f'{key}_stamp')
+
+    def get_executed(self, key: str or int):
+        return self.data.get(f'{key}_stamp') or 0
