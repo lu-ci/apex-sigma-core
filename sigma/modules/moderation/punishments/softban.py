@@ -32,7 +32,8 @@ def generate_log_embed(message, target, reason):
     author = message.author
     log_response.add_field(name='🛡 Responsible',
                            value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
-    log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
+    if reason:
+        log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
     log_response.set_footer(text=f'UserID: {target.id}')
     return log_response
 
@@ -48,10 +49,7 @@ async def softban(cmd: SigmaCommand, message: discord.Message, args: list):
                     if above_hier or is_admin:
                         above_me = hierarchy_permit(message.guild.me, target)
                         if above_me:
-                            if len(args) > 1:
-                                reason = ' '.join(args[1:])
-                            else:
-                                reason = 'No reason stated.'
+                            reason = ' '.join(args[1:]) if args[1:] else None
                             response = discord.Embed(color=0x696969, title=f'🔩 The user has been soft-banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))

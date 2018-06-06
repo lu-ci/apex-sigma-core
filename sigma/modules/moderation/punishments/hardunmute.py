@@ -24,7 +24,7 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
-def generate_log_embed(message, target, args):
+def generate_log_embed(message, target, reason):
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Hard Un-Muted', icon_url=user_avatar(target))
     log_embed.add_field(name='🔊 Un-Muted User',
@@ -32,8 +32,8 @@ def generate_log_embed(message, target, args):
     author = message.author
     log_embed.add_field(name='🛡 Responsible',
                         value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
-    if len(args) > 1:
-        log_embed.add_field(name='📄 Reason', value=f"```\n{' '.join(args[1:])}\n```", inline=False)
+    if reason:
+        log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
     log_embed.set_footer(text=f'UserID: {target.id}')
     return log_embed
 
@@ -42,14 +42,11 @@ async def hardunmute(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.mentions:
             target = message.mentions[0]
-            if len(args) > 1:
-                reason = ' '.join(args[1:])
-            else:
-                reason = 'Not stated.'
             hierarchy_me = hierarchy_permit(message.guild.me, target)
             if hierarchy_me:
                 hierarchy_auth = hierarchy_permit(message.author, target)
                 if hierarchy_auth:
+                    reason = ' '.join(args[1:]) if args[1:] else None
                     ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
                     ongoing_msg = await message.channel.send(embed=ongoing)
                     for channel in message.guild.channels:
@@ -59,7 +56,7 @@ async def hardunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                                 await channel.set_permissions(target, overwrite=None, reason=reason)
                             except discord.Forbidden:
                                 pass
-                    log_embed = generate_log_embed(message, target, args)
+                    log_embed = generate_log_embed(message, target, reason)
                     await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
                     title = f'✅ {target.display_name} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)

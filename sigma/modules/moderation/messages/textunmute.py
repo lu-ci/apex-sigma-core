@@ -24,7 +24,7 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
-def generate_log_embed(message, target, args):
+def generate_log_embed(message, target, reason):
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Unmuted', icon_url=user_avatar(target))
     log_embed.add_field(name='🔊 Unmuted User',
@@ -32,8 +32,8 @@ def generate_log_embed(message, target, args):
     author = message.author
     log_embed.add_field(name='🛡 Responsible',
                         value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
-    if len(args) > 1:
-        log_embed.add_field(name='📄 Reason', value=f"```\n{' '.join(args[1:])}\n```", inline=False)
+    if reason:
+        log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
     log_embed.set_footer(text=f'UserID: {target.id}')
     return log_embed
 
@@ -63,8 +63,9 @@ async def textunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         response = discord.Embed(color=0xBE1931, title=resp_title)
                     else:
                         mute_list.remove(target.id)
+                        reason = ' '.join(args[1:]) if args[1:] else None
                         await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
-                        log_embed = generate_log_embed(message, target, args)
+                        log_embed = generate_log_embed(message, target, reason)
                         await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
     await message.channel.send(embed=response)

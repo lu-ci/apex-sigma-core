@@ -50,7 +50,7 @@ def warning_data(author: discord.Member, target: discord.Member, reason: str):
     return data
 
 
-def make_log_embed(author: discord.Member, target: discord.Member, warn_data: dict):
+def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, reason):
     target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
@@ -58,8 +58,9 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_data: di
     response.set_author(name=f'{target.name} has been warned by {author.name}.', icon_url=target_avatar)
     response.add_field(name='⚠ Warned User', value=target_descrp, inline=True)
     response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
-    response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
-    response.set_footer(text=f'[{warn_data.get("warning").get("id")}] UserID: {target.id}')
+    if reason:
+        response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
+    response.set_footer(text=f'[{warn_iden}] UserID: {target.id}')
     return response
 
 
@@ -69,12 +70,12 @@ async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
             target = message.mentions[0]
             if target.id != message.author.id:
                 if not target.bot:
-                    reason = ' '.join(args[1:]) if args[1:] else 'No reason stated.'
+                    reason = ' '.join(args[1:]) if args[1:] else None
                     warn_data = warning_data(message.author, target, reason)
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_cfg.database].Warnings.insert_one(warn_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
-                    log_embed = make_log_embed(message.author, target, warn_data)
+                    log_embed = make_log_embed(message.author, target, warn_iden, reason)
                     await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
