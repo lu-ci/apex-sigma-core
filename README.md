@@ -1,19 +1,23 @@
-﻿# Apex Sigma: The Database Giant
+# Apex Sigma: The Database Giant
 
 <div align="center">
-
-[![Sigma Banner](https://i.imgur.com/TRSdGni.png)](https://lucia.moe/)
-
+  <a href="https://lucia.moe/">
+    <img src="https://i.imgur.com/TRSdGni.png" alt="Sigma Banner">
+  </a>
 </div>
 
 ## Community
 
 <div align="center">
+  <a href="https://discordapp.com/invite/aEUCHwX">
+    <img src="https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2" alt="Discord Banner">
+  </a>
+<div>
 
-[![Discord Banner](https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2)](https://discordapp.com/invite/aEUCHwX)
-
-[![Discord Bots](https://discordbots.org/api/widget/216437513709944832.png)](https://discordbots.org/bot/216437513709944832?utm_source=widget)
-
+<div align="center">
+  <a href="https://discordbots.org/bot/216437513709944832?utm_source=widget">
+    <img src="https://discordbots.org/api/widget/216437513709944832.png" alt="Discord Bots">
+  </a>
 </div>
 
 ## Development
