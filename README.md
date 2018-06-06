@@ -12,7 +12,7 @@
   <a href="https://discordapp.com/invite/aEUCHwX">
     <img src="https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2" alt="Discord Banner">
   </a>
-<div>
+</div>
 
 <div align="center">
   <a href="https://discordbots.org/bot/216437513709944832?utm_source=widget">
