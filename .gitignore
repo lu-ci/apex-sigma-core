@@ -120,3 +120,4 @@ ENV/
 /.vagrant
 /*.log
 
+/.pytest_cache

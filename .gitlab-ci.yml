@@ -1,0 +1,56 @@
+image: python:3.6
+
+stages:
+  - prepare
+  - test
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
+
+
+# -------[ Templates ]-------
+
+.pip-cache: &pip-cache
+  key: "${CI_COMMIT_REF_SLUG}-1"
+  paths:
+    - .cache/
+    - venv/
+
+.virtualenv: &venv
+  before_script:
+    - python -V
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+
+.push-cache: &push-cache
+  cache:
+    <<: *pip-cache
+    policy: push
+
+.pull-cache: &pull-cache
+  cache:
+    <<: *pip-cache
+    policy: pull
+
+
+.test-job: &test-job
+  <<: *pull-cache
+  stage: test
+  environment: test
+
+
+# -------[ Jobs ]-------
+
+setup:
+  <<: *venv
+  <<: *push-cache
+  stage: prepare
+  script:
+    - pip install -r requirements.txt -r requirements-test.txt
+
+pytest:
+  <<: *test-job
+  <<: *venv
+  script:
+    - ./test.sh
