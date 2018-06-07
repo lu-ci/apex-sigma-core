@@ -17,8 +17,10 @@
 
 def paginate(items: list, pg_num: str or int, span=10):
     page = 1
+    max_page = (len(items) // span) + 1
     if str(pg_num).isdigit() or str(pg_num)[1:].isdigit():
         page = abs(int(pg_num)) or 1
+        page = max_page if page > max_page else page
     start_range = (page - 1) * span
     end_range = page * span
     return items[start_range:end_range], page
