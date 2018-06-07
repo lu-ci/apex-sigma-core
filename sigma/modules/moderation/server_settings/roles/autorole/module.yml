@@ -36,6 +36,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} aEUCHwX Cheese Lovers"
     requirements:
+      - "manage_guild"
       - "manage_roles"
       - "create_instant_invite"
     description:
@@ -44,6 +45,7 @@ commands:
 
   - name:         syncinvites
     alts:
+      - "manage_guild"
       - "syncinvs"
       - "sinvs"
     enabled:      true
@@ -70,6 +72,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} aEUCHwX"
     requirements:
+      - "manage_guild"
       - "manage_roles"
       - "create_instant_invite"
     description:

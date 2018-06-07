@@ -22,7 +22,7 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        lookup = ' '.join(args).lower()
+        lookup = args[0].lower()
         command_items = cmd.bot.modules.commands
         command_list = []
         for command in command_items:
@@ -37,6 +37,9 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
                 command_list.append([command, permission])
         if command_list:
             module_list = sorted(command_list, key=lambda x: x[0].name)
+            module_count = len(module_list)
+            page = args[1] if len(args) > 1 else 1
+            module_list, page = paginate(module_list, page, 30)
             output = ''
             for module_item, module_perm in module_list:
                 if module_perm:
@@ -48,10 +51,13 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
                     output += f'\n- {module_item.name}'
                 if module_item.alts:
                     output += f' [{", ".join(module_item.alts)}]'
-            title_text = f'```py\nThere are {len(module_list)} commands.\n```'
-            response = discord.Embed(color=0x1B6F5F)
-            response.add_field(name=f'{lookup.upper()} Commands', value=title_text, inline=False)
-            response.add_field(name='Commands List', value=f'```yml\n{output}\n```', inline=False)
+            if output:
+                title_text = f'```py\nThere are {module_count} commands.\n```'
+                response = discord.Embed(color=0x1B6F5F)
+                response.add_field(name=f'{lookup.upper()} Commands', value=title_text, inline=False)
+                response.add_field(name=f'Commands List | Page {page}', value=f'```yml\n{output}\n```', inline=False)
+            else:
+                response = discord.Embed(color=0x696969, title=f'🔍 No commands on page {page}.')
         else:
             response = discord.Embed(color=0x696969, title='🔍 Module not found.')
     else:
