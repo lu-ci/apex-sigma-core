@@ -15,12 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-def paginate(items: list, pg_num, rng=10):
+def paginate(items: list, pg_num: str or int, span=10):
     page = 1
-    if pg_num and isinstance(pg_num, int):
-        page = abs(pg_num)
-        if page <= 0:
-            page = 1
-    start_range = (page - 1) * rng
-    end_range = page * rng
+    if str(pg_num).isdigit() or str(pg_num)[1:].isdigit():
+        page = abs(int(pg_num)) or 1
+    start_range = (page - 1) * span
+    end_range = page * span
     return items[start_range:end_range], page

@@ -46,12 +46,13 @@ async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
                 warn_list.append(f'`{warn_id}` by **{moderator}** on {warn_time}.')
             page = args[0] if args else 1
             warn_list, page = paginate(warn_list, page, 5)
+            curr_list = len(warn_list)
             warn_list = '\n'.join(warn_list)
             ender = 's' if len(warnings) > 1 else ''
             start = f'{target.name} has' if target.id != message.author.id else 'You have'
             response = discord.Embed(color=0xFFCC4D)
             response.add_field(name=f'⚠ {start} {len(warnings)} active warning{ender}.', value=warn_list)
-            response.set_footer(text=f'Showing {len(warn_list)} of {target.name}\'s warns out of {len(warnings)}.')
+            response.set_footer(text=f'Showing {curr_list} of {target.name}\'s warns out of {len(warnings)}.')
         else:
             start = f'{target.name} doesn\'t' if target.id != message.author.id else 'You don\'t'
             response = discord.Embed(color=0x55acee, title=f'💠 {start} have any warnings.')
