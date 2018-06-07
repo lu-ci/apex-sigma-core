@@ -29,7 +29,6 @@ async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):
             summary_task = functools.partial(wiki.page, ' '.join(args).lower())
             with ThreadPoolExecutor() as threads:
                 page = await cmd.bot.loop.run_in_executor(threads, summary_task)
-
             response = discord.Embed(color=0xF9F9F9)
             response.set_author(
                 name=f'Wikipedia: {page.title}',

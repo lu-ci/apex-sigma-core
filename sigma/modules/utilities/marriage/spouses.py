@@ -18,6 +18,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.paginate import paginate
 
 
 async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -25,22 +26,11 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
-    if args:
-        page = args[0]
-        try:
-            page = int(page)
-        except ValueError:
-            page = 1
-    else:
-        page = 1
-    if page < 1:
-        page = 1
-    start_range = 5 * (page - 1)
-    end_range = 5 * page
     profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one({'UserID': target.id}) or {}
     splist = profile.get('Spouses') or []
     spcount = len(splist)
-    splist = splist[start_range:end_range]
+    page = args[0] if args else 1
+    splist, page = paginate(splist, page, 5)
     starter = 'You are' if target.id == message.author.id else f'{target.name} is'
     mid = 'have' if target.id == message.author.id else 'has'
     if splist:

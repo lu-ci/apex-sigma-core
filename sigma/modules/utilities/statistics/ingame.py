@@ -20,6 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.paginate import paginate
 
 
 async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -45,23 +46,14 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
                         new_count = curr_count + 1
                         games.update({game_name: new_count})
     embed = discord.Embed(color=0x1ABC9C)
-    sorted_games = sorted(games.items(), key=operator.itemgetter(1))
-    if args:
-        page = args[0]
-        try:
-            page = int(page)
-        except ValueError:
-            page = 1
-    else:
-        page = 1
-    if page < 1:
-        page = 1
-    start_range = 5 * (page - 1)
-    end_range = 5 * page
+    sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
+    page = args[0] if args else 1
+    game_list, page = paginate(sorted_games, page)
+    start_range, end_range = (page - 1) * 10, page * 10
     out_table_list = []
     game_count = len(sorted_games)
     n = 0
-    for key, value in list(reversed(sorted_games))[start_range:end_range]:
+    for key, value in game_list:
         n += 1
         index = n + start_range
         if len(key) > 32:

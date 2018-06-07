@@ -20,6 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.paginate import paginate
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
@@ -59,18 +60,6 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         storage = 0
     inv_limit = 64 + (8 * storage)
-    page_number = 1
-    if args:
-        try:
-            page_number = abs(int(args[0]))
-            if page_number == 0:
-                page_number = 1
-        except TypeError:
-            page_number = 1
-        except ValueError:
-            page_number = 1
-    start_range = (page_number - 1) * 10
-    end_range = page_number * 10
     inv = await cmd.db.get_inventory(target)
     total_inv = len(inv)
     item_o_list = []
@@ -80,7 +69,9 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
-    inv = item_o_list[start_range:end_range]
+    page = args[0] if args else 1
+    inv, page = paginate(item_o_list, page)
+    start_range, end_range = (page - 1) * 10, page * 10
     if inv:
         all_reci = reci_core.recipes
         headers = ['Type', 'Item', 'Value', 'Rarity']
@@ -106,7 +97,7 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
         inv_text += f'\nTotal value of your inventory is {total_value} {cmd.bot.cfg.pref.currency}.'
         response.add_field(name='📦 Inventory Stats',
                            value=f'```py\n{inv_text}\n```')
-        response.add_field(name=f'📋 Items Currently On Page {page_number}', value=f'```hs\n{output}\n```',
+        response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```',
                            inline=False)
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')

@@ -19,6 +19,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.paginate import paginate
 from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
 
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'
@@ -35,17 +36,11 @@ async def wfsales(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[-1].lower() == 'all':
             discount_only = False
             title = 'List of Promoted Warframe Items'
-        try:
-            page = int(args[0]) - 1
-            if page < 0:
-                page = 0
-        except ValueError:
-            page = 0
-    else:
-        page = 0
     sales_data_all = parse_sales_data(sales_text, discount_only)
     total_item = len(sales_data_all)
-    sales_data = sales_data_all[page * 10:(page + 1) * 10]
+    page = args[0] if args else 1
+    sales_data, page = paginate(sales_data_all, page)
+    start_range, end_range = (page - 1) * 10, page * 10
     no_discounts = True
     for item in sales_data:
         if item.get('discount') != 0:
@@ -58,7 +53,7 @@ async def wfsales(cmd: SigmaCommand, message: discord.Message, args: list):
     if sales_data:
         total_plat = sum([x.get('platinum') for x in sales_data_all])
         sales_data = sorted(sales_data, key=lambda x: x.get('name'))
-        stat_block = f'Showing {len(sales_data)} items out of {total_item}.'
+        stat_block = f'Showing items {start_range}-{end_range}.'
         stat_block += f'\nThere are {total_item} items valued at {total_plat} platinum.'
         item_list = []
         for sale_item in sales_data:

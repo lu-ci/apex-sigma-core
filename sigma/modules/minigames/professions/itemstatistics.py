@@ -18,6 +18,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.paginate import paginate
 from sigma.modules.minigames.professions.nodes.item_core import ItemCore
 
 item_core = None
@@ -27,22 +28,10 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     global item_core
     if not item_core:
         item_core = ItemCore(cmd.resource('data'))
-    page_number = 1
     if message.mentions:
         target = message.mentions[0]
     else:
         target = message.author
-    if args:
-        try:
-            page_number = abs(int(args[0]))
-            if page_number == 0:
-                page_number = 1
-        except TypeError:
-            page_number = 1
-        except ValueError:
-            page_number = 1
-    start_range = (page_number - 1) * 10
-    end_range = page_number * 10
     all_stats = await cmd.db[cmd.db.db_cfg.database].ItemStatistics.find_one({'UserID': target.id}) or {}
     if '_id' in all_stats:
         all_stats.pop('_id')
@@ -50,7 +39,8 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     all_stats = [[x, all_stats.get(x)] for x in all_stats.keys()]
     mem_count = len(all_stats)
     all_stats = sorted(all_stats, key=lambda k: k[1], reverse=True)
-    all_stats = all_stats[start_range:end_range]
+    page = args[0] if args else 1
+    all_stats, page = paginate(all_stats, page)
     total_count = len([i for i in item_core.all_items if i.rarity != 0])
     listing = []
     for stat in all_stats:

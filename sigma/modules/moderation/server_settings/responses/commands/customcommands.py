@@ -18,31 +18,19 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.paginate import paginate
 
 
 async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):
     custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
     if custom_commands:
-        if args:
-            page = args[0]
-            try:
-                page = int(page)
-            except ValueError:
-                page = 1
-        else:
-            page = 1
         custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)
-        if page < 1:
-            page = 1
-        start_range = 10 * (page - 1)
-        end_range = 10 * page
-        commands = custom_commands[start_range:end_range]
+        page = args[0] if args else 1
+        commands, page = paginate(custom_commands, page)
+        start_range = (page - 1) * 10
         if commands:
-            if cmd_count > 1:
-                ender = 's'
-            else:
-                ender = ''
+            ender = 's' if cmd_count > 1 else ''
             summary = f'Showing **{len(commands)}** command{ender} from Page **#{page}**.'
             summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
             pfx = await cmd.db.get_prefix(message)

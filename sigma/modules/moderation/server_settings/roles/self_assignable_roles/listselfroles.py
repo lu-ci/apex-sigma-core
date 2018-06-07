@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.paginate import paginate
 
 
 async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -29,34 +30,19 @@ async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list)
         for role in self_roles:
             if role == srv_role.id:
                 role_list.append(srv_role.name)
-    role_list = sorted(role_list)
     if not role_list:
         embed = discord.Embed(type='rich', color=0x3B88C3, title='ℹ No self assignable roles set.')
     else:
-        if args:
-            page = args[0]
-            try:
-                page = int(page)
-            except ValueError:
-                page = 1
-        else:
-            page = 1
-        if page < 1:
-            page = 1
-        start_range = 10 * (page - 1)
-        end_range = 10 * page
         role_count = len(role_list)
-        role_list = role_list[start_range:end_range]
-        if len(role_list) > 1:
-            ender = 's'
-        else:
-            ender = ''
+        role_list = sorted(role_list)
+        page = args[0] if args else 1
+        role_list, page = paginate(role_list, page)
+        ender = 's' if role_count > 1 else ''
         summary = f'Showing **{len(role_list)}** role{ender} from Page **#{page}**.'
         summary += f'\n{message.guild.name} has **{role_count}** self assignable role{ender}.'
         rl_out = ''
-        role_list = sorted(role_list)
-        for rl in role_list:
-            rl_out += '\n- ' + rl
+        for role in role_list:
+            rl_out += '\n- ' + role
         embed = discord.Embed(color=await get_image_colors(message.guild.icon_url))
         embed.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
         embed.add_field(name=f'Self Assignable Role Stats', value=summary, inline=False)

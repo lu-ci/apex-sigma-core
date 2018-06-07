@@ -18,31 +18,19 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.paginate import paginate
 
 
 async def responders(cmd: SigmaCommand, message: discord.Message, args: list):
     responder_files = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
     if responder_files:
-        if args:
-            page = args[0]
-            try:
-                page = int(page)
-            except ValueError:
-                page = 1
-        else:
-            page = 1
         responder_list = sorted(list(responder_files.keys()))
         resp_count = len(responder_list)
-        if page < 1:
-            page = 1
-        start_range = 10 * (page - 1)
-        end_range = 10 * page
-        triggers = responder_list[start_range:end_range]
+        page = args[0] if args else 1
+        triggers, page = paginate(responder_list, page)
+        start_range = (page - 1) * 10
         if triggers:
-            if resp_count > 1:
-                ender = 's'
-            else:
-                ender = ''
+            ender = 's' if resp_count > 1 else ''
             summary = f'Showing **{len(triggers)}** trigger{ender} from Page **#{page}**.'
             summary += f'\n{message.guild.name} has **{resp_count}** responder trigger{ender}.'
             loop_index = start_range

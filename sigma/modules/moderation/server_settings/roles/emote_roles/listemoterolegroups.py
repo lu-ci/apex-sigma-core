@@ -18,30 +18,17 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.paginate import paginate
 
 
 async def listemoterolegroups(cmd: SigmaCommand, message: discord.Message, args: list):
     emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
-    group_list = list(emote_groups.keys())
     if emote_groups:
-        if args:
-            page = args[0]
-            try:
-                page = int(page)
-            except ValueError:
-                page = 1
-        else:
-            page = 1
-        if page < 1:
-            page = 1
-        start_range = 10 * (page - 1)
-        end_range = 10 * page
+        group_list = list(emote_groups.keys())
         group_count = len(group_list)
-        group_list = group_list[start_range:end_range]
-        if len(group_list) > 1:
-            ender = 's'
-        else:
-            ender = ''
+        page = args[0] if args else 1
+        group_list, page = paginate(group_list, page)
+        ender = 's' if group_count > 1 else ''
         summary = f'Showing **{len(group_list)}** group{ender} from Page **#{page}**.'
         summary += f'\n{message.guild.name} has **{group_count}** emote role group{ender}.'
         rl_out = ''

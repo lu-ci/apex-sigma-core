@@ -23,6 +23,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.paginate import paginate
 
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 
@@ -35,15 +36,6 @@ async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
                 data = json.loads(data)
     except aiohttp.ClientPayloadError:
         data = None
-    if args:
-        try:
-            page = int(args[0]) - 1
-            if page < 0:
-                page = 0
-        except ValueError:
-            page = 0
-    else:
-        page = 0
     if data:
         data = data[0]
         all_items = data.get('Manifest') or []
@@ -64,10 +56,11 @@ async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
                 total_credits += item_credits
                 item_addition = [item_name, str(item_ducats), str(item_credits)]
                 item_list.append(item_addition)
-            item_list = item_list[page * 10:(page + 1) * 10]
+            page = args[0] if args else 1
+            item_list, page = paginate(item_list, page)
             if item_list:
                 out_table = boop(item_list, headers)
-                stats_desc = f'Page {page + 1} | Location: {data.get("Node")}'
+                stats_desc = f'Page {page} | Location: {data.get("Node")}'
                 stats_desc += f'\nItems: {total_items} | Ducats: {total_ducats} | Credits: {total_credits}'
                 end_human = ending_time.humanize()
                 leaves = f'Trader leaves {end_human}'
