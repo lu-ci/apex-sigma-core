@@ -52,5 +52,6 @@ setup:
 pytest:
   <<: *test-job
   <<: *venv
+  retry: 2
   script:
     - ./test.sh
