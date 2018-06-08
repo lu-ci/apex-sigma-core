@@ -43,8 +43,8 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
             lookup = ' '.join(arguments[1:])
             inv = await cmd.db.get_inventory(message.author)
             if inv:
-                sell_count = 0
-                sell_value = 0
+                value = 0
+                count = 0
                 if mode == 'name':
                     attribute = 'name'
                 elif mode == 'type':
@@ -59,18 +59,19 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
                         item_ob_id = item_core.get_item_by_file_id(item['item_file_id'])
                         item_attribute = getattr(item_ob_id, attribute)
                         if item_attribute.lower() == lookup.lower():
-                            sell_value += item_ob_id.value
-                            sell_count += 1
+                            value += item_ob_id.value
+                            count += 1
                             sell_id_list.append(item['item_id'])
                     await sell_item_ids(cmd.db, message.author, sell_id_list)
-                    await cmd.db.add_currency(message.author, message.guild, sell_value)
+                    await cmd.db.add_currency(message.author, message.guild, value)
                     currency = cmd.bot.cfg.pref.currency
-                    sell_title = f'💶 You sold {sell_count} items for {sell_value} {currency}.'
-                    response = discord.Embed(color=0xc6e4b5, title=sell_title)
+                    ender = 's' if count != 1 else ''
+                    response = discord.Embed(color=0xc6e4b5)
+                    response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Your inventory is empty.')
+                response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:

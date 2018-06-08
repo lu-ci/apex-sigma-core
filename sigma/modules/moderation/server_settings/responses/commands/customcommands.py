@@ -17,8 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.paginate import paginate
+from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):

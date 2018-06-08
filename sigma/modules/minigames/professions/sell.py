@@ -40,7 +40,9 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     count += 1
                     await cmd.db.del_from_inventory(message.author, invitem['item_id'])
                 await cmd.db.add_currency(message.author, message.guild, value)
-                response = discord.Embed(color=0xc6e4b5, title=f'💶 You sold {count} items for {value} {currency}.')
+                ender = 's' if count != 1 else ''
+                response = discord.Embed(color=0xc6e4b5)
+                response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
             else:
                 item_o = item_core.get_item_by_name(lookup)
                 if item_o:
@@ -51,12 +53,12 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     value = item_o.value
                     await cmd.db.add_currency(message.author, message.guild, value)
                     await cmd.db.del_from_inventory(message.author, item['item_id'])
-                    response = discord.Embed(color=0xc6e4b5,
-                                             title=f'💶 You sold the {item_o.name} for {value} {currency}.')
+                    response = discord.Embed(color=0xc6e4b5)
+                    response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup} in your inventory.')
         else:
-            response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty, {message.author.name}...')
+            response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You didn\'t input anything.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

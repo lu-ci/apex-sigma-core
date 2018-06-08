@@ -56,6 +56,18 @@ def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
     return output
 
 
+def paginate(items: list, pg_num: str or int, span=10):
+    page = 1
+    pages, length = len(items) // span, len(items)
+    max_page = pages if length % span == 0 and length != 0 else pages + 1
+    if str(pg_num).isdigit() or str(pg_num)[1:].isdigit():
+        page = abs(int(pg_num)) or 1
+        page = max_page if page > max_page else page
+    start_range = (page - 1) * span
+    end_range = page * span
+    return items[start_range:end_range], page
+
+
 def command_message_parser(message: discord.Message, text: str):
     gld = message.guild
     ath = message.author

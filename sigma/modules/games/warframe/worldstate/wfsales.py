@@ -19,7 +19,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.paginate import paginate
+from sigma.core.utilities.data_processing import paginate
 from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
 
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'

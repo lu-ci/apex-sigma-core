@@ -1,6 +1,6 @@
 import pytest
 
-from sigma.core.utilities.paginate import paginate
+from sigma.core.utilities.data_processing import paginate
 
 
 class TestPaginate(object):
@@ -16,7 +16,8 @@ class TestPaginate(object):
 
     # Span cannot be None or 0
     def test_page_size(self):
-        nums = list(range(1, 15))
+        nums = list(range(1, 16))
         assert paginate(nums, 1) == (nums[0:10], 1)
         assert paginate(nums, 3) == (nums[10:20], 2)
-        assert paginate(nums, 3, span=5) == (nums[10:15], 3)
+        assert paginate(nums, 3, 5) == (nums[10:15], 3)
+        assert paginate(nums, 4, 5) == (nums[10:15], 3)
