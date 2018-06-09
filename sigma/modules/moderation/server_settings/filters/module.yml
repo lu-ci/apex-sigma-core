@@ -15,6 +15,18 @@ commands:
       If any of the words in the filter is sent,
       the message will be removed and the author will be notified.
 
+  - name:         blockextensions
+    alts:
+      - "blockextension"
+      - "blockexts"
+      - "blockext"
+    enabled:      true
+    usage:        "{pfx}{cmd} .png .jpg"
+    description:
+      Adds all the extensions you list to the extension filter.
+      If any of the extensions in the filter are sent,
+      the message will be removed and the author will be notified.
+
   - name:         hardblockwords
     alts:
       - "hardblockword"
@@ -60,6 +72,17 @@ commands:
       Removes a blocked word allowing people to send messages containing it.
       To purge the entire word filter enter -all as the command argument.
 
+  - name:         unblockextensions
+    alts:
+      - "unblockextension"
+      - "unblockexts"
+      - "unblockext"
+    enabled:      true
+    usage:        "{pfx}{cmd} boobs"
+    description:
+      Removes a blocked extension allowing people to send files containing it.
+      To purge the entire extension filter enter -all as the command argument.
+
   - name:         unhardblockwords
     alts:
       - "unhardblockword"
@@ -79,6 +102,13 @@ commands:
     description:
       Lists all hard-blocked words on the server.
 
+  - name:         blockedextensions
+    alts:
+      - "blockedexts"
+    enabled:      true
+    description:
+      Lists all blocked extensions on the server.
+
 events:
   - name:         send_word_blocker
     type:         message
@@ -89,6 +119,10 @@ events:
     enabled:      true
 
   - name:         send_invite_blocker
+    type:         message
+    enabled:      true
+
+  - name:         extension_blocker
     type:         message
     enabled:      true
 
