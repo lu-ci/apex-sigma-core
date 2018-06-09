@@ -50,4 +50,4 @@ async def scr_clockwork(ev: SigmaEvent):
                                 pass
             except Exception:
                 pass
-            await asyncio.sleep(5)
+            await asyncio.sleep(300)
