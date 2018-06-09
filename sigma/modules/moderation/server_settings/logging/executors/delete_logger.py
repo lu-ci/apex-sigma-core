@@ -32,11 +32,11 @@ async def delete_logger(ev: SigmaEvent, message: discord.Message):
             log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
             await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogDeletions')
         if message.attachments:
-                log_title = f'{message.author.name}#{message.author.discriminator}\'s file was deleted.'
-                log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-                file_names = [atch.filename for atch in message.attachments]
-                end = '' if len(file_names) == 1 else 's'
-                log_embed.description = f"File{end}: {', '.join(file_names)}"
-                log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
-                log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
-                await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogDeletions')
+            log_title = f'{message.author.name}#{message.author.discriminator}\'s file was deleted.'
+            log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
+            file_names = [atch.filename for atch in message.attachments]
+            end = '' if len(file_names) == 1 else 's'
+            log_embed.description = f"File{end}: {', '.join(file_names)}"
+            log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
+            log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
+            await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogDeletions')
