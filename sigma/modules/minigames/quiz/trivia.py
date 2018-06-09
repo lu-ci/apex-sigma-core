@@ -84,15 +84,15 @@ def get_correct_index(question_list, answer):
 
 async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
     global streaks
-    if await cmd.bot.cool_down.on_cooldown(cmd.name, message.channel):
-        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.channel)
+    if await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
         await message.channel.send(embed=on_cooldown)
         return
 
     try:
-        if message.channel.id not in ongoing_list:
-            ongoing_list.append(message.channel.id)
+        if message.author.id not in ongoing_list:
+            ongoing_list.append(message.author.id)
             allotted_time = 20
             trivia_api_url = 'https://opentdb.com/api.php?amount=1'
             cat_chosen = False
@@ -110,12 +110,12 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                     try:
                         data = json.loads(number_response).get('results')[0]
                     except json.JSONDecodeError:
-                        if message.channel.id in ongoing_list:
-                            ongoing_list.remove(message.channel.id)
+                        if message.author.id in ongoing_list:
+                            ongoing_list.remove(message.author.id)
                         decode_error = discord.Embed(color=0xBE1931, title='❗ Couldn\'t retrieve a question.')
                         await message.channel.send(embed=decode_error)
                         return
-            await cmd.bot.cool_down.set_cooldown(cmd.name, message.channel, 30)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)
             question = data['question']
             question = ftfy.fix_text(question)
             question = re.sub(r'([*_~`])', r'\\\1', question)  # escape markdown formatting
@@ -124,7 +124,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             correct_answer = ftfy.fix_text(correct_answer)
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
-            reward_mult = streaks.get(message.channel.id) or 0 if not cat_chosen else 0
+            reward_mult = streaks.get(message.author.id) or 0 if not cat_chosen else 0
             kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 3.25) / (1 + (0.03 * reward_mult))))
             choice_list = [correct_answer] + incorrect_answers
             choice_list = shuffle_questions(choice_list)
@@ -145,12 +145,13 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             question_embed.add_field(name='Question', value=question, inline=False)
             question_embed.add_field(name='Choices', value=f'```py\n{choice_text}\n```', inline=False)
             question_embed.set_footer(text='Input the number of your chosen answer.')
+            question_embed.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
             await message.channel.send(embed=question_embed)
 
             def check_answer(msg):
-                if msg.author.bot:
-                    return
                 if message.channel.id != msg.channel.id:
+                    return
+                if message.author.id != msg.author.id:
                     return
                 if msg.content.isdigit():
                     if abs(int(msg.content)) <= len(choice_lines):
@@ -169,28 +170,28 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                 correct_index = get_correct_index(choice_list, correct_answer)
                 if answer_index == correct_index or answer_message.content.lower() == correct_answer.lower():
                     if cat_chosen:
-                        streaks.update({message.channel.id: reward_mult + 0.005})
+                        streaks.update({message.author.id: reward_mult + 0.005})
                     else:
-                        streaks.update({message.channel.id: reward_mult + 1})
+                        streaks.update({message.author.id: reward_mult + 1})
                     await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
                     author = answer_message.author.display_name
                     currency = cmd.bot.cfg.pref.currency
                     win_title = f'🎉 Correct, {author}, it was {correct_answer}. You won {kud_reward} {currency}!'
                     final_embed = discord.Embed(color=0x77B255, title=win_title)
                 else:
-                    if message.channel.id in streaks:
-                        streaks.pop(message.channel.id)
+                    if message.author.id in streaks:
+                        streaks.pop(message.author.id)
                     lose_title = f'💣 Ooh, sorry, it was {correct_answer}...'
                     final_embed = discord.Embed(color=0x262626, title=lose_title)
                 await message.channel.send(embed=final_embed)
             except asyncio.TimeoutError:
-                if message.channel.id in streaks:
-                    streaks.pop(message.channel.id)
+                if message.author.id in streaks:
+                    streaks.pop(message.author.id)
                 timeout_title = f'🕙 Time\'s up! It was {correct_answer}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await message.channel.send(embed=timeout_embed)
-            if message.channel.id in ongoing_list:
-                ongoing_list.remove(message.channel.id)
+            if message.author.id in ongoing_list:
+                ongoing_list.remove(message.author.id)
         else:
             ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
             await message.channel.send(embed=ongoing_error)
