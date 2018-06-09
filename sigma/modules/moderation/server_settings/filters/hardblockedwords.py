@@ -1,4 +1,4 @@
-﻿# Apex Sigma: The Database Giant Discord Bot.
+# Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,15 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import paginate
 
 
-async def blockedwords(cmd: SigmaCommand, message: discord.Message, args: list):
-    blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'BlockedWords')
+async def hardblockedwords(cmd: SigmaCommand, message: discord.Message, args: list):
+    blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'HardBlockedWords')
     if not blocked_words:
-        response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked words.')
+        response = discord.Embed(color=0x3B88C3, title='ℹ There are no hard-blocked words.')
     else:
         total_count = len(blocked_words)
         blocked_words, page = paginate(blocked_words, args[0] if args else 1, 20)
         showing_count = len(blocked_words)
-        title = f'ℹ Words blocked on {message.guild.name}'
+        title = f'ℹ Words hard-blocked on {message.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)
         response.description = ', '.join(blocked_words)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')

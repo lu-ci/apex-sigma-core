@@ -9,11 +9,21 @@ commands:
     alts:
       - "blockword"
     enabled:      true
-    usage:        "{pfx}{cmd} crap"
+    usage:        "{pfx}{cmd} crap ass tits"
     description:
       Adds all the words you list to the blocked words filter.
       If any of the words in the filter is sent,
       the message will be removed and the author will be notified.
+
+  - name:         hardblockwords
+    alts:
+      - "hardblockword"
+    enabled:      true
+    usage:        "{pfx}{cmd} crap ass tits"
+    description:
+      Works like "blockwords" but very intolerable.
+      For example if you hardblock the word "ass" it will delete stuff like "assassin".
+      It looks for any instance of the contance in the message, not indivitial segments.
 
   - name:         blockinvites
     alts:
@@ -50,10 +60,24 @@ commands:
       Removes a blocked word allowing people to send messages containing it.
       To purge the entire word filter enter -all as the command argument.
 
+  - name:         unhardblockwords
+    alts:
+      - "unhardblockword"
+    enabled:      true
+    usage:        "{pfx}{cmd} boobs"
+    description:
+      Removes a hard blocked word allowing people to send messages containing it.
+      To purge the entire word filter enter -all as the command argument.
+
   - name:         blockedwords
     enabled:      true
     description:
       Lists all blocked words on the server.
+
+  - name:         hardblockedwords
+    enabled:      true
+    description:
+      Lists all hard-blocked words on the server.
 
 events:
   - name:         send_word_blocker

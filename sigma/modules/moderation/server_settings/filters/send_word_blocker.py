@@ -13,7 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
@@ -26,14 +26,13 @@ from .cleaners import clean_content
 async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
-            if not message.author.permissions_in(message.channel).administrator:
+            # if not message.author.permissions_in(message.channel).administrator:
                 prefix = await ev.db.get_prefix(message)
                 if not message.content.startswith(prefix):
                     text = clean_content(message.content.lower())
                     elements = text.split(' ')
-                    blocked_words = await ev.db.get_guild_settings(message.guild.id, 'BlockedWords')
-                    if blocked_words is None:
-                        blocked_words = []
+                    blocked_words = await ev.db.get_guild_settings(message.guild.id, 'BlockedWords') or []
+                    hard_blocked_words = await ev.db.get_guild_settings(message.guild.id, 'HardBlockedWords') or []
                     remove = False
                     reason = None
                     for word in blocked_words:
@@ -41,6 +40,10 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             remove = True
                             reason = word
                             break
+                    for word in hard_blocked_words:
+                        if word in message.content:
+                            remove = True
+                            reason = word
                     if remove:
                         try:
                             filter_warn = await ev.db.get_guild_settings(message.guild.id, 'FilterAutoWarn')
@@ -56,7 +59,8 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                                 pass
                             author = f'{message.author.name}#{message.author.discriminator}'
                             title = f'I deleted {author}\'s message for containing "{reason}".'
-                            log_embed = discord.Embed(color=0xFFCC4D)
+                            log_embed = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
+                            log_embed.description = f'Content: {message.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                             log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
                             await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogFilters')

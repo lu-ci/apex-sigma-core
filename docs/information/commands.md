@@ -420,7 +420,7 @@ Commands | Description | Example
 `>>asciitempname` `>>asciitemp` | Changes the default temporary name for those who the temp name was enforced on. | `>>asciitempname <ChangeMePleaseI'mLonely>`
 `>>blockedwords` | Lists all blocked words on the server. | `>>blockedwords`
 `>>blockinvites` `>>filterinvites` | Toggles if invite links should be automatically removed. When an invite link is removed, the message author is notified and the removal is logged. This ignores anybody with a Manage Server permission. | `>>blockinvites`
-`>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter is sent, the message will be removed and the author will be notified. | `>>blockwords crap`
+`>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter is sent, the message will be removed and the author will be notified. | `>>blockwords crap ass tits`
 `>>bye` `>>goodbye` | Toggles if the bot should say when users leave the server. The goodbye feature is active by default. | `>>bye`
 `>>byechannel` `>>byech` | Sets the channel the goodbye messages should be sent to. | `>>byechannel #welcome`
 `>>byemessage` `>>byemsg` | This sets the message shown on the server when a member leaves. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the leaving user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the leaving user. {user_id} - The leaving user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>byemessage Hello {user_mention}, welcome to {server_name}!`
@@ -433,6 +433,8 @@ Commands | Description | Example
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if the bot should greet users by sending them a Direct Message, instead of writing the message in a channel. | `>>greetdm`
 `>>greetmessage` `>>greetmsg` | This sets the message shown to joining members when they enter server. There are certain syntaxes for controlling what is displayed. {user_name} - Basic text of the joining user's name. {user_discriminator} - The numbers after the # in the user's name. {user_mention} - A mention tag of the joining user. {user_id} - The joining user's discord ID. {server_name} - Text showing the server's name. {server_id} - The server's discord ID. {owner_name} - Basic text showing the name of the server owner. {owner_discriminator} - The numbers after the # in the owner's name. {owner_mention} - A mention tag of the server's owner. {owner_id} - The server owner's discord ID.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
+`>>hardblockedwords` | Lists all hard-blocked words on the server. | `>>hardblockedwords`
+`>>hardblockwords` `>>hardblockword` | Works like "blockwords" but very intolerable. For example if you hardblock the word "ass" it will delete stuff like "assassin". It looks for any instance of the contance in the message, not indivitial segments. | `>>hardblockwords crap ass tits`
 `>>inviteautowarn` | When a user triggers the invite blocker, they will receive a warning. Like the warn command does, but automated. | `>>inviteautowarn`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
 `>>reactors` `>>reacs` | Shows a list of the server's reaction triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>reactors 4`
@@ -443,6 +445,7 @@ Commands | Description | Example
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter enter -all as the command argument. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. | `>>unflip`
+`>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter enter -all as the command argument. | `>>unhardblockwords boobs`
 [Back To Top](#module-index)
 
 ### STATISTICS
