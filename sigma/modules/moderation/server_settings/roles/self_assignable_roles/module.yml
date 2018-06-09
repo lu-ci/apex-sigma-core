@@ -78,3 +78,8 @@ commands:
       If the current guild has color roles enabled, you can color yourself with this command.
       For more information about how this works, use the help command on the colorroles command.
       Any other (prefixed) color roles on you will be removed prior to adding the new one.
+
+events:
+  - name:         scr_cleaner_clock
+    type:         ready
+    enabled:      true

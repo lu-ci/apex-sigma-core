@@ -45,10 +45,11 @@ commands:
 
   - name:         syncinvites
     alts:
-      - "manage_guild"
       - "syncinvs"
       - "sinvs"
     enabled:      true
+    requirements:
+      - "manage_guild"
     usage:        "{pfx}{cmd}"
     description:
       Forces an update of the invite cache for your server.
