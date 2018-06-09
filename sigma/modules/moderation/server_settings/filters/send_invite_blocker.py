@@ -25,7 +25,8 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
-            if not message.author.permissions_in(message.channel).administrator:
+            is_owner = message.author.id in ev.bot.cfg.dsc.owners
+            if not message.author.permissions_in(message.channel).administrator or is_owner:
                 active = await ev.db.get_guild_settings(message.guild.id, 'BlockInvites')
                 if active is None:
                     active = False
