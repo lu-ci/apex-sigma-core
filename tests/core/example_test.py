@@ -1,5 +1,6 @@
 import pytest
 
+
 # Test classes (optional) are prefixed with "Test"
 class TestExample(object):
     # Test methods/functions are prefixed with "test_"

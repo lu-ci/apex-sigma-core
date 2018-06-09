@@ -25,8 +25,9 @@ def make_sugg_embed(msg: discord.Message, args: list, token: str):
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
     sugg_embed.description = " ".join(args)
     author_name = f'{msg.author.name}#{msg.author.discriminator}'
+    footer_content = f'[{token}] UID: {msg.author.id} | From {msg.guild.name} [{msg.guild.id}].'
     sugg_embed.set_author(name=author_name, icon_url=user_avatar(msg.author))
-    sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=f'[{token}] From {msg.guild.name}.')
+    sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=footer_content)
     return sugg_embed
 
 

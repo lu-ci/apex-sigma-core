@@ -15,6 +15,7 @@ Pillow
 praw
 psutil
 pymongo
+pytest
 pyyaml
 translate
 wikipedia
