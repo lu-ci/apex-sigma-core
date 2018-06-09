@@ -21,17 +21,6 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
-img_exts = ['png', 'gif', 'jpg', 'jpeg']
-
-
-def is_image(url):
-    is_img = False
-    for ext in img_exts:
-        if url.endswith(f'.{ext}'):
-            is_img = True
-            break
-    return is_img
-
 
 async def delete_logger(ev: SigmaEvent, message: discord.Message):
     if message.guild:
@@ -43,11 +32,8 @@ async def delete_logger(ev: SigmaEvent, message: discord.Message):
             log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
             await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogDeletions')
         if message.attachments:
-            attach_url = message.attachments[0].url
-            if is_image(attach_url):
-                log_title = f'{message.author.name}#{message.author.discriminator}\'s image was deleted.'
+                log_title = f'{message.author.name}#{message.author.discriminator}\'s file was deleted.'
                 log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
                 log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
-                log_embed.set_image(url=attach_url)
-                log_embed.set_footer(text=f'Image {message.id} in #{message.channel.name}')
+                log_embed.set_footer(text=f'File {message.id} in #{message.channel.name}')
                 await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogDeletions')
