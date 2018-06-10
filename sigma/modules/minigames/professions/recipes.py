@@ -55,8 +55,8 @@ async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     recipe_boop_list = []
     stats_text = f'Showing recipes: {start_range}-{end_range}.'
     stats_text += f'\nThere is a total of {len(recipe_core.recipes)} recipes.'
-    if recipe_list:
-        for recipe in recipe_list:
+    if sales_data:
+        for recipe in sales_data:
             req_satisfied = await check_requirements(cmd, message, recipe)
             recipe_boop_list.append([recipe.name, recipe.type, recipe.value, req_satisfied])
         recipe_table = boop(recipe_boop_list, recipe_boop_head)
