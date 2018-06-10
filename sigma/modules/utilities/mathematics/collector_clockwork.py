@@ -67,10 +67,10 @@ def get_target(msg):
 
 
 def check_for_bad_content(text):
-    disalloed = ['```', 'http', '"']
+    disalloed = ['```', 'http', '"', ':gw']
     bad = False
     for cont in disalloed:
-        if cont in text:
+        if cont in text or cont in text.lower():
             bad = True
             break
     return bad
