@@ -67,9 +67,9 @@ def get_target(msg):
 
 
 def check_for_bad_content(text):
-    disalloed = ['```', 'http', '"', ':gw']
+    disallowed = ['```', 'http', '"', ':gw']
     bad = False
-    for cont in disalloed:
+    for cont in disallowed:
         if cont in text or cont in text.lower():
             bad = True
             break
@@ -77,8 +77,8 @@ def check_for_bad_content(text):
 
 
 def clean_bad_chars(text):
-    unallowed_chars = ['`', '\n', '\\', '\\n']
-    for char in unallowed_chars:
+    disallowed = ['`', '\n', '\\', '\\n']
+    for char in disallowed:
         text = text.replace(char, '')
     return text
 
