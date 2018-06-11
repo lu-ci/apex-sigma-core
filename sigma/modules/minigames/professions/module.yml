@@ -14,7 +14,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2 @person"
     description:
-      Shows your current inventory.
+      Shows the current inventory of the mentioned user.
+      If no user is mentioned, it will show the author's inventory.
       The inventory has 64 slots at the start but can be upgraded in the shop.
       You can also specify the page number you want to see.
       The inventory is sorted by item rarity.
@@ -132,3 +133,21 @@ commands:
       How much of which item they've caught, that is.
       Sorted by the most caught to the least caught items.
       Items that were never obtained are not shown.
+
+  - name:         allitems
+    enabled:      true
+    usage:        "{pfx}{cmd} desserts"
+    description:
+      Shows the entire item pool.
+      You can specify a type to only show items of that type.
+      You can also specify the page number you want to see,
+      this goes after the item type if you give one.
+      The item pool is sorted by item rarity.
+      Items used in recipes are marked with an asterisk.
+
+  - name:         allitemstats
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows the statistics of the entire item pool.
+      The number of items per type and per rarity.

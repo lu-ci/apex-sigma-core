@@ -24,6 +24,20 @@ from .nodes.item_core import ItemCore
 item_core = None
 
 
+def type_rarity_counter(items: list):
+    types = {'animal': {}, 'fish': {}, 'plant': {}}
+    for item in items:
+        if item.type.lower() in types:
+            item_type = types[item.type.lower()]
+            if item.rarity_name in item_type:
+                temp_count = item_type[item.rarity_name]
+            else:
+                temp_count = 0
+            temp_count += 1
+            item_type.update({item.rarity_name: temp_count})
+    return types
+
+
 async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list):
     global item_core
     if not item_core:
@@ -38,6 +52,7 @@ async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list
         item_o = item_core.get_item_by_file_id(item['item_file_id'])
         item_o_list.append(item_o)
     item_o_list = sorted(item_o_list, key=lambda x: x.rarity, reverse=True)
+    types = type_rarity_counter(item_o_list)
     inv = item_o_list
     if inv:
         total_value = 0
@@ -57,7 +72,7 @@ async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list
                 rare_count = 0
             rare_count += 1
             rarity_dict.update({item_o_item.rarity_name: rare_count})
-        type_keys = ['fish', 'plant', 'animal']
+        type_keys = ['fish', 'plant', 'animal', 'meal', 'dessert', 'drink']
         type_list = []
         for type_key in type_keys:
             if type_key in type_dict:
@@ -66,22 +81,27 @@ async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list
                 type_num = 0
             type_list.append([type_key.upper(), type_num])
         type_out = boop(type_list)
-        rare_keys = [
-            'common', 'uncommon', 'rare', 'legendary', 'prime',
-            'spectral', 'ethereal', 'antimatter', 'omnipotent'
-        ]
+        rare_keys = ['common', 'uncommon', 'rare', 'legendary', 'prime',
+                     'spectral', 'ethereal', 'antimatter', 'omnipotent']
         rare_list = []
         for rare_key in rare_keys:
             if rare_key in rarity_dict:
-                rare_num = rarity_dict[rare_key]
+                an = types['animal'].get(rare_key) or 0
+                fi = types['fish'].get(rare_key) or 0
+                pl = types['plant'].get(rare_key) or 0
+                to = rarity_dict[rare_key]
+                rare_row = [rare_key.upper(), an, fi, pl, to]
             else:
-                rare_num = 0
-            rare_list.append([rare_key.upper(), rare_num])
-        rare_out = boop(rare_list)
+                rare_row = [rare_key.upper(), 0, 0, 0, 0]
+            rare_list.append(rare_row)
+        headers = ['Rarity', 'Animals', 'Fish', 'Plants', 'Total']
+        rare_out = boop(rare_list, headers)
+        currency = cmd.bot.cfg.pref.currency
         response = discord.Embed(color=0xc16a4f)
         response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
         response.add_field(name='Items by Type', value=f'```py\n{type_out}\n```', inline=False)
         response.add_field(name='Items by Rarity', value=f'```py\n{rare_out}\n```', inline=False)
+        response.set_footer(text=f'Total Value: {total_value} {currency}')
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
     await message.channel.send(embed=response)
