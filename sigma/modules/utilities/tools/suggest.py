@@ -24,8 +24,8 @@ from sigma.core.utilities.data_processing import user_avatar
 def make_sugg_embed(msg: discord.Message, args: list, token: str):
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
     sugg_embed.description = " ".join(args)
-    author_name = f'{msg.author.name}#{msg.author.discriminator}'
-    footer_content = f'[{token}] UID: {msg.author.id} | From {msg.guild.name} [{msg.guild.id}].'
+    author_name = f'{msg.author.name} [{msg.author.id}]'
+    footer_content = f'[{token}] From {msg.guild.name}.'
     sugg_embed.set_author(name=author_name, icon_url=user_avatar(msg.author))
     sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=footer_content)
     return sugg_embed
@@ -38,6 +38,8 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
         if sugg_chn:
             if args:
                 sugg_token = secrets.token_hex(4)
+                sugg_data = {'Token': sugg_token, 'UserID': message.author.id}
+                await cmd.db[cmd.db.db_cfg.database].Suggestions.insert_one(sugg_data)
                 sugg_msg = await sugg_chn.send(embed=make_sugg_embed(message, args, sugg_token))
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
                 response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
