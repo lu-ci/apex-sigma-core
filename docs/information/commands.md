@@ -142,7 +142,7 @@ Commands | Description | Example
 ### LOGGING
 Commands | Description | Example
 ----------|-------------|--------
-`>>log` | Toggles logging of multiple log types at once. You can enter "all" to turn on all logs. Or "none" to disable all logs. It can also accept a list of log types separated by a semicolon and space "; ". The accepted log types are bans, deletions, edits, filters, kicks, movement, mutes, purges, warnigs. The log types in the list will be toggled when entered. If they were active, they will be deactivated, and vice versa. | `>>log kicks; bans; movement;`
+`>>log` | Toggles logging of multiple log types at once. You can enter "all" to turn on all logs. Or "none" to disable all logs. It can also accept a list of log types separated by a semicolon and space "; ". The accepted log types are bans, deletions, edits, filters, kicks, movement, mutes, purges, warnings. The log types in the list will be toggled when entered. If they were active, they will be deactivated, and vice versa. | `>>log kicks; bans; movement;`
 `>>logbans` | Toggles logging of when users get banned. | `>>logbans`
 `>>logdeletions` `>>logdeletes` `>>logdels` | Toggles logging of messages being deleted. | `>>logdeletions`
 `>>logedits` | Toggles logging of messages being edited. | `>>logedits`
@@ -177,6 +177,8 @@ Commands | Description | Example
 ### MINIGAMES
 Commands | Description | Example
 ----------|-------------|--------
+`>>allitems` | Shows the entire item pool. You can specify a type to only show items of that type. You can also specify the page number you want to see, this goes after the item type if you give one. The item pool is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>allitems desserts`
+`>>allitemstats` | Shows the statistics of the entire item pool. The number of items per type and per rarity. | `>>allitemstats`
 `>>animechargame` `>>anichargame` `>>anicg` | A minigame where you guess the name of the anime character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters of the shortest part of the characters name. If the hint is used, the Kud reward is split in half. | `>>animechargame hint`
 `>>buyupgrade` `>>shop` | Opens Sigma's profession upgrade shop. | `>>buyupgrade`
 `>>chances` | Shows a table with your item chance statistics. | `>>chances @person`
@@ -189,7 +191,7 @@ Commands | Description | Example
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. Foraging is tiring so you need to rest for 60 seconds after looking for plants. | `>>forage`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
 `>>inspect` `>>finditem` | Inspects an item. If you have this item in your inventory an Item ID will be in the footer. Also shows how many times you've caught this item. | `>>inspect Nabfischz`
-`>>inventory` `>>i` `>>bag` `>>storage` `>>backpack` | Shows your current inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
+`>>inventory` `>>i` `>>bag` `>>storage` `>>backpack` | Shows the current inventory of the mentioned user. If no user is mentioned, it will show the author's inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity. Items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
 `>>inventorystats` `>>invstats` `>>bagstats` | Shows the statistics of a user's inventory. The number of items per type and per rarity. | `>>inventorystats @person`
 `>>itemstatistics` `>>itemstats` | Shows the statistics of a user's item history. How much of which item they've caught, that is. Sorted by the most caught to the least caught items. Items that were never obtained are not shown. | `>>itemstatistics @person`
 `>>joinrace` `>>jr` | Joins a race instance if any are ongoing in the current channel. | `>>joinrace`

@@ -66,20 +66,20 @@ class Configuration(object):
             with open(cli_cfg_path, encoding='utf-8') as discord_config:
                 self.client_cfg_data = yaml.safe_load(discord_config)
         else:
-            self.log.error('Missing Discord Configuration File!')
-            exit(errno.ENOENT)
+            self.log.warning('No discord configuration, using defaults.')
+            self.client_cfg_data = {}
         if os.path.exists(db_cfg_path):
             with open(db_cfg_path, encoding='utf-8') as discord_config:
                 self.db_cfg_data = yaml.safe_load(discord_config)
         else:
-            self.log.error('Missing Database Configuration File!')
-            exit(errno.ENOENT)
+            self.log.warning('No database configuration, using defaults.')
+            self.db_cfg_data = {}
         if os.path.exists(pref_cfg_config):
             with open(pref_cfg_config, encoding='utf-8') as discord_config:
                 self.pref_cfg_data = yaml.safe_load(discord_config)
         else:
-            self.log.error('Missing Preferences Configuration File!')
-            exit(errno.ENOENT)
+            self.log.warning('No preferences configuration, using defaults.')
+            self.pref_cfg_data = {}
         self.dsc = DiscordConfig(self.client_cfg_data)
         self.db = DatabaseConfig(self.db_cfg_data)
         self.pref = PreferencesConfig(self.pref_cfg_data)
