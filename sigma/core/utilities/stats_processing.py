@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.statistics import StatisticsStorage
+from sigma.core.mechanics.statistics.internal import StatisticsStorage
 
 stats_handler = None
 
