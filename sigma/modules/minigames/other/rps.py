@@ -23,34 +23,23 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def rps(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
+        their_choice, counter = None, None
         sign_list = ['rock', 'paper', 'scissors']
         if args[0].lower().startswith('r'):
-            their_choice = 'rock'
-            counter = 'paper'
+            their_choice, counter = 'rock', 'paper'
         elif args[0].lower().startswith('p'):
-            their_choice = 'paper'
-            counter = 'scissors'
+            their_choice, counter = 'paper', 'scissors'
         elif args[0].lower().startswith('s'):
-            their_choice = 'scissors'
-            counter = 'rock'
-        else:
-            their_choice = None
-            counter = None
+            their_choice, counter = 'scissors', 'rock'
         if their_choice:
             my_choice = secrets.choice(sign_list)
             if my_choice == their_choice:
-                icon = '🔥'
-                color = 0xFFCC4D
-                notifier = 'It\'s a draw'
+                color, icon, resp = 0xFFCC4D, '🔥', 'It\'s a draw'
             elif my_choice == counter:
-                icon = '💣'
-                color = 0x292929
-                notifier = 'You lose'
+                color, icon, resp = 0x292929, '💣', 'You lose'
             else:
-                icon = '💎'
-                color = 0x3B88C3
-                notifier = 'You win'
-            response = discord.Embed(color=color, title=f'{icon} {my_choice.title()}! {notifier}!')
+                color, icon, resp = 0x3B88C3, '💎', 'You win'
+            response = discord.Embed(color=color, title=f'{icon} {my_choice.title()}! {resp}!')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid sign.')
     else:

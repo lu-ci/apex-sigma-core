@@ -46,7 +46,7 @@ async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
                 warn_list.append(f'`{warn_id}` by **{moderator}** on {warn_time}.')
             page = args[0] if args else 1
             warn_list, page = paginate(warn_list, page, 5)
-            curr_list = len(warn_list)
+            start_range, end_range = (page - 1) * 5, page * 5
             warn_list = '\n'.join(warn_list)
             ender = 's' if len(warnings) > 1 else ''
             start = f'{target.name} has' if target.id != message.author.id else 'You have'
