@@ -30,9 +30,9 @@ async def color(cmd: SigmaCommand, message: discord.Message, args: list):
                 color_input = color_input[1:]
             if len(color_input) == 6:
                 try:
-                    color_tupple = (int(color_input[:2], 16), int(color_input[2:-2], 16), int(color_input[4:], 16))
+                    color_tuple = (int(color_input[:2], 16), int(color_input[2:-2], 16), int(color_input[4:], 16))
                     response = None
-                    image = Image.new('RGB', (128, 128), color_tupple)
+                    image = Image.new('RGB', (128, 128), color_tuple)
                     image.save(f'cache/{message.id}.png')
                 except ValueError:
                     response = discord.Embed(color=0xBE1931, title='❗ Something here is not a number.')
@@ -40,9 +40,9 @@ async def color(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color code.')
         elif len(args) == 3:
             try:
-                color_tupple = (int(args[0]), int(args[1]), int(args[2]))
+                color_tuple = (int(args[0]), int(args[1]), int(args[2]))
                 response = None
-                image = Image.new('RGB', (128, 128), color_tupple)
+                image = Image.new('RGB', (128, 128), color_tuple)
                 image.save(f'cache/{message.id}.png')
             except ValueError:
                 response = discord.Embed(color=0xBE1931, title='❗ Something here is not a number.')
