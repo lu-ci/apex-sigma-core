@@ -28,6 +28,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
+from sigma.modules.owner_controls.core.error_parser import send_error_embed
 
 
 class SigmaCommand(object):
@@ -145,7 +146,7 @@ class SigmaCommand(object):
             'Error': f'{exception}',
             'TraceBack': {
                 'Class': f'{exception.with_traceback}',
-                'Details': traceback.format_exc()
+                'Details': traceback.format_exc(-1)
             },
             'Message': {
                 'Command': self.name,
@@ -165,6 +166,10 @@ class SigmaCommand(object):
                 'ID': cid
             }
         }
+        if self.bot.cfg.pref.errorlog_channel:
+            err_chn_id = self.bot.cfg.pref.error_channel
+            error_chn = discord.utils.find(lambda x: x.id == err_chn_id, self.bot.get_all_channels())
+            await send_error_embed(error_chn, err_file_data)
         await self.db[self.bot.cfg.db.database].Errors.insert_one(err_file_data)
         log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
@@ -210,9 +215,9 @@ class SigmaCommand(object):
                                 prefix = await self.db.get_prefix(message)
                                 title = '❗ An Error Occurred!'
                                 err_text = 'Something seems to have gone wrong.'
-                                err_text += '\nPlease send this token to our support server.'
+                                err_text += '\nThe details have been sent to our support server.'
+                                err_text += '\nPlease be patient while we work on fixing the issue.'
                                 err_text += f'\nThe invite link is in the **{prefix}help** command.'
-                                err_text += f'\nToken: **{err_token}**'
                                 error_embed = discord.Embed(color=0xBE1931)
                                 error_embed.add_field(name=title, value=err_text)
                                 try:

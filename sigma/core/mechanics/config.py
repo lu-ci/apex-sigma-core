@@ -54,6 +54,7 @@ class PreferencesConfig(object):
         self.music_only = pref_cfg_data.get('music_only') or False
         self.dscbots_token = pref_cfg_data.get('dscbots_token')
         self.movelog_channel = pref_cfg_data.get('movelog_channel')
+        self.errorlog_channel = pref_cfg_data.get('errorlog_channel')
 
 
 class Configuration(object):
