@@ -24,13 +24,10 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def spelledlike(cmd: SigmaCommand, message: discord.Message, args: list):
     # strip spaces from args
-    print(args)
     args = list(filter(lambda a: a != '', args))
-    print(args)
     response = discord.Embed()
     if args:
         query = ' '.join(args)
-        print(query)
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=spell'
         api_url = f'https://api.datamuse.com/words?sp={query}&max=11'
         async with aiohttp.ClientSession() as session:
