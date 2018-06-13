@@ -47,8 +47,10 @@ class Cacher(object):
     def clean_cache(self):
         if self.timed:
             now = arrow.utcnow().timestamp
+            new_data = {}
             for key in self.data:
                 if not key.endswith('_stamp'):
                     stamp = self.data.get(f'{key}_stamp')
-                    if now > stamp + self.timeout:
-                        self.del_cache(key)
+                    if not now > stamp + self.timeout:
+                        new_data.update({key: self.data, f'{key}_stamp': stamp})
+            self.data = new_data
