@@ -75,7 +75,7 @@ commands:
   - name:         imgur
     alts:
       - "img"
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} [imgfile.png]"
     description:
       Anonymously uploads the given attachment or URL to imgur
