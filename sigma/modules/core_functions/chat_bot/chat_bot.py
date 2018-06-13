@@ -13,6 +13,8 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import functools
+from concurrent.futures import ThreadPoolExecutor
 
 import discord
 from chatterbot import ChatBot
@@ -71,11 +73,13 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                         if interaction:
                             cb = get_cb(ev.db)
                             conversation = message.channel.id
-                            interaction = cb.input.process_input_statement(interaction)
-                            _, response = cb.generate_response(interaction, conversation)
-                            cb.output.process_response(response)
-                            if not response:
-                                cb_resp = 'Sorry bud, I\'m not feeling too well, let\'s talk later...'
+                            with ThreadPoolExecutor() as threads:
+                                interaction_task = functools.partial(cb.input.process_input_statement, interaction)
+                                interaction = await ev.bot.loop.run_in_executor(threads, interaction_task)
+                                response_task = functools.partial(cb.generate_response, interaction, conversation)
+                                _, response = await ev.bot.loop.run_in_executor(threads, response_task)
+                                output_task = functools.partial(cb.output.process_response, response)
+                                await ev.bot.loop.run_in_executor(threads, output_task)
                             cb_resp = clean_mentions(ev.bot.get_all_members(), response)
                             response = f'{message.author.mention} {cb_resp}'
                             await message.channel.send(response)
