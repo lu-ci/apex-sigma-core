@@ -71,13 +71,3 @@ commands:
     usage:        "{pfx}{cmd} Sexy Sneks"
     description:
       Outputs a link that will google the query for you.
-
-  - name:         imgur
-    alts:
-      - "img"
-    enabled:      false
-    usage:        "{pfx}{cmd} [imgfile.png]"
-    description:
-      Anonymously uploads the given attachment or URL to imgur
-      and returns a direct link to it. Attachment must be an image
-      (GIFs are images). URL must be a direct link to an image.
