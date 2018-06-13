@@ -1,0 +1,10 @@
+name:             Core Information Updater Clockworks
+
+category:         development
+
+enabled:          true
+
+events:
+  - name:         donor_updater
+    type:         ready
+    enabled:      true
