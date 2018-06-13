@@ -475,6 +475,7 @@ Commands | Description | Example
 `>>convertcurrency` `>>convert` | Converts the amount of money inputed. The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed. | `>>convertcurrency 50 EUR in USD`
 `>>divorce` | Divorces the target person that you are married with. Divorces cost 15 Kud per hour that you were married, unless you're just canceling a proposal. | `>>divorce @person`
 `>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server that has that emote like in this example "lcMonika:200751504175398912". | `>>emote lcPain`
+`>>imgur` `>>img` | Anonymously uploads the given attachment or URL to imgur and returns a direct link to it. Attachment must be an image (GIFs are images). URL must be a direct link to an image. | `>>imgur [imgfile.png]`
 `>>ingame` | Shows the top played games on the server. | `>>ingame @person`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the query for you. | `>>lmgtfy Sexy Sneks`
 `>>marry` `>>propose` | Proposes to the target parson. Or accepts their marriage proposal if they proposed to you. | `>>marry @person`
