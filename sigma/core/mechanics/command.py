@@ -167,7 +167,7 @@ class SigmaCommand(object):
             }
         }
         if self.bot.cfg.pref.errorlog_channel:
-            err_chn_id = self.bot.cfg.pref.error_channel
+            err_chn_id = self.bot.cfg.pref.errorlog_channel
             error_chn = discord.utils.find(lambda x: x.id == err_chn_id, self.bot.get_all_channels())
             await send_error_embed(error_chn, err_file_data)
         await self.db[self.bot.cfg.db.database].Errors.insert_one(err_file_data)
