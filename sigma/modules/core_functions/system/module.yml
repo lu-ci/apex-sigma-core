@@ -9,6 +9,10 @@ events:
     type:        ready
     enabled:     true
 
+  - name:        color_initiator
+    type:        ready
+    enabled:     true
+
   - name:        join_move_log
     type:        guild_join
     enabled:     true

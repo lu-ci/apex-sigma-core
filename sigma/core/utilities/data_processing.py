@@ -22,7 +22,12 @@ import arrow
 import discord
 from PIL import Image
 
-color_cache = {}
+color_cache_coll = None
+
+
+def set_color_cache_coll(coll):
+    global color_cache_coll
+    color_cache_coll = coll
 
 
 def convert_to_seconds(time_input: str):
@@ -230,8 +235,9 @@ def rgb_to_hex(rgb_tuple: tuple):
 
 
 async def get_image_colors(img_url: str):
+    global color_cache_coll
     if img_url:
-        cached_color = color_cache.get(img_url)
+        cached_color = await color_cache_coll.find_one({'URL': img_url})
         if not cached_color:
             async with aiohttp.ClientSession() as session:
                 async with session.get(img_url) as img_session:
@@ -255,9 +261,9 @@ async def get_image_colors(img_url: str):
                                 mean.append(color_mean)
                 mean = sorted(mean, reverse=True)
             dominant = mean[0][1]
-            color_cache.update({img_url: dominant})
+            await color_cache_coll.insert_one({'URL': img_url, 'Color': dominant})
         else:
-            dominant = cached_color
+            dominant = cached_color.get('Color')
     else:
         dominant = (105, 105, 105)
     dominant = rgb_to_hex(dominant)
