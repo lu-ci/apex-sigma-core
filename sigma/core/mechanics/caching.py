@@ -24,16 +24,8 @@ class Cacher(object):
         self.timeout = timeout
 
     def get_cache(self, key: str or int):
-        if self.timed:
-            now = arrow.utcnow().timestamp
-            stamp = self.data.get(f'{key}_stamp') or 0
-            if now > stamp + self.timeout:
-                self.del_cache(key)
-                value = None
-            else:
-                value = self.data.get(key)
-        else:
-            value = self.data.get(key)
+        self.clean_cache()
+        value = self.data.get(key)
         return value
 
     def set_cache(self, key: str or int, value):
@@ -51,3 +43,12 @@ class Cacher(object):
 
     def get_executed(self, key: str or int):
         return self.data.get(f'{key}_stamp') or 0
+
+    def clean_cache(self):
+        if self.timed:
+            now = arrow.utcnow().timestamp
+            for key in self.data:
+                if not key.endswith('_stamp'):
+                    stamp = self.data.get(f'{key}_stamp')
+                    if now > stamp + self.timeout:
+                        self.del_cache(key)
