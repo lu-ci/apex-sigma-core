@@ -40,4 +40,4 @@ async def donor_updater_clockwork(ev: SigmaEvent):
                     await donor_coll.update_one(lookup, {'$set': donor})
                 else:
                     await donor_coll.insert_one(donor)
-        await asyncio.sleep(60)
+        await asyncio.sleep(86400)

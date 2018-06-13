@@ -35,7 +35,7 @@ async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
         "desc": cmd.desc,
         "alts": cmd.alts,
         "name": cmd.name,
-        "usage": cmd.usage.replace('{cmd}', cmd.name).replace('{pfx}', cmd.bot.cfg.pref.prefix),
+        "usage": cmd.usage,
         "nsfw": cmd.nsfw,
         "partner": cmd.partner,
         "admin": cmd.owner,
@@ -65,4 +65,4 @@ async def command_updater_clockwork(ev: SigmaEvent):
                     await command_coll.update_one(command_lookup, {'$set': command_data})
                 else:
                     await command_coll.insert_one(command_data)
-        await asyncio.sleep(60)
+        await asyncio.sleep(3600)
