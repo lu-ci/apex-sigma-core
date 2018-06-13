@@ -8,3 +8,7 @@ events:
   - name:         donor_updater
     type:         ready
     enabled:      true
+
+  - name:         command_updater
+    type:         ready
+    enabled:      true
