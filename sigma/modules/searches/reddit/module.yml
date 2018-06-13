@@ -2,7 +2,7 @@ name:             Reddit Commands
 
 category:         searches
 
-enabled:          true
+enabled:          false
 
 commands:
   - name:         reddit
