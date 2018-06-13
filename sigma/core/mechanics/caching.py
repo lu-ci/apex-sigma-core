@@ -49,7 +49,7 @@ class Cacher(object):
             to_delete = []
             now = arrow.utcnow().timestamp
             for key in self.data:
-                if not key.endswith('_stamp'):
+                if not str(key).endswith('_stamp'):
                     stamp = self.data.get(f'{key}_stamp')
                     if now > stamp + self.timeout:
                         to_delete.append(key)
