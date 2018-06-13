@@ -21,8 +21,13 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def send(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        mode, identifier = args[0].split(':')
-        identifier = int(identifier)
+        error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
+        try:
+            mode, identifier = args[0].split(':')
+            identifier = int(identifier)
+        except ValueError:
+            await message.channel.send(embed=error_response)
+            return
         mode = mode.lower()
         text = ' '.join(args[1:])
         if mode == 'u':
@@ -32,12 +37,16 @@ async def send(cmd: SigmaCommand, message: discord.Message, args: list):
             target = discord.utils.find(lambda x: x.id == identifier, cmd.bot.get_all_channels())
             title_end = f'#{target.name} on {target.guild.name}'
         else:
-            embed = discord.Embed(color=0xBE1931, title='❗ Bad input.')
-            await message.channel.send(embed=embed)
+            await message.channel.send(embed=error_response)
             return
-        await target.send(text)
-        embed = discord.Embed(color=0x77B255, title=f'✅ Message sent to {title_end}.')
-        await message.channel.send(embed=embed)
+        if text:
+            try:
+                await target.send(text)
+                response = discord.Embed(color=0x77B255, title=f'✅ Message sent to {title_end}.')
+            except discord.Forbidden:
+                response = discord.Embed(color=0xBE1931, title='❗ I can\'t message that user.')
+        else:
+            response = discord.Embed(color=0xBE1931, title='❗ Missing message to send.')
     else:
-        embed = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-        await message.channel.send(embed=embed)
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+    await message.channel.send(embed=response)
