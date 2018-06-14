@@ -73,10 +73,10 @@ def clean_num(num):
 
 def paginate(items: list, pg_num: str or int, span=10):
     page = clean_num(str(pg_num)) if pg_num else 1
-    max_page = (len(items) // span) + 1 if len(items) % span != 0 or not items else len(items) // span
+    pages, length = len(items) // span, len(items)
+    max_page = pages if length % span == 0 and length != 0 else pages + 1
     page = max_page if page > max_page != 0 else page if page else 1
-    start_range = (page - 1) * span
-    end_range = page * span
+    start_range, end_range = (page - 1) * span, page * span
     return items[start_range:end_range], page
 
 
