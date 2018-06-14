@@ -73,15 +73,16 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                         if interaction:
                             cb = get_cb(ev.db)
                             conversation = message.channel.id
-                            with ThreadPoolExecutor() as threads:
-                                interaction_task = functools.partial(cb.input.process_input_statement, interaction)
-                                interaction = await ev.bot.loop.run_in_executor(threads, interaction_task)
-                                response_task = functools.partial(cb.generate_response, interaction, conversation)
-                                _, response = await ev.bot.loop.run_in_executor(threads, response_task)
-                                output_task = functools.partial(cb.output.process_response, response)
-                                await ev.bot.loop.run_in_executor(threads, output_task)
-                            cb_resp = clean_mentions(ev.bot.get_all_members(), response)
-                            response = f'{message.author.mention} {cb_resp}'
-                            await message.channel.send(response)
+                            async with message.channel.typing():
+                                with ThreadPoolExecutor() as threads:
+                                    interaction_task = functools.partial(cb.input.process_input_statement, interaction)
+                                    interaction = await ev.bot.loop.run_in_executor(threads, interaction_task)
+                                    response_task = functools.partial(cb.generate_response, interaction, conversation)
+                                    _, response = await ev.bot.loop.run_in_executor(threads, response_task)
+                                    output_task = functools.partial(cb.output.process_response, response)
+                                    await ev.bot.loop.run_in_executor(threads, output_task)
+                                cb_resp = clean_mentions(ev.bot.get_all_members(), response)
+                                response = f'{message.author.mention} {cb_resp}'
+                                await message.channel.send(response)
     except IndexError:
         pass
