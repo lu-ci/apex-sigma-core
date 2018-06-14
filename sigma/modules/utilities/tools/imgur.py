@@ -33,9 +33,13 @@ async def imgur(cmd: SigmaCommand, message: discord.Message, args: list):
             img = await resp.read()
             imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
             image_data = json.loads(img)
-            image_url = image_data['data']['link']
-            response = discord.Embed(color=0x85BF25)
-            response.set_author(name=image_url, icon_url=imgur_icon, url=image_url)
+            if image_data['data'].get('status') == 200:
+                image_url = image_data['data']['link']
+                response = discord.Embed(color=0x85BF25)
+                response.set_author(name=image_url, icon_url=imgur_icon, url=image_url)
+            else:
+                ender = 'Attachment' if message.attachments else 'URL'
+                response = discord.Embed(color=0xBE1931, title=f'❗ Bad {ender}.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
