@@ -1,4 +1,4 @@
-aiohttp>=3.0
+aiohttp
 arrow
 chatterbot
 cssselect
