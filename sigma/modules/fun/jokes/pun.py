@@ -28,6 +28,9 @@ async def pun(cmd: SigmaCommand, message: discord.Message, args: list):
             pun_req = await data.text()
     pun_text = pun_req.split('&quot;')[1]
     pun_text = ftfy.fix_text(pun_text)
-    embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='😒 Have A Pun', value=pun_text)
-    await message.channel.send(None, embed=embed)
+    if pun_text:
+        response = discord.Embed(color=0xFFDC5D, title='😒 Have A Pun')
+        response.description = pun_text
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Sorry, I failed to find a pun.')
+    await message.channel.send(None, embed=response)
