@@ -1,6 +1,6 @@
 name:             Logging Executors
 
-category:         logging
+category:         settings
 
 enabled:          true
 

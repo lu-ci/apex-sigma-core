@@ -1,6 +1,6 @@
 name:             Logging Toggles
 
-category:         logging
+category:         settings
 
 enabled:          true
 
@@ -27,66 +27,8 @@ commands:
       The log types in the list will be toggled when entered. If they were active, they will be deactivated,
       and vice versa.
 
-  - name:         logmovement
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when users join and/or leave the server.
-
-  - name:         logbans
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when users get banned.
-
-  - name:         logkicks
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when users get kicked.
-
-  - name:         logedits
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of messages being edited.
-
-  - name:         logdeletions
-    alts:
-      - "logdeletes"
-      - "logdels"
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of messages being deleted.
-
   - name:         logmodule
     enabled:      true
     usage:        "{pfx}{cmd} moderation"
     description:
       Toggles logging of commands in the specified module being used.
-
-  - name:         logwarnings
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when users get warned or unwarned.
-
-  - name:         logpurges
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when a channel gets purged.
-
-  - name:         logmutes
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when users get text muted/unmuted and hard muted/unmuted.
-
-  - name:         logfilters
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Toggles logging of when a user's message is deleted due to containing
-      a blacklisted word or when posting links when they are not allowed.
