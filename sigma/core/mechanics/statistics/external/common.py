@@ -67,6 +67,7 @@ class StatsConstructor(object):
                 voice_channel_count += 1
         guild_data = {
             'id': str(g.id),
+            'name': g.name,
             'large': g.large,
             'channels': {
                 'text': text_channel_count,
@@ -79,7 +80,10 @@ class StatsConstructor(object):
                 'bots': bots,
                 'users': users
             },
-            'owner': self.gen_usr_data(g.owner)
+            'owner': self.gen_usr_data(g.owner),
+            'region': g.region.value,
+            'mfa': g.mfa_level,
+            'verification': g.verification_level
         }
         return guild_data
 
@@ -99,8 +103,10 @@ class StatsConstructor(object):
                 'name': u.activity.name if u.activity else None,
                 'type': u.activity.type if u.activity else None
             },
+            'status': u.status.value,
             'owner': u.id == u.guild.owner.id,
-            'role': self.gen_rol_data(u.top_role)
+            'role': self.gen_rol_data(u.top_role),
+            'nitro': u.is_avatar_animated()
         }
         return member_data
 
