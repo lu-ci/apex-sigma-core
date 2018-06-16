@@ -96,8 +96,8 @@ class StatsConstructor(object):
                 'created': self.gen_time_data(u.created_at)
             },
             'activity': {
-                'name': u.activity.name,
-                'type': u.activity.type
+                'name': u.activity.name if u.activity else None,
+                'type': u.activity.type if u.activity else None
             },
             'owner': u.id == u.guild.owner.id,
             'role': self.gen_rol_data(u.top_role)
