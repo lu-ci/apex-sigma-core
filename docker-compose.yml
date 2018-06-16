@@ -12,13 +12,13 @@ services:
       - "mongodb:/data/db"
 
   bot:
+    image: "registry.gitlab.com/lu-ci/apex-sigma:latest"
     build:
       context: .
-      args:
-        app_user: "sigma"
     volumes:
-      - ".:/app"
-    environment:
-      MONGO_URL: "mongo://"
+      - type: bind
+        source: "./config"
+        target: "/app/config"
+        read_only: true
     depends_on:
       - "database"

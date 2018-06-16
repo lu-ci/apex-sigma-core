@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+
+set -e
 
 # Don't let CDPATH interfere with the cd command
 unset CDPATH

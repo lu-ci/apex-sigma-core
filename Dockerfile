@@ -1,32 +1,58 @@
-FROM python:3.6-slim
+# |-------<[ Build ]>-------|
+
+FROM python:3.6-alpine AS build
+
+RUN mkdir -p /build
+WORKDIR /build
+
+COPY requirements.txt ./
+RUN apk add --no-cache --virtual .build-deps \
+    build-base \
+    libffi-dev \
+    openssl-dev \
+    libxml2-dev \
+    libxslt-dev \
+    jpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    freetype-dev \
+    ffmpeg-dev \
+    linux-headers \
+ && pip install --no-cache-dir virtualenv \
+ && virtualenv .venv \
+ && source .venv/bin/activate \
+ && pip install --no-cache-dir -r requirements.txt \
+ && virtualenv --relocatable .venv \
+ && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate \
+ && apk del .build-deps
+
+
+# |-------<[ App ]>-------|
+
+FROM python:3.6-alpine AS apex-sigma
 
 LABEL maintainer="dev.patrick.auernig@gmail.com"
 
-# Build dependencies
-RUN apt-get update -y \
- && apt-get install -y --no-install-recommends \
-    build-essential \
-    libav-tools \
- && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    openssl \
+    libxml2 \
+    libxslt \
+    jpeg \
+    libpng \
+    libwebp \
+    freetype \
+    ffmpeg
 
-# User setup
-ARG app_user=app
-ARG app_user_uid=1000
-ARG app_user_gid=1000
+ARG user_uid=1000
+ARG user_gid=1000
+RUN addgroup -S -g "$user_gid" app && adduser -S -G app -u "$user_uid" app
 
-RUN groupadd -g "$app_user_gid" "$app_user" \
- && useradd -m -g "$app_user_gid" -u "$app_user_uid" -s /bin/bash "$app_user"
+RUN mkdir -p /app && chown app:app /app
+WORKDIR /app
+USER app
 
-# Project setup
-ENV APP_ROOT=/app
-RUN mkdir -p "$APP_ROOT"
-WORKDIR $APP_ROOT
+COPY --chown=app:app --from=build /build/.venv ./.venv
+COPY --chown=app:app ./ ./
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-RUN chown -R "$app_user_uid:$app_user_gid" "$APP_ROOT"
-
-USER $app_user
-ENTRYPOINT ["python3.6"]
-CMD ["./run.py"]
+ENTRYPOINT ["/bin/sh"]
+CMD ["./run.sh"]
