@@ -16,7 +16,6 @@
 
 import io
 import re
-import string
 
 import aiohttp
 import arrow
@@ -62,17 +61,11 @@ def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
     return output
 
 
-def clean_num(num):
-    new_num = ''
-    for char in num:
-        if char in string.digits:
-            new_num += char
-    new_num = int(new_num) if new_num else 1
-    return new_num
-
-
 def paginate(items: list, pg_num: str or int, span=10):
-    page = clean_num(str(pg_num)) if pg_num else 1
+    try:
+        page = abs(int(pg_num))
+    except (ValueError, TypeError):
+        page = 1
     pages, length = len(items) // span, len(items)
     max_page = pages if length % span == 0 and length != 0 else pages + 1
     page = max_page if page > max_page != 0 else page if page else 1
