@@ -52,5 +52,5 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     response = discord.Embed(color=0xc16a4f)
     response.set_author(name=f'{target.name}\'s Item Statistics', icon_url=user_avatar(target))
     response.description = f'```hs\n{out_table}\n```'
-    response.set_footer(text=f'{target.name} has found {mem_count} out of {total_count} items.')
+    response.set_footer(text=f'[Page {page}] {target.name} has found {mem_count} out of {total_count} items.')
     await message.channel.send(embed=response)
