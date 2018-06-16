@@ -27,6 +27,8 @@ from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
+from sigma.core.mechanics.statistics.external.common import StatsConstructor
+from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
 from sigma.core.utilities.stats_processing import add_cmd_stat
 from sigma.modules.owner_controls.core.error_parser import send_error_embed
 
@@ -56,6 +58,8 @@ class SigmaCommand(object):
         self.desc = 'No description provided.'
         self.insert_command_info()
         self.load_command_config()
+        self.stats = StatsConstructor()
+        self.elh = ElasticHandler(self.bot.cfg.pref.raw.get('elastic'))
 
     @staticmethod
     def get_usr_data(usr: discord.User):
@@ -208,6 +212,9 @@ class SigmaCommand(object):
                                 await self.add_usage_exp(message)
                                 self.bot.command_count += 1
                                 self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
+                                if self.elh.active:
+                                    if message.guild:
+                                        await self.elh.add_data(self.stats.construct_data(self, message, args))
                             except self.get_exception() as e:
                                 await self.respond_with_icon(message, '❗')
                                 err_token = secrets.token_hex(16)

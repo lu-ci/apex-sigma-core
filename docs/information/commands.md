@@ -5,7 +5,6 @@
 - [FUN](#fun)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
-- [LOGGING](#logging)
 - [MATHEMATICS](#mathematics)
 - [MINIGAMES](#minigames)
 - [MISCELLANEOUS](#miscellaneous)
@@ -137,23 +136,6 @@ Commands | Description | Example
 `>>slap` | When a punch is too barbaric a slap should be just elegant enough. | `>>slap @person`
 `>>stab` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` | Jiiiiiiiiiii~ | `>>stare @person`
-[Back To Top](#module-index)
-
-### LOGGING
-Commands | Description | Example
-----------|-------------|--------
-`>>log` | Toggles logging of multiple log types at once. You can enter "all" to turn on all logs. Or "none" to disable all logs. It can also accept a list of log types separated by a semicolon and space "; ". The accepted log types are bans, deletions, edits, filters, kicks, movement, mutes, purges, warnings. The log types in the list will be toggled when entered. If they were active, they will be deactivated, and vice versa. | `>>log kicks; bans; movement;`
-`>>logbans` | Toggles logging of when users get banned. | `>>logbans`
-`>>logdeletions` `>>logdeletes` `>>logdels` | Toggles logging of messages being deleted. | `>>logdeletions`
-`>>logedits` | Toggles logging of messages being edited. | `>>logedits`
-`>>logfilters` | Toggles logging of when a user's message is deleted due to containing a blacklisted word or when posting links when they are not allowed. | `>>logfilters`
-`>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
-`>>logkicks` | Toggles logging of when users get kicked. | `>>logkicks`
-`>>logmodule` | Toggles logging of commands in the specified module being used. | `>>logmodule moderation`
-`>>logmovement` | Toggles logging of when users join and/or leave the server. | `>>logmovement`
-`>>logmutes` | Toggles logging of when users get text muted/unmuted and hard muted/unmuted. | `>>logmutes`
-`>>logpurges` | Toggles logging of when a channel gets purged. | `>>logpurges`
-`>>logwarnings` | Toggles logging of when users get warned or unwarned. | `>>logwarnings`
 [Back To Top](#module-index)
 
 ### MATHEMATICS
@@ -438,6 +420,9 @@ Commands | Description | Example
 `>>hardblockedwords` | Lists all hard-blocked words on the server. | `>>hardblockedwords`
 `>>hardblockwords` `>>hardblockword` | Works like "blockwords" but very intolerable. For example if you hardblock the word "ass" it will delete stuff like "assassin". It looks for any instance of the contance in the message, not indivitial segments. | `>>hardblockwords crap ass tits`
 `>>inviteautowarn` | When a user triggers the invite blocker, they will receive a warning. Like the warn command does, but automated. | `>>inviteautowarn`
+`>>log` | Toggles logging of multiple log types at once. You can enter "all" to turn on all logs. Or "none" to disable all logs. It can also accept a list of log types separated by a semicolon and space "; ". The accepted log types are bans, deletions, edits, filters, kicks, movement, mutes, purges, warnings. The log types in the list will be toggled when entered. If they were active, they will be deactivated, and vice versa. | `>>log kicks; bans; movement;`
+`>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged to. The stuff that is logged is member movement and moderator actions. Such as warns, bans, muting members and pruning channels. To disable the logging channel, input "disable" as the channel argument. | `>>loggingchannel #logging`
+`>>logmodule` | Toggles logging of commands in the specified module being used. | `>>logmodule moderation`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix can not contain spaces. They will be automatically removed. | `>>prefix !!`
 `>>reactors` `>>reacs` | Shows a list of the server's reaction triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>reactors 4`
 `>>removecommand` `>>deletecommand` `>>remcmd` `>>delcmd` | Removes a custom command trigger used for custom commands from the server. This requires the Manage Server permission. | `>>removecommand hi`
