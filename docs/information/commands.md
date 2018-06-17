@@ -73,7 +73,6 @@ Commands | Description | Example
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you are a good kid. | `>>dadjoke`
 `>>daily` | Gives an amount of kud to you with a 22 hour cooldown. The amount is modified by the number of days in a row that you've collected your daily Kud up to 10 days, as well as a little random factor in there just for fun. While the Kud can be collected each 22h, the streak is reset 48h after the last one was collected. | `>>daily`
-`>>dog` | Outputs a random dog image. Cutest, loyalest little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
@@ -153,7 +152,6 @@ Commands | Description | Example
 `>>markovchain` `>>chain` | Shows how many items you have in your chain, or the targetted users'. | `>>markovchain @person`
 `>>timeconvert` `>>tconv` | Converts the given time in the given time zone to the inputted time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` `>>clearchain` | It wipes your entire Markov chain, if you have one. | `>>wipechain`
-`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, most popular being complex math operations. | `>>wolframalpha 69+42`
 [Back To Top](#module-index)
 
 ### MINIGAMES
