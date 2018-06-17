@@ -12,12 +12,9 @@ markovify
 motor
 overwatch-api
 Pillow
-praw
 psutil
 pymongo
 pytest
 pyyaml
 translate
-wikipedia
-wolframalpha
 youtube_dl
