@@ -8,7 +8,7 @@ commands:
   - name:         wolframalpha
     alts:
       - "wa"
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} 69+42"
     description:
       Makes a request for Wolfram Alpha to process.
