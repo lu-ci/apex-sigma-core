@@ -81,7 +81,7 @@ class StatsConstructor(object):
                 'users': users
             },
             'owner': self.gen_usr_data(g.owner),
-            'region': g.region.value,
+            'region': str(g.region),
             'mfa': g.mfa_level,
             'verification': g.verification_level
         }
