@@ -125,7 +125,9 @@ class StatsConstructor(object):
     def gen_msg_data(self, m: discord.Message):
         message_data = {
             'id': str(m.id),
-            'guild': self.gen_gld_data(m.guild)
+            'guild': self.gen_gld_data(m.guild),
+            'author': self.gen_usr_data(m.author),
+            'channel': self.gen_chn_data(m.channel)
         }
         return message_data
 
