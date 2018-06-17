@@ -42,7 +42,7 @@ async def removerole(cmd: SigmaCommand, message: discord.Message, args: list):
                         else:
                             response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ {lookup} not found.')
+                        response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
             else:

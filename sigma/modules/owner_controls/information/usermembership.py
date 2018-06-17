@@ -56,7 +56,7 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ No guild data found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ User not found.')
+            response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)

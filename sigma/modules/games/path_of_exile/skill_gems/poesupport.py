@@ -125,7 +125,7 @@ async def poesupport(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid gem data received.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Gem not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Gem not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

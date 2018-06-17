@@ -127,7 +127,7 @@ async def poegloves(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid glove data received.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Gloves not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Gloves not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

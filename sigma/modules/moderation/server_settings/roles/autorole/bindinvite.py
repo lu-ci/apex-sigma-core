@@ -43,7 +43,7 @@ async def bindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} not found.')
+                    response = discord.Embed(color=0x696969, title=f'🔍 {role_name} not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
         else:

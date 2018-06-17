@@ -38,7 +38,7 @@ async def renamecommand(cmd: SigmaCommand, message: discord.Message, args: list)
                             else:
                                 response = discord.Embed(color=0xBE1931, title='❗ The new trigger is already a command.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ Command not found.')
+                            response = discord.Embed(color=0x696969, title='🔍 Command not found.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Can\'t replace an existing core command.')
                 else:

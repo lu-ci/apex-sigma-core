@@ -35,7 +35,7 @@ async def roleinformation(cmd: SigmaCommand, message: discord.Message, args: lis
             response = discord.Embed(color=role.color)
             response.add_field(name=f'{role.name} Information', value=desc_text)
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {lookup} not found.')
+            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

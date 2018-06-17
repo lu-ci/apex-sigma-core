@@ -17,33 +17,64 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import permission_denied
+
+log_keys = [
+    'LogBansChannel', 'LogDeletionsChannel', 'LogEditsChannel', 'LogFiltersChannel', 'LogKicksChannel',
+    'LogModulesChannel', 'LogMovementChannel', 'LogMutesChannel', 'LogPurgesChannel', 'LogWarningsChannel'
+]
+accepted_logs = [lk.lower()[3:-7] for lk in log_keys]
+
+
+async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
+    results = []
+    for log_ord in log_ords:
+        if log_ord in accepted_logs:
+            log_key = f'Log{log_ord.title()}Channel'
+            await db.set_guild_settings(gld_id, log_key, chn)
+            res = 'Set' if chn else 'Disabled'
+        else:
+            res = 'Invalid'
+        res_line = f'{log_ord.title()}: {res}'
+        results.append(res_line)
+    return results
 
 
 async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not message.author.permissions_in(message.channel).manage_guild:
-        response = permission_denied('Manage Server')
-    else:
-        if message.channel_mentions:
-            target_chn = message.channel_mentions[0]
-        else:
-            if args:
-                if args[0].lower() == 'disable':
-                    await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', None)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Logging channel disabled.')
-                    await message.channel.send(embed=response)
-                    return
+    if message.author.permissions_in(message.channel).manage_guild:
+        if args:
+            mode, order = args[0].lower(), ' '.join(args[1:]).lower()
+            if order:
+                keys = [log_ord for log_ord in order.split('; ')]
+                all_keys = False
+            else:
+                keys = [log_key for log_key in accepted_logs]
+                all_keys = True
+            if mode == 'disable':
+                results = await set_log_channels(keys, message.guild.id, None, cmd.db)
+                response = discord.Embed(color=0x77B255)
+                if all_keys:
+                    response.title = '✅ Logging channel disabled.'
                 else:
-                    target_chn = message.channel
+                    response.title = '✅ Logging channels disabled.'
+                    response.description = '\n'.join(results)
+            elif message.channel_mentions:
+                target_chn = message.channel_mentions[0]
+                if message.guild.me.permissions_in(target_chn).send_messages:
+                    results = await set_log_channels(keys, message.guild.id, target_chn.id, cmd.db)
+                    response = discord.Embed(color=0x77B255)
+                    if all_keys:
+                        response.title = f'✅ Logging channel set to #{target_chn.name}.'
+                    else:
+                        response.title = '✅ Logging channels edited'
+                        response.description = '\n'.join(results)
+                else:
+                    response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
             else:
-                target_chn = None
-        if target_chn:
-            me = message.guild.me
-            if me.permissions_in(target_chn).send_messages:
-                await cmd.db.set_guild_settings(message.guild.id, 'LoggingChannel', target_chn.id)
-                response = discord.Embed(color=0x77B255, title=f'✅ Logging Channel set to #{target_chn.name}.')
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
+                response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+    else:
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

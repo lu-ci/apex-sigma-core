@@ -65,7 +65,7 @@ async def cryptocurrency(cmd: SigmaCommand, message: discord.Message, args: list
             response.add_field(name='Rate Change', value=change_text)
             response.set_footer(text=f'Last updated {humantime}')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {lookup} not found.')
+            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

@@ -28,7 +28,7 @@ async def removestatus(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db[cmd.db.db_cfg.database].StatusFiles.delete_one(status_data)
             response = discord.Embed(color=0x77B255, title=f'✅ Deleted status `{status_id}`.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Status ID not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Status ID not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

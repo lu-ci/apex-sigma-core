@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
     'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters',
@@ -26,32 +27,35 @@ accepted_logs = [lk.lower()[3:] for lk in log_keys]
 
 
 async def log(cmd: SigmaCommand, message: discord.Message, args: list):
-    if args:
-        order = ' '.join(args).lower()
-        if order == 'all':
-            for log_key in log_keys:
-                await cmd.db.set_guild_settings(message.guild.id, log_key, True)
-            response = discord.Embed(color=0x77B255, title=f'✅ All logging enabled.')
-        elif order == 'none':
-            for log_key in log_keys:
-                await cmd.db.set_guild_settings(message.guild.id, log_key, False)
-            response = discord.Embed(color=0x77B255, title=f'✅ All logging disabled.')
+    if message.author.permissions_in(message.channel).manage_guild:
+        if args:
+            order = ' '.join(args).lower()
+            if order == 'all':
+                for log_key in log_keys:
+                    await cmd.db.set_guild_settings(message.guild.id, log_key, True)
+                response = discord.Embed(color=0x77B255, title=f'✅ All logging enabled.')
+            elif order == 'none':
+                for log_key in log_keys:
+                    await cmd.db.set_guild_settings(message.guild.id, log_key, False)
+                response = discord.Embed(color=0x77B255, title=f'✅ All logging disabled.')
+            else:
+                log_ords = order.split('; ')
+                results = []
+                for log_ord in log_ords:
+                    if log_ord in accepted_logs:
+                        log_key = f'Log{log_ord.title()}'
+                        curr = bool(await cmd.db.get_guild_settings(message.guild.id, log_key))
+                        new = not curr
+                        await cmd.db.set_guild_settings(message.guild.id, log_key, new)
+                        res = 'Enabled' if new else 'Disabled'
+                    else:
+                        res = 'Invalid'
+                    res_line = f'{log_ord.title()}: {res}'
+                    results.append(res_line)
+                response = discord.Embed(color=0x77B255, title=f'✅ Multiple logging edited.')
+                response.description = '\n'.join(results)
         else:
-            log_ords = order.split('; ')
-            results = []
-            for log_ord in log_ords:
-                if log_ord in accepted_logs:
-                    log_key = f'Log{log_ord.title()}'
-                    curr = bool(await cmd.db.get_guild_settings(message.guild.id, log_key))
-                    new = not curr
-                    await cmd.db.set_guild_settings(message.guild.id, log_key, new)
-                    res = 'Enabled' if new else 'Disabled'
-                else:
-                    res = 'Invalid'
-                res_line = f'{log_ord.title()}: {res}'
-                results.append(res_line)
-            response = discord.Embed(color=0x77B255, title=f'✅ Multiple logging edited.')
-            response.description = '\n'.join(results)
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

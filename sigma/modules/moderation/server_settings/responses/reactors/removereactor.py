@@ -30,7 +30,7 @@ async def removereactor(cmd: SigmaCommand, message: discord.Message, args: list)
                 await cmd.db.set_guild_settings(message.guild.id, 'ReactorTriggers', auto_reactions)
                 response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Trigger not found.')
+                response = discord.Embed(color=0x696969, title='🔍 Trigger not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

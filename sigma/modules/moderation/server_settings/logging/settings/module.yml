@@ -12,10 +12,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #logging"
     description:
-      Designates a channel where server events will be logged to.
-      The stuff that is logged is member movement and moderator actions.
-      Such as warns, bans, muting members and pruning channels.
-      To disable the logging channel, input "disable" as the channel argument.
+      Designates a channel where server events will be logged in.
+      You can set each log type to a different channel by specifying the log type after the channel mention.
+      It can also accept a list of log types separated by a semicolon and space "; ". To disable all the logging
+      channels, input "disable" as the channel argument. To disable channels for specific log types, input the log
+      type after 'disable'. Disabling also acceptes a list of log types in the aforementioned format. Accepted log
+      types are bans, deletions, edits, filters, kicks, modules, movement, mutes, purges, and warnings.
 
   - name:         log
     enabled:      true

@@ -65,7 +65,7 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             response.add_field(name='Member Info', value=member_text, inline=True)
             response.set_footer(text=f'This user is in {len(presence)} guilds.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ User not found.')
+            response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)

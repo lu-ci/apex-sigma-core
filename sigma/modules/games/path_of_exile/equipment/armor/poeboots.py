@@ -127,7 +127,7 @@ async def poeboots(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid boot data received.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Boots not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Boots not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

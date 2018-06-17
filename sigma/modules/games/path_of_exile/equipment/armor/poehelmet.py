@@ -127,7 +127,7 @@ async def poehelmet(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid helmet data received.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Helmet not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Helmet not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

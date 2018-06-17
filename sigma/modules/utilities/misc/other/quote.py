@@ -48,7 +48,7 @@ async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That message has no text content.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Message not found.')
+                response = discord.Embed(color=0x696969, title='🔍 Message not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
     else:

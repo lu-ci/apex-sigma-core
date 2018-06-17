@@ -70,7 +70,7 @@ async def oserverinformation(cmd: SigmaCommand, message: discord.Message, args: 
             detail_text += f'\nVerification: **{gld.verification_level.name.upper()}**'
             response.add_field(name='Details', value=detail_text)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Guild not found.')
+            response = discord.Embed(color=0x696969, title='🔍 Guild not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)
