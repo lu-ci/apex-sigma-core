@@ -12,7 +12,7 @@ commands:
       Furry felines like it when their owners observe them.
 
   - name:         dog
-    enabled:      true
+    enabled:      false
     description:
       Outputs a random dog image.
       Cutest, loyalest little woofers.
