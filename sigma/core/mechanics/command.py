@@ -178,6 +178,38 @@ class SigmaCommand(object):
         log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
+    async def send_error_message(self, message: discord.Message, args: list, e: Exception):
+        await self.respond_with_icon(message, '❗')
+        err_token = secrets.token_hex(16)
+        await self.log_error(message, args, e, err_token)
+        prefix = await self.db.get_prefix(message)
+        if isinstance(e, discord.Forbidden):
+            title = '❗ Error: Forbidden !'
+            err_text = 'It seems that you tried running something that Sigma isn\'t allowed to do.'
+            err_text += ' This is something when Sigma is missing permissions for stuff like'
+            err_text += ' sending messages, adding reactions, uploading files, etc.'
+            err_text += ' The error has been relayed to the developers. If you feel like dropping by'
+            err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
+        elif isinstance(e, discord.NotFound):
+            title = '❗ Error: Not Found !'
+            err_text = 'It might have been a target that got removed while the command was executing,'
+            err_text += ' whatever it was, Sigma couldn\'t find it and errored. '
+            err_text += ' The error has been relayed to the developers. If you feel like dropping by'
+            err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
+        else:
+            title = '❗ An Unhandled Error Occurred!'
+            err_text = 'Something seems to have gone wrong.'
+            err_text += '\nThe details have been sent to our support server.'
+            err_text += '\nPlease be patient while we work on fixing the issue.'
+            err_text += f'\nThe invite link is in the **{prefix}help** command.'
+        error_embed = discord.Embed(color=0xBE1931)
+        error_embed.add_field(name=title, value=err_text)
+        error_embed.set_footer(text=f'Token: {err_token}')
+        try:
+            await message.channel.send(embed=error_embed)
+        except discord.Forbidden:
+            pass
+
     async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
             if message.guild:
@@ -216,21 +248,8 @@ class SigmaCommand(object):
                                     if message.guild:
                                         await self.elh.add_data(self.stats.construct_data(self, message, args))
                             except self.get_exception() as e:
-                                await self.respond_with_icon(message, '❗')
-                                err_token = secrets.token_hex(16)
-                                await self.log_error(message, args, e, err_token)
-                                prefix = await self.db.get_prefix(message)
-                                title = '❗ An Error Occurred!'
-                                err_text = 'Something seems to have gone wrong.'
-                                err_text += '\nThe details have been sent to our support server.'
-                                err_text += '\nPlease be patient while we work on fixing the issue.'
-                                err_text += f'\nThe invite link is in the **{prefix}help** command.'
-                                error_embed = discord.Embed(color=0xBE1931)
-                                error_embed.add_field(name=title, value=err_text)
-                                try:
-                                    await message.channel.send(embed=error_embed)
-                                except discord.Forbidden:
-                                    pass
+                                await self.send_error_message(message, args, e)
+
                         else:
                             await self.respond_with_icon(message, '❗')
                             reqs_embed = discord.Embed(color=0xBE1931)
