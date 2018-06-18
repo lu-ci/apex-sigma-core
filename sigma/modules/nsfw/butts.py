@@ -24,18 +24,15 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def butts(cmd: SigmaCommand, message: discord.Message, args: list):
-    api_base = 'http://api.obutts.ru/butts/'
-    number = secrets.randbelow(4296) + 1
-    url_api = api_base + str(number)
+    api_url = 'http://api.obutts.ru/butts/'
+    api_url += str(secrets.randbelow(5886) + 1)
     async with aiohttp.ClientSession() as session:
-        async with session.get(url_api) as data:
+        async with session.get(api_url) as data:
             data = await data.read()
             data = json.loads(data)
             data = data[0]
     image_url = 'http://media.obutts.ru/' + data['preview']
-    model = data['model']
-    if not model:
-        model = 'Unknown'
+    model = data['model'] if data['model'] else 'Unknown'
     rank = data['rank']
     butts_icon = 'https://i.imgur.com/zjndjaj.png'
     embed = discord.Embed(color=0xF9F9F9)

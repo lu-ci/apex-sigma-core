@@ -21,7 +21,7 @@ commands:
     permissions:
       nsfw:       true
     description:
-      Outputs a random NSFW image focusing on the ass of the model.
+      Outputs a random NSFW image focusing on the butt of the model.
 
   - name:         e621
     enabled:      true
@@ -32,7 +32,7 @@ commands:
       Searches E621 for the given tag.
       If no tag is given, the keyword "nude" will be used.
       As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
+      If your search includes spaces, replace them with underscores "_".
 
   - name:         gelbooru
     alts:
@@ -45,7 +45,7 @@ commands:
       Searches Gelbooru for the given tag.
       If no tag is given, the keyword "nude" will be used.
       As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
+      If your search includes spaces, replace them with underscores "_".
 
   - name:         xbooru
     alts:
@@ -58,7 +58,7 @@ commands:
       Searches Xbooru for the given tag.
       If no tag is given, the keyword "nude" will be used.
       As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
+      If your search includes spaces, replace them with underscores "_".
 
   - name:         keyvis
     enabled:      true
@@ -66,7 +66,7 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} kud"
     description: |
-      This command returns a Key Visual Arts VN CG.
+      Returns a Key Visual Arts VN CG.
       It picks a random VN and a random CG from that VN.
       You can specify the VN you want the CG to be from.
       "kud" - Kud Wafter
@@ -77,7 +77,7 @@ commands:
       "plan" - Planetarian
       "rewr" - Rewrite
       "harv" - Rewrite Harvest Festa
-      This command is rated explicit due to some CGs being explicit.
+      This command is NSFW due to some CGs being explicit.
 
   - name:         konachan
     alts:
@@ -103,7 +103,7 @@ commands:
       Searches Rule34 for the given tag.
       If no tag is given, the keyword "nude" will be used.
       As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
+      If your search includes spaces, replace them with underscores "_".
 
   - name:         yandere
     alts:
@@ -116,4 +116,4 @@ commands:
       Searches yandere for the given tag.
       If no tag is given, the keyword "nude" will be used.
       As on all image galleries, tags are bound with a "+".
-      If your search has spaces replace them with underscores "_".
+      If your search includes spaces, replace them with underscores "_".

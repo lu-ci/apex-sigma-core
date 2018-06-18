@@ -35,17 +35,8 @@ async def fill_r34_cache(tags):
 
 
 async def rule34(cmd: SigmaCommand, message: discord.Message, args: list):
-    global cache
-    tags = '+'.join(args)
-    if not tags:
-        tags = 'nude'
-    if tags not in cache:
-        collect_needed = True
-    else:
-        if not cache.get(tags):
-            collect_needed = True
-        else:
-            collect_needed = False
+    tags = '+'.join(args) if args else 'nude'
+    collect_needed = False if cache.get(tags) else True
     if collect_needed:
         await fill_r34_cache(tags)
     collection = cache.get(tags)

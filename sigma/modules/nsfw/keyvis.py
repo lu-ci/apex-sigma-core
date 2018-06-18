@@ -23,22 +23,15 @@ from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
 async def keyvis(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not args:
-        keys = []
-        for key in key_vn_list:
-            keys.append(key)
-        choice = secrets.choice(keys)
+    keys = [key for key in key_vn_list]
+    choice = args[0].lower() if args else secrets.choice(keys)
+    item = key_vn_list.get(choice)
+    if item:
+        image_number = secrets.randbelow(item[2]) + item[1]
+        url_base = 'https://vncg.org'
+        image_url = f'{url_base}/f{image_number}.jpg'
+        response = discord.Embed(color=0x744EAA)
+        response.set_image(url=image_url)
     else:
-        choice = args[0].lower()
-    try:
-        item = key_vn_list[choice]
-    except KeyError:
-        embed = discord.Embed(color=0x696969, title=f'🔍 No results')
-        await message.channel.send(None, embed=embed)
-        return
-    image_number = secrets.randbelow(item[2]) + item[1]
-    url_base = 'https://vncg.org'
-    image_url = f'{url_base}/f{image_number}.jpg'
-    embed = discord.Embed(color=0x744EAA)
-    embed.set_image(url=image_url)
-    await message.channel.send(None, embed=embed)
+        response = discord.Embed(color=0x696969, title=f'🔍 No results.')
+    await message.channel.send(None, embed=response)

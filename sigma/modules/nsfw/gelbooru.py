@@ -26,7 +26,6 @@ cache = {}
 
 
 async def fill_gelbooru_cache(tags):
-    global cache
     gelbooru_url = f'http://gelbooru.com/index.php?page=dapi&s=post&q=index&tags={tags}'
     if tags not in cache:
         async with aiohttp.ClientSession() as session:
@@ -37,17 +36,8 @@ async def fill_gelbooru_cache(tags):
 
 
 async def gelbooru(cmd: SigmaCommand, message: discord.Message, args: list):
-    global cache
-    tags = '+'.join(args)
-    if not tags:
-        tags = 'nude'
-    if tags not in cache:
-        collect_needed = True
-    else:
-        if not cache.get(tags):
-            collect_needed = True
-        else:
-            collect_needed = False
+    tags = '+'.join(args) if args else 'nude'
+    collect_needed = False if cache.get(tags) else True
     if collect_needed:
         await fill_gelbooru_cache(tags)
     collection = cache.get(tags)

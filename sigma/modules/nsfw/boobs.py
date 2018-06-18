@@ -24,18 +24,15 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def boobs(cmd: SigmaCommand, message: discord.Message, args: list):
-    api_base = 'http://api.oboobs.ru/boobs/'
-    number = secrets.randbelow(10303) + 1
-    url_api = api_base + str(number)
+    api_url = 'http://api.oboobs.ru/boobs/'
+    api_url += str(secrets.randbelow(11893) + 1)
     async with aiohttp.ClientSession() as session:
-        async with session.get(url_api) as data:
+        async with session.get(api_url) as data:
             data = await data.read()
             data = json.loads(data)
             data = data[0]
     image_url = 'http://media.oboobs.ru/' + data['preview']
-    model = data['model']
-    if not model:
-        model = 'Unknown'
+    model = data['model'] if data['model'] else 'Unknown'
     rank = data['rank']
     boobs_icon = 'http://fc01.deviantart.net/fs71/f/2013/002/d/9/_boobs_icon_base__by_laurypinky972-d5q83aw.png'
     embed = discord.Embed(color=0xF9F9F9)
