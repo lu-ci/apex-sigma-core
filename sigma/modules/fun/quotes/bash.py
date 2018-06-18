@@ -46,6 +46,6 @@ async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
         quote = cache.pop()
     text = quote['quote']
     highlight = 'xml' if text.strip()[0] == '<' else 'yaml'
-    embed = Embed(type='rich', color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
+    embed = Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
     embed.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://bash.org/?{quote['id']}")
     await message.channel.send(None, embed=embed)
