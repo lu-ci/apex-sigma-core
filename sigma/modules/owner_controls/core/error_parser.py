@@ -29,7 +29,7 @@ async def make_error_embed(error_file):
     orgn_text += f'\nGuild: **{error_file["Guild"]["Name"]}**'
     orgn_text += f'\nGuild ID: **{error_file["Guild"]["ID"]}**'
     trace_text = f'Trace Class:\n**{error_file["TraceBack"]["Class"]}**'
-    trace_text += f'\nTrace Details:\n```py\n{error_file["TraceBack"]["Details"]}\n```'
+    trace_text += f'\nTrace Details:\n```py\n{error_file["TraceBack"]["Details"][:1800]}\n```'
     response.add_field(name='Command', value=cmd_text)
     response.add_field(name='Origin', value=orgn_text)
     return response, trace_text

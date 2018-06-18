@@ -150,7 +150,7 @@ class SigmaCommand(object):
             'Error': f'{exception}',
             'TraceBack': {
                 'Class': f'{exception.with_traceback}',
-                'Details': traceback.format_exc(-1)
+                'Details': traceback.format_exc()
             },
             'Message': {
                 'Command': self.name,
