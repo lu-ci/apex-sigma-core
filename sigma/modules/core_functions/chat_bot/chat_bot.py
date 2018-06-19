@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import functools
 from concurrent.futures import ThreadPoolExecutor
 
@@ -84,5 +85,6 @@ async def chat_bot(ev: SigmaEvent, message: discord.Message):
                                 cb_resp = clean_mentions(ev.bot.get_all_members(), response)
                                 response = f'{message.author.mention} {cb_resp}'
                                 await message.channel.send(response)
+                                ev.log.info(f'{message.author.name}: {interaction} | {ev.bot.user.name}: {cb_resp}')
     except IndexError:
         pass
