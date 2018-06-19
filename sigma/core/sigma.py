@@ -125,6 +125,13 @@ class ApexSigma(client_class):
             self.log.info('Loading Sigma Modules')
         self.modules = PluginManager(self, init)
 
+    def is_ready(self):
+        try:
+            ready = super().is_ready()
+        except Exception:
+            ready = False
+        return ready
+
     def get_all_members(self):
         now = arrow.utcnow().timestamp
         timestamp = self.cache.get_cache('all_members_stamp') or 0
