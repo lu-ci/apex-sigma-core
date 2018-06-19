@@ -40,7 +40,7 @@ class AntiCheat(object):
     def should_notify(self, uid: int):
         now = arrow.utcnow().float_timestamp
         stamp = self.notified.get(uid) or 0
-        if now >= stamp + 300:
+        if now >= stamp + 600:
             notify = True
             self.notified.update({uid: now})
         else:
@@ -102,17 +102,13 @@ class AntiCheat(object):
         if len(data) >= 5:
             while not done:
                 bursts = 0
-                last_ex_stamp = 0
                 last_cr_stamp = 0
                 span = data[counter:counter + 5]
                 for entry in span:
-                    stamp = entry.get('stamp')
                     created = entry.get('created')
-                    ex_diff = stamp - last_ex_stamp
                     cr_diff = created - last_cr_stamp
-                    if ex_diff <= strangle or cr_diff <= strangle:
+                    if cr_diff <= strangle:
                         bursts += 1
-                    last_ex_stamp = entry.get('stamp')
                     last_cr_stamp = entry.get('created')
                 if bursts >= 3:
                     dings += 1
@@ -166,9 +162,8 @@ class AntiCheat(object):
                     ex_diff = ex_stamp - last_ex_stamp
                     cr_diff = cr_stamp - last_cr_stamp
                     if last_ex_difference and last_cr_difference:
-                        ex_ding = last_ex_difference - strangle <= ex_diff <= last_ex_difference + strangle
                         cr_ding = last_cr_difference - strangle <= cr_diff <= last_cr_difference + strangle
-                        if ex_ding or cr_ding:
+                        if cr_ding:
                             dings += 1
                             if cg_key not in dingers:
                                 dingers.append(cg_key)
@@ -188,7 +183,7 @@ class AntiCheat(object):
                             expects.append(cg_key)
         if dings >= 6:
             suspicious = True
-            message = f'Found {dings} dings in the last {len(data)} entries.'
+            message = f'Found interval {dings} dings in the last {len(data)} entries.'
             if dingers:
                 message += f'\nDings triggered by {", ".join(dingers)}.'
             if expects:
@@ -226,7 +221,8 @@ class AntiCheat(object):
                     if ex_ding or cr_ding:
                         ding = True
                         cmdn = ecmd.get('cmd')
-                        ecmd_dinged = f'Expected {cmdn} to get executed, and it did.'
+                        crex = 'created' if cr_ding else 'executed' if ex_ding else 'both'
+                        ecmd_dinged = f'Expected {cmdn}, it was {crex}.'
                         break
         for tbr in to_be_removed:
             expects.remove(tbr)
@@ -297,8 +293,5 @@ class AntiCheat(object):
                 check_messages.append(check_msg)
         outstring = ''.join(outstring_chars).upper()
         reasons = '\n'.join(check_messages)
-        if check_values[0]:
-            suspicious = any(check_values[1:])
-        else:
-            suspicious = any(check_values)
+        suspicious = any(check_values)
         return suspicious, outstring, reasons
