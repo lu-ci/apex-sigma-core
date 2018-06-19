@@ -89,7 +89,7 @@ class AntiCheat(object):
         The iteration scans 5 entry chunks and looks for bursts in them.
         If 3 or more occurances are found where command got executed with
         less than an 0.8s interval between them, a "ding" is added.
-        If there are 3 or more dings in all the entries, the function's
+        If there are 10 or more dings in all the entries, the function's
         suspiciousness is "True".
         :param uid:
         :return:
@@ -115,7 +115,7 @@ class AntiCheat(object):
                 if span[-1] == data[-1]:
                     done = True
                 counter += 1
-        if dings >= 3:
+        if dings >= 10:
             suspicious = True
             message = f'Found {dings} burst dings in the last {len(data)} entries.'
         else:
@@ -172,7 +172,7 @@ class AntiCheat(object):
                 last_ex_stamp = cmd_entry.get('stamp')
                 last_cr_stamp = cmd_entry.get('created')
                 if cmd_entry == cg_entries[-1]:
-                    if 6 > dings >= 3:
+                    if dings >= 5:
                         expect_data = {
                             'cmd': cmd_entry.get('cmd'),
                             'stamp': last_ex_stamp + last_ex_difference,
@@ -181,7 +181,7 @@ class AntiCheat(object):
                         self.add_expectancy(uid, expect_data)
                         if cg_key not in expects:
                             expects.append(cg_key)
-        if dings >= 6:
+        if dings >= 10:
             suspicious = True
             message = f'Found interval {dings} dings in the last {len(data)} entries.'
             if dingers:
@@ -258,7 +258,7 @@ class AntiCheat(object):
                     pattern = curr_pattern
                 patterns.update({entry.get('cmd'): pattern})
             loop_index += 1
-        if dings >= 12:
+        if dings >= 10:
             suspicious = True
             message = f'Patterns for {", ".join(patterned)} spotted with {dings} dings.'
         else:
