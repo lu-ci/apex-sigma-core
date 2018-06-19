@@ -24,6 +24,10 @@ from .nodes.upgrade_params import upgrade_list
 ongoing = []
 
 
+def get_price_mod(base_price, upgrade_level):
+    return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
+
+
 async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
@@ -44,7 +48,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
             if upgrade_level == 0:
                 upgrade_price = base_price
             else:
-                price_mod = int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
+                price_mod = get_price_mod(base_price, upgrade_level)
                 upgrade_price = price_mod + (price_mod // 2)
             currency = cmd.bot.cfg.pref.currency
             next_upgrade = upgrade_level + 1
@@ -89,13 +93,14 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                 if upgrade_level == 0:
                     upgrade_price = base_price
                 else:
-                    price_mod = int(base_price * upgrade_level * (1.20 + (0.115 * upgrade_level)))
+                    price_mod = get_price_mod(base_price, upgrade_level)
                     upgrade_price = price_mod + (price_mod // 2)
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
-                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one({'UserID': message.author.id},
-                                                                             upgrade_data)
+                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one(
+                        {'UserID': message.author.id}, upgrade_data
+                    )
                     await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
