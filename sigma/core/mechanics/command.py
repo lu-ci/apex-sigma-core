@@ -203,25 +203,27 @@ class SigmaCommand(object):
         err_token = secrets.token_hex(16)
         await self.log_error(message, args, e, err_token)
         prefix = await self.db.get_prefix(message)
+        name = self.bot.user.name
         if isinstance(e, discord.Forbidden):
-            title = '❗ Error: Forbidden !'
-            err_text = 'It seems that you tried running something that Sigma isn\'t allowed to do.'
-            err_text += ' This is something when Sigma is missing permissions for stuff like'
+            title = '❗ Error: Forbidden!'
+            err_text = f'It seems that you tried running something that {name} isn\'t allowed to do.'
+            err_text += f' This is something when {name} is missing permissions for stuff like'
             err_text += ' sending messages, adding reactions, uploading files, etc.'
             err_text += ' The error has been relayed to the developers. If you feel like dropping by'
             err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
         elif isinstance(e, discord.NotFound):
-            title = '❗ Error: Not Found !'
+            title = '❗ Error: Not Found!'
             err_text = 'It might have been a target that got removed while the command was executing,'
-            err_text += ' whatever it was, Sigma couldn\'t find it and errored. '
+            err_text += f' whatever it was, {name} couldn\'t find it and encountered an error.'
             err_text += ' The error has been relayed to the developers. If you feel like dropping by'
             err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
         else:
             title = '❗ An Unhandled Error Occurred!'
             err_text = 'Something seems to have gone wrong.'
-            err_text += '\nThe details have been sent to our support server.'
             err_text += '\nPlease be patient while we work on fixing the issue.'
-            err_text += f'\nThe invite link is in the **{prefix}help** command.'
+            err_text += '\nThe error has been relayed to the developers.'
+            err_text += f'\nIf you feel like dropping by and asking about it,'
+            err_text += f'the invite link is in the **{prefix}help** command.'
         error_embed = discord.Embed(color=0xBE1931)
         error_embed.add_field(name=title, value=err_text)
         error_embed.set_footer(text=f'Token: {err_token}')
