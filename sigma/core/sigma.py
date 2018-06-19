@@ -16,6 +16,7 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.anticheat import AntiCheat
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
@@ -58,6 +59,7 @@ class ApexSigma(client_class):
         self.cool_down = None
         self.music = None
         self.modules = None
+        self.guard = AntiCheat(self)
         self.queue = ExecutionClockwork(self)
         self.cache = Cacher()
         # Initialize startup methods and attributes.

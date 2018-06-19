@@ -29,6 +29,7 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.mechanics.statistics.external.common import StatsConstructor
 from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
+from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.stats_processing import add_cmd_stat
 from sigma.modules.owner_controls.core.error_parser import send_error_embed
 
@@ -133,6 +134,25 @@ class SigmaCommand(object):
             await message.add_reaction(icon)
         except discord.DiscordException:
             pass
+
+    async def log_guard(self, msg: discord.Message, pebi: str, reasons: str):
+        if self.bot.cfg.pref.guardlog_channel:
+            glc = self.bot.cfg.pref.guardlog_channel
+            glc = discord.utils.find(lambda c: c.id == glc, self.bot.get_all_channels())
+            if glc:
+                name = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
+                glc_embed = discord.Embed(color=0xffAC33, title=f'⚖ Guard Warning', timestamp=msg.created_at)
+                glc_embed.set_author(name=name, icon_url=user_avatar(msg.author))
+                glc_embed.description = reasons
+                glc_embed.set_footer(text=f'Tiggers: {pebi}')
+                await glc.send(embed=glc_embed)
+
+    async def guard_check(self, msg: discord.Message):
+        self.bot.guard.add_data(self, msg)
+        bad, pebi, reasons = self.bot.guard.check(self, msg)
+        if bad:
+            if self.bot.guard.should_notify(msg.author.id):
+                await self.log_guard(msg, pebi, reasons)
 
     async def log_error(self, message: discord.Message, args: list, exception: Exception, error_token: str):
         if message.guild:
@@ -244,8 +264,9 @@ class SigmaCommand(object):
                                 await self.add_usage_exp(message)
                                 self.bot.command_count += 1
                                 self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
-                                if self.elh.active:
-                                    if message.guild:
+                                if message.guild:
+                                    await self.guard_check(message)
+                                    if self.elh.active:
                                         await self.elh.add_data(self.stats.construct_data(self, message, args))
                             except self.get_exception() as e:
                                 await self.send_error_message(message, args, e)

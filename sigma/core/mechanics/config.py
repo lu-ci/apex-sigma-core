@@ -55,6 +55,7 @@ class PreferencesConfig(object):
         self.dscbots_token = pref_cfg_data.get('dscbots_token')
         self.movelog_channel = pref_cfg_data.get('movelog_channel')
         self.errorlog_channel = pref_cfg_data.get('errorlog_channel')
+        self.guardlog_channel = pref_cfg_data.get('guardlog_channel')
 
 
 class Configuration(object):

@@ -282,14 +282,14 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>boobs` `>>tits` | Outputs a random NSFW image focusing on the breasts of the model. | `>>boobs`
-`>>butts` `>>ass` | Outputs a random NSFW image focusing on the ass of the model. | `>>butts`
-`>>e621` | Searches E621 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>e621 knot`
-`>>gelbooru` `>>gelb` | Searches Gelbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>gelbooru ovum`
-`>>keyvis` | This command returns a Key Visual Arts VN CG. It picks a random VN and a random CG from that VN. You can specify the VN you want the CG to be from. "kud" - Kud Wafter "air" - Air "kanon" - Kanon "little" - Little Busters "clan" - Clannad "plan" - Planetarian "rewr" - Rewrite "harv" - Rewrite Harvest Festa This command is rated explicit due to some CGs being explicit.  | `>>keyvis kud`
+`>>butts` `>>ass` | Outputs a random NSFW image focusing on the butt of the model. | `>>butts`
+`>>e621` | Searches E621 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search includes spaces, replace them with underscores "_". | `>>e621 knot`
+`>>gelbooru` `>>gelb` | Searches Gelbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search includes spaces, replace them with underscores "_". | `>>gelbooru ovum`
+`>>keyvis` | Returns a Key Visual Arts VN CG. It picks a random VN and a random CG from that VN. You can specify the VN you want the CG to be from. "kud" - Kud Wafter "air" - Air "kanon" - Kanon "little" - Little Busters "clan" - Clannad "plan" - Planetarian "rewr" - Rewrite "harv" - Rewrite Harvest Festa This command is NSFW due to some CGs being explicit.  | `>>keyvis kud`
 `>>konachan` `>>kchan` | Searches Konachan for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>konachan thighhighs`
-`>>rule34` `>>r34` | Searches Rule34 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>rule34 switch`
-`>>xbooru` `>>xb` | Searches Xbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>xbooru ovum`
-`>>yandere` `>>yre` | Searches yandere for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search has spaces replace them with underscores "_". | `>>yandere naked_apron`
+`>>rule34` `>>r34` | Searches Rule34 for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search includes spaces, replace them with underscores "_". | `>>rule34 switch`
+`>>xbooru` `>>xb` | Searches Xbooru for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search includes spaces, replace them with underscores "_". | `>>xbooru ovum`
+`>>yandere` `>>yre` | Searches yandere for the given tag. If no tag is given, the keyword "nude" will be used. As on all image galleries, tags are bound with a "+". If your search includes spaces, replace them with underscores "_". | `>>yandere naked_apron`
 [Back To Top](#module-index)
 
 ### OSU
