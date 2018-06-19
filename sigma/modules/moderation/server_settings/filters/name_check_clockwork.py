@@ -70,8 +70,6 @@ async def name_checker(ev: SigmaEvent):
                         try:
                             new_name = clean_name(nam, temp_name)
                             await member.edit(nick=new_name, reason='ASCII name enforcement.')
-                        except discord.NotFound:
-                            pass
-                        except discord.Forbidden:
+                        except Exception:
                             pass
         await asyncio.sleep(60)
