@@ -32,7 +32,7 @@ async def fortune(cmd: SigmaCommand, message: discord.Message, args: list):
                 fortune_files.append(text_data.split('%'))
     category = secrets.choice(fortune_files)
     fort = None
-    while fort is None or len(fort) > 800:
+    while fort is None or 0 >= len(fort) > 800:
         fort = secrets.choice(category)
     response = discord.Embed(color=0x8CCAF7)
     response.add_field(name='🔮 Fortune', value=fort)
