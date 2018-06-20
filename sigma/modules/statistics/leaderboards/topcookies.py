@@ -61,8 +61,9 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
                     leader_docs.append([user_object, user_value])
                     if len(leader_docs) >= 20:
                         break
-        table_data = [[clean_name(doc[0].name, 'Unknown')[:12], str(doc[1])] for doc in leader_docs]
-        table_body = boop(table_data, ['User Name', value_name])
+        table_data = [[pos + 1, clean_name(doc[0].name, 'Unknown')[:12],
+                       str(doc[1])] for pos, doc in enumerate(leader_docs)]
+        table_body = boop(table_data, ['Pos.', 'User Name', value_name])
         tck_cache.set_cache(cache_key, table_body)
     last_updated = arrow.get(tck_cache.get_executed(sort_key))
     response = discord.Embed(color=await get_image_colors(lb_icon), timestamp=last_updated.datetime)

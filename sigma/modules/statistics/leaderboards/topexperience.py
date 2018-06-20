@@ -59,8 +59,9 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
                     leader_docs.append([user_object, user_level, user_value])
                     if len(leader_docs) >= 20:
                         break
-        table_data = [[clean_name(doc[0].name, 'Unknown')[:12], str(doc[1]), str(doc[2])] for doc in leader_docs]
-        table_body = boop(table_data, ['User Name', 'Level', value_name])
+        table_data = [[pos + 1, clean_name(doc[0].name, 'Unknown')[:12], str(doc[1]),
+                       str(doc[2])] for pos, doc in enumerate(leader_docs)]
+        table_body = boop(table_data, ['Pos.', 'User Name', 'Level', value_name])
         txp_cache.set_cache(sort_key, table_body)
     last_updated = arrow.get(txp_cache.get_executed(sort_key))
     response = discord.Embed(color=await get_image_colors(lb_icon), timestamp=last_updated.datetime)

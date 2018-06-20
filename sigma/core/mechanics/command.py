@@ -223,7 +223,7 @@ class SigmaCommand(object):
             err_text += '\nPlease be patient while we work on fixing the issue.'
             err_text += '\nThe error has been relayed to the developers.'
             err_text += f'\nIf you feel like dropping by and asking about it,'
-            err_text += f'the invite link is in the **{prefix}help** command.'
+            err_text += f'\nthe invite link is in the **{prefix}help** command.'
         error_embed = discord.Embed(color=0xBE1931)
         error_embed.add_field(name=title, value=err_text)
         error_embed.set_footer(text=f'Token: {err_token}')
