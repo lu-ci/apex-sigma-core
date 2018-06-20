@@ -17,4 +17,4 @@ commands:
     usage:        "{pfx}{cmd} 夢"
     description:
       Searches Jisho, which is the Japanese language dictionary, for specified kanji.
-      Returns stroke count, stroke order, parts, variants, meanings and readings.
+      Returns stroke count, stroke order, parts, variants, meanings, and readings.
