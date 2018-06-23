@@ -67,10 +67,6 @@ donors:
     tier:   0
     avatar: "https://i.imgur.com/cTYmSAy.jpg"
     duid:   58277187530268672
-  - name:   "DanDay21"
-    tier:   0
-    avatar: "https://i.imgur.com/pOoR9XK.png"
-    duid:   285232223127601152
   - name:   "Nighty Nee-chan"
     tier:   0
     avatar: "https://i.imgur.com/LwG03xc.png"
@@ -107,3 +103,7 @@ donors:
     tier:   2
     avatar: "https://i.imgur.com/1mhhxkG.png"
     duid:   396242866047025164
+  - name:   "Nonon"
+    tier:   0
+    avatar: "https://i.imgur.com/xNIgRIM.png"
+    duid:   263704629387198464
