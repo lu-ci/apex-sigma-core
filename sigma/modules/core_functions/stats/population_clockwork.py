@@ -16,7 +16,11 @@
 
 import asyncio
 
+import arrow
+
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.statistics.external.common import StatsConstructor
+from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
 
 pop_loop_running = False
 
@@ -32,21 +36,33 @@ async def population_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(update_population_stats_node(ev))
 
 
+def get_all_roles(guilds):
+    roles = []
+    for g in guilds:
+        for role in g.roles:
+            roles.append(role)
+    return roles
+
+
 async def update_population_stats_node(ev: SigmaEvent):
+    elh = ElasticHandler(ev.bot.cfg.pref.raw.get('elastic'), 'population', 'population')
     while True:
         if ev.bot.is_ready():
             collection = 'GeneralStats'
             database = ev.bot.cfg.db.database
-            server_count = len(list(ev.bot.guilds))
-            member_count = len(list(ev.bot.get_all_members()))
-            channel_count = len(list(ev.bot.get_all_channels()))
-            update_target = {"name": 'population'}
-            update_data = {
-                "$set": {
-                    'guild_count': server_count,
-                    'channel_count': channel_count,
-                    'member_count': member_count
-                }
+            server_count = len(ev.bot.guilds)
+            member_count = len(ev.bot.get_all_members())
+            channel_count = len(ev.bot.get_all_channels())
+            role_count = len(get_all_roles(ev.bot.guilds))
+            popdata = {
+                'guild_count': server_count,
+                'channel_count': channel_count,
+                'member_count': member_count,
+                'role_count': role_count
             }
+            update_target = {"name": 'population'}
+            update_data = {"$set": popdata}
             await ev.db[database][collection].update_one(update_target, update_data)
+            popdata.update({'time': StatsConstructor.gen_time_data(arrow.utcnow().datetime)})
+            await elh.add_data(popdata)
         await asyncio.sleep(60)

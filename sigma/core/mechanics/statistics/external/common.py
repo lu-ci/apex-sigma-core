@@ -131,7 +131,7 @@ class StatsConstructor(object):
         }
         return message_data
 
-    def construct_data(self, cmd, msg: discord.Message, args: list):
+    def construct_cmd_data(self, cmd, msg: discord.Message, args: list):
         entry_data = {
             'command': self.gen_cmd_data(cmd),
             'message': self.gen_msg_data(msg),

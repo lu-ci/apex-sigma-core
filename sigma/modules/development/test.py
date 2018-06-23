@@ -20,6 +20,4 @@ from sigma.core.mechanics.statistics.external.common import StatsConstructor
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):
-    esh = StatsConstructor()
-    cdat = esh.construct_data(cmd, message, args)
-    print(cdat)
+    await message.channel.send('All good.')

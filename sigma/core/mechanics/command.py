@@ -60,7 +60,7 @@ class SigmaCommand(object):
         self.insert_command_info()
         self.load_command_config()
         self.stats = StatsConstructor()
-        self.elh = ElasticHandler(self.bot.cfg.pref.raw.get('elastic'))
+        self.elh = ElasticHandler(self.bot.cfg.pref.raw.get('elastic'), 'sigma', 'command')
 
     @staticmethod
     def get_usr_data(usr: discord.User):
@@ -249,7 +249,7 @@ class SigmaCommand(object):
                                 self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
                                 if message.guild:
                                     if self.elh.active:
-                                        await self.elh.add_data(self.stats.construct_data(self, message, args))
+                                        await self.elh.add_data(self.stats.construct_cmd_data(self, message, args))
                             except self.get_exception() as e:
                                 await self.send_error_message(message, args, e)
 
