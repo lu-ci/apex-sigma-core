@@ -13,7 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import os
 import socket
 import sys
 
@@ -57,9 +57,10 @@ async def status(cmd: SigmaCommand, message: discord.Message, args: list):
     total_mem = psutil.virtual_memory().total
     used_mem = humanfriendly.format_size(total_mem - avail_mem, binary=True)
     total_mem = humanfriendly.format_size(total_mem, binary=True)
-    mem_text = f'Used: **{used_mem}**'
+    sigma_mem = humanfriendly.format_size(psutil.Process(os.getpid()).memory_info().rss, binary=True)
+    mem_text = f'Me: **{sigma_mem}**'
+    mem_text += f'\nUsed: **{used_mem}**'
     mem_text += f'\nTotal: **{total_mem}**'
-    mem_text += f'\nPercent: **{int(psutil.virtual_memory().percent)}%**'
     response = discord.Embed(color=os_color)
     response.set_author(name=socket.gethostname(), icon_url=os_icon)
     response.add_field(name='General', value=general_text)
