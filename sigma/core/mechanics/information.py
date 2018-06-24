@@ -36,19 +36,20 @@ class Version(object):
         with open('info/version.yml', encoding='utf-8') as version_file:
             version_data = yaml.safe_load(version_file)
         self.raw = version_data
-        self.beta = version_data['beta']
-        self.timestamp = version_data['build_date']
-        self.codename = version_data['codename']
-        self.major = version_data['version']['major']
-        self.minor = version_data['version']['minor']
-        self.patch = version_data['version']['patch']
+        self.beta = version_data.get('beta', False)
+        self.timestamp = version_data.get('build_date', 0)
+        self.codename = version_data.get('codename', 'Aurora')
+        self.version = version_data.get('version', {})
+        self.major = self.version.get('major', 0)
+        self.minor = self.version.get('minor', 0)
+        self.patch = self.version.get('patch', 0)
 
 
 class Author(object):
     def __init__(self, author):
-        self.name = author['name']
-        self.discriminator = author['discriminator']
-        self.id = author['id']
+        self.name = author.get('name', 'Unknown')
+        self.discriminator = author.get('discriminator', '0000')
+        self.id = author.get('id', 0)
 
 
 class Authors(object):
@@ -64,10 +65,10 @@ class Authors(object):
 
 class Donor(object):
     def __init__(self, donor):
-        self.name = donor['name']
-        self.tier = donor['tier']
-        self.avatar = donor['avatar']
-        self.id = donor['duid']
+        self.name = donor.get('name', 'Unknown')
+        self.tier = donor.get('tier', 0)
+        self.avatar = donor.get('avatar')
+        self.id = donor.get('duid', 0)
 
 
 class Donors(object):
@@ -75,8 +76,8 @@ class Donors(object):
         with open('info/donors.yml', encoding='utf-8') as donors_file:
             donors_data = yaml.safe_load(donors_file)
         self.raw = donors_data
-        self.raw_list = donors_data['donors']
+        self.raw_list = donors_data.get('donors', [])
         self.donors = []
-        for donor in donors_data['donors']:
+        for donor in self.raw_list:
             donor_object = Donor(donor)
             self.donors.append(donor_object)

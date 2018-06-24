@@ -25,8 +25,10 @@ class ExecutionClockwork(object):
     def __init__(self, bot):
         self.bot = bot
         self.log = create_logger('Threader')
-        self.queue = asyncio.Queue()
-        self.bot.loop.create_task(self.queue_loop())
+        self.ev_queue = asyncio.Queue()
+        self.cmd_queue = asyncio.Queue()
+        self.bot.loop.create_task(self.queue_ev_loop())
+        self.bot.loop.create_task(self.queue_cmd_loop())
         self.processed = 0
 
     async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool = False):
@@ -56,19 +58,28 @@ class ExecutionClockwork(object):
                         return
                     else:
                         task = command, message, args
-                        await self.queue.put(task)
+                        await self.cmd_queue.put(task)
 
     async def event_runner(self, event_name: str, *args):
         if self.bot.ready:
             if event_name in self.bot.modules.events:
                 for event in self.bot.modules.events[event_name]:
                     task = event, *args
-                    await self.queue.put(task)
+                    await self.ev_queue.put(task)
 
-    async def queue_loop(self):
+    async def queue_ev_loop(self):
         while True:
             if self.bot.ready:
-                item, *args = await self.queue.get()
+                item, *args = await self.ev_queue.get()
+                self.bot.loop.create_task(item.execute(*args))
+                self.processed += 1
+            else:
+                await asyncio.sleep(1)
+
+    async def queue_cmd_loop(self):
+        while True:
+            if self.bot.ready:
+                item, *args = await self.cmd_queue.get()
                 self.bot.loop.create_task(item.execute(*args))
                 self.processed += 1
             else:

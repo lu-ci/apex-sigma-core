@@ -29,7 +29,6 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.mechanics.statistics.external.common import StatsConstructor
 from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
-from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.stats_processing import add_cmd_stat
 from sigma.modules.owner_controls.core.error_parser import send_error_embed
 
@@ -77,11 +76,11 @@ class SigmaCommand(object):
         return usr_data
 
     def insert_command_info(self):
-        self.alts = self.command_info.get('alts') or []
-        self.usage = self.command_info.get('usage') or '{pfx}{cmd}'
-        self.desc = self.command_info.get('description') or 'No description provided.'
-        self.requirements += self.command_info.get('requirements') or []
-        permissions = self.command_info.get('permissions')
+        self.alts = self.command_info.get('alts', [])
+        self.usage = self.command_info.get('usage', '{pfx}{cmd}')
+        self.desc = self.command_info.get('description', 'No description provided.')
+        self.requirements += self.command_info.get('requirements', [])
+        permissions = self.command_info.get('permissions', {})
         if permissions:
             self.nsfw = bool(permissions.get('nsfw'))
             self.owner = bool(permissions.get('owner'))

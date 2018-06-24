@@ -46,18 +46,11 @@ class QueueItem(object):
         self.requester = requester
         self.item_info = item_info
         self.url = self.item_info.get('webpage_url')
-        self.video_id = self.item_info.get('id') or self.url
-        self.uploader = self.item_info.get('uploader') or 'Unknown'
-        self.title = self.item_info['title']
-        if 'thumbnail' in self.item_info:
-            thumb = self.item_info.get('thumbnail')
-            if thumb:
-                self.thumbnail = thumb
-            else:
-                self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
-        else:
-            self.thumbnail = 'https://i.imgur.com/CGPNJDT.png'
-        self.duration = int(self.item_info.get('duration') or 0)
+        self.video_id = self.item_info.get('id', self.url)
+        self.uploader = self.item_info.get('uploader', 'Unknown')
+        self.title = self.item_info.get('title')
+        self.thumbnail = self.item_info.get('thumbnail', 'https://i.imgur.com/CGPNJDT.png')
+        self.duration = int(self.item_info.get('duration', 0))
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
         self.threads = ThreadPoolExecutor()
@@ -77,7 +70,7 @@ class QueueItem(object):
         if self.url:
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
-                self.ytdl.params['outtmpl'] = out_location
+                self.ytdl.params.update({'outtmpl': out_location})
                 task = functools.partial(self.ytdl.extract_info, self.url)
                 await self.loop.run_in_executor(self.threads, task)
                 self.downloaded = True
@@ -109,11 +102,8 @@ class MusicCore(object):
         return information
 
     def get_queue(self, guild_id: int):
-        if guild_id in self.queues:
-            queue = self.queues.get(guild_id)
-        else:
-            queue = Queue()
-            self.queues.update({guild_id: queue})
+        queue = self.queues.get(guild_id, Queue())
+        self.queues.update({guild_id: queue})
         return queue
 
     @staticmethod

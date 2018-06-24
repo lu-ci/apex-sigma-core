@@ -88,11 +88,9 @@ class Logger(object):
         :param level:
         :return:
         """
-        if name in cls.loggers.keys():
-            return cls.loggers.get(name)
-        else:
-            cls.loggers[name] = cls(name, level=level)
-            return cls.loggers[name]
+        if name not in cls.loggers.keys():
+            cls.loggers.update({name: cls(name, level=level)})
+        return cls.loggers.get(name)
 
     def info(self, message: str):
         return self._logger.info(message)

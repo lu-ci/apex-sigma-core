@@ -42,7 +42,7 @@ class Cacher(object):
                 self.data.pop(f'{key}_stamp')
 
     def get_executed(self, key: str or int):
-        return self.data.get(f'{key}_stamp') or 0
+        return self.data.get(f'{key}_stamp', 0)
 
     def clean_cache(self):
         if self.timed:

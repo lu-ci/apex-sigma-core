@@ -178,12 +178,12 @@ def rgb_maximum(colors_tuple: list):
 
 def group_by_accuracy(sorted_tuple: list):
     rgb_maximum_json = rgb_maximum(sorted_tuple)
-    r_min = rgb_maximum_json["r_min"]
-    g_min = rgb_maximum_json["g_min"]
-    b_min = rgb_maximum_json["b_min"]
-    r_dvalue = rgb_maximum_json["r_dvalue"]
-    g_dvalue = rgb_maximum_json["g_dvalue"]
-    b_dvalue = rgb_maximum_json["b_dvalue"]
+    r_min = rgb_maximum_json.get("r_min")
+    g_min = rgb_maximum_json.get("g_min")
+    b_min = rgb_maximum_json.get("b_min")
+    r_dvalue = rgb_maximum_json.get("r_dvalue")
+    g_dvalue = rgb_maximum_json.get("g_dvalue")
+    b_dvalue = rgb_maximum_json.get("b_dvalue")
 
     rgb = [
         [[[], [], []], [[], [], []], [[], [], []]],

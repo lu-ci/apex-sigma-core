@@ -51,9 +51,9 @@ class StatsConstructor(object):
                 target_dict = bots
             else:
                 target_dict = users
-            target_total = target_dict.get('total') + 1
+            target_total = target_dict.get('total', 0) + 1
             target_dict.update({'total': target_total})
-            status_total = target_dict.get(member.status.name) + 1
+            status_total = target_dict.get(member.status.name, 0) + 1
             target_dict.update({member.status.name: status_total})
         category_count = 0
         text_channel_count = 0

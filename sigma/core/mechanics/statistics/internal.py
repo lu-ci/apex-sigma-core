@@ -40,7 +40,7 @@ class StatisticsStorage(object):
                 await self.db[database][collection].insert_one(def_stat_data)
                 ev_count = 0
             else:
-                ev_count = check['count']
+                ev_count = check.get('count', 0)
             ev_count += self.count
             update_target = {"event": self.name}
             update_data = {"$set": {'count': ev_count}}

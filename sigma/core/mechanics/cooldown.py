@@ -26,7 +26,7 @@ class CommandRateLimiter(object):
 
     def is_cooling(self, message):
         timeout = 1.25
-        last_stamp = self.stamps.get(message.author.id) or 0
+        last_stamp = self.stamps.get(message.author.id, 0)
         curr_stamp = arrow.utcnow().float_timestamp
         return (last_stamp + timeout) > curr_stamp
 
@@ -58,7 +58,7 @@ class CooldownControl(object):
             entry = await self.cds.find_one({'name': cd_name})
             self.cache.set_cache(cd_name, entry)
         if entry:
-            end_stamp = entry['end_stamp']
+            end_stamp = entry.get('end_stamp', 0)
             now_stamp = arrow.utcnow().timestamp
             if now_stamp > end_stamp:
                 cooldown = False
@@ -78,7 +78,7 @@ class CooldownControl(object):
             entry = await self.cds.find_one({'name': cd_name})
             self.cache.set_cache(cd_name, entry)
         if entry:
-            end_stamp = entry['end_stamp']
+            end_stamp = entry.get('end_stamp', 0)
             now_stamp = arrow.utcnow().float_timestamp
             cooldown = end_stamp - now_stamp
             if cooldown < 2:

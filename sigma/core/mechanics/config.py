@@ -25,33 +25,33 @@ from .logger import create_logger
 class DiscordConfig(object):
     def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data
-        self.token = client_cfg_data.get('token') or 'You got no token, son!'
-        self.owners = client_cfg_data.get('owners') or [137951917644054529]
-        self.bot = client_cfg_data.get('bot') or True
+        self.token = client_cfg_data.get('token', 'You got no token, son!')
+        self.owners = client_cfg_data.get('owners', [137951917644054529])
+        self.bot = client_cfg_data.get('bot', True)
 
 
 class DatabaseConfig(object):
     def __init__(self, db_cfg_data: dict):
         self.raw = db_cfg_data
-        self.database = db_cfg_data.get('database') or 'sigma'
-        self.auth = db_cfg_data.get('auth') or False
-        self.host = db_cfg_data.get('host') or '127.0.0.1'
-        self.port = db_cfg_data.get('port') or 27017
-        self.username = db_cfg_data.get('username') or 'user'
-        self.password = db_cfg_data.get('password') or 'pass'
+        self.database = db_cfg_data.get('database', 'sigma')
+        self.auth = db_cfg_data.get('auth', False)
+        self.host = db_cfg_data.get('host', '127.0.0.1')
+        self.port = db_cfg_data.get('port', 27017)
+        self.username = db_cfg_data.get('username', 'user')
+        self.password = db_cfg_data.get('password', 'pass')
 
 
 class PreferencesConfig(object):
     def __init__(self, pref_cfg_data: dict):
         self.raw = pref_cfg_data
-        self.dev_mode = pref_cfg_data.get('dev_mode') or False
-        self.status_rotation = pref_cfg_data.get('status_rotation') or True
-        self.prefix = pref_cfg_data.get('prefix') or '>>'
-        self.currency = pref_cfg_data.get('currency') or 'Kud'
-        self.currency_icon = pref_cfg_data.get('currency_icon') or '⚜'
-        self.website = pref_cfg_data.get('website') or 'https://lucia.moe/sigma'
-        self.text_only = pref_cfg_data.get('text_only') or False
-        self.music_only = pref_cfg_data.get('music_only') or False
+        self.dev_mode = pref_cfg_data.get('dev_mode', False)
+        self.status_rotation = pref_cfg_data.get('status_rotation', True)
+        self.prefix = pref_cfg_data.get('prefix', '>>')
+        self.currency = pref_cfg_data.get('currency', 'Kud')
+        self.currency_icon = pref_cfg_data.get('currency_icon', '⚜')
+        self.website = pref_cfg_data.get('website', 'https://lucia.moe/sigma')
+        self.text_only = pref_cfg_data.get('text_only', False)
+        self.music_only = pref_cfg_data.get('music_only', False)
         self.dscbots_token = pref_cfg_data.get('dscbots_token')
         self.movelog_channel = pref_cfg_data.get('movelog_channel')
         self.errorlog_channel = pref_cfg_data.get('errorlog_channel')
