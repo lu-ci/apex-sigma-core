@@ -46,6 +46,5 @@ async def exp_clock_cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             for exp_item in exp_storage:
                 await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
-                await asyncio.sleep(0.00125)
             exp_storage = []
-        await asyncio.sleep(300)
+        await asyncio.sleep(60)
