@@ -93,7 +93,7 @@ class Database(motor.AsyncIOMotorClient):
                 await collection.insert_one({'UserID': user.id})
             total_xp = entry.get('total', 0)
             global_xp = entry.get('global', 0)
-            guilds = entry.get('guilds', 0)
+            guilds = entry.get('guilds', {})
             guild_id = str(guild.id)
             guild_points = guilds.get(guild_id, 0)
             if additive:
