@@ -180,7 +180,7 @@ class Database(motor.AsyncIOMotorClient):
     async def del_from_inventory(self, user, item_id):
         inv = await self.get_inventory(user)
         for item in inv:
-            if item.get(item_id) == item_id:
+            if item.get('item_id') == item_id:
                 inv.remove(item)
         await self.update_inv(user, inv)
 
