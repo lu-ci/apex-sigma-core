@@ -188,7 +188,7 @@ class Database(motor.AsyncIOMotorClient):
         inv = await self.get_inventory(user)
         output = None
         for item in inv:
-            if item.get(item_file_id).lower() == item_file_id.lower():
+            if item.get('item_file_id').lower() == item_file_id.lower():
                 output = item
                 break
         return output
