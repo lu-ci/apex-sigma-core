@@ -20,13 +20,13 @@ import aiohttp
 
 from sigma.core.mechanics.event import SigmaEvent
 
-dbots_loop_runnin = False
+dbots_loop_running = False
 
 
 async def discordbots_clock(ev: SigmaEvent):
-    global dbots_loop_runnin
-    if ev.bot.cfg.pref.dscbots_token and not dbots_loop_runnin:
-        dbots_loop_runnin = True
+    global dbots_loop_running
+    if ev.bot.cfg.pref.dscbots_token and not dbots_loop_running:
+        dbots_loop_running = True
         token = ev.bot.cfg.pref.dscbots_token
         ev.bot.loop.create_task(clockwork_updater(ev, token))
 

@@ -12,7 +12,7 @@ commands:
       dmable: true
     description:
       Makes a private shadow poll.
-      The user that voted on the shadow poll can only be seen by it's creator.
+      The user that voted on the shadow poll can only be seen by its creator.
       Additional commands can set an expiration timer for the shadow poll and
       the visibility of the poll's current vote count and percentages.
 
@@ -32,7 +32,7 @@ commands:
     alts:
       - "spvote"
     enabled:      true
-    usage:        "{pfx}{cmd} 1bca22"
+    usage:        "{pfx}{cmd} 1bca22 2"
     permissions:
       dmable: true
     description:
@@ -64,7 +64,7 @@ commands:
       Sets a poll to automatically close after the given time elapses.
       The time to close is counted from the command execution, not the initial opening of the poll.
       When the poll expires the author will be notified of the expiration.
-      Only the poll's creator can edit it's expiration time.
+      Only the poll's creator can edit its expiration time.
 
   - name:         shadowpollclose
     alts:
@@ -98,7 +98,7 @@ commands:
       dmable: true
     description:
       Marks a poll as visible.
-      If a poll is visible anybody can see it's statistics.
+      If a poll is visible anybody can see its statistics.
       Such as total vote count and how many votes go to each choice.
 
   - name:         shadowpollinvisible
@@ -111,7 +111,7 @@ commands:
       dmable: true
     description:
       Reverts a shadow poll back to invisible.
-      Making it's statistics only accessible to the author.
+      Making its statistics only accessible to the author.
       All shadow polls are invisible by default.
 
   - name:         shadowpolldelete

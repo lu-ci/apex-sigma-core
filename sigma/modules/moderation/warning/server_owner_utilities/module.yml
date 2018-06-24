@@ -1,56 +1,10 @@
-name:             Warning Commands
+name:             Server Owner Warning Commands
 
 category:         moderation
 
 enabled:          true
 
 commands:
-  - name:         issuewarning
-    alts:
-      - "warn"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Took too long in the bathroom."
-    description:
-      Issues a warning to a user with the reason stated.
-      The warning reason is not mandatory. When the user is warned
-      they will be sent a direct message about it. Each warning
-      has a unique ID that you can call and view with the warninginfo command.
-
-  - name:         listwarnings
-    alts:
-      - "warns"
-      - "warnings"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Lists all active warnings issued to the target user.
-      The list is compact and shows only the warning IDs,
-      the issuer of the warning, and when the warning was issued.
-      A moderator with manage messages permissions can view any user's warnings
-      while users without said permission can only view the list of theirs.
-      The warning list is paginated, 5 warnings per page.
-      Just add the page number to the end of the command to see that page.
-
-  - name:         viewwarning
-    alts:
-      - "warning"
-      - "warninginfo"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person 1abc"
-    description:
-      Shows detailed information for the given user's warning.
-      Both the user mention and the warning ID are needed for the command.
-
-  - name:         removewarning
-    alts:
-      - "unwarn"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person 1abc"
-    description:
-      Marks the given user's warning as inactve.
-      Inactive warnings won't appear on a user's list of warnings.
-      Both the user mention and the warning ID are needed for the command.
-
   - name:         activatewarning
     alts:
       - "activatewarn"
@@ -81,7 +35,7 @@ commands:
 
   - name:         viewinactivewarning
     alts:
-      - "viewinacwarn"
+      - "viewinacwarning"
       - "inacwarning"
     enabled:      true
     usage:        "{pfx}{cmd} @person 1abc"

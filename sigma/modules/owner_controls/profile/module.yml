@@ -62,3 +62,13 @@ commands:
       dmable:     true
     description:
       Toggles if the automatic status rotation is enabled or disabled.
+
+  - name:         liststatuses
+    alts:
+      - "statuses"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    description:
+      Shows the list of statuses in the status database.
