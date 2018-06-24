@@ -16,11 +16,7 @@
 
 import asyncio
 
-import arrow
-
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.statistics.external.common import StatsConstructor
-from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
 
 pop_loop_running = False
 
@@ -45,7 +41,6 @@ def get_all_roles(guilds):
 
 
 async def update_population_stats_node(ev: SigmaEvent):
-    elh = ElasticHandler(ev.bot.cfg.pref.raw.get('elastic'), 'population', 'population')
     while True:
         if ev.bot.is_ready():
             collection = 'GeneralStats'
@@ -63,6 +58,4 @@ async def update_population_stats_node(ev: SigmaEvent):
             update_target = {"name": 'population'}
             update_data = {"$set": popdata}
             await ev.db[database][collection].update_one(update_target, update_data)
-            popdata.update({'time': StatsConstructor.gen_time_data(arrow.utcnow().datetime)})
-            await elh.add_data(popdata)
         await asyncio.sleep(60)

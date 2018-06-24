@@ -16,11 +16,7 @@
 
 import asyncio
 
-import arrow
-
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.statistics.external.common import StatsConstructor
-from sigma.core.mechanics.statistics.external.elasticsearch import ElasticHandler
 
 
 class StatisticsStorage(object):
@@ -30,7 +26,6 @@ class StatisticsStorage(object):
         self.name = name
         self.count = 0
         self.loop.create_task(self.insert_stats())
-        self.elh = ElasticHandler(self.db.bot.cfg.pref.raw.get('elastic'), 'event', 'event')
 
     def add_stat(self):
         self.count += 1
@@ -50,9 +45,5 @@ class StatisticsStorage(object):
             update_target = {"event": self.name}
             update_data = {"$set": {'count': ev_count}}
             await self.db[database][collection].update_one(update_target, update_data)
-            if self.elh.active:
-                now = arrow.utcnow().datetime
-                data = {'event': self.name, 'count': ev_count, 'time': StatsConstructor.gen_time_data(now)}
-                await self.elh.add_data(data)
             self.count = 0
             await asyncio.sleep(60)
