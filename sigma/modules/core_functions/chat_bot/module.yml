@@ -2,7 +2,7 @@ name:            Chatterbot Mechanics
 
 category:        development
 
-enabled:         true
+enabled:         false
 
 events:
   - name:        chat_bot
