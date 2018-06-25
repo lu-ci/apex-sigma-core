@@ -17,21 +17,24 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.utilities.data_processing import paginate, get_image_colors, user_avatar
+
+from humanfriendly.tables import format_pretty_table as boop
 
 
 async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
     status_data = await cmd.db[cmd.db.db_cfg.database].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['ID'], s['Text']] for s in status_data]
+        status_list = sorted(status_list, key=lambda x: x[1])
+        total_status = len(status_list)
         page = args[0] if args else 1
         status_list, page = paginate(status_list, page, 10)
-        status_list = sorted(status_list, key=lambda x: x[1])
-        status_id = '\n'.join([f'{s[0]}' for s in status_list])
-        status_text = '\n'.join([f'{s[1]}' for s in status_list])
-        response = discord.Embed(color=0x1B6F5F, title=f'🚥 Statuses on page {page}')
-        response.add_field(name='ID', value=status_id)
-        response.add_field(name='Text', value=status_text)
+        status_block = boop(status_list, ['ID', 'Text'])
+        response = discord.Embed(color=await get_image_colors(cmd.bot.user.avatar_url))
+        response.set_author(name=f'{cmd.bot.user.name}\'s Status Rotation Items', icon_url=user_avatar(cmd.bot.user))
+        response.add_field(name='Info', value=f'Showing {len(status_list)} items out of {total_status} on page {page}.')
+        response.add_field(name="List", value=f'```\n{status_block}\n```', inline=False)
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 No statuses found.')
     await message.channel.send(embed=response)
