@@ -97,13 +97,17 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
             trivia_api_url = 'https://opentdb.com/api.php?amount=1'
             cat_chosen = False
             if args:
-                catlook = args[0].lower()
+                catlook = args[-1].lower()
                 for cat in categories:
                     cat_alts = categories.get(cat)
                     if catlook in cat_alts:
                         trivia_api_url += f'&category={cat}'
                         cat_chosen = True
                         break
+                diflook = args[0].lower()
+                if diflook in ['easy', 'medium', 'hard']:
+                    trivia_api_url += f'&difficulty={diflook}'
+                    cat_chosen = True
             async with aiohttp.ClientSession() as session:
                 async with session.get(trivia_api_url) as number_get:
                     number_response = await number_get.read()

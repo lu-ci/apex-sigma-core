@@ -26,11 +26,15 @@ commands:
       - "triv"
       - "t"
     enabled:      true
+    usage:        "{pfx}{cmd} easy games"
     description:
       A trivia minigame.
       You are given a question and have to input the number of your answer.
-      Guess correctly and you win 5-15 Kud, depending on the difficulty.
-      You have 20 seconds to answer the question.
+      Guess correctly and you win 10-50 Kud (base), depending on the difficulty.
+      You have 20 seconds to answer the question. Consecutive correct answers give you a streak
+      and the streak increases the Kud gained from correct answers. Timing out or giving an incorrect
+      answer resets the streak. You can choose the category and difficulty of the question
+      like in the usage example, but choosing either will disable the streak.
 
   - name:         animechargame
     alts:
