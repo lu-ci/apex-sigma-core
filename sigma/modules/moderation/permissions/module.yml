@@ -88,6 +88,16 @@ commands:
       If it is a command use C, if it is a module use M, following the usage example.
       Multiple users can be tagged.
 
+  - name:        permittedusers
+    alts:
+      - "permedu"
+    enabled:     true
+    usage:       "{pfx}{cmd} c:joke"
+    description:
+      Lists all user overrides for the given command or module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      The list is paginated, each page has up to 50 channels.
+
   - name:        unpermituser
     alts:
       - "upusr"
@@ -120,6 +130,16 @@ commands:
       Allows a previously disabled command or module to be used in the specified channel.
       Follow the usage example, C for command, M for module. Multiple channels can be tagged.
 
+  - name:        permittedchannels
+    alts:
+      - "permedc"
+    enabled:     true
+    usage:       "{pfx}{cmd} m:fun"
+    description:
+      Lists all channel overrides for the given command or module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      The list is paginated, each page has up to 50 channels.
+
   - name:        unpermitchannel
     alts:
       - "upch"
@@ -146,6 +166,16 @@ commands:
       Specifies a role that can use a disabled command or module group.
       It needs to be specified if it is a command or module group.
       If it is a command use C and if it is a module use M following the example.
+
+  - name:        permittedroles
+    alts:
+      - "permedr"
+    enabled:     true
+    usage:       "{pfx}{cmd} c:dab"
+    description:
+      Lists all role overrides for the given command or module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      The list is paginated, each page has up to 50 channels.
 
   - name:        unpermitrole
     alts:

@@ -20,23 +20,15 @@ perm_cache = Cacher()
 
 
 def generate_default_data(message):
-    perm_data = {
+    return {
         'ServerID': message.guild.id,
-        'DisabledCommands': [],
-        'DisabledModules': [],
-        'CommandExceptions': {},
-        'ModuleExceptions': {},
+        'DisabledCommands': [], 'DisabledModules': [],
+        'CommandExceptions': {}, 'ModuleExceptions': {},
     }
-    return perm_data
 
 
 def generate_cmd_data(cmd_name):
-    generic_data = {
-        'Users': [],
-        'Channels': [],
-        'Roles': []
-    }
-    return {cmd_name: generic_data}
+    return {cmd_name: {'Users': [], 'Channels': [], 'Roles': []}}
 
 
 async def get_all_perms(db, message):
