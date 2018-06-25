@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import secrets
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
@@ -25,13 +23,15 @@ from sigma.core.utilities.data_processing import paginate
 async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
     status_data = await cmd.db[cmd.db.db_cfg.database].StatusFiles.find({}).to_list(None)
     if status_data:
-        status_list = []
-        for status in status_data:
-            status_list.append(f"ID: **{status.get('ID')}** Text: **{status.get('Text')}**")
+        status_list = [[s['ID'], s['Text']] for s in status_data]
         page = args[0] if args else 1
         status_list, page = paginate(status_list, page, 20)
-        response = discord.Embed(color=0x1B6F5F)
-        response.add_field(name=f'💭 Statuses on page {page}', value='\n'.join(status_list))
+        status_list = sorted(status_list, key=lambda x: x[1])
+        status_id = '\n'.join([f'**{s[0]}**' for s in status_list])
+        status_text = '\n'.join([f'**{s[1]}**' for s in status_list])
+        response = discord.Embed(color=0x1B6F5F, title=f'💭 Statuses on page {page}')
+        response.add_field(name='ID', value=status_id)
+        response.add_field(name='Text', value=status_text)
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 No statuses found.')
     await message.channel.send(embed=response)

@@ -76,3 +76,5 @@ commands:
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 4242ea69"
+    description:
+      Retrieves the source image for the reaction with the given ID.
