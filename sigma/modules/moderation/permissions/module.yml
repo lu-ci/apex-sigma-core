@@ -17,6 +17,18 @@ commands:
       Disabled commands are then overwritten by one of the permit commands.
       Those with the Administrator permission are not affected.
 
+  - name:        disabledcommands
+    alts:
+      - "dcmds"
+      - "cmdsoff"
+      - "commandsoff"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Shows a list of commands that are disabled on the server.
+      Commands that are disabled, but overridden in any way, will have an asterisk.
+      The list is paginated, each page has up to 50 commands.
+
   - name:        disablemodule
     alts:
       - "dmdl"
@@ -28,6 +40,18 @@ commands:
       Disallows an entire module to be used on the server.
       Disabled modules are then overwritten by one of the permit commands.
       Those with the Administrator permission are not affected.
+
+  - name:        disabledmodules
+    alts:
+      - "dmdls"
+      - "mdlsoff"
+      - "modulesoff"
+    enabled:     true
+    usage:       "{pfx}{cmd}"
+    description:
+      Shows a list of modules that are disabled on the server.
+      Modules that are disabled, but overridden in any way, will have an asterisk.
+      The list is paginated, each page has up to 50 commands.
 
   - name:        enablecommand
     alts:

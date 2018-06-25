@@ -326,6 +326,8 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>disablecommand` `>>dcmd` `>>cmdoff` `>>commandoff` | Disallows a command to be used on the server. Disabled commands are then overwritten by one of the permit commands. Those with the Administrator permission are not affected. | `>>disablecommand nyaa`
+`>>disabledcommands` `>>dcmds` `>>cmdsoff` `>>commandsoff` | Shows a list of commands that are disabled on the server. Commands that are disabled, but overridden in any way, will have an asterisk. The list is paginated, each page has up to 50 commands. | `>>disabledcommands`
+`>>disabledmodules` `>>dmdls` `>>mdlsoff` `>>modulesoff` | Shows a list of modules that are disabled on the server. Modules that are disabled, but overridden in any way, will have an asterisk. The list is paginated, each page has up to 50 commands. | `>>disabledmodules`
 `>>disablemodule` `>>dmdl` `>>mdloff` `>>moduleoff` | Disallows an entire module to be used on the server. Disabled modules are then overwritten by one of the permit commands. Those with the Administrator permission are not affected. | `>>disablemodule fun`
 `>>enablecommand` `>>cmdon` `>>commandon` | Enables a previously disabled command. | `>>enablecommand kitsune`
 `>>enablemodule` `>>mdlon` `>>moduleon` | Enables a previously disabled module. | `>>enablemodule minigames`
