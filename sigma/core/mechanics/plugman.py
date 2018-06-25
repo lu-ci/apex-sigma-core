@@ -48,6 +48,7 @@ class PluginManager(object):
     def load_module(self, root: str, module_data: dict):
         if self.init:
             self.log.info(f'Loading the {module_data.get("name")} Module')
+        self.load_category(module_data)
         if 'commands' in module_data:
             self.load_commands(root, module_data)
         if self.bot.cfg.dsc.bot:
@@ -61,9 +62,11 @@ class PluginManager(object):
         importlib.reload(module_function)
         return module_function
 
-    def load_commands(self, root: str, module_data: dict):
+    def load_category(self, module_data):
         if module_data.get('category') not in self.categories:
             self.categories.append(module_data.get('category'))
+
+    def load_commands(self, root: str, module_data: dict):
         for command_data in module_data.get('commands'):
             if command_data.get('enabled'):
                 self.load_command_executable(root, command_data, module_data)
