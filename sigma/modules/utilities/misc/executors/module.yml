@@ -1,6 +1,6 @@
 name:             Custom Command Executor
 
-category:         miscellaneous
+category:         custom
 
 enabled:          true
 
