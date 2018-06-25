@@ -420,7 +420,10 @@ Commands | Description | Example
 `>>chatterbot` | Toggles if the Chatterbot functions should be active. If active, when a message starts with a mention of Sigma, she will respond. This setting is active by default. | `>>chatterbot`
 `>>colorroles` | Toggles the color role feature. This is deactivated by default. Once enabled members can use the colorme command to get a role with their requested color hex. Roles created with this feature have a SCR prefix in them and are created to be just one place under Sigma's top role with no permission changes. | `>>colorroles`
 `>>customcommands` `>>customcmds` `>>custcmds` `>>ccmds` | Shows a list of the server's custom commands. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>customcommands 4`
+`>>decay` | Marks a channel as decaying with a given timer. Messages sent to decaying channels decay. This means that once they are sent there, a timer runs, after the given amount of time passes, the message is deleted automagically. | `>>decay 1:30:59 #hotness`
+`>>decaying` | Lists all decaying channels and their decay timers. | `>>decaying`
 `>>deletecommands` `>>delcmds` | Toggles if messages that are a command should be automatically deleted. | `>>deletecommands`
+`>>disabledecay` `>>undecay` | Disables a channel's decay. | `>>disabledecay #hotnesslicious`
 `>>filterautowarn` | When a user triggers the blacklisted word filter, they will receive a warning. Like the warn command does, but automated. | `>>filterautowarn`
 `>>greet` | Toggles if the bot should greet users when they enter the server. The greeting feature is active by default. | `>>greet`
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`

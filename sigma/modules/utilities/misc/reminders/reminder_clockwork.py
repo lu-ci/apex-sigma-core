@@ -36,8 +36,8 @@ async def clockwork_function_reminder_clockwork(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             reminders = await ev.db[ev.db.db_cfg.database]['Reminders'].find({}).to_list(None)
+            current_stamp = arrow.utcnow().timestamp
             for reminder in reminders:
-                current_stamp = arrow.utcnow().timestamp
                 execution_stamp = reminder['ExecutionStamp']
                 if current_stamp > execution_stamp:
                     await ev.db[ev.db.db_cfg.database]['Reminders'].delete_one({'ReminderID': reminder['ReminderID']})

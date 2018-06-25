@@ -37,6 +37,7 @@ def add_exp(member, guild, amount):
 async def experience_clock(ev: SigmaEvent):
     global exp_clock_running
     if not exp_clock_running:
+        exp_clock_running = True
         ev.bot.loop.create_task(exp_clock_cycler(ev))
 
 
