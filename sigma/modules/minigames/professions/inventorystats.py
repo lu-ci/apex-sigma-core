@@ -98,10 +98,10 @@ async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list
         rare_out = boop(rare_list, headers)
         currency = cmd.bot.cfg.pref.currency
         response = discord.Embed(color=0xc16a4f)
-        response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
         response.add_field(name='Items by Type', value=f'```py\n{type_out}\n```', inline=False)
         response.add_field(name='Items by Rarity', value=f'```py\n{rare_out}\n```', inline=False)
         response.set_footer(text=f'Total Value: {total_value} {currency}')
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
+    response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
     await message.channel.send(embed=response)

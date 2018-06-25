@@ -72,10 +72,10 @@ async def forage(cmd: SigmaCommand, message: discord.Message, args: list):
                 await cmd.db.add_to_inventory(message.author, data_for_inv)
                 await item_core.add_item_statistic(cmd.db, item, message.author)
             response = discord.Embed(color=item.color, title=response_title)
-            response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Your inventory is full.')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You are resting for another {timeout} seconds.')
+    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
     await message.channel.send(embed=response)

@@ -90,7 +90,6 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
             total_value += item_o_item.value
         output = boop(to_format, column_names=headers)
         response = discord.Embed(color=0xc16a4f)
-        response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
         inv_text = f'Showing items {start_range}-{end_range}.'
         pronouns = ['You', 'your'] if target.id == message.author.id else ['They', 'their']
         inv_text += f'\n{pronouns[0]} have {total_inv}/{inv_limit} items in {pronouns[1]} inventory.'
@@ -99,4 +98,5 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
+    response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
     await message.channel.send(embed=response)

@@ -61,11 +61,11 @@ async def cook(cmd: SigmaCommand, message: discord.Message, args: list):
                     connector = 'an'
                 head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                 response = discord.Embed(color=recipe.color, title=head_title)
-                response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ You\'re missing ingredients.')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
     await message.channel.send(embed=response)

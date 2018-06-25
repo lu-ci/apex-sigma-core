@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore
 
 item_core = None
@@ -70,4 +71,6 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=0xBE1931, title='❗ Sorry but that\'s trash.')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 Item not found.')
+    else:
+        response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
     await message.channel.send(embed=response)

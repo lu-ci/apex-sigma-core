@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import user_avatar
 from .nodes.item_core import ItemCore
 
 item_core = None
@@ -76,4 +77,5 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
     await message.channel.send(embed=response)
