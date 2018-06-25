@@ -60,7 +60,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
                         break
         table_data = [
             [
-                pos + 1,
+                pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
                 clean_name(doc[0].name, 'Unknown')[:12],
                 str(doc[1])
             ] for pos, doc in enumerate(leader_docs)
