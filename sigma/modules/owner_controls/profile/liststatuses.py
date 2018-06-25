@@ -25,10 +25,10 @@ async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
     if status_data:
         status_list = [[s['ID'], s['Text']] for s in status_data]
         page = args[0] if args else 1
-        status_list, page = paginate(status_list, page, 20)
+        status_list, page = paginate(status_list, page, 10)
         status_list = sorted(status_list, key=lambda x: x[1])
-        status_id = '\n'.join([f'`{s[0]}`' for s in status_list])
-        status_text = '\n'.join([f'**{s[1]}**' for s in status_list])
+        status_id = '\n'.join([f'{s[0]}' for s in status_list])
+        status_text = '\n'.join([f'{s[1]}' for s in status_list])
         response = discord.Embed(color=0x1B6F5F, title=f'🚥 Statuses on page {page}')
         response.add_field(name='ID', value=status_id)
         response.add_field(name='Text', value=status_text)
