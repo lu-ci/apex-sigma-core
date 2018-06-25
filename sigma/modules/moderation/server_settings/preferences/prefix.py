@@ -21,9 +21,9 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.author.permissions_in(message.channel).manage_guild:
-        current_prefix = await cmd.db.get_prefix(message)
-        if args:
+    current_prefix = await cmd.db.get_prefix(message)
+    if args:
+        if message.author.permissions_in(message.channel).manage_guild:
             new_prefix = ''.join(args)
             if len(new_prefix) >= 2:
                 if new_prefix != current_prefix:
@@ -39,7 +39,7 @@ async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ The prefix needs to be at least two character.')
         else:
-            response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
+            response = permission_denied('Manage Server')
     else:
-        response = permission_denied('Manage Server')
+        response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
     await message.channel.send(embed=response)
