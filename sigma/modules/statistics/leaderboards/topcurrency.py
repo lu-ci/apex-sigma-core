@@ -20,7 +20,6 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
 
 
@@ -30,14 +29,12 @@ tcr_cache = Cacher(True, 3600)
 async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = cmd.bot.cfg.pref.currency
     sort_key = 'global'
-    lb_icon = cmd.bot.user.avatar_url
     lb_category = 'Global'
     search = {}
     if args:
         if args[0].lower() == 'local':
             sort_key = f'guilds.{message.guild.id}'
             search = {sort_key: {'$exists': True}}
-            lb_icon = message.guild.icon_url or lb_icon
             lb_category = message.guild.name
         elif args[0].lower() == 'total':
             sort_key = 'total'
@@ -59,13 +56,17 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                     leader_docs.append([user_object, user_value])
                     if len(leader_docs) >= 20:
                         break
-        table_data = [[pos + 1, clean_name(doc[0].name, 'Unknown')[:12],
-                       str(doc[1])] for pos, doc in enumerate(leader_docs)]
+        table_data = [
+            [
+                pos + 1,
+                clean_name(doc[0].name, 'Unknown')[:12],
+                str(doc[1])
+            ] for pos, doc in enumerate(leader_docs)
+        ]
         table_body = boop(table_data, ['#', 'User Name', value_name])
         tcr_cache.set_cache(sort_key, table_body)
     last_updated = arrow.get(tcr_cache.get_executed(sort_key))
-    response = discord.Embed(color=await get_image_colors(lb_icon), timestamp=last_updated.datetime)
-    response.set_author(name=f'{lb_category} {value_name} Leaderboard', icon_url=lb_icon)
-    response.description = f'```hs\n{table_body}\n```'
-    response.set_footer(text=f'Leaderboard last updated {last_updated.humanize()}.')
-    await message.channel.send(embed=response)
+    response = f'**{lb_category} {value_name} Leaderboard**'
+    response += f'\n```hs\n{table_body}\n```'
+    response += f'\nLeaderboard last updated {last_updated.humanize()}.'
+    await message.channel.send(response)
