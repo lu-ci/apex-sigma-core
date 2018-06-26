@@ -29,6 +29,17 @@ commands:
     description:
       Shows information about a HTTP response status code.
 
+  - name:         temproom
+    alts:
+      - "tempvc"
+    enabled:      true
+    usage:        "{pfx}{cmd} Orgy For One"
+    description:
+      Makes a temporary voice channel that you can fully manage.
+      Once everyone leaves the channel (not including bots) it's destroyed.
+      The temp voice channels are checked by their prefix ([Σ]), if this is
+      edited out, the channel will not be destroyed when emptied.
+
   - name:         edgecalculator
     alts:
       - "edgecalc"
@@ -51,3 +62,8 @@ commands:
     usage:        "{pfx}{cmd} 381449702589202432"
     description:
       Quotes a message from its given ID.
+
+events:
+  - name:        temproom_checker
+    type:        voice_state_update
+    enabled:     true

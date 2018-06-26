@@ -233,6 +233,7 @@ Commands | Description | Example
 `>>shadowpollvote` `>>spvote` | Votes on a shadow poll. Choosing multiple options is not allowed. Re-using the command will result in your vote being changed. | `>>shadowpollvote 1bca22 2`
 `>>shadowpollvoters` `>>spvoters` | Shows all the users that voted on a shadow poll and what they voted on. This command can only be used by the author of the poll. | `>>shadowpollvoters 1bca22`
 `>>shadowpollwipe` `>>spwipe` | Completely resets a poll's statistics. Deleting all the data about who voted for what option. | `>>shadowpollwipe 1bca22`
+`>>temproom` `>>tempvc` | Makes a temporary voice channel that you can fully manage. Once everyone leaves the channel (not including bots) it's destroyed. The temp voice channels are checked by their prefix ([Σ]), if this is edited out, the channel will not be destroyed when emptied. | `>>temproom Orgy For One`
 [Back To Top](#module-index)
 
 ### MODERATION
