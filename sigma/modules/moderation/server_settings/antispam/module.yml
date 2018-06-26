@@ -1,0 +1,55 @@
+name:             Anti-Spam Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         anticaps
+    enabled:      true
+    description:
+      Toggles the anticaps limiter.
+      The default is a minimum of 5 capital letters and 60% of the message being caps.
+      This can be controlled with the "capslimit" and "capspercentage" commands.
+
+  - name:         capslimit
+    enabled:      true
+    usage:        "{pfx}{cmd} 9"
+    description:
+      Sets the minimum number of capital letters in a message to check for before
+      a message is checked for what percentage of the message is in caps.
+
+  - name:         capspercentage
+    alts:
+      - "capspercent"
+    enabled:      true
+    usage:        "{pfx}{cmd} 80"
+    description:
+      Sets the minimum percentage of the message's capital letters.
+      If this percentage is crossed, the message is deleted.
+      Basically if 80% of the message is caps (as set in the usage example), it'll get nuked.
+
+  - name:         antispam
+    enabled:      true
+    description:
+      Toggles the antispam limiter.
+      This basically enforces a custom rate limited upon users.
+      The default is 5 messages per 5 seconds.
+
+  - name:         ratelimit
+    enabled:      true
+    usage:        "{pfx}{cmd} 6/10"
+    description:
+      Sets the message amount and timespan for the rate limit.
+      Separated by a slash, the amount goes first and timespan second.
+      The usage example translates to a limit of 6 messages per 10 seconds.
+      Any messages that cross it get nuked.
+
+events:
+  - name:         anticaps_watcher
+    type:         message
+    enabled:      true
+
+  - name:         antispam_watcher
+    type:         message
+    enabled:      true

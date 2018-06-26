@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
-    'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters',
+    'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters', 'LogAntispam',
     'LogKicks', 'LogMovement', 'LogMutes', 'LogPurges', 'LogWarnings'
 ]
 accepted_logs = [lk.lower()[3:] for lk in log_keys]
