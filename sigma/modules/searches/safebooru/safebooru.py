@@ -30,7 +30,7 @@ async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):
         async with session.get(resource) as data:
             data = await data.read()
     posts = html.fromstring(data)
-    if posts:
+    if len(posts):
         post = secrets.choice(posts).attrib
         image_url = post['file_url']
         icon_url = 'https://i.imgur.com/3Vb6LdJ.png'
