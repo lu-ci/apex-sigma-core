@@ -53,7 +53,7 @@ async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list
                 poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     choice_count = len(poll_file['poll']['answers'])
-                    if 0 > choice_num > choice_count:
+                    if 0 < choice_num or choice_num > choice_count:
                         bad_choice = True
                     else:
                         bad_choice = False
