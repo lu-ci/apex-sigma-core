@@ -68,6 +68,18 @@ commands:
       Basically gives a large amount of Kud to the top 20 users
       in each leaderboard category. Currency earned, experience, and cookies.
 
+  - name:         setcooldown
+    alts:
+      - "setcd"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} roll 50"
+    description:
+      Sets a global cooldown on a command.
+      The cooldown is user-bound and specified in seconds.
+
   - name:         getreaction
     alts:
       - "getreact"

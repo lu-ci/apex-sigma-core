@@ -212,6 +212,12 @@ class SigmaCommand(object):
         except discord.Forbidden:
             pass
 
+    async def update_cooldown(self, author):
+        cdfile = await self.db[self.db.db_cfg.database].CommandCooldowns.find_one({'Command': self.name}) or {}
+        cooldown = cdfile.get('Cooldown')
+        if cooldown:
+            await self.bot.cool_down.set_cooldown(self.name, author, cooldown)
+
     async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
             if message.guild:
@@ -227,56 +233,60 @@ class SigmaCommand(object):
                 self.log.warning(f'{message.author.name} tried using me.')
                 return
             if not self.cd.is_cooling(message):
-                perms = GlobalCommandPermissions(self, message)
-                await perms.check_black_usr()
-                await perms.check_black_srv()
-                await perms.generate_response()
-                perms.check_final()
-                guild_allowed = ServerCommandPermissions(self, message)
-                await guild_allowed.check_perms()
-                self.log_command_usage(message, args)
-                self.cd.set_cooling(message)
-                if perms.permitted:
-                    if guild_allowed.permitted:
-                        requirements = CommandRequirements(self, message)
-                        if requirements.reqs_met:
-                            try:
-                                await getattr(self.command, self.name)(self, message, args)
-                                await add_cmd_stat(self)
-                                await self.add_usage_exp(message)
-                                self.bot.command_count += 1
-                                self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
-                                if message.guild:
-                                    if self.elh.active:
-                                        await self.elh.add_data(self.stats.construct_cmd_data(self, message, args))
-                            except self.get_exception() as e:
-                                await self.send_error_message(message, args, e)
+                if not await self.bot.cool_down.on_cooldown(self.name, message.author):
+                    await self.update_cooldown(message.author)
+                    perms = GlobalCommandPermissions(self, message)
+                    await perms.check_black_usr()
+                    await perms.check_black_srv()
+                    await perms.generate_response()
+                    perms.check_final()
+                    guild_allowed = ServerCommandPermissions(self, message)
+                    await guild_allowed.check_perms()
+                    self.log_command_usage(message, args)
+                    self.cd.set_cooling(message)
+                    if perms.permitted:
+                        if guild_allowed.permitted:
+                            requirements = CommandRequirements(self, message)
+                            if requirements.reqs_met:
+                                try:
+                                    await getattr(self.command, self.name)(self, message, args)
+                                    await add_cmd_stat(self)
+                                    await self.add_usage_exp(message)
+                                    self.bot.command_count += 1
+                                    self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
+                                    if message.guild:
+                                        if self.elh.active:
+                                            await self.elh.add_data(self.stats.construct_cmd_data(self, message, args))
+                                except self.get_exception() as e:
+                                    await self.send_error_message(message, args, e)
 
+                            else:
+                                await self.respond_with_icon(message, '❗')
+                                reqs_embed = discord.Embed(color=0xBE1931)
+                                reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
+                                reqs_error_list = ''
+                                for req in requirements.missing_list:
+                                    req = req.replace('_', ' ').title()
+                                    reqs_error_list += f'\n- {req}'
+                                prefix = await self.db.get_prefix(message)
+                                reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                                reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
+                                try:
+                                    await message.channel.send(embed=reqs_embed)
+                                except discord.Forbidden:
+                                    pass
                         else:
-                            await self.respond_with_icon(message, '❗')
-                            reqs_embed = discord.Embed(color=0xBE1931)
-                            reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
-                            reqs_error_list = ''
-                            for req in requirements.missing_list:
-                                req = req.replace('_', ' ').title()
-                                reqs_error_list += f'\n- {req}'
-                            prefix = await self.db.get_prefix(message)
-                            reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                            reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
+                            self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+                            await self.respond_with_icon(message, '⛔')
+                    else:
+                        perms.log_unpermitted()
+                        await self.respond_with_icon(message, '⛔')
+                        if perms.response:
                             try:
-                                await message.channel.send(embed=reqs_embed)
+                                await message.channel.send(embed=perms.response)
                             except discord.Forbidden:
                                 pass
-                    else:
-                        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                        await self.respond_with_icon(message, '⛔')
                 else:
-                    perms.log_unpermitted()
-                    await self.respond_with_icon(message, '⛔')
-                    if perms.response:
-                        try:
-                            await message.channel.send(embed=perms.response)
-                        except discord.Forbidden:
-                            pass
+                    await self.respond_with_icon(message, '❄')
             else:
                 await self.respond_with_icon(message, '🕙')

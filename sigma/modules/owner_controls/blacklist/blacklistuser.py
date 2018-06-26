@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import gcp_cache
 
 
 async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -47,6 +48,8 @@ async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list)
                         await black_user_collection.insert_one({'UserID': target.id, 'Total': True})
                         result = 'blacklisted'
                         icon = '🔒'
+                    gcp_cache.del_cache(message.author.id)
+                    gcp_cache.del_cache(f'{message.author.id}_checked')
                     title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)
                 else:
