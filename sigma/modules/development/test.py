@@ -16,7 +16,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.statistics.external.common import StatsConstructor
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):

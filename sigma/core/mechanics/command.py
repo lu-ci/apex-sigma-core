@@ -253,7 +253,8 @@ class SigmaCommand(object):
                                     await add_cmd_stat(self)
                                     await self.add_usage_exp(message)
                                     self.bot.command_count += 1
-                                    self.bot.loop.create_task(self.bot.queue.event_runner('command', self, message, args))
+                                    event_task = self.bot.queue.event_runner('command', self, message, args)
+                                    self.bot.loop.create_task(event_task)
                                     if message.guild:
                                         if self.elh.active:
                                             await self.elh.add_data(self.stats.construct_cmd_data(self, message, args))

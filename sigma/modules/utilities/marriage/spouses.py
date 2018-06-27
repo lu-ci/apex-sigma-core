@@ -13,12 +13,13 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.utilities.data_processing import paginate, user_avatar
 
 
 async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -46,9 +47,12 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         spbody = boop(spdata, ['Name', 'Status', 'Since'])
         upgrades = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
         limit = 10 + (upgrades.get('harem') or 0)
-        response = discord.Embed(color=0xf9f9f9, title=f'💍 {starter} married to...')
+        stats = f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.'
+        response = discord.Embed(color=0xf9f9f9)
+        response.set_author(name=f'{starter} married to...', icon_url=user_avatar(target))
+        response.add_field(name='Stats', value=stats, inline=False)
+        response.add_field(name='Spouse List', value=spbody)
         response.description = f'```hs\n{spbody}\n```'
-        response.set_footer(text=f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.')
     else:
         if page == 1:
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
