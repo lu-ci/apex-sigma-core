@@ -36,7 +36,7 @@ def rate_limited(msg: discord.Message, amt: int, tsp: int):
 
 
 async def antispam_watcher(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
+    if message.guild and message.author:
         if message.author.id != message.guild.owner.id and message.author.id not in ev.bot.cfg.dsc.owners:
             if message.content:
                 antispam = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
