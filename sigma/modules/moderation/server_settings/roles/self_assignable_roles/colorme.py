@@ -38,7 +38,7 @@ async def colorme(cmd: SigmaCommand, message: discord.Message, args: list):
                     color_int = int(f'0x{hex_req}', 16)
                     role_color = discord.Color(color_int)
                     role_objc = await message.guild.create_role(name=role_name, color=role_color)
-                    role_objc.edit(position=role_posi)
+                    await role_objc.edit(position=role_posi)
                 for member_role in message.author.roles:
                     if member_role.name.startswith('SCR-'):
                         await message.author.remove_roles(member_role, reason='Assigning new color role.')
