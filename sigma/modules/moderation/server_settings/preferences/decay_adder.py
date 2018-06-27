@@ -18,17 +18,17 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-
 from .decay_checker import decay_cache
 
 
 async def decay_adder(ev: SigmaEvent, msg: discord.Message):
-    dchns = await ev.db.get_guild_settings(msg.guild.id, 'DecayingChannels') or []
-    if msg.channel.id in dchns:
-        dtmrs = await ev.db.get_guild_settings(msg.guild.id, 'DecayingTimers') or {}
-        dtmr = dtmrs.get(str(msg.channel.id))
-        if dtmr:
-            deletion_stamp = arrow.utcnow().timestamp + dtmr
-            tracking_data = {'Message': msg.id, 'Channel': msg.channel.id, 'Timestamp': deletion_stamp}
-            await ev.db[ev.db.db_cfg.database].DecayingMessages.insert_one(tracking_data)
-            decay_cache.del_cache('all')
+    if msg.guild:
+        dchns = await ev.db.get_guild_settings(msg.guild.id, 'DecayingChannels') or []
+        if msg.channel.id in dchns:
+            dtmrs = await ev.db.get_guild_settings(msg.guild.id, 'DecayingTimers') or {}
+            dtmr = dtmrs.get(str(msg.channel.id))
+            if dtmr:
+                deletion_stamp = arrow.utcnow().timestamp + dtmr
+                tracking_data = {'Message': msg.id, 'Channel': msg.channel.id, 'Timestamp': deletion_stamp}
+                await ev.db[ev.db.db_cfg.database].DecayingMessages.insert_one(tracking_data)
+                decay_cache.del_cache('all')
