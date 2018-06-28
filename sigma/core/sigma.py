@@ -112,6 +112,7 @@ class ApexSigma(client_class):
     def init_cool_down(self):
         self.log.info('Loading Cool-down Controls...')
         self.cool_down = CooldownControl(self)
+        self.loop.run_until_complete(self.cool_down.clean_cooldowns())
         self.loop.run_until_complete(self.cool_down.cache_cooldowns())
         self.log.info('Cool-down Controls Successfully Enabled')
 

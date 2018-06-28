@@ -107,3 +107,7 @@ class CooldownControl(object):
             cd_data = {'name': cd_name, 'end_stamp': end_stamp}
             await self.cds.insert_one(cd_data)
         self.cache.del_cache(cd_name)
+
+    async def clean_cooldowns(self):
+        now = arrow.utcnow().timestamp
+        await self.cds.delete_many({'end_stamp': {'$lt': now}})
