@@ -39,21 +39,22 @@ def count_chars(text):
 
 async def anticaps_watcher(ev: SigmaEvent, message: discord.Message):
     if message.guild and message.author:
-        if not message.author.guild_permissions.administrator and message.author.id not in ev.bot.cfg.dsc.owners:
-            if message.content:
-                anticaps = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
-                if anticaps:
-                    cap_limit = await ev.db.get_guild_settings(message.guild.id, 'CapsLimit') or 5
-                    cap_percent = await ev.db.get_guild_settings(message.guild.id, 'CapsPercentage') or 60
-                    total, upper, percent = count_chars(message.content)
-                    if upper >= cap_limit and percent >= cap_percent:
-                        await message.delete()
-                        title = f'📢 Anticaps: Removed a message.'
-                        user = f'User: {message.author.id}'
-                        channel = f'Channel: {message.channel.name}'
-                        stats = f'Caps: {upper}/{total} {percent}%'
-                        log_embed = discord.Embed(color=0xdd2e44, title=title)
-                        log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
-                        log_embed.description = message.content
-                        log_embed.set_footer(text=f'{user} | {channel} | {stats}')
-                        await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogAntispam')
+        if isinstance(message.author, discord.Member):
+            if not message.author.guild_permissions.administrator and message.author.id not in ev.bot.cfg.dsc.owners:
+                if message.content:
+                    anticaps = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
+                    if anticaps:
+                        cap_limit = await ev.db.get_guild_settings(message.guild.id, 'CapsLimit') or 5
+                        cap_percent = await ev.db.get_guild_settings(message.guild.id, 'CapsPercentage') or 60
+                        total, upper, percent = count_chars(message.content)
+                        if upper >= cap_limit and percent >= cap_percent:
+                            await message.delete()
+                            title = f'📢 Anticaps: Removed a message.'
+                            user = f'User: {message.author.id}'
+                            channel = f'Channel: {message.channel.name}'
+                            stats = f'Caps: {upper}/{total} {percent}%'
+                            log_embed = discord.Embed(color=0xdd2e44, title=title)
+                            log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
+                            log_embed.description = message.content
+                            log_embed.set_footer(text=f'{user} | {channel} | {stats}')
+                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogAntispam')

@@ -37,19 +37,20 @@ def rate_limited(msg: discord.Message, amt: int, tsp: int):
 
 async def antispam_watcher(ev: SigmaEvent, message: discord.Message):
     if message.guild and message.author:
-        if not message.author.guild_permissions.administrator and message.author.id not in ev.bot.cfg.dsc.owners:
-            if message.content:
-                antispam = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
-                if antispam:
-                    amount = await ev.db.get_guild_settings(message.guild.id, 'RateLimitAmount') or 5
-                    timespan = await ev.db.get_guild_settings(message.guild.id, 'RateLimitTimespan') or 5
-                    if rate_limited(message, amount, timespan):
-                        await message.delete()
-                        title = f'📢 Antispam: Removed a message.'
-                        user = f'User: {message.author.id}'
-                        channel = f'Channel: {message.channel.name}'
-                        log_embed = discord.Embed(color=0xdd2e44, title=title)
-                        log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
-                        log_embed.description = message.content
-                        log_embed.set_footer(text=f'{user} | {channel}')
-                        await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogAntispam')
+        if isinstance(message.author, discord.Member):
+            if not message.author.guild_permissions.administrator and message.author.id not in ev.bot.cfg.dsc.owners:
+                if message.content:
+                    antispam = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
+                    if antispam:
+                        amount = await ev.db.get_guild_settings(message.guild.id, 'RateLimitAmount') or 5
+                        timespan = await ev.db.get_guild_settings(message.guild.id, 'RateLimitTimespan') or 5
+                        if rate_limited(message, amount, timespan):
+                            await message.delete()
+                            title = f'📢 Antispam: Removed a message.'
+                            user = f'User: {message.author.id}'
+                            channel = f'Channel: {message.channel.name}'
+                            log_embed = discord.Embed(color=0xdd2e44, title=title)
+                            log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
+                            log_embed.description = message.content
+                            log_embed.set_footer(text=f'{user} | {channel}')
+                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogAntispam')
