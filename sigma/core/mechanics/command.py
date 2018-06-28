@@ -18,6 +18,7 @@ import os
 import secrets
 import traceback
 
+import arrow
 import discord
 import yaml
 
@@ -108,7 +109,9 @@ class SigmaCommand(object):
             cmd_exception = Exception
         return cmd_exception
 
-    def log_command_usage(self, message: discord.Message, args: list):
+    def log_command_usage(self, message: discord.Message, args: list, extimes: list):
+        crst = arrow.get(message.created_at).float_timestamp - 2
+        exdiffs = [str(ext - crst) for ext in extimes]
         if message.guild:
             cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
             cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
@@ -118,6 +121,7 @@ class SigmaCommand(object):
         log_text = f'USR: {author_full} | {cmd_location}'
         if args:
             log_text += f' | ARGS: {" ".join(args)}'
+        log_text += f' | EX: {"/".join(exdiffs)}s'
         self.log.info(log_text)
 
     async def add_usage_exp(self, message: discord.Message):
@@ -219,6 +223,7 @@ class SigmaCommand(object):
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)
 
     async def execute(self, message: discord.Message, args: list):
+        start_exec = arrow.utcnow().float_timestamp
         if self.bot.ready:
             if message.guild:
                 delete_command_message = await self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
@@ -242,7 +247,8 @@ class SigmaCommand(object):
                     perms.check_final()
                     guild_allowed = ServerCommandPermissions(self, message)
                     await guild_allowed.check_perms()
-                    self.log_command_usage(message, args)
+                    check_stamp = arrow.utcnow().float_timestamp
+                    self.log_command_usage(message, args, [start_exec, check_stamp])
                     self.cd.set_cooling(message)
                     if perms.permitted:
                         if guild_allowed.permitted:
