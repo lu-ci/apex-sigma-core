@@ -2,6 +2,7 @@ pipeline:
   build:
     image: python:3.6
     commands:
+      - /bin/bash
       - python -V
       - pip install virtualenv
       - virtualenv venv
