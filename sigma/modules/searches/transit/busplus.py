@@ -140,7 +140,7 @@ async def get_line_data(db: Database, line_number: str):
     target_cache = await db[db.db_cfg.database].BusPlusCache.find_one({'Line': line_number})
     if target_cache:
         target_cache.pop('_id')
-        result = target_cache
+        result = target_cache.get('Timetable')
     else:
         target_line = await get_line_url(line_number)
         if target_line:
