@@ -51,8 +51,7 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xf9f9f9)
         response.set_author(name=f'{starter} married to...', icon_url=user_avatar(target))
         response.add_field(name='Stats', value=stats, inline=False)
-        response.add_field(name='Spouse List', value=spbody)
-        response.description = f'```hs\n{spbody}\n```'
+        response.add_field(name='Spouse List', value=f'```hs\n{spbody}\n```')
     else:
         if page == 1:
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
