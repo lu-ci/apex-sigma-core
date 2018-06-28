@@ -2,11 +2,10 @@ pipeline:
   build:
     image: python:3.6
     commands:
-      - /bin/bash
       - python -V
       - pip install virtualenv
       - virtualenv venv
-      - source /venv/bin/activate
+      - . /venv/bin/activate
       - pip install -r requirements.txt -r requirements-test.txt
       - ./test.sh
   slack:
