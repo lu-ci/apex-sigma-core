@@ -16,7 +16,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.statistics.internal import StatisticsStorage
+from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats = None
 

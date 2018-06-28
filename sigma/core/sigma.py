@@ -4,6 +4,7 @@ import shutil
 
 import arrow
 import discord
+import markovify
 from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
@@ -35,6 +36,7 @@ from sigma.core.mechanics.plugman import PluginManager
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
+from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
 ci_token = os.getenv('CI')
 if not ci_token:
@@ -67,6 +69,7 @@ class ApexSigma(client_class):
         self.init_config()
         self.log.info('---------------------------------')
         self.loop.run_until_complete(self.init_database())
+        self.loop.run_until_complete(self.init_all_chains())
         self.log.info('---------------------------------')
         self.init_cool_down()
         self.log.info('---------------------------------')
@@ -108,6 +111,25 @@ class ApexSigma(client_class):
             self.log.error('Database Access Operation Failed!')
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
+
+    async def init_all_chains(self):
+        counter = 0
+        last = arrow.utcnow().timestamp
+        self.log.info('Loading markov chains...')
+        coll = self.db[self.db.db_cfg.database].MarkovChains
+        markov_docs = await coll.find({}).to_list(None)
+        self.log.info(f'Found {len(markov_docs)} documents')
+        for mdoc in markov_docs:
+            chain_text = ' '.join(mdoc.get('Text', []))
+            if chain_text:
+                chain_object = markovify.Text(chain_text)
+                chain_object_cache.set_cache(mdoc.get('UserID'), chain_object)
+                counter += 1
+                now = arrow.utcnow().timestamp
+                if now - last >= 10:
+                    last = now
+                    self.log.info(f'Cached {counter} so far...')
+        self.log.info('Finished caching markov chains')
 
     def init_cool_down(self):
         self.log.info('Loading Cool-down Controls...')

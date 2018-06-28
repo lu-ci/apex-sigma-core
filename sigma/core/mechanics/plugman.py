@@ -38,6 +38,10 @@ class PluginManager(object):
         self.load_all_modules()
         if self.init:
             self.log.info(f'Loaded {len(self.commands)} Commands')
+            for evkey in self.events:
+                ev_count = len(self.events.get(evkey))
+                end = 's' if ev_count != 1 else ''
+                self.log.info(f'Loaded {ev_count} {evkey.replace("_", " ").title()} Event{end}')
             self.log.info('---------------------------------')
 
     @staticmethod
