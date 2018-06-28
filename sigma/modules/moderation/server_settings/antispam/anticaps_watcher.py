@@ -39,7 +39,7 @@ def count_chars(text):
 
 async def anticaps_watcher(ev: SigmaEvent, message: discord.Message):
     if message.guild and message.author:
-        if message.author.id != message.guild.owner.id and message.author.id not in ev.bot.cfg.dsc.owners:
+        if message.author.guild_permissions.administrator and message.author.id not in ev.bot.cfg.dsc.owners:
             if message.content:
                 anticaps = await ev.db.get_guild_settings(message.guild.id, 'AntiCaps')
                 if anticaps:
