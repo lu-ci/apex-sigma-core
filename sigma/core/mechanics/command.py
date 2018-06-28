@@ -216,7 +216,7 @@ class SigmaCommand(object):
         cdfile = await self.db[self.db.db_cfg.database].CommandCooldowns.find_one({'Command': self.name}) or {}
         cooldown = cdfile.get('Cooldown')
         if cooldown:
-            await self.bot.cool_down.set_cooldown(self.name, author, cooldown)
+            await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)
 
     async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
@@ -233,7 +233,7 @@ class SigmaCommand(object):
                 self.log.warning(f'{message.author.name} tried using me.')
                 return
             if not self.cd.is_cooling(message):
-                if not await self.bot.cool_down.on_cooldown(self.name, message.author):
+                if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', message.author):
                     await self.update_cooldown(message.author)
                     perms = GlobalCommandPermissions(self, message)
                     await perms.check_black_usr()
