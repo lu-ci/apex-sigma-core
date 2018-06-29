@@ -29,30 +29,19 @@ word_cache = {}
 updating = False
 
 
-async def load_word_cache():
-    global word_cache
-    word_list_url = 'https://raw.githubusercontent.com/adambom/dictionary/master/dictionary.json'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(word_list_url) as source_session:
-            source_data = await source_session.read()
-            big_word_cache = json.loads(source_data)
-            for word in big_word_cache.keys():
-                if len(word) > 3 and len(word.split(' ')) == 1:
-                    word_cache.update({word.lower(): big_word_cache.get(word)})
+async def load_word_cache(source_data):
+    big_word_cache = json.loads(source_data)
+    for word in big_word_cache.keys():
+        if len(word) > 3 and len(word.split(' ')) == 1:
+            word_cache.update({word.lower(): big_word_cache.get(word)})
 
 
 async def unscramble(cmd: SigmaCommand, message: discord.Message, args: list):
-    global word_cache, updating
-    if updating:
-        update_resp = discord.Embed(color=0x696969, title='🕙 Please wait while word list is updated...')
-        await message.channel.send(embed=update_resp)
-        return
-    if not word_cache and not updating:
-        updating = True
+    if not word_cache:
         update_resp = discord.Embed(color=0x696969, title='🕙 Updating word list, please wait...')
         await message.channel.send(embed=update_resp)
-        await load_word_cache()
-        updating = False
+        with open(cmd.resource('dictionary.json')) as dict_file:
+            await load_word_cache(dict_file.read())
     if message.channel.id not in ongoing_list:
         ongoing_list.append(message.channel.id)
         words = list(word_cache.keys())
