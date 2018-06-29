@@ -34,9 +34,8 @@ async def discordbots_clock(ev: SigmaEvent):
 async def clockwork_updater(ev: SigmaEvent, token):
     while True:
         if ev.bot.is_ready():
-            guild_count = len(ev.bot.guilds)
             headers = {'Authorization': token}
-            data = {'server_count': guild_count}
+            data = {'server_count': len(ev.bot.guilds)}
             api_url = f'https://discordbots.org/api/bots/{ev.bot.user.id}/stats'
             async with aiohttp.ClientSession() as session:
                 await session.post(api_url, data=data, headers=headers)

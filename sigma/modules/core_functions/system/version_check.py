@@ -46,4 +46,4 @@ async def version_check(ev: SigmaEvent):
             ev.log.warning('Updating is strongly suggested.')
             ev.log.warning('---------------------------------')
     else:
-        ev.log.error('Could not retrieve latest version.')
+        ev.log.error('Could not retrieve latest version information.')

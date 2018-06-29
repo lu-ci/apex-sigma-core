@@ -17,6 +17,9 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+# I love spaghetti!
+# Valebu pls, no take my spaghetti... :'(
+from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
@@ -25,18 +28,12 @@ from sigma.core.mechanics.plugman import PluginManager
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# I love spaghetti!
-# Valebu pls, no take my spaghetti... :'(
-from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
 ci_token = os.getenv('CI')
 if not ci_token:

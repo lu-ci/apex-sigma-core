@@ -44,7 +44,7 @@ commands:
       Used as a placeholder for testing functions.
 
 events:
-  - name:        version_updater
+  - name:        version_file_updater
     type:        ready
     enabled:     true
 

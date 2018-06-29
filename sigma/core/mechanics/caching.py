@@ -33,4 +33,3 @@ class Cacher(object):
 
     def get_executed(self, key: str or int):
         return self.data.get(f'{key}_stamp', 0)
-
