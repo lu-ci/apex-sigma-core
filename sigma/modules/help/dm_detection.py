@@ -27,7 +27,7 @@ def log_dm(ev: SigmaEvent, message: discord.Message):
 async def has_invite(ev: SigmaEvent, arguments):
     invite_found = False
     for arg in arguments:
-        triggers = ['.gg', '.com', 'http']
+        triggers = ['discord.gg', 'discordapp.com']
         for trigger in triggers:
             if trigger in arg:
                 try:

@@ -79,9 +79,7 @@ class SigmaCookedItem(object):
     @staticmethod
     def roll_quality():
         roll_num = secrets.randbelow(100)
-        if roll_num in range(0, 65):
-            quality = 0
-        elif roll_num in range(66, 85):
+        if roll_num in range(66, 85):
             quality = 1
         elif roll_num in range(86, 95):
             quality = 2

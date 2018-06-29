@@ -34,7 +34,7 @@ async def edit_invite_blocker(ev: SigmaEvent, before, after):
                     arguments = after.content.split(' ')
                     invite_found = False
                     for arg in arguments:
-                        triggers = ['.gg', '.com', 'http']
+                        triggers = ['discord.gg', 'discordapp.com']
                         for trigger in triggers:
                             if trigger in arg:
                                 try:

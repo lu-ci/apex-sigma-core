@@ -42,8 +42,8 @@ async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
                                 url = piece
                                 break
                     response = discord.Embed(color=0x3B88C3, timestamp=time_then.datetime)
-                    response.add_field(name=f'ℹ {target.name} is AFK.',
-                                       value=f'Reason: {afk_reason}\nWent AFK: {afk_time}')
+                    reason = f'Reason: {afk_reason}\nWent AFK: {afk_time}'
+                    response.add_field(name=f'ℹ {target.name} is AFK.', value=reason)
                     if url:
                         response.set_image(url=url)
                     afk_notify = await message.channel.send(embed=response)
