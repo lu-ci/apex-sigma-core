@@ -19,8 +19,8 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from .collector_clockwork import check_queued, get_target, get_channel, get_queue_size, add_to_queue
-
+from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
+from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 
 async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     target_usr = get_target(message)

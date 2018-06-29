@@ -18,9 +18,9 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from .nodes.item_core import ItemCore
-from .nodes.properties import cook_quality
-from .nodes.recipe_core import RecipeCore
+from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.properties import cook_quality
+from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 
 item_core = None
 recipe_core = None

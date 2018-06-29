@@ -15,11 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
+import secrets
 
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from .nodes.race_storage import *
+from sigma.modules.minigames.racing.nodes.race_storage import races, colors, make_race
 
 
 async def race(cmd: SigmaCommand, message: discord.Message, args: list):

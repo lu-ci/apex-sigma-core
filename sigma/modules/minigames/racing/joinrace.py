@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from .nodes.race_storage import *
+from sigma.modules.minigames.racing.nodes.race_storage import races, add_participant, names, colors
 
 
 async def joinrace(cmd: SigmaCommand, message: discord.Message, args: list):

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
-from .move_log_embed import make_move_log_embed
+from sigma.modules.core_functions.system.move_log_embed import make_move_log_embed
 
 
 async def leave_move_log(ev: SigmaEvent, guild):

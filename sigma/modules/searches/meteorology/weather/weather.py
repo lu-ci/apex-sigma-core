@@ -21,7 +21,7 @@ import discord
 from geopy.geocoders import Nominatim
 
 from sigma.core.mechanics.command import SigmaCommand
-from .visual_storage import icons
+from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 
 def get_unit_and_search(args):

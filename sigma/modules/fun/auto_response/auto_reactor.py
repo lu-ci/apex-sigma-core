@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from .auto_responder import clean_word
+from sigma.modules.fun.auto_response.auto_responder import clean_word
 
 
 async def auto_reactor(ev: SigmaEvent, message: discord.Message):

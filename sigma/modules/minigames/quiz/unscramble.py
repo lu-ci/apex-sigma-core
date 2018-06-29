@@ -18,11 +18,10 @@ import asyncio
 import json
 import secrets
 
-import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from .mech.utils import scramble
+from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
 word_cache = {}

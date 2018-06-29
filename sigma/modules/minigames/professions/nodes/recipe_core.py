@@ -18,8 +18,8 @@ import os
 
 import yaml
 
-from .item_core import ItemCore
-from .properties import cook_icons, cook_colors
+from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.properties import cook_icons, cook_colors
 
 
 class SigmaRecipe(object):

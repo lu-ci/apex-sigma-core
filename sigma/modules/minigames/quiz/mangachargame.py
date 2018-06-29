@@ -22,7 +22,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
-from .mech.utils import scramble
+from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
 streaks = {}

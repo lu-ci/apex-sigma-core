@@ -21,8 +21,8 @@ import discord
 import yaml
 
 from sigma.core.mechanics.database import Database
-from .item_object import SigmaRawItem, SigmaCookedItem
-from .properties import rarity_names, item_colors, item_icons
+from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem, SigmaCookedItem
+from sigma.modules.minigames.professions.nodes.properties import rarity_names, item_icons, item_colors
 
 
 class ItemCore(object):

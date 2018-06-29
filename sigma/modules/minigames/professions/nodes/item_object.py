@@ -18,7 +18,8 @@ import secrets
 
 import discord
 
-from .properties import *
+from sigma.modules.minigames.professions.nodes.properties import rarity_names, item_icons, item_colors, cook_icons, \
+    cook_colors
 
 
 class SigmaRawItem(object):

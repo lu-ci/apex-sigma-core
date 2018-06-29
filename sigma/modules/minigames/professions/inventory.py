@@ -21,9 +21,9 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar, paginate
-from .nodes.item_object import SigmaRawItem
-from .nodes.recipe_core import RecipeCore
-from .nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
+from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 
 item_core = None
 reci_core = None

@@ -18,7 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from .decay_checker import decay_cache
+from sigma.modules.moderation.server_settings.preferences.decay_checker import decay_cache
 
 
 async def decay_adder(ev: SigmaEvent, msg: discord.Message):

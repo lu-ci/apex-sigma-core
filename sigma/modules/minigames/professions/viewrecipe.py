@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from .nodes.recipe_core import RecipeCore
+from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
 
 recipe_core = None
 

@@ -18,7 +18,7 @@ import os
 
 import yaml
 
-from .logger import create_logger
+from sigma.core.mechanics.logger import create_logger
 
 
 class DiscordConfig(object):

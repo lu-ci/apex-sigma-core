@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from .nodes.upgrade_params import upgrade_list
+from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 
 def calculate_upgrade(up_id, level):

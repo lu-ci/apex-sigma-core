@@ -19,8 +19,8 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from .nodes.item_core import ItemCore
-from .nodes.properties import rarity_names
+from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.properties import rarity_names
 
 item_core = None
 
