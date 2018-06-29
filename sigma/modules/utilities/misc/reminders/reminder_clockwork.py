@@ -29,10 +29,10 @@ async def reminder_clockwork(ev: SigmaEvent):
     global rem_loop_running
     if not rem_loop_running:
         rem_loop_running = True
-        ev.bot.loop.create_task(clockwork_function_reminder_clockwork(ev))
+        ev.bot.loop.create_task(reminder_cycler(ev))
 
 
-async def clockwork_function_reminder_clockwork(ev: SigmaEvent):
+async def reminder_cycler(ev: SigmaEvent):
     coll = ev.db[ev.db.db_cfg.database].Reminders
     while True:
         if ev.bot.is_ready():
