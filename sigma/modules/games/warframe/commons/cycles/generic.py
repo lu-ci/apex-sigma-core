@@ -13,7 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import arrow
 import discord
 
 from sigma.core.mechanics.database import Database
@@ -49,11 +49,8 @@ async def get_triggers(db, triggers, guild):
 
 
 async def clean_wf_cache(db: Database):
-    coll = db[db.db_cfg].WarframeCache
-    all_cache = await coll.find({}).to_list(None)
-    all_cache = all_cache[:-100]
-    for doc in all_cache:
-        await coll.delete_one(doc)
+    cutoff = arrow.utcnow().timestamp - 86500
+    await db[db.db_cfg].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):

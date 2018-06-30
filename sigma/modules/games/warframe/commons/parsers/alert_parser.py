@@ -81,9 +81,10 @@ async def get_alert_data(db):
     alert_out = None
     for alert in alert_data:
         event_id = alert['id']
-        db_check = await db[db.db_cfg.database]['WarframeCache'].find_one({'EventID': event_id})
+        db_check = await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id})
         if not db_check:
-            await db[db.db_cfg.database]['WarframeCache'].insert_one({'EventID': event_id})
+            now = arrow.utcnow().timestamp
+            await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id, 'Created': now})
             alert_out = alert
             break
     triggers = ['alert']

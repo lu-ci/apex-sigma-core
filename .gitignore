@@ -101,6 +101,9 @@ ENV/
 # PyCharm Stuff
 .idea/
 
+# VSCode Stuff
+.vscode/
+
 # Config files
 /config/core/*
 /config/plugins/*
