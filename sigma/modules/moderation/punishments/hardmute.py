@@ -18,9 +18,9 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -48,6 +48,8 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                 if hierarchy_auth:
                     ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
                     ongoing_msg = await message.channel.send(embed=ongoing)
+                    timed = args[-1].startswith('--time=')
+                    endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
                     for channel in message.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
@@ -55,7 +57,8 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                             except discord.Forbidden:
                                 pass
                     await ongoing_msg.delete()
-                    reason = ' '.join(args[1:]) if args[1:] else None
+                    rarg = args[1:-1] if timed else args[1:] if args[1:] else None
+                    reason = ' '.join(rarg) if rarg else None
                     log_embed = generate_log_embed(message, target, reason)
                     await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
@@ -68,6 +71,9 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         await target.send(embed=to_target)
                     except discord.Forbidden:
                         pass
+                    if endstamp:
+                        doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                        await cmd.db[cmd.db.db_cfg.database].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')
             else:
