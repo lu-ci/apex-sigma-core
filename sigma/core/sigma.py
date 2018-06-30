@@ -17,9 +17,10 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
+
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
-from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
 # Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher

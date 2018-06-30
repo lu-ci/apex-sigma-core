@@ -46,7 +46,8 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
         reminder_list = ''
         for reminder in all_reminders:
             human_time = arrow.get(reminder['ExecutionStamp']).humanize(arrow.utcnow())
-            channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], cmd.bot.get_all_channels())
+            all_channels = cmd.bot.get_all_channels()
+            channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], all_channels)
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'

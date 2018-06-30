@@ -16,16 +16,18 @@
 
 import discord
 
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.event import SigmaEvent
 
 
 async def get_channels(ev: SigmaEvent, marker):
+    all_channels = ev.bot.get_all_channels()
     channel_list = []
     lookup = {marker: {'$exists': True}}
     setting_files = await ev.db[ev.db.db_cfg.database].ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
-        channel = discord.utils.find(lambda x: x.id == channel_id, ev.bot.get_all_channels())
+        channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
         if channel:
             channel_list.append(channel)
     return channel_list
@@ -46,6 +48,14 @@ async def get_triggers(db, triggers, guild):
     return mentions
 
 
+async def clean_wf_cache(db: Database):
+    coll = db[db.db_cfg].WarframeCache
+    all_cache = await coll.find({}).to_list(None)
+    all_cache = all_cache[:-100]
+    for doc in all_cache:
+        await coll.delete_one(doc)
+
+
 async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):
     channels = await get_channels(ev, marker)
     for channel in channels:
@@ -61,3 +71,4 @@ async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):
                 await channel.send(embed=embed)
         except Exception:
             pass
+    await clean_wf_cache(ev.db)
