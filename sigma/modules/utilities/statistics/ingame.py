@@ -45,7 +45,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
                         curr_count = games[game_name]
                         new_count = curr_count + 1
                         games.update({game_name: new_count})
-    embed = discord.Embed(color=0x1ABC9C)
+    response = discord.Embed(color=0x1ABC9C)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
     page = args[0] if args else 1
     game_list, page = paginate(sorted_games, page)
@@ -63,7 +63,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
     out = boop(out_table_list)
     general_stats_list = [['Online', online_count], ['In-Game', playing_count], ['Unique Games', game_count]]
     general_stats_out = boop(general_stats_list)
-    embed.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name,
+    response.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name,
                     value='```hs\n' + general_stats_out + '\n```', inline=False)
-    embed.add_field(name=f'🎮 By Game on Page {page}', value='```haskell\n' + out + '\n```', inline=False)
-    await message.channel.send(None, embed=embed)
+    response.add_field(name=f'🎮 By Game on Page {page}', value='```haskell\n' + out + '\n```', inline=False)
+    await message.channel.send(embed=response)

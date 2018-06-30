@@ -34,6 +34,6 @@ async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
             [joke_cache.append(joke_item) for joke_item in wocka if 1 < len(joke_item.get('body')) < 512]
     joke_data = joke_cache.pop(secrets.randbelow(len(joke_cache)))
     joke_text = joke_data.get('body')
-    embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='😆 Have A Random Joke', value=joke_text)
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xFFDC5D)
+    response.add_field(name='😆 Have A Random Joke', value=joke_text)
+    await message.channel.send(None, embed=response)

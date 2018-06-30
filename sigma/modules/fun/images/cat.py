@@ -37,6 +37,6 @@ async def cat(cmd: SigmaCommand, message: discord.Message, args: list):
                 [cat_cache.append(res) for res in results]
     choice = cat_cache.pop(secrets.randbelow(len(cat_cache)))
     image_url = str(choice[0].text)
-    embed = discord.Embed(color=0xFFDC5D, title='🐱 Meow~')
-    embed.set_image(url=image_url)
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xFFDC5D, title='🐱 Meow~')
+    response.set_image(url=image_url)
+    await message.channel.send(embed=response)

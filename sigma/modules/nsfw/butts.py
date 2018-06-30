@@ -35,8 +35,8 @@ async def butts(cmd: SigmaCommand, message: discord.Message, args: list):
     model = data['model'] if data['model'] else 'Unknown'
     rank = data['rank']
     butts_icon = 'https://i.imgur.com/zjndjaj.png'
-    embed = discord.Embed(color=0xF9F9F9)
-    embed.set_author(name='Open Butts', icon_url=butts_icon)
-    embed.set_image(url=image_url)
-    embed.set_footer(text=f'Ranking: {rank} | Model: {model}')
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xF9F9F9)
+    response.set_author(name='Open Butts', icon_url=butts_icon)
+    response.set_image(url=image_url)
+    response.set_footer(text=f'Ranking: {rank} | Model: {model}')
+    await message.channel.send(embed=response)

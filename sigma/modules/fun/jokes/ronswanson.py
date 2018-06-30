@@ -29,6 +29,6 @@ async def ronswanson(cmd: SigmaCommand, message: discord.Message, args: list):
             data = await data.read()
             data = json.loads(data)
     joke = data[0]
-    embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='😠 Have a Ron Swanson Quote', value=joke)
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xFFDC5D)
+    response.add_field(name='😠 Have a Ron Swanson Quote', value=joke)
+    await message.channel.send(embed=response)

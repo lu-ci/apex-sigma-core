@@ -42,8 +42,8 @@ async def avatar(cmd: SigmaCommand, message: discord.Message, args: list):
         color = await get_image_colors(ava_url)
     else:
         color = target.color
-    embed = discord.Embed(color=color)
+    response = discord.Embed(color=color)
     if auto_color:
-        embed.description = f'Dominant Color: #{hexify_int(color)}'
-    embed.set_image(url=ava_url)
-    await message.channel.send(None, embed=embed)
+        response.description = f'Dominant Color: #{hexify_int(color)}'
+    response.set_image(url=ava_url)
+    await message.channel.send(embed=response)

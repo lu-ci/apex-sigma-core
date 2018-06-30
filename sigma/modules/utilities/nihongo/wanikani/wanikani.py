@@ -79,19 +79,19 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
             radicals = f'Radicals: **{radicals_progress}**/**{radicals_total}**'
             kanji = f'Kanji: **{kanji_progress}**/**{kanji_total}**'
 
-            embed = discord.Embed(color=target.color)
+            response = discord.Embed(color=target.color)
 
             level_progression = level + '\n'
             level_progression += radicals + '\n'
             level_progression += kanji
-            embed.add_field(name='Level progression', value=level_progression)
+            response.add_field(name='Level progression', value=level_progression)
 
             srs_distibution = f'Apprentice: **{apprentice}**\n'
             srs_distibution += f'Guru: **{guru}**\n'
             srs_distibution += f'Master: **{master}**\n'
             srs_distibution += f'Enlighten: **{enlighten}**\n'
             srs_distibution += f'Burned: **{burned}**'
-            embed.add_field(name='SRS distribution', value=srs_distibution)
+            response.add_field(name='SRS distribution', value=srs_distibution)
 
             study_queue = f'Lessons available: **{lessons_available}**\n'
             study_queue += f'Reviews available: **{reviews_available}**\n'
@@ -102,17 +102,17 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
             study_queue += f'Next review date: **{next_review}**\n'
             study_queue += f'Reviews in next hour: **{reviews_available_next_hour}**\n'
             study_queue += f'Reviews in next day: **{reviews_available_next_day}**'
-            embed.add_field(name='Study queue', value=study_queue)
+            response.add_field(name='Study queue', value=study_queue)
 
             userinfo = f'**{username}** of **Sect {sect}**\n'
             userinfo += f'**Level {level}** Apprentice\n'
             userinfo += f'Serving the Crabigator since {creation_date}'
 
-            embed.set_author(name=f'{username} of Sect {sect}',
+            response.set_author(name=f'{username} of Sect {sect}',
                              url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
-            embed.set_footer(text=f'Serving the Crabigator since {creation_date}')
+            response.set_footer(text=f'Serving the Crabigator since {creation_date}')
         except KeyError:
-            embed = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
     else:
-        embed = discord.Embed(color=0xBE1931, title='❗ User has no Key saved.')
-    await message.channel.send(None, embed=embed)
+        response = discord.Embed(color=0xBE1931, title='❗ User has no Key saved.')
+    await message.channel.send(None, embed=response)

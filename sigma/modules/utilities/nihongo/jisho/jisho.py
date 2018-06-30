@@ -33,7 +33,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
 
     if rq_text.find('503 Service Unavailable') != -1:
         embed_content = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
-        await message.channel.send(None, embed=embed_content)
+        await message.channel.send(embed=embed_content)
         return
 
     request = rq_json
@@ -43,7 +43,7 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
         request = request['data'][0]
     else:
         embed_content = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
-        await message.channel.send(None, embed=embed_content)
+        await message.channel.send(embed=embed_content)
         return
 
     output = ''
@@ -110,14 +110,14 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
                 other_forms += request['japanese'][i]['word'] + '、'
     search_url = f'http://jisho.org/search/{jisho_q}'
     jisho_icon = 'https://i.imgur.com/X1fCJLV.png'
-    embed = discord.Embed(color=0xF9F9F9)
-    embed.set_author(name='Jisho.org', url=search_url, icon_url=jisho_icon)
-    embed.add_field(name=f'{starter}', value=output)
+    response = discord.Embed(color=0xF9F9F9)
+    response.set_author(name='Jisho.org', url=search_url, icon_url=jisho_icon)
+    response.add_field(name=f'{starter}', value=output)
     if other_forms:
         footer_text = f'Other forms: {other_forms[:-1]}'
         if request['is_common']:
             footer_text += ' | Common Word'
         if wk_lvls:
             footer_text += f" | Wanikani Level {', '.join(wk_lvls)}"
-        embed.set_footer(text=footer_text)
-    await message.channel.send(None, embed=embed)
+        response.set_footer(text=footer_text)
+    await message.channel.send(embed=response)

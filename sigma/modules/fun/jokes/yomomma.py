@@ -31,6 +31,6 @@ async def yomomma(cmd: SigmaCommand, message: discord.Message, args: list):
     joke = data.get('joke')
     if not joke.endswith('.'):
         joke += '.'
-    embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='😂 A Yo Momma Joke', value=joke)
-    await message.channel.send(None, embed=embed)
+    response = discord.Embed(color=0xFFDC5D)
+    response.add_field(name='😂 A Yo Momma Joke', value=joke)
+    await message.channel.send(embed=response)
