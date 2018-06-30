@@ -18,9 +18,9 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -54,6 +54,8 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                 if not above_hier:
                     response = discord.Embed(color=0xBE1931, title='⛔ Can\'t mute someone equal or above you.')
                 else:
+                    timed = args[-1].startswith('--time=')
+                    endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
                     mute_list = await cmd.db.get_guild_settings(message.guild.id, 'MutedUsers')
                     if mute_list is None:
                         mute_list = []
@@ -64,7 +66,8 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         mute_list.append(target.id)
                         await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been text muted.')
-                        reason = ' '.join(args[1:]) if args[1:] else None
+                        rarg = args[1:-1] if timed else args[1:] if args[1:] else None
+                        reason = ' '.join(rarg) if rarg else None
                         log_embed = generate_log_embed(message, target, reason)
                         await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
                         to_target_title = f'🔇 You have been text muted.'
@@ -75,4 +78,7 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                             await target.send(embed=to_target)
                         except discord.Forbidden:
                             pass
+                        if endstamp:
+                            doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                            await cmd.db[cmd.db.db_cfg.database].TextmuteClockworkDocs.insert_one(doc_data)
     await message.channel.send(embed=response)
