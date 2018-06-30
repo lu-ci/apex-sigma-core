@@ -14,76 +14,75 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import functools
 import secrets
-from concurrent.futures import ThreadPoolExecutor
 
+import arrow
 import discord
-import praw
-from prawcore.exceptions import Redirect, NotFound
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.modules.searches.reddit.mech.reddit_core import RedditClient
 
 reddit_client = None
+reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
-def grab_post(subreddit, argument):
+async def grab_post(subreddit, argument):
     if argument == 'tophot':
-        post = list(subreddit.hot(limit=1))[0]
+        post = await reddit_client.get_posts(subreddit, 'hot')[0]
     elif argument == 'topnew':
-        post = list(subreddit.new(limit=1))[0]
+        post = await reddit_client.get_posts(subreddit, 'new')[0]
     elif argument == 'randomnew':
-        post = secrets.choice(list(subreddit.new(limit=100)))
+        post = secrets.choice(await reddit_client.get_posts(subreddit, 'new'))
     elif argument == 'toptop':
-        post = list(subreddit.top(limit=1))[0]
+        post = await reddit_client.get_posts(subreddit, 'top')[0]
     elif argument == 'randomtop':
-        post = secrets.choice(list(subreddit.top(limit=100)))
+        post = secrets.choice(await reddit_client.get_posts(subreddit, 'top'))
     else:
-        post = secrets.choice(list(subreddit.hot(limit=100)))
+        post = secrets.choice(await reddit_client.get_posts(subreddit, 'hot'))
     return post
+
+
+def add_post_image(post, response):
+    if post.preview:
+        images = post.preview.get('images')
+        if images:
+            sources = images[0].get('variants', {})
+            variant_data = sources.get('gif', sources.get('png', sources.get('jpg', {}))) or images[0]
+            prev_img = variant_data.get('source', {}).get('url')
+            if prev_img:
+                response.set_image(url=prev_img)
 
 
 async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
     global reddit_client
-    if 'client_id' in cmd.cfg and 'client_secret' in cmd.cfg:
+    client_id = cmd.cfg.get('client_id')
+    client_secret = cmd.cfg.get('client_secret')
+    if client_id and client_secret:
         if args:
-            client_id = cmd.cfg['client_id']
-            client_secret = cmd.cfg['client_secret']
             if reddit_client is None:
-                reddit_client = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent='Apex Sigma')
+                reddit_client = RedditClient(client_id, client_secret, cmd.bot.user.id)
+                await reddit_client.boot()
             subreddit = args[0]
             argument = args[-1].lower()
-            try:
-                subreddit = reddit_client.subreddit(subreddit)
-                grab_func = functools.partial(grab_post, subreddit, argument)
-                try:
-                    with ThreadPoolExecutor() as threads:
-                        post = await cmd.bot.loop.run_in_executor(threads, grab_func)
-                except NotFound:
-                    post = None
+            subreddit = await reddit_client.get_subreddit(subreddit)
+            if subreddit:
+                post = await grab_post(subreddit.display_name, argument)
                 if post:
                     if not post.over_18 or message.channel.is_nsfw():
-                        reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
-                        post_desc = f'Author: {post.author.name if post.author else "Anonymous"}'
-                        post_desc += f' | Score: {post.score}'
-                        post_desc += f' | Views: {post.view_count}'
+                        post_desc = f'Author: {post.author if post.author else "Anonymous"}'
+                        post_desc += f' | Karma Score: {post.score}'
                         author_link = f'https://www.reddit.com{post.permalink}'
-                        response = discord.Embed(color=0xcee3f8)
-                        response.set_author(name=post.title, url=author_link, icon_url=reddit_icon)
+                        response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
+                        response.set_author(name=f'r/{subreddit.display_name}', url=author_link, icon_url=reddit_icon)
+                        response.description = post.title
                         response.set_footer(text=post_desc)
-                        try:
-                            if post.preview:
-                                if 'images' in post.preview:
-                                    prev_img = post.preview['images'][0]['source']['url']
-                                    response.set_image(url=prev_img)
-                        except AttributeError:
-                            pass
+                        add_post_image(post, response)
                     else:
                         nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
                         response = discord.Embed(color=0xBE1931, title=nsfw_warning)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
-            except Redirect:
+            else:
                 response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')

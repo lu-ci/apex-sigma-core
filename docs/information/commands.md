@@ -393,6 +393,7 @@ Commands | Description | Example
 `>>imdb` `>>movie` | Searches the Internet Movie DataBase for your input. Gives you the poster, release year and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the inputted manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
 `>>mapsearch` `>>maps` `>>map` | Searches Google Maps for the inputted location. If specific details aren't found about the location, it will result in a broad search.  | `>>mapsearch Belgrade`
+`>>reddit` | Enter a subreddit and it will show a random post from the current top posts in hot. This is by default, you can specify where to grab it from as an appended argument to the end. The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop and RandomTop. Random arguments choose randomly from a list of 100 first entries. | `>>reddit ProgrammerHumor`
 `>>rhymes` `>>rhyme` | Looks up words that rhymes with the given term. | `>>rhymes forgetful`
 `>>safebooru` `>>safe` | Returns a random image from the safebooru image repository. You can specify tags to narrow the range down, otherwise it's completely random. | `>>safebooru kawaii`
 `>>soundslike` `>>soundlike` | Looks up words that are spelled similarly to the given term. | `>>soundslike elefint`
