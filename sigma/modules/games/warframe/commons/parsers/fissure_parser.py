@@ -42,7 +42,7 @@ async def get_fissure_data(db):
         db_check = await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id})
         if not db_check:
             now = arrow.utcnow().timestamp
-            await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id, 'Created': now})
+            await db[db.db_cfg.database].WarframeCache.insert_one({'EventID': event_id, 'Created': now})
             fissure_out = fissure
             for trigger_piece in fissure.get('Node').split():
                 trigger_piece = trigger_piece.strip('()').lower()

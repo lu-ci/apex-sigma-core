@@ -32,7 +32,7 @@ async def get_sortie_data(db):
     db_check = await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id})
     if not db_check:
         now = arrow.utcnow().timestamp
-        await db[db.db_cfg.database].WarframeCache.find_one({'EventID': event_id, 'Created': now})
+        await db[db.db_cfg.database].WarframeCache.insert_one({'EventID': event_id, 'Created': now})
         return sortie_data, ['sortie']
 
 
