@@ -21,8 +21,9 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def owners(cmd: SigmaCommand, message: discord.Message, args: list):
     owner_lines = []
+    all_members = cmd.bot.get_all_members()
     for owner in cmd.bot.cfg.dsc.owners:
-        member = discord.utils.find(lambda x: x.id == owner, cmd.bot.get_all_members())
+        member = discord.utils.find(lambda x: x.id == owner, all_members)
         if member:
             owner_line = f'{member.name}#{member.discriminator}'
         else:
