@@ -45,7 +45,7 @@ async def raffle(cmd: SigmaCommand, message: discord.Message, args: list):
             resp_title = f'{message.author.display_name} started a raffle!'
             starter = discord.Embed(color=icon_color, timestamp=end_dt)
             starter.set_author(name=resp_title, icon_url=user_avatar(message.author))
-            starter.description = f'Reward: **{raffle_title}**'
+            starter.description = f'Prize: **{raffle_title}**'
             starter.description += f'\nReact with a {reaction_icon} to enter the raffle.'
             starter.set_footer(text=f'[{rafid}] Raffle ends {end_hum}.')
             starter_message = await message.channel.send(embed=starter)
