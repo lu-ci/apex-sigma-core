@@ -13,33 +13,66 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import json
 
-import functools
-from concurrent.futures import ThreadPoolExecutor
-
+import aiohttp
 import discord
-import wikipedia as wiki
 
 from sigma.core.mechanics.command import SigmaCommand
+
+api_base = 'https://en.wikipedia.org/w/api.php?format=json'
+wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
+
+
+def shorten_sentences(text: str):
+    sentences = [f'{s.strip()}.' for s in text.replace('\n', ' ').split('.')]
+    new_sentences = []
+    for sentence in sentences:
+        if len(' '.join(new_sentences)) + len(sentence) < 1900:
+            new_sentences.append(sentence)
+        else:
+            break
+    return f'{" ".join(new_sentences)}...'
 
 
 async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        try:
-            summary_task = functools.partial(wiki.page, ' '.join(args).lower())
-            with ThreadPoolExecutor() as threads:
-                page = await cmd.bot.loop.run_in_executor(threads, summary_task)
-            response = discord.Embed(color=0xF9F9F9)
-            response.set_author(
-                name=f'Wikipedia: {page.title}',
-                url=page.url,
-                icon_url='https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
-            )
-            response.description = f'{page.summary[:800]}...'
-        except wiki.PageError:
+        api_url = f'{api_base}&action=opensearch&search={" ".join(args)}'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_url) as qs_session:
+                resp_data = await qs_session.read()
+                search_data = json.loads(resp_data)
+        results = search_data[1]
+        if results:
+            descriptions = search_data[2]
+            articles = search_data[3]
+            exact_result = None
+            for result in enumerate(results):
+                index = result[0]
+                if not descriptions[index].endswith('may refer to:'):
+                    exact_result = results[index], articles[index]
+                    break
+            if exact_result:
+                lup, url = exact_result
+                summary_url = f'{api_base}&action=query&prop=extracts&exintro&explaintext&titles={lup}'
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(summary_url) as qs_session:
+                        summ_res_data = await qs_session.read()
+                        summ_data = json.loads(summ_res_data)
+                pages = summ_data.get('query', {}).get('pages', {})
+                page_id = list(pages.keys())[0]
+                summ = pages.get(page_id)
+                summ_title = summ.get('title')
+                summ_content = summ.get('extract')
+                if len(summ_content) > 1900:
+                    summ_content = shorten_sentences(summ_content)
+                response = discord.Embed(color=0xF9F9F9)
+                response.set_author(name=summ_title, icon_url=wiki_icon, url=url)
+                response.description = summ_content
+            else:
+                response = discord.Embed(color=0xBE1931, title='❗ Search too broad, please be more specific.')
+        else:
             response = discord.Embed(color=0x696969, title='🔍 No results.')
-        except wiki.DisambiguationError:
-            response = discord.Embed(color=0xBE1931, title='❗ Search too broad, please be more specific.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(None, embed=response)

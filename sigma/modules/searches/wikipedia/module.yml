@@ -2,7 +2,7 @@ name:             Wikipedia Commands
 
 category:         searches
 
-enabled:          false
+enabled:          true
 
 commands:
   - name:         wikipedia
