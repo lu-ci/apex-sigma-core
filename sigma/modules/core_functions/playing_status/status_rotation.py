@@ -48,8 +48,10 @@ async def status_clockwork(ev: SigmaEvent):
                         if ev.bot.cfg.pref.dev_mode:
                             status_type = discord.Status.dnd
                         else:
-                            if ev.bot.latency > 2 or ev.bot.latency < 0:
+                            if ev.bot.latency > 5 or ev.bot.latency < 0:
                                 status_type = discord.Status.dnd
+                            elif ev.bot.latency > 2:
+                                status_type = discord.Status.idle
                             else:
                                 status_type = discord.Status.online
                         await ev.bot.change_presence(activity=activity, status=status_type)
