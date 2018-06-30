@@ -20,24 +20,23 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
+from json.decoder import JSONDecodeError
 
-facts = []
+from sigma.core.mechanics.command import SigmaCommand
 
 
 async def catfact(cmd: SigmaCommand, message: discord.Message, args: list):
-    global facts
-    if not facts:
-        resource = 'http://www.animalplanet.com/xhr.php'
-        resource += '?action=get_facts&limit=500&page_id=37397'
-        resource += '&module_id=cfct-module-bdff02c2a38ff3c34ce90ffffce76104&used_slots=W10='
-        async with aiohttp.ClientSession() as session:
-            async with session.get(resource) as data:
-                data = await data.read()
-                data = json.loads(data)
-                facts = data
-    fact = secrets.choice(facts)
-    fact_text = fact.get('description').strip()
-    embed = discord.Embed(color=0xFFDC5D)
-    embed.add_field(name='🐱 Did you know...', value=fact_text)
-    await message.channel.send(None, embed=embed)
+    resource = 'https://catfact.ninja/fact'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(resource) as data:
+            data = await data.read()
+            try:
+                fact = json.loads(data).get('fact')
+            except JSONDecodeError:
+                fact = None
+    if fact:
+        response = discord.Embed(color=0xFFDC5D)
+        response.add_field(name='🐱 Did you know...', value=fact)
+    else:
+        response = discord.Embed(color=0xBE1931, title='❗ Sorry, I got invalid data and couldn\'t get a fact.')
+    await message.channel.send(None, embed=response)
