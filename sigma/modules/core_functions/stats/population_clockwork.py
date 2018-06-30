@@ -40,13 +40,21 @@ def get_all_roles(guilds):
     return roles
 
 
+def count_members(all_members):
+    existence_cache = []
+    for member in all_members:
+        if member.id not in existence_cache:
+            existence_cache.append(member.id)
+    return len(existence_cache)
+
+
 async def update_population_stats_node(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             collection = 'GeneralStats'
             database = ev.bot.cfg.db.database
             server_count = len(ev.bot.guilds)
-            member_count = len(ev.bot.get_all_members())
+            member_count = count_members(ev.bot.get_all_members())
             channel_count = len(ev.bot.get_all_channels())
             role_count = len(get_all_roles(ev.bot.guilds))
             popdata = {
