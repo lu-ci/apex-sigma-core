@@ -42,15 +42,18 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]
+            timed = args[-1].startswith('--time=')
+            endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
             if len(args) >= 2:
                 try:
-                    clean_days = int(args[-1])
+                    if endstamp:
+                        clean_days = int(args[-2])
+                    else:
+                        clean_days = int(args[-1])
                 except ValueError:
                     clean_days = 0
             else:
                 clean_days = 0
-            timed = args[-1].startswith('--time=')
-            endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
             clean_days = clean_days if clean_days in [0, 1, 7] else 0
             if cmd.bot.user.id != target.id:
                 if message.author.id != target.id:

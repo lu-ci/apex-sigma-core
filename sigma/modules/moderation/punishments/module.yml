@@ -82,3 +82,8 @@ commands:
     description:
       Unmutes a hard-muted person.
       Allowing them to send messages again.
+
+events:
+  - name:         un_punisher
+    type:         ready
+    enabled:      true

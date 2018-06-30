@@ -52,7 +52,6 @@ async def hardunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                     for channel in message.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
-                                # noinspection PyTypeChecker
                                 await channel.set_permissions(target, overwrite=None, reason=reason)
                             except discord.Forbidden:
                                 pass
