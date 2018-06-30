@@ -19,7 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
@@ -49,6 +49,8 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                     clean_days = 0
             else:
                 clean_days = 0
+            timed = args[-1].startswith('--time=')
+            endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
             clean_days = clean_days if clean_days in [0, 1, 7] else 0
             if cmd.bot.user.id != target.id:
                 if message.author.id != target.id:
@@ -57,7 +59,8 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                     if above_hier or is_admin:
                         above_me = hierarchy_permit(message.guild.me, target)
                         if above_me:
-                            reason = ' '.join(args[1:]) if args[1:] else None
+                            rarg = args[1:-1] if timed else args[1:] if args[1:] else None
+                            reason = ' '.join(rarg) if rarg else None
                             response = discord.Embed(color=0x696969, title=f'🔨 The user has been banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
@@ -72,6 +75,9 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                             await target.ban(reason=audit_reason, delete_message_days=clean_days)
                             log_embed = generate_log_embed(message, target, reason)
                             await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
+                            if endstamp:
+                                doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                                await cmd.db[cmd.db.db_cfg.database].BanClockworkDocs.insert_one(doc_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:
