@@ -43,4 +43,4 @@ async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):
         response.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
     else:
         response = discord.Embed(color=0x696969, title='🔍 No results.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

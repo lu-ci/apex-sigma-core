@@ -36,4 +36,4 @@ async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
     joke_text = joke_data.get('body')
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='😆 Have A Random Joke', value=joke_text)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

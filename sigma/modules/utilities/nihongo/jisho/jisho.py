@@ -32,8 +32,8 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
             rq_json = json.loads(rq_data)
 
     if rq_text.find('503 Service Unavailable') != -1:
-        embed_content = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
-        await message.channel.send(embed=embed_content)
+        response = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
+        await message.channel.send(embed=response)
         return
 
     request = rq_json
@@ -42,8 +42,8 @@ async def jisho(cmd: SigmaCommand, message: discord.Message, args: list):
     if request['data']:
         request = request['data'][0]
     else:
-        embed_content = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
-        await message.channel.send(embed=embed_content)
+        response = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
+        await message.channel.send(embed=response)
         return
 
     output = ''

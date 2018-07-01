@@ -23,17 +23,16 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        # noinspection PyBroadException
         try:
             execution = " ".join(args)
             output = eval(execution)
             if inspect.isawaitable(output):
                 output = await output
-            status = discord.Embed(color=0x77B255, title='✅ Executed')
-            status.add_field(name='Results', value=f'\n```\n{output}\n```')
+            response = discord.Embed(color=0x38BE6E, description=f'```\n{output}\n```')
+            response.set_author(name='Executed', icon_url='https://i.imgur.com/Lw7mmnX.png')
         except Exception as e:
-            status = discord.Embed(color=0xBE1931, title='❗ Error')
-            status.add_field(name='Execution Failed', value=f'{e}')
+            response = discord.Embed(color=0xBE1931, description=f'{e}')
+            response.set_author(name='Error', icon_url='https://i.imgur.com/S7aUuLU.png')
     else:
-        status = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=status)
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+    await message.channel.send(embed=response)

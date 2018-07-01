@@ -32,4 +32,4 @@ async def dadjoke(cmd: SigmaCommand, message: discord.Message, args: list):
     punchline = end_joke_choice.get('punchline')
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='😖 Have An Awful Dad Joke', value=f'{end_joke}... {punchline}')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -24,18 +24,18 @@ from sigma.core.mechanics.command import SigmaCommand
 async def makehash(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         response = discord.Embed(color=0xBE1931, title='❗ No hash inputted and nothing to hash.')
-        await message.channel.send(None, embed=response)
+        await message.channel.send(embed=response)
         return
     if len(args) < 2:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing to hash.')
-        await message.channel.send(None, embed=response)
+        await message.channel.send(embed=response)
         return
     hash_name = args[0]
     hashes = hashlib.algorithms_available
     if hash_name not in hashes:
         response = discord.Embed(color=0xBE1931)
         response.add_field(name='❗ Unknown Hashing Method', value='Available:\n```\n' + ', '.join(hashes) + '\n```')
-        await message.channel.send(None, embed=response)
+        await message.channel.send(embed=response)
         return
     qry = ' '.join(args[1:])
     crypt = hashlib.new(hash_name)
@@ -43,4 +43,4 @@ async def makehash(cmd: SigmaCommand, message: discord.Message, args: list):
     final = crypt.hexdigest()
     response = discord.Embed(color=0x66cc66)
     response.add_field(name=f'✅ Hashing With {hash_name.upper()} Done', value=f'```\n{final}\n```')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

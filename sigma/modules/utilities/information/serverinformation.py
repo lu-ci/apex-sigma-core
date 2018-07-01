@@ -63,4 +63,4 @@ async def serverinformation(cmd: SigmaCommand, message: discord.Message, args: l
     detail_text += f'\nShard: **{gld.shard_id}**'
     detail_text += f'\nVerification: **{gld.verification_level.name.upper()}**'
     response.add_field(name='Details', value=detail_text)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

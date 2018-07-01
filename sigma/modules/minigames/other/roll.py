@@ -61,4 +61,4 @@ async def roll(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xBE1931, title='❗ Up to 10 dice please.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Invalid data given, please follow the example.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

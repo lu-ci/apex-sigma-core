@@ -30,7 +30,8 @@ async def destroyitem(cmd: SigmaCommand, message: discord.Message, args: list):
         id_lookup = args[0]
         inv_item = await cmd.db[cmd.db.db_cfg.database].Inventory.find_one({'Items.item_id': id_lookup})
         if inv_item:
-            target = discord.utils.find(lambda x: x.id == inv_item['UserID'], cmd.bot.get_all_members())
+            all_members = cmd.bot.get_all_members()
+            target = discord.utils.find(lambda x: x.id == inv_item['UserID'], all_members)
             item_data = None
             for item in inv_item['Items']:
                 if item['item_id'] == id_lookup:

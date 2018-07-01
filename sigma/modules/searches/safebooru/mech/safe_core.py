@@ -46,9 +46,9 @@ def generate_embed(post, titles, color=0xff6699, icon='https://i.imgur.com/WQbzk
     image_source = f'http://safebooru.org/index.php?page=post&s=view&id={post.attrib["id"]}'
     if image_url.startswith('//'):
         image_url = 'https:' + image_url
-    embed = discord.Embed(color=color)
-    embed.set_author(name=secrets.choice(titles), icon_url=icon, url=image_source)
-    embed.set_image(url=image_url)
-    embed.set_footer(
+    response = discord.Embed(color=color)
+    response.set_author(name=secrets.choice(titles), icon_url=icon, url=image_source)
+    response.set_image(url=image_url)
+    response.set_footer(
         text=f'Score: {post.attrib["score"]} | Size: {post.attrib["width"]}x{post.attrib["height"]}')
-    return embed
+    return response

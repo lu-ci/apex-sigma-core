@@ -21,27 +21,17 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-def get_membership(guilds, member):
-    guild_list = []
-    for guild in guilds:
-        present = discord.utils.find(lambda u: u.id == member.id, guild.members)
-        if present:
-            guild_list.append(guild)
-    return guild_list
-
-
 async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        lookup = ' '.join(args)
+        lookup = args[0].lower()
+        all_members = cmd.bot.get_all_members()
         if '#' in lookup:
             uname = lookup.split('#')[0]
             udisc = lookup.split('#')[1]
-            target = discord.utils.find(
-                lambda u: u.name.lower() == uname.lower() and u.discriminator == udisc, cmd.bot.get_all_members()
-            )
+            target = discord.utils.find(lambda u: u.name.lower() == uname and u.descriminator == udisc, all_members)
         else:
             try:
-                target = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.get_all_members())
+                target = discord.utils.find(lambda u: u.id == int(lookup), all_members)
             except ValueError:
                 target = None
         if target:
@@ -53,7 +43,7 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             user_text += f'\nStatus: **{str(target.status).replace("dnd", "busy").title()}**'
             user_text += f'\nBot User: **{target.bot}**'
             user_text += f'\nCreated: **{creation_time}**'
-            presence = get_membership(cmd.bot.guilds, target)
+            presence = [g for g in cmd.bot.guilds if discord.utils.find(lambda u: u.id == target.id, g.members)]
             response.add_field(name='User Info', value=user_text, inline=True)
             member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
             is_moderator = target.permissions_in(message.channel).manage_guild
@@ -68,4 +58,4 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

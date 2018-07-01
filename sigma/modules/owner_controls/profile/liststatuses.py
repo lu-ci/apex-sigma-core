@@ -29,12 +29,12 @@ async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
         status_list = sorted(status_list, key=lambda x: x[1])
         total_status = len(status_list)
         page = args[0] if args else 1
-        status_list, page = paginate(status_list, page, 10)
+        status_list, page = paginate(status_list, page)
         status_block = boop(status_list, ['ID', 'Text'])
         response = discord.Embed(color=await get_image_colors(cmd.bot.user.avatar_url))
         response.set_author(name=f'{cmd.bot.user.name}\'s Status Rotation Items', icon_url=user_avatar(cmd.bot.user))
         response.add_field(name='Info', value=f'Showing {len(status_list)} items out of {total_status} on page {page}.')
         response.add_field(name="List", value=f'```\n{status_block}\n```', inline=False)
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 No statuses found.')
+        response = discord.Embed(color=0x696969, title='🔍 No statuses found.')
     await message.channel.send(embed=response)

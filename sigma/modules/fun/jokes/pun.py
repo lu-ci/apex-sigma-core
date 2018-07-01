@@ -33,4 +33,4 @@ async def pun(cmd: SigmaCommand, message: discord.Message, args: list):
         response.description = pun_text
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Sorry, I failed to find a pun.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

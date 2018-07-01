@@ -21,32 +21,27 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def sabotageuser(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        target_id = ''.join(args)
-        try:
-            target_id = int(target_id)
-            valid_id = True
-        except ValueError:
-            valid_id = False
-        if valid_id:
+        target_id = None
+        if args[0].isdigit():
+            target_id = int(args[0])
+        if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
-                target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.get_all_members())
+                all_members = cmd.bot.get_all_members()
+                target = discord.utils.find(lambda x: x.id == target_id, all_members)
                 if target:
                     sabotage_collection = cmd.db[cmd.bot.cfg.db.database].SabotagedUsers
                     sabotage_file = await sabotage_collection.find_one({'UserID': target.id})
                     if sabotage_file:
                         await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.delete_one({'UserID': target.id})
-                        result = 'unsabotaged'
-                        icon = '🔓'
+                        icon, result = '🔓', 'unsabotaged'
                     else:
                         await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.insert_one({'UserID': target.id})
-                        result = 'sabotaged'
-                        icon = '🔒'
-                    title = f'{icon} {target.name} has been {result}.'
-                    response = discord.Embed(color=0xFFCC4D, title=title)
+                        icon, result = '🔒', 'sabotaged'
+                    response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target.name} has been {result}.')
                 else:
                     response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ That target is immune.')
+                response = discord.Embed(color=0xBE1931, title='❗ That target is immune.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
     else:

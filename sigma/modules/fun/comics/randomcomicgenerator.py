@@ -38,4 +38,4 @@ async def randomcomicgenerator(cmd: SigmaCommand, message: discord.Message, args
         response.set_image(url=comic_img_url)
     except IndexError:
         response = discord.Embed(color=0xBE1931, title='❗ Failed to grab a comic, try again.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

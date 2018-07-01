@@ -36,4 +36,4 @@ async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
         response.set_author(name=f'Bots on {message.guild.name}', icon_url=message.guild.icon_url)
         response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
         response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

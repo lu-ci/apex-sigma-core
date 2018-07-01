@@ -75,4 +75,4 @@ async def wikipedia(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -23,7 +23,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def award(cmd: SigmaCommand, index: int, uid: int, gld: discord.Guild):
     mult = 20 - index
     aw_amt = 100000 * mult
-    member = discord.utils.find(lambda x: x.id == uid, cmd.bot.get_all_members())
+    all_members = cmd.bot.get_all_members()
+    member = discord.utils.find(lambda x: x.id == uid, all_members)
     if member:
         await cmd.db.add_currency(member, gld, aw_amt, False)
 

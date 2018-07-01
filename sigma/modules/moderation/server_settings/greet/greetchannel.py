@@ -39,4 +39,4 @@ async def greetchannel(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -21,21 +21,17 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def wipeawards(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        uid = args[0]
-        try:
-            uid = int(uid)
-        except ValueError:
-            uid = None
-        if uid:
-            lookup = {'UserID': uid}
+        target_id = None
+        if args[0].isdigit():
+            target_id = int(args[0])
+        if target_id:
+            lookup = {'UserID': target_id}
             collections = ['CurrencySystem', 'Cookies', 'ExperienceSystem', 'Inventory', 'Upgrades']
             for collection in collections:
                 await cmd.db[cmd.db.db_cfg.database][collection].delete_one(lookup)
-            target = discord.utils.find(lambda x: x.id == uid, cmd.bot.get_all_members())
-            if target:
-                unam = f'{target.name}#{target.discriminator}'
-            else:
-                unam = str(uid)
+            all_members = cmd.bot.get_all_members()
+            target = discord.utils.find(lambda x: x.id == target_id, all_members)
+            unam = f'{target.name}#{target.discriminator}' if target else str(target_id)
             response = discord.Embed(color=0x696969, title=f'🗑 Wiped {unam}\'s property.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid guild ID.')

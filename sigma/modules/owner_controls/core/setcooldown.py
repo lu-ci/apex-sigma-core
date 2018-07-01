@@ -20,27 +20,33 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def setcooldown(cmd: SigmaCommand, message: discord.Message, args: list):
-    cooldown = None
     command = None
-    if len(args) == 2:
-        command = args[0].lower()
-        try:
-            cooldown = int(args[1])
-        except ValueError:
-            cooldown = None
-    if command and cooldown is not None:
-        if command in cmd.bot.modules.alts:
-            command = cmd.bot.modules.alts[command]
-        if command in cmd.bot.modules.commands.keys():
-            cddata = {'Command': command, 'Cooldown': cooldown}
-            cddoc = await cmd.db[cmd.db.db_cfg.database].CommandCooldowns.find_one({'Command': command})
-            if not cddoc:
-                await cmd.db[cmd.db.db_cfg.database].CommandCooldowns.insert_one(cddata)
+    cooldown = None
+    if args:
+        if len(args) == 2:
+            command = args[0].lower()
+            if args[1].isdigit():
+                cooldown = int(args[1])
+        if command:
+            if cooldown:
+                if command in cmd.bot.modules.alts:
+                    command = cmd.bot.modules.alts[command]
+                if command in cmd.bot.modules.commands.keys():
+                    cddata = {'Command': command, 'Cooldown': cooldown}
+                    cd_coll = cmd.db[cmd.db.db_cfg.database].CommandCooldowns
+                    cddoc = await cd_coll.find_one({'Command': command})
+                    if not cddoc:
+                        await cd_coll.insert_one(cddata)
+                    else:
+                        await cd_coll.update_one({'Command': command}, {'$set': cddata})
+                    title = f'✅ Command {command} now has a {cooldown}s cooldown.'
+                    response = discord.Embed(color=0x66CC66, title=title)
+                else:
+                    response = discord.Embed(color=0x696969, title=f'🔍 Command `{command}` not found.')
             else:
-                await cmd.db[cmd.db.db_cfg.database].CommandCooldowns.update_one({'Command': command}, {'$set': cddata})
-            response = discord.Embed(color=0x66CC66, title=f'✅ Command {command} now has a {cooldown}s cooldown.')
+                response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid cooldown.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 Command `{command}` not found.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing command to edit.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No command, or no/invalid cooldown.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

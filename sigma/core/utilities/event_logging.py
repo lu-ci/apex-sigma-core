@@ -20,7 +20,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.sigma import ApexSigma
 
 
-async def log_event(client: ApexSigma, guild: discord.Guild, db: Database, embed: discord.Embed, event: str):
+async def log_event(client: ApexSigma, guild: discord.Guild, db: Database, response: discord.Embed, event: str):
     all_channels = client.get_all_channels()
     log_channel_id = await db.get_guild_settings(guild.id, f'{event}Channel')
     log_event_active = await db.get_guild_settings(guild.id, event)
@@ -28,6 +28,6 @@ async def log_event(client: ApexSigma, guild: discord.Guild, db: Database, embed
         log_channel = discord.utils.find(lambda x: x.id == log_channel_id, all_channels)
         if log_channel:
             try:
-                await log_channel.send(embed=embed)
+                await log_channel.send(embed=response)
             except Exception:
                 pass

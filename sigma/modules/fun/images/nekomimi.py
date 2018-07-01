@@ -45,4 +45,4 @@ async def nekomimi(cmd: SigmaCommand, message: discord.Message, args: list):
     post_choice = links.pop(rand_pop)
     icon = 'https://3.bp.blogspot.com/_SUox58HNUCI/SxtiKLuB7VI/AAAAAAAAA08/s_st-jZnavI/s400/Azunyan+fish.jpg'
     response = generate_embed(post_choice, embed_titles, icon=icon)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

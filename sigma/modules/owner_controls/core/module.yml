@@ -53,7 +53,7 @@ commands:
     usage:        "{pfx}{cmd}"
     description:
       Resets the global leaderboard data.
-      Global experience, currency and cookies.
+      Currency, experience, and cookies.
 
   - name:         awardleaderboards
     alts:

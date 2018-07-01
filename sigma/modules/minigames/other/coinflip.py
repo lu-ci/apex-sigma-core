@@ -35,4 +35,4 @@ async def coinflip(cmd: SigmaCommand, message: discord.Message, args: list):
             out = '☑ Nice guess!' if result == choice.lower() else '🇽 Better luck next time!'
             response = discord.Embed(color=0x1B6F5F, title=out)
     response.set_image(url=coin_images.get(result))
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

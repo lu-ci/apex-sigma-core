@@ -18,27 +18,25 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.owner_controls.information.ouserinformation import get_membership
 
 
 async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ' '.join(args)
+        all_members = cmd.bot.get_all_members()
         if '#' in lookup:
-            uname = lookup.split('#')[0]
+            uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
-            target = discord.utils.find(
-                lambda u: u.name.lower() == uname.lower() and u.discriminator == udisc, cmd.bot.get_all_members()
-            )
+            target = discord.utils.find(lambda u: u.name.lower() == uname and u.descriminator == udisc, all_members)
         else:
             try:
-                target = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.get_all_members())
+                target = discord.utils.find(lambda u: u.id == int(lookup), all_members)
             except ValueError:
                 target = None
         if target:
             response = discord.Embed(color=target.color)
             response.set_author(name=f'{target.display_name}\'s Server Presence', icon_url=user_avatar(target))
-            presence = get_membership(cmd.bot.guilds, target)
+            presence = [g for g in cmd.bot.guilds if discord.utils.find(lambda g: g.id == target.id, g.members)]
             if presence:
                 line_list = []
                 for guild in presence:
@@ -47,10 +45,7 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
                         inv = invs[0] if invs else None
                     except discord.Forbidden:
                         inv = None
-                    if inv:
-                        list_line = f'[{guild.name}]({inv.url})'
-                    else:
-                        list_line = guild.name
+                    list_line = f'[{guild.name}]({inv.url})' if inv else guild.name
                     line_list.append(list_line)
                 response.description = '\n'.join(line_list)
             else:
@@ -59,4 +54,4 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
             response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -33,4 +33,4 @@ async def channelinformation(cmd: SigmaCommand, message: discord.Message, args: 
     info_text += f'\nNSFW: **{chan.nsfw}**'
     info_text += f'\nCreated: **{creation_time}**'
     response.add_field(name=f'#{chan.name} Information', value=info_text)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -38,4 +38,4 @@ async def usagimimi(cmd: SigmaCommand, message: discord.Message, args: list):
     post_choice = links.pop(rand_pop)
     icon = 'https://www.nautiljon.com/images/perso/00/27/mini/tippy_11572.jpg?11451061277'
     response = generate_embed(post_choice, embed_titles, 0xEEEEEE, icon=icon)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

@@ -53,7 +53,7 @@ async def clean_wf_cache(db: Database):
     await db[db.db_cfg].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
 
 
-async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):
+async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
     channels = await get_channels(ev, marker)
     for channel in channels:
         try:
@@ -61,11 +61,11 @@ async def send_to_channels(ev: SigmaEvent, embed, marker, triggers=None):
                 mentions = await get_triggers(ev.db, triggers, channel.guild)
                 if mentions:
                     mentions = ' '.join(mentions)
-                    await channel.send(mentions, embed=embed)
+                    await channel.send(mentions, embed=response)
                 else:
-                    await channel.send(embed=embed)
+                    await channel.send(embed=response)
             else:
-                await channel.send(embed=embed)
+                await channel.send(embed=response)
         except Exception:
             pass
     await clean_wf_cache(ev.db)

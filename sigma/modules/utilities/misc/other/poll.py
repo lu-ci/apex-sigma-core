@@ -25,7 +25,7 @@ from sigma.core.utilities.data_processing import user_avatar
 async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
     if not args:
         out_content = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-        await message.channel.send(None, embed=out_content)
+        await message.channel.send(embed=out_content)
         return
     all_qry = ' '.join(args)
     if all_qry.endswith(';'):
@@ -37,11 +37,11 @@ async def poll(cmd: SigmaCommand, message: discord.Message, args: list):
     poll_choices = choice_qry.split('; ')
     if len(poll_choices) < 2:
         out_content = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
-        await message.channel.send(None, embed=out_content)
+        await message.channel.send(embed=out_content)
         return
     if len(poll_choices) > 9:
         out_content = discord.Embed(color=0xBE1931, title='❗ Maximum is 9 choices.')
-        await message.channel.send(None, embed=out_content)
+        await message.channel.send(embed=out_content)
         return
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
     choice_text = ''

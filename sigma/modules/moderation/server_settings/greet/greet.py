@@ -31,4 +31,4 @@ async def greet(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             await cmd.db.set_guild_settings(message.guild.id, 'Greet', False)
             response = discord.Embed(color=0x77B255, title='✅ Greeting Messages disabled.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

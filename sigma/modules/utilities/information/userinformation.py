@@ -46,4 +46,4 @@ async def userinformation(cmd: SigmaCommand, message: discord.Message, args: lis
     pfx = await cmd.db.get_prefix(message)
     footer = f'To see the user\'s avatar use the {pfx}avatar command.'
     response.set_footer(text=footer)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

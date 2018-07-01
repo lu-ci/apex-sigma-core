@@ -24,10 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.mentions:
-        target = message.mentions[0]
-    else:
-        target = message.author
+    target = message.mentions[0] if message.mentions else message.author
     api_document = await cmd.db[cmd.db.db_cfg.database]['WaniKani'].find_one({'UserID': target.id})
     if api_document:
         try:
@@ -37,62 +34,50 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
                 async with session.get(url + '/srs-distribution') as data:
                     srs = await data.read()
                     srs = json.loads(srs)
-
                     username = srs['user_information']['username']
                     sect = srs['user_information']['title']
                     level = srs['user_information']['level']
                     avatar = srs['user_information']['gravatar']
                     creation_date = srs['user_information']['creation_date']
-
                     apprentice = srs['requested_information']['apprentice']['total']
                     guru = srs['requested_information']['guru']['total']
                     master = srs['requested_information']['master']['total']
                     enlighten = srs['requested_information']['enlighten']['total']
                     burned = srs['requested_information']['burned']['total']
-
             async with aiohttp.ClientSession() as session:
                 async with session.get(url + '/study-queue') as data:
                     study = await data.read()
                     study = json.loads(study)
-
                     lessons_available = study['requested_information']['lessons_available']
                     reviews_available = study['requested_information']['reviews_available']
                     next_review = study['requested_information']['next_review_date']
                     reviews_available_next_hour = study['requested_information']['reviews_available_next_hour']
                     reviews_available_next_day = study['requested_information']['reviews_available_next_day']
-
             async with aiohttp.ClientSession() as session:
                 async with session.get(url + '/level-progression') as data:
                     progression = await data.read()
                     progression = json.loads(progression)
-
                     radicals_progress = progression['requested_information']['radicals_progress']
                     radicals_total = progression['requested_information']['radicals_total']
                     kanji_progress = progression['requested_information']['kanji_progress']
                     kanji_total = progression['requested_information']['kanji_total']
-
             level = f'**Level {level}** Apprentice'
             avatar = f'https://www.gravatar.com/avatar/{avatar}.jpg?s=300&d='
             avatar += 'https://cdn.wanikani.com/default-avatar-300x300-20121121.png'
             creation_date = arrow.get(creation_date).format('MMMM DD, YYYY')
-
             radicals = f'Radicals: **{radicals_progress}**/**{radicals_total}**'
             kanji = f'Kanji: **{kanji_progress}**/**{kanji_total}**'
-
             response = discord.Embed(color=target.color)
-
             level_progression = level + '\n'
             level_progression += radicals + '\n'
             level_progression += kanji
             response.add_field(name='Level progression', value=level_progression)
-
             srs_distibution = f'Apprentice: **{apprentice}**\n'
             srs_distibution += f'Guru: **{guru}**\n'
             srs_distibution += f'Master: **{master}**\n'
             srs_distibution += f'Enlighten: **{enlighten}**\n'
             srs_distibution += f'Burned: **{burned}**'
             response.add_field(name='SRS distribution', value=srs_distibution)
-
             study_queue = f'Lessons available: **{lessons_available}**\n'
             study_queue += f'Reviews available: **{reviews_available}**\n'
             if lessons_available or reviews_available:
@@ -103,16 +88,14 @@ async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
             study_queue += f'Reviews in next hour: **{reviews_available_next_hour}**\n'
             study_queue += f'Reviews in next day: **{reviews_available_next_day}**'
             response.add_field(name='Study queue', value=study_queue)
-
             userinfo = f'**{username}** of **Sect {sect}**\n'
             userinfo += f'**Level {level}** Apprentice\n'
             userinfo += f'Serving the Crabigator since {creation_date}'
-
             response.set_author(name=f'{username} of Sect {sect}',
-                             url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
+                                url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
             response.set_footer(text=f'Serving the Crabigator since {creation_date}')
         except KeyError:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ User has no Key saved.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

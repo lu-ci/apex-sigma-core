@@ -22,44 +22,31 @@ from sigma.core.mechanics.command import SigmaCommand
 async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
-            target_id = args[0]
-            try:
-                target_id = int(target_id)
-                valid_id = True
-            except ValueError:
-                valid_id = False
-            if valid_id:
-                target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.get_all_members())
+            target_id = None
+            if args[0].isdigit():
+                target_id = int(args[0])
+            if target_id:
+                all_members = cmd.bot.get_all_members()
+                target = discord.utils.find(lambda x: x.id == target_id, all_members)
                 if target:
                     lookup = ' '.join(args[1:])
-                    module_exists = False
-                    for command in cmd.bot.modules.commands:
-                        if cmd.bot.modules.commands[command].category.lower() == lookup.lower():
-                            module_exists = True
-                            break
-                    if module_exists:
+                    if lookup.lower() in cmd.bot.modules.categories:
                         black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
                         black_user_file = await black_user_collection.find_one({'UserID': target.id})
                         if black_user_file:
-                            if 'Modules' in black_user_file:
-                                modules = black_user_file['Modules']
-                            else:
-                                modules = []
+                            modules = black_user_file.get('Modules') or []
                             if lookup.lower() in modules:
                                 modules.remove(lookup.lower())
-                                icon = '🔓'
-                                result = f'removed from the `{lookup.lower()}` blacklist.'
+                                icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist.'
                             else:
                                 modules.append(lookup.lower())
-                                icon = '🔒'
-                                result = f'added to the `{lookup.lower()}` blacklist.'
+                                icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
                             up_data = {'$set': {'UserID': target.id, 'Modules': modules}}
                             await black_user_collection.update_one({'UserID': target.id}, up_data)
                         else:
                             new_data = {'UserID': target.id, 'Modules': [lookup.lower()]}
                             await black_user_collection.insert_one(new_data)
-                            icon = '🔒'
-                            result = f'added to the `{lookup.lower()}` blacklist.'
+                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
                         title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
                         response = discord.Embed(color=0xFFCC4D, title=title)
                     else:
@@ -67,7 +54,7 @@ async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: lis
                 else:
                     response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid ID.')
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:

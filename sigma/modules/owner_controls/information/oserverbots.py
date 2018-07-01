@@ -28,12 +28,10 @@ async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
         except ValueError:
             gld = discord.utils.find(lambda u: u.name.lower() == lookup.lower(), cmd.bot.guilds)
         if gld:
-            online_bots = []
-            offline_bots = []
-            total_bots = 0
+            online_bots, offline_bots = [], []
+            total_bots = len([u for u in gld.members if u.bot])
             for user in gld.members:
                 if user.bot:
-                    total_bots += 1
                     name = f'{user.name}#{user.discriminator}'
                     offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
             if total_bots == 0:
@@ -47,4 +45,4 @@ async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0x696969, title='🔍 Guild not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

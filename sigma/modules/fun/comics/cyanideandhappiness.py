@@ -48,4 +48,4 @@ async def cyanideandhappiness(cmd: SigmaCommand, message: discord.Message, args:
         response.set_author(name='Cyanide and Happiness', icon_url=cnh_image, url=comic_url)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Failed to grab a comic, try again.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

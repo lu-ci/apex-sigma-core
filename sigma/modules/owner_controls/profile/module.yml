@@ -6,6 +6,8 @@ enabled:          true
 
 commands:
   - name:         setavatar
+    alts:
+      - "setav"
     enabled:      true
     permissions:
       owner:      true
@@ -17,6 +19,8 @@ commands:
       Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setusername
+    alts:
+      - "setname"
     enabled:      true
     permissions:
       owner:      true
@@ -47,6 +51,8 @@ commands:
       Adds a status message to Sigma's database for automatic status rotation.
 
   - name:         removestatus
+    alts:
+      - "delstatus"
     enabled:      true
     permissions:
       owner:      true
@@ -70,5 +76,6 @@ commands:
     permissions:
       owner:      true
       dmable:     true
+    usage:        "{pfx}{cmd}"
     description:
       Shows the list of statuses in the status database.

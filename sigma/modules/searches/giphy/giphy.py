@@ -47,4 +47,4 @@ async def giphy(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

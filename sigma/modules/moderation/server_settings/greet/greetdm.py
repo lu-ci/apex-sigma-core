@@ -31,4 +31,4 @@ async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             await cmd.db.set_guild_settings(message.guild.id, 'GreetDM', True)
             out_content = discord.Embed(color=0x77B255, title='✅ Greeting via private message has been enabled.')
-    await message.channel.send(None, embed=out_content)
+    await message.channel.send(embed=out_content)

@@ -48,13 +48,10 @@ async def reload(cmd: SigmaCommand, message: discord.Message, args: list):
         command_name = ' '.join(args)
         if command_name in cmd.bot.modules.alts:
             command_name = cmd.bot.modules.alts[command_name]
-        response = discord.Embed()
         if command_name not in cmd.bot.modules.commands.keys():
-            response.colour = 0x696969
-            response.title = f'🔍 Command `{command_name}` not found.'
+            response = discord.Embed(color=0x696969, title=f'🔍 Command `{command_name}` was not found.')
         else:
             module_to_reload = cmd.bot.modules.commands[command_name].command
             reimport(module_to_reload)
-            response.colour = 0x77B255
-            response.title = f'✅ Command `{command_name}` was reloaded.'
+            response = discord.Embed(color=0x77B255, title=f'✅ Command `{command_name}` was reloaded.')
         await message.channel.send(embed=response)

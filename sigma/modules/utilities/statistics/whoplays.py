@@ -40,4 +40,4 @@ async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
         gamers = '```\n' + gamer_list + '\n```'
         response = discord.Embed(color=0x1ABC9C)
         response.add_field(name=title, value=gamers)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

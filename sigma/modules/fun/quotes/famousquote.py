@@ -46,4 +46,4 @@ async def famousquote(cmd: SigmaCommand, message: discord.Message, args: list):
         quote_text += f' what the like, but if anyone says anything back, that is an outrage."'
     response = discord.Embed(color=0xF9F9F9)
     response.add_field(name=f'📑 A Quote From {author}', value=quote_text)
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

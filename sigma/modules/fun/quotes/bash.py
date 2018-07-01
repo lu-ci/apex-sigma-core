@@ -53,4 +53,4 @@ async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
         response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://bash.org/?{quote['id']}")
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Could not get a quote.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

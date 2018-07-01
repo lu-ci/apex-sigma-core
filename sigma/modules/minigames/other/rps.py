@@ -44,4 +44,4 @@ async def rps(cmd: SigmaCommand, message: discord.Message, args: list):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid sign.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

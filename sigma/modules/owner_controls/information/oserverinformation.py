@@ -33,13 +33,8 @@ async def oserverinformation(cmd: SigmaCommand, message: discord.Message, args: 
             response = discord.Embed(color=await get_image_colors(gld.icon_url))
             response.set_author(name=gld.name, icon_url=gld.icon_url)
             creation_time = arrow.get(gld.created_at).format('DD. MMMM YYYY')
-            bot_count = 0
-            user_count = 0
-            for user in gld.members:
-                if user.bot:
-                    bot_count += 1
-                else:
-                    user_count += 1
+            bot_count = len([u for u in gld.members if u.bot])
+            user_count = len([u for u in gld.members if not u.bot])
             guild_text = f'Name: **{gld.name}**'
             guild_text += f'\nID: **{gld.id}**'
             guild_text += f'\nMembers: **{user_count}**'
@@ -73,4 +68,4 @@ async def oserverinformation(cmd: SigmaCommand, message: discord.Message, args: 
             response = discord.Embed(color=0x696969, title='🔍 Guild not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

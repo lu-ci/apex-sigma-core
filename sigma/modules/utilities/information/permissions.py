@@ -39,5 +39,5 @@ async def permissions(cmd: SigmaCommand, message: discord.Message, args: list):
     response.add_field(name='Allowed', value='```yml\n - ' + '\n - '.join(sorted(allowed_list)) + '\n```')
     response.add_field(name='Disallowed', value='```yml\n - ' + '\n - '.join(sorted(disallowed_list)) + '\n```')
     in_ch = discord.Embed(color=0x66CC66, title='✅ Permission list sent to you.')
-    await message.author.send(None, embed=response)
+    await message.author.send(embed=response)
     await message.channel.send(embed=in_ch)

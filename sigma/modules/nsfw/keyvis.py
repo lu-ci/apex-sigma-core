@@ -34,4 +34,4 @@ async def keyvis(cmd: SigmaCommand, message: discord.Message, args: list):
         response.set_image(url=image_url)
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 No results.')
-    await message.channel.send(None, embed=response)
+    await message.channel.send(embed=response)

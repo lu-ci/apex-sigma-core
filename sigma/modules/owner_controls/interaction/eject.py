@@ -22,13 +22,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def eject(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         guild_id = ''.join(args)
-        try:
-            guild_id = int(guild_id)
-            valid_id = True
-        except ValueError:
-            valid_id = False
-        if valid_id:
-            target = discord.utils.find(lambda x: x.id == guild_id, cmd.bot.guilds)
+        if guild_id.isdigit():
+            target = discord.utils.find(lambda x: x.id == int(guild_id), cmd.bot.guilds)
             if target:
                 await target.leave()
                 response = discord.Embed(color=0x77B255, title=f'✅ Ejected from {target.name}.')
