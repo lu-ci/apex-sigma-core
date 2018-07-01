@@ -23,26 +23,29 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def toggleselfrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
         if args:
-            lookup = ' '.join(args)
-            target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
-            if target_role:
-                role_bellow = bool(target_role.position < message.guild.me.top_role.position)
-                if role_bellow:
-                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
-                    if selfroles is None:
-                        selfroles = []
-                    if target_role.id in selfroles:
-                        selfroles.remove(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', selfroles)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} removed.')
+            lookup = ' '.join(args).lower().split('; ')
+            results = []
+            self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles') or []
+            for role in lookup:
+                target_role = discord.utils.find(lambda x: x.name.lower() == role.lower(), message.guild.roles)
+                if target_role:
+                    role_below = target_role.position < message.guild.me.top_role.position
+                    if role_below:
+                        if target_role.id in self_roles:
+                            self_roles.remove(target_role.id)
+                            await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', self_roles)
+                            res = f'{target_role.name}: Not Assignable'
+                        else:
+                            self_roles.append(target_role.id)
+                            await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', self_roles)
+                            res = f'{target_role.name}: Assignable'
                     else:
-                        selfroles.append(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', selfroles)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} added.')
+                        res = f'{target_role.name}: Above Me'
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
-            else:
-                response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                    res = f'{role.title()}: Not Found'
+                results.append(res)
+            response = discord.Embed(color=0x77B255, title=f'✅ Self roles edited.')
+            response.description = '\n'.join(results)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

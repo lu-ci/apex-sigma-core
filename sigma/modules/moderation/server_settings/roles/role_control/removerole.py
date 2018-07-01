@@ -26,16 +26,16 @@ async def removerole(cmd: SigmaCommand, message: discord.Message, args: list):
             if len(args) >= 2:
                 if message.mentions:
                     target = message.mentions[0]
-                    lookup = ' '.join(args[1:])
-                    role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
-                    if role:
-                        permit_self = (message.guild.me.top_role.position >= role.position)
-                        if permit_self:
-                            user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), target.roles)
+                    lookup = ' '.join(args[1:]).lower()
+                    target_role = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
+                    if target_role:
+                        role_below = target_role.position < message.guild.me.top_role.position
+                        if role_below:
+                            user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup, target.roles)
                             if user_has_role:
                                 author = f'{message.author.name}#{message.author.discriminator}'
-                                await target.remove_roles(role, reason=f'Role removed by {author}.')
-                                title = f'✅ {role.name} has been removed from {target.name}.'
+                                await target.remove_roles(target_role, reason=f'Role removed by {author}.')
+                                title = f'✅ {target_role.name} has been removed from {target.name}.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
                                 response = discord.Embed(color=0xBE1931, title='❗ That user didn\'t have this role.')

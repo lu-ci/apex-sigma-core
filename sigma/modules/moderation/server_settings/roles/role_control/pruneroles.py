@@ -23,9 +23,10 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 async def pruneroles(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
+        top_role = message.guild.me.top_role.position
         empty_roles = list(filter(lambda r: len(r.members) == 0, message.guild.roles))
-        [await role.delete() for role in empty_roles]
-        response = discord.Embed(color=0x77B255, title=f'✅ Removed {len(empty_roles)} roles from this server.')
+        deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
+        response = discord.Embed(color=0x77B255, title=f'✅ Removed {len(deleted_roles)} roles from this server.')
     else:
         response = permission_denied('Manage Roles')
     await message.channel.send(embed=response)

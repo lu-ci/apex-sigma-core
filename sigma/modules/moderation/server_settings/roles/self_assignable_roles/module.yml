@@ -38,8 +38,8 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      The addselfrole and delselfrole in one.
-      It toggles the self-assignability of a role
+      The addselfrole and delselfrole in one. It toggles the self-assignability of a role.
+      Multiple role can be specified by separating them with a semi-colon and a space "; ".
 
   - name:         listselfroles
     alts:
@@ -65,6 +65,7 @@ commands:
       Toggles a self assignable role.
       If you don't have the role, it will be given to you.
       If you do have the role, it will be removed from you.
+      Multiple role can be specified by separating them with a semicolon and a space "; ".
 
   - name:         colorme
     alts:

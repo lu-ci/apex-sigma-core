@@ -26,8 +26,8 @@ async def delselfrole(cmd: SigmaCommand, message: discord.Message, args: list):
             lookup = ' '.join(args)
             target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
             if target_role:
-                role_bellow = bool(target_role.position < message.guild.me.top_role.position)
-                if role_bellow:
+                role_below = bool(target_role.position < message.guild.me.top_role.position)
+                if role_below:
                     selfroles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
                     if selfroles is None:
                         selfroles = []
