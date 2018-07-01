@@ -28,13 +28,16 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 async def grab_post(subreddit, argument):
     if argument == 'tophot':
-        post = await reddit_client.get_posts(subreddit, 'hot')[0]
+        posts = await reddit_client.get_posts(subreddit, 'hot')
+        post = posts[0]
     elif argument == 'topnew':
-        post = await reddit_client.get_posts(subreddit, 'new')[0]
+        posts = await reddit_client.get_posts(subreddit, 'new')
+        post = posts[0]
     elif argument == 'randomnew':
         post = secrets.choice(await reddit_client.get_posts(subreddit, 'new'))
     elif argument == 'toptop':
-        post = await reddit_client.get_posts(subreddit, 'top')[0]
+        posts = await reddit_client.get_posts(subreddit, 'top')
+        post = posts[0]
     elif argument == 'randomtop':
         post = secrets.choice(await reddit_client.get_posts(subreddit, 'top'))
     else:

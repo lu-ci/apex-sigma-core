@@ -45,14 +45,14 @@ Commands | Description | Example
 `>>ouserinformation` `>>ouserinfo` `>>ouinfo` | Shows information and data about the target user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>ouserinformation AXAz0r#0001`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
 `>>removereaction` `>>removereact` `>>delreact` | Remove a reaction with the inputed ID. (Bot Owner Only) | `>>removereaction 1ba2e263f287522f`
-`>>removestatus` | Removes a status with the inputed ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
-`>>resetleaderboards` `>>resetlbs` | Resets the global leaderboard data. Global experience, currency and cookies. (Bot Owner Only) | `>>resetleaderboards`
+`>>removestatus` `>>delstatus` | Removes a status with the inputed ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
+`>>resetleaderboards` `>>resetlbs` | Resets the global leaderboard data. Currency, experience, and cookies. (Bot Owner Only) | `>>resetleaderboards`
 `>>sabotageuser` `>>sabusr` | Sabotages a user making them have extreme bad luck in various modules. (Bot Owner Only) | `>>sabotageuser 0123456789`
 `>>send` | Sends a message to a user, channel or server. The first argument needs to be the destination parameter. The destination parameter consists of the destination type and ID. The types are U for User and C for Channel. The type and ID are separated by a colon, or two dots put more simply. (Bot Owner Only) | `>>send u:0123456789 We are watching...`
-`>>setavatar` | Sets the avatar of the bot either to the linked or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
+`>>setavatar` `>>setav` | Sets the avatar of the bot either to the linked or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
 `>>setcooldown` `>>setcd` | Sets a global cooldown on a command. The cooldown is user-bound and specified in seconds. (Bot Owner Only) | `>>setcooldown roll 50`
 `>>setstatus` | Sets the current playing status of the bot. To use this, the automatic status rotation needs to be disabled. It can be toggled with the togglestatus command. (Bot Owner Only) | `>>setstatus with fishies`
-`>>setusername` | Sets the name of the bot to the inputted text. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setusername Supreme Bot`
+`>>setusername` `>>setname` | Sets the name of the bot to the inputted text. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setusername Supreme Bot`
 `>>shutdown` | Forces the bot to disconnect from Discord and shut down all processes. (Bot Owner Only) | `>>shutdown`
 `>>sysexec` `>>sh` | Executes a shell command. Extreme warning! This executes commands in the Operating System's Shell. Command Prompt on Windows and Bash on Linux. It will execute things on the same level of authority as the program is ran by. Meaning, don't do something stupid and wipe your damn root. (Bot Owner Only) | `>>sysexec echo 'Hello'`
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. | `>>test`
