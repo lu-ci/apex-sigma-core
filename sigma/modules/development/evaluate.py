@@ -28,11 +28,11 @@ async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
             output = eval(execution)
             if inspect.isawaitable(output):
                 output = await output
-            response = discord.Embed(color=0x38BE6E, description=f'```\n{output}\n```')
-            response.set_author(name='Executed', icon_url='https://i.imgur.com/Lw7mmnX.png')
+            response = discord.Embed(color=0x77B255, title='✅ Executed')
+            response.description = f'```py\n{output}\n```'
         except Exception as e:
-            response = discord.Embed(color=0xBE1931, description=f'{e}')
-            response.set_author(name='Error', icon_url='https://i.imgur.com/S7aUuLU.png')
+            response = discord.Embed(color=0xBE1931, title='❗ Error')
+            response.description = f'```py\n{e}\n```'
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)
