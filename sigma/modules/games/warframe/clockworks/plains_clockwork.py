@@ -34,9 +34,9 @@ async def plains_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             try:
-                plainss, triggers = await get_plains_data(ev.db)
-                if plainss:
-                    response = generate_plains_embed(plainss)
+                plains, triggers = await get_plains_data(ev.db)
+                if plains:
+                    response = generate_plains_embed(plains)
                     await send_to_channels(ev, response, 'WarframePlainsChannel', triggers)
             except Exception:
                 pass
