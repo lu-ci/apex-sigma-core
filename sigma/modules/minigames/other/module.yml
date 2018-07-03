@@ -21,7 +21,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} s"
     description:
-      Play Rock-Paper-Scissors with the bot.
+      Play Rock-Paper-Scissors with Sigma.
       No cheating, we swear. She just doesn't like you.
 
   - name:         sequencegame
@@ -35,7 +35,7 @@ commands:
       you have to guess them in 6 tries or fewer.
       When a symbol is in the corret position the diamond will be blue.
       If it is in the sequence but incorrect position, it will be yellow.
-      If the symbol is not in the sequence, a red triangle will be shown.
+      If the symbol is not in the sequence, it will be red.
       The symbols can repeat, the Kud award is 50.
 
   - name:         coinflip
@@ -56,6 +56,7 @@ commands:
       Rolls a number from 0 to the one you provided.
       You can also roll dice as in the example above.
       Following the format [Number of Dice]d[MaxNumber] +[Bonus].
+      The bonus is individually added as a flat value to all of the rolled dice.
 
   - name:         drawcard
     alts:
@@ -63,9 +64,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 3"
     description:
-      Draws the given number of cards. The number of cards to draw can't be above 10.
+      Draws the specified number of cards. The number of cards to draw can't be above 10.
       The decks are persistent, so if you don't have enough cards left
-      you can make a new deck with the "newdeck", command.
+      you'll need to make a new deck with the "newdeck" command.
 
   - name:         newdeck
     enabled:      true

@@ -34,11 +34,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             if args[0].lower() == '@someone':
                 members = message.guild.members
-                target = secrets.choice(
-                    [
-                        member for member in members if not (member.bot or member.id == message.author.id)
-                    ]
-                )
+                mid = message.author.id
+                target = secrets.choice([member for member in members if not (member.bot or member.id == mid)])
                 someoned = True
             else:
                 lookup = ' '.join(args)

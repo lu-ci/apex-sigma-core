@@ -8,8 +8,8 @@ commands:
   - name:         reddit
     enabled:      true
     usage:        "{pfx}{cmd} ProgrammerHumor"
-    description:
+    description: |
       Enter a subreddit and it will show a random post from the current top posts in hot.
-      This is by default, you can specify where to grab it from as an appended argument to the end.
-      The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop and RandomTop.
-      Random arguments choose randomly from a list of 100 first entries.
+      You can specify what filter to search the subreddit with as an argument after the subreddit name.
+      The accepted arguments are: TopHot, RandomHot, TopNew, RandomNew, TopTop, and RandomTop.
+      Random arguments choose randomly from a list of the first 100 entries.

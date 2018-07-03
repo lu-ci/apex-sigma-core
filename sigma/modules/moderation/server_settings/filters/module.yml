@@ -12,8 +12,10 @@ commands:
     usage:        "{pfx}{cmd} crap ass tits"
     description:
       Adds all the words you list to the blocked words filter.
-      If any of the words in the filter is sent,
-      the message will be removed and the author will be notified.
+      If any of the words in the filter are sent,
+      the message will be deleted and the author will be notified.
+      Words should not be separated by a delimiter.
+      Those with the Administrator permission are not affected.
 
   - name:         blockextensions
     alts:
@@ -25,7 +27,9 @@ commands:
     description:
       Adds all the extensions you list to the extension filter.
       If any of the extensions in the filter are sent,
-      the message will be removed and the author will be notified.
+      the message will be deleted and the author will be notified.
+      Extensions should not be separated by a delimiter.
+      Those with the Administrator permission are not affected.
 
   - name:         hardblockwords
     alts:
@@ -35,7 +39,11 @@ commands:
     description:
       Works like "blockwords" but very intolerable.
       For example if you hardblock the word "ass" it will delete stuff like "assassin".
-      It looks for any instance of the contance in the message, not indivitial segments.
+      It looks for any instance of the contents in the message, not indivitial segments.
+      If any of the words in the filter are exist within a message, whether as a standalone
+      word or within another word, the message will be deleted and the author will be notified.
+      Extensions should not be separated by a delimiter.
+      Those with the Administrator permission are not affected.
 
   - name:         blockinvites
     alts:
@@ -43,8 +51,8 @@ commands:
     enabled:      true
     description:
       Toggles if invite links should be automatically removed.
-      When an invite link is removed, the message author is notified and the removal is logged.
-      This ignores anybody with a Manage Server permission.
+      If any invite links are sent, the message will be deleted and the author will be notified.
+      Those with the Administrator permission are not affected.
 
   - name:         asciionlynames
     alts:
@@ -52,7 +60,7 @@ commands:
     enabled:      true
     description:
       Toggles if only ASCII characters are allowed in names.
-      The bot will check members each 60s for an invalid name and rename them if they are not proper.
+      The bot will check member's names every 60s for non ASCII characters and rename them if found.
       To change the default temporary name, use the asciitempname command.
 
   - name:         asciitempname
@@ -61,7 +69,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} <ChangeMePleaseI'mLonely>"
     description:
-      Changes the default temporary name for those who the temp name was enforced on.
+      Changes the default temporary name for those who the temporary ASCII name was enforced on.
 
   - name:         unblockwords
     alts:
@@ -70,7 +78,8 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked word allowing people to send messages containing it.
-      To purge the entire word filter enter -all as the command argument.
+      To purge the entire word filter, enter -all as the command argument.
+      Words should not be separated by a delimiter.
 
   - name:         unblockextensions
     alts:
@@ -81,7 +90,8 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked extension allowing people to send files containing it.
-      To purge the entire extension filter enter -all as the command argument.
+      To purge the entire extension filter, enter -all as the command argument.
+      Extensions should not be separated by a delimiter.
 
   - name:         unhardblockwords
     alts:
@@ -90,7 +100,8 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a hard blocked word allowing people to send messages containing it.
-      To purge the entire word filter enter -all as the command argument.
+      To purge the entire word filter, enter -all as the command argument.
+      Words should not be separated by a delimiter.
 
   - name:         blockedwords
     enabled:      true

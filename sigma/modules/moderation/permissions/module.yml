@@ -7,21 +7,22 @@ enabled:         true
 commands:
   - name:        disablecommand
     alts:
-      - "dcmd"
-      - "cmdoff"
       - "commandoff"
+      - "cmdoff"
+      - "dcmd"
     enabled:     true
     usage:       "{pfx}{cmd} nyaa"
     description:
-      Disallows a command to be used on the server.
-      Disabled commands are then overwritten by one of the permit commands.
+      Disables a command on the server.
+      Disabled commands cannot be used unless overwritten by one of the permit commands.
       Those with the Administrator permission are not affected.
+      This command requires the Manage Server permission.
 
   - name:        disabledcommands
     alts:
-      - "dcmds"
-      - "cmdsoff"
       - "commandsoff"
+      - "cmdsoff"
+      - "dcmds"
     enabled:     true
     usage:       "{pfx}{cmd}"
     description:
@@ -31,104 +32,115 @@ commands:
 
   - name:        disablemodule
     alts:
-      - "dmdl"
-      - "mdloff"
       - "moduleoff"
+      - "mdloff"
+      - "dmdl"
     enabled:     true
     usage:       "{pfx}{cmd} fun"
     description:
-      Disallows an entire module to be used on the server.
-      Disabled modules are then overwritten by one of the permit commands.
+      Disables an entire module on the server.
+      Commands within a disabled modules cannot be used unless the
+      module or command is overwritten by one of the permit commands.
       Those with the Administrator permission are not affected.
+      This command requires the Manage Server permission.
 
   - name:        disabledmodules
     alts:
-      - "dmdls"
-      - "mdlsoff"
       - "modulesoff"
+      - "mdlsoff"
+      - "dmdls"
     enabled:     true
     usage:       "{pfx}{cmd}"
     description:
       Shows a list of modules that are disabled on the server.
       Modules that are disabled, but overridden in any way, will have an asterisk.
-      The list is paginated, each page has up to 50 commands.
+      The list is paginated, each page has up to 50 modules.
 
   - name:        enablecommand
     alts:
-      - "cmdon"
       - "commandon"
+      - "cmdon"
     enabled:     true
     usage:       "{pfx}{cmd} kitsune"
     description:
-      Enables a previously disabled command.
+      Enables a previously disabled command. You can use a
+      command's alias instead of its full name if desired.
+      This command requires the Manage Server permission.
 
   - name:        enablemodule
     alts:
-      - "mdlon"
       - "moduleon"
+      - "mdlon"
+      - "emdl"
     enabled:     true
     usage:       "{pfx}{cmd} minigames"
     description:
       Enables a previously disabled module.
+      This command requires the Manage Server permission.
 
   - name:        permituser
     alts:
-      - "pusr"
-      - "pusrs"
-      - "permusr"
+      - "permitusers"
+      - "permitus"
       - "permusrs"
       - "permitu"
-      - "permitus"
-      - "permitusers"
+      - "permusr"
+      - "pusrs"
+      - "pusr"
     enabled:     true
     usage:       "{pfx}{cmd} c:pun @person"
     description:
-      Specifies a user that can use a disabled command or module.
-      It needs to be specified if it's a command or module group.
-      If it is a command use C, if it is a module use M, following the usage example.
-      Multiple users can be tagged.
+      Adds an override for the mentioned users for specified command/module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      Multiple users can be tagged. This command requires the Manage Server permission.
+      This command requires the Manage Server permission.
 
   - name:        permittedusers
     alts:
+      - "permedusrs"
       - "permedu"
     enabled:     true
     usage:       "{pfx}{cmd} c:joke"
     description:
-      Lists all user overrides for the given command or module.
+      Lists all user overrides for the specified command or module.
       Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
-      The list is paginated, each page has up to 50 channels.
+      The list is paginated, each page has up to 50 users.
 
   - name:        unpermituser
     alts:
-      - "upusr"
-      - "upusrs"
-      - "unpermusr"
+      - "unpermitusers"
+      - "unpermitus"
       - "unpermusrs"
       - "unpermitu"
-      - "unpermitus"
-      - "unpermitusers"
+      - "unpermusr"
+      - "upusrs"
+      - "upusr"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun @person"
     description:
-      Unpermits a user from using a previously overridden command or module.
-      It needs to be specified if it's a command or module group.
-      If it is a command use C, if it is a module use M, following the usage example.
-      Multiple users can be tagged.
+      Removes an override for the mentioned users for specified command/module.
+      The specified command/module needs to have been previously permitted for this to do anything.
+      Unpermitting a command/module that was not previously permitted will do absolutely nothing.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      Multiple users can be tagged. This command requires the Manage Server permission.
+      This command requires the Manage Server permission.
 
   - name:        permitchannel
     alts:
-      - "pch"
-      - "pchs"
-      - "permch"
-      - "permchs"
-      - "permitc"
-      - "permitcs"
       - "permitchannels"
+      - "permitcs"
+      - "permitc"
+      - "permchs"
+      - "permch"
+      - "pchs"
+      - "pch"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
-      Allows a previously disabled command or module to be used in the specified channel.
-      Follow the usage example, C for command, M for module. Multiple channels can be tagged.
+      Adds an override for the mentioned channels for specified command/module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      Multiple channels can be tagged. This command requires the Manage Server permission.
+      This command requires the Manage Server permission.
 
   - name:        permittedchannels
     alts:
@@ -136,36 +148,38 @@ commands:
     enabled:     true
     usage:       "{pfx}{cmd} m:fun"
     description:
-      Lists all channel overrides for the given command or module.
+      Lists all channel overrides for the specified command or module.
       Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
       The list is paginated, each page has up to 50 channels.
 
   - name:        unpermitchannel
     alts:
-      - "upch"
-      - "upchs"
-      - "unpermch"
-      - "unpermchs"
-      - "unpermitc"
-      - "unpermitcs"
       - "unpermitchannels"
+      - "unpermitcs"
+      - "unpermitc"
+      - "unpermchs"
+      - "unpermch"
+      - "upchs"
+      - "upch"
     enabled:     true
     usage:       "{pfx}{cmd} m:fun #channel"
     description:
-      Removes the channel override for a disabled command or module.
-      Follow the usage example, C for command, M for module. Multiple channels can be tagged.
+      Removes an override for the mentioned channels for specified command/module.
+      The specified command/module needs to have been previously permitted for this to do anything.
+      Unpermitting a command/module that was not previously permitted will do absolutely nothing.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      Multiple channels can be tagged. This command requires the Manage Server permission.
 
   - name:        permitrole
     alts:
-      - "prl"
-      - "permrl"
       - "permitr"
+      - "permrl"
+      - "prl"
     enabled:     true
     usage:       "{pfx}{cmd} c:csshumor Wizards"
     description:
-      Specifies a role that can use a disabled command or module group.
-      It needs to be specified if it is a command or module group.
-      If it is a command use C and if it is a module use M following the example.
+      Adds an override for the specified role for specified command/module.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
 
   - name:        permittedroles
     alts:
@@ -173,7 +187,7 @@ commands:
     enabled:     true
     usage:       "{pfx}{cmd} c:dab"
     description:
-      Lists all role overrides for the given command or module.
+      Lists all role overrides for the specified command or module.
       Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
       The list is paginated, each page has up to 50 channels.
 
@@ -185,6 +199,8 @@ commands:
     enabled:     true
     usage:       "{pfx}{cmd} m:minigames Gamblers"
     description:
-      Removes permissions from a role that can use a disabled command or module group to do so.
-      It needs to be specified if it is a command or module group.
-      If it is a command use C and if it is a module use M following the example.
+      Removes an override for the specified role for specified command/module.
+      The specified command/module needs to have been previously permitted for this to do anything.
+      Unpermitting a command/module that was not previously permitted will do absolutely nothing.
+      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+      This command requires the Manage Server permission.

@@ -78,10 +78,7 @@ def command_message_parser(message: discord.Message, text: str):
     ath = message.author
     chn = message.channel
     command_text = text
-    if message.mentions:
-        tgt = message.mentions[0]
-    else:
-        tgt = ath
+    tgt = message.mentions[0] if message.mentions else ath
     translator = {
         '{author_name}': ath.name,
         '{author_nick}': ath.display_name,
@@ -105,20 +102,22 @@ def command_message_parser(message: discord.Message, text: str):
 
 def movement_message_parser(member: discord.Member, text: str):
     guild = member.guild
+    greeting_text = text
     translator = {
         '{user_name}': member.name,
+        '{user_nick}': member.display_name,
         '{user_mention}': member.mention,
         '{user_discriminator}': member.discriminator,
         '{user_id}': str(member.id),
         '{server_name}': guild.name,
         '{server_id}': str(guild.id),
         '{owner_name}': guild.owner.name,
+        '{owner_nick}': guild.owner.display_name,
         '{owner_mention}': guild.owner.mention,
         '{owner_discriminator}': guild.owner.discriminator,
         '{owner_id}': str(guild.owner.id),
         '{population}': str(len(guild.members))
     }
-    greeting_text = text
     for key in translator:
         greeting_text = greeting_text.replace(key, translator[key])
     return greeting_text

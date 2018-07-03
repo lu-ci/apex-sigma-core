@@ -22,7 +22,7 @@ commands:
     usage:        "{pfx}{cmd} #wf-acolytes"
     description:
       Designates a channel for Warframe acolyte notifications.
-      When an acolute is found it shows up there.
+      When an acolute is found it will be posted there.
       To disable this, write disable after the command instead of a channel.
 
   - name:         wfinvasionchannel
@@ -42,7 +42,7 @@ commands:
     usage:        "{pfx}{cmd} #wf-news"
     description:
       Designates a channel for Warframe news.
-      When Digital Extremes posts a new event for Warframe, it pops up there.
+      When Digital Extremes posts a news for Warframe it will be posted there.
       To disable this, write disable after the command instead of a channel.
 
   - name:         wffissurechannel
@@ -62,7 +62,7 @@ commands:
     usage:        "{pfx}{cmd} #wf-sorties"
     description:
       Designates a channel for Warframe sorties.
-      When a new sortie shows up the news will be posted there.
+      When a new sortie shows up the details will be posted there.
       To disable this, write disable after the command instead of a channel.
 
   - name:         wftag
@@ -73,7 +73,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} aura Aura Squad"
     description:
-      Binds a certain keyword from alerts and invasions.
-      When this keyword appears during an event all roles
-      bound to it's triggers will be mentioned.
+      Binds a certain keyword to a role.
+      When this keyword appears in any Warframe post, all roles bound to its triggers will be mentioned.
       Enter "disable" instead of a role name to remove the tag binding.

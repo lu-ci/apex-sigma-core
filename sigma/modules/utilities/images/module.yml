@@ -8,13 +8,14 @@ commands:
   - name:         avatar
     alts:
       - "av"
+      - "pfp"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
       Shows the mentioned user's avatar.
       If no user is mentioned, it shows the author's avatar.
       You can add "gif" to the end of the command to indicate that it's a gif.
-      Or you can add "auto" to make the color strip the dominant color of the image.
+      Or you can add "auto" to show the predominant color of the image.
       You can also add "static" to the end to make it return the full sized static version of your avatar.
 
   - name:         servericon
@@ -30,8 +31,8 @@ commands:
       - "emoji"
       - "em"
     enabled:      true
-    usage:        "{pfx}{cmd} lcPain"
+    usage:        "{pfx}{cmd} Monika"
     description:
       Searches for an emoji by name. To make the search more precise
-      you can add the ID of the emote or server that has that emote like
-      in this example "lcMonika:200751504175398912".
+      you can add the ID of the emote or server ID that the emote is from,
+      like in this example "monika:375824498882117635".

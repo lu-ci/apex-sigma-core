@@ -8,7 +8,7 @@ commands:
   - name:         bots
     enabled:      true
     description:
-      Lists the bots on the server where the command is used and shows their status.
+      Lists the bots on the server and shows their status.
 
   - name:         ingame
     enabled:      true
@@ -20,7 +20,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Overwatch"
     description:
-      Generates a list of users playing the inputted game.
+      Generates a list of users playing the specified game.
 
   - name:         rolepopulation
     alts:
@@ -28,5 +28,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Warlard"
     description:
-      Shows the population of the inputted role.
+      Shows the population of the specified role.
       If no arguments are provided, it will show the top 20 roles by population.

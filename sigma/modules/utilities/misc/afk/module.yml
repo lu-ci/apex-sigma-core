@@ -9,7 +9,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Sleeping or eating, probably both!"
     description:
-      Sets you as afk.
+      Marks you as afk.
       Whenever someone mentions you they will be notified that you are afk.
       When you send a message your afk status will be removed.
       This automatic removal ignores messages that start with the command prefix.

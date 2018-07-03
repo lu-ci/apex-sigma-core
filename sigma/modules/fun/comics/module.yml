@@ -19,7 +19,7 @@ commands:
     enabled:      true
     description:
       Uses the Cyanide and Happiness random comic generator for buttloads of fun.
-      Personally the favorite comic command.
+      Personal favorite comic command.
 
   - name:         xkcd
     enabled:      true

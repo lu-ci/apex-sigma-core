@@ -15,8 +15,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Gives the inputed role to the tagged user.
-      The role must be below Sigma in Discord hierarchy.
+      Gives the specified role to the mentioned user.
+      The role must be below Sigma's highest role.
+      This command requires the Manage Server permission.
 
   - name:         removerole
     alts:
@@ -28,8 +29,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Removes the inputed role from the tagged user.
-      The role must be below Sigma in Discord hierarchy.
+      Removes the specified role from the mentioned user.
+      The role must be below Sigma's highest role.
+      This command requires the Manage Server permission.
 
   - name: pruneroles
     alts:
@@ -39,4 +41,5 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Removes all empty roles from the server.
+      Removes all empty roles from the server that are below Sigma.
+      This command requires the Manage Server permission.

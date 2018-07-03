@@ -60,15 +60,15 @@ async def name_checker(ev: SigmaEvent):
                     temp_name = '<ChangeMyName>'
                 members = guild.members
                 for member in members:
-                    nam = member.display_name
+                    name = member.display_name
                     invalid = False
-                    for char in nam:
+                    for char in name:
                         if char not in string.printable:
                             invalid = True
                             break
                     if invalid:
                         try:
-                            new_name = clean_name(nam, temp_name)
+                            new_name = clean_name(name, temp_name)
                             await member.edit(nick=new_name, reason='ASCII name enforcement.')
                         except Exception:
                             pass

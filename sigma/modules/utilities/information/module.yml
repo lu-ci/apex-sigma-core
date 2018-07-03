@@ -12,8 +12,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows information and data about the mentioned user.
-      If no user is mentioned, it will show data for the message author.
+      Shows information and data on the mentioned user.
+      If no user is mentioned, it will show data for the author.
 
   - name:         channelinformation
     alts:
@@ -23,8 +23,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #channel"
     description:
-      Shows information and data about the mentioned channel.
-      If no channel is mentioned, it will show data for the channel that the command is used in.
+      Shows information and data on the mentioned channel.
+      If no channel is mentioned, it will show data for the curent channel.
 
   - name:         serverinformation
     alts:
@@ -32,7 +32,7 @@ commands:
       - "sinfo"
     enabled:      true
     description:
-      Shows information and data about the server that the command is used in.
+      Shows information and data on the server.
 
   - name:         roleinformation
     alts:
@@ -40,7 +40,7 @@ commands:
       - "rinfo"
     enabled:      true
     description:
-      Shows information and data about the inputted role.
+      Shows information and data on the specified role.
       Roles mentions do not work here, lookup is done via role name.
 
   - name:         permissions
@@ -59,26 +59,16 @@ commands:
       Users in this list have access to the administration module.
 
   - name:         status
-    alts:
-      - "ping"
     enabled:      true
     description:
-      Shows the status of Sigma's machine.
+      Shows the status of Sigma's host machine.
       Processor information, memory, storage, network, etc.
 
   - name:         statistics
     alts:
       - "stats"
+      - "ping"
     enabled:      true
     description:
       Shows Sigma's current statistics.
       Population, message and command counts, and rates since startup.
-      As well as when the bot last started.
-
-  - name:         botinformation
-    alts:
-      - "botinfo"
-      - "info"
-    enabled:      true
-    description:
-      Shows information about the bot, version, codename, authors, etc.

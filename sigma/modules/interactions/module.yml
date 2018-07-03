@@ -11,7 +11,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person1 @person2"
     description:
-      Shows the love between two tagged users.
+      Shows the love between two mentioned users. If only one user is mentioned,
+      it will show the love between the mentioned user and the author.
 
   - name:         pout
     enabled:      true
@@ -33,7 +34,7 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       Even a bot like me can appreciate a hug!
-      The person you mention will surely as well.
+      The person you mention surely will too.
 
   - name:         kiss
     enabled:      true
@@ -54,7 +55,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When a damn knife isn't enough.
+      When a knife isn't enough.
 
   - name:         bite
     enabled:      true
@@ -65,21 +66,24 @@ commands:
   - name:         addreact
     enabled:      true
     usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
-    description:
-      Adds new reactions.
+    description: |
+      Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink,
+      explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot,
+      shrug, sip, slap, stab, and stare. There are also NSFW interactions: fap, fuck, and fuckrl.
+      Please do not submit NSFW GIFs to non-NSFW interaction types.
 
   - name:         slap
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When a punch is too barbaric a slap should be just elegant enough.
+      When a punch is too barbaric, a slap should be just elegant enough.
 
   - name:         lick
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
       Doesn't someone sometimes look so cute that you just want to lick them?
-      Or maybe they have some food on their face, it's a good excuse.
+      Or maybe they have some food on their face, that's a good excuse.
 
   - name:         feed
     enabled:      true
@@ -121,7 +125,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Ahh yes, i know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
+      Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
 
   - name:         drink
     enabled:      true
@@ -159,7 +163,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      I don't get it, or I don't care, really whatever *shrug*.
+      I don't get it, or I don't care, really, whatever *shrug*.
 
   - name:         facepalm
     enabled:      true

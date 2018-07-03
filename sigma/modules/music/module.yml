@@ -37,7 +37,7 @@ commands:
       - "stop"
     enabled:     true
     description:
-      Stops the music, disconnects the bot from the current voice channel,
+      Stops the music, disconnects Sigma from the current voice channel,
       and purges the music queue.
 
   - name:        summon
@@ -45,7 +45,7 @@ commands:
       - "move"
     enabled:     true
     description:
-      If the bot isn't connected to any channel, it'll connect to yours.
+      If Sigma isn't connected to any channel, she will connect to yours.
       If it is connected, it will move to you.
 
   - name:        repeat
@@ -62,7 +62,6 @@ commands:
     description:
       Removes a song from the queue.
       Minimum number is 1 and the maximum is however many items the queue has.
-      Even though list indexes start at zero.
 
   - name:        skip
     alts:
@@ -78,7 +77,7 @@ commands:
       - "np"
     enabled:     true
     description:
-      Shows information regarding the currently playing song.
+      Shows information on the currently playing song.
 
   - name:        shuffle
     enabled:     true
@@ -91,6 +90,6 @@ commands:
     enabled:     true
     usage:       "{pfx}{cmd} Imagine Dragons - Radioactive"
     description:
-      Searches for song lyrics for the given artist's song.
-      The artist and song need to be separated with a dash.
+      Searches for the lyrics of the specified song.
+      Requires both the song and artist, separated by a dash "-".
       If no arguments are given, it will try to get the currently playing song's lyrics.

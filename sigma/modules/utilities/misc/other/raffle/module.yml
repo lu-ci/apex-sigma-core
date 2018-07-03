@@ -31,10 +31,11 @@ commands:
       This command is only usable by the author of the raffle.
       To redraw a raffle use the raffle's ID that can be found in its footer.
       This command has no response aside from a reaction to your message.
-      If all is well, a green check will appear, if the user is not the author, it will be a no entry sign,
-      if a raffle with that ID is not found, a magnifying glass will be the reaction, if no arguments are
-      provided, it will be an exclamation mark.
       A raffle needs to be marked as ended before it can be redrawn.
+      green check mark - redraw successful
+      magnifying glass - raffle not found
+      no entry sign    - you aren't the raffle creator
+      exclamation mark - no arguments given
 
   - name:         endraffle
     alts:
@@ -44,11 +45,14 @@ commands:
       - "add_reactions"
     usage:        "{pfx}{cmd} 1abc9c"
     description:
-      Prematurely ends a raffle. Usable only by the raffle's creator.
-      The responses are the same as the redraw command.
-      If an active raffle with the given id is not found, it will be a magnifying glass.
-      If you are not the creator of the raffle, a no entry sign.
-      If no ID is given, an exclamation.
+      Prematurely ends a raffle.
+      This command is only usable by the author of the raffle.
+      To end a raffle use the raffle's ID that can be found in its footer.
+      This command has no response aside from a reaction to your message.
+      green check mark - redraw successful
+      magnifying glass - raffle not found
+      no entry sign    - you aren't the raffle creator
+      exclamation mark - no arguments given
 
   - name:         listraffles
     alts:
@@ -59,8 +63,8 @@ commands:
       - "add_reactions"
     usage:        "{pfx}{cmd}"
     description:
-      Lists all your ongoing raffles and their information.
-      Such as in how long they end and where they are ongoing.
+      Lists all your ongoing raffles and their information,
+      such as when they end and in what channel.
 
 events:
   - name: raffle_clockwork

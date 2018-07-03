@@ -9,25 +9,26 @@ commands:
     alts:
       - "addcmd"
     enabled:      true
-    usage:        "{pfx}{cmd} hi Hello world!"
+    usage:        "{pfx}{cmd} hi Hello {author_name}!"
     description: |
-      Adds a custom command trigger to the server.
-      Whenever this trigger word is used with a command prefix the inputted response will be provided.
-      Command requires the Manage Server permission.
+      Adds a custom command to the server.
+      Whenever the specified trigger word is used with a command
+      prefix, the specified response will be returned.
+      This command requires the Manage Server permission.
       Custom commands can have special dynamic arguments in them.
-      {author_name}: Message author name.
-      {author_nick}: Message author nickname.
-      {author_mention}: Tag the message author.
-      {author_id}: Message author's ID.
-      {channel_name}: Channel name.
-      {channel_mention}: Channel tag.
-      {channel_id}: Channel ID.
-      {server_name}: Server name.
-      {server_id}: Server ID.
-      {target_name}: Target name.
-      {target_nick}: Target nickname.
-      {target_mention}: Tag the target.
-      {target_id}: Target ID.
+      {author_name}     - Message author's name.
+      {author_nick}     - Message author's nickname.
+      {author_mention}  - Tag the message author.
+      {author_id}       - Message author's ID.
+      {channel_name}    - Channel name.
+      {channel_mention} - Channel tag.
+      {channel_id}      - Channel ID.
+      {server_name}     - Server name.
+      {server_id}       - Server ID.
+      {target_name}     - Target's name.
+      {target_nick}     - Target's nickname.
+      {target_mention}  - Tag the target.
+      {target_id}       - Target's ID.
 
   - name:         removecommand
     alts:
@@ -37,7 +38,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
-      Removes a custom command trigger used for custom commands from the server.
+      Removes a custom command trigger from the server.
       This requires the Manage Server permission.
 
   - name:         renamecommand

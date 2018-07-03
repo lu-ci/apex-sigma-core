@@ -7,10 +7,10 @@ enabled:          true
 commands:
   - name:         inventory
     alts:
-     - "i"
-     - "bag"
-     - "storage"
      - "backpack"
+     - "storage"
+     - "bag"
+     - "i"
     enabled:      true
     usage:        "{pfx}{cmd} 2 @person"
     description:
@@ -18,8 +18,8 @@ commands:
       If no user is mentioned, it will show the author's inventory.
       The inventory has 64 slots at the start but can be upgraded in the shop.
       You can also specify the page number you want to see.
-      The inventory is sorted by item rarity.
-      Items used in recipes are marked with an asterisk.
+      The inventory is sorted by item rarity and items used
+      in recipes are marked with an asterisk.
 
   - name:         inspect
     alts:
@@ -27,17 +27,19 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Nabfischz"
     description:
-      Inspects an item.
+      Shows the name, value, and description of the specified item
       If you have this item in your inventory an Item ID will be in the footer.
       Also shows how many times you've caught this item.
 
 
   - name:         recipes
+    alts:
+      - "cookbook"
     enabled:      true
     description:
       Lists all recipes available for making.
       The recipe list is limited to 10 items per page.
-      You can specify the number of the page that you want to view.
+      You can specify the page number you want to see.
 
   - name:         cook
     alts:
@@ -61,8 +63,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Shade Tea"
     description:
-      Shows information about a recipe.
-      Such as the ingredients required, value of the item, and it's description.
+      Shows details on the specified recipe,
+      such as the ingredients required, value of the item, and its description.
 
   - name:         sell
     enabled:      true
@@ -82,8 +84,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows the user's current upgrades.
-      You can view another person's upgrades by tagetting them.
+      Shows your current upgrade levels.
+      You can view another user's upgrades by mentioning them.
 
   - name:         filtersell
     alts:
@@ -92,7 +94,7 @@ commands:
     usage:        "{pfx}{cmd} rarity:Legendary"
     description:
       Sells all items that have a certain attribute.
-      The accepted attributes are name, type and rarity.
+      The accepted attributes are name, type, and rarity.
 
   - name:         fish
     enabled:      true
@@ -111,7 +113,7 @@ commands:
     description:
       Go hiking and search nature for all the delicious bounties it has.
       Look for plants that you might want to use for cooking in the future.
-      Foraging is tiring so you need to rest for 60 seconds after looking for plants.
+      You can forage once every 60 seconds, hiking is really tiring.
 
   - name:         inventorystats
     alts:
@@ -120,8 +122,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows the statistics of a user's inventory.
+      Shows the statistics of the your inventory.
       The number of items per type and per rarity.
+      You can view another person's stats by mentioning them.
 
   - name:         itemstatistics
     alts:
@@ -129,10 +132,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows the statistics of a user's item history.
-      How much of which item they've caught, that is.
-      Sorted by the most caught to the least caught items.
-      Items that were never obtained are not shown.
+      Shows the statistics of your item history.
+      How much of which item you've caught, that is.
+      It's sorted by the most caught to the least caught items.
+      Items that you've never obtained are not shown.
+      You can view another person's statistics by mentioning them.
 
   - name:         allitems
     enabled:      true
@@ -147,7 +151,6 @@ commands:
 
   - name:         allitemstats
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the statistics of the entire item pool.
       The number of items per type and per rarity.

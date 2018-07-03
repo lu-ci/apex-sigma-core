@@ -22,7 +22,8 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
-embed_titles = ['Touch fluffy ears~']
+embed_titles = ['Touch fluffy ears~', '>:3', '乀^｀・´^／',
+                '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
 async def usagimimi(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -36,6 +37,6 @@ async def usagimimi(cmd: SigmaCommand, message: discord.Message, args: list):
         await fill_notify.edit(embed=filler_done)
     rand_pop = secrets.randbelow(len(links))
     post_choice = links.pop(rand_pop)
-    icon = 'https://www.nautiljon.com/images/perso/00/27/mini/tippy_11572.jpg?11451061277'
+    icon = 'https://i.imgur.com/DWZLtAk.jpg'
     response = generate_embed(post_choice, embed_titles, 0xEEEEEE, icon=icon)
     await message.channel.send(embed=response)

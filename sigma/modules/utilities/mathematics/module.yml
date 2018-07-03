@@ -12,22 +12,22 @@ commands:
     usage:        "{pfx}{cmd} 69+42"
     description:
       Makes a request for Wolfram Alpha to process.
-      This can be a lot of things, most popular being complex math operations.
+      This can be a lot of things, the most popular being complex math operations.
 
   - name:         makehash
     alts:
       - "hash"
     enabled:      true
     usage:        "{pfx}{cmd} md5 Nabzie is best tree."
-    description:
-      Creates a hash using the inputed has type.
-      These are all the hash types you can use.
+    description: |
+      Creates a hash using the specified hash type.
+      These are all the hash types you can use:
       sha512, sha3_224, sha3_512, MD4, dsaWithSHA,
       ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1,
       sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA,
       SHA384, blake2b, dsaEncryption, SHA256, sha384,
       sha, DSA, shake_128, sha224, SHA1, shake_256,
-      sha256, MD5, blake2s, md5, sha3_256, whirlpool
+      sha256, MD5, blake2s, md5, sha3_256, whirlpool.
 
   - name:         collectchain
     alts:
@@ -36,9 +36,9 @@ commands:
     usage:        "{pfx}{cmd} @person #channel"
     description:
       Collects messages sent by the mentioned user and saves it as a chain.
-      Only one chain can be collected at a time so a queue is implemented.
-      If a user isn't tagged, it will collect a chain for you.
-      And if a channel isn't tagged, it will collect items from the one that the command is used in.
+      Only one chain can be collected at a time so a queue is used.
+      If a user isn't mentioned, it will collect a chain for the author.
+      If a channel isn't mentioned, it will collect items from the current channel.
 
   - name:         blockcollector
     alts:
@@ -50,7 +50,7 @@ commands:
     usage:        "{pfx}{cmd}"
     description:
       Toggles the ability for other users to collect a chain for you.
-      If active, only you will be able to collect a markov chain for yourself.
+      If active, only you will be able to collect a Markov chain for yourself.
       If not, the collector works as always, where anybody can start a chain collection for you.
 
   - name:         markovchain
@@ -59,14 +59,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how many items you have in your chain, or the targetted users'.
+      Shows how many items you have have in their chain.
+      You can view another user's chain count by mentioning them.
 
   - name:         wipechain
     alts:
       - "clearchain"
     enabled:      true
     description:
-      It wipes your entire Markov chain, if you have one.
+      Wipes your entire Markov chain, if you have one. This cannot be undone.
 
   - name:         dokidoki
     alts:
@@ -74,15 +75,15 @@ commands:
       - "dd"
     enabled:      true
     description:
-      Makes a random markov chain based sentence from a random Doki Doki Literature Club character quote.
-      You can force which character to quote by adding their name as an argument to the command.
-      And you can force a glitch by adding ":glitch" as the ending argument.
+      Makes a random Markov chain based sentence from a random Doki Doki Literature Club character quote.
+      You can force which character to quote by adding their name or first initial as an argument to the command.
+      You can also force a glitch by adding ":glitch" as the last argument.
 
   - name:         encrypt
     enabled:      true
     usage:        "{pfx}{cmd} I will always be here to talk to you for as long as you want."
     description:
-      Encrypts the message of your choice using the Sigma Heart Key.
+      Encrypts the message of your choice using Sigma's Heart Key.
       The message can be decrypted using the decrypt command.
       You can add ":t" at the end to force it to be raw text instead of an embed.
 
@@ -90,7 +91,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} H7U2JfWkr0zCApDPDkO"
     description:
-      Decrypts any message that was encrypted using the Sigma Heart Key.
+      Decrypts any message that was encrypted using Sigma's Heart Key.
       You can add ":t" at the end to force it to be raw text instead of an embed.
 
   - name:         impersonate
@@ -111,7 +112,7 @@ commands:
       - "cmbch"
       - "mix"
     enabled:      true
-    usage:        "{pfx}{cmd} @target_one @target_two"
+    usage:        "{pfx}{cmd} @person_one @person_two"
     description:
       Like the impersonate command.
       This one however targets two uers and uses their chains to generated a mixed response.
@@ -122,7 +123,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 18:57 UTC>PST"
     description:
-      Converts the given time in the given time zone to the inputted time zone.
+      Converts the specified time in the specified time zone to the specified time zone.
 
   - name:         currenttime
     alts:

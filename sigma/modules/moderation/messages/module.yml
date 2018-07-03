@@ -13,15 +13,15 @@ commands:
     requirements:
       - "manage_messages"
     description:
-      Deletes X number of messages posted by the mentioned person.
+      Deletes any messages posted by the mentioned user within the last X messages.
       If a user is not provided, it will prune the last X messages regardless of poster.
-      If a number is not provided it will prune the last 100 messages.
-      If neither number nor user is provided, it will prune the bots messages.
-      Requires the user who calls the command to have the Manage Messages permission.
+      If a number is not provided it will prune all messages posted by the mentioned user within the last 100 messages.
+      If neither number nor user is provided, it will prune Sigma's messages within the last 100 messages.
       If you add "attachments" to the command arguments it will only purge messages that have attachments.
       If you add "content:something you want gone" to the command arguments it will only delete messages
-      that have the inputted content after "content:" in them, which can be a word or a sentence.
+      that have the specified content after "content:" in them, which can be a word or a sentence.
       Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
+      This command requires the Manage Messages permission.
 
   - name:         textmute
     alts:
@@ -32,10 +32,10 @@ commands:
       - "manage_messages"
     description:
       Disallows the user from typing.
-      Well technically, it will make the bot auto delete any message they send.
-      You can add a message at the end to be sent to the user as the reason why.
-      Users with the Administrator permission are ignored, their messages will not be deleted.
-      Requires the user who calls the command to have the Manage Messages permission.
+      Well technically, it will make Sigma auto delete any message they send.
+      You can add a reason after the user mention if desired. Users with the
+      Those with the Administrator permission are not affected.
+      This command requires the Manage Messages permission.
 
   - name:         textunmute
     alts:
@@ -45,9 +45,9 @@ commands:
     requirements:
       - "manage_messages"
     description:
-      Removes the tagged person from the list of muted users.
-      Making the bot no longer delete their messages.
-      Requires the user who calls the command to have the Manage Messages permission.
+      Removes the mentioned person from the list of muted users,
+      making Sigma no longer delete their messages.
+      This command requires the Manage Messages permission.
 
 events:
   - name:         mute_checker

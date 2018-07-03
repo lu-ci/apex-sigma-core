@@ -14,34 +14,32 @@ commands:
   - name:         ronswanson
     enabled:      true
     description:
+      This command outputs a random quote from Ron Swanson.
       Everyone's favorite character from Parks and Recreation.
-      This command will output a random quote from Ron Swanson.
 
   - name:         csshumor
     enabled:      true
     description:
       The only thing better than a joke is a joke written in CSS.
       And while that is sarcasm to a certain degree, these really are fun.
-      Embrace your web designer within and read some CSS jokes.
+      Embrace your inner web designer and read some CSS jokes.
 
   - name:         pun
     enabled:      true
     description:
       If you do not know what a pun is... Oh you poor innocent soul.
-      This command will produce a lovely little pun for you.
-      Enjoy the cringe!
+      This command will produce a lovely little pun for you. Enjoy the cringe!
 
   - name:         dadjoke
     enabled:      true
     description:
       This will provide a joke that might be something your father would say.
-      You know they are bad, but you will love them anyway, cause you are a good kid.
+      You know they are bad, but you will love them anyway, cause you're a good kid.
 
   - name:         joke
     enabled:      true
     description:
-      Outputs a joke.
-      It is not really special or anything...
+      Outputs a joke. It is not really special or anything...
       Sometimes they are funny, most of the times they are not.
 
   - name:         yomomma

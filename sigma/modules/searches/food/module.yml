@@ -12,5 +12,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Chicken in Curry Sauce"
     description:
-      Searches for a dish, or dishes that use inputted ingredients,
+      Searches for a dish, or dishes that use specified ingredients,
       and outputs one that might be a good match for your search query.

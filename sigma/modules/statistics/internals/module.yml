@@ -9,12 +9,12 @@ commands:
     alts:
       - "currency"
       - "money"
-      - "kud"
+      - "kyo"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how much of Sigma's internal currency you currently have.
-      As well as how much you've earned on the current server and in total.
+      Shows how much of Sigma's internal currency you currently have,
+      as well as how much you've earned on the current server and in total.
       Kud is earned by being an active member of the community.
       Yes, this is meant to be vague.
 
@@ -27,6 +27,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how much of Sigma's internal experience you obtained.
+      Shows how much of Sigma's internal experience you've obtained.
       Experience is earned by being an active member of the community.
       Yes, this is meant to be vague.

@@ -14,6 +14,7 @@ commands:
     description:
       Creates a role group for binding a role to.
       Role groups are limited to 32 roles per group.
+      This command requires the Manage Server permission.
 
   - name:         deleterolegroup
     alts:
@@ -24,6 +25,7 @@ commands:
     description:
       Deletes a role group. This cannot be undone.
       Role groups are created with the makerolegroup command.
+      This command requires the Manage Server permission.
 
   - name:         listrolegroups
     alts:
@@ -31,10 +33,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2"
     description:
-      Lists role groups on the server.
-      The list is paginated, you can enter the page you want to see
-      after the command name as an argument.
-      To view a role groups details, such as the populace and
+      Lists all role groups on the server.
+      The list is paginated, each page has up to 10 items.
+      You can specify the page number you want to see.
+      To view a role group's details, such as the populace and
       roles that are bound to that group, use the viewrolegroup command.
 
   - name:         viewrolegroup
@@ -43,8 +45,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3"
     description:
-      Shows role group details such as roles that are in the group,
-      and the total population of the group roles.
+      Shows details on the specified role group, such as roles
+      that are in the group and the total population of the group roles.
 
   - name:         bindrole
     alts:
@@ -53,7 +55,8 @@ commands:
     usage:        "{pfx}{cmd} 5a8e3 King Killers"
     description:
       Binds a role to a role group.
-      Role groups are limited to have 32 roles per group.
+      Role groups are limited to 32 roles per group.
+      This command requires the Manage Server permission.
 
   - name:         unbindrole
     alts:
@@ -62,6 +65,7 @@ commands:
     usage:        "{pfx}{cmd} 5a8e3 Serpent Squires"
     description:
       Unbind a role from a role group.
+      This command requires the Manage Server permission.
 
 events:
   - name:         role_group_check

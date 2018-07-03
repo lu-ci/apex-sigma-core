@@ -21,8 +21,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 50 EUR in USD"
     description:
-      Converts the amount of money inputed.
-      The format of AMOUNT FROM_CURRENCY in TO_CURRENCY must be followed.
+      Converts the specified amount of money.
+      The format of "{amount} {from_currency} in {to_currency}" must be followed.
 
   - name:         color
     alts:
@@ -31,7 +31,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #1abc9c"
     description:
-      Shows the inputted color.
+      Shows the specified color.
       It accepts either a HEX code or an RGB array.
 
   - name:         randomcolor
@@ -41,13 +41,13 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd}"
     description:
-      Shows you a random color block with it's HEX code.
+      Shows you a random color block along with its HEX code.
 
   - name:         suggest
     enabled:      true
     usage:        "{pfx}{cmd} Add some new stuff!!!"
     description:
-      Submits a suggestions to the owners of the bot to do stuff.
+      Submits a suggestions to the owners of Sigma to do stuff.
       Development and change wise.
 
   - name:         translation
@@ -56,12 +56,12 @@ commands:
       - "trans"
     enabled:      true
     usage:        "{pfx}{cmd} EN>JA Hello there!"
-    description:
-      Translates a language from and to the given ones.
-      If a conversion input is not stated, the first argument will be considered the input language.
-      And the output will be in english.
+    description: |
+      Translates a language from and to the specified ones.
+      If a conversion input is not stated, the first argument will be considered the input language
+      and the output will be in english.
       The language codes used abide by the ISO 639-1 format.
-      For the whole list, you can go to this wikipedia article.
+      For the whole list, you can go to the following wikipedia article:
       https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
   - name:         lmgtfy
@@ -70,7 +70,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Sexy Sneks"
     description:
-      Outputs a link that will google the query for you.
+      Outputs a link that will google the specified query for you.
 
   - name:         imgur
     alts:
@@ -78,6 +78,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} [imgfile.png]"
     description:
-      Anonymously uploads the given attachment or URL to imgur
+      Anonymously uploads the specified attachment or URL to imgur
       and returns a direct link to it. Attachment must be an image
       (GIFs are images). URL must be a direct link to an image.
