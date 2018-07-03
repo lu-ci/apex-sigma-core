@@ -37,6 +37,6 @@ async def kitsunemimi(cmd: SigmaCommand, message: discord.Message, args: list):
         await fill_notify.edit(embed=filler_done)
     rand_pop = secrets.randbelow(len(links))
     post_choice = links.pop(rand_pop)
-    icon = 'https://static.tvtropes.org/pmwiki/pub/images/Holo_Ears_7860.jpg'
+    icon = 'https://i.imgur.com/g0wv2Pf.jpg'
     response = generate_embed(post_choice, embed_titles, 0xff3300, icon=icon)
     await message.channel.send(embed=response)

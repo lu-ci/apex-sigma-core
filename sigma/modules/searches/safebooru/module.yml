@@ -12,4 +12,6 @@ commands:
     usage:        "{pfx}{cmd} kawaii"
     description:
       Returns a random image from the safebooru image repository.
-      You can specify tags to narrow the range down, otherwise it's completely random.
+      If no tag is given, the keyword "cute" will be used.
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".

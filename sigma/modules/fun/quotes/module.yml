@@ -22,7 +22,7 @@ commands:
       Searches for interesting things about a given number.
       You can also insert a date in the DAY/MON format.
       You can specify a type of number you want retrived in the format TYPE:NUMBER.
-      The allowed types are trivia, math, date, year.
+      The accepted types are trivia, math, date, and year.
       You can also specify "random" instead of a number to make it a random number.
 
   - name:         fortune
@@ -39,16 +39,19 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Python"
     description:
-      Tells you how to shoot yourself in the foot with the given programming language.
+      Tells you how to shoot yourself in the foot with the specified programming language.
       If no language is provided, it will pick a random one.
 
   - name:         bash
     enabled:      true
     description:
-      If you are old enough to know what IRC is or remember how it looked like,
+      If you are old enough to know what IRC is or remember what it looked like,
       then you will appreciate the quotes that the bash command produces.
+      Personal favorite quote command.
 
   - name:         catfact
+    alts:
+      - "kittyfact"
     enabled:      true
     description:
       Outputs a random fact about your lovely furry assh~
@@ -68,6 +71,6 @@ commands:
     enabled:      true
     description:
       Outputs a random quote from a random VN.
-      Displays it's source as well, of course.
+      Displays its source as well, of course.
       If the source visual novel of the quote is NSFW,
       the image will be hidden and the footer will state that.

@@ -9,28 +9,28 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Arena Plate"
     description:
-      Shows information about a Path of Exile Body Armor piece of equipment.
+      Shows information about the specified Path of Exile Body armor piece.
 
   - name:         poeboots
     enabled:      true
     usage:        "{pfx}{cmd} Arena Plate"
     description:
-      Shows information about Path of Exile boots.
+      Shows information about the specified Path of Exile boots.
 
   - name:         poegloves
     enabled:      true
     usage:        "{pfx}{cmd} Arena Plate"
     description:
-      Shows information about Path of Exile boots.
+      Shows information about the specified Path of Exile gloves.
 
   - name:         poeshield
     enabled:      true
     usage:        "{pfx}{cmd} Arena Plate"
     description:
-      Shows information about Path of Exile shields.
+      Shows information about the specified Path of Exile shield.
 
   - name:         poehelmet
     enabled:      true
     usage:        "{pfx}{cmd} Arena Plate"
     description:
-      Shows information about Path of Exile helmets.
+      Shows information about the specified Path of Exile helmet.

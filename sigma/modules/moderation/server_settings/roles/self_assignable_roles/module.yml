@@ -15,8 +15,9 @@ commands:
       - "manage_roles"
     description:
       Sets a role as self assignable.
-      Roles that are self assignable, any user can assign to themselves.
+      Roles that are self assignable can be manually assign by anyone.
       To assign a self assignbale role to yourself, use the togglerole command.
+      This command requires the Manage Roles permission.
 
   - name:         delselfrole
     alts:
@@ -28,7 +29,7 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Removes a role from the list of self assignable roles.
+      This command requires the Manage Roles permission.
 
   - name:         toggleselfrole
     alts:
@@ -39,7 +40,8 @@ commands:
       - "manage_roles"
     description:
       The addselfrole and delselfrole in one. It toggles the self-assignability of a role.
-      Multiple role can be specified by separating them with a semi-colon and a space "; ".
+      Multiple role can be specified by separating them with a semicolon and a space "; ".
+      This command requires the Manage Roles permission.
 
   - name:         listselfroles
     alts:
@@ -50,7 +52,7 @@ commands:
       - "lsrl"
     enabled:      true
     description:
-      Lists all self assignable roles present on the server.
+      Lists all self assignable roles on the server.
 
   - name:         togglerole
     alts:
@@ -76,9 +78,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      If the current guild has color roles enabled, you can color yourself with this command.
-      For more information about how this works, use the help command on the colorroles command.
-      Any other (prefixed) color roles on you will be removed prior to adding the new one.
+      If the current guild has color roles enabled, you can assign one to yourself with this command.
+      For more information about how this works, use the help command on "colorroles".
+      Any other color roles made via this command will be removed from you prior to adding the new one.
 
 events:
   - name:         scr_cleaner_clock

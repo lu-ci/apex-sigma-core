@@ -12,22 +12,23 @@ commands:
     usage:        "{pfx}{cmd} hi Hello there!"
     description: |
       Adds an auto-responder to the server.
-      An automatic responder will reply with the set message to any sentence
-      that conaints the chosen trigger in it as a standalone word.
-      Responders can have special dynamic arguments in them like custom commands do.
-      {author_name}: Message author name.
-      {author_nick}: Message author nickname.
-      {author_mention}: Tag the message author.
-      {author_id}: Message author's ID.
-      {channel_name}: Channel name.
-      {channel_mention}: Channel tag.
-      {channel_id}: Channel ID.
-      {server_name}: Server name.
-      {server_id}: Server ID.
-      {target_name}: Target name.
-      {target_nick}: Target nickname.
-      {target_mention}: Tag the target.
-      {target_id}: Target ID.
+      Sigma will automatically reply with the set message to any sentence
+      that conaints the specified trigger in it as a standalone word.
+      This command requires the Manage Server permission.
+      Responders can have special dynamic arguments in them.
+      {author_name}     - Message author name.
+      {author_nick}     - Message author nickname.
+      {author_mention}  - Tag the message author.
+      {author_id}       - Message author's ID.
+      {channel_name}    - Channel name.
+      {channel_mention} - Channel tag.
+      {channel_id}      - Channel ID.
+      {server_name}     - Server name.
+      {server_id}       - Server ID.
+      {target_name}     - Target name.
+      {target_nick}     - Target nickname.
+      {target_mention}  - Tag the target.
+      {target_id}       - Target ID.
 
   - name:         removeresponder
     alts:
@@ -37,8 +38,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
-      Removes a custom command trigger used for custom commands from the server.
-      Command requires the Manage Server permission.
+      Removes a custom responder trigger from the server.
+      This requires the Manage Server permission.
 
   - name:         responders
     alts:

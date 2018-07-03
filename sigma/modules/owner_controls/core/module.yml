@@ -20,7 +20,7 @@ commands:
       owner:      true
       dmable:     true
     description:
-      Forces the bot to disconnect from Discord and shut down all processes.
+      Forces Sigma to disconnect from Discord and shut down all processes.
 
   - name:         geterror
     enabled:      true
@@ -29,7 +29,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 9a2e9a374ac90294f225782f362e2ab1"
     description:
-      Gets an error's details using the given token.
+      Gets an error's details using the specified token.
 
   - name:         removereaction
     alts:
@@ -41,7 +41,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 1ba2e263f287522f"
     description:
-      Remove a reaction with the inputed ID.
+      Remove a reaction with the specified ID.
 
   - name:         resetleaderboards
     alts:
@@ -89,4 +89,4 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 4242ea69"
     description:
-      Retrieves the source image for the reaction with the given ID.
+      Retrieves the source image for the reaction with the specified ID.

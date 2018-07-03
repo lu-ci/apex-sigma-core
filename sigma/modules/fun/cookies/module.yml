@@ -19,5 +19,5 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       Gives a cookie to a person. Remember to give them only to nice people.
-      You can give only one cookie every hour and can't give them to yourself.
-      If you target @someone with the command, the cookie will be given to a random member of the server.
+      You can give only one cookie every hour and can't give them to yourself or to bots.
+      If you put '@someone' as the person, the cookie will be given to a random member of the server.

@@ -25,7 +25,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} owned level:ultimate"
     description:
-      Turns your inputted statement into l33t text.
-      You can add which level of leet you want your text to be converted to.
-      As it's displayed in the usage example.
-      The accepted levels are basic, advanced and ultimate.
+      Turns the specified statement into l33t text.
+      You can specify which level of leet you want your text to be converted to,
+      as shown in the usage example. The accepted levels are basic, advanced, and ultimate.

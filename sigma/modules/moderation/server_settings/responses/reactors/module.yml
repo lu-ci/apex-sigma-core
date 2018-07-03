@@ -12,8 +12,8 @@ commands:
     usage:        "{pfx}{cmd} hi <:lcHello:309405155604824074>"
     description: |
       Adds an automatic reactor to the server.
-      Whenever the given trigger word is detected the bot will
-      react to the message with the given reaction.
+      Whenever the specified trigger word is detected, Sigma will
+      react to the message with the specified emote.
       The :lcHello: above given in the example is a custom emote.
 
   - name:         removereactor

@@ -24,7 +24,7 @@ from lxml import html
 async def grab_post_list(tags):
     links = []
     for x in range(0, 20):
-        resource = f'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags={tags}&pid={x}'
+        resource = f'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+{tags}&pid={x}'
         async with aiohttp.ClientSession() as session:
             async with session.get(resource) as data:
                 data = await data.read()

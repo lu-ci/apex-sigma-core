@@ -67,7 +67,6 @@ def get_bet(args):
 
 
 def get_selector_and_value(args: list):
-    selector = args[-1]
     selector_split = args[-1].split(':')
     if len(selector_split) == 2:
         sel, val = [piece.strip().lower() for piece in selector_split]
@@ -121,7 +120,7 @@ async def roulette(cmd: SigmaCommand, message: discord.Message, args: list):
                             if spot_sel_val == val:
                                 winnings = bet + (bet * selector_mults.get(sel))
                                 await cmd.db.add_currency(message.author, message.guild, winnings, additive=False)
-                                footer = f'You won {winnings - bet} {currency}.'
+                                footer = f'{currency_icon} You won {winnings - bet} {currency}'
                                 resp_color = 0x66cc66
                             else:
                                 resp_color = 0xBE1931

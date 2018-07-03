@@ -22,39 +22,43 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def extension_blocker(ev: SigmaEvent, msg: discord.Message):
-    if msg.attachments:
-        att_files = [att.filename.lower() for att in msg.attachments]
-        bexts = await ev.db.get_guild_settings(msg.guild.id, 'BlockedExtensions') or []
-        delete = False
-        reason = None
-        for attf in att_files:
-            for bext in bexts:
-                if attf.endswith(bext):
-                    delete = True
-                    reason = bext
-                    break
-            if delete:
-                break
-        if delete:
-            try:
-                filter_warn = await ev.db.get_guild_settings(msg.guild.id, 'FilterAutoWarn')
-                if filter_warn:
-                    warn_data = warning_data(msg.guild.me, msg.author, f'Said "{reason}".')
-                    await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
-                await msg.delete()
-                title = f'🔥 Your upload was deleted for containing a "{reason}" file.'
-                to_author = discord.Embed(color=0xFFCC4D, title=title)
-                try:
-                    await msg.author.send(embed=to_author)
-                except discord.Forbidden:
-                    pass
-                author = f'{msg.author.name}#{msg.author.discriminator}'
-                title = f'I deleted {author}\'s upload for having a `{reason}`.'
-                log_embed = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
-                log_embed.description = f'Content: {msg.content}'
-                log_embed.set_author(name=title, icon_url=user_avatar(msg.author))
-                log_embed.set_footer(text=f'Channel: #{msg.channel.name} [{msg.channel.id}]')
-                await log_event(ev.bot, msg.guild, ev.db, log_embed, 'LogFilters')
-            except discord.ClientException:
-                pass
+async def extension_blocker(ev: SigmaEvent, message: discord.Message):
+    if message.guild:
+        if message.attachments:
+            if isinstance(message.author, discord.Member):
+                is_owner = message.author.id in ev.bot.cfg.dsc.owners
+                if not message.author.permissions_in(message.channel).administrator or is_owner:
+                    att_files = [att.filename.lower() for att in message.attachments]
+                    bexts = await ev.db.get_guild_settings(message.guild.id, 'BlockedExtensions') or []
+                    delete = False
+                    reason = None
+                    for attf in att_files:
+                        for bext in bexts:
+                            if attf.endswith(bext):
+                                delete = True
+                                reason = bext
+                                break
+                        if delete:
+                            break
+                    if delete:
+                        try:
+                            filter_warn = await ev.db.get_guild_settings(message.guild.id, 'FilterAutoWarn')
+                            if filter_warn:
+                                warn_data = warning_data(message.guild.me, message.author, f'Said "{reason}".')
+                                await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
+                            await message.delete()
+                            title = f'🔥 Your upload was deleted for containing a "{reason}" file.'
+                            to_author = discord.Embed(color=0xFFCC4D, title=title)
+                            try:
+                                await message.author.send(embed=to_author)
+                            except discord.Forbidden:
+                                pass
+                            author = f'{message.author.name}#{message.author.discriminator}'
+                            title = f'I deleted {author}\'s upload for having a `{reason}`.'
+                            log_embed = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
+                            log_embed.description = f'Content: {message.content}'
+                            log_embed.set_author(name=title, icon_url=user_avatar(message.author))
+                            log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
+                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogFilters')
+                        except discord.ClientException:
+                            pass

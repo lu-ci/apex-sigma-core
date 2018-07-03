@@ -40,9 +40,9 @@ async def listinactivewarnings(cmd: SigmaCommand, message: discord.Message, args
                         moderator = warning.get('moderator').get('name')
                     warn_time = arrow.get(warning.get('warning').get('timestamp')).format('DD. MMM. YYYY. HH:mm')
                     warn_list.append(f'`{warn_id}` by **{moderator}** on {warn_time}.')
-                page = args[0] if args else 1
+                page = args[1] if len(args) > 1 else 1
                 warn_list, page = paginate(warn_list, page, 5)
-                start_range, end_range = (page - 1) * 10, page * 10
+                start_range, end_range = (page - 1) * 5, page * 5
                 warn_list = '\n'.join(warn_list)
                 ender = 's' if len(warnings) > 1 else ''
                 start = f'{target.name} has' if target.id != message.author.id else 'You have'

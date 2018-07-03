@@ -10,9 +10,8 @@ commands:
     usage:        "{pfx}{cmd} 52"
     description:
       Spin the slot machine, maybe you win, maybe you don't.
-      Who knows? It costs 10 Kud to spin the slot machine by default.
-      But you can specify how much you want to put in the machine.
-      And the rewards are based on how many of the same icon you get
+      Who knows? The default bet is 10 Kud but you can specify any amount you want.
+      The rewards are based on how many of the same icon you get
       in the middle row. Rewards are different for each icon.
       The slots can be spun only once every 60 seconds.
 
@@ -26,7 +25,7 @@ commands:
       The default bet is 10 Kud but you can specify any amount you want.
       The syntax of playing is the bet amount first, it can be ommitted however,
       and then the roulette spot choice in the form of [selector]:[value].
-      For example color:black or number:15, column:2, dozen:1, half:1, type:odd.
+      Accepted specifiers are color:b or number:15, column:2, dozen:1, half:1, and type:odd.
       Good luck.
 
   - name:         lootbox

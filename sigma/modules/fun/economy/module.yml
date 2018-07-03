@@ -8,15 +8,14 @@ commands:
   - name:         givecurrency
     alts:
       - "givecurr"
-      - "givekud"
+      - "givekyo"
       - "gibcurr"
-      - "gibkud"
+      - "gibkyo"
     enabled:      true
-    usage:        "{pfx}{cmd} 100 @person"
+    usage:        "{pfx}{cmd} 500 @person"
     description:
-      Transfers Kud between you and a targetted person.
-      The Kud amount goes first and the target tag afterwards
-      like it is given in the example above.
+      Transfers Kud between you and a mentioned person.
+      The Kud amount goes first, followed by the target.
 
   - name:         vault
     alts:
@@ -35,7 +34,7 @@ commands:
     description:
       The vault is a server specific Kud storage system.
       Members can contribute to the vault with this command.
-      The kud can then be awarded to users using the award command.
+      The Kud can then be awarded to users using the award command.
 
   - name:         award
     alts:
@@ -43,16 +42,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 500 @person"
     description:
-      Awards a chosen amount of Kud from the vault to a targeted person.
-      The amount of Kud needs to go first, followed by the target.
-      Only server managers can award Kud from the vault.
-      Anybody can contribute to the vault with the givetovault command.
+      Awards the specified amount of Kud from the vault to a mentioned person.
+      The Kud amount goes first, followed by the target.
+      Anybody can contribute to the vault with the givetovault command,
+      but only users with the Manage Server permission can award Kud from the vault.
 
   - name:         daily
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Gives an amount of kud to you with a 22 hour cooldown.
       The amount is modified by the number of days in a row that you've collected
       your daily Kud up to 10 days, as well as a little random factor in there just for fun.
-      While the Kud can be collected each 22h, the streak is reset 48h after the last one was collected.
+      While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected.

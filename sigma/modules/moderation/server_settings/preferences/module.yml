@@ -11,47 +11,54 @@ commands:
     description:
       Sets the prefix that Sigma should respond to.
       This will be bound to your server and you can set it to anything you'd like.
-      However, the prefix can not contain spaces. They will be automatically removed.
+      However, the prefix must be two characters or longer and can not contain spaces,
+      they will be automatically removed. This command requires the Manage Server permission.
 
   - name:         unflip
     enabled:      true
     description:
       Toggles if Sigma should respond to tables being flipped.
+      This command requires the Manage Server permission.
 
   - name:         filterautowarn
     enabled:      true
     description:
-      When a user triggers the blacklisted word filter, they will receive a warning.
-      Like the warn command does, but automated.
+      Toggles whether users will automatically receive a
+      warning upon triggering the blacklisted word/extentions filter.
+      Like the issuewarning command does, but automated.
+      This command requires the Manage Server permission.
 
   - name:         inviteautowarn
     enabled:      true
     description:
-      When a user triggers the invite blocker, they will receive a warning.
-      Like the warn command does, but automated.
+      Toggles whether users will automatically receive a
+      warning upon triggering the blacklisted invites filter.
+      Like the issuewarning command does, but automated.
+      This command requires the Manage Server permission.
 
   - name:         deletecommands
     alts:
       - "delcmds"
     enabled:      true
     description:
-      Toggles if messages that are a command should be automatically deleted.
+      Toggles whether messages that are a command should be automatically deleted.
+      This command requires the Manage Server permission.
 
   - name:         chatterbot
     enabled:      true
     description:
       Toggles if the Chatterbot functions should be active.
       If active, when a message starts with a mention of Sigma, she will respond.
-      This setting is active by default.
+      This setting is active by default. This command requires the Manage Server permission.
 
   - name:         decay
     enabled:      true
     usage:        "{pfx}{cmd} 1:30:59 #hotness"
     description:
       Marks a channel as decaying with a given timer.
-      Messages sent to decaying channels decay. This means that once they are sent
-      there, a timer runs, after the given amount of time passes, the message is deleted
-      automagically.
+      Messages sent to decaying channels decay. This means that once they are sent,
+      a timer starts, after the specified amount of time passes, the message is deleted
+      automagically. This command requires the Manage Server permission.
 
   - name:         disabledecay
     alts:
@@ -60,6 +67,7 @@ commands:
     usage:        "{pfx}{cmd} #hotnesslicious"
     description:
       Disables a channel's decay.
+      This command requires the Manage Server permission.
 
   - name:         decaying
     enabled:      true
@@ -69,11 +77,10 @@ commands:
   - name:         colorroles
     enabled:      true
     description:
-      Toggles the color role feature.
-      This is deactivated by default. Once enabled
-      members can use the colorme command to get a role with their requested color hex.
+      Toggles the color role feature. This is deactivated by default. Once enabled,
+      members can use the colorme command to get a role with their requested hex color.
       Roles created with this feature have a SCR prefix in them and are created to be just one place under
-      Sigma's top role with no permission changes.
+      Sigma's top role with no permission changes. This command requires the Manage Server permission.
 
 events:
   - name:         decay_adder

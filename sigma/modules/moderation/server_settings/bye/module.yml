@@ -10,7 +10,7 @@ commands:
       - "goodbye"
     enabled:      true
     description:
-      Toggles if the bot should say when users leave the server.
+      Toggles if Sigma should say when users leave the server.
       The goodbye feature is active by default.
 
   - name:         byechannel
@@ -25,20 +25,22 @@ commands:
     alts:
       - "byemsg"
     enabled:      true
-    usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
+    usage:        "{pfx}{cmd} Goodbye {user_mention}!"
     description: |
       This sets the message shown on the server when a member leaves.
-      There are certain syntaxes for controlling what is displayed.
-      {user_name} - Basic text of the leaving user's name.
-      {user_discriminator} - The numbers after the # in the user's name.
-      {user_mention} - A mention tag of the leaving user.
-      {user_id} - The leaving user's discord ID.
-      {server_name} - Text showing the server's name.
-      {server_id} - The server's discord ID.
-      {owner_name} - Basic text showing the name of the server owner.
-      {owner_discriminator} - The numbers after the # in the owner's name.
-      {owner_mention} - A mention tag of the server's owner.
-      {owner_id} - The server owner's discord ID.
+      Goodbye messages can have special dynamic arguments in them.
+      {user_name}     - Leaving user's name.
+      {user_disc}     - "#xxxx" in the user's name.
+      {user_nick}     - Message author's nickname.
+      {user_mention}  - Tag the leaving user.
+      {user_id}       - Leaving user's ID.
+      {server_name}   - Server name.
+      {server_id}     - Server ID.
+      {owner_name}    - Server owner's name.
+      {owner_disc}    - "#xxxx" in the server owner's name.
+      {owner_nick}    - Server owner's nickname.
+      {owner_mention} - Tag the server owner.
+      {owner_id}      - Server owner's ID.
 
 events:
   - name:         bye_sender

@@ -9,8 +9,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Kawaii"
     description:
-      Searches Jisho, which is the Japanese language dictionary, for your input.
-      Resulting in a display of various types of information regarding your lookup.
+      Searches Jisho, which is the Japanese language dictionary, for the specified term.
+      Returns various types of information regarding the term.
 
   - name:         kanji
     enabled:      true

@@ -12,16 +12,16 @@ commands:
       Furry felines like it when their owners observe them.
 
   - name:         dog
-    enabled:      false
+    enabled:      true
     description:
       Outputs a random dog image.
-      Cutest, loyalest little woofers.
+      Cutest, loyalest, little woofers.
 
   - name:         kitsunemimi
     alts:
-      - "kon"
-      - "kitsune"
       - "fluffytail"
+      - "kitsune"
+      - "kon"
     enabled:      true
     description:
       Displays a random kitsunemimi image.
@@ -31,12 +31,12 @@ commands:
 
   - name:         usagimimi
     alts:
-      - "pyon"
       - "usagi"
+      - "pyon"
     enabled:      true
     description:
-      Displays a random kitsunemimi image.
-      In case you don't know what a kitsunemimi is, it's a foxgirl.
+      Displays a random usagimimi image.
+      In case you don't know what a usagimimi is, it's a rabbitgirl.
       All images are sourced from Safebooru, but be warned that some
       can be very borderline.
 

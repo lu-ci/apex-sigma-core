@@ -14,7 +14,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} https://my_fomain.net/my_avatar.png"
     description:
-      Sets the avatar of the bot either to the linked or attached image.
+      Sets the avatar of Sigma either to the linked or attached image.
       The officially supported formats for bot avatars are JPG and PNG images.
       Note that bots, like all users, have limited profile changes per time period.
 
@@ -27,7 +27,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} Supreme Bot"
     description:
-      Sets the name of the bot to the inputted text.
+      Sets the name of Sigma to the specified text.
       Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setstatus
@@ -37,7 +37,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} with fishies"
     description:
-      Sets the current playing status of the bot.
+      Sets the current playing status of Sigma.
       To use this, the automatic status rotation needs to be disabled.
       It can be toggled with the togglestatus command.
 
@@ -59,7 +59,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 1d9cae144f"
     description:
-      Removes a status with the inputed ID from Sigma's status database.
+      Removes a status with the specified ID from Sigma's status database.
 
   - name:         togglestatus
     enabled:      true
@@ -76,6 +76,5 @@ commands:
     permissions:
       owner:      true
       dmable:     true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the list of statuses in the status database.

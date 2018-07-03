@@ -36,10 +36,8 @@ async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
     upgrade_level = None
     if args:
         if message.author.id in cmd.bot.cfg.dsc.owners:
-            try:
+            if args[-1].isdigit:
                 upgrade_level = int(args[-1])
-            except ValueError:
-                upgrade_level = None
     if upgrade_level is None:
         upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
         upgrade_level = upgrade_file.get('luck') or 0

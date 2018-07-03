@@ -7,17 +7,16 @@ enabled:         true
 commands:
   - name:        evaluate
     alts:
-      - "evaluate"
       - "eval"
-      - "py"
-      - "python"
-      - "code"
       - "exec"
+      - "code"
+      - "python"
+      - "py"
     enabled:     true
     permissions:
       owner:     true
       dmable:    true
-    usage:       "{pfx}{cmd} print('hello world')"
+    usage:       "{pfx}{cmd} print('Hello')"
     description:
       Executes raw python code. This should be used with caution.
       You should never use this unless you are certain of what you are doing.
@@ -39,6 +38,8 @@ commands:
 
   - name:        test
     enabled:     true
+    permissions:
+      owner:     true
     description:
       For testing purposes, obviously.
       Used as a placeholder for testing functions.
