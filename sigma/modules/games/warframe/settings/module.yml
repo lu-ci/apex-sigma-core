@@ -65,6 +65,16 @@ commands:
       When a new sortie shows up the details will be posted there.
       To disable this, write disable after the command instead of a channel.
 
+  - name:         wfplainschannel
+    alts:
+      - "wfpoec"
+    enabled:      true
+    usage:        "{pfx}{cmd} #wf-daylight"
+    description:
+      Designates a channel for Warframe plains of eidolon day-night cycle.
+      When day shifts to night, and vice versa, a notification is sent to that channel.
+      To disable this, write disable after the command instead of a channel.
+
   - name:         wftag
     alts:
       - "wftagrole"
