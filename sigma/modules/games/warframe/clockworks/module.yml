@@ -2,7 +2,7 @@ name:             Warframe Clockworks
 
 category:         warframe
 
-enabled:          true
+enabled:          false
 
 events:
   - name:         alert_clockwork
