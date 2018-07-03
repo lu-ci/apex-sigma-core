@@ -13,6 +13,8 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import asyncio
+
 import arrow
 import discord
 
@@ -29,7 +31,9 @@ async def get_channels(ev: SigmaEvent, marker):
         channel_id = setting_file.get(marker)
         channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
         if channel:
-            channel_list.append(channel)
+            perms = channel.permissions_for(channel.guild.me)
+            if perms.send_messages and perms.embed_links:
+                channel_list.append(channel)
     return channel_list
 
 
@@ -66,6 +70,7 @@ async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
                     await channel.send(embed=response)
             else:
                 await channel.send(embed=response)
+            await asyncio.sleep(2.5)
         except Exception:
             pass
     await clean_wf_cache(ev.db)
