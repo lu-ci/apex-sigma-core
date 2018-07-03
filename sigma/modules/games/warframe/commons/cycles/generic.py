@@ -54,7 +54,7 @@ async def get_triggers(db, triggers, guild):
 
 async def clean_wf_cache(db: Database):
     cutoff = arrow.utcnow().timestamp - 86500
-    await db[db.db_cfg].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
+    await db[db.db_cfg.database].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
