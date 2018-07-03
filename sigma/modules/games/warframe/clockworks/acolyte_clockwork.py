@@ -40,4 +40,4 @@ async def acolyte_cycler(ev: SigmaEvent):
                     await send_to_channels(ev, response, 'WarframeAcolyteChannel', triggers)
             except Exception:
                 pass
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
