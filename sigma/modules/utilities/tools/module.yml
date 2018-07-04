@@ -58,11 +58,11 @@ commands:
     usage:        "{pfx}{cmd} EN>JA Hello there!"
     description: |
       Translates a language from and to the specified ones.
-      If a conversion input is not stated, the first argument will be considered the input language
-      and the output will be in english.
-      The language codes used abide by the ISO 639-1 format.
-      For the whole list, you can go to the following wikipedia article:
-      https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+      If a conversion input is not stated, the first argument
+      will be considered the input language and the output
+      will be in english. The language codes used abide by
+      the ISO 639-1 format. For the whole list, you can go
+      to the following wikipedia article: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
   - name:         lmgtfy
     alts:

@@ -33,8 +33,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
     description: |
-      This sets the message shown on the server when a member leaves.
-      Greet messages can have special dynamic arguments in them.
+      This sets the message shown on the server when a member
+      leaves. Greet messages can have special dynamic arguments in them.
       {user_name}     - Leaving user's name.
       {user_disc}     - "#xxxx" in the user's name.
       {user_nick}     - Message author's nickname.
@@ -47,6 +47,7 @@ commands:
       {owner_nick}    - Server owner's nickname.
       {owner_mention} - Tag the server owner.
       {owner_id}      - Server owner's ID.
+      This command requires the Manage Server permission.
 
 events:
   - name:         greet_sender

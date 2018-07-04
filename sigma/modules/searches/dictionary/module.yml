@@ -59,10 +59,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} noun ocean"
     description: |
-       Looks up words that are often used to describe nouns or are often used by the adjective.
-       Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns
-       that are often described by an adjective. nouns, noun, n: To look up adjectives that are
-       often used to describe a noun.
+       Looks up words that are often used to describe nouns or
+       are often used by the adjective. Specify the mode in the
+       first argument. adjectives, adjective, adj, a: To look
+       up nouns that are often described by an adjective. nouns,
+       noun, n: To look up adjectives that are often used to describe a noun.
 
   - name:         rhymes
     alts:
@@ -79,9 +80,9 @@ commands:
       - "spellcheck"
     enabled:      true
     usage:        "{pfx}{cmd} coneticut"
-    description:  |
-       Looks up words that are spelled similarly to the specified term.
-       Supports the following wildcards
+    description: |
+       Looks up words that are spelled similarly to the
+       specified term. Supports the following wildcards
        ? - one character
        * - one or many characters
 

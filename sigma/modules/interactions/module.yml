@@ -67,10 +67,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
     description: |
-      Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink,
-      explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot,
-      shrug, sip, slap, stab, and stare. There are also NSFW interactions: fap, fuck, and fuckrl.
-      Please do not submit NSFW GIFs to non-NSFW interaction types.
+      Adds new GIF to the specified interaction type. Accepted
+      types are bite, cry, dance, drink, explode, facepalm,
+      feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
+      punch, shoot, shrug, sip, slap, stab, and stare. There
+      are also NSFW interactions: fap, fuck, and fuckrl. Please
+      do not submit NSFW GIFs to non-NSFW interaction types.
 
   - name:         slap
     enabled:      true

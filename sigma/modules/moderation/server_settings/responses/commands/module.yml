@@ -11,11 +11,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello {author_name}!"
     description: |
-      Adds a custom command to the server.
-      Whenever the specified trigger word is used with a command
-      prefix, the specified response will be returned.
-      This command requires the Manage Server permission.
-      Custom commands can have special dynamic arguments in them.
+      Adds a custom command to the server. Whenever the
+      specified trigger word is used with a command prefix,
+      the specified response will be returned. This command
+      requires the Manage Server permission. Custom commands
+      can have special dynamic arguments in them.
       {author_name}     - Message author's name.
       {author_nick}     - Message author's nickname.
       {author_mention}  - Tag the message author.
@@ -29,6 +29,7 @@ commands:
       {target_nick}     - Target's nickname.
       {target_mention}  - Tag the target.
       {target_id}       - Target's ID.
+      This command requires the Manage Server permission.
 
   - name:         removecommand
     alts:
@@ -39,7 +40,7 @@ commands:
     usage:        "{pfx}{cmd} hi"
     description:
       Removes a custom command trigger from the server.
-      This requires the Manage Server permission.
+      This command requires the Manage Server permission.
 
   - name:         renamecommand
     alts:
@@ -49,7 +50,7 @@ commands:
     description:
       Replaces a custom command's trigger without losing the original trigger's contents.
       The original custom command trigger goes first, followed by what you wish to change it to.
-      This requires the Manage Server permission.
+      This command requires the Manage Server permission.
 
   - name:         customcommands
     alts:
