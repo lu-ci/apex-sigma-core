@@ -9,7 +9,7 @@ commands:
     alts:
       - "currency"
       - "money"
-      - "kyo"
+      - "kud"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
