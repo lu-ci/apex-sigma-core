@@ -8,9 +8,9 @@ commands:
   - name:         givecurrency
     alts:
       - "givecurr"
-      - "givekyo"
+      - "givekud"
       - "gibcurr"
-      - "gibkyo"
+      - "gibkud"
     enabled:      true
     usage:        "{pfx}{cmd} 500 @person"
     description:

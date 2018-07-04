@@ -18,7 +18,7 @@ commands:
 
   - name:         topcurrency
     alts:
-      - "topkyo"
+      - "topkud"
     enabled:      true
     usage:        "{pfx}{cmd} local"
     description:
