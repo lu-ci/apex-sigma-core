@@ -113,8 +113,8 @@ async def poesupport(cmd: SigmaCommand, message: discord.Message, args: list):
                 for detail in gem_data.get('info').get('details'):
                     gem_info_block += f'\n**{detail[0]}**: {detail[1]}'
                 img_data = gem_data.get('image')
-                gem_img: str = img_data.get('gem')
-                spell_img: str = img_data.get('spell')
+                gem_img = img_data.get('gem')
+                spell_img = img_data.get('spell')
                 title = f'Support Skill Gem: {gem_data.get("name")}'
                 response = discord.Embed(color=await get_image_colors(spell_img))
                 response.description = gem_data.get('desc')

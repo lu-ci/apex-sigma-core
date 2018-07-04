@@ -62,8 +62,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
             [str(index), key.title(), value, str(((value / playing_count) * 10000) // 100).split('.')[0] + '%'])
     out = boop(out_table_list)
     general_stats_list = [['Online', online_count], ['In-Game', playing_count], ['Unique Games', game_count]]
-    general_stats_out = boop(general_stats_list)
-    response.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name,
-                    value='```hs\n' + general_stats_out + '\n```', inline=False)
+    out_block = f'```hs\n{boop(general_stats_list)}\n```'
+    response.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name, value=out_block, inline=False)
     response.add_field(name=f'🎮 By Game on Page {page}', value='```haskell\n' + out + '\n```', inline=False)
     await message.channel.send(embed=response)

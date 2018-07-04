@@ -31,7 +31,7 @@ class ExecutionClockwork(object):
         self.bot.loop.create_task(self.queue_cmd_loop())
         self.processed = 0
 
-    async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool = False):
+    async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool=False):
         args = list(filter(lambda a: a != '', args))
         if mention:
             if args:
