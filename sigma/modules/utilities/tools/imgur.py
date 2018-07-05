@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def imgur(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'client_id' in cmd.cfg:
         if args or message.attachments:
-            image_url = message.attachments[0].url if message.attachments else ' '.join(args)
+            image_url = message.attachments[0].url if message.attachments else args[0]
             data = {'type': 'URL', 'image': image_url}
             url = "https://api.imgur.com/3/image"
             headers = {'Authorization': f'Client-ID {cmd.cfg.get("client_id")}'}
@@ -38,8 +38,7 @@ async def imgur(cmd: SigmaCommand, message: discord.Message, args: list):
                 response = discord.Embed(color=0x85BF25)
                 response.set_author(name=image_url, icon_url=imgur_icon, url=image_url)
             else:
-                ender = 'Attachment' if message.attachments else 'URL'
-                response = discord.Embed(color=0xBE1931, title=f'❗ Bad {ender}.')
+                response = discord.Embed(color=0xBE1931, title='❗ Bad image.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

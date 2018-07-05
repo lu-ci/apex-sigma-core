@@ -50,7 +50,7 @@ commands:
   - name:         daily
     enabled:      true
     description:
-      Gives an amount of kud to you with a 22 hour cooldown.
+      Gives an amount of Kud to you with a 22 hour cooldown.
       The amount is modified by the number of days in a row that you've collected
       your daily Kud up to 10 days, as well as a little random factor in there just for fun.
       While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected.
