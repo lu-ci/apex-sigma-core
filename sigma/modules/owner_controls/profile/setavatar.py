@@ -22,13 +22,16 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def setavatar(cmd: SigmaCommand, message: discord.Message, args: list):
     if args or message.attachments:
-        image_url = message.attachments[0].url if message.attachments else ' '.join(args)
+        image_url = message.attachments[0].url if message.attachments else args[0]
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(image_url) as image_response:
-                    img_data = await image_response.read()
-            await cmd.bot.user.edit(avatar=img_data)
-            response = discord.Embed(color=0x77B255, title='✅ My avatar has been changed.')
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(image_url) as image_response:
+                        img_data = await image_response.read()
+                await cmd.bot.user.edit(avatar=img_data)
+                response = discord.Embed(color=0x77B255, title='✅ My avatar has been changed.')
+            except aiohttp.client_exceptions.InvalidURL:
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid URL.')
         except discord.Forbidden:
             response = discord.Embed(color=0xBE1931, title='❗ I was unable to change my avatar.')
     else:
