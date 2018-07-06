@@ -43,6 +43,8 @@ commands:
       If no language is provided, it will pick a random one.
 
   - name:         bash
+    alts:
+      - "qdb"
     enabled:      true
     description:
       If you are old enough to know what IRC is or remember what it looked like,

@@ -46,14 +46,15 @@ async def grab_post(subreddit, argument):
 
 
 def add_post_image(post, response):
-    if post.preview:
-        images = post.preview.get('images')
-        if images:
-            sources = images[0].get('variants', {})
-            variant_data = sources.get('gif', sources.get('png', sources.get('jpg', {}))) or images[0]
-            prev_img = variant_data.get('source', {}).get('url')
-            if prev_img:
-                response.set_image(url=prev_img)
+    if post.media:
+        if post.preview:
+            images = post.preview.get('images')
+            if images:
+                sources = images[0].get('variants', {})
+                variant_data = sources.get('gif', sources.get('png', sources.get('jpg', {}))) or images[0]
+                prev_img = variant_data.get('source', {}).get('url')
+                if prev_img:
+                    response.set_image(url=prev_img)
 
 
 async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):

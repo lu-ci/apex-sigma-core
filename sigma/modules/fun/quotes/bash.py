@@ -25,32 +25,29 @@ cache = []
 
 
 async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
-    if len(cache) == 0:
+    if not cache:
         async with aiohttp.ClientSession() as session:
-            async with session.get('http://bash.org/?random1') as page:
+            async with session.get('http://qdb.us/random') as page:
                 page = await page.text()
-        try:
-            quotes = html.fromstring(page).cssselect('body center table tr td[valign="top"]')[0]
-            for index in range(1, len(quotes), 2):
-                qid = quotes[index - 1][0][0].text
-                score = quotes[index - 1][2].text
-                quote = quotes[index].text_content()
-                quote = {
-                    'id': qid[1:],
-                    'score': score,
-                    'quote': quote
-                }
-                cache.append(quote)
-        except IndexError:
-            pass
-    if cache:
+
+        quotes = html.fromstring(page).cssselect('body center table tr td.q')
+        for quote in quotes:
+            qid = quote.find_class('ql')[0].text_content()[1:]
+            score = quote.get_element_by_id(f'qs[{qid}]').text_content() + \
+                    quote.get_element_by_id(f'qvc[{qid}]').text_content()
+            text = quote.get_element_by_id(f'qt{qid}').text_content()
+            cache.append({
+                'id': qid,
+                'score': score,
+                'text': text
+            })
+
+    quote = cache.pop()
+    while len(quote['text']) > 2037:
         quote = cache.pop()
-        while len(quote['quote']) > 2037:
-            quote = cache.pop()
-        text = quote['quote']
-        highlight = 'xml' if text.strip()[0] == '<' else 'yaml'
-        response = Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
-        response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://bash.org/?{quote['id']}")
-    else:
-        response = discord.Embed(color=0xBE1931, title='❗ Could not get a quote.')
+    text = quote['text']
+    highlight = 'xml' if text.strip()[0] == '<' else 'http'
+    response = Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
+    response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://qdb.us/{quote['id']}")
+
     await message.channel.send(embed=response)
