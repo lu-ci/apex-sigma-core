@@ -22,6 +22,8 @@ import secrets
 
 from sigma.core.mechanics.command import SigmaCommand
 
+giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
+
 
 async def giphy(cmd: SigmaCommand, message: discord.Message, args: list):
     api_key = cmd.cfg.get('api_key')
@@ -34,15 +36,15 @@ async def giphy(cmd: SigmaCommand, message: discord.Message, args: list):
                     search_data = await data_response.read()
                     search_data = json.loads(search_data)
             data = search_data.get('data')
-            if not data:
-                response = discord.Embed(color=0x696969, title='🔍 No results')
-            else:
+            if data:
                 data = secrets.choice(data)
                 gif_id = data.get('id')
                 gif_url = f'https://media.giphy.com/media/{gif_id}/giphy.gif'
                 response = discord.Embed(color=0x262626)
                 response.set_image(url=gif_url)
-                response.set_footer(icon_url='https://i.imgur.com/tmDySRu.gif', text='Powered By GIPHY.')
+                response.set_footer(icon_url=giphy_icon, text='Powered By GIPHY.')
+            else:
+                response = discord.Embed(color=0x696969, title='🔍 No results')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
