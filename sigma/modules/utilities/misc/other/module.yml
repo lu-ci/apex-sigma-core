@@ -28,6 +28,7 @@ commands:
     usage:        "{pfx}{cmd} 404"
     description:
       Shows information about a HTTP response status code.
+      Add "cat" or "dog" as the last argument for an added bonus.
 
   - name:         temproom
     alts:

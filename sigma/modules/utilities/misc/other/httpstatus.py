@@ -33,6 +33,11 @@ async def httpstatus(cmd: SigmaCommand, message: discord.Message, args: list):
             status_description = status_data['description']
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🌐 {status_id}: {status_message}', value=f'{status_description}.')
+            bonus = {'cat': 'https://http.cat/images', 'dog': 'https://httpstatusdogs.com/img'}
+            bonus_arg = args[-1].lower()
+            if bonus_arg in bonus.keys():
+                bonus_img = f'{bonus[bonus_arg]}/{lookup}.jpg'
+                response.set_image(url=bonus_img)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid status code.')
     else:
