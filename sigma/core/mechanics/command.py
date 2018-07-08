@@ -213,7 +213,7 @@ class SigmaCommand(object):
             pass
 
     async def update_cooldown(self, author):
-        cdfile = await self.db[self.db.db_cfg.database].CommandCooldowns.find_one({'Command': self.name}) or {}
+        cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'Command': self.name}) or {}
         cooldown = cdfile.get('Cooldown')
         if cooldown:
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)

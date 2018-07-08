@@ -46,7 +46,7 @@ async def name_checker(ev: SigmaEvent):
         if ev.bot.is_ready():
             guild_ids = []
             guilds = []
-            actives = await ev.db[ev.db.db_cfg.database].ServerSettings.find({'ASCIIOnlyNames': True}).to_list(None)
+            actives = await ev.db[ev.db.db_nam].ServerSettings.find({'ASCIIOnlyNames': True}).to_list(None)
             for doc in actives:
                 gid = doc['ServerID']
                 guild_ids.append(gid)

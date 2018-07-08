@@ -14,25 +14,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import secrets
 
 import discord
-import yaml
 
 from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem, SigmaCookedItem
 from sigma.modules.minigames.professions.nodes.properties import rarity_names, item_icons, item_colors
 
+item_core_cache = None
+
+
+async def get_item_core(db: Database):
+    global item_core_cache
+    if not item_core_cache:
+        item_core_cache = ItemCore(db)
+        await item_core_cache.init_items()
+    return item_core_cache
+
 
 class ItemCore(object):
-    def __init__(self, item_directory):
-        self.base_dir = item_directory
+    def __init__(self, db: Database):
+        self.db = db
         self.rarity_names = rarity_names
         self.item_icons = item_icons
         self.item_colors = item_colors
         self.all_items = []
-        self.init_items()
 
     def get_item_by_name(self, name):
         output = None
@@ -59,25 +66,19 @@ class ItemCore(object):
         choice = secrets.choice(in_rarity)
         return choice
 
-    def init_items(self):
+    async def init_items(self):
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
-        for root, dirs, files in os.walk(f'{self.base_dir}'):
-            for file in files:
-                if file.endswith('.yml'):
-                    file_path = (os.path.join(root, file))
-                    with open(file_path, encoding='utf-8') as item_file:
-                        item_id = file.split('.')[0]
-                        item_data = yaml.safe_load(item_file)
-                        item_data.update({'file_id': item_id})
-                        if item_data['type'].lower() in raw_item_types:
-                            item_object = SigmaRawItem(item_data)
-                        elif item_data['type'].lower() in cooked_item_types:
-                            item_object = SigmaCookedItem(item_data)
-                        else:
-                            item_object = None
-                        if item_object:
-                            self.all_items.append(item_object)
+        all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
+        for item_data in all_items:
+            if item_data['type'].lower() in raw_item_types:
+                item_object = SigmaRawItem(item_data)
+            elif item_data['type'].lower() in cooked_item_types:
+                item_object = SigmaCookedItem(item_data)
+            else:
+                item_object = None
+            if item_object:
+                self.all_items.append(item_object)
 
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):
@@ -131,10 +132,10 @@ class ItemCore(object):
         return top_roll, rarities
 
     async def roll_rarity(self, db, uid):
-        upgrade_file = await db[db.db_cfg.database].Upgrades.find_one({'UserID': uid}) or {}
+        upgrade_file = await db[db.db_nam].Upgrades.find_one({'UserID': uid}) or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
-        sabotage_file = await db[db.db_cfg.database].SabotagedUsers.find_one({'UserID': uid})
+        sabotage_file = await db[db.db_nam].SabotagedUsers.find_one({'UserID': uid})
         roll = 0 if sabotage_file else secrets.randbelow(top_roll)
         lowest = 0
         for rarity in rarities:
@@ -146,11 +147,11 @@ class ItemCore(object):
 
     @staticmethod
     async def add_item_statistic(db: Database, item: SigmaRawItem, member: discord.Member):
-        member_stats = await db[db.db_cfg.database].ItemStatistics.find_one({'UserID': member.id})
+        member_stats = await db[db.db_nam].ItemStatistics.find_one({'UserID': member.id})
         if member_stats is None:
-            await db[db.db_cfg.database].ItemStatistics.insert_one({'UserID': member.id})
+            await db[db.db_nam].ItemStatistics.insert_one({'UserID': member.id})
             member_stats = {}
         item_count = member_stats.get(item.file_id) or 0
         item_count += 1
         updata = {'$set': {item.file_id: item_count}}
-        await db[db.db_cfg.database].ItemStatistics.update_one({'UserID': member.id}, updata)
+        await db[db.db_nam].ItemStatistics.update_one({'UserID': member.id}, updata)

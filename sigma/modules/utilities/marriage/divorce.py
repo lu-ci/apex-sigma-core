@@ -51,8 +51,8 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                 target_lookup = {'UserID': target}
             else:
                 target_lookup = {'UserID': target.id}
-            author_profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one(author_lookup) or {}
-            target_profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one(target_lookup) or {}
+            author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
+            target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
             a_spouses = author_profile.get('Spouses') or []
             a_spouse_ids = [s.get('UserID') for s in a_spouses]
             t_spouses = target_profile.get('Spouses') or []
@@ -76,8 +76,8 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                             t_spouses.remove(sp)
                     a_up_data = {'$set': {'Spouses': a_spouses}}
                     t_up_data = {'$set': {'Spouses': t_spouses}}
-                    await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(author_lookup, a_up_data)
-                    await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(target_lookup, t_up_data)
+                    await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, a_up_data)
+                    await cmd.db[cmd.db.db_nam].Profiles.update_one(target_lookup, t_up_data)
                     if is_id:
                         div_title = f'💔 You have divorced {target}...'
                     else:
@@ -95,7 +95,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     if sp.get('UserID') == tid:
                         a_spouses.remove(sp)
                 a_up_data = {'$set': {'Spouses': a_spouses}}
-                await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(author_lookup, a_up_data)
+                await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, a_up_data)
                 if is_id:
                     canc_title = f'💔 You have canceled the proposal to {target}...'
                 else:

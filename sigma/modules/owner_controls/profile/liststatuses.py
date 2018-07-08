@@ -23,7 +23,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 
 async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
-    status_data = await cmd.db[cmd.db.db_cfg.database].StatusFiles.find({}).to_list(None)
+    status_data = await cmd.db[cmd.db.db_nam].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['ID'], s['Text']] for s in status_data]
         status_list = sorted(status_list, key=lambda x: x[1])

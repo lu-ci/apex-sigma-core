@@ -45,10 +45,10 @@ async def get_plains_data(db):
         is_day = now < nox
         oid = poe_data.get('_id', {}).get('$oid') if is_day else f"night_{poe_data.get('_id', {}).get('$oid')}"
         triggers = ['day'] if is_day else ['night']
-        db_check = await db[db.db_cfg.database].WarframeCache.find_one({'EventID': oid})
+        db_check = await db[db.db_nam].WarframeCache.find_one({'EventID': oid})
         if not db_check:
             plains_out = {'sta': sta, 'end': end, 'nox': nox, 'now': now, 'day': is_day}
-            await db[db.db_cfg.database].WarframeCache.insert_one({'EventID': oid, 'Created': now})
+            await db[db.db_nam].WarframeCache.insert_one({'EventID': oid, 'Created': now})
     return plains_out, triggers
 
 

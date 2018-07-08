@@ -62,7 +62,7 @@ async def raffle(cmd: SigmaCommand, message: discord.Message, args: list):
                 'Active': True,
                 'ID': rafid
             }
-            await cmd.db[cmd.db.db_cfg.database].Raffles.insert_one(raffle_data)
+            await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
             response = None
         except (LookupError, ValueError):
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')

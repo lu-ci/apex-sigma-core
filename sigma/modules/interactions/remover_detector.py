@@ -28,9 +28,9 @@ async def remover_detector(ev: SigmaEvent, payload: RawReactionActionEvent):
         log_ch_id = ev.bot.modules.commands.get('addreact').cfg.get('log_ch')
         if cid is not None and cid == log_ch_id:
             if emoji.name == '❌':
-                interaction_item = await ev.db[ev.db.db_cfg.database].Interactions.find_one({'MessageID': mid})
+                interaction_item = await ev.db[ev.db.db_nam].Interactions.find_one({'MessageID': mid})
                 if interaction_item:
-                    await ev.db[ev.db.db_cfg.database].Interactions.delete_one(interaction_item)
+                    await ev.db[ev.db.db_nam].Interactions.delete_one(interaction_item)
                     channel = discord.utils.find(lambda c: c.id == cid, ev.bot.get_all_channels())
                     message = await channel.get_message(mid) if channel else None
                     if message:

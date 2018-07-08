@@ -55,8 +55,22 @@ commands:
   - name:         realprogrammers
     alts:
       - "realdevelopers"
+      - "realdevs"
       - "rp"
       - "rd"
     enabled:      true
     description:
       Tells you what real programmers do.
+
+events:
+  - name:        dbinit_dadjoke
+    type:        ready
+    enabled:     true
+
+  - name:        dbinit_realdevs
+    type:        ready
+    enabled:     true
+
+  - name:        dbinit_jokes
+    type:        ready
+    enabled:     true

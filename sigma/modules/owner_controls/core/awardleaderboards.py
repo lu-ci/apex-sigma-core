@@ -34,7 +34,7 @@ async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, args: l
     for pattern in patterns:
         col_nam = pattern[0]
         val_fil = pattern[1]
-        winners = await cmd.db[cmd.db.db_cfg.database][col_nam].find({}).sort([(val_fil, -1)]).limit(20).to_list(None)
+        winners = await cmd.db[cmd.db.db_nam][col_nam].find({}).sort([(val_fil, -1)]).limit(20).to_list(None)
         position = 0
         for winner in winners:
             await award(cmd, position, winner.get('UserID'), message.guild)

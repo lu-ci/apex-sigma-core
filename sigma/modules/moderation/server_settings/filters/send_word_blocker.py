@@ -51,7 +51,7 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             filter_warn = await ev.db.get_guild_settings(message.guild.id, 'FilterAutoWarn')
                             if filter_warn:
                                 warn_data = warning_data(message.guild.me, message.author, f'Said "{reason}".')
-                                await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
+                                await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
                             await message.delete()
                             title = f'🔥 Your message was deleted for containing "{reason}".'
                             to_author = discord.Embed(color=0xFFCC4D, title=title)

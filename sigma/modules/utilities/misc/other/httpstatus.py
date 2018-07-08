@@ -22,24 +22,22 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def httpstatus(cmd: SigmaCommand, message: discord.Message, args: list):
-    if args:
-        lookup = args[0]
-        with open(cmd.resource('http_status.json'), 'r', encoding='utf-8') as status_file:
-            status_data = json.loads(status_file.read())
-        if lookup in status_data:
-            status_id = lookup
-            status_data = status_data[status_id]
-            status_message = status_data['message']
-            status_description = status_data['description']
+    lookup = args[0] if args else None
+    if lookup:
+        status_data = await cmd.db[cmd.db.db_nam].HTTPStatusData.find_one({'code': lookup})
+        if status_data:
+            status_id = status_data.get('code')
+            status_message = status_data.get('message')
+            status_description = status_data.get('description')
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🌐 {status_id}: {status_message}', value=f'{status_description}.')
             bonus = {'cat': 'https://http.cat/images', 'dog': 'https://httpstatusdogs.com/img'}
             bonus_arg = args[-1].lower()
             if bonus_arg in bonus.keys():
-                bonus_img = f'{bonus[bonus_arg]}/{lookup}.jpg'
+                bonus_img = f'{bonus.get(bonus_arg)}/{lookup}.jpg'
                 response.set_image(url=bonus_img)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid status code.')
+            response = discord.Embed(color=0x696969, title='🔍 Response code not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

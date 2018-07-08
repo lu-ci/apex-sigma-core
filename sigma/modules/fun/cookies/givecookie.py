@@ -43,8 +43,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             target = None
     if target:
-        sabotage_target = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': target.id})
-        sabotage_author = await cmd.db[cmd.db.db_cfg.database].SabotagedUsers.find_one({'UserID': message.author.id})
+        sabotage_target = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'UserID': target.id})
+        sabotage_author = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'UserID': message.author.id})
         author_stamp = arrow.get(message.author.created_at).float_timestamp
         current_stamp = arrow.utcnow().float_timestamp
         time_diff = current_stamp - author_stamp
@@ -54,10 +54,10 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                     if message.author.id != target.id:
                         if not target.bot:
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-                                upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one(
+                                upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one(
                                     {'UserID': message.author.id}
                                 ) or {}
-                                cookie_coll = cmd.db[cmd.db.db_cfg.database].Cookies
+                                cookie_coll = cmd.db[cmd.db.db_nam].Cookies
                                 base_cooldown = 3600
                                 stamina = upgrade_file.get('oven') or 0
                                 stamina_mod = stamina / (1.25 + (0.01 * stamina))

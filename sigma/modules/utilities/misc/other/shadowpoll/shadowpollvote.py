@@ -50,7 +50,7 @@ async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list
             except ValueError:
                 choice_num = None
             if choice_num:
-                poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     choice_count = len(poll_file['poll']['answers'])
                     if 0 > choice_num or choice_num > choice_count:
@@ -83,7 +83,7 @@ async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list
                                 else:
                                     ender = 'recorded'
                                 poll_file['votes'].update({str(message.author.id): choice_num})
-                                poll_coll = cmd.db[cmd.db.db_cfg.database].ShadowPolls
+                                poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
                                 await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                                 response = discord.Embed(color=0x66CC66, title=f'✅ Your choice has been {ender}.')
                             else:

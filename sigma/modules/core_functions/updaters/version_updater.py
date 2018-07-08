@@ -29,7 +29,7 @@ async def version_updater(ev: SigmaEvent):
 
 
 async def version_updater_clockwork(ev: SigmaEvent):
-    version_coll = ev.db[ev.db.db_cfg.database].VersionCache
+    version_coll = ev.db[ev.db.db_nam].VersionCache
     while True:
         if ev.bot.is_ready():
             version = ev.bot.info.get_version().raw

@@ -32,11 +32,11 @@ async def activatewarning(cmd: SigmaCommand, message: discord.Message, args: lis
                     'warning.id': warn_id,
                     'warning.active': False
                 }
-                warn_data = await cmd.db[cmd.db.db_cfg.database].Warnings.find_one(lookup)
+                warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': True}}
-                    await cmd.db[cmd.db.db_cfg.database].Warnings.update_one(lookup, change_data)
+                    await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} reactivated.')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 Inactive warning not found.')

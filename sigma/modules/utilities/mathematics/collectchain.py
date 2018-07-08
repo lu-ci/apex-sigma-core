@@ -29,7 +29,7 @@ async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     if target_usr.id == message.author.id:
         blocked = False
     else:
-        block_file = await cmd.db[cmd.db.db_cfg.database].BlockedChains.find_one({'UserID': message.author.id})
+        block_file = await cmd.db[cmd.db.db_nam].BlockedChains.find_one({'UserID': message.author.id})
         if block_file:
             blocked = True
         else:

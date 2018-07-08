@@ -63,16 +63,6 @@ commands:
       Shows the current time on the Plains of Eidolon in warframe.
       As well as the next day/night cycle rotations.
 
-  - name:         wfbounties
-    alts:
-      - "wfbounty"
-      - "wfjobs"
-      - "wfb"
-    enabled:      true
-    usage:        "{pfx}{cmd} 4"
-    description:
-      Shows the rewards and mission information for the selected bounty tier.
-
   - name:         wfsales
     alts:
       - "wfsale"

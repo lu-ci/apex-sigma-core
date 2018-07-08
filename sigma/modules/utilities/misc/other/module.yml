@@ -68,3 +68,7 @@ events:
   - name:        temproom_checker
     type:        voice_state_update
     enabled:     true
+
+  - name:        dbinit_httpstatus
+    type:        ready
+    enabled:     true

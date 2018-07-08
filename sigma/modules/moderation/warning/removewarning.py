@@ -47,11 +47,11 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
                     'warning.id': warn_id,
                     'warning.active': True
                 }
-                warn_data = await cmd.db[cmd.db.db_cfg.database].Warnings.find_one(lookup)
+                warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
-                    await cmd.db[cmd.db.db_cfg.database].Warnings.update_one(lookup, change_data)
+                    await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deactivated.')
                     log_embed = make_log_embed(message.author, target, warn_iden)
                     await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')

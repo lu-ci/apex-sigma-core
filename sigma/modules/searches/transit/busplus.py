@@ -137,7 +137,7 @@ def get_correct(lookup: int, itterable: list):
 
 
 async def get_line_data(db: Database, line_number: str):
-    target_cache = await db[db.db_cfg.database].BusPlusCache.find_one({'Line': line_number})
+    target_cache = await db[db.db_nam].BusPlusCache.find_one({'Line': line_number})
     if target_cache:
         target_cache.pop('_id')
         result = target_cache.get('Timetable')
@@ -147,9 +147,9 @@ async def get_line_data(db: Database, line_number: str):
             time_table_data = await get_time_table(target_line)
             line_data = {'Line': line_number, 'Timetable': time_table_data}
             if target_cache is None:
-                await db[db.db_cfg.database].BusPlusCache.insert_one(line_data)
+                await db[db.db_nam].BusPlusCache.insert_one(line_data)
             else:
-                await db[db.db_cfg.database].BusPlusCache.update_one({'Line': line_number}, {'$set': line_data})
+                await db[db.db_nam].BusPlusCache.update_one({'Line': line_number}, {'$set': line_data})
             result = time_table_data or {'error': 'Line data not found.'}
         else:
             result = {'error': 'Line data not found.'}

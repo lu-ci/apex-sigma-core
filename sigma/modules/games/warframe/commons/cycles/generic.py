@@ -26,7 +26,7 @@ async def get_channels(ev: SigmaEvent, marker):
     all_channels = ev.bot.get_all_channels()
     channel_list = []
     lookup = {marker: {'$exists': True}}
-    setting_files = await ev.db[ev.db.db_cfg.database].ServerSettings.find(lookup).to_list(None)
+    setting_files = await ev.db[ev.db.db_nam].ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
         channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
@@ -54,7 +54,7 @@ async def get_triggers(db, triggers, guild):
 
 async def clean_wf_cache(db: Database):
     cutoff = arrow.utcnow().timestamp - 86500
-    await db[db.db_cfg.database].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
+    await db[db.db_nam].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):

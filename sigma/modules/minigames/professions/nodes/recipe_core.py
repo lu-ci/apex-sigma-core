@@ -13,13 +13,19 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import os
-
-import yaml
-
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.core.mechanics.database import Database
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import cook_icons, cook_colors
+
+recipe_core_cache = None
+
+
+async def get_recipe_core(db: Database):
+    global recipe_core_cache
+    if not recipe_core_cache:
+        recipe_core_cache = RecipeCore(db)
+        await recipe_core_cache.init_items()
+    return recipe_core_cache
 
 
 class SigmaRecipe(object):
@@ -44,11 +50,10 @@ class SigmaRecipe(object):
 
 
 class RecipeCore(object):
-    def __init__(self, item_directory):
-        self.base_dir = item_directory
-        self.item_core = ItemCore(self.base_dir)
+    def __init__(self, db: Database):
+        self.db = db
+        self.item_core = None
         self.recipes = []
-        self.init_items()
 
     def find_recipe(self, name):
         out = None
@@ -58,14 +63,9 @@ class RecipeCore(object):
                 break
         return out
 
-    def init_items(self):
-        for root, dirs, files in os.walk(f'{self.base_dir}/recipes'):
-            for file in files:
-                if file.endswith('.yml'):
-                    file_path = (os.path.join(root, file))
-                    with open(file_path, encoding='utf-8') as item_file:
-                        item_id = file.split('.')[0]
-                        item_data = yaml.safe_load(item_file)
-                        item_data.update({'file_id': item_id})
-                        item_object = SigmaRecipe(self, item_data)
-                        self.recipes.append(item_object)
+    async def init_items(self):
+        self.item_core = await get_item_core(self.db)
+        all_recipes = await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        for item_data in all_recipes:
+            item_object = SigmaRecipe(self, item_data)
+            self.recipes.append(item_object)

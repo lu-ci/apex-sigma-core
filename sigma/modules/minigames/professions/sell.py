@@ -18,15 +18,11 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
     if args:
         inv = await cmd.db.get_inventory(message.author)

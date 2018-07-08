@@ -29,7 +29,7 @@ async def donor_updater(ev: SigmaEvent):
 
 
 async def donor_updater_clockwork(ev: SigmaEvent):
-    donor_coll = ev.db[ev.db.db_cfg.database].DonorCache
+    donor_coll = ev.db[ev.db.db_nam].DonorCache
     while True:
         if ev.bot.is_ready():
             donors = ev.bot.info.get_donors().raw_list

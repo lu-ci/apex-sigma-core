@@ -26,6 +26,7 @@ class Database(motor.AsyncIOMotorClient):
     def __init__(self, bot, db_cfg: DatabaseConfig):
         self.bot = bot
         self.db_cfg = db_cfg
+        self.db_nam = self.db_cfg.database
         self.cache = Cacher()
         if self.db_cfg.auth:
             self.db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'

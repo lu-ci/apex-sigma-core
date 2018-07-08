@@ -84,9 +84,9 @@ def get_selector_and_value(args: list):
 
 
 async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
-    upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': message.author.id})
     if upgrade_file is None:
-        await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+        await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'UserID': message.author.id})
         upgrade_file = {}
     base_cooldown = 60
     if 'casino' in upgrade_file:

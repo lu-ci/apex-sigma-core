@@ -97,7 +97,7 @@ class ApexSigma(client_class):
         self.log.info('Connecting to Database...')
         self.db = Database(self, self.cfg.db)
         try:
-            await self.db[self.db.db_cfg.database].collection.find_one({})
+            await self.db[self.db.db_nam].collection.find_one({})
             await self.db.precache_settings()
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')

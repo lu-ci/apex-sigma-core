@@ -30,5 +30,5 @@ async def decay_adder(ev: SigmaEvent, msg: discord.Message):
             if dtmr:
                 deletion_stamp = arrow.utcnow().timestamp + dtmr
                 tracking_data = {'Message': msg.id, 'Channel': msg.channel.id, 'Timestamp': deletion_stamp}
-                await ev.db[ev.db.db_cfg.database].DecayingMessages.insert_one(tracking_data)
+                await ev.db[ev.db.db_nam].DecayingMessages.insert_one(tracking_data)
                 decay_cache.del_cache('all')

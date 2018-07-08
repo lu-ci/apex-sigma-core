@@ -28,7 +28,7 @@ async def wipeawards(cmd: SigmaCommand, message: discord.Message, args: list):
             lookup = {'UserID': target_id}
             collections = ['CurrencySystem', 'Cookies', 'ExperienceSystem', 'Inventory', 'Upgrades']
             for collection in collections:
-                await cmd.db[cmd.db.db_cfg.database][collection].delete_one(lookup)
+                await cmd.db[cmd.db.db_nam][collection].delete_one(lookup)
             all_members = cmd.bot.get_all_members()
             target = discord.utils.find(lambda x: x.id == target_id, all_members)
             unam = f'{target.name}#{target.discriminator}' if target else str(target_id)

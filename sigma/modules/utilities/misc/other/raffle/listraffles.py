@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 async def listraffles(cmd: SigmaCommand, message: discord.Message, args: list):
     lookup = {'Author': message.author.id, 'Active': True}
-    raffle_docs = await cmd.db[cmd.db.db_cfg.database].Raffles.find(lookup).to_list(None)
+    raffle_docs = await cmd.db[cmd.db.db_nam].Raffles.find(lookup).to_list(None)
     all_channels = list(cmd.bot.get_all_channels())
     if raffle_docs:
         raffle_lines = []

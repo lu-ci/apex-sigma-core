@@ -21,11 +21,3 @@ commands:
     enabled:      true
     description:
       Joins a race instance if any are ongoing in the current channel.
-
-  - name:         raceoverride
-    alts:
-      - "raceover"
-      - "killrace"
-    enabled:      true
-    description:
-      Overrides the race in the current channel in case a bug occurs.

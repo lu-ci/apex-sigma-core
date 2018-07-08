@@ -71,7 +71,7 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                                 bad_item = target
                                 break
                         if not bad_item:
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                            await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                 {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:

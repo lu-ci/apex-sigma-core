@@ -19,9 +19,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 def type_rarity_counter(items: list):
@@ -39,9 +37,7 @@ def type_rarity_counter(items: list):
 
 
 async def allitemstats(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     item_o_list = sorted(item_core.all_items, key=lambda x: x.rarity, reverse=True)
     types = type_rarity_counter(item_o_list)
     total_value = 0

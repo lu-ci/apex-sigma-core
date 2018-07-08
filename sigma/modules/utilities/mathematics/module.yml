@@ -139,3 +139,7 @@ events:
   - name: collector_clockwork
     type: ready
     enabled: true
+
+  - name: dbinit_timezones
+    type: ready
+    enabled: true

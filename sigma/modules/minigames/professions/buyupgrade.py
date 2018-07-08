@@ -31,9 +31,9 @@ def get_price_mod(base_price, upgrade_level):
 async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
-        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': message.author.id})
         if upgrade_file is None:
-            await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
+            await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'UserID': message.author.id})
             upgrade_file = {}
         upgrade_text = ''
         upgrade_index = 0
@@ -98,7 +98,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
-                    await cmd.db[cmd.db.db_cfg.database].Upgrades.update_one(
+                    await cmd.db[cmd.db.db_nam].Upgrades.update_one(
                         {'UserID': message.author.id}, upgrade_data
                     )
                     await cmd.db.rmv_currency(message.author, upgrade_price)

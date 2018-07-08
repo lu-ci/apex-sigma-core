@@ -31,7 +31,7 @@ async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.author
     if target:
         lookup = {'guild': message.guild.id, 'target.id': target.id, 'warning.active': True}
-        warnings = await cmd.db[cmd.db.db_cfg.database].Warnings.find(lookup).to_list(None)
+        warnings = await cmd.db[cmd.db.db_nam].Warnings.find(lookup).to_list(None)
         if warnings:
             warn_list = []
             all_members = cmd.bot.get_all_members()

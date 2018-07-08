@@ -17,15 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def generateitem(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore('sigma/modules/minigames/professions/res/data')
+    item_core = await get_item_core(cmd.db)
     if args:
         if message.mentions:
             if len(args) >= 2:

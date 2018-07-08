@@ -14,6 +14,17 @@ commands:
       Reloads all of the modules in Sigma.
       This includes both commands and events.
 
+  - name:         forcedataupdate
+    alts:
+      - "fdu"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    description:
+      Forces all static content data in the databse to be updated
+      from the repository's static file storage.
+
   - name:         shutdown
     enabled:      true
     permissions:

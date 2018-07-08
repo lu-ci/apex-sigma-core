@@ -42,7 +42,7 @@ def extra_shuffle(some_list):
 
 
 async def cycler(ev: SigmaEvent):
-    raffle_coll = ev.db[ev.db.db_cfg.database].Raffles
+    raffle_coll = ev.db[ev.db.db_nam].Raffles
     while True:
         if ev.bot.is_ready():
             try:

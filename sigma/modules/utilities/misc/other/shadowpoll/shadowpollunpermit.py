@@ -36,13 +36,13 @@ async def shadowpollunpermit(cmd: SigmaCommand, message: discord.Message, args: 
                 perm_type = 'roles'
                 target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
             if target:
-                poll_file = await cmd.db[cmd.db.db_cfg.database].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     author = poll_file['origin']['author']
                     if author == message.author.id:
                         if target.id in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].remove(target.id)
-                            await cmd.db[cmd.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id},
+                            await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id},
                                                                                         {'$set': poll_file})
                             response = discord.Embed(color=0x66CC66, title=f'✅ {target.name} has been unpermitted.')
                         else:

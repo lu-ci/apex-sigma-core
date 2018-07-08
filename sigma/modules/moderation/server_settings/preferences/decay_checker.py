@@ -39,12 +39,12 @@ async def decay_checker_clock(ev: SigmaEvent):
                 now = arrow.utcnow().timestamp
                 dmsgs = decay_cache.get_cache('all')
                 if not dmsgs:
-                    dmsgs = await ev.db[ev.db.db_cfg.database].DecayingMessages.find({}).to_list(None)
+                    dmsgs = await ev.db[ev.db.db_nam].DecayingMessages.find({}).to_list(None)
                     decay_cache.set_cache('all', dmsgs)
                 all_channels = ev.bot.get_all_channels()
                 for dmsg in dmsgs:
                     if dmsg.get('Timestamp') < now:
-                        await ev.db[ev.db.db_cfg.database].DecayingMessages.delete_one(dmsg)
+                        await ev.db[ev.db.db_nam].DecayingMessages.delete_one(dmsg)
                         dchn = discord.utils.find(lambda c: c.id == dmsg.get('Channel'), all_channels)
                         if dchn:
                             try:

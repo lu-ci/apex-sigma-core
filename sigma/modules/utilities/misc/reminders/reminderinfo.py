@@ -25,7 +25,7 @@ async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rem_id = args[0].lower()
         lookup_data = {'UserID': message.author.id, 'ReminderID': rem_id}
-        reminder = await cmd.db[cmd.db.db_cfg.database].Reminders.find_one(lookup_data)
+        reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             execution_stamp = reminder['ExecutionStamp']
             text_message = reminder['TextMessage']

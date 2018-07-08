@@ -38,10 +38,10 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
             if not target.bot:
                 author_lookup = {'UserID': author.id}
                 target_lookup = {'UserID': target.id}
-                author_profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one(author_lookup) or {}
-                target_profile = await cmd.db[cmd.db.db_cfg.database].Profiles.find_one(target_lookup) or {}
-                author_upgrades = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': author.id}) or {}
-                target_upgrades = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
+                author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
+                target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
+                author_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': author.id}) or {}
+                target_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': target.id}) or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
                 a_exists = True if author_profile else False
@@ -57,9 +57,9 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
                         up_data = {'Spouses': a_spouses, 'UserID': author.id}
                         if a_exists:
                             up_data = {'$set': up_data}
-                            await cmd.db[cmd.db.db_cfg.database].Profiles.update_one(author_lookup, up_data)
+                            await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, up_data)
                         else:
-                            await cmd.db[cmd.db.db_cfg.database].Profiles.insert_one(up_data)
+                            await cmd.db[cmd.db.db_nam].Profiles.insert_one(up_data)
                         if author.id not in t_spouse_ids:
                             response = discord.Embed(color=0xe75a70, title=f'💟 You proposed to {target.name}!')
                             await send_proposal(author, target, True)

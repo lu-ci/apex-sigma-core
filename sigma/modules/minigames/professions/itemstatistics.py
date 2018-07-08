@@ -19,20 +19,16 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar, paginate
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]
     else:
         target = message.author
-    all_stats = await cmd.db[cmd.db.db_cfg.database].ItemStatistics.find_one({'UserID': target.id}) or {}
+    all_stats = await cmd.db[cmd.db.db_nam].ItemStatistics.find_one({'UserID': target.id}) or {}
     if '_id' in all_stats:
         all_stats.pop('_id')
         all_stats.pop('UserID')

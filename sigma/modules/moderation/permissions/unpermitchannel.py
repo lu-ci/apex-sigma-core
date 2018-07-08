@@ -67,14 +67,14 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                                 inner_exc.update({'Channels': exc_usrs})
                                 cmd_exc.update({cmd_name: inner_exc})
                                 perms.update({exception_group: cmd_exc})
-                                await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                                await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                     {'ServerID': message.guild.id}, {'$set': perms}
                                 )
                             else:
                                 bad_item = target
                                 break
                         if not bad_item:
-                            await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                            await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                 {'ServerID': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:

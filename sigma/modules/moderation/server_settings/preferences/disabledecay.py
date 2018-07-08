@@ -29,7 +29,7 @@ async def disabledecay(cmd: SigmaCommand, message: discord.Message, args: list):
             if target.id in decaying_channels:
                 decaying_channels.remove(target.id)
                 await cmd.db.set_guild_settings(message.guild.id, 'DecayingChannels', decaying_channels)
-                await cmd.db[cmd.db.db_cfg.database].DecayingMessages.delete_many({'Channel': target.id})
+                await cmd.db[cmd.db.db_nam].DecayingMessages.delete_many({'Channel': target.id})
                 response = discord.Embed(color=0x66CC66, title=f'✅ Decay for #{target.name} has been disabled.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ The channel #{target.name} is not decaying.')

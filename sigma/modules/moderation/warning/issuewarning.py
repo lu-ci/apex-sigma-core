@@ -73,7 +73,7 @@ async def issuewarning(cmd: SigmaCommand, message: discord.Message, args: list):
                     reason = ' '.join(args[1:]) if args[1:] else None
                     warn_data = warning_data(message.author, target, reason)
                     warn_iden = warn_data.get('warning').get('id')
-                    await cmd.db[cmd.db.db_cfg.database].Warnings.insert_one(warn_data)
+                    await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
                     log_embed = make_log_embed(message.author, target, warn_iden, reason)
                     await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')

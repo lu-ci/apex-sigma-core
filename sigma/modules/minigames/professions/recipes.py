@@ -43,7 +43,8 @@ async def check_requirements(cmd, message, recipe):
 async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     global recipe_core
     if not recipe_core:
-        recipe_core = RecipeCore(cmd.resource('data'))
+        recipe_core = RecipeCore(cmd.db)
+        await recipe_core.init_items()
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     page = args[0] if args else 1
     sales_data, page = paginate(recipe_list, page)

@@ -33,12 +33,12 @@ async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
                 reaction_url = '%20'.join(args[1:])
                 if reaction_url.startswith('http'):
                     if reaction_url.endswith('.gif'):
-                        exist_check = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find_one(
+                        exist_check = await cmd.db[cmd.db.db_nam]['Interactions'].find_one(
                             {'URL': reaction_url})
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
                             lookup = {'Name': reaction_name.lower()}
-                            inter_count = await cmd.db[cmd.db.db_cfg.database]['Interactions'].find(lookup).count() + 1
+                            inter_count = await cmd.db[cmd.db.db_nam]['Interactions'].find(lookup).count() + 1
                             title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
                             response = discord.Embed(color=0x77B255, title=title)
                             log_msg = None
@@ -66,7 +66,7 @@ async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
                                 'ReactionID': reaction_id,
                                 'MessageID': log_msg.id if log_msg else None
                             }
-                            await cmd.db[cmd.db.db_cfg.database]['Interactions'].insert_one(reaction_data)
+                            await cmd.db[cmd.db.db_nam]['Interactions'].insert_one(reaction_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title=f'❗ Reaction already exists.')
                     else:

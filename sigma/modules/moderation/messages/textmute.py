@@ -80,5 +80,5 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                             pass
                         if endstamp:
                             doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
-                            await cmd.db[cmd.db.db_cfg.database].TextmuteClockworkDocs.insert_one(doc_data)
+                            await cmd.db[cmd.db.db_nam].TextmuteClockworkDocs.insert_one(doc_data)
     await message.channel.send(embed=response)

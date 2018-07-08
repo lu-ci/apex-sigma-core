@@ -80,7 +80,7 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                             await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
                             if endstamp:
                                 doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
-                                await cmd.db[cmd.db.db_cfg.database].BanClockworkDocs.insert_one(doc_data)
+                                await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:

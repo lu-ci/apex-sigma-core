@@ -73,7 +73,7 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         pass
                     if endstamp:
                         doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
-                        await cmd.db[cmd.db.db_cfg.database].HardmuteClockworkDocs.insert_one(doc_data)
+                        await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')
             else:

@@ -32,7 +32,7 @@ async def expiration_clock(ev: SigmaEvent):
 
 
 async def cycler(ev: SigmaEvent):
-    poll_coll = ev.db[ev.db.db_cfg.database].ShadowPolls
+    poll_coll = ev.db[ev.db.db_nam].ShadowPolls
     while True:
         if ev.bot.is_ready():
             now = arrow.utcnow().timestamp
@@ -40,7 +40,7 @@ async def cycler(ev: SigmaEvent):
             for poll_file in poll_files:
                 poll_id = poll_file['id']
                 poll_file['settings'].update({'active': False})
-                await ev.db[ev.db.db_cfg.database].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                await ev.db[ev.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                 author = discord.utils.find(lambda x: x.id == poll_file['origin']['author'], ev.bot.get_all_members())
                 if author:
                     response = discord.Embed(color=0xff3333, title=f'⏰ Your poll {poll_file["id"]} has expired.')

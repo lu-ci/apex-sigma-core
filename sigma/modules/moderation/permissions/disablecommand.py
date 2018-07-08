@@ -38,7 +38,7 @@ async def disablecommand(cmd: SigmaCommand, message: discord.Message, args: list
                 else:
                     disabled_commands.append(cmd_name)
                     perms.update({'DisabledCommands': disabled_commands})
-                    await cmd.db[cmd.db.db_cfg.database].Permissions.update_one(
+                    await cmd.db[cmd.db.db_nam].Permissions.update_one(
                         {'ServerID': message.guild.id}, {'$set': perms})
                     scp_cache.del_cache(message.guild.id)
                     response = discord.Embed(color=0x77B255, title=f'✅ `{cmd_name.upper()}` disabled.')

@@ -76,3 +76,13 @@ commands:
       Displays its source as well, of course.
       If the source visual novel of the quote is NSFW,
       the image will be hidden and the footer will state that.
+
+events:
+  - name:        dbinit_fortune
+    type:        ready
+    enabled:     true
+
+  - name:        dbinit_shootfoot
+    type:        ready
+    enabled:     true
+

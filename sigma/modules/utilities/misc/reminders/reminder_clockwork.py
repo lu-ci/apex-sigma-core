@@ -33,7 +33,7 @@ async def reminder_clockwork(ev: SigmaEvent):
 
 
 async def reminder_cycler(ev: SigmaEvent):
-    coll = ev.db[ev.db.db_cfg.database].Reminders
+    coll = ev.db[ev.db.db_nam].Reminders
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().timestamp

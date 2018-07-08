@@ -17,18 +17,14 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def destroyitem(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore('sigma/modules/minigames/professions/res/data')
+    item_core = await get_item_core(cmd.db)
     if args:
         id_lookup = args[0]
-        inv_item = await cmd.db[cmd.db.db_cfg.database].Inventory.find_one({'Items.item_id': id_lookup})
+        inv_item = await cmd.db[cmd.db.db_nam].Inventory.find_one({'Items.item_id': id_lookup})
         if inv_item:
             all_members = cmd.bot.get_all_members()
             target = discord.utils.find(lambda x: x.id == inv_item['UserID'], all_members)

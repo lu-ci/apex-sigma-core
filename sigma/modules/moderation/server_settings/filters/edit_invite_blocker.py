@@ -47,7 +47,7 @@ async def edit_invite_blocker(ev: SigmaEvent, before, after):
                         if invite_warn:
                             reason = f'Sent an invite to {invite_found.guild.name}.'
                             warn_data = warning_data(after.guild.me, after.author, reason)
-                            await ev.db[ev.db.db_cfg.database].Warnings.insert_one(warn_data)
+                            await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
                         title = f'⛓ Invite links are not allowed on {after.guild.name}.'
                         response = discord.Embed(color=0xF9F9F9, title=title)
                         await after.delete()

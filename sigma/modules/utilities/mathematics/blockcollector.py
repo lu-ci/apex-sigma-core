@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def blockcollector(cmd: SigmaCommand, message: discord.Message, args: list):
     block_data = {'UserID': message.author.id}
-    block_coll = cmd.db[cmd.db.db_cfg.database].BlockedChains
+    block_coll = cmd.db[cmd.db.db_nam].BlockedChains
     block_file = await block_coll.find_one(block_data)
     if not block_file:
         await block_coll.insert_one(block_data)

@@ -18,32 +18,19 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': message.author.id})
-        if upgrade_file is None:
-            await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': message.author.id})
-            upgrade_file = {}
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': message.author.id}) or {}
         inv = await cmd.db.get_inventory(message.author)
-        if 'storage' in upgrade_file:
-            storage = upgrade_file['storage']
-        else:
-            storage = 0
+        storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)
         if len(inv) < inv_limit:
             base_cooldown = 60
-            if 'stamina' in upgrade_file:
-                stamina = upgrade_file['stamina']
-            else:
-                stamina = 0
+            stamina = upgrade_file.get('stamina', 0)
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             if cooldown < 12:
                 cooldown = 12

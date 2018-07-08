@@ -27,7 +27,7 @@ async def listinactivewarnings(cmd: SigmaCommand, message: discord.Message, args
         target = message.mentions[0] if message.mentions else message.author
         if target:
             lookup = {'guild': message.guild.id, 'target.id': target.id, 'warning.active': False}
-            warnings = await cmd.db[cmd.db.db_cfg.database].Warnings.find(lookup).to_list(None)
+            warnings = await cmd.db[cmd.db.db_nam].Warnings.find(lookup).to_list(None)
             if warnings:
                 warn_list = []
                 for warning in warnings:

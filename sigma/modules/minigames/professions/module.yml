@@ -154,3 +154,8 @@ commands:
     description:
       Shows the statistics of the entire item pool.
       The number of items per type and per rarity.
+
+events:
+  - name:        dbinit_items
+    type:        ready
+    enabled:     true

@@ -22,11 +22,11 @@ from sigma.core.mechanics.command import SigmaCommand
 async def endraffle(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rafid = args[0].lower()
-        raffle = await cmd.db[cmd.db.db_cfg.database].Raffles.find_one({'ID': rafid, 'Active': True})
+        raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'ID': rafid, 'Active': True})
         if raffle:
             aid = raffle.get('Author')
             if aid == message.author.id:
-                await cmd.db[cmd.db.db_cfg.database].Raffles.update_one(raffle, {'$set': {'End': 0}})
+                await cmd.db[cmd.db.db_nam].Raffles.update_one(raffle, {'$set': {'End': 0}})
                 reaction = '✅'
             else:
                 reaction = '⛔'

@@ -18,35 +18,22 @@
 import secrets
 
 import discord
-import yaml
 
 from sigma.core.mechanics.command import SigmaCommand
 
-feet_data = None
-
 
 async def shootfoot(cmd: SigmaCommand, message: discord.Message, args: list):
-    global feet_data
-    if not feet_data:
-        with open(cmd.resource('feets.yml')) as footfile:
-            feet_data = yaml.safe_load(footfile)
-    if args:
-        foot_lang = None
-        foot_lang_search = args[0].lower()
-        for foot_key in feet_data.keys():
-            if foot_key.lower() == foot_lang_search:
-                foot_lang = foot_key
-        if foot_lang:
-            joke_list = feet_data.get(foot_lang)
-        else:
-            joke_list = None
+    lang = ' '.join(args).lower() if args else None
+    if lang:
+        joke_doc = await cmd.db[cmd.db.db_nam].ShootFootData.find_one({'lang_low': lang})
     else:
-        foot_lang = secrets.choice(list(feet_data.keys()))
-        joke_list = feet_data.get(foot_lang)
-    if joke_list:
-        joke = secrets.choice(joke_list)
+        all_docs = await cmd.db[cmd.db.db_nam].ShootFootData.find().to_list(None)
+        joke_doc = secrets.choice(all_docs)
+    if joke_doc:
+        joke = secrets.choice(joke_doc.get('methods'))
+        foot_lang = joke_doc.get('lang')
         response = discord.Embed(color=0xbf6952, title=f'🔫 How to shoot yourself in the foot with {foot_lang}...')
         response.description = joke
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 I don\'t know how to do it with {foot_lang_search}.')
+        response = discord.Embed(color=0x696969, title=f'🔍 I don\'t know how to do it in {lang}.')
     await message.channel.send(embed=response)

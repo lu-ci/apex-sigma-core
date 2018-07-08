@@ -22,7 +22,7 @@ interaction_cache = {}
 
 
 async def get_interaction_list(db, intername):
-    return await db[db.db_cfg.database]['Interactions'].find({'Name': intername}).to_list(None)
+    return await db[db.db_nam]['Interactions'].find({'Name': intername}).to_list(None)
 
 
 async def grab_interaction(db, intername):

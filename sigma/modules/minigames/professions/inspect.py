@@ -18,15 +18,11 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
-
-item_core = None
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     if args:
         inv = await cmd.db.get_inventory(message.author)
         if inv:
@@ -38,7 +34,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 item = None
             if item:
                 response = item_o.make_inspect_embed(cmd.bot.cfg.pref.currency)
-                stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
+                stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
                 all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
                 item_total = 0
                 all_stat_docs = await stat_coll.find({item_o.file_id: {'$exists': True}}).to_list(None)
@@ -58,7 +54,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
         item = item_core.get_item_by_name(lookup)
         if item:
             if item.rarity != 0:
-                stat_coll = cmd.db[cmd.db.db_cfg.database].ItemStatistics
+                stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
                 all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
                 item_total = 0
                 all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)

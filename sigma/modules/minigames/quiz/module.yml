@@ -5,12 +5,6 @@ category:         minigames
 enabled:          true
 
 commands:
-  - name:         quiz
-    enabled:      false
-    description:
-      A quiz minigame with various quizzes to choose from.
-      With a lot more coming soon
-
   - name:         vnchargame
     alts:
       - "vncg"
@@ -80,3 +74,8 @@ commands:
       A minigame where you guess the scrambled word.
       You have 30 seconds to guess the word shown.
       The Kud reward is equal to the number of letters in the word.
+
+events:
+  - name:        dbinit_dictionary
+    type:        ready
+    enabled:     true

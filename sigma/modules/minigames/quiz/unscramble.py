@@ -25,22 +25,15 @@ from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
 word_cache = {}
-updating = False
-
-
-async def load_word_cache(source_data):
-    big_word_cache = json.loads(source_data)
-    for word in big_word_cache.keys():
-        if len(word) > 3 and len(word.split(' ')) == 1:
-            word_cache.update({word.lower(): big_word_cache.get(word)})
 
 
 async def unscramble(cmd: SigmaCommand, message: discord.Message, args: list):
     if not word_cache:
-        update_resp = discord.Embed(color=0x696969, title='🕙 Updating word list, please wait...')
-        await message.channel.send(embed=update_resp)
-        with open(cmd.resource('dictionary.json')) as dict_file:
-            await load_word_cache(dict_file.read())
+        dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
+        for ddoc in dict_docs:
+            word = ddoc.get('word')
+            if len(word) > 3 and len(word.split(' ')) == 1:
+                word_cache.update({word: ddoc.get('description')})
     if message.channel.id not in ongoing_list:
         ongoing_list.append(message.channel.id)
         words = list(word_cache.keys())

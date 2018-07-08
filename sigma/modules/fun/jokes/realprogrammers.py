@@ -17,19 +17,13 @@
 import secrets
 
 import discord
-import yaml
 
 from sigma.core.mechanics.command import SigmaCommand
 
-joke_cache = None
-
 
 async def realprogrammers(cmd: SigmaCommand, message: discord.Message, args: list):
-    global joke_cache
-    if not joke_cache:
-        with open(cmd.resource('real-programmers'), 'r', encoding='utf-8') as joke_file:
-            joke_cache = yaml.safe_load(joke_file)
-    joke = secrets.choice(joke_cache)
+    joke_docs = await cmd.db[cmd.db.db_nam].RealDevsData.find().to_list(None)
+    joke = secrets.choice(joke_docs).get('content')
     response = discord.Embed(color=0xf9f9f9, title=f'💻 Real programmers...')
     response.description = joke
     await message.channel.send(embed=response)

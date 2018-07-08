@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json
 import secrets
 
 import discord
@@ -23,10 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def dadjoke(cmd: SigmaCommand, message: discord.Message, args: list):
-    with open(cmd.resource('dadjokes.json'), 'r', encoding='utf-8') as dadjokes_file:
-        jokes = dadjokes_file.read()
-        jokes = json.loads(jokes)
-    joke_list = jokes.get('JOKES')
+    joke_list = await cmd.db[cmd.db.db_nam].DadjokeData.find().to_list(None)
     end_joke_choice = secrets.choice(joke_list)
     end_joke = end_joke_choice.get('setup')
     punchline = end_joke_choice.get('punchline')

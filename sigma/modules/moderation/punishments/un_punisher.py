@@ -78,9 +78,9 @@ async def unhmute(ev: SigmaEvent, doc: dict):
 
 
 async def un_punisher_clock(ev: SigmaEvent):
-    bancoll = ev.db[ev.db.db_cfg.database].BanClockworkDocs
-    tmutecoll = ev.db[ev.db.db_cfg.database].TextmuteClockworkDocs
-    hmutecoll = ev.db[ev.db.db_cfg.database].HardmuteClockworkDocs
+    bancoll = ev.db[ev.db.db_nam].BanClockworkDocs
+    tmutecoll = ev.db[ev.db.db_nam].TextmuteClockworkDocs
+    hmutecoll = ev.db[ev.db.db_nam].HardmuteClockworkDocs
     while True:
         if ev.bot.is_ready:
             now = arrow.utcnow().timestamp

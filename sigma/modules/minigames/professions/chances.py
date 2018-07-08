@@ -19,16 +19,12 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import rarity_names
-
-item_core = None
 
 
 async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]
     else:
@@ -39,7 +35,7 @@ async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
             if args[-1].isdigit:
                 upgrade_level = int(args[-1])
     if upgrade_level is None:
-        upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id}) or {}
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': target.id}) or {}
         upgrade_level = upgrade_file.get('luck') or 0
     top_roll, rarities = item_core.create_roll_range(upgrade_level)
     out_lines = []

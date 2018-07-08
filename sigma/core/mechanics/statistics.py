@@ -34,7 +34,7 @@ class StatisticsStorage(object):
         while True:
             def_stat_data = {'event': self.name, 'count': 0}
             collection = 'EventStats'
-            database = self.db.db_cfg.database
+            database = self.db.db_nam
             check = await self.db[database][collection].find_one({"event": self.name})
             if not check:
                 await self.db[database][collection].insert_one(def_stat_data)

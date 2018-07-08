@@ -16,30 +16,18 @@
 
 import arrow
 import discord
-import yaml
 from arrow.parser import ParserError
 
 from sigma.core.mechanics.command import SigmaCommand
 
-tz_aliases = None
-tz_offsets = None
-
 
 async def currenttime(cmd: SigmaCommand, message: discord.Message, args: list):
-    global tz_aliases
-    global tz_offsets
-    if not tz_aliases:
-        with open(cmd.resource('tz_aliases.yml')) as tz_a_file:
-            tz_aliases = yaml.safe_load(tz_a_file)
-    if not tz_offsets:
-        with open(cmd.resource('tz_offsets.yml')) as tz_o_file:
-            tz_offsets = yaml.safe_load(tz_o_file)
     if args:
         shift = ' '.join(args).lower()
-        if shift in tz_aliases:
-            shift = tz_aliases.get(shift)
-        if shift in tz_offsets:
-            shift = tz_offsets.get(shift)
+        alias_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_alias', 'zone': shift})
+        shift = alias_doc.get('value') if alias_doc else shift
+        offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or shift
+        shift = offset_doc.get('value') if alias_doc else shift
     else:
         shift = None
     try:

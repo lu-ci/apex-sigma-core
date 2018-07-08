@@ -25,7 +25,7 @@ recipe_core = None
 async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
     global recipe_core
     if not recipe_core:
-        recipe_core = RecipeCore(cmd.resource('data'))
+        recipe_core = RecipeCore(cmd.db)
     if args:
         lookup = ' '.join(args)
         recipe = recipe_core.find_recipe(lookup)

@@ -81,7 +81,10 @@ async def race(cmd: SigmaCommand, message: discord.Message, args: list):
                         leader = participant
                 lines += '\n```'
                 if race_msg:
-                    await race_msg.edit(content=lines)
+                    try:
+                        await race_msg.edit(content=lines)
+                    except discord.NotFound:
+                        race_msg = await message.channel.send(lines)
                 else:
                     race_msg = await message.channel.send(lines)
                 await asyncio.sleep(2)

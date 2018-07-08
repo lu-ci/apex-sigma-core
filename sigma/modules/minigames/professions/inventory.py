@@ -21,12 +21,9 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar, paginate
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
-from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
-
-item_core = None
-reci_core = None
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
 def is_ingredient(recipes: list, item: SigmaRawItem):
@@ -40,24 +37,14 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
 
 
 async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    global reci_core
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
-    if not reci_core:
-        reci_core = RecipeCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
+    reci_core = await get_recipe_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]
     else:
         target = message.author
-    upgrade_file = await cmd.db[cmd.db.db_cfg.database].Upgrades.find_one({'UserID': target.id})
-    if upgrade_file is None:
-        await cmd.db[cmd.db.db_cfg.database].Upgrades.insert_one({'UserID': target.id})
-        upgrade_file = {}
-    if 'storage' in upgrade_file:
-        storage = upgrade_file['storage']
-    else:
-        storage = 0
+    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': target.id}) or {}
+    storage = upgrade_file.get('storage', 0)
     inv_limit = 64 + (8 * storage)
     inv = await cmd.db.get_inventory(target)
     total_inv = len(inv)

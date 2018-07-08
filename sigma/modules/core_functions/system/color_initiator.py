@@ -19,4 +19,4 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 
 
 async def color_initiator(ev: SigmaEvent):
-    set_color_cache_coll(ev.db[ev.db.db_cfg.database].ColorCache)
+    set_color_cache_coll(ev.db[ev.db.db_nam].ColorCache)

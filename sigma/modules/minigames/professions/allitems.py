@@ -21,12 +21,9 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar, paginate
-from sigma.modules.minigames.professions.nodes.item_core import ItemCore
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
-from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
-
-item_core = None
-reci_core = None
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
 def is_ingredient(recipes: list, item: SigmaRawItem):
@@ -40,13 +37,8 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
 
 
 async def allitems(cmd: SigmaCommand, message: discord.Message, args: list):
-    global item_core
-    global reci_core
-    special = False
-    if not item_core:
-        item_core = ItemCore(cmd.resource('data'))
-    if not reci_core:
-        reci_core = RecipeCore(cmd.resource('data'))
+    item_core = await get_item_core(cmd.db)
+    reci_core = await get_recipe_core(cmd.db)
     item_o_list = item_core.all_items
     if args:
         types = ['animals', 'animal', 'plants', 'plant', 'fish']

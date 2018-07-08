@@ -40,7 +40,7 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = txplb_cache.get_cache(sort_key), txplb_cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer < now + 180:
-        coll = cmd.db[cmd.db.db_cfg.database].ExperienceSystem
+        coll = cmd.db[cmd.db.db_nam].ExperienceSystem
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
         all_members = cmd.bot.get_all_members()

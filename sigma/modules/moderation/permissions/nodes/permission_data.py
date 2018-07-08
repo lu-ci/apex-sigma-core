@@ -34,9 +34,9 @@ def generate_cmd_data(cmd_name):
 async def get_all_perms(db, message):
     perms = perm_cache.get_cache(message.guild.id)
     if not perms:
-        perms = await db[db.db_cfg.database].Permissions.find_one({'ServerID': message.guild.id})
+        perms = await db[db.db_nam].Permissions.find_one({'ServerID': message.guild.id})
         if not perms:
             perms = generate_default_data(message)
-            await db[db.db_cfg.database].Permissions.insert_one(perms)
+            await db[db.db_nam].Permissions.insert_one(perms)
         perm_cache.set_cache(message.guild.id, perms)
     return perms
