@@ -17,15 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
-
-recipe_core = None
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
 async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
-    global recipe_core
-    if not recipe_core:
-        recipe_core = RecipeCore(cmd.db)
+    recipe_core = await get_recipe_core(cmd.db)
     if args:
         lookup = ' '.join(args)
         recipe = recipe_core.find_recipe(lookup)

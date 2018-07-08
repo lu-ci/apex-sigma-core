@@ -21,9 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import paginate
-from sigma.modules.minigames.professions.nodes.recipe_core import RecipeCore
-
-recipe_core = None
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
 async def check_requirements(cmd, message, recipe):
@@ -41,10 +39,7 @@ async def check_requirements(cmd, message, recipe):
 
 
 async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
-    global recipe_core
-    if not recipe_core:
-        recipe_core = RecipeCore(cmd.db)
-        await recipe_core.init_items()
+    recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     page = args[0] if args else 1
     sales_data, page = paginate(recipe_list, page)
