@@ -27,19 +27,10 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
 async def grab_post(subreddit, argument):
-    if argument == 'tophot':
-        posts = await reddit_client.get_posts(subreddit, 'hot')
-        post = posts[0]
-    elif argument == 'topnew':
-        posts = await reddit_client.get_posts(subreddit, 'new')
-        post = posts[0]
-    elif argument == 'randomnew':
-        post = secrets.choice(await reddit_client.get_posts(subreddit, 'new'))
-    elif argument == 'toptop':
-        posts = await reddit_client.get_posts(subreddit, 'top')
-        post = posts[0]
-    elif argument == 'randomtop':
-        post = secrets.choice(await reddit_client.get_posts(subreddit, 'top'))
+    filters = ['tophot', 'randomhot', 'topnew', 'randomnew', 'toptop', 'randomtop']
+    if argument in filters:
+        posts = await reddit_client.get_posts(subreddit, argument[-3:])
+        post = posts[0] if argument.startswith('top') else secrets.choice(posts)
     else:
         post = secrets.choice(await reddit_client.get_posts(subreddit, 'hot'))
     return post
@@ -68,25 +59,29 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
             subreddit = args[0]
             argument = args[-1].lower()
             subreddit = await reddit_client.get_subreddit(subreddit)
-            if subreddit:
-                post = await grab_post(subreddit.display_name, argument)
-                if post:
-                    if not post.over_18 or message.channel.is_nsfw():
-                        post_desc = f'Author: {post.author if post.author else "Anonymous"}'
-                        post_desc += f' | Karma Score: {post.score}'
-                        author_link = f'https://www.reddit.com{post.permalink}'
-                        response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
-                        response.set_author(name=f'r/{subreddit.display_name}', url=author_link, icon_url=reddit_icon)
-                        response.description = post.title
-                        response.set_footer(text=post_desc)
-                        add_post_image(post, response)
+            if not subreddit.private and not subreddit.banned:
+                if subreddit:
+                    post = await grab_post(subreddit.display_name, argument)
+                    if post:
+                        if not post.over_18 or message.channel.is_nsfw():
+                            post_desc = f'Author: {post.author if post.author else "Anonymous"}'
+                            post_desc += f' | Karma Score: {post.score}'
+                            author = f'https://www.reddit.com{post.permalink}'
+                            response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
+                            response.set_author(name=f'r/{subreddit.display_name}', url=author, icon_url=reddit_icon)
+                            response.description = post.title
+                            response.set_footer(text=post_desc)
+                            add_post_image(post, response)
+                        else:
+                            nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
+                            response = discord.Embed(color=0xBE1931, title=nsfw_warning)
                     else:
-                        nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
-                        response = discord.Embed(color=0xBE1931, title=nsfw_warning)
+                        response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
+                reason = 'banned' if subreddit.banned else 'private'
+                response = discord.Embed(color=0xBE1931, title=f'❗ That subreddit is {reason}.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:

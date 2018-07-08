@@ -32,9 +32,12 @@ class RedditPost(object):
 
 class RedditSub(object):
     def __init__(self, data: dict):
-        self.raw = data
-        for key in self.raw:
-            setattr(self, key, self.raw.get(key))
+        self.private = data.get('reason') == 'private'
+        self.banned = data.get('reason') == 'banned'
+        self.raw = data.get('data', {})
+        if not self.private and not self.banned:
+            for key in self.raw:
+                setattr(self, key, self.raw.get(key))
 
 
 class RedditClient(object):
@@ -68,7 +71,7 @@ class RedditClient(object):
     async def get_subreddit(self, subreddit: str):
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
         sub_about_data = await self.__get_data(sub_about_url)
-        return RedditSub(sub_about_data.get('data', {}))
+        return RedditSub(sub_about_data)
 
     async def get_posts(self, subreddit: str, listing: str):
         await self.boot()
