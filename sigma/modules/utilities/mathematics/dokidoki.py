@@ -21,6 +21,7 @@ import markovify
 from cryptography.fernet import Fernet, InvalidToken
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 titles = {
     'n': 'People can try...',
@@ -89,43 +90,32 @@ async def dokidoki(cmd: SigmaCommand, message: discord.Message, args: list):
     if not char:
         char = secrets.choice(list(files))
     char_file = files[char]
-    with open(f'doki/{char_file}.luci', 'rb') as quote_file:
-        quotes = quote_file.read()
-    key = cmd.bot.cfg.pref.raw.get('key_to_my_heart')
-    if key:
-        key = key.encode('utf-8')
-        cipher = Fernet(key)
-        try:
-            ciphered = cipher.decrypt(quotes).decode('utf-8')
-        except InvalidToken:
-            ciphered = None
-        if ciphered:
-            if not glitch:
-                glitch = secrets.randbelow(6)
-                glitch = not bool(glitch)
-            if glitch:
-                line_count = 1
-                thumbnail = chars_glitch[char]
-            else:
-                line_count = 3
-                thumbnail = secrets.choice(chars[char])
-            lines = []
-            for x in range(0, line_count):
-                output = markovify.Text(ciphered).make_short_sentence(500, tries=100)
-                output = clean(output, message.author)
-                if glitch:
-                    output = cipher.encrypt(output.encode('utf-8')).decode('utf-8')
-                lines.append(output)
-            output_final = ' '.join(lines)
-            if glitch:
-                title = titles_glitch[char]
-            else:
-                title = titles[char]
-            response = discord.Embed(color=0xe75a70)
-            response.add_field(name=f'💟 {title}', value=output_final)
-            response.set_thumbnail(url=thumbnail)
-        else:
-            response = discord.Embed(color=0xe75a70, title='💔 Sorry but that key is incorrect!')
+    with open(f'doki/{char_file}.lc', 'r') as quote_file:
+        ciphered = quote_file.read()
+    if not glitch:
+        glitch = secrets.randbelow(6)
+        glitch = not bool(glitch)
+    if glitch:
+        line_count = 1
+        thumbnail = chars_glitch[char]
     else:
-        response = discord.Embed(color=0xe75a70, title='💔 You are missing the key to my heart!')
+        line_count = 3
+        thumbnail = secrets.choice(chars[char])
+    lines = []
+    for x in range(0, line_count):
+        output = markovify.Text(ciphered).make_short_sentence(500, tries=100)
+        output = clean(output, message.author)
+        if glitch:
+            cipher = get_encryptor(cmd.bot.cfg)
+            if cipher:
+                output = cipher.encrypt(output.encode('utf-8')).decode('utf-8')
+        lines.append(output)
+    output_final = ' '.join(lines)
+    if glitch:
+        title = titles_glitch[char]
+    else:
+        title = titles[char]
+    response = discord.Embed(color=0xe75a70)
+    response.add_field(name=f'💟 {title}', value=output_final)
+    response.set_thumbnail(url=thumbnail)
     await message.channel.send(embed=response)

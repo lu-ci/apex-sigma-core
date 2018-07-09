@@ -18,20 +18,19 @@ import discord
 from cryptography.fernet import Fernet, InvalidToken, InvalidSignature
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
 async def encrypt(cmd: SigmaCommand, message: discord.Message, args: list):
-    key = cmd.bot.cfg.pref.raw.get('key_to_my_heart')
     text = False
-    if key:
+    cipher = get_encryptor(cmd.bot.cfg)
+    if cipher:
         if args:
             if args[-1] == ':t':
                 text = True
                 crypt_text = ' '.join(args[:-1]).encode('utf-8')
             else:
                 crypt_text = ' '.join(args).encode('utf-8')
-            key = key.encode('utf-8')
-            cipher = Fernet(key)
             try:
                 ciphered = cipher.encrypt(crypt_text).decode('utf-8')
             except InvalidToken:
