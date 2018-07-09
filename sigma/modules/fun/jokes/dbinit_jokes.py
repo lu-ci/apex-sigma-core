@@ -25,8 +25,8 @@ async def dbinit_jokes(ev: SigmaEvent, force=False):
     doc_count = await ev.db[ev.db.db_nam].JokeData.count()
     if not doc_count or force:
         file_urls = [
-            'https://gitlab.com/lu-ci/apex-sigma-res/raw/master/jokes/wocka.json',
-            'https://gitlab.com/lu-ci/apex-sigma-res/raw/master/jokes/stupidstuff.json'
+            'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/wocka.json',
+            'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/stupidstuff.json'
         ]
         ev.log.info('Updating joke data files.')
         await ev.db[ev.db.db_nam].JokeData.drop()

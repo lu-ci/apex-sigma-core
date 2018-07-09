@@ -23,7 +23,7 @@ from sigma.core.mechanics.event import SigmaEvent
 async def dbinit_dictionary(ev: SigmaEvent, force=False):
     doc_count = await ev.db[ev.db.db_nam].DictionaryData.count()
     if not doc_count or force:
-        file_url = 'https://gitlab.com/lu-ci/apex-sigma-res/raw/master/dictionary/dictionary.json'
+        file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/dictionary/dictionary.json'
         ev.log.info('Updating dictionary files.')
         await ev.db[ev.db.db_nam].DictionaryData.drop()
         documents = []
