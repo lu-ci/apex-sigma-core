@@ -70,6 +70,7 @@ class ItemCore(object):
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
         all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
+        all_items += await self.db[self.db.db_nam].RecipeData.find().to_list(None)
         for item_data in all_items:
             if item_data['type'].lower() in raw_item_types:
                 item_object = SigmaRawItem(item_data)
