@@ -18,7 +18,6 @@ import secrets
 
 import discord
 import markovify
-from cryptography.fernet import Fernet, InvalidToken
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
