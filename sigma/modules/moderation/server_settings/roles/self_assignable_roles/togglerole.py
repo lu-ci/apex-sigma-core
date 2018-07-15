@@ -21,40 +21,28 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        results = []
-        color, icon, title = None, None, None
-        lookup = ' '.join(args).lower().split('; ')
-        multiple = True if len(lookup) > 1 else False
+        target = message.author
+        lookup = ' '.join(args).lower()
         self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles') or []
-        for role in lookup:
-            target_role = discord.utils.find(lambda x: x.name.lower() == role.lower(), message.guild.roles)
-            if target_role:
-                role_below = target_role.position < message.guild.me.top_role.position
-                if role_below:
-                    if target_role.id in self_roles:
-                        if target_role in message.author.roles:
-                            await message.author.remove_roles(target_role, reason='Role self assigned.')
-                            color, icon, title = 0x262626, '💣', f'{target_role.name} has been removed from you.'
-                            res = f'{target_role.name.title()}: Unassigned'
-                        else:
-                            await message.author.add_roles(target_role, reason='Role self assigned.')
-                            color, icon, title = 0x77B255, '✅', f'{target_role.name} has been added to you.'
-                            res = f'{target_role.name.title()}: Assigned'
+        target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+        if target_role:
+            role_below = target_role.position < message.guild.me.top_role.position
+            if role_below:
+                if target_role.id in self_roles:
+                    if target_role in target.roles:
+                        await target.remove_roles(target_role, reason='Role self assigned.')
+                        title = f'💣 {target_role.name} has been removed from you, {target.display_name}.'
+                        response = discord.Embed(color=0x262626, title=title)
                     else:
-                        color, icon, title = 0xFFCC4D, '⚠', f'{target_role.name} is not self assignable.'
-                        res = f'{target_role.name.title()}: Not Assignable'
+                        await target.add_roles(target_role, reason='Role self assigned.')
+                        title = f'✅ {target_role.name} has been added to you, {target.display_name}.'
+                        response = discord.Embed(color=0x77B255, title=title)
                 else:
-                    color, icon, title = 0xBE1931, '❗', 'This role is above my highest role.'
-                    res = f'{target_role.name.title()}: Above Me'
+                    response = discord.Embed(color=0xFFCC4D, title=f'⚠ {target_role.name} is not self assignable.')
             else:
-                color, icon, title = 0xBE1931, '🔍', f'{lookup} not found.'
-                res = f'{role.title()}: Not Found'
-            results.append(res)
-        if multiple:
-            response = discord.Embed(color=0x77B255, title=f'✅ Roles toggled.')
-            response.description = '\n'.join(results)
+                response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
         else:
-            response = discord.Embed(color=color, title=f'{icon} {title}')
+            response = discord.Embed(color=0x696969, title=f' 🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

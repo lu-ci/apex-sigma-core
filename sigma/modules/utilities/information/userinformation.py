@@ -34,7 +34,7 @@ async def userinformation(cmd: SigmaCommand, message: discord.Message, args: lis
     user_text += f'\nStatus: **{str(target.status).replace("dnd", "busy").title()}**'
     user_text += f'\nBot User: **{target.bot}**'
     user_text += f'\nCreated: **{creation_time}**'
-    response.add_field(name='User Info', value=user_text, inline=True)
+    response.add_field(name='User Info', value=user_text)
     member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
     is_moderator = target.permissions_in(message.channel).manage_guild
     member_text = f'Name: **{target.display_name}**'
@@ -42,7 +42,7 @@ async def userinformation(cmd: SigmaCommand, message: discord.Message, args: lis
     member_text += f'\nTop Role: **{target.top_role.name}**'
     member_text += f'\nModerator: **{is_moderator}**'
     member_text += f'\nJoined: **{member_join_time}**'
-    response.add_field(name='Member Info', value=member_text, inline=True)
+    response.add_field(name='Member Info', value=member_text)
     pfx = await cmd.db.get_prefix(message)
     footer = f'To see the user\'s avatar use the {pfx}avatar command.'
     response.set_footer(text=footer)

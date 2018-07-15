@@ -89,7 +89,6 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
         await message.channel.send(embed=on_cooldown)
         return
-
     try:
         if message.author.id not in ongoing_list:
             ongoing_list.append(message.author.id)
@@ -116,7 +115,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                     except json.JSONDecodeError:
                         if message.author.id in ongoing_list:
                             ongoing_list.remove(message.author.id)
-                        decode_error = discord.Embed(color=0xBE1931, title='❗ Couldn\'t retrieve a question.')
+                        decode_error = discord.Embed(color=0xBE1931, title='❗ Could not retrieve a question.')
                         await message.channel.send(embed=decode_error)
                         return
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 30)

@@ -35,8 +35,8 @@ async def wallet(cmd: SigmaCommand, message: discord.Message, args: list):
     current_title = f'{currency_icon} Current Amount'
     guild_title = '🎪 Earned Here'
     global_title = '🌍 Earned Globally'
-    response.add_field(name=current_title, value=f"```py\n{currency.get('current')} {currency_name}\n```", inline=True)
-    response.add_field(name=guild_title, value=f"```py\n{currency.get('guild')} {currency_name}\n```", inline=True)
-    response.add_field(name=global_title, value=f"```py\n{currency.get('global')} {currency_name}\n```", inline=True)
+    response.add_field(name=current_title, value=f"```py\n{currency.get('current')} {currency_name}\n```")
+    response.add_field(name=guild_title, value=f"```py\n{currency.get('guild')} {currency_name}\n```")
+    response.add_field(name=global_title, value=f"```py\n{currency.get('global')} {currency_name}\n```")
     response.set_footer(text=f'{currency_icon} {currency_name} is earned by participating in minigames.')
     await message.channel.send(embed=response)

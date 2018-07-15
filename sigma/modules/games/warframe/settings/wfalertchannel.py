@@ -30,9 +30,7 @@ async def wfalertchannel(cmd: SigmaCommand, message: discord.Message, args: list
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeAlertChannel', None)
                     response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Alert Channel disabled.')
                     await message.channel.send(embed=response)
-                    return
-                else:
-                    return
+                return
             else:
                 target_channel = message.channel
         await cmd.db.set_guild_settings(message.guild.id, 'WarframeAlertChannel', target_channel.id)

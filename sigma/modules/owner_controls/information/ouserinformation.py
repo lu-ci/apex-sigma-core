@@ -44,7 +44,7 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             user_text += f'\nBot User: **{target.bot}**'
             user_text += f'\nCreated: **{creation_time}**'
             presence = [g for g in cmd.bot.guilds if discord.utils.find(lambda u: u.id == target.id, g.members)]
-            response.add_field(name='User Info', value=user_text, inline=True)
+            response.add_field(name='User Info', value=user_text)
             member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
             is_moderator = target.permissions_in(message.channel).manage_guild
             member_text = f'Name: **{target.display_name}**'
@@ -52,7 +52,7 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             member_text += f'\nTop Role: **{target.top_role.name}**'
             member_text += f'\nModerator: **{is_moderator}**'
             member_text += f'\nJoined: **{member_join_time}**'
-            response.add_field(name='Member Info', value=member_text, inline=True)
+            response.add_field(name='Member Info', value=member_text)
             response.set_footer(text=f'This user is in {len(presence)} guilds.')
         else:
             response = discord.Embed(color=0x696969, title='🔍 User not found.')

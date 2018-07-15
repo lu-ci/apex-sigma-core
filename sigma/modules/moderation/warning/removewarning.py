@@ -29,8 +29,8 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
     response = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
     response.set_author(name=f'{target.name} has been un-warned by {author.name}.', icon_url=target_avatar)
-    response.add_field(name='⚠ Warned User', value=target_descrp, inline=True)
-    response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
+    response.add_field(name='⚠ Warned User', value=target_descrp)
+    response.add_field(name='🛡 Moderator', value=author_descrp)
     response.set_footer(text=f'[{warn_iden}] UserID: {target.id}')
     return response
 

@@ -28,8 +28,8 @@ async def join_logger(ev: SigmaEvent, member):
     response.add_field(name='📥 Joining Member', value=f'{member.mention}\n{member.name}#{member.discriminator}')
     new_acc, diff_msg = get_time_difference(member)
     if new_acc:
-        response.add_field(name='❕ Account Is New', value=f'Made {diff_msg.title()}', inline=True)
+        response.add_field(name='❕ Account Is New', value=f'Made {diff_msg.title()}')
     else:
-        response.add_field(name='🕑 Account Created', value=f'{diff_msg.title()}', inline=True)
+        response.add_field(name='🕑 Account Created', value=f'{diff_msg.title()}')
     response.set_footer(text=f'UserID: {member.id}')
     await log_event(ev.bot, member.guild, ev.db, response, 'LogMovement')

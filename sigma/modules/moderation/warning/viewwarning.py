@@ -47,8 +47,8 @@ async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
                     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
                     response = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
                     response.set_author(name=f'Warning {warn_id} information.', icon_url=target_avatar)
-                    response.add_field(name='⚠ Warned User', value=target_descrp, inline=True)
-                    response.add_field(name='🛡 Moderator', value=author_descrp, inline=True)
+                    response.add_field(name='⚠ Warned User', value=target_descrp)
+                    response.add_field(name='🛡 Moderator', value=author_descrp)
                     response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
                     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] UserID: {target.id}')
                 else:

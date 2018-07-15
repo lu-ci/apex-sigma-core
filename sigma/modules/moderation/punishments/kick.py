@@ -28,10 +28,10 @@ def generate_log_embed(message, target, reason):
     log_response = discord.Embed(color=0xc1694f, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name=f'A User Has Been Kicked', icon_url=user_avatar(target))
     log_response.add_field(name='👢 Kicked User',
-                           value=f'{target.mention}\n{target.name}#{target.discriminator}', inline=True)
+                           value=f'{target.mention}\n{target.name}#{target.discriminator}')
     author = message.author
     log_response.add_field(name='🛡 Responsible',
-                           value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
+                           value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
     log_response.set_footer(text=f'UserID: {target.id}')

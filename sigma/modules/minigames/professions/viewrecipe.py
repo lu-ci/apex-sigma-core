@@ -51,8 +51,8 @@ async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
             item_short = f'Type: **{recipe.type}**\nValue: **{recipe.value} {currency}**'
             item_short += f'\nHave Ingredients: **{req_satisfied}**'
             item_short += f'\nIngredient Value: **{ing_value} {currency}**'
-            response.add_field(name=item_title, value=item_short, inline=True)
-            response.add_field(name=f'{ing_icon} Ingredients', value=ingredients, inline=True)
+            response.add_field(name=item_title, value=item_short)
+            response.add_field(name=f'{ing_icon} Ingredients', value=ingredients)
             response.add_field(name='📰 Description', value=recipe.desc, inline=False)
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')

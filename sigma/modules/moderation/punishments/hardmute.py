@@ -28,10 +28,10 @@ def generate_log_embed(message, target, reason):
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Hard Muted', icon_url=user_avatar(target))
     log_embed.add_field(name='🔇 Muted User',
-                        value=f'{target.mention}\n{target.name}#{target.discriminator}', inline=True)
+                        value=f'{target.mention}\n{target.name}#{target.discriminator}')
     author = message.author
     log_embed.add_field(name='🛡 Responsible',
-                        value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
+                        value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
     log_embed.set_footer(text=f'UserID: {target.id}')

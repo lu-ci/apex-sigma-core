@@ -37,7 +37,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} crap ass tits"
     description:
-      Works like "blockwords" but very intolerable.
+      Works like "blockwords" but very intolerant.
       For example if you hardblock the word "ass" it will delete stuff like "assassin".
       It looks for any instance of the contents in the message, not indivitial segments.
       If any of the words in the filter are exist within a message, whether as a standalone

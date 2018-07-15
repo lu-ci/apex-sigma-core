@@ -53,11 +53,9 @@ def check_answer(arguments, sequence):
 
 async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id in ongoing:
-        ongoing_error = discord.Embed(color=0xBE1931,
-                                      title=f'❗ {message.author.display_name}, there is one already ongoing.')
+        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
         await message.channel.send(embed=ongoing_error)
         return
-
     try:
         ongoing.append(message.author.id)
         chosen = [secrets.choice(first_symbols) for _ in range(4)]

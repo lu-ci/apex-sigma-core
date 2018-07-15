@@ -40,6 +40,7 @@ async def allitems(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     item_o_list = item_core.all_items
+    special = False
     if args:
         types = ['animals', 'animal', 'plants', 'plant', 'fish']
         selection = args[0].lower()

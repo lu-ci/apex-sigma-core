@@ -22,29 +22,19 @@ from sigma.core.mechanics.command import SigmaCommand
 emote_cache = {'stamp': 0, 'emotes': []}
 
 
-def emote_filler(guilds):
-    emote_list = []
-    for guild in guilds:
-        if guild.emojis:
-            for emoji in guild.emojis:
-                emote_list.append(emoji)
-    return emote_list
-
-
 async def emote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
         if ':' in lookup:
-            split_args = lookup.split(':')
-            lookup = split_args[0]
+            lookup, eid = lookup.split(':')
             try:
-                eid = int(split_args[1])
+                eid = int(eid)
             except ValueError:
                 eid = None
         else:
             eid = None
         if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
-            all_emotes = emote_filler(cmd.bot.guilds)
+            all_emotes = cmd.bot.emojis
             emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
         else:
             all_emotes = emote_cache.get('emotes')

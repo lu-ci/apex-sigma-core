@@ -27,10 +27,10 @@ def generate_log_embed(message, target):
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name=f'A User Has Been Unbanned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Unbanned User',
-                           value=f'{target.mention}\n{target.name}#{target.discriminator}', inline=True)
+                           value=f'{target.mention}\n{target.name}#{target.discriminator}')
     author = message.author
     log_response.add_field(name='🛡 Responsible',
-                           value=f'{author.mention}\n{author.name}#{author.discriminator}', inline=True)
+                           value=f'{author.mention}\n{author.name}#{author.discriminator}')
     log_response.set_footer(text=f'UserID: {target.id}')
     return log_response
 

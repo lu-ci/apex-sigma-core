@@ -30,9 +30,7 @@ async def wfinvasionchannel(cmd: SigmaCommand, message: discord.Message, args: l
                     await cmd.db.set_guild_settings(message.guild.id, 'WarframeInvasionChannel', None)
                     response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Invasion Channel disabled.')
                     await message.channel.send(embed=response)
-                    return
-                else:
-                    return
+                return
             else:
                 target_channel = message.channel
         await cmd.db.set_guild_settings(message.guild.id, 'WarframeInvasionChannel', target_channel.id)

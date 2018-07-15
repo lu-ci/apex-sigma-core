@@ -43,8 +43,8 @@ async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list
             empty_len = 20 - bar_len
             bar_text = f'[{"▣"*bar_len}{"▢"*empty_len}] {value}%'
             response = discord.Embed(color=0xff6666, title='💝 Love Calculator')
-            response.add_field(name='First Item', value=f'```haskell\n{first_item}\n```', inline=True)
-            response.add_field(name='Second Item', value=f'```haskell\n{second_item}\n```', inline=True)
+            response.add_field(name='First Item', value=f'```haskell\n{first_item}\n```')
+            response.add_field(name='Second Item', value=f'```haskell\n{second_item}\n```')
             response.add_field(name='Value', value=f'```css\n{bar_text}\n```', inline=False)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No targets given.')
