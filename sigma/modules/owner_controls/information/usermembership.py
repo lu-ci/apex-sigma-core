@@ -27,7 +27,7 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
         if '#' in lookup:
             uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
-            target = discord.utils.find(lambda u: u.name.lower() == uname and u.descriminator == udisc, all_members)
+            target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, all_members)
         else:
             try:
                 target = discord.utils.find(lambda u: u.id == int(lookup), all_members)
