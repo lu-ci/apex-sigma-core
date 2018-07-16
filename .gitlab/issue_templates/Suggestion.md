@@ -1,5 +1,3 @@
-# Suggestion Submission
-
 X
 
 > X
