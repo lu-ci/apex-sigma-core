@@ -1,7 +1,7 @@
 # Suggestion Submission
 
-*You should write how you expect this function to work code-wise here and note and possible issues that may arise from it.* 
+X
 
-> *What the original suggestion submission says.*
+> X
 
-Suggestion `Suggestion ID` by `Author Username [Author ID]`.
+Suggestion `X` by `X [X]`.
