@@ -38,7 +38,7 @@ async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
                             lookup = {'Name': reaction_name.lower()}
-                            inter_count = await cmd.db[cmd.db.db_nam]['Interactions'].find(lookup).count_documents({}) + 1
+                            inter_count = await cmd.db[cmd.db.db_nam]['Interactions'].count_documents(lookup) + 1
                             title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
                             response = discord.Embed(color=0x77B255, title=title)
                             log_msg = None
