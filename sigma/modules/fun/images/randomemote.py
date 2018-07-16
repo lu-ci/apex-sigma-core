@@ -23,11 +23,18 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def randomemote(cmd: SigmaCommand, message: discord.Message, args: list):
     emotes = message.guild.emojis
+    image = False
     if args:
         if args[0].lower() == 'global':
             emotes = cmd.bot.emojis
+        if args[-1].lower() == 'image':
+            image = True
     if emotes:
-        await message.channel.send(secrets.choice(emotes))
+        emote = secrets.choice(emotes)
+        if image:
+            await message.channel.send(embed=discord.Embed().set_image(url=emote.url))
+        else:
+            await message.channel.send(emote)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ This server has no custom emotes.')
         await message.channel.send(embed=response)
