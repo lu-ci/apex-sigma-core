@@ -9,11 +9,11 @@ commands:
     alts:
       - "addreac"
     enabled:      true
-    usage:        "{pfx}{cmd} hi <:lcHello:309405155604824074>"
-    description: |
+    usage:        "{pfx}{cmd} hi :lcHello:"
+    description:
       Adds an automatic reactor to the server. Whenever the
       specified trigger word is detected, Sigma will react to
-      the message with the specified emote. The :lcHello:
+      the message with the specified emote. The ":lcHello:"
       above given in the example is a custom emote. This
       command requires the Manage Server permission.
 

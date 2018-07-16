@@ -11,11 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi Hello there!"
     description: |
-      Adds an auto-responder to the server. Sigma will
-      automatically reply with the set message to any
-      sentence that conaints the specified trigger in it
-      as a standalone word. This command requires the
-      Manage Server permission. Responders can have special dynamic arguments in them.
+      Adds an auto-responder to the server. Sigma will automatically reply with the set message to any sentence that conaints the specified trigger in it as a standalone word. This command requires the Manage Server permission. Responders can have special dynamic arguments in them.
       {author_name}     - Message author name.
       {author_nick}     - Message author nickname.
       {author_mention}  - Tag the message author.
