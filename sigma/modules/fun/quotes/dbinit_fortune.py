@@ -21,7 +21,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_fortune(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].FortuneData.count()
+    doc_count = await ev.db[ev.db.db_nam].FortuneData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/fortune_manifest.yml'
         ev.log.info('Updating fortune-mod files.')

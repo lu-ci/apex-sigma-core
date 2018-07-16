@@ -22,7 +22,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_jokes(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].JokeData.count()
+    doc_count = await ev.db[ev.db.db_nam].JokeData.count_documents({})
     if not doc_count or force:
         file_urls = [
             'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/wocka.json',

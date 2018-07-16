@@ -37,7 +37,7 @@ async def add_to_queue(db, collector_item):
 
 
 async def get_queue_size(db):
-    return await db[db.db_nam].CollectorQueue.count()
+    return await db[db.db_nam].CollectorQueue.count_documents({})
 
 
 def check_for_bot_prefixes(prefix, text):

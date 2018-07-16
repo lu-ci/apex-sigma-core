@@ -21,7 +21,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_timezones(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].TimezoneData.count()
+    doc_count = await ev.db[ev.db.db_nam].TimezoneData.count_documents({})
     if not doc_count or force:
         file_urls = {
             'tz_alias': 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/timezones/tz_aliases.yml',

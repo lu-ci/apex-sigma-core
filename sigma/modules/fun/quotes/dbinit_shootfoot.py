@@ -21,7 +21,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_shootfoot(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].ShootFootData.count()
+    doc_count = await ev.db[ev.db.db_nam].ShootFootData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/feets.yml'
         ev.log.info('Updating foot shooting files.')

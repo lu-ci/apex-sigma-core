@@ -32,7 +32,7 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         lookup_data = {'UserID': message.author.id}
     all_reminders = cmd.db[cmd.db.db_nam].Reminders.find(lookup_data)
-    reminder_count = await all_reminders.count()
+    reminder_count = await all_reminders.count_documents({})
     all_reminders = await all_reminders.to_list(None)
     if reminder_count:
         if reminder_count == 1:

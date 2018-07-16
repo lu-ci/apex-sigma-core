@@ -26,7 +26,7 @@ async def dbinit_items(ev: SigmaEvent, force=False):
 
 
 async def dbinit_item_data(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].ItemData.count()
+    doc_count = await ev.db[ev.db.db_nam].ItemData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml'
         ev.log.info('Updating profession item files.')
@@ -40,7 +40,7 @@ async def dbinit_item_data(ev: SigmaEvent, force=False):
 
 
 async def dbinit_recipe_data(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].RecipeData.count()
+    doc_count = await ev.db[ev.db.db_nam].RecipeData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml'
         ev.log.info('Updating cooking recipe files.')

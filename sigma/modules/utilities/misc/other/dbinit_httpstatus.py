@@ -21,7 +21,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_httpstatus(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].HTTPStatusData.count()
+    doc_count = await ev.db[ev.db.db_nam].HTTPStatusData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/http/http_status.json'
         ev.log.info('Updating HTTP status files.')

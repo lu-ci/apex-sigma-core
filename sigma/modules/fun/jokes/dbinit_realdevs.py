@@ -21,7 +21,7 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_realdevs(ev: SigmaEvent, force=False):
-    doc_count = await ev.db[ev.db.db_nam].RealDevsData.count()
+    doc_count = await ev.db[ev.db.db_nam].RealDevsData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/real_programmers.yml'
         ev.log.info('Updating real developer files.')
