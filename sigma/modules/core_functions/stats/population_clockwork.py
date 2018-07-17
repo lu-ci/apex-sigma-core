@@ -27,7 +27,7 @@ async def population_clockwork(ev: SigmaEvent):
     search = await ev.db[ev.bot.cfg.db.database][collection].find_one({'name': 'population'})
     if not search:
         await ev.db[ev.bot.cfg.db.database][collection].insert_one({'name': 'population'})
-    if not pop_loop_running:
+    if not pop_loop_running and not ev.bot.cfg.pref.dev_mode:
         pop_loop_running = True
         ev.bot.loop.create_task(update_population_stats_node(ev))
 

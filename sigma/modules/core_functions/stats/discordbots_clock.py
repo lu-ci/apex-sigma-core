@@ -25,7 +25,7 @@ dbots_loop_running = False
 
 async def discordbots_clock(ev: SigmaEvent):
     global dbots_loop_running
-    if ev.bot.cfg.pref.dscbots_token and not dbots_loop_running:
+    if ev.bot.cfg.pref.dscbots_token and not dbots_loop_running and not ev.bot.cfg.pref.dev_mode:
         dbots_loop_running = True
         token = ev.bot.cfg.pref.dscbots_token
         ev.bot.loop.create_task(clockwork_updater(ev, token))
