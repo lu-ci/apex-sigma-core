@@ -41,6 +41,7 @@ async def unban(ev: SigmaEvent, doc: dict):
             banlist = await guild.bans()
             target = discord.utils.find(lambda u: u.user.id == uid, banlist)
             if target:
+                ev.log.info(f'Un-banning {uid} from {gid}.')
                 await guild.unban(target.user, reason='Ban timer ran out.')
     except Exception:
         pass
@@ -53,6 +54,7 @@ async def untmute(ev: SigmaEvent, doc: dict):
         guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
         mutes = await ev.db.get_guild_settings(guild.id, 'MutedUsers') or []
         if uid in mutes:
+            ev.log.info(f'Un-muting {uid} from {gid}.')
             mutes.remove(uid)
             await ev.db.set_guild_settings(guild.id, 'MutedUsers', mutes)
     except Exception:
@@ -70,6 +72,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                 for channel in guild.channels:
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                         try:
+                            ev.log.info(f'Un-hardmuting {uid} from {gid}.')
                             await channel.set_permissions(target, overwrite=None, reason='Hardmute timer ran out.')
                         except discord.Forbidden:
                             pass
