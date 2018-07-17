@@ -66,5 +66,5 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                             log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
                             await log_event(ev.bot, message.guild, ev.db, log_embed, 'LogFilters')
-                        except discord.ClientException:
+                        except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass
