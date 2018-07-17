@@ -16,6 +16,7 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
@@ -99,6 +100,7 @@ class ApexSigma(client_class):
         try:
             await self.db[self.db.db_nam].collection.find_one({})
             await self.db.precache_settings()
+            set_color_cache_coll(self.db[self.db.db_nam].ColorCache)
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
