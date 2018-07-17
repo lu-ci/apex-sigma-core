@@ -180,10 +180,10 @@ class ApexSigma(client_class):
         self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
-        self.log.info('Launching On-Ready Modules...')
-        self.loop.create_task(self.queue.event_runner('ready'))
-        self.log.info('All On-Ready Module Loops Created')
-        self.log.info('---------------------------------')
+        # self.log.info('Launching On-Ready Modules...')
+        # self.loop.create_task(self.queue.event_runner('ready'))
+        # self.log.info('All On-Ready Module Loops Created')
+        # self.log.info('---------------------------------')
 
     async def on_message(self, message: discord.Message):
         self.message_count += 1
