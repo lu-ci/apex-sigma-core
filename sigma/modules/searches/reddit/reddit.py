@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import secrets
-
 import arrow
 import discord
+import secrets
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.searches.reddit.mech.reddit_core import RedditClient
@@ -49,41 +48,35 @@ def add_post_image(post, response):
 
 async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
     global reddit_client
-    client_id = cmd.cfg.get('client_id')
-    client_secret = cmd.cfg.get('client_secret')
-    if client_id and client_secret:
-        if args:
-            if reddit_client is None:
-                reddit_client = RedditClient(client_id, client_secret, cmd.bot.user.id)
-                await reddit_client.boot()
-            subreddit = args[0]
-            argument = args[-1].lower()
-            subreddit = await reddit_client.get_subreddit(subreddit)
-            if not subreddit.private and not subreddit.banned:
-                if subreddit:
-                    post = await grab_post(subreddit.display_name, argument)
-                    if post:
-                        if not post.over_18 or message.channel.is_nsfw():
-                            post_desc = f'Author: {post.author if post.author else "Anonymous"}'
-                            post_desc += f' | Karma Score: {post.score}'
-                            author = f'https://www.reddit.com{post.permalink}'
-                            response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
-                            response.set_author(name=f'r/{subreddit.display_name}', url=author, icon_url=reddit_icon)
-                            response.description = post.title
-                            response.set_footer(text=post_desc)
-                            add_post_image(post, response)
-                        else:
-                            nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
-                            response = discord.Embed(color=0xBE1931, title=nsfw_warning)
+    if args:
+        if reddit_client is None:
+            reddit_client = RedditClient(cmd.bot.user.id)
+        subreddit = args[0]
+        argument = args[-1].lower()
+        subreddit = await reddit_client.get_subreddit(subreddit)
+        if not subreddit.private and not subreddit.banned:
+            if subreddit:
+                post = await grab_post(subreddit.display_name, argument)
+                if post:
+                    if not post.over_18 or message.channel.is_nsfw():
+                        post_desc = f'Author: {post.author if post.author else "Anonymous"}'
+                        post_desc += f' | Karma Score: {post.score}'
+                        author = f'https://www.reddit.com{post.permalink}'
+                        response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
+                        response.set_author(name=f'r/{subreddit.display_name}', url=author, icon_url=reddit_icon)
+                        response.description = post.title
+                        response.set_footer(text=post_desc)
+                        add_post_image(post, response)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
+                        nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
+                        response = discord.Embed(color=0xBE1931, title=nsfw_warning)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
             else:
-                reason = 'banned' if subreddit.banned else 'private'
-                response = discord.Embed(color=0xBE1931, title=f'❗ That subreddit is {reason}.')
+                response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            reason = 'banned' if subreddit.banned else 'private'
+            response = discord.Embed(color=0xBE1931, title=f'❗ That subreddit is {reason}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)
