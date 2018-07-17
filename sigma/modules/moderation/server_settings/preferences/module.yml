@@ -89,4 +89,4 @@ events:
 
   - name:         decay_checker
     type:         ready
-    enabled:      true
+    enabled:      false
