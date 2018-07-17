@@ -162,4 +162,5 @@ async def cycler(ev: SigmaEvent):
                     chain_object_cache.del_cache(cl_usr.id)
                     await notify_target(cl_ath, cl_usr, cl_chn, collected, collection)
                     current_user_collecting = None
+                    ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')
         await asyncio.sleep(1)
