@@ -40,7 +40,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     cache_key = message.guild.id if localed else sort_key
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = tcklb_cache.get_cache(cache_key), tcklb_cache.get_cache(f'{cache_key}_stamp') or now
-    if not leader_docs or leader_timer < now + 180:
+    if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam].Cookies
         all_docs = await coll.find({}).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []

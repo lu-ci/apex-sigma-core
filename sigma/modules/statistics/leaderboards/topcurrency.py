@@ -40,7 +40,7 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
             lb_category = 'Total'
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = tcrlb_cache.get_cache(sort_key), tcrlb_cache.get_cache(f'{sort_key}_stamp') or now
-    if not leader_docs or leader_timer < now + 180:
+    if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam].CurrencySystem
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
