@@ -24,36 +24,36 @@ from sigma.core.mechanics.logger import create_logger
 class DiscordConfig(object):
     def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data
-        self.token = client_cfg_data.get('token', 'You got no token, son!')
-        self.owners = client_cfg_data.get('owners', [137951917644054529])
-        self.bot = client_cfg_data.get('bot', True)
+        self.token = self.raw.get('token', 'You got no token, son!')
+        self.owners = self.raw.get('owners', [137951917644054529])
+        self.bot = self.raw.get('bot', True)
 
 
 class DatabaseConfig(object):
     def __init__(self, db_cfg_data: dict):
         self.raw = db_cfg_data
-        self.database = db_cfg_data.get('database', 'sigma')
-        self.auth = db_cfg_data.get('auth', False)
-        self.host = db_cfg_data.get('host', '127.0.0.1')
-        self.port = db_cfg_data.get('port', 27017)
-        self.username = db_cfg_data.get('username', 'user')
-        self.password = db_cfg_data.get('password', 'pass')
+        self.database = self.raw.get('database', 'sigma')
+        self.auth = self.raw.get('auth', False)
+        self.host = self.raw.get('host', '127.0.0.1')
+        self.port = self.raw.get('port', 27017)
+        self.username = self.raw.get('username', 'user')
+        self.password = self.raw.get('password', 'pass')
 
 
 class PreferencesConfig(object):
     def __init__(self, pref_cfg_data: dict):
         self.raw = pref_cfg_data
-        self.dev_mode = pref_cfg_data.get('dev_mode', False)
-        self.status_rotation = pref_cfg_data.get('status_rotation', True)
-        self.prefix = pref_cfg_data.get('prefix', '>>')
-        self.currency = pref_cfg_data.get('currency', 'Kud')
-        self.currency_icon = pref_cfg_data.get('currency_icon', '⚜')
-        self.website = pref_cfg_data.get('website', 'https://lucia.moe/sigma')
-        self.text_only = pref_cfg_data.get('text_only', False)
-        self.music_only = pref_cfg_data.get('music_only', False)
-        self.dscbots_token = pref_cfg_data.get('dscbots_token')
-        self.movelog_channel = pref_cfg_data.get('movelog_channel')
-        self.errorlog_channel = pref_cfg_data.get('errorlog_channel')
+        self.dev_mode = self.raw.get('dev_mode', False)
+        self.status_rotation = self.raw.get('status_rotation', True)
+        self.prefix = self.raw.get('prefix', '>>')
+        self.currency = self.raw.get('currency', 'Kud')
+        self.currency_icon = self.raw.get('currency_icon', '⚜')
+        self.website = self.raw.get('website', 'https://lucia.moe/sigma')
+        self.text_only = self.raw.get('text_only', False)
+        self.music_only = self.raw.get('music_only', False)
+        self.dscbots_token = self.raw.get('dscbots_token')
+        self.movelog_channel = self.raw.get('movelog_channel')
+        self.errorlog_channel = self.raw.get('errorlog_channel')
 
 
 class Configuration(object):
