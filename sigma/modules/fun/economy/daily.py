@@ -31,12 +31,12 @@ async def daily(cmd: SigmaCommand, message: discord.Message, args: list):
     now_stamp = arrow.utcnow().timestamp
     last_daily = daily_doc.get('Stamp') or 0
     streak = daily_doc.get('Streak') or 0
-    streak = 0 if now_stamp > last_daily + 172800 else streak
-    streak += 1 if streak < 10 else 0
+    streak = (0 if now_stamp > last_daily + 172800 else streak) + 1
     if now_stamp > last_daily + 79200:
         currency = cmd.bot.cfg.pref.currency
         random_part = secrets.randbelow(100)
-        amount = int(500 + random_part + (100 * (streak * 1.6))) if streak != 1 else 500 + random_part
+        multi = 10 if streak > 10 else streak
+        amount = int(500 + random_part + (100 * (multi * 1.6))) if multi != 1 else 500 + random_part
         daily_data = {'UserID': message.author.id, 'Stamp': now_stamp, 'Streak': streak}
         await cmd.db.add_currency(message.author, message.guild, amount, additive=True)
         await cmd.db[cmd.db.db_nam].DailyCache.update_one({'UserID': message.author.id}, {'$set': daily_data})
