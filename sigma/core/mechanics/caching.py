@@ -30,6 +30,3 @@ class Cacher(object):
     def del_cache(self, key: str or int):
         if key in self.data:
             self.data.pop(key)
-
-    def get_executed(self, key: str or int):
-        return self.data.get(f'{key}_stamp', 0)
