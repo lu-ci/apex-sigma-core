@@ -64,6 +64,25 @@ commands:
       the ISO 639-1 format. For the whole list, you can go
       to the following wikipedia article https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
+  - name:         createinvite
+    alts:
+      - "makeinvite"
+      - "createinv"
+      - "makeinv"
+    enabled:      true
+    requirements:
+      - "manage_guild"
+      - "create_instant_invite"
+    usage:        "{pfx}{cmd} d:12:0:0 u:10 #general"
+    description:
+      Creates an instant invite for the specified channel. If
+      no channel is specified, it's made for the current
+      channel. You can set an expiration by adding "d:HH:MM:SS"
+      as an argument. You can also set a limited number of uses
+      by adding "u:num" where "num" is the amount of uses. The
+      order of the arguments doesn't matter. This command
+      requires the Create Instant Invite permission.
+
   - name:         lmgtfy
     alts:
       - "letmegooglethatforyou"
