@@ -72,3 +72,11 @@ commands:
     description:
       Shows Sigma's current statistics.
       Population, message and command counts, and rates since startup.
+
+  - name:         botinformation
+    alts:
+      - "botinfo"
+      - "info"
+    enabled:      true
+    description:
+      Shows information about the bot, version, codename, authors, etc.
