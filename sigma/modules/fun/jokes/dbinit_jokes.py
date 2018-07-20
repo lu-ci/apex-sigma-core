@@ -21,6 +21,15 @@ import aiohttp
 from sigma.core.mechanics.event import SigmaEvent
 
 
+def clean_entries(entries):
+    to_remove = []
+    for entry in entries:
+        joke_body = entry.get('body')
+        if not joke_body or len(joke_body) >= 1024:
+            to_remove.append(entry)
+    [entries.remove(x) for x in to_remove]
+
+
 async def dbinit_jokes(ev: SigmaEvent, force=False):
     doc_count = await ev.db[ev.db.db_nam].JokeData.count_documents({})
     if not doc_count or force:
@@ -37,5 +46,6 @@ async def dbinit_jokes(ev: SigmaEvent, force=False):
                     data = await data_response.read()
                     data = json.loads(data)
             documents += data
+        clean_entries(documents)
         await ev.db[ev.db.db_nam].JokeData.insert_many(documents)
         ev.log.info('Updated joke data files successfully.')

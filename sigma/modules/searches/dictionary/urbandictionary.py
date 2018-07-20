@@ -23,8 +23,8 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: list):
-    if 'api_key' in cmd.cfg:
-        api_key = cmd.cfg['api_key']
+    api_key = cmd.cfg.get('api_key')
+    if api_key:
         if args:
             ud_input = ' '.join(args)
             url = "https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + ud_input
@@ -33,14 +33,15 @@ async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: lis
                 async with session.get(url, headers=headers) as data_response:
                     data = await data_response.read()
                     data = json.loads(data)
-            result_type = str((data['result_type']))
+            result_type = (data.get('result_type'))
             if result_type == 'exact':
-                definition = str((data['list'][0]['definition']))
+                entry = data.get('list', [{}])[0]
+                definition = entry.get('definition', 'Nothing...')
                 if len(definition) > 750:
                     definition = definition[:750] + '...'
-                footer = f'Thumbs Up/Down: {data["list"][0]["thumbs_up"]}/{data["list"][0]["thumbs_down"]}'
-                example = str((data['list'][0]['example']))
-                response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: `{ud_input.upper()}`')
+                footer = f'Thumbs Up/Down: {entry.get("thumbs_up", 0)}/{entry.get("thumbs_down", 0)}'
+                example = entry.get('example', 'Nothing...')
+                response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: {ud_input.upper()}')
                 response.set_footer(text=footer)
                 response.add_field(name='Definition', value=definition)
                 if example:

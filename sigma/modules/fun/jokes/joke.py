@@ -28,7 +28,6 @@ async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
     if not joke_cache:
         joke_cache = await cmd.db[cmd.db.db_nam].JokeData.find().to_list(None)
     joke_data = joke_cache.pop(secrets.randbelow(len(joke_cache)))
-    joke_text = joke_data.get('body')
-    response = discord.Embed(color=0xFFDC5D)
-    response.add_field(name='😆 Have A Random Joke', value=joke_text)
+    response = discord.Embed(color=0xFFDC5D, title='😆 Have A Random Joke')
+    response.description = joke_data.get('body')
     await message.channel.send(embed=response)

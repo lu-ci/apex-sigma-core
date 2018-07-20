@@ -473,6 +473,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>avatar` `>>av` `>>pfp` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "gif" to the end of the command to indicate that it's a gif. Or you can add "auto" to show the predominant color of the image. You can also add "static" to the end to make it return the full sized static version of your avatar. | `>>avatar @person`
+`>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server and shows their status. | `>>bots`
 `>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>channelid #channel`
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data on the mentioned channel. If no channel is mentioned, it will show data for the curent channel. | `>>channelinformation #channel`
