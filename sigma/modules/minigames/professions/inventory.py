@@ -36,6 +36,23 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
     return is_ingr
 
 
+def get_filter(args: list):
+    filter_lookup = None
+    if args:
+        try:
+            int(args[0])
+            first_num = True
+        except ValueError:
+            first_num = False
+        filter_lookup = (' '.join(args[1:]) if first_num else ' '.join(args)).lower()
+    return filter_lookup
+
+
+def item_belongs(filter_string: str, item: SigmaRawItem):
+    flt = filter_string.lower()
+    return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.desc.lower()
+
+
 async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
@@ -49,9 +66,12 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
     inv = await cmd.db.get_inventory(target)
     total_inv = len(inv)
     item_o_list = []
+    item_filter = get_filter(args)
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])
-        item_o_list.append(item_o)
+        add = item_belongs(item_filter, item_o) if item_filter else True
+        if add:
+            item_o_list.append(item_o)
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
