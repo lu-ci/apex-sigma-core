@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def colorme(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not message.guild.me.top_role.position == len(message.guild.roles - 1):
+    if not message.guild.me.top_role.position == len(message.guild.roles) - 1:
         enabled = await cmd.db.get_guild_settings(message.guild.id, 'ColorRoles')
         if enabled:
             if args:
