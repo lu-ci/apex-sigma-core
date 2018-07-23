@@ -33,7 +33,7 @@ async def colorme(cmd: SigmaCommand, message: discord.Message, args: list):
                     bad_hex = True
                 if not bad_hex:
                     role_name = f'SCR-{hex_req.upper()}'
-                    role_posi = abs(message.author.top_role.position - 1) or 1
+                    role_posi = message.author.top_role.position + 1
                     role_objc = discord.utils.find(lambda role: role.name == role_name, message.guild.roles)
                     if not role_objc:
                         color_int = int(f'0x{hex_req}', 16)
