@@ -36,3 +36,15 @@ commands:
     description:
       Shows the Server ID of the server the command is used in.
       If you don't want the message to be an embed, add "text" at the end.
+
+  - name:         roleid
+    alts:
+      - "rankid"
+      - "rid"
+    enabled:      true
+    usage:        "{pfx}{cmd} Warlards"
+    description:
+      Shows the Role ID of the specified role.
+      Unlike the other ID commands, a role specification is required.
+      Roles mentions do not work here, lookup is done via role name.
+      If you don't want the message to be an embed, add "text" at the end.

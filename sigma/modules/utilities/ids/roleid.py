@@ -19,21 +19,23 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
+async def roleid(cmd: SigmaCommand, message: discord.Message, args: list):
+    embed = True
     if args:
-        game_title = ' '.join(args)
-        gamer_list = []
-        x, y = 0, 0
-        for member in message.guild.members:
-            if member.activity:
-                x += 1
-                if str(member.activity.name).lower() == game_title.lower():
-                    gamer_list.append(member.name)
-                    y += 1
-        title = f'{y}/{x} people are playing {game_title}'
-        gamers = f'```\n{", ".join(gamer_list) or "None"}\n```'
-        response = discord.Embed(color=0x1ABC9C)
-        response.add_field(name=title, value=gamers)
+        lookup = ' '.join(args)
+        if args[-1].lower() == 'text':
+            embed = False
+            lookup = ' '.join(args[:-1])
+        role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+        if role:
+            response = discord.Embed(color=0x3B88C3)
+            response.add_field(name=f'ℹ {role.name}', value=f'`{role.id}`')
+        else:
+            embed = True
+            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    if embed:
+        await message.channel.send(embed=response)
+    else:
+        await message.channel.send(role.id)

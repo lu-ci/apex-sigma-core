@@ -35,4 +35,5 @@ commands:
     description:
       Searches for an emoji by name. To make the search more precise
       you can add the ID of the emote or server ID that the emote is from,
-      like in this example "monika:375824498882117635".
+      like in this example "monika:375824498882117635". Custom emotes are
+      not guaranteed to be SFW as they can be anything.

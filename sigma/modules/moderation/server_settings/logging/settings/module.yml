@@ -34,3 +34,10 @@ commands:
     usage:        "{pfx}{cmd} moderation"
     description:
       Toggles logging of commands in the specified module being used.
+
+  - name:         logsettings
+    alts:
+      - "logs"
+    enabled:      true
+    description:
+      Displays log settings. This includes the log channel and whether or not it is enabled for each log type.
