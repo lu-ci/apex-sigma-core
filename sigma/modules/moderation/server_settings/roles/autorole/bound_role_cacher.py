@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import asyncio
 
 import discord
 
@@ -58,6 +59,6 @@ async def bound_role_cacher(ev: SigmaEvent):
     for guild in ev.bot.guilds:
         if await ev.db.get_guild_settings(guild.id, 'BoundInvites'):
             if guild.me.guild_permissions.create_instant_invite:
-                ev.bot.loop.create_task(update_cache(guild))
-                counter += 1
+                await update_cache(guild)
+                await asyncio.sleep(5)
     ev.log.info(f'Finished caching invites for {counter} guilds.')
