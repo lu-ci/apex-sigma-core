@@ -183,7 +183,7 @@ class ApexSigma(client_class):
         self.log.info(f'User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
-        # self.loop.create_task(self.queue.event_runner('ready'))
+        self.loop.create_task(self.queue.event_runner('ready'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 
