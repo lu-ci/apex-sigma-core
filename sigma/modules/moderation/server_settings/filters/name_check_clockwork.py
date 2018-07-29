@@ -53,23 +53,25 @@ async def name_checker(ev: SigmaEvent):
             for guild_id in guild_ids:
                 active_guild = discord.utils.find(lambda x: x.id == guild_id, ev.bot.guilds)
                 if active_guild:
-                    guilds.append(active_guild)
+                    if active_guild.me.guild_permissions.manage_nicknames:
+                        guilds.append(active_guild)
             for guild in guilds:
                 temp_name = await ev.db.get_guild_settings(guild.id, 'ASCIIOnlyTempName')
                 if temp_name is None:
                     temp_name = '<ChangeMyName>'
                 members = guild.members
                 for member in members:
-                    name = member.display_name
-                    invalid = False
-                    for char in name:
-                        if char not in string.printable:
-                            invalid = True
-                            break
-                    if invalid:
-                        try:
-                            new_name = clean_name(name, temp_name)
-                            await member.edit(nick=new_name, reason='ASCII name enforcement.')
-                        except Exception:
-                            pass
+                    if guild.me.top_role.position > member.top_role.position:
+                        name = member.display_name
+                        invalid = False
+                        for char in name:
+                            if char not in string.printable:
+                                invalid = True
+                                break
+                        if invalid:
+                            try:
+                                new_name = clean_name(name, temp_name)
+                                await member.edit(nick=new_name, reason='ASCII name enforcement.')
+                            except Exception:
+                                pass
         await asyncio.sleep(60)
