@@ -79,6 +79,7 @@ async def cycler(ev: SigmaEvent):
                                 win_title = f'{winner.name} won {titl.lower()}{ender}'
                                 win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                 await channel.send(win_text, embed=win_embed)
+                                ev.log.info(f'{winner.d}won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
             except Exception:
                 pass
         await asyncio.sleep(1)
