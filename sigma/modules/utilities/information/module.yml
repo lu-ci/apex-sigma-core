@@ -64,10 +64,15 @@ commands:
       Shows the status of Sigma's host machine.
       Processor information, memory, storage, network, etc.
 
+  - name:         ping
+    enabled:      true
+    description:
+      Shows the latency of every shard the bot is on.
+
+
   - name:         statistics
     alts:
       - "stats"
-      - "ping"
     enabled:      true
     description:
       Shows Sigma's current statistics.

@@ -489,6 +489,7 @@ Commands | Description | Example
 `>>marry` `>>propose` | Proposes to the mentioned user, or accepts their marriage proposal if they proposed to you. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
+`>>ping` | Shows the latency of every shard the bot is on. | `>>ping`
 `>>randomcolor` `>>randomcolour` `>>rclr` | Shows you a random color block along with its HEX code. | `>>randomcolor`
 `>>roleid` `>>rankid` `>>rid` | Shows the Role ID of the specified role. Unlike the other ID commands, a role specification is required. Roles mentions do not work here, lookup is done via role name. If you don't want the message to be an embed, add "text" at the end. | `>>roleid Warlards`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data on the specified role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
@@ -498,7 +499,7 @@ Commands | Description | Example
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data on the server. | `>>serverinformation`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
 `>>spouses` `>>wives` `>>husbands` `>>waifus` `>>husbandos` | Shows the mentioned user's list of spouses, that is, people that they're married to. | `>>spouses @person`
-`>>statistics` `>>stats` `>>ping` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. | `>>statistics`
+`>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. | `>>statistics`
 `>>status` | Shows the status of Sigma's host machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>suggest` | Submits a suggestions to the owners of Sigma to do stuff. Development and change wise. | `>>suggest Add some new stuff!!!`
 `>>translation` `>>translate` `>>trans` | Translates a language from and to the specified ones. If a conversion input is not stated, the first argument will be considered the input language and the output will be in english. The language codes used abide by the ISO 639-1 format. For the whole list, you can go to the following wikipedia article https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes | `>>translation EN>JA Hello there!`
