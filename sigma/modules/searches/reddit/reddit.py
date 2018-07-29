@@ -26,12 +26,19 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
 async def grab_post(subreddit, argument):
+    try:
+        subreddit = subreddit.display_name
+    except AttributeError:
+        subreddit = None
     filters = ['tophot', 'randomhot', 'topnew', 'randomnew', 'toptop', 'randomtop']
-    if argument in filters:
-        posts = await reddit_client.get_posts(subreddit, argument[-3:])
-        post = posts[0] if argument.startswith('top') else secrets.choice(posts)
+    if subreddit:
+        if argument in filters:
+            posts = await reddit_client.get_posts(subreddit, argument[-3:])
+            post = posts[0] if argument.startswith('top') else secrets.choice(posts)
+        else:
+            post = secrets.choice(await reddit_client.get_posts(subreddit, 'hot'))
     else:
-        post = secrets.choice(await reddit_client.get_posts(subreddit, 'hot'))
+        post = None
     return post
 
 
@@ -56,7 +63,7 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
         subreddit = await reddit_client.get_subreddit(subreddit)
         if not subreddit.private and not subreddit.banned:
             if subreddit:
-                post = await grab_post(subreddit.display_name, argument)
+                post = await grab_post(subreddit, argument)
                 if post:
                     if not post.over_18 or message.channel.is_nsfw():
                         post_desc = f'Author: {post.author if post.author else "Anonymous"}'
