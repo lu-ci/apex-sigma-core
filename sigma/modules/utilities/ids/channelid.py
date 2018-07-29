@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def channelid(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
-        if args[-1].lower() == 'text':
+        if args[-1].lower() == '--text':
             embed = False
     if message.channel_mentions:
         target = message.channel_mentions[0]

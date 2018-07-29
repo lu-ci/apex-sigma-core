@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def serverid(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
-        if args[0].lower() == 'text':
+        if args[0].lower() == '--text':
             embed = False
     target = message.guild
     response = discord.Embed(color=0x3B88C3)
