@@ -33,8 +33,7 @@ async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: lis
                 async with session.get(url, headers=headers) as data_response:
                     data = await data_response.read()
                     data = json.loads(data)
-            result_type = (data.get('result_type'))
-            if result_type == 'exact':
+            if data.get('list'):
                 entry = data.get('list', [{}])[0]
                 definition = entry.get('definition', 'Nothing...')
                 if len(definition) > 750:

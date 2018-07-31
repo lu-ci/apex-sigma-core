@@ -22,6 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 
+
 async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     target_usr = get_target(message)
     starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
