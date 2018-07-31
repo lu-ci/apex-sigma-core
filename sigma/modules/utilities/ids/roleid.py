@@ -23,7 +23,7 @@ async def roleid(cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
         lookup = ' '.join(args)
-        if args[-1].lower() == 'text':
+        if args[-1].lower() == '--text':
             embed = False
             lookup = ' '.join(args[:-1])
         role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
