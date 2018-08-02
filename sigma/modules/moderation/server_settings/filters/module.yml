@@ -143,4 +143,4 @@ events:
 
   - name:         name_check_clockwork
     type:         ready
-    enabled:      false
+    enabled:      true
