@@ -74,4 +74,5 @@ async def name_checker(ev: SigmaEvent):
                                 await member.edit(nick=new_name, reason='ASCII name enforcement.')
                             except Exception:
                                 pass
+                            await asyncio.sleep(2.5)
         await asyncio.sleep(60)
