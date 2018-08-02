@@ -84,4 +84,4 @@ commands:
 events:
   - name:         scr_cleaner_clock
     type:         ready
-    enabled:      true
+    enabled:      false

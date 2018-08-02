@@ -94,4 +94,4 @@ commands:
 events:
   - name:         un_punisher
     type:         ready
-    enabled:      true
+    enabled:      false
