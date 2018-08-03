@@ -49,6 +49,7 @@ async def scr_clockwork(ev: SigmaEvent):
                                 ev.log.info(f'Deleted {scrr.name} [{scrr.id}] on {guild.name} [{guild.id}]')
                             except (discord.Forbidden, discord.NotFound, discord.ClientException):
                                 pass
+                            await asyncio.sleep(5)
             except Exception:
                 pass
             await asyncio.sleep(300)

@@ -43,6 +43,8 @@ async def unban(ev: SigmaEvent, doc: dict):
             if target:
                 ev.log.info(f'Un-banning {uid} from {gid}.')
                 await guild.unban(target.user, reason='Ban timer ran out.')
+                await asyncio.sleep(2)
+            await asyncio.sleep(5)
     except Exception:
         pass
 
@@ -57,6 +59,7 @@ async def untmute(ev: SigmaEvent, doc: dict):
             ev.log.info(f'Un-muting {uid} from {gid}.')
             mutes.remove(uid)
             await ev.db.set_guild_settings(guild.id, 'MutedUsers', mutes)
+            await asyncio.sleep(5)
     except Exception:
         pass
 
@@ -74,6 +77,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                         try:
                             ev.log.info(f'Un-hardmuting {uid} from {gid}.')
                             await channel.set_permissions(target, overwrite=None, reason='Hardmute timer ran out.')
+                            await asyncio.sleep(5)
                         except discord.Forbidden:
                             pass
     except Exception:
@@ -97,4 +101,4 @@ async def un_punisher_clock(ev: SigmaEvent):
             hmuted = await hmutecoll.find_one_and_delete(lookup)
             if hmuted:
                 await unhmute(ev, hmuted)
-        await asyncio.sleep(1)
+        await asyncio.sleep(60)
