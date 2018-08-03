@@ -31,15 +31,15 @@ async def imdb(cmd: SigmaCommand, message: discord.Message, args: list):
                 search_data = await data.text()
                 search_data = '('.join(search_data.split("(")[1:])[:-1]
                 data = json.loads(search_data, encoding='utf-8')
-        if 'd' in data:
-            data = data['d'][0]
+                data = data.get('d', [None])[0]
+        if data:
             imdb_icon = 'https://ia.media-imdb.com/images/G/01/imdb/images/mobile/'
             imdb_icon += 'apple-touch-icon-web-152x152-1475823641._CB522736557_.png'
-            title = data['l']
-            staring = data['s']
-            movie_id = data['id']
-            year = data['y'] if 'y' in data else 'Unknown'
-            image = data['i'][0] if 'i' in data else None
+            title = data.get('l', 'Unknown')
+            staring = data.get('s', 'Unknown')
+            movie_id = data.get('id')
+            year = data.get('y', 'Unknown')
+            image = data.get('i', [None])[0]
             imdb_movie_url = f'http://www.imdb.com/title/{movie_id}/'
             movie_desc = f'IMDB Page: [Here]({imdb_movie_url})'
             movie_desc += f'\nRelease Year: {year}'
