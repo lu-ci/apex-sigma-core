@@ -37,20 +37,18 @@ async def imdb(cmd: SigmaCommand, message: discord.Message, args: list):
             imdb_icon += 'apple-touch-icon-web-152x152-1475823641._CB522736557_.png'
             title = data['l']
             staring = data['s']
-            if 'y' in data:
-                year = data['y']
-            else:
-                year = 'Unknown'
-            image = data['i'][0]
             movie_id = data['id']
+            year = data['y'] if 'y' in data else 'Unknown'
+            image = data['i'][0] if 'i' in data else None
             imdb_movie_url = f'http://www.imdb.com/title/{movie_id}/'
             movie_desc = f'IMDB Page: [Here]({imdb_movie_url})'
             movie_desc += f'\nRelease Year: {year}'
             movie_desc += f'\nStaring: {staring}'
             response = discord.Embed(color=0xebc12d)
             response.add_field(name=title, value=movie_desc)
-            response.set_thumbnail(url=image)
             response.set_footer(text='From the Internet Movie DataBase.', icon_url=imdb_icon)
+            if image:
+                response.set_thumbnail(url=image)
         else:
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:

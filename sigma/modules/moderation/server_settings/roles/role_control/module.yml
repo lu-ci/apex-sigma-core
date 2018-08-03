@@ -17,7 +17,7 @@ commands:
     description:
       Gives the specified role to the mentioned user.
       The role must be below Sigma's highest role.
-      This command requires the Manage Server permission.
+      This command requires the Manage Roles permission.
 
   - name:         removerole
     alts:
@@ -31,7 +31,7 @@ commands:
     description:
       Removes the specified role from the mentioned user.
       The role must be below Sigma's highest role.
-      This command requires the Manage Server permission.
+      This command requires the Manage Roles permission.
 
   - name: pruneroles
     alts:
@@ -42,4 +42,4 @@ commands:
       - "manage_roles"
     description:
       Removes all empty roles from the server that are below Sigma.
-      This command requires the Manage Server permission.
+      This command requires the Manage Roles permission.
