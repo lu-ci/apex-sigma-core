@@ -63,7 +63,10 @@ commands:
     description:
       Sink your teeth into some poor thing.
 
-  - name:         addreact
+  - name:         addinteraction
+    alts:
+      - "addinteract"
+      - "addreact"
     enabled:      true
     usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
     description:

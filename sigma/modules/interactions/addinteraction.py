@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             reaction_name = args[0]
@@ -33,8 +33,7 @@ async def addreact(cmd: SigmaCommand, message: discord.Message, args: list):
                 reaction_url = '%20'.join(args[1:])
                 if reaction_url.startswith('http'):
                     if reaction_url.endswith('.gif'):
-                        exist_check = await cmd.db[cmd.db.db_nam]['Interactions'].find_one(
-                            {'URL': reaction_url})
+                        exist_check = await cmd.db[cmd.db.db_nam]['Interactions'].find_one({'URL': reaction_url})
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
                             lookup = {'Name': reaction_name.lower()}

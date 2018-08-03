@@ -114,7 +114,7 @@ Commands | Description | Example
 ### INTERACTIONS
 Commands | Description | Example
 ----------|-------------|--------
-`>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. There are also NSFW interactions: fap, fuck, and fuckrl. Please do not submit NSFW GIFs to non-NSFW interaction types. | `>>addreact reaction my.gif.link/fancy.gif`
+`>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. There are also NSFW interactions: fap, fuck, and fuckrl. Please do not submit NSFW GIFs to non-NSFW interaction types. | `>>addinteraction reaction my.gif.link/fancy.gif`
 `>>bite` | Sink your teeth into some poor thing. | `>>bite @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
 `>>dance` | Feel alive? Like you just wanna... boogie? Let's dance! | `>>dance @person`
