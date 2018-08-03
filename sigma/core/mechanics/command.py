@@ -209,7 +209,7 @@ class SigmaCommand(object):
         error_embed.set_footer(text=f'Token: {err_token}')
         try:
             await message.channel.send(embed=error_embed)
-        except discord.Forbidden:
+        except (discord.Forbidden, discord.NotFound):
             pass
 
     async def update_cooldown(self, author):
@@ -259,7 +259,7 @@ class SigmaCommand(object):
                                     await self.send_error_message(message, args, e)
 
                             else:
-                                await self.respond_with_icon(message, '❗')
+                                await self.respond_with_icon(message, '📝')
                                 reqs_embed = discord.Embed(color=0xBE1931)
                                 reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
                                 reqs_error_list = ''
@@ -271,11 +271,11 @@ class SigmaCommand(object):
                                 reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
                                 try:
                                     await message.channel.send(embed=reqs_embed)
-                                except discord.Forbidden:
+                                except (discord.Forbidden, discord.NotFound):
                                     pass
                         else:
                             self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                            await self.respond_with_icon(message, '⛔')
+                            await self.respond_with_icon(message, '🔒')
                     else:
                         perms.log_unpermitted()
                         await self.respond_with_icon(message, '⛔')
