@@ -39,8 +39,8 @@ async def reminder_cycler(ev: SigmaEvent):
             current_stamp = arrow.utcnow().timestamp
             reminder = await coll.find_one_and_delete({'ExecutionStamp': {'$lt': current_stamp}})
             if reminder:
-                channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], ev.bot.get_all_channels())
-                author = discord.utils.find(lambda x: x.id == reminder['UserID'], ev.bot.get_all_members())
+                channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], ev.bot.get_all_channels())
+                author = discord.utils.find(lambda x: x.id == reminder['user_id'], ev.bot.get_all_members())
                 if channel:
                     target = channel
                 elif author:

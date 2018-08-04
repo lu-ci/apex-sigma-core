@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'UserID: {target.id}')
+    log_embed.set_footer(text=f'user_id: {target.id}')
     return log_embed
 
 
@@ -79,6 +79,6 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         except discord.Forbidden:
                             pass
                         if endstamp:
-                            doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                            doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'Time': endstamp}
                             await cmd.db[cmd.db.db_nam].TextmuteClockworkDocs.insert_one(doc_data)
     await message.channel.send(embed=response)

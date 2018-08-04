@@ -42,8 +42,8 @@ async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list)
     if len(message.mentions) == 2:
         target_one = message.mentions[0]
         target_two = message.mentions[1]
-        chain_one = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'UserID': target_one.id})
-        chain_two = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'UserID': target_two.id})
+        chain_one = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target_one.id})
+        chain_two = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target_two.id})
         if chain_one and chain_two:
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
             string_one = ' '.join(chain_one.get('Chain'))

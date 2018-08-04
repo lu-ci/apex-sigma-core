@@ -27,7 +27,7 @@ current_user_collecting = None
 
 
 async def check_queued(db, uid):
-    in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'UserID': uid}))
+    in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
     in_current = current_user_collecting == uid
     return in_queue or in_current
 
@@ -134,13 +134,13 @@ async def cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             cltr_item = await ev.db[ev.db.db_nam].CollectorQueue.find_one_and_delete({})
             if cltr_item:
-                cl_usr = discord.utils.find(lambda x: x.id == cltr_item.get('UserID'), ev.bot.get_all_members())
-                cl_chn = discord.utils.find(lambda x: x.id == cltr_item.get('ChannelID'), ev.bot.get_all_channels())
+                cl_usr = discord.utils.find(lambda x: x.id == cltr_item.get('user_id'), ev.bot.get_all_members())
+                cl_chn = discord.utils.find(lambda x: x.id == cltr_item.get('channel_id'), ev.bot.get_all_channels())
                 cl_ath = discord.utils.find(lambda x: x.id == cltr_item.get('AuthorID'), ev.bot.get_all_members())
                 if cl_usr and cl_chn:
                     current_user_collecting = cl_usr.id
                     collected = 0
-                    collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'UserID': cl_usr.id})
+                    collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
                     collection = collection.get('Chain') if collection else []
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'Prefix') or ev.bot.cfg.pref.prefix
                     try:
@@ -156,8 +156,8 @@ async def cycler(ev: SigmaEvent):
                                             break
                     except Exception:
                         pass
-                    insert_data = {'UserID': cl_usr.id, 'Chain': collection}
-                    await ev.db[ev.db.db_nam].MarkovChains.delete_one({'UserID': cl_usr.id})
+                    insert_data = {'user_id': cl_usr.id, 'Chain': collection}
+                    await ev.db[ev.db.db_nam].MarkovChains.delete_one({'user_id': cl_usr.id})
                     await ev.db[ev.db.db_nam].MarkovChains.insert_one(insert_data)
                     chain_object_cache.del_cache(cl_usr.id)
                     await notify_target(cl_ath, cl_usr, cl_chn, collected, collection)

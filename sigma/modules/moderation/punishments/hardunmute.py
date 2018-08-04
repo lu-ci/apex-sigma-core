@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'UserID: {target.id}')
+    log_embed.set_footer(text=f'user_id: {target.id}')
     return log_embed
 
 

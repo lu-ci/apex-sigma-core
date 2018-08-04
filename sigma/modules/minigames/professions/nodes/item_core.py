@@ -133,10 +133,10 @@ class ItemCore(object):
         return top_roll, rarities
 
     async def roll_rarity(self, db, uid):
-        upgrade_file = await db[db.db_nam].Upgrades.find_one({'UserID': uid}) or {}
+        upgrade_file = await db[db.db_nam].Upgrades.find_one({'user_id': uid}) or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
-        sabotage_file = await db[db.db_nam].SabotagedUsers.find_one({'UserID': uid})
+        sabotage_file = await db[db.db_nam].SabotagedUsers.find_one({'user_id': uid})
         roll = 0 if sabotage_file else secrets.randbelow(top_roll)
         lowest = 0
         for rarity in rarities:
@@ -148,11 +148,11 @@ class ItemCore(object):
 
     @staticmethod
     async def add_item_statistic(db: Database, item: SigmaRawItem, member: discord.Member):
-        member_stats = await db[db.db_nam].ItemStatistics.find_one({'UserID': member.id})
+        member_stats = await db[db.db_nam].ItemStatistics.find_one({'user_id': member.id})
         if member_stats is None:
-            await db[db.db_nam].ItemStatistics.insert_one({'UserID': member.id})
+            await db[db.db_nam].ItemStatistics.insert_one({'user_id': member.id})
             member_stats = {}
         item_count = member_stats.get(item.file_id) or 0
         item_count += 1
         updata = {'$set': {item.file_id: item_count}}
-        await db[db.db_nam].ItemStatistics.update_one({'UserID': member.id}, updata)
+        await db[db.db_nam].ItemStatistics.update_one({'user_id': member.id}, updata)

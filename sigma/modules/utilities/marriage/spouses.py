@@ -27,7 +27,7 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
-    profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'UserID': target.id}) or {}
+    profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('Spouses') or []
     spcount = len(splist)
     page = args[0] if args else 1
@@ -38,15 +38,15 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
         spdata = []
         all_members = cmd.bot.get_all_members()
         for sp in splist:
-            spmemb = discord.utils.find(lambda m: m.id == sp.get('UserID'), all_members)
-            spmemb = spmemb.name if spmemb else sp.get('UserID')
-            sp_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'UserID': sp.get('UserID')}) or {}
+            spmemb = discord.utils.find(lambda m: m.id == sp.get('user_id'), all_members)
+            spmemb = spmemb.name if spmemb else sp.get('user_id')
+            sp_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('Spouses') or []
-            sp_spouse_ids = [s.get('UserID') for s in sp_spouses]
+            sp_spouse_ids = [s.get('user_id') for s in sp_spouses]
             sp_status = 'Married' if target.id in sp_spouse_ids else 'Proposed'
             spdata.append([spmemb, sp_status, arrow.get(sp.get('Time')).humanize().title()])
         spbody = boop(spdata, ['Name', 'Status', 'Since'])
-        upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': target.id}) or {}
+        upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
         limit = 10 + (upgrades.get('harem') or 0)
         stats = f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.'
         response = discord.Embed(color=0xf9f9f9)

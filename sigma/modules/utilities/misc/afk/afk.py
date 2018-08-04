@@ -21,19 +21,19 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
-    afk_data = await cmd.db[cmd.db.db_nam]['AwayUsers'].find_one({'UserID': message.author.id})
+    afk_data = await cmd.db[cmd.db.db_nam]['AwayUsers'].find_one({'user_id': message.author.id})
     if args:
         afk_reason = ' '.join(args)
     else:
         afk_reason = 'No reason stated.'
     in_data = {
-        'UserID': message.author.id,
+        'user_id': message.author.id,
         'Timestamp': arrow.utcnow().timestamp,
         'Reason': afk_reason
     }
     if afk_data:
         title = 'Your status has been updated'
-        await cmd.db[cmd.db.db_nam]['AwayUsers'].update_one({'UserID': message.author.id}, {'$set': in_data})
+        await cmd.db[cmd.db.db_nam]['AwayUsers'].update_one({'user_id': message.author.id}, {'$set': in_data})
     else:
         title = 'You have been marked as away'
         await cmd.db[cmd.db.db_nam]['AwayUsers'].insert_one(in_data)

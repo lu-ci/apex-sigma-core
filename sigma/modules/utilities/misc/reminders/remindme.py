@@ -30,7 +30,7 @@ async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
             in_seconds = convert_to_seconds(time_req)
             upper_limit = 7776000
             if in_seconds <= upper_limit:
-                rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'UserID': message.author.id})
+                rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'user_id': message.author.id})
                 rem_limit = 15
                 if rem_count < rem_limit:
                     if len(args) > 1:
@@ -46,11 +46,11 @@ async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
                     reminder_id = secrets.token_hex(2)
                     reminder_data = {
                         'ReminderID': reminder_id,
-                        'UserID': message.author.id,
+                        'user_id': message.author.id,
                         'CreationStamp': arrow.utcnow().timestamp,
                         'ExecutionStamp': execution_stamp,
-                        'ChannelID': message.channel.id,
-                        'ServerID': message.guild.id,
+                        'channel_id': message.channel.id,
+                        'server_id': message.guild.id,
                         'TextMessage': text_message
                     }
                     await cmd.db[cmd.db.db_nam]['Reminders'].insert_one(reminder_data)

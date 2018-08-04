@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def removereminder(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rem_id = args[0].lower()
-        lookup_data = {'UserID': message.author.id, 'ReminderID': rem_id}
+        lookup_data = {'user_id': message.author.id, 'ReminderID': rem_id}
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             await cmd.db[cmd.db.db_nam].Reminders.delete_one(lookup_data)

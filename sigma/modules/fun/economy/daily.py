@@ -24,9 +24,9 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def daily(cmd: SigmaCommand, message: discord.Message, args: list):
-    daily_doc = await cmd.db[cmd.db.db_nam].DailyCache.find_one({'UserID': message.author.id}) or {}
+    daily_doc = await cmd.db[cmd.db.db_nam].DailyCache.find_one({'user_id': message.author.id}) or {}
     if not daily_doc:
-        def_data = {'UserID': message.author.id, 'Stamp': 0, 'Streak': 0}
+        def_data = {'user_id': message.author.id, 'Stamp': 0, 'Streak': 0}
         await cmd.db[cmd.db.db_nam].DailyCache.insert_one(def_data)
     now_stamp = arrow.utcnow().timestamp
     last_daily = daily_doc.get('Stamp') or 0
@@ -37,9 +37,9 @@ async def daily(cmd: SigmaCommand, message: discord.Message, args: list):
         random_part = secrets.randbelow(100)
         multi = 10 if streak > 10 else streak
         amount = int(500 + random_part + (100 * (multi * 1.6))) if multi != 1 else 500 + random_part
-        daily_data = {'UserID': message.author.id, 'Stamp': now_stamp, 'Streak': streak}
+        daily_data = {'user_id': message.author.id, 'Stamp': now_stamp, 'Streak': streak}
         await cmd.db.add_currency(message.author, message.guild, amount, additive=True)
-        await cmd.db[cmd.db.db_nam].DailyCache.update_one({'UserID': message.author.id}, {'$set': daily_data})
+        await cmd.db[cmd.db.db_nam].DailyCache.update_one({'user_id': message.author.id}, {'$set': daily_data})
         response = discord.Embed(color=0x66CC66, title=f'🎉 You got {amount} {currency} for a {streak}/10 streak.')
     else:
         next_stamp = last_daily + 79200

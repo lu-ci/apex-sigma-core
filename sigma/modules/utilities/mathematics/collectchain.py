@@ -28,7 +28,7 @@ async def is_blocked(db: Database, target: discord.Member, author: discord.Membe
     if target.id == author.id:
         blocked = False
     else:
-        blocked = bool(await db[db.db_nam].BlockedChains.find_one({'UserID': target.id}))
+        blocked = bool(await db[db.db_nam].BlockedChains.find_one({'user_id': target.id}))
     return blocked
 
 
@@ -50,7 +50,7 @@ async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     if not blocked and not blinded:
         if not await check_queued(cmd.db, target_usr.id):
             if not target_usr.bot:
-                cltr_itm = {'AuthorID': message.author.id, 'UserID': target_usr.id, 'ChannelID': target_chn.id}
+                cltr_itm = {'AuthorID': message.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
                 await add_to_queue(cmd.db, cltr_itm)
                 qsize = await get_queue_size(cmd.db)
                 title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'

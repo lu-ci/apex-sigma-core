@@ -34,7 +34,7 @@ def generate_log_embed(message, target, channel, deleted):
     response.add_field(name='🗑 Prune Details', value=f'Amount: {len(deleted)} Messages\nTarget: {target_text}')
     author = message.author
     response.add_field(name='🛡 Responsible', value=f'{author.mention}\n{author.name}#{author.discriminator}')
-    response.set_footer(text=f'ChannelID: {channel.id}')
+    response.set_footer(text=f'channel_id: {channel.id}')
     return response
 
 

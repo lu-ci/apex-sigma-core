@@ -36,25 +36,25 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
         author = message.author
         if target.id != author.id:
             if not target.bot:
-                author_lookup = {'UserID': author.id}
-                target_lookup = {'UserID': target.id}
+                author_lookup = {'user_id': author.id}
+                target_lookup = {'user_id': target.id}
                 author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
                 target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
-                author_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': author.id}) or {}
-                target_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': target.id}) or {}
+                author_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': author.id}) or {}
+                target_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
                 a_exists = True if author_profile else False
                 a_spouses = author_profile.get('Spouses') or []
-                a_spouse_ids = [s.get('UserID') for s in a_spouses]
+                a_spouse_ids = [s.get('user_id') for s in a_spouses]
                 t_spouses = target_profile.get('Spouses') or []
-                t_spouse_ids = [s.get('UserID') for s in t_spouses]
+                t_spouse_ids = [s.get('user_id') for s in t_spouses]
                 a_limited = True if len(a_spouses) >= author_limit else False
                 t_limited = True if len(t_spouses) > target_limit else False
                 if not a_limited and not t_limited:
                     if target.id not in a_spouse_ids:
-                        a_spouses.append({'UserID': target.id, 'Time': arrow.utcnow().timestamp})
-                        up_data = {'Spouses': a_spouses, 'UserID': author.id}
+                        a_spouses.append({'user_id': target.id, 'Time': arrow.utcnow().timestamp})
+                        up_data = {'Spouses': a_spouses, 'user_id': author.id}
                         if a_exists:
                             up_data = {'$set': up_data}
                             await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, up_data)

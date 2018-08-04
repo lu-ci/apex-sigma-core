@@ -60,7 +60,7 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, re
     response.add_field(name='🛡 Moderator', value=author_descrp)
     if reason:
         response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    response.set_footer(text=f'[{warn_iden}] UserID: {target.id}')
+    response.set_footer(text=f'[{warn_iden}] user_id: {target.id}')
     return response
 
 

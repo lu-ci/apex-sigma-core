@@ -59,8 +59,8 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
                                     log_msg = await log_ch.send(embed=log_resp)
                             reaction_data = {
                                 'Name': reaction_name.lower(),
-                                'UserID': message.author.id,
-                                'ServerID': message.guild.id,
+                                'user_id': message.author.id,
+                                'server_id': message.guild.id,
                                 'URL': reaction_url,
                                 'ReactionID': reaction_id,
                                 'MessageID': log_msg.id if log_msg else None

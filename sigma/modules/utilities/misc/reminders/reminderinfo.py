@@ -24,7 +24,7 @@ from sigma.core.utilities.data_processing import user_avatar
 async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rem_id = args[0].lower()
-        lookup_data = {'UserID': message.author.id, 'ReminderID': rem_id}
+        lookup_data = {'user_id': message.author.id, 'ReminderID': rem_id}
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             execution_stamp = reminder['ExecutionStamp']
@@ -32,7 +32,7 @@ async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
             timestamp = arrow.get(execution_stamp).datetime
             human_time = arrow.get(execution_stamp).humanize(arrow.utcnow())
             auth_title = f'{message.author.display_name}\'s Reminder: {rem_id}'
-            channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], cmd.bot.get_all_channels())
+            channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], cmd.bot.get_all_channels())
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'

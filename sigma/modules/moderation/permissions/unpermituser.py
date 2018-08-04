@@ -72,7 +72,7 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                                 break
                         if not bad_item:
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                {'ServerID': message.guild.id}, {'$set': perms})
+                                {'server_id': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} users can no longer use `{cmd_name}`.'

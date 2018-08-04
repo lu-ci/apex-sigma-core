@@ -26,11 +26,11 @@ async def wanikanisave(cmd: SigmaCommand, message: discord.Message, args: list):
         pass
     if args:
         api_key = ''.join(args)
-        api_document = await cmd.db[cmd.db.db_nam]['WaniKani'].find_one({'UserID': message.author.id})
-        data = {'UserID': message.author.id, 'WKAPIKey': api_key}
+        api_document = await cmd.db[cmd.db.db_nam]['WaniKani'].find_one({'user_id': message.author.id})
+        data = {'user_id': message.author.id, 'WKAPIKey': api_key}
         if api_document:
             ender = 'updated'
-            await cmd.db[cmd.db.db_nam]['WaniKani'].update_one({'UserID': message.author.id}, {'$set': data})
+            await cmd.db[cmd.db.db_nam]['WaniKani'].update_one({'user_id': message.author.id}, {'$set': data})
         else:
             ender = 'saved'
             await cmd.db[cmd.db.db_nam]['WaniKani'].insert_one(data)

@@ -36,7 +36,7 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         target = message.author
     if target:
-        chain_data = await cmd.db[cmd.db.db_nam]['MarkovChains'].find_one({'UserID': target.id})
+        chain_data = await cmd.db[cmd.db.db_nam]['MarkovChains'].find_one({'user_id': target.id})
         if chain_data:
             if chain_data['Chain']:
                 total_string = ' '.join(chain_data['Chain'])

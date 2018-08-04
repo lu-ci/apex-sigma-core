@@ -68,14 +68,14 @@ async def unpermitchannel(cmd: SigmaCommand, message: discord.Message, args: lis
                                 cmd_exc.update({cmd_name: inner_exc})
                                 perms.update({exception_group: cmd_exc})
                                 await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                    {'ServerID': message.guild.id}, {'$set': perms}
+                                    {'server_id': message.guild.id}, {'$set': perms}
                                 )
                             else:
                                 bad_item = target
                                 break
                         if not bad_item:
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                {'ServerID': message.guild.id}, {'$set': perms})
+                                {'server_id': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} channels can no longer use `{cmd_name}`.'

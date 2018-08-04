@@ -31,7 +31,7 @@ def generate_log_embed(message, target):
     author = message.author
     log_response.add_field(name='🛡 Responsible',
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
-    log_response.set_footer(text=f'UserID: {target.id}')
+    log_response.set_footer(text=f'user_id: {target.id}')
     return log_response
 
 

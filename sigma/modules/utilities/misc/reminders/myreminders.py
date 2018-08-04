@@ -28,9 +28,9 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[-1].lower() == 'here':
             here = True
     if here:
-        lookup_data = {'UserID': message.author.id, 'ChannelID': message.channel.id}
+        lookup_data = {'user_id': message.author.id, 'channel_id': message.channel.id}
     else:
-        lookup_data = {'UserID': message.author.id}
+        lookup_data = {'user_id': message.author.id}
     all_reminders = cmd.db[cmd.db.db_nam].Reminders
     reminder_count = await all_reminders.count_documents(lookup_data)
     all_reminders = await all_reminders.find(lookup_data).to_list(None)
@@ -47,7 +47,7 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
         for reminder in all_reminders:
             human_time = arrow.get(reminder['ExecutionStamp']).humanize(arrow.utcnow())
             all_channels = cmd.bot.get_all_channels()
-            channel = discord.utils.find(lambda x: x.id == reminder['ChannelID'], all_channels)
+            channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], all_channels)
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'
