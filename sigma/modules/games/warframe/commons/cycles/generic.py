@@ -40,7 +40,7 @@ async def get_channels(ev: SigmaEvent, marker):
 async def get_triggers(db, triggers, guild):
     mentions = []
     for trigger in triggers:
-        wf_tags = await db.get_guild_settings(guild.id, 'WarframeTags')
+        wf_tags = await db.get_guild_settings(guild.id, 'warframe_tags')
         if wf_tags is None:
             wf_tags = {}
         if wf_tags:
@@ -53,8 +53,8 @@ async def get_triggers(db, triggers, guild):
 
 
 async def clean_wf_cache(db: Database):
-    cutoff = arrow.utcnow().timestamp - 86500
-    await db[db.db_nam].WarframeCache.delete_many({'Created': {'$lt': cutoff}})
+    cutoff = arrow.utcnow().timestamp - 2592000
+    await db[db.db_nam].WarframeCache.delete_many({'created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):

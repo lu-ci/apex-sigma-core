@@ -37,7 +37,7 @@ async def news_cycler(ev: SigmaEvent):
                 news, triggers = await get_news_data(ev.db)
                 if news:
                     response = generate_news_embed(news)
-                    await send_to_channels(ev, response, 'WarframeNewsChannel', triggers)
+                    await send_to_channels(ev, response, 'warframe_news_channel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(300)

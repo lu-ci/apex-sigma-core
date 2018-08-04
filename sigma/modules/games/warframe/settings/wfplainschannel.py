@@ -27,13 +27,13 @@ async def wfplainschannel(cmd: SigmaCommand, message: discord.Message, args: lis
         else:
             if args:
                 if args[0].lower() == 'disable':
-                    await cmd.db.set_guild_settings(message.guild.id, 'WarframePlainsChannel', None)
+                    await cmd.db.set_guild_settings(message.guild.id, 'warframe_plains_channel', None)
                     response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Invasion Channel disabled.')
                     await message.channel.send(embed=response)
                 return
             else:
                 target_channel = message.channel
-        await cmd.db.set_guild_settings(message.guild.id, 'WarframePlainsChannel', target_channel.id)
+        await cmd.db.set_guild_settings(message.guild.id, 'warframe_plains_channel', target_channel.id)
         response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Plains Channel set to #{target_channel.name}')
     else:
         response = permission_denied('Manage Channels')

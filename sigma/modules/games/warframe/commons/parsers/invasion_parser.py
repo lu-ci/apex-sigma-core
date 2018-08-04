@@ -81,10 +81,10 @@ async def get_invasion_data(db):
     invasion_out = None
     for invasion in invasion_data:
         event_id = invasion['id']
-        db_check = await db[db.db_nam].WarframeCache.find_one({'EventID': event_id})
+        db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
         if not db_check:
             now = arrow.utcnow().timestamp
-            await db[db.db_nam].WarframeCache.insert_one({'EventID': event_id, 'Created': now})
+            await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
             invasion_out = invasion
             break
     triggers = ['invasion']

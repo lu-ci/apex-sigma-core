@@ -81,15 +81,15 @@ async def get_alert_data(db):
     alert_out = None
     for alert in alert_data:
         event_id = alert['id']
-        db_check = await db[db.db_nam].WarframeCache.find_one({'EventID': event_id})
+        db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
         if not db_check:
             now = arrow.utcnow().timestamp
-            await db[db.db_nam].WarframeCache.insert_one({'EventID': event_id, 'Created': now})
+            await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
             alert_out = alert
             break
     triggers = ['alert']
     if alert_out:
-        item_reward = alert_out['rewards']['item']
+        item_reward: str = alert_out.get('rewards', {}).get('item')
         if item_reward:
             triggers = item_reward.lower().split(' ')
             if item_reward.lower() in aura_list:

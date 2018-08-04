@@ -37,7 +37,7 @@ async def invasion_cycler(ev: SigmaEvent):
                 invasions, triggers = await get_invasion_data(ev.db)
                 if invasions:
                     response = await generate_invasion_embed(invasions)
-                    await send_to_channels(ev, response, 'WarframeInvasionChannel', triggers)
+                    await send_to_channels(ev, response, 'warframe_invasion_channel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(10)
