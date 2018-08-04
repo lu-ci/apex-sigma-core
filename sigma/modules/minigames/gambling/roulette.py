@@ -27,7 +27,7 @@ hor_3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 selector_ranges = {
     'number': range(0, 37),
     'type': ['odd', 'even'],
-    'color': ['r', 'b'],
+    'color': ['red', 'black'],
     'column': range(1, 4),
     'dozen': range(1, 4),
     'half': [1, 2]
@@ -85,14 +85,8 @@ def get_selector_and_value(args: list):
 
 async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
     upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id})
-    if upgrade_file is None:
-        await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'user_id': message.author.id})
-        upgrade_file = {}
     base_cooldown = 60
-    if 'casino' in upgrade_file:
-        stamina = upgrade_file['casino']
-    else:
-        stamina = 0
+    stamina = upgrade_file.get('casino', 0)
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
     if cooldown < 12:
         cooldown = 12

@@ -25,5 +25,5 @@ commands:
       The default bet is 10 Kud but you can specify any amount you want.
       The syntax of playing is the bet amount first, it can be ommitted however,
       and then the roulette spot choice in the form of [selector]:[value].
-      Accepted specifiers are color:b or number:15, column:2, dozen:1, half:1, and type:odd.
+      Accepted specifiers are color:black or number:15, column:2, dozen:1, half:1, and type:odd.
       Good luck.

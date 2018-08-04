@@ -64,17 +64,10 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
     if current_kud >= bet:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
             upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id})
-            if upgrade_file is None:
-                await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'user_id': message.author.id})
-                upgrade_file = {}
             base_cooldown = 60
-            if 'casino' in upgrade_file:
-                stamina = upgrade_file['casino']
-            else:
-                stamina = 0
+            stamina = upgrade_file.get('casino', 0)
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
-            if cooldown < 12:
-                cooldown = 12
+            cooldown = 5 if cooldown < 5 else cooldown
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
             await cmd.db.rmv_currency(message.author, bet)
             out_list = []
@@ -86,7 +79,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                         symbol_choice = secrets.choice(symbols)
                         init_symb.append(symbol_choice)
                     else:
-                        roll = secrets.randbelow(bet + (bet // 2) + 10)
+                        roll = secrets.randbelow(bet + (bet // 5) + 10)
                         if roll == 0:
                             symbol_choice = secrets.choice(symbols)
                         else:
