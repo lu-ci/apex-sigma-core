@@ -9,18 +9,6 @@ events:
     type:        message
     enabled:     true
 
-  - name:        ev_mention
-    type:        mention
-    enabled:     true
-
-  - name:        ev_member_join
-    type:        member_join
-    enabled:     true
-
-  - name:        ev_member_remove
-    type:        member_leave
-    enabled:     true
-
   - name:        population_clockwork
     type:        ready
     enabled:     true
