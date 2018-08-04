@@ -27,11 +27,3 @@ commands:
       and then the roulette spot choice in the form of [selector]:[value].
       Accepted specifiers are color:b or number:15, column:2, dozen:1, half:1, and type:odd.
       Good luck.
-
-  - name:         lootbox
-    alts:
-      - "unbox"
-    enabled:      true
-    usage:        "{pfx}{cmd}"
-    description:
-      Open a lootbox! That's all...
