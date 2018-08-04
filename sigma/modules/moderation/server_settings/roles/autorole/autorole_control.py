@@ -22,11 +22,11 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def autorole_control(ev: SigmaEvent, member):
-    curr_role_id = await ev.db.get_guild_settings(member.guild.id, 'AutoRole')
+    curr_role_id = await ev.db.get_guild_settings(member.guild.id, 'auto_role')
     if curr_role_id:
         curr_role = discord.utils.find(lambda x: x.id == curr_role_id, member.guild.roles)
         if curr_role:
-            timeout = await ev.db.get_guild_settings(member.guild.id, 'AutoroleTimeout')
+            timeout = await ev.db.get_guild_settings(member.guild.id, 'auto_role_timeout')
             if timeout:
                 await asyncio.sleep(timeout)
             await member.add_roles(curr_role, reason='Appointed guild autorole.')

@@ -24,10 +24,10 @@ async def removereactor(cmd: SigmaCommand, message: discord.Message, args: list)
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()
-            auto_reactions = await cmd.db.get_guild_settings(message.guild.id, 'ReactorTriggers') or {}
+            auto_reactions = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers') or {}
             if trigger in auto_reactions:
                 del auto_reactions[trigger]
-                await cmd.db.set_guild_settings(message.guild.id, 'ReactorTriggers', auto_reactions)
+                await cmd.db.set_guild_settings(message.guild.id, 'reactor_triggers', auto_reactions)
                 response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Trigger not found.')

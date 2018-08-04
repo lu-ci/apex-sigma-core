@@ -25,14 +25,14 @@ async def logmodule(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             module_name = args[0].lower()
             if module_name in cmd.bot.modules.categories:
-                logged_modules = await cmd.db.get_guild_settings(message.guild.id, 'LoggedModules') or []
+                logged_modules = await cmd.db.get_guild_settings(message.guild.id, 'logged_modules') or []
                 if module_name in logged_modules:
                     result = 'disabled'
                     logged_modules.remove(module_name)
                 else:
                     result = 'enabled'
                     logged_modules.append(module_name)
-                await cmd.db.set_guild_settings(message.guild.id, 'LoggedModules', logged_modules)
+                await cmd.db.set_guild_settings(message.guild.id, 'logged_modules', logged_modules)
                 response = discord.Embed(color=0x77B255, title=f'✅ {module_name.upper()} logging {result}.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Non-existent module given.')

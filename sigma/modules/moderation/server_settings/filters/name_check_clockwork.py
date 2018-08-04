@@ -46,7 +46,7 @@ async def name_checker(ev: SigmaEvent):
         if ev.bot.is_ready():
             guild_ids = []
             guilds = []
-            actives = await ev.db[ev.db.db_nam].ServerSettings.find({'ASCIIOnlyNames': True}).to_list(None)
+            actives = await ev.db[ev.db.db_nam].ServerSettings.find({'ascii_only_names': True}).to_list(None)
             for doc in actives:
                 gid = doc['server_id']
                 guild_ids.append(gid)
@@ -56,7 +56,7 @@ async def name_checker(ev: SigmaEvent):
                     if active_guild.me.guild_permissions.manage_nicknames:
                         guilds.append(active_guild)
             for guild in guilds:
-                temp_name = await ev.db.get_guild_settings(guild.id, 'ASCIIOnlyTempName')
+                temp_name = await ev.db.get_guild_settings(guild.id, 'ascii_temp_name')
                 if temp_name is None:
                     temp_name = '<ChangeMyName>'
                 members = guild.members

@@ -32,4 +32,4 @@ async def join_logger(ev: SigmaEvent, member):
     else:
         response.add_field(name='🕑 Account Created', value=f'{diff_msg.title()}')
     response.set_footer(text=f'user_id: {member.id}')
-    await log_event(ev.bot, member.guild, ev.db, response, 'LogMovement')
+    await log_event(ev.bot, member.guild, ev.db, response, 'log_movement')

@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def reactors(cmd: SigmaCommand, message: discord.Message, args: list):
-    reactor_files = await cmd.db.get_guild_settings(message.guild.id, 'ReactorTriggers')
+    reactor_files = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers')
     if reactor_files:
         reactor_list = sorted(list(reactor_files.keys()))
         reac_count = len(reactor_list)

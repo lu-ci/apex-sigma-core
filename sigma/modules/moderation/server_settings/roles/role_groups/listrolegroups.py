@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def listrolegroups(cmd: SigmaCommand, message: discord.Message, args: list):
-    role_groups = await cmd.db.get_guild_settings(message.guild.id, 'RoleGroups') or {}
+    role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
     group_list = list(role_groups.keys())
     if role_groups:
         group_count = len(group_list)

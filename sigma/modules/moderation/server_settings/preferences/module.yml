@@ -44,35 +44,6 @@ commands:
       Toggles whether messages that are a command should be automatically deleted.
       This command requires the Manage Server permission.
 
-  - name:         chatterbot
-    enabled:      true
-    description:
-      Toggles if the Chatterbot functions should be active.
-      If active, when a message starts with a mention of Sigma, she will respond.
-      This setting is active by default. This command requires the Manage Server permission.
-
-  - name:         decay
-    enabled:      true
-    usage:        "{pfx}{cmd} 1:30:59 #hotness"
-    description:
-      Marks a channel as decaying with a given timer.
-      Messages sent to decaying channels decay. This means that once they are sent,
-      a timer starts, after the specified amount of time passes, the message is deleted
-      automagically. This command requires the Manage Server permission.
-
-  - name:         disabledecay
-    alts:
-      - "undecay"
-    enabled:      true
-    usage:        "{pfx}{cmd} #hotnesslicious"
-    description:
-      Disables a channel's decay.
-      This command requires the Manage Server permission.
-
-  - name:         decaying
-    enabled:      true
-    description:
-      Lists all decaying channels and their decay timers.
 
   - name:         colorroles
     enabled:      true
@@ -86,7 +57,3 @@ events:
   - name:         decay_adder
     type:         message
     enabled:      true
-
-  - name:         decay_checker
-    type:         ready
-    enabled:      false

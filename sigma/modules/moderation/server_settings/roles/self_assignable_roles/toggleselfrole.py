@@ -24,18 +24,18 @@ async def toggleselfrole(cmd: SigmaCommand, message: discord.Message, args: list
     if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args).lower()
-            self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles') or []
+            self_roles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles') or []
             target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
             if target_role:
                 role_below = target_role.position < message.guild.me.top_role.position
                 if role_below:
                     if target_role.id in self_roles:
                         self_roles.remove(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', self_roles)
+                        await cmd.db.set_guild_settings(message.guild.id, 'self_roles', self_roles)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} removed.')
                     else:
                         self_roles.append(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', self_roles)
+                        await cmd.db.set_guild_settings(message.guild.id, 'self_roles', self_roles)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} added.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')

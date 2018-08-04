@@ -22,16 +22,16 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 async def unflip(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
-        flip_settings = await cmd.db.get_guild_settings(message.guild.id, 'Unflip')
+        flip_settings = await cmd.db.get_guild_settings(message.guild.id, 'unflip')
         if flip_settings is None:
             unflip_set = False
         else:
             unflip_set = flip_settings
         if unflip_set:
-            await cmd.db.set_guild_settings(message.guild.id, 'Unflip', False)
+            await cmd.db.set_guild_settings(message.guild.id, 'unflip', False)
             ending = 'disabled'
         else:
-            await cmd.db.set_guild_settings(message.guild.id, 'Unflip', True)
+            await cmd.db.set_guild_settings(message.guild.id, 'unflip', True)
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Table unflipping has been {ending}')
     else:

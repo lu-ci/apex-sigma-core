@@ -129,7 +129,7 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
                 pass
         response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
         log_embed = generate_log_embed(message, target, message.channel, deleted)
-        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogPurges')
+        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_purges')
     del_response = await message.channel.send(embed=response)
     await asyncio.sleep(5)
     try:

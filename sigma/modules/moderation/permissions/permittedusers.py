@@ -26,8 +26,8 @@ async def permittedusers(cmd: SigmaCommand, message: discord.Message, args: list
     page_num = args[0] if args else 1
     if has_args:
         modes = {
-            'c': ('Command', 'CommandExceptions', cmd.bot.modules.commands, True),
-            'm': ('Module', 'ModuleExceptions', cmd.bot.modules.categories, False)
+            'c': ('Command', 'command_exceptions', cmd.bot.modules.commands, True),
+            'm': ('Module', 'module_exceptions', cmd.bot.modules.categories, False)
         }
         perms = await get_all_perms(cmd.db, message)
         perm_mode, node_name = [piece.lower() for piece in args[-1].split(':')]
@@ -39,7 +39,7 @@ async def permittedusers(cmd: SigmaCommand, message: discord.Message, args: list
                 if node_name in cmd.bot.modules.alts:
                     node_name = cmd.bot.modules.alts[node_name]
             if node_name in check_group:
-                exceptions = perms.get(exception_group, {}).get(node_name, {}).get('Users', [])
+                exceptions = perms.get(exception_group, {}).get(node_name, {}).get('users', [])
                 for exc_usr_id in exceptions:
                     exc_usr = discord.utils.find(lambda m: m.id == exc_usr_id, message.guild.members)
                     exc_usr_name = f'{exc_usr.name}' if exc_usr else str(exc_usr_id)

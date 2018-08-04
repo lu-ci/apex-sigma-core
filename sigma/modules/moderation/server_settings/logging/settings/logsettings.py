@@ -19,22 +19,18 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 from humanfriendly.tables import format_pretty_table as boop
-
-log_keys = [
-    'LogAntispam', 'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters',
-    'LogKicks', 'LogModules', 'LogMovement', 'LogMutes', 'LogPurges', 'LogWarnings'
-]
+from sigma.modules.moderation.server_settings.logging.settings.log import log_keys
 
 
 async def logsettings(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         settings = []
         for log_key in log_keys:
-            if log_key == 'LogModules':
-                enabled = await cmd.db.get_guild_settings(message.guild.id, 'LoggedModules')
+            if log_key == 'log_modules':
+                enabled = await cmd.db.get_guild_settings(message.guild.id, 'logged_modules')
             else:
                 enabled = await cmd.db.get_guild_settings(message.guild.id, log_key)
-            channel_id = await cmd.db.get_guild_settings(message.guild.id, log_key + 'Channel')
+            channel_id = await cmd.db.get_guild_settings(message.guild.id, f'{log_key}_channel')
             channel = discord.utils.find(lambda x: x.id == channel_id, message.guild.channels)
             chn = channel.name if channel else 'Not Set'
             state = 'Enabled' if enabled else 'Disabled'

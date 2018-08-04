@@ -57,7 +57,7 @@ async def bound_role_cacher(ev: SigmaEvent):
     ev.log.info('Starting invite caching...')
     counter = 0
     for guild in ev.bot.guilds:
-        if await ev.db.get_guild_settings(guild.id, 'BoundInvites'):
+        if await ev.db.get_guild_settings(guild.id, 'bound_invites'):
             if guild.me.guild_permissions.create_instant_invite:
                 await update_cache(guild)
                 await asyncio.sleep(5)

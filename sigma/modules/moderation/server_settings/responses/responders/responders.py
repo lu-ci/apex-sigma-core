@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def responders(cmd: SigmaCommand, message: discord.Message, args: list):
-    responder_files = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
+    responder_files = await cmd.db.get_guild_settings(message.guild.id, 'responder_triggers')
     if responder_files:
         responder_list = sorted(list(responder_files.keys()))
         resp_count = len(responder_list)

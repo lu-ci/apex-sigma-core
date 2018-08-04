@@ -26,7 +26,7 @@ async def syncinvites(cmd: SigmaCommand, message: discord.Message, args: list):
     except discord.Forbidden:
         invites = []
     update_invites(message.guild, invites)
-    bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites') or {}
+    bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites') or {}
     keys_to_remove = []
     for invite_code in bound_invites.keys():
         find_code = discord.utils.find(lambda x: x.id == invite_code, invites)
@@ -35,7 +35,7 @@ async def syncinvites(cmd: SigmaCommand, message: discord.Message, args: list):
     if keys_to_remove:
         for key_to_remove in keys_to_remove:
             bound_invites.pop(key_to_remove)
-    await cmd.db.set_guild_settings(message.guild.id, 'BoundInvites', bound_invites)
+    await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bound_invites)
     noresp = False
     if args:
         if args[0] == 'noresp':

@@ -26,8 +26,8 @@ async def permittedchannels(cmd: SigmaCommand, message: discord.Message, args: l
     page_num = args[0] if args else 1
     if has_args:
         modes = {
-            'c': ('Command', 'CommandExceptions', cmd.bot.modules.commands, True),
-            'm': ('Module', 'ModuleExceptions', cmd.bot.modules.categories, False)
+            'c': ('Command', 'command_exceptions', cmd.bot.modules.commands, True),
+            'm': ('Module', 'module_exceptions', cmd.bot.modules.categories, False)
         }
         perms = await get_all_perms(cmd.db, message)
         perm_mode, node_name = [piece.lower() for piece in args[-1].split(':')]
@@ -39,7 +39,7 @@ async def permittedchannels(cmd: SigmaCommand, message: discord.Message, args: l
                 if node_name in cmd.bot.modules.alts:
                     node_name = cmd.bot.modules.alts[node_name]
             if node_name in check_group:
-                exceptions = perms.get(exception_group, {}).get(node_name, {}).get('Channels', [])
+                exceptions = perms.get(exception_group, {}).get(node_name, {}).get('channels', [])
                 for exc_chn_id in exceptions:
                     exc_chn = discord.utils.find(lambda c: c.id == exc_chn_id, message.guild.channels)
                     exc_chn_name = f'#{exc_chn.name}' if exc_chn else str(exc_chn_id)

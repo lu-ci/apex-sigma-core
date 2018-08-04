@@ -27,13 +27,13 @@ async def addreactor(cmd: SigmaCommand, message: discord.Message, args: list):
                 trigger = args[0].lower()
                 if '.' not in trigger:
                     reaction = args[1].replace('<', '').replace('>', '')
-                    react_triggers = await cmd.db.get_guild_settings(message.guild.id, 'ReactorTriggers') or {}
+                    react_triggers = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers') or {}
                     if trigger in react_triggers:
                         res_text = 'updated'
                     else:
                         res_text = 'added'
                     react_triggers.update({trigger: reaction})
-                    await cmd.db.set_guild_settings(message.guild.id, 'ReactorTriggers', react_triggers)
+                    await cmd.db.set_guild_settings(message.guild.id, 'reactor_triggers', react_triggers)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ The trigger can\'t have a dot in it.')

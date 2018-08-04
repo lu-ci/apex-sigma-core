@@ -32,10 +32,10 @@ async def enablecommand(cmd: SigmaCommand, message: discord.Message, args: list)
                 cmd_name = cmd.bot.modules.alts[cmd_name]
             if cmd_name in cmd.bot.modules.commands:
                 perms = await get_all_perms(cmd.db, message)
-                disabled_commands = perms['DisabledCommands']
+                disabled_commands = perms['disabled_commands']
                 if cmd_name in disabled_commands:
                     disabled_commands.remove(cmd_name)
-                    perms.update({'DisabledCommands': disabled_commands})
+                    perms.update({'disabled_commands': disabled_commands})
                     await cmd.db[cmd.db.db_nam].Permissions.update_one(
                         {'server_id': message.guild.id}, {'$set': perms})
                     scp_cache.del_cache(message.guild.id)

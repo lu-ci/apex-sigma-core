@@ -29,4 +29,4 @@ async def leave_logger(ev: SigmaEvent, member):
     new_acc, diff_msg = get_time_difference(member, leave=True)
     response.add_field(name='🕑 Member Joined', value=f'{diff_msg.title()}')
     response.set_footer(text=f'user_id: {member.id}')
-    await log_event(ev.bot, member.guild, ev.db, response, 'LogMovement')
+    await log_event(ev.bot, member.guild, ev.db, response, 'log_movement')

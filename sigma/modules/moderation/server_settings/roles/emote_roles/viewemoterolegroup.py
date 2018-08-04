@@ -23,7 +23,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         group_id = args[0].lower()
-        emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
+        emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
         if group_id in emote_groups:
             group_roles = emote_groups.get(group_id)
             if group_roles:
@@ -37,7 +37,7 @@ async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
                     else:
                         group_roles.remove(group_role)
                 emote_groups.update({group_id: group_roles})
-                await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
+                await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
                 role_names = sorted(role_names)
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'

@@ -29,8 +29,8 @@ async def ratelimit(cmd: SigmaCommand, message: discord.Message, args: list):
         except (IndexError, ValueError):
             amount = timespan = None
         if amount and timespan:
-            await cmd.db.set_guild_settings(message.guild.id, 'RateLimitAmount', amount)
-            await cmd.db.set_guild_settings(message.guild.id, 'RateLimitTimespan', timespan)
+            await cmd.db.set_guild_settings(message.guild.id, 'rate_limit_amount', amount)
+            await cmd.db.set_guild_settings(message.guild.id, 'rate_limit_timespan', timespan)
             response = discord.Embed(color=0x77B255, title=f'✅ Message rate limit set to {amount} per {timespan}s.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No limit and span or ivalid input.')

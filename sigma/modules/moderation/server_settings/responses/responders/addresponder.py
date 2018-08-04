@@ -27,13 +27,13 @@ async def addresponder(cmd: SigmaCommand, message: discord.Message, args: list):
                 trigger = args[0].lower()
                 if '.' not in trigger:
                     content = ' '.join(args[1:])
-                    auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers') or {}
+                    auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'responder_triggers') or {}
                     if trigger in auto_respones:
                         res_text = 'updated'
                     else:
                         res_text = 'added'
                     auto_respones.update({trigger: content})
-                    await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_respones)
+                    await cmd.db.set_guild_settings(message.guild.id, 'responder_triggers', auto_respones)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ The trigger can\'t have a dot in it.')

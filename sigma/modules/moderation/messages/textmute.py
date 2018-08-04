@@ -56,7 +56,7 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     timed = args[-1].startswith('--time=')
                     endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
-                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'MutedUsers')
+                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
@@ -64,12 +64,12 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         response = discord.Embed(color=0xBE1931, title=resp_title)
                     else:
                         mute_list.append(target.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
+                        await cmd.db.set_guild_settings(message.guild.id, 'muted_users', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been text muted.')
                         rarg = args[1:-1] if timed else args[1:] if args[1:] else None
                         reason = ' '.join(rarg) if rarg else None
                         log_embed = generate_log_embed(message, target, reason)
-                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
+                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
                         to_target_title = f'🔇 You have been text muted.'
                         to_target = discord.Embed(color=0x696969)
                         to_target.add_field(name=to_target_title, value=f'Reason: {reason}')
@@ -79,6 +79,6 @@ async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
                         except discord.Forbidden:
                             pass
                         if endstamp:
-                            doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'Time': endstamp}
+                            doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
                             await cmd.db[cmd.db.db_nam].TextmuteClockworkDocs.insert_one(doc_data)
     await message.channel.send(embed=response)

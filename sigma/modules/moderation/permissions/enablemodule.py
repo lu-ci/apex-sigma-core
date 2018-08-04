@@ -30,10 +30,10 @@ async def enablemodule(cmd: SigmaCommand, message: discord.Message, args: list):
             mdl_name = args[0].lower()
             if mdl_name in cmd.bot.modules.categories:
                 perms = await get_all_perms(cmd.db, message)
-                disabled_modules = perms['DisabledModules']
+                disabled_modules = perms['disabled_modules']
                 if mdl_name in disabled_modules:
                     disabled_modules.remove(mdl_name)
-                    perms.update({'DisabledModules': disabled_modules})
+                    perms.update({'disabled_modules': disabled_modules})
                     await cmd.db[cmd.db.db_nam].Permissions.update_one(
                         {'server_id': message.guild.id}, {'$set': perms})
                     scp_cache.del_cache(message.guild.id)

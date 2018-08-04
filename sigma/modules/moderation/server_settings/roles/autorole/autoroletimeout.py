@@ -28,12 +28,12 @@ async def autoroletimeout(cmd: SigmaCommand, message: discord.Message, args: lis
             except ValueError:
                 timeout = None
             if timeout is not None:
-                await cmd.db.set_guild_settings(message.guild.id, 'AutoroleTimeout', timeout)
+                await cmd.db.set_guild_settings(message.guild.id, 'auto_role_timeout', timeout)
                 response = discord.Embed(color=0x77B255, title=f'✅ Timeout set to {timeout} seconds.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
         else:
-            timeout = await cmd.db.get_guild_settings(message.guild.id, 'AutoroleTimeout') or 0
+            timeout = await cmd.db.get_guild_settings(message.guild.id, 'auto_role_timeout') or 0
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
         response = permission_denied('Manage Server')

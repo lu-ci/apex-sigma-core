@@ -91,7 +91,7 @@ async def un_punisher_clock(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready:
             now = arrow.utcnow().timestamp
-            lookup = {'Time': {'$lt': now}}
+            lookup = {'time': {'$lt': now}}
             banned = await bancoll.find_one_and_delete(lookup)
             if banned:
                 await unban(ev, banned)

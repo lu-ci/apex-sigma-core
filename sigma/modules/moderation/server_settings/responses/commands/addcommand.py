@@ -28,13 +28,13 @@ async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
                 if '.' not in trigger:
                     if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                         content = ' '.join(args[1:])
-                        custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
+                        custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
                         if trigger in custom_commands:
                             res_text = 'updated'
                         else:
                             res_text = 'added'
                         custom_commands.update({trigger: content})
-                        await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                        await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
                         response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Can\'t replace an existing core command.')

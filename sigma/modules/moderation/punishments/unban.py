@@ -48,7 +48,7 @@ async def unban(cmd: SigmaCommand, message: discord.Message, args: list):
             if target:
                 await message.guild.unban(target, reason=f'By {message.author.name}.')
                 log_embed = generate_log_embed(message, target)
-                await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
+                await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_bans')
                 response = discord.Embed(color=0x77B255, title=f'✅ {target.name} has been unbanned.')
             else:
                 response = discord.Embed(title=f'🔍 {lookup} not found in the ban list.')
