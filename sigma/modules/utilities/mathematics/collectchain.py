@@ -18,9 +18,26 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
+
+
+async def is_blocked(db: Database, target: discord.Member, author: discord.Member):
+    if target.id == author.id:
+        blocked = False
+    else:
+        blocked = bool(await db[db.db_nam].BlockedChains.find_one({'UserID': target.id}))
+    return blocked
+
+
+async def is_blinded(db: Database, channel: discord.TextChannel, author: discord.Member):
+    if author.permissions_in(channel).manage_channels:
+        blinded = False
+    else:
+        blinded = bool(await db[db.db_nam].BlindedChains.find_one({'channel_id': channel.id}))
+    return blinded
 
 
 async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -28,14 +45,8 @@ async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
     target_chn = get_channel(message)
     starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
     ender = 'your' if message.author.id == target_usr.id else 'their'
-    if target_usr.id == message.author.id:
-        blocked = False
-    else:
-        blocked = bool(await cmd.db[cmd.db.db_nam].BlockedChains.find_one({'UserID': target_usr.id}))
-    if message.author.permissions_in(target_chn).manage_channels:
-        blinded = False
-    else:
-        blinded = bool(await cmd.db[cmd.db.db_nam].BlindedChains.find_one({'channel_id': target_chn.id}))
+    blocked = await is_blocked(cmd.db, target_usr, message.author)
+    blinded = await is_blinded(cmd.db, target_chn, message.author)
     if not blocked and not blinded:
         if not await check_queued(cmd.db, target_usr.id):
             if not target_usr.bot:
