@@ -26,12 +26,12 @@ async def blindcollector(cmd: SigmaCommand, message: discord.Message, args: list
         if message.channel_mentions:
             target = message.channel_mentions[0]
             docdata = {'channel_id': target.id}
-            blockdoc = bool(await cmd.db[cmd.db.db_nam].find_one(docdata))
+            blockdoc = bool(await cmd.db[cmd.db.db_nam].BlindedChains.find_one(docdata))
             if blockdoc:
-                await cmd.db[cmd.db.db_nam].delete_one(docdata)
+                await cmd.db[cmd.db.db_nam].BlindedChains.delete_one(docdata)
                 response_title = f'✅ Users can once again collect chains from #{target.name}.'
             else:
-                await cmd.db[cmd.db.db_nam].insert_one(docdata)
+                await cmd.db[cmd.db.db_nam].BlindedChains.insert_one(docdata)
                 response_title = f'✅ Users can no longer collect chains from #{target.name}.'
             response = discord.Embed(color=0x66CC66, title=response_title)
         else:
