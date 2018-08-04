@@ -39,12 +39,9 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
         upgrade_index = 0
         for upgrade in upgrade_list:
             upgrade_index += 1
-            upgrade_id = upgrade['id']
-            if upgrade_id in upgrade_file:
-                upgrade_level = upgrade_file[upgrade_id]
-            else:
-                upgrade_level = 0
-            base_price = upgrade['cost']
+            upgrade_id = upgrade.get('id')
+            upgrade_level = upgrade_file.get(upgrade_id, 0)
+            base_price = upgrade.get('cost')
             if upgrade_level == 0:
                 upgrade_price = base_price
             else:
