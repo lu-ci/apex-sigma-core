@@ -153,5 +153,5 @@ events:
     enabled: true
 
   - name: dbinit_timezones
-    type: ready
+    type: dbinit
     enabled: true

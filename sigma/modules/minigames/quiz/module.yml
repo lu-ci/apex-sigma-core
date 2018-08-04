@@ -77,5 +77,5 @@ commands:
 
 events:
   - name:        dbinit_dictionary
-    type:        ready
+    type:        dbinit
     enabled:     true

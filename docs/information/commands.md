@@ -146,6 +146,7 @@ Commands | Description | Example
 ### MATHEMATICS
 Commands | Description | Example
 ----------|-------------|--------
+`>>blindcollector` `>>nochchain` `>>nochannelchain` | Toggles the ability for users to collect chain items from a specific channel. If disabled, only users that have the Manage Channel permission within that channel can collect a chain from it, otherwise a response that they can not target that channel is given. This command requires athe Manage Channels permission. | `>>blindcollector`
 `>>blockcollector` `>>nochain` `>>nocollector` `>>disablechain` `>>disablecollector` | Toggles the ability for other users to collect a chain for you. If active, only you will be able to collect a Markov chain for yourself. If not, the collector works as always, where anybody can start a chain collection for you. | `>>blockcollector`
 `>>collectchain` `>>collch` | Collects messages sent by the mentioned user and saves it as a chain. Only one chain can be collected at a time so a queue is used. If a user isn't mentioned, it will collect a chain for the author. If a channel isn't mentioned, it will collect items from the current channel. | `>>collectchain @person #channel`
 `>>combinechains` `>>combine` `>>cmbch` `>>mix` | Like the impersonate command. This one however targets two uers and uses their chains to generated a mixed response. | `>>combinechains @person_one @person_two`

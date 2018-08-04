@@ -66,14 +66,14 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                                 if not file_check:
                                     cookies = 0
                                     total = 0
-                                    data = {'user_id': target.id, 'Cookies': 0}
+                                    data = {'user_id': target.id, 'cookies': 0}
                                     await cookie_coll.insert_one(data)
                                 else:
-                                    total = file_check.get('Total') or 0
-                                    cookies = file_check.get('Cookies') or 0
+                                    total = file_check.get('total') or 0
+                                    cookies = file_check.get('cookies') or 0
                                 cookies += 1
                                 total += 1
-                                cookie_data = {'Cookies': cookies, 'Total': total}
+                                cookie_data = {'cookies': cookies, 'total': total}
                                 await cookie_coll.update_one({'user_id': target.id}, {'$set': cookie_data})
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
                                 if someoned:
