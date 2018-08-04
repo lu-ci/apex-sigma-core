@@ -28,6 +28,6 @@ async def punch(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xffcc4d, title=f'👊 {auth.display_name} punches themself.')
     else:
         response = discord.Embed(color=0xffcc4d, title=f'👊 {auth.display_name} punches {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)

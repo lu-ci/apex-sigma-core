@@ -29,6 +29,6 @@ async def sip(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         response = discord.Embed(color=0xa6d388,
                                  title=f'🍵 {auth.display_name} takes a sip with {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)

@@ -22,7 +22,7 @@ interaction_cache = {}
 
 
 async def get_interaction_list(db, intername):
-    return await db[db.db_nam]['Interactions'].find({'Name': intername}).to_list(None)
+    return await db[db.db_nam].Interactions.find({'name': intername}).to_list(None)
 
 
 async def grab_interaction(db, intername):
@@ -33,7 +33,7 @@ async def grab_interaction(db, intername):
     if interaction_cache.get(intername):
         choice = interaction_cache[intername].pop(secrets.randbelow(len(interaction_cache[intername])))
     else:
-        choice = {'URL': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'ReactionID': None}
+        choice = {'url': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'reaction_id': None}
     return choice
 
 
@@ -57,16 +57,10 @@ def get_target(message):
 def make_footer(cmd, item):
     uid = item.get('user_id')
     user = discord.utils.find(lambda x: x.id == uid, cmd.bot.get_all_members())
-    if user:
-        username = user.name
-    else:
-        username = 'Unknown User'
+    username = user.name if user else 'Unknown User'
     sid = item.get('server_id')
     srv = discord.utils.find(lambda x: x.id == sid, cmd.bot.guilds)
-    if srv:
-        servername = srv.name
-    else:
-        servername = 'Unknown Server'
-    react_id = item.get('ReactionID')
+    servername = srv.name if srv else 'Unknown Server'
+    react_id = item.get('reaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
     return footer

@@ -28,6 +28,6 @@ async def explode(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xcf4737, title=f'💥 {auth.display_name} explodes.')
     else:
         response = discord.Embed(color=0xcf4737, title=f'💥 {auth.display_name} blows up {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)

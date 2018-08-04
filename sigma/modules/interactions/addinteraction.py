@@ -33,11 +33,11 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
                 reaction_url = '%20'.join(args[1:])
                 if reaction_url.startswith('http'):
                     if reaction_url.endswith('.gif'):
-                        exist_check = await cmd.db[cmd.db.db_nam]['Interactions'].find_one({'URL': reaction_url})
+                        exist_check = await cmd.db[cmd.db.db_nam].Interactions.find_one({'url': reaction_url})
                         if not exist_check:
                             reaction_id = secrets.token_hex(4)
-                            lookup = {'Name': reaction_name.lower()}
-                            inter_count = await cmd.db[cmd.db.db_nam]['Interactions'].count_documents(lookup) + 1
+                            lookup = {'name': reaction_name.lower()}
+                            inter_count = await cmd.db[cmd.db.db_nam].Interactions.count_documents(lookup) + 1
                             title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
                             response = discord.Embed(color=0x77B255, title=title)
                             log_msg = None
@@ -58,14 +58,14 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
                                     log_resp.set_thumbnail(url=reaction_url)
                                     log_msg = await log_ch.send(embed=log_resp)
                             reaction_data = {
-                                'Name': reaction_name.lower(),
+                                'name': reaction_name.lower(),
                                 'user_id': message.author.id,
                                 'server_id': message.guild.id,
-                                'URL': reaction_url,
-                                'ReactionID': reaction_id,
-                                'MessageID': log_msg.id if log_msg else None
+                                'url': reaction_url,
+                                'reaction_id': reaction_id,
+                                'message_id': log_msg.id if log_msg else None
                             }
-                            await cmd.db[cmd.db.db_nam]['Interactions'].insert_one(reaction_data)
+                            await cmd.db[cmd.db.db_nam].Interactions.insert_one(reaction_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title=f'❗ Reaction already exists.')
                     else:
