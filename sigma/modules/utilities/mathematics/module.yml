@@ -53,6 +53,18 @@ commands:
       If active, only you will be able to collect a Markov chain for yourself.
       If not, the collector works as always, where anybody can start a chain collection for you.
 
+  - name:         blindcollector
+    alts:
+      - "nochchain"
+      - "nochannelchain"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Toggles the ability for users to collect chain items from a specific channel.
+      If disabled, only users that have the Manage Channel permission within that channel can collect
+      a chain from it, otherwise a response that they can not target that channel is given.
+      This command requires athe Manage Channels permission.
+
   - name:         markovchain
     alts:
       - "chain"
