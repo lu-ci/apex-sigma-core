@@ -52,8 +52,3 @@ commands:
       members can use the colorme command to get a role with their requested hex color.
       Roles created with this feature have a SCR prefix in them and are created to be just one place under
       Sigma's top role with no permission changes. This command requires the Manage Server permission.
-
-events:
-  - name:         decay_adder
-    type:         message
-    enabled:      true
