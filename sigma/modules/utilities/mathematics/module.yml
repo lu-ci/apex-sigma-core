@@ -5,15 +5,6 @@ category:         mathematics
 enabled:          true
 
 commands:
-  - name:         wolframalpha
-    alts:
-      - "wa"
-    enabled:      false
-    usage:        "{pfx}{cmd} 69+42"
-    description:
-      Makes a request for Wolfram Alpha to process.
-      This can be a lot of things, the most popular being complex math operations.
-
   - name:         makehash
     alts:
       - "hash"
