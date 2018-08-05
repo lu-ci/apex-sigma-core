@@ -20,7 +20,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
+from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
 tcklb_cache = Cacher()
 

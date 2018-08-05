@@ -141,6 +141,10 @@ events:
     type:         message_edit
     enabled:      true
 
-  - name:         name_check_clockwork
-    type:         ready
+  - name:         edit_name_check
+    type:         member_update
+    enabled:      true
+
+  - name:         join_name_check
+    type:         member_join
     enabled:      true

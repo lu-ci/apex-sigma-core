@@ -13,13 +13,14 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.moderation.server_settings.filters.name_check_clockwork import clean_name
+from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
 txplb_cache = Cacher()
 
