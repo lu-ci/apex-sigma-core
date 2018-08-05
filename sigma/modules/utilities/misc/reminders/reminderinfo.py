@@ -24,11 +24,11 @@ from sigma.core.utilities.data_processing import user_avatar
 async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rem_id = args[0].lower()
-        lookup_data = {'user_id': message.author.id, 'ReminderID': rem_id}
+        lookup_data = {'user_id': message.author.id, 'reminder_id': rem_id}
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
-            execution_stamp = reminder['ExecutionStamp']
-            text_message = reminder['TextMessage']
+            execution_stamp = reminder['exectuin_stamp']
+            text_message = reminder['text_message']
             timestamp = arrow.get(execution_stamp).datetime
             human_time = arrow.get(execution_stamp).humanize(arrow.utcnow())
             auth_title = f'{message.author.display_name}\'s Reminder: {rem_id}'

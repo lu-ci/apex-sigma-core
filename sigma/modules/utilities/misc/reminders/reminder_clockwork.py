@@ -37,7 +37,7 @@ async def reminder_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().timestamp
-            reminder = await coll.find_one_and_delete({'ExecutionStamp': {'$lt': current_stamp}})
+            reminder = await coll.find_one_and_delete({'execution_stamp': {'$lt': current_stamp}})
             if reminder:
                 channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], ev.bot.get_all_channels())
                 author = discord.utils.find(lambda x: x.id == reminder['user_id'], ev.bot.get_all_members())
@@ -48,10 +48,10 @@ async def reminder_cycler(ev: SigmaEvent):
                 else:
                     target = None
                 if target:
-                    dt_stamp = arrow.get(reminder['CreationStamp']).datetime
+                    dt_stamp = arrow.get(reminder['creation_stamp']).datetime
                     title = f'⏰ Your Reminder'
                     response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)
-                    response.description = reminder.get('TextMessage')
+                    response.description = reminder.get('text_message')
                     if author:
                         response.set_author(name=author.name, icon_url=user_avatar(author))
                     response.set_footer(text=f'Reminder: {reminder.get("ReminderID")}')

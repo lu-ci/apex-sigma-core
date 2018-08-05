@@ -45,7 +45,7 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
             reminder_list_title = f'You have {reminder_count} pending {ender}.'
         reminder_list = ''
         for reminder in all_reminders:
-            human_time = arrow.get(reminder['ExecutionStamp']).humanize(arrow.utcnow())
+            human_time = arrow.get(reminder['execution_stamp']).humanize(arrow.utcnow())
             all_channels = cmd.bot.get_all_channels()
             channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], all_channels)
             if channel:
@@ -54,7 +54,7 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 chan_name = '*{No Channel}*'
                 srv_name = '*{No Server}*'
-            rem_id = reminder['ReminderID']
+            rem_id = reminder['reminder_id']
             reminder_list += f'\n`{rem_id}` in {chan_name} on {srv_name} {human_time}'
         strip_clr = await get_image_colors(user_avatar(message.author))
         response = discord.Embed(color=strip_clr)

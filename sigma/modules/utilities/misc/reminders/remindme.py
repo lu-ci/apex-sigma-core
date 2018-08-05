@@ -45,15 +45,15 @@ async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
                         time_diff = arrow.get(execution_stamp + 5).humanize(arrow.utcnow())
                     reminder_id = secrets.token_hex(2)
                     reminder_data = {
-                        'ReminderID': reminder_id,
+                        'reminder_id': reminder_id,
                         'user_id': message.author.id,
-                        'CreationStamp': arrow.utcnow().timestamp,
-                        'ExecutionStamp': execution_stamp,
+                        'creation_stamp': arrow.utcnow().timestamp,
+                        'execution_stmap': execution_stamp,
                         'channel_id': message.channel.id,
                         'server_id': message.guild.id,
-                        'TextMessage': text_message
+                        'text_message': text_message
                     }
-                    await cmd.db[cmd.db.db_nam]['Reminders'].insert_one(reminder_data)
+                    await cmd.db[cmd.db.db_nam].Reminders.insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)
                     response.description = text_message
                     response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(message.author))
