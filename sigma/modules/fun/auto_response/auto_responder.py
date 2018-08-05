@@ -35,7 +35,7 @@ async def auto_responder(ev: SigmaEvent, message: discord.Message):
         if message.content:
             pfx = await ev.db.get_prefix(message)
             if not message.content.startswith(pfx):
-                triggers = await ev.db.get_guild_settings(message.guild.id, 'ResponderTriggers')
+                triggers = await ev.db.get_guild_settings(message.guild.id, 'responder_triggers')
                 if triggers is None:
                     triggers = {}
                 arguments = message.content.split(' ')

@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.modules.utilities.misc.afk.afk import afk_cache
 
 
 async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
@@ -28,11 +29,14 @@ async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
         if not message.content.startswith(pfx):
             if message.mentions:
                 target = message.mentions[0]
-                afk_data = await ev.db[ev.db.db_nam]['AwayUsers'].find_one({'UserID': target.id})
+                afk_data = afk_cache.get_cache(message.author.id)
+                if not afk_data:
+                    afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one({'user_id': target.id})
+                    afk_cache.set_cache(target.id, afk_data)
                 if afk_data:
-                    time_then = arrow.get(afk_data['Timestamp'])
+                    time_then = arrow.get(afk_data['timestamp'])
                     afk_time = arrow.get(time_then).humanize(arrow.utcnow()).title()
-                    afk_reason = afk_data['Reason']
+                    afk_reason = afk_data['reason']
                     url = None
                     for piece in afk_reason.split():
                         if piece.startswith('http'):

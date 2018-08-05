@@ -21,11 +21,11 @@ from sigma.core.mechanics.command import SigmaCommand
 async def redrawraffle(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         rafid = args[0].lower()
-        raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'ID': rafid, 'Active': False})
+        raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'id': rafid, 'active': False})
         if raffle:
-            aid = raffle.get('Author')
+            aid = raffle.get('author')
             if aid == message.author.id:
-                await cmd.db[cmd.db.db_nam].Raffles.update_one(raffle, {'$set': {'Active': True}})
+                await cmd.db[cmd.db.db_nam].Raffles.update_one(raffle, {'$set': {'active': True}})
                 reaction = '✅'
             else:
                 reaction = '⛔'

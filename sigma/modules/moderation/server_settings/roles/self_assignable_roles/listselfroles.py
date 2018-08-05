@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list):
-    self_roles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
+    self_roles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles')
     if self_roles is None:
         self_roles = []
     role_list = []

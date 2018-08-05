@@ -31,7 +31,7 @@ async def prefix(cmd: SigmaCommand, message: discord.Message, args: list):
                     if new_prefix == cmd.bot.cfg.pref.prefix:
                         new_prefix = None
                         prefix_text = cmd.bot.cfg.pref.prefix
-                    await cmd.db.set_guild_settings(message.guild.id, 'Prefix', new_prefix)
+                    await cmd.db.set_guild_settings(message.guild.id, 'prefix', new_prefix)
                     response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
                     response = discord.Embed(color=0x77B255, title=response_title)
                 else:

@@ -68,7 +68,7 @@ class GlobalCommandPermissions(object):
             self.nsfw_denied = False
 
     def check_black_mdl(self, black_user_file: dict):
-        black_modules = black_user_file.get('Modules', {})
+        black_modules = black_user_file.get('modules', {})
         if self.cmd.category in black_modules:
             black_user = True
             self.module_denied = True
@@ -81,15 +81,12 @@ class GlobalCommandPermissions(object):
         black_user_file = gcp_cache.get_cache(self.message.author.id)
         black_user_file_checked = gcp_cache.get_cache(f'{self.message.author.id}_checked')
         if not black_user_file and not black_user_file_checked:
-            black_user_file = await black_user_collection.find_one({'UserID': self.message.author.id})
+            black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
             gcp_cache.set_cache(self.message.author.id, black_user_file)
             gcp_cache.set_cache(f'{self.message.author.id}_checked', True)
         if black_user_file:
-            if 'Total' in black_user_file:
-                if black_user_file['Total']:
-                    self.black_user = True
-                else:
-                    self.black_user = self.check_black_mdl(black_user_file)
+            if black_user_file.get('total'):
+                self.black_user = True
             else:
                 self.black_user = self.check_black_mdl(black_user_file)
         else:
@@ -101,7 +98,7 @@ class GlobalCommandPermissions(object):
             black_srv_file = gcp_cache.get_cache(self.message.guild.id)
             black_srv_file_checked = gcp_cache.get_cache(f'{self.message.guild.id}_checked')
             if not black_srv_file and not black_srv_file_checked:
-                black_srv_file = await black_srv_collection.find_one({'ServerID': self.message.guild.id})
+                black_srv_file = await black_srv_collection.find_one({'server_id': self.message.guild.id})
                 gcp_cache.set_cache(self.message.guild.id, black_srv_file)
                 gcp_cache.set_cache(f'{self.message.guild.id}_checked', True)
             if black_srv_file:
@@ -217,35 +214,35 @@ class ServerCommandPermissions(object):
 
     def check_mdl_overwrites(self, perms: dict):
         mdl_overwritten = False
-        mdl_exc = perms.get('ModuleExceptions', {})
+        mdl_exc = perms.get('module_exceptions', {})
         author = self.msg.author
         if mdl_exc:
             mdl_name = self.cmd.plugin_info.get('category', 'unknown')
             if mdl_name in mdl_exc:
                 exceptions = mdl_exc[mdl_name]
-                if author.id in exceptions.get('Users', []):
+                if author.id in exceptions.get('users', []):
                     mdl_overwritten = True
-                if self.msg.channel.id in exceptions.get('Channels', []):
+                if self.msg.channel.id in exceptions.get('channels', []):
                     mdl_overwritten = True
                 for role in author.roles:
-                    if role.id in exceptions.get('Roles', []):
+                    if role.id in exceptions.get('roles', []):
                         mdl_overwritten = True
                         break
         return mdl_overwritten
 
     def check_cmd_overwrites(self, perms: dict):
         cmd_overwritten = False
-        cmd_exc = perms.get('CommandExceptions', {})
+        cmd_exc = perms.get('command_exceptions', {})
         author = self.msg.author
         if cmd_exc:
             if self.cmd.name in cmd_exc:
                 exceptions = cmd_exc.get(self.cmd.name, {})
-                if author.id in exceptions.get('Users', []):
+                if author.id in exceptions.get('users', []):
                     cmd_overwritten = True
-                if self.msg.channel.id in exceptions.get('Channels', []):
+                if self.msg.channel.id in exceptions.get('channels', []):
                     cmd_overwritten = True
                 for role in author.roles:
-                    if role.id in exceptions.get('Roles', []):
+                    if role.id in exceptions.get('roles', []):
                         cmd_overwritten = True
                         break
         return cmd_overwritten
@@ -272,7 +269,7 @@ class ServerCommandPermissions(object):
                 # Crunderwood was here...
                 perms = scp_cache.get_cache(self.msg.guild.id)
                 if not perms:
-                    perms = await self.perm_coll.find_one({'ServerID': self.msg.guild.id})
+                    perms = await self.perm_coll.find_one({'server_id': self.msg.guild.id})
                     scp_cache.set_cache(self.msg.guild.id, perms)
                 if not perms:
                     permitted = True
@@ -280,10 +277,10 @@ class ServerCommandPermissions(object):
                     cmd = self.cmd.name
                     mdl = self.cmd.plugin_info.get('category', 'unknown')
                     mdl_override = self.check_mdl_overwrites(perms)
-                    disabled_modules = perms.get('DisabledModules', [])
+                    disabled_modules = perms.get('disabled_modules', [])
                     mdl_disabled = mdl in disabled_modules
                     cmd_override = self.check_cmd_overwrites(perms)
-                    disabled_commands = perms.get('DisabledCommands', [])
+                    disabled_commands = perms.get('disabled_commands', [])
                     cmd_disabled = cmd in disabled_commands
                     permitted = self.cross_permits(mdl_override, cmd_override, mdl_disabled, cmd_disabled)
             else:

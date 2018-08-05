@@ -34,8 +34,8 @@ async def un_punisher(ev: SigmaEvent):
 
 async def unban(ev: SigmaEvent, doc: dict):
     try:
-        gid = doc.get('ServerID')
-        uid = doc.get('UserID')
+        gid = doc.get('server_id')
+        uid = doc.get('user_id')
         guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
         if guild:
             banlist = await guild.bans()
@@ -51,8 +51,8 @@ async def unban(ev: SigmaEvent, doc: dict):
 
 async def untmute(ev: SigmaEvent, doc: dict):
     try:
-        gid = doc.get('ServerID')
-        uid = doc.get('UserID')
+        gid = doc.get('server_id')
+        uid = doc.get('user_id')
         guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
         mutes = await ev.db.get_guild_settings(guild.id, 'MutedUsers') or []
         if uid in mutes:
@@ -66,8 +66,8 @@ async def untmute(ev: SigmaEvent, doc: dict):
 
 async def unhmute(ev: SigmaEvent, doc: dict):
     try:
-        gid = doc.get('ServerID')
-        uid = doc.get('UserID')
+        gid = doc.get('server_id')
+        uid = doc.get('user_id')
         guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
         if guild:
             target = discord.utils.find(lambda u: u.id == uid, guild.members)
@@ -91,7 +91,7 @@ async def un_punisher_clock(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready:
             now = arrow.utcnow().timestamp
-            lookup = {'Time': {'$lt': now}}
+            lookup = {'time': {'$lt': now}}
             banned = await bancoll.find_one_and_delete(lookup)
             if banned:
                 await unban(ev, banned)

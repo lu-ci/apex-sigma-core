@@ -28,6 +28,6 @@ async def stab(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xccd6dd, title=f'🔪 {auth.display_name} stabs themself.')
     else:
         response = discord.Embed(color=0xccd6dd, title=f'🔪 {auth.display_name} stabs {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)

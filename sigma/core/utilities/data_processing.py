@@ -234,9 +234,8 @@ def rgb_to_hex(rgb_tuple: tuple):
 
 
 async def get_image_colors(img_url: str):
-    global color_cache_coll
     if img_url:
-        cached_color = await color_cache_coll.find_one({'URL': img_url})
+        cached_color = await color_cache_coll.find_one({'url': img_url})
         if not cached_color:
             async with aiohttp.ClientSession() as session:
                 async with session.get(img_url) as img_session:
@@ -260,9 +259,9 @@ async def get_image_colors(img_url: str):
                                 mean.append(color_mean)
                 mean = sorted(mean, reverse=True)
             dominant = mean[0][1]
-            await color_cache_coll.insert_one({'URL': img_url, 'Color': dominant})
+            await color_cache_coll.insert_one({'url': img_url, 'color': dominant})
         else:
-            dominant = cached_color.get('Color')
+            dominant = cached_color.get('color')
     else:
         dominant = (105, 105, 105)
     dominant = rgb_to_hex(dominant)

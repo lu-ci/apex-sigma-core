@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_response.set_footer(text=f'UserID: {target.id}')
+    log_response.set_footer(text=f'user_id: {target.id}')
     return log_response
 
 
@@ -62,7 +62,7 @@ async def kick(cmd: SigmaCommand, message: discord.Message, args: list):
                                 pass
                             await target.kick(reason=f'By {message.author.name}: {reason}')
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogKicks')
+                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_kicks')
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:

@@ -21,35 +21,28 @@ from arrow.parser import ParserError
 
 from sigma.core.mechanics.command import SigmaCommand
 
-tz_aliases = None
-tz_offsets = None
-
 
 async def timeconvert(cmd: SigmaCommand, message: discord.Message, args: list):
-    global tz_aliases
-    global tz_offsets
-    if not tz_aliases:
-        with open(cmd.resource('tz_aliases.yml')) as tz_a_file:
-            tz_aliases = yaml.safe_load(tz_a_file)
-    if not tz_offsets:
-        with open(cmd.resource('tz_offsets.yml')) as tz_o_file:
-            tz_offsets = yaml.safe_load(tz_o_file)
     if args:
         conv_input = ' '.join(args).split('>')
         if len(conv_input) == 2:
             from_pieces = conv_input[0].split()
             if len(from_pieces) == 2:
-                from_time = from_pieces[0]
-                from_zone = from_pieces[1]
-                if from_zone.lower() in tz_aliases:
-                    from_zone = tz_aliases.get(from_zone.lower())
-                if from_zone.lower() in tz_offsets:
-                    from_zone = tz_offsets.get(from_zone.lower())
-                to_zone = conv_input[1]
-                if to_zone.lower() in tz_aliases:
-                    to_zone = tz_aliases.get(to_zone.lower())
-                if to_zone.lower() in tz_offsets:
-                    to_zone = tz_offsets.get(to_zone.lower())
+                from_time = from_pieces[0].lower()
+                from_zone = from_pieces[1].lower()
+                alias_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_alias', 'zone': from_zone})
+                from_zone = alias_doc.get('value').lower() if alias_doc else from_zone
+                offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one(
+                    {'type': 'tz_offset', 'zone': from_zone}
+                ) or {}
+                from_zone = offset_doc.get('value') if offset_doc else from_zone
+                to_zone = conv_input[1].lower()
+                alias_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_alias', 'zone': to_zone})
+                to_zone = alias_doc.get('value').lower() if alias_doc else to_zone
+                offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one(
+                    {'type': 'tz_offset', 'zone': to_zone}
+                ) or {}
+                to_zone = offset_doc.get('value') if offset_doc else to_zone
                 try:
                     from_string = f'{arrow.utcnow().format("YYYY-MM-DD")} {from_time}:00'
                     if from_zone != 0:

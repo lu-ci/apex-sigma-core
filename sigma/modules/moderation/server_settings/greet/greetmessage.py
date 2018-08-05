@@ -26,10 +26,10 @@ async def greetmessage(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         if args:
             greeting_text = ' '.join(args)
-            await cmd.db.set_guild_settings(message.guild.id, 'GreetMessage', greeting_text)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet_message', greeting_text)
             response = discord.Embed(color=0x77B255, title='✅ New Greeting Message set.')
         else:
-            current_greeting = await cmd.db.get_guild_settings(message.guild.id, 'GreetMessage')
+            current_greeting = await cmd.db.get_guild_settings(message.guild.id, 'greet_message')
             if current_greeting is None:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             response = discord.Embed(color=0x3B88C3)

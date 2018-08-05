@@ -31,7 +31,7 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
     response.set_author(name=f'{target.name} has been un-warned by {author.name}.', icon_url=target_avatar)
     response.add_field(name='⚠ Warned User', value=target_descrp)
     response.add_field(name='🛡 Moderator', value=author_descrp)
-    response.set_footer(text=f'[{warn_iden}] UserID: {target.id}')
+    response.set_footer(text=f'[{warn_iden}] user_id: {target.id}')
     return response
 
 
@@ -54,7 +54,7 @@ async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list)
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deactivated.')
                     log_embed = make_log_embed(message.author, target, warn_iden)
-                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogWarnings')
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_warnings')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 {target.name} has no {warn_id} warning.')
             else:

@@ -31,20 +31,17 @@ def get_price_mod(base_price, upgrade_level):
 async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
-        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'UserID': message.author.id})
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id})
         if upgrade_file is None:
-            await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'UserID': message.author.id})
+            await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'user_id': message.author.id})
             upgrade_file = {}
         upgrade_text = ''
         upgrade_index = 0
         for upgrade in upgrade_list:
             upgrade_index += 1
-            upgrade_id = upgrade['id']
-            if upgrade_id in upgrade_file:
-                upgrade_level = upgrade_file[upgrade_id]
-            else:
-                upgrade_level = 0
-            base_price = upgrade['cost']
+            upgrade_id = upgrade.get('id')
+            upgrade_level = upgrade_file.get(upgrade_id, 0)
+            base_price = upgrade.get('cost')
             if upgrade_level == 0:
                 upgrade_price = base_price
             else:
@@ -99,7 +96,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                     new_upgrade_level = upgrade_level + 1
                     upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
                     await cmd.db[cmd.db.db_nam].Upgrades.update_one(
-                        {'UserID': message.author.id}, upgrade_data
+                        {'user_id': message.author.id}, upgrade_data
                     )
                     await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'

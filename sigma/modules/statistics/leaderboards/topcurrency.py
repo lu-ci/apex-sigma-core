@@ -50,7 +50,7 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                 user_value = data_doc.get(sort_key) or 0
             else:
                 user_value = data_doc.get('guilds').get(str(message.guild.id)) or 0
-            user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_members)
+            user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:
                 if user_value:
                     leader_docs.append([user_object, user_value])

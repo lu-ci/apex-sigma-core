@@ -37,7 +37,7 @@ async def plains_cycler(ev: SigmaEvent):
                 plains, triggers = await get_plains_data(ev.db)
                 if plains:
                     response = generate_plains_embed(plains)
-                    await send_to_channels(ev, response, 'WarframePlainsChannel', triggers)
+                    await send_to_channels(ev, response, 'warframe_plains_channel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(5)

@@ -25,7 +25,7 @@ async def unbindemoterole(cmd: SigmaCommand, message: discord.Message, args: lis
         if args:
             group_id = args[0].lower()
             role_search = ' '.join(args[1:])
-            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
+            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
             if group_id in emote_groups:
                 bound_roles = emote_groups.get(group_id)
                 guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)
@@ -34,7 +34,7 @@ async def unbindemoterole(cmd: SigmaCommand, message: discord.Message, args: lis
                     if guild_role.id in bound_roles:
                         bound_roles.remove(guild_role.id)
                         emote_groups.update({group_id: bound_roles})
-                        await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
+                        await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
                         response = discord.Embed(color=0x66CC66, title=f'✅ Removed {role_name} from group {group_id}.')
                     else:
                         response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is not bound to {group_id}.')

@@ -37,7 +37,7 @@ async def sortie_cycler(ev: SigmaEvent):
                 sorties, triggers = await get_sortie_data(ev.db)
                 if sorties:
                     response = generate_sortie_embed(sorties)
-                    await send_to_channels(ev, response, 'WarframeSortieChannel', triggers)
+                    await send_to_channels(ev, response, 'warframe_sortie_channel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(300)

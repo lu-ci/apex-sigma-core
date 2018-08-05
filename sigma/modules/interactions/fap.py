@@ -28,6 +28,6 @@ async def fap(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0x5dadec, title=f'💦 {auth.display_name} faps.')
     else:
         response = discord.Embed(color=0x5dadec, title=f'💦 {auth.display_name} faps to {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)

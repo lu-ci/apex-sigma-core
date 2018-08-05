@@ -184,6 +184,8 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
+        self.log.info('Launching DB-Init Modules...')
+        self.loop.create_task(self.queue.event_runner('dbinit'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 

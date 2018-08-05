@@ -37,7 +37,7 @@ async def alert_cycler(ev: SigmaEvent):
                 alerts, triggers = await get_alert_data(ev.db)
                 if alerts:
                     response = await generate_alert_embed(alerts)
-                    await send_to_channels(ev, response, 'WarframeAlertChannel', triggers)
+                    await send_to_channels(ev, response, 'warframe_alert_channel', triggers)
             except Exception:
                 pass
         await asyncio.sleep(5)

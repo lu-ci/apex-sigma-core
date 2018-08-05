@@ -33,11 +33,11 @@ async def bindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                 if target_role:
                     bot_role = message.guild.me.top_role
                     if bot_role.position > target_role.position:
-                        bindings = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites')
+                        bindings = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
                         if bindings is None:
                             bindings = {}
                         bindings.update({target_inv.id: target_role.id})
-                        await cmd.db.set_guild_settings(message.guild.id, 'BoundInvites', bindings)
+                        await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bindings)
                         title = f'✅ Invite {target_inv.id} bound to {target_role.name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:

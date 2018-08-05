@@ -31,20 +31,20 @@ async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list)
                 target = discord.utils.find(lambda x: x.id == target_id, all_members)
                 if target:
                     black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                    black_user_file = await black_user_collection.find_one({'UserID': target.id})
+                    black_user_file = await black_user_collection.find_one({'user_id': target.id})
                     if black_user_file:
-                        if black_user_file.get('Total'):
-                            update_data = {'$set': {'UserID': target.id, 'Total': False}}
+                        if black_user_file.get('total'):
+                            update_data = {'$set': {'user_id': target.id, 'Total': False}}
                             icon, result = '🔓', 'un-blacklisted'
                         else:
-                            update_data = {'$set': {'UserID': target.id, 'Total': True}}
+                            update_data = {'$set': {'user_id': target.id, 'Total': True}}
                             icon, result = '🔒', 'blacklisted'
-                        await black_user_collection.update_one({'UserID': target.id}, update_data)
+                        await black_user_collection.update_one({'user_id': target.id}, update_data)
                     else:
-                        await black_user_collection.insert_one({'UserID': target.id, 'Total': True})
+                        await black_user_collection.insert_one({'user_id': target.id, 'total': True})
                         icon, result = '🔒', 'blacklisted'
-                    gcp_cache.del_cache(message.author.id)
-                    gcp_cache.del_cache(f'{message.author.id}_checked')
+                    gcp_cache.del_cache(target.id)
+                    gcp_cache.del_cache(f'{target.id}_checked')
                     title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)
                 else:

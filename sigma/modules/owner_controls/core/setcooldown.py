@@ -32,13 +32,13 @@ async def setcooldown(cmd: SigmaCommand, message: discord.Message, args: list):
                 if command in cmd.bot.modules.alts:
                     command = cmd.bot.modules.alts[command]
                 if command in cmd.bot.modules.commands.keys():
-                    cddata = {'Command': command, 'Cooldown': cooldown}
+                    cddata = {'command': command, 'cooldown': cooldown}
                     cd_coll = cmd.db[cmd.db.db_nam].CommandCooldowns
                     cddoc = await cd_coll.find_one({'Command': command})
                     if not cddoc:
                         await cd_coll.insert_one(cddata)
                     else:
-                        await cd_coll.update_one({'Command': command}, {'$set': cddata})
+                        await cd_coll.update_one({'command': command}, {'$set': cddata})
                     title = f'✅ Command {command} now has a {cooldown}s cooldown.'
                     response = discord.Embed(color=0x66CC66, title=title)
                 else:

@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_response.set_footer(text=f'UserID: {target.id}')
+    log_response.set_footer(text=f'user_id: {target.id}')
     return log_response
 
 
@@ -77,9 +77,9 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
                             audit_reason = f'By {message.author.name}: {reason}'
                             await target.ban(reason=audit_reason, delete_message_days=clean_days)
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogBans')
+                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_bans')
                             if endstamp:
-                                doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                                doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
                                 await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')

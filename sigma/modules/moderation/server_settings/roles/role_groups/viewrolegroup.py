@@ -23,7 +23,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 async def viewrolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         group_id = args[0].lower()
-        role_groups = await cmd.db.get_guild_settings(message.guild.id, 'RoleGroups') or {}
+        role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
         if group_id in role_groups:
             group_roles = role_groups.get(group_id)
             if group_roles:
@@ -37,7 +37,7 @@ async def viewrolegroup(cmd: SigmaCommand, message: discord.Message, args: list)
                     else:
                         group_role.remove(group_role)
                 role_groups.update({group_id: group_roles})
-                await cmd.db.set_guild_settings(message.guild.id, 'RoleGroups', role_groups)
+                await cmd.db.set_guild_settings(message.guild.id, 'role_groups', role_groups)
                 role_names = sorted(role_names)
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'

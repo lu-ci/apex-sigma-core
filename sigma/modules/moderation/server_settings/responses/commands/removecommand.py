@@ -24,10 +24,10 @@ async def removecommand(cmd: SigmaCommand, message: discord.Message, args: list)
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()
-            custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands') or {}
+            custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
             if trigger in custom_commands:
                 del custom_commands[trigger]
-                await cmd.db.set_guild_settings(message.guild.id, 'CustomCommands', custom_commands)
+                await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
                 response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Command not found.')

@@ -27,12 +27,12 @@ tcklb_cache = Cacher()
 
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Cookies'
-    sort_key = 'Cookies'
+    sort_key = 'cookies'
     lb_category = 'Global'
     localed = False
     if args:
         if args[0].lower() == 'total':
-            sort_key = 'Total'
+            sort_key = 'total'
             lb_category = 'Total'
         elif args[0].lower() == 'local':
             lb_category = 'Local'
@@ -50,7 +50,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             all_members = cmd.bot.get_all_members()
         for data_doc in all_docs:
             user_value = data_doc.get(sort_key) or 0
-            user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('UserID'), all_members)
+            user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:
                 if user_value:
                     leader_docs.append([user_object, user_value])

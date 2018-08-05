@@ -25,10 +25,10 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def wanikani(cmd: SigmaCommand, message: discord.Message, args: list):
     target = message.mentions[0] if message.mentions else message.author
-    api_document = await cmd.db[cmd.db.db_nam]['WaniKani'].find_one({'UserID': target.id})
+    api_document = await cmd.db[cmd.db.db_nam].WaniKani.find_one({'user_id': target.id})
     if api_document:
         try:
-            api_key = api_document['WKAPIKey']
+            api_key = api_document['wk_api_key']
             url = f'https://www.wanikani.com/api/user/{api_key}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url + '/srs-distribution') as data:

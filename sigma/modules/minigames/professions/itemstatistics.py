@@ -28,10 +28,10 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
         target = message.mentions[0]
     else:
         target = message.author
-    all_stats = await cmd.db[cmd.db.db_nam].ItemStatistics.find_one({'UserID': target.id}) or {}
+    all_stats = await cmd.db[cmd.db.db_nam].ItemStatistics.find_one({'user_id': target.id}) or {}
     if '_id' in all_stats:
         all_stats.pop('_id')
-        all_stats.pop('UserID')
+        all_stats.pop('user_id')
     all_stats = [[x, all_stats.get(x)] for x in all_stats.keys()]
     mem_count = len(all_stats)
     all_stats = sorted(all_stats, key=lambda k: k[1], reverse=True)

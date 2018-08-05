@@ -25,7 +25,7 @@ async def wipeawards(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[0].isdigit():
             target_id = int(args[0])
         if target_id:
-            lookup = {'UserID': target_id}
+            lookup = {'user_id': target_id}
             collections = ['CurrencySystem', 'Cookies', 'ExperienceSystem', 'Inventory', 'Upgrades']
             for collection in collections:
                 await cmd.db[cmd.db.db_nam][collection].delete_one(lookup)

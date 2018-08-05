@@ -17,26 +17,32 @@
 import arrow
 import discord
 
+from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 
 
+afk_cache = Cacher()
+
+
 async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
-    afk_data = await cmd.db[cmd.db.db_nam]['AwayUsers'].find_one({'UserID': message.author.id})
+    afk_data = afk_cache.get_cache(message.author.id)
+    if not afk_data:
+        afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': message.author.id})
     if args:
         afk_reason = ' '.join(args)
     else:
         afk_reason = 'No reason stated.'
     in_data = {
-        'UserID': message.author.id,
-        'Timestamp': arrow.utcnow().timestamp,
-        'Reason': afk_reason
+        'user_id': message.author.id,
+        'timestamp': arrow.utcnow().timestamp,
+        'reason': afk_reason
     }
     if afk_data:
         title = 'Your status has been updated'
-        await cmd.db[cmd.db.db_nam]['AwayUsers'].update_one({'UserID': message.author.id}, {'$set': in_data})
+        await cmd.db[cmd.db.db_nam].AwayUsers.update_one({'user_id': message.author.id}, {'$set': in_data})
     else:
         title = 'You have been marked as away'
-        await cmd.db[cmd.db.db_nam]['AwayUsers'].insert_one(in_data)
+        await cmd.db[cmd.db.db_nam].AwayUsers.insert_one(in_data)
     url = None
     for piece in afk_reason.split():
         if piece.startswith('http'):
@@ -51,4 +57,5 @@ async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
     response.add_field(name=f'✅ {title}.', value=f'Reason: **{afk_reason}**')
     if url:
         response.set_image(url=url)
+    afk_cache.set_cache(message.author.id, afk_data)
     await message.channel.send(embed=response)

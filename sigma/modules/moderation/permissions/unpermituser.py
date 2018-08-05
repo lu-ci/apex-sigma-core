@@ -39,11 +39,11 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                     cmd_name = cmd_name.lower()
                     perm_mode = perm_mode.lower()
                     if perm_mode == 'c':
-                        exception_group = 'CommandExceptions'
+                        exception_group = 'command_exceptions'
                         check_group = cmd.bot.modules.commands
                         check_alts = True
                     elif perm_mode == 'm':
-                        exception_group = 'ModuleExceptions'
+                        exception_group = 'module_exceptions'
                         check_group = cmd.bot.modules.categories
                         check_alts = False
                     else:
@@ -59,12 +59,12 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                             inner_exc = cmd_exc[cmd_name]
                         else:
                             inner_exc = generate_cmd_data(cmd_name)[cmd_name]
-                        exc_usrs = inner_exc['Users']
+                        exc_usrs = inner_exc['users']
                         bad_item = False
                         for target in targets:
                             if target.id in exc_usrs:
                                 exc_usrs.remove(target.id)
-                                inner_exc.update({'Users': exc_usrs})
+                                inner_exc.update({'users': exc_usrs})
                                 cmd_exc.update({cmd_name: inner_exc})
                                 perms.update({exception_group: cmd_exc})
                             else:
@@ -72,7 +72,7 @@ async def unpermituser(cmd: SigmaCommand, message: discord.Message, args: list):
                                 break
                         if not bad_item:
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                {'ServerID': message.guild.id}, {'$set': perms})
+                                {'server_id': message.guild.id}, {'$set': perms})
                             scp_cache.del_cache(message.guild.id)
                             if len(targets) > 1:
                                 response_title = f'✅ {len(targets)} users can no longer use `{cmd_name}`.'

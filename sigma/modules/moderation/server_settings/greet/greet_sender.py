@@ -21,19 +21,19 @@ from sigma.core.utilities.data_processing import movement_message_parser
 
 
 async def greet_sender(ev: SigmaEvent, member):
-    greet_active = await ev.db.get_guild_settings(member.guild.id, 'Greet')
+    greet_active = await ev.db.get_guild_settings(member.guild.id, 'greet')
     if greet_active is True or greet_active is None:
-        greet_dm = await ev.db.get_guild_settings(member.guild.id, 'GreetDM')
+        greet_dm = await ev.db.get_guild_settings(member.guild.id, 'greet_dm')
         if greet_dm:
             target = member
         else:
-            greet_channel_id = await ev.db.get_guild_settings(member.guild.id, 'GreetChannel')
+            greet_channel_id = await ev.db.get_guild_settings(member.guild.id, 'greet_channel')
             if greet_channel_id is None:
                 target = None
             else:
                 target = discord.utils.find(lambda x: x.id == greet_channel_id, member.guild.channels)
         if target:
-            current_greeting = await ev.db.get_guild_settings(member.guild.id, 'GreetMessage')
+            current_greeting = await ev.db.get_guild_settings(member.guild.id, 'greet_message')
             if current_greeting is None:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greeting_text = movement_message_parser(member, current_greeting)

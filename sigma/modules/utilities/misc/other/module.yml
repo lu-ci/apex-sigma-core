@@ -70,5 +70,5 @@ events:
     enabled:     true
 
   - name:        dbinit_httpstatus
-    type:        ready
+    type:        dbinit
     enabled:     true

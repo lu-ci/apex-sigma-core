@@ -21,20 +21,20 @@ perm_cache = Cacher()
 
 def generate_default_data(message):
     return {
-        'ServerID': message.guild.id,
-        'DisabledCommands': [], 'DisabledModules': [],
-        'CommandExceptions': {}, 'ModuleExceptions': {},
+        'server_id': message.guild.id,
+        'disabled_commands': [], 'disabled_modules': [],
+        'command_exceptions': {}, 'module_exceptions': {},
     }
 
 
 def generate_cmd_data(cmd_name):
-    return {cmd_name: {'Users': [], 'Channels': [], 'Roles': []}}
+    return {cmd_name: {'users': [], 'channels': [], 'roles': []}}
 
 
 async def get_all_perms(db, message):
     perms = perm_cache.get_cache(message.guild.id)
     if not perms:
-        perms = await db[db.db_nam].Permissions.find_one({'ServerID': message.guild.id})
+        perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})
         if not perms:
             perms = generate_default_data(message)
             await db[db.db_nam].Permissions.insert_one(perms)

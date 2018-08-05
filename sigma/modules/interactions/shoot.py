@@ -28,6 +28,6 @@ async def shoot(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0xccd6dd, title=f'🔫 {auth.display_name} shoots themself.')
     else:
         response = discord.Embed(color=0xccd6dd, title=f'🔫 {auth.display_name} shoots {target.display_name}.')
-    response.set_image(url=interaction['URL'])
+    response.set_image(url=interaction['url'])
     response.set_footer(text=make_footer(cmd, interaction))
     await message.channel.send(embed=response)
