@@ -27,12 +27,12 @@ tcklb_cache = Cacher()
 
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Cookies'
-    sort_key = 'Cookies'
+    sort_key = 'cookies'
     lb_category = 'Global'
     localed = False
     if args:
         if args[0].lower() == 'total':
-            sort_key = 'Total'
+            sort_key = 'total'
             lb_category = 'Total'
         elif args[0].lower() == 'local':
             lb_category = 'Local'
