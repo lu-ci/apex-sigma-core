@@ -30,7 +30,7 @@ async def award(cmd: SigmaCommand, index: int, uid: int, gld: discord.Guild):
 
 
 async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, args: list):
-    patterns = [['CurrencySystem', 'global'], ['ExperienceSystem', 'global'], ['Cookies', 'Cookies']]
+    patterns = [['CurrencySystem', 'global'], ['ExperienceSystem', 'global'], ['Cookies', 'cookies']]
     for pattern in patterns:
         col_nam = pattern[0]
         val_fil = pattern[1]

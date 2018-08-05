@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.permissions import gcp_cache
 
 
 async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -36,6 +37,8 @@ async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: lis
                     await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'server_id': target.id})
                     icon, result = '🔒', 'blacklisted'
                 response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target.name} has been {result}.')
+                gcp_cache.del_cache(target.id)
+                gcp_cache.del_cache(f'{target.id}_checked')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 No guild with that ID was found.')
         else:

@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def removereaction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
-        interaction_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'ReactionID': lookup})
+        interaction_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'reaction_id': lookup})
         if interaction_item:
             await cmd.db[cmd.db.db_nam].Interactions.delete_one(interaction_item)
             response = discord.Embed(color=0xFFCC4D, title=f'🔥 Reaction `{lookup}` has been removed.')

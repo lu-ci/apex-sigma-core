@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def removestatus(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         status_id = ''.join(args)
-        status_data = {'ID': status_id}
+        status_data = {'id': status_id}
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one(status_data)
         if status_exists:
             await cmd.db[cmd.db.db_nam].StatusFiles.delete_one(status_data)

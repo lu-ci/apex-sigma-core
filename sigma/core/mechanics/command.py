@@ -29,7 +29,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.modules.owner_controls.core.error_parser import send_error_embed
+from sigma.core.mechanics.errors import send_error_embed
 
 
 class SigmaCommand(object):

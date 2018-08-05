@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def resetleaderboards(cmd: SigmaCommand, message: discord.Message, args: list):
-    await cmd.db[cmd.db.db_nam].Cookies.update_many({}, {"$set": {"Cookies": 0}})
+    await cmd.db[cmd.db.db_nam].Cookies.update_many({}, {"$set": {"cookies": 0}})
     await cmd.db[cmd.db.db_nam].CurrencySystem.update_many({}, {"$set": {"global": 0}})
     await cmd.db[cmd.db.db_nam].ExperienceSystem.update_many({}, {"$set": {"global": 0}})
     response = discord.Embed(color=0xFFCC4D, title=f'🔥 The global leaderboards have been destroyed.')
