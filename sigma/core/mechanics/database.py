@@ -162,12 +162,12 @@ class Database(motor.AsyncIOMotorClient):
     async def get_inventory(self, user):
         inventory = await self[self.db_cfg.database].Inventory.find_one({'user_id': user.id}) or {}
         if not inventory:
-            await self[self.db_cfg.database].Inventory.insert_one({'user_id': user.id, 'Items': []})
-        inventory = inventory.get('Items', [])
+            await self[self.db_cfg.database].Inventory.insert_one({'user_id': user.id, 'items': []})
+        inventory = inventory.get('items', [])
         return inventory
 
     async def update_inv(self, user, inv):
-        await self[self.db_cfg.database].Inventory.update_one({'user_id': user.id}, {'$set': {'Items': inv}})
+        await self[self.db_cfg.database].Inventory.update_one({'user_id': user.id}, {'$set': {'items': inv}})
 
     async def add_to_inventory(self, user, item_data):
         sabotage_file = await self[self.db_cfg.database].SabotagedUsers.find_one({'user_id': user.id})
