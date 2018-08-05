@@ -5,10 +5,6 @@ category:        development
 enabled:         true
 
 events:
-  - name:        ev_message
-    type:        message
-    enabled:     true
-
   - name:        population_clockwork
     type:        ready
     enabled:     true
