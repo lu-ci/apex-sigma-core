@@ -27,6 +27,7 @@ class DiscordConfig(object):
         self.token = self.raw.get('token', 'You got no token, son!')
         self.owners = self.raw.get('owners', [137951917644054529])
         self.bot = self.raw.get('bot', True)
+        self.shard = self.raw.get('shard', 1000)
 
 
 class DatabaseConfig(object):
