@@ -55,7 +55,7 @@ async def upgrades(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
-    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id})
+    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
     if upgrade_file is None:
         await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'user_id': target.id})
         upgrade_file = {}

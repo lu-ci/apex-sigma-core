@@ -84,7 +84,7 @@ def get_selector_and_value(args: list):
 
 
 async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
-    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id})
+    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id}) or {}
     base_cooldown = 60
     stamina = upgrade_file.get('casino', 0)
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
