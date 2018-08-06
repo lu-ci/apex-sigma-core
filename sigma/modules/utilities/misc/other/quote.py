@@ -28,7 +28,10 @@ async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
         except ValueError:
             lookup = None
         if lookup:
-            msg = await message.channel.get_message(lookup)
+            try:
+                msg = await message.channel.get_message(lookup)
+            except discord.NotFound:
+                msg = None
             if not msg:
                 for channel in message.guild.channels:
                     if isinstance(channel, discord.TextChannel):
