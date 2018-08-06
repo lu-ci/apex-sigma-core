@@ -8,7 +8,7 @@ INFO = YAML.load_file("info/version.yml").freeze
 CODENAME = INFO["codename"].downcase
 VERSION = INFO["version"]
 REGISTRY = "registry.gitlab.com"
-NAMESPACE = "lu-ci"
+NAMESPACE = "lu-ci/sigma"
 IMAGE = "apex-sigma"
 
 def tagged(tag)
