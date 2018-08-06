@@ -104,7 +104,7 @@ donors:
     avatar: "https://i.imgur.com/1mhhxkG.png"
     duid:   396242866047025164
   - name:   "iWaffle"
-    tier:   6
+    tier:   0
     avatar: "https://i.imgur.com/tZDEVZi.png"
     duid:   163816674179416064
   - name:   "Nonon"
@@ -119,3 +119,7 @@ donors:
     tier:   4
     avatar: "https://i.imgur.com/q1QeyIC.png"
     duid:   433751385612222486
+  - name:   "High"
+    tier:   2
+    avatar: "https://i.imgur.com/X9aw088.png"
+    duid:   228291869732372480
