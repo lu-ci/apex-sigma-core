@@ -29,7 +29,7 @@ async def bye_sender(ev: SigmaEvent, member):
         else:
             target = discord.utils.find(lambda x: x.id == bye_channel_id, member.guild.channels)
         if target:
-            current_goodbye = await ev.db.get_guild_settings(member.guild.id, 'bye_channel')
+            current_goodbye = await ev.db.get_guild_settings(member.guild.id, 'bye_message')
             if current_goodbye is None:
                 current_goodbye = '{user_name} has left {server_name}.'
             goodbye_text = movement_message_parser(member, current_goodbye)
