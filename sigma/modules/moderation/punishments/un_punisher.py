@@ -54,11 +54,11 @@ async def untmute(ev: SigmaEvent, doc: dict):
         gid = doc.get('server_id')
         uid = doc.get('user_id')
         guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
-        mutes = await ev.db.get_guild_settings(guild.id, 'MutedUsers') or []
+        mutes = await ev.db.get_guild_settings(guild.id, 'muted_users') or []
         if uid in mutes:
             ev.log.info(f'Un-muting {uid} from {gid}.')
             mutes.remove(uid)
-            await ev.db.set_guild_settings(guild.id, 'MutedUsers', mutes)
+            await ev.db.set_guild_settings(guild.id, 'muted_users', mutes)
             await asyncio.sleep(5)
     except Exception:
         pass
