@@ -21,19 +21,19 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def listraffles(cmd: SigmaCommand, message: discord.Message, args: list):
-    lookup = {'Author': message.author.id, 'Active': True}
+    lookup = {'author': message.author.id, 'active': True}
     raffle_docs = await cmd.db[cmd.db.db_nam].Raffles.find(lookup).to_list(None)
     all_channels = list(cmd.bot.get_all_channels())
     if raffle_docs:
         raffle_lines = []
         for raf_doc in raffle_docs:
-            raffle_channel = discord.utils.find(lambda c: c.id == raf_doc.get('Channel'), all_channels)
+            raffle_channel = discord.utils.find(lambda c: c.id == raf_doc.get('channel'), all_channels)
             if raffle_channel:
                 location = f'in **#{raffle_channel.name}** on **{raffle_channel.guild.name}**.'
             else:
                 location = 'in an unknown location.'
-            hum_time = arrow.get(raf_doc.get('End')).humanize()
-            raffle_line = f'`{raf_doc.get("ID")}` ends {hum_time} {location}.'
+            hum_time = arrow.get(raf_doc.get('end')).humanize()
+            raffle_line = f'`{raf_doc.get("id")}` ends {hum_time} {location}.'
             raffle_lines.append(raffle_line)
         outlist = '\n'.join(raffle_lines)
         response = discord.Embed(color=message.author.color)

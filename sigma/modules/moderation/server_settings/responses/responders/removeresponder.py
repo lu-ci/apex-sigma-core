@@ -24,10 +24,10 @@ async def removeresponder(cmd: SigmaCommand, message: discord.Message, args: lis
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()
-            auto_responses = await cmd.db.get_guild_settings(message.guild.id, 'ResponderTriggers') or {}
+            auto_responses = await cmd.db.get_guild_settings(message.guild.id, 'responder_triggers') or {}
             if trigger in auto_responses:
                 del auto_responses[trigger]
-                await cmd.db.set_guild_settings(message.guild.id, 'ResponderTriggers', auto_responses)
+                await cmd.db.set_guild_settings(message.guild.id, 'responder_triggers', auto_responses)
                 response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Trigger not found.')

@@ -28,7 +28,7 @@ async def capslimit(cmd: SigmaCommand, message: discord.Message, args: list):
         except (IndexError, ValueError):
             limit = None
         if limit is not None:
-            await cmd.db.set_guild_settings(message.guild.id, 'CapsLimit', limit)
+            await cmd.db.set_guild_settings(message.guild.id, 'caps_limit', limit)
             response = discord.Embed(color=0x77B255, title=f'✅ Capital letter minimum set to {limit}.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No limit or ivalid limit given.')

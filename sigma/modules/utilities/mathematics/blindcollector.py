@@ -14,27 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import convert_to_seconds
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def disabledecay(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.author.permissions_in(message.channel).manage_guild:
+async def blindcollector(cmd: SigmaCommand, message: discord.Message, args: list):
+    if message.author.guild_permissions.manage_channels:
         if message.channel_mentions:
             target = message.channel_mentions[0]
-            decaying_channels = await cmd.db.get_guild_settings(message.guild.id, 'DecayingChannels') or []
-            if target.id in decaying_channels:
-                decaying_channels.remove(target.id)
-                await cmd.db.set_guild_settings(message.guild.id, 'DecayingChannels', decaying_channels)
-                await cmd.db[cmd.db.db_nam].DecayingMessages.delete_many({'Channel': target.id})
-                response = discord.Embed(color=0x66CC66, title=f'✅ Decay for #{target.name} has been disabled.')
+            docdata = {'channel_id': target.id}
+            blockdoc = bool(await cmd.db[cmd.db.db_nam].BlindedChains.find_one(docdata))
+            if blockdoc:
+                await cmd.db[cmd.db.db_nam].BlindedChains.delete_one(docdata)
+                response_title = f'✅ Users can once again collect chains from #{target.name}.'
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ The channel #{target.name} is not decaying.')
+                await cmd.db[cmd.db.db_nam].BlindedChains.insert_one(docdata)
+                response_title = f'✅ Users can no longer collect chains from #{target.name}.'
+            response = discord.Embed(color=0x66CC66, title=response_title)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
+            response = discord.Embed(color=0xBE1931, title='❗ No channel given.')
     else:
-        response = permission_denied('Manage Server')
+        response = permission_denied('Manage Channels')
     await message.channel.send(embed=response)

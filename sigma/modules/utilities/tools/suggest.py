@@ -38,7 +38,7 @@ async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
         if sugg_chn:
             if args:
                 sugg_token = secrets.token_hex(4)
-                sugg_data = {'Token': sugg_token, 'UserID': message.author.id}
+                sugg_data = {'Token': sugg_token, 'user_id': message.author.id}
                 await cmd.db[cmd.db.db_nam].Suggestions.insert_one(sugg_data)
                 sugg_msg = await sugg_chn.send(embed=make_sugg_embed(message, args, sugg_token))
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]

@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'UserID: {target.id}')
+    log_embed.set_footer(text=f'user_id: {target.id}')
     return log_embed
 
 
@@ -60,7 +60,7 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                     rarg = args[1:-1] if timed else args[1:] if args[1:] else None
                     reason = ' '.join(rarg) if rarg else None
                     log_embed = generate_log_embed(message, target, reason)
-                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     to_target_title = f'🔇 You have been hard-muted.'
@@ -72,7 +72,7 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                     except discord.Forbidden:
                         pass
                     if endstamp:
-                        doc_data = {'ServerID': message.guild.id, 'UserID': target.id, 'Time': endstamp}
+                        doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
                         await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')

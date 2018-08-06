@@ -17,13 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.owner_controls.core.error_parser import make_error_embed
+from sigma.core.mechanics.errors import make_error_embed
 
 
 async def geterror(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         token = args[0]
-        error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'Token': token})
+        error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'token': token})
         if error_file:
             response, trace_text = await make_error_embed(error_file)
         else:

@@ -23,5 +23,5 @@ async def role_group_check(ev: SigmaEvent, before: discord.Member, after: discor
     before_role_ids = [role.id for role in before.roles]
     added_role = discord.utils.find(lambda role: role.id not in before_role_ids, after.roles)
     if added_role:
-        role_groups = await ev.db.get_guild_settings(after.guild.id, 'RoleGroups') or {}
+        role_groups = await ev.db.get_guild_settings(after.guild.id, 'role_groups') or {}
         await appropriate_roles(after, added_role, role_groups)

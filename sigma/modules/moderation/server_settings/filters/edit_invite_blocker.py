@@ -27,7 +27,7 @@ async def edit_invite_blocker(ev: SigmaEvent, before, after):
         if isinstance(after.author, discord.Member):
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
             if not after.author.permissions_in(after.channel).administrator or is_owner:
-                active = await ev.db.get_guild_settings(after.guild.id, 'BlockInvites')
+                active = await ev.db.get_guild_settings(after.guild.id, 'block_invites')
                 if active is None:
                     active = False
                 if active:
@@ -43,7 +43,7 @@ async def edit_invite_blocker(ev: SigmaEvent, before, after):
                                 except discord.NotFound:
                                     pass
                     if invite_found:
-                        invite_warn = await ev.db.get_guild_settings(after.guild.id, 'InviteAutoWarn')
+                        invite_warn = await ev.db.get_guild_settings(after.guild.id, 'invite_auto_warn')
                         if invite_warn:
                             reason = f'Sent an invite to {invite_found.guild.name}.'
                             warn_data = warning_data(after.guild.me, after.author, reason)
@@ -61,4 +61,4 @@ async def edit_invite_blocker(ev: SigmaEvent, before, after):
                                              icon_url=user_avatar(after.author))
                         log_embed.set_footer(
                             text=f'Posted In: #{after.channel.name} | Leads To: {invite_found.guild.name}')
-                        await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogFilters')
+                        await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')

@@ -28,14 +28,14 @@ async def addselfrole(cmd: SigmaCommand, message: discord.Message, args: list):
             if target_role:
                 role_below = bool(target_role.position < message.guild.me.top_role.position)
                 if role_below:
-                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'SelfRoles')
+                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles')
                     if selfroles is None:
                         selfroles = []
                     if target_role.id in selfroles:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is already self assignable.')
                     else:
                         selfroles.append(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'SelfRoles', selfroles)
+                        await cmd.db.set_guild_settings(message.guild.id, 'self_roles', selfroles)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} added.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')

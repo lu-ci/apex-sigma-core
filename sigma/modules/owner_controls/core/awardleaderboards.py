@@ -30,14 +30,14 @@ async def award(cmd: SigmaCommand, index: int, uid: int, gld: discord.Guild):
 
 
 async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, args: list):
-    patterns = [['CurrencySystem', 'global'], ['ExperienceSystem', 'global'], ['Cookies', 'Cookies']]
+    patterns = [['CurrencySystem', 'global'], ['ExperienceSystem', 'global'], ['Cookies', 'cookies']]
     for pattern in patterns:
         col_nam = pattern[0]
         val_fil = pattern[1]
         winners = await cmd.db[cmd.db.db_nam][col_nam].find({}).sort([(val_fil, -1)]).limit(20).to_list(None)
         position = 0
         for winner in winners:
-            await award(cmd, position, winner.get('UserID'), message.guild)
+            await award(cmd, position, winner.get('user_id'), message.guild)
             position += 1
     currency_icon = cmd.bot.cfg.pref.currency_icon
     response = discord.Embed(color=0xaa8dd8, title=f'{currency_icon} All members have been awarded.')

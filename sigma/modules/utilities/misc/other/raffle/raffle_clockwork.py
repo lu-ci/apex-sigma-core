@@ -47,15 +47,15 @@ async def cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             try:
                 now = arrow.utcnow().float_timestamp
-                raffle = await raffle_coll.find_one({'End': {'$lt': now}, 'Active': True})
+                raffle = await raffle_coll.find_one({'end': {'$lt': now}, 'active': True})
                 if raffle:
-                    await raffle_coll.update_one(raffle, {'$set': {'Active': False}})
-                    cid = raffle.get('Channel')
-                    aid = raffle.get('Author')
-                    mid = raffle.get('Message')
-                    icon = raffle.get('Icon')
-                    titl = raffle.get('Title')
-                    colr = raffle.get('Color')
+                    await raffle_coll.update_one(raffle, {'$set': {'active': False}})
+                    cid = raffle.get('channel')
+                    aid = raffle.get('author')
+                    mid = raffle.get('message')
+                    icon = raffle.get('icon')
+                    titl = raffle.get('title')
+                    colr = raffle.get('color')
                     channel = discord.utils.find(lambda x: x.id == cid, ev.bot.get_all_channels())
                     if channel:
                         message = await channel.get_message(mid)

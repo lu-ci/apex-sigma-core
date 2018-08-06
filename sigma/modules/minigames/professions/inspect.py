@@ -29,7 +29,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
         if item:
             if item.rarity != 0:
                 stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
-                all_stats = await stat_coll.find_one({'UserID': message.author.id}) or {}
+                all_stats = await stat_coll.find_one({'user_id': message.author.id}) or {}
                 item_total = 0
                 all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
                 for stat_doc in all_stat_docs:

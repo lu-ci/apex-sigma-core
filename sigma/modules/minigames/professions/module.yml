@@ -157,5 +157,5 @@ commands:
 
 events:
   - name:        dbinit_items
-    type:        ready
+    type:        dbinit
     enabled:     true

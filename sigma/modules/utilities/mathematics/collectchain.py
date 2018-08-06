@@ -18,28 +18,39 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 
 
-async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
-    target_usr = get_target(message)
-    starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
-    ender = 'your' if message.author.id == target_usr.id else 'their'
-    if target_usr.id == message.author.id:
+async def is_blocked(db: Database, target: discord.Member, author: discord.Member):
+    if target.id == author.id:
         blocked = False
     else:
-        block_file = await cmd.db[cmd.db.db_nam].BlockedChains.find_one({'UserID': message.author.id})
-        if block_file:
-            blocked = True
-        else:
-            blocked = False
-    if not blocked:
+        blocked = bool(await db[db.db_nam].BlockedChains.find_one({'user_id': target.id}))
+    return blocked
+
+
+async def is_blinded(db: Database, channel: discord.TextChannel, author: discord.Member):
+    if author.permissions_in(channel).manage_channels:
+        blinded = False
+    else:
+        blinded = bool(await db[db.db_nam].BlindedChains.find_one({'channel_id': channel.id}))
+    return blinded
+
+
+async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
+    target_usr = get_target(message)
+    target_chn = get_channel(message)
+    starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
+    ender = 'your' if message.author.id == target_usr.id else 'their'
+    blocked = await is_blocked(cmd.db, target_usr, message.author)
+    blinded = await is_blinded(cmd.db, target_chn, message.author)
+    if not blocked and not blinded:
         if not await check_queued(cmd.db, target_usr.id):
-            target_chn = get_channel(message)
             if not target_usr.bot:
-                cltr_itm = {'AuthorID': message.author.id, 'UserID': target_usr.id, 'ChannelID': target_chn.id}
+                cltr_itm = {'author_id': message.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
                 await add_to_queue(cmd.db, cltr_itm)
                 qsize = await get_queue_size(cmd.db)
                 title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
@@ -53,5 +64,8 @@ async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ {starter} already in the collection queue.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')
+        if blocked:
+            response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')
+        else:
+            response = discord.Embed(color=0xBE1931, title=f'❗ Chains for #{target_chn.name} has been disabled')
     await message.channel.send(embed=response)

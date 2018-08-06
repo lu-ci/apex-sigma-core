@@ -24,8 +24,8 @@ from sigma.modules.moderation.permissions.nodes.permission_data import get_all_p
 async def disabledmodules(cmd: SigmaCommand, message: discord.Message, args: list):
     page = args[0] if args else 1
     perms = await get_all_perms(cmd.db, message)
-    disabled_modules = perms['DisabledModules']
-    overridden_modules = perms['ModuleExceptions']
+    disabled_modules = perms['disabled_modules']
+    overridden_modules = perms['module_exceptions']
     disabled_list = []
     for dmdl_name in disabled_modules:
         if dmdl_name in cmd.bot.modules.categories:

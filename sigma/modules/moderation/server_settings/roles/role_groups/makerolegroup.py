@@ -24,10 +24,10 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 async def makerolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_guild:
-        role_groups = await cmd.db.get_guild_settings(message.guild.id, 'RoleGroups') or {}
+        role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
         group_id = secrets.token_hex(3)
         role_groups.update({group_id: []})
-        await cmd.db.set_guild_settings(message.guild.id, 'RoleGroups', role_groups)
+        await cmd.db.set_guild_settings(message.guild.id, 'role_groups', role_groups)
         response = discord.Embed(color=0x66CC66, title=f'✅ Role group {group_id} has been created.')
     else:
         response = permission_denied('Manage Server')

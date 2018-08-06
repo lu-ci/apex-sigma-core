@@ -33,8 +33,8 @@ async def edit_word_blocker(ev: SigmaEvent, before, after):
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())
                     elements = text.split(' ')
-                    blocked_words = await ev.db.get_guild_settings(after.guild.id, 'BlockedWords') or []
-                    hard_blocked_words = await ev.db.get_guild_settings(after.guild.id, 'HardBlockedWords') or []
+                    blocked_words = await ev.db.get_guild_settings(after.guild.id, 'blocked_words') or []
+                    hard_blocked_words = await ev.db.get_guild_settings(after.guild.id, 'hardblocked_words') or []
                     remove = False
                     reason = None
                     for word in blocked_words:
@@ -48,7 +48,7 @@ async def edit_word_blocker(ev: SigmaEvent, before, after):
                             reason = word
                     if remove:
                         try:
-                            filter_warn = await ev.db.get_guild_settings(after.guild.id, 'FilterAutoWarn')
+                            filter_warn = await ev.db.get_guild_settings(after.guild.id, 'filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(after.guild.me, after.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
@@ -65,6 +65,6 @@ async def edit_word_blocker(ev: SigmaEvent, before, after):
                             log_embed.description = f'Content: {after.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(after.author))
                             log_embed.set_footer(text=f'Channel: #{after.channel.name} [{after.channel.id}]')
-                            await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogFilters')
+                            await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')
                         except discord.ClientException:
                             pass

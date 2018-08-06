@@ -30,12 +30,12 @@ async def sabotageuser(cmd: SigmaCommand, message: discord.Message, args: list):
                 target = discord.utils.find(lambda x: x.id == target_id, all_members)
                 if target:
                     sabotage_collection = cmd.db[cmd.bot.cfg.db.database].SabotagedUsers
-                    sabotage_file = await sabotage_collection.find_one({'UserID': target.id})
+                    sabotage_file = await sabotage_collection.find_one({'user_id': target.id})
                     if sabotage_file:
-                        await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.delete_one({'UserID': target.id})
+                        await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.delete_one({'user_id': target.id})
                         icon, result = '🔓', 'unsabotaged'
                     else:
-                        await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.insert_one({'UserID': target.id})
+                        await cmd.db[cmd.bot.cfg.db.database].SabotagedUsers.insert_one({'user_id': target.id})
                         icon, result = '🔒', 'sabotaged'
                     response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target.name} has been {result}.')
                 else:

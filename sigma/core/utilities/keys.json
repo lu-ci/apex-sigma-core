@@ -1,0 +1,480 @@
+[
+  {
+    "Spouses": "spouses"
+  },
+  {
+    "UserID": "user_id"
+  },
+  {
+    "Users": "users"
+  },
+  {
+    "Channels": "channels"
+  },
+  {
+    "Roles": "roles"
+  },
+  {
+    "Time": "time"
+  },
+  {
+    "Timestamp": "timestamp"
+  },
+  {
+    "Reason": "reason"
+  },
+  {
+    "Text": "text"
+  },
+  {
+    "ID": "id"
+  },
+  {
+    "ServerID": "server_id"
+  },
+  {
+    "Greet": "greet"
+  },
+  {
+    "GreetMessage": "greet_message"
+  },
+  {
+    "GreetChannel": "greet_channel"
+  },
+  {
+    "GreetPM": "greet_pm"
+  },
+  {
+    "Bye": "bye"
+  },
+  {
+    "ByeMessage": "bye_message"
+  },
+  {
+    "ByeChannel": "bye_channel"
+  },
+  {
+    "CleverBot": "clever_bot"
+  },
+  {
+    "Unflip": "unflip"
+  },
+  {
+    "ShopEnabled": "shop_enabled"
+  },
+  {
+    "ShopItems": "shop_items"
+  },
+  {
+    "RandomEvents": "random_events"
+  },
+  {
+    "EventChance": "event_chance"
+  },
+  {
+    "ChatAnalysis": "chat_analysis"
+  },
+  {
+    "MarkovCollect": "markov_collect"
+  },
+  {
+    "MusicVolume": "music_volume"
+  },
+  {
+    "BlockInvites": "block_invites"
+  },
+  {
+    "AntiSpam": "anti_spam"
+  },
+  {
+    "IsBlacklisted": "is_blacklisted"
+  },
+  {
+    "BlacklistedChannels": "blacklisted_channels"
+  },
+  {
+    "BlacklistedUsers": "blacklisted_users"
+  },
+  {
+    "AutoRole": "auto_role"
+  },
+  {
+    "SelfRoles": "self_roles"
+  },
+  {
+    "LoggingEnabled": "logging_enabled"
+  },
+  {
+    "WarnedUsers": "warned_users"
+  },
+  {
+    "WarnLimit": "warn_limit"
+  },
+  {
+    "Announcement": "announcement"
+  },
+  {
+    "AnnouncementChannel": "announcement_channel"
+  },
+  {
+    "BlockedWords": "blocked_words"
+  },
+  {
+    "IsPartner": "is_partner"
+  },
+  {
+    "CustomCommands": "custom_commands"
+  },
+  {
+    "MutedUsers": "muted_users"
+  },
+  {
+    "RoleName": "role_name"
+  },
+  {
+    "RoleID": "role_id"
+  },
+  {
+    "RoleColor": "role_color"
+  },
+  {
+    "Price": "price"
+  },
+  {
+    "WarframeAlertChannel": "warframe_alert_channel"
+  },
+  {
+    "WarframeFissureChannel": "warframe_fissure_channel"
+  },
+  {
+    "WarframeSortieChannel": "warframe_sortie_channel"
+  },
+  {
+    "CurrencyVault": "currency_vault"
+  },
+  {
+    "ChatterBot": "chatter_bot"
+  },
+  {
+    "ReactorTriggers": "reactor_triggers"
+  },
+  {
+    "ResponderTriggers": "responder_triggers"
+  },
+  {
+    "Prefix": "prefix"
+  },
+  {
+    "GreetDelete": "greet_delete"
+  },
+  {
+    "ByeDelete": "bye_delete"
+  },
+  {
+    "WarframeInvasionChannel": "warframe_invasion_channel"
+  },
+  {
+    "WarframeNewsChannel": "warframe_news_channel"
+  },
+  {
+    "EmoteRoleGroups": "emote_role_groups"
+  },
+  {
+    "GreetDM": "greet_dm"
+  },
+  {
+    "LoggingChannel": "logging_channel"
+  },
+  {
+    "LogBans": "log_bans"
+  },
+  {
+    "LogDeletions": "log_deletions"
+  },
+  {
+    "LogEdits": "log_edits"
+  },
+  {
+    "LogFilters": "log_filters"
+  },
+  {
+    "LogKicks": "log_kicks"
+  },
+  {
+    "LogMovement": "log_movement"
+  },
+  {
+    "LogMutes": "log_mutes"
+  },
+  {
+    "LogPurges": "log_purges"
+  },
+  {
+    "LogWarnings": "log_warnings"
+  },
+  {
+    "LogBansChannel": "log_bans_channel"
+  },
+  {
+    "LogDeletionsChannel": "log_deletions_channel"
+  },
+  {
+    "LogEditsChannel": "log_edits_channel"
+  },
+  {
+    "LogFiltersChannel": "log_filters_channel"
+  },
+  {
+    "LogKicksChannel": "log_kicks_channel"
+  },
+  {
+    "LogModulesChannel": "log_modules_channel"
+  },
+  {
+    "LogMovementChannel": "log_movement_channel"
+  },
+  {
+    "LogMutesChannel": "log_mutes_channel"
+  },
+  {
+    "LogPurgesChannel": "log_purges_channel"
+  },
+  {
+    "LogWarningsChannel": "log_warnings_channel"
+  },
+  {
+    "LogMessageEdits": "log_message_edits"
+  },
+  {
+    "LogMessageDeletes": "log_message_deletes"
+  },
+  {
+    "ASCIIOnlyNames": "ascii_only_names"
+  },
+  {
+    "BoundInvites": "bound_invites"
+  },
+  {
+    "FilterAutoWarn": "filter_auto_warn"
+  },
+  {
+    "InviteAutoWarn": "invite_auto_warn"
+  },
+  {
+    "RoleGroups": "role_groups"
+  },
+  {
+    "EmoteRoleTogglers": "emote_role_togglers"
+  },
+  {
+    "ColorRoles": "color_roles"
+  },
+  {
+    "LogAntispam": "log_antispam"
+  },
+  {
+    "LogAntispamChannel": "log_antispam_channel"
+  },
+  {
+    "AntiCaps": "anticaps"
+  },
+  {
+    "WarframeTags": "warframe_tags"
+  },
+  {
+    "WarframeAcolyteChannel": "warframe_acolyte_channel"
+  },
+  {
+    "DeleteCommands": "delete_commands"
+  },
+  {
+    "HardBlockedWords": "hardblocked_words"
+  },
+  {
+    "LogWarnigs": "log_warnigs"
+  },
+  {
+    "ASCIIOnlyTempName": "ascii_only_temp_name"
+  },
+  {
+    "AutoResponder": "auto_responder"
+  },
+  {
+    "LoggedModules": "logged_modules"
+  },
+  {
+    "DecayingChannels": "decaying_channels"
+  },
+  {
+    "DecayingTimers": "decaying_timers"
+  },
+  {
+    "BoundGreetings": "bound_greetings"
+  },
+  {
+    "AutoroleTimeout": "auto_role_timeout"
+  },
+  {
+    "LogAvatars": "log_avatars"
+  },
+  {
+    "LogNames": "log_names"
+  },
+  {
+    "LogNicknames": "log_nicknames"
+  },
+  {
+    "WarframePlainsChannel": "warframe_plains_channel"
+  },
+  {
+    "CapsLimit": "caps_limit"
+  },
+  {
+    "CapsPercentage": "caps_percentage"
+  },
+  {
+    "RateLimitAmount": "rate_limit_amount"
+  },
+  {
+    "RateLimitTimespan": "rate_limit_timespan"
+  },
+  {
+    "BlockedExtensions": "blocked_extensions"
+  },
+  {
+    "Total": "total"
+  },
+  {
+    "Modules": "modules"
+  },
+  {
+    "WKAPIKey": "wk_api_key"
+  },
+  {
+    "WKUsername": "wk_username"
+  },
+  {
+    "Key": "key"
+  },
+  {
+    "Name": "name"
+  },
+  {
+    "URL": "url"
+  },
+  {
+    "ReactionID": "reaction_id"
+  },
+  {
+    "MessageID": "message_id"
+  },
+  {
+    "Token": "token"
+  },
+  {
+    "ReminderID": "reminder_id"
+  },
+  {
+    "CreationStamp": "creation_stamp"
+  },
+  {
+    "ExecutionStamp": "execution_stamp"
+  },
+  {
+    "ChannelID": "channel_id"
+  },
+  {
+    "TextMessage": "text_message"
+  },
+  {
+    "Message": "message"
+  },
+  {
+    "Channel": "channel"
+  },
+  {
+    "Cookies": "cookies"
+  },
+  {
+    "Line": "line"
+  },
+  {
+    "Timetable": "timetable"
+  },
+  {
+    "Role": "role"
+  },
+
+  {
+    "Error": "error"
+  },
+  {
+    "TraceBack": "traceback"
+  },
+  {
+    "Author": "author"
+  },
+  {
+    "Guild": "guild"
+  },
+  {
+    "Class": "class"
+  },
+  {
+    "Details": "details"
+  },
+  {
+    "Command": "command"
+  },
+  {
+    "Arguments": "arguments"
+  },
+  {
+    "EventID": "event_id"
+  },
+  {
+    "Created": "created"
+  },
+  {
+    "Chain": "chain"
+  },
+  {
+    "Color": "color"
+  },
+  {
+    "DisabledCommands": "disabled_commands"
+  },
+  {
+    "DisabledModules": "disabled_modules"
+  },
+  {
+    "CommandExceptions": "command_exceptions"
+  },
+  {
+    "ModuleExceptions": "module_exceptions"
+  },
+  {
+    "Items": "items"
+  },
+  {
+    "Stamp": "stamp"
+  },
+  {
+    "Streak": "streak"
+  },
+  {
+    "Title": "title"
+  },
+  {
+    "Start": "start"
+  },
+  {
+    "End": "end"
+  },
+  {
+    "Icon": "icon"
+  },
+  {
+    "Active": "active"
+  }
+]

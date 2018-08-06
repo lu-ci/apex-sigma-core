@@ -29,7 +29,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.modules.owner_controls.core.error_parser import send_error_embed
+from sigma.core.mechanics.errors import send_error_embed
 
 
 class SigmaCommand(object):
@@ -146,28 +146,28 @@ class SigmaCommand(object):
             cnam = None
             cid = None
         err_file_data = {
-            'Token': error_token,
-            'Error': f'{exception}',
-            'TraceBack': {
-                'Class': f'{exception.with_traceback}',
-                'Details': traceback.format_exc()
+            'token': error_token,
+            'error': f'{exception}',
+            'traceback': {
+                'class': f'{exception.with_traceback}',
+                'details': traceback.format_exc()
             },
-            'Message': {
-                'Command': self.name,
-                'Arguments': args,
-                'ID': message.id
+            'message': {
+                'command': self.name,
+                'arguments': args,
+                'id': message.id
             },
-            'Author': {
-                'Name': f'{message.author.name}#{message.author.discriminator}',
-                'ID': message.author.id
+            'author': {
+                'name': f'{message.author.name}#{message.author.discriminator}',
+                'id': message.author.id
             },
-            'Guild': {
-                'Name': gnam,
-                'ID': gid
+            'guild': {
+                'name': gnam,
+                'id': gid
             },
-            'Channel': {
-                'Name': cnam,
-                'ID': cid
+            'channel': {
+                'name': cnam,
+                'id': cid
             }
         }
         if self.bot.cfg.pref.errorlog_channel:
@@ -213,8 +213,8 @@ class SigmaCommand(object):
             pass
 
     async def update_cooldown(self, author):
-        cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'Command': self.name}) or {}
-        cooldown = cdfile.get('Cooldown')
+        cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'command': self.name}) or {}
+        cooldown = cdfile.get('cooldown')
         if cooldown:
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)
 

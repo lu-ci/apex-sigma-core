@@ -27,13 +27,13 @@ async def wfnewschannel(cmd: SigmaCommand, message: discord.Message, args: list)
         else:
             if args:
                 if args[0].lower() == 'disable':
-                    await cmd.db.set_guild_settings(message.guild.id, 'WarframeNewsChannel', None)
+                    await cmd.db.set_guild_settings(message.guild.id, 'warframe_news_channel', None)
                     response = discord.Embed(color=0x66CC66, title=f'✅ Warframe News Channel disabled.')
                     await message.channel.send(embed=response)
                 return
             else:
                 target_channel = message.channel
-        await cmd.db.set_guild_settings(message.guild.id, 'WarframeNewsChannel', target_channel.id)
+        await cmd.db.set_guild_settings(message.guild.id, 'warframe_news_channel', target_channel.id)
         response = discord.Embed(color=0x66CC66, title=f'✅ Warframe News Channel set to #{target_channel.name}')
     else:
         response = permission_denied('Manage Channels')

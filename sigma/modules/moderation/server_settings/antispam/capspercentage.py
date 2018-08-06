@@ -31,7 +31,7 @@ async def capspercentage(cmd: SigmaCommand, message: discord.Message, args: list
                 limit = None
         limit = 100 if limit > 100 else limit
         if limit is not None:
-            await cmd.db.set_guild_settings(message.guild.id, 'CapsPercentage', limit)
+            await cmd.db.set_guild_settings(message.guild.id, 'caps_percentage', limit)
             response = discord.Embed(color=0x77B255, title=f'✅ Capital letter percentage set to {limit}%.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No limit or ivalid limit given.')

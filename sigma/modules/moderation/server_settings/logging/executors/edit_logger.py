@@ -30,4 +30,4 @@ async def edit_logger(ev: SigmaEvent, before, after):
             log_embed.add_field(name='➖ Before', value=before.content, inline=False)
             log_embed.add_field(name='➕ After', value=after.content, inline=False)
             log_embed.set_footer(text=f'Message {after.id} in #{after.channel.name}')
-            await log_event(ev.bot, after.guild, ev.db, log_embed, 'LogEdits')
+            await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_edits')

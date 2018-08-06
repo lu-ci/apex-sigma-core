@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'UserID: {target.id}')
+    log_embed.set_footer(text=f'user_id: {target.id}')
     return log_embed
 
 
@@ -55,7 +55,7 @@ async def textunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                 if not above_hier and not is_admin:
                     response = discord.Embed(color=0xBE1931, title='⛔ Can\'t unmute someone equal or above you.')
                 else:
-                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'MutedUsers')
+                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id not in mute_list:
@@ -64,8 +64,8 @@ async def textunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         mute_list.remove(target.id)
                         reason = ' '.join(args[1:]) if args[1:] else None
-                        await cmd.db.set_guild_settings(message.guild.id, 'MutedUsers', mute_list)
+                        await cmd.db.set_guild_settings(message.guild.id, 'muted_users', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
                         log_embed = generate_log_embed(message, target, reason)
-                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
+                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
     await message.channel.send(embed=response)

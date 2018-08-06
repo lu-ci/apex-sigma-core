@@ -26,9 +26,9 @@ async def currenttime(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         shift = ' '.join(args).lower()
         alias_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_alias', 'zone': shift})
-        shift = alias_doc.get('value') if alias_doc else shift
-        offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or shift
-        shift = offset_doc.get('value') if alias_doc else shift
+        shift = alias_doc.get('value').lower() if alias_doc else shift.lower()
+        offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or {}
+        shift = offset_doc.get('value') if offset_doc else shift
     try:
         now = arrow.utcnow()
         if shift:

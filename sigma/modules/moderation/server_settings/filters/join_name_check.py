@@ -13,16 +13,21 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.statistics import StatisticsStorage
-
-stats = None
+from sigma.modules.moderation.server_settings.filters.edit_name_check import is_invalid, clean_name
 
 
-async def ev_member_join(ev: SigmaEvent, message: discord.Message):
-    global stats
-    if stats is None:
-        stats = StatisticsStorage(ev.db, 'member_join')
-    stats.add_stat()
+async def join_name_check(ev: SigmaEvent, member: discord.Member):
+    if member.guild:
+        active = await ev.db.get_guild_settings(member.guild.id, 'ascii_only_names')
+        if active:
+            if is_invalid(member.display_name):
+                try:
+                    temp_name = await ev.db.get_guild_settings(member.guild.id, 'ascii_temp_name')
+                    new_name = clean_name(member.display_name, temp_name)
+                    await member.edit(nick=new_name, reason='ASCII name enforcement.')
+                except Exception:
+                    pass

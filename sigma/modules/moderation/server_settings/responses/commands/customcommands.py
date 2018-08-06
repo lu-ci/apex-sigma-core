@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import get_image_colors, paginate
 
 
 async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):
-    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'CustomCommands')
+    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)

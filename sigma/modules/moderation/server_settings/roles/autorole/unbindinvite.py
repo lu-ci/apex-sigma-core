@@ -32,16 +32,16 @@ async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                     inv_id = invite_id
                 else:
                     inv_id = target_inv.id
-                bindings = await cmd.db.get_guild_settings(message.guild.id, 'BoundInvites')
+                bindings = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
                 if bindings is None:
                     bindings = {}
                 if inv_id in bindings:
                     bindings.pop(inv_id)
-                    await cmd.db.set_guild_settings(message.guild.id, 'BoundInvites', bindings)
+                    await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bindings)
                     title = f'✅ Invite {inv_id} has been unbound.'
                     response = discord.Embed(color=0x77B255, title=title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invite {}.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ Invite {inv_id} not bound.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
         else:

@@ -20,10 +20,10 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
-    'LogAntispam', 'LogBans', 'LogDeletions', 'LogEdits', 'LogFilters',
-    'LogKicks', 'LogMovement', 'LogMutes', 'LogPurges', 'LogWarnings'
+    'log_antispam', 'log_bans', 'log_deletions', 'log_edits', 'log_filters',
+    'log_kicks', 'log_movement', 'log_mutes', 'log_purges', 'log_warnings'
 ]
-accepted_logs = [lk.lower()[3:] for lk in log_keys]
+accepted_logs = [lk.lower()[4:] for lk in log_keys]
 
 
 async def log(cmd: SigmaCommand, message: discord.Message, args: list):

@@ -21,18 +21,18 @@ from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
-    'LogAntispamChannel', 'LogBansChannel', 'LogDeletionsChannel', 'LogEditsChannel', 'LogFiltersChannel',
-    'LogKicksChannel', 'LogModulesChannel', 'LogMovementChannel', 'LogMutesChannel', 'LogPurgesChannel',
-    'LogWarningsChannel'
+    'log_antispam_channel', 'log_bans_channel', 'log_deletions_channel', 'log_edits_channel', 'log_filters_channel',
+    'log_kicks_channel', 'log_modules_channel', 'log_movement_channel', 'log_mutes_channel', 'log_purges_channel',
+    'log_warnings_channel'
 ]
-accepted_logs = [lk.lower()[3:-7] for lk in log_keys]
+accepted_logs = [lk.lower()[4:-7] for lk in log_keys]
 
 
 async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
     results = []
     for log_ord in log_ords:
         if log_ord in accepted_logs:
-            log_key = f'Log{log_ord.title()}Channel'
+            log_key = f'log_{log_ord.title()}_channel'
             await db.set_guild_settings(gld_id, log_key, chn)
             res = 'Set' if chn else 'Disabled'
         else:

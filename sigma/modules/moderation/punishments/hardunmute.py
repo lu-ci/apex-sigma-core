@@ -34,7 +34,7 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'UserID: {target.id}')
+    log_embed.set_footer(text=f'user_id: {target.id}')
     return log_embed
 
 
@@ -56,7 +56,7 @@ async def hardunmute(cmd: SigmaCommand, message: discord.Message, args: list):
                             except discord.Forbidden:
                                 pass
                     log_embed = generate_log_embed(message, target, reason)
-                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogMutes')
+                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     await ongoing_msg.delete()

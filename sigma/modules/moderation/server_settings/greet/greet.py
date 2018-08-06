@@ -24,11 +24,11 @@ async def greet(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
         response = permission_denied('Manage Server')
     else:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'Greet')
+        active = await cmd.db.get_guild_settings(message.guild.id, 'greet')
         if active is False and active is not None:
-            await cmd.db.set_guild_settings(message.guild.id, 'Greet', True)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet', True)
             response = discord.Embed(color=0x77B255, title='✅ Greeting Messages enabled.')
         else:
-            await cmd.db.set_guild_settings(message.guild.id, 'Greet', False)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet', False)
             response = discord.Embed(color=0x77B255, title='✅ Greeting Messages disabled.')
     await message.channel.send(embed=response)

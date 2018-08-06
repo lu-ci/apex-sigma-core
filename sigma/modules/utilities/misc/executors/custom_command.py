@@ -42,7 +42,7 @@ async def custom_command(ev: SigmaEvent, message: discord.Message):
                     perms = ServerCommandPermissions(ev, message)
                     await perms.check_perms()
                     if perms.permitted:
-                        custom_commands = await ev.db.get_guild_settings(message.guild.id, 'CustomCommands')
+                        custom_commands = await ev.db.get_guild_settings(message.guild.id, 'custom_commands')
                         if custom_commands is None:
                             custom_commands = {}
                         if cmd in custom_commands:

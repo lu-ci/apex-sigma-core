@@ -22,9 +22,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def forcedataupdate(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
     load_status = await message.channel.send(embed=response)
-    ready_events = cmd.bot.modules.events.get('ready')
+    ready_events = cmd.bot.modules.events.get('dbinit')
     for ready_event in ready_events:
-        if ready_event.name.startswith('dbinit_'):
-            await ready_event.execute(True)
+        await ready_event.execute(True)
     response = discord.Embed(color=0x77B255, title=f'✅ Database static content reinitialized.')
     await load_status.edit(embed=response)

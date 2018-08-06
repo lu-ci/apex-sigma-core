@@ -34,7 +34,7 @@ def generate_log_embed(message, target, channel, deleted):
     response.add_field(name='🗑 Prune Details', value=f'Amount: {len(deleted)} Messages\nTarget: {target_text}')
     author = message.author
     response.add_field(name='🛡 Responsible', value=f'{author.mention}\n{author.name}#{author.discriminator}')
-    response.set_footer(text=f'ChannelID: {channel.id}')
+    response.set_footer(text=f'channel_id: {channel.id}')
     return response
 
 
@@ -129,7 +129,7 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
                 pass
         response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
         log_embed = generate_log_embed(message, target, message.channel, deleted)
-        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'LogPurges')
+        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_purges')
     del_response = await message.channel.send(embed=response)
     await asyncio.sleep(5)
     try:

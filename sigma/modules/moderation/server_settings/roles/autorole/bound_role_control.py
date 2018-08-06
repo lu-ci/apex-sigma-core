@@ -22,7 +22,7 @@ from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher i
 
 async def bound_role_control(ev: SigmaEvent, member):
     if member.guild.me.guild_permissions.create_instant_invite:
-        bound_invites = await ev.db.get_guild_settings(member.guild.id, 'BoundInvites')
+        bound_invites = await ev.db.get_guild_settings(member.guild.id, 'boound_invites')
         if bound_invites is None:
             bound_invites = {}
         if bound_invites:

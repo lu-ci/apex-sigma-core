@@ -22,14 +22,14 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 async def inviteautowarn(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_guild:
-        filter_inv = await cmd.db.get_guild_settings(message.guild.id, 'InviteAutoWarn')
+        filter_inv = await cmd.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
         if filter_inv:
             new_value = False
             ending = 'disabled'
         else:
             new_value = True
             ending = 'enabled'
-        await cmd.db.set_guild_settings(message.guild.id, 'InviteAutoWarn', new_value)
+        await cmd.db.set_guild_settings(message.guild.id, 'invite_auto_warn', new_value)
         response = discord.Embed(color=0x77B255, title=f'✅ Automatic invite warnings have been {ending}.')
     else:
         response = permission_denied('Manage Server')

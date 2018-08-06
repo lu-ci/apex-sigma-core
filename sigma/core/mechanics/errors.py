@@ -18,18 +18,18 @@ import discord
 
 
 async def make_error_embed(error_file):
-    response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["Token"]}`')
-    cmd_text = f'Command: **{error_file["Message"]["Command"]}**'
-    cmd_text += f'\nID: **{error_file["Message"]["ID"]}**'
-    cmd_text += f'\nArguments: **{" ".join(error_file["Message"]["Arguments"]) or "None"}**'
-    orgn_text = f'Author: **{error_file["Author"]["Name"]}**'
-    orgn_text += f'\nAuthor ID: **{error_file["Author"]["ID"]}**'
-    orgn_text += f'\nChannel: **{error_file["Channel"]["Name"]}**'
-    orgn_text += f'\nChannel ID: **{error_file["Channel"]["ID"]}**'
-    orgn_text += f'\nGuild: **{error_file["Guild"]["Name"]}**'
-    orgn_text += f'\nGuild ID: **{error_file["Guild"]["ID"]}**'
-    trace_text = f'Trace Class:\n**{error_file["TraceBack"]["Class"]}**'
-    trace_text += f'\nTrace Details:\n```py\n{error_file["TraceBack"]["Details"][:1800]}\n```'
+    response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
+    cmd_text = f'Command: **{error_file["message"]["command"]}**'
+    cmd_text += f'\nID: **{error_file["message"]["id"]}**'
+    cmd_text += f'\nArguments: **{" ".join(error_file["message"]["arguments"]) or "None"}**'
+    orgn_text = f'Author: **{error_file["author"]["name"]}**'
+    orgn_text += f'\nAuthor ID: **{error_file["author"]["id"]}**'
+    orgn_text += f'\nChannel: **{error_file["channel"]["name"]}**'
+    orgn_text += f'\nChannel ID: **{error_file["channel"]["id"]}**'
+    orgn_text += f'\nGuild: **{error_file["guild"]["name"]}**'
+    orgn_text += f'\nGuild ID: **{error_file["guild"]["id"]}**'
+    trace_text = f'Trace Class:\n**{error_file["traceback"]["class"]}**'
+    trace_text += f'\nTrace Details:\n```py\n{error_file["traceback"]["details"][:1800]}\n```'
     response.add_field(name='Command', value=cmd_text)
     response.add_field(name='Origin', value=orgn_text)
     return response, trace_text

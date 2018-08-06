@@ -23,7 +23,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def unhardblockwords(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'HardBlockedWords')
+            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'hardblocked_words')
             if blocked_words is None:
                 blocked_words = []
             removed_words = []
@@ -35,7 +35,7 @@ async def unhardblockwords(cmd: SigmaCommand, message: discord.Message, args: li
                     if word.lower() in blocked_words:
                         blocked_words.remove(word.lower())
                         removed_words.append(word.lower())
-            await cmd.db.set_guild_settings(message.guild.id, 'HardBlockedWords', blocked_words)
+            await cmd.db.set_guild_settings(message.guild.id, 'hardblocked_words', blocked_words)
             if removed_words:
                 color = 0x66CC66
                 title = f'✅ I have removed {len(removed_words)} from the heavy blacklist.'

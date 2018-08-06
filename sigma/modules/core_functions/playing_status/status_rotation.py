@@ -39,7 +39,7 @@ async def status_clockwork(ev: SigmaEvent):
                 if not status_cache:
                     status_files = await ev.db[ev.db.db_nam].StatusFiles.find().to_list(None)
                     for status_file in status_files:
-                        status_text = status_file.get('Text')
+                        status_text = status_file.get('text')
                         status_cache.append(status_text)
                 if status_cache:
                     status = status_cache.pop(secrets.randbelow(len(status_cache)))

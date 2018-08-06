@@ -24,11 +24,11 @@ async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
     if not message.author.permissions_in(message.channel).manage_guild:
         out_content = permission_denied('Manage Server')
     else:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'GreetDM')
+        active = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm')
         if active:
-            await cmd.db.set_guild_settings(message.guild.id, 'GreetDM', False)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', False)
             out_content = discord.Embed(color=0x77B255, title='✅ Greeting via private message has been disabled.')
         else:
-            await cmd.db.set_guild_settings(message.guild.id, 'GreetDM', True)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', True)
             out_content = discord.Embed(color=0x77B255, title='✅ Greeting via private message has been enabled.')
     await message.channel.send(embed=out_content)

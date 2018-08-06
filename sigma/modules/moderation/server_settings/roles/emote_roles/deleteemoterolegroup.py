@@ -24,10 +24,10 @@ async def deleteemoterolegroup(cmd: SigmaCommand, message: discord.Message, args
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()
-            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'EmoteRoleGroups') or {}
+            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
             if group_id in emote_groups:
                 emote_groups.pop(group_id)
-                await cmd.db.set_guild_settings(message.guild.id, 'EmoteRoleGroups', emote_groups)
+                await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Emote role group {group_id} has been deleted.')
             else:
                 response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')

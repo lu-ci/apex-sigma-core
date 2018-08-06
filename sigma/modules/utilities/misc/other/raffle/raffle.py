@@ -51,16 +51,16 @@ async def raffle(cmd: SigmaCommand, message: discord.Message, args: list):
             starter_message = await message.channel.send(embed=starter)
             await starter_message.add_reaction(reaction_icon)
             raffle_data = {
-                'Author': message.author.id,
-                'Channel': message.channel.id,
-                'Title': raffle_title,
-                'Start': start_stamp,
-                'End': end_stamp,
-                'Icon': reaction_icon,
-                'Color': icon_color,
-                'Message': starter_message.id,
-                'Active': True,
-                'ID': rafid
+                'author': message.author.id,
+                'channel': message.channel.id,
+                'title': raffle_title,
+                'start': start_stamp,
+                'end': end_stamp,
+                'icon': reaction_icon,
+                'color': icon_color,
+                'message': starter_message.id,
+                'active': True,
+                'id': rafid
             }
             await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
             response = None

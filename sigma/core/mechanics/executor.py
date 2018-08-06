@@ -19,6 +19,7 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.statistics import StatisticsStorage
 
 
 class ExecutionClockwork(object):
@@ -30,6 +31,7 @@ class ExecutionClockwork(object):
         self.bot.loop.create_task(self.queue_ev_loop())
         self.bot.loop.create_task(self.queue_cmd_loop())
         self.processed = 0
+        self.stats = {}
 
     async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool=False):
         args = list(filter(lambda a: a != '', args))
@@ -60,9 +62,17 @@ class ExecutionClockwork(object):
                         task = command, message, args
                         await self.cmd_queue.put(task)
 
+    def get_stats_storage(self, event):
+        stats_handler = self.stats.get(event)
+        if not stats_handler:
+            stats_handler = StatisticsStorage(self.bot.db, event)
+            self.stats.update({event: stats_handler})
+        return stats_handler
+
     async def event_runner(self, event_name: str, *args):
         if self.bot.ready:
             if event_name in self.bot.modules.events:
+                self.get_stats_storage(event_name).add_stat()
                 for event in self.bot.modules.events[event_name]:
                     task = event, *args
                     await self.ev_queue.put(task)
