@@ -34,7 +34,7 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                     text = clean_content(message.content.lower())
                     elements = text.split(' ')
                     blocked_words = await ev.db.get_guild_settings(message.guild.id, 'blocked_words') or []
-                    hard_blocked_words = await ev.db.get_guild_settings(message.guild.id, 'hard_blocked_words') or []
+                    hard_blocked_words = await ev.db.get_guild_settings(message.guild.id, 'hardblocked_words') or []
                     remove = False
                     reason = None
                     for word in blocked_words:

@@ -16,7 +16,6 @@
 
 import arrow
 import discord
-import yaml
 from arrow.parser import ParserError
 
 from sigma.core.mechanics.command import SigmaCommand

@@ -54,7 +54,7 @@ async def reminder_cycler(ev: SigmaEvent):
                     response.description = reminder.get('text_message')
                     if author:
                         response.set_author(name=author.name, icon_url=user_avatar(author))
-                    response.set_footer(text=f'Reminder: {reminder.get("ReminderID")}')
+                    response.set_footer(text=f'Reminder: {reminder.get("reminder_id")}')
                     try:
                         if author:
                             await target.send(f'{author.mention}, your reminder executed.', embed=response)

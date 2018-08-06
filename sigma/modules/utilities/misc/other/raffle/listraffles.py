@@ -33,7 +33,7 @@ async def listraffles(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 location = 'in an unknown location.'
             hum_time = arrow.get(raf_doc.get('end')).humanize()
-            raffle_line = f'`{raf_doc.get("ID")}` ends {hum_time} {location}.'
+            raffle_line = f'`{raf_doc.get("id")}` ends {hum_time} {location}.'
             raffle_lines.append(raffle_line)
         outlist = '\n'.join(raffle_lines)
         response = discord.Embed(color=message.author.color)

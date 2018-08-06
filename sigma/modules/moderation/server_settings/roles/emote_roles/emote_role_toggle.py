@@ -52,7 +52,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
     if channel:
         guild = channel.guild
         if guild:
-            guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_groups') or {}
+            guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
             if guild_togglers:
                 user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
                 if user:

@@ -30,7 +30,7 @@ async def command_logger(ev: SigmaEvent, cmd, message, args):
         log_embed.description = f'Location: {message.channel.mention}\nArguments: {arguments}'
         log_embed.set_footer(text=f'Message ID: {message.id}')
         all_channels = ev.bot.get_all_channels()
-        log_channel_id = await ev.db.get_guild_settings(message.guild.id, 'logging_channel')
+        log_channel_id = await ev.db.get_guild_settings(message.guild.id, 'log_modules_channel')
         logged_modules = await ev.db.get_guild_settings(message.guild.id, 'logged_modules') or []
         log_event_active = cmd.category.lower() in logged_modules
         if log_channel_id and log_event_active:
