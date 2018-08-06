@@ -155,14 +155,6 @@ class ApexSigma(client_class):
             channels = self.cache.get_cache('all_channels')
         return channels
 
-    async def determine_shards(self):
-        self.log.info('Determining needed number of shards..')
-        pop_doc = await self.db[self.db.db_nam].GeneralStats.find_one({'name': 'population'})
-        if pop_doc:
-            gcount = pop_doc.get('guild_count', 0)
-            if gcount > 1000:
-                self.shard_count = (gcount // self.cfg.dsc.shard) + 1
-
     def run(self):
         try:
             self.log.info('Connecting to Discord Gateway...')
