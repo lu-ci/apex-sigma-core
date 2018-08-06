@@ -25,7 +25,7 @@ async def ping(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed(color=await get_image_colors(avatar))
     response.set_author(name=f'{cmd.bot.user.name}\'s Ping', icon_url=avatar)
     for shid, shlt in cmd.bot.latencies:
-        sline = f'Shard {shid + 1}: {int(shlt * 1000)}ms'
+        sline = f'Shard {shid}: {int(shlt * 1000)}ms'
         if shid == message.guild.shard_id:
             sline = f'**{sline}**'
         shard_lines.append(sline)
