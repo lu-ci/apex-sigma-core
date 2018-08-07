@@ -47,7 +47,7 @@ class RouletteSpot(object):
     def __init__(self, number):
         self.number = number
         self.type = 'odd' if divmod(number, 2)[1] else 'even'
-        self.color = None if number == 0 else 'b' if divmod(number, 2)[1] else 'r'
+        self.color = None if number == 0 else 'black' if divmod(number, 2)[1] else 'red'
         self.color_icon = '🔵' if number == 0 else '⚫' if divmod(number, 2)[1] else '🔴'
         self.column = 3 if number in hor_3 else 2 if number in hor_2 else 1 if number in hor_1 else 0
         self.dozen = 3 if number >= 25 else 2 if number >= 13 else 1 if number >= 1 else 0

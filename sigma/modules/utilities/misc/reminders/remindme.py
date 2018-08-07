@@ -48,7 +48,7 @@ async def remindme(cmd: SigmaCommand, message: discord.Message, args: list):
                         'reminder_id': reminder_id,
                         'user_id': message.author.id,
                         'creation_stamp': arrow.utcnow().timestamp,
-                        'execution_stmap': execution_stamp,
+                        'execution_stamp': execution_stamp,
                         'channel_id': message.channel.id,
                         'server_id': message.guild.id,
                         'text_message': text_message
