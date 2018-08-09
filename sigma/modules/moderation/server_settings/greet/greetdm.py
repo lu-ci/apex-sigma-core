@@ -21,14 +21,14 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.author.permissions_in(message.channel).manage_guild:
+    if not message.author.permissions_in(message.channel).manage_guild:
+        out_content = permission_denied('Manage Server')
+    else:
         active = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm')
         if active:
-            state, ender = True, 'enabled'
+            await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', False)
+            out_content = discord.Embed(color=0x77B255, title='✅ Greeting via private message has been disabled.')
         else:
-            state, ender = True, 'disabled'
-        await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', state)
-        response = discord.Embed(color=0x77B255, title=f'✅ Greeting via private message has been {ender}.')
-    else:
-        response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+            await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', True)
+            out_content = discord.Embed(color=0x77B255, title='✅ Greeting via private message has been enabled.')
+    await message.channel.send(embed=out_content)

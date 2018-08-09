@@ -14,43 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import traceback
-
 import discord
-
-
-def make_error_dict(message: discord.Message, exception: Exception, token: str, args: list, name: str):
-    gld = message.guild
-    gnam = message.guild.name if gld else None
-    gid = message.guild.id if gld else None
-    cnam = message.channel.name if gld else None
-    cid = message.channel.id if gld else None
-    error_dict = {
-        'token': token,
-        'error': f'{exception}',
-        'traceback': {
-            'class': f'{exception.with_traceback}',
-            'details': traceback.format_exc()
-        },
-        'message': {
-            'command': name,
-            'arguments': args,
-            'id': message.id
-        },
-        'author': {
-            'name': f'{message.author.name}#{message.author.discriminator}',
-            'id': message.author.id
-        },
-        'guild': {
-            'name': gnam,
-            'id': gid
-        },
-        'channel': {
-            'name': cnam,
-            'id': cid
-        }
-    }
-    return error_dict
 
 
 async def make_error_embed(error_file):

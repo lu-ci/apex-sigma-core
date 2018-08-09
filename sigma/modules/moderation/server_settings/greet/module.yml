@@ -48,18 +48,6 @@ commands:
       {owner_id}      - Server owner's ID.
       This command requires the Manage Server permission.
 
-  - name:         greetembed
-    alts:
-      - "greetemb"
-    enabled:      true
-    usage:        "{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png"
-    description:
-      Toggles whether greet messages are an embed or not. Also customizes the embed that is used.
-      You can change the embed color, set the thumbnail, and set the image. To do so, specify the
-      field and the value separated by a colon (see usage example). The accepted fields are color,
-      thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct
-      image URLs. Provide no arguments to toggle this feature on or off.
-
 events:
   - name:         greet_sender
     type:         member_join

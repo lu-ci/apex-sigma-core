@@ -29,7 +29,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.core.mechanics.errors import send_error_embed, make_error_dict
+from sigma.core.mechanics.errors import send_error_embed
 
 
 class SigmaCommand(object):
@@ -122,10 +122,10 @@ class SigmaCommand(object):
 
     async def add_usage_exp(self, message: discord.Message):
         if message.guild:
-            if not await self.bot.cool_down.on_cooldown('usage_experience', message.author):
+            if not await self.bot.cool_down.on_cooldown('UsageExperience', message.author):
                 award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
                 await self.db.add_experience(message.author, message.guild, award_xp)
-                await self.bot.cool_down.set_cooldown('usage_experience', message.author, 450)
+                await self.bot.cool_down.set_cooldown('UsageExperience', message.author, 450)
 
     @staticmethod
     async def respond_with_icon(message: discord.Message, icon: str or discord.Emoji):
@@ -135,12 +135,46 @@ class SigmaCommand(object):
             pass
 
     async def log_error(self, message: discord.Message, args: list, exception: Exception, error_token: str):
-        error_data = make_error_dict(message, exception, error_token, args, self.name)
+        if message.guild:
+            gnam = message.guild.name
+            gid = message.guild.id
+            cnam = message.channel.name
+            cid = message.channel.id
+        else:
+            gnam = None
+            gid = None
+            cnam = None
+            cid = None
+        err_file_data = {
+            'token': error_token,
+            'error': f'{exception}',
+            'traceback': {
+                'class': f'{exception.with_traceback}',
+                'details': traceback.format_exc()
+            },
+            'message': {
+                'command': self.name,
+                'arguments': args,
+                'id': message.id
+            },
+            'author': {
+                'name': f'{message.author.name}#{message.author.discriminator}',
+                'id': message.author.id
+            },
+            'guild': {
+                'name': gnam,
+                'id': gid
+            },
+            'channel': {
+                'name': cnam,
+                'id': cid
+            }
+        }
         if self.bot.cfg.pref.errorlog_channel:
             err_chn_id = self.bot.cfg.pref.errorlog_channel
             error_chn = discord.utils.find(lambda x: x.id == err_chn_id, self.bot.get_all_channels())
-            await send_error_embed(error_chn, error_data)
-        await self.db[self.bot.cfg.db.database].Errors.insert_one(error_data)
+            await send_error_embed(error_chn, err_file_data)
+        await self.db[self.bot.cfg.db.database].Errors.insert_one(err_file_data)
         log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
