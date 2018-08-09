@@ -69,8 +69,10 @@ Commands | Description | Example
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
 `>>catfact` `>>kittyfact` | Outputs a random fact about your lovely furry assh~ eerrrr... I mean, companion! | `>>catfact`
+`>>chevrons` `>>chevs` | Shows the target's chevron statistics. | `>>chevrons @person`
 `>>chucknorris` | This command outputs a random Chuck Norris joke. We use Chuck jokes because Bruce Lee is no joke, obviously. | `>>chucknorris`
 `>>cookies` | Shows how many cookies you have, or how many a mentioned user has. Cookies are given with the givecookie command. | `>>cookies @person`
+`>>crushchevron` `>>crushchev` `>>crush` | Crushes a chevron, remember to crush only bad, negative chevrons. If you crush a bad chevron, it turns into a random good chevron. If you crush a good, positive chevron, they will explode, taking half your other chevrons with them. If you come across a good one, grab them instead. | `>>crushchevron famine`
 `>>csshumor` | The only thing better than a joke is a joke written in CSS. And while that is sarcasm to a certain degree, these really are fun. Embrace your inner web designer and read some CSS jokes. | `>>csshumor`
 `>>cyanideandhappiness` `>>cnh` | Outputs an image of a random Cyanide and Happiness comic. Explosm makes awesome comics and animations. | `>>cyanideandhappiness`
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
@@ -83,6 +85,7 @@ Commands | Description | Example
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
 `>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency 500 @person`
 `>>givetovault` `>>givetobank` `>>gtv` `>>gtb` | The vault is a server specific Kud storage system. Members can contribute to the vault with this command. The Kud can then be awarded to users using the award command. | `>>givetovault 500`
+`>>grabchevron` `>>grabchev` `>>grab` | Grabs a chevron when it spawns. Blue are good, positive chevrons. They serve as a special currency. Red are bad, negative chevrons, they destroy other chevrons and make a mess, crush bad chevrons instead of grabbing them. | `>>grabchevron glory`
 `>>joke` | Outputs a joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>fluffytail` `>>kitsune` `>>kon` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>kitsunemimi`
 `>>leetspeak` `>>leet` `>>l33t` | Turns the specified statement into l33t text. You can specify which level of leet you want your text to be converted to, as shown in the usage example. The accepted levels are basic, advanced, and ultimate. | `>>leetspeak owned level:ultimate`
