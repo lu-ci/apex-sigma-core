@@ -18,23 +18,29 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import movement_message_parser
+from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 
 
 async def greet_sender(ev: SigmaEvent, member):
-    greet_active = await ev.db.get_guild_settings(member.guild.id, 'greet')
-    if greet_active is True or greet_active is None:
+    greet_active = await ev.db.get_guild_settings(member.guild.id, 'greet') or True
+    if greet_active:
         greet_dm = await ev.db.get_guild_settings(member.guild.id, 'greet_dm')
         if greet_dm:
             target = member
         else:
             greet_channel_id = await ev.db.get_guild_settings(member.guild.id, 'greet_channel')
-            if greet_channel_id is None:
-                target = None
-            else:
+            if greet_channel_id:
                 target = discord.utils.find(lambda x: x.id == greet_channel_id, member.guild.channels)
+            else:
+                target = None
         if target:
             current_greeting = await ev.db.get_guild_settings(member.guild.id, 'greet_message')
-            if current_greeting is None:
+            if not current_greeting:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greeting_text = movement_message_parser(member, current_greeting)
-            await target.send(greeting_text)
+            greet_embed = await ev.db.get_guild_settings(member.guild.id, 'greet_embed') or {}
+            if greet_embed.get('active'):
+                greeting = await make_greet_embed(greet_embed, greeting_text, member.guild)
+                await target.send(embed=greeting)
+            else:
+                await target.send(greeting_text)
