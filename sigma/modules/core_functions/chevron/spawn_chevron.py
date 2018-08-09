@@ -61,7 +61,7 @@ async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
                         chevron = '🔻'
                         color = 0xe75a70
                     else:
-                        await ev.bot.cool_down.set_cooldown(ev.name, message.author, 60)
+                        await ev.bot.cool_down.set_cooldown(ev.name, message.author, 10)
                     if chev_spwn:
                         await ev.bot.cool_down.set_cooldown(ev.name, message.guild, 60)
                         attrib = secrets.choice(good_attribs) if chev_good else secrets.choice(bad_attribs)
