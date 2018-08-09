@@ -42,7 +42,9 @@ async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
         if active:
             pfx = await ev.db.get_prefix(message)
             if not message.content.startswith(pfx):
-                if not await ev.bot.cool_down.on_cooldown(ev.name, message.guild):
+                gld_cd = await ev.bot.cool_down.on_cooldown(ev.name, message.guild)
+                ath_cd = await ev.bot.cool_down.on_cooldown(ev.name, message.author)
+                if not gld_cd and not ath_cd:
                     chev_spwn = False
                     chev_good = None
                     chevron = None
@@ -58,6 +60,8 @@ async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
                         chev_good = False
                         chevron = '🔻'
                         color = 0xe75a70
+                    else:
+                        await ev.bot.cool_down.set_cooldown(ev.name, message.author, 60)
                     if chev_spwn:
                         await ev.bot.cool_down.set_cooldown(ev.name, message.guild, 60)
                         attrib = secrets.choice(good_attribs) if chev_good else secrets.choice(bad_attribs)
