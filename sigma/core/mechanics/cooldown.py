@@ -40,7 +40,7 @@ class CooldownControl(object):
         self.bot = bot
         self.db = self.bot.db
         self.cache = Cacher()
-        self.cds = self.db[self.bot.cfg.db.database].CooldownSystem
+        self.cds = self.db[self.db.db_nam].CooldownSystem
 
     async def cache_cooldowns(self):
         cooldowns = await self.cds.find({}).to_list(None)

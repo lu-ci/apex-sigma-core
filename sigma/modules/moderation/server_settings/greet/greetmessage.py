@@ -17,21 +17,37 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import permission_denied
 
 
+async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
+    guild_color = await get_image_colors(guild.icon_url)
+    greeting = discord.Embed(color=data.get('color') or guild_color, description=greeting)
+    greeting.set_author(name=guild.name, icon_url=guild.icon_url)
+    if data.get('thumbnail'):
+        greeting.set_thumbnail(url=data.get('thumbnail'))
+    if data.get('image'):
+        greeting.set_image(url=data.get('image'))
+    return greeting
+
+
 async def greetmessage(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not message.author.permissions_in(message.channel).manage_guild:
-        response = permission_denied('Manage Server')
-    else:
+    if message.author.permissions_in(message.channel).manage_guild:
         if args:
             greeting_text = ' '.join(args)
             await cmd.db.set_guild_settings(message.guild.id, 'greet_message', greeting_text)
             response = discord.Embed(color=0x77B255, title='✅ New Greeting Message set.')
         else:
             current_greeting = await cmd.db.get_guild_settings(message.guild.id, 'greet_message')
-            if current_greeting is None:
+            if not current_greeting:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
-            response = discord.Embed(color=0x3B88C3)
-            response.add_field(name='ℹ Current Greet Message', value=f'```\n{current_greeting}\n```')
+            greet_embed = await cmd.db.get_guild_settings(message.guild.id, 'greet_embed') or {}
+            if greet_embed.get('active'):
+                response = await make_greet_embed(greet_embed, current_greeting, message.guild)
+            else:
+                response = discord.Embed(color=0x3B88C3, title='ℹ Current Greet Message')
+                response.description = current_greeting
+    else:
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

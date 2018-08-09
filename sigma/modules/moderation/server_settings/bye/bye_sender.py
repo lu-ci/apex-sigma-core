@@ -18,19 +18,25 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import movement_message_parser
+from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_embed
 
 
 async def bye_sender(ev: SigmaEvent, member):
-    bye_active = await ev.db.get_guild_settings(member.guild.id, 'bye')
-    if bye_active is True or bye_active is None:
+    bye_active = await ev.db.get_guild_settings(member.guild.id, 'bye') or True
+    if bye_active:
         bye_channel_id = await ev.db.get_guild_settings(member.guild.id, 'bye_channel')
-        if bye_channel_id is None:
-            target = None
-        else:
+        if bye_channel_id:
             target = discord.utils.find(lambda x: x.id == bye_channel_id, member.guild.channels)
+        else:
+            target = None
         if target:
             current_goodbye = await ev.db.get_guild_settings(member.guild.id, 'bye_message')
-            if current_goodbye is None:
+            if not current_goodbye:
                 current_goodbye = '{user_name} has left {server_name}.'
             goodbye_text = movement_message_parser(member, current_goodbye)
-            await target.send(goodbye_text)
+            bye_embed = await ev.db.get_guild_settings(member.guild.id, 'bye_embed') or {}
+            if bye_embed.get('active'):
+                goodbye = await make_bye_embed(bye_embed, goodbye_text, member.guild)
+                await target.send(embed=goodbye)
+            else:
+                await target.send(goodbye_text)
