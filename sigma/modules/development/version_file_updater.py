@@ -28,9 +28,9 @@ async def version_file_updater(ev: SigmaEvent):
             current_version_data = yaml.safe_load(version_file)
         beta = current_version_data['beta']
         build_date = arrow.utcnow().timestamp
-        major = current_version_data['version']['major']
-        minor = current_version_data['version']['minor']
         patch = current_version_data['version']['patch'] + 1
+        minor = patch // 20
+        major = current_version_data['version']['major']
         codename = current_version_data['codename']
         data_out = {
             'beta': beta,
