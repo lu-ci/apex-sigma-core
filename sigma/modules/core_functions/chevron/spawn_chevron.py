@@ -36,32 +36,35 @@ bad_attribs = [
 ]
 
 
-async def spawn_chevron(ev: SigmaEvent, msg: discord.Message):
-    if msg.guild:
-        active = await ev.db.get_guild_settings(msg.guild.id, 'spawn_chevrons')
+async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
+    if message.guild:
+        active = await ev.db.get_guild_settings(message.guild.id, 'spawn_chevrons')
         if active:
-            if not await ev.bot.cool_down.on_cooldown(ev.name, msg.guild):
-                chev_spwn = False
-                chev_good = None
-                chevron = None
-                color = None
-                chev_roll = secrets.randbelow(500)
-                if chev_roll <= 3:
-                    chev_spwn = True
-                    chev_good = True
-                    chevron = '🔷'
-                    color = 0x55acee
-                elif chev_roll == 5:
-                    chev_spwn = True
-                    chev_good = False
-                    chevron = '🔻'
-                    color = 0xe75a70
-                if chev_spwn:
-                    await ev.bot.cool_down.set_cooldown(ev.name, msg.guild, 60)
-                    pfx = await ev.db.get_prefix(msg)
-                    attrib = secrets.choice(good_attribs) if chev_good else secrets.choice(bad_attribs)
-                    response = discord.Embed(color=color, title=f'{chevron} The chevron of {attrib} has spawned.')
-                    response.description = f'To catch the chevron type **{pfx}grab {attrib}**.'
-                    response.description += ' Red chevrons are bad and will half your current amount.'
-                    chev_cache.set_cache(msg.channel.id, (chev_good, attrib))
+            pfx = await ev.db.get_prefix(message)
+            if not message.content.startswith(pfx):
+                if not await ev.bot.cool_down.on_cooldown(ev.name, message.guild):
+                    chev_spwn = False
+                    chev_good = None
+                    chevron = None
+                    color = None
+                    chev_roll = secrets.randbelow(500)
+                    if chev_roll <= 3:
+                        chev_spwn = True
+                        chev_good = True
+                        chevron = '🔷'
+                        color = 0x55acee
+                    elif chev_roll == 5:
+                        chev_spwn = True
+                        chev_good = False
+                        chevron = '🔻'
+                        color = 0xe75a70
+                    if chev_spwn:
+                        await ev.bot.cool_down.set_cooldown(ev.name, message.guild, 60)
+                        attrib = secrets.choice(good_attribs) if chev_good else secrets.choice(bad_attribs)
+                        response = discord.Embed(color=color, title=f'{chevron} The chevron of {attrib} has spawned.')
+                        response.description = f'To catch the chevron type **{pfx}grab {attrib}**.'
+                        response.description += f' To destroy the chevron type **{pfx}crush {attrib}**.'
+                        response.description += f' Grab good, positive chevrons, and crush bad, negative chevrons.'
+                        chev_cache.set_cache(message.channel.id, (chev_good, attrib))
+                        await message.channel.send(embed=response)
 

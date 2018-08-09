@@ -1,0 +1,10 @@
+name:             Chevron Control
+
+category:         administration
+
+enabled:          true
+
+events:
+  - name:         spawn_chevron
+    type:         message
+    enabled:      true
