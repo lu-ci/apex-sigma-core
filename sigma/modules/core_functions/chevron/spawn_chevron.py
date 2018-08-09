@@ -49,7 +49,7 @@ async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
                     chev_good = None
                     chevron = None
                     color = None
-                    chev_roll = secrets.randbelow(500)
+                    chev_roll = secrets.randbelow(100)
                     if chev_roll <= 3:
                         chev_spwn = True
                         chev_good = True
