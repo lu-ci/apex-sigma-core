@@ -30,7 +30,7 @@ async def crushchevron(cmd: SigmaCommand, message: discord.Message, args: list):
             chev_look = ' '.join(args).lower()
             if chev_look.lower() == chev_attrib.lower():
                 chev_cache.del_cache(message.channel.id)
-                await interact_chevron(cmd.db, message.author, chev_good, chev_attrib, 'crush')
+                await interact_chevron(cmd.db, message.author, not chev_good, chev_attrib, 'crush')
                 if chev_good:
                     chevron = '🔷'
                     color = 0x55acee
