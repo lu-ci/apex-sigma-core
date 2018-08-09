@@ -38,7 +38,7 @@ bad_attribs = [
 
 async def spawn_chevron(ev: SigmaEvent, message: discord.Message):
     if message.guild:
-        active = await ev.db.get_guild_settings(message.guild.id, 'spawn_chevrons')
+        active = message.channel.id in (await ev.db.get_guild_settings(message.guild.id, 'chevron_channels') or [])
         if active:
             pfx = await ev.db.get_prefix(message)
             if not message.content.startswith(pfx):
