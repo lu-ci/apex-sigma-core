@@ -17,21 +17,37 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import permission_denied
 
 
+async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
+    guild_color = await get_image_colors(guild.icon_url)
+    goodbye = discord.Embed(color=data.get('color') or guild_color, description=goodbye)
+    goodbye.set_author(name=guild.name, icon_url=guild.icon_url)
+    if data.get('thumbnail'):
+        goodbye.set_thumbnail(url=data.get('thumbnail'))
+    if data.get('image'):
+        goodbye.set_image(url=data.get('image'))
+    return goodbye
+
+
 async def byemessage(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not message.author.permissions_in(message.channel).manage_guild:
-        response = permission_denied('Manage Server')
-    else:
+    if message.author.permissions_in(message.channel).manage_guild:
         if args:
             goodbye_text = ' '.join(args)
             await cmd.db.set_guild_settings(message.guild.id, 'bye_message', goodbye_text)
             response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message set.')
         else:
             current_goodbye = await cmd.db.get_guild_settings(message.guild.id, 'bye_message')
-            if current_goodbye is None:
+            if not current_goodbye:
                 current_goodbye = '{user_name} has left {server_name}.'
-            response = discord.Embed(color=0x3B88C3, title='ℹ Current Goodbye Message')
-            response.description = current_goodbye
+            bye_embed = await cmd.db.get_guild_settings(message.guild.id, 'bye_embed') or {}
+            if bye_embed.get('active'):
+                response = await make_bye_embed(bye_embed, current_goodbye, message.guild)
+            else:
+                response = discord.Embed(color=0x3B88C3, title='ℹ Current Goodbye Message')
+                response.description = current_goodbye
+    else:
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)
