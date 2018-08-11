@@ -25,7 +25,7 @@ async def remover_detector(ev: SigmaEvent, payload: RawReactionActionEvent):
     mid = payload.message_id
     emoji = payload.emoji
     if uid in ev.bot.cfg.dsc.owners:
-        log_ch_id = ev.bot.modules.commands.get('addreact').cfg.get('log_ch')
+        log_ch_id = ev.bot.modules.commands.get('addinteraction').cfg.get('log_ch')
         if cid is not None and cid == log_ch_id:
             if emoji.name == '❌':
                 interaction_item = await ev.db[ev.db.db_nam].Interactions.find_one({'message_id': mid})
