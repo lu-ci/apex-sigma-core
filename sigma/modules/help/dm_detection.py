@@ -46,7 +46,6 @@ async def dm_detection(ev: SigmaEvent, message: discord.Message):
             if not message.content.startswith(pfx):
                 if await has_invite(ev, message.content.split()):
                     command = 'invite'
-                    await ev.bot.modules.commands['invite'].execute(message, [])
                 else:
                     log_dm(ev, message)
                     command = 'help'
