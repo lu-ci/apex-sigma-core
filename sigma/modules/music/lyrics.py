@@ -13,14 +13,21 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 import json
 
 import aiohttp
 import discord
+import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.data_processing import get_image_colors
+
+
+async def get_url_body(url: str):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as data:
+            data = await data.read()
+    return data
 
 
 def parse_parts(lyr: str):
@@ -38,6 +45,36 @@ def parse_parts(lyr: str):
     return pieces
 
 
+async def get_lyrics_from_html(lyirics_url: str):
+    lyrics_text = None
+    artist = None
+    song = None
+    thumbnail = None
+    if lyirics_url:
+        lyric_page_html = await get_url_body(lyirics_url)
+        if lyric_page_html:
+            lyrics_page = lx.fromstring(lyric_page_html)
+            lyric_section = lyrics_page.cssselect('.lyrics')
+            if lyric_section:
+                lyrics_text = lyric_section[0][1].text_content()
+                thumbnail = lyrics_page.cssselect('.cover_art-image')[0].attrib.get('src')
+                artist = lyrics_page.cssselect('.header_with_cover_art-primary_info-primary_artist')[0].text
+                song = lyrics_page.cssselect('.header_with_cover_art-primary_info-title')[0].text
+    return lyrics_text, artist, song, thumbnail
+
+
+def find_result(resp: dict):
+    lyr_url = None
+    resp = resp or {}
+    results = resp.get('response', {}).get('sections', [{}])
+    hits = results[0].get('hits')
+    for hit in hits:
+        if hit.get('type') == 'song':
+            lyr_url = hit.get('result', {}).get('url')
+            break
+    return lyr_url
+
+
 async def lyrics(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         query = ' '.join(args)
@@ -46,34 +83,26 @@ async def lyrics(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         query = None
     if query:
-        qsplit = query.split('-')
-        if len(qsplit) == 2:
-            artist = qsplit[0].strip()
-            song = qsplit[1].strip()
-            api_url = f'https://lyric-api.herokuapp.com/api/find/{artist}/{song}'
-            async with aiohttp.ClientSession() as session:
-                async with session.get(api_url) as data:
-                    data = await data.read()
-                    try:
-                        data = json.loads(data).get('lyric')
-                    except json.JSONDecodeError:
-                        data = None
-            if data:
-                chunks = parse_parts(data)
-                chunk_counter = 0
-                for chunk in chunks:
-                    chunk_counter += 1
-                    chunk_title = f'🔖 Lyrics for {song} by {artist}'
-                    if len(chunks) != 1:
-                        chunk_title += f' Page {chunk_counter}/{len(chunks)}'
-                    response = discord.Embed(color=0xf9f9f9, title=chunk_title)
-                    response.description = chunk
-                    await message.channel.send(embed=response)
-                return
-            else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ Nothing found for {song} by {artist}.')
+        api_url = f'https://genius.com/api/search/multi?q={query.lower()}'
+        search_data = await get_url_body(api_url)
+        search_data = json.loads(search_data)
+        lyrics_url = find_result(search_data)
+        lyrics_data, artist, song, image = await get_lyrics_from_html(lyrics_url)
+        if lyrics_data:
+            chunks = parse_parts(lyrics_data)
+            chunk_counter = 0
+            for chunk in chunks:
+                chunk_counter += 1
+                chunk_title = f'🔖 Lyrics for {song} by {artist}'
+                response = discord.Embed(color=await get_image_colors(image), title=chunk_title)
+                response.description = chunk
+                response.set_thumbnail(url=image)
+                if len(chunks) != 1:
+                    response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
+                await message.channel.send(embed=response)
+            return
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Make sure to separate the artist and song with a dash.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ Nothing found for {query}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No song information given, and nothing currently playing.')
     await message.channel.send(embed=response)
