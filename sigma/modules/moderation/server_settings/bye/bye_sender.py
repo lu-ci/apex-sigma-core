@@ -22,7 +22,8 @@ from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_emb
 
 
 async def bye_sender(ev: SigmaEvent, member):
-    bye_active = await ev.db.get_guild_settings(member.guild.id, 'bye') or True
+    bye_active = await ev.db.get_guild_settings(member.guild.id, 'bye')
+    bye_active = True if bye_active is None else bye_active
     if bye_active:
         bye_channel_id = await ev.db.get_guild_settings(member.guild.id, 'bye_channel')
         if bye_channel_id:

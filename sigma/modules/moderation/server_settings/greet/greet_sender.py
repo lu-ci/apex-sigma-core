@@ -22,7 +22,8 @@ from sigma.modules.moderation.server_settings.greet.greetmessage import make_gre
 
 
 async def greet_sender(ev: SigmaEvent, member):
-    greet_active = await ev.db.get_guild_settings(member.guild.id, 'greet') or True
+    greet_active = await ev.db.get_guild_settings(member.guild.id, 'greet')
+    greet_active = True if greet_active is None else greet_active
     if greet_active:
         greet_dm = await ev.db.get_guild_settings(member.guild.id, 'greet_dm')
         if greet_dm:
