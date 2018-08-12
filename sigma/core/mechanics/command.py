@@ -187,7 +187,7 @@ class SigmaCommand(object):
     async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
             if message.guild:
-                delete_command_message = await self.db.get_guild_settings(message.guild.id, 'DeleteCommands')
+                delete_command_message = await self.db.get_guild_settings(message.guild.id, 'delete_commands')
                 if delete_command_message:
                     try:
                         await message.delete()
