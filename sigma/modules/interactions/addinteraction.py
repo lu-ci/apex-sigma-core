@@ -21,6 +21,25 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
+async def send_log_message(cmd, message, reaction_url, reaction_id, reaction_name, inter_count):
+        log_ch_id = cmd.cfg.get('log_ch')
+        log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
+        if log_ch:
+            author = f'{message.author.name}#{message.author.discriminator}'
+            data_desc = f'Author: {author}'
+            data_desc += f'\nAuthor ID: {message.author.id}'
+            data_desc += f'\nGuild: {message.guild.name}'
+            data_desc += f'\nGuild ID: {message.guild.id}'
+            data_desc += f'\nReaction URL: [Here]({reaction_url})'
+            data_desc += f'\nReaction ID: {reaction_id}'
+            log_resp_title = f'🆙 Added {reaction_name.lower()} number {inter_count}'
+            log_resp = discord.Embed(color=0x3B88C3)
+            log_resp.add_field(name=log_resp_title, value=data_desc)
+            log_resp.set_thumbnail(url=reaction_url)
+            log_msg = await log_ch.send(embed=log_resp)
+            return log_msg
+
+
 async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
@@ -40,23 +59,7 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
                             inter_count = await cmd.db[cmd.db.db_nam].Interactions.count_documents(lookup) + 1
                             title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
                             response = discord.Embed(color=0x77B255, title=title)
-                            log_msg = None
-                            if 'log_ch' in cmd.cfg:
-                                log_ch_id = cmd.cfg['log_ch']
-                                log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
-                                if log_ch:
-                                    author = f'{message.author.name}#{message.author.discriminator}'
-                                    data_desc = f'Author: {author}'
-                                    data_desc += f'\nAuthor ID: {message.author.id}'
-                                    data_desc += f'\nGuild: {message.guild.name}'
-                                    data_desc += f'\nGuild ID: {message.guild.id}'
-                                    data_desc += f'\nReaction URL: [Here]({reaction_url})'
-                                    data_desc += f'\nReaction ID: {reaction_id}'
-                                    log_resp_title = f'🆙 Added {reaction_name.lower()} number {inter_count}'
-                                    log_resp = discord.Embed(color=0x3B88C3)
-                                    log_resp.add_field(name=log_resp_title, value=data_desc)
-                                    log_resp.set_thumbnail(url=reaction_url)
-                                    log_msg = await log_ch.send(embed=log_resp)
+                            log_msg = await send_log_message()
                             reaction_data = {
                                 'name': reaction_name.lower(),
                                 'user_id': message.author.id,
