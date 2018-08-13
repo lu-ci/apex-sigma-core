@@ -73,9 +73,7 @@ commands:
       "Adds new GIF to the specified interaction type. Accepted
       types are bite, cry, dance, drink, explode, facepalm,
       feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
-      punch, shoot, shrug, sip, slap, stab, and stare. There
-      are also NSFW interactions: fap, fuck, and fuckrl. Please
-      do not submit NSFW GIFs to non-NSFW interaction types."
+      punch, shoot, shrug, sip, slap, stab, and stare."
 
   - name:         slap
     enabled:      true
@@ -95,30 +93,6 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
       Care to share some of your food with someone cute?
-
-  - name:         fuck
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Don't question my modules... Yes (º﹃º)
-
-  - name:         fuckrl
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      The same as fuck, but for non-weebs, the RL stuff... STOP JUDGING ME (ﾟ￢ﾟ)
-
-  - name:         fap
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When you can't get that good-good, you gotta fap to them ԅ(¯﹃¯ԅ)
 
   - name:         stare
     enabled:      true
