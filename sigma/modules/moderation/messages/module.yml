@@ -32,10 +32,10 @@ commands:
     requirements:
       - "manage_messages"
     description:
-      Disallows the user from typing.
-      Well technically, it will make Sigma auto delete any message they send.
-      You can add a reason after the user mention if desired. Users with the
-      Those with the Administrator permission are not affected.
+      Disallows the user from typing. Well technically, it will make Sigma auto delete any message they send.
+      You can add a reason after the user mention if desired. Users with the Those with the Administrator
+      permission are not affected. You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
+      The user will be automatically unmuted after the duration elapses.
       This command requires the Manage Messages permission.
 
   - name:         textunmute

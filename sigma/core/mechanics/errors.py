@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import traceback
+import re
 
 import discord
 
@@ -51,6 +52,31 @@ def make_error_dict(message: discord.Message, exception: Exception, token: str, 
         }
     }
     return error_dict
+
+
+def get_error_message(error: Exception, name: str, prefix: str):
+    prefix = re.sub(r'([*_~`])', r'\\\1', prefix)
+    if isinstance(error, discord.Forbidden):
+        title = '❗ Error: Forbidden!'
+        err_text = f'It seems that you tried running something that {name} isn\'t allowed to do.'
+        err_text += f' This is something when {name} is missing permissions for stuff like'
+        err_text += ' sending messages, adding reactions, uploading files, etc.'
+        err_text += ' The error has been relayed to the developers. If you feel like dropping by'
+        err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
+    elif isinstance(error, discord.NotFound):
+        title = '❗ Error: Not Found!'
+        err_text = 'It might have been a target that got removed while the command was executing,'
+        err_text += f' whatever it was, {name} couldn\'t find it and encountered an error.'
+        err_text += ' The error has been relayed to the developers. If you feel like dropping by'
+        err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
+    else:
+        title = '❗ An Unhandled Error Occurred!'
+        err_text = 'Something seems to have gone wrong.'
+        err_text += '\nPlease be patient while we work on fixing the issue.'
+        err_text += '\nThe error has been relayed to the developers.'
+        err_text += f'\nIf you feel like dropping by and asking about it,'
+        err_text += f'\nthe invite link is in the **{prefix}help** command.'
+    return title, err_text
 
 
 async def make_error_embed(error_file):

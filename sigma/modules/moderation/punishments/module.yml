@@ -38,8 +38,10 @@ commands:
     description:
       Bans a user from the server.
       This will also remove all messages from that user in the last 24h.
-      The user can only be mentioned by a mention tag.
+      The user can only be specified via a mention tag.
       This is to preserve compatibility with logging and audit logs.
+      You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
+      The user will be automatically unbanned after the duration elapses.
       This command requires the Ban permission.
 
   - name:         softban
@@ -78,6 +80,8 @@ commands:
       Users who are hard-muted are disallowed from typing to any channel.
       There is no message deletion, this is a permission based mute.
       Due to adding a user override to every editable channel, this can spam audit logs.
+      You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
+      The user will be automatically unbanned after the duration elapses.
       This command requires the Manage Channels permission.
 
   - name:         hardunmute

@@ -26,7 +26,7 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
         lookup = args[0].lower()
         all_members = cmd.bot.get_all_members()
         if '#' in lookup:
-            uname = lookup.split('#')[0]
+            uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
             target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, all_members)
         else:

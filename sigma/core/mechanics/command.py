@@ -16,7 +16,6 @@
 
 import os
 import secrets
-import traceback
 
 import arrow
 import discord
@@ -29,7 +28,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.core.mechanics.errors import send_error_embed, make_error_dict
+from sigma.core.mechanics.errors import send_error_embed, make_error_dict, get_error_message
 
 
 class SigmaCommand(object):
@@ -150,26 +149,7 @@ class SigmaCommand(object):
         await self.log_error(message, args, e, err_token)
         prefix = await self.db.get_prefix(message)
         name = self.bot.user.name
-        if isinstance(e, discord.Forbidden):
-            title = '❗ Error: Forbidden!'
-            err_text = f'It seems that you tried running something that {name} isn\'t allowed to do.'
-            err_text += f' This is something when {name} is missing permissions for stuff like'
-            err_text += ' sending messages, adding reactions, uploading files, etc.'
-            err_text += ' The error has been relayed to the developers. If you feel like dropping by'
-            err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
-        elif isinstance(e, discord.NotFound):
-            title = '❗ Error: Not Found!'
-            err_text = 'It might have been a target that got removed while the command was executing,'
-            err_text += f' whatever it was, {name} couldn\'t find it and encountered an error.'
-            err_text += ' The error has been relayed to the developers. If you feel like dropping by'
-            err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
-        else:
-            title = '❗ An Unhandled Error Occurred!'
-            err_text = 'Something seems to have gone wrong.'
-            err_text += '\nPlease be patient while we work on fixing the issue.'
-            err_text += '\nThe error has been relayed to the developers.'
-            err_text += f'\nIf you feel like dropping by and asking about it,'
-            err_text += f'\nthe invite link is in the **{prefix}help** command.'
+        title, err_text = get_error_message(e, name, prefix)
         error_embed = discord.Embed(color=0xBE1931)
         error_embed.add_field(name=title, value=err_text)
         error_embed.set_footer(text=f'Token: {err_token}')
@@ -223,7 +203,6 @@ class SigmaCommand(object):
                                     self.bot.loop.create_task(event_task)
                                 except self.get_exception() as e:
                                     await self.send_error_message(message, args, e)
-
                             else:
                                 await self.respond_with_icon(message, '📝')
                                 reqs_embed = discord.Embed(color=0xBE1931)

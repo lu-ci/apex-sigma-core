@@ -43,7 +43,13 @@ async def ban(cmd: SigmaCommand, message: discord.Message, args: list):
         if message.mentions:
             target = message.mentions[0]
             timed = args[-1].startswith('--time=')
-            endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+            try:
+                now = arrow.utcnow().timestamp
+                endstamp = now + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+            except (LookupError, ValueError):
+                err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                await message.channel.send(embed=err_response)
+                return
             if len(args) >= 2:
                 try:
                     if endstamp:

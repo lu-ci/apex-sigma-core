@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        lookup = ' '.join(args)
+        lookup = args[0].lower()
         all_members = cmd.bot.get_all_members()
         if '#' in lookup:
             uname = lookup.split('#')[0].lower()

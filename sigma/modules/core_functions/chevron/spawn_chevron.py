@@ -26,11 +26,11 @@ chev_cache = Cacher()
 good_attribs = [
     'serenity', 'glee', 'joy', 'peace', 'prosperity', 'freedom',
     'elegance', 'fun', 'peanut butter', 'pizza', 'relaxation',
-    'love', 'comfort', 'ligh', 'ease', 'power', 'glory', 'riches'
+    'love', 'comfort', 'light', 'ease', 'power', 'glory', 'riches'
 ]
 
 bad_attribs = [
-    'hunger', 'famine', 'poverty', 'doom', 'war', 'descrution',
+    'hunger', 'famine', 'poverty', 'doom', 'war', 'destruction',
     'anxiety', 'pain', 'sadness', 'solitude', 'envy', 'death',
     'blood', 'anguish', 'anger', 'greed', 'gore', 'violence'
 ]

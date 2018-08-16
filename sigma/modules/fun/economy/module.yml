@@ -57,7 +57,10 @@ commands:
 
   - name:         grabchevron
     alts:
+      - "catchchevron"
+      - "catchchev"
       - "grabchev"
+      - "catch"
       - "grab"
     enabled:      true
     usage:        "{pfx}{cmd} glory"

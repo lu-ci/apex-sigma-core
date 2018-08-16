@@ -49,7 +49,13 @@ async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
                     ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
                     ongoing_msg = await message.channel.send(embed=ongoing)
                     timed = args[-1].startswith('--time=')
-                    endstamp = arrow.utcnow().timestamp + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+                    try:
+                        now = arrow.utcnow().timestamp
+                        endstamp = now + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+                    except (LookupError, ValueError):
+                        err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                        await message.channel.send(embed=err_response)
+                        return
                     for channel in message.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
