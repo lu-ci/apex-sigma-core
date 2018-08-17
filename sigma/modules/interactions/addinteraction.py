@@ -20,12 +20,16 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
 
 
-async def send_log_message(cmd, message, interaction_url, interaction_id, interaction_name, inter_count):
+async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_data: dict):
         log_ch_id = cmd.cfg.get('log_ch')
         log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
         if log_ch:
+            interaction_url = inter_data.get('url')
+            interaction_id = inter_data.get('interaction_id')
+            interaction_name = inter_data.get('name')
             author = f'{message.author.name}#{message.author.discriminator}'
             data_desc = f'Author: {author}'
             data_desc += f'\nAuthor ID: {message.author.id}'
@@ -33,7 +37,7 @@ async def send_log_message(cmd, message, interaction_url, interaction_id, intera
             data_desc += f'\nGuild ID: {message.guild.id}'
             data_desc += f'\nInteraction URL: [Here]({interaction_url})'
             data_desc += f'\nInteraction ID: {interaction_id}'
-            log_resp_title = f'🆙 Added {interaction_name.lower()} number {inter_count}'
+            log_resp_title = f'🆙 Added a new {interaction_name.lower()}'
             log_resp = discord.Embed(color=0x3B88C3)
             log_resp.add_field(name=log_resp_title, value=data_desc)
             log_resp.set_thumbnail(url=interaction_url)
@@ -41,27 +45,39 @@ async def send_log_message(cmd, message, interaction_url, interaction_id, intera
             return log_msg
 
 
-def make_interaction_data(message, interaction_name, interaction_url, interaction_id, log_msg):
+def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str):
     return {
         'name': interaction_name.lower(),
         'user_id': message.author.id,
         'server_id': message.guild.id,
         'url': interaction_url,
-        'interaction_id': interaction_id,
-        'message_id': log_msg.id if log_msg else None
+        'interaction_id': secrets.token_hex(4),
+        'message_id': None
     }
 
 
-async def validate_gif(url: str):
-    try:
-        async with aiohttp.ClientSession() as session:
-            resp = await session.get(url)
-            resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
-            valid = resp.status == 200 and resp_type == 'image/gif'
-            resp.close()
-    except Exception:
-        valid = False
+async def validate_gif_url(db: Database, name: str, url: str):
+    valid = False
+    exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
+    if not exists:
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as resp:
+                    resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
+                    valid = resp.status == 200 and resp_type == 'image/gif'
+        except Exception:
+            pass
     return valid
+
+
+def get_allowed_interactions(commands: dict):
+    allowed_interactions = []
+    for command in commands:
+        command = commands.get(command)
+        if command.category.lower() == 'interactions':
+            if command.name not in ['addinteraction', 'lovecalculator']:
+                allowed_interactions.append(command.name)
+    return allowed_interactions
 
 
 async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -69,17 +85,17 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
         if len(args) >= 2:
             interaction_name = args[0].lower()
             interaction_link = ' '.join(args[1:])
-            allowed_interactions = []
-            for command in cmd.bot.modules.commands:
-                command = cmd.bot.modules.commands.get(command)
-                if command.category.lower() == 'interactions':
-                    if command.name not in ['addinteraction', 'lovecalculator']:
-                        allowed_interactions.append(command.name)
+            allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
             if interaction_name in allowed_interactions:
-                if await validate_gif(interaction_link):
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Ok.')
+                if await validate_gif_url(cmd.db, interaction_name, interaction_link):
+                    inter_data = make_interaction_data(message, interaction_name, interaction_link)
+                    log_msg = await send_log_message(cmd, message, inter_data)
+                    inter_data.update({'message_id': log_msg.id if log_msg else None})
+                    await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
+                    success_title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
+                    response = discord.Embed(color=0x77B255, title=success_title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Invalid URL.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
         else:

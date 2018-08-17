@@ -117,33 +117,29 @@ Commands | Description | Example
 ### INTERACTIONS
 Commands | Description | Example
 ----------|-------------|--------
-`>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. There are also NSFW interactions: fap, fuck, and fuckrl. Please do not submit NSFW GIFs to non-NSFW interaction types. | `>>addinteraction reaction my.gif.link/fancy.gif`
-`>>bite` | Sink your teeth into some poor thing. | `>>bite @person`
+`>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. | `>>addinteraction reaction my.gif.link/fancy.gif`
+`>>bite` `>>nom` | Sink your teeth into some poor thing. | `>>bite @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
 `>>dance` | Feel alive? Like you just wanna... boogie? Let's dance! | `>>dance @person`
-`>>drink` | Cheers, family! Let's get drunk! | `>>drink @person`
+`>>drink` `>>chug` | Cheers, family! Let's get drunk! | `>>drink @person`
 `>>explode` `>>detonate` | When all other means fail, it's time to bring out the carpet bomb squadrons. | `>>explode @person`
 `>>facepalm` | Somebody just did something so stupid you want to facepalm. | `>>facepalm @person`
-`>>fap` | When you can't get that good-good, you gotta fap to them ԅ(¯﹃¯ԅ) | `>>fap @person`
 `>>feed` | Care to share some of your food with someone cute? | `>>feed @person`
-`>>fuck` | Don't question my modules... Yes (º﹃º) | `>>fuck @person`
-`>>fuckrl` | The same as fuck, but for non-weebs, the RL stuff... STOP JUDGING ME (ﾟ￢ﾟ) | `>>fuckrl @person`
 `>>highfive` | Give somebody a high-five cause high-fives are awesome! | `>>highfive @person`
-`>>hug` | Even a bot like me can appreciate a hug! The person you mention surely will too. | `>>hug @person`
-`>>kiss` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
+`>>hug` `>>cuddle` `>>snuggle` | Even a bot like me can appreciate a hug! The person you mention surely will too. | `>>hug @person`
+`>>kiss` `>>peck` `>>chu` `>>smooch` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, that's a good excuse. | `>>lick @person`
 `>>lovecalculator` `>>lovecalc` | Shows the love between two mentioned users. If only one user is mentioned, it will show the love between the mentioned user and the author. | `>>lovecalculator @person1 @person2`
-`>>pat` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
-`>>peck` | A hit and run style quickie kiss. | `>>peck @person`
+`>>pat` `>>pato` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
 `>>poke` | Poke, poke~ Are you alive? | `>>poke @person`
 `>>pout` | Make a pouty face at someone and make them change their mind. Or just teast them for being a horrible person. Like when they make you create a pout command for money! | `>>pout @person`
 `>>punch` | You have something on your face. IT WAS PAIN! | `>>punch @person`
-`>>shoot` | When a knife isn't enough. | `>>shoot @person`
+`>>shoot` `>>pew` | When a knife isn't enough. | `>>shoot @person`
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
-`>>stab` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
-`>>stare` | Jiiiiiiiiiii~ | `>>stare @person`
+`>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
+`>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
 [Back To Top](#module-index)
 
 ### MATHEMATICS
@@ -427,6 +423,7 @@ Commands | Description | Example
 `>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter are sent, the message will be deleted and the author will be notified. Words should not be separated by a delimiter. Those with the Administrator permission are not affected. | `>>blockwords crap ass tits`
 `>>bye` `>>goodbye` | Toggles if Sigma should say when users leave the server. The goodbye feature is active by default. | `>>bye`
 `>>byechannel` `>>byech` | Sets the channel the goodbye messages should be sent to. | `>>byechannel #welcome`
+`>>byeembed` `>>byeemb` | Toggles whether bye messages are an embed or not. Also customizes the embed that is used. You can change the embed color, set the thumbnail, and set the image. To do so, specify the field and the value separated by a colon (see usage example). The accepted fields are color, thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct image URLs. Provide no arguments to toggle this feature on or off. | `>>byeembed color:1abc9c image:my.image.link/fancy.png`
 `>>byemessage` `>>byemsg` | This sets the message shown on the server when a member leaves. Goodbye messages can have special dynamic arguments in them. {user_name}     - Leaving user's name. {user_disc}     - "#xxxx" in the user's name. {user_nick}     - Message author's nickname. {user_mention}  - Tag the leaving user. {user_id}       - Leaving user's ID. {server_name}   - Server name. {server_id}     - Server ID. {owner_name}    - Server owner's name. {owner_disc}    - "#xxxx" in the server owner's name. {owner_nick}    - Server owner's nickname. {owner_mention} - Tag the server owner. {owner_id}      - Server owner's ID. This command requires the Manage Server permission.  | `>>byemessage Goodbye {user_mention}!`
 `>>capslimit` | Sets the minimum number of capital letters in a message to check for before the message is checked for what percentage of it is in caps. Message below this limit will be ignored. | `>>capslimit 9`
 `>>capspercentage` `>>capspercent` | Sets the minimum percentage of capital letters in a message to check for before it is deleted. For example, if 80% of the message is caps (as set in the usage example), it will be deleted. | `>>capspercentage 80`
@@ -437,6 +434,7 @@ Commands | Description | Example
 `>>greet` | Toggles if Sigma should greet users when they enter the server. The greeting feature is active by default. | `>>greet`
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to, unless greetdm is active. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if Sigma should greet users by sending them a Direct Message, instead of writing the message in a channel. | `>>greetdm`
+`>>greetembed` `>>greetemb` | Toggles whether greet messages are an embed or not. Also customizes the embed that is used. You can change the embed color, set the thumbnail, and set the image. To do so, specify the field and the value separated by a colon (see usage example). The accepted fields are color, thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct image URLs. Provide no arguments to toggle this feature on or off. | `>>greetembed color:1abc9c image:my.image.link/fancy.png`
 `>>greetmessage` `>>greetmsg` | This sets the message shown on the server when a member joins. Greet messages can have special dynamic arguments in them. {user_name}     - Leaving user's name. {user_disc}     - "#xxxx" in the user's name. {user_nick}     - Message author's nickname. {user_mention}  - Tag the leaving user. {user_id}       - Leaving user's ID. {server_name}   - Server name. {server_id}     - Server ID. {owner_name}    - Server owner's name. {owner_disc}    - "#xxxx" in the server owner's name. {owner_nick}    - Server owner's nickname. {owner_mention} - Tag the server owner. {owner_id}      - Server owner's ID. This command requires the Manage Server permission.  | `>>greetmessage Hello {user_mention}, welcome to {server_name}!`
 `>>hardblockedwords` | Lists all hard-blocked words on the server. | `>>hardblockedwords`
 `>>hardblockwords` `>>hardblockword` | Works like "blockwords" but very intolerant. For example if you hardblock the word "ass" it will delete stuff like "assassin". It looks for any instance of the contents in the message, not indivitial segments. If any of the words in the filter are exist within a message, whether as a standalone word or within another word, the message will be deleted and the author will be notified. Extensions should not be separated by a delimiter. Those with the Administrator permission are not affected. | `>>hardblockwords crap ass tits`
