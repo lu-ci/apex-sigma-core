@@ -121,6 +121,17 @@ commands:
     description:
       Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
 
+  - name:         fuck
+    alts:
+      - "fucc"
+      - "succ"
+    enabled:      true
+    permissions:
+      nsfw:       true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Don't question my modules... Yes (º﹃º)
+
   - name:         drink
     alts:
       - "chug"

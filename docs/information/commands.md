@@ -125,6 +125,7 @@ Commands | Description | Example
 `>>explode` `>>detonate` | When all other means fail, it's time to bring out the carpet bomb squadrons. | `>>explode @person`
 `>>facepalm` | Somebody just did something so stupid you want to facepalm. | `>>facepalm @person`
 `>>feed` | Care to share some of your food with someone cute? | `>>feed @person`
+`>>fuck` `>>fucc` `>>succ` | Don't question my modules... Yes (º﹃º) | `>>fuck @person`
 `>>highfive` | Give somebody a high-five cause high-fives are awesome! | `>>highfive @person`
 `>>hug` `>>cuddle` `>>snuggle` | Even a bot like me can appreciate a hug! The person you mention surely will too. | `>>hug @person`
 `>>kiss` `>>peck` `>>chu` `>>smooch` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
