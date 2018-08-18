@@ -190,5 +190,5 @@ def run(db_addr, skippable):
 
 
 # Your mongo address goes here and list of things you want to skip
-run('mongodb://localhost:27017', ['Errors', 'MarkovChains'])
+run('mongodb://master:JomyQaseYoji0%40@lucia.moe:27017', [])
 

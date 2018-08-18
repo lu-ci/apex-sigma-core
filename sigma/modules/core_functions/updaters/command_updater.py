@@ -47,6 +47,8 @@ async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
 async def command_updater_clockwork(ev: SigmaEvent):
     module_coll = ev.db[ev.db.db_nam].ModuleCache
     command_coll = ev.db[ev.db.db_nam].CommandCache
+    await module_coll.drop()
+    await command_coll.drop()
     while True:
         if ev.bot.is_ready():
             for module in ev.bot.modules.categories:
