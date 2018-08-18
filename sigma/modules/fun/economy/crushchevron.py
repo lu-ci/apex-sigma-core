@@ -33,14 +33,15 @@ async def crushchevron(cmd: SigmaCommand, message: discord.Message, args: list):
                 chev_cache.del_cache(message.channel.id)
                 await interact_chevron(cmd.db, message.author, chev_good, chev_attrib, 'crush')
                 if chev_good:
-                    chevron = '🔷'
-                    color = 0x55acee
+                    chevron, color = '🔷', 0x55acee
                     response_text = 'This is a negative chevron, it was purified and added to your inventory.'
                 else:
-                    chevron = '🔻'
-                    color = 0xe75a70
+                    chevron, color = '🔻', 0xe75a70
                     response_text = 'This is a positive chevron, it destroyed half of your other chevrons...'
-                response = discord.Embed(color=color, title=f'{chevron} You caught a {chev_attrib} chevron!')
+                connector = 'a'
+                if chev_attrib[0] in ['a', 'e', 'i', 'o', 'u']:
+                    connector = 'an'
+                response = discord.Embed(color=color, title=f'{chevron} You crushed {connector} {chev_attrib} chevron!')
                 response.description = response_text
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ I don\'t think it\'s a {chev_look} chevron.')

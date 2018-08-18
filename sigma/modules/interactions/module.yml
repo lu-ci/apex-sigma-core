@@ -30,6 +30,9 @@ commands:
 
 
   - name:         hug
+    alts:
+      - "cuddle"
+      - "snuggle"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -37,6 +40,10 @@ commands:
       The person you mention surely will too.
 
   - name:         kiss
+    alts:
+      - "peck"
+      - "chu"
+      - "smooch"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -44,6 +51,8 @@ commands:
       How disturbing.
 
   - name:         pat
+    alts:
+      - "pato"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -52,12 +61,16 @@ commands:
       I will kill you last.
 
   - name:         shoot
+    alts:
+      - "pew"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
       When a knife isn't enough.
 
   - name:         bite
+    alts:
+      - "nom"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -73,9 +86,7 @@ commands:
       "Adds new GIF to the specified interaction type. Accepted
       types are bite, cry, dance, drink, explode, facepalm,
       feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
-      punch, shoot, shrug, sip, slap, stab, and stare. There
-      are also NSFW interactions: fap, fuck, and fuckrl. Please
-      do not submit NSFW GIFs to non-NSFW interaction types."
+      punch, shoot, shrug, sip, slap, stab, and stare."
 
   - name:         slap
     enabled:      true
@@ -96,31 +107,9 @@ commands:
     description:
       Care to share some of your food with someone cute?
 
-  - name:         fuck
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Don't question my modules... Yes (º﹃º)
-
-  - name:         fuckrl
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      The same as fuck, but for non-weebs, the RL stuff... STOP JUDGING ME (ﾟ￢ﾟ)
-
-  - name:         fap
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When you can't get that good-good, you gotta fap to them ԅ(¯﹃¯ԅ)
-
   - name:         stare
+    alts:
+      - "jii"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
@@ -133,22 +122,20 @@ commands:
       Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
 
   - name:         drink
+    alts:
+      - "chug"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
       Cheers, family! Let's get drunk!
 
   - name:         stab
+    alts:
+      - "chib"
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
       Boy... Somebody really has you pissed off if you are using this one.
-
-  - name:         peck
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      A hit and run style quickie kiss.
 
   - name:         poke
     enabled:      true

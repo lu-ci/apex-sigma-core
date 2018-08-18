@@ -16,62 +16,86 @@
 
 import secrets
 
+import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
+
+
+async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_data: dict):
+        log_ch_id = cmd.cfg.get('log_ch')
+        log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
+        if log_ch:
+            interaction_url = inter_data.get('url')
+            interaction_id = inter_data.get('interaction_id')
+            interaction_name = inter_data.get('name')
+            author = f'{message.author.name}#{message.author.discriminator}'
+            data_desc = f'Author: {author}'
+            data_desc += f'\nAuthor ID: {message.author.id}'
+            data_desc += f'\nGuild: {message.guild.name}'
+            data_desc += f'\nGuild ID: {message.guild.id}'
+            data_desc += f'\nInteraction URL: [Here]({interaction_url})'
+            data_desc += f'\nInteraction ID: {interaction_id}'
+            log_resp_title = f'🆙 Added a new {interaction_name.lower()}'
+            log_resp = discord.Embed(color=0x3B88C3)
+            log_resp.add_field(name=log_resp_title, value=data_desc)
+            log_resp.set_thumbnail(url=interaction_url)
+            log_msg = await log_ch.send(embed=log_resp)
+            return log_msg
+
+
+def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str):
+    return {
+        'name': interaction_name.lower(),
+        'user_id': message.author.id,
+        'server_id': message.guild.id,
+        'url': interaction_url,
+        'interaction_id': secrets.token_hex(4),
+        'message_id': None
+    }
+
+
+async def validate_gif_url(db: Database, name: str, url: str):
+    valid = False
+    exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
+    if not exists:
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as resp:
+                    resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
+                    valid = resp.status == 200 and resp_type == 'image/gif'
+        except Exception:
+            pass
+    return valid
+
+
+def get_allowed_interactions(commands: dict):
+    allowed_interactions = []
+    for command in commands:
+        command = commands.get(command)
+        if command.category.lower() == 'interactions':
+            if command.name not in ['addinteraction', 'lovecalculator']:
+                allowed_interactions.append(command.name)
+    return allowed_interactions
 
 
 async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
-            reaction_name = args[0]
-            allowed_reactions = []
-            for command in cmd.bot.modules.commands:
-                if cmd.bot.modules.commands[command].category.lower() == 'interactions':
-                    allowed_reactions.append(command)
-            if reaction_name.lower() in allowed_reactions:
-                reaction_url = '%20'.join(args[1:])
-                if reaction_url.startswith('http'):
-                    if reaction_url.endswith('.gif'):
-                        exist_check = await cmd.db[cmd.db.db_nam].Interactions.find_one({'url': reaction_url})
-                        if not exist_check:
-                            reaction_id = secrets.token_hex(4)
-                            lookup = {'name': reaction_name.lower()}
-                            inter_count = await cmd.db[cmd.db.db_nam].Interactions.count_documents(lookup) + 1
-                            title = f'✅ Added **{reaction_name.lower()}** number **{inter_count}**.'
-                            response = discord.Embed(color=0x77B255, title=title)
-                            log_msg = None
-                            if 'log_ch' in cmd.cfg:
-                                log_ch_id = cmd.cfg['log_ch']
-                                log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
-                                if log_ch:
-                                    author = f'{message.author.name}#{message.author.discriminator}'
-                                    data_desc = f'Author: {author}'
-                                    data_desc += f'\nAuthor ID: {message.author.id}'
-                                    data_desc += f'\nGuild: {message.guild.name}'
-                                    data_desc += f'\nGuild ID: {message.guild.id}'
-                                    data_desc += f'\nReaction URL: [Here]({reaction_url})'
-                                    data_desc += f'\nReaction ID: {reaction_id}'
-                                    log_resp_title = f'🆙 Added {reaction_name.lower()} number {inter_count}'
-                                    log_resp = discord.Embed(color=0x3B88C3)
-                                    log_resp.add_field(name=log_resp_title, value=data_desc)
-                                    log_resp.set_thumbnail(url=reaction_url)
-                                    log_msg = await log_ch.send(embed=log_resp)
-                            reaction_data = {
-                                'name': reaction_name.lower(),
-                                'user_id': message.author.id,
-                                'server_id': message.guild.id,
-                                'url': reaction_url,
-                                'reaction_id': reaction_id,
-                                'message_id': log_msg.id if log_msg else None
-                            }
-                            await cmd.db[cmd.db.db_nam].Interactions.insert_one(reaction_data)
-                        else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ Reaction already exists.')
-                    else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ Reaction URL must end with .gif.')
+            interaction_name = args[0].lower()
+            interaction_link = ' '.join(args[1:])
+            allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
+            if interaction_name in allowed_interactions:
+                if await validate_gif_url(cmd.db, interaction_name, interaction_link):
+                    inter_data = make_interaction_data(message, interaction_name, interaction_link)
+                    log_msg = await send_log_message(cmd, message, inter_data)
+                    inter_data.update({'message_id': log_msg.id if log_msg else None})
+                    await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
+                    success_title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
+                    response = discord.Embed(color=0x77B255, title=success_title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Invalid URL.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
         else:

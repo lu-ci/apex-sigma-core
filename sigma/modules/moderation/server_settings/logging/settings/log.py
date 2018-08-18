@@ -43,7 +43,7 @@ async def log(cmd: SigmaCommand, message: discord.Message, args: list):
                 results = []
                 for log_ord in log_ords:
                     if log_ord in accepted_logs:
-                        log_key = f'Log{log_ord.title()}'
+                        log_key = f'log_{log_ord}'
                         curr = bool(await cmd.db.get_guild_settings(message.guild.id, log_key))
                         new = not curr
                         await cmd.db.set_guild_settings(message.guild.id, log_key, new)
@@ -52,7 +52,7 @@ async def log(cmd: SigmaCommand, message: discord.Message, args: list):
                         res = 'Invalid'
                     res_line = f'{log_ord.title()}: {res}'
                     results.append(res_line)
-                response = discord.Embed(color=0x77B255, title=f'✅ Multiple logging edited.')
+                response = discord.Embed(color=0x77B255, title=f'✅ Log types edited.')
                 response.description = '\n'.join(results)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
