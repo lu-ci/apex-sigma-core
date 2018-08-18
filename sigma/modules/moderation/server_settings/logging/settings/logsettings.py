@@ -34,7 +34,7 @@ async def logsettings(cmd: SigmaCommand, message: discord.Message, args: list):
             channel = discord.utils.find(lambda x: x.id == channel_id, message.guild.channels)
             chn = channel.name if channel else 'Not Set'
             state = 'Enabled' if enabled else 'Disabled'
-            log_line = [log_key[3:], chn, state]
+            log_line = [log_key[4:].title(), chn, state]
             settings.append(log_line)
         headers = ['Type', 'Channel', 'State']
         output = boop(settings, column_names=headers)
