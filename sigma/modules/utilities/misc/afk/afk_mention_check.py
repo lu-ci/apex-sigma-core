@@ -32,7 +32,6 @@ async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
                 afk_data = afk_cache.get_cache(message.author.id)
                 if not afk_data:
                     afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one({'user_id': target.id})
-                    afk_cache.set_cache(target.id, afk_data)
                 if afk_data:
                     time_then = arrow.get(afk_data['timestamp'])
                     afk_time = arrow.get(time_then).humanize(arrow.utcnow()).title()

@@ -19,10 +19,10 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def getreaction(cmd: SigmaCommand, message: discord.Message, args: list):
+async def getinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         react_id = args[0].lower()
-        react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'reaction_id': react_id})
+        react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': react_id})
         if react_item:
             response = discord.Embed(color=0x5dadec)
             response.set_image(url=react_item['url'])

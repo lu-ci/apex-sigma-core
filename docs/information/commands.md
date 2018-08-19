@@ -39,13 +39,13 @@ Commands | Description | Example
 `>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the specified amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
 `>>generateitem` `>>genitem` | Creates and gives the specified item to the mentioned user. (Bot Owner Only) | `>>generateitem @person Blue Delta`
 `>>geterror` | Gets an error's details using the specified token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
-`>>getreaction` `>>getreact` | Retrieves the source image for the reaction with the specified ID. (Bot Owner Only) | `>>getreaction 4242ea69`
+`>>getinteraction` `>>getinteract` | Retrieves the source image for the interaction with the specified ID. (Bot Owner Only) | `>>getinteraction 4242ea69`
 `>>liststatuses` `>>statuses` | Shows the list of statuses in the status database. (Bot Owner Only) | `>>liststatuses`
 `>>oserverbots` `>>osbots` | Lists the bots and their statuses on the specified server. The lookup is by either name or by guild ID. (Bot Owner Only) | `>>oserverbots Lucia's Cipher`
 `>>oserverinformation` `>>oserverinfo` `>>osinfo` | Shows information and data on the specified server. The lookup is by either name or guild ID. (Bot Owner Only) | `>>oserverinformation Lucia's Cipher`
 `>>ouserinformation` `>>ouserinfo` `>>ouinfo` | Shows information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>ouserinformation AXAz0r#0001`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
-`>>removereaction` `>>removereact` `>>delreact` | Remove a reaction with the specified ID. (Bot Owner Only) | `>>removereaction 1ba2e263f287522f`
+`>>removeinteraction` `>>removeinteract` `>>delinteract` | Remove an interaction with the specified ID. (Bot Owner Only) | `>>removeinteraction 1ba2e263`
 `>>removestatus` `>>delstatus` | Removes a status with the specified ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
 `>>resetleaderboards` `>>resetlbs` | Resets the global leaderboard data. Currency, experience, and cookies. (Bot Owner Only) | `>>resetleaderboards`
 `>>sabotageuser` `>>sabusr` | Sabotages a user making them have extreme bad luck in various modules. (Bot Owner Only) | `>>sabotageuser 0123456789`

@@ -33,7 +33,7 @@ async def grab_interaction(db, intername):
     if interaction_cache.get(intername):
         choice = interaction_cache[intername].pop(secrets.randbelow(len(interaction_cache[intername])))
     else:
-        choice = {'url': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'reaction_id': None}
+        choice = {'url': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'interaction_id': None}
     return choice
 
 
@@ -61,6 +61,6 @@ def make_footer(cmd, item):
     sid = item.get('server_id')
     srv = discord.utils.find(lambda x: x.id == sid, cmd.bot.guilds)
     servername = srv.name if srv else 'Unknown Server'
-    react_id = item.get('reaction_id')
+    react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
     return footer

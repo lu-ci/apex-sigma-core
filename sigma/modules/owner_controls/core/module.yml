@@ -42,17 +42,17 @@ commands:
     description:
       Gets an error's details using the specified token.
 
-  - name:         removereaction
+  - name:         removeinteraction
     alts:
-      - "removereact"
-      - "delreact"
+      - "removeinteract"
+      - "delinteract"
     enabled:      true
     permissions:
       owner:      true
       dmable:     true
-    usage:        "{pfx}{cmd} 1ba2e263f287522f"
+    usage:        "{pfx}{cmd} 1ba2e263"
     description:
-      Remove a reaction with the specified ID.
+      Remove an interaction with the specified ID.
 
   - name:         resetleaderboards
     alts:
@@ -91,13 +91,13 @@ commands:
       Sets a global cooldown on a command.
       The cooldown is user-bound and specified in seconds.
 
-  - name:         getreaction
+  - name:         getinteraction
     alts:
-      - "getreact"
+      - "getinteract"
     enabled:      true
     permissions:
       owner:      true
       dmable:     true
     usage:        "{pfx}{cmd} 4242ea69"
     description:
-      Retrieves the source image for the reaction with the specified ID.
+      Retrieves the source image for the interaction with the specified ID.
