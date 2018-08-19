@@ -363,7 +363,7 @@
     "URL": "url"
   },
   {
-    "ReactionID": "reaction_id"
+    "ReactionID": "interaction_id"
   },
   {
     "MessageID": "message_id"
