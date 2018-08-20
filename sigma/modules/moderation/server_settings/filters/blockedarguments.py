@@ -20,16 +20,16 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import paginate
 
 
-async def blockedwords(cmd: SigmaCommand, message: discord.Message, args: list):
-    blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
-    if not blocked_words:
+async def blockedarguments(cmd: SigmaCommand, message: discord.Message, args: list):
+    blocked_args = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
+    if not blocked_args:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
     else:
-        total_count = len(blocked_words)
-        blocked_words, page = paginate(blocked_words, args[0] if args else 1, 20)
-        showing_count = len(blocked_words)
+        total_count = len(blocked_args)
+        blocked_args, page = paginate(blocked_args, args[0] if args else 1, 20)
+        showing_count = len(blocked_args)
         title = f'ℹ Arguments blocked on {message.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)
-        response.description = ', '.join(blocked_words)
+        response.description = ', '.join(blocked_args)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
     await message.channel.send(embed=response)
