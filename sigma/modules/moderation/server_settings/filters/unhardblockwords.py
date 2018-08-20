@@ -38,7 +38,7 @@ async def unhardblockwords(cmd: SigmaCommand, message: discord.Message, args: li
             await cmd.db.set_guild_settings(message.guild.id, 'hardblocked_words', blocked_words)
             if removed_words:
                 color = 0x66CC66
-                title = f'✅ I have removed {len(removed_words)} from the heavy blacklist.'
+                title = f'✅ I have removed {len(removed_words)} words from the heavy blacklist.'
             else:
                 color = 0x3B88C3
                 title = 'ℹ No words were removed.'

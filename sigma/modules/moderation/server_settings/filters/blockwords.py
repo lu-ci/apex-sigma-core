@@ -34,7 +34,7 @@ async def blockwords(cmd: SigmaCommand, message: discord.Message, args: list):
             await cmd.db.set_guild_settings(message.guild.id, 'blocked_words', blocked_words)
             if added_words:
                 color = 0x66CC66
-                title = f'✅ I have added {len(added_words)} to the blacklist.'
+                title = f'✅ I have added {len(added_words)} words to the blacklist.'
             else:
                 color = 0x3B88C3
                 title = 'ℹ No new words were added.'

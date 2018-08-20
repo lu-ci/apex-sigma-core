@@ -20,24 +20,28 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def hardblockwords(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unblockarguments(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'hardblocked_words')
+            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
             if blocked_words is None:
                 blocked_words = []
-            added_words = []
-            for word in args:
-                if word.lower() not in blocked_words:
-                    blocked_words.append(word.lower())
-                    added_words.append(word.lower())
-            await cmd.db.set_guild_settings(message.guild.id, 'hardblocked_words', blocked_words)
-            if added_words:
+            removed_words = []
+            if args[-1].lower() == '-all':
+                removed_words = blocked_words
+                blocked_words = []
+            else:
+                for word in args:
+                    if word.lower() in blocked_words:
+                        blocked_words.remove(word.lower())
+                        removed_words.append(word.lower())
+            await cmd.db.set_guild_settings(message.guild.id, 'blocked_args', blocked_words)
+            if removed_words:
                 color = 0x66CC66
-                title = f'✅ I have added {len(added_words)} words to the heavy blacklist.'
+                title = f'✅ I have removed {len(removed_words)} words from the blacklist.'
             else:
                 color = 0x3B88C3
-                title = 'ℹ No new words were added.'
+                title = 'ℹ No words were removed.'
             response = discord.Embed(color=color, title=title)
         else:
             response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
