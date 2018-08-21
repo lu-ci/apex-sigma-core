@@ -54,37 +54,3 @@ commands:
       The amount is modified by the number of days in a row that you've collected
       your daily Kud up to 10 days, as well as a little random factor in there just for fun.
       While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected.
-
-  - name:         grabchevron
-    alts:
-      - "catchchevron"
-      - "catchchev"
-      - "grabchev"
-      - "catch"
-      - "grab"
-    enabled:      true
-    usage:        "{pfx}{cmd} glory"
-    description:
-      Grabs a chevron when it spawns. Blue are good, positive chevrons.
-      They serve as a special currency. Red are bad, negative chevrons,
-      they destroy other chevrons and make a mess, crush bad chevrons instead of grabbing them.
-
-  - name:         crushchevron
-    alts:
-      - "crushchev"
-      - "crush"
-    enabled:      true
-    usage:        "{pfx}{cmd} famine"
-    description:
-      Crushes a chevron, remember to crush only bad, negative chevrons.
-      If you crush a bad chevron, it turns into a random good chevron.
-      If you crush a good, positive chevron, they will explode, taking half your other chevrons with them.
-      If you come across a good one, grab them instead.
-
-  - name:         chevrons
-    alts:
-      - "chevs"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows the target's chevron statistics.
