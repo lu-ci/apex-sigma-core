@@ -180,7 +180,7 @@ class SigmaCommand(object):
                         pass
                     except discord.NotFound:
                         pass
-                if await self.check_black_args():
+                if await self.check_black_args(message.guild, args):
                     await self.respond_with_icon(message, '🛡')
                     return
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
