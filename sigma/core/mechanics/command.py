@@ -164,6 +164,11 @@ class SigmaCommand(object):
         if cooldown:
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)
 
+    async def check_black_args(self, guild: discord.Guild, args: list):
+        black_args = await self.db.get_guild_settings(guild.id, 'blocked_args') or []
+        trigg_args = [arg for arg in args if arg in black_args]
+        return any(trigg_args)
+
     async def execute(self, message: discord.Message, args: list):
         if self.bot.ready:
             if message.guild:
@@ -175,6 +180,9 @@ class SigmaCommand(object):
                         pass
                     except discord.NotFound:
                         pass
+                if await self.check_black_args(message.guild, args):
+                    await self.respond_with_icon(message, '🛡')
+                    return
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
                 self.log.warning(f'{message.author.name} tried using me.')
                 return

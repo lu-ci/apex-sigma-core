@@ -69,10 +69,8 @@ Commands | Description | Example
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
 `>>catfact` `>>kittyfact` | Outputs a random fact about your lovely furry assh~ eerrrr... I mean, companion! | `>>catfact`
-`>>chevrons` `>>chevs` | Shows the target's chevron statistics. | `>>chevrons @person`
 `>>chucknorris` | This command outputs a random Chuck Norris joke. We use Chuck jokes because Bruce Lee is no joke, obviously. | `>>chucknorris`
 `>>cookies` | Shows how many cookies you have, or how many a mentioned user has. Cookies are given with the givecookie command. | `>>cookies @person`
-`>>crushchevron` `>>crushchev` `>>crush` | Crushes a chevron, remember to crush only bad, negative chevrons. If you crush a bad chevron, it turns into a random good chevron. If you crush a good, positive chevron, they will explode, taking half your other chevrons with them. If you come across a good one, grab them instead. | `>>crushchevron famine`
 `>>csshumor` | The only thing better than a joke is a joke written in CSS. And while that is sarcasm to a certain degree, these really are fun. Embrace your inner web designer and read some CSS jokes. | `>>csshumor`
 `>>cyanideandhappiness` `>>cnh` | Outputs an image of a random Cyanide and Happiness comic. Explosm makes awesome comics and animations. | `>>cyanideandhappiness`
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
@@ -85,7 +83,6 @@ Commands | Description | Example
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
 `>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency 500 @person`
 `>>givetovault` `>>givetobank` `>>gtv` `>>gtb` | The vault is a server specific Kud storage system. Members can contribute to the vault with this command. The Kud can then be awarded to users using the award command. | `>>givetovault 500`
-`>>grabchevron` `>>catchchevron` `>>catchchev` `>>grabchev` `>>catch` `>>grab` | Grabs a chevron when it spawns. Blue are good, positive chevrons. They serve as a special currency. Red are bad, negative chevrons, they destroy other chevrons and make a mess, crush bad chevrons instead of grabbing them. | `>>grabchevron glory`
 `>>joke` | Outputs a joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>fluffytail` `>>kitsune` `>>kon` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>kitsunemimi`
 `>>leetspeak` `>>leet` `>>l33t` | Turns the specified statement into l33t text. You can specify which level of leet you want your text to be converted to, as shown in the usage example. The accepted levels are basic, advanced, and ultimate. | `>>leetspeak owned level:ultimate`
@@ -417,6 +414,8 @@ Commands | Description | Example
 `>>antispam` | Toggles the antispam limiter. This basically enforces a custom rate limiter upon users. The default is 5 messages per 5 seconds. | `>>antispam`
 `>>asciionlynames` `>>forceascii` | Toggles if only ASCII characters are allowed in names. The bot will check member's names every 60s for non ASCII characters and rename them if found. To change the default temporary name, use the asciitempname command. | `>>asciionlynames`
 `>>asciitempname` `>>asciitemp` | Changes the default temporary name for those who the temporary ASCII name was enforced on. | `>>asciitempname <ChangeMePleaseI'mLonely>`
+`>>blockarguments` `>>blockargument` `>>blockargs` `>>blockarg` | Disallows commands to be used with the given arguments. If a command contains a blocked argument, it's execution is prevented, with only a reaction added to the message indicating it being blocked. | `>>blockarguments loli vore`
+`>>blockedarguments` `>>blockedargs` | Lists all blocked arguments on the server. | `>>blockedarguments`
 `>>blockedextensions` `>>blockedexts` | Lists all blocked extensions on the server. | `>>blockedextensions`
 `>>blockedwords` | Lists all blocked words on the server. | `>>blockedwords`
 `>>blockextensions` `>>blockextension` `>>blockexts` `>>blockext` | Adds all the extensions you list to the extension filter. If any of the extensions in the filter are sent, the message will be deleted and the author will be notified. Extensions should not be separated by a delimiter. Those with the Administrator permission are not affected. | `>>blockextensions .png .jpg`
@@ -453,6 +452,7 @@ Commands | Description | Example
 `>>renamecommand` `>>rencmd` | Replaces a custom command's trigger without losing the original trigger's contents. The original custom command trigger goes first, followed by what you wish to change it to. This command requires the Manage Server permission. | `>>renamecommand hi howdy`
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
 `>>spawnchevrons` `>>spawnchevs` | Toggles if Sigma shoulw allow chevrons to spawn in a target channel. If no channel is tagged, the target will be the channel that the command is used in. | `>>spawnchevrons #channel`
+`>>unblockarguments` `>>unblockargument` `>>unblockargs` `>>unblockarg` | Removes arguments from the blocked list, allowing commands to be executed with them again. | `>>unblockarguments something idunno`
 `>>unblockextensions` `>>unblockextension` `>>unblockexts` `>>unblockext` | Removes a blocked extension allowing people to send files containing it. To purge the entire extension filter, enter -all as the command argument. Extensions should not be separated by a delimiter. | `>>unblockextensions boobs`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter, enter -all as the command argument. Words should not be separated by a delimiter. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. This command requires the Manage Server permission. | `>>unflip`

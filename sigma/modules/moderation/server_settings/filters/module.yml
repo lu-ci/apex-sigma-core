@@ -45,6 +45,18 @@ commands:
       Extensions should not be separated by a delimiter.
       Those with the Administrator permission are not affected.
 
+  - name:         blockarguments
+    alts:
+      - "blockargument"
+      - "blockargs"
+      - "blockarg"
+    enabled:      true
+    usage:        "{pfx}{cmd} loli vore"
+    description:
+      Disallows commands to be used with the given arguments.
+      If a command contains a blocked argument, it's execution is prevented,
+      with only a reaction added to the message indicating it being blocked.
+
   - name:         blockinvites
     alts:
       - "filterinvites"
@@ -103,6 +115,16 @@ commands:
       To purge the entire word filter, enter -all as the command argument.
       Words should not be separated by a delimiter.
 
+  - name:         unblockarguments
+    alts:
+      - "unblockargument"
+      - "unblockargs"
+      - "unblockarg"
+    enabled:      true
+    usage:        "{pfx}{cmd} something idunno"
+    description:
+      Removes arguments from the blocked list, allowing commands to be executed with them again.
+
   - name:         blockedwords
     enabled:      true
     description:
@@ -112,6 +134,13 @@ commands:
     enabled:      true
     description:
       Lists all hard-blocked words on the server.
+
+  - name:         blockedarguments
+    alts:
+      - "blockedargs"
+    enabled:      true
+    description:
+      Lists all blocked arguments on the server.
 
   - name:         blockedextensions
     alts:

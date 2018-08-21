@@ -60,6 +60,11 @@ async def untmute(ev: SigmaEvent, doc: dict):
             mutes.remove(uid)
             await ev.db.set_guild_settings(guild.id, 'muted_users', mutes)
             await asyncio.sleep(5)
+            target = discord.utils.find(lambda x: x.id == uid, guild.members)
+            if target:
+                to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-muted.')
+                to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
+                await target.send(embed=to_target)
     except Exception:
         pass
 
@@ -78,8 +83,11 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                             ev.log.info(f'Un-hardmuting {uid} from {gid}.')
                             await channel.set_permissions(target, overwrite=None, reason='Hardmute timer ran out.')
                             await asyncio.sleep(5)
-                        except discord.Forbidden:
+                        except Exception:
                             pass
+                to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-hard-muted.')
+                to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
+                await target.send(embed=to_target)
     except Exception:
         pass
 
