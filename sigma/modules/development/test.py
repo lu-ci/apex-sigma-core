@@ -51,7 +51,7 @@ async def test(cmd: SigmaCommand, message: discord.Message, args: list):
         profile.pop('_id')
         if 'chevrons' in profile:
             profile.pop('chevrons')
-        await cmd.db[cmd.db.db_nam].Profiles.update_one({'user_id', uid}, {'$set': profile})
+        await cmd.db[cmd.db.db_nam].Profiles.update_one({'user_id': uid}, {'$set': profile})
     tally = f'{cicon} {total_curr} {currency} from {chevs} chevrons to {total_usrs} users.'
     response = discord.Embed(color=0xaa8dd8, title=tally)
     await message.channel.send(embed=response)
