@@ -13,25 +13,46 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import discord
 
+import discord
+import asyncio
 from sigma.core.mechanics.command import SigmaCommand
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):
     lcg = discord.utils.find(lambda g: g.id == 200751504175398912, cmd.bot.guilds)
-    profiles = await cmd.db.aurora.Profiles.find().to_list(None)
+    profiles = await cmd.db[cmd.db.db_nam].Profiles.find().to_list(None)
+    total_chev = 0
+    total_curr = 0
+    total_usrs = 0
+    currency = cmd.bot.cfg.pref.currency
+    cicon = cmd.bot.cfg.pref.currency_icon
+    started = discord.Embed(color=0xaa8dd8, title=f'{cicon} Started converting chevrons into {currency}...')
+    await message.channel.send(embed=started)
     for profile in profiles:
         uid = profile.get('user_id')
         user = discord.utils.find(lambda u: u.id == uid, cmd.bot.get_all_members())
         if user:
             chevs = profile.get('chevrons', {}).get('total', 0)
             if chevs:
+                total_chev += chevs
                 chev_mult = chevs * 0.022222
-                award = int(chevs * (22222 * (1 + chev_mult)))
+                award = int(chevs * (22222 * (0.977777 + chev_mult)))
+                total_curr += award
                 await cmd.db.add_currency(user, lcg, award, False)
-                cmd.log.info(f'{user.name} gets {award} ')
+                cmd.log.info(f'{uid} gets {award} ')
+                total_usrs += 1
+                to_usr = discord.Embed(color=0xaa8dd8, title=f'{cicon} Your {chevs} turned into {award} {currency}.')
+                try:
+                    await user.send(embed=to_usr)
+                    await asyncio.sleep(1)
+                except Exception:
+                    pass
         profile.pop('_id')
-        profile.pop('chevrons')
-        await cmd.db.aurora.Profiles.update_one({'user_id', uid}, {'$set': profile})
+        if 'chevrons' in profile:
+            profile.pop('chevrons')
+        await cmd.db[cmd.db.db_nam].Profiles.update_one({'user_id', uid}, {'$set': profile})
+    tally = f'{cicon} {total_curr} {currency} from {chevs} chevrons to {total_usrs} users.'
+    response = discord.Embed(color=0xaa8dd8, title=tally)
+    await message.channel.send(embed=response)
 
