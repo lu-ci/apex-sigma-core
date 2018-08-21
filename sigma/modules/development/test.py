@@ -19,4 +19,19 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):
-    await message.channel.send('All good.')
+    lcg = discord.utils.find(lambda g: g.id == 200751504175398912, cmd.bot.guilds)
+    profiles = await cmd.db.aurora.Profiles.find().to_list(None)
+    for profile in profiles:
+        uid = profile.get('user_id')
+        user = discord.utils.find(lambda u: u.id == uid, cmd.bot.get_all_members())
+        if user:
+            chevs = profile.get('chevrons', {}).get('total', 0)
+            if chevs:
+                chev_mult = chevs * 0.022222
+                award = int(chevs * (22222 * (1 + chev_mult)))
+                await cmd.db.add_currency(user, lcg, award, False)
+                cmd.log.info(f'{user.name} gets {award} ')
+        profile.pop('_id')
+        profile.pop('chevrons')
+        await cmd.db.aurora.Profiles.update_one({'user_id', uid}, {'$set': profile})
+
