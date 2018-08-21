@@ -30,7 +30,7 @@ async def experience(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed(color=0x47ded4)
     response.set_author(name=f'{target.display_name}\'s Experience Data', icon_url=avatar)
     guild_title = '🎪 Local'
-    global_title = '🌍 Global'
+    global_title = '📆 This Month'
     total_title = '📟 Total'
     guild_exp = exp.get('guild')
     global_exp = exp.get('global')
