@@ -28,7 +28,7 @@ from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.core.mechanics.errors import send_error_embed, make_error_dict, get_error_message
+from sigma.core.mechanics.errors import SigmaError
 
 
 class SigmaCommand(object):
@@ -133,31 +133,6 @@ class SigmaCommand(object):
         except discord.DiscordException:
             pass
 
-    async def log_error(self, message: discord.Message, args: list, exception: Exception, error_token: str):
-        error_data = make_error_dict(message, exception, error_token, args, self.name)
-        if self.bot.cfg.pref.errorlog_channel:
-            err_chn_id = self.bot.cfg.pref.errorlog_channel
-            error_chn = discord.utils.find(lambda x: x.id == err_chn_id, self.bot.get_all_channels())
-            await send_error_embed(error_chn, error_data)
-        await self.db[self.bot.cfg.db.database].Errors.insert_one(error_data)
-        log_text = f'ERROR: {exception} | TOKEN: {error_token} | TRACE: {exception.with_traceback}'
-        self.log.error(log_text)
-
-    async def send_error_message(self, message: discord.Message, args: list, e: Exception):
-        await self.respond_with_icon(message, '❗')
-        err_token = secrets.token_hex(16)
-        await self.log_error(message, args, e, err_token)
-        prefix = await self.db.get_prefix(message)
-        name = self.bot.user.name
-        title, err_text = get_error_message(e, name, prefix)
-        error_embed = discord.Embed(color=0xBE1931)
-        error_embed.add_field(name=title, value=err_text)
-        error_embed.set_footer(text=f'Token: {err_token}')
-        try:
-            await message.channel.send(embed=error_embed)
-        except (discord.Forbidden, discord.NotFound):
-            pass
-
     async def update_cooldown(self, author):
         cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'command': self.name}) or {}
         cooldown = cdfile.get('cooldown')
@@ -176,9 +151,7 @@ class SigmaCommand(object):
                 if delete_command_message:
                     try:
                         await message.delete()
-                    except discord.Forbidden:
-                        pass
-                    except discord.NotFound:
+                    except (discord.Forbidden, discord.NotFound):
                         pass
                 if await self.check_black_args(message.guild, args):
                     await self.respond_with_icon(message, '🛡')
@@ -210,7 +183,8 @@ class SigmaCommand(object):
                                     event_task = self.bot.queue.event_runner('command', self, message, args)
                                     self.bot.loop.create_task(event_task)
                                 except self.get_exception() as e:
-                                    await self.send_error_message(message, args, e)
+                                    error = SigmaError(self, e)
+                                    await error.error_handler(message, args)
                             else:
                                 await self.respond_with_icon(message, '📝')
                                 reqs_embed = discord.Embed(color=0xBE1931)
@@ -235,7 +209,7 @@ class SigmaCommand(object):
                         if perms.response:
                             try:
                                 await message.channel.send(embed=perms.response)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.NotFound):
                                 pass
                 else:
                     await self.respond_with_icon(message, '❄')

@@ -21,22 +21,31 @@ import json
 from sigma.core.mechanics.command import SigmaCommand
 
 
+imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
+imgur_url = "https://api.imgur.com/3/image"
+
+
+async def upload_image(image_url: str, client_id: str):
+    link = None
+    data = {'type': 'URL', 'image': image_url}
+    headers = {'Authorization': f'Client-ID {client_id}'}
+    async with aiohttp.ClientSession() as session:
+        resp = await session.post(imgur_url, data=data, headers=headers)
+    img = await resp.read()
+    image_data = json.loads(img)
+    if image_data.get('status') == 200:
+        link = image_data['data']['link']
+    return link
+
+
 async def imgur(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'client_id' in cmd.cfg:
         if args or message.attachments:
             image_url = message.attachments[0].url if message.attachments else args[0]
-            data = {'type': 'URL', 'image': image_url}
-            url = "https://api.imgur.com/3/image"
-            headers = {'Authorization': f'Client-ID {cmd.cfg.get("client_id")}'}
-            async with aiohttp.ClientSession() as session:
-                resp = await session.post(url, data=data, headers=headers)
-            img = await resp.read()
-            imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
-            image_data = json.loads(img)
-            if image_data.get('status') == 200:
-                image_url = image_data['data']['link']
+            link = await upload_image(image_url, cmd.cfg.get("client_id"))
+            if link:
                 response = discord.Embed(color=0x85BF25)
-                response.set_author(name=image_url, icon_url=imgur_icon, url=image_url)
+                response.set_author(name=link, icon_url=imgur_icon, url=link)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Bad image.')
         else:

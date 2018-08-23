@@ -21,16 +21,15 @@ from sigma.core.mechanics.errors import make_error_embed
 
 
 async def geterror(cmd: SigmaCommand, message: discord.Message, args: list):
+    trace_text = None
     if args:
         token = args[0]
         error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'token': token})
         if error_file:
-            response, trace_text = await make_error_embed(error_file)
+            response, trace_text = make_error_embed(error_file)
         else:
-            trace_text = None
             response = discord.Embed(color=0xBE1931, title='❗ No error with that token was found.')
     else:
-        trace_text = None
         response = discord.Embed(color=0xBE1931, title='❗ Missing error token.')
     await message.channel.send(embed=response)
     if trace_text:
