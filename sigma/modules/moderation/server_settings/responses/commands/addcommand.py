@@ -18,24 +18,33 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
+from sigma.modules.utilities.tools.imgur import upload_image
 
 
 async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            if len(args) >= 2:
+            attachment = len(args) == 1 and message.attachments
+            if len(args) >= 2 or attachment:
                 trigger = args[0].lower()
                 if '.' not in trigger:
                     if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
-                        content = ' '.join(args[1:])
-                        custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
-                        if trigger in custom_commands:
-                            res_text = 'updated'
+                        if attachment:
+                            client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
+                            content = await upload_image(message.attachments[0].url, client_id)
                         else:
-                            res_text = 'added'
-                        custom_commands.update({trigger: content})
-                        await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
+                            content = ' '.join(args[1:])
+                        if content:
+                            custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
+                            if trigger in custom_commands:
+                                res_text = 'updated'
+                            else:
+                                res_text = 'added'
+                            custom_commands.update({trigger: content})
+                            await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
+                            response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
+                        else:
+                            response = discord.Embed(color=0xBE1931, title='❗ Bad image.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Can\'t replace an existing core command.')
                 else:
