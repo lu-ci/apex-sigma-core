@@ -58,16 +58,21 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
 
 async def validate_gif_url(db: Database, name: str, url: str):
     valid = False
-    exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
-    if not exists:
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
-                    valid = resp.status == 200 and resp_type == 'image/gif'
-        except Exception:
-            pass
-    return valid
+    discord_url = False
+    if 'discordapp.net' not in url:
+        exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
+        if not exists:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(url) as resp:
+                        resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
+                        valid = resp.status == 200 and resp_type == 'image/gif'
+            except Exception:
+                pass
+    else:
+        valid = False
+        discord_url = True
+    return valid, discord_url
 
 
 def get_allowed_interactions(commands: dict):
@@ -87,7 +92,8 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
             interaction_link = ' '.join(args[1:])
             allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
             if interaction_name in allowed_interactions:
-                if await validate_gif_url(cmd.db, interaction_name, interaction_link):
+                valid, discord_url = await validate_gif_url(cmd.db, interaction_name, interaction_link)
+                if valid:
                     inter_data = make_interaction_data(message, interaction_name, interaction_link)
                     log_msg = await send_log_message(cmd, message, inter_data)
                     inter_data.update({'message_id': log_msg.id if log_msg else None})
@@ -95,7 +101,11 @@ async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list
                     success_title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
                     response = discord.Embed(color=0x77B255, title=success_title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
+                    if discord_url:
+                        no_disc = f'❗ Can\'t add Discord attachment or thumbnail URLs.'
+                        response = discord.Embed(color=0xBE1931, title=no_disc)
+                    else:
+                        response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
         else:
