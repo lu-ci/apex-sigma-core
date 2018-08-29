@@ -132,6 +132,13 @@ commands:
     description:
       Don't question my modules... Yes (º﹃º)
 
+  - name:         spank
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼
+
+
   - name:         drink
     alts:
       - "chug"

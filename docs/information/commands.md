@@ -136,6 +136,7 @@ Commands | Description | Example
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
+`>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
 `>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
 [Back To Top](#module-index)
