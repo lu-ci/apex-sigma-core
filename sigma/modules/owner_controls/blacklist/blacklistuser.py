@@ -34,10 +34,10 @@ async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list)
                     black_user_file = await black_user_collection.find_one({'user_id': target.id})
                     if black_user_file:
                         if black_user_file.get('total'):
-                            update_data = {'$set': {'user_id': target.id, 'Total': False}}
+                            update_data = {'$set': {'user_id': target.id, 'total': False}}
                             icon, result = '🔓', 'un-blacklisted'
                         else:
-                            update_data = {'$set': {'user_id': target.id, 'Total': True}}
+                            update_data = {'$set': {'user_id': target.id, 'total': True}}
                             icon, result = '🔒', 'blacklisted'
                         await black_user_collection.update_one({'user_id': target.id}, update_data)
                     else:

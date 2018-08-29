@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def wanikanisave(cmd: SigmaCommand, message: discord.Message, args: list):
     try:
         await message.delete()
-    except discord.ClientException:
+    except (discord.NotFound, discord.Forbidden):
         pass
     if args:
         api_key = ''.join(args)
