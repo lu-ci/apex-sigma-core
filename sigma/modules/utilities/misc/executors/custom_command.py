@@ -46,6 +46,12 @@ async def custom_command(ev: SigmaEvent, message: discord.Message):
                         if custom_commands is None:
                             custom_commands = {}
                         if cmd in custom_commands:
+                            delcmd = await ev.db.get_guild_settings(message.guild.id, 'delete_commands')
+                            if delcmd:
+                                try:
+                                    await message.delete()
+                                except (discord.NotFound, discord.Forbidden):
+                                    pass
                             cmd_text = custom_commands[cmd]
                             img = False
                             if cmd_text.startswith('http'):
