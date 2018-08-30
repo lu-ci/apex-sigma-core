@@ -59,7 +59,7 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
 async def validate_gif_url(db: Database, name: str, url: str):
     valid = False
     discord_url = False
-    if 'discordapp.net' not in url:
+    if 'discordapp.net' not in url and 'discordapp.com' not in url:
         exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
         if not exists:
             try:
