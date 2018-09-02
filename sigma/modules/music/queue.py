@@ -84,7 +84,7 @@ async def queue(cmd: SigmaCommand, message: discord.Message, args: list):
                             final_resp = discord.Embed(color=0x66CC66)
                             final_resp.add_field(name='✅ Added To Queue', value=song_item.get('title', "No Title"))
                             if 'thumbnail' in song_item:
-                                final_resp.set_thumbnail(url=song_item('thumbnail'))
+                                final_resp.set_thumbnail(url=song_item.get('thumbnail'))
                             final_resp.set_author(name=requester, icon_url=user_avatar(message.author))
                             final_resp.set_footer(text=f'Duration: {duration}')
                         else:
