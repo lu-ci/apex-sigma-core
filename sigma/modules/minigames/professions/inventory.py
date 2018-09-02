@@ -39,12 +39,13 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
 def get_filter(args: list):
     filter_lookup = None
     if args:
-        try:
-            int(args[0])
-            first_num = True
-        except ValueError:
-            first_num = False
-        filter_lookup = (' '.join(args[1:]) if first_num else ' '.join(args)).lower()
+        if not args[0].startswith('<'):
+            try:
+                int(args[0])
+                first_num = True
+            except ValueError:
+                first_num = False
+            filter_lookup = (' '.join(args[1:]) if first_num else ' '.join(args)).lower()
     return filter_lookup
 
 
