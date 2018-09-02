@@ -80,12 +80,26 @@ class SigmaCookedItem(object):
         self.rarity = 11
         self.rarity_name = rarity_names[self.rarity]
 
-    def make_inspect_embed(self, currency):
+    def get_recipe_presence(self, rc):
+        used_in = []
+        recipe_list = sorted(rc.recipes, key=lambda x: x.name)
+        for recipe in recipe_list:
+            for ingredient in recipe.ingredients:
+                if ingredient.file_id == self.file_id:
+                    used_in.append(recipe)
+                    break
+        return used_in
+
+    def make_inspect_embed(self, currency, recipe_core):
+        used_in_recipes = self.get_recipe_presence(recipe_core)
         connector = 'A'
         if self.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
             connector = 'An'
         item_info = f'{connector} **{self.name}** {self.type}'
         item_info += f'\nIt is valued at **{self.value} {currency}**'
+        if used_in_recipes:
+            recipe_names = [f'**{r.name}**' for r in used_in_recipes]
+            item_info += f'\nUsed in: {", ".join(recipe_names)}'
         response = discord.Embed(color=self.color)
         response.add_field(name=f'{self.icon} {self.name}', value=f'{item_info}')
         response.add_field(name='Item Description', value=f'{self.desc}', inline=False)
