@@ -19,10 +19,12 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core, RecipeCore
 
 
 async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
+    recipe_core = await get_recipe_core(cmd.db)
     if args:
         lookup = ' '.join(args)
         item = item_core.get_item_by_name(lookup)
@@ -36,7 +38,7 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                     item_total += stat_doc.get(item.file_id) or 0
                 stat_count = all_stats.get(item.file_id) or 0
                 owned_item = await cmd.db.get_inventory_item(message.author, item.file_id)
-                response = item.make_inspect_embed(cmd.bot.cfg.pref.currency)
+                response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
                 footer = f'You Found: {stat_count} | Total Found: {item_total}'
                 if owned_item:
                     inv = await cmd.db.get_inventory(message.author)

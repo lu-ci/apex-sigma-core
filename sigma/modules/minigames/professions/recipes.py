@@ -25,7 +25,7 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 
 async def check_requirements(cmd, message, recipe):
-    req_satisfied = True
+    req_satisfied = 0
     for ingredient in recipe.ingredients:
         user_inv = await cmd.db.get_inventory(message.author)
         in_inventory = False
@@ -33,8 +33,8 @@ async def check_requirements(cmd, message, recipe):
             if item['item_file_id'] == ingredient.file_id:
                 in_inventory = True
                 break
-        if not in_inventory:
-            req_satisfied = False
+        if in_inventory:
+            req_satisfied += 1
     return req_satisfied
 
 
@@ -54,7 +54,9 @@ async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     if sales_data:
         for recipe in sales_data:
             req_satisfied = await check_requirements(cmd, message, recipe)
-            recipe_boop_list.append([recipe.name, recipe.type, recipe.value, req_satisfied])
+            req_needed = len(recipe.ingredients)
+            req_reqs = f'{req_satisfied}/{req_needed}'
+            recipe_boop_list.append([recipe.name, recipe.type, recipe.value, req_reqs])
         recipe_table = boop(recipe_boop_list, recipe_boop_head)
         response = discord.Embed(color=recipe_color)
         response.add_field(name=f'{recipe_icon} Recipe Stats', value=f'```py\n{stats_text}\n```', inline=False)
