@@ -27,6 +27,7 @@
 Commands | Description | Example
 ----------|-------------|--------
 `>>addstatus` | Adds a status message to Sigma's database for automatic status rotation. (Bot Owner Only) | `>>addstatus with tentacles`
+`>>approvesuggestion` `>>approvesugg` `>>asugg` | Approves a submitted suggestion and notifies the submitter. If there are GitLab credentials in the command's config, it'll make an issue as well. First the suggestion ID, then the suggestion title and notes separated by a semicolon and space. (Bot Owner Only) | `>>approvesuggestion 8e39c9bb Some Title; This does a thing!`
 `>>awardleaderboards` `>>awardlbs` | Awards all the global leaderboards. Basically gives a large amount of Kud to the top 20 users in each leaderboard category. Currency earned, experience, and cookies. (Bot Owner Only) | `>>awardleaderboards`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
