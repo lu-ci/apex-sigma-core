@@ -51,6 +51,15 @@ commands:
     description:
       Deletes a reminder of yours with the specified ID.
 
+  - name:         delayreminder
+    alts:
+      - "delayrem"
+      - "drm"
+    enabled:      true
+    usage:        "{pfx}{cmd} 3f47 7:59:03"
+    description:
+      Delays a reminder of yours with the specified ID by the specified duration.
+
 events:
   - name:    reminder_clockwork
     type:    ready

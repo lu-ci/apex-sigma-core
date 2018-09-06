@@ -1,33 +1,26 @@
-name:             Greeting Settings
+name:             DM Greeting Settings
 
 category:         settings
 
 enabled:          true
 
 commands:
-  - name:         greet
+  - name:         greetdm
+    alts:
+      - "greetpm"
     enabled:      true
     description:
-      Toggles if Sigma should greet users when they enter the server.
-      The greeting feature is active by default.
+      Toggles if Sigma should greet users via a DM when they enter the server.
+      This can be enabled in addition to server-bound greetings.
       This command requires the Manage Server permission.
 
-  - name:         greetchannel
+  - name:         greetdmmessage
     alts:
-      - "greetch"
-    enabled:      true
-    usage:        "{pfx}{cmd} #welcome"
-    description:
-      Sets the channel the greeting messages should be sent to.
-      This command requires the Manage Server permission.
-
-  - name:         greetmessage
-    alts:
-      - "greetmsg"
+      - "greetdmmsg"
     enabled:      true
     usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
     description: |
-      This sets the message shown on the server when a member joins. Greet messages can have special dynamic arguments in them.
+      This sets the message shown in the DM when a member joins. Greet messages can have special dynamic arguments in them.
       {user_name}     - Joining user's name.
       {user_disc}     - "#xxxx" in the user's name.
       {user_nick}     - Message author's nickname.
@@ -42,13 +35,13 @@ commands:
       {owner_id}      - Server owner's ID.
       This command requires the Manage Server permission.
 
-  - name:         greetembed
+  - name:         greetdmembed
     alts:
-      - "greetemb"
+      - "greetdmemb"
     enabled:      true
     usage:        "{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png"
     description:
-      Toggles whether greet messages are an embed or not. Also customizes the embed that is used.
+      Toggles whether DM greet messages are an embed or not. Also customizes the embed that is used.
       You can change the embed color, set the thumbnail, and set the image. To do so, specify the
       field and the value separated by a colon (see usage example). The accepted fields are color,
       thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct
@@ -56,6 +49,6 @@ commands:
       This command requires the Manage Server permission.
 
 events:
-  - name:         greet_sender
+  - name:         greetdm_sender
     type:         member_join
     enabled:      true
