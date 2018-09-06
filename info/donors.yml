@@ -60,7 +60,7 @@ donors:
     avatar: "https://i.imgur.com/Dt2lAVc.png"
     duid:   130605131182899200
   - name:   "KeithAlmli"
-    tier:   2
+    tier:   0
     avatar: "https://i.imgur.com/CeB0qBr.png"
     duid:   253358589601644548
   - name:   "FireWoodCut"
@@ -76,7 +76,7 @@ donors:
     avatar: "https://i.imgur.com/Q4AQh2r.png"
     duid:   245380902979502081
   - name:   "MoronixProduct3"
-    tier:   4
+    tier:   0
     avatar: "https://i.imgur.com/D1UwNw3.png"
     duid:   268231347800244224
   - name:   "HimitsuNoAnsatsu"
@@ -111,10 +111,6 @@ donors:
     tier:   0
     avatar: "https://i.imgur.com/xNIgRIM.png"
     duid:   263704629387198464
-  - name:   "Saif"
-    tier:   0
-    avatar: "https://i.imgur.com/1xKmHN5.png"
-    duid:   83912830725685248
   - name:   "Bre"
     tier:   4
     avatar: "https://i.imgur.com/q1QeyIC.png"
@@ -127,3 +123,7 @@ donors:
     tier:   2
     avatar: "https://i.imgur.com/CgP58zV.png"
     duid:   118274348770525193
+  - name:   "NL | MetallicaDutch"
+    tier:   5
+    avatar: "https://i.imgur.com/qg9uz3X.png"
+    duid:   188009639198195712
