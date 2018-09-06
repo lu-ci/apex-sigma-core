@@ -28,7 +28,7 @@ async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             state, ender = True, 'enabled'
         await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', state)
-        response = discord.Embed(color=0x77B255, title=f'✅ Greeting via private message has been {ender}.')
+        response = discord.Embed(color=0x77B255, title=f'✅ DM Greeting Messages {ender}.')
     else:
         response = permission_denied('Manage Server')
     await message.channel.send(embed=response)
