@@ -12,7 +12,7 @@ commands:
 
   - name:         ingame
     enabled:      true
-    usage:        "{pfx}{cmd} @person"
+    usage:        "{pfx}{cmd}"
     description:
       Shows the top played games on the server.
 
