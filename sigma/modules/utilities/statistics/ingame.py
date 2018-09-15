@@ -52,7 +52,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
     page = args[0] if args else 1
     game_list, page = paginate(sorted_games, page)
-    start_range, end_range = (page - 1) * 10, page * 10
+    start_range = (page - 1) * 10
     out_table_list = []
     game_count = len(sorted_games)
     index = start_range
