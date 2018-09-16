@@ -43,8 +43,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             target = None
     if target:
-        sabotage_target = await cmd.db.is_sabotaged(target.id)
-        sabotage_author = await cmd.db.is_sabotaged(message.author.id)
+        sabotage_target = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'user_id': target.id})
+        sabotage_author = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'user_id': message.author.id})
         author_stamp = arrow.get(message.author.created_at).float_timestamp
         current_stamp = arrow.utcnow().float_timestamp
         time_diff = current_stamp - author_stamp
