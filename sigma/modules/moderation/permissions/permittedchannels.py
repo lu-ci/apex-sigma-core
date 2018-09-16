@@ -48,7 +48,7 @@ async def permittedchannels(cmd: SigmaCommand, message: discord.Message, args: l
                     total_overrides = len(overridden_channels)
                     overrides, page = paginate(overridden_channels, page_num, 50)
                     title = f'{message.guild.name} {node_name.upper()} Channel Overrides'
-                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} disabled modules.'
+                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} channel overrides.'
                     response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
                     response.set_author(name=title, icon_url=message.guild.icon_url)
                     response.description = ', '.join(overrides)

@@ -25,13 +25,13 @@ exp_clock_running = False
 exp_storage = []
 
 
-def add_exp(member, guild, amount):
+def add_exp(message, amount):
     global exp_storage
-    storage_item = discord.utils.find(lambda x: x[0].id == member.id, exp_storage)
+    storage_item = discord.utils.find(lambda x: x[0].id == message.author.id, exp_storage)
     curr_exp = storage_item[2] if storage_item else 0
     new_exp = curr_exp + amount
-    exp_storage = list(filter(lambda x: x[0].id != member.id, exp_storage))
-    exp_storage.append([member, guild, new_exp])
+    exp_storage = list(filter(lambda x: x[0].id != message.author.id, exp_storage))
+    exp_storage.append([message, new_exp])
 
 
 async def experience_clock(ev: SigmaEvent):
@@ -43,9 +43,12 @@ async def experience_clock(ev: SigmaEvent):
 
 async def exp_clock_cycler(ev: SigmaEvent):
     global exp_storage
+    trigger = 'message_experience'
     while True:
         if ev.bot.is_ready():
             for exp_item in exp_storage:
-                await ev.db.add_experience(exp_item[0], exp_item[1], exp_item[2])
+                message, amount = exp_item
+                author = message.author
+                await ev.db.add_resource(author.id, 'experience', amount, trigger, message, True)
             exp_storage = []
         await asyncio.sleep(60)

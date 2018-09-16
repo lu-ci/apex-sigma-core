@@ -29,11 +29,11 @@ async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                 except ValueError:
                     amount = None
                 if amount:
-                    current_kud = await cmd.db.get_currency(message.author, message.guild)
-                    current_kud = current_kud.get('current')
+                    current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                    current_kud = current_kud.current
                     if current_kud >= amount:
-                        await cmd.db.rmv_currency(message.author, amount)
-                        await cmd.db.add_currency(target, message.guild, amount, additive=False)
+                        await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
+                        await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
                         title = f'✅ Transferred {amount} to {target.display_name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:
