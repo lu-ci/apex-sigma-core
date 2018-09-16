@@ -48,7 +48,6 @@ async def exp_clock_cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             for exp_item in exp_storage:
                 message, amount = exp_item
-                amount = amount or 0
                 author = message.author
                 await ev.db.add_resource(author.id, 'experience', amount, trigger, message, True)
             exp_storage = []
