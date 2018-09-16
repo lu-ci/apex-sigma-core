@@ -109,9 +109,11 @@ class Database(motor.AsyncIOMotorClient):
         resource_data = resources.get(resource_name, {})
         return SigmaResource(resource_data)
 
+    async def is_sabotaged(self, user_id: int):
+        return bool(await self.get_profile(user_id, 'sabotaged'))
+
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
-        sabotage_file = await self[self.db_nam].SabotagedUsers.find_one({'user_id': user_id})
-        if not sabotage_file:
+        if not self.is_sabotaged(user_id):
             amount = abs(int(amount))
             resource = await self.get_resource(user_id, name)
             resource.add_value(amount, trigger, origin, ranked)
