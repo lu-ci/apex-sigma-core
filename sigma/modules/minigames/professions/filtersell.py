@@ -27,7 +27,7 @@ async def sell_item_ids(db, user, items):
         for inv_item in inv:
             if inv_item['item_id'] == item:
                 inv.remove(inv_item)
-    await db.set_profile(user.id, 'inventory', inv)
+    await db.update_inv(user, inv)
 
 
 async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
