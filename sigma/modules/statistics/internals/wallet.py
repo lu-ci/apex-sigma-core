@@ -26,7 +26,7 @@ async def wallet(cmd: SigmaCommand, message: discord.Message, args: list):
     else:
         target = message.author
     avatar = user_avatar(target)
-    currency = await cmd.db.get_resource(message.author.id, 'currency')
+    currency = await cmd.db.get_resource(target.id, 'currency')
     currency_name = cmd.bot.cfg.pref.currency
     currency_icon = cmd.bot.cfg.pref.currency_icon
     guild_currency = currency.origins.guilds.get(message.guild.id)
