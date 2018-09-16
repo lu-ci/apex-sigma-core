@@ -1,0 +1,14 @@
+name:             Experience Awarding
+
+category:         administration
+
+enabled:          false
+
+events:
+  - name:         experience_activity
+    type:         message
+    enabled:      true
+
+  - name:         experience_clock
+    type:         ready
+    enabled:      true
