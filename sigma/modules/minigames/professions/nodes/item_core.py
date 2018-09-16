@@ -133,7 +133,7 @@ class ItemCore(object):
         return top_roll, rarities
 
     async def roll_rarity(self, db, uid):
-        upgrade_file = await db.get_profile(uid, 'upgrades') or {}
+        upgrade_file = await db[db.db_nam].Upgrades.find_one({'user_id': uid}) or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
         sabotage_file = await db[db.db_nam].SabotagedUsers.find_one({'user_id': uid})

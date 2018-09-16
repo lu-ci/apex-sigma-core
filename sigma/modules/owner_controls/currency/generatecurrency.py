@@ -26,7 +26,7 @@ async def generatecurrency(cmd: SigmaCommand, message: discord.Message, args: li
             if not target.bot:
                 try:
                     amount = abs(int(args[0]))
-                    await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                    await cmd.db.add_currency(target, message.guild, amount, additive=False)
                     title_text = f'✅ Ok, I\'ve given {amount} {cmd.bot.cfg.pref.currency} to {target.display_name}.'
                     response = discord.Embed(color=0x77B255, title=title_text)
                 except ValueError:

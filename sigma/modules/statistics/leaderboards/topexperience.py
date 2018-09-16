@@ -21,37 +21,35 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
-from sigma.modules.statistics.leaderboards.topcookies import get_user_value
 
 txplb_cache = Cacher()
 
 
 async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Experience'
-    resource = cache_key = 'experience'
-    sort_key = f'resources.{resource}.ranked'
-    lb_category = 'This Month\'s'
-    localed = False
+    sort_key = 'global'
+    lb_category = 'Global'
+    search = {}
     if args:
-        if args[0].lower() == 'total':
+        if args[0].lower() == 'local':
+            sort_key = f'guilds.{message.guild.id}'
+            search = {sort_key: {'$exists': True}}
+            lb_category = message.guild.name
+        elif args[0].lower() == 'total':
             sort_key = 'total'
             lb_category = 'Total'
-        elif args[0].lower() == 'local':
-            sort_key = f'guilds.{message.guild.id}'
-            lb_category = message.guild.name
-            localed = True
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = txplb_cache.get_cache(sort_key), txplb_cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
-        coll = cmd.db[cmd.db.db_nam].Profiles
-        search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
+        coll = cmd.db[cmd.db.db_nam].ExperienceSystem
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
         all_members = cmd.bot.get_all_members()
         for data_doc in all_docs:
-            user_value = await get_user_value(
-                cmd.db, data_doc.get('user_id'), message.guild.id, cache_key, resource, localed
-            )
+            if sort_key == 'global' or sort_key == 'total':
+                user_value = data_doc.get(sort_key) or 0
+            else:
+                user_value = data_doc.get('guilds').get(str(message.guild.id)) or 0
             user_level = int(user_value / 13266.85)
             user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:

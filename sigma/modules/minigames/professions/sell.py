@@ -36,7 +36,7 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     value += item_ob_id.value
                     count += 1
                     await cmd.db.del_from_inventory(message.author, invitem['item_id'])
-                await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                await cmd.db.add_currency(message.author, message.guild, value)
                 ender = 's' if count != 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
@@ -48,7 +48,7 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     item = None
                 if item:
                     value = item_o.value
-                    await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                    await cmd.db.add_currency(message.author, message.guild, value)
                     await cmd.db.del_from_inventory(message.author, item['item_id'])
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'

@@ -46,7 +46,7 @@ async def greetmessage(cmd: SigmaCommand, message: discord.Message, args: list):
             if greet_embed.get('active'):
                 response = await make_greet_embed(greet_embed, current_greeting, message.guild)
             else:
-                response = discord.Embed(color=0x3B88C3, title='ℹ Current Greeting Message')
+                response = discord.Embed(color=0x3B88C3, title='ℹ Current Greet Message')
                 response.description = current_greeting
     else:
         response = permission_denied('Manage Server')

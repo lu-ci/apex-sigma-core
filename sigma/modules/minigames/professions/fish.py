@@ -24,7 +24,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 async def fish(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-        upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id}) or {}
         inv = await cmd.db.get_inventory(message.author)
         storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)

@@ -48,7 +48,7 @@ async def permittedroles(cmd: SigmaCommand, message: discord.Message, args: list
                     total_overrides = len(overridden_roles)
                     overrides, page = paginate(overridden_roles, page_num, 50)
                     title = f'{message.guild.name} {node_name.upper()} Role Overrides'
-                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} role overrides.'
+                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} disabled modules.'
                     response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
                     response.set_author(name=title, icon_url=message.guild.icon_url)
                     response.description = ', '.join(overrides)

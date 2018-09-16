@@ -27,13 +27,13 @@ async def givetovault(cmd: SigmaCommand, message: discord.Message, args: list):
             amount = None
         if amount:
             currency = cmd.bot.cfg.pref.currency
-            current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-            current_kud = current_kud.current
+            current_kud = await cmd.db.get_currency(message.author, message.guild)
+            current_kud = current_kud.get('current')
             if current_kud >= amount:
                 current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
                 if current_vault is None:
                     current_vault = 0
-                await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
+                await cmd.db.rmv_currency(message.author, amount)
                 current_vault += amount
                 await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
                 title_text = f'✅ You added {amount} {currency} to the Vault.'

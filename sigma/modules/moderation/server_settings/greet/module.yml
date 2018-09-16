@@ -10,7 +10,14 @@ commands:
     description:
       Toggles if Sigma should greet users when they enter the server.
       The greeting feature is active by default.
-      This command requires the Manage Server permission.
+
+  - name:         greetdm
+    alts:
+      - "greetpm"
+    enabled:      true
+    description:
+      Toggles if Sigma should greet users by sending them a Direct Message,
+      instead of writing the message in a channel.
 
   - name:         greetchannel
     alts:
@@ -18,8 +25,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #welcome"
     description:
-      Sets the channel the greeting messages should be sent to.
-      This command requires the Manage Server permission.
+      Sets the channel the greeting messages should be sent to, unless greetdm is active.
 
   - name:         greetmessage
     alts:
@@ -28,11 +34,11 @@ commands:
     usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
     description: |
       This sets the message shown on the server when a member joins. Greet messages can have special dynamic arguments in them.
-      {user_name}     - Joining user's name.
+      {user_name}     - Leaving user's name.
       {user_disc}     - "#xxxx" in the user's name.
       {user_nick}     - Message author's nickname.
       {user_mention}  - Tag the leaving user.
-      {user_id}       - Joining user's ID.
+      {user_id}       - Leaving user's ID.
       {server_name}   - Server name.
       {server_id}     - Server ID.
       {owner_name}    - Server owner's name.
@@ -53,9 +59,9 @@ commands:
       field and the value separated by a colon (see usage example). The accepted fields are color,
       thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct
       image URLs. Provide no arguments to toggle this feature on or off.
-      This command requires the Manage Server permission.
 
 events:
   - name:         greet_sender
     type:         member_join
     enabled:      true
+
