@@ -110,12 +110,10 @@ class Database(motor.AsyncIOMotorClient):
         return SigmaResource(resource_data)
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
-        sabotage_file = await self[self.db_nam].SabotagedUsers.find_one({'user_id': user_id})
-        if not sabotage_file:
-            amount = abs(int(amount))
-            resource = await self.get_resource(user_id, name)
-            resource.add_value(amount, trigger, origin, ranked)
-            await self.update_resource(resource, user_id, name)
+        amount = abs(int(amount))
+        resource = await self.get_resource(user_id, name)
+        resource.add_value(amount, trigger, origin, ranked)
+        await self.update_resource(resource, user_id, name)
 
     async def del_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None):
         amount = abs(int(amount))
