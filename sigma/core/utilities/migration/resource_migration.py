@@ -66,21 +66,6 @@ def transfer_currency(db):
         print(f'[{li}/{ti}] Transfered {uid}\'s currency...')
 
 
-def transfer_experience(db):
-    cdocs = list(db.sigma.ExperienceSystem.find())
-    li = 0
-    ti = len(cdocs)
-    for cdoc in cdocs:
-        li += 1
-        uid = cdoc.get('user_id')
-        ttl = cdoc.get('total')
-        rnk = cdoc.get('global')
-        gld = cdoc.get('guilds')
-        data = {'total': ttl, 'ranked': rnk, 'origins': {'guilds': gld}}
-        set_resources(db, uid, 'experience', data)
-        print(f'[{li}/{ti}] Transfered {uid}\'s experience...')
-
-
 def transfer_inventory(db):
     cdocs = list(db.sigma.Inventory.find())
     li = 0
@@ -111,7 +96,6 @@ def run(db_addr):
     db = pymongo.MongoClient(db_addr)
     transfer_cookies(db)
     transfer_currency(db)
-    transfer_experience(db)
     transfer_inventory(db)
     transfer_upgrades(db)
 
