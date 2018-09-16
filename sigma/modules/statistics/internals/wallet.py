@@ -29,7 +29,7 @@ async def wallet(cmd: SigmaCommand, message: discord.Message, args: list):
     currency = await cmd.db.get_resource(message.author.id, 'currency')
     currency_name = cmd.bot.cfg.pref.currency
     currency_icon = cmd.bot.cfg.pref.currency_icon
-    guild_currency = currency.origins.servers.get(message.guild.id)
+    guild_currency = currency.origins.guilds.get(message.guild.id)
     response = discord.Embed(color=0xaa8dd8)
     response.set_author(name=f'{target.display_name}\'s Currency Data', icon_url=avatar)
     response.description = f'{target.name} earned an all-time total of {currency.total} {currency_name}.'

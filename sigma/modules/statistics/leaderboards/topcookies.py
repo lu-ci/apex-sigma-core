@@ -28,7 +28,7 @@ tcklb_cache = Cacher()
 async def get_user_value(db, uid, gid, cache_key, resource, localed):
     user_resource = await db.get_resource(uid, resource)
     if localed:
-        user_value = user_resource.origins.servers.get(gid)
+        user_value = user_resource.origins.guilds.get(gid)
     else:
         if cache_key == resource:
             user_value = user_resource.ranked
@@ -49,7 +49,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             lb_category = 'Total'
             cache_key = f'{resource}_total'
         elif args[0].lower() == 'local':
-            sort_key = f'resources.{resource}.origins.servers.{message.guild.id}'
+            sort_key = f'resources.{resource}.origins.guilds.{message.guild.id}'
             lb_category = 'Local'
             cache_key = message.guild.id
             localed = True

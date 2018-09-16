@@ -32,7 +32,7 @@ async def experience(cmd: SigmaCommand, message: discord.Message, args: list):
     guild_title = '🎪 Local'
     global_title = '📆 This Month'
     total_title = '📟 Total'
-    guild_exp = exp.origins.servers.get(message.guild.id)
+    guild_exp = exp.origins.guilds.get(message.guild.id)
     local_level = int(guild_exp / 13266.85)
     ranked_level = int(exp.ranked / 13266.85)
     total_level = int(exp.total / 13266.85)

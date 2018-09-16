@@ -37,7 +37,7 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = f'resources.{resource}.total'
             lb_category = 'Total'
         elif args[0].lower() == 'local':
-            sort_key = f'resources.{resource}.origins.servers.{message.guild.id}'
+            sort_key = f'resources.{resource}.origins.guilds.{message.guild.id}'
             localed = True
             lb_category = message.guild.name
     now = arrow.utcnow().timestamp
