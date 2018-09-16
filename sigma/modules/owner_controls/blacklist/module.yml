@@ -52,3 +52,13 @@ commands:
     usage:        "{pfx}{cmd} 0123456789"
     description:
       Sabotages a user making them have extreme bad luck in various modules.
+
+  - name:         wipeawards
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Removes a user's currency, experience and cookie data.
+      Used when wanting to remove a blacklisted user's ill gotten gains.

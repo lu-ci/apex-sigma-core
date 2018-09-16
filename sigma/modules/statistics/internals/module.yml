@@ -17,3 +17,16 @@ commands:
       as well as how much you've earned on the current server and in total.
       Kud is earned by being an active member of the community.
       Yes, this is meant to be vague.
+
+  - name:         experience
+    alts:
+      - "activity"
+      - "level"
+      - "exp"
+      - "xp"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      Shows how much of Sigma's internal experience you've obtained.
+      Experience is earned by being an active member of the community.
+      Yes, this is meant to be vague.

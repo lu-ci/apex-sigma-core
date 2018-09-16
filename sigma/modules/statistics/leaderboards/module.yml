@@ -27,3 +27,16 @@ commands:
       the amount they globaly have right now, which is the default, sorted by the amount
       that users have earned on this guild, or the total amount of currency that they have
       collected over time regardless of resets.
+
+  - name:         topexperience
+    alts:
+      - "topexp"
+      - "topxp"
+    enabled:      true
+    usage:        "{pfx}{cmd} total"
+    description:
+      Shows the top 20 users who have the most experience.
+      A filter can be added, either global, local or total, sorting it by
+      the amount they globaly have right now, which is the default, sorted by the amount
+      that users have earned on this guild, or the total amount of experience that they have
+      collected over time regardless of resets.
