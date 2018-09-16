@@ -136,8 +136,7 @@ class ItemCore(object):
         upgrade_file = await db.get_profile(uid, 'upgrades') or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
-        sabotage_file = await db[db.db_nam].SabotagedUsers.find_one({'user_id': uid})
-        roll = 0 if sabotage_file else secrets.randbelow(top_roll)
+        roll = secrets.randbelow(top_roll)
         lowest = 0
         for rarity in rarities:
             if rarities[rarity] <= roll:
