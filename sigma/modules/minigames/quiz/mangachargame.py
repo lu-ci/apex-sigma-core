@@ -112,7 +112,7 @@ async def mangachargame(cmd: SigmaCommand, message: discord.Message, args: list)
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
                 reward_mult = streaks.get(message.channel.id) or 0
                 kud_reward = int(kud_reward * (1 + (reward_mult * 0.35)))
-                await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
+                await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency
                 streaks.update({message.channel.id: reward_mult + 1})

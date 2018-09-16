@@ -26,10 +26,10 @@ async def destroycurrency(cmd: SigmaCommand, message: discord.Message, args: lis
             if not target.bot:
                 try:
                     amount = abs(int(args[0]))
-                    target_amount = await cmd.db.get_currency(target, message.guild)
-                    target_amount = target_amount['current']
+                    target_amount = await cmd.db.get_resource(message.author.id, 'currency')
+                    target_amount = target_amount.current
                     if amount <= target_amount:
-                        await cmd.db.rmv_currency(target, amount)
+                        await cmd.db.del_resource(target, 'currency', amount, cmd.name, message)
                         title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {cmd.bot.cfg.pref.currency} '
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
