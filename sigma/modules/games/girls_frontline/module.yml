@@ -1,0 +1,15 @@
+name:             Girls Frontline
+
+category:         girls_frontline
+
+enabled:          true
+
+commands:
+  - name:         gftdollproduction
+    alts:
+      - "gftdprod"
+      - "gftdp"
+    enabled:      true
+    usage:        "{pfx}{cmd} 3:58"
+    description:
+      Shows which dolls drop from the given time and their rarity.
