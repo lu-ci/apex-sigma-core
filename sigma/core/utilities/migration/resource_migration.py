@@ -17,16 +17,16 @@ import pymongo
 
 
 def get_profile(db, uid):
-    return db.aurora.Profiles.find_one({'user_id': uid}) or {}
+    return db.sigma.Profiles.find_one({'user_id': uid}) or {}
 
 
 def set_profile(db, uid, data):
-    exists = db.aurora.Profiles.find_one({'user_id': uid})
+    exists = db.sigma.Profiles.find_one({'user_id': uid})
     if exists:
-        db.aurora.Profiles.update_one({'user_id': uid}, {'$set': data})
+        db.sigma.Profiles.update_one({'user_id': uid}, {'$set': data})
     else:
         data.update({'user_id': uid})
-        db.aurora.Profiles.insert_one(data)
+        db.sigma.Profiles.insert_one(data)
 
 
 def set_resources(db, uid, name, data):
@@ -37,7 +37,7 @@ def set_resources(db, uid, name, data):
 
 
 def transfer_cookies(db):
-    cdocs = list(db.aurora.Cookies.find())
+    cdocs = list(db.sigma.Cookies.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
@@ -51,7 +51,7 @@ def transfer_cookies(db):
 
 
 def transfer_currency(db):
-    cdocs = list(db.aurora.CurrencySystem.find())
+    cdocs = list(db.sigma.CurrencySystem.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
@@ -67,7 +67,7 @@ def transfer_currency(db):
 
 
 def transfer_experience(db):
-    cdocs = list(db.aurora.CurrencySystem.find())
+    cdocs = list(db.sigma.CurrencySystem.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
@@ -82,7 +82,7 @@ def transfer_experience(db):
 
 
 def transfer_inventory(db):
-    cdocs = list(db.aurora.Inventory.find())
+    cdocs = list(db.sigma.Inventory.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
@@ -95,7 +95,7 @@ def transfer_inventory(db):
 
 
 def transfer_upgrades(db):
-    cdocs = list(db.aurora.Inventory.find())
+    cdocs = list(db.sigma.Inventory.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
