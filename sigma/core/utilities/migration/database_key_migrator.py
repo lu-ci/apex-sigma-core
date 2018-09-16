@@ -155,7 +155,7 @@ def print_progress(tsl, tsk, ter):
 
 def run(db_addr, skippable):
     db = pymongo.MongoClient(db_addr)
-    colls = list(sorted(db.aurora.list_collections(), key=lambda x: x.get('name')))
+    colls = list(sorted(db.sigma.list_collections(), key=lambda x: x.get('name')))
     curr = 0
     total = len(colls)
     print(f'Slugging {total} collections.')
@@ -163,7 +163,7 @@ def run(db_addr, skippable):
         coll_nam = coll.get('name')
         tsl, tsk, ter = 0, 0, 0
         if coll_nam not in skippable:
-            collx = db.aurora[coll_nam]
+            collx = db.sigma[coll_nam]
             print(f'Slugging {coll_nam}...')
             docs = list(collx.find())
             print('Checking cap presence...')
@@ -190,5 +190,4 @@ def run(db_addr, skippable):
 
 
 # Your mongo address goes here and list of things you want to skip
-run('mongodb://master:JomyQaseYoji0%40@lucia.moe:27017', [])
-
+run('mongodb://localhost:27017', [])

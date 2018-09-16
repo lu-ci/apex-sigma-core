@@ -77,7 +77,7 @@ async def mathgame(cmd: SigmaCommand, message: discord.Message, args: list):
 
         try:
             answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=allotted_time)
-            await cmd.db.add_currency(answer_message.author, message.guild, kud_reward)
+            await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
             author = answer_message.author.display_name
             currency = cmd.bot.cfg.pref.currency
             win_title = f'🎉 Correct, {author}, it was {result}. You won {kud_reward} {currency}!'

@@ -60,7 +60,7 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
                             count += 1
                             sell_id_list.append(item['item_id'])
                     await sell_item_ids(cmd.db, message.author, sell_id_list)
-                    await cmd.db.add_currency(message.author, message.guild, value)
+                    await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
                     currency = cmd.bot.cfg.pref.currency
                     ender = 's' if count != 1 else ''
                     response = discord.Embed(color=0xc6e4b5)

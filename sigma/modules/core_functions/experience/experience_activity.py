@@ -31,4 +31,4 @@ async def experience_activity(ev: SigmaEvent, message: discord.Message):
             else:
                 award_xp = 150
             award_xp += secrets.randbelow(5) * 18
-            add_exp(message.author, message.guild, award_xp)
+            add_exp(message, award_xp)
