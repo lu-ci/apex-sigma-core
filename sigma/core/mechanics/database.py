@@ -113,7 +113,7 @@ class Database(motor.AsyncIOMotorClient):
         return bool(await self.get_profile(user_id, 'sabotaged'))
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
-        if not self.is_sabotaged(user_id):
+        if not await self.is_sabotaged(user_id):
             amount = abs(int(amount))
             resource = await self.get_resource(user_id, name)
             resource.add_value(amount, trigger, origin, ranked)
