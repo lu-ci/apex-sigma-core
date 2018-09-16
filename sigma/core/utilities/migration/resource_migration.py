@@ -95,7 +95,7 @@ def transfer_inventory(db):
 
 
 def transfer_upgrades(db):
-    cdocs = list(db.sigma.Inventory.find())
+    cdocs = list(db.sigma.Upgrades.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
