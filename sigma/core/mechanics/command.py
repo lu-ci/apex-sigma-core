@@ -120,12 +120,12 @@ class SigmaCommand(object):
         log_text += f' | EX: {exdiff}'
         self.log.info(log_text)
 
-    async def add_usage_exp(self, message: discord.Message):
-        trigger = 'usage_experience'
-        if message.guild and not await self.bot.cool_down.on_cooldown(trigger, message.author):
-            award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
-            await self.db.add_resource(message.author.id, 'experience', award_xp, trigger, message, True)
-            await self.bot.cool_down.set_cooldown(trigger, message.author, 450)
+    # async def add_usage_exp(self, message: discord.Message):
+    #     trigger = 'usage_experience'
+    #     if message.guild and not await self.bot.cool_down.on_cooldown(trigger, message.author):
+    #         award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
+    #         await self.db.add_resource(message.author.id, 'experience', award_xp, trigger, message, True)
+    #         await self.bot.cool_down.set_cooldown(trigger, message.author, 450)
 
     @staticmethod
     async def respond_with_icon(message: discord.Message, icon: str or discord.Emoji):
@@ -179,7 +179,7 @@ class SigmaCommand(object):
                                 try:
                                     await getattr(self.command, self.name)(self, message, args)
                                     await add_cmd_stat(self)
-                                    await self.add_usage_exp(message)
+                                    # await self.add_usage_exp(message)
                                     self.bot.command_count += 1
                                     event_task = self.bot.queue.event_runner('command', self, message, args)
                                     self.bot.loop.create_task(event_task)
