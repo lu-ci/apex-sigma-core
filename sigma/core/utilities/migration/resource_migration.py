@@ -67,7 +67,7 @@ def transfer_currency(db):
 
 
 def transfer_experience(db):
-    cdocs = list(db.sigma.CurrencySystem.find())
+    cdocs = list(db.sigma.ExperienceSystem.find())
     li = 0
     ti = len(cdocs)
     for cdoc in cdocs:
