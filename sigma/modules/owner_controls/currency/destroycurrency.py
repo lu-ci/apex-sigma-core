@@ -26,7 +26,7 @@ async def destroycurrency(cmd: SigmaCommand, message: discord.Message, args: lis
             if not target.bot:
                 try:
                     amount = abs(int(args[0]))
-                    target_amount = await cmd.db.get_resource(message.author.id, 'currency')
+                    target_amount = await cmd.db.get_resource(target.id, 'currency')
                     target_amount = target_amount.current
                     if amount <= target_amount:
                         await cmd.db.del_resource(target.id, 'currency', amount, cmd.name, message)
