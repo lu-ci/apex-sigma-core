@@ -27,7 +27,7 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 async def check_requirements(cmd, message, recipe):
     req_satisfied = 0
     for ingredient in recipe.ingredients:
-        user_inv = await cmd.db.get_inventory(message.author)
+        user_inv = await cmd.db.get_inventory(message.author.id)
         in_inventory = False
         for item in user_inv:
             if item['item_file_id'] == ingredient.file_id:

@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
@@ -26,3 +27,9 @@ async def temproom_checker(ev: SigmaEvent, m: discord.Member, b: discord.VoiceSt
                 members = len([m for m in b.channel.members if not m.bot])
                 if not members:
                     await b.channel.delete(reason='Temporary Voice Channel Emptied')
+                await asyncio.sleep(.25)
+                category = b.channel.category
+                if category:
+                    if category.name.startswith('[Σ]'):
+                        if len(category.channels) == 0:
+                            await category.delete(reason='Temporary VC Category Emptied')
