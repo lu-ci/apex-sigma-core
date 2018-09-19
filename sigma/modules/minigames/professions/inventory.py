@@ -61,10 +61,10 @@ async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
         target = message.mentions[0]
     else:
         target = message.author
-    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
+    upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
     storage = upgrade_file.get('storage', 0)
     inv_limit = 64 + (8 * storage)
-    inv = await cmd.db.get_inventory(target)
+    inv = await cmd.db.get_inventory(target.id)
     total_inv = len(inv)
     item_o_list = []
     item_filter = get_filter(args)

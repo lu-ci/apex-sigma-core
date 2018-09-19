@@ -33,7 +33,7 @@ async def generateitem(cmd: SigmaCommand, message: discord.Message, args: list):
                     if item.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                         connector = 'an'
                     data_for_inv = item.generate_inventory_item()
-                    await cmd.db.add_to_inventory(target, data_for_inv)
+                    await cmd.db.add_to_inventory(target.id, data_for_inv)
                     success_text = f'{item.icon} I have given {connector} {item.name} to {target.display_name}.'
                     response = discord.Embed(color=item.color, title=success_text)
                 else:

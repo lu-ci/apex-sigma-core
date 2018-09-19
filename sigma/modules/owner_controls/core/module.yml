@@ -54,31 +54,6 @@ commands:
     description:
       Remove an interaction with the specified ID.
 
-  - name:         resetleaderboards
-    alts:
-      - "resetlbs"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd}"
-    description:
-      Resets the global leaderboard data.
-      Currency, experience, and cookies.
-
-  - name:         awardleaderboards
-    alts:
-      - "awardlbs"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd}"
-    description:
-      Awards all the global leaderboards.
-      Basically gives a large amount of Kud to the top 20 users
-      in each leaderboard category. Currency earned, experience, and cookies.
-
   - name:         setcooldown
     alts:
       - "setcd"

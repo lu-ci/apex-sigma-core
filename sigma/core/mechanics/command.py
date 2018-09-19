@@ -22,6 +22,7 @@ import discord
 import yaml
 
 from sigma.core.mechanics.cooldown import CommandRateLimiter
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
@@ -32,9 +33,9 @@ from sigma.core.mechanics.errors import SigmaError
 
 
 class SigmaCommand(object):
-    def __init__(self, bot, command, plugin_info, command_info):
+    def __init__(self, bot, command, plugin_info: dict, command_info: dict):
         self.bot = bot
-        self.db = self.bot.db
+        self.db: Database = self.bot.db
         self.cd = CommandRateLimiter(self)
         self.command = command
         self.plugin_info = plugin_info
@@ -56,20 +57,6 @@ class SigmaCommand(object):
         self.desc = 'No description provided.'
         self.insert_command_info()
         self.load_command_config()
-
-    @staticmethod
-    def get_usr_data(usr: discord.User):
-        usr_data = {
-            'color': str(usr.color) if isinstance(usr, discord.Member) else '#000000',
-            'created': str(usr.created_at),
-            'discriminator': usr.discriminator,
-            'display_name': usr.display_name,
-            'game': (usr.activity.name if usr.activity else None) if isinstance(usr, discord.Member) else None,
-            'id': usr.id,
-            'name': usr.name,
-            'status': str(usr.status) if isinstance(usr, discord.Member) else None
-        }
-        return usr_data
 
     def insert_command_info(self):
         self.alts = self.command_info.get('alts', [])
@@ -120,11 +107,11 @@ class SigmaCommand(object):
         self.log.info(log_text)
 
     async def add_usage_exp(self, message: discord.Message):
-        if message.guild:
-            if not await self.bot.cool_down.on_cooldown('usage_experience', message.author):
-                award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
-                await self.db.add_experience(message.author, message.guild, award_xp)
-                await self.bot.cool_down.set_cooldown('usage_experience', message.author, 450)
+        trigger = 'usage_experience'
+        if message.guild and not await self.bot.cool_down.on_cooldown(trigger, message.author):
+            award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
+            await self.db.add_resource(message.author.id, 'experience', award_xp, trigger, message, True)
+            await self.bot.cool_down.set_cooldown(trigger, message.author, 450)
 
     @staticmethod
     async def respond_with_icon(message: discord.Message, icon: str or discord.Emoji):
