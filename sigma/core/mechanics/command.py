@@ -58,20 +58,6 @@ class SigmaCommand(object):
         self.insert_command_info()
         self.load_command_config()
 
-    @staticmethod
-    def get_usr_data(usr: discord.User):
-        usr_data = {
-            'color': str(usr.color) if isinstance(usr, discord.Member) else '#000000',
-            'created': str(usr.created_at),
-            'discriminator': usr.discriminator,
-            'display_name': usr.display_name,
-            'game': (usr.activity.name if usr.activity else None) if isinstance(usr, discord.Member) else None,
-            'id': usr.id,
-            'name': usr.name,
-            'status': str(usr.status) if isinstance(usr, discord.Member) else None
-        }
-        return usr_data
-
     def insert_command_info(self):
         self.alts = self.command_info.get('alts', [])
         self.usage = self.command_info.get('usage', '{pfx}{cmd}')
