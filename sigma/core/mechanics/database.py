@@ -43,6 +43,8 @@ class Database(motor.AsyncIOMotorClient):
                 prefix = pfx_search
         return prefix
 
+    # Document Pre-Cachers
+
     async def precache_settings(self):
         self.bot.log.info('Pre-Caching all guild settings...')
         all_settings = await self[self.db_cfg.database].ServerSettings.find({}).to_list(None)
@@ -51,6 +53,17 @@ class Database(motor.AsyncIOMotorClient):
             if guild_id:
                 self.cache.set_cache(guild_id, setting_file)
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} guild settings.')
+
+    async def precache_profiles(self):
+        self.bot.log.info('Pre-Caching all member profiles...')
+        all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
+        for setting_file in all_settings:
+            guild_id = setting_file.get('user_id')
+            if guild_id:
+                self.cache.set_cache(guild_id, setting_file)
+        self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
+
+    # Guild Setting Variable Calls
 
     async def get_guild_settings(self, guild_id: int, setting_name: str):
         guild_settings = self.cache.get_cache(guild_id)
@@ -71,14 +84,7 @@ class Database(motor.AsyncIOMotorClient):
             await self[self.db_nam].ServerSettings.insert_one(update_data)
         self.cache.del_cache(guild_id)
 
-    async def precache_profiles(self):
-        self.bot.log.info('Pre-Caching all member profiles...')
-        all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
-        for setting_file in all_settings:
-            guild_id = setting_file.get('user_id')
-            if guild_id:
-                self.cache.set_cache(guild_id, setting_file)
-        self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
+    # Profile Data Entry Variable Calls
 
     async def get_profile(self, user_id: int, entry_name: str):
         user_profile = self.cache.get_cache(user_id)
@@ -99,18 +105,27 @@ class Database(motor.AsyncIOMotorClient):
             await self[self.db_nam].Profiles.insert_one(update_data)
         self.cache.del_cache(user_id)
 
+    async def is_sabotaged(self, user_id: int):
+        return bool(await self.get_profile(user_id, 'sabotaged'))
+
+    # Resource Handling
+
     async def update_resource(self, resource: SigmaResource, user_id: int, name: str):
+        cache_key = f'res_{name}_{user_id}'
         resources = await self.get_profile(user_id, 'resources') or {}
         resources.update({name: resource.dictify()})
         await self.set_profile(user_id, 'resources', resources)
+        self.cache.del_cache(cache_key)
 
     async def get_resource(self, user_id: int, resource_name: str):
-        resources = await self.get_profile(user_id, 'resources') or {}
-        resource_data = resources.get(resource_name, {})
-        return SigmaResource(resource_data)
-
-    async def is_sabotaged(self, user_id: int):
-        return bool(await self.get_profile(user_id, 'sabotaged'))
+        cache_key = f'res_{resource_name}_{user_id}'
+        resource = self.cache.get_cache(cache_key)
+        if not resource:
+            resources = await self.get_profile(user_id, 'resources') or {}
+            resource_data = resources.get(resource_name, {})
+            resource = SigmaResource(resource_data)
+            self.cache.set_cache(cache_key, resource)
+        return resource
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
         if not await self.is_sabotaged(user_id):
@@ -125,26 +140,37 @@ class Database(motor.AsyncIOMotorClient):
         resource.del_value(amount, trigger, origin)
         await self.update_resource(resource, user_id, name)
 
-    async def get_inventory(self, user: discord.Member):
-        inventory = await self.get_profile(user.id, 'inventory') or []
+    # Inventory Handling
+
+    async def update_inventory(self, user_id: int, inventory: list):
+        cache_key = f'inv_{user_id}'
+        await self.set_profile(user_id, 'inventory', inventory)
+        self.cache.del_cache(cache_key)
+
+    async def get_inventory(self, user_id: int):
+        cache_key = f'inv_{user_id}'
+        inventory = self.cache.get_cache(cache_key)
+        if not inventory:
+            inventory = await self.get_profile(user_id, 'inventory') or []
+            self.cache.set_cache(cache_key, inventory)
         return inventory
 
-    async def add_to_inventory(self, user: discord.Member, item_data: dict):
+    async def add_to_inventory(self, user_id: int, item_data: dict):
         stamp = arrow.utcnow().timestamp
         item_data.update({'timestamp': stamp})
-        inv = await self.get_inventory(user)
+        inv = await self.get_inventory(user_id)
         inv.append(item_data)
-        await self.set_profile(user.id, 'inventory', inv)
+        await self.update_inventory(user_id, inv)
 
-    async def del_from_inventory(self, user, item_id):
-        inv = await self.get_inventory(user)
+    async def del_from_inventory(self, user_id: int, item_id: str):
+        inv = await self.get_inventory(user_id)
         for item in inv:
             if item.get('item_id') == item_id:
                 inv.remove(item)
-        await self.set_profile(user.id, 'inventory', inv)
+        await self.update_inventory(user_id, inv)
 
-    async def get_inventory_item(self, user: discord.Member, item_file_id: str):
-        inv = await self.get_inventory(user)
+    async def get_inventory_item(self, user_id: int, item_file_id: str):
+        inv = await self.get_inventory(user_id)
         output = None
         for item in inv:
             if item.get('item_file_id').lower() == item_file_id.lower():

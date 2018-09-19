@@ -25,7 +25,7 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
-        inv = await cmd.db.get_inventory(message.author)
+        inv = await cmd.db.get_inventory(message.author.id)
         storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)
         if len(inv) < inv_limit:
@@ -55,7 +55,7 @@ async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
                 item_color = item.color
                 response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                 data_for_inv = item.generate_inventory_item()
-                await cmd.db.add_to_inventory(message.author, data_for_inv)
+                await cmd.db.add_to_inventory(message.author.id, data_for_inv)
                 await item_core.add_item_statistic(cmd.db, item, message.author)
             response = discord.Embed(color=item_color, title=response_title)
         else:

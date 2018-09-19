@@ -25,7 +25,7 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
     item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
     if args:
-        inv = await cmd.db.get_inventory(message.author)
+        inv = await cmd.db.get_inventory(message.author.id)
         if inv:
             lookup = ' '.join(args)
             if lookup == 'all':
@@ -35,7 +35,7 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
                     item_ob_id = item_core.get_item_by_file_id(invitem['item_file_id'])
                     value += item_ob_id.value
                     count += 1
-                    await cmd.db.del_from_inventory(message.author, invitem['item_id'])
+                    await cmd.db.del_from_inventory(message.author.id, invitem['item_id'])
                 await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
                 ender = 's' if count != 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
@@ -43,13 +43,13 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 item_o = item_core.get_item_by_name(lookup)
                 if item_o:
-                    item = await cmd.db.get_inventory_item(message.author, item_o.file_id)
+                    item = await cmd.db.get_inventory_item(message.author.id, item_o.file_id)
                 else:
                     item = None
                 if item:
                     value = item_o.value
                     await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
-                    await cmd.db.del_from_inventory(message.author, item['item_id'])
+                    await cmd.db.del_from_inventory(message.author.id, item['item_id'])
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'
                 else:
