@@ -33,7 +33,7 @@ async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
             recipe.ingredients.sort(key=lambda x: x.name)
             req_satisfied = True
             for ingredient in recipe.ingredients:
-                user_inv = await cmd.db.get_inventory(message.author.id)
+                user_inv = await cmd.db.get_inventory(message.author)
                 in_inventory = False
                 for item in user_inv:
                     if item['item_file_id'] == ingredient.file_id:

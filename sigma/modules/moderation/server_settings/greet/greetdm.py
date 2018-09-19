@@ -1,4 +1,4 @@
-# Apex Sigma: The Database Giant Discord Bot.
+﻿# Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,18 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def cookies(cmd: SigmaCommand, message: discord.Message, args: list):
-    target = message.author if not message.mentions else message.mentions[0]
-    cookie_file = await cmd.db[cmd.db.db_nam].Cookies.find_one({'user_id': target.id}) or {}
-    cookie_count = cookie_file.get('cookies') or 0
-    cookie_total = cookie_file.get('total') or 0
-    ender = 'cookie' if cookie_count == 1 else 'cookies'
-    title = f'🍪 {target.display_name} got {cookie_count} {ender} this month '
-    title += f'and has {cookie_total} in total.'
-    response = discord.Embed(color=0xd99e82, title=title)
+async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
+    if message.author.permissions_in(message.channel).manage_guild:
+        active = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm')
+        if active:
+            state, ender = False, 'disabled'
+        else:
+            state, ender = True, 'enabled'
+        await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', state)
+        response = discord.Embed(color=0x77B255, title=f'✅ Greeting via private message has been {ender}.')
+    else:
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

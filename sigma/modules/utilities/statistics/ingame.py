@@ -23,12 +23,14 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import paginate
 
 
-def make_games_dict(guild: discord.Guild):
+async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
     games = {}
     online_count = 0
     playing_count = 0
-    for member in guild.members:
-        status = member.status.value
+    total_count = 0
+    for member in message.guild.members:
+        total_count += 1
+        status = str(member.status)
         if status != 'offline':
             online_count += 1
         if not member.bot:
@@ -43,27 +45,24 @@ def make_games_dict(guild: discord.Guild):
                         curr_count = games[game_name]
                         new_count = curr_count + 1
                         games.update({game_name: new_count})
-    return games, online_count, playing_count
-
-
-async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
     response = discord.Embed(color=0x1ABC9C)
-    games, online, playing = make_games_dict(message.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
     page = args[0] if args else 1
     game_list, page = paginate(sorted_games, page)
-    start_range = (page - 1) * 10
+    start_range, end_range = (page - 1) * 10, page * 10
     out_table_list = []
     game_count = len(sorted_games)
-    index = start_range
+    n = 0
     for key, value in game_list:
-        index += 1
+        n += 1
+        index = n + start_range
         if len(key) > 32:
             key = key[:32] + '...'
-        out_table_list.append([str(index), key, value, str(value / playing * 100).split('.')[0] + '%'])
-    output = boop(out_table_list)
-    general_stats_list = [['Online', online], ['In-Game', playing], ['Unique Games', game_count]]
+        out_table_list.append(
+            [str(index), key.title(), value, str(((value / playing_count) * 10000) // 100).split('.')[0] + '%'])
+    out = boop(out_table_list)
+    general_stats_list = [['Online', online_count], ['In-Game', playing_count], ['Unique Games', game_count]]
     out_block = f'```hs\n{boop(general_stats_list)}\n```'
     response.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name, value=out_block, inline=False)
-    response.add_field(name=f'🎮 By Game on Page {page}', value=f'```haskell\n{output}\n```', inline=False)
+    response.add_field(name=f'🎮 By Game on Page {page}', value='```haskell\n' + out + '\n```', inline=False)
     await message.channel.send(embed=response)

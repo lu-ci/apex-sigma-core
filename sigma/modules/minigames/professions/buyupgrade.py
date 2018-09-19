@@ -31,7 +31,10 @@ def get_price_mod(base_price, upgrade_level):
 async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
-        upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+        upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id})
+        if upgrade_file is None:
+            await cmd.db[cmd.db.db_nam].Upgrades.insert_one({'user_id': message.author.id})
+            upgrade_file = {}
         upgrade_text = ''
         upgrade_index = 0
         for upgrade in upgrade_list:
@@ -76,8 +79,8 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
             if answer_message.content.lower() != 'cancel':
                 upgrade_number = int(answer_message.content) - 1
                 upgrade = upgrade_list[upgrade_number]
-                current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-                current_kud = current_kud.current
+                current_kud = await cmd.db.get_currency(message.author, message.guild)
+                current_kud = current_kud['current']
                 upgrade_id = upgrade['id']
                 if upgrade_id in upgrade_file:
                     upgrade_level = upgrade_file[upgrade_id]
@@ -91,9 +94,11 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                     upgrade_price = price_mod + (price_mod // 2)
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
-                    upgrade_file.update({upgrade_id: new_upgrade_level})
-                    await cmd.db.set_profile(message.author.id, 'upgrades', upgrade_file)
-                    await cmd.db.del_resource(message.author.id, 'currency', upgrade_price, cmd.name, message)
+                    upgrade_data = {'$set': {upgrade_id: new_upgrade_level}}
+                    await cmd.db[cmd.db.db_nam].Upgrades.update_one(
+                        {'user_id': message.author.id}, upgrade_data
+                    )
+                    await cmd.db.rmv_currency(message.author, upgrade_price)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
                 else:

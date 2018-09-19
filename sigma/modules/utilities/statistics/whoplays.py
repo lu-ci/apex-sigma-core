@@ -17,39 +17,23 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
 
 
 async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        if args[0].isdigit():
-            game_title = ' '.join(args[1:])
-            page = True
-        else:
-            game_title = ' '.join(args)
-            page = False
-        game_name = None
+        game_title = ' '.join(args)
         gamer_list = []
         x, y = 0, 0
         for member in message.guild.members:
             if member.activity:
                 x += 1
-                if member.activity.name.lower() == game_title.lower():
-                    if not game_name:
-                        game_name = member.activity.name
+                if str(member.activity.name).lower() == game_title.lower():
                     gamer_list.append(member.name)
                     y += 1
-        title = f'{y}/{x} people are playing {game_name}'
-        if gamer_list:
-            total_gamers = len(gamer_list)
-            page = args[0] if page else 1
-            gamer_list, page = paginate(sorted(gamer_list), page, 20)
-            gamers = '\n- ' + '\n- '.join(gamer_list)
-            response = discord.Embed(color=0x1ABC9C)
-            response.add_field(name=title, value=gamers)
-            response.set_footer(text=f'[Page {page}] Showing {len(gamer_list)} user out of {total_gamers}.')
-        else:
-            response = discord.Embed(color=0x696969, title=f'🔍 No users are currently playing {game_title}.')
+        title = f'{y}/{x} people are playing {game_title}'
+        gamers = f'```\n{", ".join(gamer_list) or "None"}\n```'
+        response = discord.Embed(color=0x1ABC9C)
+        response.add_field(name=title, value=gamers)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

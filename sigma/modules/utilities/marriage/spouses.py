@@ -46,7 +46,7 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
             sp_status = 'Married' if target.id in sp_spouse_ids else 'Proposed'
             spdata.append([spmemb, sp_status, arrow.get(sp.get('time')).humanize().title()])
         spbody = boop(spdata, ['Name', 'Status', 'Since'])
-        upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
+        upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
         limit = 10 + (upgrades.get('harem') or 0)
         stats = f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.'
         response = discord.Embed(color=0xf9f9f9)

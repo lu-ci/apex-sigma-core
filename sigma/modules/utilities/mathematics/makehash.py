@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def makehash(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        if len(args) >= 2:
+        if len(args) > 2:
             hash_name = args[0]
             hashes = hashlib.algorithms_available
             if hash_name in hashes:

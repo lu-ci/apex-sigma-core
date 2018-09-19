@@ -40,8 +40,8 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
                 target_lookup = {'user_id': target.id}
                 author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
                 target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
-                author_upgrades = await cmd.db.get_profile(author.id, 'upgrades') or {}
-                target_upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
+                author_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': author.id}) or {}
+                target_upgrades = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': target.id}) or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
                 a_exists = True if author_profile else False

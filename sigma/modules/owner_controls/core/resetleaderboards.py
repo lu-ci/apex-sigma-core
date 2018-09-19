@@ -1,4 +1,4 @@
-﻿# Apex Sigma: The Database Giant Discord Bot.
+# Apex Sigma: The Database Giant Discord Bot.
 # Copyright (C) 2018  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,21 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def greetdm(cmd: SigmaCommand, message: discord.Message, args: list):
-    if message.author.permissions_in(message.channel).manage_guild:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm')
-        if active:
-            state, ender = False, 'disabled'
-        else:
-            state, ender = True, 'enabled'
-        await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', state)
-        response = discord.Embed(color=0x77B255, title=f'✅ DM Greeting Messages {ender}.')
-    else:
-        response = permission_denied('Manage Server')
+async def resetleaderboards(cmd: SigmaCommand, message: discord.Message, args: list):
+    await cmd.db[cmd.db.db_nam].Cookies.update_many({}, {"$set": {"cookies": 0}})
+    await cmd.db[cmd.db.db_nam].CurrencySystem.update_many({}, {"$set": {"global": 0}})
+    await cmd.db[cmd.db.db_nam].ExperienceSystem.update_many({}, {"$set": {"global": 0}})
+    response = discord.Embed(color=0xFFCC4D, title=f'🔥 The global leaderboards have been destroyed.')
     await message.channel.send(embed=response)

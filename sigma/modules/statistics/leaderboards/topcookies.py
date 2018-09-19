@@ -25,49 +25,31 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 tcklb_cache = Cacher()
 
 
-async def get_user_value(db, uid, gid, cache_key, resource, localed):
-    user_resource = await db.get_resource(uid, resource)
-    if localed:
-        user_value = user_resource.origins.guilds.get(gid)
-    else:
-        if cache_key == resource:
-            user_value = user_resource.ranked
-        else:
-            user_value = user_resource.total
-    return user_value
-
-
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Cookies'
-    resource = cache_key = 'cookies'
-    sort_key = f'resources.{resource}.ranked'
-    lb_category = 'This Month\'s'
+    sort_key = 'cookies'
+    lb_category = 'Global'
     localed = False
     if args:
         if args[0].lower() == 'total':
-            sort_key = f'resources.{resource}.total'
+            sort_key = 'total'
             lb_category = 'Total'
-            cache_key = f'{resource}_total'
         elif args[0].lower() == 'local':
-            sort_key = f'resources.{resource}.origins.guilds.{message.guild.id}'
             lb_category = 'Local'
-            cache_key = message.guild.id
             localed = True
+    cache_key = message.guild.id if localed else sort_key
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = tcklb_cache.get_cache(cache_key), tcklb_cache.get_cache(f'{cache_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
-        coll = cmd.db[cmd.db.db_nam].Profiles
-        search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
-        all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
+        coll = cmd.db[cmd.db.db_nam].Cookies
+        all_docs = await coll.find({}).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
         if localed:
             all_members = message.guild.members
         else:
             all_members = cmd.bot.get_all_members()
         for data_doc in all_docs:
-            user_value = await get_user_value(
-                cmd.db, data_doc.get('user_id'), message.guild.id, cache_key, resource, localed
-            )
+            user_value = data_doc.get(sort_key) or 0
             user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:
                 if user_value:

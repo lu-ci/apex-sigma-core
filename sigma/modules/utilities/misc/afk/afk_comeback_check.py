@@ -26,7 +26,9 @@ async def afk_comeback_check(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         pfx = await ev.db.get_prefix(message)
         if not message.content.startswith(pfx):
-            afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': message.author.id})
+            afk_data = afk_cache.get_cache(message.author.id)
+            if not afk_data:
+                afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': message.author.id})
             if afk_data:
                 afk_cache.del_cache(message.author.id)
                 response = discord.Embed(color=0x3B88C3, title='ℹ I have removed your AFK status.')

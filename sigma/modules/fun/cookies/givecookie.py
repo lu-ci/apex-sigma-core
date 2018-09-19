@@ -43,8 +43,8 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             target = None
     if target:
-        sabotage_target = await cmd.db.is_sabotaged(target.id)
-        sabotage_author = await cmd.db.is_sabotaged(message.author.id)
+        sabotage_target = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'user_id': target.id})
+        sabotage_author = await cmd.db[cmd.db.db_nam].SabotagedUsers.find_one({'user_id': message.author.id})
         author_stamp = arrow.get(message.author.created_at).float_timestamp
         current_stamp = arrow.utcnow().float_timestamp
         time_diff = current_stamp - author_stamp
@@ -54,12 +54,27 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                     if message.author.id != target.id:
                         if not target.bot:
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-                                upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+                                upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one(
+                                    {'user_id': message.author.id}
+                                ) or {}
+                                cookie_coll = cmd.db[cmd.db.db_nam].Cookies
                                 base_cooldown = 3600
                                 stamina = upgrade_file.get('oven') or 0
                                 stamina_mod = stamina / (1.25 + (0.01 * stamina))
                                 cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
-                                await cmd.db.add_resource(target.id, 'cookies', 1, cmd.name, message, True)
+                                file_check = await cookie_coll.find_one({'user_id': target.id})
+                                if not file_check:
+                                    cookies = 0
+                                    total = 0
+                                    data = {'user_id': target.id, 'cookies': 0}
+                                    await cookie_coll.insert_one(data)
+                                else:
+                                    total = file_check.get('total') or 0
+                                    cookies = file_check.get('cookies') or 0
+                                cookies += 1
+                                total += 1
+                                cookie_data = {'cookies': cookies, 'total': total}
+                                await cookie_coll.update_one({'user_id': target.id}, {'$set': cookie_data})
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
                                 if someoned:
                                     title = f'🍪 You threw a cookie and it landed in {target.display_name}\'s mouth.'

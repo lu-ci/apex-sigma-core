@@ -48,7 +48,7 @@ async def permittedusers(cmd: SigmaCommand, message: discord.Message, args: list
                     total_overrides = len(overridden_users)
                     overrides, page = paginate(overridden_users, page_num, 50)
                     title = f'{message.guild.name} {node_name.upper()} User Overrides'
-                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} user overrides.'
+                    info_text = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} disabled modules.'
                     response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
                     response.set_author(name=title, icon_url=message.guild.icon_url)
                     response.description = ', '.join(overrides)
