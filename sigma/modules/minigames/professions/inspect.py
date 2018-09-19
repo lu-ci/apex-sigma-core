@@ -37,11 +37,11 @@ async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
                 for stat_doc in all_stat_docs:
                     item_total += stat_doc.get(item.file_id) or 0
                 stat_count = all_stats.get(item.file_id) or 0
-                owned_item = await cmd.db.get_inventory_item(message.author, item.file_id)
+                owned_item = await cmd.db.get_inventory_item(message.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
                 footer = f'You Found: {stat_count} | Total Found: {item_total}'
                 if owned_item:
-                    inv = await cmd.db.get_inventory(message.author)
+                    inv = await cmd.db.get_inventory(message.author.id)
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
                     footer += f' | Owned: {count} | ItemID: {owned_item.get("item_id")}'
                     response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))

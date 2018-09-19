@@ -12,15 +12,29 @@ commands:
 
   - name:         ingame
     enabled:      true
-    usage:        "{pfx}{cmd} @person"
+    usage:        "{pfx}{cmd}"
     description:
       Shows the top played games on the server.
+      The list is paginated, each page has up to 10 items.
+      You can specify the page number you want to see.
+
+  - name:         inrole
+    enabled:      true
+    usage:        "{pfx}{cmd} Warlards"
+    description:
+      Shows all the users in the server who have the specified role.
+      The list is paginated, each page has up to 10 items.
+      You can specify the page number you want to see.
 
   - name:         whoplays
     enabled:      true
     usage:        "{pfx}{cmd} Overwatch"
     description:
       Generates a list of users playing the specified game.
+      The list is paginated, each page has up to 20 items.
+      You can specify the page number you want to see.
+      Due to some game names ending with a number,
+      the page indicator goes before the game name.
 
   - name:         rolepopulation
     alts:

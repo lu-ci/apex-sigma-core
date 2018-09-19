@@ -42,7 +42,7 @@ async def inventorystats(cmd: SigmaCommand, message: discord.Message, args: list
         target = message.mentions[0]
     else:
         target = message.author
-    inv = await cmd.db.get_inventory(target)
+    inv = await cmd.db.get_inventory(target.id)
     item_o_list = []
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])

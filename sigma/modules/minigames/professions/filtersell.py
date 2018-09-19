@@ -22,12 +22,12 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def sell_item_ids(db, user, items):
-    inv = await db.get_inventory(user)
+    inv = await db.get_inventory(user.id)
     for item in items:
         for inv_item in inv:
             if inv_item['item_id'] == item:
                 inv.remove(inv_item)
-    await db.update_inv(user, inv)
+    await db.update_inventory(user.id, inv)
 
 
 async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -38,7 +38,7 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
         if len(arguments) >= 2:
             mode = arguments[0].lower()
             lookup = ' '.join(arguments[1:])
-            inv = await cmd.db.get_inventory(message.author)
+            inv = await cmd.db.get_inventory(message.author.id)
             if inv:
                 value = 0
                 count = 0
@@ -60,7 +60,7 @@ async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
                             count += 1
                             sell_id_list.append(item['item_id'])
                     await sell_item_ids(cmd.db, message.author, sell_id_list)
-                    await cmd.db.add_currency(message.author, message.guild, value)
+                    await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
                     currency = cmd.bot.cfg.pref.currency
                     ender = 's' if count != 1 else ''
                     response = discord.Embed(color=0xc6e4b5)

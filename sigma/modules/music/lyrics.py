@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import json
 
 import aiohttp
@@ -32,26 +33,26 @@ async def get_url_body(url: str):
 
 def parse_parts(lyr: str):
     pieces = []
-    lines = lyr.split('\n\n')
+    lines = lyr.split('\n')
     chunk = []
     for line in lines:
-        if sum(len(c) for c in chunk) >= 1024:
-            pieces.append("\n\n".join(chunk))
-            chunk = []
+        if sum(len(c) for c in chunk) + len(line) >= 1024:
+            pieces.append("\n".join(chunk))
+            chunk = [line]
         else:
             chunk.append(line)
     if chunk:
-        pieces.append("\n\n".join(chunk))
+        pieces.append("\n".join(chunk))
     return pieces
 
 
-async def get_lyrics_from_html(lyirics_url: str):
+async def get_lyrics_from_html(lyrics_url: str):
     lyrics_text = None
     artist = None
     song = None
     thumbnail = None
-    if lyirics_url:
-        lyric_page_html = await get_url_body(lyirics_url)
+    if lyrics_url:
+        lyric_page_html = await get_url_body(lyrics_url)
         if lyric_page_html:
             lyrics_page = lx.fromstring(lyric_page_html)
             lyric_section = lyrics_page.cssselect('.lyrics')
@@ -91,7 +92,7 @@ async def lyrics(cmd: SigmaCommand, message: discord.Message, args: list):
         if lyrics_data:
             chunks = parse_parts(lyrics_data)
             chunk_counter = 0
-            for chunk in chunks:
+            for chunk in chunks[:5]:
                 chunk_counter += 1
                 chunk_title = f'🔖 Lyrics for {song} by {artist}'
                 response = discord.Embed(color=await get_image_colors(image), title=chunk_title)
@@ -99,6 +100,11 @@ async def lyrics(cmd: SigmaCommand, message: discord.Message, args: list):
                 response.set_thumbnail(url=image)
                 if len(chunks) != 1:
                     response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
+                await message.channel.send(embed=response)
+            if len(chunks) > 5:
+                end_title = f'Lyrics too long to display in their entirety.'
+                end_desc = f'View the full list of lyrics [here]({lyrics_url}).'
+                response = discord.Embed(color=await get_image_colors(image), title=end_title, description=end_desc)
                 await message.channel.send(embed=response)
             return
         else:

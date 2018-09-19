@@ -84,7 +84,7 @@ def get_selector_and_value(args: list):
 
 
 async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
-    upgrade_file = await cmd.db[cmd.db.db_nam].Upgrades.find_one({'user_id': message.author.id}) or {}
+    upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
     base_cooldown = 60
     stamina = upgrade_file.get('casino', 0)
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
@@ -104,16 +104,17 @@ async def roulette(cmd: SigmaCommand, message: discord.Message, args: list):
                         bet = get_bet(args)
                         currency_icon = cmd.bot.cfg.pref.currency_icon
                         currency = cmd.bot.cfg.pref.currency
-                        current_kud = await cmd.db.get_currency(message.author, message.guild)
-                        current_kud = current_kud.get('current') or 0
+                        author = message.author.id
+                        current_kud = await cmd.db.get_resource(author, 'currency')
+                        current_kud = current_kud.current
                         if current_kud >= bet:
                             await set_roul_cd(cmd, message)
-                            await cmd.db.rmv_currency(message.author, bet)
+                            await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
                             spot = secrets.choice(spots)
                             spot_sel_val = getattr(spot, sel, val)
                             if spot_sel_val == val:
                                 winnings = bet + (bet * selector_mults.get(sel))
-                                await cmd.db.add_currency(message.author, message.guild, winnings, additive=False)
+                                await cmd.db.add_resource(author, 'currency', winnings, cmd.name, message, False)
                                 footer = f'{currency_icon} You won {winnings - bet} {currency}'
                                 resp_color = 0x66cc66
                             else:
