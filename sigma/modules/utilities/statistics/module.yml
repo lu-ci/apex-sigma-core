@@ -20,11 +20,14 @@ commands:
 
   - name:         inrole
     enabled:      true
-    usage:        "{pfx}{cmd} Warlards"
+    usage:        "{pfx}{cmd} Warlards --online"
     description:
       Shows all the users in the server who have the specified role.
       The list is paginated, each page has up to 10 items.
       You can specify the page number you want to see.
+      You can also filter the list by Discord status by adding "--status"
+      as the last argument, replacing "status" with the status you wish
+      to filter by. The accepted statuses are "dnd", "idle", "offline", and "online".
 
   - name:         whoplays
     enabled:      true

@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 import arrow
 import discord
 
@@ -22,17 +23,29 @@ from sigma.core.mechanics.command import SigmaCommand
 emote_cache = {'stamp': 0, 'emotes': []}
 
 
+def get_emote(emoji: str or discord.Emoji):
+    lookup, eid = emoji, None
+    if ':' in emoji:
+        server_match = re.match(r'^<a?:(\w+):(\d+)>$', emoji)
+        custom_match = re.match(r'^:(\w+):$', emoji)
+        if server_match:
+            lookup, eid = server_match.group(1), server_match.group(2)
+        elif custom_match:
+            lookup, eid = custom_match.group(1), None
+        else:
+            lookup, eid = emoji.split(':')
+        try:
+            eid = int(eid)
+        except ValueError:
+            eid = None
+    return lookup, eid
+
+
 async def emote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        lookup = args[0].lower()
+        lookup, eid = args[0].lower(), None
         if ':' in lookup:
-            lookup, eid = lookup.split(':')
-            try:
-                eid = int(eid)
-            except ValueError:
-                eid = None
-        else:
-            eid = None
+            lookup, eid = get_emote(lookup)
         if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
             all_emotes = cmd.bot.emojis
             emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
