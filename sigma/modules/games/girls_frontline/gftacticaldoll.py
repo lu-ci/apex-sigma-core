@@ -108,7 +108,6 @@ def get_tdoll_stats(root):
         for coor in coords:
             curr_elem = curr_elem[coor]
         data.update({key: curr_elem.text_content().strip().replace('\n', ' ')})
-    print(data)
     return data
 
 
