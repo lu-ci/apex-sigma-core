@@ -60,6 +60,7 @@ Commands | Description | Example
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
+`>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
 ### FUN
@@ -105,6 +106,7 @@ Commands | Description | Example
 ### GIRLS FRONTLINE
 Commands | Description | Example
 ----------|-------------|--------
+`>>gftacticaldoll` `>>gftdoll` `>>gftd` | Shows information for the selected T-Doll. Such as rarity, type, statistics, production origin, and the like. | `>>gftacticaldoll `
 `>>gftdollproduction` `>>gftdprod` `>>gftdp` | Shows which dolls drop from the given time and their rarity. | `>>gftdollproduction 3:58`
 [Back To Top](#module-index)
 
@@ -163,6 +165,7 @@ Commands | Description | Example
 `>>markovchain` `>>chain` | Shows how many items you have have in their chain. You can view another user's chain count by mentioning them. | `>>markovchain @person`
 `>>timeconvert` `>>tconv` | Converts the specified time in the specified time zone to the specified time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` `>>clearchain` | Wipes your entire Markov chain, if you have one. This cannot be undone. | `>>wipechain`
+`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, the most popular being complex math operations. | `>>wolframalpha 69+42`
 [Back To Top](#module-index)
 
 ### MINIGAMES
@@ -472,8 +475,10 @@ Commands | Description | Example
 ### STATISTICS
 Commands | Description | Example
 ----------|-------------|--------
+`>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you've obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
 `>>topcookies` `>>toprep` | Shows the top 20 users who have the most cookies. A filter can be added, either global or total, sorting it by the amount they globaly have right now, which is the default, or the total amount of cookies that they have collected over time regardless of resets. | `>>topcookies global`
 `>>topcurrency` `>>topkud` | Shows the top 20 users who have the most currency. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of currency that they have collected over time regardless of resets. | `>>topcurrency local`
+`>>topexperience` `>>topexp` `>>topxp` | Shows the top 20 users who have the most experience. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of experience that they have collected over time regardless of resets. | `>>topexperience total`
 `>>wallet` `>>currency` `>>money` `>>kud` | Shows how much of Sigma's internal currency you currently have, as well as how much you've earned on the current server and in total. Kud is earned by being an active member of the community. Yes, this is meant to be vague. | `>>wallet @person`
 [Back To Top](#module-index)
 
@@ -489,10 +494,10 @@ Commands | Description | Example
 `>>convertcurrency` `>>convert` | Converts the specified amount of money. The format of "{amount} {from_currency} in {to_currency}" must be followed. | `>>convertcurrency 50 EUR in USD`
 `>>createinvite` `>>makeinvite` `>>createinv` `>>makeinv` | Creates an instant invite for the specified channel. If no channel is specified, it's made for the current channel. You can set an expiration by adding "d:HH:MM:SS" as an argument. You can also set a limited number of uses by adding "u:num" where "num" is the amount of uses. The order of the arguments doesn't matter. This command requires the Create Instant Invite permission. | `>>createinvite d:12:0:0 u:10 #general`
 `>>divorce` | Divorces the mentioned user that you are married with. Divorces cost 15 Kud per hour that you were married, unless you're just canceling a proposal. | `>>divorce @person`
-`>>emote` `>>emoji` `>>em` | Searches for an emoji by name. To make the search more precise you can add the ID of the emote or server ID that the emote is from, like in this example "monika:375824498882117635". Custom emotes are not guaranteed to be SFW as they can be anything. | `>>emote Monika`
+`>>emote` `>>emoji` `>>em` | Searches for an emoji. You can use the actual emoji or just its name. If you use its name you can make the search more precise by adding the ID of the emote or server ID that the emote is from, like in this example "monika:375824498882117635". Custom emotes are not guaranteed to be SFW as they can be anything. | `>>emote Monika`
 `>>imgur` `>>img` | Anonymously uploads the specified attachment or URL to imgur and returns a direct link to it. Attachment must be an image (GIFs are images). URL must be a direct link to an image. | `>>imgur [imgfile.png]`
 `>>ingame` | Shows the top played games on the server. The list is paginated, each page has up to 10 items. You can specify the page number you want to see. | `>>ingame`
-`>>inrole` | Shows all the users in the server who have the specified role. The list is paginated, each page has up to 10 items. You can specify the page number you want to see. | `>>inrole Warlards`
+`>>inrole` | Shows all the users in the server who have the specified role. The list is paginated, each page has up to 10 items. You can specify the page number you want to see. You can also filter the list by Discord status by adding "--status" as the last argument, replacing "status" with the status you wish to filter by. The accepted statuses are "dnd", "idle", "offline", and "online". | `>>inrole Warlards --online`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the specified query for you. | `>>lmgtfy Sexy Sneks`
 `>>marry` `>>propose` | Proposes to the mentioned user, or accepts their marriage proposal if they proposed to you. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
