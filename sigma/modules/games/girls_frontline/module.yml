@@ -13,3 +13,13 @@ commands:
     usage:        "{pfx}{cmd} 3:58"
     description:
       Shows which dolls drop from the given time and their rarity.
+
+  - name:         gftacticaldoll
+    alts:
+      - "gftdoll"
+      - "gftd"
+    enabled:      true
+    usage:        "{pfx}{cmd} "
+    description:
+      Shows information for the selected T-Doll. Such as rarity,
+      type, statistics, production origin, and the like.
