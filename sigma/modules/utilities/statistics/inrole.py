@@ -24,18 +24,27 @@ from sigma.core.utilities.data_processing import paginate
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
 
+def parse_args(args: list):
+    state, page = None, 1
+    for _ in range(0, 2):
+        if args[-1].startswith('--'):
+            state_name = args[-1][2:].lower()
+            if state_name in accepted_states:
+                state = state_name
+                args.pop(-1)
+        elif args[-1].isdigit():
+            page = int(args[-1])
+            args.pop(-1)
+    lookup = ' '.join(args).lower()
+    return lookup, state, page
+
+
 async def inrole(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        lookup = args[0].lower()
+        lookup, state, page = parse_args(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
         if role_search:
-            state = None
             members = []
-            if len(args) > 1:
-                if args[1].startswith('--'):
-                    state_name = args[1][2:].lower()
-                    if state_name in accepted_states:
-                        state = state_name
             for member in message.guild.members:
                 if role_search in member.roles:
                     if state:
@@ -44,13 +53,12 @@ async def inrole(cmd: SigmaCommand, message: discord.Message, args: list):
                     else:
                         members.append([member.name, member.top_role.name])
             if members:
-                page = args[-1] if len(args) > 1 and args[-1].isdigit() else 1
+                count = len(members)
                 members, page = paginate(sorted(members), page)
                 response = discord.Embed(color=role_search.color)
-                total_members = message.guild.member_count
-                value = f'```py\n{len(members)} of {total_members} have the {role_search.name} role. Page {page}\n```'
-                headers = ['Name', 'Top Role']
-                members_table = boop(members, headers)
+                state = state if state else 'Any'
+                value = f'```py\nShowing 10 of {count} users. Status: {state}. Page {page}\n```'
+                members_table = boop(members, ['Name', 'Top Role'])
                 response.add_field(name='📄 Details', value=value, inline=False)
                 response.add_field(name='👥 Members', value=f'```hs\n{members_table}\n```', inline=False)
             else:

@@ -3,6 +3,7 @@
 ## Module Index
 - [DEVELOPMENT](#development)
 - [FUN](#fun)
+- [GIRLS FRONTLINE](#girls_frontline)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
 - [MATHEMATICS](#mathematics)
@@ -59,7 +60,6 @@ Commands | Description | Example
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
-`>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
 ### FUN
@@ -100,6 +100,12 @@ Commands | Description | Example
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` `>>ym` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
+[Back To Top](#module-index)
+
+### GIRLS FRONTLINE
+Commands | Description | Example
+----------|-------------|--------
+`>>gftdollproduction` `>>gftdprod` `>>gftdp` | Shows which dolls drop from the given time and their rarity. | `>>gftdollproduction 3:58`
 [Back To Top](#module-index)
 
 ### HELP
@@ -466,10 +472,8 @@ Commands | Description | Example
 ### STATISTICS
 Commands | Description | Example
 ----------|-------------|--------
-`>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you've obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
 `>>topcookies` `>>toprep` | Shows the top 20 users who have the most cookies. A filter can be added, either global or total, sorting it by the amount they globaly have right now, which is the default, or the total amount of cookies that they have collected over time regardless of resets. | `>>topcookies global`
 `>>topcurrency` `>>topkud` | Shows the top 20 users who have the most currency. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of currency that they have collected over time regardless of resets. | `>>topcurrency local`
-`>>topexperience` `>>topexp` `>>topxp` | Shows the top 20 users who have the most experience. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of experience that they have collected over time regardless of resets. | `>>topexperience total`
 `>>wallet` `>>currency` `>>money` `>>kud` | Shows how much of Sigma's internal currency you currently have, as well as how much you've earned on the current server and in total. Kud is earned by being an active member of the community. Yes, this is meant to be vague. | `>>wallet @person`
 [Back To Top](#module-index)
 

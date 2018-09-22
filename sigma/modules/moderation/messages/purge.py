@@ -71,10 +71,13 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
         def is_emotes(msg):
             clean = False
             if msg.content:
-                for a in msg.content.split():
-                    if re.match(r'(^<.+:[0-9]+>$)', a):
+                for piece in msg.content.split():
+                    piece = piece.strip()
+                    if re.match(r'^<a?:\w+:\d+>$', piece):
                         clean = True
-                    elif len(a) == 1 and category(a) == 'So':
+                    elif re.match(r'^:\w+:$', piece):
+                        clean = True
+                    elif len(piece) == 1 and category(piece) == 'So':
                         clean = True
                     else:
                         clean = False
@@ -117,16 +120,13 @@ async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
         except discord.NotFound:
             pass
         deleted = []
-        if target:
-            try:
+        try:
+            if target:
                 deleted = await message.channel.purge(limit=count, check=purge_target_check)
-            except Exception:
-                pass
-        else:
-            try:
+            else:
                 deleted = await message.channel.purge(limit=count, check=purge_wide_check)
-            except Exception:
-                pass
+        except Exception:
+            pass
         response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
         log_embed = generate_log_embed(message, target, message.channel, deleted)
         await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_purges')

@@ -33,7 +33,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Monika"
     description:
-      Searches for an emoji by name. To make the search more precise
-      you can add the ID of the emote or server ID that the emote is from,
-      like in this example "monika:375824498882117635". Custom emotes are
-      not guaranteed to be SFW as they can be anything.
+      Searches for an emoji. You can use the actual emoji or just its name.
+      If you use its name you can make the search more precise by adding
+      the ID of the emote or server ID that the emote is from, like in this
+      example "monika:375824498882117635". Custom emotes are not guaranteed
+      to be SFW as they can be anything.
