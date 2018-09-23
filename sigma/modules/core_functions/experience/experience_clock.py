@@ -50,5 +50,5 @@ async def exp_clock_cycler(ev: SigmaEvent):
                 message, amount = exp_item
                 author = message.author
                 await ev.db.add_resource(author.id, 'experience', amount, trigger, message, True)
-            exp_storage = []
-        await asyncio.sleep(300)
+                exp_storage.remove(exp_item)
+        await asyncio.sleep(60)
