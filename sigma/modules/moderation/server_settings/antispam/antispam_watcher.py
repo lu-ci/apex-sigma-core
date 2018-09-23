@@ -39,7 +39,7 @@ async def antispam_watcher(ev: SigmaEvent, message: discord.Message):
     if message.guild and message.author:
         if isinstance(message.author, discord.Member):
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.guild_permissions.administrator or is_owner:
+            if not message.author.guild_permissions.administrator or not is_owner:
                 if message.content:
                     antispam = await ev.db.get_guild_settings(message.guild.id, 'antispam')
                     if antispam:

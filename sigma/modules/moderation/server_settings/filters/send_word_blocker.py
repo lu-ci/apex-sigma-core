@@ -28,7 +28,7 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.permissions_in(message.channel).administrator or is_owner:
+            if not message.author.permissions_in(message.channel).administrator or not is_owner:
                 prefix = await ev.db.get_prefix(message)
                 if not message.content.startswith(prefix):
                     text = clean_content(message.content.lower())

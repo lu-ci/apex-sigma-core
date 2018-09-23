@@ -27,7 +27,7 @@ async def extension_blocker(ev: SigmaEvent, message: discord.Message):
         if message.attachments:
             if isinstance(message.author, discord.Member):
                 is_owner = message.author.id in ev.bot.cfg.dsc.owners
-                if not message.author.permissions_in(message.channel).administrator or is_owner:
+                if not message.author.permissions_in(message.channel).administrator or not is_owner:
                     att_files = [att.filename.lower() for att in message.attachments]
                     bexts = await ev.db.get_guild_settings(message.guild.id, 'blocked_extensions') or []
                     delete = False
