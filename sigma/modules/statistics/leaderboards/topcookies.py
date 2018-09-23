@@ -25,21 +25,16 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 tcklb_cache = Cacher()
 
 
-async def get_user_value(db, uid, gid, cache_key, resource, localed):
-    user_resource = await db.get_resource(uid, resource)
-    if localed:
-        user_value = user_resource.origins.guilds.get(gid)
-    else:
-        if cache_key == resource:
-            user_value = user_resource.ranked
-        else:
-            user_value = user_resource.total
-    return user_value
+def get_user_value(data: dict, coords: str):
+    user_value = data
+    for coord in coords.split('.'):
+        user_value = user_value.get(coord, {})
+    return user_value or 0
 
 
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Cookies'
-    resource = cache_key = 'cookies'
+    resource = 'cookies'
     sort_key = f'resources.{resource}.ranked'
     lb_category = 'This Month\'s'
     localed = False
@@ -47,35 +42,28 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
         if args[0].lower() == 'total':
             sort_key = f'resources.{resource}.total'
             lb_category = 'Total'
-            cache_key = f'{resource}_total'
         elif args[0].lower() == 'local':
             sort_key = f'resources.{resource}.origins.guilds.{message.guild.id}'
             lb_category = 'Local'
-            cache_key = message.guild.id
             localed = True
     now = arrow.utcnow().timestamp
-    leader_docs, leader_timer = tcklb_cache.get_cache(cache_key), tcklb_cache.get_cache(f'{cache_key}_stamp') or now
+    leader_docs, leader_timer = tcklb_cache.get_cache(sort_key), tcklb_cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam].Profiles
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
-        if localed:
-            all_members = message.guild.members
-        else:
-            all_members = cmd.bot.get_all_members()
+        all_members = message.guild.members if localed else cmd.bot.get_all_members()
         for data_doc in all_docs:
-            user_value = await get_user_value(
-                cmd.db, data_doc.get('user_id'), message.guild.id, cache_key, resource, localed
-            )
+            user_value = get_user_value(data_doc, sort_key)
             user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:
                 if user_value:
                     leader_docs.append([user_object, user_value])
                     if len(leader_docs) >= 20:
                         break
-        tcklb_cache.set_cache(cache_key, leader_docs)
-        tcklb_cache.set_cache(f'{cache_key}_stamp', now)
+        tcklb_cache.set_cache(sort_key, leader_docs)
+        tcklb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',

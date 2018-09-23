@@ -36,7 +36,7 @@ async def summon(cmd: SigmaCommand, message: discord.Message, args: list):
                         response = discord.Embed(color=0xBE1931, title='❗ We are in the same channel.')
                 else:
                     try:
-                        await message.author.voice.channel.connect()
+                        await message.author.voice.channel.connect(reconnect=False)
                         title = f'🚩 Connected to {message.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
                     except TimeoutError:

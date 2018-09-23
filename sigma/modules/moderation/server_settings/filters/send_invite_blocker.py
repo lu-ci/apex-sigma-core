@@ -26,7 +26,7 @@ async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.permissions_in(message.channel).administrator or is_owner:
+            if not message.author.permissions_in(message.channel).administrator or not is_owner:
                 active = await ev.db.get_guild_settings(message.guild.id, 'block_invites')
                 if active is None:
                     active = False
