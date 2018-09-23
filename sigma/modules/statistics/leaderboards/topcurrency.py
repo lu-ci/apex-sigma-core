@@ -28,7 +28,7 @@ tcrlb_cache = Cacher()
 
 async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = cmd.bot.cfg.pref.currency
-    resource = cache_key = 'currency'
+    resource = 'currency'
     sort_key = f'resources.{resource}.ranked'
     lb_category = 'This Month\'s'
     localed = False
@@ -47,11 +47,9 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
-        all_members = cmd.bot.get_all_members()
+        all_members = message.guild.members if localed else cmd.bot.get_all_members()
         for data_doc in all_docs:
-            user_value = await get_user_value(
-                cmd.db, data_doc.get('user_id'), message.guild.id, cache_key, resource, localed
-            )
+            user_value = get_user_value(data_doc, sort_key)
             user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
             if user_object:
                 if user_value:
