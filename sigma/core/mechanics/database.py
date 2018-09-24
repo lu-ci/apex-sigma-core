@@ -110,20 +110,24 @@ class Database(motor.AsyncIOMotorClient):
 
     # Resource Handling
 
-    async def update_resource(self, resource: SigmaResource, user_id: int, name: str):
-        cache_key = f'res_{name}_{user_id}'
-        resources = await self.get_profile(user_id, 'resources') or {}
-        resources.update({name: resource.dictify()})
-        await self.set_profile(user_id, 'resources', resources)
+    async def update_resource(self, resource: SigmaResource, user_id: int, resource_name: str):
+        cache_key = f'res_{resource_name}_{user_id}'
+        resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
+        coll = self[self.db_nam][f'{resource_name.title()}Resource']
+        data = resource.dictify()
+        if resources:
+            await coll.update_one({'user_id': user_id}, {'$set': data})
+        else:
+            data.update({'user_id': user_id})
+            await coll.insert_one(data)
         self.cache.del_cache(cache_key)
 
     async def get_resource(self, user_id: int, resource_name: str):
         cache_key = f'res_{resource_name}_{user_id}'
         resource = self.cache.get_cache(cache_key)
         if not resource:
-            resources = await self.get_profile(user_id, 'resources') or {}
-            resource_data = resources.get(resource_name, {})
-            resource = SigmaResource(resource_data)
+            data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+            resource = SigmaResource(data)
             self.cache.set_cache(cache_key, resource)
         return resource
 
@@ -144,15 +148,22 @@ class Database(motor.AsyncIOMotorClient):
 
     async def update_inventory(self, user_id: int, inventory: list):
         cache_key = f'inv_{user_id}'
-        await self.set_profile(user_id, 'inventory', inventory)
+        inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
+        data = {'items': inventory}
+        if inv:
+            await self[self.db_nam].Inventory.update_one({'user_id': user_id}, {'$set': data})
+        else:
+            data.update({'user_id': user_id})
+            await self[self.db_nam].Inventory.insert_one(data)
         self.cache.del_cache(cache_key)
 
     async def get_inventory(self, user_id: int):
         cache_key = f'inv_{user_id}'
         inventory = self.cache.get_cache(cache_key)
         if not inventory:
-            inventory = await self.get_profile(user_id, 'inventory') or []
+            inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
             self.cache.set_cache(cache_key, inventory)
+        inventory = inventory.get('items', [])
         return inventory
 
     async def add_to_inventory(self, user_id: int, item_data: dict):

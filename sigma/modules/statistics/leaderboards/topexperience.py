@@ -29,7 +29,7 @@ txplb_cache = Cacher()
 async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Experience'
     resource = 'experience'
-    sort_key = f'resources.{resource}.ranked'
+    sort_key = f'ranked'
     lb_category = 'This Month\'s'
     localed = False
     if args:
@@ -37,13 +37,13 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
             sort_key = 'total'
             lb_category = 'Total'
         elif args[0].lower() == 'local':
-            sort_key = f'guilds.{message.guild.id}'
+            sort_key = f'origins.guilds.{message.guild.id}'
             lb_category = message.guild.name
             localed = True
     now = arrow.utcnow().timestamp
     leader_docs, leader_timer = txplb_cache.get_cache(sort_key), txplb_cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
-        coll = cmd.db[cmd.db.db_nam].Profiles
+        coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
