@@ -24,14 +24,13 @@ from sigma.core.utilities.data_processing import user_avatar
 async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0].lower()
-        all_members = cmd.bot.get_all_members()
         if '#' in lookup:
             uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
-            target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, all_members)
+            target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, cmd.bot.users)
         else:
             try:
-                target = discord.utils.find(lambda u: u.id == int(lookup), all_members)
+                target = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.users)
             except ValueError:
                 target = None
         if target:

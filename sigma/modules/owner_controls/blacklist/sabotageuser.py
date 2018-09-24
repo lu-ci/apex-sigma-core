@@ -26,8 +26,7 @@ async def sabotageuser(cmd: SigmaCommand, message: discord.Message, args: list):
             target_id = int(args[0])
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
-                all_members = cmd.bot.get_all_members()
-                target = discord.utils.find(lambda x: x.id == target_id, all_members)
+                target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.users)
                 if target:
                     sabotage_file = await cmd.db.is_sabotaged(target.id)
                     if sabotage_file:

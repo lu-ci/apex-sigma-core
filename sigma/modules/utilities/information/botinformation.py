@@ -36,9 +36,8 @@ async def botinformation(cmd: SigmaCommand, message: discord.Message, args: list
     env_text += f'\nLibrary: **discord.py** {discord.__version__}'
     env_text += f'\nPlatform: **{sys.platform.upper()}**'
     auth_text = ''
-    all_members = cmd.bot.get_all_members()
     for author in author_data:
-        auth = discord.utils.find(lambda x: x.id == author['id'], all_members)
+        auth = discord.utils.find(lambda x: x.id == author['id'], cmd.bot.users)
         if auth:
             auth_text += f'\n**{auth.name}**#{auth.discriminator}'
         else:

@@ -47,7 +47,7 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
         leader_docs = []
-        all_members = message.guild.members if localed else cmd.bot.get_all_members()
+        all_members = message.guild.members if localed else cmd.bot.users
         for data_doc in all_docs:
             user_value = get_user_value(data_doc, sort_key)
             user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)

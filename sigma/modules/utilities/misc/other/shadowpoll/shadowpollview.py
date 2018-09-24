@@ -31,7 +31,7 @@ async def shadowpollview(cmd: SigmaCommand, message: discord.Message, args: list
             author_id = poll_file['origin']['author']
             if active or visible or author_id == message.author.id:
                 response = discord.Embed(color=0xF9F9F9, title=poll_file['poll']['question'])
-                author = discord.utils.find(lambda x: x.id == author_id, cmd.bot.get_all_members())
+                author = discord.utils.find(lambda x: x.id == author_id, cmd.bot.users)
                 if author:
                     response.set_author(name=author.name, icon_url=user_avatar(author))
                 else:

@@ -26,9 +26,8 @@ def origin(x, poll_file):
 def check_roles(allowed_roles, all_users, user):
     members = []
     for member in all_users:
-        if isinstance(member, discord.Member):
-            if member.id == user.id:
-                members.append(member)
+        if member.id == user.id:
+            members.append(member)
     authorized = False
     for member_item in members:
         for allowed_role in allowed_roles:

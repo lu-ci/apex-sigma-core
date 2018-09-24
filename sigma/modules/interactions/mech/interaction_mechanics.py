@@ -56,7 +56,7 @@ def get_target(message):
 
 def make_footer(cmd, item):
     uid = item.get('user_id')
-    user = discord.utils.find(lambda x: x.id == uid, cmd.bot.get_all_members())
+    user = discord.utils.find(lambda x: x.id == uid, cmd.bot.users)
     username = user.name if user else 'Unknown User'
     sid = item.get('server_id')
     srv = discord.utils.find(lambda x: x.id == sid, cmd.bot.guilds)

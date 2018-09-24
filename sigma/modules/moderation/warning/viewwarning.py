@@ -37,7 +37,7 @@ async def viewwarning(cmd: SigmaCommand, message: discord.Message, args: list):
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
                     mod_id = warn_data.get('moderator').get('id')
-                    author = discord.utils.find(lambda x: x.id == mod_id, cmd.bot.get_all_members())
+                    author = discord.utils.find(lambda x: x.id == mod_id, cmd.bot.users)
                     if author:
                         author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
                     else:

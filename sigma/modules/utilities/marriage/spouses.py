@@ -36,7 +36,7 @@ async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
     mid = 'have' if target.id == message.author.id else 'has'
     if splist:
         spdata = []
-        all_members = cmd.bot.get_all_members()
+        all_members = cmd.bot.users
         for sp in splist:
             spmemb = discord.utils.find(lambda m: m.id == sp.get('user_id'), all_members)
             spmemb = spmemb.name if spmemb else sp.get('user_id')

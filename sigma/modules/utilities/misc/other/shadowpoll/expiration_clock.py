@@ -41,7 +41,7 @@ async def cycler(ev: SigmaEvent):
                 poll_id = poll_file['id']
                 poll_file['settings'].update({'active': False})
                 await ev.db[ev.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
-                author = discord.utils.find(lambda x: x.id == poll_file['origin']['author'], ev.bot.get_all_members())
+                author = discord.utils.find(lambda x: x.id == poll_file['origin']['author'], ev.bot.users)
                 if author:
                     response = discord.Embed(color=0xff3333, title=f'⏰ Your poll {poll_file["id"]} has expired.')
                     try:

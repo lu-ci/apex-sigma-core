@@ -33,7 +33,7 @@ async def statistics(cmd: SigmaCommand, message: discord.Message, args: list):
     pop_text = f'Servers: **{len(cmd.bot.guilds)}**'
     pop_text += f'\nChannels: **{len(list(cmd.bot.get_all_channels()))}**'
     pop_text += f'\nRoles: **{role_count}**'
-    pop_text += f'\nMembers: **{len(list(cmd.bot.get_all_members()))}**'
+    pop_text += f'\nMembers: **{len(list(cmd.bot.users))}**'
     exec_text = f'Commands: **{cmd.bot.command_count}**'
     exec_text += f'\nCommand Rate: **{command_rate}/s**'
     exec_text += f'\nMessages: **{cmd.bot.message_count}**'
