@@ -26,7 +26,7 @@ class Cacher(object):
         if self.expiration:
             now = arrow.utcnow().timestamp
             for key in self.data.keys():
-                expires = self.data.get(f'stamp_{key}')
+                expires = self.data.get(f'stamp_{key}', 0)
                 if expires > now:
                     self.del_cache(key)
 
