@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.caching import Cacher
 
-perm_cache = Cacher()
+perm_cache = Cacher(300)
 
 
 def generate_default_data(message):

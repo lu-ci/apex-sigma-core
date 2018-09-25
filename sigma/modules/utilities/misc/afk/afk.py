@@ -21,7 +21,7 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 
 
-afk_cache = Cacher()
+afk_cache = Cacher(300)
 
 
 async def afk(cmd: SigmaCommand, message: discord.Message, args: list):

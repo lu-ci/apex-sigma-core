@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 from sigma.modules.statistics.leaderboards.topcookies import get_user_value
 
-txplb_cache = Cacher()
+txplb_cache = Cacher(180)
 
 
 async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -40,9 +40,8 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
             sort_key = f'origins.guilds.{message.guild.id}'
             lb_category = message.guild.name
             localed = True
-    now = arrow.utcnow().timestamp
-    leader_docs, leader_timer = txplb_cache.get_cache(sort_key), txplb_cache.get_cache(f'{sort_key}_stamp') or now
-    if not leader_docs or leader_timer + 180 < now:
+    leader_docs = txplb_cache.get_cache(sort_key)
+    if not leader_docs:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
@@ -58,7 +57,6 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
                     if len(leader_docs) >= 20:
                         break
         txplb_cache.set_cache(sort_key, leader_docs)
-        txplb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
@@ -70,5 +68,5 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
     table_body = boop(table_data, ['#', 'User Name', 'Level', value_name])
     response = f'🔰 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
+    response += f'\nThe leaderboard updates on 3 minute intervals.'
     await message.channel.send(response)
