@@ -63,6 +63,22 @@ class Database(motor.AsyncIOMotorClient):
                 self.cache.set_cache(guild_id, setting_file)
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
 
+    async def precache_resources(self):
+        self.bot.log.info(f'Pre-Caching all resource data...')
+        res_cache_counter = 0
+        all_colls = await self[self.db_nam].list_collection_names()
+        for coll in all_colls:
+            if coll.endswith('Resource'):
+                res_nam = coll[:8].lower()
+                docs = await self[self.db_nam][coll].find({}).to_list(None)
+                for doc in docs:
+                    uid = doc.get('user_id')
+                    cache_key = f'res_{res_nam}_{uid}'
+                    resource = SigmaResource(doc)
+                    self.cache.set_cache(cache_key, resource)
+                    res_cache_counter += 1
+        self.bot.log.info(f'Finished pre-caching {res_cache_counter} resource entries.')
+
     # Guild Setting Variable Calls
 
     async def get_guild_settings(self, guild_id: int, setting_name: str):
