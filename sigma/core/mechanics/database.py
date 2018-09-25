@@ -93,12 +93,14 @@ class Database(motor.AsyncIOMotorClient):
         guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id})
         if guild_settings:
             update_target = {"server_id": guild_id}
-            update_data = {"$set": {setting_name: value}}
+            set_data = {setting_name: value}
+            update_data = {"$set": set_data}
+            guild_settings.update(set_data)
             await self[self.db_nam].ServerSettings.update_one(update_target, update_data)
         else:
-            update_data = {'server_id': guild_id, setting_name: value}
-            await self[self.db_nam].ServerSettings.insert_one(update_data)
-        self.cache.del_cache(guild_id)
+            guild_settings = {'server_id': guild_id, setting_name: value}
+            await self[self.db_nam].ServerSettings.insert_one(guild_settings)
+        self.cache.set_cache(guild_id, guild_settings)
 
     # Profile Data Entry Variable Calls
 
@@ -114,12 +116,14 @@ class Database(motor.AsyncIOMotorClient):
         user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
         if user_profile:
             update_target = {"user_id": user_id}
-            update_data = {"$set": {entry_name: value}}
+            set_data = {entry_name: value}
+            update_data = {"$set": set_data}
+            user_profile.update(set_data)
             await self[self.db_nam].Profiles.update_one(update_target, update_data)
         else:
-            update_data = {'user_id': user_id, entry_name: value}
-            await self[self.db_nam].Profiles.insert_one(update_data)
-        self.cache.del_cache(user_id)
+            user_profile = {'user_id': user_id, entry_name: value}
+            await self[self.db_nam].Profiles.insert_one(user_profile)
+        self.cache.set_cache(user_id, user_profile)
 
     async def is_sabotaged(self, user_id: int):
         return bool(await self.get_profile(user_id, 'sabotaged'))
@@ -136,12 +140,12 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await coll.insert_one(data)
-        self.cache.del_cache(cache_key)
+        self.cache.set_cache(cache_key, SigmaResource(data))
 
     async def get_resource(self, user_id: int, resource_name: str):
         cache_key = f'res_{resource_name}_{user_id}'
         resource = self.cache.get_cache(cache_key)
-        if not resource:
+        if resource is None:
             data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
             resource = SigmaResource(data)
             self.cache.set_cache(cache_key, resource)
@@ -171,12 +175,12 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await self[self.db_nam].Inventory.insert_one(data)
-        self.cache.del_cache(cache_key)
+        self.cache.set_cache(cache_key, data)
 
     async def get_inventory(self, user_id: int):
         cache_key = f'inv_{user_id}'
         inventory = self.cache.get_cache(cache_key)
-        if not inventory:
+        if inventory is None:
             inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
             self.cache.set_cache(cache_key, inventory)
         inventory = inventory.get('items', [])
