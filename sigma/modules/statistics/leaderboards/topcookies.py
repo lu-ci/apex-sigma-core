@@ -22,7 +22,7 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
-tcklb_cache = Cacher(180)
+tcklb_cache = Cacher()
 
 
 def get_user_value(data: dict, coords: str):
@@ -46,8 +46,9 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = f'origins.guilds.{message.guild.id}'
             lb_category = 'Local'
             localed = True
-    leader_docs = tcklb_cache.get_cache(sort_key)
-    if not leader_docs:
+    now = arrow.utcnow().timestamp
+    leader_docs, leader_timer = tcklb_cache.get_cache(sort_key), tcklb_cache.get_cache(f'{sort_key}_stamp') or now
+    if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
@@ -62,6 +63,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
                     if len(leader_docs) >= 20:
                         break
         tcklb_cache.set_cache(sort_key, leader_docs)
+        tcklb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
@@ -72,5 +74,5 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     table_body = boop(table_data, ['#', 'User Name', value_name])
     response = f'🍪 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nThe leaderboard updates on 3 minute intervals.'
+    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
     await message.channel.send(response)

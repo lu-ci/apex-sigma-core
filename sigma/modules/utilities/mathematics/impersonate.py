@@ -24,7 +24,7 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
-chain_object_cache = Cacher(3600)
+chain_object_cache = Cacher()
 
 
 async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -38,9 +38,8 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
     if target:
         chain_data = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
         if chain_data:
-            chain_items = chain_data.get('chain')
-            if chain_items:
-                total_string = ' '.join(chain_items)
+            if chain_data['chain']:
+                total_string = ' '.join(chain_data['chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
                 with ThreadPoolExecutor() as threads:
                     chain = chain_object_cache.get_cache(target.id)
@@ -50,7 +49,7 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
                     sentence_function = functools.partial(chain.make_short_sentence, 500)
                     sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:
-                    not_enough_data = '😖 I couldn\'t think of anything... I need more chain items!'
+                    not_enough_data = '😖 I could not think of anything... I need more chain items!'
                     response = discord.Embed(color=0xBE1931, title=not_enough_data)
                 else:
                     response = discord.Embed(color=0xbdddf4)

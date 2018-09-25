@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 from sigma.modules.statistics.leaderboards.topcookies import get_user_value
 
-tcrlb_cache = Cacher(180)
+tcrlb_cache = Cacher()
 
 
 async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -40,8 +40,9 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = f'origins.guilds.{message.guild.id}'
             localed = True
             lb_category = message.guild.name
-    leader_docs = tcrlb_cache.get_cache(sort_key)
-    if not leader_docs:
+    now = arrow.utcnow().timestamp
+    leader_docs, leader_timer = tcrlb_cache.get_cache(sort_key), tcrlb_cache.get_cache(f'{sort_key}_stamp') or now
+    if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
@@ -56,6 +57,7 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                     if len(leader_docs) >= 20:
                         break
         tcrlb_cache.set_cache(sort_key, leader_docs)
+        tcrlb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
@@ -67,5 +69,5 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     curr_icon = cmd.bot.cfg.pref.currency_icon
     response = f'{curr_icon} **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nThe leaderboard updates on 3 minute intervals.'
+    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
     await message.channel.send(response)
