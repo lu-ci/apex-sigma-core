@@ -17,7 +17,6 @@
 import discord
 
 
-type_translation = {'users': discord.Member, 'guilds': discord.Guild, 'channels': discord.TextChannel}
 message_translation = {'users': 'author', 'guilds': 'guild', 'channels': 'channel'}
 
 
@@ -53,18 +52,12 @@ class ResourceOrigins(object):
         attrib.update({origin_id: origin_count})
         setattr(self, key, attrib)
 
-    def add_origin(self, origin, amount: int):
-        if isinstance(origin, discord.Message) or isinstance(origin, discord.Member):
-            for m_key in message_translation.keys():
-                attrib_name = message_translation.get(m_key)
-                attrib_value = getattr(origin, attrib_name)
-                if attrib_value:
-                    self.set_attribute(attrib_value, amount, m_key)
-        for t_key in type_translation.keys():
-            origin_type = type_translation.get(t_key)
-            if isinstance(origin, origin_type):
-                self.set_attribute(origin, amount, t_key)
-                break
+    def add_origin(self, origin: discord.Message, amount: int):
+        for m_key in message_translation.keys():
+            attrib_name = message_translation.get(m_key)
+            attrib_value = getattr(origin, attrib_name)
+            if attrib_value:
+                self.set_attribute(attrib_value, amount, m_key)
 
 
 class SigmaResource(object):
