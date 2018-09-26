@@ -19,16 +19,15 @@ import secrets
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.modules.core_functions.experience.experience_clock import add_exp
-from sigma.modules.core_functions.experience.experience_cooldown import is_on_xp_cooldown
 
 
 async def experience_activity(ev: SigmaEvent, message: discord.Message):
     if message.guild:
-        if not is_on_xp_cooldown(message.author.id):
+        if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):
+            await ev.bot.cool_down.set_cooldown(ev.name, message.author, 80)
             if len(message.guild.members) >= 100:
                 award_xp = 180
             else:
                 award_xp = 150
             award_xp += secrets.randbelow(5) * 18
-            add_exp(message, award_xp)
+            await ev.db.add_resource(message.author.id, 'experience', award_xp, 'message_experience', message, True)
