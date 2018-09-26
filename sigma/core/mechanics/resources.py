@@ -66,13 +66,13 @@ class SigmaResource(object):
         self.current = self.raw.get('current') or 0
         self.total = self.raw.get('total') or 0
         self.ranked = self.raw.get('ranked') or 0
-        # self.origins = ResourceOrigins(self.raw.get('origins'))
-        # self.expenses = ResourceOrigins(self.raw.get('expenses'))
+        self.origins = ResourceOrigins(self.raw.get('origins'))
+        self.expenses = ResourceOrigins(self.raw.get('expenses'))
 
     def dictify(self):
         return {
-            'current': self.current, 'total': self.total, 'ranked': self.ranked
-            # 'origins': self.origins.dictify(), 'expenses': self.expenses.dictify()
+            'current': self.current, 'total': self.total, 'ranked': self.ranked,
+            'origins': self.origins.dictify(), 'expenses': self.expenses.dictify()
         }
 
     def add_value(self, amount: int, trigger: str, origin, ranked: bool):
