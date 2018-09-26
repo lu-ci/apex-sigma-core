@@ -77,15 +77,15 @@ class SigmaResource(object):
 
     def add_value(self, amount: int, trigger: str, origin, ranked: bool):
         self.current += amount
-        # self.origins.add_trigger(trigger, amount)
+        self.origins.add_trigger(trigger, amount)
         if ranked:
             self.total += amount
             self.ranked += amount
-            # if origin:
-            #     self.origins.add_origin(origin, amount)
+            if origin:
+                self.origins.add_origin(origin, amount)
 
     def del_value(self, amount: int, trigger: str, origin):
         self.current -= amount
-        # self.expenses.add_trigger(trigger, amount)
-        # if origin:
-        #     self.expenses.add_origin(origin, amount)
+        self.expenses.add_trigger(trigger, amount)
+        if origin:
+            self.expenses.add_origin(origin, amount)
