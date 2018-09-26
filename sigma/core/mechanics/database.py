@@ -19,6 +19,7 @@ from motor import motor_asyncio as motor
 
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.config import DatabaseConfig
+from sigma.core.mechanics.resources import SigmaResource
 
 
 class Database(motor.AsyncIOMotorClient):
@@ -73,7 +74,8 @@ class Database(motor.AsyncIOMotorClient):
                 for doc in docs:
                     uid = doc.get('user_id')
                     cache_key = f'res_{res_nam}_{uid}'
-                    self.cache.set_cache(cache_key, doc)
+                    resource = SigmaResource(doc)
+                    self.cache.set_cache(cache_key, resource)
                     res_cache_counter += 1
         self.bot.log.info(f'Finished pre-caching {res_cache_counter} resource entries.')
 
@@ -128,39 +130,38 @@ class Database(motor.AsyncIOMotorClient):
 
     # Resource Handling
 
-    async def update_resource(self, resource: dict, user_id: int, resource_name: str):
+    async def update_resource(self, resource: SigmaResource, user_id: int, resource_name: str):
         cache_key = f'res_{resource_name}_{user_id}'
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
         coll = self[self.db_nam][f'{resource_name.title()}Resource']
+        data = resource.dictify()
         if resources:
-            await coll.update_one({'user_id': user_id}, {'$set': resource})
+            await coll.update_one({'user_id': user_id}, {'$set': data})
         else:
-            resource.update({'user_id': user_id})
-            await coll.insert_one(resource)
-        self.cache.set_cache(cache_key, resource)
+            data.update({'user_id': user_id})
+            await coll.insert_one(data)
+        self.cache.set_cache(cache_key, SigmaResource(data))
 
     async def get_resource(self, user_id: int, resource_name: str):
         cache_key = f'res_{resource_name}_{user_id}'
         resource = self.cache.get_cache(cache_key)
         if resource is None:
-            resource = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+            data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+            resource = SigmaResource(data)
             self.cache.set_cache(cache_key, resource)
         return resource
 
-    async def add_resource(self, user_id: int, name: str, amount: int, ranked: bool=True):
+    async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
         if not await self.is_sabotaged(user_id):
             amount = abs(int(amount))
             resource = await self.get_resource(user_id, name)
-            resource.update({'current': resource.get('resource', 0) + amount})
-            if ranked:
-                resource.update({'total': resource.get('total', 0) + amount})
-                resource.update({'ranked': resource.get('ranked', 0) + amount})
+            resource.add_value(amount, trigger, origin, ranked)
             await self.update_resource(resource, user_id, name)
 
-    async def del_resource(self, user_id: int, name: str, amount: int):
+    async def del_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None):
         amount = abs(int(amount))
         resource = await self.get_resource(user_id, name)
-        resource.update({'current': resource.get('resource', 0) - amount})
+        resource.del_value(amount, trigger, origin)
         await self.update_resource(resource, user_id, name)
 
     # Inventory Handling

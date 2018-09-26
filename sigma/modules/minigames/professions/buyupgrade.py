@@ -77,7 +77,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                 upgrade_number = int(answer_message.content) - 1
                 upgrade = upgrade_list[upgrade_number]
                 current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-                current_kud = current_kud.get('current', 0)
+                current_kud = current_kud.current
                 upgrade_id = upgrade['id']
                 if upgrade_id in upgrade_file:
                     upgrade_level = upgrade_file[upgrade_id]
@@ -93,7 +93,7 @@ async def buyupgrade(cmd: SigmaCommand, message: discord.Message, args: list):
                     new_upgrade_level = upgrade_level + 1
                     upgrade_file.update({upgrade_id: new_upgrade_level})
                     await cmd.db.set_profile(message.author.id, 'upgrades', upgrade_file)
-                    await cmd.db.del_resource(message.author.id, 'currency', upgrade_price)
+                    await cmd.db.del_resource(message.author.id, 'currency', upgrade_price, cmd.name, message)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
                 else:

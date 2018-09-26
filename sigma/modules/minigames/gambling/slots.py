@@ -53,7 +53,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
     current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-    current_kud = current_kud.get('current', 0)
+    current_kud = current_kud.current
     if args:
         try:
             bet = abs(int(args[0]))
@@ -69,7 +69,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             cooldown = 5 if cooldown < 5 else cooldown
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-            await cmd.db.del_resource(message.author.id, 'currency', bet)
+            await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
             out_list = []
             for x in range(0, 3):
                 temp_list = []
@@ -121,7 +121,7 @@ async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'
                 footer = f'{currency_icon} {winnings} {currency} has been awarded.'
-                await cmd.db.add_resource(message.author.id, 'currency', winnings, False)
+                await cmd.db.add_resource(message.author.id, 'currency', winnings, cmd.name, message, False)
             else:
                 color = 0x232323
                 title = '💣 Oh my, you lost...'

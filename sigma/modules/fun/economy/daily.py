@@ -38,7 +38,7 @@ async def daily(cmd: SigmaCommand, message: discord.Message, args: list):
         multi = 10 if streak > 10 else streak
         amount = int(500 + random_part + (100 * (multi * 1.6))) if multi != 1 else 500 + random_part
         daily_data = {'user_id': message.author.id, 'stamp': now_stamp, 'streak': streak}
-        await cmd.db.add_resource(message.author.id, 'currency', amount)
+        await cmd.db.add_resource(message.author.id, 'currency', amount, cmd.name, message)
         await cmd.db[cmd.db.db_nam].DailyCache.update_one({'user_id': message.author.id}, {'$set': daily_data})
         response = discord.Embed(color=0x66CC66, title=f'🎉 You got {amount} {currency} for a {streak}/10 streak.')
     else:

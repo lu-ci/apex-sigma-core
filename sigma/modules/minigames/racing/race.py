@@ -90,10 +90,10 @@ async def race(cmd: SigmaCommand, message: discord.Message, args: list):
                 await asyncio.sleep(2)
             win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
             for user in race_instance['users']:
-                await cmd.db.del_resource(user['user'].id, 'currency', buyin)
+                await cmd.db.del_resource(user['user'].id, 'currency', buyin, cmd.name, message)
             if race_instance['buyin']:
                 winnings = race_instance["buyin"] * len(race_instance['users'])
-                await cmd.db.add_resource(leader['user'].id, 'currency', winnings, False)
+                await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, message, False)
                 win_title += f' And got {winnings} {currency}.'
             win_response = discord.Embed(color=colors[leader['icon']], title=win_title)
             await message.channel.send(embed=win_response)

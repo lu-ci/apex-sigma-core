@@ -92,7 +92,7 @@ async def sequencegame(cmd: SigmaCommand, message: discord.Message, args: list):
                     finished = True
                     victory = True
                     currency = cmd.bot.cfg.pref.currency
-                    await cmd.db.add_resource(answer.author.id, 'currency', 50)
+                    await cmd.db.add_resource(answer.author.id, 'currency', 50, cmd.name, message)
                     win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 {currency}!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
                     await message.channel.send(embed=win_embed)

@@ -47,7 +47,7 @@ async def status(cmd: SigmaCommand, message: discord.Message, args: list):
     general_text += f'\nStarted: **{arrow.get(psutil.boot_time()).humanize()}**'
     cpu_clock = psutil.cpu_freq()
     if cpu_clock:
-        cpu_clock = round(cpu_clock.get('current', 0), 2)
+        cpu_clock = round(cpu_clock.current, 2)
     else:
         cpu_clock = 'X'
     cpu_text = f'Count: **{psutil.cpu_count()} ({psutil.cpu_count(logical=False)})**'

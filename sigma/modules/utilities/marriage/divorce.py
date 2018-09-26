@@ -59,7 +59,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
             t_spouse_ids = [s.get('user_id') for s in t_spouses]
             if message.author.id in t_spouse_ids and tid in a_spouse_ids:
                 current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-                current_kud = current_kud.get('current', 0)
+                current_kud = current_kud.current
                 marry_stamp = discord.utils.find(lambda s: s.get('user_id') == tid, a_spouses).get('time')
                 time_diff = arrow.utcnow().timestamp - marry_stamp
                 div_cost = int(time_diff * 0.004)
@@ -85,7 +85,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     response = discord.Embed(color=0xe75a70, title=div_title)
                     if not is_id:
                         await send_divorce(message.author, target, True)
-                    await cmd.db.del_resource(message.author.id, 'currency', div_cost)
+                    await cmd.db.del_resource(message.author.id, 'currency', div_cost, cmd.name, message)
                 else:
                     currency = cmd.bot.cfg.pref.currency
                     no_kud = f'❗ You don\'t have {div_cost} {currency} to get a divorce.'
