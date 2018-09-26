@@ -176,7 +176,7 @@ async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
                         streaks.update({message.author.id: reward_mult + 0.005})
                     else:
                         streaks.update({message.author.id: reward_mult + 1})
-                    await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
+                    await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward)
                     author = answer_message.author.display_name
                     currency = cmd.bot.cfg.pref.currency
                     win_title = f'🎉 Correct, {author}, it was {correct_answer}. You won {kud_reward} {currency}!'

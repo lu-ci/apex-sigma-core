@@ -143,8 +143,8 @@ class Database(motor.AsyncIOMotorClient):
         cache_key = f'res_{resource_name}_{user_id}'
         resource = self.cache.get_cache(cache_key)
         if resource is None:
-            data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
-            self.cache.set_cache(cache_key, data)
+            resource = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+            self.cache.set_cache(cache_key, resource)
         return resource
 
     async def add_resource(self, user_id: int, name: str, amount: int, ranked: bool=True):

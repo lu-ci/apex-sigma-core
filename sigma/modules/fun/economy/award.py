@@ -41,7 +41,7 @@ async def award(cmd: SigmaCommand, message: discord.Message, args: list):
                         if current_vault is None:
                             current_vault = 0
                         if current_vault >= amount:
-                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                            await cmd.db.add_resource(target.id, 'currency', amount, False)
                             current_vault -= amount
                             await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
                             title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'

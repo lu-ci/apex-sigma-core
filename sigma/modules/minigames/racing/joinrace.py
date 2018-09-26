@@ -26,7 +26,7 @@ async def joinrace(cmd: SigmaCommand, message: discord.Message, args: list):
         race = races[message.channel.id]
         buyin = race['buyin']
         kud = await cmd.db.get_resource(message.author.id, 'currency')
-        kud = kud.current
+        kud = kud.get('current', 0)
         if kud >= buyin:
             if len(race['users']) < 10:
                 user_found = False

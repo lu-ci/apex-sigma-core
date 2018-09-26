@@ -59,7 +59,7 @@ async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
                                 stamina = upgrade_file.get('oven') or 0
                                 stamina_mod = stamina / (1.25 + (0.01 * stamina))
                                 cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
-                                await cmd.db.add_resource(target.id, 'cookies', 1, cmd.name, message, True)
+                                await cmd.db.add_resource(target.id, 'cookies', 1,  True)
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
                                 if someoned:
                                     title = f'🍪 You threw a cookie and it landed in {target.display_name}\'s mouth.'

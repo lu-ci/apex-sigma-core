@@ -106,15 +106,15 @@ async def roulette(cmd: SigmaCommand, message: discord.Message, args: list):
                         currency = cmd.bot.cfg.pref.currency
                         author = message.author.id
                         current_kud = await cmd.db.get_resource(author, 'currency')
-                        current_kud = current_kud.current
+                        current_kud = current_kud.get('current', 0)
                         if current_kud >= bet:
                             await set_roul_cd(cmd, message)
-                            await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
+                            await cmd.db.del_resource(message.author.id, 'currency', bet)
                             spot = secrets.choice(spots)
                             spot_sel_val = getattr(spot, sel, val)
                             if spot_sel_val == val:
                                 winnings = bet + (bet * selector_mults.get(sel))
-                                await cmd.db.add_resource(author, 'currency', winnings, cmd.name, message, False)
+                                await cmd.db.add_resource(author, 'currency', winnings, False)
                                 footer = f'{currency_icon} You won {winnings - bet} {currency}'
                                 resp_color = 0x66cc66
                             else:
