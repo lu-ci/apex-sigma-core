@@ -107,11 +107,10 @@ class SigmaCommand(object):
         self.log.info(log_text)
 
     async def add_usage_exp(self, message: discord.Message):
-        trigger = 'usage_experience'
-        if message.guild and not await self.bot.cool_down.on_cooldown(trigger, message.author):
+        if message.guild and not await self.bot.cool_down.on_cooldown('usage_experience', message.author):
             award_xp = (600 if message.guild.large else 500) + secrets.randbelow(100)
-            await self.db.add_resource(message.author.id, 'experience', award_xp, trigger, message, True)
-            await self.bot.cool_down.set_cooldown(trigger, message.author, 450)
+            await self.db.add_resource(message.author.id, 'experience', award_xp, True)
+            await self.bot.cool_down.set_cooldown('usage_experience', message.author, 450)
 
     @staticmethod
     async def respond_with_icon(message: discord.Message, icon: str or discord.Emoji):

@@ -22,8 +22,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def cookies(cmd: SigmaCommand, message: discord.Message, args: list):
     target = message.author if not message.mentions else message.mentions[0]
     cookie_data = await cmd.db.get_resource(target.id, 'cookies')
-    ender = 'cookie' if cookie_data.current == 1 else 'cookies'
-    title = f'🍪 {target.display_name} got {cookie_data.current} {ender} this month '
-    title += f'and has {cookie_data.total} in total.'
+    ender = 'cookie' if cookie_data.get('current', 0) == 1 else 'cookies'
+    title = f'🍪 {target.display_name} got {cookie_data.get("current", 0)} {ender} this month '
+    title += f'and has {cookie_data.get("total", 0)} in total.'
     response = discord.Embed(color=0xd99e82, title=title)
     await message.channel.send(embed=response)
