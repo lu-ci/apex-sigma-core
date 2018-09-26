@@ -29,15 +29,15 @@ async def wallet(cmd: SigmaCommand, message: discord.Message, args: list):
     currency = await cmd.db.get_resource(target.id, 'currency')
     currency_name = cmd.bot.cfg.pref.currency
     currency_icon = cmd.bot.cfg.pref.currency_icon
-    guild_currency = currency.origins.guilds.get(message.guild.id)
+    # guild_currency = currency.origins.guilds.get(message.guild.id)
     response = discord.Embed(color=0xaa8dd8)
     response.set_author(name=f'{target.display_name}\'s Currency Data', icon_url=avatar)
     response.description = f'{target.name} earned an all-time total of {currency.total} {currency_name}.'
     current_title = f'{currency_icon} Current Amount'
-    guild_title = '🎪 Earned Here'
+    # guild_title = '🎪 Earned Here'
     global_title = '📆 This Month'
     response.add_field(name=current_title, value=f"```py\n{currency.current} {currency_name}\n```")
-    response.add_field(name=guild_title, value=f"```py\n{guild_currency} {currency_name}\n```")
+    # response.add_field(name=guild_title, value=f"```py\n{guild_currency} {currency_name}\n```")
     response.add_field(name=global_title, value=f"```py\n{currency.ranked} {currency_name}\n```")
     response.set_footer(text=f'{currency_icon} {currency_name} is earned by participating in minigames.')
     await message.channel.send(embed=response)

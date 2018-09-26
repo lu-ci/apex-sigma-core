@@ -29,14 +29,14 @@ async def experience(cmd: SigmaCommand, message: discord.Message, args: list):
     exp = await cmd.db.get_resource(target.id, 'experience')
     response = discord.Embed(color=0x47ded4)
     response.set_author(name=f'{target.display_name}\'s Experience Data', icon_url=avatar)
-    guild_title = '🎪 Local'
+    # guild_title = '🎪 Local'
     global_title = '📆 This Month'
     total_title = '📟 Total'
-    guild_exp = exp.origins.guilds.get(message.guild.id)
-    local_level = int(guild_exp / 13266.85)
+    # guild_exp = exp.origins.guilds.get(message.guild.id)
+    # local_level = int(guild_exp / 13266.85)
     ranked_level = int(exp.ranked / 13266.85)
     total_level = int(exp.total / 13266.85)
-    response.add_field(name=guild_title, value=f"```py\nXP: {guild_exp}\nLevel: {local_level}\n```")
+    # response.add_field(name=guild_title, value=f"```py\nXP: {guild_exp}\nLevel: {local_level}\n```")
     response.add_field(name=global_title, value=f"```py\nXP: {exp.ranked}\nLevel: {ranked_level}\n```")
     response.add_field(name=total_title, value=f"```py\nXP: {exp.total}\nLevel: {total_level}\n```")
     response.set_footer(text=f'🔰 Experience is earned by being an active guild member.')
