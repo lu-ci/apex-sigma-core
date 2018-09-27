@@ -26,10 +26,11 @@ collector_loop_running = False
 current_user_collecting = None
 
 
-async def check_queued(db, uid):
-    in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
+async def check_queued(db, aid, uid):
+    target_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
+    author_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'author_id': aid}))
     in_current = current_user_collecting == uid
-    return in_queue or in_current
+    return target_in_queue or author_in_queue or in_current
 
 
 async def add_to_queue(db, collector_item):
