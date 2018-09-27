@@ -13,6 +13,8 @@ commands:
     description:
       Makes a request for Wolfram Alpha to process.
       This can be a lot of things, the most popular being complex math operations.
+      The results are displayed in "pods" and the most relevant pod is shown,
+      along with a link to the full results.
 
   - name:         makehash
     alts:
