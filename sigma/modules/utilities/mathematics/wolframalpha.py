@@ -17,14 +17,14 @@
 import discord
 import aiohttp
 import lxml.html as lx
-from urllib.parse import quote
+from urllib.parse import quote as escape
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
 wolfram_url = f'http://www.wolframalpha.com/input/?i='
-api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&input='
+api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&podindex=2&input='
 
 
 async def get_url_body(url: str):
@@ -41,22 +41,26 @@ async def get_results(query_url: str):
         if query_page_xml:
             query_page = lx.fromstring(query_page_xml)
             pods = query_page.getchildren()
-            if len(pods) >= 2:
-                subpods = pods[1].getchildren()
-                for subpod in subpods:
-                    for element in subpod.getiterator():
-                        if element.tag == 'plaintext':
-                            if element.text:
-                                results += element.text + '\n\n'
+            for pod in pods:
+                if 'title' in pod.keys():
+                    pod_data = []
+                    subpods = pod.getchildren()
+                    for subpod in subpods:
+                        for element in subpod.getiterator():
+                            if element.tag == 'plaintext':
+                                if element.text:
+                                    pod_data.append(element.text)
+                    results += '\n\n'.join(pod_data)
     return results
 
 
-def make_safe_query(query: str):
-    query_list = list(query)
+def make_safe_query(query: list):
+    safe = '`~!@$^*()[]{}\|:;"\'<>,.'
+    query_list = list(' '.join(query))
     safe_query = ''
     while query_list:
-        char = query_list.pop(0)
-        safe_query += quote(char, safe='')
+        char = query_list.pop(0).lower()
+        safe_query += escape(char, safe=safe)
     return safe_query
 
 
@@ -70,8 +74,7 @@ async def wolframalpha(cmd: SigmaCommand, message: discord.Message, args: list):
     if api_key:
         if message.channel.id not in math_chs:
             if args:
-                lookup = ' '.join(args).lower()
-                query = make_safe_query(lookup)
+                query = make_safe_query(args)
                 url = f'{api_url}{query}&appid={api_key}'
                 init_response = discord.Embed(color=0xff7e00)
                 init_response.set_author(name='Processing request...', icon_url=wolfram_icon)
@@ -81,6 +84,7 @@ async def wolframalpha(cmd: SigmaCommand, message: discord.Message, args: list):
                     if len(results) <= 2000:
                         response = discord.Embed(color=0xff7e00, description=f'```\n{results}\n```')
                         response.set_author(name='Wolfram Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
+                        response.set_footer(text='View the full results by clicking the embed title.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Results too long to display.')
                         response.description = f'You can view them directly [here]({wolfram_url + query}).'

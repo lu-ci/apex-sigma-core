@@ -58,7 +58,6 @@ class ApexSigma(client_class):
         self.music = None
         self.modules = None
         self.queue = ExecutionClockwork(self)
-        self.cache = Cacher()
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -73,6 +72,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.info = Information()
         self.init_modules(init=True)
+        self.loop.run_until_complete(self.init_database_content())
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
@@ -111,6 +111,14 @@ class ApexSigma(client_class):
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
 
+    async def init_database_content(self):
+        self.ready = True
+        self.log.info('Launching DB-Init Modules...')
+        for event in self.modules.events.get('dbinit'):
+            await event.execute()
+        self.log.info('Finished launching DB-Init modules.')
+        self.ready = False
+
     def init_cool_down(self):
         self.log.info('Loading Cool-down Controls...')
         self.cool_down = CooldownControl(self)
@@ -136,26 +144,10 @@ class ApexSigma(client_class):
         return ready
 
     def get_all_members(self):
-        now = arrow.utcnow().timestamp
-        timestamp = self.cache.get_cache('all_members_stamp') or 0
-        if now > timestamp + 60:
-            members = list(super().get_all_members())
-            self.cache.set_cache('all_members', members)
-            self.cache.set_cache('all_members_stamp', now)
-        else:
-            members = self.cache.get_cache('all_members')
-        return members
+        return list(super().get_all_members())
 
     def get_all_channels(self):
-        now = arrow.utcnow().timestamp
-        timestamp = self.cache.get_cache('all_channels_stamp') or 0
-        if now > timestamp + 60:
-            channels = list(super().get_all_channels())
-            self.cache.set_cache('all_channels', channels)
-            self.cache.set_cache('all_channels_stamp', now)
-        else:
-            channels = self.cache.get_cache('all_channels')
-        return channels
+        return list(super().get_all_channels())
 
     def run(self):
         try:
@@ -186,8 +178,6 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
-        self.log.info('Launching DB-Init Modules...')
-        self.loop.create_task(self.queue.event_runner('dbinit'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 

@@ -36,7 +36,7 @@ def get_emote(emoji: str or discord.Emoji):
             lookup, eid = emoji.split(':')
         try:
             eid = int(eid)
-        except ValueError:
+        except (ValueError, TypeError):
             eid = None
     return lookup, eid
 
