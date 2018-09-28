@@ -22,7 +22,19 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
-tcklb_cache = Cacher()
+tcklb_cache = Cacher(100, 180)
+timer_cache = {}
+
+
+def get_last_updated(sort_key: str):
+    last_updated = timer_cache.get(sort_key)
+    if not last_updated:
+        last_updated = arrow.utcnow().timestamp
+    return last_updated
+
+
+def set_last_updated(sort_key: str):
+    timer_cache.update({sort_key: arrow.utcnow().timestamp})
 
 
 def get_user_value(data: dict, coords: str):
@@ -46,9 +58,9 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             sort_key = f'origins.guilds.{message.guild.id}'
             lb_category = 'Local'
             localed = True
-    now = arrow.utcnow().timestamp
-    leader_docs, leader_timer = tcklb_cache.get_cache(sort_key), tcklb_cache.get_cache(f'{sort_key}_stamp') or now
-    if not leader_docs or leader_timer + 180 < now:
+    leader_docs = tcklb_cache.get_cache(sort_key)
+    if not leader_docs:
+        set_last_updated(sort_key)
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
@@ -63,7 +75,6 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
                     if len(leader_docs) >= 20:
                         break
         tcklb_cache.set_cache(sort_key, leader_docs)
-        tcklb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
@@ -74,5 +85,5 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     table_body = boop(table_data, ['#', 'User Name', value_name])
     response = f'🍪 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
+    response += f'\nLeaderboard last updated {arrow.get(get_last_updated(sort_key)).humanize()}.'
     await message.channel.send(response)
