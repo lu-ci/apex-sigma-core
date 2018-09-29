@@ -33,24 +33,27 @@ async def enable(cmd: SigmaCommand, message: discord.Message, args: list):
                     'm': ('Module', 'disabled_modules', cmd.bot.modules.categories, False)
                 }
                 mode_vars = modes.get(perm_mode.lower())
-                mode_name, exception_group, check_group, check_alts = mode_vars
-                if check_alts:
-                    if node_name in cmd.bot.modules.alts:
-                        node_name = cmd.bot.modules.alts[node_name]
-                if node_name in check_group:
-                    perms = await get_all_perms(cmd.db, message)
-                    disabled_items = perms[exception_group]
-                    if node_name in disabled_items:
-                        disabled_items.remove(node_name)
-                        perms.update({exception_group: disabled_items})
-                        await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                            {'server_id': message.guild.id}, {'$set': perms})
-                        scp_cache.del_cache(message.guild.id)
-                        response = discord.Embed(color=0x77B255, title=f'✅ `{node_name.upper()}` enabled.')
+                if mode_vars:
+                    mode_name, exception_group, check_group, check_alts = mode_vars
+                    if check_alts:
+                        if node_name in cmd.bot.modules.alts:
+                            node_name = cmd.bot.modules.alts[node_name]
+                    if node_name in check_group:
+                        perms = await get_all_perms(cmd.db, message)
+                        disabled_items = perms[exception_group]
+                        if node_name in disabled_items:
+                            disabled_items.remove(node_name)
+                            perms.update({exception_group: disabled_items})
+                            await cmd.db[cmd.db.db_nam].Permissions.update_one(
+                                {'server_id': message.guild.id}, {'$set': perms})
+                            scp_cache.del_cache(message.guild.id)
+                            response = discord.Embed(color=0x77B255, title=f'✅ `{node_name.upper()}` enabled.')
+                        else:
+                            response = discord.Embed(color=0xFFCC4D, title=f'⚠ {mode_name} not disabled.')
                     else:
-                        response = discord.Embed(color=0xFFCC4D, title=f'⚠ {mode_name} not disabled.')
+                        response = discord.Embed(color=0x696969, title=f'🔍 {mode_name} not found.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {mode_name} not found.')
+                    response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
         else:
