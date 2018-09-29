@@ -22,42 +22,22 @@ from sigma.core.mechanics.permissions import scp_cache
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms, generate_cmd_data
 
 
-def get_perm_mode(cmd: SigmaCommand, args: list):
-    perm_tuple, valid = None, True
-    modes = {
-        'c': ('command_exceptions', cmd.bot.modules.commands, True),
-        'm': ('module_exceptions', cmd.bot.modules.categories, False)
-    }
-    perm_mode, cmd_name = args[1].split(':')
-    cmd_name = cmd_name.lower()
-    perm_mode = perm_mode.lower()
-    if perm_mode == 'c':
-        mode_vars = modes.get(perm_mode)
-    elif perm_mode == 'm':
-        mode_vars = modes.get(perm_mode)
-    else:
-        valid = False
-        return perm_tuple, valid
-    perm_tuple = (perm_mode, cmd_name) + mode_vars
-    return perm_tuple, valid
-
-
-async def get_perm_group(cmd: SigmaCommand, message: discord.Message, perm_tuple: tuple, perm_type: str):
-    perm_mode, cmd_name, exception_group, check_group, check_alts = perm_tuple
-    exception_tuple = None
+async def get_perm_group(cmd: SigmaCommand, message: discord.Message, mode_vars: tuple, node_name: str, perm_type: str):
+    exc_group, check_group, check_alts = mode_vars
+    perms = await get_all_perms(cmd.db, message)
+    exc_tuple = None
     if check_alts:
-        if cmd_name in cmd.bot.modules.alts:
-            cmd_name = cmd.bot.modules.alts[cmd_name]
-    if cmd_name in check_group:
-        perms = await get_all_perms(cmd.db, message)
-        cmd_exc = perms[exception_group]
-        if cmd_name in perms[exception_group]:
-            inner_exc = cmd_exc[cmd_name]
+        if node_name in cmd.bot.modules.alts:
+            node_name = cmd.bot.modules.alts[node_name]
+    if node_name in check_group:
+        node_exc = perms[exc_group]
+        if node_name in perms[exc_group]:
+            inner_exc = node_exc[node_name]
         else:
-            inner_exc = generate_cmd_data(cmd_name)[cmd_name]
+            inner_exc = generate_cmd_data(node_name)[node_name]
         exc_usrs = inner_exc[perm_type]
-        exception_tuple = (exc_usrs, inner_exc, cmd_exc, perms)
-    return exception_tuple
+        exc_tuple = (exc_usrs, inner_exc, node_exc)
+    return exc_tuple, perms
 
 
 def get_targets(message: discord.Message, args: list, perm_type: str):
@@ -84,8 +64,8 @@ def get_targets(message: discord.Message, args: list, perm_type: str):
     return targets, valid
 
 
-def verify_targets(targets: list, exception_tuple: tuple, cmd_name: str, exception_group: str, perm_type: str):
-    exc_usrs, inner_exc, cmd_exc, perms = exception_tuple
+def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, perm_type: str, perms: dict):
+    exc_usrs, inner_exc, node_exc = exc_tuple
     bad_item = False
     for target in targets:
         if target.id in exc_usrs:
@@ -94,8 +74,8 @@ def verify_targets(targets: list, exception_tuple: tuple, cmd_name: str, excepti
         else:
             exc_usrs.append(target.id)
             inner_exc.update({perm_type: exc_usrs})
-            cmd_exc.update({cmd_name: inner_exc})
-            perms.update({exception_group: cmd_exc})
+            node_exc.update({node_name: inner_exc})
+            perms.update({exc_group: node_exc})
     return bad_item
 
 
@@ -118,40 +98,44 @@ async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
                 if ':' in args[1]:
                     perm_type = get_perm_type(args[0].lower())
                     if perm_type:
-                        targets, valid_targets = get_targets(message, args, perm_type)
-                        if valid_targets:
-                            perm_tuple, valid_perms = get_perm_mode(cmd, args)
-                            if valid_perms:
-                                perm_mode, cmd_name, exception_group, check_group, check_alts = perm_tuple
-                                exception_tuple = await get_perm_group(cmd, message, perm_tuple, perm_type)
-                                if exception_tuple:
-                                    exc_usrs, inner_exc, cmd_exc, perms = exception_tuple
-                                    bad_item = verify_targets(targets, exception_tuple, cmd_name, exception_group, perm_type)
+                        perm_mode, node_name = args[1].split(':')
+                        modes = {
+                            'c': ('command_exceptions', cmd.bot.modules.commands, True),
+                            'm': ('module_exceptions', cmd.bot.modules.categories, False)
+                        }
+                        mode_vars = modes.get(perm_mode)
+                        if mode_vars:
+                            exc_group, check_group, check_alts = mode_vars
+                            targets, valid_targets = get_targets(message, args, perm_type)
+                            if valid_targets:
+                                exc_tuple, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
+                                if exc_tuple:
+                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type, perms)
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': message.guild.id}, {'$set': perms})
                                         scp_cache.del_cache(message.guild.id)
                                         if len(targets) > 1:
-                                            title = f'✅ {len(targets)} {perm_type} can now use `{cmd_name}`.'
+                                            title = f'✅ {len(targets)} {perm_type} can now use `{node_name}`.'
                                         else:
                                             pnd = '#' if perm_type == 'channels' else ''
-                                            title = f'✅ {pnd}{targets[0].name} can now use `{cmd_name}`.'
+                                            title = f'✅ {pnd}{targets[0].name} can now use `{node_name}`.'
                                         response = discord.Embed(color=0x77B255, title=title)
                                     else:
                                         pnd = '#' if perm_type == 'channels' else ''
-                                        title = f'⚠ {pnd}{bad_item.name} already has an override for `{cmd_name}`.'
+                                        title = f'⚠ {pnd}{bad_item.name} already has an override for `{node_name}`.'
                                         response = discord.Embed(color=0xFFCC4D, title=title)
                                 else:
                                     perm_type = 'Command' if perm_mode == 'c' else 'Module'
                                     response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
+                                if targets:
+                                    response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
+                                else:
+                                    ender = 'specified' if perm_type == 'roles' else 'targeted'
+                                    response = discord.Embed(color=0x696969, title=f'🔍 No {perm_type} {ender}.')
                         else:
-                            if targets:
-                                response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
-                            else:
-                                ender = 'specified' if perm_type == 'roles' else 'targeted'
-                                response = discord.Embed(color=0x696969, title=f'🔍 No {perm_type} {ender}.')
+                            response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
                 else:

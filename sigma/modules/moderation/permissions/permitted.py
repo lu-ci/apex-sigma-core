@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import paginate, get_image_colors
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
+from sigma.modules.moderation.permissions.permit import get_perm_type
 
 
 def get_exceptions(message: discord.Message, exceptions: list, perm_type: str):
@@ -31,18 +32,6 @@ def get_exceptions(message: discord.Message, exceptions: list, perm_type: str):
         exc_item_name = f'{pnd}{exc_item.name}' if exc_item else str(exc_chn_id)
         overridden_items.append(exc_item_name)
     return overridden_items
-
-
-def get_perm_type(perm_type: str):
-    if perm_type in ['channel', 'channels']:
-        perm_type = 'channels'
-    elif perm_type in ['user', 'users']:
-        perm_type = 'users'
-    elif perm_type in ['role', 'roles']:
-        perm_type = 'roles'
-    else:
-        perm_type = None
-    return perm_type
 
 
 async def permitted(cmd: SigmaCommand, message: discord.Message, args: list):

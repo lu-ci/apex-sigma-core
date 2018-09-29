@@ -16,7 +16,6 @@ commands:
       You can use a command's alias instead of its full name if desired.
       This command requires the Manage Server permission.
 
-
   - name:        disable
     alts:
       - "dsb"
@@ -29,6 +28,8 @@ commands:
       This command requires the Manage Server permission.
 
   - name:        disabled
+    alts:
+      - "dsbd"
     enabled:     true
     usage:       "{pfx}{cmd} commands"
     description:

@@ -20,8 +20,8 @@ import discord
 
 from sigma.core.mechanics.caching import Cacher
 
-gcp_cache = Cacher(1000, 60)
-scp_cache = Cacher(1000, 60)
+gcp_cache = Cacher()
+scp_cache = Cacher()
 
 
 class GlobalCommandPermissions(object):
