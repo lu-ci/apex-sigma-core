@@ -49,7 +49,10 @@ async def disabled(cmd: SigmaCommand, message: discord.Message, args: list):
             for item_name in disabled_items:
                 if item_name in item_list:
                     if item_name in overridden_items:
-                        item_name += '\*'
+                        exc = overridden_items.get(item_name)
+                        exc_exists = any([exc.get('users'), exc.get('channels'), exc.get('roles')])
+                        if exc_exists:
+                            item_name += '\*'
                     disabled_list.append(item_name)
             if disabled_list:
                 disabled_count = len(disabled_list)
