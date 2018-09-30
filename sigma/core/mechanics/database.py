@@ -81,13 +81,15 @@ class Database(motor.AsyncIOMotorClient):
 
     # Guild Setting Variable Calls
 
-    async def get_guild_settings(self, guild_id: int, setting_name: str):
+    async def get_guild_settings(self, guild_id: int, setting_name: str = None):
         guild_settings = self.cache.get_cache(guild_id)
         if guild_settings is None:
             guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id}) or {}
             self.cache.set_cache(guild_id, guild_settings)
-        setting_value = guild_settings.get(setting_name)
-        return setting_value
+        if setting_name:
+            return guild_settings.get(setting_name)
+        else:
+            return guild_settings
 
     async def set_guild_settings(self, guild_id: int, setting_name: str, value):
         guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id})
@@ -104,13 +106,15 @@ class Database(motor.AsyncIOMotorClient):
 
     # Profile Data Entry Variable Calls
 
-    async def get_profile(self, user_id: int, entry_name: str):
+    async def get_profile(self, user_id: int, entry_name: str = None):
         user_profile = self.cache.get_cache(user_id)
         if user_profile is None:
             user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
             self.cache.set_cache(user_id, user_profile)
-        entry_value = user_profile.get(entry_name)
-        return entry_value
+        if entry_name:
+            return user_profile.get(entry_name)
+        else:
+            return user_profile
 
     async def set_profile(self, user_id: int, entry_name: str, value):
         user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
