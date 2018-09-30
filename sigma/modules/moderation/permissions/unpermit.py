@@ -54,7 +54,7 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(message, args, perm_type)
                             if valid_targets:
-                                exc_tuple, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
+                                exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
                                 if exc_tuple:
                                     bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type, perms)
                                     if not bad_item:
