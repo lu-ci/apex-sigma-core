@@ -37,7 +37,7 @@ async def get_perm_group(cmd: SigmaCommand, message: discord.Message, mode_vars:
             inner_exc = generate_cmd_data(node_name)[node_name]
         exc_usrs = inner_exc[perm_type]
         exc_tuple = (exc_usrs, inner_exc, node_exc)
-    return exc_tuple, perms
+    return exc_tuple, node_name, perms
 
 
 def get_targets(message: discord.Message, args: list, perm_type: str):
@@ -108,7 +108,7 @@ async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(message, args, perm_type)
                             if valid_targets:
-                                exc_tuple, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
+                                exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
                                 if exc_tuple:
                                     bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type, perms)
                                     if not bad_item:
