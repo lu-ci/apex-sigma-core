@@ -39,18 +39,25 @@ async def createinvite(cmd: SigmaCommand, message: discord.Message, args: list):
                 except ValueError:
                     uses = None
         if age is not None:
-            if uses is not None:
-                try:
-                    invite = await target.create_invite(max_age=age, max_uses=uses)
-                    response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-                    response.set_author(name=f'Invite for {target.name}.', icon_url=message.guild.icon_url)
-                    age = arrow.get(arrow.utcnow().timestamp + age).humanize() if age else None
-                    details = f"**Link:** {invite}\n**Expires:** {age or 'Never'}\n**Uses:** {uses or 'Unlimited'}"
-                    response.description = details
-                except discord.Forbidden:
-                    response = discord.Embed(color=0xBE1931, title='❗ I was unable to make an invite.')
+            if not age > 86400:
+                if uses is not None:
+                    if not uses > 100:
+                        try:
+                            invite = await target.create_invite(max_age=age, max_uses=uses)
+                            response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
+                            response.set_author(name=f'Invite for {target.name}.', icon_url=message.guild.icon_url)
+                            age = arrow.get(arrow.utcnow().timestamp + age).humanize() if age else None
+                            details = f"**Link:** {invite}\n**Expires:** {age or 'Never'}"
+                            details += f"\n**Uses:** {uses or 'Unlimited'}"
+                            response.description = details
+                        except discord.Forbidden:
+                            response = discord.Embed(color=0xBE1931, title='❗ I was unable to make an invite.')
+                    else:
+                        response = discord.Embed(color=0xBE1931, title='❗ Maximum invite uses is 100.')
+                else:
+                    response = discord.Embed(color=0xBE1931, title='❗ Max uses must be a number.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Max uses must be a number.')
+                response = discord.Embed(color=0xBE1931, title='❗ Maximum invite duration is 24 hours.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
     else:

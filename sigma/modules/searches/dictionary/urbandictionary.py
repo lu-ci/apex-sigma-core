@@ -40,6 +40,7 @@ async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: lis
                     definition = definition[:750] + '...'
                 footer = f'Thumbs Up/Down: {entry.get("thumbs_up", 0)}/{entry.get("thumbs_down", 0)}'
                 example = entry.get('example', 'Nothing...')
+                definition, example = list(map(lambda i: i.replace('[', '').replace(']', ''), [definition, example]))
                 response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: {ud_input.upper()}')
                 response.set_footer(text=footer)
                 response.add_field(name='Definition', value=definition)
