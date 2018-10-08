@@ -32,6 +32,20 @@ def get_user_value(data: dict, coords: str):
     return user_value or 0
 
 
+def get_leader_docs(cmd, message, localed, all_docs, sort_key):
+    leader_docs = []
+    all_members = message.guild.members if localed else cmd.bot.users
+    for data_doc in all_docs:
+        user_value = get_user_value(data_doc, sort_key)
+        user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
+        if user_object:
+            if user_value:
+                leader_docs.append([user_object, user_value])
+                if len(leader_docs) >= 20:
+                    break
+    return leader_docs
+
+
 async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
     value_name = 'Cookies'
     resource = 'cookies'
@@ -52,16 +66,7 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
-        leader_docs = []
-        all_members = message.guild.members if localed else cmd.bot.users
-        for data_doc in all_docs:
-            user_value = get_user_value(data_doc, sort_key)
-            user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
-            if user_object:
-                if user_value:
-                    leader_docs.append([user_object, user_value])
-                    if len(leader_docs) >= 20:
-                        break
+        leader_docs = get_leader_docs(cmd, message, localed, all_docs, sort_key)
         tcklb_cache.set_cache(sort_key, leader_docs)
         tcklb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
