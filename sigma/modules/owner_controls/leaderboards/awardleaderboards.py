@@ -48,7 +48,7 @@ async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, args: l
             await cmd.db.update_resource(ld_entry[0].id, awdbl, resc)
             value = f'{ld_entry[1]} {awdbl.title()}'
             user_info = f'{ld_entry[0].name}#{ld_entry[0].discriminator} [{ld_entry[0].id}]'
-            cmd.log.info(f'PLC: {ld_position} | AMT: {ld_award} | USR: {user_info} | VAL: {value}')
+            cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {user_info} | VAL: {value}')
             await asyncio.sleep(2)
     done_resp = discord.Embed(color=0x77B255, title=f'✅ All leaderboards awarded.')
     await message.channel.send(embed=done_resp)
