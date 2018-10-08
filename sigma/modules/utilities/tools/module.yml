@@ -80,8 +80,9 @@ commands:
       channel. You can set an expiration by adding "d:HH:MM:SS"
       as an argument. You can also set a limited number of uses
       by adding "u:num" where "num" is the amount of uses. The
-      order of the arguments doesn't matter. This command
-      requires the Create Instant Invite permission.
+      order of the arguments doesn't matter. An invite's maximum
+      duration is 24 hours and maximum uses is 100.
+      This command requires the Create Instant Invite permission.
 
   - name:         lmgtfy
     alts:
