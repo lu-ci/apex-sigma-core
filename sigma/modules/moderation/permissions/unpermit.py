@@ -44,7 +44,8 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
                 if ':' in args[1]:
                     perm_type = get_perm_type(args[0].lower())
                     if perm_type:
-                        perm_mode, node_name = args[1].split(':')
+                        perm_mode = args[1].split(':')[0]
+                        node_name = args[1].split(':')[1]
                         modes = {
                             'c': ('command_exceptions', cmd.bot.modules.commands, True),
                             'm': ('module_exceptions', cmd.bot.modules.categories, False)
