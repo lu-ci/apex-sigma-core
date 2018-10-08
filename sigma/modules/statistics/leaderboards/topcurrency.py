@@ -45,8 +45,8 @@ async def topcurrency(cmd: SigmaCommand, message: discord.Message, args: list):
     if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
-        all_docs = await coll.find(search).sort(sort_key, -1).limit(50).to_list(None)
-        leader_docs = get_leader_docs(cmd, message, localed, all_docs, sort_key)
+        all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
+        leader_docs = await get_leader_docs(cmd, message, localed, all_docs, sort_key)
         tcrlb_cache.set_cache(sort_key, leader_docs)
         tcrlb_cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [

@@ -17,7 +17,7 @@ import asyncio
 
 import discord
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.modules.statistics.leaderboards.topcookies import get_user_value, get_leader_docs
+from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
 async def notify_awarded(user: discord.User, amt: int, pos: int, curr: str, curr_icon: str, awdbl: str):
@@ -34,12 +34,12 @@ async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, args: l
     for awdbl in awardables:
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']
         search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
-        all_docs = await coll.find(search).sort('ranked', -1).limit(50).to_list(None)
-        leader_docs = list(reversed(get_leader_docs(cmd, message, False, all_docs, 'ranked')))
+        all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
+        leader_docs = list(reversed(await get_leader_docs(cmd, message, False, all_docs, 'ranked')))
         for ld_index, ld_entry in enumerate(leader_docs):
             ld_position = ld_index + 1
             ld_award = ld_position * 100000
-            await cmd.db.add_resource(ld_entry[0].id, awdbl, ld_award, 'leaderboard', message, False)
+            await cmd.db.add_resource(ld_entry[0].id, 'currency', ld_award, 'leaderboard', message, False)
             await notify_awarded(
                 ld_entry[0], ld_award, ld_index, cmd.bot.cfg.pref.currency, cmd.bot.cfg.pref.currency_icon, awdbl
             )
