@@ -134,7 +134,7 @@ class Database(motor.AsyncIOMotorClient):
 
     # Resource Handling
 
-    async def update_resource(self, resource: SigmaResource, user_id: int, resource_name: str):
+    async def update_resource(self, user_id: int, resource_name: str, resource: SigmaResource):
         cache_key = f'res_{resource_name}_{user_id}'
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
         coll = self[self.db_nam][f'{resource_name.title()}Resource']
@@ -160,13 +160,13 @@ class Database(motor.AsyncIOMotorClient):
             amount = abs(int(amount))
             resource = await self.get_resource(user_id, name)
             resource.add_value(amount, trigger, origin, ranked)
-            await self.update_resource(resource, user_id, name)
+            await self.update_resource(user_id, name, resource)
 
     async def del_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None):
         amount = abs(int(amount))
         resource = await self.get_resource(user_id, name)
         resource.del_value(amount, trigger, origin)
-        await self.update_resource(resource, user_id, name)
+        await self.update_resource(user_id, name, resource)
 
     # Inventory Handling
 
