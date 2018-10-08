@@ -21,6 +21,8 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 
+oxford_icon = 'https://i.imgur.com/lrinjBC.png'
+
 
 async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
     if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
@@ -30,8 +32,9 @@ async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
             'app_key': cmd.cfg['app_key']
         }
         if args:
-            qry = ' '.join(args)
-            api_url = f'https://od-api.oxforddictionaries.com/api/v1/entries/en/{qry}'
+            query = ' '.join(args)
+            oxford_url = f'https://en.oxforddictionaries.com/definition/{query}'
+            api_url = f'https://od-api.oxforddictionaries.com/api/v1/entries/en/{query}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(api_url, headers=headers) as data_response:
                     data = await data_response.read()
@@ -39,8 +42,8 @@ async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
                         data = json.loads(data)
                     except json.JSONDecodeError:
                         data = {'results': []}
-            if data['results']:
-                data = data['results'][0]
+            if data.get('results'):
+                data = data.get('results')[0]
                 lex = data.get('lexicalEntries')
                 if lex:
                     lex = lex[0]
@@ -59,24 +62,38 @@ async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
                     senses = ent.get('senses')
                     definition_block = []
                     example_block = []
+                    reference_block = []
                     if senses:
                         for sense in senses:
                             definitions = sense.get('definitions')
-                            definition_block += definitions
-                            examples = sense.get('examples')
-                            if examples:
-                                for example in examples:
-                                    example = example.get('text')
-                                    if example:
-                                        example_block.append(example)
-                    response = discord.Embed(color=0x3B88C3, title=f'📘 Oxford Dictionary: `{term}`')
+                            references = sense.get('crossReferenceMarkers')
+                            if definitions:
+                                definition_block += definitions
+                                examples = sense.get('examples')
+                                if examples:
+                                    for example in examples:
+                                        example = example.get('text')
+                                        if example:
+                                            example_block.append(example)
+                            if references:
+                                for reference in references:
+                                    if '(' in reference:
+                                        reference = reference.split('(')[0]
+                                    reference_block.append(reference)
+                    response = discord.Embed(color=0x00bef2)
+                    response.set_author(name=f'Oxford Dictionary: {term}', icon_url=oxford_icon, url=oxford_url)
                     if etyms:
                         response.add_field(name='Etymologies', value='\n'.join(etyms), inline=False)
                     if definition_block:
                         response.add_field(name='Definitions', value='\n'.join(definition_block), inline=False)
                     if example_block:
                         response.add_field(name='Examples', value=', '.join(example_block), inline=False)
-                    response.set_footer(text=f'Category: {cat} | Features: {", ".join(feat_block)}')
+                    if reference_block:
+                        response.add_field(name='References', value=', '.join(reference_block), inline=False)
+                    if response.fields:
+                        response.set_footer(text=f'Category: {cat} | Features: {", ".join(feat_block)}')
+                    else:
+                        response = discord.Embed(color=0x696969, title='🔍 No lexical data found.')
                 else:
                     response = discord.Embed(color=0x696969, title='🔍 No lexical data found.')
             else:
