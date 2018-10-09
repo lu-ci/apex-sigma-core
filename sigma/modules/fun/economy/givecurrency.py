@@ -29,7 +29,7 @@ async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                 except ValueError:
                     amount = None
                 if amount:
-                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(message.author):
+                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(message.author.id):
                         current_kud = await cmd.db.get_resource(message.author.id, 'currency')
                         current_kud = current_kud.current
                         if current_kud >= amount:
