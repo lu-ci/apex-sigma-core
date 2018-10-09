@@ -26,7 +26,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
-combination_cache = Cacher()
+combination_cache = Cacher(timer=600)
 
 
 def combine_names(users: list):
