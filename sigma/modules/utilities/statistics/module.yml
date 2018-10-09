@@ -46,4 +46,4 @@ commands:
     usage:        "{pfx}{cmd} Warlard"
     description:
       Shows the population of the specified role.
-      If no arguments are provided, it will show the top 20 roles by population.
+      If no arguments are provided, it will show the top 15 roles by population.

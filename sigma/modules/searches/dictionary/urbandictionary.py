@@ -26,7 +26,7 @@ async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: lis
     api_key = cmd.cfg.get('api_key')
     if api_key:
         if args:
-            ud_input = ' '.join(args)
+            ud_input = ' '.join(args).lower()
             url = "https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + ud_input
             headers = {'X-Mashape-Key': api_key, 'Accept': 'text/plain'}
             async with aiohttp.ClientSession() as session:
@@ -36,13 +36,14 @@ async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: lis
             if data.get('list'):
                 entry = data.get('list', [{}])[0]
                 definition = entry.get('definition', 'Nothing...')
-                if len(definition) > 750:
-                    definition = definition[:750] + '...'
-                footer = f'Thumbs Up/Down: {entry.get("thumbs_up", 0)}/{entry.get("thumbs_down", 0)}'
+                if len(definition) > 1000:
+                    definition = definition[:1000] + '...'
                 example = entry.get('example', 'Nothing...')
+                if len(example) > 1000:
+                    example = example[:1000] + '...'
                 definition, example = list(map(lambda i: i.replace('[', '').replace(']', ''), [definition, example]))
                 response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: {ud_input.upper()}')
-                response.set_footer(text=footer)
+                response.set_footer(text=f'Thumbs Up/Down: {entry.get("thumbs_up", 0)}/{entry.get("thumbs_down", 0)}')
                 response.add_field(name='Definition', value=definition)
                 if example:
                     response.add_field(name='Usage Example', value=example)
