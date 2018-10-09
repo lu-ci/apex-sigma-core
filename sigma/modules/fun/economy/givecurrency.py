@@ -29,15 +29,18 @@ async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                 except ValueError:
                     amount = None
                 if amount:
-                    current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-                    current_kud = current_kud.current
-                    if current_kud >= amount:
-                        await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
-                        await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
-                        title = f'✅ Transferred {amount} to {target.display_name}.'
-                        response = discord.Embed(color=0x77B255, title=title)
+                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(message.author):
+                        current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                        current_kud = current_kud.current
+                        if current_kud >= amount:
+                            await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
+                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                            title = f'✅ Transferred {amount} to {target.display_name}.'
+                            response = discord.Embed(color=0x77B255, title=title)
+                        else:
+                            response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have that much.')
                     else:
-                        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have that much.')
+                        response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Bank.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
             else:
