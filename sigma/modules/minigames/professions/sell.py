@@ -28,10 +28,10 @@ async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
         inv = await cmd.db.get_inventory(message.author.id)
         if inv:
             lookup = ' '.join(args)
-            if lookup == 'all':
+            if lookup.lower() == 'all':
                 value = 0
                 count = 0
-                for invitem in inv:
+                for invitem in inv.copy():
                     item_ob_id = item_core.get_item_by_file_id(invitem['item_file_id'])
                     value += item_ob_id.value
                     count += 1
