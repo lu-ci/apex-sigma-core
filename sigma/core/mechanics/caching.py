@@ -34,5 +34,4 @@ class Cacher(object):
         self.cache.update([(key, value)])
 
     def del_cache(self, key: str or int):
-        if key in self.cache.keys():
-            self.cache.pop(key)
+        self.cache.pop(key)
