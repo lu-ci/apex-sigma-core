@@ -40,7 +40,7 @@ async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
         user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
         if user_object:
             if user_value:
-                if await cmd.db.is_sabotaged(user_object.id):
+                if not await cmd.db.is_sabotaged(user_object.id):
                     leader_docs.append([user_object, user_value])
                     if len(leader_docs) >= 20:
                         break
