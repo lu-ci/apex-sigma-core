@@ -14,24 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import cachetools
-
 
 class Cacher(object):
-    def __init__(self, limit=10000, timer=None):
-        self.limit = limit
-        self.timer = timer
-        if self.timer is not None:
-            self.cache = cachetools.TTLCache(self.limit, self.timer)
-        else:
-            self.cache = cachetools.LRUCache(self.limit)
+    def __init__(self):
+        self.data = {}
 
     def get_cache(self, key: str or int):
-        value = self.cache.get(key)
+        value = self.data.get(key)
         return value
 
     def set_cache(self, key: str or int, value):
-        self.cache.update([(key, value)])
+        self.data.update({key: value})
 
     def del_cache(self, key: str or int):
-        self.cache.pop(key)
+        if key in self.data:
+            self.data.pop(key)
