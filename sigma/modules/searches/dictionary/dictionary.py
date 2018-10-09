@@ -32,7 +32,7 @@ async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
             'app_key': cmd.cfg['app_key']
         }
         if args:
-            query = ' '.join(args)
+            query = '_'.join(args).lower()
             oxford_url = f'https://en.oxforddictionaries.com/definition/{query}'
             api_url = f'https://od-api.oxforddictionaries.com/api/v1/entries/en/{query}'
             async with aiohttp.ClientSession() as session:
@@ -80,6 +80,7 @@ async def dictionary(cmd: SigmaCommand, message: discord.Message, args: list):
                                     if '(' in reference:
                                         reference = reference.split('(')[0]
                                     reference_block.append(reference)
+                    term = term.replace("_", " ").upper()
                     response = discord.Embed(color=0x00bef2)
                     response.set_author(name=f'Oxford Dictionary: {term}', icon_url=oxford_icon, url=oxford_url)
                     if etyms:

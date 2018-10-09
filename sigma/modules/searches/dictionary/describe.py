@@ -26,15 +26,15 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 async def describe(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        mode = args[0].lower()
+        mode = args[0].lower().lower()
         if mode in ['adjectives', 'adjective', 'adj', 'a', 'nouns', 'noun', 'n']:
-            query = '+'.join(args[1:])
+            query = '+'.join(args[1:]).lower()
             if mode[0] == 'a':
-                header = f'Adjectives used to describe {query}'
+                header = f'Adjectives used to describe {query.replace("+", " ")}'
                 site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=jja'
                 api_url = f'https://api.datamuse.com/words?rel_jjb={query}&max=11'
             elif mode[0] == 'n':
-                header = f'Nouns described by the adjective {query}'
+                header = f'Nouns described by the adjective {query.replace("+", " ")}'
                 site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=jjb'
                 api_url = f'https://api.datamuse.com/words?rel_jja={query}&max=11'
             else:

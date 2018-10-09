@@ -26,7 +26,7 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 async def rhymes(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
-        query = '+'.join(args)
+        query = '+'.join(args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=perfect'
         api_url = f'https://api.datamuse.com/words?rel_rhy={query}&max=11'
         async with aiohttp.ClientSession() as session:
@@ -40,7 +40,7 @@ async def rhymes(cmd: SigmaCommand, message: discord.Message, args: list):
         if data:
             data = [f'- {item.get("word")}' for item in data]
             response = discord.Embed(color=0xFBB429, description='\n'.join(data[:10]))
-            response.set_author(name=f'Words that rhyme with {query}', url=site_url, icon_url=icon)
+            response.set_author(name=f'Words that rhyme with {query.replace("+", " ")}', url=site_url, icon_url=icon)
             if len(data) > 10:
                 response.set_footer(text='Follow the link in the title to see more.')
         else:

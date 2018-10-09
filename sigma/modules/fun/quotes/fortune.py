@@ -26,10 +26,8 @@ fortune_files = []
 async def fortune(cmd: SigmaCommand, message: discord.Message, args: list):
     if not fortune_files:
         fortune_docs = await cmd.db[cmd.db.db_nam].FortuneData.find().to_list(None)
-        [fortune_files.append(fd) for fd in fortune_docs]
-    fort = None
-    while fort is None or 0 >= len(fort) > 800:
-        fort = secrets.choice(fortune_files).get('content')
+        [fortune_files.append(fd) for fd in fortune_docs if 0 <= len(fd) < 800]
+    fort = secrets.choice(fortune_files).get('content')
     response = discord.Embed(color=0x8CCAF7)
     response.add_field(name='🔮 Fortune', value=fort)
     await message.channel.send(embed=response)
