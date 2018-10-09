@@ -18,7 +18,7 @@ import cachetools
 
 
 class Cacher(object):
-    def __init__(self, limit=10000, timer=None):
+    def __init__(self, limit=50000, timer=None):
         self.limit = limit
         self.timer = timer
         if self.timer is not None:
