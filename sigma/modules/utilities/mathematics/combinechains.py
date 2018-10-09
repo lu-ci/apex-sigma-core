@@ -29,54 +29,54 @@ from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 combination_cache = Cacher()
 
 
-def combine_names(user_one, user_two):
-    cutoff_one = len(user_one.name) // 2
-    cutoff_two = len(user_two.name) // 2
-    piece_one = user_one.name[:cutoff_one]
-    piece_two = user_two.name[cutoff_two:]
-    output = piece_one + piece_two
-    return output
+def combine_names(users: list):
+    pieces = []
+    total_length = sum([len(u.name) for u in users])
+    usable_length = total_length // len(users)
+    needed_length = usable_length // len(users)
+    for user in users:
+        piece = user.name[needed_length * len(pieces):needed_length * (len(pieces) + 1)]
+        pieces.append(piece)
+    return ''.join(pieces)
 
 
 async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list):
-    if len(message.mentions) == 2:
-        target_one = message.mentions[0]
-        target_two = message.mentions[1]
-        chain_one = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target_one.id})
-        chain_two = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target_two.id})
-        if chain_one and chain_two:
-            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
-            string_one = ' '.join(chain_one.get('chain'))
-            string_two = ' '.join(chain_two.get('chain'))
-            with ThreadPoolExecutor() as threads:
-                markov_one = chain_object_cache.get_cache(target_one.id)
-                if not markov_one:
-                    chain_task_one = functools.partial(markovify.Text, string_one)
-                    markov_one = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
-                    chain_object_cache.set_cache(target_one.id, markov_one)
-                markov_two = chain_object_cache.get_cache(target_two.id)
-                if not markov_two:
-                    chain_task_two = functools.partial(markovify.Text, string_two)
-                    markov_two = await cmd.bot.loop.run_in_executor(threads, chain_task_two)
-                    chain_object_cache.set_cache(target_two.id, markov_two)
-                combination = combination_cache.get_cache(f'{target_one}_{target_two}')
-                if not combination:
-                    combine_task = functools.partial(markovify.combine, [markov_one, markov_two], [1, 1])
-                    combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                    combination_cache.set_cache(f'{target_one}_{target_two}', combination)
+    if len(message.mentions) >= 2:
+        empty_chain = False
+        chain_objects = []
+        with ThreadPoolExecutor() as threads:
+            for target in message.mentions:
+                target_chain = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
+                if not target_chain:
+                    empty_chain = target
+                    break
+                chain_string = ' '.join(target_chain.get('chain'))
+                markov_data = chain_object_cache.get_cache(target.id)
+                if not markov_data:
+                    chain_task_one = functools.partial(markovify.Text, chain_string)
+                    markov_data = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
+                    chain_object_cache.set_cache(target.id, markov_data)
+                chain_objects.append(markov_data)
+            combination_key = '_'.join(sorted([str(u.id) for u in message.mentions]))
+            combination = combination_cache.get_cache(combination_key)
+            if not combination:
+                combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
+                combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
+                combination_cache.set_cache(combination_key, combination)
+            if not empty_chain:
+                await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
                 sentence_function = functools.partial(combination.make_short_sentence, 500)
                 sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-            if not sentence:
-                not_enough_data = '😖 I could not think of anything... I need more chain items!'
-                response = discord.Embed(color=0xBE1931, title=not_enough_data)
+                if not sentence:
+                    not_enough_data = '😖 I could not think of anything... I need more chain items!'
+                    response = discord.Embed(color=0xBE1931, title=not_enough_data)
+                else:
+                    combined_name = combine_names(message.mentions)
+                    response = discord.Embed(color=0xbdddf4)
+                    response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(message.mentions)))
+                    response.add_field(name='💭 Hmm... something like...', value=sentence)
             else:
-                icon_choice = secrets.choice([target_one, target_two])
-                combined_name = combine_names(target_one, target_two)
-                response = discord.Embed(color=0xbdddf4)
-                response.set_author(name=combined_name, icon_url=user_avatar(icon_choice))
-                response.add_field(name='💭 Hmm... something like...', value=sentence)
-        else:
-            response = discord.Embed(color=0xBE1931, title='❗ One of the users does not have a chain.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ {empty_chain.name} does not have a chain.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
     await message.channel.send(embed=response)
