@@ -37,7 +37,7 @@ def clean_name(name, default):
             end_name += char
     if not end_name:
         end_name = default
-    return end_name
+    return end_name.strip()
 
 
 async def edit_name_check(ev: SigmaEvent, before: discord.Member, after: discord.Member):
