@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-import arrow
 import string
 from queue import Queue
 
+import arrow
 import pymongo
 
 start_time = arrow.utcnow()

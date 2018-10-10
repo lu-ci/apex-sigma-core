@@ -51,6 +51,9 @@ async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list)
                     empty_chain = target
                     break
                 chain_string = ' '.join(target_chain.get('chain'))
+                if not chain_string:
+                    empty_chain = target
+                    break
                 markov_data = chain_object_cache.get_cache(target.id)
                 if not markov_data:
                     chain_task_one = functools.partial(markovify.Text, chain_string)

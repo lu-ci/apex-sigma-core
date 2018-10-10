@@ -14,10 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-import aiohttp
-import lxml.html as lx
 from urllib.parse import quote as escape
+
+import aiohttp
+import discord
+import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs

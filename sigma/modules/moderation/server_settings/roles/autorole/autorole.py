@@ -41,7 +41,7 @@ async def autorole(cmd: SigmaCommand, message: discord.Message, args: list):
         else:
             curr_role_id = await cmd.db.get_guild_settings(message.guild.id, 'auto_role')
             if curr_role_id:
-                curr_role = discord.utils.find(lambda x: x.id == curr_role_id, message.guild.roles)
+                curr_role = message.guild.get_role(curr_role_id)
                 if curr_role:
                     response = discord.Embed(color=0xF9F9F9, title=f'📇 The current autorole is **{curr_role}**.')
                 else:

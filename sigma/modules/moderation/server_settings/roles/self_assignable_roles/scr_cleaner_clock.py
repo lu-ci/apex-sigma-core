@@ -20,7 +20,6 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 
-
 scr_clock_running = False
 
 

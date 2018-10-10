@@ -36,7 +36,8 @@ async def renamecommand(cmd: SigmaCommand, message: discord.Message, args: list)
                                 await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
                                 response = discord.Embed(color=0x66CC66, title=f'✅ {old_trigger} updated.')
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ The new trigger is already a command.')
+                                response = discord.Embed(color=0xBE1931,
+                                                         title='❗ The new trigger is already a command.')
                         else:
                             response = discord.Embed(color=0x696969, title='🔍 Command not found.')
                     else:

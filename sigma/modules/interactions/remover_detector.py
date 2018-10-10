@@ -13,7 +13,6 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import discord
 from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
@@ -31,7 +30,7 @@ async def remover_detector(ev: SigmaEvent, payload: RawReactionActionEvent):
                 interaction_item = await ev.db[ev.db.db_nam].Interactions.find_one({'message_id': mid})
                 if interaction_item:
                     await ev.db[ev.db.db_nam].Interactions.delete_one(interaction_item)
-                    channel = discord.utils.find(lambda c: c.id == cid, ev.bot.get_all_channels())
+                    channel = ev.bot.get_channel(log_ch_id, True)
                     message = await channel.get_message(mid) if channel else None
                     if message:
                         await message.add_reaction('🔥')

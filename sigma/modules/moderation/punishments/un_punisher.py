@@ -21,7 +21,6 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 
-
 unpun_loop_running = False
 
 
@@ -36,7 +35,7 @@ async def unban(ev: SigmaEvent, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
+        guild = ev.bot.get_guild(gid)
         if guild:
             banlist = await guild.bans()
             target = discord.utils.find(lambda u: u.user.id == uid, banlist)
@@ -53,14 +52,14 @@ async def untmute(ev: SigmaEvent, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
+        guild = ev.bot.get_guild(gid)
         mutes = await ev.db.get_guild_settings(guild.id, 'muted_users') or []
         if uid in mutes:
             ev.log.info(f'Un-muting {uid} from {gid}.')
             mutes.remove(uid)
             await ev.db.set_guild_settings(guild.id, 'muted_users', mutes)
             await asyncio.sleep(5)
-            target = discord.utils.find(lambda x: x.id == uid, guild.members)
+            target = guild.get_member(uid)
             if target:
                 to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
@@ -73,9 +72,9 @@ async def unhmute(ev: SigmaEvent, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = discord.utils.find(lambda g: g.id == gid, ev.bot.guilds)
+        guild = ev.bot.get_guild(gid)
         if guild:
-            target = discord.utils.find(lambda u: u.id == uid, guild.members)
+            target = guild.get_member(uid)
             if target:
                 for channel in guild.channels:
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):

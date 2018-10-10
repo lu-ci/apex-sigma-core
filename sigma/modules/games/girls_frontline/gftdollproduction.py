@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import discord
-from sigma.core.mechanics.command import SigmaCommand
 from lxml import html as lx
 
+from sigma.core.mechanics.command import SigmaCommand
 
 tdoll_data = []
 gf_icon = 'https://en.gfwiki.com/images/c/c9/Logo.png'

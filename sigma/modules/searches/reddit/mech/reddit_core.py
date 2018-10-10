@@ -17,7 +17,6 @@
 import json
 
 import aiohttp
-import arrow
 
 reddit_base = 'https://www.reddit.com/r'
 

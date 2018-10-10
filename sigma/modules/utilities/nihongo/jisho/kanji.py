@@ -108,7 +108,8 @@ async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
                 parse_readings_data(kanji_dict, kanji_data[0])
                 parse_meanings_data(kanji_dict, kanji_data[0])
                 readings = clean_readings_data(kanji_dict)['readings']
-                rds = [f"**{r_type.title()}:** {', '.join(readings[r_type])}" for r_type in readings if readings[r_type]]
+                rds = [f"**{r_type.title()}:** {', '.join(readings[r_type])}" for r_type in readings if
+                       readings[r_type]]
                 meta = kanji_dict['meta']
                 data = [f"**{item.title()}:** {', '.join([val for val in meta[item]])}" for item in meta if meta[item]]
                 desc = f"**{kanji_dict['strokes']}** strokes\n"

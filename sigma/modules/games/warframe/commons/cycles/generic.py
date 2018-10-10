@@ -13,23 +13,22 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import asyncio
 
 import arrow
-import discord
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.event import SigmaEvent
 
 
 async def get_channels(ev: SigmaEvent, marker):
-    all_channels = ev.bot.get_all_channels()
     channel_list = []
     lookup = {marker: {'$exists': True}}
     setting_files = await ev.db[ev.db.db_nam].ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
-        channel = discord.utils.find(lambda x: x.id == channel_id, all_channels)
+        channel = ev.bot.get_channel(channel_id, True)
         if channel:
             perms = channel.permissions_for(channel.guild.me)
             if perms.send_messages and perms.embed_links:
@@ -46,7 +45,7 @@ async def get_triggers(db, triggers, guild):
         if wf_tags:
             if trigger in wf_tags:
                 role_id = wf_tags.get(trigger)
-                bound_role = discord.utils.find(lambda x: x.id == role_id, guild.roles)
+                bound_role = guild.get_role(role_id)
                 if bound_role:
                     mentions.append(bound_role.mention)
     return mentions

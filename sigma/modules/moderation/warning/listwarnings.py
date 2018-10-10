@@ -36,8 +36,7 @@ async def listwarnings(cmd: SigmaCommand, message: discord.Message, args: list):
             warn_list = []
             for warning in warnings:
                 warn_id = warning.get('warning').get('id')
-                mod_id = warning.get('moderator').get('id')
-                moderator = discord.utils.find(lambda x: x.id == mod_id, cmd.bot.users)
+                moderator = cmd.bot.get_user(warning.get('moderator').get('id'))
                 if moderator:
                     moderator = moderator.name
                 else:

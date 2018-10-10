@@ -35,19 +35,15 @@ async def myreminders(cmd: SigmaCommand, message: discord.Message, args: list):
     reminder_count = await all_reminders.count_documents(lookup_data)
     all_reminders = await all_reminders.find(lookup_data).to_list(None)
     if reminder_count:
-        if reminder_count == 1:
-            ender = 'reminder'
-        else:
-            ender = 'reminders'
+        ender = 'reminder' if reminder_count == 1 else 'reminders'
         if here:
             reminder_list_title = f'You have {reminder_count} pending {ender} in #{message.channel.name}.'
         else:
             reminder_list_title = f'You have {reminder_count} pending {ender}.'
         reminder_list = ''
         for reminder in all_reminders:
-            human_time = arrow.get(reminder['execution_stamp']).humanize(arrow.utcnow())
-            all_channels = cmd.bot.get_all_channels()
-            channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], all_channels)
+            human_time = arrow.get(reminder.get('execution_stamp')).humanize(arrow.utcnow())
+            channel = cmd.bot.get_channel(reminder.get('channel_id'))
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'

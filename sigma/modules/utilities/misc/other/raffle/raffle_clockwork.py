@@ -56,7 +56,7 @@ async def cycler(ev: SigmaEvent):
                     icon = raffle.get('icon')
                     titl = raffle.get('title')
                     colr = raffle.get('color')
-                    channel = discord.utils.find(lambda x: x.id == cid, ev.bot.get_all_channels())
+                    channel = ev.bot.get_channel(cid)
                     if channel:
                         message = await channel.get_message(mid)
                         if message:

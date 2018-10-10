@@ -43,7 +43,7 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
 async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
     sugg_chn_id = cmd.cfg.get('channel')
     if sugg_chn_id:
-        sugg_chn = discord.utils.find(lambda x: x.id == sugg_chn_id, cmd.bot.get_all_channels())
+        sugg_chn = cmd.bot.get_channel(sugg_chn_id, True)
         if sugg_chn:
             if args:
                 sugg_token = secrets.token_hex(4)

@@ -15,12 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-import secrets
+from json.decoder import JSONDecodeError
 
 import aiohttp
 import discord
-
-from json.decoder import JSONDecodeError
 
 from sigma.core.mechanics.command import SigmaCommand
 

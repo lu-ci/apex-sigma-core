@@ -1,4 +1,5 @@
 import secrets
+
 from sigma.core.mechanics.caching import Cacher
 
 test_count = 1000

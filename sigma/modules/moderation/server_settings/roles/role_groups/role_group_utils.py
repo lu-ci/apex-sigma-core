@@ -27,7 +27,7 @@ async def appropriate_roles(member: discord.Member, role: discord.Role, role_gro
     if match_group:
         other_roles = []
         for role_item in role_groups.get(match_group):
-            role_object = discord.utils.find(lambda x: x.id == role_item, member.guild.roles)
+            role_object = member.guild.get_role(role_item)
             if role_object:
                 if role_object.id != role.id:
                     other_roles.append(role_object)

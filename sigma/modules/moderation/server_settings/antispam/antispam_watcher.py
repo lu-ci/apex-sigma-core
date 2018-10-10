@@ -20,7 +20,6 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
-
 rate_limit_cache = {}
 
 

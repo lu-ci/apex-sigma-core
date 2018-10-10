@@ -53,8 +53,8 @@ async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list)
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
             clean_name(doc[0].name, 'Unknown')[:12],
-            str(doc[1]),
-            str(doc[2])
+            str(int(doc[1] / 13266.85)),
+            str(doc[1])
         ] for pos, doc in enumerate(leader_docs)
     ]
     table_body = boop(table_data, ['#', 'User Name', 'Level', value_name])

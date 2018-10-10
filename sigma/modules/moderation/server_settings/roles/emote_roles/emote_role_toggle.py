@@ -48,13 +48,13 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
     cid = payload.channel_id
     mid = payload.message_id
     emoji = payload.emoji
-    channel = discord.utils.find(lambda c: c.id == cid, ev.bot.get_all_channels())
+    channel = ev.bot.get_channel(cid)
     if channel:
         guild = channel.guild
         if guild:
             guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
             if guild_togglers:
-                user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
+                user = guild.get_member(uid)
                 if user:
                     if not user.bot:
                         message = await channel.get_message(mid)
@@ -68,7 +68,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
                                         pass
                                 role_id = guild_togglers.get(smid).get(emoji.name)
                                 if role_id:
-                                    role_item = discord.utils.find(lambda x: x.id == role_id, guild.roles)
+                                    role_item = guild.get_role(role_id)
                                     if role_item:
                                         if user_has_role(role_item, user.roles):
                                             await user.remove_roles(role_item, reason='Emote toggled.')

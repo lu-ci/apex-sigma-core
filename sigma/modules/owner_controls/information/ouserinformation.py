@@ -18,7 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -30,28 +30,20 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
             target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, cmd.bot.users)
         else:
             try:
-                target = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.users)
+                target = cmd.bot.get_user(int(lookup))
             except ValueError:
                 target = None
         if target:
-            response = discord.Embed(color=target.color)
+            user_color = await get_image_colors(user_avatar(target))
+            response = discord.Embed(color=user_color)
             response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_avatar(target))
             creation_time = arrow.get(target.created_at).format('DD. MMMM YYYY')
             user_text = f'Username: **{target.name}**#{target.discriminator}'
             user_text += f'\nID: **{target.id}**'
-            user_text += f'\nStatus: **{str(target.status).replace("dnd", "busy").title()}**'
             user_text += f'\nBot User: **{target.bot}**'
             user_text += f'\nCreated: **{creation_time}**'
-            presence = [g for g in cmd.bot.guilds if discord.utils.find(lambda u: u.id == target.id, g.members)]
+            presence = [g for g in cmd.bot.guilds if g.get_member(target.id)]
             response.add_field(name='User Info', value=user_text)
-            member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
-            is_moderator = target.permissions_in(message.channel).manage_guild
-            member_text = f'Name: **{target.display_name}**'
-            member_text += f'\nColor: **{str(target.color).upper()}**'
-            member_text += f'\nTop Role: **{target.top_role.name}**'
-            member_text += f'\nModerator: **{is_moderator}**'
-            member_text += f'\nJoined: **{member_join_time}**'
-            response.add_field(name='Member Info', value=member_text)
             response.set_footer(text=f'This user is in {len(presence)} guilds.')
         else:
             response = discord.Embed(color=0x696969, title='🔍 User not found.')

@@ -61,7 +61,6 @@ Commands | Description | Example
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
-`>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
 ### FUN
@@ -211,15 +210,19 @@ Commands | Description | Example
 ### MISCELLANEOUS
 Commands | Description | Example
 ----------|-------------|--------
+`>>addline` `>>al` | Adds the inputted line to the specified list. | `>>addline 38fe Lists are awesome!`
 `>>afk` | Marks you as afk. Whenever someone mentions you they will be notified that you are afk. When you send a message your afk status will be removed. This automatic removal ignores messages that start with the command prefix. | `>>afk Sleeping or eating, probably both!`
 `>>choose` | The bot will select a thing from the inputed list. Separate list items with a semicolon and space. | `>>choose Sleep; Eat; Code; Lewd Stuff`
 `>>delayreminder` `>>delayrem` `>>drm` | Delays a reminder of yours with the specified ID by the specified duration. | `>>delayreminder 3f47 7:59:03`
+`>>deletelist` `>>dellist` `>>dl` | Permanently deletes a list. You must be the list creator to delete it. | `>>deletelist 38fe`
 `>>echo` `>>say` | Makes Sigma repeat what you entered, simple enough. | `>>echo Beep, bop-boop!`
 `>>edgecalculator` `>>edgecalc` | Calculates how edgy the targeted person is. If no user is tagged, the target will be the one who uses the command. | `>>edgecalculator @person`
 `>>embedecho` `>>esay` `>>eecho` | Just like echo, but the message is an embed object that has you as the author, your color, and the time it was executed. | `>>embedecho Beep, bop-boop!`
 `>>endraffle` `>>endraf` | Prematurely ends a raffle. This command is only usable by the author of the raffle. To end a raffle use the raffle's ID that can be found in its footer. This command has no response aside from a reaction to your message. green check mark - redraw successful magnifying glass - raffle not found no entry sign    - you aren't the raffle creator exclamation mark - no arguments given | `>>endraffle 1abc9c`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. Add "cat" or "dog" as the last argument for an added bonus. | `>>httpstatus 404`
 `>>listraffles` `>>listraf` `>>lraf` | Lists all your ongoing raffles and their information, such as when they end and in what channel. | `>>listraffles`
+`>>listsettings` `>>ls` | Marks or unmarks the specified list as private or locked, depending on its current state. Private means no one but the creator can view it. Locked means no one but the creator can add to it. Specify the list by its ID. | `>>listsettings 38fe private`
+`>>makelist` `>>ml` | Creates a custom list. The list is public by default, but can be made private (only viewable and editable by you) by adding "private" as an argument. You can also mark the list as locked, so anyone can view it but only you can add to it, by adding "locked" as an argument. | `>>makelist private`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created, the location where they are set to execute in, and when they will be executed. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
 `>>quote` | Quotes a message from its given ID. | `>>quote 381449702589202432`
@@ -228,6 +231,7 @@ Commands | Description | Example
 `>>redrawraffle` `>>redraw` | Redraws a raffle in case that's ever needed. This command is only usable by the author of the raffle. To redraw a raffle use the raffle's ID that can be found in its footer. This command has no response aside from a reaction to your message. A raffle needs to be marked as ended before it can be redrawn. green check mark - redraw successful magnifying glass - raffle not found no entry sign    - you aren't the raffle creator exclamation mark - no arguments given | `>>redrawraffle 1abc9c`
 `>>reminderinfo` `>>reminder` `>>rminfo` `>>rmi` | Shows information about your reminder with the specified ID, such as when it will execute and where. | `>>reminderinfo f93f`
 `>>remindme` `>>setreminder` `>>remind` `>>alarm` `>>rmme` | Sets a timer that will mention the author when it's done. The time format is H:M:S, but is not limited to the constraints of their types, meaning you can type "200:5000:999999" if you wish. Reminders are limited to 90 days, and you are limited to 15 reminders. | `>>remindme 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!`
+`>>removeline` `>>delline` `>>rl` | Deletes a line from the specified list. Specify the line to delete by number. Line numbers are not tied to specific lines. Deleting line 1 will result in line 2 becoming the new line 1. | `>>removeline 38fe 3`
 `>>removereminder` `>>delreminder` `>>unremind` `>>delrm` | Deletes a reminder of yours with the specified ID. | `>>removereminder 1a9e`
 `>>shadowpoll` | Makes a private shadow poll. The users that vote on the shadow poll can only be viewed by its creator. Additional commands can be used to set an expiration timer, the visibility of the poll's current vote count and percentages, and who is allowed to vote on the poll. | `>>shadowpoll Ban Nuggetlord?; Yes; Yes; Yes; No; Soft`
 `>>shadowpollclose` `>>spclose` | Closes/deactivated a shadow poll. Closed polls cannot be voted on and cannot be viewed unless they are set to be visible. | `>>shadowpollclose 1bca22`
@@ -245,6 +249,8 @@ Commands | Description | Example
 `>>shadowpollvoters` `>>spvoters` | Shows all the users that voted on the specified shadow poll and what they voted for. This command can only be used by the author of the poll. | `>>shadowpollvoters 1bca22`
 `>>shadowpollwipe` `>>spwipe` | Completely resets the specified shadow poll's statistics. Deleting all the data about who voted for what option. | `>>shadowpollwipe 1bca22`
 `>>temproom` `>>tempvc` | Makes a temporary voice channel that you can fully manage. Once everyone leaves the channel (not including bots) it's destroyed. The temp voice channels are checked by their prefix ([Σ]), if this is edited out, the channel will not be destroyed when emptied. | `>>temproom Orgy For One`
+`>>viewlist` `>>vl` | Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public. | `>>viewlist 38fe`
+`>>viewlists` `>>vls` | Shows all of the custom lists on the server. | `>>viewlists`
 [Back To Top](#module-index)
 
 ### MODERATION
@@ -498,7 +504,7 @@ Commands | Description | Example
 `>>randomcolor` `>>randomcolour` `>>rclr` | Shows you a random color block along with its HEX code. | `>>randomcolor`
 `>>roleid` `>>rankid` `>>rid` | Shows the Role ID of the specified role. Unlike the other ID commands, a role specification is required. Roles mentions do not work here, lookup is done via role name. If you don't want the message to be an embed, add "text" at the end. | `>>roleid Warlards`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data on the specified role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
-`>>rolepopulation` `>>rolepop` | Shows the population of the specified role. If no arguments are provided, it will show the top 20 roles by population. | `>>rolepopulation Warlard`
+`>>rolepopulation` `>>rolepop` | Shows the population of the specified role. If no arguments are provided, it will show the top 15 roles by population. | `>>rolepopulation Warlard`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data on the server. | `>>serverinformation`

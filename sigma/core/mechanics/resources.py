@@ -16,7 +16,6 @@
 
 import discord
 
-
 message_translation = {'users': 'author', 'guilds': 'guild', 'channels': 'channel'}
 
 

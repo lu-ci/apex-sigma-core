@@ -30,7 +30,7 @@ async def viewemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: 
                 role_names = []
                 populace = 0
                 for group_role in group_roles:
-                    role_item = discord.utils.find(lambda x: x.id == group_role, message.guild.roles)
+                    role_item = message.guild.get_role(group_role)
                     if role_item:
                         role_names.append(role_item.name)
                         populace += len(role_item.members)
