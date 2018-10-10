@@ -20,8 +20,8 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
+from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 
 
 async def is_blocked(db: Database, target: discord.Member, author: discord.Member):

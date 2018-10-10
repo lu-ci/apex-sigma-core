@@ -17,8 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.mechanics.permissions import scp_cache
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 

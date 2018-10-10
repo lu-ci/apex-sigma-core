@@ -17,8 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.mechanics.permissions import scp_cache
+from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -108,9 +108,11 @@ async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(message, args, perm_type)
                             if valid_targets:
-                                exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name, perm_type)
+                                exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name,
+                                                                                   perm_type)
                                 if exc_tuple:
-                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type, perms)
+                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type,
+                                                              perms)
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': message.guild.id}, {'$set': perms})
@@ -135,7 +137,8 @@ async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
                                     ender = 'specified' if perm_type == 'roles' else 'targeted'
                                     response = discord.Embed(color=0x696969, title=f'🔍 No {perm_type} {ender}.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
+                            response = discord.Embed(color=0xBE1931,
+                                                     title='❗ Unrecognized lookup mode, see usage example.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
                 else:

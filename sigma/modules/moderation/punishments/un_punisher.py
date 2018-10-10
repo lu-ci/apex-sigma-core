@@ -21,7 +21,6 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 
-
 unpun_loop_running = False
 
 

@@ -16,6 +16,7 @@
 import asyncio
 
 import discord
+
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 

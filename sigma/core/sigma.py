@@ -146,7 +146,7 @@ class ApexSigma(client_class):
             members = self.cache.get_cache('all_members')
         return members
 
-    def get_user(self, uid, cached: bool=False):
+    def get_user(self, uid, cached: bool = False):
         if cached:
             out = self.cache.get_cache(uid)
             if not out:
@@ -156,7 +156,7 @@ class ApexSigma(client_class):
             out = super().get_user(uid)
         return out
 
-    def get_channel(self, cid: int, cached: bool=False):
+    def get_channel(self, cid: int, cached: bool = False):
         if cached:
             out = self.cache.get_cache(cid)
             if not out:

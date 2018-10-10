@@ -20,7 +20,6 @@ import discord
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 
-
 afk_cache = Cacher()
 
 

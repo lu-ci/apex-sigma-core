@@ -61,7 +61,6 @@ Commands | Description | Example
 `>>test` | For testing purposes, obviously. Used as a placeholder for testing functions. (Bot Owner Only) | `>>test`
 `>>togglestatus` | Toggles if the automatic status rotation is enabled or disabled. (Bot Owner Only) | `>>togglestatus`
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
-`>>wipeawards` | Removes a user's currency, experience and cookie data. Used when wanting to remove a blacklisted user's ill gotten gains. (Bot Owner Only) | `>>wipeawards 0123456789`
 [Back To Top](#module-index)
 
 ### FUN

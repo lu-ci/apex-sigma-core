@@ -35,8 +35,8 @@ async def ouserinformation(cmd: SigmaCommand, message: discord.Message, args: li
                 target = None
         if target:
             user_color = await get_image_colors(user_avatar(target))
-            response = discord.Embed(color=target.color)
-            response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_color)
+            response = discord.Embed(color=user_color)
+            response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_avatar(target))
             creation_time = arrow.get(target.created_at).format('DD. MMMM YYYY')
             user_text = f'Username: **{target.name}**#{target.discriminator}'
             user_text += f'\nID: **{target.id}**'

@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import secrets
 
 import discord
-import secrets
 from PIL import Image
 
 from sigma.core.mechanics.command import SigmaCommand

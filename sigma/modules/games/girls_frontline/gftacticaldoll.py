@@ -16,9 +16,9 @@
 
 import aiohttp
 import discord
-from sigma.core.mechanics.command import SigmaCommand
 from lxml import html as lx
 
+from sigma.core.mechanics.command import SigmaCommand
 
 tdoll_page_index = {}
 tdoll_pages = {}

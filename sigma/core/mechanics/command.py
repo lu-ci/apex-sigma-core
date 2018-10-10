@@ -23,13 +23,13 @@ import yaml
 
 from sigma.core.mechanics.cooldown import CommandRateLimiter
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
-from sigma.core.mechanics.errors import SigmaError
 
 
 class SigmaCommand(object):

@@ -18,6 +18,7 @@ import json
 
 import aiohttp
 import discord
+
 from sigma.core.mechanics.command import SigmaCommand
 
 

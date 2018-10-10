@@ -33,7 +33,7 @@ class ExecutionClockwork(object):
         self.processed = 0
         self.stats = {}
 
-    async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool=False):
+    async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool = False):
         args = list(filter(lambda a: a != '', args))
         if mention:
             if args:

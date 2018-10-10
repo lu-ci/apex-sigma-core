@@ -16,8 +16,6 @@
 
 import asyncio
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
 
 

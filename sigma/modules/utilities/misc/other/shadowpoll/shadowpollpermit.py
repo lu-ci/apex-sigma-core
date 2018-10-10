@@ -41,7 +41,7 @@ async def shadowpollpermit(cmd: SigmaCommand, message: discord.Message, args: li
                         if target.id not in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].append(target.id)
                             await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id},
-                                                                                        {'$set': poll_file})
+                                                                               {'$set': poll_file})
                             response = discord.Embed(color=0x66CC66, title=f'✅ {target.name} has been permitted.')
                         else:
                             response = discord.Embed(color=0xBE1931, title=f'❗ {target.name} is already permitted.')

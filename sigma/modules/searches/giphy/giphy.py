@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import secrets
 
 import aiohttp
 import discord
-import secrets
 
 from sigma.core.mechanics.command import SigmaCommand
 

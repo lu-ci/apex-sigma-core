@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import get_changed_invite
 

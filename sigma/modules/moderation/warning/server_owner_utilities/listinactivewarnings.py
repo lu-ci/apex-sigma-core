@@ -18,8 +18,8 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.data_processing import paginate
+from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def listinactivewarnings(cmd: SigmaCommand, message: discord.Message, args: list):
