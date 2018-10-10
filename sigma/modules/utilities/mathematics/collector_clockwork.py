@@ -135,9 +135,9 @@ async def cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             cltr_item = await ev.db[ev.db.db_nam].CollectorQueue.find_one_and_delete({})
             if cltr_item:
-                cl_usr = discord.utils.find(lambda x: x.id == cltr_item.get('user_id'), ev.bot.users)
-                cl_chn = discord.utils.find(lambda x: x.id == cltr_item.get('channel_id'), ev.bot.get_all_channels())
-                cl_ath = discord.utils.find(lambda x: x.id == cltr_item.get('author_id'), ev.bot.users)
+                cl_usr = ev.bot.get_user(cltr_item.get('user_id'))
+                cl_chn = ev.bot.get_channel(cltr_item.get('channel_id'))
+                cl_ath = ev.bot.get_user(cltr_item.get('author_id'))
                 if cl_usr and cl_chn:
                     current_user_collecting = cl_usr.id
                     collected = 0

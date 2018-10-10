@@ -24,7 +24,7 @@ async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ' '.join(args)
         try:
-            gld = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.guilds)
+            gld = cmd.bot.get_guild(int(lookup))
         except ValueError:
             gld = discord.utils.find(lambda u: u.name.lower() == lookup.lower(), cmd.bot.guilds)
         if gld:

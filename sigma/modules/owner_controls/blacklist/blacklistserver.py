@@ -26,7 +26,7 @@ async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: lis
         if args[0].isdigit():
             target_id = int(args[0])
         if target_id:
-            target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.guilds)
+            target = cmd.bot.get_guild(target_id)
             if target:
                 black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedServers
                 black_user_file = await black_user_collection.find_one({'server_id': target.id})

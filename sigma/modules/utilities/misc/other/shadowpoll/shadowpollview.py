@@ -26,31 +26,31 @@ async def shadowpollview(cmd: SigmaCommand, message: discord.Message, args: list
         poll_id = ''.join(args).lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
-            active = poll_file['settings']['active']
-            visible = poll_file['settings']['visible']
-            author_id = poll_file['origin']['author']
+            active = poll_file.get('settings', {}).get('active')
+            visible = poll_file.get('settings', {}).get('visible')
+            author_id = poll_file.get('origin', {}).get('author')
             if active or visible or author_id == message.author.id:
-                response = discord.Embed(color=0xF9F9F9, title=poll_file['poll']['question'])
-                author = discord.utils.find(lambda x: x.id == author_id, cmd.bot.users)
+                response = discord.Embed(color=0xF9F9F9, title=poll_file.get('poll', {}).get('question'))
+                author = cmd.bot.get_user(author_id)
                 if author:
                     response.set_author(name=author.name, icon_url=user_avatar(author))
                 else:
                     response.set_author(name=f'{author_id}', icon_url='https://i.imgur.com/QnYSlld.png')
-                expiration = poll_file['settings']['expires']
+                expiration = poll_file.get('settings', {}).get('expires')
                 if expiration is not None:
                     exp_dt = arrow.get(expiration).datetime
                     exp_hum = arrow.get(expiration).humanize()
                     response.set_footer(text=f'Expires {exp_hum}')
                     response.timestamp = exp_dt
                 else:
-                    created = poll_file['created']
+                    created = poll_file.get('created')
                     cre_dt = arrow.get(created).datetime
                     cre_hum = arrow.get(created).humanize()
                     response.set_footer(text=f'Created {cre_hum}')
                     response.timestamp = cre_dt
                 loop_index = 0
                 answer_lines = []
-                for answer in poll_file['poll']['answers']:
+                for answer in poll_file.get('poll', {}).get('answers'):
                     loop_index += 1
                     answer_line = f'**{loop_index}**: {answer}'
                     answer_lines.append(answer_line)

@@ -27,7 +27,7 @@ async def bye_sender(ev: SigmaEvent, member):
     if bye_active:
         bye_channel_id = await ev.db.get_guild_settings(member.guild.id, 'bye_channel')
         if bye_channel_id:
-            target = discord.utils.find(lambda x: x.id == bye_channel_id, member.guild.channels)
+            target = member.guild.get_channel(bye_channel_id)
         else:
             target = None
         if target:

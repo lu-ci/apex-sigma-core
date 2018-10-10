@@ -36,8 +36,7 @@ async def viewinactivewarning(cmd: SigmaCommand, message: discord.Message, args:
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
-                    mod_id = warn_data.get('moderator').get('id')
-                    author = discord.utils.find(lambda x: x.id == mod_id, cmd.bot.users)
+                    author = cmd.bot.get_user(warn_data.get('moderator').get('id'))
                     if author:
                         author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
                     else:

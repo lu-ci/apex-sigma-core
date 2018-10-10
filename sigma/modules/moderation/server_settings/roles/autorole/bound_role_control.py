@@ -31,6 +31,6 @@ async def bound_role_control(ev: SigmaEvent, member):
             changed_inv = get_changed_invite(member.guild.id, bound_list, invites)
             if changed_inv:
                 role_id = bound_invites.get(changed_inv.id)
-                target_role = discord.utils.find(lambda x: x.id == role_id, member.guild.roles)
+                target_role = member.guild.get_role(role_id)
                 if target_role:
                     await member.add_roles(target_role, reason=f'Role bound to invite {changed_inv.id}.')

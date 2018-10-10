@@ -35,7 +35,7 @@ def make_binding_data(roles: list):
 async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: str, description: bool):
     emote_block_lines = []
     for icon_key in bind_data.keys():
-        role = discord.utils.find(lambda x: x.id == bind_data.get(icon_key), guild.roles)
+        role = guild.get_role(bind_data.get(icon_key))
         binding_line = f'{icon_key} - {role.name}'
         emote_block_lines.append(binding_line)
     emote_block = ' '.join(emote_block_lines)
@@ -64,7 +64,7 @@ async def makeemotetoggles(cmd: SigmaCommand, message: discord.Message, args: li
                 role_items = []
                 group_roles = emote_groups.get(group_id)
                 for group_role in group_roles:
-                    role_item = discord.utils.find(lambda x: x.id == group_role, message.guild.roles)
+                    role_item = message.guild.get_role(group_role)
                     if role_item:
                         role_items.append(role_item)
                     else:

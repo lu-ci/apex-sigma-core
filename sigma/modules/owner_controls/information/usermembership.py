@@ -29,13 +29,13 @@ async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list
             target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, cmd.bot.users)
         else:
             try:
-                target = discord.utils.find(lambda u: u.id == int(lookup), cmd.bot.users)
+                target = cmd.bot.get_user(int(lookup))
             except ValueError:
                 target = None
         if target:
             response = discord.Embed(color=target.color)
             response.set_author(name=f'{target.display_name}\'s Server Presence', icon_url=user_avatar(target))
-            presence = [g for g in cmd.bot.guilds if discord.utils.find(lambda g: g.id == target.id, g.members)]
+            presence = [g for g in cmd.bot.guilds if g.get_member(target.id)]
             if presence:
                 line_list = []
                 for guild in presence:

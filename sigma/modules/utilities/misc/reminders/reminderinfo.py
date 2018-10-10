@@ -32,7 +32,7 @@ async def reminderinfo(cmd: SigmaCommand, message: discord.Message, args: list):
             timestamp = arrow.get(execution_stamp).datetime
             human_time = arrow.get(execution_stamp).humanize(arrow.utcnow())
             auth_title = f'{message.author.display_name}\'s Reminder: {rem_id}'
-            channel = discord.utils.find(lambda x: x.id == reminder['channel_id'], cmd.bot.get_all_channels())
+            channel = cmd.bot.get_channel(reminder.get('channel_id'))
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'

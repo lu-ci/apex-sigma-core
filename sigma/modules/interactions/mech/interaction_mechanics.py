@@ -47,8 +47,7 @@ def get_target(message):
     else:
         if message.content:
             lookup = ' '.join(message.content.split(' ')[1:])
-            target = discord.utils.find(
-                lambda x: target_check(x, lookup), message.guild.members)
+            target = discord.utils.find(lambda x: target_check(x, lookup), message.guild.members)
         else:
             target = None
     return target
@@ -56,10 +55,10 @@ def get_target(message):
 
 def make_footer(cmd, item):
     uid = item.get('user_id')
-    user = discord.utils.find(lambda x: x.id == uid, cmd.bot.users)
+    user = cmd.bot.get_user(uid)
     username = user.name if user else 'Unknown User'
     sid = item.get('server_id')
-    srv = discord.utils.find(lambda x: x.id == sid, cmd.bot.guilds)
+    srv = cmd.bot.get_guild(sid)
     servername = srv.name if srv else 'Unknown Server'
     react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'

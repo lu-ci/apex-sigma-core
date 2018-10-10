@@ -28,7 +28,7 @@ async def boundinvites(cmd: SigmaCommand, message: discord.Message, args: list):
             output_role_data = []
             for key in bound_invites:
                 role_id = bound_invites.get(key)
-                target_role = discord.utils.find(lambda x: x.id == role_id, message.guild.roles)
+                target_role = message.guild.get_role(role_id)
                 if target_role:
                     role_name = target_role.name
                 else:

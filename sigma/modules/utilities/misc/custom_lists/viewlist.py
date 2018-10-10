@@ -27,7 +27,7 @@ async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
         list_file = await list_coll.find_one(lookup_data)
         if list_file:
             author_id = list_file.get('user_id')
-            author = discord.utils.find(lambda x: x.id == author_id, cmd.bot.users)
+            author = cmd.bot.get_user(author_id)
             creator = author.name if author else author_id
             if list_file.get('private'):
                 if author_id == message.author.id:

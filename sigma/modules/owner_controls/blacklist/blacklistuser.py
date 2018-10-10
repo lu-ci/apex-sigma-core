@@ -27,7 +27,7 @@ async def blacklistuser(cmd: SigmaCommand, message: discord.Message, args: list)
             target_id = int(args[0])
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
-                target = discord.utils.find(lambda x: x.id == target_id, cmd.bot.users)
+                target = cmd.bot.get_user(target_id)
                 if target:
                     black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
                     black_user_file = await black_user_collection.find_one({'user_id': target.id})

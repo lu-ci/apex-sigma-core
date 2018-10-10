@@ -28,7 +28,7 @@ async def viewlists(cmd: SigmaCommand, message: discord.Message, args: list):
         list_lines = []
         for list_file in list_files:
             author_id = list_file.get('user_id')
-            author = discord.utils.find(lambda x: x.id == author_id, cmd.bot.users)
+            author = cmd.bot.get_user(author_id)
             creator = f'{author.name}#{author.discriminator}' if author else author_id
             pv = '⛔' if list_file.get('private') else ''
             lk = '🔏' if list_file.get('locked') else ''

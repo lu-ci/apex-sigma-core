@@ -23,7 +23,7 @@ async def eject(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         guild_id = ''.join(args)
         try:
-            target = discord.utils.find(lambda x: x.id == int(guild_id), cmd.bot.guilds)
+            target = cmd.bot.get_guild(guild_id)
             if target:
                 await target.leave()
                 response = discord.Embed(color=0x77B255, title=f'✅ Ejected from {target.name}.')

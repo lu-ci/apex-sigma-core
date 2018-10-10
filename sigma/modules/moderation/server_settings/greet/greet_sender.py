@@ -30,10 +30,7 @@ async def greet_sender(ev: SigmaEvent, member):
             target = member
         else:
             greet_channel_id = await ev.db.get_guild_settings(member.guild.id, 'greet_channel')
-            if greet_channel_id:
-                target = discord.utils.find(lambda x: x.id == greet_channel_id, member.guild.channels)
-            else:
-                target = None
+            target = member.guild.get_channel(greet_channel_id) if greet_channel_id else None
         if target:
             current_greeting = await ev.db.get_guild_settings(member.guild.id, 'greet_message')
             if not current_greeting:

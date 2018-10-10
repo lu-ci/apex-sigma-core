@@ -24,25 +24,27 @@ from sigma.core.mechanics.database import Database
 
 
 async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_data: dict):
-        log_ch_id = cmd.cfg.get('log_ch')
-        log_ch = discord.utils.find(lambda x: x.id == log_ch_id, cmd.bot.get_all_channels())
-        if log_ch:
-            interaction_url = inter_data.get('url')
-            interaction_id = inter_data.get('interaction_id')
-            interaction_name = inter_data.get('name')
-            author = f'{message.author.name}#{message.author.discriminator}'
-            data_desc = f'Author: {author}'
-            data_desc += f'\nAuthor ID: {message.author.id}'
-            data_desc += f'\nGuild: {message.guild.name}'
-            data_desc += f'\nGuild ID: {message.guild.id}'
-            data_desc += f'\nInteraction URL: [Here]({interaction_url})'
-            data_desc += f'\nInteraction ID: {interaction_id}'
-            log_resp_title = f'🆙 Added a new {interaction_name.lower()}'
-            log_resp = discord.Embed(color=0x3B88C3)
-            log_resp.add_field(name=log_resp_title, value=data_desc)
-            log_resp.set_thumbnail(url=interaction_url)
-            log_msg = await log_ch.send(embed=log_resp)
-            return log_msg
+    log_ch_id = cmd.cfg.get('log_ch')
+    interact_log_ch = None
+    if log_ch_id:
+        interact_log_ch = cmd.bot.get_channel(log_ch_id, True)
+    if interact_log_ch:
+        interaction_url = inter_data.get('url')
+        interaction_id = inter_data.get('interaction_id')
+        interaction_name = inter_data.get('name')
+        author = f'{message.author.name}#{message.author.discriminator}'
+        data_desc = f'Author: {author}'
+        data_desc += f'\nAuthor ID: {message.author.id}'
+        data_desc += f'\nGuild: {message.guild.name}'
+        data_desc += f'\nGuild ID: {message.guild.id}'
+        data_desc += f'\nInteraction URL: [Here]({interaction_url})'
+        data_desc += f'\nInteraction ID: {interaction_id}'
+        log_resp_title = f'🆙 Added a new {interaction_name.lower()}'
+        log_resp = discord.Embed(color=0x3B88C3)
+        log_resp.add_field(name=log_resp_title, value=data_desc)
+        log_resp.set_thumbnail(url=interaction_url)
+        log_msg = await interact_log_ch.send(embed=log_resp)
+        return log_msg
 
 
 def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str):

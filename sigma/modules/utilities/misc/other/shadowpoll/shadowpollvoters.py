@@ -30,10 +30,9 @@ async def shadowpollvoters(cmd: SigmaCommand, message: discord.Message, args: li
                 if votes:
                     response = discord.Embed(color=0xF9F9F9, title=f'📨 Poll {poll_id} Voters')
                     voter_lines = []
-                    members = cmd.bot.users
                     for voter_id in poll_file['votes'].keys():
                         voter_id = int(voter_id)
-                        voter = discord.utils.find(lambda x: x.id == voter_id, members)
+                        voter = cmd.bot.get_user(voter_id)
                         if voter:
                             voter_line = f'{voter.name}#{voter.discriminator}'
                         else:

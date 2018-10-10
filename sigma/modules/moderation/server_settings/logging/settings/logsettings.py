@@ -31,7 +31,7 @@ async def logsettings(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 enabled = await cmd.db.get_guild_settings(message.guild.id, log_key)
             channel_id = await cmd.db.get_guild_settings(message.guild.id, f'{log_key}_channel')
-            channel = discord.utils.find(lambda x: x.id == channel_id, message.guild.channels)
+            channel = cmd.bot.get_channel(channel_id)
             chn = channel.name if channel else 'Not Set'
             state = 'Enabled' if enabled else 'Disabled'
             log_line = [log_key[4:].title(), chn, state]

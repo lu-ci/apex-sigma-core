@@ -34,10 +34,12 @@ def get_user_value(data: dict, coords: str):
 
 async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
     leader_docs = []
-    all_members = message.guild.members if localed else cmd.bot.users
     for data_doc in all_docs:
         user_value = get_user_value(data_doc, sort_key)
-        user_object = discord.utils.find(lambda usr: usr.id == data_doc.get('user_id'), all_members)
+        if localed:
+            user_object = message.guild.get_member(data_doc.get('user_id'))
+        else:
+            user_object = cmd.bot.get_user(data_doc.get('user_id'))
         if user_object:
             if user_value:
                 if not await cmd.db.is_sabotaged(user_object.id):

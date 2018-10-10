@@ -146,6 +146,26 @@ class ApexSigma(client_class):
             members = self.cache.get_cache('all_members')
         return members
 
+    def get_user(self, uid, cached: bool=False):
+        if cached:
+            out = self.cache.get_cache(uid)
+            if not out:
+                out = super().get_user(uid)
+                self.cache.set_cache(uid, out)
+        else:
+            out = super().get_user(uid)
+        return out
+
+    def get_channel(self, cid: int, cached: bool=False):
+        if cached:
+            out = self.cache.get_cache(cid)
+            if not out:
+                out = super().get_channel(cid)
+                self.cache.set_cache(cid, out)
+        else:
+            out = super().get_channel(cid)
+        return out
+
     def get_all_channels(self):
         now = arrow.utcnow().timestamp
         timestamp = self.cache.get_cache('all_channels_stamp') or 0
