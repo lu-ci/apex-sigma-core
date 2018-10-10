@@ -1,0 +1,68 @@
+name:             Custom List Utilities
+
+category:         miscellaneous
+
+enabled:          true
+
+commands:
+  - name:         makelist
+    alts:
+      - "ml"
+    enabled:      true
+    usage:        "{pfx}{cmd} private"
+    description:
+      Creates a custom list. The list is public by default, but can be made private (only viewable and editable
+      by you) by adding "private" as an argument. You can also mark the list as locked, so anyone can view it but
+      only you can add to it, by adding "locked" as an argument.
+
+  - name:         deletelist
+    alts:
+      - "dellist"
+      - "dl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe"
+    description:
+      Permanently deletes a list. You must be the list creator to delete it.
+
+  - name:         listsettings
+    alts:
+      - "ls"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe private"
+    description:
+      Marks or unmarks the specified list as private or locked, depending on its current state.
+      Private means no one but the creator can view it. Locked means no one but the creator can add to it.
+      Specify the list by its ID.
+
+  - name:         addline
+    alts:
+      - "al"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe Lists are awesome!"
+    description:
+      Adds the inputted line to the specified list.
+
+  - name:         removeline
+    alts:
+      - "delline"
+      - "rl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe 3"
+    description:
+      Deletes a line from the specified list. Specify the line to delete by number.
+      Line numbers are not tied to specific lines. Deleting line 1 will result in line 2 becoming the new line 1.
+
+  - name:         viewlists
+    alts:
+      - "vls"
+    enabled:      true
+    description:
+      Shows all of the custom lists on the server.
+
+  - name:         viewlist
+    alts:
+      - "vl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe"
+    description:
+      Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public.
