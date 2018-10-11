@@ -17,22 +17,17 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def deletelist(cmd: SigmaCommand, message: discord.Message, args: list):
-    if args:
-        lookup_data = {'list_id': args[0].lower()}
-        list_coll = cmd.db[cmd.db.db_nam].CustomLists
-        list_file = await list_coll.find_one(lookup_data)
-        if list_file:
-            author_id = list_file.get('user_id')
-            if author_id == message.author.id:
-                await list_coll.delete_one(lookup_data)
-                response = discord.Embed(color=0xFFCC4D, title=f'🔥 List `{list_file.get("list_id")}` has been deleted.')
-            else:
-                response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
-        else:
-            response = discord.Embed(color=0x696969, title='🔍 List not found.')
+async def starboard(cmd: SigmaCommand, message: discord.Message, args: list):
+    if message.author.permissions_in(message.channel).manage_guild:
+        starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+        active = starboard_doc.get('state')
+        state, ender = (False, 'disabled') if active else (True, 'enabled')
+        starboard_doc.update({'state': state})
+        await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
+        response = discord.Embed(color=0x77B255, title=f'✅ Starboard {ender}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing list ID.')
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

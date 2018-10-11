@@ -1,0 +1,51 @@
+name:             Starboard Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         starboard
+    alts:
+      - "sb"
+    enabled:      true
+    description:
+      Toggles the starboard on and off.
+      When a message reaches enough ractions with the specified emote,
+      it will be posted to the starboard channel. You can set the channel,
+      emote, and minimum number of reactions before a message is posted.
+
+  - name:         starboardchannel
+    alts:
+      - "sbchannel"
+      - "sbch"
+    enabled:      true
+    usage:        "{pfx}{cmd} #channel"
+    description:
+      Sets the channel for starboards to be posted in.
+
+  - name:         starboardemote
+    alts:
+      - "sbemote"
+      - "sbe"
+    enabled:      true
+    usage:        "{pfx}{cmd} 100"
+    description:
+      Sets the emote Sigma should associate with starboards.
+      When a message reaches the set number of this reaction, it will be posted to the set starboard channel.
+      The emote must be native to Discord. Custom emotes are not supported.
+
+  - name:         starboardlimit
+    alts:
+      - "sblimit"
+      - "sbl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 25"
+    description:
+      Sets the minimum number of reactons for a starboard to be posted.
+      The lowest number you can set is 5.
+
+events:
+  - name:         starboard_watcher
+    type:         raw_reaction_add
+    enabled:      true

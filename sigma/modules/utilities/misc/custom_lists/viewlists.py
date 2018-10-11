@@ -29,11 +29,12 @@ async def viewlists(cmd: SigmaCommand, message: discord.Message, args: list):
         for list_file in list_files:
             author_id = list_file.get('user_id')
             author = cmd.bot.get_user(author_id)
+            list_name = list_file.get('name')
             creator = f'{author.name}#{author.discriminator}' if author else author_id
-            pv = '⛔' if list_file.get('private') else ''
-            lk = '🔏' if list_file.get('locked') else ''
-            attributes = f'`{pv}{lk}`' if pv or lk else ''
-            list_line = f'`{list_file.get("list_id")}` - {creator} {attributes}'
+            mode, icon = list_file.get('mode'), ''
+            if mode in ['private', 'locked']:
+                icon = '⛔' if mode == 'private' else '🔏'
+            list_line = f'`{list_file.get("list_id")}` - {list_name} - {creator} `{icon}`'
             list_lines.append(list_line)
         page = args[0] if args else 1
         list_lines, page = paginate(list_lines, page)

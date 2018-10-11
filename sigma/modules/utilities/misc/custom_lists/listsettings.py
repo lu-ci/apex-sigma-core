@@ -22,27 +22,25 @@ from sigma.core.mechanics.command import SigmaCommand
 async def listsettings(cmd: SigmaCommand, message: discord.Message, args):
     if args:
         if len(args) > 1:
-            if args[1].lower() == 'private':
+            mode_name = args[1].lower()
+            if mode_name == 'private':
                 mode = 'private'
-            elif args[1].lower() == 'locked':
+            elif mode_name == 'locked':
                 mode = 'locked'
+            elif mode_name == 'public':
+                mode = None
             else:
                 mode = None
-            if mode:
+            if mode or mode_name == 'public':
                 lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
                 list_coll = cmd.db[cmd.db.db_nam].CustomLists
                 list_file = await list_coll.find_one(lookup_data)
                 if list_file:
                     list_id = list_file.get('list_id')
                     if list_file.get('user_id') == message.author.id:
-                        if list_file.get(mode):
-                            list_file.update({mode: False})
-                            await list_coll.update_one(lookup_data, {'$set': list_file})
-                            response = discord.Embed(color=0xFFAC33, title=f'🔓 List `{list_id}` unmarked as {mode}.')
-                        else:
-                            list_file.update({mode: True})
-                            await list_coll.update_one(lookup_data, {'$set': list_file})
-                            response = discord.Embed(color=0xFFAC33, title=f'🔏  List `{list_id}` marked as {mode}.')
+                        list_file.update({'mode': mode})
+                        await list_coll.update_one(lookup_data, {'$set': list_file})
+                        response = discord.Embed(color=0x77B255, title=f'✅ List `{list_id}` marked as {mode}.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
                 else:
