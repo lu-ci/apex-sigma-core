@@ -28,7 +28,7 @@ async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
         if list_file:
             author_id = list_file.get('user_id')
             author = cmd.bot.get_user(author_id)
-            creator = author.name if author else author_id
+            list_name = list_file.get('name')
             if list_file.get('private'):
                 if author_id == message.author.id:
                     auth = True
@@ -43,13 +43,13 @@ async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
                 page = args[1] if len(args) > 1 else 1
                 list_lines, page = paginate(list_lines, page, 20)
                 list_out = '\n'.join(list_lines)
-                pv = '⛔' if list_file.get('private') else ''
-                lk = '🔏' if list_file.get('locked') else ''
-                spacer = ' ' if pv or lk else ''
-                empty = f'No contents. Add lines with `{cmd.bot.cfg.pref.prefix}al`.'
-                response = discord.Embed(color=0xF9F9F9, title=f':bookmark_tabs: {creator}\'s List')
+                mode, icon = list_file.get('mode'), ''
+                if mode in ['private', 'locked']:
+                    icon = ' ⛔' if mode == 'private' else ' 🔏'
+                empty = f'No contents. Add lines with `{cmd.bot.cfg.pref.prefix}addline`.'
+                response = discord.Embed(color=0xF9F9F9, title=f':bookmark_tabs: {list_name}')
                 response.description = empty if list_out == '' else list_out
-                response.set_footer(text=f'[{list_file.get("list_id")}]{spacer}{pv}{lk} Page {page}')
+                response.set_footer(text=f'[{list_file.get("list_id")}]{icon} Page {page}')
             else:
                 response = discord.Embed(color=0xBE1931, title='⛔ This list is private.')
         else:

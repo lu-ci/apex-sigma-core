@@ -12,8 +12,8 @@ commands:
     usage:        "{pfx}{cmd} private"
     description:
       Creates a custom list. The list is public by default, but can be made private (only viewable and editable
-      by you) by adding "private" as an argument. You can also mark the list as locked, so anyone can view it but
-      only you can add to it, by adding "locked" as an argument.
+      by you) by adding "private" as an argument, or locked, so anyone can view it but only you can add to it,
+      by adding "locked" as an argument.
 
   - name:         deletelist
     alts:
@@ -30,9 +30,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe private"
     description:
-      Marks or unmarks the specified list as private or locked, depending on its current state.
-      Private means no one but the creator can view it. Locked means no one but the creator can add to it.
-      Specify the list by its ID.
+      Marks the specified list as private, locked, or public.
+      Private means no one but the creator can view it.
+      Locked means no one but the creator can add to it.
+      Public means anyone can view it or add to it.
+      Specify the mode by adding it as the argument.
 
   - name:         addline
     alts:
@@ -47,7 +49,7 @@ commands:
       - "delline"
       - "rl"
     enabled:      true
-    usage:        "{pfx}{cmd} 38fe 3"
+    usage:        "{pfx}{cmd} 3"
     description:
       Deletes a line from the specified list. Specify the line to delete by number.
       Line numbers are not tied to specific lines. Deleting line 1 will result in line 2 becoming the new line 1.
@@ -66,3 +68,11 @@ commands:
     usage:        "{pfx}{cmd} 38fe"
     description:
       Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public.
+
+  - name:         renamelist
+    alts:
+      - "rnl"
+    enabled:      true
+    usage:        "{pfx}{cmd} 38fe Fancy List Name"
+    description:
+      Changes the name of the specified list. Only the creator of the list can change its name.

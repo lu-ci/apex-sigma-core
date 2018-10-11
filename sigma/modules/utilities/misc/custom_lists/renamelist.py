@@ -19,38 +19,25 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-def user_auth(message: discord.Message, list_file: dict):
-    author_id = list_file.get('user_id')
-    if list_file.get('list_id') in ['0001', '0002']:
-        if message.author.id == 213695612351283200:
-            return True
-    if list_file.get('mode') in ['private', 'locked']:
-        if author_id == message.author.id:
-            auth = True
-        else:
-            auth = False
-    else:
-        auth = True
-    return auth
-
-
-async def addline(cmd: SigmaCommand, message: discord.Message, args):
+async def renamelist(cmd: SigmaCommand, message: discord.Message, args):
     if args:
-        if len(args) >= 2:
-            add_line = ' '.join(args[1:])
+        if len(args) > 1:
             list_coll = cmd.db[cmd.db.db_nam].CustomLists
             lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
             list_file = await list_coll.find_one(lookup_data)
             if list_file:
-                auth = user_auth(message, list_file)
-                if auth:
-                    list_file.get('contents').append(add_line)
-                    await list_coll.update_one(lookup_data, {'$set': list_file})
-                    response = discord.Embed(color=0xF9F9F9)
-                    response.title = f'📝 Your line was written to the list.'
+                author_id = list_file.get('user_id')
+                if author_id == message.author.id:
+                    new_name = ' '.join(args[1:])
+                    if len(new_name) <= 50:
+                        list_file.update({'name': new_name})
+                        await list_coll.update_one(lookup_data, {'$set': list_file})
+                        response = discord.Embed(color=0x77B255)
+                        response.title = f'✅ List {list_file.get("list_id")} renamed to {new_name}.'
+                    else:
+                        response = discord.Embed(color=0xBE1931, title='❗ List names have a limit of 50 characters.')
                 else:
-                    mode = 'private' if list_file.get('mode') == 'private' else 'locked'
-                    response = discord.Embed(color=0xFFAC33, title=f'🔏 This list is {mode}.')
+                    response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid list ID.')
         else:
