@@ -19,7 +19,6 @@ from unicodedata import category
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.server_settings.starboard.starboard_watcher import starboard_cache
 
 
 async def starboardemote(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -31,7 +30,6 @@ async def starboardemote(cmd: SigmaCommand, message: discord.Message, args: list
                 starboard_doc.update({'emote': new_emote})
                 await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard emote set to {new_emote}.')
-                starboard_cache.set_cache(message.guild.id, starboard_doc)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Emote must be native to Discord.')
         else:

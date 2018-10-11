@@ -18,21 +18,16 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.server_settings.starboard.starboard_watcher import starboard_cache
 
 
 async def starboard(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
         active = starboard_doc.get('state')
-        if active:
-            state, ender = False, 'disabled'
-        else:
-            state, ender = True, 'enabled'
+        state, ender = (False, 'disabled') if active else (True, 'enabled')
         starboard_doc.update({'state': state})
         await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
         response = discord.Embed(color=0x77B255, title=f'✅ Starboard {ender}.')
-        starboard_cache.set_cache(message.guild.id, starboard_doc)
     else:
         response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

@@ -18,12 +18,12 @@ import arrow
 import discord
 from discord.raw_models import RawReactionActionEvent
 
-from sigma.core.sigma import ApexSigma
 from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
-starboard_cache = Cacher()
+
+star_cache = Cacher()
 
 
 async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
@@ -45,17 +45,19 @@ async def generate_embed(msg: discord.Message):
     return response
 
 
-async def check_emotes(bot: ApexSigma, msg: discord.Message, sbc: int, sbe: discord.Emoji, sbl: int):
-    bid = bot.user.id
-    emote_count = 0
-    for reaction in msg.reactions:
-        if reaction.emoji == sbe:
-            async for emoji_author in reaction.users():
-                if emoji_author.id != bid:
-                    emote_count += 1
-    if emote_count >= sbl:
-        response = await generate_embed(msg)
-        await post_starboard(msg, response, sbc)
+def check_emotes(mid: int, sbl: int):
+    trigger = False
+    executed = star_cache.get_cache(f'exec_{mid}')
+    if not executed:
+        stars = star_cache.get_cache(mid) or 0
+        stars += 1
+        if stars >= sbl:
+            trigger = True
+            star_cache.del_cache(mid)
+            star_cache.set_cache(f'exec_{mid}', True)
+        else:
+            star_cache.set_cache(mid, stars)
+    return trigger
 
 
 async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
@@ -67,24 +69,21 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
     if channel:
         guild = channel.guild
         if guild:
-            starboard_doc = starboard_cache.get_cache(guild.id)
-            if not starboard_doc:
-                starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard')
-                if starboard_doc:
-                    starboard_cache.set_cache(guild.id, starboard_doc)
+            starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
             if starboard_doc:
                 sbc = starboard_doc.get('channel_id')
                 sbe = starboard_doc.get('emote')
                 sbl = starboard_doc.get('limit')
                 if sbc and sbe and sbl:
                     if emoji.name == sbe:
-                        user = discord.utils.find(lambda u: u.id == uid and u.guild.id == guild.id, guild.members)
+                        user = guild.get_member(uid)
                         if user:
                             if not user.bot:
-                                message = await channel.get_message(mid)
-                                if message:
-                                    if ev.event_type == 'raw_reaction_add':
-                                        try:
-                                            await check_emotes(ev.bot, message, sbc, sbe, sbl)
-                                        except (discord.NotFound, discord.Forbidden):
-                                            pass
+                                try:
+                                    enough = check_emotes(mid, sbl)
+                                    if enough:
+                                        message = await channel.get_message(mid)
+                                        response = await generate_embed(message)
+                                        await post_starboard(message, response, sbc)
+                                except (discord.NotFound, discord.Forbidden):
+                                    pass

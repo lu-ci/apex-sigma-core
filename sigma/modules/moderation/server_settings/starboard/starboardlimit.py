@@ -18,7 +18,6 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.server_settings.starboard.starboard_watcher import starboard_cache
 
 
 async def starboardlimit(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -31,7 +30,6 @@ async def starboardlimit(cmd: SigmaCommand, message: discord.Message, args: list
                     starboard_doc.update({'limit': int(new_limit)})
                     await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                     response = discord.Embed(color=0x77B255, title=f'✅ Starboard limit set to {new_limit}.')
-                    starboard_cache.set_cache(message.guild.id, starboard_doc)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Minimum limit is 5.')
             else:

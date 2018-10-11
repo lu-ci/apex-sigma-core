@@ -18,7 +18,6 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.server_settings.starboard.starboard_watcher import starboard_cache
 
 
 async def starboardchannel(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -30,7 +29,6 @@ async def starboardchannel(cmd: SigmaCommand, message: discord.Message, args: li
                 starboard_doc.update({'channel_id': target_channel.id})
                 await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard channel set to {target_channel.name}.')
-                starboard_cache.set_cache(message.guild.id, starboard_doc)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
         else:
