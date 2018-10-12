@@ -27,7 +27,7 @@ def sort_transfers(dictlike: ResourceDict):
     sortable = []
     for dck in dictlike.keys():
         sortable.append([dck, dictlike.get(dck)])
-    sortable = list(sorted(sortable, key=lambda x: x[1]))
+    sortable = list(sorted(sortable, key=lambda x: x[1], reverse=True))
     sortable = [[s[0], str(s[1])] for s in sortable[:5]]
     return sortable
 
