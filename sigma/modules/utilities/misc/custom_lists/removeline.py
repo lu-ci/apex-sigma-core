@@ -27,7 +27,7 @@ async def removeline(cmd: SigmaCommand, message: discord.Message, args):
             list_file = await list_coll.find_one(lookup_data)
             if list_file:
                 author_id = list_file.get('user_id')
-                if author_id == message.author.id or message.author.id == 213695612351283200:
+                if author_id == message.author.id:
                     line = args[1]
                     if line.isdigit():
                         try:

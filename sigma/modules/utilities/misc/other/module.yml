@@ -63,6 +63,8 @@ commands:
     usage:        "{pfx}{cmd} 381449702589202432"
     description:
       Quotes a message from its given ID.
+      The message must have text content or an attachment.
+      Embeds cannot be quoted.
 
 events:
   - name:        temproom_checker

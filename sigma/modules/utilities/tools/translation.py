@@ -19,24 +19,31 @@ import translate
 
 from sigma.core.mechanics.command import SigmaCommand
 
+wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
+
 
 async def translation(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
-            trans_arg = args[0]
+            trans_arg = args[0].lower()
             sentence = ' '.join(args[1:])
             if '>' in trans_arg:
-                trans_split = trans_arg.split('>')
-                from_lang = trans_split[0].lower()
-                to_lang = trans_split[1].lower()
+                trans_split = trans_arg .split('>')
+                from_lang = trans_split[0]
+                to_lang = trans_split[1]
             else:
                 from_lang = trans_arg
                 to_lang = 'en'
-            translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
+            translator = Translator(to_lang=to_lang, from_lang=from_lang)
             trans_output = translator.translate(sentence)
-            title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
-            response = discord.Embed(color=0x3B88C3, title=title)
-            response.description = trans_output
+            if 'is an invalid' not in trans_output.lower():
+                title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
+                response = discord.Embed(color=0x3B88C3, title=title)
+                response.description = trans_output
+            else:
+                lang_iso = trans_output.split()[0].replace("'", "")
+                response = discord.Embed(color=0xBE1931, title=f'❗ {lang_iso} is an invalid language code.')
+                response.description = f'[Click for a list of language ISO codes]({wiki_url})'
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing language or sentence.')
     else:
