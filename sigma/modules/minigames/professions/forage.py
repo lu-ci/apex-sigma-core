@@ -57,6 +57,7 @@ async def forage(cmd: SigmaCommand, message: discord.Message, args: list):
                 data_for_inv = item.generate_inventory_item()
                 await cmd.db.add_to_inventory(message.author.id, data_for_inv)
                 await item_core.add_item_statistic(cmd.db, item, message.author)
+                await cmd.db.add_resource(message.author.id, 'items', 1, cmd.name, message, True)
             response = discord.Embed(color=item.color, title=response_title)
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Your inventory is full.')
