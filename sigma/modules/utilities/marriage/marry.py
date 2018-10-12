@@ -36,30 +36,20 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
         author = message.author
         if target.id != author.id:
             if not target.bot:
-                author_lookup = {'user_id': author.id}
-                target_lookup = {'user_id': target.id}
-                author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
-                target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
                 author_upgrades = await cmd.db.get_profile(author.id, 'upgrades') or {}
                 target_upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
-                a_exists = True if author_profile else False
-                a_spouses = author_profile.get('spouses') or []
+                a_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
                 a_spouse_ids = [s.get('user_id') for s in a_spouses]
-                t_spouses = target_profile.get('spouses') or []
+                t_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
                 t_spouse_ids = [s.get('user_id') for s in t_spouses]
                 a_limited = True if len(a_spouses) >= author_limit else False
                 t_limited = True if len(t_spouses) > target_limit else False
                 if not a_limited and not t_limited:
                     if target.id not in a_spouse_ids:
                         a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
-                        up_data = {'spouses': a_spouses, 'user_id': author.id}
-                        if a_exists:
-                            up_data = {'$set': up_data}
-                            await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, up_data)
-                        else:
-                            await cmd.db[cmd.db.db_nam].Profiles.insert_one(up_data)
+                        await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
                         if author.id not in t_spouse_ids:
                             response = discord.Embed(color=0xe75a70, title=f'💟 You proposed to {target.name}!')
                             await send_proposal(author, target, True)
