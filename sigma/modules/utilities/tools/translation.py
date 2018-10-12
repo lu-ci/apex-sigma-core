@@ -34,7 +34,7 @@ async def translation(cmd: SigmaCommand, message: discord.Message, args: list):
             else:
                 from_lang = trans_arg
                 to_lang = 'en'
-            translator = Translator(to_lang=to_lang, from_lang=from_lang)
+            translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
             trans_output = translator.translate(sentence)
             if 'is an invalid' not in trans_output.lower():
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
