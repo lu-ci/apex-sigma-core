@@ -23,7 +23,7 @@ async def send_divorce(author: discord.Member, target: discord.Member, is_divorc
     if is_divorce:
         splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
     else:
-        splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has canceled their proposal...')
+        splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has canceled the proposal...')
     try:
         await target.send(embed=splitup)
     except discord.Forbidden:
@@ -46,7 +46,6 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                 target = None
     if tid:
         if tid != message.author.id:
-            author_lookup = {'user_id': message.author.id}
             a_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
             a_spouse_ids = [s.get('user_id') for s in a_spouses]
             if is_id:
@@ -102,7 +101,7 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     await send_divorce(message.author, target, False)
             elif message.author.id in t_spouse_ids:
                 for sp in t_spouses:
-                    if sp.get('user_id') == tid:
+                    if sp.get('user_id') == message.author.id:
                         t_spouses.remove(sp)
                 if is_id:
                     await cmd.db.set_profile(target, 'spouses', t_spouses)
