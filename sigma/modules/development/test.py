@@ -20,7 +20,4 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):
-    all_sabs = await cmd.db[cmd.db.db_nam].SabotagedUsers.find({}).to_list(None)
-    for sab in all_sabs:
-        await cmd.db.set_profile(sab.get('user_id'), 'sabotaged', True)
     await message.channel.send('All good.')
