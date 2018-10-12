@@ -7,7 +7,7 @@ enabled:          true
 commands:
   - name:         starboard
     alts:
-      - "sb"
+      - "sbd"
     enabled:      true
     description:
       Toggles the starboard on and off.
