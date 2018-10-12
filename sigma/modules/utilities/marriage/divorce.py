@@ -47,15 +47,12 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
     if tid:
         if tid != message.author.id:
             author_lookup = {'user_id': message.author.id}
-            if is_id:
-                target_lookup = {'user_id': target}
-            else:
-                target_lookup = {'user_id': target.id}
-            author_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(author_lookup) or {}
-            target_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one(target_lookup) or {}
-            a_spouses = author_profile.get('spouses') or []
+            a_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
             a_spouse_ids = [s.get('user_id') for s in a_spouses]
-            t_spouses = target_profile.get('spouses') or []
+            if is_id:
+                t_spouses = await cmd.db.get_profile(target, 'spouses') or []
+            else:
+                t_spouses = await cmd.db.get_profile(target.id, 'spouses') or []
             t_spouse_ids = [s.get('user_id') for s in t_spouses]
             if message.author.id in t_spouse_ids and tid in a_spouse_ids:
                 current_kud = await cmd.db.get_resource(message.author.id, 'currency')
@@ -74,10 +71,11 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                     for sp in t_spouses:
                         if sp.get('user_id') == message.author.id:
                             t_spouses.remove(sp)
-                    a_up_data = {'$set': {'spouses': a_spouses}}
-                    t_up_data = {'$set': {'spouses': t_spouses}}
-                    await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, a_up_data)
-                    await cmd.db[cmd.db.db_nam].Profiles.update_one(target_lookup, t_up_data)
+                    await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
+                    if is_id:
+                        await cmd.db.set_profile(target, 'spouses', t_spouses)
+                    else:
+                        await cmd.db.set_profile(target.id, 'spouses', t_spouses)
                     if is_id:
                         div_title = f'💔 You have divorced {target}...'
                     else:
@@ -94,12 +92,26 @@ async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
                 for sp in a_spouses:
                     if sp.get('user_id') == tid:
                         a_spouses.remove(sp)
-                a_up_data = {'$set': {'spouses': a_spouses}}
-                await cmd.db[cmd.db.db_nam].Profiles.update_one(author_lookup, a_up_data)
+                await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
                 if is_id:
                     canc_title = f'💔 You have canceled the proposal to {target}...'
                 else:
                     canc_title = f'💔 You have canceled the proposal to {target.name}...'
+                response = discord.Embed(color=0xe75a70, title=canc_title)
+                if not is_id:
+                    await send_divorce(message.author, target, False)
+            elif message.author.id in t_spouse_ids:
+                for sp in t_spouses:
+                    if sp.get('user_id') == tid:
+                        t_spouses.remove(sp)
+                if is_id:
+                    await cmd.db.set_profile(target, 'spouses', t_spouses)
+                else:
+                    await cmd.db.set_profile(target.id, 'spouses', t_spouses)
+                if is_id:
+                    canc_title = f'💔 You have rejected {target}\'s proposal...'
+                else:
+                    canc_title = f'💔 You have rejected {target.name}\'s proposal...'
                 response = discord.Embed(color=0xe75a70, title=canc_title)
                 if not is_id:
                     await send_divorce(message.author, target, False)

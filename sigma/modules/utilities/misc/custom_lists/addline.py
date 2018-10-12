@@ -21,9 +21,6 @@ from sigma.core.mechanics.command import SigmaCommand
 
 def user_auth(message: discord.Message, list_file: dict):
     author_id = list_file.get('user_id')
-    if list_file.get('list_id') in ['0001', '0002']:
-        if message.author.id == 213695612351283200:
-            return True
     if list_file.get('mode') in ['private', 'locked']:
         if author_id == message.author.id:
             auth = True

@@ -52,6 +52,7 @@ async def cook(cmd: SigmaCommand, message: discord.Message, args: list):
                 connector = 'a'
                 if quality[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                     connector = 'an'
+                await cmd.db.add_resource(message.author.id, 'items', 1, cmd.name, message, True)
                 head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                 response = discord.Embed(color=recipe.color, title=head_title)
             else:

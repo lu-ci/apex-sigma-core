@@ -30,3 +30,28 @@ commands:
       Shows how much of Sigma's internal experience you've obtained.
       Experience is earned by being an active member of the community.
       Yes, this is meant to be vague.
+
+  - name:         resourcelist
+    alts:
+      - "reslist"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows all the available resource types in the bot.
+
+  - name:         resourcestatistics
+    alts:
+      - "resourcestats"
+      - "resstats"
+    enabled:      true
+    usage:        "{pfx}{cmd} currency @person --expense"
+    description:
+      Shows statistical data for the given resource type.
+      You can use the bot's currency name instead of "currency", like "kud" for example.
+      Resources also include "experience" and "cookies".
+      The command will show where you got that resource.
+      From which user, which server, which channel and with which function.
+      Only "earned" resources are tracked however, meaning that there's no data on gambling.
+      You can also add "--expense" to the end of the command to see where you spent that resource
+      instead of showing where you got it as well as target a user with the command to see their stats.
+      You can see all available resources with the "resourcelist" command.

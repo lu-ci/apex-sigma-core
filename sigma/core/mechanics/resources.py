@@ -62,6 +62,7 @@ class ResourceOrigins(object):
 class SigmaResource(object):
     def __init__(self, data):
         self.raw = data or {}
+        self.empty = not self.raw
         self.current = self.raw.get('current') or 0
         self.total = self.raw.get('total') or 0
         self.ranked = self.raw.get('ranked') or 0

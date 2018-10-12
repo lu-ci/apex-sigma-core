@@ -20,41 +20,54 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
+async def message_search(lookup: int, message: discord.Message):
+    try:
+        msg = await message.channel.get_message(lookup)
+    except discord.NotFound:
+        msg = None
+    if not msg:
+        for channel in message.guild.channels:
+            if isinstance(channel, discord.TextChannel):
+                try:
+                    msg = await channel.get_message(lookup)
+                    break
+                except (discord.Forbidden, discord.NotFound):
+                    msg = None
+    return msg
+
+
 async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0]
-        try:
-            lookup = int(lookup)
-        except ValueError:
-            lookup = None
-        if lookup:
-            try:
-                msg = await message.channel.get_message(lookup)
-            except discord.NotFound:
-                msg = None
-            if not msg:
-                for channel in message.guild.channels:
-                    if isinstance(channel, discord.TextChannel):
-                        try:
-                            msg = await channel.get_message(lookup)
-                            break
-                        except discord.Forbidden:
-                            msg = None
-                        except discord.NotFound:
-                            msg = None
+        if lookup.isdigit():
+            msg = await message_search(lookup, message)
             if msg:
+                valid = False
+                location = f'{msg.guild.name} | #{msg.channel.name}'
+                response = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
+                response.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
+                response.set_footer(text=location)
                 if msg.content:
-                    location = f'{msg.guild.name} | #{msg.channel.name}'
-                    response = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
-                    response.set_author(name=f'{msg.author.display_name}', icon_url=user_avatar(msg.author))
+                    valid = True
                     response.description = msg.content
-                    response.set_footer(text=location)
-                else:
+                if msg.attachments:
+                    valid = True
+                    attachments = []
+                    for attachment in msg.attachments:
+                        size, ender = attachment.size, 'B'
+                        if size >= 1000000:
+                            size, ender = round(size / 1000000, 2), 'Mb'
+                        elif size >= 1000:
+                            size, ender = round(size / 1000, 2), 'Kb'
+                        details = f'[{attachment.filename}]({attachment.url}): {size} {ender}'
+                        attachments.append(details)
+                    response.add_field(name='Attachments', value='\n'.join(attachments), inline=False)
+                if not valid:
                     response = discord.Embed(color=0xBE1931, title='❗ That message has no text content.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Message not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing message ID.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)
