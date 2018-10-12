@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def starboardemote(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            new_emote = args[0]
+            new_emote = args[0][0]
             if category(new_emote) == 'So':
                 starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
                 starboard_doc.update({'emote': new_emote})

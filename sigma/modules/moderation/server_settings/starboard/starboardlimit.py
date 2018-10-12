@@ -25,7 +25,7 @@ async def starboardlimit(cmd: SigmaCommand, message: discord.Message, args: list
         if args:
             new_limit = args[0]
             if new_limit.isdigit():
-                if new_limit > 5:
+                if int(new_limit) > 5:
                     starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
                     starboard_doc.update({'limit': int(new_limit)})
                     await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
