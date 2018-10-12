@@ -23,15 +23,15 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def starboardlimit(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            new_limit = args[0]
-            if new_limit.isdigit():
-                if int(new_limit) > 5:
-                    starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
-                    starboard_doc.update({'limit': int(new_limit)})
-                    await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Starboard limit set to {new_limit}.')
-                else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Minimum limit is 5.')
+            try:
+                new_limit = abs(int(args[0]))
+            except ValueError:
+                new_limit = None
+            if new_limit is not None:
+                starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+                starboard_doc.update({'limit': int(new_limit)})
+                await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
+                response = discord.Embed(color=0x77B255, title=f'✅ Starboard limit set to {new_limit}.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Limit must be a number.')
         else:
