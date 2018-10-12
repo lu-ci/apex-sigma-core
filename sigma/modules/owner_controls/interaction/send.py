@@ -34,7 +34,7 @@ async def send(cmd: SigmaCommand, message: discord.Message, args: list):
             target = cmd.bot.get_user(identifier)
             title_end = f'{target.name}#{target.discriminator}'
         elif mode == 'c':
-            target = cmd.bot.get_guild(identifier)
+            target = cmd.bot.get_channel(identifier)
             title_end = f'#{target.name} on {target.guild.name}'
         else:
             await message.channel.send(embed=error_response)
