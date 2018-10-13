@@ -42,10 +42,10 @@ async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
                 a_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
                 a_spouse_ids = [s.get('user_id') for s in a_spouses]
-                t_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
+                t_spouses = await cmd.db.get_profile(target.id, 'spouses') or []
                 t_spouse_ids = [s.get('user_id') for s in t_spouses]
                 a_limited = True if len(a_spouses) >= author_limit else False
-                t_limited = True if len(t_spouses) > target_limit else False
+                t_limited = True if len(t_spouses) >= target_limit else False
                 if not a_limited and not t_limited:
                     if target.id not in a_spouse_ids:
                         a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
