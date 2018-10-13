@@ -21,39 +21,36 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def award(cmd: SigmaCommand, message: discord.Message, args: list):
-    if not message.author.permissions_in(message.channel).manage_guild:
-        response = permission_denied('Manage Server')
-    else:
-        if args:
-            if len(args) == 2:
-                try:
-                    amount = int(abs(int(args[0])))
-                except ValueError:
-                    amount = None
-                if message.mentions:
-                    target = message.mentions[0]
-                else:
-                    target = None
-                if amount:
-                    if target:
-                        currency = cmd.bot.cfg.pref.currency
-                        current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
-                        if current_vault is None:
-                            current_vault = 0
-                        if current_vault >= amount:
-                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
-                            current_vault -= amount
-                            await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
-                            title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'
-                            response = discord.Embed(color=0x77B255, title=title_text)
-                        else:
-                            response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
-                    else:
-                        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-                else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+    if message.author.permissions_in(message.channel).manage_guild:
+        if len(args) == 2:
+            try:
+                amount = int(abs(int(args[0])))
+            except ValueError:
+                amount = None
+            if message.mentions:
+                target = message.mentions[0]
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+                target = None
+            if amount:
+                if target:
+                    currency = cmd.bot.cfg.pref.currency
+                    current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
+                    if current_vault is None:
+                        current_vault = 0
+                    if current_vault >= amount:
+                        await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                        current_vault -= amount
+                        await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
+                        title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'
+                        response = discord.Embed(color=0x77B255, title=title_text)
+                    else:
+                        response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
+                else:
+                    response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            else:
+                response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+    else:
+        response = permission_denied('Manage Server')
     await message.channel.send(embed=response)

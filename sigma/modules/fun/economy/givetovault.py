@@ -26,20 +26,23 @@ async def givetovault(cmd: SigmaCommand, message: discord.Message, args: list):
         except ValueError:
             amount = None
         if amount:
-            currency = cmd.bot.cfg.pref.currency
-            current_kud = await cmd.db.get_resource(message.author.id, 'currency')
-            current_kud = current_kud.current
-            if current_kud >= amount:
-                current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
-                if current_vault is None:
-                    current_vault = 0
-                await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
-                current_vault += amount
-                await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
-                title_text = f'✅ You added {amount} {currency} to the Vault.'
-                response = discord.Embed(color=0x77B255, title=title_text)
+            if not await cmd.db.is_sabotaged(message.author.id):
+                currency = cmd.bot.cfg.pref.currency
+                current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                current_kud = current_kud.current
+                if current_kud >= amount:
+                    current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
+                    if current_vault is None:
+                        current_vault = 0
+                    await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
+                    current_vault += amount
+                    await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
+                    title_text = f'✅ You added {amount} {currency} to the Vault.'
+                    response = discord.Embed(color=0x77B255, title=title_text)
+                else:
+                    response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
             else:
-                response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+                response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Guard.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
     else:
