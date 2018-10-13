@@ -156,11 +156,10 @@ class Database(motor.AsyncIOMotorClient):
         return resource
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool = True):
-        if not await self.is_sabotaged(user_id):
-            amount = abs(int(amount))
-            resource = await self.get_resource(user_id, name)
-            resource.add_value(amount, trigger, origin, ranked)
-            await self.update_resource(user_id, name, resource)
+        amount = abs(int(amount))
+        resource = await self.get_resource(user_id, name)
+        resource.add_value(amount, trigger, origin, ranked)
+        await self.update_resource(user_id, name, resource)
 
     async def del_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None):
         amount = abs(int(amount))
