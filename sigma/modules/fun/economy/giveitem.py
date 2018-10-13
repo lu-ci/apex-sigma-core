@@ -39,7 +39,7 @@ async def giveitem(cmd: SigmaCommand, message: discord.Message, args: list):
                     if len(inv) < inv_limit:
                         if not author_sab and not target_sab:
                             await cmd.db.del_from_inventory(message.author.id, inv_item.get('item_id'))
-                            inv_item.update({'transfered': True})
+                            inv_item.update({'transferred': True})
                             await cmd.db.add_to_inventory(target.id, inv_item)
                             await cmd.db.add_resource(target.id, 'items', 1, cmd.name, message, True)
                             title = f'✅ Transferred {obj_item.name} to {target.display_name}.'
