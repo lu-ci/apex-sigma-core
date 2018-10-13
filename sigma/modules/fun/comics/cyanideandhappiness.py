@@ -28,7 +28,7 @@ async def cyanideandhappiness(cmd: SigmaCommand, message: discord.Message, args:
     comic_url = None
     tries = 0
     while not comic_img_url and tries < 3:
-        comic_number = secrets.randbelow(4665) + 1
+        comic_number = secrets.randbelow(5060) + 1
         comic_url = f'http://explosm.net/comics/{comic_number}/'
         async with aiohttp.ClientSession() as session:
             async with session.get(comic_url) as data:

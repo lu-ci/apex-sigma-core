@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def xkcd(cmd: SigmaCommand, message: discord.Message, args: list):
-    comic_no = secrets.randbelow(1724) + 1
+    comic_no = secrets.randbelow(2057) + 1
     comic_url = f'http://xkcd.com/{comic_no}'
     joke_url = f'{comic_url}/info.0.json'
     async with aiohttp.ClientSession() as session:

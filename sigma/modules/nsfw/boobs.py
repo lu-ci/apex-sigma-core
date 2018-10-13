@@ -25,7 +25,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def boobs(cmd: SigmaCommand, message: discord.Message, args: list):
     api_url = 'http://api.oboobs.ru/boobs/'
-    api_url += str(secrets.randbelow(11893) + 1)
+    api_url += str(secrets.randbelow(12243) + 1)
     async with aiohttp.ClientSession() as session:
         async with session.get(api_url) as data:
             data = await data.read()
