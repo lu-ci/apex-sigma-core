@@ -17,6 +17,16 @@ commands:
       Transfers Kud between you and a mentioned person.
       The Kud amount goes first, followed by the target.
 
+  - name:         giveitem
+    alts:
+      - "giveitm"
+      - "givei"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person Karmotree"
+    description:
+      Transfers an item between you and a mentioned person.
+      Unlike currency commands, the target goes first and then the item name.
+
   - name:         vault
     alts:
       - "bank"

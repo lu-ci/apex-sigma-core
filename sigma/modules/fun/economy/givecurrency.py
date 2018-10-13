@@ -40,7 +40,7 @@ async def givecurrency(cmd: SigmaCommand, message: discord.Message, args: list):
                         else:
                             response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have that much.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Bank.')
+                        response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Guard.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
             else:
