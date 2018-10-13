@@ -22,7 +22,6 @@ from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
-
 star_cache = Cacher()
 
 
@@ -42,6 +41,15 @@ async def generate_embed(msg: discord.Message):
     response.set_author(name=msg.author.name, icon_url=avatar)
     response.set_footer(text=f'#{msg.channel.name}')
     response.description = msg.content
+    attachments = False
+    if msg.attachments:
+        enders = ['png', 'jpg', 'gif', 'webp']
+        ender = msg.attachments[0].filename.lower().split('.')[-1]
+        if ender.split('?')[0] in enders:
+            attachments = True
+            response.set_image(url=msg.attachments[0].url)
+    if not msg.content and not attachments:
+        return None
     return response
 
 
@@ -75,15 +83,18 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
                 sbe = starboard_doc.get('emote')
                 sbl = starboard_doc.get('limit')
                 if sbc and sbe and sbl:
-                    if emoji.name == sbe:
-                        user = guild.get_member(uid)
-                        if user:
-                            if not user.bot:
-                                try:
-                                    enough = check_emotes(mid, sbl)
-                                    if enough:
-                                        message = await channel.get_message(mid)
-                                        response = await generate_embed(message)
-                                        await post_starboard(message, response, sbc)
-                                except (discord.NotFound, discord.Forbidden):
-                                    pass
+                    if channel.id != sbc:
+                        if emoji.name == sbe:
+                            user = guild.get_member(uid)
+                            if user:
+                                if not user.bot:
+                                    try:
+                                        enough = check_emotes(mid, sbl)
+                                        if enough:
+                                            message = await channel.get_message(mid)
+                                            if not message.author.bot:
+                                                response = await generate_embed(message)
+                                                if response:
+                                                    await post_starboard(message, response, sbc)
+                                    except (discord.NotFound, discord.Forbidden):
+                                        pass
