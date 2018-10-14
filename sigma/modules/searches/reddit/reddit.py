@@ -44,7 +44,9 @@ async def grab_post(subreddit, argument):
 
 
 def add_post_image(post, response):
-    if hasattr(post, 'preview'):
+    if post.url.split('.')[-1] in ['png', 'jpg', 'jpeg', 'gif']:
+        response.set_image(url=post.url)
+    elif hasattr(post, 'preview'):
         images = post.preview.get('images')
         if images:
             sources = images[0].get('variants', {})
