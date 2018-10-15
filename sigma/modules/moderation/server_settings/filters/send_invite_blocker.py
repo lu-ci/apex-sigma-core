@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
@@ -25,8 +26,10 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if isinstance(message.author, discord.Member):
+            filter_perms = FilterPermissions(ev, message)
+            override = await filter_perms.check_perms('invites')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.permissions_in(message.channel).administrator or not is_owner:
+            if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
                 active = await ev.db.get_guild_settings(message.guild.id, 'block_invites')
                 if active is None:
                     active = False
@@ -34,31 +37,35 @@ async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
                     arguments = message.content.split(' ')
                     invite_found = False
                     for arg in arguments:
-                        triggers = ['discord.gg', 'discordapp.com']
+                        triggers = ['discord.gg/', 'discordapp.com/invite']
                         for trigger in triggers:
                             if trigger in arg:
                                 try:
-                                    invite_found = await ev.bot.get_invite(arg)
+                                    code = arg.split('/')[-1]
+                                    invite_found = await ev.bot.get_invite(code)
                                     break
                                 except discord.NotFound:
                                     pass
                     if invite_found:
-                        invite_warn = await ev.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
-                        if invite_warn:
-                            reason = f'Sent an invite to {invite_found.guild.name}.'
-                            warn_data = warning_data(message.guild.me, message.author, reason)
-                            await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
-                        title = '⛓ Invite links are not allowed on this server.'
-                        response = discord.Embed(color=0xF9F9F9, title=title)
-                        await message.delete()
                         try:
-                            await message.author.send(embed=response)
-                        except discord.Forbidden:
+                            invite_warn = await ev.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
+                            if invite_warn:
+                                reason = f'Sent an invite to {invite_found.guild.name}.'
+                                warn_data = warning_data(message.guild.me, message.author, reason)
+                                await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
+                            await message.delete()
+                            title = '⛓ Invite links are not allowed on this server.'
+                            response = discord.Embed(color=0xF9F9F9, title=title)
+                            try:
+                                await message.author.send(embed=response)
+                            except discord.Forbidden:
+                                pass
+                            log_embed = discord.Embed(color=0xF9F9F9)
+                            author = f'{message.author.name}#{message.author.discriminator}'
+                            log_embed.set_author(name=f'I removed {author}\'s invite link.',
+                                                 icon_url=user_avatar(message.author))
+                            log_embed.set_footer(
+                                text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
+                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
+                        except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass
-                        log_embed = discord.Embed(color=0xF9F9F9)
-                        author = f'{message.author.name}#{message.author.discriminator}'
-                        log_embed.set_author(name=f'I removed {author}\'s invite link.',
-                                             icon_url=user_avatar(message.author))
-                        log_embed.set_footer(
-                            text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
-                        await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')

@@ -26,6 +26,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
@@ -140,9 +141,12 @@ class SigmaCommand(object):
                         await message.delete()
                     except (discord.Forbidden, discord.NotFound):
                         pass
+                filter_perms = FilterPermissions(self, message)
+                override = await filter_perms.check_perms('arguments')
                 if await self.check_black_args(message.guild, args):
-                    await self.respond_with_icon(message, '🛡')
-                    return
+                    if not override:
+                        await self.respond_with_icon(message, '🛡')
+                        return
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
                 self.log.warning(f'{message.author.name} tried using me.')
                 return
