@@ -18,17 +18,20 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.server_settings.filters.cleaners import clean_content
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def edit_word_blocker(ev: SigmaEvent, before, after):
+async def edit_word_blocker(ev: SigmaEvent, before: discord.Message, after: discord.Message):
     if after.guild:
         if isinstance(after.author, discord.Member):
+            filter_perms = FilterPermissions(ev, after)
+            override = await filter_perms.check_perms('words')
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
-            if not after.author.permissions_in(after.channel).administrator or not is_owner:
+            if not any([after.author.permissions_in(after.channel).administrator, is_owner, override]):
                 prefix = await ev.db.get_prefix(after)
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())
@@ -66,5 +69,5 @@ async def edit_word_blocker(ev: SigmaEvent, before, after):
                             log_embed.set_author(name=title, icon_url=user_avatar(after.author))
                             log_embed.set_footer(text=f'Channel: #{after.channel.name} [{after.channel.id}]')
                             await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')
-                        except discord.ClientException:
+                        except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

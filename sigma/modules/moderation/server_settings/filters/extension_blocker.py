@@ -13,10 +13,12 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
@@ -26,8 +28,10 @@ async def extension_blocker(ev: SigmaEvent, message: discord.Message):
     if message.guild:
         if message.attachments:
             if isinstance(message.author, discord.Member):
+                filter_perms = FilterPermissions(ev, message)
+                override = await filter_perms.check_perms('extensions')
                 is_owner = message.author.id in ev.bot.cfg.dsc.owners
-                if not message.author.permissions_in(message.channel).administrator or not is_owner:
+                if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
                     att_files = [att.filename.lower() for att in message.attachments]
                     bexts = await ev.db.get_guild_settings(message.guild.id, 'blocked_extensions') or []
                     delete = False
@@ -60,5 +64,5 @@ async def extension_blocker(ev: SigmaEvent, message: discord.Message):
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                             log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
                             await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
-                        except discord.ClientException:
+                        except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

@@ -42,13 +42,15 @@ def clean_name(name, default):
 
 async def edit_name_check(ev: SigmaEvent, before: discord.Member, after: discord.Member):
     if after.guild:
-        if before.display_name != after.display_name:
-            active = await ev.db.get_guild_settings(after.guild.id, 'ascii_only_names')
-            if active:
-                if is_invalid(after.display_name):
-                    try:
-                        temp_name = await ev.db.get_guild_settings(after.guild.id, 'ascii_temp_name')
-                        new_name = clean_name(after.display_name, temp_name)
-                        await after.edit(nick=new_name, reason='ASCII name enforcement.')
-                    except Exception:
-                        pass
+        is_owner = after.id in ev.bot.cfg.dsc.owners
+        if not any([after.guild_permissions.administrator, is_owner]):
+            if before.display_name != after.display_name:
+                active = await ev.db.get_guild_settings(after.guild.id, 'ascii_only_names')
+                if active:
+                    if is_invalid(after.display_name):
+                        try:
+                            temp_name = await ev.db.get_guild_settings(after.guild.id, 'ascii_temp_name')
+                            new_name = clean_name(after.display_name, temp_name)
+                            await after.edit(nick=new_name, reason='ASCII name enforcement.')
+                        except Exception:
+                            pass
