@@ -17,7 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.modules.minigames.warmachines.mech.components.manufacturer import ManufacturerCore
 
 
 async def test(cmd: SigmaCommand, message: discord.Message, args: list):
+    mc = ManufacturerCore()
+    print(mc.get_manu_stats(0, 1).health)
+    print(mc.get_manu_stats(0, 100).health)
     await message.channel.send('All good.')
