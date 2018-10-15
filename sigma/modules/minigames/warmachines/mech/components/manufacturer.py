@@ -14,15 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-manufacturers = {
-    0: 'Lux',  # Vector
-    1: 'Aurora',  # Lee-Enfield
-    2: 'Kitsnik',  # G41
-    3: 'Oflinn',  # Negev
-    4: 'Valure',  # Contender
-    5: 'Gargaron',  # OTs-14
-    6: 'Shaflon',  # M870
-    7: 'Merbuhl'  # Five-seveN
+from sigma.modules.minigames.warmachines.mech.stats import StatContainer
+
+manu_names = {
+    0: 'Lux',
+    1: 'Aurora',
+    2: 'Kitsnik',
+    3: 'Oflinn',
+    4: 'Valure',
+    5: 'Gargaron',
+    6: 'Shaflore',
+    7: 'Merbuhl'
 }
 
 manu_bases = {
@@ -34,7 +36,6 @@ manu_bases = {
         'rate_of_fire': 71,
         'crit_chance': 5,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     1: {
@@ -45,7 +46,6 @@ manu_bases = {
         'rate_of_fire': 23,
         'crit_chance': 40,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     2: {
@@ -56,7 +56,6 @@ manu_bases = {
         'rate_of_fire': 52,
         'crit_chance': 20,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     3: {
@@ -67,7 +66,6 @@ manu_bases = {
         'rate_of_fire': 90,
         'crit_chance': 5,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     4: {
@@ -78,7 +76,6 @@ manu_bases = {
         'rate_of_fire': 27,
         'crit_chance': 40,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     5: {
@@ -89,7 +86,6 @@ manu_bases = {
         'rate_of_fire': 50,
         'crit_chance': 20,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     },
     6: {
@@ -111,7 +107,88 @@ manu_bases = {
         'rate_of_fire': 44,
         'crit_chance': 20,
         'crit_damage': 50,
-        'amor': 0,
         'amor_pen': 10
     }
 }
+
+manu_scale = {
+    0: {
+        'health': 0.92,
+        'damage': 0.18,
+        'accuracy': 0.09,
+        'evasion': 0.61,
+        'rate_of_fire': 0.3
+    },
+    1: {
+        'health': 0.4,
+        'damage': 0.9,
+        'accuracy': 0.69,
+        'evasion': 0.35,
+        'rate_of_fire': 0.13
+    },
+    2: {
+        'health': 0.63,
+        'damage': 0.32,
+        'accuracy': 0.43,
+        'evasion': 0.35,
+        'rate_of_fire': 0.25
+    },
+    3: {
+        'health': 0.87,
+        'damage': 0.56,
+        'accuracy': 0.31,
+        'evasion': 0.32,
+        'rate_of_fire': 0.49
+    },
+    4: {
+        'health': 0.33,
+        'damage': 0.32,
+        'accuracy': 0.76,
+        'evasion': 0.73,
+        'rate_of_fire': 0.17
+    },
+    5: {
+        'health': 0.55,
+        'damage': 0.32,
+        'accuracy': 0.47,
+        'evasion': 0.47,
+        'rate_of_fire': 0.25
+    },
+    6: {
+        'health': 1.32,
+        'damage': 0.2,
+        'accuracy': 0.1,
+        'evasion': 0.11,
+        'rate_of_fire': 0.09,
+        'amor': 0.2
+    },
+    7: {
+        'health': 0.31,
+        'damage': 0.2,
+        'accuracy': 0.5,
+        'evasion': 0.85,
+        'rate_of_fire': 0.22
+    }
+}
+
+
+class ManufacturerCore(object):
+    @property
+    def names(self):
+        return manu_names
+
+    @property
+    def bases(self):
+        return manu_bases
+
+    @property
+    def scaling(self):
+        return manu_scale
+
+    def get_manu_name(self, man_id: int):
+        return self.names.get(man_id)
+
+    def get_manu_stats(self, man_id: int, level: int):
+        base = StatContainer(self.bases.get(man_id))
+        scale = StatContainer(self.scaling.get(man_id), modifier=level - 1)
+        return base + scale
