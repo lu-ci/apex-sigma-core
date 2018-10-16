@@ -39,3 +39,25 @@ class StatContainer(object):
         self.armor += other.armor
         self.armor_pen += other.armor_pen
         return self
+
+
+class ComponentCore(object):
+    @property
+    def names(self):
+        return {}
+
+    @property
+    def bases(self):
+        return {}
+
+    @property
+    def scaling(self):
+        return {}
+
+    def get_name(self, comp_id: int):
+        return self.names.get(comp_id)
+
+    def get_stats(self, comp_id: int, level: int):
+        base = StatContainer(self.bases.get(comp_id))
+        scale = StatContainer(self.scaling.get(comp_id), modifier=level - 1)
+        return base + scale
