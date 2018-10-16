@@ -40,6 +40,19 @@ class StatContainer(object):
         self.armor_pen += other.armor_pen
         return self
 
+    def dictify(self):
+        return {
+            'health': self.health,
+            'damage': self.damage,
+            'accuracy': self.accuracy,
+            'evasion': self.evasion,
+            'rate_of_fire': self.rate_of_fire,
+            'crit_chance': self.crit_chance,
+            'crit_damage': self.crit_damage,
+            'armor': self.armor,
+            'armor_pen': self.armor_pen
+        }
+
 
 class ComponentCore(object):
     @property
