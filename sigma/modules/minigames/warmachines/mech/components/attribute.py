@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from sigma.modules.minigames.warmachines.mech.stats import StatContainer
+from sigma.modules.minigames.warmachines.mech.components.common import ComponentCore
 
 attr_names = {
     0: 'Rapid',
@@ -172,7 +172,7 @@ attr_scale = {
 }
 
 
-class AttributeCore(object):
+class AttributeCore(ComponentCore):
     @property
     def names(self):
         return attr_names
@@ -184,11 +184,3 @@ class AttributeCore(object):
     @property
     def scaling(self):
         return attr_scale
-
-    def get_manu_name(self, man_id: int):
-        return self.names.get(man_id)
-
-    def get_manu_stats(self, man_id: int, level: int):
-        base = StatContainer(self.bases.get(man_id))
-        scale = StatContainer(self.scaling.get(man_id), modifier=level - 1)
-        return base + scale

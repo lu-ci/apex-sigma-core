@@ -16,21 +16,22 @@
 
 from sigma.modules.minigames.warmachines.mech.components.common import ComponentCore
 
-manu_names = {
-    0: 'Lux',
-    1: 'Aurora',
-    2: 'Kitsnik',
-    3: 'Oflinn',
-    4: 'Valure',
-    5: 'Gargaron',
-    6: 'Shaflore',
-    7: 'Merbuhl'
+
+ammo_names = {
+    0: 'Ballistic',
+    1: 'Plasma',
+    2: 'Magma',
+    3: 'Radium',
+    4: 'Shockwave',
+    5: 'Acid',
+    6: 'Ion',
+    7: 'Photon'
 }
 
-manu_bases = {
+ammo_bases = {
     0: {
-        'health': 93,
-        'damage': 12,
+        'health': 80,
+        'damage': 9,
         'accuracy': 2,
         'evasion': 10,
         'rate_of_fire': 71,
@@ -39,27 +40,27 @@ manu_bases = {
         'amor_pen': 10
     },
     1: {
-        'health': 40,
-        'damage': 45,
-        'accuracy': 9,
-        'evasion': 5,
-        'rate_of_fire': 23,
+        'health': 42,
+        'damage': 41,
+        'accuracy': 10,
+        'evasion': 4,
+        'rate_of_fire': 30,
         'crit_chance': 40,
         'crit_damage': 50,
         'amor_pen': 10
     },
     2: {
-        'health': 64,
-        'damage': 18,
+        'health': 61,
+        'damage': 24,
         'accuracy': 5,
-        'evasion': 5,
-        'rate_of_fire': 52,
+        'evasion': 4,
+        'rate_of_fire': 36,
         'crit_chance': 20,
         'crit_damage': 50,
         'amor_pen': 10
     },
     3: {
-        'health': 87,
+        'health': 75,
         'damage': 28,
         'accuracy': 4,
         'evasion': 4,
@@ -69,28 +70,28 @@ manu_bases = {
         'amor_pen': 10
     },
     4: {
-        'health': 33,
-        'damage': 14,
-        'accuracy': 9,
+        'health': 38,
+        'damage': 11,
+        'accuracy': 7,
         'evasion': 9,
-        'rate_of_fire': 27,
-        'crit_chance': 40,
+        'rate_of_fire': 36,
+        'crit_chance': 20,
         'crit_damage': 50,
         'amor_pen': 10
     },
     5: {
         'health': 55,
-        'damage': 17,
-        'accuracy': 7,
-        'evasion': 7,
-        'rate_of_fire': 50,
+        'damage': 22,
+        'accuracy': 5,
+        'evasion': 4,
+        'rate_of_fire': 39,
         'crit_chance': 20,
         'crit_damage': 50,
         'amor_pen': 10
     },
     6: {
-        'health': 132,
-        'damage': 13,
+        'health': 121,
+        'damage': 12,
         'accuracy': 2,
         'evasion': 2,
         'rate_of_fire': 20,
@@ -100,87 +101,88 @@ manu_bases = {
         'amor_pen': 10
     },
     7: {
-        'health': 32,
-        'damage': 11,
-        'accuracy': 7,
-        'evasion': 12,
-        'rate_of_fire': 44,
+        'health': 29,
+        'damage': 8,
+        'accuracy': 8,
+        'evasion': 13,
+        'rate_of_fire': 42,
         'crit_chance': 20,
         'crit_damage': 50,
         'amor_pen': 10
     }
 }
 
-manu_scale = {
+ammo_scale = {
     0: {
-        'health': 0.92,
-        'damage': 0.18,
+        'health': 0.79,
+        'damage': 0.15,
         'accuracy': 0.09,
-        'evasion': 0.61,
-        'rate_of_fire': 0.3
+        'evasion': 0.69,
+        'rate_of_fire': 0.33
     },
     1: {
-        'health': 0.4,
-        'damage': 0.9,
-        'accuracy': 0.69,
-        'evasion': 0.35,
+        'health': 0.42,
+        'damage': 0.67,
+        'accuracy': 0.61,
+        'evasion': 0.23,
         'rate_of_fire': 0.13
     },
     2: {
-        'health': 0.63,
-        'damage': 0.32,
-        'accuracy': 0.43,
-        'evasion': 0.35,
-        'rate_of_fire': 0.25
+        'health': 0.6,
+        'damage': 0.45,
+        'accuracy': 0.32,
+        'evasion': 0.29,
+        'rate_of_fire': 0.18
     },
     3: {
-        'health': 0.87,
-        'damage': 0.56,
-        'accuracy': 0.31,
-        'evasion': 0.32,
-        'rate_of_fire': 0.49
+        'health': 0.74,
+        'damage': 0.52,
+        'accuracy': 0.3,
+        'evasion': 0.3,
+        'rate_of_fire': 0.45
     },
     4: {
-        'health': 0.33,
-        'damage': 0.32,
-        'accuracy': 0.76,
-        'evasion': 0.73,
+        'health': 0.38,
+        'damage': 0.22,
+        'accuracy': 0.43,
+        'evasion': 0.59,
         'rate_of_fire': 0.17
     },
     5: {
         'health': 0.55,
-        'damage': 0.32,
-        'accuracy': 0.47,
-        'evasion': 0.47,
-        'rate_of_fire': 0.25
+        'damage': 0.33,
+        'accuracy': 0.36,
+        'evasion': 0.32,
+        'rate_of_fire': 0.2
     },
     6: {
-        'health': 1.32,
-        'damage': 0.2,
-        'accuracy': 0.1,
+        'health': 1.21,
+        'damage': 0.18,
+        'accuracy': 0.09,
         'evasion': 0.11,
-        'rate_of_fire': 0.09,
-        'amor': 0.2
+        'rate_of_fire': 0.08,
+        'amor': 0.19
     },
     7: {
-        'health': 0.31,
-        'damage': 0.2,
-        'accuracy': 0.5,
-        'evasion': 0.85,
-        'rate_of_fire': 0.22
+        'health': 0.28,
+        'damage': 0.16,
+        'accuracy': 0.59,
+        'evasion': 0.99,
+        'rate_of_fire': 0.23
     }
 }
 
 
-class ManufacturerCore(ComponentCore):
+class AmmunitionCore(ComponentCore):
     @property
     def names(self):
-        return manu_names
+        return ammo_names
 
     @property
     def bases(self):
-        return manu_bases
+        return ammo_bases
 
     @property
     def scaling(self):
-        return manu_scale
+        return ammo_scale
+
