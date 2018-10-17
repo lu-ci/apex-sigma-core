@@ -1,0 +1,11 @@
+name:             Warmachines
+
+category:         gachapon
+
+enabled:          true
+
+commands:
+  - name:         warmachinenew
+    enabled:      true
+    description:
+      Makes a new Warmachine.
