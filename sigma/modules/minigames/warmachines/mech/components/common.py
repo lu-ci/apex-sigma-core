@@ -40,6 +40,18 @@ class StatContainer(object):
         self.armor_pen += other.armor_pen
         return self
 
+    def combine(self, other):
+        self.health = int((self.health + other.health) / 2)
+        self.damage = int((self.damage + other.damage) / 2)
+        self.accuracy = int((self.accuracy + other.accuracy) / 2)
+        self.evasion = int((self.evasion + other.evasion) / 2)
+        self.rate_of_fire = int((self.rate_of_fire + other.rate_of_fire) / 2)
+        self.crit_chance = int((self.crit_chance + other.crit_chance) / 2)
+        self.crit_damage = int((self.crit_damage + other.crit_damage) / 2)
+        self.armor = int((self.armor + other.armor) / 2)
+        self.armor_pen = int((self.armor_pen + other.armor_pen) / 2)
+        return self
+
     def dictify(self):
         return {
             'health': self.health,
@@ -72,5 +84,5 @@ class ComponentCore(object):
 
     def get_stats(self, comp_id: int, level: int):
         base = StatContainer(self.bases.get(comp_id))
-        scale = StatContainer(self.scaling.get(comp_id), modifier=level - 1)
+        scale = StatContainer(self.scaling.get(comp_id), modifier=level)
         return base + scale
