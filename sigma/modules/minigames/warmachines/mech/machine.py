@@ -45,13 +45,13 @@ class SigmaMachine(object):
 
         self.id = self.raw.get('machine_id')
         self.name = self.raw.get('name', 'Not Named')
-        self.level = self.raw.get('level', 0)
+        self.experience = self.raw.get('experience', 0)
+        self.level = self.get_level(self.experience)
         self.components = self.raw.get('components')
         self.product_name = self.gen_prod_name()
 
         # Statistics
 
-        self.experience = self.raw.get('experience')
         self.battles = self.raw.get('battles', [])
 
         # Specifications
@@ -109,7 +109,6 @@ class SigmaMachine(object):
             'user_id': self.owner.id,
             'components': self.components,
             'name': self.name,
-            'level': self.level,
             'experience': self.experience,
             'battles': self.battles,
             'current_health': self.current_health
@@ -149,7 +148,7 @@ class SigmaMachine(object):
         return battles, won_against, lost_against
 
     def is_alive(self):
-        return bool(self.stats.health)
+        return bool(self.current_health)
 
     def roll_crit(self):
         return secrets.randbelow(100) <= self.stats.crit_chance
@@ -158,7 +157,7 @@ class SigmaMachine(object):
         return secrets.randbelow(accuracy) > secrets.randbelow(self.stats.evasion)
 
     def do_damage(self):
-        damage_done = self.stats.damage * 0.9 + secrets.randbelow(self.stats.damage * 0.2)
+        damage_done = int(((self.stats.damage * 0.6) + secrets.randbelow(self.stats.damage * 0.6)))
         if self.roll_crit():
             damage_done = int(damage_done * (1 + (self.stats.crit_damage / 100)))
         return damage_done
@@ -170,5 +169,4 @@ class SigmaMachine(object):
         if damage_taken > self.current_health:
             damage_taken = self.current_health
         self.current_health -= damage_taken
-        await self.update()
         return damage_taken
