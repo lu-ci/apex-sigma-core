@@ -6,7 +6,7 @@ import sys
 from sigma.core.sigma import ApexSigma
 
 if not sys.version_info >= (3, 6):
-    print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
+    print('Fatal Error: Wrong Python Version! Spookgma supports Python 3.6+!')
     exit(errno.EINVAL)
 
 if __name__ == '__main__':
