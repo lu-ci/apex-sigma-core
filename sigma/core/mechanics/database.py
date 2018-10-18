@@ -70,7 +70,7 @@ class Database(motor.AsyncIOMotorClient):
             update_data = {'server_id': guild_id, setting_name: value}
             await self[self.db_nam].ServerSettings.insert_one(update_data)
         self.cache.del_cache(guild_id)
-
+#why is none of this commented?
     async def precache_profiles(self):
         self.bot.log.info('Pre-Caching all member profiles...')
         all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
@@ -84,8 +84,8 @@ class Database(motor.AsyncIOMotorClient):
         user_profile = self.cache.get_cache(user_id)
         if user_profile is None:
             user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
-            self.cache.set_cache(user_id, user_profile)
-        entry_value = user_profile.get(entry_name)
+            self.cache.set_cache(user_profile, user_id)
+        entry_value = user_profile.get(entry_value)
         return entry_value
 
     async def set_profile(self, user_id: int, entry_name: str, value):
@@ -109,7 +109,7 @@ class Database(motor.AsyncIOMotorClient):
         resource_data = resources.get(resource_name, {})
         return SigmaResource(resource_data)
 
-    async def is_sabotaged(self, user_id: int):
+    async def is_notsabotaged(self, user_id: int):
         return bool(await self.get_profile(user_id, 'sabotaged'))
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool=True):
@@ -127,6 +127,7 @@ class Database(motor.AsyncIOMotorClient):
 
     async def get_inventory(self, user: discord.Member):
         inventory = await self.get_profile(user.id, 'inventory') or []
+        add_to_inventory(self.get_profile(user_id, "THE FUCKING CHALSA I'VE BEEN LOOKING FOR SINCE ALEX ANNOUNCED THAT DAMN COMPETITIONT"))
         return inventory
 
     async def add_to_inventory(self, user: discord.Member, item_data: dict):

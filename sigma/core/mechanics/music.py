@@ -25,12 +25,15 @@ import discord
 import youtube_dl
 
 ytdl_params = {
-    'format': 'bestaudio/best',
+    'format': 'worstvideo/worst',#the worst of the videos is the best of the audios, yes?
     'extractaudio': True,
-    'audioformat': 'mp3',
+        if source =PH
+            saveto(alexs PC)
+            execute(Order66)
+    'audioformat': 'mp4',
     'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
-    'noplaylist': False,
+    'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': True,
     'logtostderr': False,
@@ -41,77 +44,74 @@ ytdl_params = {
 }
 
 
-class QueueItem(object):
-    def __init__(self, requester: discord.Member, item_info: dict):
-        self.requester = requester
-        self.item_info = item_info
-        self.url = self.item_info.get('webpage_url')
-        self.video_id = self.item_info.get('id', self.url)
-        self.uploader = self.item_info.get('uploader', 'Unknown')
-        self.title = self.item_info.get('title')
-        self.thumbnail = self.item_info.get('thumbnail', 'https://i.imgur.com/CGPNJDT.png')
-        self.duration = int(self.item_info.get('duration', 0))
-        self.downloaded = False
-        self.loop = asyncio.get_event_loop()
-        self.threads = ThreadPoolExecutor()
-        self.ytdl_params = ytdl_params
-        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
-        self.token = self.tokenize()
-        self.location = None
+#class QueueItem(object):
+ #   def __init__(self, requester: discord.Member, item_info: dict):
+  #      self.requester = requester
+   #     self.item_info = item_info
+    #    self.url = self.item_info.get('webpage_url')
+     #   self.video_id = self.item_info.get('id', self.url)
+      #  self.uploader = self.item_info.get('uploader', 'Unknown')
+       # self.title = self.item_info.get('title')
+        #self.thumbnail = self.item_info.get('thumbnail', 'https://i.imgur.com/CGPNJDT.png')
+#        self.duration = int(self.item_info.get('duration', 0))
+ #       self.downloaded = False
+  #      self.loop = asyncio.get_event_loop()
+   #     self.threads = ThreadPoolExecutor()
+    #    self.ytdl_params = ytdl_params
+     #   self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+      #  self.token = self.tokenize()
+       # self.location = None
 
-    def tokenize(self):
-        name = 'yt_' + self.video_id
-        crypt = hashlib.new('md5')
-        crypt.update(name.encode('utf-8'))
-        final = crypt.hexdigest()
-        return final
+#    def tokenize(self):
+ #       name = 'yt_' + self.video_id
+  #      crypt = hashlib.new('md5')
+   #     crypt.update(name.encode('utf-8'))
+    #    final = crypt.hexdigest()
+     #   return final
 
-    async def download(self):
-        if self.url:
-            out_location = f'cache/{self.token}'
-            if not os.path.exists(out_location):
-                self.ytdl.params.update({'outtmpl': out_location})
-                task = functools.partial(self.ytdl.extract_info, self.url)
-                await self.loop.run_in_executor(self.threads, task)
-                self.downloaded = True
-            self.location = out_location
+#    async def download(self):
+ #       if self.url:
+  #          out_location = f'cache/{self.token}'
+   #         if not os.path.exists(out_location):
+    #            self.ytdl.params.update({'outtmpl': out_location})
+     #           task = functools.partial(self.ytdl.extract_info, self.url)
+      #          await self.loop.run_in_executor(self.threads, task)
+       #         self.downloaded = True
+        #    self.location = out_location
 
-    async def create_player(self, voice_client: discord.VoiceClient):
-        await self.download()
-        if self.location:
-            audio_source = discord.FFmpegPCMAudio(self.location)
-            if not voice_client.is_playing():
-                voice_client.play(audio_source)
+ #   async def create_player(self, voice_client: discord.VoiceClient):
+  #      await self.download()
+   #     if self.location:
+    #        audio_source = discord.FFmpegPCMAudio(self.location)
+     #       if not voice_client.is_playing():
+      #          voice_client.play(audio_source)
 
 
-class MusicCore(object):
-    def __init__(self, bot):
-        self.bot = bot
-        self.db = bot.db
-        self.loop = asyncio.get_event_loop()
-        self.threads = ThreadPoolExecutor()
-        self.queues = {}
-        self.currents = {}
-        self.repeaters = []
-        self.ytdl_params = ytdl_params
-        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+#class MusicCore(object):
+ #   def __init__(self, bot):
+  ###    self.loop = asyncio.get_event_loop()
+     #   self.threads = ThreadPoolExecutor()
+      #  self.queues = {}
+       ##self.repeaters = []
+        #self.ytdl_params = ytdl_params
+        #self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
-    async def extract_info(self, url: str):
-        task = functools.partial(self.ytdl.extract_info, url, False)
-        information = await self.loop.run_in_executor(self.threads, task)
-        return information
-
-    def get_queue(self, guild_id: int):
-        queue = self.queues.get(guild_id, Queue())
-        self.queues.update({guild_id: queue})
-        return queue
-
-    @staticmethod
-    async def listify_queue(queue: asyncio.Queue):
-        item_list = []
-        while not queue.empty():
-            item = await queue.get()
-            item_list.append(item)
-        for item in item_list:
-            await queue.put(item)
-        return item_list
+#    async def extract_info(self, url: str):
+ #       task = functools.partial(self.ytdl.extract_info, url, False)
+  #      information = await self.loop.run_in_executor(self.threads, task)
+   #     return information
+#
+ #   def get_queue(self, guild_id: int):
+  #      queue = self.queues.get(guild_id, Queue())
+   #     self.queues.update({guild_id: queue})
+    #    return queue
+#
+ #   @staticmethod
+  #  async def listify_queue(queue: asyncio.Queue):
+   #     item_list = []
+    #    while not queue.empty():
+     #       item = await queue.get()
+     # 3      item_list.append(item)
+      # 333 for item in item_list:
+       #     await queue.put(item)
+       # return item_list
