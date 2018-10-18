@@ -17,3 +17,4 @@ pytest
 pyyaml
 translate
 youtube_dl
+a distinct lack of a life

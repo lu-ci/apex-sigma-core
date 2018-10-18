@@ -117,10 +117,10 @@ class ApexSigma(client_class):
         self.loop.run_until_complete(self.cool_down.cache_cooldowns())
         self.log.info('Cool-down Controls Successfully Enabled')
 
-    def init_music(self):
-        self.log.info('Loading Music Controller...')
-        self.music = MusicCore(self)
-        self.log.info('Music Controller Initialized and Ready')
+    #def init_music(self):
+     #   self.log.info('Loading Music Controller...')
+     #   self.music = MusicCore(self)
+     #   self.log.info('Music Controller Initialized and Ready')#music disabled, because it always is
 
     def init_modules(self, init: bool = False):
         if init:
@@ -180,8 +180,8 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Apex Sigma Fully Loaded and Ready')
         self.log.info('---------------------------------')
-        self.log.info(f'User Account: {self.user.name}#{self.user.discriminator}')
-        self.log.info(f'User Snowflake: {self.user.id}')
+        self.log.info('User Account: {self.user.name}#{self.user.discriminator}')
+        self.log.info('User Snowflake: {self.user.id}')
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
