@@ -66,6 +66,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>award` `>>pay` | Awards the specified amount of Kud from the vault to a mentioned person. The Kud amount goes first, followed by the target. Anybody can contribute to the vault with the givetovault command, but only users with the Manage Server permission can award Kud from the vault. | `>>award 500 @person`
+`>>alex` | A custom command for the best cuck on the server ~Shifty. | `>>alex`
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
 `>>catfact` `>>kittyfact` | Outputs a random fact about your lovely furry assh~ eerrrr... I mean, companion! | `>>catfact`
@@ -137,7 +138,7 @@ Commands | Description | Example
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
-`>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
+`>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. btw, chib being an alias for this is more great than i can express | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
 [Back To Top](#module-index)
 

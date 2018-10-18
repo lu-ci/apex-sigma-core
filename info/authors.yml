@@ -7,3 +7,15 @@
 - name: Valeth
   discriminator: 1736
   id: 217078934976724992
+- name: Crunderpole #he seems cool
+  discriminator: 1736
+  id: 217078934976724992
+  - name: Shifty #he's earned it
+    discriminator: 1736
+    id: 217078934976724992
+    - name: nonchi # why not?
+      discriminator: 1736
+      id: 217078934976724992
+      - name: Spookgma #the hidden dev of Sigma. Boo!
+        discriminator: 1736
+        id: 217078934976724992
