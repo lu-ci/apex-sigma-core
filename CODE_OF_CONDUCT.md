@@ -16,11 +16,11 @@ Examples of behavior that contributes to creating a positive environment include
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
+* The use of sexualized language or imagery (unless you're cool) and unwelcome sexual attention or advances (you'll know when they're wanted)
+* Trolling, insulting/derogatory comments, and personal or political attacks (within reason)
+* Public or private harassment (he's serious on this one)
+* Publishing others' private information, such as a physical or electronic address, without explicit permission (don't be an idiot)
+* Other conduct which could reasonably be considered inappropriate in a professional setting (a very loose, generally arbitrary standard-don't test Val!)
 
 ## Our Responsibilities
 
