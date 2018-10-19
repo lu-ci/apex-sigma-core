@@ -79,6 +79,10 @@ class ComponentCore(object):
     def scaling(self):
         return {}
 
+    @property
+    def maintenance(self):
+        return {}
+
     def get_name(self, comp_id: int):
         return self.names.get(comp_id)
 
@@ -86,3 +90,17 @@ class ComponentCore(object):
         base = StatContainer(self.bases.get(comp_id))
         scale = StatContainer(self.scaling.get(comp_id), modifier=level)
         return base + scale
+
+    def get_battle_cost(self, comp_id: int, level: int):
+        requirements = {}
+        base_requirements = self.maintenance.get(comp_id, {}).get('battle', {})
+        for key in base_requirements:
+            requirements.update({key: int(base_requirements.get(key) + (level * 0.85))})
+        return requirements
+
+    def get_repair_cost(self, comp_id: int, level: int, health: int, current_health: int):
+        repairs = {}
+        base_repairs = self.maintenance.get(comp_id, {}).get('repair', {})
+        missing_health = (((health - current_health) / health) * 100)
+        for key in base_repairs:
+            repairs.update({key: int((base_repairs.get(key) + (level * 1.115)) * missing_health)})
