@@ -35,6 +35,9 @@ commands:
       - "tempvc"
     enabled:      true
     usage:        "{pfx}{cmd} Orgy For One"
+    requirements:
+      - "manage_channels"
+      - "manage_roles"
     description:
       Makes a temporary voice channel that you can fully manage.
       Once everyone leaves the channel (not including bots) it's destroyed.

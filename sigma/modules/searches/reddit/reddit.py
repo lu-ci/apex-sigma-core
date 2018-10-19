@@ -28,18 +28,23 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 async def grab_post(subreddit, argument):
     try:
-        subreddit = subreddit.display_name
+        subreddit_name = subreddit.display_name
     except AttributeError:
-        subreddit = None
+        subreddit_name = None
     filters = ['tophot', 'randomhot', 'topnew', 'randomnew', 'toptop', 'randomtop']
-    if subreddit:
-        if argument in filters:
-            posts = await reddit_client.get_posts(subreddit, argument[-3:])
-            post = posts[0] if argument.startswith('top') else secrets.choice(posts)
-        else:
-            post = secrets.choice(await reddit_client.get_posts(subreddit, 'hot'))
+    if subreddit_name:
+        try:
+            if argument in filters:
+                posts = await reddit_client.get_posts(subreddit_name, argument[-3:])
+                post = posts[0] if argument.startswith('top') else secrets.choice(posts)
+            else:
+                post = secrets.choice(await reddit_client.get_posts(subreddit_name, 'hot'))
+        except IndexError:
+            post = None
+        setattr(subreddit, 'exists', True)
     else:
         post = None
+        setattr(subreddit, 'exists', False)
     return post
 
 
@@ -65,8 +70,8 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
         argument = args[-1].lower()
         subreddit = await reddit_client.get_subreddit(subreddit)
         if not subreddit.private and not subreddit.banned:
-            if subreddit:
-                post = await grab_post(subreddit, argument)
+            post = await grab_post(subreddit, argument)
+            if subreddit.exists:
                 if post:
                     if not post.over_18 or message.channel.is_nsfw():
                         post_desc = f'Author: {post.author if post.author else "Anonymous"}'
@@ -81,7 +86,7 @@ async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
                         nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
                         response = discord.Embed(color=0xBE1931, title=nsfw_warning)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
+                    response = discord.Embed(color=0xBE1931, title='❗ That subreddit has no posts.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
         else:

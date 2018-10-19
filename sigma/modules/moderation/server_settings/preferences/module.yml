@@ -20,15 +20,6 @@ commands:
       Toggles if Sigma should respond to tables being flipped.
       This command requires the Manage Server permission.
 
-  - name:         spawnchevrons
-    alts:
-      - "spawnchevs"
-    enabled:      true
-    usage:        "{pfx}{cmd} #channel"
-    description:
-      Toggles if Sigma shoulw allow chevrons to spawn in a target channel.
-      If no channel is tagged, the target will be the channel that the command is used in.
-
   - name:         filterautowarn
     enabled:      true
     description:

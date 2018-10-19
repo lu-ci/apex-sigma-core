@@ -27,7 +27,7 @@ async def unblockarguments(cmd: SigmaCommand, message: discord.Message, args: li
             if blocked_args is None:
                 blocked_args = []
             removed_args = []
-            if args[-1].lower() == '-all':
+            if args[-1].lower() == '--all':
                 removed_args = blocked_args
                 blocked_args = []
             else:

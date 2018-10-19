@@ -26,7 +26,7 @@ async def youtube(cmd: SigmaCommand, message: discord.Message, args: list):
     yt_color = 0xcf2227
     text_mode = False
     if args:
-        if args[-1].lower() == '-text':
+        if args[-1].lower() == '--text':
             text_mode = True
         if text_mode:
             lookup = ' '.join(args[:-1])

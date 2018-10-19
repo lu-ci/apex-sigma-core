@@ -90,7 +90,7 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked word allowing people to send messages containing it.
-      To purge the entire word filter, enter -all as the command argument.
+      To purge the entire word filter, enter --all as the command argument.
       Words should not be separated by a delimiter.
 
   - name:         unblockextensions
@@ -102,7 +102,7 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a blocked extension allowing people to send files containing it.
-      To purge the entire extension filter, enter -all as the command argument.
+      To purge the entire extension filter, enter --all as the command argument.
       Extensions should not be separated by a delimiter.
 
   - name:         unhardblockwords
@@ -112,7 +112,7 @@ commands:
     usage:        "{pfx}{cmd} boobs"
     description:
       Removes a hard blocked word allowing people to send messages containing it.
-      To purge the entire word filter, enter -all as the command argument.
+      To purge the entire word filter, enter --all as the command argument.
       Words should not be separated by a delimiter.
 
   - name:         unblockarguments
