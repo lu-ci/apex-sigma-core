@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.permissions.permit import get_perm_type, get_targets
+from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
@@ -28,16 +28,16 @@ async def filterunignore(cmd: SigmaCommand, message: discord.Message, args: list
         if args:
             if len(args) >= 3:
                 filter_name = args[1].lower()
-                perm_type = get_perm_type(args[0].lower())
-                if perm_type:
+                target_type = get_target_type(args[0].lower())
+                if target_type:
                     if filter_name in filter_names:
-                        targets, valid = get_targets(message, args, perm_type)
+                        targets, valid = get_targets(message, args, target_type)
                         if valid:
                             overrides = await cmd.db.get_guild_settings(message.guild.id, 'filter_overrides') or {}
                             override_data = overrides.get(filter_name)
                             if not override_data:
                                 override_data = {'users': [], 'channels': [], 'roles': []}
-                            override = override_data.get(perm_type) or []
+                            override = override_data.get(target_type) or []
                             error_response = None
                             for target in targets:
                                 if target.id in override:
@@ -47,14 +47,14 @@ async def filterunignore(cmd: SigmaCommand, message: discord.Message, args: list
                                     error_response = discord.Embed(color=0xBE1931, title=title)
                                     break
                             if not error_response:
-                                override_data.update({perm_type: override})
+                                override_data.update({target_type: override})
                                 overrides.update({filter_name: override_data})
                                 await cmd.db.set_guild_settings(message.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
-                                    starter = f'{len(targets)} {perm_type}'
+                                    starter = f'{len(targets)} {target_type}'
                                     title = f'✅ {starter} are now affected by `blocked{filter_name}`.'
                                 else:
-                                    pnd = '#' if perm_type == 'channels' else ''
+                                    pnd = '#' if target_type == 'channels' else ''
                                     title = f'✅ {pnd}{targets[0].name} is now affected by `blocked{filter_name}`.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
@@ -64,12 +64,12 @@ async def filterunignore(cmd: SigmaCommand, message: discord.Message, args: list
                             if targets:
                                 response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
                             else:
-                                ender = 'specified' if perm_type == 'roles' else 'targeted'
-                                response = discord.Embed(color=0x696969, title=f'🔍 No {perm_type} {ender}.')
+                                ender = 'specified' if target_type == 'roles' else 'targeted'
+                                response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Invalid filter.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
+                    response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
         else:

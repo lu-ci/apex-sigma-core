@@ -22,12 +22,12 @@ from sigma.core.utilities.data_processing import get_image_colors
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
-def get_overrides(message: discord.Message, overrides: list, perm_type: str):
+def get_overrides(message: discord.Message, overrides: list, target_type: str):
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}
-    guild_items = guild_dict.get(perm_type)
+    guild_items = guild_dict.get(target_type)
     for ovr_chn_id in overrides:
-        pnd = '#' if perm_type == 'channels' else ''
+        pnd = '#' if target_type == 'channels' else ''
         exc_item = discord.utils.find(lambda c: c.id == ovr_chn_id, guild_items)
         exc_item_name = f'{pnd}{exc_item.name}' if exc_item else str(ovr_chn_id)
         overridden_items.append(exc_item_name)
@@ -54,8 +54,7 @@ async def filteroverrides(cmd: SigmaCommand, message: discord.Message, args: lis
                             ovr_lines = get_overrides(message, data[0], data[1])
                             response.add_field(name=data[1].title(), value=', '.join(ovr_lines), inline=False)
                 else:
-                    blk = 'blocked' if filter_name != 'asciinames' else ''
-                    response = discord.Embed(color=0x696969, title=f'🔍 No overrides for `{blk}{filter_name}` found.')
+                    response = discord.Embed(color=0x696969, title=f'🔍 No overrides for `blocked{filter_name}` found.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 No overrides found.')
         else:

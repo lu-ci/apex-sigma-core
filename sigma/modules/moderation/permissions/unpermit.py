@@ -19,16 +19,16 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.permissions import scp_cache
 from sigma.core.utilities.generic_responses import permission_denied
-from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_perm_type
+from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_target_type
 
 
-def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, perm_type: str, perms: dict):
+def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, target_type: str, perms: dict):
     exc_usrs, inner_exc, cmd_exc = exc_tuple
     bad_item = False
     for target in targets:
         if target.id in exc_usrs:
             exc_usrs.remove(target.id)
-            inner_exc.update({perm_type: exc_usrs})
+            inner_exc.update({target_type: exc_usrs})
             cmd_exc.update({node_name: inner_exc})
             perms.update({exc_group: cmd_exc})
         else:
@@ -42,8 +42,8 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
         if args:
             if len(args) >= 3:
                 if ':' in args[1]:
-                    perm_type = get_perm_type(args[0].lower())
-                    if perm_type:
+                    target_type = get_target_type(args[0].lower())
+                    if target_type:
                         perm_mode = args[1].split(':')[0]
                         node_name = args[1].split(':')[1]
                         modes = {
@@ -53,25 +53,25 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
                         mode_vars = modes.get(perm_mode)
                         if mode_vars:
                             exc_group, check_group, check_alts = mode_vars
-                            targets, valid_targets = get_targets(message, args, perm_type)
+                            targets, valid_targets = get_targets(message, args, target_type)
                             if valid_targets:
                                 exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name,
-                                                                                   perm_type)
+                                                                                   target_type)
                                 if exc_tuple:
-                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, perm_type,
+                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, target_type,
                                                               perms)
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': message.guild.id}, {'$set': perms})
                                         scp_cache.del_cache(message.guild.id)
                                         if len(targets) > 1:
-                                            title = f'✅ {len(targets)} {perm_type} can no longer use `{node_name}`.'
+                                            title = f'✅ {len(targets)} {target_type} can no longer use `{node_name}`.'
                                         else:
-                                            pnd = '#' if perm_type == 'channels' else ''
+                                            pnd = '#' if target_type == 'channels' else ''
                                             title = f'✅ {pnd}{targets[0].name} can no longer use `{node_name}`.'
                                         response = discord.Embed(color=0x77B255, title=title)
                                     else:
-                                        pnd = '#' if perm_type == 'channels' else ''
+                                        pnd = '#' if target_type == 'channels' else ''
                                         title = f'⚠ {pnd}{bad_item.name} didn\'t have an override for `{node_name}`.'
                                         response = discord.Embed(color=0xFFCC4D, title=title)
                                 else:
@@ -81,13 +81,13 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
                                 if targets:
                                     response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
                                 else:
-                                    ender = 'specified' if perm_type == 'roles' else 'targeted'
-                                    response = discord.Embed(color=0x696969, title=f'🔍 No {perm_type} {ender}.')
+                                    ender = 'specified' if target_type == 'roles' else 'targeted'
+                                    response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
                         else:
                             response = discord.Embed(color=0xBE1931,
                                                      title='❗ Unrecognized lookup mode, see usage example.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
+                        response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
             else:

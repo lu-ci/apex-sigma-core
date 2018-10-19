@@ -62,7 +62,7 @@ async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ I refuse to collect a chain for a bot.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {starter} is in the queue or you have a pending entry.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ {starter} in the queue or you have a pending entry.')
     else:
         if blocked:
             response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')

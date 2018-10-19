@@ -66,8 +66,9 @@ commands:
       The default difficulty is 3.
       The time and Kud reward scale with the difficulty and number of hard operators.
 
-  - name:         unscramble
+  - name:         unscramblegame
     alts:
+      - "unscramble"
       - "usg"
     enabled:      true
     description:

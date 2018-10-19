@@ -50,27 +50,28 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
     emoji = payload.emoji
     channel = ev.bot.get_channel(cid)
     if channel:
-        guild = channel.guild
-        if guild:
-            guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
-            if guild_togglers:
-                user = guild.get_member(uid)
-                if user:
-                    if not user.bot:
-                        message = await channel.get_message(mid)
-                        if message:
-                            smid = str(mid)
-                            if smid in guild_togglers:
-                                if ev.event_type == 'raw_reaction_add':
-                                    try:
-                                        await check_emotes(ev.bot, message, guild_togglers.get(smid))
-                                    except (discord.NotFound, discord.Forbidden):
-                                        pass
-                                role_id = guild_togglers.get(smid).get(emoji.name)
-                                if role_id:
-                                    role_item = guild.get_role(role_id)
-                                    if role_item:
-                                        if user_has_role(role_item, user.roles):
-                                            await user.remove_roles(role_item, reason='Emote toggled.')
-                                        else:
-                                            await user.add_roles(role_item, reason='Emote toggled.')
+        if hasattr(channel, 'guild'):
+            guild = channel.guild
+            if guild:
+                guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
+                if guild_togglers:
+                    user = guild.get_member(uid)
+                    if user:
+                        if not user.bot:
+                            message = await channel.get_message(mid)
+                            if message:
+                                smid = str(mid)
+                                if smid in guild_togglers:
+                                    if ev.event_type == 'raw_reaction_add':
+                                        try:
+                                            await check_emotes(ev.bot, message, guild_togglers.get(smid))
+                                        except (discord.NotFound, discord.Forbidden):
+                                            pass
+                                    role_id = guild_togglers.get(smid).get(emoji.name)
+                                    if role_id:
+                                        role_item = guild.get_role(role_id)
+                                        if role_item:
+                                            if user_has_role(role_item, user.roles):
+                                                await user.remove_roles(role_item, reason='Emote toggled.')
+                                            else:
+                                                await user.add_roles(role_item, reason='Emote toggled.')

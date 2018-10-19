@@ -27,7 +27,7 @@ async def unhardblockwords(cmd: SigmaCommand, message: discord.Message, args: li
             if blocked_words is None:
                 blocked_words = []
             removed_words = []
-            if args[-1].lower() == '-all':
+            if args[-1].lower() == '--all':
                 removed_words = blocked_words
                 blocked_words = []
             else:

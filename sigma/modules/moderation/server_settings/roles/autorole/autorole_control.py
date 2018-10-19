@@ -27,4 +27,7 @@ async def autorole_control(ev: SigmaEvent, member):
             timeout = await ev.db.get_guild_settings(member.guild.id, 'auto_role_timeout')
             if timeout:
                 await asyncio.sleep(timeout)
-            await member.add_roles(curr_role, reason='Appointed guild autorole.')
+            try:
+                await member.add_roles(curr_role, reason='Appointed guild autorole.')
+            except (discord.NotFound, discord.Forbidden):
+                pass
