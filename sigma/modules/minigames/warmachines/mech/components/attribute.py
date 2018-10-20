@@ -171,89 +171,6 @@ attr_scale = {
     }
 }
 
-attr_costs = {
-    0: {
-        'battle': {
-            'biomass': 20,
-            'ammunition': 25
-        },
-        'repair': {
-            'biomass': 8.5,
-            'metal': 6
-        }
-    },
-    1: {
-        'battle': {
-            'biomass': 15,
-            'ammunition': 30
-        },
-        'repair': {
-            'biomass': 9,
-            'metal': 5.5
-        }
-    },
-    2: {
-        'battle': {
-            'biomass': 20,
-            'ammunition': 20
-        },
-        'repair': {
-            'biomass': 6,
-            'metal': 6
-        }
-    },
-    3: {
-        'battle': {
-            'biomass': 30,
-            'ammunition': 40
-        },
-        'repair': {
-            'biomass': 9,
-            'metal': 14
-        }
-    },
-    4: {
-        'battle': {
-            'biomass': 10,
-            'ammunition': 10
-        },
-        'repair': {
-            'biomass': 3,
-            'metal': 3
-        }
-    },
-    5: {
-        'battle': {
-            'biomass': 20,
-            'ammunition': 20
-        },
-        'repair': {
-            'biomass': 6,
-            'metal': 6
-        }
-    },
-    6: {
-        'battle': {
-            'biomass': 40,
-            'ammunition': 30
-        },
-        'repair': {
-            'biomass': 14,
-            'metal': 9
-        }
-    },
-    7: {
-        'battle': {
-            'biomass': 10,
-            'ammunition': 10
-        },
-        'repair': {
-            'biomass': 3,
-            'metal': 3
-        }
-    }
-}
-
 
 class AttributeCore(ComponentCore):
     @property
@@ -267,7 +184,3 @@ class AttributeCore(ComponentCore):
     @property
     def scaling(self):
         return attr_scale
-
-    @property
-    def costs(self):
-        return attr_costs

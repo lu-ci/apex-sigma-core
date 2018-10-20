@@ -24,8 +24,10 @@ from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.warmachines.mech.components.ammunition import AmmunitionCore
 from sigma.modules.minigames.warmachines.mech.components.attribute import AttributeCore
 from sigma.modules.minigames.warmachines.mech.components.classification import ClassificationCore
+from sigma.modules.minigames.warmachines.mech.components.common import ComponentCore
 from sigma.modules.minigames.warmachines.mech.components.manufacturer import ManufacturerCore
 
+comp_core = ComponentCore()
 attr_core = AttributeCore()
 manu_core = ManufacturerCore()
 ammo_core = AmmunitionCore()
@@ -83,6 +85,10 @@ class SigmaMachine(object):
             xp_needed = int(base * (level + 1) + (base * (level * 0.75)))
         return level
 
+    @staticmethod
+    def get_comp_keys():
+        return ['attribute', 'manufacturer', 'ammunition', 'classification']
+
     def get_comp_stats(self):
         attr = attr_core.get_stats(self.components.get('attribute'), self.level)
         manu = manu_core.get_stats(self.components.get('manufacturer'), self.level)
@@ -98,26 +104,18 @@ class SigmaMachine(object):
         return attr, manu, ammo, clas
 
     def get_battle_costs(self):
-        attr = attr_core.get_battle_cost(self.components.get('attribute'), self.level)
-        manu = manu_core.get_battle_cost(self.components.get('manufacturer'), self.level)
-        ammo = ammo_core.get_battle_cost(self.components.get('ammunition'), self.level)
-        clas = class_core.get_battle_cost(self.components.get('classification'), self.level)
-        return attr, manu, ammo, clas
+        outs = []
+        for att_key in self.get_comp_keys():
+            val = self.components.get(att_key)
+            outs.append(comp_core.get_battle_cost(val, self.level))
+        return tuple(outs)
 
     def get_repair_costs(self):
-        attr = attr_core.get_repair_cost(
-            self.components.get('attribute'), self.level, self.stats.health, self.current_health
-        )
-        manu = manu_core.get_repair_cost(
-            self.components.get('manufacturer'), self.level, self.stats.health, self.current_health
-        )
-        ammo = ammo_core.get_repair_cost(
-            self.components.get('ammunition'), self.level, self.stats.health, self.current_health
-        )
-        clas = class_core.get_repair_cost(
-            self.components.get('classification'), self.level, self.stats.health, self.current_health
-        )
-        return attr, manu, ammo, clas
+        outs = []
+        for att_key in self.get_comp_keys():
+            val = self.components.get(att_key)
+            outs.append(comp_core.get_repair_cost(val, self.level, self.stats.health, self.current_health))
+        return tuple(outs)
 
     def combine_components(self):
         attr, manu, ammo, clas = self.get_comp_stats()
