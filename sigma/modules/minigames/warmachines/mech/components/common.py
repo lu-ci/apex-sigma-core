@@ -106,7 +106,7 @@ class ComponentCore(object):
         return {}
 
     @property
-    def maintenance(self):
+    def costs(self):
         return {}
 
     def get_name(self, comp_id: int):
@@ -119,14 +119,14 @@ class ComponentCore(object):
 
     def get_battle_cost(self, comp_id: int, level: int):
         requirements = {}
-        base_requirements = self.maintenance.get(comp_id, {}).get('battle', {})
+        base_requirements = self.costs.get(comp_id, {}).get('battle', {})
         for key in base_requirements:
             requirements.update({key: int(base_requirements.get(key) + (level * 0.85))})
         return CostContainer(requirements)
 
     def get_repair_cost(self, comp_id: int, level: int, health: int, current_health: int):
         repairs = {}
-        base_repairs = self.maintenance.get(comp_id, {}).get('repair', {})
+        base_repairs = self.costs.get(comp_id, {}).get('repair', {})
         missing_health = (((health - current_health) / health) * 100)
         for key in base_repairs:
             repairs.update({key: int((base_repairs.get(key) + (level * 1.115)) * missing_health)})
