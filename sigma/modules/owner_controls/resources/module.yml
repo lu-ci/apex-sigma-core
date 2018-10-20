@@ -1,4 +1,4 @@
- name:            Resource Control
+name:             Resource Control
 
 category:         development
 
@@ -32,3 +32,25 @@ commands:
     description:
       Takes away the specified amount of the specified resource from the mentioned user.
       The resource type goes first and then the user mention, and then the amount as shown in the example.
+
+  - name:         wiperesources
+    alts:
+      - "wiperes"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     false
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Wipes all the resources that the user with the given ID owns.
+
+  - name:         wipeinventory
+    alts:
+      - "wipeinv"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     false
+    usage:        "{pfx}{cmd} 0123456789"
+    description:
+      Wipes the inventory of the user with the given ID.
