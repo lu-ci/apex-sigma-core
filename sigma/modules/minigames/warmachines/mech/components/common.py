@@ -66,6 +66,32 @@ class StatContainer(object):
         }
 
 
+class CostContainer(object):
+    def __init__(self, costs):
+        self.raw = costs
+        self.metal = self.raw.get('metal', 0)
+        self.biomass = self.raw.get('biomass', 0)
+        self.sumarum = self.raw.get('sumarum', 0)
+        self.ammunition = self.raw.get('ammunition', 0)
+        self.currency = self.raw.get('currency', 0)
+
+    def combine(self, other):
+        self.metal = int((self.metal + other.metal) / 2)
+        self.biomass = int((self.biomass + other.biomass) / 2)
+        self.sumarum = int((self.sumarum + other.sumarum) / 2)
+        self.ammunition = int((self.ammunition + other.ammunition) / 2)
+        self.currency = int((self.currency + other.currency) / 2)
+
+    def dictify(self):
+        return {
+            'metal': self.metal,
+            'biomass': self.biomass,
+            'sumarum': self.sumarum,
+            'ammunition': self.ammunition,
+            'currency': self.currency
+        }
+
+
 class ComponentCore(object):
     @property
     def names(self):
@@ -96,7 +122,7 @@ class ComponentCore(object):
         base_requirements = self.maintenance.get(comp_id, {}).get('battle', {})
         for key in base_requirements:
             requirements.update({key: int(base_requirements.get(key) + (level * 0.85))})
-        return requirements
+        return CostContainer(requirements)
 
     def get_repair_cost(self, comp_id: int, level: int, health: int, current_health: int):
         repairs = {}
@@ -104,3 +130,4 @@ class ComponentCore(object):
         missing_health = (((health - current_health) / health) * 100)
         for key in base_repairs:
             repairs.update({key: int((base_repairs.get(key) + (level * 1.115)) * missing_health)})
+        return CostContainer(repairs)
