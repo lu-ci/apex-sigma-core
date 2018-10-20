@@ -5,30 +5,30 @@ category:         development
 enabled:          true
 
 commands:
-  - name:         generatecurrency
+  - name:         generateresource
     alts:
-      - "generatekud"
-      - "gencurr"
-      - "genkud"
+      - "generateres"
+      - "genres"
+      - "genr"
     enabled:      true
     permissions:
       owner:      true
       dmable:     false
-    usage:        "{pfx}{cmd} 150 @person"
+    usage:        "{pfx}{cmd} currency @person 5000"
     description:
-      Awards the mentioned user with the specified amount of currency.
-      The currency goes first and then the user mention as shown in the example.
+      Awards the mentioned user with the specified amount of the specified resource.
+      The resource type goes first and then the user mention, and then the amount as shown in the example.
 
-  - name:         destroycurrency
+  - name:         destroyresource
     alts:
-      - "destroykud"
-      - "descurr"
-      - "deskud"
+      - "destroyres"
+      - "desres"
+      - "desr"
     enabled:      true
     permissions:
       owner:      true
       dmable:     false
-    usage:        "{pfx}{cmd} 150 @person"
+    usage:        "{pfx}{cmd} metal @person 100"
     description:
-      Takes away the specified amount of corrency from the mentioned user.
-      The currency goes first and then the user mention as shown in the example.
+      Takes away the specified amount of the specified resource from the mentioned user.
+      The resource type goes first and then the user mention, and then the amount as shown in the example.
