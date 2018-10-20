@@ -3,6 +3,7 @@
 ## Module Index
 - [DEVELOPMENT](#development)
 - [FUN](#fun)
+- [GACHAPON](#gachapon)
 - [GIRLS FRONTLINE](#girls_frontline)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
@@ -34,13 +35,13 @@ Commands | Description | Example
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>declinesuggestion` `>>declinesugg` `>>decsugg` | Declines a submitted suggestion and notifies the submitter. (Bot Owner Only) | `>>declinesuggestion 8e39c9bb Some Title; This does a thing!`
-`>>destroycurrency` `>>destroykud` `>>descurr` `>>deskud` | Takes away the specified amount of corrency from the mentioned user. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>destroycurrency 150 @person`
 `>>destroyitem` `>>desitem` | Destroys the item with the specified ID. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
+`>>destroyresource` `>>destroyres` `>>desres` `>>desr` | Takes away the specified amount of the specified resource from the mentioned user. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>destroyresource metal @person 100`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>eval` `>>exec` `>>code` `>>python` `>>py` | Executes raw python code. This should be used with caution. You should never use this unless you are certain of what you are doing. (Bot Owner Only) | `>>evaluate print('Hello')`
 `>>forcedataupdate` `>>fdu` | Forces all static content data in the databse to be updated from the repository's static file storage. (Bot Owner Only) | `>>forcedataupdate`
-`>>generatecurrency` `>>generatekud` `>>gencurr` `>>genkud` | Awards the mentioned user with the specified amount of currency. The currency goes first and then the user mention as shown in the example. (Bot Owner Only) | `>>generatecurrency 150 @person`
 `>>generateitem` `>>genitem` | Creates and gives the specified item to the mentioned user. (Bot Owner Only) | `>>generateitem @person Blue Delta`
+`>>generateresource` `>>generateres` `>>genres` `>>genr` | Awards the mentioned user with the specified amount of the specified resource. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>generateresource currency @person 5000`
 `>>geterror` | Gets an error's details using the specified token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`
 `>>getinteraction` `>>getinteract` | Retrieves the source image for the interaction with the specified ID. (Bot Owner Only) | `>>getinteraction 4242ea69`
 `>>liststatuses` `>>statuses` | Shows the list of statuses in the status database. (Bot Owner Only) | `>>liststatuses`
@@ -102,6 +103,12 @@ Commands | Description | Example
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` `>>ym` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
+[Back To Top](#module-index)
+
+### GACHAPON
+Commands | Description | Example
+----------|-------------|--------
+`>>warmachinenew` | Makes a new Warmachine. | `>>warmachinenew`
 [Back To Top](#module-index)
 
 ### GIRLS FRONTLINE
@@ -202,7 +209,7 @@ Commands | Description | Example
 `>>sequencegame` `>>sequence` `>>sqcg` | Starts a sequence guessing game. 4 symbols will randomly be chosen and you have to guess them in 6 tries or fewer. When a symbol is in the corret position the diamond will be blue. If it is in the sequence but incorrect position, it will be yellow. If the symbol is not in the sequence, it will be red. The symbols can repeat, the Kud award is 50. | `>>sequencegame`
 `>>slots` | Spin the slot machine, maybe you win, maybe you don't. Who knows? The default bet is 10 Kud but you can specify any amount you want. The rewards are based on how many of the same icon you get in the middle row. Rewards are different for each icon. The slots can be spun only once every 60 seconds. | `>>slots 52`
 `>>trivia` `>>triv` `>>t` | A trivia minigame. You are given a question and have to input the number of your answer. Guess correctly and you win 10-50 Kud (base), depending on the difficulty. You have 20 seconds to answer the question. Consecutive correct answers give you a streak and the streak increases the Kud gained for each correct answers. Timing out or giving an incorrect answer resets the streak. You can choose the category and difficulty of the question like in the usage example, but choosing either will disable the streak. | `>>trivia`
-`>>unscramble` `>>usg` | A minigame where you guess the scrambled word. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>unscramble`
+`>>unscramblegame` `>>unscramble` `>>usg` | A minigame where you guess the scrambled word. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>unscramblegame`
 `>>upgrades` | Shows your current upgrade levels. You can view another user's upgrades by mentioning them. | `>>upgrades @person`
 `>>viewrecipe` `>>recipe` `>>vrec` | Shows details on the specified recipe, such as the ingredients required, value of the item, and its description. | `>>viewrecipe Shade Tea`
 `>>vnchargame` `>>vncg` | A minigame where you guess the name of the visual novel character shown. You can add "hint" in the command to make it show the character's scrambled name. The Kud reward is equal to the number of characters in the shortest part of the character's name. If the hint is used, the Kud reward is split in half. | `>>vnchargame`
@@ -347,10 +354,10 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>disable` `>>dsb` | Enables or disables a command/module. Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name. You can use a command's alias instead of its full name if desired. This command requires the Manage Server permission. | `>>disable m:fun`
-`>>disabled` `>>dsbd` | Shows a list of commands or modules that are disabled on the server. Commands/modules that are disabled, but overridden in any way, will have an asterisk. The list is paginated, each page has up to 50 modules. You can specify the page number you want to see. | `>>disabled commands`
+`>>disabled` `>>dsbd` | Shows a list of commands or modules that are disabled on the server. Commands/modules that are disabled, but overridden in any way, will have an asterisk. The list is paginated, each page has up to 50 items. You can specify the page number you want to see. | `>>disabled commands`
 `>>enable` `>>enb` | Enables a previosuly disabled command/module. Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name. You can use a command's alias instead of its full name if desired. This command requires the Manage Server permission. | `>>enable m:minigames`
 `>>permit` `>>perm` `>>prm` | Adds an override for the for specified command/module. Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name. The accepted types are channels, users, and roles. You can specify multiple targets at once. If you set roles as the type, separate the specified roles with a semi-colon and a space "; ". This command requires the Manage Server permission. | `>>permit channels m:minigames Gamblers; Warlards`
-`>>permitted` `>>permed` `>>prmd` | Lists all overrides of the specified type for the specified command or module. Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name. The accepted types are channels, users, and roles. You can use a command's alias instead of its full name if desired. The list is paginated, each page has up to 50 channels. | `>>permitted channels m:minigames`
+`>>permitted` `>>permed` `>>prmd` | Lists all overrides of the specified type for the specified command or module. Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name. The accepted types are channels, users, and roles. You can use a command's alias instead of its full name if desired. The list is paginated, each page has up to 50 items. | `>>permitted channels m:minigames`
 `>>unpermit` `>>uperm` `>>uprm` | Removes a previosuly added override for the for specified command/module. Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name. The accepted types are channels, users, and roles. You can specify multiple targets at once. If you set roles as the type, separate the specified roles with a semi-colon and a space "; ". This command requires the Manage Server permission. | `>>unpermit channels m:minigames Gamblers; Warlards`
 [Back To Top](#module-index)
 
@@ -412,7 +419,7 @@ Commands | Description | Example
 `>>urbandictionary` `>>urbandict` `>>urban` `>>ud` | Looks up the definition for a word or term in the Urban Dictionary. It is strongly suggested to take these with a grain of salt. | `>>urbandictionary dictionary`
 `>>weather` `>>we` | Shows meteorological information about the specified location. You can add a unit argument at the end of the lookup: auto: automatically select units based on geographic location, ca: same as si, except that wind speed is in kilometers per hour, uk2: same as si, except that nearest storm distance and visibility are in miles and wind speed is in miles per hour, s: Imperial units (the default), si: SI units. If no unit is selected, it defaults to auto. | `>>weather Belgrade unit:si`
 `>>wikipedia` `>>wiki` | Returns the summary of the specified wikipedia page. If a search is too general, an error will be returned. | `>>wikipedia Thread (Computing)`
-`>>youtube` `>>yt` | A simple YouTube search. Outputs the resulting video's information and URL. You can add "-text" at the end of your search to make it a normal URL to the video instead of an embed with information. | `>>youtube Game Grumps`
+`>>youtube` `>>yt` | A simple YouTube search. Outputs the resulting video's information and URL. You can add "--text" at the end of your search to make it a normal URL to the video instead of an embed with information. | `>>youtube Game Grumps`
 [Back To Top](#module-index)
 
 ### SETTINGS
@@ -442,6 +449,9 @@ Commands | Description | Example
 `>>customcommands` `>>customcmds` `>>custcmds` `>>ccmds` | Shows a list of the server's custom commands. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>customcommands 4`
 `>>deletecommands` `>>delcmds` | Toggles whether messages that are a command should be automatically deleted. This command requires the Manage Server permission. | `>>deletecommands`
 `>>filterautowarn` | Toggles whether users will automatically receive a warning upon triggering the blacklisted word/extentions filter. Like the issuewarning command does, but automated. This command requires the Manage Server permission. | `>>filterautowarn`
+`>>filterignore` `>>fignore` | Adds an override for the for specified filter. The accepted types are channels, users, and roles. The accepted filters are arguments, extensions, words, and invites. You can specify multiple targets at once. If you set roles as the type, separate the specified roles with a semi-colon and a space "; ". This command requires the Manage Server permission. | `>>filterignore roles words Mods; Admins`
+`>>filteroverrides` `>>foverrides` `>>fovrs` | Lists all overrides for the specified filter. The accepted filters are asciinames, arguments, extensions, words, and invites. | `>>filteroverrides words`
+`>>filterunignore` `>>funignore` | Remvoes an override for the for specified filter. The accepted types are channels, users, and roles. The accepted filters are arguments, extensions, words, and invites. You can specify multiple targets at once. If you set roles as the type, separate the specified roles with a semi-colon and a space "; ". This command requires the Manage Server permission. | `>>filterunignore roles words Mods; Admins`
 `>>greet` | Toggles if Sigma should greet users when they enter the server. The greeting feature is active by default. This command requires the Manage Server permission. | `>>greet`
 `>>greetchannel` `>>greetch` | Sets the channel the greeting messages should be sent to. This command requires the Manage Server permission. | `>>greetchannel #welcome`
 `>>greetdm` `>>greetpm` | Toggles if Sigma should greet users via a DM when they enter the server. This can be enabled in addition to server-bound greetings. This command requires the Manage Server permission. | `>>greetdm`
@@ -464,23 +474,22 @@ Commands | Description | Example
 `>>removeresponder` `>>deleteresponder` `>>remres` `>>delres` | Removes a custom responder trigger from the server. This command requires the Manage Server permission. | `>>removeresponder hi`
 `>>renamecommand` `>>rencmd` | Replaces a custom command's trigger without losing the original trigger's contents. The original custom command trigger goes first, followed by what you wish to change it to. This command requires the Manage Server permission. | `>>renamecommand hi howdy`
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
-`>>spawnchevrons` `>>spawnchevs` | Toggles if Sigma shoulw allow chevrons to spawn in a target channel. If no channel is tagged, the target will be the channel that the command is used in. | `>>spawnchevrons #channel`
 `>>starboard` `>>sbd` | Toggles the starboard on and off. When a message reaches enough ractions with the specified emote, it will be posted to the starboard channel. You can set the channel, emote, and minimum number of reactions before a message is posted. | `>>starboard`
 `>>starboardchannel` `>>sbchannel` `>>sbch` | Sets the channel for starboards to be posted in. | `>>starboardchannel #channel`
 `>>starboardemote` `>>sbemote` `>>sbe` | Sets the emote Sigma should associate with starboards. When a message reaches the set number of this reaction, it will be posted to the set starboard channel. The emote must be native to Discord. Custom emotes are not supported. | `>>starboardemote 100`
 `>>starboardlimit` `>>sblimit` `>>sbl` | Sets the minimum number of reactons for a starboard to be posted. | `>>starboardlimit 25`
 `>>unblockarguments` `>>unblockargument` `>>unblockargs` `>>unblockarg` | Removes arguments from the blocked list, allowing commands to be executed with them again. | `>>unblockarguments something idunno`
-`>>unblockextensions` `>>unblockextension` `>>unblockexts` `>>unblockext` | Removes a blocked extension allowing people to send files containing it. To purge the entire extension filter, enter -all as the command argument. Extensions should not be separated by a delimiter. | `>>unblockextensions boobs`
-`>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter, enter -all as the command argument. Words should not be separated by a delimiter. | `>>unblockwords boobs`
+`>>unblockextensions` `>>unblockextension` `>>unblockexts` `>>unblockext` | Removes a blocked extension allowing people to send files containing it. To purge the entire extension filter, enter --all as the command argument. Extensions should not be separated by a delimiter. | `>>unblockextensions boobs`
+`>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. This command requires the Manage Server permission. | `>>unflip`
-`>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter, enter -all as the command argument. Words should not be separated by a delimiter. | `>>unhardblockwords boobs`
+`>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unhardblockwords boobs`
 [Back To Top](#module-index)
 
 ### STATISTICS
 Commands | Description | Example
 ----------|-------------|--------
 `>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you've obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
-`>>resourcelist` `>>reslist` | Shows all the available resource types in the bot. | `>>resourcelist`
+`>>resources` `>>reslist` `>>res` | Shows all the available resources and how many you have of each. | `>>resources`
 `>>resourcestatistics` `>>resourcestats` `>>resstats` | Shows statistical data for the given resource type. You can use the bot's currency name instead of "currency", like "kud" for example. Resources also include "experience" and "cookies". The command will show where you got that resource. From which user, which server, which channel and with which function. Only "earned" resources are tracked however, meaning that there's no data on gambling. You can also add "--expense" to the end of the command to see where you spent that resource instead of showing where you got it as well as target a user with the command to see their stats. You can see all available resources with the "resourcelist" command. | `>>resourcestatistics currency @person --expense`
 `>>topcookies` `>>toprep` | Shows the top 20 users who have the most cookies. A filter can be added, either global or total, sorting it by the amount they globaly have right now, which is the default, or the total amount of cookies that they have collected over time regardless of resets. | `>>topcookies global`
 `>>topcurrency` `>>topkud` | Shows the top 20 users who have the most currency. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of currency that they have collected over time regardless of resets. | `>>topcurrency local`
