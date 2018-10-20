@@ -16,7 +16,6 @@
 
 from sigma.modules.minigames.warmachines.mech.components.common import ComponentCore
 
-
 ammo_names = {
     0: 'Ballistic',
     1: 'Plasma',
@@ -172,6 +171,89 @@ ammo_scale = {
     }
 }
 
+ammo_costs = {
+    0: {
+        'battle': {
+            'biomass': 20,
+            'ammunition': 25
+        },
+        'repair': {
+            'biomass': 6,
+            'metal': 8.5
+        }
+    },
+    1: {
+        'battle': {
+            'biomass': 30,
+            'ammunition': 15
+        },
+        'repair': {
+            'biomass': 9,
+            'metal': 5.5
+        }
+    },
+    2: {
+        'battle': {
+            'biomass': 20,
+            'ammunition': 20
+        },
+        'repair': {
+            'biomass': 6,
+            'metal': 6
+        }
+    },
+    3: {
+        'battle': {
+            'biomass': 30,
+            'ammunition': 40
+        },
+        'repair': {
+            'biomass': 9,
+            'metal': 14
+        }
+    },
+    4: {
+        'battle': {
+            'biomass': 10,
+            'ammunition': 10
+        },
+        'repair': {
+            'biomass': 3,
+            'metal': 3
+        }
+    },
+    5: {
+        'battle': {
+            'biomass': 20,
+            'ammunition': 20
+        },
+        'repair': {
+            'biomass': 6,
+            'metal': 6
+        }
+    },
+    6: {
+        'battle': {
+            'biomass': 40,
+            'ammunition': 30
+        },
+        'repair': {
+            'biomass': 14,
+            'metal': 9
+        }
+    },
+    7: {
+        'battle': {
+            'biomass': 10,
+            'ammunition': 10
+        },
+        'repair': {
+            'biomass': 3,
+            'metal': 3
+        }
+    }
+}
+
 
 class AmmunitionCore(ComponentCore):
     @property
@@ -186,3 +268,6 @@ class AmmunitionCore(ComponentCore):
     def scaling(self):
         return ammo_scale
 
+    @property
+    def costs(self):
+        return ammo_costs

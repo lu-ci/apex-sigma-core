@@ -171,7 +171,7 @@ attr_scale = {
     }
 }
 
-attr_maint = {
+attr_costs = {
     0: {
         'battle': {
             'biomass': 20,
@@ -245,10 +245,10 @@ attr_maint = {
     7: {
         'battle': {
             'biomass': 10,
-            'ammunition': 3
+            'ammunition': 10
         },
         'repair': {
-            'biomass': 10,
+            'biomass': 3,
             'metal': 3
         }
     }
@@ -269,5 +269,5 @@ class AttributeCore(ComponentCore):
         return attr_scale
 
     @property
-    def maintenance(self):
-        return attr_maint
+    def costs(self):
+        return attr_costs
