@@ -34,7 +34,7 @@ async def resources(cmd: SigmaCommand, message: discord.Message, args: list):
         mixed += resd.current
         resd_guild = resd.origins.guilds.get(message.guild.id)
         boop_data.append([res.title(), resd.current, resd_guild, resd.total])
-    stat_line = f'{target.name} has a total of {mixed} resources over {len(res)} resource types.'
+    stat_line = f'{target.name} has a total of {mixed} resources over {len(reses)} resource types.'
     response.add_field(name='Resource Stats', value=stat_line)
     response.add_field(name='Resource Listing', value=f'```hs\n{boop(boop_data, boop_head)}\n```', inline=False)
     await message.channel.send(embed=response)
