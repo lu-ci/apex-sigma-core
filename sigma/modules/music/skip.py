@@ -30,11 +30,14 @@ async def skip(cmd: SigmaCommand, message: discord.Message, args: list):
             if message.guild.voice_client:
                 queue = cmd.bot.music.get_queue(message.guild.id)
                 if queue:
-                    curr = cmd.bot.music.currents[message.guild.id]
-                    message.guild.voice_client.stop()
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Skipping {curr.title}.')
-                    requester = f'{message.author.name}#{message.author.discriminator}'
-                    response.set_author(name=requester, icon_url=user_avatar(message.author))
+                    curr = cmd.bot.music.currents.get(message.guild.id)
+                    if curr:
+                        message.guild.voice_client.stop()
+                        response = discord.Embed(color=0x66CC66, title=f'✅ Skipping {curr.title}.')
+                        requester = f'{message.author.name}#{message.author.discriminator}'
+                        response.set_author(name=requester, icon_url=user_avatar(message.author))
+                    else:
+                        response = discord.Embed(color=0xBE1931, title='❗ Nothing currently playing.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ The queue is empty or this is the last song.')
             else:
