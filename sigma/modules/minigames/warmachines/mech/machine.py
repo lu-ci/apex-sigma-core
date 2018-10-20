@@ -90,17 +90,55 @@ class SigmaMachine(object):
         clas = class_core.get_stats(self.components.get('classification'), self.level)
         return attr, manu, ammo, clas
 
+    def get_comp_names(self):
+        attr = attr_core.get_name(self.components.get('attribute'))
+        manu = manu_core.get_name(self.components.get('manufacturer'))
+        ammo = ammo_core.get_name(self.components.get('ammunition'))
+        clas = class_core.get_name(self.components.get('classification'))
+        return attr, manu, ammo, clas
+
+    def get_battle_costs(self):
+        attr = attr_core.get_battle_cost(self.components.get('attribute'), self.level)
+        manu = manu_core.get_battle_cost(self.components.get('manufacturer'), self.level)
+        ammo = ammo_core.get_battle_cost(self.components.get('ammunition'), self.level)
+        clas = class_core.get_battle_cost(self.components.get('classification'), self.level)
+        return attr, manu, ammo, clas
+
+    def get_repair_costs(self):
+        attr = attr_core.get_repair_cost(
+            self.components.get('attribute'), self.level, self.stats.health, self.current_health
+        )
+        manu = manu_core.get_repair_cost(
+            self.components.get('manufacturer'), self.level, self.stats.health, self.current_health
+        )
+        ammo = ammo_core.get_repair_cost(
+            self.components.get('ammunition'), self.level, self.stats.health, self.current_health
+        )
+        clas = class_core.get_repair_cost(
+            self.components.get('classification'), self.level, self.stats.health, self.current_health
+        )
+        return attr, manu, ammo, clas
+
     def combine_components(self):
         attr, manu, ammo, clas = self.get_comp_stats()
         for sec_com in [attr, ammo, clas]:
             manu.combine(sec_com)
         return manu
 
+    def combine_battle_cost(self):
+        attr, manu, ammo, clas = self.get_battle_costs()
+        for sec_com in [attr, ammo, clas]:
+            manu.combine(sec_com)
+        return manu
+
+    def combine_repair_cost(self):
+        attr, manu, ammo, clas = self.get_repair_costs()
+        for sec_com in [attr, ammo, clas]:
+            manu.combine(sec_com)
+        return manu
+
     def gen_prod_name(self):
-        attr = attr_core.get_name(self.components.get('attribute'))
-        manu = manu_core.get_name(self.components.get('manufacturer'))
-        ammo = ammo_core.get_name(self.components.get('ammunition'))
-        clas = class_core.get_name(self.components.get('classification'))
+        attr, manu, ammo, clas = self.get_comp_names()
         return f'{attr} {manu} {ammo} {clas}'
 
     def dictify(self):
