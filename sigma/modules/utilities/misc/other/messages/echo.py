@@ -22,6 +22,8 @@ from sigma.core.mechanics.command import SigmaCommand
 async def echo(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         content = f'👄 {" ".join(args)[:1995]}'
+        content = content.replace('@everyone', 'everyone')
+        content = content.replace('@here', 'here')
         await message.channel.send(content)
     else:
         no_args = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')

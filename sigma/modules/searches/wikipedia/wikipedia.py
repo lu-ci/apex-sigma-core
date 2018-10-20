@@ -26,9 +26,7 @@ wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_
 
 
 def shorten_sentences(text: str):
-    print(text)
     sentences = [f'{s.strip()}.' for s in text.replace('\n', ' ').split('.')]
-    print(" ".join(sentences))
     new_sentences = []
     for sentence in sentences:
         if len(' '.join(new_sentences)) + len(sentence) < 1900:
