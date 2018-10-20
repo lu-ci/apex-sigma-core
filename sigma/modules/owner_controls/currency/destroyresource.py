@@ -19,18 +19,19 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def destroycurrency(cmd: SigmaCommand, message: discord.Message, args: list):
+async def destroyresource(cmd: SigmaCommand, message: discord.Message, args: list):
     if message.mentions:
-        if len(args) >= 2:
+        if len(args) >= 3:
             target = message.mentions[0]
             if not target.bot:
                 try:
-                    amount = abs(int(args[0]))
-                    target_amount = await cmd.db.get_resource(target.id, 'currency')
+                    amount = abs(int(args[-1]))
+                    res_nam = args[0].lower()
+                    target_amount = await cmd.db.get_resource(target.id, res_nam)
                     target_amount = target_amount.current
                     if amount <= target_amount:
-                        await cmd.db.del_resource(target.id, 'currency', amount, cmd.name, message)
-                        title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {cmd.bot.cfg.pref.currency} '
+                        await cmd.db.del_resource(target.id, res_nam, amount, cmd.name, message)
+                        title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {res_nam} '
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
                     else:
