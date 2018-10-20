@@ -6,6 +6,8 @@ enabled:          true
 
 commands:
   - name:         warmachinenew
+    alts:
+      - "wmnew"
     enabled:      true
     description:
       Makes a new Warmachine.

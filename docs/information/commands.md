@@ -110,7 +110,7 @@ Commands | Description | Example
 ### GACHAPON
 Commands | Description | Example
 ----------|-------------|--------
-`>>warmachinenew` | Makes a new Warmachine. | `>>warmachinenew`
+`>>warmachinenew` `>>wmnew` | Makes a new Warmachine. | `>>warmachinenew`
 [Back To Top](#module-index)
 
 ### GIRLS FRONTLINE
