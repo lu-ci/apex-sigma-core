@@ -64,8 +64,8 @@ async def wfsales(cmd: SigmaCommand, message: discord.Message, args: list):
         item_table = boop(item_list, headers)
         response = discord.Embed(color=0x336699)
         response.set_author(name='Warframe Promotions', icon_url=wf_logo)
-        response.description = stat_block
-        response.add_field(name=title, value=f'```hs\n{item_table}\n```')
+        response.add_field(name='Details', value=f'```py\n{stat_block}\n```', inline=False)
+        response.add_field(name=title, value=f'```hs\n{item_table}\n```', inline=False)
     else:
         response = discord.Embed(color=0x336699, title=f'No items found, try adding the "all" argument.')
     await message.channel.send(embed=response)

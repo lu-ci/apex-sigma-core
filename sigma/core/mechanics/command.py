@@ -145,7 +145,7 @@ class SigmaCommand(object):
                 filter_perms = FilterPermissions(self, message)
                 override = await filter_perms.check_perms('arguments')
                 if await self.check_black_args(message.guild, args):
-                    if not override:
+                    if not any([message.author.guild_permissions.administrator, override]):
                         await self.respond_with_icon(message, '🛡')
                         return
             if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
