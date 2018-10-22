@@ -26,7 +26,7 @@ async def destroyresource(cmd: SigmaCommand, message: discord.Message, args: lis
             if not target.bot:
                 try:
                     amount = abs(int(args[-1]))
-                    res_nam = 'currency' if args[0].lower() == 'kud' else args[0].lower()
+                    res_nam = 'currency' if args[0].lower() == cmd.bot.cfg.pref.currency else args[0].lower()
                     target_amount = await cmd.db.get_resource(target.id, res_nam)
                     target_amount = target_amount.current
                     if amount <= target_amount:
