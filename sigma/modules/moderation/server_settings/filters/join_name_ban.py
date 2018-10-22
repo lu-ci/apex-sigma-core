@@ -1,0 +1,44 @@
+# Apex Sigma: The Database Giant Discord Bot.
+# Copyright (C) 2018  Lucia's Cipher
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import discord
+
+from sigma.core.mechanics.event import SigmaEvent
+
+
+async def join_name_ban(ev: SigmaEvent, member: discord.Member):
+    if member.guild:
+        active = await ev.db.get_guild_settings(member.guild.id, 'name_filter_ban')
+        if active:
+            bad_name = None
+            blocked_names = await ev.db.get_guild_settings(member.guild.id, 'blocked_names') or []
+            for name in blocked_names:
+                if name in member.name.lower():
+                    bad_name = name
+                    break
+            if bad_name:
+                try:
+                    reason = f'Had "{bad_name}" in their name'
+                    to_target = discord.Embed(color=0x696969)
+                    to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
+                    to_target.set_footer(text=f'From: {member.guild.name}.', icon_url=member.guild.icon_url)
+                    try:
+                        await member.send(embed=to_target)
+                    except discord.Forbidden:
+                        pass
+                    await member.ban(reason=f'Autoban: {reason}.')
+                except Exception:
+                    pass
