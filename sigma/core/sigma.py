@@ -35,12 +35,6 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Override classes
-
-setattr(discord.Guild, 'settings', {})
-setattr(discord.Member, 'settings', {})
-setattr(discord.User, 'settings', {})
-
 ci_token = os.getenv('CI')
 if not ci_token:
     init_cfg = Configuration()
