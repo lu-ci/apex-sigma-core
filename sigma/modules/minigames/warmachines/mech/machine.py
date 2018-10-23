@@ -71,7 +71,7 @@ class SigmaMachine(object):
             comp_roll = secrets.randbelow(8)
             components.update({ck: comp_roll})
         return {
-            'machine_id': secrets.token_hex(16),
+            'machine_id': secrets.token_hex(4),
             'components': components
         }
 
