@@ -71,6 +71,7 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.init_config()
         self.log.info('---------------------------------')
+        self.loop.run_until_complete(self.init_cacher())
         self.loop.run_until_complete(self.init_database())
         self.log.info('---------------------------------')
         self.init_cool_down()
@@ -88,6 +89,10 @@ class ApexSigma(client_class):
         if os.path.exists('cache'):
             shutil.rmtree('cache')
         os.makedirs('cache')
+
+    async def init_cacher(self):
+        set_cache_type(self.cfg.db.cache_type)
+        self.cache = await get_cache()
 
     def init_logger(self):
         self.log = create_logger('Sigma')
@@ -109,8 +114,6 @@ class ApexSigma(client_class):
             await self.db.precache_profiles()
             await self.db.precache_resources()
             set_color_cache_coll(self.db[self.db.db_nam].ColorCache)
-            set_cache_type(self.cfg.db.cache_type)
-            self.cache = await get_cache()
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
