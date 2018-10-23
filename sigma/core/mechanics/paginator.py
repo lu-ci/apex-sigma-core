@@ -19,12 +19,11 @@ import discord
 
 
 class PaginatorInstance(object):
-    def __init__(self, message: discord.Message, items: list, span: int, generator):
+    def __init__(self, message: discord.Message, items: list, span: int):
         self.message = message
         self.items = items
         self.span = span
         self.current_page = 1
-        self.generator = generator
 
     def get_items(self, get_all: bool = False):
         if get_all:
@@ -58,3 +57,10 @@ class PaginatorCore(object):
 
     def get_paginator(self, mid: int):
         self.paginators.get(mid)
+
+    def add_paginator(self, mid: int, paginator: PaginatorInstance):
+        self.paginators.update({mid: paginator})
+
+    def del_paginator(self, mid: int):
+        if mid in self.paginators.keys():
+            self.paginators.pop(mid)
