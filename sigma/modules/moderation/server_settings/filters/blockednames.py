@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def blockednames(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +26,7 @@ async def blockednames(cmd: SigmaCommand, message: discord.Message, args: list):
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked names.')
     else:
         total_count = len(blocked_names)
-        blocked_words, page = paginate(blocked_names, args[0] if args else 1, 20)
+        blocked_words, page = PaginatorCore.paginate(blocked_names, args[0] if args else 1, 20)
         showing_count = len(blocked_words)
         title = f'ℹ Names blocked on {message.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)

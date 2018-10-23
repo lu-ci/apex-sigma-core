@@ -255,13 +255,19 @@ class ApexSigma(client_class):
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
         if not user.bot:
             self.loop.create_task(self.queue.event_runner('reaction_add', reaction, user))
+            if reaction.emoji.name in ['⬅', '➡']:
+                self.loop.create_task(self.queue.event_runner('paginate', reaction, user))
 
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
         if not user.bot:
             self.loop.create_task(self.queue.event_runner('reaction_remove', reaction, user))
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
-        self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
+        if payload.user_id != payload.channel_id:
+            self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
+            if payload.emoji.name in ['⬅', '➡']:
+                self.loop.create_task(self.queue.event_runner('raw_paginate', payload))
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
-        self.loop.create_task(self.queue.event_runner('raw_reaction_remove', payload))
+        if payload.user_id != payload.channel_id:
+            self.loop.create_task(self.queue.event_runner('raw_reaction_remove', payload))

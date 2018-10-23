@@ -32,13 +32,16 @@ def set_color_cache_coll(coll):
 
 def convert_to_seconds(time_input: str):
     indent_list = time_input.split(':')
-    if len(indent_list) == 3:
-        output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
-    elif len(indent_list) == 2:
-        output = (60 * int(indent_list[0]) + int(indent_list[1]))
-    elif len(indent_list) == 1:
-        output = int(indent_list[0])
-    else:
+    try:
+        if len(indent_list) == 3:
+            output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
+        elif len(indent_list) == 2:
+            output = (60 * int(indent_list[0]) + int(indent_list[1]))
+        elif len(indent_list) == 1:
+            output = int(indent_list[0])
+        else:
+            raise LookupError
+    except ValueError:
         raise LookupError
     return output
 
@@ -59,18 +62,6 @@ def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
         else:
             output = user.default_avatar_url
     return output
-
-
-def paginate(items: list, pg_num: str or int, span=10):
-    try:
-        page = abs(int(pg_num))
-    except (ValueError, TypeError):
-        page = 1
-    pages, length = len(items) // span, len(items)
-    max_page = pages if length % span == 0 and length != 0 else pages + 1
-    page = max_page if page > max_page != 0 else page if page else 1
-    start_range, end_range = (page - 1) * span, page * span
-    return items[start_range:end_range], page
 
 
 def command_message_parser(message: discord.Message, text: str):

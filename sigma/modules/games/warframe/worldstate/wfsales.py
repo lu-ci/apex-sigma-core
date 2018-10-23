@@ -19,7 +19,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
 
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'
@@ -39,7 +39,7 @@ async def wfsales(cmd: SigmaCommand, message: discord.Message, args: list):
     sales_data_all = parse_sales_data(sales_text, discount_only)
     total_item = len(sales_data_all)
     page = args[0] if args else 1
-    sales_data, page = paginate(sales_data_all, page)
+    sales_data, page = PaginatorCore.paginate(sales_data_all, page)
     start_range, end_range = (page - 1) * 10, page * 10
     no_discounts = True
     for item in sales_data:

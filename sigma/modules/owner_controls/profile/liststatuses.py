@@ -18,7 +18,8 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate, get_image_colors, user_avatar
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -28,7 +29,7 @@ async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
         status_list = sorted(status_list, key=lambda x: x[1])
         total_status = len(status_list)
         page = args[0] if args else 1
-        status_list, page = paginate(status_list, page)
+        status_list, page = PaginatorCore.paginate(status_list, page)
         status_block = boop(status_list, ['ID', 'Text'])
         response = discord.Embed(color=await get_image_colors(cmd.bot.user.avatar_url))
         response.set_author(name=f'{cmd.bot.user.name}\'s Status Rotation Items', icon_url=user_avatar(cmd.bot.user))

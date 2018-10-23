@@ -18,7 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.generic_responses import permission_denied
 
 
@@ -40,7 +40,7 @@ async def listinactivewarnings(cmd: SigmaCommand, message: discord.Message, args
                     warn_time = arrow.get(warning.get('warning').get('timestamp')).format('DD. MMM. YYYY. HH:mm')
                     warn_list.append(f'`{warn_id}` by **{moderator}** on {warn_time}.')
                 page = args[1] if len(args) > 1 else 1
-                warn_list, page = paginate(warn_list, page, 5)
+                warn_list, page = PaginatorCore.paginate(warn_list, page, 5)
                 start_range, end_range = (page - 1) * 5, page * 5
                 warn_list = '\n'.join(warn_list)
                 ender = 's' if len(warnings) > 1 else ''

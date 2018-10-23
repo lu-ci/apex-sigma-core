@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.permissions import ServerCommandPermissions
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -40,7 +40,7 @@ async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
             module_list = sorted(command_list, key=lambda x: x[0].name)
             module_count = len(module_list)
             page = args[1] if len(args) > 1 else 1
-            module_list, page = paginate(module_list, page, 30)
+            module_list, page = PaginatorCore.paginate(module_list, page, 30)
             output = ''
             for module_item, module_perm in module_list:
                 if module_perm:

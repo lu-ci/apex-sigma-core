@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -41,7 +41,7 @@ async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
                 for i, line in enumerate(list_file.get('contents')):
                     list_lines.append(f'**{i + 1}** {line}')
                 page = args[1] if len(args) > 1 else 1
-                list_lines, page = paginate(list_lines, page, 20)
+                list_lines, page = PaginatorCore.paginate(list_lines, page, 20)
                 list_out = '\n'.join(list_lines)
                 mode, icon = list_file.get('mode'), ''
                 if mode in ['private', 'locked']:

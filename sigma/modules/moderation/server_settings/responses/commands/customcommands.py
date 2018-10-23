@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +27,7 @@ async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list
         custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)
         page = args[0] if args else 1
-        commands, page = paginate(custom_commands, page)
+        commands, page = PaginatorCore.paginate(custom_commands, page)
         start_range = (page - 1) * 10
         if commands:
             ender = 's' if cmd_count > 1 else ''

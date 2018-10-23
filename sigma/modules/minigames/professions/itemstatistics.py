@@ -18,7 +18,8 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import user_avatar, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -36,7 +37,7 @@ async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list
     mem_count = len(all_stats)
     all_stats = sorted(all_stats, key=lambda k: k[1], reverse=True)
     page = args[0] if args else 1
-    all_stats, page = paginate(all_stats, page)
+    all_stats, page = PaginatorCore.paginate(all_stats, page)
     total_count = len([i for i in item_core.all_items if i.rarity != 0])
     listing = []
     for stat in all_stats:

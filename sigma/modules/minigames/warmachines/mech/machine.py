@@ -21,9 +21,20 @@ import arrow
 import discord
 
 from sigma.core.mechanics.database import Database
+from sigma.modules.minigames.warmachines.mech.components.ammunition import AmmunitionCore
+from sigma.modules.minigames.warmachines.mech.components.attribute import AttributeCore
+from sigma.modules.minigames.warmachines.mech.components.classification import ClassificationCore
+from sigma.modules.minigames.warmachines.mech.components.common import ComponentCore
+from sigma.modules.minigames.warmachines.mech.components.manufacturer import ManufacturerCore
+
+comp_core = ComponentCore()
+attr_core = AttributeCore()
+manu_core = ManufacturerCore()
+ammo_core = AmmunitionCore()
+class_core = ClassificationCore()
 
 
-class SigmaWeapon(object):
+class SigmaMachine(object):
     def __init__(self, db: Database, owner: discord.Member, data: dict):
 
         # Refferences
@@ -35,31 +46,108 @@ class SigmaWeapon(object):
         # Information
 
         self.id = self.raw.get('machine_id')
-        self.name = self.raw.get('name')
-        self.level = self.raw.get('level') or 0
+        self.experience = self.raw.get('experience', 0)
+        self.level = self.get_level(self.experience)
         self.components = self.raw.get('components')
-        self.product_name = None  # TODO: Make a name generator
+        self.product_name = self.gen_prod_name()
+        self.name = self.raw.get('name', self.product_name)
 
         # Statistics
 
-        self.experience = self.raw.get('experience') or 0
-        self.battles = self.raw.get('battles') or []
+        self.battles = self.raw.get('battles', [])
 
         # Specifications
 
-        self.health = self.raw.get('health') or 0
-        self.damage = self.raw.get('damage') or 0
-        self.accuracy = self.raw.get('accuracy') or 0
-        self.evasion = self.raw.get('evasion') or 0
-        self.rate_of_fire = self.raw.get('rate_of_fire') or 0
-        self.crit_chance = self.raw.get('crit_chance') or 0
-        self.crit_damage = self.raw.get('crit_damage') or 0
-        self.armor = self.raw.get('armor') or 0
-        self.armor_pen = self.raw.get('armor_pen') or 0
+        self.stats = self.combine_components()
 
         # State
 
-        self.current_health = self.raw.get('current_health') or self.health
+        self.current_health = self.raw.get('current_health', self.stats.health)
+
+    @staticmethod
+    def new():
+        components = {'attribute': None, 'manufacturer': None, 'ammunition': None, 'classification': None}
+        for ck in components:
+            comp_roll = secrets.randbelow(8)
+            components.update({ck: comp_roll})
+        return {
+            'machine_id': secrets.token_hex(4),
+            'components': components
+        }
+
+    @staticmethod
+    async def get_machines(db: Database, target: discord.Member):
+        machines = await db.get_profile(target.id, 'machines') or {}
+        machine_list = []
+        if machines:
+            for mid in machines.keys():
+                mdat = machines.get(mid)
+                machine_list.append(SigmaMachine(db, target, mdat))
+        return machine_list
+
+    @staticmethod
+    def get_level(xp: int):
+        base = 100
+        level = 0
+        xp_needed = 0
+        while xp > xp_needed:
+            level += 1
+            xp_needed = int(base * (level + 1) + (base * (level * 0.75)))
+        return level
+
+    @staticmethod
+    def get_comp_keys():
+        return ['attribute', 'manufacturer', 'ammunition', 'classification']
+
+    def get_comp_stats(self):
+        attr = attr_core.get_stats(self.components.get('attribute'), self.level)
+        manu = manu_core.get_stats(self.components.get('manufacturer'), self.level)
+        ammo = ammo_core.get_stats(self.components.get('ammunition'), self.level)
+        clas = class_core.get_stats(self.components.get('classification'), self.level)
+        return attr, manu, ammo, clas
+
+    def get_comp_names(self):
+        attr = attr_core.get_name(self.components.get('attribute'))
+        manu = manu_core.get_name(self.components.get('manufacturer'))
+        ammo = ammo_core.get_name(self.components.get('ammunition'))
+        clas = class_core.get_name(self.components.get('classification'))
+        return attr, manu, ammo, clas
+
+    def get_battle_costs(self):
+        outs = []
+        for att_key in self.get_comp_keys():
+            val = self.components.get(att_key)
+            outs.append(comp_core.get_battle_cost(val, self.level))
+        return tuple(outs)
+
+    def get_repair_costs(self):
+        outs = []
+        for att_key in self.get_comp_keys():
+            val = self.components.get(att_key)
+            outs.append(comp_core.get_repair_cost(val, self.level, self.stats.health, self.current_health))
+        return tuple(outs)
+
+    def combine_components(self):
+        attr, manu, ammo, clas = self.get_comp_stats()
+        for sec_com in [attr, ammo, clas]:
+            manu.combine(sec_com)
+        return manu
+
+    def combine_battle_cost(self):
+        attr, manu, ammo, clas = self.get_battle_costs()
+        for sec_com in [attr, ammo, clas]:
+            manu.combine(sec_com)
+        return manu
+
+    def combine_repair_cost(self):
+        attr, manu, ammo, clas = self.get_repair_costs()
+        for sec_com in [attr, ammo, clas]:
+            manu.combine(sec_com)
+        return manu
+
+    def gen_prod_name(self):
+        attr, manu, ammo, clas = self.get_comp_names()
+        return f'{attr} {manu} {ammo} {clas}'
 
     def dictify(self):
         return {
@@ -67,19 +155,9 @@ class SigmaWeapon(object):
             'user_id': self.owner.id,
             'components': self.components,
             'name': self.name,
-            'level': self.level,
             'experience': self.experience,
             'battles': self.battles,
-            'current_health': self.current_health,
-            'health': self.health,
-            'damage': self.damage,
-            'accuracy': self.accuracy,
-            'evasion': self.evasion,
-            'rate_of_fire': self.rate_of_fire,
-            'crit_chance': self.crit_chance,
-            'crit_damage': self.crit_damage,
-            'armor': self.armor,
-            'armor_pen': self.armor_pen
+            'current_health': self.current_health
         }
 
     async def update(self):
@@ -116,26 +194,25 @@ class SigmaWeapon(object):
         return battles, won_against, lost_against
 
     def is_alive(self):
-        return bool(self.health)
+        return bool(self.current_health)
 
     def roll_crit(self):
-        return secrets.randbelow(100) <= self.crit_chance
+        return secrets.randbelow(100) <= self.stats.crit_chance
 
     def is_hit(self, accuracy: int):
-        return secrets.randbelow(accuracy) > secrets.randbelow(self.evasion)
+        return secrets.randbelow(accuracy) > secrets.randbelow(self.stats.evasion)
 
     def do_damage(self):
-        damage_done = self.damage * 0.9 + secrets.randbelow(self.damage * 0.2)
+        damage_done = int(((self.stats.damage * 0.6) + secrets.randbelow(self.stats.damage * 0.6)))
         if self.roll_crit():
-            damage_done = int(damage_done * (1 + (self.crit_damage / 100)))
+            damage_done = int(damage_done * (1 + (self.stats.crit_damage / 100)))
         return damage_done
 
     async def take_damage(self, damage: int, armor_pen: int):
-        eff_armor = self.armor - armor_pen
+        eff_armor = self.stats.armor - armor_pen
         armor_mitigation = eff_armor / (1 + (eff_armor * 0.0215))
         damage_taken = int(damage * (1 - (armor_mitigation / 100)))
         if damage_taken > self.current_health:
             damage_taken = self.current_health
         self.current_health -= damage_taken
-        await self.update()
         return damage_taken

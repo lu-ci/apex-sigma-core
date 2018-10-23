@@ -31,13 +31,14 @@ commands:
       Experience is earned by being an active member of the community.
       Yes, this is meant to be vague.
 
-  - name:         resourcelist
+  - name:         resources
     alts:
       - "reslist"
+      - "res"
     enabled:      true
     usage:        "{pfx}{cmd}"
     description:
-      Shows all the available resource types in the bot.
+      Shows all the available resources and how many you have of each.
 
   - name:         resourcestatistics
     alts:

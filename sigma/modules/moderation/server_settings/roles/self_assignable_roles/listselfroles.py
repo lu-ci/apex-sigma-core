@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -35,7 +36,7 @@ async def listselfroles(cmd: SigmaCommand, message: discord.Message, args: list)
         role_count = len(role_list)
         role_list = sorted(role_list)
         page = args[0] if args else 1
-        role_list, page = paginate(role_list, page)
+        role_list, page = PaginatorCore.paginate(role_list, page)
         ender = 's' if role_count > 1 else ''
         summary = f'Showing **{len(role_list)}** role{ender} from Page **#{page}**.'
         summary += f'\n{message.guild.name} has **{role_count}** self assignable role{ender}.'

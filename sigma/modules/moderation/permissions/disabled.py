@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate, get_image_colors
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
@@ -57,7 +58,7 @@ async def disabled(cmd: SigmaCommand, message: discord.Message, args: list):
             if disabled_list:
                 disabled_count = len(disabled_list)
                 page = args[1] if len(args) > 1 else 1
-                disabled_list, page_num = paginate(disabled_list, page, 50)
+                disabled_list, page_num = PaginatorCore.paginate(disabled_list, page, 50)
                 title = f'{message.guild.name} Disabled {perm_name.title()}'
                 info = f'[Page {page_num}] Showing {len(disabled_list)} out of {disabled_count} disabled {perm_name}.'
                 response = discord.Embed(color=await get_image_colors(message.guild.icon_url))

@@ -17,19 +17,21 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.resources import SigmaResource
 
 
-async def blockedarguments(cmd: SigmaCommand, message: discord.Message, args: list):
-    blocked_args = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
-    if not blocked_args:
-        response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
+async def wiperesources(cmd: SigmaCommand, message: discord.Message, args: list):
+    try:
+        target = cmd.bot.get_user(int(args[0])) if args else None
+    except ValueError:
+        target = None
+    if target:
+        colls = await cmd.db[cmd.db.db_nam].list_collection_names()
+        reses = list(sorted([coll[:-8].lower() for coll in colls if coll.endswith('Resource')]))
+        for res in reses:
+            new_res = SigmaResource({})
+            await cmd.db.update_resource(target.id, res, new_res)
+        response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target.display_name}\'s resources.')
     else:
-        total_count = len(blocked_args)
-        blocked_args, page = PaginatorCore.paginate(blocked_args, args[0] if args else 1, 20)
-        showing_count = len(blocked_args)
-        title = f'ℹ Arguments blocked on {message.guild.name}'
-        response = discord.Embed(color=0x3B88C3, title=title)
-        response.description = ', '.join(blocked_args)
-        response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
+        response = discord.Embed(color=0x696969, title='🔍 User not found.')
     await message.channel.send(embed=response)

@@ -19,7 +19,14 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def resourcelist(cmd: SigmaCommand, message: discord.Message, args: list):
-    colls = await cmd.db[cmd.db.db_nam].list_collection_names()
-    reses = [coll[:-8].title() for coll in colls if coll.endswith('Resource')]
-    await message.channel.send(f'**Resources**: {", ".join(reses)}')
+async def wipeinventory(cmd: SigmaCommand, message: discord.Message, args: list):
+    try:
+        target = cmd.bot.get_user(int(args[0])) if args else None
+    except ValueError:
+        target = None
+    if target:
+        await cmd.db.update_inventory(target.id, [])
+        response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target.display_name}\'s inventory.')
+    else:
+        response = discord.Embed(color=0x696969, title='🔍 User not found.')
+    await message.channel.send(embed=response)

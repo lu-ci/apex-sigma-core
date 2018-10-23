@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
@@ -43,7 +43,7 @@ async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)
     page = args[0] if args else 1
-    sales_data, page = paginate(recipe_list, page)
+    sales_data, page = PaginatorCore.paginate(recipe_list, page)
     start_range, end_range = (page - 1) * 10, page * 10
     recipe_look = secrets.choice(recipe_core.recipes)
     recipe_icon = recipe_look.icon
