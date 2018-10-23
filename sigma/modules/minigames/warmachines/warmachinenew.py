@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import asyncio
 
 import discord
@@ -63,10 +64,11 @@ async def warmachinenew(cmd: SigmaCommand, message: discord.Message, args: list)
         if not missing:
             for res in resource_names:
                 await cmd.db.del_resource(message.author.id, res, price, cmd.name, message)
+            prefix = await cmd.db.get_prefix(message)
             machine = SigmaMachine(cmd.db, message.author, SigmaMachine.new())
             await machine.update()
             response = discord.Embed(color=0x8899a6, title=f'🔧 {machine.product_name} constructed.')
-            response.set_footer(text=f'Machine ID: {machine.id}')
+            response.set_footer(text=f'Use "{prefix}wminspect {machine.id}" to see its specifications.')
         else:
             missing_list = f'{", ".join(missing)}'.replace('currency', cmd.bot.cfg.pref.currency.lower())
             response = discord.Embed(color=0xBE1931, title=f'❗ Not enough {missing_list}.')

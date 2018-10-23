@@ -46,11 +46,11 @@ class SigmaMachine(object):
         # Information
 
         self.id = self.raw.get('machine_id')
-        self.name = self.raw.get('name', 'Not Named')
         self.experience = self.raw.get('experience', 0)
         self.level = self.get_level(self.experience)
         self.components = self.raw.get('components')
         self.product_name = self.gen_prod_name()
+        self.name = self.raw.get('name', self.product_name)
 
         # Statistics
 
@@ -74,6 +74,16 @@ class SigmaMachine(object):
             'machine_id': secrets.token_hex(4),
             'components': components
         }
+
+    @staticmethod
+    async def get_machines(db: Database, target: discord.Member):
+        machines = await db.get_profile(target.id, 'machines') or {}
+        machine_list = []
+        if machines:
+            for mid in machines.keys():
+                mdat = machines.get(mid)
+                machine_list.append(SigmaMachine(db, target, mdat))
+        return machine_list
 
     @staticmethod
     def get_level(xp: int):

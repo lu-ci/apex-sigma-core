@@ -8,6 +8,18 @@ commands:
   - name:         warmachinenew
     alts:
       - "wmnew"
+      - "wmn"
     enabled:      true
     description:
       Makes a new Warmachine.
+
+  - name:         warmachinelist
+    alts:
+      - "warmachines"
+      - "wmlist"
+      - "wml"
+    enabled:      true
+    usage:        "{pfx}{cmd} 2 @person"
+    description:
+      Lists all machines owned by the target person, or yourself.
+      The list is paginated with 5 machines on each page.
