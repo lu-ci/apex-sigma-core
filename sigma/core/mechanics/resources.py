@@ -30,10 +30,10 @@ class ResourceDict(dict):
 class ResourceOrigins(object):
     def __init__(self, data):
         self.raw = data or {}
-        self.users = ResourceDict(self.raw.get('users') or {})
-        self.guilds = ResourceDict(self.raw.get('guilds') or {})
-        self.channels = ResourceDict(self.raw.get('channels') or {})
-        self.functions = ResourceDict(self.raw.get('functions') or {})
+        self.users = ResourceDict(self.raw.get('users', {}))
+        self.guilds = ResourceDict(self.raw.get('guilds', {}))
+        self.channels = ResourceDict(self.raw.get('channels', {}))
+        self.functions = ResourceDict(self.raw.get('functions', {}))
 
     def dictify(self):
         return {'users': self.users, 'guilds': self.guilds, 'channels': self.channels, 'functions': self.functions}
@@ -63,9 +63,9 @@ class SigmaResource(object):
     def __init__(self, data):
         self.raw = data or {}
         self.empty = not self.raw
-        self.current = self.raw.get('current') or 0
-        self.total = self.raw.get('total') or 0
-        self.ranked = self.raw.get('ranked') or 0
+        self.current = self.raw.get('current', 0)
+        self.total = self.raw.get('total', 0)
+        self.ranked = self.raw.get('ranked', 0)
         self.origins = ResourceOrigins(self.raw.get('origins'))
         self.expenses = ResourceOrigins(self.raw.get('expenses'))
 
