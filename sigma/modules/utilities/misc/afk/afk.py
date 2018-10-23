@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 
 async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
-    afk_data = await cmd.bot.cache.get_cache(message.author.id)
+    afk_data = await cmd.db.cache.get_cache(message.author.id)
     if not afk_data:
         afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': message.author.id})
     if args:
@@ -53,5 +53,5 @@ async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
     response.add_field(name=f'✅ {title}.', value=f'Reason: **{afk_reason}**')
     if url:
         response.set_image(url=url)
-    await cmd.bot.cache.set_cache(message.author.id, afk_data)
+    await cmd.db.cache.set_cache(message.author.id, afk_data)
     await message.channel.send(embed=response)

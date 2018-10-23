@@ -50,14 +50,14 @@ async def combinechains(cmd: SigmaCommand, message: discord.Message, _args: list
                 if not chain_string:
                     empty_chain = target
                     break
-                markov_data = await cmd.bot.cache.get_cache(target.id)
+                markov_data = await cmd.db.cache.get_cache(target.id)
                 if not markov_data:
                     chain_task_one = functools.partial(markovify.Text, chain_string)
                     markov_data = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
-                    await cmd.bot.cache.set_cache(target.id, markov_data)
+                    await cmd.db.cache.set_cache(target.id, markov_data)
                 chain_objects.append(markov_data)
             combination_key = '_'.join(sorted([str(u.id) for u in message.mentions]))
-            combination = await cmd.bot.cache.get_cache(combination_key)
+            combination = await cmd.db.cache.get_cache(combination_key)
             if not combination:
                 combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
                 combination = await cmd.bot.loop.run_in_executor(threads, combine_task)

@@ -39,7 +39,7 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
                 total_string = ' '.join(chain_data['chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
                 with ThreadPoolExecutor() as threads:
-                    chain = await cmd.bot.cache.get_cache(target.id)
+                    chain = await cmd.db.cache.get_cache(target.id)
                     if not chain:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
                         chain.set_cache(target.id, chain)
