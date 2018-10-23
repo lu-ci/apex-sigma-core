@@ -41,6 +41,7 @@ async def check_requirements(cmd, message, recipe):
 async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
     recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
+    recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)
     page = args[0] if args else 1
     sales_data, page = paginate(recipe_list, page)
     start_range, end_range = (page - 1) * 10, page * 10
