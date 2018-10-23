@@ -18,11 +18,8 @@ import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
-
-tcklb_cache = Cacher()
 
 
 def get_user_value(data: dict, coords: str):
@@ -64,14 +61,14 @@ async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
             lb_category = 'Local'
             localed = True
     now = arrow.utcnow().timestamp
-    leader_docs, leader_timer = tcklb_cache.get_cache(sort_key), tcklb_cache.get_cache(f'{sort_key}_stamp') or now
+    leader_docs, leader_timer = cmd.bot.get_cache(sort_key), cmd.bot.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
         leader_docs = await get_leader_docs(cmd, message, localed, all_docs, sort_key)
-        tcklb_cache.set_cache(sort_key, leader_docs)
-        tcklb_cache.set_cache(f'{sort_key}_stamp', now)
+        await cmd.bot.set_cache(sort_key, leader_docs)
+        await cmd.bot.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',

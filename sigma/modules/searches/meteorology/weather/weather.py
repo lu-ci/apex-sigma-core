@@ -74,7 +74,7 @@ async def weather(cmd: SigmaCommand, message: discord.Message, args: list):
                 try:
                     location = geo_parser.geocode(search)
                 except Exception as error:
-                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {error.lower()}.')
+                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {str(error).lower()}.')
                 else:
                     if location:
                         lat = location.latitude

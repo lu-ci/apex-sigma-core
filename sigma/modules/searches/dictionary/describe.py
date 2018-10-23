@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
-async def describe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def describe(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         mode = args[0].lower().lower()
         if mode in ['adjectives', 'adjective', 'adj', 'a', 'nouns', 'noun', 'n']:

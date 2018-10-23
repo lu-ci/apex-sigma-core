@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
+async def makeemoterolegroup(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.guild_permissions.manage_guild:
         emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
         group_id = secrets.token_hex(3)

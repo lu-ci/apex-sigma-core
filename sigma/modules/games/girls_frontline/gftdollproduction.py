@@ -66,7 +66,7 @@ async def fill_tdoll_data():
     tdoll_data.sort(key=lambda tdd: tdd.get('rarity'), reverse=True)
 
 
-async def gftdollproduction(cmd: SigmaCommand, message: discord.Message, args: list):
+async def gftdollproduction(_cmd: SigmaCommand, message: discord.Message, args: list):
     if not tdoll_data:
         await fill_tdoll_data()
     if args:

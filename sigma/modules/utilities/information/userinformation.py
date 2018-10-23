@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def userinformation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def userinformation(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.mentions:
         target = message.mentions[0]
     else:

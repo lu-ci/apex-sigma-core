@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def starboard(cmd: SigmaCommand, message: discord.Message, args: list):
+async def starboard(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
         active = starboard_doc.get('state')

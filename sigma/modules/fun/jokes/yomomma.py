@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def yomomma(cmd: SigmaCommand, message: discord.Message, args: list):
+async def yomomma(_cmd: SigmaCommand, message: discord.Message, _args: list):
     resource = 'http://api.yomomma.info/'
     async with aiohttp.ClientSession() as session:
         async with session.get(resource) as data:

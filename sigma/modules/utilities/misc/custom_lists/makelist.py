@@ -21,12 +21,10 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-def settings(mode: str):
+def settings(lookup: str):
     mode = None
-    if mode == 'private':
-        mode = 'private'
-    if mode == 'locked':
-        mode = 'locked'
+    if lookup in ['private', 'locked']:
+        mode = lookup
     return mode
 
 

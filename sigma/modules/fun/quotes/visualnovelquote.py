@@ -21,7 +21,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def visualnovelquote(cmd: SigmaCommand, message: discord.Message, args: list):
+async def visualnovelquote(_cmd: SigmaCommand, message: discord.Message, _args: list):
     source_page = 'https://vndb.org/r'
     vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
     async with aiohttp.ClientSession() as session:

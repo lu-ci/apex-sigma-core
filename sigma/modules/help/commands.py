@@ -17,8 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 
 async def commands(cmd: SigmaCommand, message: discord.Message, args: list):

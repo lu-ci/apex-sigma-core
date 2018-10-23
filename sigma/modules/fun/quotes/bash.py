@@ -24,24 +24,18 @@ from sigma.core.mechanics.command import SigmaCommand
 cache = []
 
 
-async def bash(cmd: SigmaCommand, message: discord.Message, args: list):
+async def bash(_cmd: SigmaCommand, message: discord.Message, _args: list):
     if not cache:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://qdb.us/random') as page:
                 page = await page.text()
-
         quotes = html.fromstring(page).cssselect('body center table tr td.q')
         for quote in quotes:
             qid = quote.find_class('ql')[0].text_content()[1:]
-            score = quote.get_element_by_id(f'qs[{qid}]').text_content() + \
-                    quote.get_element_by_id(f'qvc[{qid}]').text_content()
+            score = quote.get_element_by_id(f'qs[{qid}]').text_content()
+            score += quote.get_element_by_id(f'qvc[{qid}]').text_content()
             text = quote.get_element_by_id(f'qt{qid}').text_content()
-            cache.append({
-                'id': qid,
-                'score': score,
-                'text': text
-            })
-
+            cache.append({'id': qid, 'score': score, 'text': text})
     quote = cache.pop()
     while len(quote['text']) > 2037:
         quote = cache.pop()

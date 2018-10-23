@@ -110,7 +110,8 @@ Commands | Description | Example
 ### GACHAPON
 Commands | Description | Example
 ----------|-------------|--------
-`>>warmachinenew` `>>wmnew` | Makes a new Warmachine. | `>>warmachinenew`
+`>>warmachinelist` `>>warmachines` `>>wmlist` `>>wml` | Lists all machines owned by the target person, or yourself. The list is paginated with 5 machines on each page. | `>>warmachinelist 2 @person`
+`>>warmachinenew` `>>wmnew` `>>wmn` | Makes a new Warmachine. | `>>warmachinenew`
 [Back To Top](#module-index)
 
 ### GIRLS FRONTLINE
@@ -434,12 +435,14 @@ Commands | Description | Example
 `>>antispam` | Toggles the antispam limiter. This basically enforces a custom rate limiter upon users. The default is 5 messages per 5 seconds. | `>>antispam`
 `>>asciionlynames` `>>forceascii` | Toggles if only ASCII characters are allowed in names. The bot will check member's names every 60s for non ASCII characters and rename them if found. To change the default temporary name, use the asciitempname command. | `>>asciionlynames`
 `>>asciitempname` `>>asciitemp` | Changes the default temporary name for those who the temporary ASCII name was enforced on. | `>>asciitempname <ChangeMePleaseI'mLonely>`
-`>>blockarguments` `>>blockargument` `>>blockargs` `>>blockarg` | Disallows commands to be used with the given arguments. If a command contains a blocked argument, it's execution is prevented, with only a reaction added to the message indicating it being blocked. | `>>blockarguments loli vore`
+`>>blockarguments` `>>blockargument` `>>blockargs` `>>blockarg` | Disallows commands to be used with the given arguments. If a command contains a blocked argument, it's execution is prevented, with only a reaction added to the message indicating it being blocked. Those with the Administrator permission are not affected. | `>>blockarguments loli vore`
 `>>blockedarguments` `>>blockedargs` | Lists all blocked arguments on the server. | `>>blockedarguments`
 `>>blockedextensions` `>>blockedexts` | Lists all blocked extensions on the server. | `>>blockedextensions`
+`>>blockednames` | Lists all blocked names on the server. | `>>blockednames`
 `>>blockedwords` | Lists all blocked words on the server. | `>>blockedwords`
 `>>blockextensions` `>>blockextension` `>>blockexts` `>>blockext` | Adds all the extensions you list to the extension filter. If any of the extensions in the filter are sent, the message will be deleted and the author will be notified. Extensions should not be separated by a delimiter. Those with the Administrator permission are not affected. | `>>blockextensions .png .jpg`
 `>>blockinvites` `>>filterinvites` | Toggles if invite links should be automatically removed. If any invite links are sent, the message will be deleted and the author will be notified. Those with the Administrator permission are not affected. | `>>blockinvites`
+`>>blocknames` `>>blockname` | Adds all the names you list to the name filter. If any of the names in the filter are in a user's name when they join the server, the user will be automatically banned. This is very intolerant. For example if you block the name "ass" it will ban anyone who joins with words like "assassin" in their name. Names should not be separated by a delimiter. A user's name is only checked upon them joining the server. | `>>blocknames discord.gg twitch.tv`
 `>>blockwords` `>>blockword` | Adds all the words you list to the blocked words filter. If any of the words in the filter are sent, the message will be deleted and the author will be notified. Words should not be separated by a delimiter. Those with the Administrator permission are not affected. | `>>blockwords crap ass tits`
 `>>bye` `>>goodbye` | Toggles if Sigma should say when users leave the server. The goodbye feature is active by default. | `>>bye`
 `>>byechannel` `>>byech` | Sets the channel the goodbye messages should be sent to. | `>>byechannel #welcome`
@@ -468,6 +471,7 @@ Commands | Description | Example
 `>>loggingchannel` `>>logchannel` `>>logch` | Designates a channel where server events will be logged in. You can set each log type to a different channel by specifying the log type after the channel mention. It can also accept a list of log types separated by a semicolon and space "; ". To disable all logging channels, ented "disable" as the channel argument. To disable channels for specific log types, input the log type after "disable". Disabling also acceptes a list of log types in the aforementioned format. Accepted log types are antispam, bans, deletions, edits, filters, kicks, modules, movement, mutes, purges, and warnings. | `>>loggingchannel #logging`
 `>>logmodule` | Toggles logging of commands in the specified module being used. | `>>logmodule moderation`
 `>>logsettings` `>>logs` | Displays log settings. This includes the log channel and whether or not it is enabled for each log type. | `>>logsettings`
+`>>namefilterban` | Toggles if blocked names are enforced. Anyone who joins the server with a blocked name in thier name will be automatically banned. This is very intolerant. For example if you block the name "ass" it will ban anyone who joins with words like "assassin" in their name. | `>>namefilterban`
 `>>prefix` | Sets the prefix that Sigma should respond to. This will be bound to your server and you can set it to anything you'd like. However, the prefix must be two characters or longer and can not contain spaces, they will be automatically removed. This command requires the Manage Server permission. | `>>prefix !!`
 `>>ratelimit` | Sets the message amount and timespan for the rate limiter. Separated by a colon, the amount goes first and timespan second. The usage example translates to a limit of 6 messages per 10 seconds. Any messages that cross this limit will be deleted. | `>>ratelimit 6:10`
 `>>reactors` `>>reacs` | Shows a list of the server's reaction triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>reactors 4`
@@ -482,6 +486,7 @@ Commands | Description | Example
 `>>starboardlimit` `>>sblimit` `>>sbl` | Sets the minimum number of reactons for a starboard to be posted. | `>>starboardlimit 25`
 `>>unblockarguments` `>>unblockargument` `>>unblockargs` `>>unblockarg` | Removes arguments from the blocked list, allowing commands to be executed with them again. | `>>unblockarguments something idunno`
 `>>unblockextensions` `>>unblockextension` `>>unblockexts` `>>unblockext` | Removes a blocked extension allowing people to send files containing it. To purge the entire extension filter, enter --all as the command argument. Extensions should not be separated by a delimiter. | `>>unblockextensions boobs`
+`>>unblocknames` `>>unblockname` | Removes a blocked name allowing people who join to have it in their name. To purge the entire name filter, enter "--all" as the command argument. Names should not be separated by a delimiter. | `>>unblocknames discord.gg twitch.tv`
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. This command requires the Manage Server permission. | `>>unflip`
 `>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unhardblockwords boobs`

@@ -14,18 +14,86 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import aioredis
+import cachetools
+
+cache_type = None
+
+
+def set_cache_type(cache_config):
+    global cache_type
+    cache_type = cache_config
+
+
+async def get_cache(max_size: int = 1000, ttl_time: int = 60):
+    if cache_type == 'memory':
+        cache = MemoryCacher()
+    elif cache_type == 'lru':
+        cache = LRUCacher(max_size)
+    elif cache_type == 'ttl':
+        cache = TTLCacher(max_size, ttl_time)
+    elif cache_type == 'redis':
+        cache = RedisCacher()
+    else:
+        cache = Cacher()
+    await cache.init()
+    return cache
+
 
 class Cacher(object):
+    async def init(self):
+        pass
+
+    async def get_cache(self, key: str or int):
+        pass
+
+    async def set_cache(self, key: str or int, value):
+        pass
+
+    async def del_cache(self, key: str or int):
+        pass
+
+
+class MemoryCacher(Cacher):
     def __init__(self):
-        self.data = {}
+        self.cache = {}
 
-    def get_cache(self, key: str or int):
-        value = self.data.get(key)
-        return value
+    async def get_cache(self, key: str or int):
+        return self.cache.get(key)
 
-    def set_cache(self, key: str or int, value):
-        self.data.update({key: value})
+    async def set_cache(self, key: str or int, value):
+        self.cache.update({key: value})
 
-    def del_cache(self, key: str or int):
-        if key in self.data:
-            self.data.pop(key)
+    async def del_cache(self, key: str or int):
+        if key in self.cache.keys():
+            self.cache.pop(key)
+
+
+class LRUCacher(MemoryCacher):
+    def __init__(self, max_size: int):
+        super().__init__()
+        self.cache = cachetools.LRUCache(max_size)
+
+
+class TTLCacher(LRUCacher):
+    def __init__(self, max_size: int, ttl_time: int):
+        super().__init__(max_size)
+        self.cache = cachetools.TTLCache(max_size, ttl_time)
+
+
+class RedisCacher(Cacher):
+    def __init__(self):
+        self.conn = None
+
+    async def init(self):
+        self.conn = await aioredis.create_redis('redis://localhost')
+
+    async def get_cache(self, key: str or int):
+        return await self.conn.get(key)
+
+    async def set_cache(self, key: str or int, value):
+        await self.conn.set(key, value)
+
+    async def del_cache(self, key: str or int):
+        if await self.conn.exists(key):
+            await self.conn.delete(key)

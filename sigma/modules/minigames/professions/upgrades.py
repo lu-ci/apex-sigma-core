@@ -50,7 +50,7 @@ def calculate_upgrade(up_id, level):
     return up_table[up_id]
 
 
-async def upgrades(cmd: SigmaCommand, message: discord.Message, args: list):
+async def upgrades(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.mentions:
         target = message.mentions[0]
     else:

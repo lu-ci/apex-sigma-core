@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def serverinformation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def serverinformation(_cmd: SigmaCommand, message: discord.Message, _args: list):
     gld = message.guild
     own = gld.owner
     response = discord.Embed(color=await get_image_colors(gld.icon_url))

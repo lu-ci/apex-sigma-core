@@ -38,5 +38,5 @@ async def get_all_perms(db, message):
         if not perms:
             perms = generate_default_data(message)
             await db[db.db_nam].Permissions.insert_one(perms)
-        perm_cache.set_cache(message.guild.id, perms)
+        await perm_cache.set_cache(message.guild.id, perms)
     return perms

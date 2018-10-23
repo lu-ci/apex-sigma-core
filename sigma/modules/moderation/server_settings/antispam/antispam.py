@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def antispam(cmd: SigmaCommand, message: discord.Message, args: list):
+async def antispam(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         current = await cmd.db.get_guild_settings(message.guild.id, 'antispam')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')

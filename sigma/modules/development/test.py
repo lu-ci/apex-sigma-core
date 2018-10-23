@@ -19,5 +19,5 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def test(cmd: SigmaCommand, message: discord.Message, args: list):
+async def test(cmd: SigmaCommand, message: discord.Message, _args: list):
     await message.channel.send('All good.')

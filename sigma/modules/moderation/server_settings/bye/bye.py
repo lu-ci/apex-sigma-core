@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def bye(cmd: SigmaCommand, message: discord.Message, args: list):
+async def bye(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.permissions_in(message.channel).manage_guild:
         active = await cmd.db.get_guild_settings(message.guild.id, 'bye')
         active = True if active is None else active

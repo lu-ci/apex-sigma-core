@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import get_image_colors, convert_to_se
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def createinvite(cmd: SigmaCommand, message: discord.Message, args: list):
+async def createinvite(_cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.create_instant_invite:
         target = message.channel_mentions[0] if message.channel_mentions else message.channel
         age, uses = 0, 0

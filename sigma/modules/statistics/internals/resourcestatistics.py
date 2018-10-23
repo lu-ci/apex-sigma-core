@@ -15,12 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.resources import ResourceOrigins, ResourceDict
 from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.data_processing import user_avatar
-from humanfriendly.tables import format_pretty_table as boop
 
 
 def sort_transfers(dictlike: ResourceDict):

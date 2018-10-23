@@ -21,7 +21,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
-async def voicekick(cmd: SigmaCommand, message: discord.Message, args: list):
+async def voicekick(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.permissions_in(message.channel).kick_members:
         if message.mentions:
             target = message.mentions[0]

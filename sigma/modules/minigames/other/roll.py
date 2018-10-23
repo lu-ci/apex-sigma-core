@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def roll(cmd: SigmaCommand, message: discord.Message, args: list):
+async def roll(_cmd: SigmaCommand, message: discord.Message, args: list):
     count = 1
     high_end = 6
     modifier = 0

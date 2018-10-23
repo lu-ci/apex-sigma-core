@@ -7,7 +7,7 @@ import discord
 from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
-from sigma.core.mechanics.caching import Cacher
+from sigma.core.mechanics.caching import set_cache_type, get_cache
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
@@ -35,6 +35,12 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Override classes
+
+setattr(discord.Guild, 'settings', {})
+setattr(discord.Member, 'settings', {})
+setattr(discord.User, 'settings', {})
+
 ci_token = os.getenv('CI')
 if not ci_token:
     init_cfg = Configuration()
@@ -58,7 +64,7 @@ class ApexSigma(client_class):
         self.music = None
         self.modules = None
         self.queue = ExecutionClockwork(self)
-        self.cache = Cacher()
+        self.cache = None
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -103,6 +109,8 @@ class ApexSigma(client_class):
             await self.db.precache_profiles()
             await self.db.precache_resources()
             set_color_cache_coll(self.db[self.db.db_nam].ColorCache)
+            set_cache_type(self.cfg.db.cache_type)
+            self.cache = await get_cache()
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)

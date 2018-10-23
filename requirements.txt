@@ -1,4 +1,5 @@
 aiohttp
+aioredis
 arrow
 cachetools
 cssselect

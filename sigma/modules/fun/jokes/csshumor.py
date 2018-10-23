@@ -21,7 +21,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def csshumor(cmd: SigmaCommand, message: discord.Message, args: list):
+async def csshumor(_cmd: SigmaCommand, message: discord.Message, _args: list):
     url = 'https://csshumor.com/'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:

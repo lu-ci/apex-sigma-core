@@ -16,8 +16,6 @@
 
 import arrow
 
-from sigma.core.mechanics.caching import Cacher
-
 
 class CommandRateLimiter(object):
     def __init__(self, cmd):
@@ -39,13 +37,13 @@ class CooldownControl(object):
     def __init__(self, bot):
         self.bot = bot
         self.db = self.bot.db
-        self.cache = Cacher()
+        self.cache = self.bot.cache
         self.cds = self.db[self.db.db_nam].CooldownSystem
 
     async def cache_cooldowns(self):
         cooldowns = await self.cds.find({}).to_list(None)
         for cooldown in cooldowns:
-            self.cache.set_cache(cooldown.get('name'), cooldown)
+            await self.cache.set_cache(cooldown.get('name'), cooldown)
         self.bot.log.info(f'Finished pre-caching {len(cooldowns)} cooldowns.')
 
     async def on_cooldown(self, cmd, user):
@@ -53,10 +51,10 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cache.get_cache(cd_name)
+        entry = await self.cache.get_cache(cd_name)
         if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
-            self.cache.set_cache(cd_name, entry)
+            await self.cache.set_cache(cd_name, entry)
         if entry:
             end_stamp = entry.get('end_stamp', 0)
             now_stamp = arrow.utcnow().timestamp
@@ -73,10 +71,10 @@ class CooldownControl(object):
             cd_name = f'cd_{cmd}_{user}'
         else:
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = self.cache.get_cache(cd_name)
+        entry = await self.cache.get_cache(cd_name)
         if entry is None:
             entry = await self.cds.find_one({'name': cd_name})
-            self.cache.set_cache(cd_name, entry)
+            await self.cache.set_cache(cd_name, entry)
         if entry:
             end_stamp = entry.get('end_stamp', 0)
             now_stamp = arrow.utcnow().float_timestamp
@@ -106,7 +104,7 @@ class CooldownControl(object):
         else:
             cd_data = {'name': cd_name, 'end_stamp': end_stamp}
             await self.cds.insert_one(cd_data)
-        self.cache.del_cache(cd_name)
+        await self.cache.del_cache(cd_name)
 
     async def clean_cooldowns(self):
         now = arrow.utcnow().timestamp

@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
-async def avatar(cmd: SigmaCommand, message: discord.Message, args: list):
+async def avatar(_cmd: SigmaCommand, message: discord.Message, args: list):
     gif = False
     static = False
     auto_color = False

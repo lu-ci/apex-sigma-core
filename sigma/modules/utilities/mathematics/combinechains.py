@@ -21,12 +21,8 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import markovify
 
-from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
-
-combination_cache = Cacher()
 
 
 def combine_names(users: list):
@@ -40,7 +36,7 @@ def combine_names(users: list):
     return ''.join(pieces)
 
 
-async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list):
+async def combinechains(cmd: SigmaCommand, message: discord.Message, _args: list):
     if len(message.mentions) >= 2:
         empty_chain = False
         chain_objects = []
@@ -54,18 +50,18 @@ async def combinechains(cmd: SigmaCommand, message: discord.Message, args: list)
                 if not chain_string:
                     empty_chain = target
                     break
-                markov_data = chain_object_cache.get_cache(target.id)
+                markov_data = await cmd.bot.cache.get_cache(target.id)
                 if not markov_data:
                     chain_task_one = functools.partial(markovify.Text, chain_string)
                     markov_data = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
-                    chain_object_cache.set_cache(target.id, markov_data)
+                    await cmd.bot.cache.set_cache(target.id, markov_data)
                 chain_objects.append(markov_data)
             combination_key = '_'.join(sorted([str(u.id) for u in message.mentions]))
-            combination = combination_cache.get_cache(combination_key)
+            combination = await cmd.bot.cache.get_cache(combination_key)
             if not combination:
                 combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
                 combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                combination_cache.set_cache(combination_key, combination)
+                combination.set_cache(combination_key, combination)
             if not empty_chain:
                 await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
                 sentence_function = functools.partial(combination.make_short_sentence, 500)

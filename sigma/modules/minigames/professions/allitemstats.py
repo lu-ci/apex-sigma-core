@@ -36,7 +36,7 @@ def type_rarity_counter(items: list):
     return types
 
 
-async def allitemstats(cmd: SigmaCommand, message: discord.Message, args: list):
+async def allitemstats(cmd: SigmaCommand, message: discord.Message, _args: list):
     item_core = await get_item_core(cmd.db)
     item_o_list = sorted(item_core.all_items, key=lambda x: x.rarity, reverse=True)
     types = type_rarity_counter(item_o_list)

@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def evaluate(cmd: SigmaCommand, message: discord.Message, args: list):
+async def evaluate(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         try:
             execution = " ".join(args)

@@ -36,7 +36,7 @@ async def message_search(lookup: int, message: discord.Message):
     return msg
 
 
-async def quote(cmd: SigmaCommand, message: discord.Message, args: list):
+async def quote(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = args[0]
         if lookup.isdigit():

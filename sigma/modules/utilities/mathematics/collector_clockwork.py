@@ -20,7 +20,6 @@ import string
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.modules.utilities.mathematics.impersonate import chain_object_cache
 
 collector_loop_running = False
 current_user_collecting = None
@@ -160,7 +159,7 @@ async def cycler(ev: SigmaEvent):
                     insert_data = {'user_id': cl_usr.id, 'chain': collection}
                     await ev.db[ev.db.db_nam].MarkovChains.delete_one({'user_id': cl_usr.id})
                     await ev.db[ev.db.db_nam].MarkovChains.insert_one(insert_data)
-                    chain_object_cache.del_cache(cl_usr.id)
+                    await ev.db.cache.del_cache(cl_usr.id)
                     await notify_target(cl_ath, cl_usr, cl_chn, collected, collection)
                     current_user_collecting = None
                     ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')

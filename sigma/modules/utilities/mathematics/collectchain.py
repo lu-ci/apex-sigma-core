@@ -40,7 +40,7 @@ async def is_blinded(db: Database, channel: discord.TextChannel, author: discord
     return blinded
 
 
-async def collectchain(cmd: SigmaCommand, message: discord.Message, args: list):
+async def collectchain(cmd: SigmaCommand, message: discord.Message, _args: list):
     target_usr = get_target(message)
     target_chn = get_channel(message)
     starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'

@@ -32,7 +32,7 @@ royaldestiny_footer = 'These price listings are aggregated by the Royal Destiny 
 item_count = 3
 
 
-async def wfsyndicates(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfsyndicates(_cmd: SigmaCommand, message: discord.Message, _args: list):
     initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
     init_resp_msg = await message.channel.send(embed=initial_response)
     response = discord.Embed(color=royaldestiny_color)
