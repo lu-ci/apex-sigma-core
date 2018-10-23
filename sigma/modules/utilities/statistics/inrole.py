@@ -18,7 +18,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
@@ -53,7 +53,7 @@ async def inrole(cmd: SigmaCommand, message: discord.Message, args: list):
                         members.append([member.name, member.top_role.name])
             if members:
                 count = len(members)
-                members, page = paginate(sorted(members), page)
+                members, page = PaginatorCore.paginate(sorted(members), page)
                 response = discord.Embed(color=role_search.color)
                 state = state if state else 'Any'
                 value = f'```py\nShowing 10 of {count} users. Status: {state}. Page {page}\n```'

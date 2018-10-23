@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 def make_games_dict(guild: discord.Guild):
@@ -51,7 +51,7 @@ async def ingame(cmd: SigmaCommand, message: discord.Message, args: list):
     games, online, playing = make_games_dict(message.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
     page = args[0] if args else 1
-    game_list, page = paginate(sorted_games, page)
+    game_list, page = PaginatorCore.paginate(sorted_games, page)
     start_range = (page - 1) * 10
     out_table_list = []
     game_count = len(sorted_games)

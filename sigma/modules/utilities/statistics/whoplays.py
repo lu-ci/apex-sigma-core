@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -43,7 +43,7 @@ async def whoplays(cmd: SigmaCommand, message: discord.Message, args: list):
         if gamer_list:
             total_gamers = len(gamer_list)
             page = args[0] if page else 1
-            gamer_list, page = paginate(sorted(gamer_list), page, 20)
+            gamer_list, page = PaginatorCore.paginate(sorted(gamer_list), page, 20)
             gamers = '\n- ' + '\n- '.join(gamer_list)
             response = discord.Embed(color=0x1ABC9C)
             response.add_field(name=title, value=gamers)

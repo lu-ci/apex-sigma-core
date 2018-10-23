@@ -20,7 +20,8 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import user_avatar, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -55,7 +56,7 @@ async def allitems(cmd: SigmaCommand, message: discord.Message, args: list):
         page = args[1] if len(args) > 1 else 1
     else:
         page = args[0] if args else 1
-    inv, page = paginate(item_o_list, page)
+    inv, page = PaginatorCore.paginate(item_o_list, page)
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
         all_reci = reci_core.recipes

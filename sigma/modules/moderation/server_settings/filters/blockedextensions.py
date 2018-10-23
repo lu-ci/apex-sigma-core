@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def blockedextensions(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +26,7 @@ async def blockedextensions(cmd: SigmaCommand, message: discord.Message, args: l
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked extensions.')
     else:
         total_count = len(blocked_words)
-        blocked_words, page = paginate(blocked_words, args[0] if args else 1, 20)
+        blocked_words, page = PaginatorCore.paginate(blocked_words, args[0] if args else 1, 20)
         blocked_words = [f'.{bw}' for bw in blocked_words]
         showing_count = len(blocked_words)
         title = f'ℹ Extensions blocked on {message.guild.name}'

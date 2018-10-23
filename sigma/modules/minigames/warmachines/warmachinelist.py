@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate, user_avatar
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
@@ -25,7 +26,7 @@ async def warmachinelist(cmd: SigmaCommand, message: discord.Message, args: list
     target = message.mentions[0] if message.mentions else message.author
     machines = await SigmaMachine.get_machines(cmd.db, target)
     machines_owned = len(machines)
-    machines, page = paginate(machines, args[0] if args else 1, 5)
+    machines, page = PaginatorCore.paginate(machines, args[0] if args else 1, 5)
     if machines:
         out_list = '\n'.join([f'`{m.id}`: **{m.name}**' for m in machines])
         response = discord.Embed(color=0x8899a6)

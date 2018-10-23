@@ -13,6 +13,8 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import convert_to_seconds
 
 
@@ -31,3 +33,23 @@ class TestDataProcessing(object):
             except LookupError:
                 end = None
             assert end == conv_tar
+
+
+class TestPaginate(object):
+    # List cannot be None but can be empty
+    def test_page(self):
+        assert PaginatorCore.paginate([], 0) == ([], 1)
+        assert PaginatorCore.paginate([], 1) == ([], 1)
+        assert PaginatorCore.paginate([], 2) == ([], 1)
+        assert PaginatorCore.paginate([], "0") == ([], 1)
+        assert PaginatorCore.paginate([], "1") == ([], 1)
+        assert PaginatorCore.paginate([], "2") == ([], 1)
+        assert PaginatorCore.paginate([], None) == ([], 1)
+
+    # Span cannot be None or 0
+    def test_page_size(self):
+        nums = list(range(1, 16))
+        assert PaginatorCore.paginate(nums, 1) == (nums[0:10], 1)
+        assert PaginatorCore.paginate(nums, 3) == (nums[10:20], 2)
+        assert PaginatorCore.paginate(nums, 3, 5) == (nums[10:15], 3)
+        assert PaginatorCore.paginate(nums, 4, 5) == (nums[10:15], 3)

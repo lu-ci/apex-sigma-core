@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def responders(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +27,7 @@ async def responders(cmd: SigmaCommand, message: discord.Message, args: list):
         responder_list = sorted(list(responder_files.keys()))
         resp_count = len(responder_list)
         page = args[0] if args else 1
-        triggers, page = paginate(responder_list, page)
+        triggers, page = PaginatorCore.paginate(responder_list, page)
         start_range = (page - 1) * 10
         if triggers:
             ender = 's' if resp_count > 1 else ''

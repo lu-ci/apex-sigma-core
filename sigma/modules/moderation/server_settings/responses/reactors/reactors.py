@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def reactors(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +27,7 @@ async def reactors(cmd: SigmaCommand, message: discord.Message, args: list):
         reactor_list = sorted(list(reactor_files.keys()))
         reac_count = len(reactor_list)
         page = args[0] if args else 1
-        triggers, page = paginate(reactor_list, page)
+        triggers, page = PaginatorCore.paginate(reactor_list, page)
         start_range = (page - 1) * 10
         if triggers:
             ender = 's' if reac_count > 1 else ''

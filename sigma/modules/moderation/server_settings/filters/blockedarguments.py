@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 
 async def blockedarguments(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +26,7 @@ async def blockedarguments(cmd: SigmaCommand, message: discord.Message, args: li
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
     else:
         total_count = len(blocked_args)
-        blocked_args, page = paginate(blocked_args, args[0] if args else 1, 20)
+        blocked_args, page = PaginatorCore.paginate(blocked_args, args[0] if args else 1, 20)
         showing_count = len(blocked_args)
         title = f'ℹ Arguments blocked on {message.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)

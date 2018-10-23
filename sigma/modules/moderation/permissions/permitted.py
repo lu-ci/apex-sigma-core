@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate, get_image_colors
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 from sigma.modules.moderation.permissions.permit import get_target_type
 
@@ -59,9 +60,10 @@ async def permitted(cmd: SigmaCommand, message: discord.Message, args: list):
                             if overridden_items:
                                 total_overrides = len(overridden_items)
                                 page = args[2] if len(args) > 2 else 1
-                                overrides, page = paginate(overridden_items, page, 50)
+                                overrides, page = PaginatorCore.paginate(overridden_items, page, 50)
                                 title = f'{message.guild.name} {node_name.upper()} {target_type[:-1].title()} Overrides'
-                                info = f'[Page {page}] Showing {len(overrides)} out of {total_overrides} channel overrides.'
+                                info = f'[Page {page}] Showing {len(overrides)} '
+                                info += f'out of {total_overrides} channel overrides.'
                                 response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
                                 response.set_author(name=title, icon_url=message.guild.icon_url)
                                 response.description = ', '.join(overrides)
@@ -70,7 +72,8 @@ async def permitted(cmd: SigmaCommand, message: discord.Message, args: list):
                                 title = f'🔍 No {target_type[:-1]} overrides found for {node_name}.'
                                 response = discord.Embed(color=0x696969, title=title)
                         else:
-                            response = discord.Embed(color=0x696969, title=f'🔍 No {node_name} {mode_name.lower()} found.')
+                            mmn = mode_name.lower()
+                            response = discord.Embed(color=0x696969, title=f'🔍 No {node_name} {mmn} found.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
                 else:

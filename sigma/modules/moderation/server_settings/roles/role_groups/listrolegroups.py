@@ -17,7 +17,8 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import get_image_colors, paginate
+from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listrolegroups(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -26,7 +27,7 @@ async def listrolegroups(cmd: SigmaCommand, message: discord.Message, args: list
     if role_groups:
         group_count = len(group_list)
         page = args[0] if args else 1
-        group_list, page = paginate(group_list, page)
+        group_list, page = PaginatorCore.paginate(group_list, page)
         ender = 's' if len(group_list) > 1 else ''
         summary = f'Showing **{len(group_list)}** group{ender} from Page **#{page}**.'
         summary += f'\n{message.guild.name} has **{group_count}** role group{ender}.'

@@ -23,7 +23,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.data_processing import paginate
+from sigma.core.mechanics.paginator import PaginatorCore
 
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 
@@ -57,7 +57,7 @@ async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
                 item_addition = [item_name, str(item_ducats), str(item_credits)]
                 item_list.append(item_addition)
             page = args[0] if args else 1
-            item_list, page = paginate(item_list, page)
+            item_list, page = PaginatorCore.paginate(item_list, page)
             if item_list:
                 out_table = boop(item_list, headers)
                 stats_desc = f'Page {page} | Location: {data.get("Node")}'
