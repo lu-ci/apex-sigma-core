@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import abc
 import pickle
 
 import aioredis
@@ -35,7 +36,7 @@ async def get_cache(cache_type, max_size: int = 1000, ttl_time: int = 60):
     return cache
 
 
-class Cacher(object):
+class Cacher(abc.ABC):
     async def init(self):
         pass
 
