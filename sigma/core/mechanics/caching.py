@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import pickle
+
 import aioredis
 import cachetools
 
@@ -89,11 +91,14 @@ class RedisCacher(Cacher):
         self.conn = await aioredis.create_redis('redis://localhost')
 
     async def get_cache(self, key: str or int):
-        return await self.conn.get(key)
+        data = await self.conn.get(str(key))
+        if data:
+            data = pickle.loads(data)
+        return data
 
     async def set_cache(self, key: str or int, value):
-        await self.conn.set(key, value)
+        await self.conn.set(str(key), pickle.dumps(value))
 
     async def del_cache(self, key: str or int):
-        if await self.conn.exists(key):
-            await self.conn.delete(key)
+        if await self.conn.exists(str(key)):
+            await self.conn.delete(str(key))
