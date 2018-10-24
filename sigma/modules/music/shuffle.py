@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def shuffle(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shuffle(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

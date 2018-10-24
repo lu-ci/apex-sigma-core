@@ -22,13 +22,13 @@ from sigma.core.mechanics.command import SigmaCommand
 wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
 
 
-async def translation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def translation(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         if len(args) >= 2:
             trans_arg = args[0].lower()
             sentence = ' '.join(args[1:])
             if '>' in trans_arg:
-                trans_split = trans_arg .split('>')
+                trans_split = trans_arg.split('>')
                 from_lang = trans_split[0]
                 to_lang = trans_split[1]
             else:

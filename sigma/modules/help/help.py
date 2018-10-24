@@ -26,6 +26,7 @@ paypal_url = 'https://www.paypal.me/AleksaRadovic'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
+# noinspection PyShadowingBuiltins
 async def help(cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         cmd_name = ''.join(args).lower()

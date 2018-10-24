@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def roleid(cmd: SigmaCommand, message: discord.Message, args: list):
+async def roleid(_cmd: SigmaCommand, message: discord.Message, args: list):
     embed = True
     if args:
         lookup = ' '.join(args)
@@ -28,8 +28,11 @@ async def roleid(cmd: SigmaCommand, message: discord.Message, args: list):
             lookup = ' '.join(args[:-1])
         role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
         if role:
-            response = discord.Embed(color=0x3B88C3)
-            response.add_field(name=f'ℹ {role.name}', value=f'`{role.id}`')
+            if embed:
+                response = discord.Embed(color=0x3B88C3)
+                response.add_field(name=f'ℹ {role.name}', value=f'`{role.id}`')
+            else:
+                response = role.id
         else:
             embed = True
             response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
@@ -38,4 +41,4 @@ async def roleid(cmd: SigmaCommand, message: discord.Message, args: list):
     if embed:
         await message.channel.send(embed=response)
     else:
-        await message.channel.send(role.id)
+        await message.channel.send(response)

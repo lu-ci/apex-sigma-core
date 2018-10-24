@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def choose(cmd: SigmaCommand, message: discord.Message, args: list):
+async def choose(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         choice = secrets.choice(' '.join(args).split('; '))
         response = discord.Embed(color=0x1ABC9C, title='🤔 I choose... ' + choice)

@@ -26,7 +26,7 @@ ongoing_list = []
 word_cache = {}
 
 
-async def unscramble(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unscramble(cmd: SigmaCommand, message: discord.Message, _args: list):
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:

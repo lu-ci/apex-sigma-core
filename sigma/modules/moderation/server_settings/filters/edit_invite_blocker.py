@@ -23,7 +23,7 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def edit_invite_blocker(ev: SigmaEvent, before: discord.Message, after: discord.Message):
+async def edit_invite_blocker(ev: SigmaEvent, _before: discord.Message, after: discord.Message):
     if after.guild:
         if isinstance(after.author, discord.Member):
             filter_perms = FilterPermissions(ev, after)

@@ -17,7 +17,6 @@ import arrow
 import discord
 from motor import motor_asyncio as motor
 
-from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.config import DatabaseConfig
 from sigma.core.mechanics.resources import SigmaResource
 
@@ -27,7 +26,7 @@ class Database(motor.AsyncIOMotorClient):
         self.bot = bot
         self.db_cfg = db_cfg
         self.db_nam = self.db_cfg.database
-        self.cache = Cacher()
+        self.cache = self.bot.cache
         if self.db_cfg.auth:
             self.db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'
             self.db_address += f'@{self.db_cfg.host}:{self.db_cfg.port}/'
@@ -51,7 +50,7 @@ class Database(motor.AsyncIOMotorClient):
         for setting_file in all_settings:
             guild_id = setting_file.get('server_id')
             if guild_id:
-                self.cache.set_cache(guild_id, setting_file)
+                await self.cache.set_cache(guild_id, setting_file)
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} guild settings.')
 
     async def precache_profiles(self):
@@ -60,7 +59,7 @@ class Database(motor.AsyncIOMotorClient):
         for setting_file in all_settings:
             guild_id = setting_file.get('user_id')
             if guild_id:
-                self.cache.set_cache(guild_id, setting_file)
+                await self.cache.set_cache(guild_id, setting_file)
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
 
     async def precache_resources(self):
@@ -75,17 +74,17 @@ class Database(motor.AsyncIOMotorClient):
                     uid = doc.get('user_id')
                     cache_key = f'res_{res_nam}_{uid}'
                     resource = SigmaResource(doc)
-                    self.cache.set_cache(cache_key, resource)
+                    await self.cache.set_cache(cache_key, resource)
                     res_cache_counter += 1
         self.bot.log.info(f'Finished pre-caching {res_cache_counter} resource entries.')
 
     # Guild Setting Variable Calls
 
     async def get_guild_settings(self, guild_id: int, setting_name: str = None):
-        guild_settings = self.cache.get_cache(guild_id)
+        guild_settings = await self.cache.get_cache(f'settings_{guild_id}')
         if guild_settings is None:
             guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id}) or {}
-            self.cache.set_cache(guild_id, guild_settings)
+            await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
         if setting_name:
             return guild_settings.get(setting_name)
         else:
@@ -102,15 +101,15 @@ class Database(motor.AsyncIOMotorClient):
         else:
             guild_settings = {'server_id': guild_id, setting_name: value}
             await self[self.db_nam].ServerSettings.insert_one(guild_settings)
-        self.cache.set_cache(guild_id, guild_settings)
+        await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
 
     # Profile Data Entry Variable Calls
 
     async def get_profile(self, user_id: int, entry_name: str = None):
-        user_profile = self.cache.get_cache(user_id)
+        user_profile = await self.cache.get_cache(f'profile_{user_id}')
         if user_profile is None:
             user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
-            self.cache.set_cache(user_id, user_profile)
+            await self.cache.set_cache(f'profile_{user_id}', user_profile)
         if entry_name:
             return user_profile.get(entry_name)
         else:
@@ -127,7 +126,7 @@ class Database(motor.AsyncIOMotorClient):
         else:
             user_profile = {'user_id': user_id, entry_name: value}
             await self[self.db_nam].Profiles.insert_one(user_profile)
-        self.cache.set_cache(user_id, user_profile)
+        await self.cache.set_cache(f'profile_{user_id}', user_profile)
 
     async def is_sabotaged(self, user_id: int):
         return bool(await self.get_profile(user_id, 'sabotaged'))
@@ -144,15 +143,15 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await coll.insert_one(data)
-        self.cache.set_cache(cache_key, SigmaResource(data))
+        await self.cache.set_cache(cache_key, SigmaResource(data))
 
     async def get_resource(self, user_id: int, resource_name: str):
         cache_key = f'res_{resource_name}_{user_id}'
-        resource = self.cache.get_cache(cache_key)
+        resource = await self.cache.get_cache(cache_key)
         if resource is None:
             data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
             resource = SigmaResource(data)
-            self.cache.set_cache(cache_key, resource)
+            await self.cache.set_cache(cache_key, resource)
         return resource
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool = True):
@@ -178,14 +177,14 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await self[self.db_nam].Inventory.insert_one(data)
-        self.cache.set_cache(cache_key, data)
+        await self.cache.set_cache(cache_key, data)
 
     async def get_inventory(self, user_id: int):
         cache_key = f'inv_{user_id}'
-        inventory = self.cache.get_cache(cache_key)
+        inventory = await self.cache.get_cache(cache_key)
         if inventory is None:
             inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
-            self.cache.set_cache(cache_key, inventory)
+            await self.cache.set_cache(cache_key, inventory)
         inventory = inventory.get('items', [])
         return inventory
 

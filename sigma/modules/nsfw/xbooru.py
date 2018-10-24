@@ -34,7 +34,7 @@ async def fill_xbooru_cache(tags):
             cache.update({tags: list(posts)})
 
 
-async def xbooru(cmd: SigmaCommand, message: discord.Message, args: list):
+async def xbooru(_cmd: SigmaCommand, message: discord.Message, args: list):
     tags = '+'.join(args) if args else 'nude'
     collect_needed = False if cache.get(tags) else True
     if collect_needed:

@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def bots(cmd: SigmaCommand, message: discord.Message, args: list):
+async def bots(_cmd: SigmaCommand, message: discord.Message, _args: list):
     online_bots = []
     offline_bots = []
     total_bots = 0

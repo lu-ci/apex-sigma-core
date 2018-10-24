@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def anime(cmd: SigmaCommand, message: discord.Message, args: list):
+async def anime(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         qry = '%20'.join(args)
         url = f'https://kitsu.io/api/edge/anime?filter[text]={qry}'

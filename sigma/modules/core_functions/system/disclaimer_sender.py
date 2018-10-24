@@ -44,7 +44,7 @@ You are NOT allowed to:
 """
 
 
-async def disclaimer_sender(ev: SigmaEvent, guild: discord.Guild):
+async def disclaimer_sender(_ev: SigmaEvent, guild: discord.Guild):
     try:
         await guild.owner.send(disclaimer)
     except discord.Forbidden:

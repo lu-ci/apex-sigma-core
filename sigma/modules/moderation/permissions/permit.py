@@ -17,14 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.permissions import scp_cache
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms, generate_cmd_data
 
 
-async def get_perm_group(cmd: SigmaCommand, message: discord.Message, mode_vars: tuple, node_name: str, target_type: str):
+async def get_perm_group(cmd: SigmaCommand, msg: discord.Message, mode_vars: tuple, node_name: str, target_type: str):
     exc_group, check_group, check_alts = mode_vars
-    perms = await get_all_perms(cmd.db, message)
+    perms = await get_all_perms(cmd.db, msg)
     exc_tuple = None
     if check_alts:
         if node_name in cmd.bot.modules.alts:
@@ -115,8 +114,9 @@ async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
                                                               perms)
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                            {'server_id': message.guild.id}, {'$set': perms})
-                                        scp_cache.del_cache(message.guild.id)
+                                            {'server_id': message.guild.id}, {'$set': perms}
+                                        )
+                                        await cmd.db.cache.del_cache(message.guild.id)
                                         if len(targets) > 1:
                                             title = f'✅ {len(targets)} {target_type} can now use `{node_name}`.'
                                         else:

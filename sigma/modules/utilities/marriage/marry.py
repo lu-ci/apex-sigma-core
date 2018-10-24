@@ -30,7 +30,7 @@ async def send_proposal(author: discord.Member, target: discord.Member, is_propo
         pass
 
 
-async def marry(cmd: SigmaCommand, message: discord.Message, args: list):
+async def marry(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.mentions:
         target = message.mentions[0]
         author = message.author

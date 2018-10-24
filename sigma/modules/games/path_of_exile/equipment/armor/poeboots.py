@@ -102,7 +102,7 @@ def parse_armor_info(armor_info: str):
     return {'types': types, 'details': info_lines}
 
 
-async def poeboots(cmd: SigmaCommand, message: discord.Message, args: list):
+async def poeboots(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_boots_cache()

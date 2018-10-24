@@ -20,11 +20,8 @@ from concurrent.futures import ThreadPoolExecutor
 import discord
 import markovify
 
-from sigma.core.mechanics.caching import Cacher
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
-
-chain_object_cache = Cacher()
 
 
 async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -42,10 +39,11 @@ async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
                 total_string = ' '.join(chain_data['chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
                 with ThreadPoolExecutor() as threads:
-                    chain = chain_object_cache.get_cache(target.id)
+                    cache_key = f'chain_{target.id}'
+                    chain = await cmd.db.cache.get_cache(cache_key)
                     if not chain:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                        chain_object_cache.set_cache(target.id, chain)
+                        chain.set_cache(cache_key, chain)
                     sentence_function = functools.partial(chain.make_short_sentence, 500)
                     sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:

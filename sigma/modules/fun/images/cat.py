@@ -25,7 +25,7 @@ from sigma.core.mechanics.command import SigmaCommand
 cat_cache = []
 
 
-async def cat(cmd: SigmaCommand, message: discord.Message, args: list):
+async def cat(cmd: SigmaCommand, message: discord.Message, _args: list):
     cat_api_key = cmd.cfg.get('api_key')
     api_url = 'http://thecatapi.com/api/images/get?format=json&results_per_page=100'
     if cat_api_key:

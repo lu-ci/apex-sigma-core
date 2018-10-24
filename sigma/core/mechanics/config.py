@@ -38,6 +38,7 @@ class DatabaseConfig(object):
         self.port = self.raw.get('port', 27017)
         self.username = self.raw.get('username', 'user')
         self.password = self.raw.get('password', 'pass')
+        self.cache_type = self.raw.get('cache_type')
 
 
 class PreferencesConfig(object):

@@ -25,7 +25,7 @@ sigma_image = 'https://i.imgur.com/mGyqMe1.png'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
-async def botinformation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def botinformation(cmd: SigmaCommand, message: discord.Message, _args: list):
     version_data = cmd.bot.info.get_version().raw
     author_data = cmd.bot.info.get_authors().raw
     ver_nest = version_data.get('version')

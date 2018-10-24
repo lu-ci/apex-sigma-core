@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.event import SigmaEvent
 
 
-async def temproom_checker(ev: SigmaEvent, m: discord.Member, b: discord.VoiceState, a: discord.VoiceState):
+async def temproom_checker(_ev: SigmaEvent, _m: discord.Member, b: discord.VoiceState, _a: discord.VoiceState):
     if b:
         if b.channel:
             if b.channel.name.startswith('[Σ]'):

@@ -26,7 +26,7 @@ embed_titles = ['Touch fluffy ears~', '>:3', '乀^｀・´^／',
                 '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
-async def usagimimi(cmd: SigmaCommand, message: discord.Message, args: list):
+async def usagimimi(cmd: SigmaCommand, message: discord.Message, _args: list):
     global links
     if not links:
         name = cmd.bot.user.name

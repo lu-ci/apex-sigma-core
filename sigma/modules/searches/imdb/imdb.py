@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def imdb(cmd: SigmaCommand, message: discord.Message, args: list):
+async def imdb(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         search = '%20'.join(args)
         api_url = f'http://sg.media-imdb.com/suggests/{search[0].lower()}/{search}.json'

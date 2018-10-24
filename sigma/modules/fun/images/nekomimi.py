@@ -32,7 +32,7 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
                 '(○｀ω´○)', '(●ↀωↀ●)', '(｡･ω･｡)', '(*Φ皿Φ*)', '§ꊘ⃑٥ꊘ⃐§', ']*ΦωΦ)ノ']
 
 
-async def nekomimi(cmd: SigmaCommand, message: discord.Message, args: list):
+async def nekomimi(cmd: SigmaCommand, message: discord.Message, _args: list):
     global links
     if not links:
         name = cmd.bot.user.name

@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def wipechain(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wipechain(cmd: SigmaCommand, message: discord.Message, _args: list):
     uid = message.author.id
     exist_check = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': uid})
     if exist_check:

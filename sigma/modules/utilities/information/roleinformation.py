@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def roleinformation(cmd: SigmaCommand, message: discord.Message, args: list):
+async def roleinformation(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         lookup = ' '.join(args)
         role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)

@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def blindcollector(cmd: SigmaCommand, message: discord.Message, args: list):
+async def blindcollector(cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.author.guild_permissions.manage_channels:
         if message.channel_mentions:
             target = message.channel_mentions[0]

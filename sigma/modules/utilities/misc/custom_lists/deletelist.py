@@ -28,7 +28,8 @@ async def deletelist(cmd: SigmaCommand, message: discord.Message, args: list):
             author_id = list_file.get('user_id')
             if author_id == message.author.id:
                 await list_coll.delete_one(lookup_data)
-                response = discord.Embed(color=0xFFCC4D, title=f'🔥 List `{list_file.get("list_id")}` has been deleted.')
+                response = discord.Embed(color=0xFFCC4D,
+                                         title=f'🔥 List `{list_file.get("list_id")}` has been deleted.')
             else:
                 response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
         else:

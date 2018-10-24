@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.permissions import scp_cache
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_target_type
 
@@ -63,7 +62,7 @@ async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': message.guild.id}, {'$set': perms})
-                                        scp_cache.del_cache(message.guild.id)
+                                        await cmd.db.cache.del_cache(message.guild.id)
                                         if len(targets) > 1:
                                             title = f'✅ {len(targets)} {target_type} can no longer use `{node_name}`.'
                                         else:

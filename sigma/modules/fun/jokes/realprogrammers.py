@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def realprogrammers(cmd: SigmaCommand, message: discord.Message, args: list):
+async def realprogrammers(cmd: SigmaCommand, message: discord.Message, _args: list):
     joke_docs = await cmd.db[cmd.db.db_nam].RealDevsData.find().to_list(None)
     joke = secrets.choice(joke_docs).get('content')
     response = discord.Embed(color=0xf9f9f9, title=f'💻 Real programmers...')

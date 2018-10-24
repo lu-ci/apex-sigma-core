@@ -28,7 +28,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 
 
-async def wfvoidtrader(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfvoidtrader(_cmd: SigmaCommand, message: discord.Message, args: list):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get('https://deathsnacks.com/wf/data/voidtraders.json') as data:

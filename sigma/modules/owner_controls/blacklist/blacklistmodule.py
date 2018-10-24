@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.permissions import gcp_cache
 
 
 async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: list):
@@ -49,8 +48,8 @@ async def blacklistmodule(cmd: SigmaCommand, message: discord.Message, args: lis
                             icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
                         title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
                         response = discord.Embed(color=0xFFCC4D, title=title)
-                        gcp_cache.del_cache(target.id)
-                        gcp_cache.del_cache(f'{target.id}_checked')
+                        await cmd.db.cache.del_cache(target.id)
+                        await cmd.db.cache.del_cache(f'{target.id}_checked')
                     else:
                         response = discord.Embed(color=0x696969, title='🔍 Module not found.')
                 else:

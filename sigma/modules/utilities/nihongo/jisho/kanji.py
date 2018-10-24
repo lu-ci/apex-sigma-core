@@ -94,7 +94,7 @@ def clean_readings_data(kanji_dict):
     return rds
 
 
-async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
+async def kanji(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         query = args[0][0]
         async with aiohttp.ClientSession() as session:
@@ -111,7 +111,12 @@ async def kanji(cmd: SigmaCommand, message: discord.Message, args: list):
                 rds = [f"**{r_type.title()}:** {', '.join(readings[r_type])}" for r_type in readings if
                        readings[r_type]]
                 meta = kanji_dict['meta']
-                data = [f"**{item.title()}:** {', '.join([val for val in meta[item]])}" for item in meta if meta[item]]
+                data = []
+                for item in meta:
+                    if item:
+                        meta_title = f'**{item.title()}:**'
+                        meta_list = ', '.join([v for v in meta[item]])
+                        data.append(f'{meta_title} {meta_list}')
                 desc = f"**{kanji_dict['strokes']}** strokes\n"
                 desc += '\n'.join(data)
                 desc += f"\n**Meanings:** {', '.join(kanji_dict['meanings'])}"

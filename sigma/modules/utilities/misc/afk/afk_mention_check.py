@@ -20,7 +20,6 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.modules.utilities.misc.afk.afk import afk_cache
 
 
 async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
@@ -29,7 +28,7 @@ async def afk_mention_check(ev: SigmaEvent, message: discord.Message):
         if not message.content.startswith(pfx):
             if message.mentions:
                 target = message.mentions[0]
-                afk_data = afk_cache.get_cache(message.author.id)
+                afk_data = await ev.bot.cache.get_cache(message.author.id)
                 if not afk_data:
                     afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one({'user_id': target.id})
                 if afk_data:

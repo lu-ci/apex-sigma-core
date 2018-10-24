@@ -23,7 +23,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def safebooru(cmd: SigmaCommand, message: discord.Message, args: list):
+async def safebooru(_cmd: SigmaCommand, message: discord.Message, args: list):
     tag = ' '.join(args).replace(' ', '+') if args else 'cute'
     resource = 'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+' + tag
     async with aiohttp.ClientSession() as session:

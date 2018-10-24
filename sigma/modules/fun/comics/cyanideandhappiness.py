@@ -23,7 +23,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def cyanideandhappiness(cmd: SigmaCommand, message: discord.Message, args: list):
+async def cyanideandhappiness(_cmd: SigmaCommand, message: discord.Message, _args: list):
     comic_img_url = None
     comic_url = None
     tries = 0

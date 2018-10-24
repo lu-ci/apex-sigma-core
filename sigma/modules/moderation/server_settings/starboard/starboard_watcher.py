@@ -18,11 +18,9 @@ import arrow
 import discord
 from discord.raw_models import RawReactionActionEvent
 
-from sigma.core.mechanics.caching import Cacher
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
-
-star_cache = Cacher()
 
 
 async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
@@ -53,18 +51,18 @@ async def generate_embed(msg: discord.Message):
     return response
 
 
-def check_emotes(mid: int, sbl: int):
+async def check_emotes(db: Database, mid: int, sbl: int):
     trigger = False
-    executed = star_cache.get_cache(f'exec_{mid}')
+    executed = await db.cache.get_cache(f'exec_{mid}')
     if not executed:
-        stars = star_cache.get_cache(mid) or 0
+        stars = await db.cache.get_cache(mid) or 0
         stars += 1
         if stars >= sbl:
             trigger = True
-            star_cache.del_cache(mid)
-            star_cache.set_cache(f'exec_{mid}', True)
+            await db.cache.del_cache(mid)
+            await db.cache.set_cache(f'exec_{mid}', True)
         else:
-            star_cache.set_cache(mid, stars)
+            await db.cache.set_cache(mid, stars)
     return trigger
 
 
@@ -90,7 +88,7 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
                                 if user:
                                     if not user.bot:
                                         try:
-                                            enough = check_emotes(mid, sbl)
+                                            enough = check_emotes(ev.db, mid, sbl)
                                             if enough:
                                                 message = await channel.get_message(mid)
                                                 if not message.author.bot:

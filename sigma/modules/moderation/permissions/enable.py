@@ -17,7 +17,6 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.permissions import scp_cache
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
@@ -46,7 +45,7 @@ async def enable(cmd: SigmaCommand, message: discord.Message, args: list):
                             perms.update({exception_group: disabled_items})
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                 {'server_id': message.guild.id}, {'$set': perms})
-                            scp_cache.del_cache(message.guild.id)
+                            await cmd.db.cache.del_cache(message.guild.id)
                             response = discord.Embed(color=0x77B255, title=f'✅ `{node_name.upper()}` enabled.')
                         else:
                             response = discord.Embed(color=0xFFCC4D, title=f'⚠ {mode_name} not disabled.')

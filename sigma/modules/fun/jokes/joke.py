@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 joke_cache = []
 
 
-async def joke(cmd: SigmaCommand, message: discord.Message, args: list):
+async def joke(cmd: SigmaCommand, message: discord.Message, _args: list):
     global joke_cache
     if not joke_cache:
         joke_cache = await cmd.db[cmd.db.db_nam].JokeData.find().to_list(None)

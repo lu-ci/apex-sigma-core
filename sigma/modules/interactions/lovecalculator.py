@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def lovecalculator(cmd: SigmaCommand, message: discord.Message, args: list):
+async def lovecalculator(_cmd: SigmaCommand, message: discord.Message, _args: list):
     if message.mentions:
         if len(message.mentions) in [1, 2]:
             first_tar = None

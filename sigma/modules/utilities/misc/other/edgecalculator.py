@@ -34,7 +34,7 @@ def hex_to_rgb(hexval: str):
     return [int(hexval[:2], 16), int(hexval[2:-2], 16), int(hexval[-2:], 16)]
 
 
-async def edgecalculator(cmd: SigmaCommand, message: discord.Message, args: list):
+async def edgecalculator(_cmd: SigmaCommand, message: discord.Message, _args: list):
     target = message.mentions[0] if message.mentions else message.author
     avatar = user_avatar(target)
     name = target.name

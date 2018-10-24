@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def giverole(cmd: SigmaCommand, message: discord.Message, args: list):
+async def giverole(_cmd: SigmaCommand, message: discord.Message, args: list):
     if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) >= 2:

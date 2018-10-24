@@ -39,7 +39,7 @@ def get_usercaps(username, trials):
     return output
 
 
-async def wftrials(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wftrials(_cmd: SigmaCommand, message: discord.Message, args: list):
     if args:
         username = ' '.join(args)
         trials_url = f'https://api.trials.wf/api/player/pc/{username}/completed'

@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def yandere(cmd: SigmaCommand, message: discord.Message, args: list):
+async def yandere(_cmd: SigmaCommand, message: discord.Message, args: list):
     url = 'https://yande.re/post.json?limit=100&tags='
     url += '+'.join(args) if args else 'nude'
     async with aiohttp.ClientSession() as session:

@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def listraffles(cmd: SigmaCommand, message: discord.Message, args: list):
+async def listraffles(cmd: SigmaCommand, message: discord.Message, _args: list):
     lookup = {'author': message.author.id, 'active': True}
     raffle_docs = await cmd.db[cmd.db.db_nam].Raffles.find(lookup).to_list(None)
     if raffle_docs:
