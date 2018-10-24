@@ -81,10 +81,10 @@ class Database(motor.AsyncIOMotorClient):
     # Guild Setting Variable Calls
 
     async def get_guild_settings(self, guild_id: int, setting_name: str = None):
-        guild_settings = await self.cache.get_cache(guild_id)
+        guild_settings = await self.cache.get_cache(f'settings_{guild_id}')
         if guild_settings is None:
             guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id}) or {}
-            await self.cache.set_cache(guild_id, guild_settings)
+            await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
         if setting_name:
             return guild_settings.get(setting_name)
         else:
@@ -101,15 +101,15 @@ class Database(motor.AsyncIOMotorClient):
         else:
             guild_settings = {'server_id': guild_id, setting_name: value}
             await self[self.db_nam].ServerSettings.insert_one(guild_settings)
-        await self.cache.set_cache(guild_id, guild_settings)
+        await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
 
     # Profile Data Entry Variable Calls
 
     async def get_profile(self, user_id: int, entry_name: str = None):
-        user_profile = await self.cache.get_cache(user_id)
+        user_profile = await self.cache.get_cache(f'profile_{user_id}')
         if user_profile is None:
             user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
-            await self.cache.set_cache(user_id, user_profile)
+            await self.cache.set_cache(f'profile_{user_id}', user_profile)
         if entry_name:
             return user_profile.get(entry_name)
         else:
@@ -126,7 +126,7 @@ class Database(motor.AsyncIOMotorClient):
         else:
             user_profile = {'user_id': user_id, entry_name: value}
             await self[self.db_nam].Profiles.insert_one(user_profile)
-        await self.cache.set_cache(user_id, user_profile)
+        await self.cache.set_cache(f'profile_{user_id}', user_profile)
 
     async def is_sabotaged(self, user_id: int):
         return bool(await self.get_profile(user_id, 'sabotaged'))

@@ -7,7 +7,7 @@ import discord
 from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
 
-from sigma.core.mechanics.caching import set_cache_type, get_cache
+from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
@@ -85,8 +85,7 @@ class ApexSigma(client_class):
         os.makedirs('cache')
 
     async def init_cacher(self):
-        set_cache_type(self.cfg.db.cache_type)
-        self.cache = await get_cache()
+        self.cache = await get_cache(self.cfg.db.cache_type)
 
     def init_logger(self):
         self.log = create_logger('Sigma')
@@ -140,17 +139,6 @@ class ApexSigma(client_class):
             ready = False
         return ready
 
-    def get_all_members(self):
-        now = arrow.utcnow().timestamp
-        timestamp = self.cache.get_cache('all_members_stamp') or 0
-        if now > timestamp + 60:
-            members = list(super().get_all_members())
-            self.cache.set_cache('all_members', members)
-            self.cache.set_cache('all_members_stamp', now)
-        else:
-            members = self.cache.get_cache('all_members')
-        return members
-
     def get_user(self, uid, cached: bool = False):
         if cached:
             out = self.cache.get_cache(uid)
@@ -170,17 +158,6 @@ class ApexSigma(client_class):
         else:
             out = super().get_channel(cid)
         return out
-
-    def get_all_channels(self):
-        now = arrow.utcnow().timestamp
-        timestamp = self.cache.get_cache('all_channels_stamp') or 0
-        if now > timestamp + 60:
-            channels = list(super().get_all_channels())
-            self.cache.set_cache('all_channels', channels)
-            self.cache.set_cache('all_channels_stamp', now)
-        else:
-            channels = self.cache.get_cache('all_channels')
-        return channels
 
     def run(self):
         try:

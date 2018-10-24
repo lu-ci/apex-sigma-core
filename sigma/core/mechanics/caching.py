@@ -19,15 +19,8 @@ import pickle
 import aioredis
 import cachetools
 
-cache_type = None
 
-
-def set_cache_type(cache_config):
-    global cache_type
-    cache_type = cache_config
-
-
-async def get_cache(max_size: int = 1000, ttl_time: int = 60):
+async def get_cache(cache_type, max_size: int = 1000, ttl_time: int = 60):
     if cache_type == 'memory':
         cache = MemoryCacher()
     elif cache_type == 'lru':
