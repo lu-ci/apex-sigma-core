@@ -22,6 +22,8 @@ import cachetools
 
 
 async def get_cache(cache_type, max_size: int = 1000, ttl_time: int = 60):
+    if isinstance(cache_type, str):
+        cache_type = cache_type.strip().lower()
     if cache_type == 'memory':
         cache = MemoryCacher()
     elif cache_type == 'lru':
@@ -30,6 +32,8 @@ async def get_cache(cache_type, max_size: int = 1000, ttl_time: int = 60):
         cache = TTLCacher(max_size, ttl_time)
     elif cache_type == 'redis':
         cache = RedisCacher()
+    elif cache_type == 'mixed':
+        cache = MixedCacher()
     else:
         cache = Cacher()
     await cache.init()
@@ -96,3 +100,27 @@ class RedisCacher(Cacher):
     async def del_cache(self, key: str or int):
         if await self.conn.exists(str(key)):
             await self.conn.delete(str(key))
+
+
+class MixedCacher(RedisCacher):
+    def __init__(self):
+        super().__init__()
+        self.ttl: TTLCacher = None
+
+    async def init(self):
+        await super().init()
+        self.ttl = await get_cache('ttl')
+
+    async def get_cache(self, key: str or int):
+        cached_data = await self.ttl.get_cache(key)
+        if cached_data is None:
+            cached_data = await super().get_cache(key)
+        return cached_data
+
+    async def set_cache(self, key: str or int, value):
+        await self.ttl.set_cache(key, value)
+        await super().set_cache(key, value)
+
+    async def del_cache(self, key: str or int):
+        await self.ttl.del_cache(key)
+        await super().del_cache(key)
