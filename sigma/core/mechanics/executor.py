@@ -17,8 +17,10 @@
 import asyncio
 
 import discord
+from sigma.core.mechanics.pld import SigmaPayload
 
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.payload import MessagePayload, CommandPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 
@@ -33,24 +35,18 @@ class ExecutionClockwork(object):
         self.processed = 0
         self.stats = {}
 
-    async def get_cmd_and_args(self, message: discord.Message, args: list, mention: bool = False):
+    async def get_cmd_and_args(self, message: discord.Message, args: list):
         args = list(filter(lambda a: a != '', args))
-        if mention:
-            if args:
-                cmd = args.pop(0).lower()
-            else:
-                cmd = None
-        else:
-            pfx = await self.bot.db.get_prefix(message)
-            cmd = args.pop(0)[len(pfx):].lower()
+        pfx = await self.bot.db.get_prefix(message)
+        cmd = args.pop(0)[len(pfx):].lower()
         return cmd, args
 
-    async def command_runner(self, message: discord.Message):
+    async def command_runner(self, pld: MessagePayload):
         if self.bot.ready:
-            prefix = await self.bot.db.get_prefix(message)
-            if message.content.startswith(prefix):
-                args = message.content.split(' ')
-                cmd, args = await self.get_cmd_and_args(message, args)
+            prefix = await self.bot.db.get_prefix(pld.msg)
+            if pld.msg.content.startswith(prefix):
+                args = pld.msg.content.split(' ')
+                cmd, args = await self.get_cmd_and_args(pld.msg, args)
                 cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
                 command = self.bot.modules.commands.get(cmd)
                 if command:
@@ -59,7 +55,8 @@ class ExecutionClockwork(object):
                     elif self.bot.cfg.pref.music_only and command.category != 'music':
                         return
                     else:
-                        task = command, message, args
+                        cmd_pld = CommandPayload(self.bot, pld.msg, args)
+                        task = command, cmd_pld
                         await self.cmd_queue.put(task)
 
     def get_stats_storage(self, event):
@@ -69,19 +66,21 @@ class ExecutionClockwork(object):
             self.stats.update({event: stats_handler})
         return stats_handler
 
-    async def event_runner(self, event_name: str, *args):
+    async def event_runner(self, event_name: str, pld: SigmaPayload = None):
         if self.bot.ready:
             if event_name in self.bot.modules.events:
+                if pld:
+                    await pld.init()
                 self.get_stats_storage(event_name).add_stat()
                 for event in self.bot.modules.events[event_name]:
-                    task = event, *args
+                    task = event, pld
                     await self.ev_queue.put(task)
 
     async def queue_ev_loop(self):
         while True:
             if self.bot.ready:
-                item, *args = await self.ev_queue.get()
-                self.bot.loop.create_task(item.execute(*args))
+                item, pld = await self.ev_queue.get()
+                self.bot.loop.create_task(item.execute(pld))
                 self.processed += 1
             else:
                 await asyncio.sleep(1)
@@ -89,8 +88,8 @@ class ExecutionClockwork(object):
     async def queue_cmd_loop(self):
         while True:
             if self.bot.ready:
-                item, *args = await self.cmd_queue.get()
-                self.bot.loop.create_task(item.execute(*args))
+                item, pld = await self.cmd_queue.get()
+                self.bot.loop.create_task(item.execute(pld))
                 self.processed += 1
             else:
                 await asyncio.sleep(1)
