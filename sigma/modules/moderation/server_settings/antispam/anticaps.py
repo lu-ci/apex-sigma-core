@@ -18,12 +18,14 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def anticaps(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        current = await cmd.db.get_guild_settings(message.guild.id, 'anticaps')
+        current = pld.settings.get('anticaps')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'anticaps', toggle)
         response = discord.Embed(color=0x77B255, title=f'✅ Capital letter limitations {status}.')

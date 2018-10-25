@@ -17,12 +17,14 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
 async def avatar(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     gif = False
     static = False
     auto_color = False
@@ -31,7 +33,7 @@ async def avatar(_cmd: SigmaCommand, pld: CommandPayload):
             gif = True
         elif args[-1].lower() == 'static':
             static = True
-        elif args[-1].lower() == 'auto':
+        elif args[-1].lower() == 'color':
             auto_color = True
     if message.mentions:
         target = message.mentions[0]

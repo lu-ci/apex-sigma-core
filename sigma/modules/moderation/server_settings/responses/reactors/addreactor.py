@@ -17,21 +17,20 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def addreactor(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) == 2:
                 trigger = args[0].lower()
                 if '.' not in trigger:
                     reaction = args[1].replace('<', '').replace('>', '')
-                    react_triggers = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers') or {}
-                    if trigger in react_triggers:
-                        res_text = 'updated'
-                    else:
-                        res_text = 'added'
+                    react_triggers = pld.settings.get('reactor_triggers', {})
+                    res_text = 'updated' if react_triggers in trigger else 'added'
                     react_triggers.update({trigger: reaction})
                     await cmd.db.set_guild_settings(message.guild.id, 'reactor_triggers', react_triggers)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')

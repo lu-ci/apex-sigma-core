@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def addselfrole(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args)
@@ -28,9 +30,7 @@ async def addselfrole(cmd: SigmaCommand, pld: CommandPayload):
             if target_role:
                 role_below = bool(target_role.position < message.guild.me.top_role.position)
                 if role_below:
-                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles')
-                    if selfroles is None:
-                        selfroles = []
+                    selfroles = pld.settings.get('self_roles', [])
                     if target_role.id in selfroles:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is already self assignable.')
                     else:

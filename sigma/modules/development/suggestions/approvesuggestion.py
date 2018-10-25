@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def parse_approval(args: list):
@@ -46,6 +47,7 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
 
 
 async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if len(args) >= 3:
         token, title, description = parse_approval(args)
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})

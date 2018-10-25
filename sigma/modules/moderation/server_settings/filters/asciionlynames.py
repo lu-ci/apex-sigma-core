@@ -17,12 +17,14 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def asciionlynames(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'ascii_only_names')
+        active = pld.settings.get('ascii_only_names')
         ascii_names, state = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'ascii_only_names', ascii_names)
         response = discord.Embed(color=0x66CC66, title=f'✅ ASCII name enforcement has been {state}.')

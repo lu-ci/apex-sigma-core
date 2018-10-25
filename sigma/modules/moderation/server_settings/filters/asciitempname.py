@@ -17,14 +17,16 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def asciitempname(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             new_name = ' '.join(args)
-            temp_name = await cmd.db.get_guild_settings(message.guild.id, 'ascii_temp_name')
+            temp_name = pld.settings.get('ascii_temp_name')
             if temp_name is None:
                 temp_name = '<ChangeMyName>'
             await cmd.db.set_guild_settings(message.guild.id, 'ascii_temp_name', new_name)

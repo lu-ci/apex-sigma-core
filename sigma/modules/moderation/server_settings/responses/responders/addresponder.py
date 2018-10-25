@@ -17,21 +17,20 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def addresponder(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 2:
                 trigger = args[0].lower()
                 if '.' not in trigger:
                     content = ' '.join(args[1:])
-                    auto_respones = await cmd.db.get_guild_settings(message.guild.id, 'responder_triggers') or {}
-                    if trigger in auto_respones:
-                        res_text = 'updated'
-                    else:
-                        res_text = 'added'
+                    auto_respones = pld.settings.get('responder_triggers', {})
+                    res_text = 'updated' if trigger in auto_respones else 'added'
                     auto_respones.update({trigger: content})
                     await cmd.db.set_guild_settings(message.guild.id, 'responder_triggers', auto_respones)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')

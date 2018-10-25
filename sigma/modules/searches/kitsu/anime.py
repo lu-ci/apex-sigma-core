@@ -20,9 +20,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def anime(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         qry = '%20'.join(args)
         url = f'https://kitsu.io/api/edge/anime?filter[text]={qry}'

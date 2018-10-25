@@ -18,6 +18,7 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
@@ -31,6 +32,7 @@ async def notify_awarded(user: discord.User, amt: int, pos: int, curr: str, curr
 
 
 async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     awardables = ['currency', 'experience', 'cookies']
     for awdbl in awardables:
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']

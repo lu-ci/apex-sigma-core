@@ -17,11 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
 async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             attachment = len(args) == 1 and message.attachments
@@ -35,11 +37,8 @@ async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
                         else:
                             content = ' '.join(args[1:])
                         if content:
-                            custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
-                            if trigger in custom_commands:
-                                res_text = 'updated'
-                            else:
-                                res_text = 'added'
+                            custom_commands = pld.settings.get('custom_commands', {})
+                            res_text = 'updated' if trigger in custom_commands else 'added'
                             custom_commands.update({trigger: content})
                             await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
                             response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')

@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def autorole(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             lookup = ' '.join(args)
@@ -39,7 +41,7 @@ async def autorole(cmd: SigmaCommand, pld: CommandPayload):
                 await cmd.db.set_guild_settings(message.guild.id, 'auto_role', None)
                 response = discord.Embed(color=0x77B255, title=f'✅ Autorole has been disabled.')
         else:
-            curr_role_id = await cmd.db.get_guild_settings(message.guild.id, 'auto_role')
+            curr_role_id = pld.settings.get('auto_role')
             if curr_role_id:
                 curr_role = message.guild.get_role(curr_role_id)
                 if curr_role:
