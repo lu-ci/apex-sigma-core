@@ -187,7 +187,7 @@ def make_time_list(terminus_times: list, current_time: arrow.Arrow, data_pool: s
     return time_list
 
 
-async def busplus(cmd: SigmaCommand, message: discord.Message, args: list):
+async def busplus(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         line_number = " ".join(args)
         current_time = arrow.utcnow().to('Europe/Belgrade')

@@ -49,7 +49,7 @@ for symbol in rarity_rewards:
     symbols.append(symbol)
 
 
-async def slots(cmd: SigmaCommand, message: discord.Message, args: list):
+async def slots(cmd: SigmaCommand, pld: CommandPayload):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
     current_kud = await cmd.db.get_resource(message.author.id, 'currency')

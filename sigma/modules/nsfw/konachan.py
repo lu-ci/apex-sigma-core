@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def konachan(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def konachan(_cmd: SigmaCommand, pld: CommandPayload):
     url = 'https://konachan.com/post.json?limit=100&tags='
     url += '+'.join(args) if args else 'nude'
     async with aiohttp.ClientSession() as session:

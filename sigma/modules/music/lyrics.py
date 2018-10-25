@@ -76,7 +76,7 @@ def find_result(resp: dict):
     return lyr_url
 
 
-async def lyrics(cmd: SigmaCommand, message: discord.Message, args: list):
+async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         query = ' '.join(args)
     elif cmd.bot.music.currents.get(message.guild.id):

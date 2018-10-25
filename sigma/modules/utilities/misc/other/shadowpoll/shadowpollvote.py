@@ -40,7 +40,7 @@ def check_roles(allowed_roles, all_users, user):
     return authorized
 
 
-async def shadowpollvote(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) == 2:
             poll_id = args[0].lower()

@@ -28,7 +28,7 @@ def get_price_mod(base_price, upgrade_level):
     return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
 
 
-async def buyupgrade(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
         upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}

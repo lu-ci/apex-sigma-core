@@ -21,7 +21,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def randomcomicgenerator(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
     comic_url = 'http://explosm.net/rcg/'
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:
         async with session.get(comic_url) as data:

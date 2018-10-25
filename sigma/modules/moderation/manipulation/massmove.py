@@ -28,7 +28,7 @@ def get_vc(guild_vcs, lookup):
     return vc
 
 
-async def massmove(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         if args:
             movereqs = [piece.strip() for piece in ' '.join(args).split(';')]

@@ -38,7 +38,7 @@ def parse_args(args: list):
     return lookup, state, page
 
 
-async def inrole(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup, state, page = parse_args(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)

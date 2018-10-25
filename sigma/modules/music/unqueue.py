@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def unqueue(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if message.author.voice:
             same_bound = True

@@ -21,7 +21,7 @@ from arrow.parser import ParserError
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def currenttime(cmd: SigmaCommand, message: discord.Message, args: list):
+async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
     shift = None
     if args:
         shift = ' '.join(args).lower()

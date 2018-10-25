@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def summon(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def summon(_cmd: SigmaCommand, pld: CommandPayload):
     if message.author.voice:
         me = message.guild.me
         vc = message.author.voice.channel

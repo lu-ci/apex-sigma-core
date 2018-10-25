@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def dogfact(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def dogfact(_cmd: SigmaCommand, pld: CommandPayload):
     api_url = 'https://dog-api.kinduff.com/api/facts'
     async with aiohttp.ClientSession() as session:
         async with session.get(api_url) as data:

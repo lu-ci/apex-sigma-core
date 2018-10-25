@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def afk(cmd: SigmaCommand, message: discord.Message, args: list):
+async def afk(cmd: SigmaCommand, pld: CommandPayload):
     afk_data = await cmd.db.cache.get_cache(message.author.id)
     if not afk_data:
         afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': message.author.id})

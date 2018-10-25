@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
-async def encrypt(cmd: SigmaCommand, message: discord.Message, args: list):
+async def encrypt(cmd: SigmaCommand, pld: CommandPayload):
     text = False
     cipher = get_encryptor(cmd.bot.cfg)
     if cipher:

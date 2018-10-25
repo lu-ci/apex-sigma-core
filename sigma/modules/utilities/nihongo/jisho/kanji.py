@@ -94,7 +94,7 @@ def clean_readings_data(kanji_dict):
     return rds
 
 
-async def kanji(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def kanji(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         query = args[0][0]
         async with aiohttp.ClientSession() as session:

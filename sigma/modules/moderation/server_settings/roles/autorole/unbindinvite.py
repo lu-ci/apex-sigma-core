@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def unbindinvite(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.create_instant_invite:
         if args:
             invite_id = args[0]

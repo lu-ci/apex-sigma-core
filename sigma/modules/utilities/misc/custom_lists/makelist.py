@@ -28,7 +28,7 @@ def settings(lookup: str):
     return mode
 
 
-async def makelist(cmd: SigmaCommand, message: discord.Message, args: list):
+async def makelist(cmd: SigmaCommand, pld: CommandPayload):
     mode = None
     if args:
         mode = settings(args[0].lower())

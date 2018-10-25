@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def hunt(cmd: SigmaCommand, message: discord.Message, args: list):
+async def hunt(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}

@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def roleid(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def roleid(_cmd: SigmaCommand, pld: CommandPayload):
     embed = True
     if args:
         lookup = ' '.join(args)

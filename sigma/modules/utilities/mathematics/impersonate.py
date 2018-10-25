@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def impersonate(cmd: SigmaCommand, message: discord.Message, args: list):
+async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if message.mentions:
             target = message.mentions[0]

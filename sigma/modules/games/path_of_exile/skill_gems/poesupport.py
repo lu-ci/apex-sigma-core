@@ -98,7 +98,7 @@ def parse_gem_info(gem_info: str):
     return {'types': types, 'details': info_lines}
 
 
-async def poesupport(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def poesupport(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_gem_cache()

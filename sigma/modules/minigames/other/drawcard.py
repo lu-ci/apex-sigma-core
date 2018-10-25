@@ -37,7 +37,7 @@ def make_new_deck(uid):
     return deck_cache.get(uid)
 
 
-async def drawcard(cmd: SigmaCommand, message: discord.Message, args: list):
+async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         try:
             amount = int(args[0])

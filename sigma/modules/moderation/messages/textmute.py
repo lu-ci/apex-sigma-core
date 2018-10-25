@@ -38,7 +38,7 @@ def generate_log_embed(message, target, reason):
     return log_embed
 
 
-async def textmute(cmd: SigmaCommand, message: discord.Message, args: list):
+async def textmute(cmd: SigmaCommand, pld: CommandPayload):
     if not message.author.permissions_in(message.channel).manage_messages:
         response = permission_denied('Manage Messages')
     else:

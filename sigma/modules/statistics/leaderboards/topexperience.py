@@ -23,7 +23,7 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
-async def topexperience(cmd: SigmaCommand, message: discord.Message, args: list):
+async def topexperience(cmd: SigmaCommand, pld: CommandPayload):
     value_name = 'Experience'
     resource = 'experience'
     sort_key = f'ranked'

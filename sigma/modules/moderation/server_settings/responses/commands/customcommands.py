@@ -21,7 +21,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def customcommands(cmd: SigmaCommand, message: discord.Message, args: list):
+async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
     custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))

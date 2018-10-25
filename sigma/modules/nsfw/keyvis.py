@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
-async def keyvis(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def keyvis(_cmd: SigmaCommand, pld: CommandPayload):
     keys = [key for key in key_vn_list]
     choice = args[0].lower() if args else secrets.choice(keys)
     item = key_vn_list.get(choice)

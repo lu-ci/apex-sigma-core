@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def capspercentage(cmd: SigmaCommand, message: discord.Message, args: list):
+async def capspercentage(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         limit = None
         if args:

@@ -120,7 +120,7 @@ def get_weapon_satats_block(data: dict):
     return '\n'.join(lines)
 
 
-async def gftacticaldoll(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
     if not tdoll_page_index:
         await fill_tdoll_data()
     if args:

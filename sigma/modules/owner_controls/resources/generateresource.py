@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def generateresource(cmd: SigmaCommand, message: discord.Message, args: list):
+async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
     if message.mentions:
         if len(args) >= 3:
             target = message.mentions[0]

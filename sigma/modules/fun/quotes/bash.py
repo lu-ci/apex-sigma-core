@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 cache = []
 
 
-async def bash(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def bash(_cmd: SigmaCommand, pld: CommandPayload):
     if not cache:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://qdb.us/random') as page:

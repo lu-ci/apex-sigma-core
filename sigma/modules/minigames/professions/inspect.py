@@ -22,7 +22,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-async def inspect(cmd: SigmaCommand, message: discord.Message, args: list):
+async def inspect(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     recipe_core = await get_recipe_core(cmd.db)
     if args:

@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def foodrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
     if 'api_key' in cmd.cfg:
         api_key = cmd.cfg['api_key']
         if args:

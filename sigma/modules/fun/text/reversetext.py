@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def reversetext(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def reversetext(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         text = ' '.join(args)
         reverse_output = reversed(text)

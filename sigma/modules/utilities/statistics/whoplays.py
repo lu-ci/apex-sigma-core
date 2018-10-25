@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 
 
-async def whoplays(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def whoplays(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if args[0].isdigit():
             game_title = ' '.join(args[1:])

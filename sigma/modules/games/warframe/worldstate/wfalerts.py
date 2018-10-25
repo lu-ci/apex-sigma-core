@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.warframe.commons.parsers.alert_parser import parse_alert_data
 
 
-async def wfalerts(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def wfalerts(_cmd: SigmaCommand, pld: CommandPayload):
     alert_url = 'https://deathsnacks.com/wf/data/alerts_raw.txt'
     async with aiohttp.ClientSession() as session:
         async with session.get(alert_url) as data:

@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def usermembership(cmd: SigmaCommand, message: discord.Message, args: list):
+async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup = args[0].lower()
         if '#' in lookup:

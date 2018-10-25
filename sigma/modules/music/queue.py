@@ -24,7 +24,7 @@ from sigma.core.mechanics.music import QueueItem
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def queue(cmd: SigmaCommand, message: discord.Message, args: list):
+async def queue(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if message.author.voice:
             same_bound = True

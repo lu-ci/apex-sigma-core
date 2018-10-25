@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def rps(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def rps(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         their_choice, counter = None, None
         sign_list = ['rock', 'paper', 'scissors']

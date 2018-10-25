@@ -46,7 +46,7 @@ def make_games_dict(guild: discord.Guild):
     return games, online_count, playing_count
 
 
-async def ingame(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def ingame(_cmd: SigmaCommand, pld: CommandPayload):
     response = discord.Embed(color=0x1ABC9C)
     games, online, playing = make_games_dict(message.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)

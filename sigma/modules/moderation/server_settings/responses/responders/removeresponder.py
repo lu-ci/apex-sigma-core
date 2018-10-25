@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def removeresponder(cmd: SigmaCommand, message: discord.Message, args: list):
+async def removeresponder(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()

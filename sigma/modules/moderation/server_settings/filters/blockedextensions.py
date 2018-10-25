@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 
 
-async def blockedextensions(cmd: SigmaCommand, message: discord.Message, args: list):
+async def blockedextensions(cmd: SigmaCommand, pld: CommandPayload):
     blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'blocked_extensions')
     if not blocked_words:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked extensions.')

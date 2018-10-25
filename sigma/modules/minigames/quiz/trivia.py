@@ -82,7 +82,7 @@ def get_correct_index(question_list, answer):
     return index
 
 
-async def trivia(cmd: SigmaCommand, message: discord.Message, args: list):
+async def trivia(cmd: SigmaCommand, pld: CommandPayload):
     global streaks
     if await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)

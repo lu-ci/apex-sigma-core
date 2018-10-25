@@ -46,7 +46,7 @@ async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
     return leader_docs
 
 
-async def topcookies(cmd: SigmaCommand, message: discord.Message, args: list):
+async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
     value_name = 'Cookies'
     resource = 'cookies'
     sort_key = f'ranked'

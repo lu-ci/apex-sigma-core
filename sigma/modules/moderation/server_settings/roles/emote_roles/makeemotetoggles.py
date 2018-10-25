@@ -53,7 +53,7 @@ async def fill_toggler_emotes(toggler: discord.Message, emotes: list):
         await toggler.add_reaction(emote)
 
 
-async def makeemotetoggles(cmd: SigmaCommand, message: discord.Message, args: list):
+async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()

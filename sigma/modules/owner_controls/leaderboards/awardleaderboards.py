@@ -30,7 +30,7 @@ async def notify_awarded(user: discord.User, amt: int, pos: int, curr: str, curr
         pass
 
 
-async def awardleaderboards(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
     awardables = ['currency', 'experience', 'cookies']
     for awdbl in awardables:
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']

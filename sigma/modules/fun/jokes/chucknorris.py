@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def chucknorris(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def chucknorris(_cmd: SigmaCommand, pld: CommandPayload):
     joke_url = 'https://api.chucknorris.io/jokes/random'
     async with aiohttp.ClientSession() as session:
         async with session.get(joke_url) as data:

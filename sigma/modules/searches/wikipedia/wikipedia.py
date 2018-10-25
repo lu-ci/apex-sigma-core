@@ -48,7 +48,7 @@ def get_exact_results(search_data: list):
     return exact_result
 
 
-async def wikipedia(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def wikipedia(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         api_url = f'{api_base}&action=opensearch&search={" ".join(args)}&redirects=resolve'
         async with aiohttp.ClientSession() as session:

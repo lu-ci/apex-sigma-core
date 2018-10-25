@@ -21,7 +21,7 @@ from arrow.parser import ParserError
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def timeconvert(cmd: SigmaCommand, message: discord.Message, args: list):
+async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         conv_input = ' '.join(args).split('>')
         if len(conv_input) == 2:

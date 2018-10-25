@@ -21,7 +21,7 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def leetspeak(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         levels = ['basic', 'advanced', 'ultimate']
         if args[-1].startswith('level:'):

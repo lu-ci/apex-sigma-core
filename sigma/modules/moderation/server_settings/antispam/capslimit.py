@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def capslimit(cmd: SigmaCommand, message: discord.Message, args: list):
+async def capslimit(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         try:
             limit = abs(int(args[0]))

@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def poll(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def poll(_cmd: SigmaCommand, pld: CommandPayload):
     if not args:
         out_content = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
         await message.channel.send(embed=out_content)

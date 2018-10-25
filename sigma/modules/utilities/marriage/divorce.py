@@ -30,7 +30,7 @@ async def send_divorce(author: discord.Member, target: discord.Member, is_divorc
         pass
 
 
-async def divorce(cmd: SigmaCommand, message: discord.Message, args: list):
+async def divorce(cmd: SigmaCommand, pld: CommandPayload):
     target = None
     is_id = False
     tid = None

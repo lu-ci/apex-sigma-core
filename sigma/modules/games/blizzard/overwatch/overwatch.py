@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.blizzard.overwatch.mech.utility import ow_icon, region_convert, clean_numbers, get_profile
 
 
-async def overwatch(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def overwatch(_cmd: SigmaCommand, pld: CommandPayload):
     init_resp = discord.Embed(color=0xff9c00)
     init_resp.set_author(name='Processing information...', icon_url=ow_icon)
     init_resp_msg = await message.channel.send(embed=init_resp)

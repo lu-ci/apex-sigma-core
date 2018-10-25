@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def markovchain(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def markovchain(cmd: SigmaCommand, pld: CommandPayload):
     target = message.mentions[0] if message.mentions else message.author
     collection = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
     if collection:

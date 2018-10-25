@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def makerolegroup(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def makerolegroup(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
         group_id = secrets.token_hex(3)

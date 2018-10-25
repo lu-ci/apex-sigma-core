@@ -59,7 +59,7 @@ def generate_data(message, poll_args):
     return poll_file_data
 
 
-async def shadowpoll(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpoll(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         poll_args = ' '.join(args).split('; ')
         if len(poll_args) >= 3:

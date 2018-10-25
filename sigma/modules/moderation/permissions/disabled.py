@@ -39,7 +39,7 @@ def get_perm_type(cmd: SigmaCommand, perm_type: str):
     return perm_name, perm_type, exception_type, item_list
 
 
-async def disabled(cmd: SigmaCommand, message: discord.Message, args: list):
+async def disabled(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         perm_name, perm_type, exception_type, item_list = get_perm_type(cmd, args[0].lower())
         if perm_name:

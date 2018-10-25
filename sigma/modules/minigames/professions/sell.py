@@ -21,7 +21,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def sell(cmd: SigmaCommand, message: discord.Message, args: list):
+async def sell(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
     if args:

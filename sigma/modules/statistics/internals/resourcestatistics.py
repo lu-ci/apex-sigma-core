@@ -81,7 +81,7 @@ def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.Member,
     return response
 
 
-async def resourcestatistics(cmd: SigmaCommand, message: discord.Message, args: list):
+async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         res_nam = args[0].lower()
         res_nam = 'currency' if cmd.bot.cfg.pref.currency.lower() == res_nam else res_nam

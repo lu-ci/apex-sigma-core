@@ -38,7 +38,7 @@ def generate_log_embed(message, target, reason):
     return log_response
 
 
-async def kick(cmd: SigmaCommand, message: discord.Message, args: list):
+async def kick(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).kick_members:
         if message.mentions:
             target = message.mentions[0]

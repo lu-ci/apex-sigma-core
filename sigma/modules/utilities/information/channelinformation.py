@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def channelinformation(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def channelinformation(_cmd: SigmaCommand, pld: CommandPayload):
     if message.channel_mentions:
         chan = message.channel_mentions[0]
     else:

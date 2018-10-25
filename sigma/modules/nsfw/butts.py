@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def butts(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def butts(_cmd: SigmaCommand, pld: CommandPayload):
     api_url = 'http://api.obutts.ru/butts/'
     api_url += str(secrets.randbelow(5990) + 1)
     async with aiohttp.ClientSession() as session:

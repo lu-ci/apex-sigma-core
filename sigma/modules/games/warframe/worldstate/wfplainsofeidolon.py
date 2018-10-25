@@ -24,7 +24,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def wfplainsofeidolon(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def wfplainsofeidolon(_cmd: SigmaCommand, pld: CommandPayload):
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
     try:
         async with aiohttp.ClientSession() as session:

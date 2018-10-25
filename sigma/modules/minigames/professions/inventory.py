@@ -55,7 +55,7 @@ def item_belongs(filter_string: str, item: SigmaRawItem):
     return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.desc.lower()
 
 
-async def inventory(cmd: SigmaCommand, message: discord.Message, args: list):
+async def inventory(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     if message.mentions:

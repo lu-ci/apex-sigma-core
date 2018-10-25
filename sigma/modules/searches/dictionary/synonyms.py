@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
-async def synonyms(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def synonyms(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         query = '+'.join(args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=syn'

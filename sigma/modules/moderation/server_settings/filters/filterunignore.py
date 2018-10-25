@@ -23,7 +23,7 @@ from sigma.modules.moderation.permissions.permit import get_target_type, get_tar
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
-async def filterunignore(cmd: SigmaCommand, message: discord.Message, args: list):
+async def filterunignore(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 3:

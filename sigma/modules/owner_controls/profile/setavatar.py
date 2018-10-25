@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def setavatar(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setavatar(cmd: SigmaCommand, pld: CommandPayload):
     if args or message.attachments:
         image_url = message.attachments[0].url if message.attachments else args[0]
         try:

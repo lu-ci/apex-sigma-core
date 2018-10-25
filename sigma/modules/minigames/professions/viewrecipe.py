@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-async def viewrecipe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
     recipe_core = await get_recipe_core(cmd.db)
     if args:
         lookup = ' '.join(args)

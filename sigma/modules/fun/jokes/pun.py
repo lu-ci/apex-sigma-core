@@ -21,7 +21,7 @@ import ftfy
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def pun(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def pun(_cmd: SigmaCommand, pld: CommandPayload):
     pun_url = 'http://www.punoftheday.com/cgi-bin/arandompun.pl'
     async with aiohttp.ClientSession() as session:
         async with session.get(pun_url) as data:

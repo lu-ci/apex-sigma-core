@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def togglestatus(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def togglestatus(cmd: SigmaCommand, pld: CommandPayload):
     rotation = cmd.bot.cfg.pref.status_rotation
     rotation, state = (False, '**disabled**') if rotation else (True, '**enabled**')
     cmd.bot.cfg.pref.status_rotation = rotation

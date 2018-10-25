@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def unblocknames(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unblocknames(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             blocked_names = await cmd.db.get_guild_settings(message.guild.id, 'blocked_names') or []

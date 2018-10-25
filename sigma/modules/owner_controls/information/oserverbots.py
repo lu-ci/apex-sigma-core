@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def oserverbots(cmd: SigmaCommand, message: discord.Message, args: list):
+async def oserverbots(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup = ' '.join(args)
         try:

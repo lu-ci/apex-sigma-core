@@ -35,7 +35,7 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
     return response
 
 
-async def removewarning(cmd: SigmaCommand, message: discord.Message, args: list):
+async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_messages:
         if message.mentions:
             if len(args) == 2:

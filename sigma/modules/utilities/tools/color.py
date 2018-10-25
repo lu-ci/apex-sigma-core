@@ -51,7 +51,7 @@ def get_color_tuple(args: list):
     return color_tuple
 
 
-async def color(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def color(_cmd: SigmaCommand, pld: CommandPayload):
     file = None
     if args:
         color_tuple = get_color_tuple(args)

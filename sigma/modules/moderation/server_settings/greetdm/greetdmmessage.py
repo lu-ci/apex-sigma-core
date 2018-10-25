@@ -32,7 +32,7 @@ async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
     return greeting
 
 
-async def greetdmmessage(cmd: SigmaCommand, message: discord.Message, args: list):
+async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             greeting_text = ' '.join(args)

@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def jisho(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
     jisho_q = ' '.join(args)
 
     async with aiohttp.ClientSession() as session:

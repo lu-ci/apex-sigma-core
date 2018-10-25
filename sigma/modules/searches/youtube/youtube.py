@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def youtube(cmd: SigmaCommand, message: discord.Message, args: list):
+async def youtube(cmd: SigmaCommand, pld: CommandPayload):
     yt_icon = 'https://i.imgur.com/qoH1MUP.png'
     yt_color = 0xcf2227
     text_mode = False

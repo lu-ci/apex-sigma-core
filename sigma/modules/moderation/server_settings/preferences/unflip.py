@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def unflip(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def unflip(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         flip_settings = await cmd.db.get_guild_settings(message.guild.id, 'unflip')
         if flip_settings is None:

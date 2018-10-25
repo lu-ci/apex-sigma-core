@@ -25,7 +25,7 @@ from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sale
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'
 
 
-async def wfsales(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
     sales_api = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
     async with aiohttp.ClientSession() as session:
         async with session.get(sales_api) as data:

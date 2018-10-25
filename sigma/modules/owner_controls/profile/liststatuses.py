@@ -22,7 +22,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
-async def liststatuses(cmd: SigmaCommand, message: discord.Message, args: list):
+async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
     status_data = await cmd.db[cmd.db.db_nam].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['id'], s['text']] for s in status_data]

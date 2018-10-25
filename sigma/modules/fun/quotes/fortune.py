@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 fortune_files = []
 
 
-async def fortune(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def fortune(cmd: SigmaCommand, pld: CommandPayload):
     if not fortune_files:
         fortune_docs = await cmd.db[cmd.db.db_nam].FortuneData.find().to_list(None)
         [fortune_files.append(fd) for fd in fortune_docs if 0 <= len(fd) < 800]

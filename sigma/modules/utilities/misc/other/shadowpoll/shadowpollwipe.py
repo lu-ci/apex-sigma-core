@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def shadowpollwipe(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpollwipe(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         poll_id = args[0].lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})

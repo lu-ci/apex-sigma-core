@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def setcooldown(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
     command = None
     cooldown = None
     if args:

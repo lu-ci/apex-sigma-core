@@ -35,7 +35,7 @@ def generate_log_embed(message, target):
     return log_response
 
 
-async def unban(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unban(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).ban_members:
         if args:
             lookup = ' '.join(args)

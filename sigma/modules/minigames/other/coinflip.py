@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def coinflip(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def coinflip(_cmd: SigmaCommand, pld: CommandPayload):
     coin_images = {'heads': 'https://i.imgur.com/qLPkn7k.png', 'tails': 'https://i.imgur.com/Xx5dY4M.png'}
     result = secrets.choice(list(coin_images.keys()))
     response = discord.Embed(color=0x1B6F5F)

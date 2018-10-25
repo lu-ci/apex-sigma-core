@@ -38,7 +38,7 @@ def generate_log_embed(message, target, reason):
     return log_embed
 
 
-async def hardmute(cmd: SigmaCommand, message: discord.Message, args: list):
+async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.mentions:
             target = message.mentions[0]

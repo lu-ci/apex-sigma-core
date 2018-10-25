@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def viewinactivewarning(cmd: SigmaCommand, message: discord.Message, args: list):
+async def viewinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
     if message.author == message.guild.owner:
         if message.mentions:
             if len(args) == 2:

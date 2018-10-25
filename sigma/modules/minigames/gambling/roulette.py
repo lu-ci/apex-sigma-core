@@ -93,7 +93,7 @@ async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
     await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
 
 
-async def roulette(cmd: SigmaCommand, message: discord.Message, args: list):
+async def roulette(cmd: SigmaCommand, pld: CommandPayload):
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:
             sel, val = get_selector_and_value(args)

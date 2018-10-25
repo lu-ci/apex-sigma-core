@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def wffissurechannel(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wffissurechannel(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_channels:
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]

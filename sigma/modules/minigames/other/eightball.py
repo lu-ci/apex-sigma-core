@@ -83,7 +83,7 @@ negative = [
 ]
 
 
-async def eightball(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def eightball(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         roll = secrets.randbelow(4)
         rollmap = {0: negative, 1: neural}

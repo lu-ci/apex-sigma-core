@@ -21,7 +21,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def reactors(cmd: SigmaCommand, message: discord.Message, args: list):
+async def reactors(cmd: SigmaCommand, pld: CommandPayload):
     reactor_files = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers')
     if reactor_files:
         reactor_list = sorted(list(reactor_files.keys()))

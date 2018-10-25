@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def shootfoot(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
     lang = ' '.join(args).lower() if args else None
     if lang:
         joke_doc = await cmd.db[cmd.db.db_nam].ShootFootData.find_one({'lang_low': lang})

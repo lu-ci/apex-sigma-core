@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def giveitem(cmd: SigmaCommand, message: discord.Message, args: list):
+async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if len(args) > 1:
         if message.mentions:

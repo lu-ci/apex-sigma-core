@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def viewrolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
+async def viewrolegroup(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         group_id = args[0].lower()
         role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}

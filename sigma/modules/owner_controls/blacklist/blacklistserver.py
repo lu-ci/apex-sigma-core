@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def blacklistserver(cmd: SigmaCommand, message: discord.Message, args: list):
+async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         target_id = None
         if args[0].isdigit():

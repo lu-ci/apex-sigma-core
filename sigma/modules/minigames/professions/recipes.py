@@ -38,7 +38,7 @@ async def check_requirements(cmd, message, recipe):
     return req_satisfied
 
 
-async def recipes(cmd: SigmaCommand, message: discord.Message, args: list):
+async def recipes(cmd: SigmaCommand, pld: CommandPayload):
     recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)

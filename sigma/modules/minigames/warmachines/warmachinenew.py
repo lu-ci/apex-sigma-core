@@ -35,7 +35,7 @@ async def check_resources(db: Database, uid: int):
     return missing
 
 
-async def warmachinenew(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
     res_list = '{", ".join(resource_names)}'.replace('currency', cmd.bot.cfg.pref.currency.lower())
     confirm_desc = f'Building a machine costs **{price}** of **{res_list}** each, do you want to continue?'
     confirm_embed = discord.Embed(color=0x8899a6, title=f'🔧 Are you sure, {message.author.name}?')

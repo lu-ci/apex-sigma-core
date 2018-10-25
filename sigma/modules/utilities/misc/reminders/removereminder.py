@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def removereminder(cmd: SigmaCommand, message: discord.Message, args: list):
+async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         rem_id = args[0].lower()
         lookup_data = {'user_id': message.author.id, 'reminder_id': rem_id}

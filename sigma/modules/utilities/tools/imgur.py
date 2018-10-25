@@ -37,7 +37,7 @@ async def upload_image(image_url: str, client_id: str):
     return link
 
 
-async def imgur(cmd: SigmaCommand, message: discord.Message, args: list):
+async def imgur(cmd: SigmaCommand, pld: CommandPayload):
     if 'client_id' in cmd.cfg:
         if args or message.attachments:
             image_url = message.attachments[0].url if message.attachments else args[0]

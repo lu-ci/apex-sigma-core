@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import convert_to_seconds
 
 
-async def delayreminder(cmd: SigmaCommand, message: discord.Message, args: list):
+async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) == 2:
             rem_id = args[0].lower()

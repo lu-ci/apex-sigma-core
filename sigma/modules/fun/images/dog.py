@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def dog(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def dog(_cmd: SigmaCommand, pld: CommandPayload):
     doggie_url = 'https://dog.ceo/api/breeds/image/random'
     async with aiohttp.ClientSession() as session:
         async with session.get(doggie_url) as data:

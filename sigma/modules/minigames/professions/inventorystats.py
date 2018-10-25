@@ -36,7 +36,7 @@ def type_rarity_counter(items: list):
     return types
 
 
-async def inventorystats(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def inventorystats(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]

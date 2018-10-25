@@ -23,7 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.games.warframe.commons.parsers.sortie_parser import generate_sortie_embed
 
 
-async def wfsortie(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def wfsortie(_cmd: SigmaCommand, pld: CommandPayload):
     sortie_url = 'https://deathsnacks.com/wf/data/sorties.json'
     async with aiohttp.ClientSession() as session:
         async with session.get(sortie_url) as data:

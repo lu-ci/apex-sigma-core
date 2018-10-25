@@ -40,7 +40,7 @@ def generate_log_embed(message, target, channel, deleted):
     return response
 
 
-async def purge(cmd: SigmaCommand, message: discord.Message, args: list):
+async def purge(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_messages:
         if message.channel.id not in ongoing:
             ongoing.append(message.channel.id)

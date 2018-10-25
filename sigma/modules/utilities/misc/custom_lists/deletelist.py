@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def deletelist(cmd: SigmaCommand, message: discord.Message, args: list):
+async def deletelist(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup_data = {'list_id': args[0].lower()}
         list_coll = cmd.db[cmd.db.db_nam].CustomLists

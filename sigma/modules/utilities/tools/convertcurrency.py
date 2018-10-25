@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def convertcurrency(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) == 4:
             amount = args[0]

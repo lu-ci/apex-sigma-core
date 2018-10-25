@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
 
-async def mapsearch(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def mapsearch(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         search = ' '.join(args)
         search_url = '+'.join(args)

@@ -26,7 +26,7 @@ def check_name(m: discord.Member, lookup: str):
     return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()
 
 
-async def givecookie(cmd: SigmaCommand, message: discord.Message, args: list):
+async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
     someoned = False
     if message.mentions:
         target = message.mentions[0]

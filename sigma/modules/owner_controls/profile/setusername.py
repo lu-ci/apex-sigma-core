@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def setusername(cmd: SigmaCommand, message: discord.Message, args: list):
+async def setusername(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         name_input = ' '.join(args)
         try:

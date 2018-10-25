@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 
 
-async def viewlist(cmd: SigmaCommand, message: discord.Message, args: list):
+async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
         list_coll = cmd.db[cmd.db.db_nam].CustomLists

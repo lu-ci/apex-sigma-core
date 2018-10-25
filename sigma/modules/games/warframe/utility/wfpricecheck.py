@@ -44,7 +44,7 @@ async def get_lowest_trader(order_url):
     return sellers
 
 
-async def wfpricecheck(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
     initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
     init_resp_msg = await message.channel.send(embed=initial_response)
     if args:

@@ -61,7 +61,7 @@ def add_post_image(post, response):
                 response.set_image(url=prev_img)
 
 
-async def reddit(cmd: SigmaCommand, message: discord.Message, args: list):
+async def reddit(cmd: SigmaCommand, pld: CommandPayload):
     global reddit_client
     if args:
         if reddit_client is None:

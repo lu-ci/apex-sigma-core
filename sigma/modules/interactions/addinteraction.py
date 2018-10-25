@@ -87,7 +87,7 @@ def get_allowed_interactions(commands: dict):
     return allowed_interactions
 
 
-async def addinteraction(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) >= 2:
             interaction_name = args[0].lower()

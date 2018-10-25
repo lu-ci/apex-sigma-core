@@ -30,7 +30,7 @@ async def sell_item_ids(db, user, items):
     await db.update_inventory(user.id, inv)
 
 
-async def filtersell(cmd: SigmaCommand, message: discord.Message, args: list):
+async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if args:
         full_qry = ' '.join(args)

@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def urbandictionary(cmd: SigmaCommand, message: discord.Message, args: list):
+async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
     api_key = cmd.cfg.get('api_key')
     if api_key:
         if args:

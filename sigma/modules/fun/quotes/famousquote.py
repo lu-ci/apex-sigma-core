@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def famousquote(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def famousquote(_cmd: SigmaCommand, pld: CommandPayload):
     resource = 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
     data = None
     tries = 0

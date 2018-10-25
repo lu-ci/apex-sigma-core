@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def randomemote(cmd: SigmaCommand, message: discord.Message, args: list):
+async def randomemote(cmd: SigmaCommand, pld: CommandPayload):
     emotes = message.guild.emojis
     image = False
     if args:

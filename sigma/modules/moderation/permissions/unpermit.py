@@ -36,7 +36,7 @@ def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: s
     return bad_item
 
 
-async def unpermit(cmd: SigmaCommand, message: discord.Message, args: list):
+async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 3:

@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def channelid(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def channelid(_cmd: SigmaCommand, pld: CommandPayload):
     embed = True
     if args:
         if args[-1].lower() == '--text':

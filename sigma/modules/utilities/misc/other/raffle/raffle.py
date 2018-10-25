@@ -26,7 +26,7 @@ raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
 
 
-async def raffle(cmd: SigmaCommand, message: discord.Message, args: list):
+async def raffle(cmd: SigmaCommand, pld: CommandPayload):
     if len(args) >= 2:
         time_input = args[0]
         raffle_title = ' '.join(args[1:])

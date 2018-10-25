@@ -21,7 +21,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 
-async def commands(cmd: SigmaCommand, message: discord.Message, args: list):
+async def commands(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup = args[0].lower()
         command_items = cmd.bot.modules.commands

@@ -23,7 +23,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def itemstatistics(cmd: SigmaCommand, message: discord.Message, args: list):
+async def itemstatistics(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]

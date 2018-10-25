@@ -37,7 +37,7 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
     return is_ingr
 
 
-async def allitems(cmd: SigmaCommand, message: discord.Message, args: list):
+async def allitems(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     item_o_list = item_core.all_items

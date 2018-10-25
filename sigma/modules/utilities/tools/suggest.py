@@ -40,7 +40,7 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
     }
 
 
-async def suggest(cmd: SigmaCommand, message: discord.Message, args: list):
+async def suggest(cmd: SigmaCommand, pld: CommandPayload):
     sugg_chn_id = cmd.cfg.get('channel')
     if sugg_chn_id:
         sugg_chn = cmd.bot.get_channel(sugg_chn_id, True)

@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def deleterolegroup(cmd: SigmaCommand, message: discord.Message, args: list):
+async def deleterolegroup(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()

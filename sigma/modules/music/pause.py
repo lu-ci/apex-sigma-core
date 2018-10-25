@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def pause(_cmd: SigmaCommand, message: discord.Message, _args: list):
+async def pause(_cmd: SigmaCommand, pld: CommandPayload):
     if message.author.voice:
         same_bound = True
         if message.guild.voice_client:

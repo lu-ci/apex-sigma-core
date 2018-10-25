@@ -42,7 +42,7 @@ async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
     return results
 
 
-async def loggingchannel(cmd: SigmaCommand, message: discord.Message, args: list):
+async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             mode, order = args[0].lower(), ' '.join(args[1:]).lower()

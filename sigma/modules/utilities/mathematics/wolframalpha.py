@@ -69,7 +69,7 @@ async def send_response(message: discord.Message, init: discord.Message or None,
     await init.edit(embed=response) if init else await message.channel.send(embed=response)
 
 
-async def wolframalpha(cmd: SigmaCommand, message: discord.Message, args: list):
+async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
     api_key = cmd.cfg.get('app_id')
     init_message = None
     if api_key:

@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def dance(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def dance(cmd: SigmaCommand, pld: CommandPayload):
     interaction = await grab_interaction(cmd.db, 'dance')
     target = get_target(message)
     auth = message.author

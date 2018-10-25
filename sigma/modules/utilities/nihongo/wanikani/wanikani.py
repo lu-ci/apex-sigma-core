@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def wanikani(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def wanikani(cmd: SigmaCommand, pld: CommandPayload):
     target = message.mentions[0] if message.mentions else message.author
     api_document = await cmd.db[cmd.db.db_nam].WaniKani.find_one({'user_id': target.id})
     if api_document:

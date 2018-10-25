@@ -23,7 +23,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def spouses(cmd: SigmaCommand, message: discord.Message, args: list):
+async def spouses(cmd: SigmaCommand, pld: CommandPayload):
     if message.mentions:
         target = message.mentions[0]
     else:

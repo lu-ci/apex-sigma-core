@@ -32,7 +32,7 @@ async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
     return goodbye
 
 
-async def byemessage(cmd: SigmaCommand, message: discord.Message, args: list):
+async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             goodbye_text = ' '.join(args)

@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
-async def warmachinelist(cmd: SigmaCommand, message: discord.Message, args: list):
+async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
     target = message.mentions[0] if message.mentions else message.author
     machines = await SigmaMachine.get_machines(cmd.db, target)
     machines_owned = len(machines)

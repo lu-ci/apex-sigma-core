@@ -38,7 +38,7 @@ def generate_log_embed(message, target, reason):
     return log_response
 
 
-async def softban(cmd: SigmaCommand, message: discord.Message, args: list):
+async def softban(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]

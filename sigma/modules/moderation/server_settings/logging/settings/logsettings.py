@@ -22,7 +22,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.server_settings.logging.settings.log import log_keys
 
 
-async def logsettings(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         settings = []
         for log_key in log_keys:

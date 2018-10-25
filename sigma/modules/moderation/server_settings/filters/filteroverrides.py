@@ -34,7 +34,7 @@ def get_overrides(message: discord.Message, overrides: list, target_type: str):
     return overridden_items
 
 
-async def filteroverrides(cmd: SigmaCommand, message: discord.Message, args: list):
+async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         filter_name = args[0].lower()
         if filter_name in filter_names:

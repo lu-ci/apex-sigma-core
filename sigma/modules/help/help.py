@@ -27,7 +27,7 @@ support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
 # noinspection PyShadowingBuiltins
-async def help(cmd: SigmaCommand, message: discord.Message, args: list):
+async def help(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         cmd_name = ''.join(args).lower()
         if cmd_name in cmd.bot.modules.alts:

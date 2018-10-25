@@ -21,7 +21,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
-async def enable(cmd: SigmaCommand, message: discord.Message, args: list):
+async def enable(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if ':' in args[0]:

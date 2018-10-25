@@ -89,7 +89,7 @@ def get_target_type(target_type: str):
     return target_type
 
 
-async def permit(cmd: SigmaCommand, message: discord.Message, args: list):
+async def permit(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 3:

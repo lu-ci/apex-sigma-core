@@ -42,7 +42,7 @@ def get_emote(emoji: str or discord.Emoji):
     return lookup, eid
 
 
-async def emote(cmd: SigmaCommand, message: discord.Message, args: list):
+async def emote(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup, eid = args[0].lower(), None
         if ':' in lookup:

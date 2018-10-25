@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def embedecho(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def embedecho(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         response = discord.Embed(color=message.author.color, timestamp=message.created_at)
         response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))

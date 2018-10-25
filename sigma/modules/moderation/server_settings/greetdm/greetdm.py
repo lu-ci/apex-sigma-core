@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def greetdm(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def greetdm(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         active = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm')
         if active:

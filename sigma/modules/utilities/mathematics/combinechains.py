@@ -36,7 +36,7 @@ def combine_names(users: list):
     return ''.join(pieces)
 
 
-async def combinechains(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
     if len(message.mentions) >= 2:
         empty_chain = False
         chain_objects = []

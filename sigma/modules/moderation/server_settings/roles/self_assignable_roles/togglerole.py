@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def togglerole(cmd: SigmaCommand, message: discord.Message, args: list):
+async def togglerole(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         target = message.author
         lookup = ' '.join(args).lower()

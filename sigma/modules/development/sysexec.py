@@ -25,7 +25,7 @@ def from_output(output: bytes) -> str:
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
 
 
-async def sysexec(cmd: SigmaCommand, message: discord.Message, args: list):
+async def sysexec(cmd: SigmaCommand, pld: CommandPayload):
     response = None
     if args:
         try:

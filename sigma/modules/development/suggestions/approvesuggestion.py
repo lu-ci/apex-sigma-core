@@ -45,7 +45,7 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
     return data.get('web_url')
 
 
-async def approvesuggestion(cmd: SigmaCommand, message: discord.Message, args: list):
+async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
     if len(args) >= 3:
         token, title, description = parse_approval(args)
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})

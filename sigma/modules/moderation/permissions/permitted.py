@@ -35,7 +35,7 @@ def get_exceptions(message: discord.Message, exceptions: list, target_type: str)
     return overridden_items
 
 
-async def permitted(cmd: SigmaCommand, message: discord.Message, args: list):
+async def permitted(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) >= 2:
             if ':' in args[1]:

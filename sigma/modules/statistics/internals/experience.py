@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def experience(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def experience(cmd: SigmaCommand, pld: CommandPayload):
     if message.mentions:
         target = message.mentions[0]
     else:

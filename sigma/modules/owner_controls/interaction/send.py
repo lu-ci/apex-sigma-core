@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def send(cmd: SigmaCommand, message: discord.Message, args: list):
+async def send(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
         try:

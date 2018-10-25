@@ -33,7 +33,7 @@ def check_field(field, value):
         return re.match(r"^(?:http(s)?://)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$", value)
 
 
-async def greetembed(cmd: SigmaCommand, message: discord.Message, args: list):
+async def greetembed(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         greet_embed = await cmd.db.get_guild_settings(message.guild.id, 'greet_embed') or {}
         embed_data = {

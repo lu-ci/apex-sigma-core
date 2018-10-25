@@ -25,7 +25,7 @@ from sigma.core.mechanics.command import SigmaCommand
 giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
 
-async def giphy(cmd: SigmaCommand, message: discord.Message, args: list):
+async def giphy(cmd: SigmaCommand, pld: CommandPayload):
     api_key = cmd.cfg.get('api_key')
     if api_key:
         if args:

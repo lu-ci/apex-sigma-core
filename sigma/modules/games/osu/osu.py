@@ -48,7 +48,7 @@ async def find_user_data(profile_url: str):
     return user_data
 
 
-async def osu(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def osu(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         osu_input = '%20'.join(args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'

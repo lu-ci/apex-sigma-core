@@ -18,7 +18,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def redrawraffle(cmd: SigmaCommand, message: discord.Message, args: list):
+async def redrawraffle(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         rafid = args[0].lower()
         raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'id': rafid, 'active': False})

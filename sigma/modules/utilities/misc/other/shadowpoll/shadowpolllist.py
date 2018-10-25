@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def shadowpolllist(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if args[0].startswith('c'):
             lookup = {'origin.channel': message.channel.id, 'settings.active': True}

@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def logmodule(cmd: SigmaCommand, message: discord.Message, args: list):
+async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         if args:
             module_name = args[0].lower()

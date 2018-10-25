@@ -23,7 +23,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import rarity_names
 
 
-async def chances(cmd: SigmaCommand, message: discord.Message, args: list):
+async def chances(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if message.mentions:
         target = message.mentions[0]

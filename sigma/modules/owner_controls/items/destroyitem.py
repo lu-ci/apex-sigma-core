@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def destroyitem(cmd: SigmaCommand, message: discord.Message, args: list):
+async def destroyitem(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if args:
         id_lookup = args[0]

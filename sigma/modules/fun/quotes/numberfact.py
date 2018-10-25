@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def numberfact(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def numberfact(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         lookup = ''.join(args)
         if ':' in lookup:

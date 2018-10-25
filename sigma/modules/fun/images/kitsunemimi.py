@@ -26,7 +26,7 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
                 '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
-async def kitsunemimi(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def kitsunemimi(cmd: SigmaCommand, pld: CommandPayload):
     global links
     if not links:
         name = cmd.bot.user.name

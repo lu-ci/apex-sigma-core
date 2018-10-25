@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def echo(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def echo(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         content = f'👄 {" ".join(args)[:1995]}'
         content = content.replace('@everyone', 'everyone')

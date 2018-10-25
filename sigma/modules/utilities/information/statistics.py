@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def statistics(cmd: SigmaCommand, message: discord.Message, _args: list):
+async def statistics(cmd: SigmaCommand, pld: CommandPayload):
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     sigma_title = 'Apex Sigma: Statistics'
     support_url = 'https://discordapp.com/invite/aEUCHwX'

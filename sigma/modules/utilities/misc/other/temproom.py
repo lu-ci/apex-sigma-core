@@ -33,7 +33,7 @@ async def get_category(cmd: SigmaCommand, guild: discord.Guild):
     return temp_cat
 
 
-async def temproom(cmd: SigmaCommand, message: discord.Message, args: list):
+async def temproom(cmd: SigmaCommand, pld: CommandPayload):
     room_name = ' '.join(args) or f'{message.author.display_name}\'s Room'
     room_name = f'[Σ] {room_name}'
     reason = f'Temporary voice channel by {message.author.name}#{message.author.discriminator}.'

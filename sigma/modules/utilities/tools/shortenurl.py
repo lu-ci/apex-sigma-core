@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def shortenurl(cmd: SigmaCommand, message: discord.Message, args: list):
+async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
     text_cont = None
     if 'access_token' in cmd.cfg:
         access_token = cmd.cfg['access_token']

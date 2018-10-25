@@ -21,7 +21,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
-async def addcommand(cmd: SigmaCommand, message: discord.Message, args: list):
+async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             attachment = len(args) == 1 and message.attachments

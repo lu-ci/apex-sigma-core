@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 
 
-async def randombetween(_cmd: SigmaCommand, message: discord.Message, args: list):
+async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
     if args:
         if len(args) == 2:
             try:
