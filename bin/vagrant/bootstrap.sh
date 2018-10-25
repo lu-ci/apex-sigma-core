@@ -53,12 +53,12 @@ Description=Sigma Discord Bot
 After=network.target
 After=mongodb.service
 Requires=mongodb.service
-RequiresMountsFor=$APP_ROOT
+RequiresMountsFor=${APP_ROOT}
 
 [Service]
 User=ubuntu
 Environment=LOGTARGET_JOURNAL=1
-WorkingDirectory=$APP_ROOT
+WorkingDirectory=${APP_ROOT}
 ExecStart=/usr/bin/env bin/sigma
 Restart=always
 
