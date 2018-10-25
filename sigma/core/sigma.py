@@ -15,6 +15,9 @@ from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
+from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, VoiceStateUpdatePayload, ReactionPayload
+from sigma.core.mechanics.payload import MessagePayload, MessageEditPayload, MemberPayload, MemberUpdatePayload
+from sigma.core.mechanics.payload import RawReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
@@ -77,6 +80,8 @@ class ApexSigma(client_class):
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
+        self.gateway_start = 0
+        self.gateway_finish = 0
 
     @staticmethod
     def create_cache():
@@ -162,23 +167,22 @@ class ApexSigma(client_class):
     def run(self):
         try:
             self.log.info('Connecting to Discord Gateway...')
+            self.gateway_start = arrow.utcnow().float_timestamp
             super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
         except discord.LoginFailure:
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
 
     async def on_connect(self):
-        event_name = 'connect'
-        if event_name in self.modules.events:
-            for event in self.modules.events[event_name]:
-                self.loop.create_task(event.execute())
+        self.loop.create_task(self.queue.event_runner('connect'))
 
     async def on_shard_ready(self, shard_id: int):
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
-        event_name = 'shard_ready'
-        self.loop.create_task(self.queue.event_runner(event_name, shard_id))
+        self.loop.create_task(self.queue.event_runner('shard_ready', ShardReadyPayload(self, shard_id)))
 
     async def on_ready(self):
+        self.gateway_finish = arrow.utcnow().float_timestamp
+        self.log.info(f'Gateway connection established in {round(self.gateway_finish - self.gateway_start, 3)}s')
         self.ready = True
         self.log.info('---------------------------------')
         self.log.info('Apex Sigma Fully Loaded and Ready')
@@ -196,60 +200,65 @@ class ApexSigma(client_class):
     async def on_message(self, message: discord.Message):
         self.message_count += 1
         if not message.author.bot:
-            self.loop.create_task(self.queue.event_runner('message', message))
-            if self.user.mentioned_in(message):
-                self.loop.create_task(self.queue.event_runner('mention', message))
-            await self.queue.command_runner(message)
+            payload = MessagePayload(self, message)
+            self.loop.create_task(self.queue.event_runner('message', payload))
+            if self.user.mentioned_in(payload.msg):
+                self.loop.create_task(self.queue.event_runner('mention', payload))
+            await self.queue.command_runner(payload)
 
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        if not before.author.bot:
-            self.loop.create_task(self.queue.event_runner('message_edit', before, after))
+        if not after.author.bot:
+            self.loop.create_task(self.queue.event_runner('message_edit', MessageEditPayload(self, before, after)))
 
     async def on_message_delete(self, message: discord.Message):
         if not message.author.bot:
-            self.loop.create_task(self.queue.event_runner('message_delete', message))
+            self.loop.create_task(self.queue.event_runner('message_delete', MessagePayload(self, message)))
 
     async def on_member_join(self, member: discord.Member):
         if not member.bot:
-            self.loop.create_task(self.queue.event_runner('member_join', member))
+            self.loop.create_task(self.queue.event_runner('member_join', MemberPayload(self, member)))
 
     async def on_member_remove(self, member: discord.Member):
         if not member.bot:
-            self.loop.create_task(self.queue.event_runner('member_remove', member))
+            self.loop.create_task(self.queue.event_runner('member_remove', MemberPayload(self, member)))
 
     async def on_member_update(self, before: discord.Member, after: discord.Member):
         if not before.bot:
-            self.loop.create_task(self.queue.event_runner('member_update', before, after))
+            self.loop.create_task(self.queue.event_runner('member_update', MemberUpdatePayload(self, before, after)))
 
     async def on_guild_join(self, guild: discord.Guild):
-        self.loop.create_task(self.queue.event_runner('guild_join', guild))
+        self.loop.create_task(self.queue.event_runner('guild_join', GuildPayload(self, guild)))
 
     async def on_guild_remove(self, guild: discord.Guild):
-        self.loop.create_task(self.queue.event_runner('guild_remove', guild))
+        self.loop.create_task(self.queue.event_runner('guild_remove', GuildPayload(self, guild)))
 
     async def on_guild_update(self, before: discord.Guild, after: discord.Guild):
-        self.loop.create_task(self.queue.event_runner('guild_update', before, after))
+        self.loop.create_task(self.queue.event_runner('guild_update', GuildUpdatePayload(self, before, after)))
 
     async def on_voice_state_update(self, member: discord.Member, b: discord.VoiceState, a: discord.VoiceState):
         if not member.bot:
-            self.loop.create_task(self.queue.event_runner('voice_state_update', member, b, a))
+            payload = VoiceStateUpdatePayload(self, member, b, a)
+            self.loop.create_task(self.queue.event_runner('voice_state_update', payload))
 
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
         if not user.bot:
-            self.loop.create_task(self.queue.event_runner('reaction_add', reaction, user))
+            payload = ReactionPayload(self, reaction, user)
+            self.loop.create_task(self.queue.event_runner('reaction_add', payload))
             if reaction.emoji.name in ['⬅', '➡']:
-                self.loop.create_task(self.queue.event_runner('paginate', reaction, user))
+                self.loop.create_task(self.queue.event_runner('paginate', payload))
 
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
         if not user.bot:
-            self.loop.create_task(self.queue.event_runner('reaction_remove', reaction, user))
+            payload = ReactionPayload(self, reaction, user)
+            self.loop.create_task(self.queue.event_runner('reaction_remove', payload))
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
         if payload.user_id != payload.channel_id:
+            payload = RawReactionPayload(self, payload)
             self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
-            if payload.emoji.name in ['⬅', '➡']:
+            if payload.raw.emoji.name in ['⬅', '➡']:
                 self.loop.create_task(self.queue.event_runner('raw_paginate', payload))
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
         if payload.user_id != payload.channel_id:
-            self.loop.create_task(self.queue.event_runner('raw_reaction_remove', payload))
+            self.loop.create_task(self.queue.event_runner('raw_reaction_remove', RawReactionPayload(self, payload)))

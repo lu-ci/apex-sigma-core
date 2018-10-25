@@ -17,10 +17,9 @@
 import asyncio
 
 import discord
-from sigma.core.mechanics.pld import SigmaPayload
 
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.payload import MessagePayload, CommandPayload
+from sigma.core.mechanics.payload import MessagePayload, CommandPayload, SigmaPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 

@@ -29,6 +29,19 @@ class SigmaPayload(abc.ABC):
         pass
 
 
+class UpdatePayload(SigmaPayload):
+    def __init__(self, bot, before, after):
+        super().__init__(bot)
+        self.before = before
+        self.after = after
+
+
+class ShardReadyPayload(SigmaPayload):
+    def __init__(self, bot, shard: int):
+        super().__init__(bot)
+        self.shard = shard
+
+
 class MessagePayload(SigmaPayload):
     def __init__(self, bot, msg: discord.Message):
         super().__init__(bot)
@@ -40,9 +53,79 @@ class MessagePayload(SigmaPayload):
             self.settings = await self.bot.db.get_guild_settings(self.msg.guild.id)
 
 
+class MessageEditPayload(UpdatePayload):
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.after.author.id)
+        if self.after.guild:
+            self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
+
+
 class CommandPayload(MessagePayload):
     def __init__(self, bot, msg: discord.Message, args: list):
         super().__init__(bot, msg)
         self.args = args
 
 
+class MemberPayload(SigmaPayload):
+    def __init__(self, bot, member: discord.Member):
+        super().__init__(bot)
+        self.member = member
+
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.member.id)
+        if self.member.guild:
+            self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
+
+
+class MemberUpdatePayload(UpdatePayload):
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.after.id)
+        if self.after.guild:
+            self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
+
+
+class GuildPayload(SigmaPayload):
+    def __init__(self, bot, guild: discord.Guild):
+        super().__init__(bot)
+        self.guild = guild
+
+    async def init(self):
+        self.settings = await self.bot.db.get_guild_settings(self.guild.id)
+
+
+class GuildUpdatePayload(UpdatePayload):
+    async def init(self):
+        self.settings = await self.bot.db.get_guild_settings(self.after.id)
+
+
+class VoiceStateUpdatePayload(UpdatePayload):
+    def __init__(self, bot, member: discord.Member, before: discord.VoiceState, after: discord.VoiceState):
+        super().__init__(bot, before, after)
+        self.member = member
+
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.member.id)
+        if self.member.guild:
+            self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
+
+
+class ReactionPayload(SigmaPayload):
+    def __init__(self, bot, reaction: discord.Reaction, user: discord.User):
+        super().__init__(bot)
+        self.reaction = reaction
+        self.user = user
+
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.user.id)
+        if self.reaction.message.guild:
+            self.settings = await self.bot.db.get_guild_settings(self.reaction.message.guild.id)
+
+
+class RawReactionPayload(SigmaPayload):
+    def __init__(self, bot, raw: discord.RawReactionActionEvent):
+        super().__init__(bot)
+        self.raw = raw
+
+    async def init(self):
+        self.profile = await self.bot.db.get_profile(self.raw.user_id)
+        self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)
