@@ -34,12 +34,10 @@ class Database(motor.AsyncIOMotorClient):
             self.db_address = f'mongodb://{self.db_cfg.host}:{self.db_cfg.port}/'
         super().__init__(self.db_address)
 
-    async def get_prefix(self, message: discord.Message):
+    def get_prefix(self, settings: dict):
         prefix = self.bot.cfg.pref.prefix
-        if message.guild:
-            pfx_search = await self.get_guild_settings(message.guild.id, 'prefix')
-            if pfx_search:
-                prefix = pfx_search
+        if settings:
+            return settings.get('prefix') or prefix
         return prefix
 
     # Document Pre-Cachers

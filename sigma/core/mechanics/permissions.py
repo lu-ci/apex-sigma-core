@@ -18,6 +18,8 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.payload import CommandPayload
+
 
 class GlobalCommandPermissions(object):
     def __init__(self, command, message: discord.Message):
@@ -287,33 +289,24 @@ class ServerCommandPermissions(object):
 
 
 class FilterPermissions(object):
-    def __init__(self, event, message: discord.Message):
-        self.ev = event
-        self.db = self.ev.db
-        self.bot = self.ev.bot
-        self.msg = message
-        self.chn = message.channel
-        self.permitted = False
-
-    async def get_overrides(self):
-        return await self.db.get_guild_settings(self.msg.guild.id, 'filter_overrides')
-
-    async def check_perms(self, filter_name: str):
-        overrides = await self.get_overrides()
+    @staticmethod
+    def check_perms(pld: CommandPayload, filter_name: str):
+        permitted = False
+        overrides = pld.settings.get('filter_overrides')
         if overrides:
             override = overrides.get(filter_name)
             if override:
                 channels = override.get('channels', [])
                 roles = override.get('roles', [])
                 users = override.get('users', [])
-                if self.msg.author.id in users:
-                    self.permitted = True
-                if self.chn:
-                    if self.chn.id in channels:
-                        self.permitted = True
-                user_roles = [r.id for r in self.msg.author.roles]
+                if pld.msg.author.id in users:
+                    permitted = True
+                if pld.msg.channel:
+                    if pld.msg.channel.id in channels:
+                        permitted = True
+                user_roles = [r.id for r in pld.msg.author.roles]
                 for role in roles:
                     if role in user_roles:
-                        self.permitted = True
+                        permitted = True
                         break
-        return self.permitted
+        return permitted

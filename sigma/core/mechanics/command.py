@@ -26,6 +26,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
@@ -128,23 +129,24 @@ class SigmaCommand(object):
         if cooldown:
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)
 
-    async def check_black_args(self, guild: discord.Guild, args: list):
-        black_args = await self.db.get_guild_settings(guild.id, 'blocked_args') or []
+    @staticmethod
+    async def check_black_args(settings: dict, args: list):
+        black_args = settings.get('blocked_args', [])
         trigg_args = [arg for arg in args if arg in black_args]
         return any(trigg_args)
 
-    async def execute(self, message: discord.Message, args: list):
+    async def execute(self, payload: CommandPayload):
         if self.bot.ready:
+            message, args = payload.msg, payload.args
             if message.guild:
-                delete_command_message = await self.db.get_guild_settings(message.guild.id, 'delete_commands')
+                delete_command_message = payload.settings.get('delete_commands')
                 if delete_command_message:
                     try:
                         await message.delete()
                     except (discord.Forbidden, discord.NotFound):
                         pass
-                filter_perms = FilterPermissions(self, message)
-                override = await filter_perms.check_perms('arguments')
-                if await self.check_black_args(message.guild, args):
+                override = await FilterPermissions.check_perms(payload, 'arguments')
+                if await self.check_black_args(payload.settings, args):
                     if not any([message.author.guild_permissions.administrator, override]):
                         await self.respond_with_icon(message, '🛡')
                         return

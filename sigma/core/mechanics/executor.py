@@ -16,8 +16,6 @@
 
 import asyncio
 
-import discord
-
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.payload import MessagePayload, CommandPayload, SigmaPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
@@ -34,18 +32,18 @@ class ExecutionClockwork(object):
         self.processed = 0
         self.stats = {}
 
-    async def get_cmd_and_args(self, message: discord.Message, args: list):
+    @staticmethod
+    async def get_cmd_and_args(pfx: str, args: list):
         args = list(filter(lambda a: a != '', args))
-        pfx = await self.bot.db.get_prefix(message)
         cmd = args.pop(0)[len(pfx):].lower()
         return cmd, args
 
     async def command_runner(self, pld: MessagePayload):
         if self.bot.ready:
-            prefix = await self.bot.db.get_prefix(pld.msg)
+            prefix = await self.bot.db.get_prefix(pld.settings)
             if pld.msg.content.startswith(prefix):
                 args = pld.msg.content.split(' ')
-                cmd, args = await self.get_cmd_and_args(pld.msg, args)
+                cmd, args = await self.get_cmd_and_args(prefix, args)
                 cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
                 command = self.bot.modules.commands.get(cmd)
                 if command:
