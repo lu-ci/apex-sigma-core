@@ -31,11 +31,12 @@ from sigma.core.mechanics.permissions import FilterPermissions
 from sigma.core.mechanics.permissions import GlobalCommandPermissions
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.mechanics.requirements import CommandRequirements
+from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
-    def __init__(self, bot, command, plugin_info: dict, command_info: dict):
+    def __init__(self, bot: ApexSigma, command, plugin_info: dict, command_info: dict):
         self.bot = bot
         self.db: Database = self.bot.db
         self.cd = CommandRateLimiter(self)
