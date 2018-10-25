@@ -21,9 +21,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def boobs(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     api_url = 'http://api.oboobs.ru/boobs/'
     api_url += str(secrets.randbelow(12243) + 1)
     async with aiohttp.ClientSession() as session:

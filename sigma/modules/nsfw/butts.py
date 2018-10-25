@@ -21,9 +21,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def butts(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     api_url = 'http://api.obutts.ru/butts/'
     api_url += str(secrets.randbelow(5990) + 1)
     async with aiohttp.ClientSession() as session:

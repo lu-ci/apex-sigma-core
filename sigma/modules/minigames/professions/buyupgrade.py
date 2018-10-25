@@ -19,6 +19,7 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 ongoing = []
@@ -29,9 +30,10 @@ def get_price_mod(base_price, upgrade_level):
 
 
 async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.id not in ongoing:
         ongoing.append(message.author.id)
-        upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+        upgrade_file = pld.profile.get('upgrades', {})
         upgrade_text = ''
         upgrade_index = 0
         for upgrade in upgrade_list:

@@ -18,10 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 
 
-async def blockednames(cmd: SigmaCommand, pld: CommandPayload):
-    blocked_names = await cmd.db.get_guild_settings(message.guild.id, 'blocked_names')
+async def blockednames(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
+    blocked_names = pld.settings.get('blocked_names')
     if not blocked_names:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked names.')
     else:

@@ -17,13 +17,15 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def blocknames(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_names = await cmd.db.get_guild_settings(message.guild.id, 'blocked_names') or []
+            blocked_names = pld.settings.get('blocked_names', [])
             added_names = []
             for name in args:
                 if name.lower() not in blocked_names:

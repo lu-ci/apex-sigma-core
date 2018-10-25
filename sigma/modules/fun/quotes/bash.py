@@ -15,16 +15,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import aiohttp
-import discord
 from discord import Embed
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 cache = []
 
 
 async def bash(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if not cache:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://qdb.us/random') as page:
@@ -43,5 +44,4 @@ async def bash(_cmd: SigmaCommand, pld: CommandPayload):
     highlight = 'xml' if text.strip()[0] == '<' else 'http'
     response = Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
     response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://qdb.us/{quote['id']}")
-
     await message.channel.send(embed=response)

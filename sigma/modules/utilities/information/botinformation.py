@@ -20,12 +20,14 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 sigma_image = 'https://i.imgur.com/mGyqMe1.png'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
 async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     version_data = cmd.bot.info.get_version().raw
     author_data = cmd.bot.info.get_authors().raw
     ver_nest = version_data.get('version')

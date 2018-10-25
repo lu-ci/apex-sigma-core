@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.create_instant_invite:
         await cmd.bot.modules.commands.get('syncinvites').execute(message, ['noresp'])
         if len(args) >= 2:
@@ -33,9 +35,7 @@ async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
                 if target_role:
                     bot_role = message.guild.me.top_role
                     if bot_role.position > target_role.position:
-                        bindings = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
-                        if bindings is None:
-                            bindings = {}
+                        bindings = pld.settings.get('bound_invites', {})
                         bindings.update({target_inv.id: target_role.id})
                         await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bindings)
                         title = f'✅ Invite {target_inv.id} bound to {target_role.name}.'

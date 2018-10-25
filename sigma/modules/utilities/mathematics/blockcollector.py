@@ -18,9 +18,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def blockcollector(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     block_data = {'user_id': message.author.id}
     block_coll = cmd.db[cmd.db.db_nam].BlockedChains
     block_file = await block_coll.find_one(block_data)

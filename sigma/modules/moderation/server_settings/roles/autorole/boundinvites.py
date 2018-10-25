@@ -17,12 +17,14 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def boundinvites(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.guild_permissions.create_instant_invite:
-        bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
+        bound_invites = pld.settings.get('bound_invites')
         if bound_invites:
             output_lines = []
             output_role_data = []

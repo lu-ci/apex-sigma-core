@@ -18,10 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def blockedarguments(cmd: SigmaCommand, pld: CommandPayload):
-    blocked_args = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
+    message, args = pld.msg, pld.args
+    blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
     else:

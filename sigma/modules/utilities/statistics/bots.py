@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def bots(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     online_bots = []
     offline_bots = []
     total_bots = 0

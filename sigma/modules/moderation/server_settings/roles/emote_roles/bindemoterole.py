@@ -17,15 +17,17 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def bindemoterole(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.manage_guild:
         if len(args) >= 2:
             group_id = args[0].lower()
             lookup = ' '.join(args[1:])
-            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
+            emote_groups = pld.settings.get('emote_role_groups', {})
             if group_id in emote_groups:
                 bound_roles = emote_groups.get(group_id)
                 if len(bound_roles) < 10:

@@ -21,6 +21,7 @@ import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.payload import CommandPayload
 
 bp_logo = "https://i.imgur.com/bNxFe09.png"
 
@@ -188,6 +189,7 @@ def make_time_list(terminus_times: list, current_time: arrow.Arrow, data_pool: s
 
 
 async def busplus(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         line_number = " ".join(args)
         current_time = arrow.utcnow().to('Europe/Belgrade')
