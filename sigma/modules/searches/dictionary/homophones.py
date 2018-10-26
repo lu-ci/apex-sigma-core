@@ -20,11 +20,13 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def homophones(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         query = '+'.join(args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=hom'

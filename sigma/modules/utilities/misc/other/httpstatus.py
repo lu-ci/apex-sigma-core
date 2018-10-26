@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     lookup = args[0] if args else None
     if lookup:
         status_data = await cmd.db[cmd.db.db_nam].HTTPStatusData.find_one({'code': lookup})

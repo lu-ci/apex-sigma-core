@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 lucia_image = 'https://i.imgur.com/xpDpHqz.png'
@@ -28,6 +29,7 @@ support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 # noinspection PyShadowingBuiltins
 async def help(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         cmd_name = ''.join(args).lower()
         if cmd_name in cmd.bot.modules.alts:
