@@ -29,5 +29,5 @@ async def feed(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xF9F9F9, title=f'🍰 {auth.display_name} feeds {target.display_name}.')
     response.set_image(url=interaction['url'])
-    response.set_footer(text=make_footer(cmd, interaction))
+    response.set_footer(text=await make_footer(cmd, interaction))
     await message.channel.send(embed=response)

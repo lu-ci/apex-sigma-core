@@ -30,5 +30,5 @@ async def cry(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0x5dadec,
                                  title=f'😢 {auth.display_name} cries because of {target.display_name}.')
     response.set_image(url=interaction['url'])
-    response.set_footer(text=make_footer(cmd, interaction))
+    response.set_footer(text=await make_footer(cmd, interaction))
     await message.channel.send(embed=response)

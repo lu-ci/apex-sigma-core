@@ -29,5 +29,5 @@ async def slap(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xffcc4d, title=f'🖐 {auth.display_name} slaps {target.display_name}.')
     response.set_image(url=interaction['url'])
-    response.set_footer(text=make_footer(cmd, interaction))
+    response.set_footer(text=await make_footer(cmd, interaction))
     await message.channel.send(embed=response)

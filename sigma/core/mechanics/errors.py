@@ -40,7 +40,7 @@ class SigmaError(object):
         await self.send_error_message(message)
         await self.log_error()
 
-    def get_error_channel(self):
+    async def get_error_channel(self):
         error_chn = None
         if self.bot.cfg.pref.errorlog_channel:
             err_chn_id = self.bot.cfg.pref.errorlog_channel
@@ -59,7 +59,7 @@ class SigmaError(object):
             pass
 
     async def log_error(self):
-        if self.get_error_channel():
+        if await self.get_error_channel():
             await self.send_error_log()
         await self.db[self.db.db_nam].Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'

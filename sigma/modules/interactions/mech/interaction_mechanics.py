@@ -53,7 +53,7 @@ def get_target(message):
     return target
 
 
-def make_footer(cmd, item):
+async def make_footer(cmd, item):
     uid = item.get('user_id')
     user = await cmd.bot.get_user(uid)
     username = user.name if user else 'Unknown User'

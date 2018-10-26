@@ -29,5 +29,5 @@ async def fuck(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0x744EAA, title=f'🍆 {auth.display_name} fucks {target.display_name}.')
     response.set_image(url=interaction['url'])
-    response.set_footer(text=make_footer(cmd, interaction))
+    response.set_footer(text=await make_footer(cmd, interaction))
     await message.channel.send(embed=response)

@@ -33,5 +33,5 @@ async def dance(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xdd2e44, title=f'{icon} {auth.display_name} dances with {target.display_name}.')
     response.set_image(url=interaction['url'])
-    response.set_footer(text=make_footer(cmd, interaction))
+    response.set_footer(text=await make_footer(cmd, interaction))
     await message.channel.send(embed=response)
