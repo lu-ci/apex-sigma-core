@@ -39,8 +39,8 @@ async def reminder_cycler(ev: SigmaEvent):
             current_stamp = arrow.utcnow().timestamp
             reminder = await coll.find_one_and_delete({'execution_stamp': {'$lt': current_stamp}})
             if reminder:
-                channel = ev.bot.get_channel(reminder.get('channel_id'))
-                author = ev.bot.get_user(reminder.get('user_id'))
+                channel = await ev.bot.get_channel(reminder.get('channel_id'))
+                author = await ev.bot.get_user(reminder.get('user_id'))
                 if channel:
                     target = channel
                 elif author:

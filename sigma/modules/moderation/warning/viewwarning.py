@@ -36,7 +36,7 @@ async def viewwarning(cmd: SigmaCommand, pld: CommandPayload):
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
-                    author = cmd.bot.get_user(warn_data.get('moderator').get('id'))
+                    author = await cmd.bot.get_user(warn_data.get('moderator').get('id'))
                     if author:
                         author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
                     else:

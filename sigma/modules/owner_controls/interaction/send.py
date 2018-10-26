@@ -31,10 +31,10 @@ async def send(cmd: SigmaCommand, pld: CommandPayload):
         mode = mode.lower()
         text = ' '.join(args[1:])
         if mode == 'u':
-            target = cmd.bot.get_user(identifier)
+            target = await cmd.bot.get_user(identifier)
             title_end = f'{target.name}#{target.discriminator}'
         elif mode == 'c':
-            target = cmd.bot.get_channel(identifier)
+            target = await cmd.bot.get_channel(identifier)
             title_end = f'#{target.name} on {target.guild.name}'
         else:
             await message.channel.send(embed=error_response)

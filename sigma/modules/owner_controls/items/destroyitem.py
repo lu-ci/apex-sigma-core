@@ -26,7 +26,7 @@ async def destroyitem(cmd: SigmaCommand, pld: CommandPayload):
         id_lookup = args[0]
         inv_item = await cmd.db[cmd.db.db_nam].Inventory.find_one({'items.item_id': id_lookup})
         if inv_item:
-            target = cmd.bot.get_user(inv_item.get('user_id'))
+            target = await cmd.bot.get_user(inv_item.get('user_id'))
             item_data = None
             for item in inv_item.get('items', []):
                 if item.get('item_id') == id_lookup:

@@ -38,7 +38,7 @@ async def spouses(cmd: SigmaCommand, pld: CommandPayload):
     if splist:
         spdata = []
         for sp in splist:
-            spmemb = cmd.bot.get_user(sp.get('user_id'))
+            spmemb = await cmd.bot.get_user(sp.get('user_id'))
             spmemb = spmemb.name if spmemb else sp.get('user_id')
             sp_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('spouses') or []

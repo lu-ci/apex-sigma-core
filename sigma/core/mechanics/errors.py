@@ -45,7 +45,7 @@ class SigmaError(object):
         if self.bot.cfg.pref.errorlog_channel:
             err_chn_id = self.bot.cfg.pref.errorlog_channel
             if err_chn_id:
-                error_chn = self.bot.get_channel(err_chn_id, True)
+                error_chn = await self.bot.get_channel(err_chn_id, True)
         return error_chn
 
     async def send_error_message(self, message: discord.Message):

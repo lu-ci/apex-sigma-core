@@ -29,7 +29,7 @@ async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
             target = discord.utils.find(lambda u: u.name.lower() == uname and u.discriminator == udisc, cmd.bot.users)
         else:
             try:
-                target = cmd.bot.get_user(int(lookup))
+                target = await cmd.bot.get_user(int(lookup))
             except ValueError:
                 target = None
         if target:

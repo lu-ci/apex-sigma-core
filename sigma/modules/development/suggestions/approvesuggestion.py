@@ -58,7 +58,7 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
             if gl_token and gl_project:
                 gl_desc = make_gl_suggestion(token, description, suggestion)
                 gl_issue_url = await submit_gl_issue(gl_token, gl_project, title, gl_desc)
-            athr = cmd.bot.get_user(suggestion.get('user', {}).get('id'))
+            athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
                 to_user_title = f'✅ Suggestion {token} approved by {message.author.display_name}.'
                 to_user = discord.Embed(color=0x77B255, title=to_user_title)

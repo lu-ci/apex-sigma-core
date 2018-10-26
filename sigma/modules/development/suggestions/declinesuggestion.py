@@ -25,7 +25,7 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
         reason = ' '.join(args[1:])
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
-            athr = cmd.bot.get_user(suggestion.get('user', {}).get('id'))
+            athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
                 to_user_title = f'⛔ Suggestion {token} declined by {message.author.display_name}.'
                 to_user = discord.Embed(color=0xBE1931, title=to_user_title)

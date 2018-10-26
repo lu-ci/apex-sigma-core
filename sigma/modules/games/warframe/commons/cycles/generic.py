@@ -28,7 +28,7 @@ async def get_channels(ev: SigmaEvent, marker):
     setting_files = await ev.db[ev.db.db_nam].ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
-        channel = ev.bot.get_channel(channel_id, True)
+        channel = await ev.bot.get_channel(channel_id, True)
         if channel:
             perms = channel.permissions_for(channel.guild.me)
             if perms.send_messages and perms.embed_links:

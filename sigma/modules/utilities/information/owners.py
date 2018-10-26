@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 async def owners(cmd: SigmaCommand, pld: CommandPayload):
     owner_lines = []
     for owner in cmd.bot.cfg.dsc.owners:
-        member = cmd.bot.get_user(owner)
+        member = await cmd.bot.get_user(owner)
         if member:
             owner_line = f'{member.name}#{member.discriminator}'
         else:

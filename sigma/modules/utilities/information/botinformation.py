@@ -40,7 +40,7 @@ async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
     env_text += f'\nPlatform: **{sys.platform.upper()}**'
     auth_text = ''
     for author in author_data:
-        auth = cmd.bot.get_user(author.get('id'))
+        auth = await cmd.bot.get_user(author.get('id'))
         if auth:
             auth_text += f'\n**{auth.name}**#{auth.discriminator}'
         else:

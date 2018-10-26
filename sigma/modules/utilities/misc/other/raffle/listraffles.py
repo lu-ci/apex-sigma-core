@@ -26,7 +26,7 @@ async def listraffles(cmd: SigmaCommand, pld: CommandPayload):
     if raffle_docs:
         raffle_lines = []
         for raf_doc in raffle_docs:
-            raffle_channel = cmd.bot.get_channel(raf_doc.get('channel'))
+            raffle_channel = await cmd.bot.get_channel(raf_doc.get('channel'))
             if raffle_channel:
                 location = f'in **#{raffle_channel.name}** on **{raffle_channel.guild.name}**.'
             else:

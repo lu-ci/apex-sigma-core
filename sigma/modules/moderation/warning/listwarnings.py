@@ -36,7 +36,7 @@ async def listwarnings(cmd: SigmaCommand, pld: CommandPayload):
             warn_list = []
             for warning in warnings:
                 warn_id = warning.get('warning').get('id')
-                moderator = cmd.bot.get_user(warning.get('moderator').get('id'))
+                moderator = await cmd.bot.get_user(warning.get('moderator').get('id'))
                 if moderator:
                     moderator = moderator.name
                 else:

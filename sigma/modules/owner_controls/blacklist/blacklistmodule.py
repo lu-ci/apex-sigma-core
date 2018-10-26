@@ -28,7 +28,7 @@ async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
             if args[0].isdigit():
                 target_id = int(args[0])
             if target_id:
-                target = cmd.bot.get_user(target_id)
+                target = await cmd.bot.get_user(target_id)
                 if target:
                     lookup = ' '.join(args[1:])
                     if lookup.lower() in cmd.bot.modules.categories:

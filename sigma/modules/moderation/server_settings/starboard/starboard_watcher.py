@@ -71,7 +71,7 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
     cid = payload.channel_id
     mid = payload.message_id
     emoji = payload.emoji
-    channel = ev.bot.get_channel(cid)
+    channel = await ev.bot.get_channel(cid)
     if channel:
         if hasattr(channel, 'guild'):
             guild = channel.guild

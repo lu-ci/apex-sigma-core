@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 
 async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
     try:
-        target = cmd.bot.get_user(int(args[0])) if args else None
+        target = await cmd.bot.get_user(int(args[0])) if args else None
     except ValueError:
         target = None
     if target:

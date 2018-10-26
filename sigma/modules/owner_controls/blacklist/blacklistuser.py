@@ -28,7 +28,7 @@ async def blacklistuser(cmd: SigmaCommand, pld: CommandPayload):
             target_id = int(args[0])
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
-                target = cmd.bot.get_user(target_id)
+                target = await cmd.bot.get_user(target_id)
                 if target:
                     black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
                     black_user_file = await black_user_collection.find_one({'user_id': target.id})

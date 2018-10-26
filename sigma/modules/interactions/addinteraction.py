@@ -28,7 +28,7 @@ async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_da
     log_ch_id = cmd.cfg.get('log_ch')
     interact_log_ch = None
     if log_ch_id:
-        interact_log_ch = cmd.bot.get_channel(log_ch_id, True)
+        interact_log_ch = await cmd.bot.get_channel(log_ch_id, True)
     if interact_log_ch:
         interaction_url = inter_data.get('url')
         interaction_id = inter_data.get('interaction_id')

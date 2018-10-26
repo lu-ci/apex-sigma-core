@@ -36,7 +36,7 @@ async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
         if localed:
             user_object = message.guild.get_member(data_doc.get('user_id'))
         else:
-            user_object = cmd.bot.get_user(data_doc.get('user_id'))
+            user_object = await cmd.bot.get_user(data_doc.get('user_id'))
         if user_object:
             if user_value:
                 if not await cmd.db.is_sabotaged(user_object.id):

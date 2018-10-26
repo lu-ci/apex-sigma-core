@@ -28,7 +28,7 @@ async def viewlists(cmd: SigmaCommand, pld: CommandPayload):
         list_lines = []
         for list_file in list_files:
             author_id = list_file.get('user_id')
-            author = cmd.bot.get_user(author_id)
+            author = await cmd.bot.get_user(author_id)
             list_name = list_file.get('name')
             creator = f'{author.name}#{author.discriminator}' if author else author_id
             mode, icon = list_file.get('mode'), ''

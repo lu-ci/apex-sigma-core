@@ -32,7 +32,7 @@ async def shadowpollvoters(cmd: SigmaCommand, pld: CommandPayload):
                     voter_lines = []
                     for voter_id in poll_file['votes'].keys():
                         voter_id = int(voter_id)
-                        voter = cmd.bot.get_user(voter_id)
+                        voter = await cmd.bot.get_user(voter_id)
                         if voter:
                             voter_line = f'{voter.name}#{voter.discriminator}'
                         else:

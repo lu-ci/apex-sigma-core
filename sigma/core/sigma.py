@@ -144,22 +144,24 @@ class ApexSigma(client_class):
             ready = False
         return ready
 
-    def get_user(self, uid, cached: bool = False):
+    async def get_user(self, uid, cached: bool = False):
         if cached:
-            out = self.cache.get_cache(uid)
+            cache_key = f'get_usr_{uid}'
+            out = self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_user(uid)
-                self.cache.set_cache(uid, out)
+                self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
         return out
 
-    def get_channel(self, cid: int, cached: bool = False):
+    async def get_channel(self, cid: int, cached: bool = False):
         if cached:
-            out = self.cache.get_cache(cid)
+            cache_key = f'get_chn_{cid}'
+            out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
-                self.cache.set_cache(cid, out)
+                self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
         return out

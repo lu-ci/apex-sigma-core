@@ -26,7 +26,7 @@ async def sabotageuser(cmd: SigmaCommand, pld: CommandPayload):
             target_id = int(args[0])
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
-                target = cmd.bot.get_user(target_id)
+                target = await cmd.bot.get_user(target_id)
                 if target:
                     sabotage_file = await cmd.db.is_sabotaged(target.id)
                     if sabotage_file:

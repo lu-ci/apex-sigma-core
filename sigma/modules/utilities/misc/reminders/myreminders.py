@@ -43,7 +43,7 @@ async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
         reminder_list = ''
         for reminder in all_reminders:
             human_time = arrow.get(reminder.get('execution_stamp')).humanize(arrow.utcnow())
-            channel = cmd.bot.get_channel(reminder.get('channel_id'))
+            channel = await cmd.bot.get_channel(reminder.get('channel_id'))
             if channel:
                 chan_name = f'**#{channel.name}**'
                 srv_name = f'**{channel.guild.name}**'

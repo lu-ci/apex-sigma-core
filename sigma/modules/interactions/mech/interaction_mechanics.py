@@ -55,7 +55,7 @@ def get_target(message):
 
 def make_footer(cmd, item):
     uid = item.get('user_id')
-    user = cmd.bot.get_user(uid)
+    user = await cmd.bot.get_user(uid)
     username = user.name if user else 'Unknown User'
     sid = item.get('server_id')
     srv = cmd.bot.get_guild(sid)
