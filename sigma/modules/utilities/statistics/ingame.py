@@ -21,6 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def make_games_dict(guild: discord.Guild):
@@ -47,6 +48,7 @@ def make_games_dict(guild: discord.Guild):
 
 
 async def ingame(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     response = discord.Embed(color=0x1ABC9C)
     games, online, playing = make_games_dict(message.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)

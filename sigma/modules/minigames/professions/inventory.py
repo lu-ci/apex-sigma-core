@@ -21,6 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
@@ -56,6 +57,7 @@ def item_belongs(filter_string: str, item: SigmaRawItem):
 
 
 async def inventory(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     if message.mentions:

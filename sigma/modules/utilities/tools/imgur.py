@@ -19,6 +19,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
 imgur_url = "https://api.imgur.com/3/image"
@@ -38,6 +39,7 @@ async def upload_image(image_url: str, client_id: str):
 
 
 async def imgur(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if 'client_id' in cmd.cfg:
         if args or message.attachments:
             image_url = message.attachments[0].url if message.attachments else args[0]

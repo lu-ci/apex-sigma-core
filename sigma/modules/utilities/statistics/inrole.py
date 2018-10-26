@@ -19,6 +19,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
@@ -39,6 +40,7 @@ def parse_args(args: list):
 
 
 async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup, state, page = parse_args(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
