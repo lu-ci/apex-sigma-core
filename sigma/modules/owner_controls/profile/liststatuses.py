@@ -19,10 +19,12 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     status_data = await cmd.db[cmd.db.db_nam].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['id'], s['text']] for s in status_data]

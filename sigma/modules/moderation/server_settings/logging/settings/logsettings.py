@@ -18,11 +18,13 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.server_settings.logging.settings.log import log_keys
 
 
 async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
         settings = []
         for log_key in log_keys:

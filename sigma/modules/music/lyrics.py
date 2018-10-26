@@ -21,6 +21,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
@@ -77,6 +78,7 @@ def find_result(resp: dict):
 
 
 async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         query = ' '.join(args)
     elif cmd.bot.music.currents.get(message.guild.id):

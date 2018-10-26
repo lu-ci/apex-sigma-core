@@ -19,9 +19,11 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def listwarnings(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.manage_messages:
         if message.mentions:
             target = message.mentions[0]

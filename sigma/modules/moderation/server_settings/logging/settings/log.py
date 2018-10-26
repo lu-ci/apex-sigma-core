@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
@@ -27,6 +28,7 @@ accepted_logs = [lk.lower()[4:] for lk in log_keys]
 
 
 async def log(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             order = ' '.join(args).lower()

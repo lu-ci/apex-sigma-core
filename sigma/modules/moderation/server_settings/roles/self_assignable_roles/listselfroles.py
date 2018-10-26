@@ -18,10 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listselfroles(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     self_roles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles')
     if self_roles is None:
         self_roles = []

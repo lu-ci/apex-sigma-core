@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
@@ -43,6 +44,7 @@ async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
 
 
 async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             mode, order = args[0].lower(), ' '.join(args[1:]).lower()

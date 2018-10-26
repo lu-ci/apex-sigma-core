@@ -18,10 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listemoterolegroups(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
     if emote_groups:
         group_list = list(emote_groups.keys())

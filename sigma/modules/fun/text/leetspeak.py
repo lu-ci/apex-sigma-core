@@ -19,9 +19,11 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         levels = ['basic', 'advanced', 'ultimate']
         if args[-1].startswith('level:'):
