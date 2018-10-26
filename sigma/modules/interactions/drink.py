@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
 async def drink(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     interaction = await grab_interaction(cmd.db, 'drink')
     target = get_target(message)
     auth = message.author

@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if len(args) >= 2:
         token = args[0].lower()
         reason = ' '.join(args[1:])

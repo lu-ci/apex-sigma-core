@@ -20,6 +20,7 @@ import discord
 import markovify
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 titles = {
@@ -79,6 +80,7 @@ def clean(text, author):
 
 
 async def dokidoki(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     char = None
     glitch = False
     if args:

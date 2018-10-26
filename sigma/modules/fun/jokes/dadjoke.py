@@ -19,9 +19,11 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def dadjoke(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     joke_list = await cmd.db[cmd.db.db_nam].DadjokeData.find().to_list(None)
     end_joke_choice = secrets.choice(joke_list)
     end_joke = end_joke_choice.get('setup')

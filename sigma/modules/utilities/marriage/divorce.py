@@ -17,6 +17,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def send_divorce(author: discord.Member, target: discord.Member, is_divorce):
@@ -31,6 +32,7 @@ async def send_divorce(author: discord.Member, target: discord.Member, is_divorc
 
 
 async def divorce(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     target = None
     is_id = False
     tid = None

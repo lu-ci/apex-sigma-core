@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import convert_to_seconds
 
 
 async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         if len(args) == 2:
             rem_id = args[0].lower()

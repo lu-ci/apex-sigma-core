@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
@@ -40,6 +41,7 @@ def get_perm_type(cmd: SigmaCommand, perm_type: str):
 
 
 async def disabled(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         perm_name, perm_type, exception_type, item_list = get_perm_type(cmd, args[0].lower())
         if perm_name:

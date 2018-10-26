@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 deck_cache = {}
 
@@ -38,6 +39,7 @@ def make_new_deck(uid):
 
 
 async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         try:
             amount = int(args[0])

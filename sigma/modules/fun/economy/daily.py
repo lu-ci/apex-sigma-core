@@ -21,9 +21,11 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def daily(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     daily_doc = await cmd.db[cmd.db.db_nam].DailyCache.find_one({'user_id': message.author.id}) or {}
     if not daily_doc:
         def_data = {'user_id': message.author.id, 'stamp': 0, 'streak': 0}

@@ -20,11 +20,13 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 
 
 async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
         headers = {
             'Accept': 'application/json',
