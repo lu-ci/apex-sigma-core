@@ -19,9 +19,11 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def csshumor(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     url = 'https://csshumor.com/'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:

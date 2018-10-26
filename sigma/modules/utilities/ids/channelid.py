@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def channelid(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     embed = True
     if args:
         if args[-1].lower() == '--text':

@@ -18,13 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def channelinformation(_cmd: SigmaCommand, pld: CommandPayload):
-    if message.channel_mentions:
-        chan = message.channel_mentions[0]
-    else:
-        chan = message.channel
+    message = pld.msg
+    chan = message.channel_mentions[0] if message.channel_mentions else message.channel
     response = discord.Embed(color=0x1B6F5F)
     creation_time = arrow.get(chan.created_at).format('DD. MMMM YYYY')
     info_text = f'Name: **{chan.name}**'

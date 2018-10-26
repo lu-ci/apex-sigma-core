@@ -18,10 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))

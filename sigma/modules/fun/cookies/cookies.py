@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def cookies(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     target = message.author if not message.mentions else message.mentions[0]
     cookie_data = await cmd.db.get_resource(target.id, 'cookies')
     ender = 'cookie' if cookie_data.current == 1 else 'cookies'

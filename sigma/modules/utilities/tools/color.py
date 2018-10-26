@@ -20,6 +20,7 @@ import discord
 from PIL import Image
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import rgb_to_hex
 
 
@@ -52,6 +53,7 @@ def get_color_tuple(args: list):
 
 
 async def color(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     file = None
     if args:
         color_tuple = get_color_tuple(args)

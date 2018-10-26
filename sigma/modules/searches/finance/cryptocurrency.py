@@ -21,10 +21,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def cryptocurrency(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup = ' '.join(args).lower()
         quick_search_url = 'https://s2.coinmarketcap.com/generated/search/quick_search.json'

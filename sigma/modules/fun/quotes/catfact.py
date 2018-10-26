@@ -21,9 +21,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def catfact(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     resource = 'https://catfact.ninja/fact'
     async with aiohttp.ClientSession() as session:
         async with session.get(resource) as data:

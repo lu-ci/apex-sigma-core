@@ -18,11 +18,13 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, convert_to_seconds
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.create_instant_invite:
         target = message.channel_mentions[0] if message.channel_mentions else message.channel
         age, uses = 0, 0

@@ -21,11 +21,13 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 cat_cache = []
 
 
 async def cat(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     cat_api_key = cmd.cfg.get('api_key')
     api_url = 'http://thecatapi.com/api/images/get?format=json&results_per_page=100'
     if cat_api_key:

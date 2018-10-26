@@ -19,12 +19,14 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def choose(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         choice = secrets.choice(' '.join(args).split('; '))
-        response = discord.Embed(color=0x1ABC9C, title='🤔 I choose... ' + choice)
+        response = discord.Embed(color=0x1ABC9C, title=f'🤔 I choose... {choice}')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await message.channel.send(embed=response)

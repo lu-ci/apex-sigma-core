@@ -21,9 +21,11 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def cyanideandhappiness(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     comic_img_url = None
     comic_url = None
     tries = 0

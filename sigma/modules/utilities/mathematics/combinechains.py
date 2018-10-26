@@ -22,6 +22,7 @@ import discord
 import markovify
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
@@ -37,6 +38,7 @@ def combine_names(users: list):
 
 
 async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if len(message.mentions) >= 2:
         empty_chain = False
         chain_objects = []

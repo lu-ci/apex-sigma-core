@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
@@ -41,6 +42,7 @@ async def is_blinded(db: Database, channel: discord.TextChannel, author: discord
 
 
 async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     target_usr = get_target(message)
     target_chn = get_channel(message)
     starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
