@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
@@ -27,6 +28,7 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
 
 
 async def kitsunemimi(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     global links
     if not links:
         name = cmd.bot.user.name
