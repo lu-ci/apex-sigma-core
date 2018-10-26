@@ -24,7 +24,7 @@ async def log_event(client: ApexSigma, guild: discord.Guild, db: Database, respo
     log_channel_id = await db.get_guild_settings(guild.id, f'{event}_channel')
     log_event_active = await db.get_guild_settings(guild.id, event)
     if log_channel_id and log_event_active:
-        log_channel = client.get_channel(log_channel_id, True)
+        log_channel = await client.get_channel(log_channel_id, True)
         if log_channel:
             try:
                 await log_channel.send(embed=response)

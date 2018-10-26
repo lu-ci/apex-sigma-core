@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+import inspect
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
@@ -32,10 +33,10 @@ def sort_transfers(dictlike: ResourceDict):
     return sortable
 
 
-def describe_transfers(translist: list, getter):
+async def describe_transfers(translist: list, getter):
     described = []
     for transitem in translist:
-        transobject = getter(int(transitem[0]))
+        transobject = await getter(int(transitem[0])) if inspect.isawaitable(getter) else getter(int(transitem[0]))
         if transobject:
             addition = [transobject.name, transitem[1]]
         else:
@@ -44,19 +45,19 @@ def describe_transfers(translist: list, getter):
     return described
 
 
-def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
+async def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
     user_pool = sort_transfers(pool.users)
-    user_desc = describe_transfers(user_pool, bot.get_user)
+    user_desc = await describe_transfers(user_pool, bot.get_user)
     guild_pool = sort_transfers(pool.guilds)
-    guild_desc = describe_transfers(guild_pool, bot.get_guild)
+    guild_desc = await describe_transfers(guild_pool, bot.get_guild)
     channel_pool = sort_transfers(pool.channels)
-    channel_desc = describe_transfers(channel_pool, bot.get_channel)
+    channel_desc = await describe_transfers(channel_pool, bot.get_channel)
     function_desc = sort_transfers(pool.functions)
     return user_desc, guild_desc, channel_desc, function_desc
 
 
-def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.Member, res_nam: str, expense: bool):
-    user_desc, guild_desc, channel_desc, function_desc = get_top_transfers(bot, pool)
+async def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.Member, res_nam: str, expense: bool):
+    user_desc, guild_desc, channel_desc, function_desc = await get_top_transfers(bot, pool)
     descriptor = 'spent' if expense else 'obtained'
     titletor = 'expenses' if expense else 'origins'
     headers = ['Name', 'Amount']
@@ -90,7 +91,7 @@ async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
         resource = await cmd.db.get_resource(target.id, res_nam)
         if not resource.empty:
             pool = resource.expenses if expense else resource.origins
-            response = make_response(cmd.bot, pool, target, res_nam, expense)
+            response = await make_response(cmd.bot, pool, target, res_nam, expense)
         else:
             response = discord.Embed(color=0x696969, title='🔍 No resource data found.')
     else:
