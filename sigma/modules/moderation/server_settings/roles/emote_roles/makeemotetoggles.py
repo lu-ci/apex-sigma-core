@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import permission_denied
 
@@ -54,6 +55,7 @@ async def fill_toggler_emotes(toggler: discord.Message, emotes: list):
 
 
 async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()

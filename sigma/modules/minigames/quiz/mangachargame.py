@@ -22,6 +22,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
@@ -29,6 +30,7 @@ streaks = {}
 
 
 async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.channel.id not in ongoing_list:
         try:
             ongoing_list.append(message.channel.id)

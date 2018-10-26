@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def settings(lookup: str):
@@ -29,6 +30,7 @@ def settings(lookup: str):
 
 
 async def makelist(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     mode = None
     if args:
         mode = settings(args[0].lower())

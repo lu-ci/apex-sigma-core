@@ -17,6 +17,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def send_proposal(author: discord.Member, target: discord.Member, is_proposal):
@@ -31,6 +32,7 @@ async def send_proposal(author: discord.Member, target: discord.Member, is_propo
 
 
 async def marry(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.mentions:
         target = message.mentions[0]
         author = message.author
