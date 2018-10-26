@@ -125,7 +125,7 @@ class SigmaError(object):
         return title, err_text
 
     async def send_error_log(self):
-        error_chn = self.get_error_channel()
+        error_chn = await self.get_error_channel()
         if error_chn and self.data:
             response, trace = make_error_embed(self.data)
             await error_chn.send(embed=response)
