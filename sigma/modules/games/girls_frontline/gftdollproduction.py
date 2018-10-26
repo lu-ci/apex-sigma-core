@@ -18,6 +18,7 @@ import discord
 from lxml import html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 tdoll_data = []
 gf_icon = 'https://en.gfwiki.com/images/c/c9/Logo.png'
@@ -67,6 +68,7 @@ async def fill_tdoll_data():
 
 
 async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if not tdoll_data:
         await fill_tdoll_data()
     if args:

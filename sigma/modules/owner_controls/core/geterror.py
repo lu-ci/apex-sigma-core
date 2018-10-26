@@ -18,9 +18,11 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.errors import make_error_embed
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def geterror(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     trace_text = None
     if args:
         token = args[0]

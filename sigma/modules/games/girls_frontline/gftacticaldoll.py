@@ -19,6 +19,7 @@ import discord
 from lxml import html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 tdoll_page_index = {}
 tdoll_pages = {}
@@ -121,6 +122,7 @@ def get_weapon_satats_block(data: dict):
 
 
 async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if not tdoll_page_index:
         await fill_tdoll_data()
     if args:

@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def greetchannel(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]

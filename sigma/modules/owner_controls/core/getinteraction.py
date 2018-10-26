@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def getinteraction(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         react_id = args[0].lower()
         react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': react_id})

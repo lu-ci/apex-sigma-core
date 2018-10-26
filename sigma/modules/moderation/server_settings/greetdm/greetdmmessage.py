@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import permission_denied
 
@@ -33,6 +34,7 @@ async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
 
 
 async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             greeting_text = ' '.join(args)

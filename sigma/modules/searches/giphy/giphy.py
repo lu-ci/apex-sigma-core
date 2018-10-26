@@ -21,11 +21,13 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
 
 async def giphy(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('api_key')
     if api_key:
         if args:
