@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 emote_cache = {'stamp': 0, 'emotes': []}
 
@@ -43,6 +44,7 @@ def get_emote(emoji: str or discord.Emoji):
 
 
 async def emote(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup, eid = args[0].lower(), None
         if ':' in lookup:

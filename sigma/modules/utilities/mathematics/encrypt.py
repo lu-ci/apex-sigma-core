@@ -18,10 +18,12 @@ import discord
 from cryptography.fernet import InvalidToken, InvalidSignature
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
 async def encrypt(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     text = False
     cipher = get_encryptor(cmd.bot.cfg)
     if cipher:

@@ -17,14 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
 async def experience(cmd: SigmaCommand, pld: CommandPayload):
-    if message.mentions:
-        target = message.mentions[0]
-    else:
-        target = message.author
+    message, args = pld.msg, pld.args
+    target = message.mentions[0] if message.mentions else message.author
     avatar = user_avatar(target)
     exp = await cmd.db.get_resource(target.id, 'experience')
     response = discord.Embed(color=0x47ded4)

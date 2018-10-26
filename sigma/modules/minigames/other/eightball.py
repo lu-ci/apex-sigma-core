@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 positive = [
     'Absolutely.',
@@ -84,6 +85,7 @@ negative = [
 
 
 async def eightball(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         roll = secrets.randbelow(4)
         rollmap = {0: negative, 1: neural}
