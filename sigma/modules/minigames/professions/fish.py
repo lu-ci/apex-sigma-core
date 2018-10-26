@@ -17,11 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def fish(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}

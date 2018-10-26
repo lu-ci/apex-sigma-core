@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
@@ -31,6 +32,7 @@ async def sell_item_ids(db, user, items):
 
 
 async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     if args:
         full_qry = ' '.join(args)

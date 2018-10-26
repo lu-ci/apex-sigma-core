@@ -18,9 +18,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def forcedataupdate(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
     load_status = await message.channel.send(embed=response)
     ready_events = cmd.bot.modules.events.get('dbinit')

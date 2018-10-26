@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
@@ -24,6 +25,7 @@ filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
 async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 3:

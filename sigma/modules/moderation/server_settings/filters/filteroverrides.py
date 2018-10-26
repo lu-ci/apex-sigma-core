@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
@@ -35,6 +36,7 @@ def get_overrides(message: discord.Message, overrides: list, target_type: str):
 
 
 async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         filter_name = args[0].lower()
         if filter_name in filter_names:

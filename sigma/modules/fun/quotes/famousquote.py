@@ -20,9 +20,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def famousquote(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     resource = 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
     data = None
     tries = 0

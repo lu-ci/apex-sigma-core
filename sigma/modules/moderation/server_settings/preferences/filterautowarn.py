@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def filterautowarn(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.guild_permissions.manage_guild:
         filter_warn = await cmd.db.get_guild_settings(message.guild.id, 'filter_auto_warn')
         if filter_warn:
