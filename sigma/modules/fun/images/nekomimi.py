@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
@@ -33,6 +34,7 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
 
 
 async def nekomimi(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     global links
     if not links:
         name = cmd.bot.user.name
