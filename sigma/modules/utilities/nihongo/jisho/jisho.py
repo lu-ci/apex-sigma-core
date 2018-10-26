@@ -20,24 +20,22 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     jisho_q = ' '.join(args)
-
     async with aiohttp.ClientSession() as session:
         async with session.get('http://jisho.org/api/v1/search/words?keyword=' + jisho_q) as data:
             rq_text = await data.text()
             rq_data = await data.read()
             rq_json = json.loads(rq_data)
-
     if rq_text.find('503 Service Unavailable') != -1:
         response = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
         await message.channel.send(embed=response)
         return
-
     request = rq_json
-
     # check if response contains data or nothing was found
     if request['data']:
         request = request['data'][0]
@@ -45,7 +43,6 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
         await message.channel.send(embed=response)
         return
-
     output = ''
     starter = ''
     # if the word doesn't have kanji, print out the kana alone
@@ -53,18 +50,14 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
         starter += f"{request['japanese'][0]['word']} [{request['japanese'][0]['reading']}]"
     except KeyError:
         starter += f"{request['japanese'][0]['reading']}"
-
     wk_lvls = []
-
     for tag in request['tags']:
         if tag.find('wanikani') != -1:
             wk_lvls.append(tag[8:])
-
     if len(request['senses']) > 5:
         definitons_len = 5
     else:
         definitons_len = len(request['senses'])
-
     for i in range(0, definitons_len):
         etc = []
         if 'english_definitions' in request['senses'][i]:
@@ -75,7 +68,6 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
                 if part_of_speech:
                     parts_of_speech += part_of_speech + ', '
             etc.append(parts_of_speech[:-2])
-
         if request['senses'][i]['tags']:
             try:
                 etc.append('; '.join(request['senses'][i]['tags']))
@@ -88,20 +80,17 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
 
         if request['senses'][i]['info']:
             etc.append('; '.join(request['senses'][i]['info']))
-
         # attaching definition tags
         if etc:
             if etc[0]:
                 etc_string = ', '.join(etc)
                 output += f'\n| *{etc_string}*'
-
     if len(request['senses']) > 5:
         hidden = len(request['senses']) - 5
         if hidden == 1:
             output += f'\n\n- {hidden} definition is hidden'
         else:
             output += f'\n\n- {hidden} definitions are hidden'
-
     other_forms = ''
     if len(request['japanese']) > 1:
         other_forms = ''

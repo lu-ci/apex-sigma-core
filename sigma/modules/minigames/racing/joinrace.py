@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.racing.nodes.race_storage import races, add_participant, names, colors
 
 
 async def joinrace(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     currency = f'{cmd.bot.cfg.pref.currency}'
     if message.channel.id in races:
         race = races[message.channel.id]

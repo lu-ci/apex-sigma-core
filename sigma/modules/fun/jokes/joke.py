@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 joke_cache = []
 
@@ -30,4 +31,4 @@ async def joke(cmd: SigmaCommand, pld: CommandPayload):
     joke_data = joke_cache.pop(secrets.randbelow(len(joke_cache)))
     response = discord.Embed(color=0xFFDC5D, title='😆 Have A Random Joke')
     response.description = joke_data.get('body')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
