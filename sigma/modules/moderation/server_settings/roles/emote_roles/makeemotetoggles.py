@@ -61,7 +61,7 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
             group_id = args[0].lower()
             has_desc = False if args[-1].lower() == 'nodesc' else True
             target_ch = message.channel_mentions[0] if message.channel_mentions else message.channel
-            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
+            emote_groups = pld.settings.get('emote_role_groups') or {}
             if group_id in emote_groups:
                 role_items = []
                 group_roles = emote_groups.get(group_id)
@@ -77,7 +77,7 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
                 toggler_message_response = await make_binding_message(binding_data, message.guild, group_id, has_desc)
                 toggler_message = await target_ch.send(embed=toggler_message_response)
                 await fill_toggler_emotes(toggler_message, list(binding_data.keys()))
-                guild_togglers = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_togglers') or {}
+                guild_togglers = pld.settings.get('emote_role_togglers') or {}
                 guild_togglers.update({str(toggler_message.id): binding_data})
                 await cmd.db.set_guild_settings(message.guild.id, 'emote_role_togglers', guild_togglers)
                 response = discord.Embed(color=0x66CC66, title=f'✅ Toggler {group_id} created in {target_ch.name}.')

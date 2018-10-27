@@ -33,7 +33,7 @@ async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
             if obj_item:
                 inv_item = await cmd.db.get_inventory_item(message.author.id, obj_item.file_id)
                 if inv_item:
-                    upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
+                    upgrade_file = pld.profile.get('upgrades') or {}
                     inv = await cmd.db.get_inventory(target.id)
                     storage = upgrade_file.get('storage', 0)
                     inv_limit = 64 + (8 * storage)

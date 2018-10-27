@@ -25,7 +25,7 @@ async def unblockarguments(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_args = await cmd.db.get_guild_settings(message.guild.id, 'blocked_args')
+            blocked_args = pld.settings.get('blocked_args')
             if blocked_args is None:
                 blocked_args = []
             removed_args = []

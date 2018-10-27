@@ -77,7 +77,7 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionPayload):
         if hasattr(channel, 'guild'):
             guild = channel.guild
             if guild:
-                starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
+                starboard_doc = payload.settings.get('starboard') or {}
                 if starboard_doc:
                     sbc = starboard_doc.get('channel_id')
                     sbe = starboard_doc.get('emote')

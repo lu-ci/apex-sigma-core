@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def bye(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'bye')
+        active = pld.settings.get('bye')
         active = True if active is None else active
         state, ender = (False, 'disabled') if active else (True, 'Enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'bye', state)

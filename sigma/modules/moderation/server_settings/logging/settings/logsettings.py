@@ -29,10 +29,10 @@ async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
         settings = []
         for log_key in log_keys:
             if log_key == 'log_modules':
-                enabled = await cmd.db.get_guild_settings(message.guild.id, 'logged_modules')
+                enabled = pld.settings.get('logged_modules')
             else:
-                enabled = await cmd.db.get_guild_settings(message.guild.id, log_key)
-            channel_id = await cmd.db.get_guild_settings(message.guild.id, f'{log_key}_channel')
+                enabled = pld.settings.get(log_key)
+            channel_id = pld.settings.get(f'{log_key}_channel')
             channel = await cmd.bot.get_channel(channel_id)
             chn = channel.name if channel else 'Not Set'
             state = 'Enabled' if enabled else 'Disabled'

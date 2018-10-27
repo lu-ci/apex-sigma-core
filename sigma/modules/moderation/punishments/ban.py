@@ -85,7 +85,7 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                             audit_reason = f'By {message.author.name}: {reason}'
                             await target.ban(reason=audit_reason, delete_message_days=clean_days)
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_bans')
+                            await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                             if endstamp:
                                 doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
                                 await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)

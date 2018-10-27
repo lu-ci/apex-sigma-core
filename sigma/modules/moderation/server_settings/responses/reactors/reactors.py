@@ -24,7 +24,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 async def reactors(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
-    reactor_files = await cmd.db.get_guild_settings(message.guild.id, 'reactor_triggers')
+    reactor_files = pld.settings.get('reactor_triggers')
     if reactor_files:
         reactor_list = sorted(list(reactor_files.keys()))
         reac_count = len(reactor_list)

@@ -37,7 +37,7 @@ def check_field(field, value):
 async def greetdmembed(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
-        greet_embed = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm_embed') or {}
+        greet_embed = pld.settings.get('greet_dm_embed') or {}
         embed_data = {
             'active': greet_embed.get('active'),
             'color': greet_embed.get('color'),

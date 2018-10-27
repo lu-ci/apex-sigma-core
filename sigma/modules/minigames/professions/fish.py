@@ -26,7 +26,7 @@ async def fish(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-        upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+        upgrade_file = pld.profile.get('upgrades') or {}
         inv = await cmd.db.get_inventory(message.author.id)
         storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)
@@ -36,7 +36,7 @@ async def fish(cmd: SigmaCommand, pld: CommandPayload):
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             cooldown = 5 if cooldown < 5 else cooldown
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-            rarity = await item_core.roll_rarity(cmd.db, message.author.id)
+            rarity = await item_core.roll_rarity(pld.profile)
             if args:
                 if message.author.id in cmd.bot.cfg.dsc.owners:
                     try:

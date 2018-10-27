@@ -56,7 +56,7 @@ async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
                     if message.author.id != target.id:
                         if not target.bot:
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-                                upgrade_file = await cmd.db.get_profile(message.author.id, 'upgrades') or {}
+                                upgrade_file = pld.profile.get('upgrades') or {}
                                 base_cooldown = 3600
                                 stamina = upgrade_file.get('oven') or 0
                                 stamina_mod = stamina / (1.25 + (0.01 * stamina))

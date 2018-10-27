@@ -34,7 +34,7 @@ async def auto_responder(ev: SigmaEvent, pld: MessagePayload):
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)
             if not pld.msg.content.startswith(pfx):
-                triggers = await ev.db.get_guild_settings(pld.msg.guild.id, 'responder_triggers')
+                triggers = pld.settings.get('responder_triggers')
                 if triggers is None:
                     triggers = {}
                 arguments = pld.msg.content.split(' ')

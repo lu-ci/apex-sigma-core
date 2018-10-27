@@ -24,7 +24,7 @@ from sigma.core.utilities.stats_processing import add_special_stats
 async def table_unflipper(ev: SigmaEvent, pld: MessagePayload):
     if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in pld.msg.content.replace(' ', ''):
         if pld.msg.guild:
-            unflip = bool(await ev.db.get_guild_settings(pld.msg.guild.id, 'unflip'))
+            unflip = bool(pld.settings.get('unflip'))
         else:
             unflip = True
         if unflip:

@@ -27,7 +27,7 @@ async def unbindemoterole(cmd: SigmaCommand, pld: CommandPayload):
         if args:
             group_id = args[0].lower()
             role_search = ' '.join(args[1:])
-            emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
+            emote_groups = pld.settings.get('emote_role_groups') or {}
             if group_id in emote_groups:
                 bound_roles = emote_groups.get(group_id)
                 guild_role = discord.utils.find(lambda x: x.name.lower() == role_search.lower(), message.guild.roles)

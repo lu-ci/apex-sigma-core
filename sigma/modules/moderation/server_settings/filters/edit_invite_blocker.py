@@ -31,7 +31,7 @@ async def edit_invite_blocker(ev: SigmaEvent, pld: MessageEditPayload):
             override = check_filter_perms(after, pld.settings, 'invites')
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
             if not any([after.author.permissions_in(after.channel).administrator, is_owner, override]):
-                active = await ev.db.get_guild_settings(after.guild.id, 'block_invites')
+                active = pld.settings.get('block_invites')
                 if active:
                     arguments = after.content.split(' ')
                     invite_found = False
@@ -47,7 +47,7 @@ async def edit_invite_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                                     pass
                     if invite_found:
                         try:
-                            invite_warn = await ev.db.get_guild_settings(after.guild.id, 'invite_auto_warn')
+                            invite_warn = pld.settings.get('invite_auto_warn')
                             if invite_warn:
                                 reason = f'Sent an invite to {invite_found.guild.name}.'
                                 warn_data = warning_data(after.guild.me, after.author, reason)
@@ -65,6 +65,6 @@ async def edit_invite_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                                                  icon_url=user_avatar(after.author))
                             log_embed.set_footer(
                                 text=f'Posted In: #{after.channel.name} | Leads To: {invite_found.guild.name}')
-                            await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

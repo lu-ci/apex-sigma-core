@@ -27,7 +27,7 @@ async def starboardchannel(cmd: SigmaCommand, pld: CommandPayload):
         if message.channel_mentions:
             target_channel = message.channel_mentions[0]
             if message.guild.me.permissions_in(target_channel).send_messages:
-                starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+                starboard_doc = pld.settings.get('starboard') or {}
                 starboard_doc.update({'channel_id': target_channel.id})
                 await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard channel set to {target_channel.name}.')

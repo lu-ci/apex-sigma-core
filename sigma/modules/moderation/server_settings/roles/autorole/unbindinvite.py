@@ -34,7 +34,7 @@ async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
                     inv_id = invite_id
                 else:
                     inv_id = target_inv.id
-                bindings = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
+                bindings = pld.settings.get('bound_invites')
                 if bindings is None:
                     bindings = {}
                 if inv_id in bindings:

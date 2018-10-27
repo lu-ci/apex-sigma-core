@@ -21,11 +21,11 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import is_
 
 async def join_name_check(ev: SigmaEvent, pld: MemberPayload):
     if pld.member.guild:
-        active = await ev.db.get_guild_settings(pld.member.guild.id, 'ascii_only_names')
+        active = pld.settings.get('ascii_only_names')
         if active:
             if is_invalid(pld.member.display_name):
                 try:
-                    temp_name = await ev.db.get_guild_settings(pld.member.guild.id, 'ascii_temp_name')
+                    temp_name = pld.settings.get('ascii_temp_name')
                     new_name = clean_name(pld.member.display_name, temp_name)
                     await pld.member.edit(nick=new_name, reason='ASCII name enforcement.')
                 except Exception:

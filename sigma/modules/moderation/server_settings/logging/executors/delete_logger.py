@@ -31,7 +31,7 @@ async def delete_logger(ev: SigmaEvent, pld: MessagePayload):
             log_embed.set_author(name=log_title, icon_url=user_avatar(pld.msg.author))
             log_embed.add_field(name='🗑 Content', value=pld.msg.content)
             log_embed.set_footer(text=f'Message {pld.msg.id} in #{pld.msg.channel.name}')
-            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_deletions')
+            await log_event(ev.bot, pld.settings, log_embed, 'log_deletions')
         if pld.msg.attachments:
             log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s file was deleted.'
             log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
@@ -40,4 +40,4 @@ async def delete_logger(ev: SigmaEvent, pld: MessagePayload):
             log_embed.description = f"File{end}: {', '.join(file_names)}"
             log_embed.set_author(name=log_title, icon_url=user_avatar(pld.msg.author))
             log_embed.set_footer(text=f'Message {pld.msg.id} in #{pld.msg.channel.name}')
-            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_deletions')
+            await log_event(ev.bot, pld.settings, log_embed, 'log_deletions')

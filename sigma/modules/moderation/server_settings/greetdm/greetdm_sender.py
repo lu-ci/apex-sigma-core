@@ -21,14 +21,14 @@ from sigma.modules.moderation.server_settings.greet.greetmessage import make_gre
 
 
 async def greetdm_sender(ev: SigmaEvent, pld: MemberPayload):
-    greet_dm_active = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm')
+    greet_dm_active = pld.settings.get('greet_dm')
     if greet_dm_active:
         if pld.member:
-            current_dm_greeting = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm_message')
+            current_dm_greeting = pld.settings.get('greet_dm_message')
             if not current_dm_greeting:
                 current_dm_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greeting_dm_text = movement_message_parser(pld.member, current_dm_greeting)
-            greet_dm_embed = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm_embed') or {}
+            greet_dm_embed = pld.settings.get('greet_dm_embed') or {}
             if greet_dm_embed.get('active'):
                 greeting_dm = await make_greet_embed(greet_dm_embed, greeting_dm_text, pld.member.guild)
                 await pld.member.send(embed=greeting_dm)

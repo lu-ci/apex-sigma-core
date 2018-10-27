@@ -22,10 +22,10 @@ from sigma.core.mechanics.payload import MemberPayload
 
 async def join_name_ban(ev: SigmaEvent, pld: MemberPayload):
     if pld.member.guild:
-        active = await ev.db.get_guild_settings(pld.member.guild.id, 'name_filter_ban')
+        active = pld.settings.get('name_filter_ban')
         if active:
             bad_name = None
-            blocked_names = await ev.db.get_guild_settings(pld.member.guild.id, 'blocked_names') or []
+            blocked_names = pld.settings.get('blocked_names') or []
             for name in blocked_names:
                 if name in pld.member.name.lower():
                     bad_name = name

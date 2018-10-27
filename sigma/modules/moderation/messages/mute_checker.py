@@ -25,7 +25,7 @@ async def mute_checker(ev: SigmaEvent, pld: MessagePayload):
         if isinstance(pld.msg.author, discord.Member):
             if pld.msg.author.id not in ev.bot.cfg.dsc.owners:
                 if not pld.msg.author.permissions_in(pld.msg.channel).administrator:
-                    mute_list = await ev.db.get_guild_settings(pld.msg.guild.id, 'muted_users') or []
+                    mute_list = pld.settings.get('muted_users') or []
                     if pld.msg.author.id in mute_list:
                         try:
                             await pld.msg.delete()

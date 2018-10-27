@@ -25,7 +25,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        clrrls = await cmd.db.get_guild_settings(message.guild.id, 'color_roles')
+        clrrls = pld.settings.get('color_roles')
         if clrrls:
             new_value = False
             ending = 'disabled'

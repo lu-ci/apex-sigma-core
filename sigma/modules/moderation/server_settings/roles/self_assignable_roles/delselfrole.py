@@ -30,7 +30,7 @@ async def delselfrole(cmd: SigmaCommand, pld: CommandPayload):
             if target_role:
                 role_below = bool(target_role.position < message.guild.me.top_role.position)
                 if role_below:
-                    selfroles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles')
+                    selfroles = pld.settings.get('self_roles')
                     if selfroles is None:
                         selfroles = []
                     if target_role.id not in selfroles:

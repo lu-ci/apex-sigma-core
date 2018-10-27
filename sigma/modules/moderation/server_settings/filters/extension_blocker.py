@@ -34,7 +34,7 @@ async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
                 is_owner = message.author.id in ev.bot.cfg.dsc.owners
                 if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
                     att_files = [att.filename.lower() for att in message.attachments]
-                    bexts = await ev.db.get_guild_settings(message.guild.id, 'blocked_extensions') or []
+                    bexts = pld.settings.get('blocked_extensions') or []
                     delete = False
                     reason = None
                     for attf in att_files:
@@ -47,7 +47,7 @@ async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
                             break
                     if delete:
                         try:
-                            filter_warn = await ev.db.get_guild_settings(message.guild.id, 'filter_auto_warn')
+                            filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(message.guild.me, message.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
@@ -64,6 +64,6 @@ async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
                             log_embed.description = f'Content: {message.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                             log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

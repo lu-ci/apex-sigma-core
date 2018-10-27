@@ -40,7 +40,7 @@ async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
     if args:
         filter_name = args[0].lower()
         if filter_name in filter_names:
-            overrides = await cmd.db.get_guild_settings(message.guild.id, 'filter_overrides') or {}
+            overrides = pld.settings.get('filter_overrides') or {}
             if overrides:
                 override = overrides.get(filter_name, {})
                 channels = override.get('channels')

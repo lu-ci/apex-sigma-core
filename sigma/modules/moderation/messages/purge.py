@@ -145,7 +145,7 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 pass
             response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
             log_embed = generate_log_embed(message, target, message.channel, deleted)
-            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_purges')
+            await log_event(cmd.bot, pld.settings, log_embed, 'log_purges')
             if message.channel.id in ongoing:
                 ongoing.remove(message.channel.id)
             try:

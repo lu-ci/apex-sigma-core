@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def starboard(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+        starboard_doc = pld.settings.get('starboard') or {}
         active = starboard_doc.get('state')
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         starboard_doc.update({'state': state})

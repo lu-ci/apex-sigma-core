@@ -30,7 +30,7 @@ async def starboardlimit(cmd: SigmaCommand, pld: CommandPayload):
             except ValueError:
                 new_limit = None
             if new_limit is not None:
-                starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+                starboard_doc = pld.settings.get('starboard') or {}
                 starboard_doc.update({'limit': int(new_limit)})
                 await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard limit set to {new_limit}.')

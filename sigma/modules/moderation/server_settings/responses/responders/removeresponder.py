@@ -26,7 +26,7 @@ async def removeresponder(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()
-            auto_responses = await cmd.db.get_guild_settings(message.guild.id, 'responder_triggers') or {}
+            auto_responses = pld.settings.get('responder_triggers') or {}
             if trigger in auto_responses:
                 del auto_responses[trigger]
                 await cmd.db.set_guild_settings(message.guild.id, 'responder_triggers', auto_responses)

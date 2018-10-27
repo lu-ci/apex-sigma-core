@@ -28,7 +28,7 @@ async def syncinvites(cmd: SigmaCommand, pld: CommandPayload):
     except discord.Forbidden:
         invites = []
     update_invites(message.guild, invites)
-    bound_invites = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites') or {}
+    bound_invites = pld.settings.get('bound_invites') or {}
     keys_to_remove = []
     for invite_code in bound_invites.keys():
         find_code = discord.utils.find(lambda x: x.id == invite_code, invites)

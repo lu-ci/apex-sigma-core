@@ -41,10 +41,10 @@ async def antispam_watcher(ev: SigmaEvent, pld: MessagePayload):
             is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
             if not pld.msg.author.guild_permissions.administrator or not is_owner:
                 if pld.msg.content:
-                    antispam = await ev.db.get_guild_settings(pld.msg.guild.id, 'antispam')
+                    antispam = pld.settings.get('antispam')
                     if antispam:
-                        amount = await ev.db.get_guild_settings(pld.msg.guild.id, 'rate_limit_amount') or 5
-                        timespan = await ev.db.get_guild_settings(pld.msg.guild.id, 'rate_limit_timespan') or 5
+                        amount = pld.settings.get('rate_limit_amount') or 5
+                        timespan = pld.settings.get('rate_limit_timespan') or 5
                         if rate_limited(pld.msg, amount, timespan):
                             await pld.msg.delete()
                             title = f'📢 Antispam: Removed a pld.msg.'
@@ -54,4 +54,4 @@ async def antispam_watcher(ev: SigmaEvent, pld: MessagePayload):
                             log_embed.set_author(name=f'{pld.msg.author.name}', icon_url=user_avatar(pld.msg.author))
                             log_embed.description = pld.msg.content
                             log_embed.set_footer(text=f'{user} | {channel}')
-                            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_antispam')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_antispam')

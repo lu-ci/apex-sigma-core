@@ -46,7 +46,7 @@ async def log(cmd: SigmaCommand, pld: CommandPayload):
                 for log_ord in log_ords:
                     if log_ord in accepted_logs:
                         log_key = f'log_{log_ord}'
-                        curr = bool(await cmd.db.get_guild_settings(message.guild.id, log_key))
+                        curr = bool(pld.settings.get(log_key))
                         new = not curr
                         await cmd.db.set_guild_settings(message.guild.id, log_key, new)
                         res = 'Enabled' if new else 'Disabled'

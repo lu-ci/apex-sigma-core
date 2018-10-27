@@ -26,7 +26,7 @@ async def toggleselfrole(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_roles:
         if args:
             lookup = ' '.join(args).lower()
-            self_roles = await cmd.db.get_guild_settings(message.guild.id, 'self_roles') or []
+            self_roles = pld.settings.get('self_roles') or []
             target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
             if target_role:
                 role_below = target_role.position < message.guild.me.top_role.position

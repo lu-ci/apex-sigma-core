@@ -30,7 +30,7 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
                 new_trigger = args[1].lower()
                 if '.' not in new_trigger:
                     if new_trigger not in cmd.bot.modules.commands and new_trigger not in cmd.bot.modules.alts:
-                        custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
+                        custom_commands = pld.settings.get('custom_commands') or {}
                         if old_trigger in custom_commands:
                             if new_trigger not in custom_commands:
                                 custom_commands.update({new_trigger: custom_commands[old_trigger]})

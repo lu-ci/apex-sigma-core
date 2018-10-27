@@ -26,7 +26,7 @@ async def removecommand(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             trigger = args[0].lower()
-            custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands') or {}
+            custom_commands = pld.settings.get('custom_commands') or {}
             if trigger in custom_commands:
                 del custom_commands[trigger]
                 await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)

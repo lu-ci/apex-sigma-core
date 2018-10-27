@@ -65,7 +65,7 @@ async def softban(cmd: SigmaCommand, pld: CommandPayload):
                             await target.ban(reason=f'By {message.author.name}: {reason} (Soft)')
                             await target.unban()
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_bans')
+                            await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:

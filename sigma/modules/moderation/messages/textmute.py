@@ -64,7 +64,7 @@ async def textmute(cmd: SigmaCommand, pld: CommandPayload):
                         err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
                         await message.channel.send(embed=err_response)
                         return
-                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'muted_users')
+                    mute_list = pld.settings.get('muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
@@ -77,7 +77,7 @@ async def textmute(cmd: SigmaCommand, pld: CommandPayload):
                         rarg = args[1:-1] if timed else args[1:] if args[1:] else None
                         reason = ' '.join(rarg) if rarg else None
                         log_embed = generate_log_embed(message, target, reason)
-                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
+                        await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                         to_target_title = f'🔇 You have been text muted.'
                         to_target = discord.Embed(color=0x696969)
                         to_target.add_field(name=to_target_title, value=f'Reason: {reason}')

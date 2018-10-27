@@ -44,10 +44,10 @@ async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
             is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
             if not pld.msg.author.guild_permissions.administrator or not is_owner:
                 if pld.msg.content:
-                    anticaps = await ev.db.get_guild_settings(pld.msg.guild.id, 'anticaps')
+                    anticaps = pld.settings.get('anticaps')
                     if anticaps:
-                        cap_limit = await ev.db.get_guild_settings(pld.msg.guild.id, 'caps_limit') or 5
-                        cap_percent = await ev.db.get_guild_settings(pld.msg.guild.id, 'caps_percentage') or 60
+                        cap_limit = pld.settings.get('caps_limit') or 5
+                        cap_percent = pld.settings.get('caps_percentage') or 60
                         total, upper, percent = count_chars(pld.msg.content)
                         if upper >= cap_limit and percent >= cap_percent:
                             await pld.msg.delete()
@@ -59,4 +59,4 @@ async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
                             log_embed.set_author(name=f'{pld.msg.author.name}', icon_url=user_avatar(pld.msg.author))
                             log_embed.description = pld.msg.content
                             log_embed.set_footer(text=f'{user} | {channel} | {stats}')
-                            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_antispam')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_antispam')

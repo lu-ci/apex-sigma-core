@@ -25,7 +25,7 @@ async def unblockwords(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
-            blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'blocked_words')
+            blocked_words = pld.settings.get('blocked_words')
             if blocked_words is None:
                 blocked_words = []
             removed_words = []

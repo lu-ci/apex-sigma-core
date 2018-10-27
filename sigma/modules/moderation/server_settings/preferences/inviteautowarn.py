@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def inviteautowarn(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.guild_permissions.manage_guild:
-        filter_inv = await cmd.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
+        filter_inv = pld.settings.get('invite_auto_warn')
         if filter_inv:
             new_value = False
             ending = 'disabled'

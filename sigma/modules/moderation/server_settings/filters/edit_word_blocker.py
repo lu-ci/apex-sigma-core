@@ -37,8 +37,8 @@ async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())
                     elements = text.split(' ')
-                    blocked_words = await ev.db.get_guild_settings(after.guild.id, 'blocked_words') or []
-                    hard_blocked_words = await ev.db.get_guild_settings(after.guild.id, 'hardblocked_words') or []
+                    blocked_words = pld.settings.get('blocked_words') or []
+                    hard_blocked_words = pld.settings.get('hardblocked_words') or []
                     remove = False
                     reason = None
                     for word in blocked_words:
@@ -52,7 +52,7 @@ async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                             reason = word
                     if remove:
                         try:
-                            filter_warn = await ev.db.get_guild_settings(after.guild.id, 'filter_auto_warn')
+                            filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(after.guild.me, after.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
@@ -69,6 +69,6 @@ async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                             log_embed.description = f'Content: {after.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(after.author))
                             log_embed.set_footer(text=f'Channel: #{after.channel.name} [{after.channel.id}]')
-                            await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

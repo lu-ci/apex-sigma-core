@@ -41,10 +41,10 @@ async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db.set_guild_settings(message.guild.id, 'greet_dm_message', greeting_text)
             response = discord.Embed(color=0x77B255, title='✅ New DM Greeting Message set.')
         else:
-            current_greeting = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm_message')
+            current_greeting = pld.settings.get('greet_dm_message')
             if not current_greeting:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
-            greet_embed = await cmd.db.get_guild_settings(message.guild.id, 'greet_dm_embed') or {}
+            greet_embed = pld.settings.get('greet_dm_embed') or {}
             if greet_embed.get('active'):
                 response = await make_greet_embed(greet_embed, current_greeting, message.guild)
             else:

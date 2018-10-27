@@ -57,7 +57,7 @@ async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
                 if not above_hier and not is_admin:
                     response = discord.Embed(color=0xBE1931, title='⛔ Can\'t unmute someone equal or above you.')
                 else:
-                    mute_list = await cmd.db.get_guild_settings(message.guild.id, 'muted_users')
+                    mute_list = pld.settings.get('muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id not in mute_list:
@@ -69,5 +69,5 @@ async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
                         await cmd.db.set_guild_settings(message.guild.id, 'muted_users', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
                         log_embed = generate_log_embed(message, target, reason)
-                        await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
+                        await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
     await message.channel.send(embed=response)

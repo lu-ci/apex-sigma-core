@@ -27,7 +27,7 @@ async def unbindrole(cmd: SigmaCommand, pld: CommandPayload):
         if args:
             group_id = args[0].lower()
             lookup = ' '.join(args[1:])
-            role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
+            role_groups = pld.settings.get('role_groups') or {}
             if group_id in role_groups:
                 bound_roles = role_groups.get(group_id)
                 guild_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)

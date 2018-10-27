@@ -24,7 +24,7 @@ async def auto_reactor(ev: SigmaEvent, pld: MessagePayload):
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)
             if not pld.msg.content.startswith(pfx):
-                triggers = await ev.db.get_guild_settings(pld.msg.guild.id, 'reactor_triggers') or {}
+                triggers = pld.settings.get('reactor_triggers') or {}
                 arguments = pld.msg.content.split(' ')
                 for arg in arguments:
                     arg = clean_word(arg)

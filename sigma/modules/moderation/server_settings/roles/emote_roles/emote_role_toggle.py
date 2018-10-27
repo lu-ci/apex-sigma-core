@@ -54,7 +54,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionPayload):
         if hasattr(channel, 'guild'):
             guild = channel.guild
             if guild:
-                guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
+                guild_togglers = payload.settings.get('emote_role_togglers') or {}
                 if guild_togglers:
                     user = guild.get_member(uid)
                     if user:

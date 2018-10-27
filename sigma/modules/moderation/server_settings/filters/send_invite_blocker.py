@@ -31,7 +31,7 @@ async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
             override = check_filter_perms(message, pld.settings, 'invites')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
             if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
-                active = await ev.db.get_guild_settings(message.guild.id, 'block_invites')
+                active = pld.settings.get('block_invites')
                 if active is None:
                     active = False
                 if active:
@@ -49,7 +49,7 @@ async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
                                     pass
                     if invite_found:
                         try:
-                            invite_warn = await ev.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
+                            invite_warn = pld.settings.get('invite_auto_warn')
                             if invite_warn:
                                 reason = f'Sent an invite to {invite_found.guild.name}.'
                                 warn_data = warning_data(message.guild.me, message.author, reason)
@@ -67,6 +67,6 @@ async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
                                                  icon_url=user_avatar(message.author))
                             log_embed.set_footer(
                                 text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass
