@@ -55,14 +55,14 @@ async def check_emotes(db: Database, mid: int, sbl: int):
     trigger = False
     executed = await db.cache.get_cache(f'exec_{mid}')
     if not executed:
-        stars = await db.cache.get_cache(mid) or 0
+        stars = await db.cache.get_cache(f'sbem_{mid}') or 0
         stars += 1
         if stars >= sbl:
             trigger = True
-            await db.cache.del_cache(mid)
+            await db.cache.del_cache(f'sbem_{mid}')
             await db.cache.set_cache(f'exec_{mid}', True)
         else:
-            await db.cache.set_cache(mid, stars)
+            await db.cache.set_cache(f'sbem_{mid}', stars)
     return trigger
 
 
