@@ -21,6 +21,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 cache = {}
 
@@ -35,7 +36,7 @@ async def fill_xbooru_cache(tags):
 
 
 async def xbooru(_cmd: SigmaCommand, pld: CommandPayload):
-    tags = '+'.join(args) if args else 'nude'
+    tags = '+'.join(pld.args) if pld.args else 'nude'
     collect_needed = False if cache.get(tags) else True
     if collect_needed:
         await fill_xbooru_cache(tags)
@@ -54,4 +55,4 @@ async def xbooru(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_footer(text=footer_text)
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 No results.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
