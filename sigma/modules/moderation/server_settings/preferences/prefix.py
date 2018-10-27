@@ -23,7 +23,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 async def prefix(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
-    current_prefix = await cmd.db.get_prefix(message)
+    current_prefix = cmd.db.get_prefix(pld.settings)
     if args:
         if message.author.permissions_in(message.channel).manage_guild:
             new_prefix = ''.join(args)

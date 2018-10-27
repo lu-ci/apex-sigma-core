@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import CommandEventPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def command_logger(ev: SigmaEvent, cmd, message, args):
+async def command_logger(ev: SigmaEvent, pld: CommandEventPayload):
+    cmd, message, args = pld.cmd, pld.msg, pld.args
     if message.guild:
         log_title = f'{message.author.name}#{message.author.discriminator}\'s used {cmd.name.upper()}.'
         arguments = ' '.join(args) if args else 'No Arguments'

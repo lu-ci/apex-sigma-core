@@ -41,7 +41,7 @@ async def race(cmd: SigmaCommand, pld: CommandPayload):
             if buyin > 0:
                 start_title = f'🚀 A {buyin} {currency} race is starting in 30 seconds.'
             create_response = discord.Embed(color=0x3B88C3, title=start_title)
-            pfx = await cmd.db.get_prefix(message)
+            pfx = cmd.db.get_prefix(pld.settings)
             create_response.set_footer(text=f'We need 2 participants! Type {pfx}joinrace to join!')
             await message.channel.send(embed=create_response)
             await asyncio.sleep(30)

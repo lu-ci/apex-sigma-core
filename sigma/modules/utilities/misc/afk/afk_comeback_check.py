@@ -19,17 +19,18 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 
 
-async def afk_comeback_check(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        pfx = await ev.db.get_prefix(message)
-        if not message.content.startswith(pfx):
-            afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': message.author.id})
+async def afk_comeback_check(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        pfx = ev.db.get_prefix(pld.settings)
+        if not pld.msg.content.startswith(pfx):
+            afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': pld.msg.author.id})
             if afk_data:
-                await ev.bot.cache.del_cache(message.author.id)
+                await ev.bot.cache.del_cache(pld.msg.author.id)
                 response = discord.Embed(color=0x3B88C3, title='ℹ I have removed your AFK status.')
-                removal = await message.channel.send(embed=response)
+                removal = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)
                 try:
                     await removal.delete()

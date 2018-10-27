@@ -14,25 +14,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.fun.auto_response.auto_responder import clean_word
 
 
-async def auto_reactor(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        if message.content:
-            pfx = await ev.db.get_prefix(message)
-            if not message.content.startswith(pfx):
-                triggers = await ev.db.get_guild_settings(message.guild.id, 'reactor_triggers') or {}
-                arguments = message.content.split(' ')
+async def auto_reactor(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        if pld.msg.content:
+            pfx = ev.db.get_prefix(pld.settings)
+            if not pld.msg.content.startswith(pfx):
+                triggers = await ev.db.get_guild_settings(pld.msg.guild.id, 'reactor_triggers') or {}
+                arguments = pld.msg.content.split(' ')
                 for arg in arguments:
                     arg = clean_word(arg)
                     if arg in triggers:
                         reaction = triggers[arg]
                         try:
-                            await message.add_reaction(reaction)
+                            await pld.msg.add_reaction(reaction)
                         except Exception:
                             pass
                         break

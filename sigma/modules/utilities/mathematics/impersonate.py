@@ -59,7 +59,7 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s chain has no data.')
         else:
             response = discord.Embed(color=0x696969)
-            prefix = await cmd.db.get_prefix(message)
+            prefix = cmd.db.get_prefix(pld.settings)
             title = f'🔍 Chain Data Not Found For {target.name}'
             value = f'You can make one with `{prefix}collectchain @{target.name} #channel`!'
             response.add_field(name=title, value=value)

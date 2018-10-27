@@ -14,9 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
-from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.sigma import ApexSigma
 
 
@@ -43,7 +43,8 @@ async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
             await msg.add_reaction(toggler)
 
 
-async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionActionEvent):
+async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionPayload):
+    payload = payload.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id

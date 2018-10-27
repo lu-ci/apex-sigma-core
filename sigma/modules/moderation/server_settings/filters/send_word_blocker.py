@@ -33,7 +33,7 @@ async def send_word_blocker(ev: SigmaEvent, pld: MessagePayload):
             override = check_filter_perms(message, pld.settings, 'words')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
             if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
-                prefix = await ev.db.get_prefix(message)
+                prefix = ev.db.get_prefix(pld.settings)
                 if not message.content.startswith(prefix):
                     text = clean_content(message.content.lower())
                     elements = text.split(' ')

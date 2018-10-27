@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import GuildPayload
 
 disclaimer = """
 ```md
@@ -39,17 +40,17 @@ You are NOT allowed to:
 * By using Sigma you comply with various user data being stored.
 * Only data needed for the functionality of a command is stored.
 
-> Not complying will result in the user or guild being blacklisted.
+> Not complying will result in the user or pld.guild being blacklisted.
 ```
 """
 
 
-async def disclaimer_sender(_ev: SigmaEvent, guild: discord.Guild):
+async def disclaimer_sender(_ev: SigmaEvent, pld: GuildPayload):
     try:
-        await guild.owner.send(disclaimer)
+        await pld.guild.owner.send(disclaimer)
     except discord.Forbidden:
-        if guild.system_channel:
+        if pld.guild.system_channel:
             try:
-                await guild.system_channel.send(disclaimer)
+                await pld.guild.system_channel.send(disclaimer)
             except discord.Forbidden:
                 pass

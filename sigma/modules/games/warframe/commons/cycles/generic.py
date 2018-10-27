@@ -20,6 +20,7 @@ import arrow
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import GuildPayload
 
 
 async def get_channels(ev: SigmaEvent, marker):
@@ -36,16 +37,16 @@ async def get_channels(ev: SigmaEvent, marker):
     return channel_list
 
 
-async def get_triggers(db, triggers, guild):
+async def get_triggers(db, triggers, pld: GuildPayload):
     mentions = []
     for trigger in triggers:
-        wf_tags = await db.get_guild_settings(guild.id, 'warframe_tags')
+        wf_tags = await db.get_guild_settings(pld.guild.id, 'warframe_tags')
         if wf_tags is None:
             wf_tags = {}
         if wf_tags:
             if trigger in wf_tags:
                 role_id = wf_tags.get(trigger)
-                bound_role = guild.get_role(role_id)
+                bound_role = pld.guild.get_role(role_id)
                 if bound_role:
                     mentions.append(bound_role.mention)
     return mentions

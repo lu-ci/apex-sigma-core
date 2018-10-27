@@ -35,7 +35,7 @@ async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
             ender = 's' if cmd_count > 1 else ''
             summary = f'Showing **{len(commands)}** command{ender} from Page **#{page}**.'
             summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
-            pfx = await cmd.db.get_prefix(message)
+            pfx = cmd.db.get_prefix(pld.settings)
             loop_index = start_range
             cmd_list_lines = []
             for key in commands:

@@ -26,7 +26,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.mechanics.payload import CommandPayload, CommandEventPayload
 from sigma.core.mechanics.permissions import GlobalCommandPermissions, ServerCommandPermissions, check_filter_perms
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
@@ -154,10 +154,10 @@ class SigmaCommand(object):
             if not self.cd.is_cooling(message):
                 if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', message.author):
                     await self.update_cooldown(message.author)
-                    perms = GlobalCommandPermissions(self, message)
+                    perms = GlobalCommandPermissions(self, payload)
                     await perms.check_black_usr()
                     await perms.check_black_srv()
-                    await perms.generate_response()
+                    perms.generate_response()
                     perms.check_final()
                     guild_allowed = ServerCommandPermissions(self, message)
                     await guild_allowed.check_perms()
@@ -168,15 +168,16 @@ class SigmaCommand(object):
                             requirements = CommandRequirements(self, message)
                             if requirements.reqs_met:
                                 try:
-                                    await getattr(self.command, self.name)(self, message, args)
+                                    await getattr(self.command, self.name)(self, payload)
                                     await add_cmd_stat(self)
                                     await self.add_usage_sum(message)
                                     self.bot.command_count += 1
-                                    event_task = self.bot.queue.event_runner('command', self, message, args)
+                                    cmd_ev_pld = CommandEventPayload(self.bot, self, payload)
+                                    event_task = self.bot.queue.event_runner('command', cmd_ev_pld)
                                     self.bot.loop.create_task(event_task)
                                 except self.get_exception() as e:
                                     error = SigmaError(self, e)
-                                    await error.error_handler(message, args)
+                                    await error.error_handler(payload)
                             else:
                                 await self.respond_with_icon(message, '📝')
                                 reqs_embed = discord.Embed(color=0xBE1931)
@@ -185,7 +186,7 @@ class SigmaCommand(object):
                                 for req in requirements.missing_list:
                                     req = req.replace('_', ' ').title()
                                     reqs_error_list += f'\n- {req}'
-                                prefix = await self.db.get_prefix(message)
+                                prefix = self.db.get_prefix(payload.settings)
                                 reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
                                 reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
                                 try:

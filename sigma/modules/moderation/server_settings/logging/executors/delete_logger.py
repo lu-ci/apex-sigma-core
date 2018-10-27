@@ -18,25 +18,26 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def delete_logger(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        if message.content:
-            log_title = f'{message.author.name}#{message.author.discriminator}\'s message was deleted.'
+async def delete_logger(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        if pld.msg.content:
+            log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s pld.msg was deleted.'
             log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-            log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
-            log_embed.add_field(name='🗑 Content', value=message.content)
-            log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
-            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_deletions')
-        if message.attachments:
-            log_title = f'{message.author.name}#{message.author.discriminator}\'s file was deleted.'
+            log_embed.set_author(name=log_title, icon_url=user_avatar(pld.msg.author))
+            log_embed.add_field(name='🗑 Content', value=pld.msg.content)
+            log_embed.set_footer(text=f'Message {pld.msg.id} in #{pld.msg.channel.name}')
+            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_deletions')
+        if pld.msg.attachments:
+            log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s file was deleted.'
             log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-            file_names = [atch.filename for atch in message.attachments]
+            file_names = [atch.filename for atch in pld.msg.attachments]
             end = '' if len(file_names) == 1 else 's'
             log_embed.description = f"File{end}: {', '.join(file_names)}"
-            log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
-            log_embed.set_footer(text=f'Message {message.id} in #{message.channel.name}')
-            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_deletions')
+            log_embed.set_author(name=log_title, icon_url=user_avatar(pld.msg.author))
+            log_embed.set_footer(text=f'Message {pld.msg.id} in #{pld.msg.channel.name}')
+            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_deletions')

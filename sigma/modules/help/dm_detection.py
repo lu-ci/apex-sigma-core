@@ -17,11 +17,12 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 
 
-def log_dm(ev: SigmaEvent, message: discord.Message):
-    author_text = f'{message.author.name}#{message.author.discriminator} [{message.author.id}]'
-    ev.log.info(f'DM From {author_text}: {message.content}')
+def log_dm(ev: SigmaEvent, pld: MessagePayload):
+    author_text = f'{pld.msg.author.name}#{pld.msg.author.discriminator} [{pld.msg.author.id}]'
+    ev.log.info(f'DM From {author_text}: {pld.msg.content}')
 
 
 async def has_invite(ev: SigmaEvent, arguments):
@@ -39,16 +40,16 @@ async def has_invite(ev: SigmaEvent, arguments):
     return invite_found
 
 
-async def dm_detection(ev: SigmaEvent, message: discord.Message):
-    if not message.guild:
-        if not message.author.bot:
-            pfx = await ev.db.get_prefix(message)
-            if not message.content.startswith(pfx):
-                if await has_invite(ev, message.content.split()):
+async def dm_detection(ev: SigmaEvent, pld: MessagePayload):
+    if not pld.msg.guild:
+        if not pld.msg.author.bot:
+            pfx = ev.db.get_prefix(pld.settings)
+            if not pld.msg.content.startswith(pfx):
+                if await has_invite(ev, pld.msg.content.split()):
                     command = 'invite'
                 else:
-                    log_dm(ev, message)
+                    log_dm(ev, pld.msg)
                     command = 'help'
-                if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):
-                    await ev.bot.modules.commands[command].execute(message, [])
-                await ev.bot.cool_down.set_cooldown(ev.name, message.author, 30)
+                if not await ev.bot.cool_down.on_cooldown(ev.name, pld.msg.author):
+                    await ev.bot.modules.commands[command].execute(pld.msg, [])
+                await ev.bot.cool_down.set_cooldown(ev.name, pld.msg.author, 30)

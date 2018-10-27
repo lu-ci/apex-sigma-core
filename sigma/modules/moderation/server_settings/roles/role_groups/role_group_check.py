@@ -13,15 +13,17 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberUpdatePayload
 from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 
-async def role_group_check(ev: SigmaEvent, before: discord.Member, after: discord.Member):
-    before_role_ids = [role.id for role in before.roles]
-    added_role = discord.utils.find(lambda role: role.id not in before_role_ids, after.roles)
+async def role_group_check(ev: SigmaEvent, pld: MemberUpdatePayload):
+    before_role_ids = [role.id for role in pld.before.roles]
+    added_role = discord.utils.find(lambda role: role.id not in before_role_ids, pld.after.roles)
     if added_role:
-        role_groups = await ev.db.get_guild_settings(after.guild.id, 'role_groups') or {}
-        await appropriate_roles(after, added_role, role_groups)
+        role_groups = await ev.db.get_guild_settings(pld.after.guild.id, 'role_groups') or {}
+        await appropriate_roles(pld.after, added_role, role_groups)

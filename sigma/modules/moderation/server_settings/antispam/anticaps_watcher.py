@@ -19,6 +19,7 @@ import string
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
@@ -37,25 +38,25 @@ def count_chars(text):
     return total, upper, percent
 
 
-async def anticaps_watcher(ev: SigmaEvent, message: discord.Message):
-    if message.guild and message.author:
-        if isinstance(message.author, discord.Member):
-            is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.guild_permissions.administrator or not is_owner:
-                if message.content:
-                    anticaps = await ev.db.get_guild_settings(message.guild.id, 'anticaps')
+async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild and pld.msg.author:
+        if isinstance(pld.msg.author, discord.Member):
+            is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+            if not pld.msg.author.guild_permissions.administrator or not is_owner:
+                if pld.msg.content:
+                    anticaps = await ev.db.get_guild_settings(pld.msg.guild.id, 'anticaps')
                     if anticaps:
-                        cap_limit = await ev.db.get_guild_settings(message.guild.id, 'caps_limit') or 5
-                        cap_percent = await ev.db.get_guild_settings(message.guild.id, 'caps_percentage') or 60
-                        total, upper, percent = count_chars(message.content)
+                        cap_limit = await ev.db.get_guild_settings(pld.msg.guild.id, 'caps_limit') or 5
+                        cap_percent = await ev.db.get_guild_settings(pld.msg.guild.id, 'caps_percentage') or 60
+                        total, upper, percent = count_chars(pld.msg.content)
                         if upper >= cap_limit and percent >= cap_percent:
-                            await message.delete()
-                            title = f'📢 Anticaps: Removed a message.'
-                            user = f'User: {message.author.id}'
-                            channel = f'Channel: {message.channel.name}'
+                            await pld.msg.delete()
+                            title = f'📢 Anticaps: Removed a pld.msg.'
+                            user = f'User: {pld.msg.author.id}'
+                            channel = f'Channel: {pld.msg.channel.name}'
                             stats = f'Caps: {upper}/{total} {percent}%'
                             log_embed = discord.Embed(color=0xdd2e44, title=title)
-                            log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
-                            log_embed.description = message.content
+                            log_embed.set_author(name=f'{pld.msg.author.name}', icon_url=user_avatar(pld.msg.author))
+                            log_embed.description = pld.msg.content
                             log_embed.set_footer(text=f'{user} | {channel} | {stats}')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_antispam')
+                            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_antispam')

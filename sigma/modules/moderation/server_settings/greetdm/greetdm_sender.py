@@ -15,21 +15,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 
 
-async def greetdm_sender(ev: SigmaEvent, member):
-    greet_dm_active = await ev.db.get_guild_settings(member.guild.id, 'greet_dm')
+async def greetdm_sender(ev: SigmaEvent, pld: MemberPayload):
+    greet_dm_active = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm')
     if greet_dm_active:
-        if member:
-            current_dm_greeting = await ev.db.get_guild_settings(member.guild.id, 'greet_dm_message')
+        if pld.member:
+            current_dm_greeting = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm_message')
             if not current_dm_greeting:
                 current_dm_greeting = 'Hello {user_mention}, welcome to {server_name}.'
-            greeting_dm_text = movement_message_parser(member, current_dm_greeting)
-            greet_dm_embed = await ev.db.get_guild_settings(member.guild.id, 'greet_dm_embed') or {}
+            greeting_dm_text = movement_message_parser(pld.member, current_dm_greeting)
+            greet_dm_embed = await ev.db.get_guild_settings(pld.member.guild.id, 'greet_dm_embed') or {}
             if greet_dm_embed.get('active'):
-                greeting_dm = await make_greet_embed(greet_dm_embed, greeting_dm_text, member.guild)
-                await member.send(embed=greeting_dm)
+                greeting_dm = await make_greet_embed(greet_dm_embed, greeting_dm_text, pld.member.guild)
+                await pld.member.send(embed=greeting_dm)
             else:
-                await member.send(greeting_dm_text)
+                await pld.member.send(greeting_dm_text)

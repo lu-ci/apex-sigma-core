@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
@@ -34,23 +35,23 @@ def rate_limited(msg: discord.Message, amt: int, tsp: int):
     return len(limit_items) > amt
 
 
-async def antispam_watcher(ev: SigmaEvent, message: discord.Message):
-    if message.guild and message.author:
-        if isinstance(message.author, discord.Member):
-            is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not message.author.guild_permissions.administrator or not is_owner:
-                if message.content:
-                    antispam = await ev.db.get_guild_settings(message.guild.id, 'antispam')
+async def antispam_watcher(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild and pld.msg.author:
+        if isinstance(pld.msg.author, discord.Member):
+            is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+            if not pld.msg.author.guild_permissions.administrator or not is_owner:
+                if pld.msg.content:
+                    antispam = await ev.db.get_guild_settings(pld.msg.guild.id, 'antispam')
                     if antispam:
-                        amount = await ev.db.get_guild_settings(message.guild.id, 'rate_limit_amount') or 5
-                        timespan = await ev.db.get_guild_settings(message.guild.id, 'rate_limit_timespan') or 5
-                        if rate_limited(message, amount, timespan):
-                            await message.delete()
-                            title = f'📢 Antispam: Removed a message.'
-                            user = f'User: {message.author.id}'
-                            channel = f'Channel: {message.channel.name}'
+                        amount = await ev.db.get_guild_settings(pld.msg.guild.id, 'rate_limit_amount') or 5
+                        timespan = await ev.db.get_guild_settings(pld.msg.guild.id, 'rate_limit_timespan') or 5
+                        if rate_limited(pld.msg, amount, timespan):
+                            await pld.msg.delete()
+                            title = f'📢 Antispam: Removed a pld.msg.'
+                            user = f'User: {pld.msg.author.id}'
+                            channel = f'Channel: {pld.msg.channel.name}'
                             log_embed = discord.Embed(color=0xdd2e44, title=title)
-                            log_embed.set_author(name=f'{message.author.name}', icon_url=user_avatar(message.author))
-                            log_embed.description = message.content
+                            log_embed.set_author(name=f'{pld.msg.author.name}', icon_url=user_avatar(pld.msg.author))
+                            log_embed.description = pld.msg.content
                             log_embed.set_footer(text=f'{user} | {channel}')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_antispam')
+                            await log_event(ev.bot, pld.msg.guild, ev.db, log_embed, 'log_antispam')

@@ -66,7 +66,7 @@ async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
         if not missing:
             for res in resource_names:
                 await cmd.db.del_resource(message.author.id, res, price, cmd.name, message)
-            prefix = await cmd.db.get_prefix(message)
+            prefix = cmd.db.get_prefix(pld.settings)
             machine = SigmaMachine(cmd.db, message.author, SigmaMachine.new())
             await machine.update()
             response = discord.Embed(color=0x8899a6, title=f'🔧 {machine.product_name} constructed.')

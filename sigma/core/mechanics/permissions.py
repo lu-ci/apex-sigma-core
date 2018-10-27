@@ -18,10 +18,14 @@ import asyncio
 
 import discord
 
+from sigma.core.mechanics.payload import MessagePayload
+
 
 class GlobalCommandPermissions(object):
-    def __init__(self, command, message: discord.Message):
-        self.message = message
+    def __init__(self, command, pld: MessagePayload):
+        self.pld = pld
+        self.message = self.pld.msg
+        self.settings = self.pld.settings
         self.bot = command.bot
         self.cmd = command
         self.db = command.db
@@ -114,8 +118,8 @@ class GlobalCommandPermissions(object):
         else:
             self.owner_denied = False
 
-    async def generate_response(self):
-        prefix = await self.db.get_prefix(self.message)
+    def generate_response(self):
+        prefix = self.db.get_prefix(self.settings)
         if self.black_srv:
             return
         elif self.black_user:

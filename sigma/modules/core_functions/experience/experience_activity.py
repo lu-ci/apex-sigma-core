@@ -16,18 +16,17 @@
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 
 
-async def experience_activity(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        if not await ev.bot.cool_down.on_cooldown(ev.name, message.author):
-            await ev.bot.cool_down.set_cooldown(ev.name, message.author, 80)
-            if len(message.guild.members) >= 100:
+async def experience_activity(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        if not await ev.bot.cool_down.on_cooldown(ev.name, pld.msg.author):
+            await ev.bot.cool_down.set_cooldown(ev.name, pld.msg.author, 80)
+            if len(pld.msg.guild.members) >= 100:
                 award_xp = 180
             else:
                 award_xp = 150
             award_xp += secrets.randbelow(5) * 18
-            await ev.db.add_resource(message.author.id, 'experience', award_xp, 'message_experience', message, True)
+            await ev.db.add_resource(pld.msg.author.id, 'experience', award_xp, 'pld.msg_experience', pld.msg, True)
