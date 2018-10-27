@@ -17,17 +17,18 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.permissions import FilterPermissions
+from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
+async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
+    message = pld.msg
     if message.guild:
         if isinstance(message.author, discord.Member):
-            filter_perms = FilterPermissions(ev, message)
-            override = await filter_perms.check_perms('invites')
+            override = check_filter_perms(message, pld.settings, 'invites')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
             if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
                 active = await ev.db.get_guild_settings(message.guild.id, 'block_invites')

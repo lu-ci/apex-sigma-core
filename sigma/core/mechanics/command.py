@@ -27,9 +27,7 @@ from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.mechanics.permissions import FilterPermissions
-from sigma.core.mechanics.permissions import GlobalCommandPermissions
-from sigma.core.mechanics.permissions import ServerCommandPermissions
+from sigma.core.mechanics.permissions import GlobalCommandPermissions, ServerCommandPermissions, check_filter_perms
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
@@ -145,7 +143,7 @@ class SigmaCommand(object):
                         await message.delete()
                     except (discord.Forbidden, discord.NotFound):
                         pass
-                override = await FilterPermissions.check_perms(payload, 'arguments')
+                override = check_filter_perms(payload.msg, payload.settings, 'arguments')
                 if await self.check_black_args(payload.settings, args):
                     if not any([message.author.guild_permissions.administrator, override]):
                         await self.respond_with_icon(message, '🛡')

@@ -18,18 +18,19 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.permissions import FilterPermissions
+from sigma.core.mechanics.payload import MessageEditPayload
+from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.server_settings.filters.cleaners import clean_content
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def edit_word_blocker(ev: SigmaEvent, _before: discord.Message, after: discord.Message):
+async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
+    after = pld.after
     if after.guild:
         if isinstance(after.author, discord.Member):
-            filter_perms = FilterPermissions(ev, after)
-            override = await filter_perms.check_perms('words')
+            override = check_filter_perms(after, pld.settings, 'words')
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
             if not any([after.author.permissions_in(after.channel).administrator, is_owner, override]):
                 prefix = await ev.db.get_prefix(after)
