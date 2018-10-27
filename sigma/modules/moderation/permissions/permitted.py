@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 from sigma.modules.moderation.permissions.permit import get_target_type
@@ -36,6 +37,7 @@ def get_exceptions(message: discord.Message, exceptions: list, target_type: str)
 
 
 async def permitted(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         if len(args) >= 2:
             if ':' in args[1]:

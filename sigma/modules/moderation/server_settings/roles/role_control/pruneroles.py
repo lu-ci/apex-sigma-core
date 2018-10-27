@@ -18,10 +18,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def pruneroles(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.guild_permissions.manage_roles:
         top_role = message.guild.me.top_role.position
         empty_roles = list(filter(lambda r: len(r.members) == 0, message.guild.roles))

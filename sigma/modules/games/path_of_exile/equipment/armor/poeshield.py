@@ -19,6 +19,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 shield_list_cache = {}
 shield_data_cache = {}
@@ -103,6 +104,7 @@ def parse_armor_info(armor_info: str):
 
 
 async def poeshield(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_shields_cache()

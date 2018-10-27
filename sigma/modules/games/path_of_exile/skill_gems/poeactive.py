@@ -19,6 +19,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 active_gem_list_cache = {}
@@ -99,6 +100,7 @@ def parse_gem_info(gem_info: str):
 
 
 async def poeactive(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_gem_cache()
