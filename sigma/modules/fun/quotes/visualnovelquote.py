@@ -19,6 +19,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def visualnovelquote(_cmd: SigmaCommand, pld: CommandPayload):
@@ -56,4 +57,4 @@ async def visualnovelquote(_cmd: SigmaCommand, pld: CommandPayload):
     response.set_thumbnail(url=vn_image)
     if nsfw:
         response.set_footer(text='Warning: This VN is NSFW.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
