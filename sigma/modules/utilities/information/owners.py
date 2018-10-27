@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def owners(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     owner_lines = []
     for owner in cmd.bot.cfg.dsc.owners:
         member = await cmd.bot.get_user(owner)

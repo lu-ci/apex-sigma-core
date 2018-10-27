@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def ouserinformation(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup = args[0].lower()
         if '#' in lookup:

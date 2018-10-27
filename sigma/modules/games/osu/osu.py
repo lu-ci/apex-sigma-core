@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 
@@ -49,6 +50,7 @@ async def find_user_data(profile_url: str):
 
 
 async def osu(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         osu_input = '%20'.join(args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'
