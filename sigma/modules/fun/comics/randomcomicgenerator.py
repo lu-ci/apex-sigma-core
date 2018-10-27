@@ -19,6 +19,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
@@ -38,4 +39,4 @@ async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_image(url=comic_img_url)
     except IndexError:
         response = discord.Embed(color=0xBE1931, title='❗ Failed to grab a comic, try again.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

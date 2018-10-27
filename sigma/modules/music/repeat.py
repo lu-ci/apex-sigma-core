@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def repeat(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.guild.voice_client:
         if message.author.voice:
             if message.guild.voice_client.channel.id == message.author.voice.channel.id:

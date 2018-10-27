@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def ronswanson(_cmd: SigmaCommand, pld: CommandPayload):
@@ -31,4 +32,4 @@ async def ronswanson(_cmd: SigmaCommand, pld: CommandPayload):
     joke = data[0]
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='😠 Have a Ron Swanson Quote', value=joke)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

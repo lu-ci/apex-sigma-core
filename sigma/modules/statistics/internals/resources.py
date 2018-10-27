@@ -18,10 +18,12 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
 async def resources(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     target = message.mentions[0] if message.mentions else message.author
     reses = ['currency', 'metal', 'biomass', 'sumarum', 'ammunition']
     response = discord.Embed(color=await get_image_colors(user_avatar(target)))

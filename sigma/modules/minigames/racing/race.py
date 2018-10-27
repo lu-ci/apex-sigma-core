@@ -20,10 +20,12 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.racing.nodes.race_storage import races, colors, make_race
 
 
 async def race(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.channel.id not in races:
         if args:
             try:

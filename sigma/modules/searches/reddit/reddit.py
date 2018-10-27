@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.searches.reddit.mech.reddit_core import RedditClient
 
 reddit_client = None
@@ -62,6 +63,7 @@ def add_post_image(post, response):
 
 
 async def reddit(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     global reddit_client
     if args:
         if reddit_client is None:

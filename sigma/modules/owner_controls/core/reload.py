@@ -19,11 +19,14 @@ from importlib import reload as reimport
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.development.command_md import command_md
 from sigma.modules.development.version_file_updater import version_file_updater
 
 
+# noinspection PyTypeChecker
 async def reload(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     await version_file_updater(cmd)
     await command_md(cmd)
     if not args:

@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def realprogrammers(cmd: SigmaCommand, pld: CommandPayload):
@@ -26,4 +27,4 @@ async def realprogrammers(cmd: SigmaCommand, pld: CommandPayload):
     joke = secrets.choice(joke_docs).get('content')
     response = discord.Embed(color=0xf9f9f9, title=f'💻 Real programmers...')
     response.description = joke
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

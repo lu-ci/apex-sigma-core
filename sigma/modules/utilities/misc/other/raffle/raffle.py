@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
 
 raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
@@ -27,6 +28,7 @@ icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfd
 
 
 async def raffle(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if len(args) >= 2:
         time_input = args[0]
         raffle_title = ' '.join(args[1:])

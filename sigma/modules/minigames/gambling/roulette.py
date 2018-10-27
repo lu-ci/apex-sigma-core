@@ -18,6 +18,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 hor_1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
@@ -94,6 +95,7 @@ async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
 
 
 async def roulette(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         if args:
             sel, val = get_selector_and_value(args)
