@@ -18,9 +18,11 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def roleinformation(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup = ' '.join(args)
         role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)

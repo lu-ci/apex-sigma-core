@@ -21,6 +21,7 @@ import discord
 from geopy.geocoders import Nominatim
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 
@@ -65,6 +66,7 @@ def get_dis_and_deg(unit, forecast):
 
 
 async def weather(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if 'secret_key' in cmd.cfg:
         secret_key = cmd.cfg['secret_key']
         if args:

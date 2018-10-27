@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import CommandEventPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def command_logger(ev: SigmaEvent, cmd, message, args):
+async def command_logger(ev: SigmaEvent, pld: CommandEventPayload):
+    cmd, message, args = pld.cmd, pld.msg, pld.args
     if message.guild:
         log_title = f'{message.author.name}#{message.author.discriminator}\'s used {cmd.name.upper()}.'
         arguments = ' '.join(args) if args else 'No Arguments'
@@ -29,8 +31,8 @@ async def command_logger(ev: SigmaEvent, cmd, message, args):
         log_embed.set_author(name=log_title, icon_url=user_avatar(message.author))
         log_embed.description = f'Location: {message.channel.mention}\nArguments: {arguments}'
         log_embed.set_footer(text=f'Message ID: {message.id}')
-        log_channel_id = await ev.db.get_guild_settings(message.guild.id, 'log_modules_channel')
-        logged_modules = await ev.db.get_guild_settings(message.guild.id, 'logged_modules') or []
+        log_channel_id = pld.settings.get('log_modules_channel')
+        logged_modules = pld.settings.get('logged_modules') or []
         log_event_active = cmd.category.lower() in logged_modules
         if log_channel_id and log_event_active:
             log_channel = await ev.bot.get_channel(log_channel_id, True)

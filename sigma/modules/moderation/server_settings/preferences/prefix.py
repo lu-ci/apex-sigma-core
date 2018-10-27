@@ -17,11 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def prefix(cmd: SigmaCommand, pld: CommandPayload):
-    current_prefix = await cmd.db.get_prefix(message)
+    message, args = pld.msg, pld.args
+    current_prefix = cmd.db.get_prefix(pld.settings)
     if args:
         if message.author.permissions_in(message.channel).manage_guild:
             new_prefix = ''.join(args)

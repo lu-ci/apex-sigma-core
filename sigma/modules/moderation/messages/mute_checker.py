@@ -17,17 +17,18 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 
 
-async def mute_checker(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        if isinstance(message.author, discord.Member):
-            if message.author.id not in ev.bot.cfg.dsc.owners:
-                if not message.author.permissions_in(message.channel).administrator:
-                    mute_list = await ev.db.get_guild_settings(message.guild.id, 'muted_users') or []
-                    if message.author.id in mute_list:
+async def mute_checker(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        if isinstance(pld.msg.author, discord.Member):
+            if pld.msg.author.id not in ev.bot.cfg.dsc.owners:
+                if not pld.msg.author.permissions_in(pld.msg.channel).administrator:
+                    mute_list = pld.settings.get('muted_users') or []
+                    if pld.msg.author.id in mute_list:
                         try:
-                            await message.delete()
+                            await pld.msg.delete()
                         except discord.Forbidden:
                             pass
                         except discord.NotFound:

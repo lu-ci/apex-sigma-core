@@ -64,7 +64,7 @@ async def kick(cmd: SigmaCommand, pld: CommandPayload):
                                 pass
                             await target.kick(reason=f'By {message.author.name}: {reason}')
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_kicks')
+                            await log_event(cmd.bot, pld.settings, log_embed, 'log_kicks')
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:

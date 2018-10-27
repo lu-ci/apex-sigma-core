@@ -24,6 +24,7 @@ import discord
 import ftfy
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 ongoing_list = []
@@ -83,6 +84,7 @@ def get_correct_index(question_list, answer):
 
 
 async def trivia(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     global streaks
     if await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)

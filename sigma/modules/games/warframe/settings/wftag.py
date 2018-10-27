@@ -17,17 +17,19 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def wftag(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.manage_roles:
         if args:
             if len(args) > 1:
                 alert_tag = args[0].lower()
                 alert_role_search = ' '.join(args[1:]).lower()
                 if alert_role_search == 'disable':
-                    wf_tags = await cmd.db.get_guild_settings(message.guild.id, 'warframe_tags')
+                    wf_tags = pld.settings.get('warframe_tags')
                     if alert_tag in wf_tags:
                         wf_tags.pop(alert_tag)
                         await cmd.db.set_guild_settings(message.guild.id, 'warframe_tags', wf_tags)
@@ -41,7 +43,7 @@ async def wftag(cmd: SigmaCommand, pld: CommandPayload):
                             alert_role = role
                             break
                     if alert_role:
-                        wf_tags = await cmd.db.get_guild_settings(message.guild.id, 'warframe_tags')
+                        wf_tags = pld.settings.get('warframe_tags')
                         if wf_tags is None:
                             wf_tags = {}
                         if alert_tag not in wf_tags:

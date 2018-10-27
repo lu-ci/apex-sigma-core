@@ -19,17 +19,18 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 
 
-async def autorole_control(ev: SigmaEvent, member):
-    curr_role_id = await ev.db.get_guild_settings(member.guild.id, 'auto_role')
+async def autorole_control(ev: SigmaEvent, pld: MemberPayload):
+    curr_role_id = pld.settings.get('auto_role')
     if curr_role_id:
-        curr_role = member.guild.get_role(curr_role_id)
+        curr_role = pld.member.guild.get_role(curr_role_id)
         if curr_role:
-            timeout = await ev.db.get_guild_settings(member.guild.id, 'auto_role_timeout')
+            timeout = pld.settings.get('auto_role_timeout')
             if timeout:
                 await asyncio.sleep(timeout)
             try:
-                await member.add_roles(curr_role, reason='Appointed guild autorole.')
+                await pld.member.add_roles(curr_role, reason='Appointed guild autorole.')
             except (discord.NotFound, discord.Forbidden):
                 pass

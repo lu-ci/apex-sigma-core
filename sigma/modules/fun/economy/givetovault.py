@@ -33,7 +33,7 @@ async def givetovault(cmd: SigmaCommand, pld: CommandPayload):
                 current_kud = await cmd.db.get_resource(message.author.id, 'currency')
                 current_kud = current_kud.current
                 if current_kud >= amount:
-                    current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
+                    current_vault = pld.settings.get('currency_vault')
                     if current_vault is None:
                         current_vault = 0
                     await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)

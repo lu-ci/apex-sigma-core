@@ -15,27 +15,28 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_embed
 
 
-async def bye_sender(ev: SigmaEvent, member):
-    bye_active = await ev.db.get_guild_settings(member.guild.id, 'bye')
+async def bye_sender(ev: SigmaEvent, pld: MemberPayload):
+    bye_active = pld.settings.get('bye')
     bye_active = True if bye_active is None else bye_active
     if bye_active:
-        bye_channel_id = await ev.db.get_guild_settings(member.guild.id, 'bye_channel')
+        bye_channel_id = pld.settings.get('bye_channel')
         if bye_channel_id:
-            target = member.guild.get_channel(bye_channel_id)
+            target = pld.member.guild.get_channel(bye_channel_id)
         else:
             target = None
         if target:
-            current_goodbye = await ev.db.get_guild_settings(member.guild.id, 'bye_message')
+            current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:
                 current_goodbye = '{user_name} has left {server_name}.'
-            goodbye_text = movement_message_parser(member, current_goodbye)
-            bye_embed = await ev.db.get_guild_settings(member.guild.id, 'bye_embed') or {}
+            goodbye_text = movement_message_parser(pld.member, current_goodbye)
+            bye_embed = pld.settings.get('bye_embed') or {}
             if bye_embed.get('active'):
-                goodbye = await make_bye_embed(bye_embed, goodbye_text, member.guild)
+                goodbye = await make_bye_embed(bye_embed, goodbye_text, pld.member.guild)
                 await target.send(embed=goodbye)
             else:
                 await target.send(goodbye_text)

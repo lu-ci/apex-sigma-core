@@ -18,11 +18,13 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 from sigma.core.utilities.data_processing import get_time_difference, user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def join_logger(ev: SigmaEvent, member):
+async def join_logger(ev: SigmaEvent, pld: MemberPayload):
+    member = pld.member
     response = discord.Embed(color=0x66CC66, timestamp=arrow.utcnow().datetime)
     response.set_author(name=f'A Member Has Joined', icon_url=user_avatar(member))
     response.add_field(name='📥 Joining Member', value=f'{member.mention}\n{member.name}#{member.discriminator}')
@@ -32,4 +34,4 @@ async def join_logger(ev: SigmaEvent, member):
     else:
         response.add_field(name='🕑 Account Created', value=f'{diff_msg.title()}')
     response.set_footer(text=f'User ID: {member.id}')
-    await log_event(ev.bot, member.guild, ev.db, response, 'log_movement')
+    await log_event(ev.bot, pld.settings, response, 'log_movement')

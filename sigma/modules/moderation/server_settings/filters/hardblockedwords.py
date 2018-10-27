@@ -23,7 +23,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 async def hardblockedwords(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
-    blocked_words = await cmd.db.get_guild_settings(message.guild.id, 'hardblocked_words')
+    blocked_words = pld.settings.get('hardblocked_words')
     if not blocked_words:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no hard-blocked words.')
     else:

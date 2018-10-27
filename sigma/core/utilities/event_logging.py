@@ -16,13 +16,11 @@
 
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.sigma import ApexSigma
 
 
-async def log_event(client: ApexSigma, guild: discord.Guild, db: Database, response: discord.Embed, event: str):
-    log_channel_id = await db.get_guild_settings(guild.id, f'{event}_channel')
-    log_event_active = await db.get_guild_settings(guild.id, event)
+async def log_event(client: ApexSigma, settings: dict, response: discord.Embed, event: str):
+    log_channel_id, log_event_active = settings.get(f'{event}_channel'), settings.get(event)
     if log_channel_id and log_event_active:
         log_channel = await client.get_channel(log_channel_id, True)
         if log_channel:

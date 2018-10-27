@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def wanikanisave(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     try:
         await message.delete()
     except (discord.NotFound, discord.Forbidden):

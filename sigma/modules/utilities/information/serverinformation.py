@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def serverinformation(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     gld = message.guild
     own = gld.owner
     response = discord.Embed(color=await get_image_colors(gld.icon_url))

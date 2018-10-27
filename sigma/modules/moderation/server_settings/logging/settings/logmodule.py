@@ -27,7 +27,7 @@ async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
         if args:
             module_name = args[0].lower()
             if module_name in cmd.bot.modules.categories:
-                logged_modules = await cmd.db.get_guild_settings(message.guild.id, 'logged_modules') or []
+                logged_modules = pld.settings.get('logged_modules') or []
                 if module_name in logged_modules:
                     result = 'disabled'
                     logged_modules.remove(module_name)

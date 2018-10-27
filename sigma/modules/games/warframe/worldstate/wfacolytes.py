@@ -21,6 +21,7 @@ import discord
 from humanfriendly.tables import format_pretty_table
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 stalker_icon = 'https://vignette.wikia.nocookie.net/warframe/images/0/06/9PxL9MAPh4.png'
 
@@ -57,4 +58,4 @@ async def wfacolytes(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xcc0000)
         response.set_author(name='Warframe Acolyte Data', icon_url=stalker_icon)
         response.description = f'```hs\n{data_table}\n```'
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

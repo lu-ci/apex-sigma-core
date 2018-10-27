@@ -18,26 +18,27 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.permissions import FilterPermissions
+from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.server_settings.filters.cleaners import clean_content
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
+async def send_word_blocker(ev: SigmaEvent, pld: MessagePayload):
+    message = pld.msg
     if message.guild:
         if isinstance(message.author, discord.Member):
-            filter_perms = FilterPermissions(ev, message)
-            override = await filter_perms.check_perms('words')
+            override = check_filter_perms(message, pld.settings, 'words')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
             if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
-                prefix = await ev.db.get_prefix(message)
+                prefix = ev.db.get_prefix(pld.settings)
                 if not message.content.startswith(prefix):
                     text = clean_content(message.content.lower())
                     elements = text.split(' ')
-                    blocked_words = await ev.db.get_guild_settings(message.guild.id, 'blocked_words') or []
-                    hard_blocked_words = await ev.db.get_guild_settings(message.guild.id, 'hardblocked_words') or []
+                    blocked_words = pld.settings.get('blocked_words') or []
+                    hard_blocked_words = pld.settings.get('hardblocked_words') or []
                     remove = False
                     reason = None
                     for word in blocked_words:
@@ -51,7 +52,7 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             reason = word
                     if remove:
                         try:
-                            filter_warn = await ev.db.get_guild_settings(message.guild.id, 'filter_auto_warn')
+                            filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(message.guild.me, message.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
@@ -68,6 +69,6 @@ async def send_word_blocker(ev: SigmaEvent, message: discord.Message):
                             log_embed.description = f'Content: {message.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(message.author))
                             log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

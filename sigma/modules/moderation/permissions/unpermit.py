@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_target_type
 
@@ -37,6 +38,7 @@ def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: s
 
 
 async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             if len(args) >= 3:

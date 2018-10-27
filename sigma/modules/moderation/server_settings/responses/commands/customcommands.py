@@ -24,7 +24,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
-    custom_commands = await cmd.db.get_guild_settings(message.guild.id, 'custom_commands')
+    custom_commands = pld.settings.get('custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)
@@ -35,7 +35,7 @@ async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
             ender = 's' if cmd_count > 1 else ''
             summary = f'Showing **{len(commands)}** command{ender} from Page **#{page}**.'
             summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
-            pfx = await cmd.db.get_prefix(message)
+            pfx = cmd.db.get_prefix(pld.settings)
             loop_index = start_range
             cmd_list_lines = []
             for key in commands:

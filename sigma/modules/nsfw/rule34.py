@@ -21,6 +21,7 @@ import discord
 from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 cache = {}
 
@@ -35,6 +36,7 @@ async def fill_r34_cache(tags):
 
 
 async def rule34(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     tags = '+'.join(args) if args else 'nude'
     collect_needed = False if cache.get(tags) else True
     if collect_needed:

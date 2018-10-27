@@ -22,6 +22,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 tier_names = {
     'VoidT1': 'Lith',
@@ -49,4 +50,4 @@ async def wffissures(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'{relic_tier} Void Fissure', value=fis_desc, inline=False)
     response.set_footer(text='Timers are not updated live.')
     response.set_thumbnail(url=fissure_icon)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

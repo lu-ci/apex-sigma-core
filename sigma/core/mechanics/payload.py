@@ -66,6 +66,12 @@ class CommandPayload(MessagePayload):
         self.args = args
 
 
+class CommandEventPayload(CommandPayload):
+    def __init__(self, bot, cmd, pld: CommandPayload):
+        super().__init__(bot, pld.msg, pld.args)
+        self.cmd = cmd
+
+
 class MemberPayload(SigmaPayload):
     def __init__(self, bot, member: discord.Member):
         super().__init__(bot)

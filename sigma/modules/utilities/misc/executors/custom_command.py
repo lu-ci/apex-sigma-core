@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
 
@@ -32,9 +33,10 @@ def log_command_usage(log, message, command):
     log.info(log_text)
 
 
-async def custom_command(ev: SigmaEvent, message: discord.Message):
+async def custom_command(ev: SigmaEvent, pld: MessagePayload):
+    message = pld.msg
     if message.guild:
-        prefix = await ev.db.get_prefix(message)
+        prefix = ev.db.get_prefix(pld.settings)
         if message.content.startswith(prefix):
             if message.content != prefix and not message.content.startswith(prefix + ' '):
                 cmd = message.content[len(prefix):].lower().split()[0]
@@ -42,11 +44,11 @@ async def custom_command(ev: SigmaEvent, message: discord.Message):
                     perms = ServerCommandPermissions(ev, message)
                     await perms.check_perms()
                     if perms.permitted:
-                        custom_commands = await ev.db.get_guild_settings(message.guild.id, 'custom_commands')
+                        custom_commands = pld.settings.get('custom_commands')
                         if custom_commands is None:
                             custom_commands = {}
                         if cmd in custom_commands:
-                            delcmd = await ev.db.get_guild_settings(message.guild.id, 'delete_commands')
+                            delcmd = pld.settings.get('delete_commands')
                             if delcmd:
                                 try:
                                     await message.delete()

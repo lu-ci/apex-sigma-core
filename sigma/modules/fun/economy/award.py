@@ -36,7 +36,7 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
             if amount:
                 if target:
                     currency = cmd.bot.cfg.pref.currency
-                    current_vault = await cmd.db.get_guild_settings(message.guild.id, 'currency_vault')
+                    current_vault = pld.settings.get('currency_vault')
                     if current_vault is None:
                         current_vault = 0
                     if current_vault >= amount:

@@ -20,12 +20,14 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
 
 wf_logo = 'https://i.imgur.com/yrY1kWg.png'
 
 
 async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     sales_api = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
     async with aiohttp.ClientSession() as session:
         async with session.get(sales_api) as data:

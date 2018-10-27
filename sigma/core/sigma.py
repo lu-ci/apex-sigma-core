@@ -147,10 +147,10 @@ class ApexSigma(client_class):
     async def get_user(self, uid, cached: bool = False):
         if cached:
             cache_key = f'get_usr_{uid}'
-            out = self.cache.get_cache(cache_key)
+            out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_user(uid)
-                self.cache.set_cache(cache_key, out)
+                await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
         return out
@@ -161,7 +161,7 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
-                self.cache.set_cache(cache_key, out)
+                await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
         return out
@@ -246,7 +246,7 @@ class ApexSigma(client_class):
         if not user.bot:
             payload = ReactionPayload(self, reaction, user)
             self.loop.create_task(self.queue.event_runner('reaction_add', payload))
-            if reaction.emoji.name in ['⬅', '➡']:
+            if str(reaction.emoji) in ['⬅', '➡']:
                 self.loop.create_task(self.queue.event_runner('paginate', payload))
 
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
@@ -258,7 +258,7 @@ class ApexSigma(client_class):
         if payload.user_id != payload.channel_id:
             payload = RawReactionPayload(self, payload)
             self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
-            if payload.raw.emoji.name in ['⬅', '➡']:
+            if str(payload.raw.emoji) in ['⬅', '➡']:
                 self.loop.create_task(self.queue.event_runner('raw_paginate', payload))
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):

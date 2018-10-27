@@ -18,11 +18,13 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
 async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     target = message.mentions[0] if message.mentions else message.author
     machines = await SigmaMachine.get_machines(cmd.db, target)
     machines_owned = len(machines)

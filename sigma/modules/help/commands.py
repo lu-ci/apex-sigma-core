@@ -64,7 +64,7 @@ async def commands(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0x696969, title='🔍 Module not found.')
     else:
-        pfx = await cmd.db.get_prefix(message)
+        pfx = cmd.db.get_prefix(pld.settings)
         command_list = cmd.bot.modules.commands
         module_list = []
         for command in command_list:

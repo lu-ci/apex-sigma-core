@@ -21,6 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
@@ -39,6 +40,7 @@ async def check_requirements(cmd, message, recipe):
 
 
 async def recipes(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)

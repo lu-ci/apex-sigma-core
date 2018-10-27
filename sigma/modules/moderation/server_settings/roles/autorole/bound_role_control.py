@@ -15,20 +15,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import get_changed_invite
 
 
-async def bound_role_control(ev: SigmaEvent, member):
-    if member.guild.me.guild_permissions.create_instant_invite:
-        bound_invites = await ev.db.get_guild_settings(member.guild.id, 'boound_invites')
+async def bound_role_control(ev: SigmaEvent, pld: MemberPayload):
+    if pld.member.guild.me.guild_permissions.create_instant_invite:
+        bound_invites = pld.settings.get('boound_invites')
         if bound_invites is None:
             bound_invites = {}
         if bound_invites:
-            invites = await member.guild.invites()
+            invites = await pld.member.guild.invites()
             bound_list = list(bound_invites)
-            changed_inv = get_changed_invite(member.guild.id, bound_list, invites)
+            changed_inv = get_changed_invite(pld.member.guild.id, bound_list, invites)
             if changed_inv:
                 role_id = bound_invites.get(changed_inv.id)
-                target_role = member.guild.get_role(role_id)
+                target_role = pld.member.guild.get_role(role_id)
                 if target_role:
-                    await member.add_roles(target_role, reason=f'Role bound to invite {changed_inv.id}.')
+                    await pld.member.add_roles(target_role, reason=f'Role bound to invite {changed_inv.id}.')

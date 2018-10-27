@@ -80,6 +80,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                         try:
                             ev.log.info(f'Un-hardmuting {uid} from {gid}.')
+                            # noinspection PyTypeChecker
                             await channel.set_permissions(target, overwrite=None, reason='Hardmute timer ran out.')
                             await asyncio.sleep(5)
                         except Exception:

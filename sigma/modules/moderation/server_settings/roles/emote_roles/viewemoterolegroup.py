@@ -17,13 +17,15 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def viewemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         group_id = args[0].lower()
-        emote_groups = await cmd.db.get_guild_settings(message.guild.id, 'emote_role_groups') or {}
+        emote_groups = pld.settings.get('emote_role_groups') or {}
         if group_id in emote_groups:
             group_roles = emote_groups.get(group_id)
             if group_roles:

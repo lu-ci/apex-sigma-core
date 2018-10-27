@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     try:
         target = await cmd.bot.get_user(int(args[0])) if args else None
     except ValueError:

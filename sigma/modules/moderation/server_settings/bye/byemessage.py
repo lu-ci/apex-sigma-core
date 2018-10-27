@@ -44,7 +44,7 @@ async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
             current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:
                 current_goodbye = '{user_name} has left {server_name}.'
-            bye_embed = await cmd.db.get_guild_settings(message.guild.id, 'bye_embed') or {}
+            bye_embed = pld.settings.get('bye_embed') or {}
             if bye_embed.get('active'):
                 response = await make_bye_embed(bye_embed, current_goodbye, message.guild)
             else:

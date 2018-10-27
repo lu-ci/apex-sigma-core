@@ -26,7 +26,7 @@ async def deleterolegroup(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.guild_permissions.manage_guild:
         if args:
             group_id = args[0].lower()
-            role_groups = await cmd.db.get_guild_settings(message.guild.id, 'role_groups') or {}
+            role_groups = pld.settings.get('role_groups') or {}
             if group_id in role_groups:
                 role_groups.pop(group_id)
                 await cmd.db.set_guild_settings(message.guild.id, 'role_groups', role_groups)

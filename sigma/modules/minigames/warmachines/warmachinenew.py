@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 price = 450
@@ -36,6 +37,7 @@ async def check_resources(db: Database, uid: int):
 
 
 async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     res_list = '{", ".join(resource_names)}'.replace('currency', cmd.bot.cfg.pref.currency.lower())
     confirm_desc = f'Building a machine costs **{price}** of **{res_list}** each, do you want to continue?'
     confirm_embed = discord.Embed(color=0x8899a6, title=f'🔧 Are you sure, {message.author.name}?')
@@ -64,7 +66,7 @@ async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
         if not missing:
             for res in resource_names:
                 await cmd.db.del_resource(message.author.id, res, price, cmd.name, message)
-            prefix = await cmd.db.get_prefix(message)
+            prefix = cmd.db.get_prefix(pld.settings)
             machine = SigmaMachine(cmd.db, message.author, SigmaMachine.new())
             await machine.update()
             response = discord.Embed(color=0x8899a6, title=f'🔧 {machine.product_name} constructed.')

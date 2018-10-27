@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def removeinteraction(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup = args[0].lower()
         interaction_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': lookup})

@@ -17,11 +17,13 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).kick_members:
         if message.mentions:
             target = message.mentions[0]

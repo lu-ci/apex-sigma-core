@@ -16,9 +16,8 @@
 
 import string
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import command_message_parser
 
 
@@ -30,19 +29,19 @@ def clean_word(text):
     return output
 
 
-async def auto_responder(ev: SigmaEvent, message: discord.Message):
-    if message.guild:
-        if message.content:
-            pfx = await ev.db.get_prefix(message)
-            if not message.content.startswith(pfx):
-                triggers = await ev.db.get_guild_settings(message.guild.id, 'responder_triggers')
+async def auto_responder(ev: SigmaEvent, pld: MessagePayload):
+    if pld.msg.guild:
+        if pld.msg.content:
+            pfx = ev.db.get_prefix(pld.settings)
+            if not pld.msg.content.startswith(pfx):
+                triggers = pld.settings.get('responder_triggers')
                 if triggers is None:
                     triggers = {}
-                arguments = message.content.split(' ')
+                arguments = pld.msg.content.split(' ')
                 for arg in arguments:
                     arg = clean_word(arg)
                     if arg in triggers:
                         response = triggers[arg]
-                        response = command_message_parser(message, response)
-                        await message.channel.send(response)
+                        response = command_message_parser(pld.msg, response)
+                        await pld.msg.channel.send(response)
                         break

@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def yomomma(_cmd: SigmaCommand, pld: CommandPayload):
@@ -33,4 +34,4 @@ async def yomomma(_cmd: SigmaCommand, pld: CommandPayload):
         joke += '.'
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='😂 A Yo Momma Joke', value=joke)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -20,6 +20,8 @@ import traceback
 
 import discord
 
+from sigma.core.mechanics.payload import MessagePayload
+
 
 class SigmaError(object):
     def __init__(self, cmd, exc: Exception):
@@ -33,11 +35,11 @@ class SigmaError(object):
         self.token = secrets.token_hex(16)
         self.icon_resp = cmd.respond_with_icon
 
-    async def error_handler(self, message: discord.Message, args: list):
+    async def error_handler(self, pld: MessagePayload, args: list):
         self.args = args
-        self.data = self.make_error_dict(message)
-        await self.icon_resp(message, '❗')
-        await self.send_error_message(message)
+        self.data = self.make_error_dict(pld.msg)
+        await self.icon_resp(pld.msg, '❗')
+        await self.send_error_message(pld)
         await self.log_error()
 
     async def get_error_channel(self):
@@ -48,13 +50,13 @@ class SigmaError(object):
                 error_chn = await self.bot.get_channel(err_chn_id, True)
         return error_chn
 
-    async def send_error_message(self, message: discord.Message):
-        title, err_text = await self.get_error_message(message)
+    async def send_error_message(self, pld: MessagePayload):
+        title, err_text = self.get_error_message(pld.settings)
         error_embed = discord.Embed(color=0xBE1931)
         error_embed.add_field(name=title, value=err_text)
         error_embed.set_footer(text=f'Token: {self.token}')
         try:
-            await message.channel.send(embed=error_embed)
+            await pld.msg.channel.send(embed=error_embed)
         except (discord.Forbidden, discord.NotFound):
             pass
 
@@ -99,8 +101,8 @@ class SigmaError(object):
         }
         return error_dict
 
-    async def get_error_message(self, message: discord.Message):
-        prefix = await self.db.get_prefix(message)
+    def get_error_message(self, settings: dict):
+        prefix = self.db.get_prefix(settings)
         prefix, name = list(map(lambda i: re.sub(r'([*_~`])', r'\\\1', i), [prefix, self.name]))
         if isinstance(self.exception, discord.Forbidden):
             title = '❗ Error: Forbidden!'

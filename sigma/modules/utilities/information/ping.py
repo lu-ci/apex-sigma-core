@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
 async def ping(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     avatar = user_avatar(cmd.bot.user)
     shard_lines = []
     response = discord.Embed(color=await get_image_colors(avatar))

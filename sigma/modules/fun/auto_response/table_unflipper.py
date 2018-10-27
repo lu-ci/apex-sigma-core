@@ -16,16 +16,15 @@
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.stats_processing import add_special_stats
 
 
-async def table_unflipper(ev: SigmaEvent, message: discord.Message):
-    if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in message.content.replace(' ', ''):
-        if message.guild:
-            unflip = bool(await ev.db.get_guild_settings(message.guild.id, 'unflip'))
+async def table_unflipper(ev: SigmaEvent, pld: MessagePayload):
+    if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in pld.msg.content.replace(' ', ''):
+        if pld.msg.guild:
+            unflip = bool(pld.settings.get('unflip'))
         else:
             unflip = True
         if unflip:
@@ -40,4 +39,4 @@ async def table_unflipper(ev: SigmaEvent, message: discord.Message):
                      '(ヘ･_･)ヘ┳━┳',
                      'ヘ(´° □°)ヘ┳━┳']
             table_resp = secrets.choice(table)
-            await message.channel.send(table_resp)
+            await pld.msg.channel.send(table_resp)

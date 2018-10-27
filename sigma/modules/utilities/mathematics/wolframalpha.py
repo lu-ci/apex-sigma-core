@@ -21,6 +21,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
@@ -70,6 +71,7 @@ async def send_response(message: discord.Message, init: discord.Message or None,
 
 
 async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('app_id')
     init_message = None
     if api_key:

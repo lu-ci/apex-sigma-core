@@ -16,12 +16,12 @@
 
 import asyncio
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import VoiceStateUpdatePayload
 
 
-async def temproom_checker(_ev: SigmaEvent, _m: discord.Member, b: discord.VoiceState, _a: discord.VoiceState):
+async def temproom_checker(_ev: SigmaEvent, pld: VoiceStateUpdatePayload):
+    b = pld.before
     if b:
         if b.channel:
             if b.channel.name.startswith('[Σ]'):

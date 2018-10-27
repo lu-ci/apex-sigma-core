@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def namefilterban(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        active = await cmd.db.get_guild_settings(message.guild.id, 'name_filter_ban')
+        active = pld.settings.get('name_filter_ban')
         ascii_names, state = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'name_filter_ban', ascii_names)
         response = discord.Embed(color=0x66CC66, title=f'✅ Name Filter Autoban has been {state}.')

@@ -17,14 +17,15 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def setstatus(cmd: SigmaCommand, pld: CommandPayload):
     if cmd.bot.cfg.pref.status_rotation:
         response = discord.Embed(color=0xBE1931, title='❗ I can\'t, automatic rotation is enabled.')
     else:
-        status = ' '.join(args)
+        status = ' '.join(pld.args)
         activity = discord.Activity(type=discord.ActivityType.playing, name=status)
         await cmd.bot.change_presence(activity=activity)
         response = discord.Embed(color=0x77B255, title=f'✅ New playing status set to {status}.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -17,20 +17,21 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.permissions import FilterPermissions
+from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
+async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
+    message = pld.msg
     if message.guild:
         if isinstance(message.author, discord.Member):
-            filter_perms = FilterPermissions(ev, message)
-            override = await filter_perms.check_perms('invites')
+            override = check_filter_perms(message, pld.settings, 'invites')
             is_owner = message.author.id in ev.bot.cfg.dsc.owners
             if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
-                active = await ev.db.get_guild_settings(message.guild.id, 'block_invites')
+                active = pld.settings.get('block_invites')
                 if active is None:
                     active = False
                 if active:
@@ -48,7 +49,7 @@ async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
                                     pass
                     if invite_found:
                         try:
-                            invite_warn = await ev.db.get_guild_settings(message.guild.id, 'invite_auto_warn')
+                            invite_warn = pld.settings.get('invite_auto_warn')
                             if invite_warn:
                                 reason = f'Sent an invite to {invite_found.guild.name}.'
                                 warn_data = warning_data(message.guild.me, message.author, reason)
@@ -66,6 +67,6 @@ async def send_invite_blocker(ev: SigmaEvent, message: discord.Message):
                                                  icon_url=user_avatar(message.author))
                             log_embed.set_footer(
                                 text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
-                            await log_event(ev.bot, message.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

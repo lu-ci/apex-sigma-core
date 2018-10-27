@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shutdown(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     status = discord.Embed(color=0x808080, title=f'☠ {cmd.bot.user.name} Shutting Down.')
     await message.channel.send(embed=status)
     cmd.log.info(f'Terminated by {message.author.name}#{message.author.discriminator}')

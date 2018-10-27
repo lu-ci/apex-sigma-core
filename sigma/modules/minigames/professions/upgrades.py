@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 
@@ -51,10 +52,7 @@ def calculate_upgrade(up_id, level):
 
 
 async def upgrades(cmd: SigmaCommand, pld: CommandPayload):
-    if message.mentions:
-        target = message.mentions[0]
-    else:
-        target = message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
     upgrade_text = ''
     upgrade_index = 0
@@ -69,4 +67,4 @@ async def upgrades(cmd: SigmaCommand, pld: CommandPayload):
         upgrade_text += f'\n**Level {upgrade_level}** {upgrade["name"]}: **{up_data["amount"]} {up_data["end"]}**'
     upgrade_list_embed = discord.Embed(color=0xF9F9F9, title=f'🛍 {target.display_name}\'s Sigma Upgrades')
     upgrade_list_embed.description = upgrade_text
-    await message.channel.send(embed=upgrade_list_embed)
+    await pld.msg.channel.send(embed=upgrade_list_embed)

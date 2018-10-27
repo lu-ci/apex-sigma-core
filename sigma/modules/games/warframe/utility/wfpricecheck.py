@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 plat_img = 'http://i.imgur.com/wa6J9bz.png'
 
@@ -45,6 +46,7 @@ async def get_lowest_trader(order_url):
 
 
 async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
     init_resp_msg = await message.channel.send(embed=initial_response)
     if args:

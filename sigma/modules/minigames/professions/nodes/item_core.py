@@ -132,8 +132,8 @@ class ItemCore(object):
         top_roll = top_boundary + int(roll_base * self.get_chance(upgrade, top_chance, top_modifier))
         return top_roll, rarities
 
-    async def roll_rarity(self, db, uid):
-        upgrade_file = await db.get_profile(uid, 'upgrades') or {}
+    async def roll_rarity(self, profile: dict):
+        upgrade_file = profile.get('upgrades') or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
         roll = secrets.randbelow(top_roll)

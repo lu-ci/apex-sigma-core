@@ -48,7 +48,7 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                 target = None
     if tid:
         if tid != message.author.id:
-            a_spouses = await cmd.db.get_profile(message.author.id, 'spouses') or []
+            a_spouses = pld.profile.get('spouses') or []
             a_spouse_ids = [s.get('user_id') for s in a_spouses]
             if is_id:
                 t_spouses = await cmd.db.get_profile(target, 'spouses') or []

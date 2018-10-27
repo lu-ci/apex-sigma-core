@@ -17,9 +17,11 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def permissions(_cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     allowed_list = []
     disallowed_list = []
     if message.mentions:

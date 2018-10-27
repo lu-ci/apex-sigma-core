@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.guild_permissions.create_instant_invite:
         if args:
             invite_id = args[0]
@@ -32,7 +34,7 @@ async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
                     inv_id = invite_id
                 else:
                     inv_id = target_inv.id
-                bindings = await cmd.db.get_guild_settings(message.guild.id, 'bound_invites')
+                bindings = pld.settings.get('bound_invites')
                 if bindings is None:
                     bindings = {}
                 if inv_id in bindings:

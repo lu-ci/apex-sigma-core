@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
 async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.mentions:
         target = message.mentions[0]
     else:
@@ -43,7 +45,7 @@ async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
     member_text += f'\nModerator: **{is_moderator}**'
     member_text += f'\nJoined: **{member_join_time}**'
     response.add_field(name='Member Info', value=member_text)
-    pfx = await cmd.db.get_prefix(message)
+    pfx = cmd.db.get_prefix(pld.settings)
     footer = f'To see the user\'s avatar use the {pfx}avatar command.'
     response.set_footer(text=footer)
     await message.channel.send(embed=response)

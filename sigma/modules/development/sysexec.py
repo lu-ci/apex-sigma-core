@@ -16,9 +16,8 @@
 
 import subprocess
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def from_output(output: bytes) -> str:
@@ -26,6 +25,7 @@ def from_output(output: bytes) -> str:
 
 
 async def sysexec(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     response = None
     if args:
         try:

@@ -13,12 +13,13 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import RawReactionPayload
 
 
-async def remover_detector(ev: SigmaEvent, payload: RawReactionActionEvent):
+async def remover_detector(ev: SigmaEvent, pld: RawReactionPayload):
+    payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id

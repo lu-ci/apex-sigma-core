@@ -21,6 +21,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def time_to_seconds(time):
@@ -40,6 +41,7 @@ def get_usercaps(username, trials):
 
 
 async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         username = ' '.join(args)
         trials_url = f'https://api.trials.wf/api/player/pc/{username}/completed'

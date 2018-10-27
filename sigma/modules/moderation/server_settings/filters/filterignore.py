@@ -35,7 +35,7 @@ async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
                     if filter_name in filter_names:
                         targets, valid = get_targets(message, args, target_type)
                         if valid:
-                            overrides = await cmd.db.get_guild_settings(message.guild.id, 'filter_overrides') or {}
+                            overrides = pld.settings.get('filter_overrides') or {}
                             override_data = overrides.get(filter_name)
                             if not override_data:
                                 override_data = {'users': [], 'channels': [], 'roles': []}

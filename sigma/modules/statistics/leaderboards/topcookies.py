@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import arrow
-import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
 
@@ -47,6 +47,7 @@ async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
 
 
 async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     value_name = 'Cookies'
     resource = 'cookies'
     sort_key = f'ranked'

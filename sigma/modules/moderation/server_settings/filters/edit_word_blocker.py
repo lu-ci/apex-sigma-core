@@ -18,26 +18,27 @@ import arrow
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.permissions import FilterPermissions
+from sigma.core.mechanics.payload import MessageEditPayload
+from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.server_settings.filters.cleaners import clean_content
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def edit_word_blocker(ev: SigmaEvent, _before: discord.Message, after: discord.Message):
+async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
+    after = pld.after
     if after.guild:
         if isinstance(after.author, discord.Member):
-            filter_perms = FilterPermissions(ev, after)
-            override = await filter_perms.check_perms('words')
+            override = check_filter_perms(after, pld.settings, 'words')
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
             if not any([after.author.permissions_in(after.channel).administrator, is_owner, override]):
-                prefix = await ev.db.get_prefix(after)
+                prefix = ev.db.get_prefix(pld.settings)
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())
                     elements = text.split(' ')
-                    blocked_words = await ev.db.get_guild_settings(after.guild.id, 'blocked_words') or []
-                    hard_blocked_words = await ev.db.get_guild_settings(after.guild.id, 'hardblocked_words') or []
+                    blocked_words = pld.settings.get('blocked_words') or []
+                    hard_blocked_words = pld.settings.get('hardblocked_words') or []
                     remove = False
                     reason = None
                     for word in blocked_words:
@@ -51,7 +52,7 @@ async def edit_word_blocker(ev: SigmaEvent, _before: discord.Message, after: dis
                             reason = word
                     if remove:
                         try:
-                            filter_warn = await ev.db.get_guild_settings(after.guild.id, 'filter_auto_warn')
+                            filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(after.guild.me, after.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
@@ -68,6 +69,6 @@ async def edit_word_blocker(ev: SigmaEvent, _before: discord.Message, after: dis
                             log_embed.description = f'Content: {after.content}'
                             log_embed.set_author(name=title, icon_url=user_avatar(after.author))
                             log_embed.set_footer(text=f'Channel: #{after.channel.name} [{after.channel.id}]')
-                            await log_event(ev.bot, after.guild, ev.db, log_embed, 'log_filters')
+                            await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

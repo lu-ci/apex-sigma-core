@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 wfmarket = 'https://warframe.market/items/'
 wiki_syndicates = 'http://warframe.wikia.com/wiki/Syndicates'
@@ -34,7 +35,7 @@ item_count = 3
 
 async def wfsyndicates(_cmd: SigmaCommand, pld: CommandPayload):
     initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
-    init_resp_msg = await message.channel.send(embed=initial_response)
+    init_resp_msg = await pld.msg.channel.send(embed=initial_response)
     response = discord.Embed(color=royaldestiny_color)
     response.set_author(name='Current Best Syndicate Offerings', url=wiki_syndicates, icon_url=plat_img)
     response.set_thumbnail(url=thumnail)

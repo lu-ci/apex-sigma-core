@@ -17,16 +17,17 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import MemberPayload
 
 
-async def join_name_ban(ev: SigmaEvent, member: discord.Member):
-    if member.guild:
-        active = await ev.db.get_guild_settings(member.guild.id, 'name_filter_ban')
+async def join_name_ban(ev: SigmaEvent, pld: MemberPayload):
+    if pld.member.guild:
+        active = pld.settings.get('name_filter_ban')
         if active:
             bad_name = None
-            blocked_names = await ev.db.get_guild_settings(member.guild.id, 'blocked_names') or []
+            blocked_names = pld.settings.get('blocked_names') or []
             for name in blocked_names:
-                if name in member.name.lower():
+                if name in pld.member.name.lower():
                     bad_name = name
                     break
             if bad_name:
@@ -34,11 +35,11 @@ async def join_name_ban(ev: SigmaEvent, member: discord.Member):
                     reason = f'Had "{bad_name}" in their name'
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
-                    to_target.set_footer(text=f'From: {member.guild.name}.', icon_url=member.guild.icon_url)
+                    to_target.set_footer(text=f'From: {pld.member.guild.name}.', icon_url=pld.member.guild.icon_url)
                     try:
-                        await member.send(embed=to_target)
+                        await pld.member.send(embed=to_target)
                     except discord.Forbidden:
                         pass
-                    await member.ban(reason=f'Autoban: {reason}.')
+                    await pld.member.ban(reason=f'Autoban: {reason}.')
                 except Exception:
                     pass

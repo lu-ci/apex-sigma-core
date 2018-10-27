@@ -18,6 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def statistics(cmd: SigmaCommand, pld: CommandPayload):
@@ -43,4 +44,4 @@ async def statistics(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='Population', value=pop_text)
     response.add_field(name='Usage', value=exec_text)
     response.set_footer(text=f'Tracking since {cmd.bot.start_time.humanize()}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

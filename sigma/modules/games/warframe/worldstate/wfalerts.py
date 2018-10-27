@@ -21,6 +21,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.games.warframe.commons.parsers.alert_parser import parse_alert_data
 
 
@@ -44,4 +45,4 @@ async def wfalerts(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'Type: {alert["faction"]} {alert["type"]}', value=f'{alert_desc}', inline=False)
         response.set_thumbnail(url='https://i.imgur.com/99ennZD.png')
         response.set_footer(text='Timers are not updated live.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

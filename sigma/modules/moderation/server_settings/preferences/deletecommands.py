@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def deletecommands(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        curr_settings = await cmd.db.get_guild_settings(message.guild.id, 'delete_commands')
+        curr_settings = pld.settings.get('delete_commands')
         if curr_settings is None:
             curr_settings = False
         if curr_settings:

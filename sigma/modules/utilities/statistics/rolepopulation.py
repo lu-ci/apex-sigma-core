@@ -20,6 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def percentify(small, big):
@@ -29,6 +30,7 @@ def percentify(small, big):
 
 
 async def rolepopulation(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         rl_qry = ' '.join(args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), message.guild.roles)

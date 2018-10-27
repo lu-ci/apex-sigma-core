@@ -19,15 +19,17 @@ from unicodedata import category
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def starboardemote(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).manage_guild:
         if args:
             new_emote = args[0][0]
             if category(new_emote) == 'So':
-                starboard_doc = await cmd.db.get_guild_settings(message.guild.id, 'starboard') or {}
+                starboard_doc = pld.settings.get('starboard') or {}
                 starboard_doc.update({'emote': new_emote})
                 await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard emote set to {new_emote}')

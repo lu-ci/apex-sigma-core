@@ -16,10 +16,10 @@
 
 import arrow
 import discord
-from discord.raw_models import RawReactionActionEvent
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
@@ -55,18 +55,19 @@ async def check_emotes(db: Database, mid: int, sbl: int):
     trigger = False
     executed = await db.cache.get_cache(f'exec_{mid}')
     if not executed:
-        stars = await db.cache.get_cache(mid) or 0
+        stars = await db.cache.get_cache(f'sbem_{mid}') or 0
         stars += 1
         if stars >= sbl:
             trigger = True
-            await db.cache.del_cache(mid)
+            await db.cache.del_cache(f'sbem_{mid}')
             await db.cache.set_cache(f'exec_{mid}', True)
         else:
-            await db.cache.set_cache(mid, stars)
+            await db.cache.set_cache(f'sbem_{mid}', stars)
     return trigger
 
 
-async def starboard_watcher(ev: SigmaEvent, payload: RawReactionActionEvent):
+async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
+    payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id

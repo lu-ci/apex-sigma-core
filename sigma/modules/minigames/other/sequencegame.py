@@ -20,6 +20,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 ongoing = []
 symbol_groups = (
@@ -52,6 +53,7 @@ def check_answer(arguments, sequence):
 
 
 async def sequencegame(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.id in ongoing:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
         await message.channel.send(embed=ongoing_error)

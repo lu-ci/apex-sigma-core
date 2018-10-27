@@ -19,6 +19,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 passive_gem_list_cache = {}
@@ -99,6 +100,7 @@ def parse_gem_info(gem_info: str):
 
 
 async def poesupport(_cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         lookup_key = '_'.join(args).lower()
         await fill_gem_cache()
@@ -112,9 +114,9 @@ async def poesupport(_cmd: SigmaCommand, pld: CommandPayload):
                     gem_info_block = ''
                 for detail in gem_data.get('info').get('details'):
                     gem_info_block += f'\n**{detail[0]}**: {detail[1]}'
-                img_data = gem_data.get('image')
-                gem_img = img_data.get('gem')
-                spell_img = img_data.get('spell')
+                img_data = gem_data.get('image', {})
+                gem_img = img_data.get('gem', '')
+                spell_img = img_data.get('spell', '')
                 title = f'Support Skill Gem: {gem_data.get("name")}'
                 response = discord.Embed(color=await get_image_colors(spell_img))
                 response.description = gem_data.get('desc')

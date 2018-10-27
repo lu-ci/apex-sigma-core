@@ -70,7 +70,7 @@ async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=resp_clr, title=f'{resp_icon} {resp_title}')
         response.description = '\n'.join(card_lines)
     else:
-        prefix = await cmd.db.get_prefix(message)
+        prefix = cmd.db.get_prefix(pld.settings)
         no_cards_title = f'❗ Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.'
         response = discord.Embed(color=0xBE1931, title=no_cards_title)
     await message.channel.send(embed=response)

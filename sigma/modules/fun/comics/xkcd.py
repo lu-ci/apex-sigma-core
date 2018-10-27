@@ -21,6 +21,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def xkcd(_cmd: SigmaCommand, pld: CommandPayload):
@@ -35,4 +36,4 @@ async def xkcd(_cmd: SigmaCommand, pld: CommandPayload):
     comic_title = joke_json.get('title')
     response = discord.Embed(color=0xF9F9F9, title=f'🚽 XKCD: {comic_title}')
     response.set_image(url=image_url)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -68,7 +68,7 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                     rarg = args[1:-1] if timed else args[1:] if args[1:] else None
                     reason = ' '.join(rarg) if rarg else None
                     log_embed = generate_log_embed(message, target, reason)
-                    await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_mutes')
+                    await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     to_target_title = f'🔇 You have been hard-muted.'

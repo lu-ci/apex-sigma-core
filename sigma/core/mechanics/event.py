@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
+from sigma.core.mechanics.payload import SigmaPayload
 
 
 class SigmaEvent(object):
@@ -44,10 +45,13 @@ class SigmaEvent(object):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
-    async def execute(self, *args):
+    async def execute(self, pld: SigmaPayload = None):
         if self.bot.ready:
             try:
-                await getattr(self.event, self.name)(self, *args)
+                if pld:
+                    await getattr(self.event, self.name)(self, pld)
+                else:
+                    await getattr(self.event, self.name)(self)
             except discord.Forbidden:
                 pass
             except self.get_exception() as e:

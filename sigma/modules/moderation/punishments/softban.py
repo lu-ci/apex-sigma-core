@@ -18,6 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import permission_denied
@@ -39,6 +40,7 @@ def generate_log_embed(message, target, reason):
 
 
 async def softban(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).ban_members:
         if message.mentions:
             target = message.mentions[0]
@@ -63,7 +65,7 @@ async def softban(cmd: SigmaCommand, pld: CommandPayload):
                             await target.ban(reason=f'By {message.author.name}: {reason} (Soft)')
                             await target.unban()
                             log_embed = generate_log_embed(message, target, reason)
-                            await log_event(cmd.bot, message.guild, cmd.db, log_embed, 'log_bans')
+                            await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
                     else:
