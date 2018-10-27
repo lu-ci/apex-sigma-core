@@ -30,10 +30,10 @@ class ResourceDict(dict):
 class ResourceOrigins(object):
     def __init__(self, data):
         self.raw = data or {}
-        self.users = ResourceDict(self.raw.get('users', {}))
-        self.guilds = ResourceDict(self.raw.get('guilds', {}))
-        self.channels = ResourceDict(self.raw.get('channels', {}))
-        self.functions = ResourceDict(self.raw.get('functions', {}))
+        self.users = ResourceDict(self.raw.get('users') or {})
+        self.guilds = ResourceDict(self.raw.get('guilds') or {})
+        self.channels = ResourceDict(self.raw.get('channels') or {})
+        self.functions = ResourceDict(self.raw.get('functions') or {})
 
     def dictify(self):
         return {'users': self.users, 'guilds': self.guilds, 'channels': self.channels, 'functions': self.functions}
