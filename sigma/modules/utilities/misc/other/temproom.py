@@ -17,6 +17,7 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def get_category(cmd: SigmaCommand, guild: discord.Guild):
@@ -34,6 +35,7 @@ async def get_category(cmd: SigmaCommand, guild: discord.Guild):
 
 
 async def temproom(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     room_name = ' '.join(args) or f'{message.author.display_name}\'s Room'
     room_name = f'[Σ] {room_name}'
     reason = f'Temporary voice channel by {message.author.name}#{message.author.discriminator}.'

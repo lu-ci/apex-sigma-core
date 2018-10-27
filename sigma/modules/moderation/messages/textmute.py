@@ -18,6 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import permission_denied
@@ -39,6 +40,7 @@ def generate_log_embed(message, target, reason):
 
 
 async def textmute(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if not message.author.permissions_in(message.channel).manage_messages:
         response = permission_denied('Manage Messages')
     else:
