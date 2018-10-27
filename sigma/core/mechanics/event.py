@@ -45,7 +45,7 @@ class SigmaEvent(object):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
 
-    async def execute(self, pld: SigmaPayload=None):
+    async def execute(self, pld: SigmaPayload = None):
         if self.bot.ready:
             try:
                 if pld:

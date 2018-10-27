@@ -16,7 +16,6 @@
 
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.sigma import ApexSigma
 
 
