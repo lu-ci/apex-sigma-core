@@ -18,6 +18,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
@@ -41,6 +42,7 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
 
 
 async def suggest(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     sugg_chn_id = cmd.cfg.get('channel')
     if sugg_chn_id:
         sugg_chn = await cmd.bot.get_channel(sugg_chn_id, True)

@@ -17,9 +17,10 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def servericon(_cmd: SigmaCommand, pld: CommandPayload):
     response = discord.Embed(color=0x3B88C3)
-    response.set_image(url=message.guild.icon_url)
-    await message.channel.send(embed=response)
+    response.set_image(url=pld.msg.guild.icon_url)
+    await pld.msg.channel.send(embed=response)

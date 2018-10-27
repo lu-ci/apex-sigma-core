@@ -17,10 +17,12 @@
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import update_invites
 
 
 async def syncinvites(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     try:
         invites = await message.guild.invites()
     except discord.Forbidden:

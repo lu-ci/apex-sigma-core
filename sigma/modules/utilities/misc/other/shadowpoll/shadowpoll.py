@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def generate_data(message, poll_args):
@@ -60,6 +61,7 @@ def generate_data(message, poll_args):
 
 
 async def shadowpoll(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         poll_args = ' '.join(args).split('; ')
         if len(poll_args) >= 3:

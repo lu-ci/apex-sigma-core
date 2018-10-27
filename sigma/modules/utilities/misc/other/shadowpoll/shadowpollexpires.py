@@ -18,10 +18,12 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
 async def shadowpollexpires(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if args:
         if len(args) == 2:
             poll_id = args[0].lower()

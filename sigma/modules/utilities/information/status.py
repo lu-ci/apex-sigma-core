@@ -23,6 +23,7 @@ import humanfriendly
 import psutil
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def get_os_icon():
@@ -46,10 +47,7 @@ async def status(cmd: SigmaCommand, pld: CommandPayload):
     general_text += f'\nPlatform: **{sys.platform.upper()}**'
     general_text += f'\nStarted: **{arrow.get(psutil.boot_time()).humanize()}**'
     cpu_clock = psutil.cpu_freq()
-    if cpu_clock:
-        cpu_clock = round(cpu_clock.current, 2)
-    else:
-        cpu_clock = 'X'
+    cpu_clock = round(cpu_clock.current, 2) if cpu_clock else '???'
     cpu_text = f'Count: **{psutil.cpu_count()} ({psutil.cpu_count(logical=False)})**'
     cpu_text += f'\nUsage: **{psutil.cpu_percent()}%**'
     cpu_text += f'\nClock: **{cpu_clock} MHz**'
@@ -67,10 +65,10 @@ async def status(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='CPU', value=cpu_text)
     response.add_field(name='Memory', value=mem_text)
     if cmd.bot.cfg.dsc.bot:
-        current_shard = message.guild.shard_id
+        current_shard = pld.msg.guild.shard_id
         shard_latency = int(cmd.bot.latencies[current_shard][1] * 1000)
         verbose_description = f'Shard: #{current_shard} | '
         verbose_description += f'Latency: {shard_latency}ms | '
         verbose_description += f'Activity: {processed} ev/s'
         response.description = verbose_description
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
