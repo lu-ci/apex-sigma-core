@@ -66,8 +66,8 @@ async def check_emotes(db: Database, mid: int, sbl: int):
     return trigger
 
 
-async def starboard_watcher(ev: SigmaEvent, payload: RawReactionPayload):
-    payload = payload.raw
+async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
+    payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id
@@ -77,7 +77,7 @@ async def starboard_watcher(ev: SigmaEvent, payload: RawReactionPayload):
         if hasattr(channel, 'guild'):
             guild = channel.guild
             if guild:
-                starboard_doc = payload.settings.get('starboard') or {}
+                starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
                 if starboard_doc:
                     sbc = starboard_doc.get('channel_id')
                     sbe = starboard_doc.get('emote')

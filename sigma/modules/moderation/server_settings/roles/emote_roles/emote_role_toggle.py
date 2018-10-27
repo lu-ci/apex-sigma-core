@@ -43,8 +43,8 @@ async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
             await msg.add_reaction(toggler)
 
 
-async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionPayload):
-    payload = payload.raw
+async def emote_role_toggle(ev: SigmaEvent, pld: RawReactionPayload):
+    payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id
@@ -54,7 +54,7 @@ async def emote_role_toggle(ev: SigmaEvent, payload: RawReactionPayload):
         if hasattr(channel, 'guild'):
             guild = channel.guild
             if guild:
-                guild_togglers = payload.settings.get('emote_role_togglers') or {}
+                guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
                 if guild_togglers:
                     user = guild.get_member(uid)
                     if user:

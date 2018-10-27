@@ -18,8 +18,8 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
 
 
-async def remover_detector(ev: SigmaEvent, payload: RawReactionPayload):
-    payload = payload.raw
+async def remover_detector(ev: SigmaEvent, pld: RawReactionPayload):
+    payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id
