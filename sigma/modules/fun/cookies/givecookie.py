@@ -20,6 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def check_name(m: discord.Member, lookup: str):
@@ -27,6 +28,7 @@ def check_name(m: discord.Member, lookup: str):
 
 
 async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     someoned = False
     if message.mentions:
         target = message.mentions[0]
