@@ -20,9 +20,11 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('api_key')
     if api_key:
         if args:

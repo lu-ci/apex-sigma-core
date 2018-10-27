@@ -20,6 +20,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
@@ -27,6 +28,7 @@ word_cache = {}
 
 
 async def unscramble(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:

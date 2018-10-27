@@ -19,6 +19,7 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
 
 links = []
@@ -31,7 +32,7 @@ async def usagimimi(cmd: SigmaCommand, pld: CommandPayload):
     if not links:
         name = cmd.bot.user.name
         filler_message = discord.Embed(color=0xEEEEEE, title=f'🐰 One moment, filling {name} with bunnies...')
-        fill_notify = await message.channel.send(embed=filler_message)
+        fill_notify = await pld.msg.channel.send(embed=filler_message)
         links = await grab_post_list('bunny_ears')
         filler_done = discord.Embed(color=0xEEEEEE, title=f'🐰 We added {len(links)} bunnies!')
         await fill_notify.edit(embed=filler_done)
@@ -39,4 +40,4 @@ async def usagimimi(cmd: SigmaCommand, pld: CommandPayload):
     post_choice = links.pop(rand_pop)
     icon = 'https://i.imgur.com/DWZLtAk.jpg'
     response = generate_embed(post_choice, embed_titles, 0xEEEEEE, icon=icon)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

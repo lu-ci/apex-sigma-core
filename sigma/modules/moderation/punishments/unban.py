@@ -18,6 +18,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import permission_denied
@@ -36,6 +37,7 @@ def generate_log_embed(message, target):
 
 
 async def unban(cmd: SigmaCommand, pld: CommandPayload):
+    message, args = pld.msg, pld.args
     if message.author.permissions_in(message.channel).ban_members:
         if args:
             lookup = ' '.join(args)
