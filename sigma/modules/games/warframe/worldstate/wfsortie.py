@@ -17,9 +17,9 @@
 import json
 
 import aiohttp
-import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.games.warframe.commons.parsers.sortie_parser import generate_sortie_embed
 
 
@@ -30,4 +30,4 @@ async def wfsortie(_cmd: SigmaCommand, pld: CommandPayload):
             sortie_data = await data.read()
             sortie_data = json.loads(sortie_data)
     response = generate_sortie_embed(sortie_data)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

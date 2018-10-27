@@ -21,6 +21,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 
 def get_english_message(data):
@@ -51,4 +52,4 @@ async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
     output_text = '\n'.join(news_lines)
     response = discord.Embed(color=0x336699, title='Warframe News')
     response.description = output_text
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

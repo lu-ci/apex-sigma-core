@@ -20,6 +20,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 
 api_base = 'https://en.wikipedia.org/w/api.php?format=json'
 wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
@@ -49,8 +50,8 @@ def get_exact_results(search_data: list):
 
 
 async def wikipedia(_cmd: SigmaCommand, pld: CommandPayload):
-    if args:
-        api_url = f'{api_base}&action=opensearch&search={" ".join(args)}&redirects=resolve'
+    if pld.args:
+        api_url = f'{api_base}&action=opensearch&search={" ".join(pld.args)}&redirects=resolve'
         async with aiohttp.ClientSession() as session:
             async with session.get(api_url) as qs_session:
                 resp_data = await qs_session.read()
@@ -80,4 +81,4 @@ async def wikipedia(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

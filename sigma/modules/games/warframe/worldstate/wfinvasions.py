@@ -18,6 +18,7 @@ import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.games.warframe.commons.parsers.invasion_parser import parse_invasion_data
 
 
@@ -40,4 +41,4 @@ async def wfinvasions(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'{invasion["title"]}', value=f'{invasion_desc}', inline=False)
         response.set_thumbnail(url='https://i.imgur.com/QUPS0ql.png')
         response.set_footer(text='Timers are not updated live.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
