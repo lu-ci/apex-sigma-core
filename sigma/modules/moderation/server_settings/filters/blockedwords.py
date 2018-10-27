@@ -21,7 +21,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def blockedwords(cmd: SigmaCommand, pld: CommandPayload):
+async def blockedwords(_cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     blocked_words = pld.settings.get('blocked_words')
     if not blocked_words:

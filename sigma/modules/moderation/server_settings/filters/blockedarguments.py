@@ -21,7 +21,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def blockedarguments(cmd: SigmaCommand, pld: CommandPayload):
+async def blockedarguments(_cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:

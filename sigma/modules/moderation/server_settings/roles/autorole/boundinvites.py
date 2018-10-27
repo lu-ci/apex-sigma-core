@@ -21,7 +21,7 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def boundinvites(cmd: SigmaCommand, pld: CommandPayload):
+async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if message.author.guild_permissions.create_instant_invite:
         bound_invites = pld.settings.get('bound_invites')
