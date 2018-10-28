@@ -29,4 +29,4 @@ async def experience_activity(ev: SigmaEvent, pld: MessagePayload):
             else:
                 award_xp = 150
             award_xp += secrets.randbelow(5) * 18
-            await ev.db.add_resource(pld.msg.author.id, 'experience', award_xp, 'pld.msg_experience', pld.msg, True)
+            await ev.db.add_resource(pld.msg.author.id, 'experience', award_xp, 'message_experience', pld.msg, True)
