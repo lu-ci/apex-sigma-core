@@ -37,7 +37,7 @@ async def viewrolegroup(cmd: SigmaCommand, pld: CommandPayload):
                         role_names.append(role_item.name)
                         populace += len(role_item.members)
                     else:
-                        group_role.remove(group_role)
+                        group_roles.remove(group_role)
                 role_groups.update({group_id: group_roles})
                 await cmd.db.set_guild_settings(message.guild.id, 'role_groups', role_groups)
                 role_names = sorted(role_names)
