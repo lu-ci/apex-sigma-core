@@ -21,7 +21,7 @@ import aioredis
 import cachetools
 
 
-async def get_cache(cache_type, max_size: int = 1000, ttl_time: int = 60):
+async def get_cache(cache_type, max_size: int = 1000000, ttl_time: int = 300):
     if isinstance(cache_type, str):
         cache_type = cache_type.strip().lower()
     if cache_type == 'memory':
