@@ -89,7 +89,7 @@ async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
                                 if user:
                                     if not user.bot:
                                         try:
-                                            enough = check_emotes(ev.db, mid, sbl)
+                                            enough = await check_emotes(ev.db, mid, sbl)
                                             if enough:
                                                 message = await channel.get_message(mid)
                                                 if not message.author.bot:
