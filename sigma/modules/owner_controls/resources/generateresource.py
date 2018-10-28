@@ -28,7 +28,7 @@ async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
             if not target.bot:
                 try:
                     amount = abs(int(args[-1]))
-                    res_nam = 'currency' if args[0].lower() == cmd.bot.cfg.pref.currency else args[0].lower()
+                    res_nam = 'currency' if args[0].lower() == cmd.bot.cfg.pref.currency.lower() else args[0].lower()
                     await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, message, False)
                     title_text = f'✅ Ok, I\'ve given {amount} {res_nam} to {target.display_name}.'
                     response = discord.Embed(color=0x77B255, title=title_text)
