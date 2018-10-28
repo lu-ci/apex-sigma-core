@@ -47,7 +47,7 @@ async def update_population_stats_node(ev: SigmaEvent):
             database = ev.bot.cfg.db.database
             server_count = len(ev.bot.guilds)
             member_count = len(ev.bot.users)
-            channel_count = len(ev.bot.get_all_channels())
+            channel_count = len(list(ev.bot.get_all_channels()))
             role_count = len(get_all_roles(ev.bot.guilds))
             popdata = {
                 'guild_count': server_count,
