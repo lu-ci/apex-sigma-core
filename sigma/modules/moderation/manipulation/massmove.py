@@ -40,18 +40,18 @@ async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
                 lookup_two = movereqs[1]
                 vc_one = get_vc(guild_vcs, lookup_one)
                 vc_two = get_vc(guild_vcs, lookup_two)
-                me = message.guild.me
-                if me.permissions_in(vc_one).mute_members and me.permissions_in(vc_two).mute_members:
-                    if vc_one and vc_two:
+                if vc_one and vc_two:
+                    me = message.guild.me
+                    if me.permissions_in(vc_one).mute_members and me.permissions_in(vc_two).mute_members:
                         membs_one = [vcm for vcm in vc_one.members if not vcm.bot]
                         for member in membs_one:
                             await member.move_to(vc_two)
                         move_title = f'✅ Moved {len(membs_one)} members to {vc_two.name}.'
                         response = discord.Embed(color=0x66CC66, title=move_title)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ One or both of the channels weren\'t found.')
+                        response = discord.Embed(color=0xBE1931, title='❗ I can\'t move members in one of the channels.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ I can\'t move members in one of the channels.')
+                    response = discord.Embed(color=0xBE1931, title='❗ One or both of the channels weren\'t found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments. See the usage example.')
         else:
