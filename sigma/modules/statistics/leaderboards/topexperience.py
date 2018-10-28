@@ -39,7 +39,8 @@ async def topexperience(cmd: SigmaCommand, pld: CommandPayload):
             lb_category = message.guild.name
             localed = True
     now = arrow.utcnow().timestamp
-    leader_docs, leader_timer = cmd.bot.cache.get_cache(sort_key), cmd.bot.cache.get_cache(f'{sort_key}_stamp') or now
+    leader_docs = await cmd.bot.cache.get_cache(sort_key)
+    leader_timer = await cmd.bot.cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
