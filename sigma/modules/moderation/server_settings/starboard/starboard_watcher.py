@@ -22,7 +22,6 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
-
 star_cache = None
 
 
