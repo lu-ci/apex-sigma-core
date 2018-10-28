@@ -17,10 +17,13 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
+
+
+star_cache = None
 
 
 async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
@@ -51,22 +54,25 @@ async def generate_embed(msg: discord.Message):
     return response
 
 
-async def check_emotes(db: Database, mid: int, sbl: int):
+async def check_emotes(mid: int, sbl: int):
     trigger = False
-    executed = await db.cache.get_cache(f'exec_{mid}')
+    executed = await star_cache.get_cache(f'exec_{mid}')
     if not executed:
-        stars = await db.cache.get_cache(f'sbem_{mid}') or 0
+        stars = await star_cache.get_cache(f'sbem_{mid}') or 0
         stars += 1
         if stars >= sbl:
             trigger = True
-            await db.cache.del_cache(f'sbem_{mid}')
-            await db.cache.set_cache(f'exec_{mid}', True)
+            await star_cache.del_cache(f'sbem_{mid}')
+            await star_cache.set_cache(f'exec_{mid}', True)
         else:
-            await db.cache.set_cache(f'sbem_{mid}', stars)
+            await star_cache.set_cache(f'sbem_{mid}', stars)
     return trigger
 
 
 async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
+    global star_cache
+    if not star_cache:
+        star_cache = await get_cache('memory')
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
