@@ -110,7 +110,7 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
                         current_kud = await cmd.db.get_resource(author, 'currency')
                         current_kud = current_kud.current
                         if current_kud >= bet:
-                            await set_roul_cd(cmd, message)
+                            await set_roul_cd(cmd, pld)
                             await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
                             spot = secrets.choice(spots)
                             spot_sel_val = getattr(spot, sel, val)
