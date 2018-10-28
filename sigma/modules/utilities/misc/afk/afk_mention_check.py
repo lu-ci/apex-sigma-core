@@ -29,7 +29,7 @@ async def afk_mention_check(ev: SigmaEvent, pld: MessagePayload):
         if not pld.msg.content.startswith(pfx):
             if pld.msg.mentions:
                 target = pld.msg.mentions[0]
-                afk_data = await ev.bot.cache.get_cache(f'afk_{pld.msg.author.id}')
+                afk_data = await ev.db.cache.get_cache(f'afk_{pld.msg.author.id}')
                 if not afk_data:
                     afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one({'user_id': target.id})
                 if afk_data:

@@ -62,15 +62,15 @@ async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
             lb_category = 'Local'
             localed = True
     now = arrow.utcnow().timestamp
-    leader_docs = await cmd.bot.cache.get_cache(sort_key)
-    leader_timer = await cmd.bot.cache.get_cache(f'{sort_key}_stamp') or now
+    leader_docs = await cmd.db.cache.get_cache(sort_key)
+    leader_timer = await cmd.db.cache.get_cache(f'{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
         leader_docs = await get_leader_docs(cmd, message, localed, all_docs, sort_key)
-        await cmd.bot.set_cache(sort_key, leader_docs)
-        await cmd.bot.set_cache(f'{sort_key}_stamp', now)
+        await cmd.db.cache.set_cache(sort_key, leader_docs)
+        await cmd.db.cache.set_cache(f'{sort_key}_stamp', now)
     table_data = [
         [
             pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
