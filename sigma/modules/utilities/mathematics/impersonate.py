@@ -45,7 +45,7 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
                     chain = await cmd.db.cache.get_cache(cache_key)
                     if not chain:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                        chain.set_cache(cache_key, chain)
+                        cmd.bot.cache.set_cache(cache_key, chain)
                     sentence_function = functools.partial(chain.make_short_sentence, 500)
                     sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                 if not sentence:
