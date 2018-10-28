@@ -48,7 +48,7 @@ async def dm_detection(ev: SigmaEvent, pld: MessagePayload):
                 if await has_invite(ev, pld.msg.content.split()):
                     command = 'invite'
                 else:
-                    log_dm(ev, pld.msg)
+                    log_dm(ev, pld)
                     command = 'help'
                 if not await ev.bot.cool_down.on_cooldown(ev.name, pld.msg.author):
                     await ev.bot.modules.commands[command].execute(pld.msg, [])
