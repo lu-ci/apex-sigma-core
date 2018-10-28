@@ -20,7 +20,7 @@ import traceback
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.mechanics.payload import MessagePayload, CommandPayload
 
 
 class SigmaError(object):
@@ -35,8 +35,8 @@ class SigmaError(object):
         self.token = secrets.token_hex(16)
         self.icon_resp = cmd.respond_with_icon
 
-    async def error_handler(self, pld: MessagePayload, args: list):
-        self.args = args
+    async def error_handler(self, pld: CommandPayload):
+        self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
         await self.icon_resp(pld.msg, '❗')
         await self.send_error_message(pld)
