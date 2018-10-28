@@ -2,7 +2,7 @@ name:             Warmachines
 
 category:         gachapon
 
-enabled:          true
+enabled:          false
 
 commands:
   - name:         warmachinenew

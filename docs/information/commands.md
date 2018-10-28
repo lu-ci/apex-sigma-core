@@ -3,7 +3,6 @@
 ## Module Index
 - [DEVELOPMENT](#development)
 - [FUN](#fun)
-- [GACHAPON](#gachapon)
 - [GIRLS FRONTLINE](#girls-frontline)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
@@ -105,13 +104,6 @@ Commands | Description | Example
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 `>>yomomma` `>>yomama` `>>yomoma` `>>ym` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
-[Back To Top](#module-index)
-
-### GACHAPON
-Commands | Description | Example
-----------|-------------|--------
-`>>warmachinelist` `>>warmachines` `>>wmlist` `>>wml` | Lists all machines owned by the target person, or yourself. The list is paginated with 5 machines on each page. | `>>warmachinelist 2 @person`
-`>>warmachinenew` `>>wmnew` `>>wmn` | Makes a new Warmachine. | `>>warmachinenew`
 [Back To Top](#module-index)
 
 ### GIRLS FRONTLINE
