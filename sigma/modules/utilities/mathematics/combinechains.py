@@ -67,7 +67,7 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                 try:
                     combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
                     combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                    combination.set_cache(combination_key, combination)
+                    cmd.db.cache.set_cache(combination_key, combination)
                 except ValueError:
                     failed = True
             if not empty_chain:
