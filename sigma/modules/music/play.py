@@ -103,7 +103,7 @@ async def play(cmd: SigmaCommand, pld: CommandPayload):
                     if message.guild.id in cmd.bot.music.queues:
                         del cmd.bot.music.queues[message.guild.id]
                 if 'donate' in cmd.bot.modules.commands:
-                    await cmd.bot.modules.commands['donate'].execute(message, [])
+                    await cmd.bot.modules.commands['donate'].execute(pld)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
         else:
