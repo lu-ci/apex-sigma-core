@@ -84,14 +84,14 @@ def get_selector_and_value(args: list):
     return sel, val
 
 
-async def set_roul_cd(cmd: SigmaCommand, message: discord.Message):
+async def set_roul_cd(cmd: SigmaCommand, pld: CommandPayload):
     upgrade_file = pld.profile.get('upgrades') or {}
     base_cooldown = 60
     stamina = upgrade_file.get('casino', 0)
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
     if cooldown < 12:
         cooldown = 12
-    await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
+    await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
 
 
 async def roulette(cmd: SigmaCommand, pld: CommandPayload):
