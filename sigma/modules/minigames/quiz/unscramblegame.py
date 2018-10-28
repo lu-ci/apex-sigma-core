@@ -27,7 +27,7 @@ ongoing_list = []
 word_cache = {}
 
 
-async def unscramble(cmd: SigmaCommand, pld: CommandPayload):
+async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
