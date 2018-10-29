@@ -39,6 +39,7 @@ async def describe_transfers(translist: list, getter):
     described = []
     for transitem in translist:
         transobject = await getter(int(transitem[0])) if inspect.isawaitable(getter) else getter(int(transitem[0]))
+        transobject = await transobject if inspect.isawaitable(transobject) else transobject
         if transobject:
             addition = [transobject.name, transitem[1]]
         else:

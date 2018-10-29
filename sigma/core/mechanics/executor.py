@@ -40,6 +40,7 @@ class ExecutionClockwork(object):
 
     async def command_runner(self, pld: MessagePayload):
         if self.bot.ready:
+            await pld.init()
             prefix = self.bot.db.get_prefix(pld.settings)
             if pld.msg.content.startswith(prefix):
                 args = pld.msg.content.split(' ')
@@ -53,7 +54,7 @@ class ExecutionClockwork(object):
                         return
                     else:
                         cmd_pld = CommandPayload(self.bot, pld.msg, args)
-                        await cmd_pld.init()
+                        cmd_pld.settings, cmd_pld.profile = pld.settings, pld.profile
                         task = command, cmd_pld
                         await self.cmd_queue.put(task)
 
