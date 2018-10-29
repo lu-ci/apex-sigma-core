@@ -94,10 +94,10 @@ Commands | Description | Example
 `>>nekomimi` `>>neko` `>>nyaa` | Displays a random nekomimi image. In case you don't know what a nekomimi is, it's a catgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>nekomimi`
 `>>numberfact` `>>numfact` `>>numf` | Searches for interesting things about a given number. You can also insert a date in the DAY/MON format. You can specify a type of number you want retrived in the format TYPE:NUMBER. The accepted types are trivia, math, date, and year. You can also specify "random" instead of a number to make it a random number. | `>>numberfact 42`
 `>>pun` | If you do not know what a pun is... Oh you poor innocent soul. This command will produce a lovely little pun for you. Enjoy the cringe! | `>>pun`
-`>>randomactivity` `>>randomtodo` `>>randomact` | Provides a random thing for you to do... | `>>randomactivity`
+`>>randomactivity` `>>randomtodo` `>>randomact` `>>bored` | Provides a random thing for you to do... | `>>randomactivity`
 `>>randomcomicgenerator` `>>rcg` | Uses the Cyanide and Happiness random comic generator for buttloads of fun. Personal favorite comic command. | `>>randomcomicgenerator`
 `>>randomemote` `>>randomemoji` `>>ranem` | Displays a random emote from the server's custom emotes. You can add 'global' as an argument to make the selection from all servers Sigma is on instead of just the current one. Custom emotes are not guaranteed to be SFW as they can be anything. | `>>randomemote`
-`>>randomquestion` `>>randquestion` `>>randomq` | The bot will ask you a random question, that's all... | `>>randomquestion`
+`>>randomquestion` `>>randquestion` `>>randomq` `>>rq` | The bot will ask you a random question, that's all... | `>>randomquestion`
 `>>realprogrammers` `>>realdevelopers` `>>realdevs` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | This command outputs a random quote from Ron Swanson. Everyone's favorite character from Parks and Recreation. | `>>ronswanson`
@@ -491,6 +491,7 @@ Commands | Description | Example
 ### STATISTICS
 Commands | Description | Example
 ----------|-------------|--------
+`>>commandstatistics` `>>cmdstatistics` `>>commandstats` `>>cmdstats` | Shows a paginated table showing how many times each command was used. | `>>commandstatistics`
 `>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you've obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
 `>>resources` `>>reslist` `>>res` | Shows all the available resources and how many you have of each. | `>>resources`
 `>>resourcestatistics` `>>resourcestats` `>>resstats` | Shows statistical data for the given resource type. You can use the bot's currency name instead of "currency", like "kud" for example. Resources also include "experience" and "cookies". The command will show where you got that resource. From which user, which server, which channel and with which function. Only "earned" resources are tracked however, meaning that there's no data on gambling. You can also add "--expense" to the end of the command to see where you spent that resource instead of showing where you got it as well as target a user with the command to see their stats. You can see all available resources with the "resourcelist" command. | `>>resourcestatistics currency @person --expense`

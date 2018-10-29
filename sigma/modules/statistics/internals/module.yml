@@ -56,3 +56,13 @@ commands:
       You can also add "--expense" to the end of the command to see where you spent that resource
       instead of showing where you got it as well as target a user with the command to see their stats.
       You can see all available resources with the "resourcelist" command.
+
+  - name:         commandstatistics
+    alts:
+      - "cmdstatistics"
+      - "commandstats"
+      - "cmdstats"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Shows a paginated table showing how many times each command was used.
