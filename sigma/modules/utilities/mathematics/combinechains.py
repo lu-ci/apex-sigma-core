@@ -29,7 +29,7 @@ from sigma.core.utilities.data_processing import user_avatar
 def combine_names(users: list):
     pieces = []
     total_length = sum([len(u.name) for u in users])
-    usable_length = total_length // len(users)
+    usable_length = int((total_length // len(users)) * 1.75)
     needed_length = usable_length // len(users)
     for user in users:
         piece = user.name[needed_length * len(pieces):needed_length * (len(pieces) + 1)]

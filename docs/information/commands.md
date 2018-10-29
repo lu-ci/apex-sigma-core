@@ -99,6 +99,7 @@ Commands | Description | Example
 `>>realprogrammers` `>>realdevelopers` `>>realdevs` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | This command outputs a random quote from Ron Swanson. Everyone's favorite character from Parks and Recreation. | `>>ronswanson`
+`>>scramble` `>>scramb` | It randomly scrambles all the text you give the command. One note, it scrambles individual words and not the given text as a whole. | `>>scramble i like spaghetti!`
 `>>shootfoot` `>>sf` | Tells you how to shoot yourself in the foot with the specified programming language. If no language is provided, it will pick a random one. | `>>shootfoot Python`
 `>>usagimimi` `>>usagi` `>>pyon` | Displays a random usagimimi image. In case you don't know what a usagimimi is, it's a rabbitgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>usagimimi`
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`

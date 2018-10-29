@@ -18,6 +18,20 @@ commands:
     description:
       All words escape me on what this command does, just use it.
 
+  - name:         scramble
+    alts:
+      - "scramb"
+    enabled:      true
+    usage:        "{pfx}{cmd} i like spaghetti!"
+    description:
+      It randomly scrambles all the text you give the command.
+      One note, it scrambles individual words and not the given text as a whole.
+
+  - name:         dab
+    enabled:      true
+    description:
+      All words escape me on what this command does, just use it.
+
   - name:         leetspeak
     alts:
       - "leet"
