@@ -23,7 +23,7 @@ from sigma.modules.utilities.mathematics.combinechains import combine_names
 async def combinenames(_cmd: SigmaCommand, pld: CommandPayload):
     if len(pld.msg.mentions) >= 2:
         combined_name = combine_names(pld.msg.mentions)
-        response = discord.Embed(color=0, title=f'🔤 I dub thee... {combined_name}!')
+        response = discord.Embed(color=0x3B88C3, title=f'🔤 I dub thee... {combined_name}!')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
     await pld.msg.channel.send(embed=response)
