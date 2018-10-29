@@ -73,6 +73,7 @@ Commands | Description | Example
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
 `>>catfact` `>>kittyfact` | Outputs a random fact about your lovely furry assh~ eerrrr... I mean, companion! | `>>catfact`
 `>>chucknorris` | This command outputs a random Chuck Norris joke. We use Chuck jokes because Bruce Lee is no joke, obviously. | `>>chucknorris`
+`>>combinenames` `>>mixnames` | Mixes the names of all the targets. | `>>combinenames @person1 @person2 @person3...`
 `>>cookies` | Shows how many cookies you have, or how many a mentioned user has. Cookies are given with the givecookie command. | `>>cookies @person`
 `>>csshumor` | The only thing better than a joke is a joke written in CSS. And while that is sarcasm to a certain degree, these really are fun. Embrace your inner web designer and read some CSS jokes. | `>>csshumor`
 `>>cyanideandhappiness` `>>cnh` | Outputs an image of a random Cyanide and Happiness comic. Explosm makes awesome comics and animations. | `>>cyanideandhappiness`
