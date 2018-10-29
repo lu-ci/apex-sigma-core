@@ -94,8 +94,10 @@ Commands | Description | Example
 `>>nekomimi` `>>neko` `>>nyaa` | Displays a random nekomimi image. In case you don't know what a nekomimi is, it's a catgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>nekomimi`
 `>>numberfact` `>>numfact` `>>numf` | Searches for interesting things about a given number. You can also insert a date in the DAY/MON format. You can specify a type of number you want retrived in the format TYPE:NUMBER. The accepted types are trivia, math, date, and year. You can also specify "random" instead of a number to make it a random number. | `>>numberfact 42`
 `>>pun` | If you do not know what a pun is... Oh you poor innocent soul. This command will produce a lovely little pun for you. Enjoy the cringe! | `>>pun`
+`>>randomactivity` `>>randomtodo` `>>randomact` | Provides a random thing for you to do... | `>>randomactivity`
 `>>randomcomicgenerator` `>>rcg` | Uses the Cyanide and Happiness random comic generator for buttloads of fun. Personal favorite comic command. | `>>randomcomicgenerator`
 `>>randomemote` `>>randomemoji` `>>ranem` | Displays a random emote from the server's custom emotes. You can add 'global' as an argument to make the selection from all servers Sigma is on instead of just the current one. Custom emotes are not guaranteed to be SFW as they can be anything. | `>>randomemote`
+`>>randomquestion` `>>randquestion` `>>randomq` | The bot will ask you a random question, that's all... | `>>randomquestion`
 `>>realprogrammers` `>>realdevelopers` `>>realdevs` `>>rp` `>>rd` | Tells you what real programmers do. | `>>realprogrammers`
 `>>reversetext` `>>reverse` | Reverses the text that you input into the command. | `>>reversetext hello`
 `>>ronswanson` | This command outputs a random quote from Ron Swanson. Everyone's favorite character from Parks and Recreation. | `>>ronswanson`

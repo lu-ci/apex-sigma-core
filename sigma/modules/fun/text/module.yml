@@ -50,3 +50,23 @@ commands:
     usage:        "{pfx}{cmd} @person1 @person2 @person3..."
     description:
       Mixes the names of all the targets.
+
+  - name:         randomquestion
+    alts:
+      - "randquestion"
+      - "randomq"
+      - "rq"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      The bot will ask you a random question, that's all...
+
+  - name:         randomactivity
+    alts:
+    - "randomtodo"
+    - "randomact"
+    - "bored"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+      Provides a random thing for you to do...
