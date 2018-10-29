@@ -28,7 +28,7 @@ async def commandstatistics(cmd: SigmaCommand, pld: CommandPayload):
     if stat_list:
         out_list = [[sli.get('command').upper(), str(sli.get('count', 0))] for sli in stat_list]
         out_table = boop(out_list, ['Command', 'Count'])
-        response = f'📟 **Command Statistics**'
+        response = f'📟 **Command Statistics**: Page {page}'
         response += f'\n```hs\n{out_table}\n```'
         await pld.msg.channel.send(response)
     else:

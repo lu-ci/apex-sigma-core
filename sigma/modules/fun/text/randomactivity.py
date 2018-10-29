@@ -26,6 +26,6 @@ async def randomactivity(_cmd: SigmaCommand, pld: CommandPayload):
         async with session.get('https://www.randomthingstodo.com/') as q_req:
             q_page = await q_req.text()
     root = lx.fromstring(q_page)
-    todo = root.cssselect('../randomact./randomactlistLine')[0][0].text
+    todo = root.cssselect('.listLine')[0][0].text
     response = discord.Embed(color=0xF9F9F9, title=f'💡 {todo}')
     await pld.msg.channel.send(embed=response)
