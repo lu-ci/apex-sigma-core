@@ -90,7 +90,11 @@ class ApexSigma(client_class):
         os.makedirs('cache')
 
     async def init_cacher(self):
-        self.cache = await get_cache(self.cfg.db.cache_type)
+        try:
+            self.cache = await get_cache(self.cfg.db.cache_type)
+        except OSError:
+            self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
+            exit(errno.ETIMEDOUT)
 
     def init_logger(self):
         self.log = create_logger('Sigma')
