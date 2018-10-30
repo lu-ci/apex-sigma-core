@@ -46,6 +46,7 @@ commands:
   - name:         combinenames
     alts:
       - "mixnames"
+      - "mn"
     enabled:      true
     usage:        "{pfx}{cmd} @person1 @person2 @person3..."
     description:
