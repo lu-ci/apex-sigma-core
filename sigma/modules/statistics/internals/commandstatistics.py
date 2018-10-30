@@ -23,6 +23,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 async def commandstatistics(cmd: SigmaCommand, pld: CommandPayload):
     all_stats = await cmd.db[cmd.db.db_nam].CommandStats.find({}).to_list(None)
+    all_stats = [asi for asi in all_stats if asi.get('command') in cmd.bot.modules.commands]
     stat_list = sorted(all_stats, key=lambda k: k.get('count'), reverse=True)
     stat_list, page = PaginatorCore.paginate(stat_list, pld.args[0] if pld.args else 1, 15)
     if stat_list:
