@@ -73,6 +73,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
             await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
             out_list = []
+            bet_chance = bet + (bet // 25) + 10
             for x in range(0, 3):
                 temp_list = []
                 init_symb = []
@@ -81,7 +82,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
                         symbol_choice = secrets.choice(symbols)
                         init_symb.append(symbol_choice)
                     else:
-                        roll = secrets.randbelow(bet + (bet // 25) + 10)
+                        roll = secrets.randbelow(bet_chance)
                         if roll == 0:
                             symbol_choice = secrets.choice(symbols)
                         else:
@@ -102,6 +103,11 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
             two_comb_one = bool(combination[0] == combination[1])
             two_comb_two = bool(combination[0] == combination[2])
             two_comb_three = bool(combination[1] == combination[2])
+            comb_symb = rarity_rewards[combination[0]]
+            high_val = int(bet * (comb_symb * (bet // 1.25)))
+            low_val = int(bet * (comb_symb * (bet // 4.5)))
+            high_chance = format(round(1 / (bet_chance * 400), 10), 'f')
+            low_chance = format(round(1 / (bet_chance * 20), 10), 'f')
             if three_comb:
                 win = True
                 winnings = int(bet * (rarity_rewards[combination[0]] * (bet // 1.25)))
@@ -122,15 +128,18 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
             if win:
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'
-                footer = f'{currency_icon} {winnings} {currency} has been awarded.'
+                footer = f'{currency_icon} {winnings} {currency} has been awarded to you. Congrats!'
                 await cmd.db.add_resource(message.author.id, 'currency', winnings, cmd.name, message, False)
             else:
                 color = 0x232323
                 title = '💣 Oh my, you lost...'
-                footer = f'{currency_icon} {bet} {currency} has been deducted.'
+                footer = f'{currency_icon} {bet} {currency} has been deducted. Better luck next time~'
+            chance_block = f'**Lowest**\n{low_chance}% for {low_val} {cmd.bot.cfg.pref.currency}'
+            chance_block += f'\n**Highest**\n{high_chance}% for {high_val} {cmd.bot.cfg.pref.currency}'
             response = discord.Embed(color=color)
             response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
             response.add_field(name=title, value=slot_lines)
+            response.add_field(name='📊 Chances', value=chance_block)
             response.set_footer(text=footer)
         else:
             timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
