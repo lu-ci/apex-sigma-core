@@ -134,77 +134,76 @@ class SigmaCommand(object):
         return any(trigg_args)
 
     async def execute(self, payload: CommandPayload):
-        if self.bot.ready:
-            message, args = payload.msg, payload.args
-            if message.guild:
-                delete_command_message = payload.settings.get('delete_commands')
-                if delete_command_message:
-                    try:
-                        await message.delete()
-                    except (discord.Forbidden, discord.NotFound):
-                        pass
-                override = check_filter_perms(payload.msg, payload.settings, 'arguments')
-                if await self.check_black_args(payload.settings, args):
-                    if not any([message.author.guild_permissions.administrator, override]):
-                        await self.respond_with_icon(message, '🛡')
-                        return
-            if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
-                self.log.warning(f'{message.author.name} tried using me.')
-                return
-            if not self.cd.is_cooling(message):
-                if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', message.author):
-                    await self.update_cooldown(message.author)
-                    perms = GlobalCommandPermissions(self, payload)
-                    await perms.check_black_usr()
-                    await perms.check_black_srv()
-                    perms.generate_response()
-                    perms.check_final()
-                    guild_allowed = ServerCommandPermissions(self, message)
-                    await guild_allowed.check_perms()
-                    self.log_command_usage(message, args, arrow.utcnow().float_timestamp)
-                    self.cd.set_cooling(message)
-                    if perms.permitted:
-                        if guild_allowed.permitted:
-                            requirements = CommandRequirements(self, message)
-                            if requirements.reqs_met:
-                                try:
-                                    await getattr(self.command, self.name)(self, payload)
-                                    await add_cmd_stat(self)
-                                    await self.add_usage_sum(message)
-                                    self.bot.command_count += 1
-                                    cmd_ev_pld = CommandEventPayload(self.bot, self, payload)
-                                    event_task = self.bot.queue.event_runner('command', cmd_ev_pld)
-                                    self.bot.loop.create_task(event_task)
-                                except self.get_exception() as e:
-                                    error = SigmaError(self, e)
-                                    await error.error_handler(payload)
-                            else:
-                                await self.respond_with_icon(message, '📝')
-                                reqs_embed = discord.Embed(color=0xBE1931)
-                                reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
-                                reqs_error_list = ''
-                                for req in requirements.missing_list:
-                                    req = req.replace('_', ' ').title()
-                                    reqs_error_list += f'\n- {req}'
-                                prefix = self.db.get_prefix(payload.settings)
-                                reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
-                                reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
-                                try:
-                                    await message.channel.send(embed=reqs_embed)
-                                except (discord.Forbidden, discord.NotFound):
-                                    pass
-                        else:
-                            self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                            await self.respond_with_icon(message, '🔒')
-                    else:
-                        perms.log_unpermitted()
-                        await self.respond_with_icon(message, '⛔')
-                        if perms.response:
+        message, args = payload.msg, payload.args
+        if message.guild:
+            delete_command_message = payload.settings.get('delete_commands')
+            if delete_command_message:
+                try:
+                    await message.delete()
+                except (discord.Forbidden, discord.NotFound):
+                    pass
+            override = check_filter_perms(payload.msg, payload.settings, 'arguments')
+            if await self.check_black_args(payload.settings, args):
+                if not any([message.author.guild_permissions.administrator, override]):
+                    await self.respond_with_icon(message, '🛡')
+                    return
+        if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
+            self.log.warning(f'{message.author.name} tried using me.')
+            return
+        if not self.cd.is_cooling(message):
+            if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', message.author):
+                await self.update_cooldown(message.author)
+                perms = GlobalCommandPermissions(self, payload)
+                await perms.check_black_usr()
+                await perms.check_black_srv()
+                perms.generate_response()
+                perms.check_final()
+                guild_allowed = ServerCommandPermissions(self, message)
+                await guild_allowed.check_perms()
+                self.log_command_usage(message, args, arrow.utcnow().float_timestamp)
+                self.cd.set_cooling(message)
+                if perms.permitted:
+                    if guild_allowed.permitted:
+                        requirements = CommandRequirements(self, message)
+                        if requirements.reqs_met:
                             try:
-                                await message.channel.send(embed=perms.response)
+                                await getattr(self.command, self.name)(self, payload)
+                                await add_cmd_stat(self)
+                                await self.add_usage_sum(message)
+                                self.bot.command_count += 1
+                                cmd_ev_pld = CommandEventPayload(self.bot, self, payload)
+                                event_task = self.bot.queue.event_runner('command', cmd_ev_pld)
+                                self.bot.loop.create_task(event_task)
+                            except self.get_exception() as e:
+                                error = SigmaError(self, e)
+                                await error.error_handler(payload)
+                        else:
+                            await self.respond_with_icon(message, '📝')
+                            reqs_embed = discord.Embed(color=0xBE1931)
+                            reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
+                            reqs_error_list = ''
+                            for req in requirements.missing_list:
+                                req = req.replace('_', ' ').title()
+                                reqs_error_list += f'\n- {req}'
+                            prefix = self.db.get_prefix(payload.settings)
+                            reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
+                            reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
+                            try:
+                                await message.channel.send(embed=reqs_embed)
                             except (discord.Forbidden, discord.NotFound):
                                 pass
+                    else:
+                        self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
+                        await self.respond_with_icon(message, '🔒')
                 else:
-                    await self.respond_with_icon(message, '❄')
+                    perms.log_unpermitted()
+                    await self.respond_with_icon(message, '⛔')
+                    if perms.response:
+                        try:
+                            await message.channel.send(embed=perms.response)
+                        except (discord.Forbidden, discord.NotFound):
+                            pass
             else:
-                await self.respond_with_icon(message, '🕙')
+                await self.respond_with_icon(message, '❄')
+        else:
+            await self.respond_with_icon(message, '🕙')

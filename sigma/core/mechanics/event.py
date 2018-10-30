@@ -46,13 +46,12 @@ class SigmaEvent(object):
         self.log.error(log_text)
 
     async def execute(self, pld: SigmaPayload = None):
-        if self.bot.ready:
-            try:
-                if pld:
-                    await getattr(self.event, self.name)(self, pld)
-                else:
-                    await getattr(self.event, self.name)(self)
-            except discord.Forbidden:
-                pass
-            except self.get_exception() as e:
-                self.log_error(e)
+        try:
+            if pld:
+                await getattr(self.event, self.name)(self, pld)
+            else:
+                await getattr(self.event, self.name)(self)
+        except discord.Forbidden:
+            pass
+        except self.get_exception() as e:
+            self.log_error(e)
