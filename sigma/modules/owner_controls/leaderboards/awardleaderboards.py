@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import asyncio
 
 import discord
@@ -31,9 +32,21 @@ async def notify_awarded(user: discord.User, amt: int, pos: int, curr: str, curr
         pass
 
 
+async def reset_all(db, coll, nam):
+    docs = await coll.find({}).to_list(None)
+    for doc in docs:
+        uid = doc.get('user_id')
+        if uid:
+            resc = await db.get_resource(uid, nam)
+            resc.ranked = 0
+            await db.update_resource(uid, nam, resc)
+
+
 async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     awardables = ['currency', 'experience', 'cookies']
+    init_resp = discord.Embed(color=0xf9f9f9, title=f'💴 Awarding leaderboards....')
+    init_msg = await message.channel.send(embed=init_resp)
     for awdbl in awardables:
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']
         search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
@@ -46,12 +59,11 @@ async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
             await notify_awarded(
                 ld_entry[0], ld_award, ld_index, cmd.bot.cfg.pref.currency, cmd.bot.cfg.pref.currency_icon, awdbl
             )
-            resc = await cmd.db.get_resource(ld_entry[0].id, awdbl)
-            resc.ranked = 0
-            await cmd.db.update_resource(ld_entry[0].id, awdbl, resc)
             value = f'{ld_entry[1]} {awdbl.title()}'
             user_info = f'{ld_entry[0].name}#{ld_entry[0].discriminator} [{ld_entry[0].id}]'
             cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {user_info} | VAL: {value}')
             await asyncio.sleep(2)
+        await reset_all(cmd.db, coll, awdbl)
+    await init_msg.delete()
     done_resp = discord.Embed(color=0x77B255, title=f'✅ All leaderboards awarded.')
     await message.channel.send(embed=done_resp)
