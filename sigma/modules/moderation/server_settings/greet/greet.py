@@ -26,10 +26,7 @@ async def greet(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         active = pld.settings.get('greet')
         active = True if active is None else active
-        if active:
-            state, ender = False, 'disabled'
-        else:
-            state, ender = True, 'enabled'
+        state, ender = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'greet', state)
         response = discord.Embed(color=0x77B255, title=f'✅ Greeting Messages {ender}.')
     else:

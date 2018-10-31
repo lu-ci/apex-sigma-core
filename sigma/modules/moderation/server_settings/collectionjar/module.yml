@@ -1,0 +1,37 @@
+name:             Collection Jar Settings
+
+category:         settings
+
+enabled:          true
+
+commands:
+  - name:         collectionjar
+    enabled:      true
+    description:
+      Toggles the collection jar on or off, depending on its previous state.
+      A collection jar is like a swear jar, but for the specified word.
+      This command requires the Manage Server permission.
+
+  - name:         collectiontrigger
+    alts:
+      - "jartrigger"
+    enabled:      true
+    description:
+      Sets the server's trigger for the collection jar.
+      If someone says this word on the server, one point will be added to the collection jar.
+      This command requires the Manage Server permission.
+
+  - name:         viewcollectionjar
+    alts:
+      - "viewjar"
+      - "jar"
+    enabled:      true
+    description:
+      Shows the contents of the collection jar. This includes the total,
+      total for the current channel, total from you, and total from you in the current channel.
+
+events:
+  - name:         collection_watcher
+    type:         message
+    enabled:      true
+

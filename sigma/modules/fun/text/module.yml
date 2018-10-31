@@ -22,10 +22,11 @@ commands:
     alts:
       - "scramb"
     enabled:      true
-    usage:        "{pfx}{cmd} i like spaghetti!"
+    usage:        "{pfx}{cmd} I like spaghetti!"
     description:
       It randomly scrambles all the text you give the command.
-      One note, it scrambles individual words and not the given text as a whole.
+      By default, it scrambles words individually. If you want to
+      scramble the text as a whole, add "--full" as the last argument.
 
   - name:         dab
     enabled:      true

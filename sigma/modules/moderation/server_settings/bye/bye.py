@@ -26,7 +26,7 @@ async def bye(cmd: SigmaCommand, pld: CommandPayload):
     if message.author.permissions_in(message.channel).manage_guild:
         active = pld.settings.get('bye')
         active = True if active is None else active
-        state, ender = (False, 'disabled') if active else (True, 'Enabled')
+        state, ender = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(message.guild.id, 'bye', state)
         response = discord.Embed(color=0x77B255, title=f'✅ Goodbye Messages {ender}.')
     else:

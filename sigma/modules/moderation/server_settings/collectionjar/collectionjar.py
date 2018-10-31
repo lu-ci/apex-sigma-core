@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from unicodedata import category
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
@@ -23,24 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import permission_denied
 
 
-async def starboardemote(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
     if message.author.permissions_in(message.channel).manage_guild:
-        starboard_doc = pld.settings.get('starboard') or {}
-        if args:
-            new_emote = args[0][0]
-            if category(new_emote) == 'So':
-                starboard_doc.update({'emote': new_emote})
-                await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
-                response = discord.Embed(color=0x77B255, title=f'✅ Starboard emote set to {new_emote}')
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ Emote must be native to Discord.')
-        else:
-            emote = starboard_doc.get('emote')
-            if emote:
-                response = discord.Embed(color=0xFFAC33, title=f'🌟 The current emote is {emote}')
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ An emote has not been set.')
+        active = pld.settings.get('collection_jar')
+        state, ender = (False, 'disabled') if active else (True, 'enabled')
+        await cmd.db.set_guild_settings(message.guild.id, 'collection_jar', {'state': state})
+        response = discord.Embed(color=7844437, title=f'✅ Collection Jar {ender}.')
     else:
         response = permission_denied('Manage Server')
     await message.channel.send(embed=response)
