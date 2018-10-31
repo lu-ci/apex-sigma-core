@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
+
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.quiz.mech.utils import scramble as scrfn
@@ -22,8 +23,13 @@ from sigma.modules.minigames.quiz.mech.utils import scramble as scrfn
 
 async def scramble(_cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
+        words = ' '.join(pld.args)
+        full = False
+        if pld.args[-1].lower() == '--full':
+            words = ' '.join(pld.args[:-1])
+            full = True
         response = discord.Embed(color=0x3B88C3, title='🔣 Text Scrambler')
-        response.description = scrfn(' '.join(pld.args))
+        response.description = scrfn(words, full)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -82,8 +82,6 @@ class ApexSigma(client_class):
         self.command_count = 0
         self.gateway_start = 0
         self.gateway_finish = 0
-        self.loop.run_until_complete(self.queue.event_runner('boot', None, True))
-        self.loop.run_until_complete(self.queue.event_runner('dbinit', None, True))
 
     @staticmethod
     def create_cache():
@@ -201,6 +199,7 @@ class ApexSigma(client_class):
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
         self.log.info('Launching DB-Init Modules...')
+        self.loop.create_task(self.queue.event_runner('dbinit'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 

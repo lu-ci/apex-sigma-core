@@ -17,14 +17,16 @@
 import secrets
 
 
-def scramble(text):
+def scramble(text, full=False):
     separated_text = text.split()
+    char_list = list(text.replace(' ', ''))
     chunks = []
     for word in separated_text:
         chunk = ''
-        charlist = list(word)
-        while charlist:
-            chunk += charlist.pop(secrets.randbelow(len(charlist)))
+        if not full:
+            char_list = list(word)
+        for _ in range(len(word)):
+            chunk += char_list.pop(secrets.randbelow(len(char_list)))
         chunks.append(chunk)
     end_text = ' '.join(chunks)
     return end_text
