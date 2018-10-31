@@ -36,5 +36,6 @@ commands:
       Searches for an emoji. You can use the actual emoji or just its name.
       If you use its name you can make the search more precise by adding
       the ID of the emote or server ID that the emote is from, like in this
-      example "monika:375824498882117635". Custom emotes are not guaranteed
-      to be SFW as they can be anything.
+      example "monika:375824498882117635". By default this searches emotes on the current server.
+      If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
+      makes the command NSFW due to the possibility of other server's emotes being explicit.

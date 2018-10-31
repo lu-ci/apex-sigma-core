@@ -25,6 +25,15 @@ from sigma.core.mechanics.payload import CommandPayload
 emote_cache = {'stamp': 0, 'emotes': []}
 
 
+def get_emote_cache(cmd: SigmaCommand):
+    if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
+        all_emotes = cmd.bot.emojis
+        emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
+    else:
+        all_emotes = emote_cache.get('emotes')
+    return all_emotes
+
+
 def get_emote(emoji: str or discord.Emoji):
     lookup, eid = emoji, None
     if ':' in emoji:
@@ -44,31 +53,35 @@ def get_emote(emoji: str or discord.Emoji):
 
 
 async def emote(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup, eid = args[0].lower(), None
+    if pld.args:
+        nsfw = True
+        lookup, eid = pld.args[0].lower(), None
         if ':' in lookup:
             lookup, eid = get_emote(lookup)
-        if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
-            all_emotes = cmd.bot.emojis
-            emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
+        if pld.args[-1].lower() == '--global':
+            all_emotes = get_emote_cache(cmd)
         else:
-            all_emotes = emote_cache.get('emotes')
+            all_emotes = pld.msg.guild.emojis
+            nsfw = False
         if eid:
             emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup and x.id == eid, all_emotes)
             if not emote_choice:
                 emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup and x.guild.id == eid, all_emotes)
         else:
-            sid = message.guild.id
+            sid = pld.msg.guild.id
             emote_priority = discord.utils.find(lambda x: x.name.lower() == lookup and x.guild.id == sid, all_emotes)
             if emote_priority:
                 emote_choice = emote_priority
             else:
                 emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup, all_emotes)
-        if emote_choice:
-            response = discord.Embed().set_image(url=emote_choice.url)
+        if any([not nsfw, pld.msg.channel.is_nsfw()]):
+            if emote_choice:
+                response = discord.Embed().set_image(url=emote_choice.url)
+            else:
+                response = discord.Embed(color=0x696969, title='🔍 Emote not found.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Emote not found.')
+            response = discord.Embed(color=0xBE1931, title='❗ Emotes from other servers can be NSFW.')
+            response.description = 'Mark this channel as NSFW or move to one that is.'
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

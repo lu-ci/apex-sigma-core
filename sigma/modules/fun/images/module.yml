@@ -58,6 +58,5 @@ commands:
     enabled:      true
     description:
       Displays a random emote from the server's custom emotes.
-      You can add 'global' as an argument to make the selection
-      from all servers Sigma is on instead of just the current
-      one. Custom emotes are not guaranteed to be SFW as they can be anything.
+      If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
+      makes the command NSFW due to the possibility of other server's emotes being explicit.

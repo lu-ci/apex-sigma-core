@@ -26,7 +26,7 @@ from sigma.core.utilities.event_logging import log_event
 async def delete_logger(ev: SigmaEvent, pld: MessagePayload):
     if pld.msg.guild:
         if pld.msg.content:
-            log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s pld.msg was deleted.'
+            log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s message was deleted.'
             log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
             log_embed.set_author(name=log_title, icon_url=user_avatar(pld.msg.author))
             log_embed.add_field(name='🗑 Content', value=pld.msg.content)

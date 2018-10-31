@@ -20,23 +20,21 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.modules.utilities.images.emote import get_emote_cache
 
 
 async def randomemote(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    emotes = message.guild.emojis
-    image = False
-    if args:
-        if args[0].lower() == 'global':
-            emotes = cmd.bot.emojis
-        if args[-1].lower() == 'image':
-            image = True
-    if emotes:
-        emote = secrets.choice(emotes)
-        if image:
-            await message.channel.send(embed=discord.Embed().set_image(url=emote.url))
+    emotes, nsfw = pld.msg.guild.emojis, False
+    if pld.args:
+        if pld.args[-1].lower() == '--global':
+            emotes, nsfw = get_emote_cache(cmd), True
+    if any([not nsfw, pld.msg.channel.is_nsfw()]):
+        if emotes:
+            emote = secrets.choice(emotes)
+            response = discord.Embed().set_image(url=emote.url)
         else:
-            await message.channel.send(emote)
+            response = discord.Embed(color=0xBE1931, title='❗ This server has no custom emotes.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ This server has no custom emotes.')
-        await message.channel.send(embed=response)
+        response = discord.Embed(color=0xBE1931, title='❗ Emotes from other servers can be NSFW.')
+        response.description = 'Mark this channel as NSFW or move to one that is.'
+    await pld.msg.channel.send(embed=response)
