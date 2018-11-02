@@ -23,26 +23,26 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 rarity_rewards = {
-    '🍆': 10,
-    '🍒': 20,
-    '⚓': 30,
-    '🏵': 40,
-    '💖': 50,
-    '🏮': 60,
-    '🍥': 70,
-    '💵': 80,
-    '💳': 90,
+    '🍆': 50,
+    '🍒': 55,
+    '⚓': 60,
+    '🏵': 70,
+    '💖': 75,
+    '🏮': 80,
+    '🍥': 85,
+    '💵': 90,
+    '💳': 95,
     '🎁': 100,
-    '🐬': 110,
-    '🐦': 120,
-    '🌟': 130,
-    '🦊': 140,
-    '🦋': 150,
-    '🐍': 160,
-    '🍬': 170,
-    '💎': 180,
-    '🔰': 190,
-    '⚜': 200
+    '🐬': 105,
+    '🐦': 110,
+    '🌟': 115,
+    '🦊': 120,
+    '🦋': 125,
+    '🐍': 130,
+    '🍬': 135,
+    '💎': 140,
+    '🔰': 145,
+    '⚜': 150
 }
 
 symbols = []
@@ -89,7 +89,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
             two_comb_three = bool(combination[1] == combination[2])
             if three_comb:
                 win = True
-                winnings = int(bet * ((rarity_rewards[combination[0]] / 5) * (bet * 0.95)))
+                winnings = int(bet * ((rarity_rewards[combination[0]] / 5) * 0.95))
             elif two_comb_one or two_comb_two or two_comb_three:
                 if combination[0] == combination[1]:
                     win_comb = combination[0]
@@ -100,7 +100,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     win_comb = None
                 win = True
-                winnings = int(bet * ((rarity_rewards[win_comb] / 5) * (bet * 0.45)))
+                winnings = int(bet * ((rarity_rewards[win_comb] / 5) * 0.45))
             else:
                 win = False
                 winnings = 0
