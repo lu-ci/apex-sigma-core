@@ -89,7 +89,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
             two_comb_three = bool(combination[1] == combination[2])
             if three_comb:
                 win = True
-                winnings = int(bet * ((rarity_rewards[combination[0]] / 5) * 0.95))
+                winnings = int(bet * ((rarity_rewards[combination[0]] / 6.66666) * 0.95))
             elif two_comb_one or two_comb_two or two_comb_three:
                 if combination[0] == combination[1]:
                     win_comb = combination[0]
@@ -100,7 +100,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     win_comb = None
                 win = True
-                winnings = int(bet * ((rarity_rewards[win_comb] / 5) * 0.45))
+                winnings = int(bet * ((rarity_rewards[win_comb] / 6.66666) * 0.45))
             else:
                 win = False
                 winnings = 0
