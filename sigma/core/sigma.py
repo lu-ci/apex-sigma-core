@@ -41,7 +41,7 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 ci_token = os.getenv('CI')
 if not ci_token:
     init_cfg = Configuration()
-    if init_cfg.dsc.bot:
+    if init_cfg.dsc.bot and (init_cfg.dsc.shard is None or init_cfg.dsc.shard_count is None):
         client_class = discord.AutoShardedClient
     else:
         client_class = discord.Client
@@ -55,7 +55,9 @@ class ApexSigma(client_class):
         self.ready = False
         # State attributes before initialization.
         self.log = None
-        self.cfg = None
+        self.cfg = init_cfg
+        self.shard_count = self.cfg.dsc.shard_count
+        self.shard_ids = [self.cfg.dsc.shard]
         self.db = None
         self.cool_down = None
         self.music = None
@@ -102,7 +104,6 @@ class ApexSigma(client_class):
 
     def init_config(self):
         self.log.info('Loading Configuration...')
-        self.cfg = init_cfg
         self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
         self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('Core Configuration Data Loaded')

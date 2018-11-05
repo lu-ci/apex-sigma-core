@@ -27,6 +27,12 @@ class DiscordConfig(object):
         self.token = self.raw.get('token', 'You got no token, son!')
         self.owners = self.raw.get('owners', [137951917644054529])
         self.bot = self.raw.get('bot', True)
+        try:
+            self.shard = int(os.environ['SIGMA_SHARD'])
+            self.shard_count = int(os.environ['SIGMA_SHARD_COUNT'])
+        except (ValueError, KeyError):
+            self.shard = None
+            self.shard_count = None
 
 
 class DatabaseConfig(object):
