@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.mechanics.payload import MessagePayload, CommandPayload
 
 
 def log_dm(ev: SigmaEvent, pld: MessagePayload):
@@ -51,5 +51,5 @@ async def dm_detection(ev: SigmaEvent, pld: MessagePayload):
                     log_dm(ev, pld)
                     command = 'help'
                 if not await ev.bot.cool_down.on_cooldown(ev.name, pld.msg.author):
-                    await ev.bot.modules.commands[command].execute(pld.msg, [])
+                    await ev.bot.modules.commands[command].execute(CommandPayload(ev.bot, pld.msg, []))
                 await ev.bot.cool_down.set_cooldown(ev.name, pld.msg.author, 30)

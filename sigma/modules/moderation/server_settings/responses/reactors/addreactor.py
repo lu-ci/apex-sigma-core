@@ -30,7 +30,7 @@ async def addreactor(cmd: SigmaCommand, pld: CommandPayload):
                 if '.' not in trigger:
                     reaction = args[1].replace('<', '').replace('>', '')
                     react_triggers = pld.settings.get('reactor_triggers', {})
-                    res_text = 'updated' if react_triggers in trigger else 'added'
+                    res_text = 'updated' if trigger in react_triggers else 'added'
                     react_triggers.update({trigger: reaction})
                     await cmd.db.set_guild_settings(message.guild.id, 'reactor_triggers', react_triggers)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')

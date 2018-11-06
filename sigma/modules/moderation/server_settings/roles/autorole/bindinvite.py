@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if message.author.guild_permissions.create_instant_invite:
-        await cmd.bot.modules.commands.get('syncinvites').execute(message, ['noresp'])
+        await cmd.bot.modules.commands.get('syncinvites').execute(CommandPayload(cmd.bot, pld.msg, ['noresp']))
         if len(args) >= 2:
             invite_id = args[0]
             role_name = ' '.join(args[1:])

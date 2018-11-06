@@ -16,16 +16,17 @@
 
 import discord
 import aiohttp
-from lxml import html as lx
+import json
+import ftfy
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
 async def randomactivity(_cmd: SigmaCommand, pld: CommandPayload):
     async with aiohttp.ClientSession() as session:
-        async with session.get('https://www.randomthingstodo.com/') as q_req:
-            q_page = await q_req.text()
-    root = lx.fromstring(q_page)
-    todo = root.cssselect('.listLine')[0][0].text
+        async with session.get('https://kylebob.com/get.php?category=&search=') as q_req:
+            q_page = await q_req.read()
+            data = json.loads(q_page)
+    todo = ftfy.fix_encoding(data.get('thing'))
     response = discord.Embed(color=0xF9F9F9, title=f'💡 {todo}')
     await pld.msg.channel.send(embed=response)
