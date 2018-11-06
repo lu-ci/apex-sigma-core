@@ -131,7 +131,6 @@ class Database(motor.AsyncIOMotorClient):
     # Resource Handling
 
     async def update_resource(self, user_id: int, resource_name: str, resource: SigmaResource):
-        cache_key = f'res_{resource_name}_{user_id}'
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
         coll = self[self.db_nam][f'{resource_name.title()}Resource']
         data = resource.dictify()
@@ -140,15 +139,10 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await coll.insert_one(data)
-        await self.cache.set_cache(cache_key, SigmaResource(data))
 
     async def get_resource(self, user_id: int, resource_name: str):
-        cache_key = f'res_{resource_name}_{user_id}'
-        resource = await self.cache.get_cache(cache_key)
-        if resource is None:
-            data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
-            resource = SigmaResource(data)
-            await self.cache.set_cache(cache_key, resource)
+        data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+        resource = SigmaResource(data)
         return resource
 
     async def add_resource(self, user_id: int, name: str, amount: int, trigger: str, origin=None, ranked: bool = True):
@@ -166,7 +160,6 @@ class Database(motor.AsyncIOMotorClient):
     # Inventory Handling
 
     async def update_inventory(self, user_id: int, inventory: list):
-        cache_key = f'inv_{user_id}'
         inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
         data = {'items': inventory}
         if inv:
@@ -174,14 +167,9 @@ class Database(motor.AsyncIOMotorClient):
         else:
             data.update({'user_id': user_id})
             await self[self.db_nam].Inventory.insert_one(data)
-        await self.cache.set_cache(cache_key, data)
 
     async def get_inventory(self, user_id: int):
-        cache_key = f'inv_{user_id}'
-        inventory = await self.cache.get_cache(cache_key)
-        if inventory is None:
-            inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
-            await self.cache.set_cache(cache_key, inventory)
+        inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
         inventory = inventory.get('items', [])
         return inventory
 
