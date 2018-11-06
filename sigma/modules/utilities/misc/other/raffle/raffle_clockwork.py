@@ -50,7 +50,6 @@ async def cycler(ev: SigmaEvent):
                 raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True}).to_list(None)
                 if raffles:
                     for raffle in raffles:
-                        await raffle_coll.update_one(raffle, {'$set': {'active': False}})
                         cid = raffle.get('channel')
                         aid = raffle.get('author')
                         mid = raffle.get('message')
@@ -59,7 +58,7 @@ async def cycler(ev: SigmaEvent):
                         colr = raffle.get('color')
                         channel = await ev.bot.get_channel(cid)
                         if channel:
-                            await raffle_coll.delete_one(raffle)
+                            await raffle_coll.update_one(raffle, {'$set': {'active': False}})
                             message = await channel.get_message(mid)
                             if message:
                                 contestants = []
