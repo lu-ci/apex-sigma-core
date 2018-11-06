@@ -37,7 +37,7 @@ async def reminder_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().timestamp
-            reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}})
+            reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}}).to_list(None)
             if reminders:
                 for reminder in reminders:
                     channel = await ev.bot.get_channel(reminder.get('channel_id'))

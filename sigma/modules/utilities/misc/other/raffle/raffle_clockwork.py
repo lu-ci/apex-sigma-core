@@ -47,7 +47,7 @@ async def cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             try:
                 now = arrow.utcnow().float_timestamp
-                raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True})
+                raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True}).to_list(None)
                 if raffles:
                     for raffle in raffles:
                         await raffle_coll.update_one(raffle, {'$set': {'active': False}})
