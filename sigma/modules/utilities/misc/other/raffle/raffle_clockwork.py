@@ -47,39 +47,41 @@ async def cycler(ev: SigmaEvent):
         if ev.bot.is_ready():
             try:
                 now = arrow.utcnow().float_timestamp
-                raffle = await raffle_coll.find_one({'end': {'$lt': now}, 'active': True})
-                if raffle:
-                    await raffle_coll.update_one(raffle, {'$set': {'active': False}})
-                    cid = raffle.get('channel')
-                    aid = raffle.get('author')
-                    mid = raffle.get('message')
-                    icon = raffle.get('icon')
-                    titl = raffle.get('title')
-                    colr = raffle.get('color')
-                    channel = await ev.bot.get_channel(cid)
-                    if channel:
-                        message = await channel.get_message(mid)
-                        if message:
-                            contestants = []
-                            reactions = message.reactions
-                            for reaction in reactions:
-                                if reaction.emoji == icon:
-                                    async for user in reaction.users():
-                                        if not user.bot:
-                                            contestants.append(user)
-                                    break
-                            if contestants:
-                                contestants = extra_shuffle(contestants)
-                                winner = secrets.choice(contestants)
-                                amen = f'<@{aid}>'
-                                wmen = f'<@{winner.id}>'
-                                ender = '' if titl[-1] in string.punctuation else '!'
-                                win_text = f'{icon} Hey {amen}, {wmen} won your raffle!'
-                                win_embed = discord.Embed(color=colr)
-                                win_title = f'{winner.name} won {titl.lower()}{ender}'
-                                win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
-                                await channel.send(win_text, embed=win_embed)
-                                ev.log.info(f'{winner.d}won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
+                raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True})
+                if raffles:
+                    for raffle in raffles:
+                        await raffle_coll.update_one(raffle, {'$set': {'active': False}})
+                        cid = raffle.get('channel')
+                        aid = raffle.get('author')
+                        mid = raffle.get('message')
+                        icon = raffle.get('icon')
+                        titl = raffle.get('title')
+                        colr = raffle.get('color')
+                        channel = await ev.bot.get_channel(cid)
+                        if channel:
+                            await raffle_coll.delete_one(raffle)
+                            message = await channel.get_message(mid)
+                            if message:
+                                contestants = []
+                                reactions = message.reactions
+                                for reaction in reactions:
+                                    if reaction.emoji == icon:
+                                        async for user in reaction.users():
+                                            if not user.bot:
+                                                contestants.append(user)
+                                        break
+                                if contestants:
+                                    contestants = extra_shuffle(contestants)
+                                    winner = secrets.choice(contestants)
+                                    amen = f'<@{aid}>'
+                                    wmen = f'<@{winner.id}>'
+                                    ender = '' if titl[-1] in string.punctuation else '!'
+                                    win_text = f'{icon} Hey {amen}, {wmen} won your raffle!'
+                                    win_embed = discord.Embed(color=colr)
+                                    win_title = f'{winner.name} won {titl.lower()}{ender}'
+                                    win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
+                                    await channel.send(win_text, embed=win_embed)
+                                    ev.log.info(f'{winner.d}won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
             except Exception:
                 pass
         await asyncio.sleep(1)

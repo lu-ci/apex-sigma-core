@@ -37,29 +37,31 @@ async def reminder_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().timestamp
-            reminder = await coll.find_one_and_delete({'execution_stamp': {'$lt': current_stamp}})
-            if reminder:
-                channel = await ev.bot.get_channel(reminder.get('channel_id'))
-                author = await ev.bot.get_user(reminder.get('user_id'))
-                if channel:
-                    target = channel
-                elif author:
-                    target = author
-                else:
-                    target = None
-                if target:
-                    dt_stamp = arrow.get(reminder.get('creation_stamp')).datetime
-                    title = f'⏰ Your Reminder'
-                    response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)
-                    response.description = reminder.get('text_message')
-                    if author:
-                        response.set_author(name=author.name, icon_url=user_avatar(author))
-                    response.set_footer(text=f'Reminder: {reminder.get("reminder_id")}')
-                    try:
+            reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}})
+            if reminders:
+                for reminder in reminders:
+                    channel = await ev.bot.get_channel(reminder.get('channel_id'))
+                    author = await ev.bot.get_user(reminder.get('user_id'))
+                    if channel:
+                        target = channel
+                    elif author:
+                        target = author
+                    else:
+                        target = None
+                    if target:
+                        await coll.delete_one(reminder)
+                        dt_stamp = arrow.get(reminder.get('creation_stamp')).datetime
+                        title = f'⏰ Your Reminder'
+                        response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)
+                        response.description = reminder.get('text_message')
                         if author:
-                            await target.send(f'{author.mention}, your reminder executed.', embed=response)
-                        else:
-                            await target.send(embed=response)
-                    except discord.ClientException:
-                        pass
+                            response.set_author(name=author.name, icon_url=user_avatar(author))
+                        response.set_footer(text=f'Reminder: {reminder.get("reminder_id")}')
+                        try:
+                            if author:
+                                await target.send(f'{author.mention}, your reminder executed.', embed=response)
+                            else:
+                                await target.send(embed=response)
+                        except discord.ClientException:
+                            pass
         await asyncio.sleep(1)
