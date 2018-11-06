@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import hashlib
 import secrets
 
 import aiohttp
@@ -22,6 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.modules.utilities.tools.imgur import upload_image
 
 
 async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_data: dict):
@@ -48,34 +50,30 @@ async def send_log_message(cmd: SigmaCommand, message: discord.Message, inter_da
         return log_msg
 
 
-def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str):
+def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str, url_hash: str):
     return {
         'name': interaction_name.lower(),
         'user_id': message.author.id,
         'server_id': message.guild.id,
         'url': interaction_url,
+        'hash': url_hash,
         'interaction_id': secrets.token_hex(4),
         'message_id': None
     }
 
 
-async def validate_gif_url(db: Database, name: str, url: str):
-    valid = False
-    discord_url = False
-    if 'discordapp.net' not in url and 'discordapp.com' not in url:
-        exists = bool(await db[db.db_nam].Interactions.find_one({'url': url, 'name': name}))
-        if not exists:
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(url) as resp:
-                        resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
-                        valid = resp.status == 200 and resp_type == 'image/gif'
-            except Exception:
-                pass
-    else:
-        valid = False
-        discord_url = True
-    return valid, discord_url
+async def validate_gif_url(url: str):
+    valid, data = False, None
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                resp_type = resp.headers.get('Content-Type') or resp.headers.get('content-type')
+                valid = resp.status == 200 and resp_type == 'image/gif'
+                if valid:
+                    data = await resp.read()
+    except Exception:
+        pass
+    return valid, data
 
 
 def get_allowed_interactions(commands: dict):
@@ -88,6 +86,23 @@ def get_allowed_interactions(commands: dict):
     return allowed_interactions
 
 
+async def relay_image(cmd: SigmaCommand, url: str):
+    client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
+    return await upload_image(url, client_id)
+
+
+async def check_existence(db: Database, data: bytes, name: str):
+    url_hash = hash_url(data)
+    exists = bool(await db[db.db_nam].Interactions.find_one({'hash': url_hash, 'name': name}))
+    return exists, url_hash
+
+
+def hash_url(url: bytes):
+    crypt = hashlib.new('md5')
+    crypt.update(url)
+    return crypt.hexdigest()
+
+
 async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if args:
@@ -96,20 +111,24 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
             interaction_link = ' '.join(args[1:])
             allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
             if interaction_name in allowed_interactions:
-                valid, discord_url = await validate_gif_url(cmd.db, interaction_name, interaction_link)
+                valid, data = await validate_gif_url(interaction_link)
                 if valid:
-                    inter_data = make_interaction_data(message, interaction_name, interaction_link)
-                    log_msg = await send_log_message(cmd, message, inter_data)
-                    inter_data.update({'message_id': log_msg.id if log_msg else None})
-                    await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
-                    success_title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
-                    response = discord.Embed(color=0x77B255, title=success_title)
-                else:
-                    if discord_url:
-                        no_disc = f'❗ Can\'t add Discord attachment or thumbnail URLs.'
-                        response = discord.Embed(color=0xBE1931, title=no_disc)
+                    exists, url_hash = await check_existence(cmd.db, data, interaction_name)
+                    if not exists:
+                        imgur_link = await relay_image(cmd, interaction_link)
+                        if imgur_link:
+                            inter_data = make_interaction_data(message, interaction_name, imgur_link, url_hash)
+                            log_msg = await send_log_message(cmd, message, inter_data)
+                            inter_data.update({'message_id': log_msg.id if log_msg else None})
+                            await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
+                            title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
+                            response = discord.Embed(color=0x77B255, title=title)
+                        else:
+                            response = discord.Embed(color=0xBE1931, title=f'❗ Bad GIF.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
+                        response = discord.Embed(color=0xBE1931, title=f'❗ That GIF has already been submitted.')
+                else:
+                    response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
         else:

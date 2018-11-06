@@ -18,17 +18,18 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-        jar_doc = pld.settings.get('collection_jar', {})
-        active = jar_doc.get('state')
-        state, ender = (False, 'disabled') if active else (True, 'enabled')
-        jar_doc.update({'state': state})
-        await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-        response = discord.Embed(color=7844437, title=f'✅ Collection Jar {ender}.')
+async def wave(cmd: SigmaCommand, pld: CommandPayload):
+    message = pld.msg
+    interaction = await grab_interaction(cmd.db, 'wave')
+    target = get_target(message)
+    auth = message.author
+    if not target or target.id == message.author.id:
+        response = discord.Embed(color=0xffcc4d, title=f'👋 {auth.display_name} waves at themself.')
     else:
-        response = permission_denied('Manage Server')
-    await pld.msg.channel.send(embed=response)
+        response = discord.Embed(color=0xffcc4d, title=f'👋 {auth.display_name} waves at {target.display_name}.')
+    response.set_image(url=interaction['url'])
+    response.set_footer(text=await make_footer(cmd, interaction))
+    await message.channel.send(embed=response)
