@@ -132,12 +132,13 @@ async def cycler(ev: SigmaEvent):
     global current_user_collecting
     while True:
         if ev.bot.is_ready():
-            cltr_item = await ev.db[ev.db.db_nam].CollectorQueue.find_one_and_delete({})
-            if cltr_item:
+            cltr_items = await ev.db[ev.db.db_nam].CollectorQueue.find({})
+            for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
                 cl_ath = await ev.bot.get_user(cltr_item.get('author_id'))
                 if cl_usr and cl_chn:
+                    await ev.db[ev.db.db_nam].CollectorQueue.delete_one(cltr_item)
                     current_user_collecting = cl_usr.id
                     collected = 0
                     collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
