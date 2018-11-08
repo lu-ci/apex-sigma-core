@@ -129,7 +129,6 @@ class ApexSigma(client_class):
         self.log.info('Loading Cool-down Controls...')
         self.cool_down = CooldownControl(self)
         self.loop.run_until_complete(self.cool_down.clean_cooldowns())
-        self.loop.run_until_complete(self.cool_down.cache_cooldowns())
         self.log.info('Cool-down Controls Successfully Enabled')
 
     def init_music(self):

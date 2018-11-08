@@ -18,6 +18,7 @@ commands:
       The time format is H:M:S, but is not limited to the constraints of their types,
       meaning you can type "200:5000:999999" if you wish.
       Reminders are limited to 90 days, and you are limited to 15 reminders.
+      You can also add "--direct" as the final argument to make the reminder a direct message.
 
   - name:         myreminders
     alts:

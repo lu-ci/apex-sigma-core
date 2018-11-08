@@ -35,8 +35,14 @@ async def remindme(cmd: SigmaCommand, pld: CommandPayload):
                 rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'user_id': message.author.id})
                 rem_limit = 15
                 if rem_count < rem_limit:
+                    is_dm = False
                     if len(args) > 1:
-                        text_message = ' '.join(args[1:])
+                        if args[-1].lower() == '--direct':
+                            is_dm = True
+                            text_message = ' '.join(args[1:-1])
+                            text_message = 'No reminder message set.' if not text_message else text_message
+                        else:
+                            text_message = ' '.join(args[1:])
                     else:
                         text_message = 'No reminder message set.'
                     execution_stamp = arrow.utcnow().timestamp + in_seconds
@@ -53,7 +59,8 @@ async def remindme(cmd: SigmaCommand, pld: CommandPayload):
                         'execution_stamp': execution_stamp,
                         'channel_id': message.channel.id,
                         'server_id': message.guild.id,
-                        'text_message': text_message
+                        'text_message': text_message,
+                        'direct_message': is_dm
                     }
                     await cmd.db[cmd.db.db_nam].Reminders.insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)

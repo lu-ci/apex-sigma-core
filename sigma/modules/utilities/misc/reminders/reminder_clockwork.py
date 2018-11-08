@@ -40,11 +40,12 @@ async def reminder_cycler(ev: SigmaEvent):
             reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}}).to_list(None)
             if reminders:
                 for reminder in reminders:
+                    is_dm = reminder.get('direct_message')
                     channel = await ev.bot.get_channel(reminder.get('channel_id'))
                     author = await ev.bot.get_user(reminder.get('user_id'))
-                    if channel:
+                    if channel and not is_dm:
                         target = channel
-                    elif author:
+                    elif author or is_dm:
                         target = author
                     else:
                         target = None
