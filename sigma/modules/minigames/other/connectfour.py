@@ -15,110 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-import secrets
 
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
 
 ongoing_list = []
-
-
-class Board(object):
-    def __init__(self):
-        self.rows = []
-        self.r = '🔴'
-        self.b = '🔵'
-        self.e = '⚫'
-
-    @property
-    def make(self):
-        [self.rows.append([self.e for _ in range(7)]) for _ in range(6)]
-        return self.rows
-
-    def edit(self, column: int, player: str):
-        piece = getattr(self, player)
-        for i, cell in reversed(list(enumerate(self.column(column)))):
-            if cell == self.e:
-                self.rows[i][column] = piece
-                break
-        return self.rows
-
-    def column(self, column: int):
-        return [row[column] for row in self.rows]
-
-    @property
-    def columns(self):
-        return [self.column(i) for i, r in enumerate(self.rows)]
-
-    def column_full(self, column: int):
-        return self.rows[0][column] != self.e
-
-    @property
-    def full(self):
-        return all([self.rows[0][i] != self.e for i in range(len(self.rows))])
-
-    @property
-    def winner(self):
-        full = self.full
-        for row in self.rows:
-            chunks = [row[0:4], row[1:5], row[2:6], row[3:7]]
-            winner, win = self.first_check(chunks)
-            if win:
-                return full, winner, win
-        for column in self.columns:
-            chunks = [column[0:4], column[1:5], column[2:6]]
-            winner, win = self.first_check(chunks)
-            if win:
-                return full, winner, win
-        winner, win = self.second_check()
-        return full, winner, win
-
-    def first_check(self, chunks: list):
-        winner, win = None, False
-        for chunk in chunks:
-            if all(x == chunk[0] != self.e for x in chunk):
-                winner, win = chunk[0], True
-                break
-        return winner, win
-
-    def second_check(self):
-        for chunk in self.chunks(self.rows):
-            if all(x == chunk[0] != self.e for x in chunk):
-                return chunk[0], True
-        reversed_rows = [list(reversed(row)) for row in self.rows]
-        for chunk in self.chunks(reversed_rows):
-            if all(x == chunk[0] != self.e for x in chunk):
-                return chunk[0], True
-        return None, False
-
-    @staticmethod
-    def chunks(rows: list):
-        # Gets all diagonal winning positions in one direction
-        bases = [[(3, 0), (2, 1), (1, 2), (0, 3)], [(4, 0), (3, 1), (2, 2), (1, 3)], [(5, 0), (4, 1), (3, 2), (2, 3)]]
-        chunks = []
-        for chunk in bases:
-            for _ in range(4):
-                chunks.append(chunk)
-                chunk = [(x, y + 1) for x, y in chunk]
-        rows = [[rows[x][y] for x, y in chunk] for chunk in chunks]
-        return rows
-
-
-def bot_move(board, last: int):
-    choice, bad_col = None, True
-    while bad_col:
-        move = secrets.randbelow(3)
-        if move == 0:
-            mod = secrets.choice([-1, 0, 1])
-            choice = max(min(6, last + mod), 0)
-        else:
-            choice = secrets.randbelow(6)
-        if not board.column_full(choice):
-            bad_col = False
-    return choice
 
 
 def generate_response(avatar, current: discord.Member, rows: list):
@@ -158,7 +63,7 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                 await message.channel.send(embed=self_embed)
                 return
 
-        board = Board()
+        board = ConnectFourBoard()
         user_av = user_avatar(message.author)
         board_resp = generate_response(user_av, message.author, board.make)
         board_msg = await message.channel.send(embed=board_resp)
@@ -209,7 +114,7 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                             if not competitor:
                                 # Bot takes turn
                                 await asyncio.sleep(2)
-                                last_bot_move = bot_choice = bot_move(board, last_bot_move)
+                                last_bot_move = bot_choice = board.bot_move(last_bot_move)
                                 board_resp = generate_response(user_av, cmd.bot.user, board.edit(bot_choice, bot))
                                 board_msg = await send_board_msg(message, board_msg, board_resp)
                                 full, winner, win = board.winner
