@@ -34,6 +34,9 @@ async def topcurrency(cmd: SigmaCommand, pld: CommandPayload):
         if args[0].lower() == 'total':
             sort_key = f'total'
             lb_category = 'Total'
+        elif args[0].lower() == 'current':
+            sort_key = f'current'
+            lb_category = 'Current'
         elif args[0].lower() == 'local':
             sort_key = f'origins.guilds.{message.guild.id}'
             localed = True
