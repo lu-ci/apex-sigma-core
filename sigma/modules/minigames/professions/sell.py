@@ -42,6 +42,23 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
                 ender = 's' if count != 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
+            elif lookup.lower() == 'duplicates':
+                value = 0
+                count = 0
+                existing_ids = []
+                for invitem in inv.copy():
+                    file_id = invitem['item_file_id']
+                    if file_id in existing_ids:
+                        item_ob_id = item_core.get_item_by_file_id(file_id)
+                        value += item_ob_id.value
+                        count += 1
+                        await cmd.db.del_from_inventory(message.author.id, invitem['item_id'])
+                    else:
+                        existing_ids.append(file_id)
+                await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                ender = 's' if count != 1 else ''
+                response = discord.Embed(color=0xc6e4b5)
+                response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
                 item_o = item_core.get_item_by_name(lookup)
                 if item_o:

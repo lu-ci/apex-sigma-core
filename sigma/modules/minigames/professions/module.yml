@@ -71,7 +71,8 @@ commands:
     usage:        "{pfx}{cmd} Copula"
     description:
       Sells an item from your inventory.
-      Input all instead of the item name to sell your entire inventory.
+      Input "all" instead of the item name to sell your entire inventory.
+      Input "duplicates" instead of the item name to sell all duplicate items.
 
   - name:         buyupgrade
     alts:
