@@ -131,6 +131,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. | `>>addinteraction reaction my.gif.link/fancy.gif`
 `>>bite` `>>nom` | Sink your teeth into some poor thing. | `>>bite @person`
+`>>blush` | An overreaction of your face's blood vessels to whatever. | `>>blush @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
 `>>dance` | Feel alive? Like you just wanna... boogie? Let's dance! | `>>dance @person`
 `>>drink` `>>chug` | Cheers, family! Let's get drunk! | `>>drink @person`
@@ -141,6 +142,7 @@ Commands | Description | Example
 `>>highfive` | Give somebody a high-five cause high-fives are awesome! | `>>highfive @person`
 `>>hug` `>>cuddle` `>>snuggle` | Even a bot like me can appreciate a hug! The person you mention surely will too. | `>>hug @person`
 `>>kiss` `>>peck` `>>chu` `>>smooch` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
+`>>laugh` | <inaudible laughter-like noises> | `>>laugh @person`
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, that's a good excuse. | `>>lick @person`
 `>>lovecalculator` `>>lovecalc` | Shows the love between two mentioned users. If only one user is mentioned, it will show the love between the mentioned user and the author. | `>>lovecalculator @person1 @person2`
 `>>pat` `>>pato` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
@@ -151,9 +153,11 @@ Commands | Description | Example
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
+`>>sleep` | My favorite pastime! ...I wish I was permanently asleep. | `>>sleep @person`
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
 `>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
+`>>wave` | It's not the size of the wave, it's the motion of the ocean~ | `>>wave @person`
 [Back To Top](#module-index)
 
 ### MATHEMATICS

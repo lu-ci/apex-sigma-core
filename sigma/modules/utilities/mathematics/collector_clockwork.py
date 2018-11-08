@@ -132,7 +132,7 @@ async def cycler(ev: SigmaEvent):
     global current_user_collecting
     while True:
         if ev.bot.is_ready():
-            cltr_items = await ev.db[ev.db.db_nam].CollectorQueue.find({})
+            cltr_items = await ev.db[ev.db.db_nam].CollectorQueue.find({}).to_list(None)
             for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
