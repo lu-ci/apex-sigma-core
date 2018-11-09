@@ -100,9 +100,9 @@ async def race(cmd: SigmaCommand, pld: CommandPayload):
                     win_title += f' And got {winnings} {currency}.'
                 response = discord.Embed(color=colors[leader['icon']], title=win_title)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Buyin can\'t be longer than 200 digits.')
+                response = discord.Embed(color=0xBE1931, title='❗ Not enough participants in the race!')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough participants in the race!')
+            response = discord.Embed(color=0xBE1931, title='❗ Buyin can\'t be longer than 200 digits.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
     await message.channel.send(embed=response)

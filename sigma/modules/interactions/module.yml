@@ -187,6 +187,30 @@ commands:
     description:
       Somebody is making you sad, let them know that with crocodile tears!
 
+  - name:         wave
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      It's not the size of the wave, it's the motion of the ocean~
+
+  - name:         sleep
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      My favorite pastime! ...I wish I was permanently asleep.
+
+  - name:         laugh
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      <inaudible laughter-like noises>
+
+  - name:         blush
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+      An overreaction of your face's blood vessels to whatever.
+
   - name:         dance
     enabled:      true
     usage:        "{pfx}{cmd} @person"

@@ -21,7 +21,7 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer
 
 
-async def sleep(cmd: SigmaCommand, pld: CommandPayload):
+async def laugh(cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     interaction = await grab_interaction(cmd.db, 'laugh')
     target = get_target(message)
