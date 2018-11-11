@@ -48,7 +48,7 @@ async def edit_name_check(ev: SigmaEvent, pld: MemberUpdatePayload):
                 if active:
                     if is_invalid(pld.after.display_name):
                         try:
-                            temp_name = pld.settings.get('ascii_temp_name')
+                            temp_name = pld.settings.get('ascii_temp_name', '<Change My Name>')
                             new_name = clean_name(pld.after.display_name, temp_name)
                             await pld.after.edit(nick=new_name, reason='ASCII name enforcement.')
                         except Exception:
