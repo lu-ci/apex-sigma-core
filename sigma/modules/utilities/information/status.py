@@ -65,7 +65,7 @@ async def status(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='CPU', value=cpu_text)
     response.add_field(name='Memory', value=mem_text)
     if cmd.bot.cfg.dsc.bot:
-        current_shard = pld.msg.guild.shard_id
+        current_shard = pld.msg.guild.shard_id if len(cmd.bot.latencies) > 1 else 0
         shard_latency = int(cmd.bot.latencies[current_shard][1] * 1000)
         verbose_description = f'Shard: #{current_shard} | '
         verbose_description += f'Latency: {shard_latency}ms | '
