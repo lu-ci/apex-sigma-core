@@ -52,7 +52,7 @@ async def poll(_cmd: SigmaCommand, pld: CommandPayload):
         emoji = icon_list_base.pop(secrets.randbelow(len(icon_list_base)))
         emoji_list.append(emoji)
         choice_text += f'\n{emoji} - {option}'
-    out_content = discord.Embed(color=message.author.top_role.color)
+    out_content = discord.Embed(color=message.author.color)
     out_content.set_author(name=f'{message.author.name}\'s Poll', icon_url=user_avatar(message.author))
     out_content.description = poll_name
     out_content.add_field(name='Choices', value=choice_text)
