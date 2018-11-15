@@ -42,6 +42,14 @@ commands:
       If a user isn't mentioned, it will collect a chain for the author.
       If a channel isn't mentioned, it will collect items from the current channel.
 
+  - name:         cancelcollector
+    alts:
+      - "cancelcoll"
+    enabled:      true
+    description:
+      Removes you from the collection queue if you're currently in in.
+      You cannot cancel a collection that has already started, nor can you cancel someone else's collection..
+
   - name:         blockcollector
     alts:
       - "nochain"

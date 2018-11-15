@@ -64,10 +64,11 @@ async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ I refuse to collect a chain for a bot.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {starter} in the queue or you have a pending entry.')
+            mid = 'have a' if message.author.id == target_usr.id else 'has a'
+            response = discord.Embed(color=0xBE1931, title=f'❗ {starter} already in the queue or {mid} pending entry.')
     else:
         if blocked:
             response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Chains for #{target_chn.name} has been disabled')
+            response = discord.Embed(color=0xBE1931, title=f'❗ Chains for #{target_chn.name} have been disabled')
     await message.channel.send(embed=response)

@@ -52,3 +52,11 @@ commands:
       members can use the colorme command to get a role with their requested hex color.
       Roles created with this feature have a SCR prefix in them and are created to be just one place under
       Sigma's top role with no permission changes. This command requires the Manage Server permission.
+
+  - name:         resetserver
+    enabled:      true
+    usage:        "{pfx}{cmd} --permsonly"
+    description:
+      Permanently deletes all settings and permissions for Sigma on the current server.
+      You can add "--permsonly" or "--settingsonly" as an argument to only delete permissions or settings respectively.
+      This CANNOT be undone. This command requires the user to be the Server Owner.
