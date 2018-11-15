@@ -47,7 +47,7 @@ async def quote(_cmd: SigmaCommand, pld: CommandPayload):
                 valid = False
                 pref_arg = args[-1].lower()
                 prefix = 'canary' if pref_arg == '--canary' else 'ptb' if pref_arg == '--ptb' else None
-                domain = 'discordapp.com' if not prefix else '{prefix}.discordapp.com'
+                domain = 'discordapp.com' if not prefix else f'{prefix}.discordapp.com'
                 msg_url = f'https://{domain}/channels/{msg.guild.id}/{msg.channel.id}/{msg.id}'
                 location = f'{msg.guild.name} | #{msg.channel.name}'
                 response = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
