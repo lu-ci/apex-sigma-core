@@ -50,6 +50,31 @@ class Database(motor.AsyncIOMotorClient):
                 await self.cache.set_cache(guild_id, setting_file)
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} guild settings.')
 
+    async def precache_profiles(self):
+        self.bot.log.info('Pre-Caching all member profiles...')
+        all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
+        for setting_file in all_settings:
+            guild_id = setting_file.get('user_id')
+            if guild_id:
+                await self.cache.set_cache(guild_id, setting_file)
+        self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
+
+    async def precache_resources(self):
+        self.bot.log.info(f'Pre-Caching all resource data...')
+        res_cache_counter = 0
+        all_colls = await self[self.db_nam].list_collection_names()
+        for coll in all_colls:
+            if coll.endswith('Resource'):
+                res_nam = coll[:8].lower()
+                docs = await self[self.db_nam][coll].find({}).to_list(None)
+                for doc in docs:
+                    uid = doc.get('user_id')
+                    cache_key = f'res_{res_nam}_{uid}'
+                    resource = SigmaResource(doc)
+                    await self.cache.set_cache(cache_key, resource)
+                    res_cache_counter += 1
+        self.bot.log.info(f'Finished pre-caching {res_cache_counter} resource entries.')
+
     # Guild Setting Variable Calls
 
     async def get_guild_settings(self, guild_id: int, setting_name: str = None):
@@ -78,7 +103,10 @@ class Database(motor.AsyncIOMotorClient):
     # Profile Data Entry Variable Calls
 
     async def get_profile(self, user_id: int, entry_name: str = None):
-        user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
+        user_profile = await self.cache.get_cache(f'profile_{user_id}')
+        if user_profile is None:
+            user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
+            await self.cache.set_cache(f'profile_{user_id}', user_profile)
         if entry_name:
             return user_profile.get(entry_name)
         else:
@@ -95,6 +123,7 @@ class Database(motor.AsyncIOMotorClient):
         else:
             user_profile = {'user_id': user_id, entry_name: value}
             await self[self.db_nam].Profiles.insert_one(user_profile)
+        await self.cache.set_cache(f'profile_{user_id}', user_profile)
 
     async def is_sabotaged(self, user_id: int):
         return bool(await self.get_profile(user_id, 'sabotaged'))
