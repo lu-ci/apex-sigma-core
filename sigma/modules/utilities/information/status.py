@@ -39,6 +39,15 @@ def get_os_icon():
     return icon, color
 
 
+def get_shard_latency(latencies: list, shard_id: int):
+    shard_latency = None
+    for lat_sd, lat_ms in latencies:
+        if lat_sd == shard_id:
+            shard_latency = lat_ms
+            break
+    return int(shard_latency * 1000)
+
+
 async def status(cmd: SigmaCommand, pld: CommandPayload):
     uptime_set = arrow.utcnow().float_timestamp - cmd.bot.start_time.float_timestamp
     processed = round(cmd.bot.queue.processed / uptime_set, 3)
@@ -65,9 +74,8 @@ async def status(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='CPU', value=cpu_text)
     response.add_field(name='Memory', value=mem_text)
     if cmd.bot.cfg.dsc.bot:
-        current_shard = pld.msg.guild.shard_id if len(cmd.bot.latencies) > 1 else 0
-        shard_latency = int(cmd.bot.latencies[current_shard][1] * 1000)
-        verbose_description = f'Shard: #{current_shard} | '
+        shard_latency = get_shard_latency(cmd.bot.latencies, pld.msg.guild.shard_id)
+        verbose_description = f'Shard: #{pld.msg.guild.shard_id} | '
         verbose_description += f'Latency: {shard_latency}ms | '
         verbose_description += f'Activity: {processed} ev/s'
         response.description = verbose_description
