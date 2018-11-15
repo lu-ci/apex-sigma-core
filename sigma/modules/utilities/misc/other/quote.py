@@ -45,9 +45,13 @@ async def quote(_cmd: SigmaCommand, pld: CommandPayload):
             msg = await message_search(lookup, message)
             if msg:
                 valid = False
+                pref_arg = args[-1].lower()
+                prefix = 'canary' if pref_arg == '--canary' else 'ptb' if pref_arg == '--ptb' else None
+                domain = 'discordapp.com' if not prefix else '{prefix}.discordapp.com'
+                msg_url = f'https://{domain}/channels/{msg.guild.id}/{msg.channel.id}/{msg.id}'
                 location = f'{msg.guild.name} | #{msg.channel.name}'
                 response = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
-                response.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
+                response.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author), url=msg_url)
                 response.set_footer(text=location)
                 if msg.content:
                     valid = True

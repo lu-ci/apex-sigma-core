@@ -8,6 +8,8 @@ commands:
   - name:         serversuggestion
     alts:
       - "serversugg"
+      - "suggest"
+      - "sugg"
     enabled:      true
     usage:        "{pfx}{cmd} New server ideas!"
     description:

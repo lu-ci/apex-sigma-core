@@ -20,10 +20,10 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def donate(cmd: SigmaCommand, pld: CommandPayload):
+async def donate(_cmd: SigmaCommand, pld: CommandPayload):
     message = pld.msg
     sigma_title = 'Sigma Donation Information'
-    donation_url = f'{cmd.bot.cfg.pref.website}/donate'
+    donation_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma'
     response = discord.Embed(color=0x1B6F5F, title=sigma_title)
     response.description = f'Care to help out? Come [support]({donation_url}) Sigma!'
     await message.channel.send(embed=response)

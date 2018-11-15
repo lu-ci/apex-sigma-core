@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json
-from json.decoder import JSONDecodeError
+import yaml
+from yaml import YAMLError
 
 import aiohttp
 
@@ -23,13 +23,13 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def version_check(ev: SigmaEvent):
-    version_url = 'https://api.lucia.moe/rest/sigma/version'
+    version_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma/raw/master/info/version.yml'
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(version_url) as version_data:
                 data = await version_data.read()
-                data = json.loads(data)
-    except (aiohttp.client_exceptions.ClientConnectorError, JSONDecodeError):
+                data = yaml.load(data)
+    except (aiohttp.client_exceptions.ClientConnectorError, YAMLError):
         data = None
     if data:
         official_stamp = data['build_date']
@@ -46,4 +46,4 @@ async def version_check(ev: SigmaEvent):
             ev.log.warning('Updating is strongly suggested.')
             ev.log.warning('---------------------------------')
     else:
-        ev.log.error('Could not retrieve latest version information.')
+        ev.log.warning('Could not retrieve latest version information.')

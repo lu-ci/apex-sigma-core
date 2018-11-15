@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.modules.development.suggestions.approvesuggestion import react_to_suggestion
 
 
 async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,6 +28,8 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
         reason = ' '.join(args[1:])
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
+            delete = True if reason.lower().startswith('deleted') else False
+            await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
                 to_user_title = f'⛔ Suggestion {token} declined by {message.author.display_name}.'

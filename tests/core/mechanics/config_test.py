@@ -31,7 +31,7 @@ class TestConfiguration(object):
         assert pref.prefix == '>>'
         assert pref.currency == 'Kud'
         assert pref.currency_icon == '⚜'
-        assert pref.website == 'https://lucia.moe/sigma'
+        assert pref.website == 'https://gitlab.com/lu-ci/sigma/apex-sigma'
         assert pref.text_only is False
         assert pref.music_only is False
         assert pref.dscbots_token is None

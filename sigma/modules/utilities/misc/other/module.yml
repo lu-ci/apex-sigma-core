@@ -67,6 +67,9 @@ commands:
     description:
       Quotes a message from its given ID.
       The message must have text content or an attachment.
+      The quote author header is clickable and will lead to the message.
+      Not that if you use Discord PTB or Canary you must add "--ptb" or "--canary"
+      for the link to the message to work properly.
       Embeds cannot be quoted.
 
 events:

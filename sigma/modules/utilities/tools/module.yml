@@ -43,11 +43,14 @@ commands:
     description:
       Shows you a random color block along with its HEX code.
 
-  - name:         suggest
+  - name:         botsuggest
+    alts:
+      - "botsugg"
+      - "bsugg"
     enabled:      true
     usage:        "{pfx}{cmd} Add some new stuff!!!"
     description:
-      Submits a suggestions to the owners of Sigma to do stuff.
+      Submits a suggestions to the owners of the bot to do stuff.
       Development and change wise.
 
   - name:         translation
