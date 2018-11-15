@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.sigma import ApexSigma
 
 
 def parse_approval(args: list):
@@ -46,12 +47,31 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
     return data.get('web_url')
 
 
+async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, delete: bool):
+    sugg_cmd = bot.modules.get('botsuggest')
+    if sugg_cmd:
+        chn_id = sugg_cmd.cfg.get('channel')
+        if chn_id:
+            sugg_chn = await bot.get_channel(chn_id, True)
+            if sugg_chn:
+                smsg = await sugg_chn.get_message(suggestion.get('message'))
+                if smsg:
+                    try:
+                        if delete:
+                            await smsg.delete()
+                        else:
+                            await smsg.add_reaction(reaction)
+                    except (discord.Forbidden, discord.NotFound):
+                        pass
+
+
 async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
     message, args = pld.msg, pld.args
     if len(args) >= 3:
         token, title, description = parse_approval(args)
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
+            await react_to_suggestion(cmd.bot, suggestion, '✅', False)
             gl_token = cmd.cfg.get('token')
             gl_project = cmd.cfg.get('project')
             gl_issue_url = gl_desc = None
