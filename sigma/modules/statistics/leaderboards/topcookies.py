@@ -47,18 +47,17 @@ async def get_leader_docs(cmd, message, localed, all_docs, sort_key):
 
 
 async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     value_name = 'Cookies'
     resource = 'cookies'
     sort_key = f'ranked'
     lb_category = 'This Month\'s'
     localed = False
-    if args:
-        if args[0].lower() == 'total':
+    if pld.args:
+        if pld.args[0].lower() == 'total':
             sort_key = f'total'
             lb_category = 'Total'
-        elif args[0].lower() == 'local':
-            sort_key = f'origins.guilds.{message.guild.id}'
+        elif pld.args[0].lower() == 'local':
+            sort_key = f'origins.guilds.{pld.msg.guild.id}'
             lb_category = 'Local'
             localed = True
     now = arrow.utcnow().timestamp
@@ -68,12 +67,12 @@ async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
-        leader_docs = await get_leader_docs(cmd, message, localed, all_docs, sort_key)
+        leader_docs = await get_leader_docs(cmd, pld.msg, localed, all_docs, sort_key)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
     table_data = [
         [
-            pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
+            pos + 1 if not doc[0].id == pld.msg.author.id else f'{pos + 1} <',
             clean_name(doc[0].name, 'Unknown')[:12],
             str(doc[1])
         ] for pos, doc in enumerate(leader_docs)
@@ -82,4 +81,4 @@ async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
     response = f'🍪 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
     response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
-    await message.channel.send(response)
+    await pld.msg.channel.send(response)

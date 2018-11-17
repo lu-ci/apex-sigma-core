@@ -25,17 +25,16 @@ def from_output(output: bytes) -> str:
 
 
 async def sysexec(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     response = None
-    if args:
+    if pld.args:
         try:
-            process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-            await message.add_reaction('✔')
+            process = subprocess.run(pld.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            await pld.msg.add_reaction('✔')
             response = from_output(process.stdout)
         except (OSError, subprocess.SubprocessError) as e:
             cmd.log.error(e)
-            await message.add_reaction('❗')
+            await pld.msg.add_reaction('❗')
     else:
         response = 'No input.'
     if response:
-        await message.channel.send(response)
+        await pld.msg.channel.send(response)

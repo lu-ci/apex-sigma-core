@@ -27,7 +27,6 @@ cat_cache = []
 
 
 async def cat(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     cat_api_key = cmd.cfg.get('api_key')
     api_url = 'http://thecatapi.com/api/images/get?format=json&results_per_page=100'
     if cat_api_key:
@@ -41,4 +40,4 @@ async def cat(cmd: SigmaCommand, pld: CommandPayload):
     image_url = choice.get('url')
     response = discord.Embed(color=0xFFDC5D, title='🐱 Meow~')
     response.set_image(url=image_url)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

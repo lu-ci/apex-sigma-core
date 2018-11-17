@@ -40,47 +40,46 @@ def generate_log_embed(message, target, reason):
 
 
 async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_channels:
-        if message.mentions:
-            target = message.mentions[0]
-            hierarchy_me = hierarchy_permit(message.guild.me, target)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
+            hierarchy_me = hierarchy_permit(pld.msg.guild.me, target)
             if hierarchy_me:
-                hierarchy_auth = hierarchy_permit(message.author, target)
+                hierarchy_auth = hierarchy_permit(pld.msg.author, target)
                 if hierarchy_auth:
                     ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
-                    ongoing_msg = await message.channel.send(embed=ongoing)
-                    timed = args[-1].startswith('--time=')
+                    ongoing_msg = await pld.msg.channel.send(embed=ongoing)
+                    timed = pld.args[-1].startswith('--time=')
                     try:
                         now = arrow.utcnow().timestamp
-                        endstamp = now + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+                        endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
                     except (LookupError, ValueError):
                         err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
-                        await message.channel.send(embed=err_response)
+                        await pld.msg.channel.send(embed=err_response)
                         return
-                    for channel in message.guild.channels:
+                    for channel in pld.msg.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
                                 await channel.set_permissions(target, send_messages=False, add_reactions=False)
                             except discord.Forbidden:
                                 pass
                     await ongoing_msg.delete()
-                    rarg = args[1:-1] if timed else args[1:] if args[1:] else None
+                    rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                     reason = ' '.join(rarg) if rarg else None
-                    log_embed = generate_log_embed(message, target, reason)
+                    log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
                     to_target_title = f'🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name=to_target_title, value=f'Reason: {reason}')
-                    to_target.set_footer(text=f'On: {message.guild.name}', icon_url=message.guild.icon_url)
+                    to_target.set_footer(text=f'On: {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
                     try:
                         await target.send(embed=to_target)
                     except discord.Forbidden:
                         pass
                     if endstamp:
-                        doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
+                        doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                         await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')
@@ -90,4 +89,4 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Manage Channels')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

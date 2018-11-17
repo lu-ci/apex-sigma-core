@@ -23,16 +23,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         levels = ['basic', 'advanced', 'ultimate']
-        if args[-1].startswith('level:'):
-            level = args[-1].split(':')[1].lower()
-            text = ' '.join(args[:-1])
+        if pld.args[-1].startswith('level:'):
+            level = pld.args[-1].split(':')[1].lower()
+            text = ' '.join(pld.args[:-1])
             if level not in levels:
                 level = None
         else:
-            text = ' '.join(args)
+            text = ' '.join(pld.args)
             level = 'basic'
         if level:
             leet_url = 'http://www.robertecker.com/hp/research/leet-converter.php?lang=en'
@@ -54,4 +53,4 @@ async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid l33t level.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

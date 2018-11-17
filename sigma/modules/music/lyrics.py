@@ -78,11 +78,10 @@ def find_result(resp: dict):
 
 
 async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        query = ' '.join(args)
-    elif cmd.bot.music.currents.get(message.guild.id):
-        query = cmd.bot.music.currents.get(message.guild.id).title
+    if pld.args:
+        query = ' '.join(pld.args)
+    elif cmd.bot.music.currents.get(pld.msg.guild.id):
+        query = cmd.bot.music.currents.get(pld.msg.guild.id).title
     else:
         query = None
     if query:
@@ -102,15 +101,15 @@ async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
                 response.set_thumbnail(url=image)
                 if len(chunks) != 1:
                     response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
-                await message.channel.send(embed=response)
+                await pld.msg.channel.send(embed=response)
             if len(chunks) > 5:
                 end_title = f'Lyrics too long to display in their entirety.'
                 end_desc = f'View the full list of lyrics [here]({lyrics_url}).'
                 response = discord.Embed(color=await get_image_colors(image), title=end_title, description=end_desc)
-                await message.channel.send(embed=response)
+                await pld.msg.channel.send(embed=response)
             return
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Nothing found for {query}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No song information given, and nothing currently playing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

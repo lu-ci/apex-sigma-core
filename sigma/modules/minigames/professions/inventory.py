@@ -57,20 +57,19 @@ def item_belongs(filter_string: str, item: SigmaRawItem):
 
 
 async def inventory(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
     else:
-        target = message.author
+        target = pld.msg.author
     upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
     storage = upgrade_file.get('storage', 0)
     inv_limit = 64 + (8 * storage)
     inv = await cmd.db.get_inventory(target.id)
     total_inv = len(inv)
     item_o_list = []
-    item_filter = get_filter(args)
+    item_filter = get_filter(pld.args)
     for item in inv:
         item_o = item_core.get_item_by_file_id(item['item_file_id'])
         add = item_belongs(item_filter, item_o) if item_filter else True
@@ -79,7 +78,7 @@ async def inventory(cmd: SigmaCommand, pld: CommandPayload):
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
-    page = args[0] if args else 1
+    page = pld.args[0] if pld.args else 1
     inv, page = PaginatorCore.paginate(item_o_list, page)
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
@@ -102,7 +101,7 @@ async def inventory(cmd: SigmaCommand, pld: CommandPayload):
         output = boop(to_format, column_names=headers)
         response = discord.Embed(color=0xc16a4f)
         inv_text = f'Showing items {start_range}-{end_range}.'
-        pronouns = ['You', 'your'] if target.id == message.author.id else ['They', 'their']
+        pronouns = ['You', 'your'] if target.id == pld.msg.author.id else ['They', 'their']
         inv_text += f'\n{pronouns[0]} have {total_inv}/{inv_limit} items in {pronouns[1]} inventory.'
         inv_text += f'\nTotal value of {pronouns[1]} inventory is {total_value} {cmd.bot.cfg.pref.currency}.'
         response.add_field(name='📦 Inventory Stats', value=f'```py\n{inv_text}\n```')
@@ -110,4 +109,4 @@ async def inventory(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
     response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

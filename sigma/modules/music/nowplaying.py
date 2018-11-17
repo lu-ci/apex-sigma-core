@@ -24,9 +24,8 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def nowplaying(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.guild.id in cmd.bot.music.currents:
-        item = cmd.bot.music.currents[message.guild.id]
+    if pld.msg.guild.id in cmd.bot.music.currents:
+        item = cmd.bot.music.currents[pld.msg.guild.id]
         duration = str(datetime.timedelta(seconds=item.duration))
         author = f'{item.requester.name}#{item.requester.discriminator}'
         response = discord.Embed(color=0x3B88C3)
@@ -36,4 +35,4 @@ async def nowplaying(cmd: SigmaCommand, pld: CommandPayload):
         response.set_footer(text=f'Duration: {duration} | Tip: The author\'s name is a link.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No currently playing song data.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

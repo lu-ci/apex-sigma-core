@@ -51,7 +51,7 @@ async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
                         total, upper, percent = count_chars(pld.msg.content)
                         if upper >= cap_limit and percent >= cap_percent:
                             await pld.msg.delete()
-                            title = f'📢 Anticaps: Removed a pld.msg.'
+                            title = f'📢 Anticaps: Removed a message.'
                             user = f'User: {pld.msg.author.id}'
                             channel = f'Channel: {pld.msg.channel.name}'
                             stats = f'Caps: {upper}/{total} {percent}%'

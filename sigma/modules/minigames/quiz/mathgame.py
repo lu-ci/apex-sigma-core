@@ -26,12 +26,11 @@ ongoing_list = []
 
 
 async def mathgame(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.channel.id not in ongoing_list:
-        ongoing_list.append(message.channel.id)
-        if args:
+    if pld.msg.channel.id not in ongoing_list:
+        ongoing_list.append(pld.msg.channel.id)
+        if pld.args:
             try:
-                diff = int(args[0])
+                diff = int(pld.args[0])
                 if diff < 1:
                     diff = 1
                 elif diff > 9:
@@ -61,10 +60,10 @@ async def mathgame(cmd: SigmaCommand, pld: CommandPayload):
         problem_string = problem_string.replace('*', 'x').replace('/', '÷')
         question_embed = discord.Embed(color=0x3B88C3, title=f'#⃣  You have {allotted_time} seconds.')
         question_embed.description = f'{problem_string} = ?'
-        await message.channel.send(embed=question_embed)
+        await pld.msg.channel.send(embed=question_embed)
 
         def check_answer(msg):
-            if message.channel.id == msg.channel.id:
+            if pld.msg.channel.id == msg.channel.id:
                 try:
                     an_num = float(msg.content)
                     if an_num == result:
@@ -79,18 +78,18 @@ async def mathgame(cmd: SigmaCommand, pld: CommandPayload):
 
         try:
             answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=allotted_time)
-            await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
+            await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
             author = answer_message.author.display_name
             currency = cmd.bot.cfg.pref.currency
             win_title = f'🎉 Correct, {author}, it was {result}. You won {kud_reward} {currency}!'
             win_embed = discord.Embed(color=0x77B255, title=win_title)
-            await message.channel.send(embed=win_embed)
+            await pld.msg.channel.send(embed=win_embed)
         except asyncio.TimeoutError:
             timeout_title = f'🕙 Time\'s up! It was {result}...'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-            await message.channel.send(embed=timeout_embed)
-        if message.channel.id in ongoing_list:
-            ongoing_list.remove(message.channel.id)
+            await pld.msg.channel.send(embed=timeout_embed)
+        if pld.msg.channel.id in ongoing_list:
+            ongoing_list.remove(pld.msg.channel.id)
     else:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        await pld.msg.channel.send(embed=ongoing_error)

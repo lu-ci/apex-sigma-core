@@ -21,15 +21,14 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def serverid(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     embed = True
-    if args:
-        if args[0].lower() == '--text':
+    if pld.args:
+        if pld.args[0].lower() == '--text':
             embed = False
-    target = message.guild
+    target = pld.msg.guild
     response = discord.Embed(color=0x3B88C3)
     response.add_field(name=f'ℹ {target.name}', value=f'`{target.id}`')
     if embed:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)
     else:
-        await message.channel.send(target.id)
+        await pld.msg.channel.send(target.id)

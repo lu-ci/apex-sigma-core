@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import secrets
 
 import discord
@@ -43,16 +44,15 @@ def make_sugg_data(msg: discord.Message, args: list, token: str, smgs: discord.M
 
 
 async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     sugg_chn_id = cmd.cfg.get('channel')
     if sugg_chn_id:
         sugg_chn = await cmd.bot.get_channel(sugg_chn_id, True)
         if sugg_chn:
-            if args:
+            if pld.args:
                 sugg_token = secrets.token_hex(4)
-                sugg_msg = await sugg_chn.send(embed=make_sugg_embed(message, args, sugg_token))
+                sugg_msg = await sugg_chn.send(embed=make_sugg_embed(pld.msg, pld.args, sugg_token))
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
-                await cmd.db[cmd.db.db_nam].Suggestions.insert_one(make_sugg_data(message, args, sugg_token, sugg_msg))
+                await cmd.db[cmd.db.db_nam].Suggestions.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token, sugg_msg))
                 response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
@@ -60,4 +60,4 @@ async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Cannot find suggestion channel.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing suggestion channel configuration.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

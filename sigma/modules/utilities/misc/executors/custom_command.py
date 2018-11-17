@@ -34,14 +34,13 @@ def log_command_usage(log, message, command):
 
 
 async def custom_command(ev: SigmaEvent, pld: MessagePayload):
-    message = pld.msg
-    if message.guild:
+    if pld.msg.guild:
         prefix = ev.db.get_prefix(pld.settings)
-        if message.content.startswith(prefix):
-            if message.content != prefix and not message.content.startswith(prefix + ' '):
-                cmd = message.content[len(prefix):].lower().split()[0]
+        if pld.msg.content.startswith(prefix):
+            if pld.msg.content != prefix and not pld.msg.content.startswith(prefix + ' '):
+                cmd = pld.msg.content[len(prefix):].lower().split()[0]
                 if cmd not in ev.bot.modules.commands and cmd not in ev.bot.modules.alts:
-                    perms = ServerCommandPermissions(ev, message)
+                    perms = ServerCommandPermissions(ev, pld.msg)
                     await perms.check_perms()
                     if perms.permitted:
                         custom_commands = pld.settings.get('custom_commands')
@@ -51,7 +50,7 @@ async def custom_command(ev: SigmaEvent, pld: MessagePayload):
                             delcmd = pld.settings.get('delete_commands')
                             if delcmd:
                                 try:
-                                    await message.delete()
+                                    await pld.msg.delete()
                                 except (discord.NotFound, discord.Forbidden):
                                     pass
                             cmd_text = custom_commands[cmd]
@@ -64,8 +63,8 @@ async def custom_command(ev: SigmaEvent, pld: MessagePayload):
                                         break
                             if img:
                                 response = discord.Embed().set_image(url=cmd_text)
-                                await message.channel.send(embed=response)
+                                await pld.msg.channel.send(embed=response)
                             else:
-                                response = command_message_parser(message, cmd_text)
-                                await message.channel.send(response)
-                            log_command_usage(ev.log, message, cmd)
+                                response = command_message_parser(pld.msg, cmd_text)
+                                await pld.msg.channel.send(response)
+                            log_command_usage(ev.log, pld.msg, cmd)

@@ -189,16 +189,15 @@ def make_time_list(terminus_times: list, current_time: arrow.Arrow, data_pool: s
 
 
 async def busplus(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        line_number = " ".join(args)
+    if pld.args:
+        line_number = " ".join(pld.args)
         current_time = arrow.utcnow().to('Europe/Belgrade')
         current_day = current_time.format('d')
         data_pool = 'sun' if current_day == '7' else 'sat' if current_day == '6' else 'reg'
         data = await get_line_data(cmd.db, line_number)
         if isinstance(data, list):
             response = discord.Embed(color=0x003050)
-            response.set_author(name=f'BusPlus: Line {" ".join(args)} Departures', icon_url=bp_logo)
+            response.set_author(name=f'BusPlus: Line {" ".join(pld.args)} Departures', icon_url=bp_logo)
             for terminus in data:
                 terminus_name = terminus.get('terminus').title()
                 terminus_times = terminus.get('times')
@@ -208,4 +207,4 @@ async def busplus(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Line not found or bad data.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing line number.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

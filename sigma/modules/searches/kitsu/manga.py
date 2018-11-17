@@ -24,9 +24,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def manga(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        qry = '%20'.join(args)
+    if pld.args:
+        qry = '%20'.join(pld.args)
         url = f'https://kitsu.io/api/edge/manga?filter[text]={qry}'
         kitsu_icon = 'https://avatars3.githubusercontent.com/u/7648832?v=3&s=200'
         async with aiohttp.ClientSession() as session:
@@ -83,4 +82,4 @@ async def manga(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

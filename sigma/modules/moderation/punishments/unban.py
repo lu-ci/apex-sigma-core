@@ -37,19 +37,18 @@ def generate_log_embed(message, target):
 
 
 async def unban(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).ban_members:
-        if args:
-            lookup = ' '.join(args)
+    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+        if pld.args:
+            lookup = ' '.join(pld.args)
             target = None
-            banlist = await message.guild.bans()
+            banlist = await pld.msg.guild.bans()
             for entry in banlist:
                 if entry.user.name.lower() == lookup.lower():
                     target = entry.user
                     break
             if target:
-                await message.guild.unban(target, reason=f'By {message.author.name}.')
-                log_embed = generate_log_embed(message, target)
+                await pld.msg.guild.unban(target, reason=f'By {pld.msg.author.name}.')
+                log_embed = generate_log_embed(pld.msg, target)
                 await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                 response = discord.Embed(color=0x77B255, title=f'✅ {target.name} has been unbanned.')
             else:
@@ -58,4 +57,4 @@ async def unban(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Ban permissions')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

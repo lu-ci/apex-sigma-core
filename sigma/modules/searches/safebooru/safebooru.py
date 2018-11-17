@@ -25,8 +25,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def safebooru(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    tag = ' '.join(args).replace(' ', '+') if args else 'cute'
+    tag = ' '.join(pld.args).replace(' ', '+') if pld.args else 'cute'
     resource = 'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+' + tag
     async with aiohttp.ClientSession() as session:
         async with session.get(resource) as data:
@@ -45,4 +44,4 @@ async def safebooru(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
     else:
         response = discord.Embed(color=0x696969, title='🔍 No results.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

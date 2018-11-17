@@ -44,10 +44,9 @@ async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
 
 
 async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            mode, order = args[0].lower(), ' '.join(args[1:]).lower()
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            mode, order = pld.args[0].lower(), ' '.join(pld.args[1:]).lower()
             if order:
                 keys = [log_ord for log_ord in order.split('; ')]
                 all_keys = False
@@ -55,17 +54,17 @@ async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
                 keys = [log_key for log_key in accepted_logs]
                 all_keys = True
             if mode == 'disable':
-                results = await set_log_channels(keys, message.guild.id, None, cmd.db)
+                results = await set_log_channels(keys, pld.msg.guild.id, None, cmd.db)
                 response = discord.Embed(color=0x77B255)
                 if all_keys:
                     response.title = '✅ Logging channel disabled.'
                 else:
                     response.title = '✅ Logging channels disabled.'
                     response.description = '\n'.join(results)
-            elif message.channel_mentions:
-                target_chn = message.channel_mentions[0]
-                if message.guild.me.permissions_in(target_chn).send_messages:
-                    results = await set_log_channels(keys, message.guild.id, target_chn.id, cmd.db)
+            elif pld.msg.channel_mentions:
+                target_chn = pld.msg.channel_mentions[0]
+                if pld.msg.guild.me.permissions_in(target_chn).send_messages:
+                    results = await set_log_channels(keys, pld.msg.guild.id, target_chn.id, cmd.db)
                     response = discord.Embed(color=0x77B255)
                     if all_keys:
                         response.title = f'✅ Logging channel set to #{target_chn.name}.'
@@ -80,4 +79,4 @@ async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

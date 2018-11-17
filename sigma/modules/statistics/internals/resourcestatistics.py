@@ -86,12 +86,11 @@ async def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.M
 
 
 async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        res_nam = args[0].lower()
+    if pld.args:
+        res_nam = pld.args[0].lower()
         res_nam = 'currency' if cmd.bot.cfg.pref.currency.lower() == res_nam else res_nam
-        expense = True if '--expense' in args else False
-        target = message.mentions[0] if message.mentions else message.author
+        expense = True if '--expense' in pld.args else False
+        target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
         resource = await cmd.db.get_resource(target.id, res_nam)
         if not resource.empty:
             pool = resource.expenses if expense else resource.origins
@@ -100,4 +99,4 @@ async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No resource data found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Need at least a resource name.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

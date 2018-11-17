@@ -26,15 +26,14 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def queue(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if message.author.voice:
+    if pld.args:
+        if pld.msg.author.voice:
             same_bound = True
-            if message.guild.voice_client:
-                if message.guild.voice_client.channel.id != message.author.voice.channel.id:
+            if pld.msg.guild.voice_client:
+                if pld.msg.guild.voice_client.channel.id != pld.msg.author.voice.channel.id:
                     same_bound = False
             if same_bound:
-                lookup = ' '.join(args)
+                lookup = ' '.join(pld.args)
                 if '/watch?' in lookup:
                     lookup = lookup.split('&')[0]
                     playlist_url = False
@@ -49,7 +48,7 @@ async def queue(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         playlist_url = False
                     init_response = discord.Embed(color=0xFFCC66, title='💽 Searching...')
-                init_res_msg = await message.channel.send(embed=init_response)
+                init_res_msg = await pld.msg.channel.send(embed=init_response)
                 extracted_info = await cmd.bot.music.extract_info(lookup)
                 if extracted_info:
                     if '_type' in extracted_info:
@@ -71,23 +70,23 @@ async def queue(cmd: SigmaCommand, pld: CommandPayload):
                         entries = extracted_info['entries']
                         for song_entry in entries:
                             if song_entry:
-                                queue_item = QueueItem(message.author, song_entry)
-                                queue_container = cmd.bot.music.get_queue(message.guild.id)
+                                queue_item = QueueItem(pld.msg.author, song_entry)
+                                queue_container = cmd.bot.music.get_queue(pld.msg.guild.id)
                                 await queue_container.put(queue_item)
                         final_resp = discord.Embed(color=0xFFCC66,
                                                    title=f'💽 Added {len(entries)} songs from {pl_title}.')
                     else:
                         if song_item:
-                            queue_item = QueueItem(message.author, song_item)
-                            queue_container = cmd.bot.music.get_queue(message.guild.id)
+                            queue_item = QueueItem(pld.msg.author, song_item)
+                            queue_container = cmd.bot.music.get_queue(pld.msg.guild.id)
                             await queue_container.put(queue_item)
                             duration = str(datetime.timedelta(seconds=int(song_item.get('duration', 0))))
-                            requester = f'{message.author.name}#{message.author.discriminator}'
+                            requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                             final_resp = discord.Embed(color=0x66CC66)
                             final_resp.add_field(name='✅ Added To Queue', value=song_item.get('title', "No Title"))
                             if 'thumbnail' in song_item:
                                 final_resp.set_thumbnail(url=song_item.get('thumbnail'))
-                            final_resp.set_author(name=requester, icon_url=user_avatar(message.author))
+                            final_resp.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                             final_resp.set_footer(text=f'Duration: {duration}')
                         else:
                             final_resp = discord.Embed(color=0x696969, title='🔍 Addition returned a null item.')
@@ -96,20 +95,20 @@ async def queue(cmd: SigmaCommand, pld: CommandPayload):
                     final_resp = discord.Embed(color=0x696969, title='🔍 No results.')
                     await init_res_msg.edit(embed=final_resp)
             else:
-                if not args:
+                if not pld.args:
                     response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
-                    await message.channel.send(embed=response)
+                    await pld.msg.channel.send(embed=response)
         else:
-            if not args:
+            if not pld.args:
                 response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
-                await message.channel.send(embed=response)
+                await pld.msg.channel.send(embed=response)
     else:
-        music_queue = cmd.bot.music.get_queue(message.guild.id)
+        music_queue = cmd.bot.music.get_queue(pld.msg.guild.id)
         if not music_queue.empty():
             music_queue = await cmd.bot.music.listify_queue(music_queue)
             stats_desc = f'There are **{len(music_queue)}** songs in the queue.'
-            if message.guild.id in cmd.bot.music.currents:
-                curr = cmd.bot.music.currents[message.guild.id]
+            if pld.msg.guild.id in cmd.bot.music.currents:
+                curr = cmd.bot.music.currents[pld.msg.guild.id]
                 stats_desc += f'\nCurrently playing: [{curr.title}]({curr.url})'
             list_desc_list = []
             boop_headers = ['#', 'Title', 'Requester', 'Duration']
@@ -131,9 +130,9 @@ async def queue(cmd: SigmaCommand, pld: CommandPayload):
             list_desc = boop(list_desc_list, boop_headers)
             list_title = f'List of {len(music_queue[:5])} Upcoming Queued Items'
             response = discord.Embed(color=0x3B88C3)
-            response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
+            response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
             response.add_field(name='Current Music Queue', value=stats_desc)
             response.add_field(name=list_title, value=f'```bat\n{list_desc}\n```')
         else:
             response = discord.Embed(color=0x3B88C3, title='🎵 The queue is empty.')
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

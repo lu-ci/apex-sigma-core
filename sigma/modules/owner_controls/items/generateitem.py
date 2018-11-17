@@ -22,13 +22,12 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def generateitem(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
-    if args:
-        if message.mentions:
-            if len(args) >= 2:
-                target = message.mentions[0]
-                lookup = ' '.join(args[1:])
+    if pld.args:
+        if pld.msg.mentions:
+            if len(pld.args) >= 2:
+                target = pld.msg.mentions[0]
+                lookup = ' '.join(pld.args[1:])
                 item = item_core.get_item_by_name(lookup)
                 if item:
                     connector = 'a'
@@ -46,4 +45,4 @@ async def generateitem(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

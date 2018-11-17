@@ -26,9 +26,8 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def cryptocurrency(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = ' '.join(args).lower()
+    if pld.args:
+        lookup = ' '.join(pld.args).lower()
         quick_search_url = 'https://s2.coinmarketcap.com/generated/search/quick_search.json'
         async with aiohttp.ClientSession() as session:
             async with session.get(quick_search_url) as qs_session:
@@ -70,4 +69,4 @@ async def cryptocurrency(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

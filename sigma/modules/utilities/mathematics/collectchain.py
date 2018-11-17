@@ -42,17 +42,16 @@ async def is_blinded(db: Database, channel: discord.TextChannel, author: discord
 
 
 async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    target_usr = get_target(message)
-    target_chn = get_channel(message)
-    starter = 'You are' if message.author.id == target_usr.id else f'{target_usr.name} is'
-    ender = 'your' if message.author.id == target_usr.id else 'their'
-    blocked = await is_blocked(cmd.db, target_usr, message.author)
-    blinded = await is_blinded(cmd.db, target_chn, message.author)
+    target_usr = get_target(pld.msg)
+    target_chn = get_channel(pld.msg)
+    starter = 'You are' if pld.msg.author.id == target_usr.id else f'{target_usr.name} is'
+    ender = 'your' if pld.msg.author.id == target_usr.id else 'their'
+    blocked = await is_blocked(cmd.db, target_usr, pld.msg.author)
+    blinded = await is_blinded(cmd.db, target_chn, pld.msg.author)
     if not blocked and not blinded:
-        if not await check_queued(cmd.db, target_usr.id, message.author.id):
+        if not await check_queued(cmd.db, target_usr.id, pld.msg.author.id):
             if not target_usr.bot:
-                cltr_itm = {'author_id': message.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
+                cltr_itm = {'author_id': pld.msg.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
                 await add_to_queue(cmd.db, cltr_itm)
                 qsize = await get_queue_size(cmd.db)
                 title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
@@ -64,11 +63,11 @@ async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ I refuse to collect a chain for a bot.')
         else:
-            mid = 'have a' if message.author.id == target_usr.id else 'has a'
+            mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
             response = discord.Embed(color=0xBE1931, title=f'❗ {starter} already in the queue or {mid} pending entry.')
     else:
         if blocked:
             response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ Chains for #{target_chn.name} have been disabled')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

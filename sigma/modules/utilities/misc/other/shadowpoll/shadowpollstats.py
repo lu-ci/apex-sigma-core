@@ -44,14 +44,13 @@ def make_bar(points, total):
 
 
 async def shadowpollstats(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        poll_id = args[0].lower()
+    if pld.args:
+        poll_id = pld.args[0].lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             visible = poll_file['settings']['visible']
-            if author == message.author.id or visible:
+            if author == pld.msg.author.id or visible:
                 total = len(list(poll_file['votes']))
                 vote_coll = count_votes(poll_file)
                 loop_index = 0
@@ -79,4 +78,4 @@ async def shadowpollstats(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -24,40 +24,39 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if message.author.voice:
+    if pld.args:
+        if pld.msg.author.voice:
             same_bound = True
-            if message.guild.voice_client:
-                if message.guild.voice_client.channel.id != message.author.voice.channel.id:
+            if pld.msg.guild.voice_client:
+                if pld.msg.guild.voice_client.channel.id != pld.msg.author.voice.channel.id:
                     same_bound = False
             if same_bound:
-                if message.guild.voice_client:
-                    queue = cmd.bot.music.get_queue(message.guild.id)
+                if pld.msg.guild.voice_client:
+                    queue = cmd.bot.music.get_queue(pld.msg.guild.id)
                     if not queue.empty():
                         try:
-                            order_num = int(args[0])
+                            order_num = int(pld.args[0])
                             if order_num >= 1:
                                 order_num -= 1
                             queue_list = await cmd.bot.music.listify_queue(queue)
                             queue_size = len(queue_list)
                             if order_num <= queue_size - 1:
                                 item = queue_list[order_num]
-                                is_mod = message.author.guild_permissions.manage_guild
-                                is_req = item.requester.id == message.author.id
+                                is_mod = pld.msg.author.guild_permissions.manage_guild
+                                is_req = item.requester.id == pld.msg.author.id
                                 if is_mod or is_req:
                                     queue_list.remove(item)
                                     new_queue = Queue()
                                     for list_item in queue_list:
                                         await new_queue.put(list_item)
-                                    cmd.bot.music.queues.update({message.guild.id: new_queue})
+                                    cmd.bot.music.queues.update({pld.msg.guild.id: new_queue})
                                     response = discord.Embed(color=0x66CC66, title=f'✅ Removed {item.title}.')
-                                    requester = f'{message.author.name}#{message.author.discriminator}'
-                                    response.set_author(name=requester, icon_url=user_avatar(message.author))
+                                    requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
+                                    response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                                 else:
-                                    auth_deny_desc = f'Sorry, {message.author.name}. To remove a song you need to be'
+                                    auth_deny_desc = f'Sorry, {pld.msg.author.name}. To remove a song you need to be'
                                     auth_deny_desc += ' the person who requested it, or have the Manage Server'
-                                    auth_deny_desc += f' permission on {message.guild.name}.'
+                                    auth_deny_desc += f' permission on {pld.msg.guild.name}.'
                                     response = discord.Embed(color=0xBE1931)
                                     response.add_field(name='⛔ Access Denied', value=auth_deny_desc)
                             else:
@@ -74,4 +73,4 @@ async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

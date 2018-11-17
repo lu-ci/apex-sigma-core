@@ -96,9 +96,8 @@ def clean_readings_data(kanji_dict):
 
 
 async def kanji(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        query = args[0][0]
+    if pld.args:
+        query = pld.args[0][0]
         async with aiohttp.ClientSession() as session:
             async with session.get('http://classic.jisho.org/kanji/details/' + query) as data:
                 rq_text = await data.text()
@@ -134,4 +133,4 @@ async def kanji(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Jisho data.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

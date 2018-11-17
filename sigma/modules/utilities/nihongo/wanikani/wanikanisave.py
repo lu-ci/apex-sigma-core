@@ -21,22 +21,21 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def wanikanisave(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     try:
-        await message.delete()
+        await pld.msg.delete()
     except (discord.NotFound, discord.Forbidden):
         pass
-    if args:
-        api_key = ''.join(args)
-        api_document = await cmd.db[cmd.db.db_nam].WaniKani.find_one({'user_id': message.author.id})
-        data = {'user_id': message.author.id, 'wk_api_key': api_key}
+    if pld.args:
+        api_key = ''.join(pld.args)
+        api_document = await cmd.db[cmd.db.db_nam].WaniKani.find_one({'user_id': pld.msg.author.id})
+        data = {'user_id': pld.msg.author.id, 'wk_api_key': api_key}
         if api_document:
             ender = 'updated'
-            await cmd.db[cmd.db.db_nam].WaniKani.update_one({'user_id': message.author.id}, {'$set': data})
+            await cmd.db[cmd.db.db_nam].WaniKani.update_one({'user_id': pld.msg.author.id}, {'$set': data})
         else:
             ender = 'saved'
             await cmd.db[cmd.db.db_nam].WaniKani.insert_one(data)
         response = discord.Embed(color=0x66CC66, title=f'🔑 Your key has been {ender}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

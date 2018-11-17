@@ -22,18 +22,17 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def asciitempname(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            new_name = ' '.join(args)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            new_name = ' '.join(pld.args)
             temp_name = pld.settings.get('ascii_temp_name')
             if temp_name is None:
                 temp_name = '<ChangeMyName>'
-            await cmd.db.set_guild_settings(message.guild.id, 'ascii_temp_name', new_name)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'ascii_temp_name', new_name)
             title = f'✅ ASCII temp name changed from `{temp_name}` to `{new_name}`.'
             response = discord.Embed(color=0x66CC66, title=title)
         else:
             response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

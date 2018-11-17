@@ -25,15 +25,14 @@ filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
 async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            if len(args) >= 3:
-                filter_name = args[1].lower()
-                target_type = get_target_type(args[0].lower())
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            if len(pld.args) >= 3:
+                filter_name = pld.args[1].lower()
+                target_type = get_target_type(pld.args[0].lower())
                 if target_type:
                     if filter_name in filter_names:
-                        targets, valid = get_targets(message, args, target_type)
+                        targets, valid = get_targets(pld.msg, pld.args, target_type)
                         if valid:
                             overrides = pld.settings.get('filter_overrides') or {}
                             override_data = overrides.get(filter_name)
@@ -51,7 +50,7 @@ async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
                             if not error_response:
                                 override_data.update({target_type: override})
                                 overrides.update({filter_name: override_data})
-                                await cmd.db.set_guild_settings(message.guild.id, 'filter_overrides', overrides)
+                                await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
                                     starter = f'{len(targets)} {target_type}'
                                     title = f'✅ {starter} are no longer affected by `blocked{filter_name}`.'
@@ -61,7 +60,7 @@ async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
                                     title = f'✅ {starter} is no longer affected by `blocked{filter_name}`.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
-                                await message.channel.send(embed=error_response)
+                                await pld.msg.channel.send(embed=error_response)
                                 return
                         else:
                             if targets:
@@ -79,4 +78,4 @@ async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -24,7 +24,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def chucknorris(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     joke_url = 'https://api.chucknorris.io/jokes/random'
     async with aiohttp.ClientSession() as session:
         async with session.get(joke_url) as data:
@@ -33,4 +32,4 @@ async def chucknorris(_cmd: SigmaCommand, pld: CommandPayload):
     joke = joke_json['value']
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='💪 A Chuck Norris Joke', value=joke)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

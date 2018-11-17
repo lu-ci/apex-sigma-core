@@ -22,14 +22,13 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def deleteemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_guild:
-        if args:
-            group_id = args[0].lower()
+    if pld.msg.author.guild_permissions.manage_guild:
+        if pld.args:
+            group_id = pld.args[0].lower()
             emote_groups = pld.settings.get('emote_role_groups') or {}
             if group_id in emote_groups:
                 emote_groups.pop(group_id)
-                await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Emote role group {group_id} has been deleted.')
             else:
                 response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
@@ -37,4 +36,4 @@ async def deleteemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

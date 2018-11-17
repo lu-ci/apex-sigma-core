@@ -40,31 +40,30 @@ def generate_log_embed(message, target, reason):
 
 
 async def softban(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).ban_members:
-        if message.mentions:
-            target = message.mentions[0]
+    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
             if cmd.bot.user.id != target.id:
-                if message.author.id != target.id:
-                    above_hier = hierarchy_permit(message.author, target)
-                    is_admin = message.author.permissions_in(message.channel).administrator
+                if pld.msg.author.id != target.id:
+                    above_hier = hierarchy_permit(pld.msg.author, target)
+                    is_admin = pld.msg.author.permissions_in(pld.msg.channel).administrator
                     if above_hier or is_admin:
-                        above_me = hierarchy_permit(message.guild.me, target)
+                        above_me = hierarchy_permit(pld.msg.guild.me, target)
                         if above_me:
-                            reason = ' '.join(args[1:]) if args[1:] else None
+                            reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
                             response = discord.Embed(color=0x696969, title=f'🔩 The user has been soft-banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
                             to_target = discord.Embed(color=0x696969)
                             to_target.add_field(name='🔩 You have been soft-banned.', value=f'Reason: {reason}')
-                            to_target.set_footer(text=f'From: {message.guild.name}.', icon_url=message.guild.icon_url)
+                            to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=pld.msg.guild.icon_url)
                             try:
                                 await target.send(embed=to_target)
                             except discord.Forbidden:
                                 pass
-                            await target.ban(reason=f'By {message.author.name}: {reason} (Soft)')
+                            await target.ban(reason=f'By {pld.msg.author.name}: {reason} (Soft)')
                             await target.unban()
-                            log_embed = generate_log_embed(message, target, reason)
+                            log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
@@ -78,4 +77,4 @@ async def softban(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Ban permissions')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

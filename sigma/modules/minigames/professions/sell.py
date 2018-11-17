@@ -23,13 +23,12 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def sell(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
-    if args:
-        inv = await cmd.db.get_inventory(message.author.id)
+    if pld.args:
+        inv = await cmd.db.get_inventory(pld.msg.author.id)
         if inv:
-            lookup = ' '.join(args)
+            lookup = ' '.join(pld.args)
             if lookup.lower() == 'all':
                 value = 0
                 count = 0
@@ -37,8 +36,8 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
                     item_ob_id = item_core.get_item_by_file_id(invitem['item_file_id'])
                     value += item_ob_id.value
                     count += 1
-                    await cmd.db.del_from_inventory(message.author.id, invitem['item_id'])
-                await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                    await cmd.db.del_from_inventory(pld.msg.author.id, invitem['item_id'])
+                await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
                 ender = 's' if count != 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
@@ -52,23 +51,23 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
                         item_ob_id = item_core.get_item_by_file_id(file_id)
                         value += item_ob_id.value
                         count += 1
-                        await cmd.db.del_from_inventory(message.author.id, invitem['item_id'])
+                        await cmd.db.del_from_inventory(pld.msg.author.id, invitem['item_id'])
                     else:
                         existing_ids.append(file_id)
-                await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
                 ender = 's' if count != 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
                 item_o = item_core.get_item_by_name(lookup)
                 if item_o:
-                    item = await cmd.db.get_inventory_item(message.author.id, item_o.file_id)
+                    item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
                 else:
                     item = None
                 if item:
                     value = item_o.value
-                    await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
-                    await cmd.db.del_from_inventory(message.author.id, item['item_id'])
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
+                    await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'
                 else:
@@ -77,5 +76,5 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-    await message.channel.send(embed=response)
+    response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
+    await pld.msg.channel.send(embed=response)

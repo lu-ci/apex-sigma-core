@@ -26,9 +26,8 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def rhymes(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        query = '+'.join(args).lower()
+    if pld.args:
+        query = '+'.join(pld.args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=perfect'
         api_url = f'https://api.datamuse.com/words?rel_rhy={query}&max=11'
         async with aiohttp.ClientSession() as session:
@@ -50,4 +49,4 @@ async def rhymes(_cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
 
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

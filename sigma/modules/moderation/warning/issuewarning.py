@@ -66,22 +66,21 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, re
 
 
 async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_messages:
-        if message.mentions:
-            target = message.mentions[0]
-            if target.id != message.author.id:
+    if pld.msg.author.guild_permissions.manage_messages:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
+            if target.id != pld.msg.author.id:
                 if not target.bot:
-                    reason = ' '.join(args[1:]) if args[1:] else None
-                    warn_data = warning_data(message.author, target, reason)
+                    reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
+                    warn_data = warning_data(pld.msg.author, target, reason)
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
-                    log_embed = make_log_embed(message.author, target, warn_iden, reason)
+                    log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
-                    to_target.set_footer(text=f'From {message.guild.name}', icon_url=message.guild.icon_url)
+                    to_target.set_footer(text=f'From {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
                     try:
                         await target.send(embed=to_target)
                     except Exception:
@@ -94,4 +93,4 @@ async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
         response = permission_denied('Manage Messages')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

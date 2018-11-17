@@ -22,17 +22,16 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def starboardlimit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
             try:
-                new_limit = abs(int(args[0]))
+                new_limit = abs(int(pld.args[0]))
             except ValueError:
                 new_limit = None
             if new_limit is not None:
                 starboard_doc = pld.settings.get('starboard') or {}
                 starboard_doc.update({'limit': int(new_limit)})
-                await cmd.db.set_guild_settings(message.guild.id, 'starboard', starboard_doc)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
                 response = discord.Embed(color=0x77B255, title=f'✅ Starboard limit set to {new_limit}.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Limit must be a number.')
@@ -40,4 +39,4 @@ async def starboardlimit(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

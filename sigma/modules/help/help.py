@@ -30,9 +30,8 @@ command_md = 'https://gitlab.com/lu-ci/sigma/apex-sigma/blob/master/docs/informa
 
 # noinspection PyShadowingBuiltins
 async def help(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        cmd_name = ''.join(args).lower()
+    if pld.args:
+        cmd_name = ''.join(pld.args).lower()
         if cmd_name in cmd.bot.modules.alts:
             cmd_name = cmd.bot.modules.alts[cmd_name]
         if cmd_name in cmd.bot.modules.commands:
@@ -57,4 +56,4 @@ async def help(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='Help', value=support_text)
         response.set_thumbnail(url=user_avatar(cmd.bot.user))
         response.set_footer(text='© by Lucia\'s Cipher. Released under the GPLv3 license.', icon_url=lucia_image)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,12 +22,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.create_instant_invite:
-        if args:
-            invite_id = args[0]
-            forced = args[-1] == ':f'
-            invites = await message.guild.invites()
+    if pld.msg.author.guild_permissions.create_instant_invite:
+        if pld.args:
+            invite_id = pld.args[0]
+            forced = pld.args[-1] == ':f'
+            invites = await pld.msg.guild.invites()
             target_inv = discord.utils.find(lambda inv: inv.id.lower() == invite_id.lower(), invites)
             if target_inv or forced:
                 if forced:
@@ -39,7 +38,7 @@ async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
                     bindings = {}
                 if inv_id in bindings:
                     bindings.pop(inv_id)
-                    await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bindings)
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
                     title = f'✅ Invite {inv_id} has been unbound.'
                     response = discord.Embed(color=0x77B255, title=title)
                 else:
@@ -50,4 +49,4 @@ async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
     else:
         response = permission_denied('Create Instant Invites')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,22 +22,21 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.create_instant_invite:
+    if pld.msg.author.guild_permissions.create_instant_invite:
         await cmd.bot.modules.commands.get('syncinvites').execute(CommandPayload(cmd.bot, pld.msg, ['noresp']))
-        if len(args) >= 2:
-            invite_id = args[0]
-            role_name = ' '.join(args[1:])
-            invites = await message.guild.invites()
+        if len(pld.args) >= 2:
+            invite_id = pld.args[0]
+            role_name = ' '.join(pld.args[1:])
+            invites = await pld.msg.guild.invites()
             target_inv = discord.utils.find(lambda inv: inv.id.lower() == invite_id.lower(), invites)
-            target_role = discord.utils.find(lambda role: role.name.lower() == role_name.lower(), message.guild.roles)
+            target_role = discord.utils.find(lambda role: role.name.lower() == role_name.lower(), pld.msg.guild.roles)
             if target_inv:
                 if target_role:
-                    bot_role = message.guild.me.top_role
+                    bot_role = pld.msg.guild.me.top_role
                     if bot_role.position > target_role.position:
                         bindings = pld.settings.get('bound_invites', {})
                         bindings.update({target_inv.id: target_role.id})
-                        await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bindings)
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
                         title = f'✅ Invite {target_inv.id} bound to {target_role.name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:
@@ -50,4 +49,4 @@ async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
     else:
         response = permission_denied('Create Instant Invites')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

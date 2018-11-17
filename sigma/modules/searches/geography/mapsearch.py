@@ -24,10 +24,9 @@ map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
 
 async def mapsearch(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        search = ' '.join(args)
-        search_url = '+'.join(args)
+    if pld.args:
+        search = ' '.join(pld.args)
+        search_url = '+'.join(pld.args)
         geo_parser = Nominatim()
         location = geo_parser.geocode(search)
         if location:
@@ -42,4 +41,4 @@ async def mapsearch(_cmd: SigmaCommand, pld: CommandPayload):
             response.set_author(name=f'Broad Search: {search.title()}', icon_url=map_icon, url=maps_url)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

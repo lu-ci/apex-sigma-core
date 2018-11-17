@@ -22,18 +22,17 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def prefix(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     current_prefix = cmd.db.get_prefix(pld.settings)
-    if args:
-        if message.author.permissions_in(message.channel).manage_guild:
-            new_prefix = ''.join(args)
+    if pld.args:
+        if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+            new_prefix = ''.join(pld.args)
             if len(new_prefix) >= 2:
                 if new_prefix != current_prefix:
                     prefix_text = new_prefix
                     if new_prefix == cmd.bot.cfg.pref.prefix:
                         new_prefix = None
                         prefix_text = cmd.bot.cfg.pref.prefix
-                    await cmd.db.set_guild_settings(message.guild.id, 'prefix', new_prefix)
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'prefix', new_prefix)
                     response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
                     response = discord.Embed(color=0x77B255, title=response_title)
                 else:
@@ -44,4 +43,4 @@ async def prefix(cmd: SigmaCommand, pld: CommandPayload):
             response = permission_denied('Manage Server')
     else:
         response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

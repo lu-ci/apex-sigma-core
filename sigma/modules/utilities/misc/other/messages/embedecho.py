@@ -22,11 +22,10 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def embedecho(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        response = discord.Embed(color=message.author.color, timestamp=message.created_at)
-        response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-        response.description = f'{" ".join(args)[:800]}'
+    if pld.args:
+        response = discord.Embed(color=pld.msg.author.color, timestamp=pld.msg.created_at)
+        response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
+        response.description = f'{" ".join(pld.args)[:800]}'
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

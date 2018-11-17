@@ -22,12 +22,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            if len(args) == 2:
-                old_trigger = args[0].lower()
-                new_trigger = args[1].lower()
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            if len(pld.args) == 2:
+                old_trigger = pld.args[0].lower()
+                new_trigger = pld.args[1].lower()
                 if '.' not in new_trigger:
                     if new_trigger not in cmd.bot.modules.commands and new_trigger not in cmd.bot.modules.alts:
                         custom_commands = pld.settings.get('custom_commands') or {}
@@ -35,7 +34,7 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
                             if new_trigger not in custom_commands:
                                 custom_commands.update({new_trigger: custom_commands[old_trigger]})
                                 del custom_commands[old_trigger]
-                                await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
+                                await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
                                 response = discord.Embed(color=0x66CC66, title=f'✅ {old_trigger} updated.')
                             else:
                                 response = discord.Embed(color=0xBE1931,
@@ -52,4 +51,4 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

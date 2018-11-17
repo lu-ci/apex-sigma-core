@@ -25,7 +25,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def butts(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     api_url = 'http://api.obutts.ru/butts/'
     api_url += str(secrets.randbelow(5990) + 1)
     async with aiohttp.ClientSession() as session:
@@ -41,4 +40,4 @@ async def butts(_cmd: SigmaCommand, pld: CommandPayload):
     response.set_author(name='Open Butts', icon_url=butts_icon)
     response.set_image(url=image_url)
     response.set_footer(text=f'Ranking: {rank} | Model: {model}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

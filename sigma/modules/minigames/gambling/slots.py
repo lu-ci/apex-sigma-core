@@ -51,27 +51,26 @@ for symbol in rarity_rewards:
 
 
 async def slots(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
-    current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+    current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
     current_kud = current_kud.current
-    if args:
+    if pld.args:
         try:
-            bet = abs(int(args[0]))
+            bet = abs(int(pld.args[0]))
         except ValueError:
             bet = 10
     else:
         bet = 10
     if current_kud >= bet:
-        if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
+        if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             upgrade_file = pld.profile.get('upgrades') or {}
             base_cooldown = 60
             stamina = upgrade_file.get('casino', 0)
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             cooldown = 5 if cooldown < 5 else cooldown
-            await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, cooldown)
-            await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
+            await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
             out_list = []
             for x in range(0, 3):
                 temp_list = []
@@ -108,18 +107,18 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'
                 footer = f'{currency_icon} {winnings} {currency} has been awarded.'
-                await cmd.db.add_resource(message.author.id, 'currency', winnings, cmd.name, message, False)
+                await cmd.db.add_resource(pld.msg.author.id, 'currency', winnings, cmd.name, pld.msg, False)
             else:
                 color = 0x232323
                 title = '💣 Oh my, you lost...'
                 footer = f'{currency_icon} {bet} {currency} has been deducted.'
             response = discord.Embed(color=color)
-            response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
+            response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
             response.add_field(name=title, value=slot_lines)
             response.set_footer(text=footer)
         else:
-            timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+            timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
             response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')
     else:
         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

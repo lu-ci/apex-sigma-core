@@ -33,14 +33,13 @@ def user_auth(message: discord.Message, list_file: dict):
 
 
 async def addline(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if len(args) >= 2:
-        add_line = ' '.join(args[1:])
+    if len(pld.args) >= 2:
+        add_line = ' '.join(pld.args[1:])
         list_coll = cmd.db[cmd.db.db_nam].CustomLists
-        lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
+        lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
         list_file = await list_coll.find_one(lookup_data)
         if list_file:
-            auth = user_auth(message, list_file)
+            auth = user_auth(pld.msg, list_file)
             if auth:
                 list_file.get('contents').append(add_line)
                 await list_coll.update_one(lookup_data, {'$set': list_file})
@@ -53,4 +52,4 @@ async def addline(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid list ID.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

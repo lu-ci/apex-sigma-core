@@ -38,12 +38,11 @@ def type_rarity_counter(items: list):
 
 
 async def inventorystats(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     item_core = await get_item_core(cmd.db)
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
     else:
-        target = message.author
+        target = pld.msg.author
     inv = await cmd.db.get_inventory(target.id)
     item_o_list = []
     for item in inv:
@@ -102,4 +101,4 @@ async def inventorystats(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
     response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

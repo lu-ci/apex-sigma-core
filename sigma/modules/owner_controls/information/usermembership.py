@@ -22,9 +22,8 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = args[0].lower()
+    if pld.args:
+        lookup = pld.args[0].lower()
         if '#' in lookup:
             uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
@@ -55,4 +54,4 @@ async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,19 +23,18 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def ratelimit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         try:
-            split = args[0].split('/')
+            split = pld.args[0].split('/')
             amount, timespan = abs(int(split[0])), abs(int(split[1]))
         except (IndexError, ValueError):
             amount = timespan = None
         if amount and timespan:
-            await cmd.db.set_guild_settings(message.guild.id, 'rate_limit_amount', amount)
-            await cmd.db.set_guild_settings(message.guild.id, 'rate_limit_timespan', timespan)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_amount', amount)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_timespan', timespan)
             response = discord.Embed(color=0x77B255, title=f'✅ Message rate limit set to {amount} per {timespan}s.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No limit and span or ivalid input.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

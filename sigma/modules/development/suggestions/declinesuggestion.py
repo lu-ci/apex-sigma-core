@@ -22,17 +22,16 @@ from sigma.modules.development.suggestions.approvesuggestion import react_to_sug
 
 
 async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if len(args) >= 2:
-        token = args[0].lower()
-        reason = ' '.join(args[1:])
+    if len(pld.args) >= 2:
+        token = pld.args[0].lower()
+        reason = ' '.join(pld.args[1:])
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             delete = True if reason.lower().startswith('deleted') else False
             await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user_title = f'⛔ Suggestion {token} declined by {message.author.display_name}.'
+                to_user_title = f'⛔ Suggestion {token} declined by {pld.msg.author.display_name}.'
                 to_user = discord.Embed(color=0xBE1931, title=to_user_title)
                 to_user.description = reason
                 try:
@@ -46,4 +45,4 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No suggestion entry with that ID was found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

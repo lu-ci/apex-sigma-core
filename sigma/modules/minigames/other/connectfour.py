@@ -46,32 +46,31 @@ async def send_board_msg(message: discord.Message, board_msg: discord.Message, b
 
 
 async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.id not in ongoing_list:
-        ongoing_list.append(message.channel.id)
-        competitor, curr_turn = None, message.author
-        color = args[0][0].lower() if args else None
+    if pld.msg.author.id not in ongoing_list:
+        ongoing_list.append(pld.msg.channel.id)
+        competitor, curr_turn = None, pld.msg.author
+        color = pld.args[0][0].lower() if pld.args else None
         player = 'b' if color == 'b' else 'r'
         bot = 'r' if color == 'b' else 'b'
-        if message.mentions:
-            if message.mentions[0].id != message.author.id and not message.mentions[0].bot:
+        if pld.msg.mentions:
+            if pld.msg.mentions[0].id != pld.msg.author.id and not pld.msg.mentions[0].bot:
                 competitor = bot
                 bot = None
             else:
-                ender = 'another bot' if message.mentions[0].bot else 'yourself'
+                ender = 'another bot' if pld.msg.mentions[0].bot else 'yourself'
                 self_embed = discord.Embed(color=0xBE1931, title=f'❗ You can\'t play against {ender}.')
-                await message.channel.send(embed=self_embed)
+                await pld.msg.channel.send(embed=self_embed)
                 return
 
         board = ConnectFourBoard()
-        user_av = user_avatar(message.author)
-        board_resp = generate_response(user_av, message.author, board.make)
-        board_msg = await message.channel.send(embed=board_resp)
+        user_av = user_avatar(pld.msg.author)
+        board_resp = generate_response(user_av, pld.msg.author, board.make)
+        board_msg = await pld.msg.channel.send(embed=board_resp)
 
         def check_answer(msg):
             if curr_turn.id != msg.author.id:
                 return
-            if message.channel.id != msg.channel.id:
+            if pld.msg.channel.id != msg.channel.id:
                 return
 
             choice = msg.content
@@ -101,13 +100,13 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                         except (discord.NotFound, discord.Forbidden):
                             pass
                         column = int(answer.content) - 1
-                        piece = player if curr_turn.id == message.author.id else competitor
+                        piece = player if curr_turn.id == pld.msg.author.id else competitor
                         if bot:
                             next_player = cmd.bot.user
                         else:
-                            next_player = message.author if curr_turn != message.author else message.mentions[0]
+                            next_player = pld.msg.author if curr_turn != pld.msg.author else pld.msg.mentions[0]
                         board_resp = generate_response(user_av, next_player, board.edit(column, piece))
-                        board_msg = await send_board_msg(message, board_msg, board_resp)
+                        board_msg = await send_board_msg(pld.msg, board_msg, board_resp)
                         full, winner, win = board.winner
                         finished = win or full
                         if not finished:
@@ -116,22 +115,22 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                                 await asyncio.sleep(2)
                                 last_bot_move = bot_choice = board.bot_move(last_bot_move)
                                 board_resp = generate_response(user_av, cmd.bot.user, board.edit(bot_choice, bot))
-                                board_msg = await send_board_msg(message, board_msg, board_resp)
+                                board_msg = await send_board_msg(pld.msg, board_msg, board_resp)
                                 full, winner, win = board.winner
                                 finished = win or full
                             else:
-                                if curr_turn == message.author:
-                                    curr_turn = message.mentions[0]
+                                if curr_turn == pld.msg.author:
+                                    curr_turn = pld.msg.mentions[0]
                                 else:
-                                    curr_turn = message.author
+                                    curr_turn = pld.msg.author
                     else:
                         cancel_embed = discord.Embed(color=0xFFCC4D, title='🔥 Game canceled!')
-                        await message.channel.send(embed=cancel_embed)
+                        await pld.msg.channel.send(embed=cancel_embed)
                         return
             except asyncio.TimeoutError:
                 timeout_title = f'🕙 Time\'s up {curr_turn.display_name}!'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-                await message.channel.send(embed=timeout_embed)
+                await pld.msg.channel.send(embed=timeout_embed)
                 return
 
         if winner:
@@ -145,9 +144,9 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
         else:
             color, icon, resp = 0xFFCC4D, '🔥', 'It\'s a draw'
         response = discord.Embed(color=color, title=f'{icon} {resp}!')
-        await message.channel.send(embed=response)
-        if message.channel.id in ongoing_list:
-            ongoing_list.remove(message.channel.id)
+        await pld.msg.channel.send(embed=response)
+        if pld.msg.channel.id in ongoing_list:
+            ongoing_list.remove(pld.msg.channel.id)
     else:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        await pld.msg.channel.send(embed=ongoing_error)

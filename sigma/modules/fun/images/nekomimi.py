@@ -34,12 +34,11 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
 
 
 async def nekomimi(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     global links
     if not links:
         name = cmd.bot.user.name
         filler_message = discord.Embed(color=0xff6699, title=f'🐱 One moment, filling {name} with catgirls...')
-        fill_notify = await message.channel.send(embed=filler_message)
+        fill_notify = await pld.msg.channel.send(embed=filler_message)
         links = await grab_post_list('cat_ears')
         filler_done = discord.Embed(color=0xff6699, title=f'🐱 We added {len(links)} catgirls!')
         await fill_notify.edit(embed=filler_done)
@@ -47,4 +46,4 @@ async def nekomimi(cmd: SigmaCommand, pld: CommandPayload):
     post_choice = links.pop(rand_pop)
     icon = 'https://i.imgur.com/GLfhhkw.jpg'
     response = generate_embed(post_choice, embed_titles, icon=icon)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

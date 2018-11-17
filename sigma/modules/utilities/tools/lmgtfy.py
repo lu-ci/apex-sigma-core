@@ -21,13 +21,12 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def lmgtfy(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = '%20'.join(args)
+    if pld.args:
+        lookup = '%20'.join(pld.args)
         google_icon = 'https://maxcdn.icons8.com/Share/icon/Logos/google_logo1600.png'
         query_url = f'http://lmgtfy.com/?q={lookup}'
         response = discord.Embed(color=0xF9F9F9)
         response.set_author(name='Click here to go to the results.', icon_url=google_icon, url=query_url)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No search inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

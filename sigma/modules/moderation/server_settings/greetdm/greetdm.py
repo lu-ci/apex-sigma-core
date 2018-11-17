@@ -22,12 +22,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def greetdm(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         active = pld.settings.get('greet_dm')
         state, ender = (False, 'disabled') if active else (True, 'enabled')
-        await cmd.db.set_guild_settings(message.guild.id, 'greet_dm', state)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_dm', state)
         response = discord.Embed(color=0x77B255, title=f'✅ DM Greeting Messages {ender}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

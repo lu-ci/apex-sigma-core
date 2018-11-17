@@ -46,11 +46,10 @@ async def get_lowest_trader(order_url):
 
 
 async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
-    init_resp_msg = await message.channel.send(embed=initial_response)
-    if args:
-        lookup = '_'.join(args).lower()
+    init_resp_msg = await pld.msg.channel.send(embed=initial_response)
+    if pld.args:
+        lookup = '_'.join(pld.args).lower()
         lookup_url = f'https://api.warframe.market/v1/items/{lookup}'
         orders_url = f'{lookup_url}/orders'
         asset_base = 'https://warframe.market/static/assets/'

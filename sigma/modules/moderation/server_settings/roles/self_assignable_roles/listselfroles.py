@@ -22,13 +22,12 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def listselfroles(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+async def listselfroles(_cmd: SigmaCommand, pld: CommandPayload):
     self_roles = pld.settings.get('self_roles')
     if self_roles is None:
         self_roles = []
     role_list = []
-    for srv_role in message.guild.roles:
+    for srv_role in pld.msg.guild.roles:
         for role in self_roles:
             if role == srv_role.id:
                 role_list.append(srv_role.name)
@@ -37,16 +36,16 @@ async def listselfroles(cmd: SigmaCommand, pld: CommandPayload):
     else:
         role_count = len(role_list)
         role_list = sorted(role_list)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         role_list, page = PaginatorCore.paginate(role_list, page)
         ender = 's' if role_count > 1 else ''
         summary = f'Showing **{len(role_list)}** role{ender} from Page **#{page}**.'
-        summary += f'\n{message.guild.name} has **{role_count}** self assignable role{ender}.'
+        summary += f'\n{pld.msg.guild.name} has **{role_count}** self assignable role{ender}.'
         rl_out = ''
         for role in role_list:
             rl_out += '\n- ' + role
-        response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-        response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
+        response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+        response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
         response.add_field(name=f'Self Assignable Role Stats', value=summary, inline=False)
         response.add_field(name=f'List of Self Assignable Roles', value=f'{rl_out}', inline=False)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

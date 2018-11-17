@@ -22,19 +22,18 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 
 
-async def responders(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+async def responders(_cmd: SigmaCommand, pld: CommandPayload):
     responder_files = pld.settings.get('responder_triggers')
     if responder_files:
         responder_list = sorted(list(responder_files.keys()))
         resp_count = len(responder_list)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         triggers, page = PaginatorCore.paginate(responder_list, page)
         start_range = (page - 1) * 10
         if triggers:
             ender = 's' if resp_count > 1 else ''
             summary = f'Showing **{len(triggers)}** trigger{ender} from Page **#{page}**.'
-            summary += f'\n{message.guild.name} has **{resp_count}** responder trigger{ender}.'
+            summary += f'\n{pld.msg.guild.name} has **{resp_count}** responder trigger{ender}.'
             loop_index = start_range
             trg_list_lines = []
             for key in triggers:
@@ -42,13 +41,13 @@ async def responders(cmd: SigmaCommand, pld: CommandPayload):
                 list_line = f'**{loop_index}**: {key}'
                 trg_list_lines.append(list_line)
             trg_list = '\n'.join(trg_list_lines)
-            srv_color = await get_image_colors(message.guild.icon_url)
+            srv_color = await get_image_colors(pld.msg.guild.icon_url)
             response = discord.Embed(color=srv_color)
-            response.set_author(name='Automatic Responder Triggers', icon_url=message.guild.icon_url)
+            response.set_author(name='Automatic Responder Triggers', icon_url=pld.msg.guild.icon_url)
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Trigger List', value=trg_list, inline=False)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ This page is empty.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ This server has no responder triggers.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

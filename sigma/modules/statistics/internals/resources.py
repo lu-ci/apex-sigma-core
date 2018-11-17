@@ -23,8 +23,7 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
 async def resources(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     reses = ['currency', 'metal', 'biomass', 'sumarum', 'ammunition']
     response = discord.Embed(color=await get_image_colors(user_avatar(target)))
     response.set_author(name=f'{target.name}\'s Resources', icon_url=user_avatar(target))
@@ -34,9 +33,9 @@ async def resources(cmd: SigmaCommand, pld: CommandPayload):
     for res in list(sorted(reses)):
         resd = await cmd.db.get_resource(target.id, res)
         mixed += resd.current
-        resd_guild = resd.origins.guilds.get(message.guild.id)
+        resd_guild = resd.origins.guilds.get(pld.msg.guild.id)
         boop_data.append([res.title(), resd.current, resd_guild, resd.total])
     stat_line = f'{target.name} has a total of {mixed} resources over {len(reses)} resource types.'
     response.add_field(name='Resource Stats', value=stat_line)
     response.add_field(name='Resource Listing', value=f'```hs\n{boop(boop_data, boop_head)}\n```', inline=False)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

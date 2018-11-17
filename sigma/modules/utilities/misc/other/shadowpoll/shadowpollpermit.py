@@ -21,25 +21,24 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shadowpollpermit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            poll_id = args[0].lower()
-            if message.mentions:
+    if pld.args:
+        if len(pld.args) >= 2:
+            poll_id = pld.args[0].lower()
+            if pld.msg.mentions:
                 perm_type = 'users'
-                target = message.mentions[0]
-            elif message.channel_mentions:
+                target = pld.msg.mentions[0]
+            elif pld.msg.channel_mentions:
                 perm_type = 'channels'
-                target = message.channel_mentions[0]
+                target = pld.msg.channel_mentions[0]
             else:
-                lookup = ' '.join(args[1:]).lower()
+                lookup = ' '.join(pld.args[1:]).lower()
                 perm_type = 'roles'
-                target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
+                target = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
             if target:
                 poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     author = poll_file['origin']['author']
-                    if author == message.author.id:
+                    if author == pld.msg.author.id:
                         if target.id not in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].append(target.id)
                             await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id},
@@ -57,4 +56,4 @@ async def shadowpollpermit(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and target.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

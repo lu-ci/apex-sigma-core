@@ -25,28 +25,27 @@ from sigma.modules.minigames.racing.nodes.race_storage import races, colors, mak
 
 
 async def race(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.channel.id not in races:
-        if args:
+    if pld.msg.channel.id not in races:
+        if pld.args:
             try:
-                buyin = abs(int(args[0]))
+                buyin = abs(int(pld.args[0]))
             except ValueError:
                 buyin = 0
         else:
             buyin = 0
         if not len(str(buyin)) > 200:
             currency = f'{cmd.bot.cfg.pref.currency}'
-            make_race(message.channel.id, buyin)
+            make_race(pld.msg.channel.id, buyin)
             start_title = '🚀 A race is starting in 30 seconds.'
             if buyin > 0:
                 start_title = f'🚀 A {buyin} {currency} race is starting in 30 seconds.'
             create_response = discord.Embed(color=0x3B88C3, title=start_title)
             pfx = cmd.db.get_prefix(pld.settings)
             create_response.set_footer(text=f'We need 2 participants! Type {pfx}joinrace to join!')
-            await message.channel.send(embed=create_response)
+            await pld.msg.channel.send(embed=create_response)
             await asyncio.sleep(30)
-            race_instance = races[message.channel.id]
-            del races[message.channel.id]
+            race_instance = races[pld.msg.channel.id]
+            del races[pld.msg.channel.id]
             if len(race_instance['users']) >= 2:
                 values = {}
                 highest = 0
@@ -87,16 +86,16 @@ async def race(cmd: SigmaCommand, pld: CommandPayload):
                         try:
                             await race_msg.edit(content=lines)
                         except discord.NotFound:
-                            race_msg = await message.channel.send(lines)
+                            race_msg = await pld.msg.channel.send(lines)
                     else:
-                        race_msg = await message.channel.send(lines)
+                        race_msg = await pld.msg.channel.send(lines)
                     await asyncio.sleep(2)
                 win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
                 for user in race_instance['users']:
-                    await cmd.db.del_resource(user['user'].id, 'currency', buyin, cmd.name, message)
+                    await cmd.db.del_resource(user['user'].id, 'currency', buyin, cmd.name, pld.msg)
                 if race_instance['buyin']:
                     winnings = race_instance["buyin"] * len(race_instance['users'])
-                    await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, message, False)
+                    await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, pld.msg, False)
                     win_title += f' And got {winnings} {currency}.'
                 response = discord.Embed(color=colors[leader['icon']], title=win_title)
             else:
@@ -105,4 +104,4 @@ async def race(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Buyin can\'t be longer than 200 digits.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

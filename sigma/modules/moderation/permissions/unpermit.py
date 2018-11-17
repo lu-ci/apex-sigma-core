@@ -38,15 +38,14 @@ def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: s
 
 
 async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            if len(args) >= 3:
-                if ':' in args[1]:
-                    target_type = get_target_type(args[0].lower())
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            if len(pld.args) >= 3:
+                if ':' in pld.args[1]:
+                    target_type = get_target_type(pld.args[0].lower())
                     if target_type:
-                        perm_mode = args[1].split(':')[0]
-                        node_name = args[1].split(':')[1]
+                        perm_mode = pld.args[1].split(':')[0]
+                        node_name = pld.args[1].split(':')[1]
                         modes = {
                             'c': ('command_exceptions', cmd.bot.modules.commands, True),
                             'm': ('module_exceptions', cmd.bot.modules.categories, False)
@@ -54,17 +53,17 @@ async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
                         mode_vars = modes.get(perm_mode)
                         if mode_vars:
                             exc_group, check_group, check_alts = mode_vars
-                            targets, valid_targets = get_targets(message, args, target_type)
+                            targets, valid_targets = get_targets(pld.msg, pld.args, target_type)
                             if valid_targets:
-                                exc_tuple, node_name, perms = await get_perm_group(cmd, message, mode_vars, node_name,
+                                exc_tuple, node_name, perms = await get_perm_group(cmd, pld.msg, mode_vars, node_name,
                                                                                    target_type)
                                 if exc_tuple:
                                     bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, target_type,
                                                               perms)
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                            {'server_id': message.guild.id}, {'$set': perms})
-                                        await cmd.db.cache.del_cache(message.guild.id)
+                                            {'server_id': pld.msg.guild.id}, {'$set': perms})
+                                        await cmd.db.cache.del_cache(pld.msg.guild.id)
                                         if len(targets) > 1:
                                             title = f'✅ {len(targets)} {target_type} can no longer use `{node_name}`.'
                                         else:
@@ -97,4 +96,4 @@ async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

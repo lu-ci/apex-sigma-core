@@ -23,10 +23,9 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     shift = None
-    if args:
-        shift = ' '.join(args).lower()
+    if pld.args:
+        shift = ' '.join(pld.args).lower()
         alias_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_alias', 'zone': shift})
         shift = alias_doc.get('value').lower() if alias_doc else shift.lower()
         offset_doc = await cmd.db[cmd.db.db_nam].TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or {}
@@ -42,4 +41,4 @@ async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xf9f9f9, title=f'🕥 {time_out}')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Could not parse that time.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

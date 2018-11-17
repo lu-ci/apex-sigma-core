@@ -21,32 +21,31 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def colorme(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if not message.guild.me.top_role.position <= message.author.top_role.position:
+async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
+    if not pld.msg.guild.me.top_role.position <= pld.msg.author.top_role.position:
         enabled = pld.settings.get('color_roles')
         if enabled:
-            if args:
+            if pld.args:
                 bad_hex = False
-                hex_req = args[0].lower().strip('#')
+                hex_req = pld.args[0].lower().strip('#')
                 if len(hex_req) == 3:
                     hex_req = hex_req * 2
                 if len(hex_req) != 6:
                     bad_hex = True
                 if not bad_hex:
                     role_name = f'SCR-{hex_req.upper()}'
-                    role_posi = message.author.top_role.position + 1
-                    role_objc = discord.utils.find(lambda role: role.name == role_name, message.guild.roles)
+                    role_posi = pld.msg.author.top_role.position + 1
+                    role_objc = discord.utils.find(lambda role: role.name == role_name, pld.msg.guild.roles)
                     if not role_objc:
                         color_int = int(f'0x{hex_req}', 16)
                         role_color = discord.Color(color_int)
-                        role_objc = await message.guild.create_role(name=role_name, color=role_color)
+                        role_objc = await pld.msg.guild.create_role(name=role_name, color=role_color)
                         await role_objc.edit(position=role_posi)
-                    for member_role in message.author.roles:
+                    for member_role in pld.msg.author.roles:
                         if member_role.name.startswith('SCR-'):
-                            await message.author.remove_roles(member_role, reason='Assigning new color role.')
-                    await message.author.add_roles(role_objc, reason='Assigned color role.')
-                    addition_title = f'✅ {role_objc.name} has been added to you, {message.author.name}.'
+                            await pld.msg.author.remove_roles(member_role, reason='Assigning new color role.')
+                    await pld.msg.author.add_roles(role_objc, reason='Assigned color role.')
+                    addition_title = f'✅ {role_objc.name} has been added to you, {pld.msg.author.name}.'
                     response = discord.Embed(color=0x77B255, title=addition_title)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color code.')
@@ -56,4 +55,4 @@ async def colorme(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'⛔ Color roles are not enabled.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ I can\'t make a color role with my current role position.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -53,18 +53,17 @@ def get_color_tuple(args: list):
 
 
 async def color(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     file = None
-    if args:
-        color_tuple = get_color_tuple(args)
+    if pld.args:
+        color_tuple = get_color_tuple(pld.args)
         if color_tuple:
             image = Image.new('RGB', (128, 128), color_tuple)
             image = store_image(image)
-            file = discord.File(image, f'{message.id}.png')
+            file = discord.File(image, f'{pld.msg.id}.png')
             response = discord.Embed(color=rgb_to_hex(color_tuple))
-            response.set_image(url=f'attachment://{message.id}.png')
+            response.set_image(url=f'attachment://{pld.msg.id}.png')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid input, HEX or RGB sequence, please.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(file=file, embed=response)
+    await pld.msg.channel.send(file=file, embed=response)

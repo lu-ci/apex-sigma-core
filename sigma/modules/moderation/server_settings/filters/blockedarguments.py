@@ -22,16 +22,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def blockedarguments(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
     else:
         total_count = len(blocked_args)
-        blocked_args, page = PaginatorCore.paginate(blocked_args, args[0] if args else 1, 20)
+        blocked_args, page = PaginatorCore.paginate(blocked_args, pld.args[0] if pld.args else 1, 20)
         showing_count = len(blocked_args)
-        title = f'ℹ Arguments blocked on {message.guild.name}'
+        title = f'ℹ Arguments blocked on {pld.msg.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)
         response.description = ', '.join(blocked_args)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

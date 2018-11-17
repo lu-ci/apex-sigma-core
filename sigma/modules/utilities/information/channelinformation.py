@@ -22,8 +22,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def channelinformation(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    chan = message.channel_mentions[0] if message.channel_mentions else message.channel
+    chan = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
     response = discord.Embed(color=0x1B6F5F)
     creation_time = arrow.get(chan.created_at).format('DD. MMMM YYYY')
     info_text = f'Name: **{chan.name}**'
@@ -32,4 +31,4 @@ async def channelinformation(_cmd: SigmaCommand, pld: CommandPayload):
     info_text += f'\nNSFW: **{chan.nsfw}**'
     info_text += f'\nCreated: **{creation_time}**'
     response.add_field(name=f'#{chan.name} Information', value=info_text)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -63,19 +63,18 @@ def add_post_image(post, response):
 
 
 async def reddit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     global reddit_client
-    if args:
+    if pld.args:
         if reddit_client is None:
             reddit_client = RedditClient(cmd.bot.user.id)
-        subreddit = args[0]
-        argument = args[-1].lower()
+        subreddit = pld.args[0]
+        argument = pld.args[-1].lower()
         subreddit = await reddit_client.get_subreddit(subreddit)
         if not subreddit.private and not subreddit.banned:
             post = await grab_post(subreddit, argument)
             if subreddit.exists:
                 if post:
-                    if not post.over_18 or message.channel.is_nsfw():
+                    if not post.over_18 or pld.msg.channel.is_nsfw():
                         post_desc = f'Author: {post.author if post.author else "Anonymous"}'
                         post_desc += f' | Karma Score: {post.score}'
                         author = f'https://www.reddit.com{post.permalink}'
@@ -96,4 +95,4 @@ async def reddit(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ That subreddit is {reason}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

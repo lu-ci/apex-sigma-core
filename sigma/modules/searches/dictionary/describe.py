@@ -26,11 +26,10 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def describe(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        mode = args[0].lower().lower()
+    if pld.args:
+        mode = pld.args[0].lower().lower()
         if mode in ['adjectives', 'adjective', 'adj', 'a', 'nouns', 'noun', 'n']:
-            query = '+'.join(args[1:]).lower()
+            query = '+'.join(pld.args[1:]).lower()
             if mode[0] == 'a':
                 header = f'Adjectives used to describe {query.replace("+", " ")}'
                 site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=jja'
@@ -61,4 +60,4 @@ async def describe(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid mode')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

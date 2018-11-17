@@ -23,22 +23,21 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def roll(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     count = 1
     high_end = 6
     modifier = 0
     bad_data = False
     try:
-        if args:
-            if 'd' in args[0].lower():
-                params = args[0].lower().split('d')
+        if pld.args:
+            if 'd' in pld.args[0].lower():
+                params = pld.args[0].lower().split('d')
                 count = int(params[0])
                 high_end = int(params[1])
             else:
                 count = 1
-                high_end = int(args[0])
-            if len(args) > 1:
-                modifier = int(args[-1])
+                high_end = int(pld.args[0])
+            if len(pld.args) > 1:
+                modifier = int(pld.args[-1])
             else:
                 modifier = 0
     except ValueError:
@@ -63,4 +62,4 @@ async def roll(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Up to 10 dice please.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Invalid data given, please follow the example.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

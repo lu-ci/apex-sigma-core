@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import aiohttp
 import discord
 from lxml import html as lx
@@ -68,11 +69,10 @@ async def fill_tdoll_data():
 
 
 async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if not tdoll_data:
         await fill_tdoll_data()
-    if args:
-        time_q = args[0].lower()
+    if pld.args:
+        time_q = pld.args[0].lower()
         dolls = [di for di in tdoll_data if di.get('time') == time_q]
         if dolls:
             lines = [f'{d.get("rarity")}\* {d.get("type").upper()} - **{d.get("name")}**' for d in dolls]
@@ -83,4 +83,4 @@ async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Nothing found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

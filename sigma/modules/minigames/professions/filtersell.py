@@ -32,15 +32,14 @@ async def sell_item_ids(db, user, items):
 
 
 async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
-    if args:
-        full_qry = ' '.join(args)
+    if pld.args:
+        full_qry = ' '.join(pld.args)
         arguments = full_qry.split(':')
         if len(arguments) >= 2:
             mode = arguments[0].lower()
             lookup = ' '.join(arguments[1:])
-            inv = await cmd.db.get_inventory(message.author.id)
+            inv = await cmd.db.get_inventory(pld.msg.author.id)
             if inv:
                 value = 0
                 count = 0
@@ -61,8 +60,8 @@ async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
                             value += item_ob_id.value
                             count += 1
                             sell_id_list.append(item['item_id'])
-                    await sell_item_ids(cmd.db, message.author, sell_id_list)
-                    await cmd.db.add_resource(message.author.id, 'currency', value, cmd.name, message)
+                    await sell_item_ids(cmd.db, pld.msg.author, sell_id_list)
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
                     currency = cmd.bot.cfg.pref.currency
                     ender = 's' if count != 1 else ''
                     response = discord.Embed(color=0xc6e4b5)
@@ -75,5 +74,5 @@ async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-    await message.channel.send(embed=response)
+    response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
+    await pld.msg.channel.send(embed=response)

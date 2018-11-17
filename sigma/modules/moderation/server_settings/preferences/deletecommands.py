@@ -22,18 +22,17 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def deletecommands(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         curr_settings = pld.settings.get('delete_commands')
         if curr_settings is None:
             curr_settings = False
         if curr_settings:
-            await cmd.db.set_guild_settings(message.guild.id, 'delete_commands', False)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'delete_commands', False)
             ending = 'disabled'
         else:
-            await cmd.db.set_guild_settings(message.guild.id, 'delete_commands', True)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'delete_commands', True)
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Command message deletion has been {ending}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

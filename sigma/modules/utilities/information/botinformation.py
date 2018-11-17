@@ -27,7 +27,6 @@ support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
 async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     version_data = cmd.bot.info.get_version().raw
     author_data = cmd.bot.info.get_authors().raw
     ver_nest = version_data.get('version')
@@ -50,4 +49,4 @@ async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='Authors', value=auth_text)
     response.add_field(name='Environment', value=env_text)
     response.set_footer(text=f'Last updated {arrow.get(version_data.get("build_date")).humanize()}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

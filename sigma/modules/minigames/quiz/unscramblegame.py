@@ -28,25 +28,24 @@ word_cache = {}
 
 
 async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:
             word = ddoc.get('word')
             if len(word) > 3 and len(word.split(' ')) == 1:
                 word_cache.update({word: ddoc.get('description')})
-    if message.channel.id not in ongoing_list:
-        ongoing_list.append(message.channel.id)
+    if pld.msg.channel.id not in ongoing_list:
+        ongoing_list.append(pld.msg.channel.id)
         words = list(word_cache.keys())
         word_choice = secrets.choice(words)
         word_description = word_cache.get(word_choice)
         kud_reward = len(word_choice)
         scrambled = scramble(word_choice.title())
         question_embed = discord.Embed(color=0x3B88C3, title=f'🔣 {scrambled}')
-        await message.channel.send(embed=question_embed)
+        await pld.msg.channel.send(embed=question_embed)
 
         def check_answer(msg):
-            if message.channel.id == msg.channel.id:
+            if pld.msg.channel.id == msg.channel.id:
                 if msg.content.lower() == word_choice.lower():
                     correct = True
                 else:
@@ -57,19 +56,19 @@ async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
 
         try:
             answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-            await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
+            await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
             author = answer_message.author.display_name
             currency = cmd.bot.cfg.pref.currency
             win_title = f'🎉 Correct, {author}, it was {word_choice}. You won {kud_reward} {currency}!'
             win_embed = discord.Embed(color=0x77B255, title=win_title)
-            await message.channel.send(embed=win_embed)
+            await pld.msg.channel.send(embed=win_embed)
         except asyncio.TimeoutError:
             timeout_title = f'🕙 Time\'s up!'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             timeout_embed.add_field(name=f'It was {word_choice.lower()}.', value=word_description)
-            await message.channel.send(embed=timeout_embed)
-        if message.channel.id in ongoing_list:
-            ongoing_list.remove(message.channel.id)
+            await pld.msg.channel.send(embed=timeout_embed)
+        if pld.msg.channel.id in ongoing_list:
+            ongoing_list.remove(pld.msg.channel.id)
     else:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        await pld.msg.channel.send(embed=ongoing_error)

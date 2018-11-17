@@ -21,16 +21,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if args[0].startswith('c'):
-            lookup = {'origin.channel': message.channel.id, 'settings.active': True}
-        elif args[0].startswith('s'):
-            lookup = {'origin.server': message.guild.id, 'settings.active': True}
+    if pld.args:
+        if pld.args[0].startswith('c'):
+            lookup = {'origin.channel': pld.msg.channel.id, 'settings.active': True}
+        elif pld.args[0].startswith('s'):
+            lookup = {'origin.server': pld.msg.guild.id, 'settings.active': True}
         else:
-            lookup = {'origin.author': message.author.id}
+            lookup = {'origin.author': pld.msg.author.id}
     else:
-        lookup = {'origin.author': message.author.id}
+        lookup = {'origin.author': pld.msg.author.id}
     poll_files = await cmd.db[cmd.db.db_nam].ShadowPolls.find(lookup).to_list(None)
     if poll_files:
         response = discord.Embed(color=0xF9F9F9, title='📊 Shadow Poll List')
@@ -44,4 +43,4 @@ async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
         response.description = poll_list
     else:
         response = discord.Embed(color=0x696969, title='🔍 There are no polls.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

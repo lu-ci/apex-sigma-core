@@ -22,14 +22,13 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def collectiontrigger(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         jar_doc = pld.settings.get('collection_jar') or {}
-        if args:
-            if len(args) == 1:
-                trigger = args[0].lower()
+        if pld.args:
+            if len(pld.args) == 1:
+                trigger = pld.args[0].lower()
                 jar_doc.update({'trigger': trigger})
-                await cmd.db.set_guild_settings(message.guild.id, 'collection_jar', jar_doc)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
                 response = discord.Embed(color=7844437, title=f'✅ Collection Jar trigger set to `{trigger}`.')
             else:
                 response = discord.Embed(color=12458289, title="❗ Trigger can't be more than one word.")
@@ -41,4 +40,4 @@ async def collectiontrigger(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=12458289, title='❗ A trigger has not been set.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

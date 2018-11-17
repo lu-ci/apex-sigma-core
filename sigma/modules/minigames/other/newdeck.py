@@ -22,8 +22,7 @@ from sigma.modules.minigames.other.drawcard import make_new_deck
 
 
 async def newdeck(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    make_new_deck(message.author.id)
-    addition_title = f'✅ Your deck has been rebuilt, {message.author.display_name}.'
+    make_new_deck(pld.msg.author.id)
+    addition_title = f'✅ Your deck has been rebuilt, {pld.msg.author.display_name}.'
     response = discord.Embed(color=0x77B255, title=addition_title)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

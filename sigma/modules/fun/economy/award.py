@@ -22,15 +22,14 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def award(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if len(args) == 2:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if len(pld.args) == 2:
             try:
-                amount = int(abs(int(args[0])))
+                amount = int(abs(int(pld.args[0])))
             except ValueError:
                 amount = None
-            if message.mentions:
-                target = message.mentions[0]
+            if pld.msg.mentions:
+                target = pld.msg.mentions[0]
             else:
                 target = None
             if amount:
@@ -40,9 +39,9 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
                     if current_vault is None:
                         current_vault = 0
                     if current_vault >= amount:
-                        await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                        await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
                         current_vault -= amount
-                        await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
                         title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'
                         response = discord.Embed(color=0x77B255, title=title_text)
                     else:
@@ -55,4 +54,4 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

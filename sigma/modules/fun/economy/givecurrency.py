@@ -21,22 +21,21 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def givecurrency(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            if message.mentions:
-                target = message.mentions[0]
+    if pld.args:
+        if len(pld.args) >= 2:
+            if pld.msg.mentions:
+                target = pld.msg.mentions[0]
                 try:
-                    amount = abs(int(args[0]))
+                    amount = abs(int(pld.args[0]))
                 except ValueError:
                     amount = None
                 if amount:
-                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(message.author.id):
-                        current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(pld.msg.author.id):
+                        current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                         current_kud = current_kud.current
                         if current_kud >= amount:
-                            await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
-                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, message, False)
+                            await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
+                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
                             title = f'✅ Transferred {amount} to {target.display_name}.'
                             response = discord.Embed(color=0x77B255, title=title)
                         else:
@@ -51,4 +50,4 @@ async def givecurrency(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

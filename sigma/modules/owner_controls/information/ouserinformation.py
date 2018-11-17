@@ -23,9 +23,8 @@ from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def ouserinformation(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = args[0].lower()
+    if pld.args:
+        lookup = pld.args[0].lower()
         if '#' in lookup:
             uname = lookup.split('#')[0].lower()
             udisc = lookup.split('#')[1]
@@ -51,4 +50,4 @@ async def ouserinformation(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 User not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

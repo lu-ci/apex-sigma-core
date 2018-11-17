@@ -43,19 +43,18 @@ async def reset_all(db, coll, nam):
 
 
 async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     awardables = ['currency', 'experience', 'cookies']
     init_resp = discord.Embed(color=0xf9f9f9, title=f'💴 Awarding leaderboards....')
-    init_msg = await message.channel.send(embed=init_resp)
+    init_msg = await pld.msg.channel.send(embed=init_resp)
     for awdbl in awardables:
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']
         search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
         all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
-        leader_docs = list(reversed(await get_leader_docs(cmd, message, False, all_docs, 'ranked')))
+        leader_docs = list(reversed(await get_leader_docs(cmd, pld.msg, False, all_docs, 'ranked')))
         for ld_index, ld_entry in enumerate(leader_docs):
             ld_position = ld_index + 1
             ld_award = ld_position * 100000
-            await cmd.db.add_resource(ld_entry[0].id, 'currency', ld_award, 'leaderboard', message, False)
+            await cmd.db.add_resource(ld_entry[0].id, 'currency', ld_award, 'leaderboard', pld.msg, False)
             await notify_awarded(
                 ld_entry[0], ld_award, ld_index, cmd.bot.cfg.pref.currency, cmd.bot.cfg.pref.currency_icon, awdbl
             )
@@ -66,4 +65,4 @@ async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
         await reset_all(cmd.db, coll, awdbl)
     await init_msg.delete()
     done_resp = discord.Embed(color=0x77B255, title=f'✅ All leaderboards awarded.')
-    await message.channel.send(embed=done_resp)
+    await pld.msg.channel.send(embed=done_resp)

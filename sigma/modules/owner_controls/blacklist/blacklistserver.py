@@ -21,11 +21,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         target_id = None
-        if args[0].isdigit():
-            target_id = int(args[0])
+        if pld.args[0].isdigit():
+            target_id = int(pld.args[0])
         if target_id:
             target = cmd.bot.get_guild(target_id)
             if target:
@@ -46,4 +45,4 @@ async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid guild ID.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing guild ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

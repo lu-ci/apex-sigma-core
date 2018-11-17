@@ -104,11 +104,10 @@ def hash_url(url: bytes):
 
 
 async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            interaction_name = args[0].lower()
-            interaction_link = ' '.join(args[1:])
+    if pld.args:
+        if len(pld.args) >= 2:
+            interaction_name = pld.args[0].lower()
+            interaction_link = ' '.join(pld.args[1:])
             allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
             if interaction_name in allowed_interactions:
                 valid, data = await validate_gif_url(interaction_link)
@@ -117,8 +116,8 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
                     if not exists:
                         imgur_link = await relay_image(cmd, interaction_link)
                         if imgur_link:
-                            inter_data = make_interaction_data(message, interaction_name, imgur_link, url_hash)
-                            log_msg = await send_log_message(cmd, message, inter_data)
+                            inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
+                            log_msg = await send_log_message(cmd, pld.msg, inter_data)
                             inter_data.update({'message_id': log_msg.id if log_msg else None})
                             await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
                             title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
@@ -135,4 +134,4 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

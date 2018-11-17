@@ -23,10 +23,9 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.guild_permissions.manage_channels:
-        if message.channel_mentions:
-            target = message.channel_mentions[0]
+    if pld.msg.author.guild_permissions.manage_channels:
+        if pld.msg.channel_mentions:
+            target = pld.msg.channel_mentions[0]
             docdata = {'channel_id': target.id}
             blockdoc = bool(await cmd.db[cmd.db.db_nam].BlindedChains.find_one(docdata))
             if blockdoc:
@@ -40,4 +39,4 @@ async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No channel given.')
     else:
         response = permission_denied('Manage Channels')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

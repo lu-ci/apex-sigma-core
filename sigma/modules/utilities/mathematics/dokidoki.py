@@ -80,13 +80,12 @@ def clean(text, author):
 
 
 async def dokidoki(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     char = None
     glitch = False
-    if args:
-        if args[0][0].lower() in files:
-            char = args[0][0].lower()
-        if args[-1].startswith(':g'):
+    if pld.args:
+        if pld.args[0][0].lower() in files:
+            char = pld.args[0][0].lower()
+        if pld.args[-1].startswith(':g'):
             glitch = True
     if not char:
         char = secrets.choice(list(files))
@@ -105,7 +104,7 @@ async def dokidoki(cmd: SigmaCommand, pld: CommandPayload):
     lines = []
     for x in range(0, line_count):
         output = markovify.Text(ciphered).make_short_sentence(500, tries=100)
-        output = clean(output, message.author)
+        output = clean(output, pld.msg.author)
         if glitch:
             cipher = get_encryptor(cmd.bot.cfg)
             if cipher:
@@ -119,4 +118,4 @@ async def dokidoki(cmd: SigmaCommand, pld: CommandPayload):
     response = discord.Embed(color=0xe75a70)
     response.add_field(name=f'💟 {title}', value=output_final)
     response.set_thumbnail(url=thumbnail)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

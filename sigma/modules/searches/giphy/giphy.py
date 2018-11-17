@@ -27,11 +27,10 @@ giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
 
 async def giphy(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('api_key')
     if api_key:
-        if args:
-            qry = ' '.join(args)
+        if pld.args:
+            qry = ' '.join(pld.args)
             url = f'https://api.giphy.com/v1/gifs/search?q={qry}&api_key={api_key}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as data_response:
@@ -51,4 +50,4 @@ async def giphy(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

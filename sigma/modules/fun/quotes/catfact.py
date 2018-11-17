@@ -25,7 +25,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def catfact(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     resource = 'https://catfact.ninja/fact'
     async with aiohttp.ClientSession() as session:
         async with session.get(resource) as data:
@@ -39,4 +38,4 @@ async def catfact(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='🐱 Did you know...', value=fact)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Sorry, I got invalid data and couldn\'t get a fact.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

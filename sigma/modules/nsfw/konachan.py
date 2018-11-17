@@ -25,9 +25,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def konachan(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     url = 'https://konachan.com/post.json?limit=100&tags='
-    url += '+'.join(args) if args else 'nude'
+    url += '+'.join(pld.args) if pld.args else 'nude'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             data = await data.read()
@@ -43,4 +42,4 @@ async def konachan(_cmd: SigmaCommand, pld: CommandPayload):
             text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]} | Uploaded By: {post["author"]}')
     else:
         response = discord.Embed(color=0x696969, title='🔍 No results.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

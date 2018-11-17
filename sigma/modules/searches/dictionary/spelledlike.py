@@ -26,9 +26,8 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def spelledlike(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        query = '+'.join(args).lower()
+    if pld.msg:
+        query = '+'.join(pld.msg).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=spell'
         api_url = f'https://api.datamuse.com/words?sp={query}&max=11'
         async with aiohttp.ClientSession() as session:
@@ -49,4 +48,4 @@ async def spelledlike(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

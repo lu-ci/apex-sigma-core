@@ -41,11 +41,10 @@ def get_perm_type(cmd: SigmaCommand, perm_type: str):
 
 
 async def disabled(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        perm_name, perm_type, exception_type, item_list = get_perm_type(cmd, args[0].lower())
+    if pld.args:
+        perm_name, perm_type, exception_type, item_list = get_perm_type(cmd, pld.args[0].lower())
         if perm_name:
-            perms = await get_all_perms(cmd.db, message)
+            perms = await get_all_perms(cmd.db, pld.msg)
             disabled_items = perms[perm_type]
             overridden_items = perms[exception_type]
             disabled_list = []
@@ -59,12 +58,12 @@ async def disabled(cmd: SigmaCommand, pld: CommandPayload):
                     disabled_list.append(item_name)
             if disabled_list:
                 disabled_count = len(disabled_list)
-                page = args[1] if len(args) > 1 else 1
+                page = pld.args[1] if len(pld.args) > 1 else 1
                 disabled_list, page_num = PaginatorCore.paginate(disabled_list, page, 50)
-                title = f'{message.guild.name} Disabled {perm_name.title()}'
+                title = f'{pld.msg.guild.name} Disabled {perm_name.title()}'
                 info = f'[Page {page_num}] Showing {len(disabled_list)} out of {disabled_count} disabled {perm_name}.'
-                response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-                response.set_author(name=title, icon_url=message.guild.icon_url)
+                response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+                response.set_author(name=title, icon_url=pld.msg.guild.icon_url)
                 response.description = ', '.join(disabled_list)
                 response.set_footer(text=info)
             else:
@@ -73,4 +72,4 @@ async def disabled(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

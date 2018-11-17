@@ -30,20 +30,19 @@ def settings(lookup: str):
 
 
 async def makelist(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     mode = None
-    if args:
-        mode = settings(args[0].lower())
+    if pld.args:
+        mode = settings(pld.args[0].lower())
     list_data = {
-        'server_id': message.guild.id,
-        'user_id': message.author.id,
+        'server_id': pld.msg.guild.id,
+        'user_id': pld.msg.author.id,
         'list_id': secrets.token_hex(2),
         'mode': mode,
-        'name': f'{message.author.name}\'s List',
+        'name': f'{pld.msg.author.name}\'s List',
         'contents': []
     }
     await cmd.db[cmd.db.db_nam].CustomLists.insert_one(list_data)
     response = discord.Embed(color=0x77B255)
     response.title = f'✅ List `{list_data.get("list_id")}` has been created.'
     response.set_footer(text=f'You can rename it with {cmd.bot.cfg.pref.prefix}renamelist.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

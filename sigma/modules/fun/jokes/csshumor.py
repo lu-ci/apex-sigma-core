@@ -22,7 +22,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def csshumor(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     url = 'https://csshumor.com/'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
@@ -30,4 +29,4 @@ async def csshumor(_cmd: SigmaCommand, pld: CommandPayload):
     root = html.fromstring(data)
     codeblock = root.cssselect('.crayon-code')[0]
     codeblock_content = codeblock.text_content()
-    await message.channel.send(f'```css\n{codeblock_content}\n```')
+    await pld.msg.channel.send(f'```css\n{codeblock_content}\n```')

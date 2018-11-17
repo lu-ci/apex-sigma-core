@@ -38,7 +38,6 @@ def type_rarity_counter(items: list):
 
 
 async def allitemstats(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     item_core = await get_item_core(cmd.db)
     item_o_list = sorted(item_core.all_items, key=lambda x: x.rarity, reverse=True)
     types = type_rarity_counter(item_o_list)
@@ -89,4 +88,4 @@ async def allitemstats(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='Items by Type', value=f'```py\n{type_out}\n```', inline=False)
     response.add_field(name='Items by Rarity', value=f'```py\n{rare_out}\n```', inline=False)
     response.set_footer(text=f'Total Value: {total_value} {currency}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

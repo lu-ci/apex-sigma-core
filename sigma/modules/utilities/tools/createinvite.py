@@ -24,11 +24,10 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.create_instant_invite:
-        target = message.channel_mentions[0] if message.channel_mentions else message.channel
+    if pld.msg.author.guild_permissions.create_instant_invite:
+        target = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
         age, uses = 0, 0
-        for arg in args:
+        for arg in pld.args:
             if arg.lower().startswith('d:'):
                 try:
                     age = convert_to_seconds(arg.partition(':')[-1])
@@ -45,8 +44,8 @@ async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
                     if not uses > 100:
                         try:
                             invite = await target.create_invite(max_age=age, max_uses=uses)
-                            response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-                            response.set_author(name=f'Invite for {target.name}.', icon_url=message.guild.icon_url)
+                            response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+                            response.set_author(name=f'Invite for {target.name}.', icon_url=pld.msg.guild.icon_url)
                             age = arrow.get(arrow.utcnow().timestamp + age).humanize() if age else None
                             details = f"**Link:** {invite}\n**Expires:** {age or 'Never'}"
                             details += f"\n**Uses:** {uses or 'Unlimited'}"
@@ -63,4 +62,4 @@ async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
     else:
         response = permission_denied('Create Instant Invites')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -25,7 +25,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def dog(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     doggie_url = 'https://dog.ceo/api/breeds/image/random'
     async with aiohttp.ClientSession() as session:
         async with session.get(doggie_url) as data:
@@ -33,4 +32,4 @@ async def dog(_cmd: SigmaCommand, pld: CommandPayload):
             doggie_data = json.loads(doggie_data)
     response = discord.Embed(color=0xf9f9f9, title='🐶 Woof!')
     response.set_image(url=doggie_data.get('message'))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,11 +23,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def dadjoke(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     joke_list = await cmd.db[cmd.db.db_nam].DadjokeData.find().to_list(None)
     end_joke_choice = secrets.choice(joke_list)
     end_joke = end_joke_choice.get('setup')
     punchline = end_joke_choice.get('punchline')
     response = discord.Embed(color=0xFFDC5D)
     response.add_field(name='😖 Have An Awful Dad Joke', value=f'{end_joke}... {punchline}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

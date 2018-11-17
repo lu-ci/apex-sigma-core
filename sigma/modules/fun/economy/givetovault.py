@@ -21,24 +21,23 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def givetovault(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         try:
-            amount = int(abs(int(args[0])))
+            amount = int(abs(int(pld.args[0])))
         except ValueError:
             amount = None
         if amount:
-            if not await cmd.db.is_sabotaged(message.author.id):
+            if not await cmd.db.is_sabotaged(pld.msg.author.id):
                 currency = cmd.bot.cfg.pref.currency
-                current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                 current_kud = current_kud.current
                 if current_kud >= amount:
                     current_vault = pld.settings.get('currency_vault')
                     if current_vault is None:
                         current_vault = 0
-                    await cmd.db.del_resource(message.author.id, 'currency', amount, cmd.name, message)
+                    await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
                     current_vault += amount
-                    await cmd.db.set_guild_settings(message.guild.id, 'currency_vault', current_vault)
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
                     title_text = f'✅ You added {amount} {currency} to the Vault.'
                     response = discord.Embed(color=0x77B255, title=title_text)
                 else:
@@ -49,4 +48,4 @@ async def givetovault(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Amount missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

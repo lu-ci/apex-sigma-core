@@ -38,14 +38,13 @@ async def message_search(lookup: int, message: discord.Message):
 
 
 async def quote(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = args[0]
+    if pld.args:
+        lookup = pld.args[0]
         if lookup.isdigit():
-            msg = await message_search(lookup, message)
+            msg = await message_search(lookup, pld.msg)
             if msg:
                 valid = False
-                pref_arg = args[-1].lower()
+                pref_arg = pld.args[-1].lower()
                 prefix = 'canary' if pref_arg == '--canary' else 'ptb' if pref_arg == '--ptb' else None
                 domain = 'discordapp.com' if not prefix else f'{prefix}.discordapp.com'
                 msg_url = f'https://{domain}/channels/{msg.guild.id}/{msg.channel.id}/{msg.id}'
@@ -76,4 +75,4 @@ async def quote(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

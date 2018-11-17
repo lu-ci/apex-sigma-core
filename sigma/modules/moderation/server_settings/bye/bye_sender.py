@@ -20,7 +20,7 @@ from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_embed
 
 
-async def bye_sender(ev: SigmaEvent, pld: MemberPayload):
+async def bye_sender(_ev: SigmaEvent, pld: MemberPayload):
     bye_active = pld.settings.get('bye')
     bye_active = True if bye_active is None else bye_active
     if bye_active:

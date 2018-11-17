@@ -22,10 +22,9 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def geterror(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     trace_text = None
-    if args:
-        token = args[0]
+    if pld.args:
+        token = pld.args[0]
         error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'token': token})
         if error_file:
             response, trace_text = make_error_embed(error_file)
@@ -33,6 +32,6 @@ async def geterror(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No error with that token was found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing error token.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
     if trace_text:
-        await message.channel.send(trace_text)
+        await pld.msg.channel.send(trace_text)

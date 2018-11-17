@@ -24,22 +24,21 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     here = False
-    if args:
-        if args[-1].lower() == 'here':
+    if pld.args:
+        if pld.args[-1].lower() == 'here':
             here = True
     if here:
-        lookup_data = {'user_id': message.author.id, 'channel_id': message.channel.id}
+        lookup_data = {'user_id': pld.msg.author.id, 'channel_id': pld.msg.channel.id}
     else:
-        lookup_data = {'user_id': message.author.id}
+        lookup_data = {'user_id': pld.msg.author.id}
     all_reminders = cmd.db[cmd.db.db_nam].Reminders
     reminder_count = await all_reminders.count_documents(lookup_data)
     all_reminders = await all_reminders.find(lookup_data).to_list(None)
     if reminder_count:
         ender = 'reminder' if reminder_count == 1 else 'reminders'
         if here:
-            reminder_list_title = f'You have {reminder_count} pending {ender} in #{message.channel.name}.'
+            reminder_list_title = f'You have {reminder_count} pending {ender} in #{pld.msg.channel.name}.'
         else:
             reminder_list_title = f'You have {reminder_count} pending {ender}.'
         reminder_list = ''
@@ -54,11 +53,11 @@ async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
                 srv_name = '*{No Server}*'
             rem_id = reminder['reminder_id']
             reminder_list += f'\n`{rem_id}` in {chan_name} on {srv_name} {human_time}'
-        strip_clr = await get_image_colors(user_avatar(message.author))
+        strip_clr = await get_image_colors(user_avatar(pld.msg.author))
         response = discord.Embed(color=strip_clr)
-        response.set_author(name=f'{message.author.display_name}\'s Reminders', icon_url=user_avatar(message.author))
+        response.set_author(name=f'{pld.msg.author.display_name}\'s Reminders', icon_url=user_avatar(pld.msg.author))
         response.add_field(name='Reminder Count', value=reminder_list_title, inline=False)
         response.add_field(name='Reminder List', value=reminder_list, inline=False)
     else:
         response = discord.Embed(color=0x696969, title='🔍 You have no pending reminders.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -21,14 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def deletelist(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup_data = {'list_id': args[0].lower()}
+    if pld.args:
+        lookup_data = {'list_id': pld.args[0].lower()}
         list_coll = cmd.db[cmd.db.db_nam].CustomLists
         list_file = await list_coll.find_one(lookup_data)
         if list_file:
             author_id = list_file.get('user_id')
-            if author_id == message.author.id:
+            if author_id == pld.msg.author.id:
                 await list_coll.delete_one(lookup_data)
                 response = discord.Embed(color=0xFFCC4D,
                                          title=f'🔥 List `{list_file.get("list_id")}` has been deleted.')
@@ -38,4 +37,4 @@ async def deletelist(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 List not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing list ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

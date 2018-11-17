@@ -21,17 +21,16 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def send(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
         try:
-            mode, identifier = args[0].split(':')
+            mode, identifier = pld.args[0].split(':')
             identifier = int(identifier)
         except ValueError:
-            await message.channel.send(embed=error_response)
+            await pld.msg.channel.send(embed=error_response)
             return
         mode = mode.lower()
-        text = ' '.join(args[1:])
+        text = ' '.join(pld.args[1:])
         if mode == 'u':
             target = await cmd.bot.get_user(identifier)
             title_end = f'{target.name}#{target.discriminator}'
@@ -39,7 +38,7 @@ async def send(cmd: SigmaCommand, pld: CommandPayload):
             target = await cmd.bot.get_channel(identifier)
             title_end = f'#{target.name} on {target.guild.name}'
         else:
-            await message.channel.send(embed=error_response)
+            await pld.msg.channel.send(embed=error_response)
             return
         if text:
             try:
@@ -51,4 +50,4 @@ async def send(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing message to send.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

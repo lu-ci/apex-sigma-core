@@ -27,20 +27,19 @@ wf_logo = 'https://i.imgur.com/yrY1kWg.png'
 
 
 async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     sales_api = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
     async with aiohttp.ClientSession() as session:
         async with session.get(sales_api) as data:
             sales_text = await data.text()
     discount_only = True
     title = 'List of Warframe Items on Sale'
-    if args:
-        if args[-1].lower() == 'all':
+    if pld.args:
+        if pld.args[-1].lower() == 'all':
             discount_only = False
             title = 'List of Promoted Warframe Items'
     sales_data_all = parse_sales_data(sales_text, discount_only)
     total_item = len(sales_data_all)
-    page = args[0] if args else 1
+    page = pld.args[0] if pld.args else 1
     sales_data, page = PaginatorCore.paginate(sales_data_all, page)
     start_range, end_range = (page - 1) * 10, page * 10
     no_discounts = True
@@ -70,4 +69,4 @@ async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=title, value=f'```hs\n{item_table}\n```', inline=False)
     else:
         response = discord.Embed(color=0x336699, title=f'No items found, try adding the "all" argument.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

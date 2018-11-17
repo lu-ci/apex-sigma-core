@@ -21,11 +21,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def echo(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        content = f'👄 {" ".join(args)[:1995]}'
+    if pld.args:
+        content = f'👄 {" ".join(pld.args)[:1995]}'
         content = content.replace('@everyone', 'everyone').replace('@here', 'here')
-        await message.channel.send(content)
+        await pld.msg.channel.send(content)
     else:
         no_args = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-        await message.channel.send(embed=no_args)
+        await pld.msg.channel.send(embed=no_args)

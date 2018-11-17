@@ -22,12 +22,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def blockinvites(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         active = pld.settings.get('block_invites')
         state, toggle = ('disabled', False) if active else ('enabled', True)
-        await cmd.db.set_guild_settings(message.guild.id, 'block_invites', toggle)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'block_invites', toggle)
         response = discord.Embed(color=0x66CC66, title=f'✅ Invite link removal has been {state}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

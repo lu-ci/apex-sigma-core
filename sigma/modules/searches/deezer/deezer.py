@@ -26,9 +26,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def deezer(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        search = '%20'.join(args)
+    if pld.args:
+        search = '%20'.join(pld.args)
         qry_url = f'http://api.deezer.com/search/track?q={search}'
         async with aiohttp.ClientSession() as session:
             async with session.get(qry_url) as data:
@@ -59,4 +58,4 @@ async def deezer(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

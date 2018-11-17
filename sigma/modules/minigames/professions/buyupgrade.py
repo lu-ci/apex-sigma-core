@@ -30,9 +30,8 @@ def get_price_mod(base_price, upgrade_level):
 
 
 async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.id not in ongoing:
-        ongoing.append(message.author.id)
+    if pld.msg.author.id not in ongoing:
+        ongoing.append(pld.msg.author.id)
         upgrade_file = pld.profile.get('upgrades', {})
         upgrade_text = ''
         upgrade_index = 0
@@ -54,10 +53,10 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
         upgrade_list_embed = discord.Embed(color=0xF9F9F9, title='🛍 Profession Upgrade Shop')
         upgrade_list_embed.description = upgrade_text
         upgrade_list_embed.set_footer(text='Please input the number of the upgrade you want.')
-        shop_listing = await message.channel.send(embed=upgrade_list_embed)
+        shop_listing = await pld.msg.channel.send(embed=upgrade_list_embed)
 
         def check_answer(msg):
-            if message.author.id == msg.author.id:
+            if pld.msg.author.id == msg.author.id:
                 if msg.content.lower() == 'cancel':
                     correct = True
                 else:
@@ -78,7 +77,7 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
             if answer_message.content.lower() != 'cancel':
                 upgrade_number = int(answer_message.content) - 1
                 upgrade = upgrade_list[upgrade_number]
-                current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+                current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                 current_kud = current_kud.current
                 upgrade_id = upgrade['id']
                 if upgrade_id in upgrade_file:
@@ -94,8 +93,8 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_file.update({upgrade_id: new_upgrade_level})
-                    await cmd.db.set_profile(message.author.id, 'upgrades', upgrade_file)
-                    await cmd.db.del_resource(message.author.id, 'currency', upgrade_price, cmd.name, message)
+                    await cmd.db.set_profile(pld.msg.author.id, 'upgrades', upgrade_file)
+                    await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
                     upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
                     response = discord.Embed(color=0x77B255, title=upgrade_title)
                 else:
@@ -106,13 +105,13 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
                 await shop_listing.delete()
             except discord.NotFound:
                 pass
-            await message.channel.send(embed=response)
+            await pld.msg.channel.send(embed=response)
         except asyncio.TimeoutError:
             timeout_title = f'🕙 Sorry, you timed out, feel free to open the shop again.'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-            await message.channel.send(embed=timeout_embed)
-        if message.author.id in ongoing:
-            ongoing.remove(message.author.id)
+            await pld.msg.channel.send(embed=timeout_embed)
+        if pld.msg.author.id in ongoing:
+            ongoing.remove(pld.msg.author.id)
     else:
         ongoing_response = discord.Embed(color=0xBE1931, title='❗ You already have a shop open.')
-        await message.channel.send(embed=ongoing_response)
+        await pld.msg.channel.send(embed=ongoing_response)

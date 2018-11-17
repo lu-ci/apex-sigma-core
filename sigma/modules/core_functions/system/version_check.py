@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import aiohttp
 import yaml
 from yaml import YAMLError
-
-import aiohttp
 
 from sigma.core.mechanics.event import SigmaEvent
 

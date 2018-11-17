@@ -25,7 +25,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def boobs(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     api_url = 'http://api.oboobs.ru/boobs/'
     api_url += str(secrets.randbelow(12243) + 1)
     async with aiohttp.ClientSession() as session:
@@ -41,4 +40,4 @@ async def boobs(_cmd: SigmaCommand, pld: CommandPayload):
     response.set_author(name='Open Boobs', icon_url=boobs_icon)
     response.set_image(url=image_url)
     response.set_footer(text=f'Ranking: {rank} | Model: {model}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

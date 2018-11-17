@@ -21,8 +21,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    lookup = args[0] if args else None
+    lookup = pld.args[0] if pld.args else None
     if lookup:
         status_data = await cmd.db[cmd.db.db_nam].HTTPStatusData.find_one({'code': lookup})
         if status_data:
@@ -32,7 +31,7 @@ async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🌐 {status_id}: {status_message}', value=f'{status_description}.')
             bonus = {'cat': 'https://http.cat/images', 'dog': 'https://httpstatusdogs.com/img'}
-            bonus_arg = args[-1].lower()
+            bonus_arg = pld.args[-1].lower()
             if bonus_arg in bonus.keys():
                 bonus_img = f'{bonus.get(bonus_arg)}/{lookup}.jpg'
                 response.set_image(url=bonus_img)
@@ -40,4 +39,4 @@ async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Response code not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

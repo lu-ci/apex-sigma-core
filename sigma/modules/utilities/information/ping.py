@@ -22,15 +22,14 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
 async def ping(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     avatar = user_avatar(cmd.bot.user)
     shard_lines = []
     response = discord.Embed(color=await get_image_colors(avatar))
     response.set_author(name=f'{cmd.bot.user.name}\'s Ping', icon_url=avatar)
     for shid, shlt in cmd.bot.latencies:
         sline = f'Shard {shid}: {int(shlt * 1000)}ms'
-        if shid == message.guild.shard_id:
+        if shid == pld.msg.guild.shard_id:
             sline = f'**{sline}**'
         shard_lines.append(sline)
     response.description = "\n".join(shard_lines)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import secrets
 
 import discord
@@ -95,28 +96,27 @@ async def set_roul_cd(cmd: SigmaCommand, pld: CommandPayload):
 
 
 async def roulette(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if not await cmd.bot.cool_down.on_cooldown(cmd.name, message.author):
-        if args:
-            sel, val = get_selector_and_value(args)
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
+        if pld.args:
+            sel, val = get_selector_and_value(pld.args)
             sel = 'color' if sel == 'colour' else sel
             if sel and val:
                 if sel in selector_ranges:
                     if val in selector_ranges.get(sel):
-                        bet = get_bet(args)
+                        bet = get_bet(pld.args)
                         currency_icon = cmd.bot.cfg.pref.currency_icon
                         currency = cmd.bot.cfg.pref.currency
-                        author = message.author.id
+                        author = pld.msg.author.id
                         current_kud = await cmd.db.get_resource(author, 'currency')
                         current_kud = current_kud.current
                         if current_kud >= bet:
                             await set_roul_cd(cmd, pld)
-                            await cmd.db.del_resource(message.author.id, 'currency', bet, cmd.name, message)
+                            await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                             spot = secrets.choice(spots)
                             spot_sel_val = getattr(spot, sel, val)
                             if spot_sel_val == val:
                                 winnings = bet + (bet * selector_mults.get(sel))
-                                await cmd.db.add_resource(author, 'currency', winnings, cmd.name, message, False)
+                                await cmd.db.add_resource(author, 'currency', winnings, cmd.name, pld.msg, False)
                                 footer = f'{currency_icon} You won {winnings - bet} {currency}'
                                 resp_color = 0x66cc66
                             else:
@@ -124,7 +124,7 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
                                 footer = f'You lost {bet} {currency}.'
                             footer += f' For betting on the {sel}.'
                             response = discord.Embed(color=resp_color, title=spot.desc)
-                            response.set_author(name=message.author.name, icon_url=user_avatar(message.author))
+                            response.set_author(name=pld.msg.author.name, icon_url=user_avatar(pld.msg.author))
                             response.set_footer(text=footer)
                         else:
                             response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
@@ -140,6 +140,6 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing selector.')
     else:
-        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, message.author)
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

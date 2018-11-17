@@ -24,11 +24,10 @@ from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
 async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     machines = await SigmaMachine.get_machines(cmd.db, target)
     machines_owned = len(machines)
-    machines, page = PaginatorCore.paginate(machines, args[0] if args else 1, 5)
+    machines, page = PaginatorCore.paginate(machines, pld.args[0] if pld.args else 1, 5)
     if machines:
         out_list = '\n'.join([f'`{m.id}`: **{m.name}**' for m in machines])
         response = discord.Embed(color=0x8899a6)
@@ -37,4 +36,4 @@ async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
         response.set_footer(text=f'[Page {page}] Showing {len(machines)}/{machines_owned} machines owned.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ You don\'t own any machine.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

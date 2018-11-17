@@ -21,9 +21,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     try:
-        target = await cmd.bot.get_user(int(args[0])) if args else None
+        target = await cmd.bot.get_user(int(pld.args[0])) if pld.args else None
     except ValueError:
         target = None
     if target:
@@ -31,4 +30,4 @@ async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target.display_name}\'s inventory.')
     else:
         response = discord.Embed(color=0x696969, title='🔍 User not found.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -135,42 +135,41 @@ class SigmaCommand(object):
 
     async def execute(self, payload: CommandPayload):
         if self.bot.ready:
-            message, args = payload.msg, payload.args
-            if message.guild:
+            if payload.msg.guild:
                 delete_command_message = payload.settings.get('delete_commands')
                 if delete_command_message:
                     try:
-                        await message.delete()
+                        await payload.msg.delete()
                     except (discord.Forbidden, discord.NotFound):
                         pass
                 override = check_filter_perms(payload.msg, payload.settings, 'arguments')
-                if await self.check_black_args(payload.settings, args):
-                    if not any([message.author.guild_permissions.administrator, override]):
-                        await self.respond_with_icon(message, '🛡')
+                if await self.check_black_args(payload.settings, payload.args):
+                    if not any([payload.msg.author.guild_permissions.administrator, override]):
+                        await self.respond_with_icon(payload.msg, '🛡')
                         return
-            if not self.bot.cfg.dsc.bot and message.author.id != self.bot.user.id:
-                self.log.warning(f'{message.author.name} tried using me.')
+            if not self.bot.cfg.dsc.bot and payload.msg.author.id != self.bot.user.id:
+                self.log.warning(f'{payload.msg.author.name} tried using me.')
                 return
-            if not self.cd.is_cooling(message):
-                if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', message.author):
-                    await self.update_cooldown(message.author)
+            if not self.cd.is_cooling(payload.msg):
+                if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', payload.msg.author):
+                    await self.update_cooldown(payload.msg.author)
                     perms = GlobalCommandPermissions(self, payload)
                     await perms.check_black_usr()
                     await perms.check_black_srv()
                     perms.generate_response()
                     perms.check_final()
-                    guild_allowed = ServerCommandPermissions(self, message)
+                    guild_allowed = ServerCommandPermissions(self, payload.msg)
                     await guild_allowed.check_perms()
-                    self.log_command_usage(message, args, arrow.utcnow().float_timestamp)
-                    self.cd.set_cooling(message)
+                    self.log_command_usage(payload.msg, payload.args, arrow.utcnow().float_timestamp)
+                    self.cd.set_cooling(payload.msg)
                     if perms.permitted:
                         if guild_allowed.permitted:
-                            requirements = CommandRequirements(self, message)
+                            requirements = CommandRequirements(self, payload.msg)
                             if requirements.reqs_met:
                                 try:
                                     await getattr(self.command, self.name)(self, payload)
                                     await add_cmd_stat(self)
-                                    await self.add_usage_sum(message)
+                                    await self.add_usage_sum(payload.msg)
                                     self.bot.command_count += 1
                                     cmd_ev_pld = CommandEventPayload(self.bot, self, payload)
                                     event_task = self.bot.queue.event_runner('command', cmd_ev_pld)
@@ -179,7 +178,7 @@ class SigmaCommand(object):
                                     error = SigmaError(self, e)
                                     await error.error_handler(payload)
                             else:
-                                await self.respond_with_icon(message, '📝')
+                                await self.respond_with_icon(payload.msg, '📝')
                                 reqs_embed = discord.Embed(color=0xBE1931)
                                 reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
                                 reqs_error_list = ''
@@ -190,21 +189,21 @@ class SigmaCommand(object):
                                 reqs_embed.add_field(name=reqs_error_title, value=f'```\n{reqs_error_list}\n```')
                                 reqs_embed.set_footer(text=f'{prefix}{self.name} could not execute.')
                                 try:
-                                    await message.channel.send(embed=reqs_embed)
+                                    await payload.msg.channel.send(embed=reqs_embed)
                                 except (discord.Forbidden, discord.NotFound):
                                     pass
                         else:
                             self.log.warning('ACCESS DENIED: This module or command is not allowed in this location.')
-                            await self.respond_with_icon(message, '🔒')
+                            await self.respond_with_icon(payload.msg, '🔒')
                     else:
                         perms.log_unpermitted()
-                        await self.respond_with_icon(message, '⛔')
+                        await self.respond_with_icon(payload.msg, '⛔')
                         if perms.response:
                             try:
-                                await message.channel.send(embed=perms.response)
+                                await payload.msg.channel.send(embed=perms.response)
                             except (discord.Forbidden, discord.NotFound):
                                 pass
                 else:
-                    await self.respond_with_icon(message, '❄')
+                    await self.respond_with_icon(payload.msg, '❄')
             else:
-                await self.respond_with_icon(message, '🕙')
+                await self.respond_with_icon(payload.msg, '🕙')

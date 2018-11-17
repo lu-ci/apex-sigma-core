@@ -71,17 +71,16 @@ async def send_response(message: discord.Message, init: discord.Message or None,
 
 
 async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('app_id')
     init_message = None
     if api_key:
-        if message.channel.id not in math_chs:
-            if args:
-                query = make_safe_query(args)
+        if pld.msg.channel.id not in math_chs:
+            if pld.args:
+                query = make_safe_query(pld.args)
                 url = f'{api_url}{query}&appid={api_key}'
                 init_response = discord.Embed(color=0xff7e00)
                 init_response.set_author(name='Processing request...', icon_url=wolfram_icon)
-                init_message = await message.channel.send(embed=init_response)
+                init_message = await pld.msg.channel.send(embed=init_response)
                 results = await get_results(url)
                 if results:
                     if len(results) <= 2000:
@@ -99,4 +98,4 @@ async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Wolfram can\'t be used during an ongoing math game.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await send_response(message, init_message, response)
+    await send_response(pld.msg, init_message, response)

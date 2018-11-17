@@ -23,15 +23,14 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def shadowpollview(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        poll_id = ''.join(args).lower()
+    if pld.args:
+        poll_id = ''.join(pld.args).lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             active = poll_file.get('settings', {}).get('active')
             visible = poll_file.get('settings', {}).get('visible')
             author_id = poll_file.get('origin', {}).get('author')
-            if active or visible or author_id == message.author.id:
+            if active or visible or author_id == pld.msg.author.id:
                 response = discord.Embed(color=0xF9F9F9, title=poll_file.get('poll', {}).get('question'))
                 author = await cmd.bot.get_user(author_id)
                 if author:
@@ -64,4 +63,4 @@ async def shadowpollview(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

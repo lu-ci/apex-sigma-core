@@ -21,9 +21,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def removeinteraction(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = args[0].lower()
+    if pld.args:
+        lookup = pld.args[0].lower()
         interaction_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': lookup})
         if interaction_item:
             await cmd.db[cmd.db.db_nam].Interactions.delete_one(interaction_item)
@@ -32,4 +31,4 @@ async def removeinteraction(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Reaction not found.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

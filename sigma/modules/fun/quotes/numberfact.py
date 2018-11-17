@@ -22,9 +22,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def numberfact(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = ''.join(args)
+    if pld.args:
+        lookup = ''.join(pld.args)
         if ':' in lookup:
             num_type = lookup.split(':')[0].lower()
             num_argument = lookup.split(':')[1].lower()
@@ -48,4 +47,4 @@ async def numberfact(_cmd: SigmaCommand, pld: CommandPayload):
         response.description = number_response
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API couldn\'t process that.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

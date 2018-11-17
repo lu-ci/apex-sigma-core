@@ -21,15 +21,14 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def repeat(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.guild.voice_client:
-        if message.author.voice:
-            if message.guild.voice_client.channel.id == message.author.voice.channel.id:
-                if message.guild.id in cmd.bot.music.repeaters:
-                    cmd.bot.music.repeaters.remove(message.guild.id)
+    if pld.msg.guild.voice_client:
+        if pld.msg.author.voice:
+            if pld.msg.guild.voice_client.channel.id == pld.msg.author.voice.channel.id:
+                if pld.msg.guild.id in cmd.bot.music.repeaters:
+                    cmd.bot.music.repeaters.remove(pld.msg.guild.id)
                     response = discord.Embed(color=0x3B88C3, title=f'➡ The queue will no longer repeat.')
                 else:
-                    cmd.bot.music.repeaters.append(message.guild.id)
+                    cmd.bot.music.repeaters.append(pld.msg.guild.id)
                     response = discord.Embed(color=0x3B88C3, title=f'🔁 The queue will now repeat.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ You are not in my channel.')
@@ -37,4 +36,4 @@ async def repeat(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ I am not playing anything.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

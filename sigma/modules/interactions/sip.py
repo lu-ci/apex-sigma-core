@@ -22,11 +22,10 @@ from sigma.modules.interactions.mech.interaction_mechanics import grab_interacti
 
 
 async def sip(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     interaction = await grab_interaction(cmd.db, 'sip')
-    target = get_target(message)
-    auth = message.author
-    if not target or target.id == message.author.id:
+    target = get_target(pld.msg)
+    auth = pld.msg.author
+    if not target or target.id == pld.msg.author.id:
         response = discord.Embed(color=0xa6d388, title=f'🍵 {auth.display_name} sips their beverage.')
     else:
         response = discord.Embed(
@@ -34,4 +33,4 @@ async def sip(cmd: SigmaCommand, pld: CommandPayload):
         )
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -24,14 +24,13 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def viewwarning(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_messages:
-        if message.mentions:
-            if len(args) == 2:
-                target = message.mentions[0]
-                warn_id = args[1].lower()
+    if pld.msg.author.guild_permissions.manage_messages:
+        if pld.msg.mentions:
+            if len(pld.args) == 2:
+                target = pld.msg.mentions[0]
+                warn_id = pld.args[1].lower()
                 lookup = {
-                    'guild': message.guild.id,
+                    'guild': pld.msg.guild.id,
                     'target.id': target.id,
                     'warning.id': warn_id,
                     'warning.active': True
@@ -60,4 +59,4 @@ async def viewwarning(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
         response = permission_denied('Manage Messages')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

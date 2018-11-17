@@ -22,9 +22,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def setavatar(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args or message.attachments:
-        image_url = message.attachments[0].url if message.attachments else args[0]
+    if pld.args or pld.msg.attachments:
+        image_url = pld.msg.attachments[0].url if pld.msg.attachments else pld.args[0]
         try:
             try:
                 async with aiohttp.ClientSession() as session:
@@ -38,4 +37,4 @@ async def setavatar(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ I was unable to change my avatar.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Give me a link or attach an image, please.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

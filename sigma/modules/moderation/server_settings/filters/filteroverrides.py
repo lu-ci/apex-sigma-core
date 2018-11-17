@@ -35,10 +35,9 @@ def get_overrides(message: discord.Message, overrides: list, target_type: str):
     return overridden_items
 
 
-async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        filter_name = args[0].lower()
+async def filteroverrides(_cmd: SigmaCommand, pld: CommandPayload):
+    if pld.args:
+        filter_name = pld.args[0].lower()
         if filter_name in filter_names:
             overrides = pld.settings.get('filter_overrides') or {}
             if overrides:
@@ -48,12 +47,12 @@ async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
                 users = override.get('users')
                 if any([channels, roles, users]):
                     override_data = [(channels, 'channels'), (roles, 'roles'), (users, 'users')]
-                    response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
+                    response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
                     name = f'{filter_name[:-1].title()} Filter Overrides'
-                    response.set_author(name=name, icon_url=message.guild.icon_url)
+                    response.set_author(name=name, icon_url=pld.msg.guild.icon_url)
                     for data in override_data:
                         if data[0]:
-                            ovr_lines = get_overrides(message, data[0], data[1])
+                            ovr_lines = get_overrides(pld.msg, data[0], data[1])
                             response.add_field(name=data[1].title(), value=', '.join(ovr_lines), inline=False)
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 No overrides for `blocked{filter_name}` found.')
@@ -63,4 +62,4 @@ async def filteroverrides(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid filter.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

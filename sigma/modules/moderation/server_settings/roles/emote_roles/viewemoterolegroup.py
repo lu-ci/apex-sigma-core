@@ -22,9 +22,8 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def viewemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        group_id = args[0].lower()
+    if pld.args:
+        group_id = pld.args[0].lower()
         emote_groups = pld.settings.get('emote_role_groups') or {}
         if group_id in emote_groups:
             group_roles = emote_groups.get(group_id)
@@ -32,20 +31,20 @@ async def viewemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
                 role_names = []
                 populace = 0
                 for group_role in group_roles:
-                    role_item = message.guild.get_role(group_role)
+                    role_item = pld.msg.guild.get_role(group_role)
                     if role_item:
                         role_names.append(role_item.name)
                         populace += len(role_item.members)
                     else:
                         group_roles.remove(group_role)
                 emote_groups.update({group_id: group_roles})
-                await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
                 role_names = sorted(role_names)
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'
                 author_title = f'Emote Role Group {group_id} Information'
-                response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-                response.set_author(name=author_title, icon_url=message.guild.icon_url)
+                response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+                response.set_author(name=author_title, icon_url=pld.msg.guild.icon_url)
                 response.add_field(name=f'Group {group_id} Summary', value=summary, inline=False)
                 response.add_field(name=f'Roles In Group {group_id}', value=', '.join(role_names))
             else:
@@ -54,4 +53,4 @@ async def viewemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

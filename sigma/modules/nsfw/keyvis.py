@@ -24,9 +24,8 @@ from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
 async def keyvis(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     keys = [key for key in key_vn_list]
-    choice = args[0].lower() if args else secrets.choice(keys)
+    choice = pld.args[0].lower() if pld.args else secrets.choice(keys)
     item = key_vn_list.get(choice)
     if item:
         image_number = secrets.randbelow(item[2]) + item[1]
@@ -36,4 +35,4 @@ async def keyvis(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_image(url=image_url)
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 No results.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

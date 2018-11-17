@@ -24,13 +24,12 @@ from sigma.core.utilities.data_processing import user_avatar, get_image_colors
 
 
 async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     status_data = await cmd.db[cmd.db.db_nam].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['id'], s['text']] for s in status_data]
         status_list = sorted(status_list, key=lambda x: x[1])
         total_status = len(status_list)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         status_list, page = PaginatorCore.paginate(status_list, page)
         status_block = boop(status_list, ['ID', 'Text'])
         response = discord.Embed(color=await get_image_colors(cmd.bot.user.avatar_url))
@@ -39,4 +38,4 @@ async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name="List", value=f'```\n{status_block}\n```', inline=False)
     else:
         response = discord.Embed(color=0x696969, title='🔍 No statuses found.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

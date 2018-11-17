@@ -22,28 +22,27 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def autorole(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            lookup = ' '.join(args)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            lookup = ' '.join(pld.args)
             if lookup.lower() != 'disable':
-                target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+                target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), pld.msg.guild.roles)
                 if target_role:
-                    role_bellow = bool(target_role.position < message.guild.me.top_role.position)
+                    role_bellow = bool(target_role.position < pld.msg.guild.me.top_role.position)
                     if role_bellow:
-                        await cmd.db.set_guild_settings(message.guild.id, 'auto_role', target_role.id)
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', target_role.id)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} is now the autorole.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
             else:
-                await cmd.db.set_guild_settings(message.guild.id, 'auto_role', None)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', None)
                 response = discord.Embed(color=0x77B255, title=f'✅ Autorole has been disabled.')
         else:
             curr_role_id = pld.settings.get('auto_role')
             if curr_role_id:
-                curr_role = message.guild.get_role(curr_role_id)
+                curr_role = pld.msg.guild.get_role(curr_role_id)
                 if curr_role:
                     response = discord.Embed(color=0xF9F9F9, title=f'📇 The current autorole is **{curr_role}**.')
                 else:
@@ -52,4 +51,4 @@ async def autorole(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0xF9F9F9, title='📇 No autorole set.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,10 +22,9 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 
 async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     recipe_core = await get_recipe_core(cmd.db)
-    if args:
-        lookup = ' '.join(args)
+    if pld.args:
+        lookup = ' '.join(pld.args)
         recipe = recipe_core.find_recipe(lookup)
         currency = cmd.bot.cfg.pref.currency
         if recipe:
@@ -35,7 +34,7 @@ async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
             recipe.ingredients.sort(key=lambda x: x.name)
             req_satisfied = True
             for ingredient in recipe.ingredients:
-                user_inv = await cmd.db.get_inventory(message.author.id)
+                user_inv = await cmd.db.get_inventory(pld.msg.author.id)
                 in_inventory = False
                 for item in user_inv:
                     if item['item_file_id'] == ingredient.file_id:
@@ -60,4 +59,4 @@ async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -21,14 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def roleid(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     embed = True
-    if args:
-        lookup = ' '.join(args)
-        if args[-1].lower() == '--text':
+    if pld.args:
+        lookup = ' '.join(pld.args)
+        if pld.args[-1].lower() == '--text':
             embed = False
-            lookup = ' '.join(args[:-1])
-        role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+            lookup = ' '.join(pld.args[:-1])
+        role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), pld.msg.guild.roles)
         if role:
             if embed:
                 response = discord.Embed(color=0x3B88C3)
@@ -41,6 +40,6 @@ async def roleid(_cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if embed:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)
     else:
-        await message.channel.send(response)
+        await pld.msg.channel.send(response)

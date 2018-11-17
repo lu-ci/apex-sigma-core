@@ -22,10 +22,9 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def destroyitem(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
-    if args:
-        id_lookup = args[0]
+    if pld.args:
+        id_lookup = pld.args[0]
         inv_item = await cmd.db[cmd.db.db_nam].Inventory.find_one({'items.item_id': id_lookup})
         if inv_item:
             target = await cmd.bot.get_user(inv_item.get('user_id'))
@@ -47,4 +46,4 @@ async def destroyitem(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No item with that ID was found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

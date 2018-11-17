@@ -24,8 +24,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    lang = ' '.join(args).lower() if args else None
+    lang = ' '.join(pld.args).lower() if pld.args else None
     if lang:
         joke_doc = await cmd.db[cmd.db.db_nam].ShootFootData.find_one({'lang_low': lang})
     else:
@@ -38,4 +37,4 @@ async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
         response.description = joke
     else:
         response = discord.Embed(color=0x696969, title=f'🔍 I don\'t know how to do it in {lang}.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

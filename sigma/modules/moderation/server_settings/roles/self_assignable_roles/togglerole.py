@@ -20,15 +20,14 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def togglerole(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        target = message.author
-        lookup = ' '.join(args).lower()
+async def togglerole(_cmd: SigmaCommand, pld: CommandPayload):
+    if pld.args:
+        target = pld.msg.author
+        lookup = ' '.join(pld.args).lower()
         self_roles = pld.settings.get('self_roles') or []
-        target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+        target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), pld.msg.guild.roles)
         if target_role:
-            role_below = target_role.position < message.guild.me.top_role.position
+            role_below = target_role.position < pld.msg.guild.me.top_role.position
             if role_below:
                 if target_role.id in self_roles:
                     if target_role in target.roles:
@@ -47,4 +46,4 @@ async def togglerole(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f' 🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

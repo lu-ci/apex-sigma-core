@@ -66,9 +66,8 @@ async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, d
 
 
 async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if len(args) >= 3:
-        token, title, description = parse_approval(args)
+    if len(pld.args) >= 3:
+        token, title, description = parse_approval(pld.args)
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             await react_to_suggestion(cmd.bot, suggestion, '✅', False)
@@ -80,7 +79,7 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                 gl_issue_url = await submit_gl_issue(gl_token, gl_project, title, gl_desc)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user_title = f'✅ Suggestion {token} approved by {message.author.display_name}.'
+                to_user_title = f'✅ Suggestion {token} approved by {pld.msg.author.display_name}.'
                 to_user = discord.Embed(color=0x77B255, title=to_user_title)
                 if gl_issue_url:
                     to_user_desc = f'Your suggestion was approved, you can view its status and details [here]'
@@ -97,4 +96,4 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No suggestion entry with that ID was found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
