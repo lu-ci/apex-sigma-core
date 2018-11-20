@@ -21,8 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
+ongoing = []
+
 
 async def sell(cmd: SigmaCommand, pld: CommandPayload):
+    if pld.msg.author.id in ongoing:
+        return
+    ongoing.append(pld.msg.author.id)
     item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
     if pld.args:
@@ -76,5 +81,7 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+    if pld.msg.author.id in ongoing:
+        ongoing.remove(pld.msg.author.id)
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)
