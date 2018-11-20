@@ -50,20 +50,19 @@ async def find_user_data(profile_url: str):
 
 
 async def osu(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        osu_input = '%20'.join(args)
+    if pld.args:
+        osu_input = '%20'.join(pld.args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'
         user_data = await find_user_data(profile_url)
         username = user_data.get('username')
         if username:
-            user_color = str(message.author.color)[1:]
+            user_color = str(pld.msg.author.color)[1:]
             sig_url = f'https://lemmmy.pw/osusig/sig.php?colour=hex{user_color}&uname={osu_input}'
-            response = discord.Embed(color=message.author.color)
+            response = discord.Embed(color=pld.msg.author.color)
             response.set_image(url=sig_url)
             response.set_author(name=f'{username}\'s osu! Profile', url=profile_url, icon_url=osu_logo)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Unable to retrieve profile.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

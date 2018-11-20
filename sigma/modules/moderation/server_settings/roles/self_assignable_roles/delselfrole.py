@@ -22,13 +22,12 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def delselfrole(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_roles:
-        if args:
-            lookup = ' '.join(args)
-            target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+    if pld.msg.author.guild_permissions.manage_roles:
+        if pld.args:
+            lookup = ' '.join(pld.args)
+            target_role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), pld.msg.guild.roles)
             if target_role:
-                role_below = bool(target_role.position < message.guild.me.top_role.position)
+                role_below = bool(target_role.position < pld.msg.guild.me.top_role.position)
                 if role_below:
                     selfroles = pld.settings.get('self_roles')
                     if selfroles is None:
@@ -37,7 +36,7 @@ async def delselfrole(cmd: SigmaCommand, pld: CommandPayload):
                         response = discord.Embed(color=0xBE1931, title='❗ This role is not self assignable.')
                     else:
                         selfroles.remove(target_role.id)
-                        await cmd.db.set_guild_settings(message.guild.id, 'self_roles', selfroles)
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', selfroles)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} removed.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
@@ -47,4 +46,4 @@ async def delselfrole(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Roles')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

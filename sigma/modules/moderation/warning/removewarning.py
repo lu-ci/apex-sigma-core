@@ -37,14 +37,13 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
 
 
 async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_messages:
-        if message.mentions:
-            if len(args) == 2:
-                target = message.mentions[0]
-                warn_id = args[1].lower()
+    if pld.msg.author.guild_permissions.manage_messages:
+        if pld.msg.mentions:
+            if len(pld.args) == 2:
+                target = pld.msg.mentions[0]
+                warn_id = pld.args[1].lower()
                 lookup = {
-                    'guild': message.guild.id,
+                    'guild': pld.msg.guild.id,
                     'target.id': target.id,
                     'warning.id': warn_id,
                     'warning.active': True
@@ -55,7 +54,7 @@ async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deactivated.')
-                    log_embed = make_log_embed(message.author, target, warn_iden)
+                    log_embed = make_log_embed(pld.msg.author, target, warn_iden)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                 else:
                     response = discord.Embed(color=0x696969, title=f'🔍 {target.name} has no {warn_id} warning.')
@@ -65,4 +64,4 @@ async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
         response = permission_denied('Manage Messages')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

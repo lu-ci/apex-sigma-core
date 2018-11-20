@@ -23,16 +23,15 @@ from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
 async def encrypt(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     text = False
     cipher = get_encryptor(cmd.bot.cfg)
     if cipher:
-        if args:
-            if args[-1] == ':t':
+        if pld.args:
+            if pld.args[-1] == ':t':
                 text = True
-                crypt_text = ' '.join(args[:-1]).encode('utf-8')
+                crypt_text = ' '.join(pld.args[:-1]).encode('utf-8')
             else:
-                crypt_text = ' '.join(args).encode('utf-8')
+                crypt_text = ' '.join(pld.args).encode('utf-8')
             try:
                 ciphered = cipher.encrypt(crypt_text).decode('utf-8')
             except InvalidToken:
@@ -52,6 +51,6 @@ async def encrypt(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ You don\'t posses a key.')
     if text:
-        await message.channel.send(response)
+        await pld.msg.channel.send(response)
     else:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

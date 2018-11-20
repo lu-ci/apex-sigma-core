@@ -39,10 +39,9 @@ async def upload_image(image_url: str, client_id: str):
 
 
 async def imgur(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if 'client_id' in cmd.cfg:
-        if args or message.attachments:
-            image_url = message.attachments[0].url if message.attachments else args[0]
+        if pld.args or pld.msg.attachments:
+            image_url = pld.msg.attachments[0].url if pld.msg.attachments else pld.args[0]
             link = await upload_image(image_url, cmd.cfg.get("client_id"))
             if link:
                 response = discord.Embed(color=0x85BF25)
@@ -53,4 +52,4 @@ async def imgur(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

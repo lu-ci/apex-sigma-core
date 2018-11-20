@@ -22,22 +22,21 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def afk(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    afk_data = await cmd.db.cache.get_cache(f'afk_{message.author.id}')
+    afk_data = await cmd.db.cache.get_cache(f'afk_{pld.msg.author.id}')
     if not afk_data:
-        afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': message.author.id})
-    if args:
-        afk_reason = ' '.join(args)
+        afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': pld.msg.author.id})
+    if pld.args:
+        afk_reason = ' '.join(pld.args)
     else:
         afk_reason = 'No reason stated.'
     in_data = {
-        'user_id': message.author.id,
+        'user_id': pld.msg.author.id,
         'timestamp': arrow.utcnow().timestamp,
         'reason': afk_reason
     }
     if afk_data:
         title = 'Your status has been updated'
-        await cmd.db[cmd.db.db_nam].AwayUsers.update_one({'user_id': message.author.id}, {'$set': in_data})
+        await cmd.db[cmd.db.db_nam].AwayUsers.update_one({'user_id': pld.msg.author.id}, {'$set': in_data})
     else:
         title = 'You have been marked as away'
         await cmd.db[cmd.db.db_nam].AwayUsers.insert_one(in_data)
@@ -55,5 +54,5 @@ async def afk(cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name=f'✅ {title}.', value=f'Reason: **{afk_reason}**')
     if url:
         response.set_image(url=url)
-    await cmd.db.cache.set_cache(f'afk_{message.author.id}', afk_data)
-    await message.channel.send(embed=response)
+    await cmd.db.cache.set_cache(f'afk_{pld.msg.author.id}', afk_data)
+    await pld.msg.channel.send(embed=response)

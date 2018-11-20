@@ -22,21 +22,20 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def wfalertchannel(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_channels:
-        if message.channel_mentions:
-            target_channel = message.channel_mentions[0]
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+        if pld.msg.channel_mentions:
+            target_channel = pld.msg.channel_mentions[0]
         else:
-            if args:
-                if args[0].lower() == 'disable':
-                    await cmd.db.set_guild_settings(message.guild.id, 'warframe_alert_channel', None)
+            if pld.args:
+                if pld.args[0].lower() == 'disable':
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_alert_channel', None)
                     response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Alert Channel disabled.')
-                    await message.channel.send(embed=response)
+                    await pld.msg.channel.send(embed=response)
                 return
             else:
-                target_channel = message.channel
-        await cmd.db.set_guild_settings(message.guild.id, 'warframe_alert_channel', target_channel.id)
+                target_channel = pld.msg.channel
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_alert_channel', target_channel.id)
         response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Alert Channel set to #{target_channel.name}')
     else:
         response = permission_denied('Manage Channels')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

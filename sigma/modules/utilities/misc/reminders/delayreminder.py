@@ -23,15 +23,14 @@ from sigma.core.utilities.data_processing import convert_to_seconds
 
 
 async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) == 2:
-            rem_id = args[0].lower()
-            lookup_data = {'user_id': message.author.id, 'reminder_id': rem_id}
+    if pld.args:
+        if len(pld.args) == 2:
+            rem_id = pld.args[0].lower()
+            lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
             reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
             if reminder:
                 try:
-                    time_req = args[1]
+                    time_req = pld.args[1]
                     upper_limit = 7776000
                     in_seconds = convert_to_seconds(time_req)
                     execution_stamp = reminder.get('execution_stamp') + in_seconds
@@ -57,4 +56,4 @@ async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing reminder ID and duration.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -21,13 +21,12 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def permissions(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     allowed_list = []
     disallowed_list = []
-    if message.mentions:
-        user_q = message.mentions[0]
+    if pld.msg.mentions:
+        user_q = pld.msg.mentions[0]
     else:
-        user_q = message.author
+        user_q = pld.msg.author
     response = discord.Embed(color=0x3B88C3, title=f'ℹ {user_q.name}\'s Permissions')
     for permission in user_q.guild_permissions:
         if permission[1]:
@@ -41,5 +40,5 @@ async def permissions(_cmd: SigmaCommand, pld: CommandPayload):
     response.add_field(name='Allowed', value='```yml\n - ' + '\n - '.join(sorted(allowed_list)) + '\n```')
     response.add_field(name='Disallowed', value='```yml\n - ' + '\n - '.join(sorted(disallowed_list)) + '\n```')
     in_ch = discord.Embed(color=0x66CC66, title='✅ Permission list sent to you.')
-    await message.author.send(embed=response)
-    await message.channel.send(embed=in_ch)
+    await pld.msg.author.send(embed=response)
+    await pld.msg.channel.send(embed=in_ch)

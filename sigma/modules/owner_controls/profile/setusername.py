@@ -21,9 +21,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def setusername(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        name_input = ' '.join(args)
+    if pld.args:
+        name_input = ' '.join(pld.args)
         try:
             await cmd.bot.user.edit(username=name_input)
             response = discord.Embed(color=0x77B255, title=f'✅ Changed username to {name_input}.')
@@ -31,4 +30,4 @@ async def setusername(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ I was unable to change my username.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

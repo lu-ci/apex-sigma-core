@@ -23,28 +23,27 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
-    if len(args) > 1:
-        if message.mentions:
-            target = message.mentions[0]
-            lookup = ' '.join(args[1:])
+    if len(pld.args) > 1:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
+            lookup = ' '.join(pld.args[1:])
             obj_item = item_core.get_item_by_name(lookup)
             if obj_item:
-                inv_item = await cmd.db.get_inventory_item(message.author.id, obj_item.file_id)
+                inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, obj_item.file_id)
                 if inv_item:
                     upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
                     inv = await cmd.db.get_inventory(target.id)
                     storage = upgrade_file.get('storage', 0)
                     inv_limit = 64 + (8 * storage)
-                    author_sab = await cmd.db.is_sabotaged(message.author.id)
+                    author_sab = await cmd.db.is_sabotaged(pld.msg.author.id)
                     target_sab = await cmd.db.is_sabotaged(target.id)
                     if len(inv) < inv_limit:
                         if not author_sab and not target_sab:
-                            await cmd.db.del_from_inventory(message.author.id, inv_item.get('item_id'))
+                            await cmd.db.del_from_inventory(pld.msg.author.id, inv_item.get('item_id'))
                             inv_item.update({'transferred': True})
                             await cmd.db.add_to_inventory(target.id, inv_item)
-                            await cmd.db.add_resource(target.id, 'items', 1, cmd.name, message, True)
+                            await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
                             title = f'✅ Transferred {obj_item.name} to {target.display_name}.'
                             response = discord.Embed(color=0x77B255, title=title)
                             response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
@@ -60,4 +59,4 @@ async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

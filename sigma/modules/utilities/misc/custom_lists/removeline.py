@@ -21,16 +21,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def removeline(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) > 1:
+    if pld.args:
+        if len(pld.args) > 1:
             list_coll = cmd.db[cmd.db.db_nam].CustomLists
-            lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
+            lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
             list_file = await list_coll.find_one(lookup_data)
             if list_file:
                 author_id = list_file.get('user_id')
-                if author_id == message.author.id:
-                    line = args[1]
+                if author_id == pld.msg.author.id:
+                    line = pld.args[1]
                     if line.isdigit():
                         try:
                             list_file.get('contents', []).pop(int(line) - 1)
@@ -48,4 +47,4 @@ async def removeline(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,24 +23,23 @@ from sigma.modules.utilities.tools.imgur import upload_image
 
 
 async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            attachment = len(args) == 1 and message.attachments
-            if len(args) >= 2 or attachment:
-                trigger = args[0].lower()
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            attachment = len(pld.args) == 1 and pld.msg.attachments
+            if len(pld.args) >= 2 or attachment:
+                trigger = pld.args[0].lower()
                 if '.' not in trigger:
                     if trigger not in cmd.bot.modules.commands and trigger not in cmd.bot.modules.alts:
                         if attachment:
                             client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
-                            content = await upload_image(message.attachments[0].url, client_id)
+                            content = await upload_image(pld.msg.attachments[0].url, client_id)
                         else:
-                            content = ' '.join(args[1:])
+                            content = ' '.join(pld.args[1:])
                         if content:
                             custom_commands = pld.settings.get('custom_commands', {})
                             res_text = 'updated' if trigger in custom_commands else 'added'
                             custom_commands.update({trigger: content})
-                            await cmd.db.set_guild_settings(message.guild.id, 'custom_commands', custom_commands)
+                            await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
                             response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                         else:
                             response = discord.Embed(color=0xBE1931, title='❗ Bad image.')
@@ -54,4 +53,4 @@ async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

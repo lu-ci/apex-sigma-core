@@ -23,11 +23,10 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
     else:
-        target = message.author
+        target = pld.msg.author
     response = discord.Embed(color=target.color)
     response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_avatar(target))
     creation_time = arrow.get(target.created_at).format('DD. MMMM YYYY')
@@ -38,7 +37,7 @@ async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
     user_text += f'\nCreated: **{creation_time}**'
     response.add_field(name='User Info', value=user_text)
     member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
-    is_moderator = target.permissions_in(message.channel).manage_guild
+    is_moderator = target.permissions_in(pld.msg.channel).manage_guild
     member_text = f'Name: **{target.display_name}**'
     member_text += f'\nColor: **{str(target.color).upper()}**'
     member_text += f'\nTop Role: **{target.top_role.name}**'
@@ -48,4 +47,4 @@ async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
     pfx = cmd.db.get_prefix(pld.settings)
     footer = f'To see the user\'s avatar use the {pfx}avatar command.'
     response.set_footer(text=footer)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

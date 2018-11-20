@@ -22,12 +22,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def byechannel(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
-        if message.channel_mentions:
-            target_channel = message.channel_mentions[0]
-            if message.guild.me.permissions_in(target_channel).send_messages:
-                await cmd.db.set_guild_settings(message.guild.id, 'bye_channel', target_channel.id)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.msg.channel_mentions:
+            target_channel = pld.msg.channel_mentions[0]
+            if pld.msg.guild.me.permissions_in(target_channel).send_messages:
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_channel', target_channel.id)
                 response = discord.Embed(color=0x77B255, title=f'✅ Goodbye Channel set to {target_channel.name}.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
@@ -35,4 +34,4 @@ async def byechannel(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

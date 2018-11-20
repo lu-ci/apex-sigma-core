@@ -22,10 +22,9 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def roleinformation(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = ' '.join(args)
-        role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
+    if pld.args:
+        lookup = ' '.join(pld.args)
+        role = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), pld.msg.guild.roles)
         if role:
             creation_time = arrow.get(role.created_at).format('DD. MMMM YYYY')
             desc_text = f'Name: **{role.name}**'
@@ -40,4 +39,4 @@ async def roleinformation(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

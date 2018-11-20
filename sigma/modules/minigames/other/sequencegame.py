@@ -53,24 +53,23 @@ def check_answer(arguments, sequence):
 
 
 async def sequencegame(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.id in ongoing:
+    if pld.msg.author.id in ongoing:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        await pld.msg.channel.send(embed=ongoing_error)
         return
     try:
-        ongoing.append(message.author.id)
+        ongoing.append(pld.msg.author.id)
         chosen = [secrets.choice(first_symbols) for _ in range(4)]
-        title = f'🎯 {message.author.display_name}, you have 90 seconds for each attempt.'
+        title = f'🎯 {pld.msg.author.display_name}, you have 90 seconds for each attempt.'
         desc = f'Symbols you can use: {"".join(first_symbols)}'
         start_embed = discord.Embed(color=0xf9f9f9)
         start_embed.add_field(name=title, value=desc)
-        await message.channel.send(embed=start_embed)
+        await pld.msg.channel.send(embed=start_embed)
 
         def answer_check(msg):
-            if message.author.id != msg.author.id:
+            if pld.msg.author.id != msg.author.id:
                 return
-            if message.channel.id != msg.channel.id:
+            if pld.msg.channel.id != msg.channel.id:
                 return
 
             message_args = [char for char in msg.content if char in all_symbols]
@@ -94,28 +93,28 @@ async def sequencegame(cmd: SigmaCommand, pld: CommandPayload):
                     finished = True
                     victory = True
                     currency = cmd.bot.cfg.pref.currency
-                    await cmd.db.add_resource(answer.author.id, 'currency', 50, cmd.name, message)
+                    await cmd.db.add_resource(answer.author.id, 'currency', 50, cmd.name, pld.msg)
                     win_title = f'🎉 Correct, {answer.author.display_name}. You won 50 {currency}!'
                     win_embed = discord.Embed(color=0x77B255, title=win_title)
-                    await message.channel.send(embed=win_embed)
+                    await pld.msg.channel.send(embed=win_embed)
                 else:
                     attempt_title = f'💣 {answer.author.display_name} {tries}/6: {"".join(results)}'
                     attempt_embed = discord.Embed(color=0x262626, title=attempt_title)
-                    await message.channel.send(embed=attempt_embed)
+                    await pld.msg.channel.send(embed=attempt_embed)
             except asyncio.TimeoutError:
                 finished = True
                 victory = False
                 timeout = True
-                timeout_title = f'🕙 Time\'s up {message.author.display_name}! It was {"".join(chosen)}'
+                timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}! It was {"".join(chosen)}'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-                await message.channel.send(embed=timeout_embed)
+                await pld.msg.channel.send(embed=timeout_embed)
 
         if not victory and not timeout:
-            lose_title = f'💥 Ooh, sorry {message.author.display_name}, it was {"".join(chosen)}'
+            lose_title = f'💥 Ooh, sorry {pld.msg.author.display_name}, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
-            await message.channel.send(embed=final_embed)
-        ongoing.remove(message.author.id)
+            await pld.msg.channel.send(embed=final_embed)
+        ongoing.remove(pld.msg.author.id)
     except Exception:
-        if message.author.id in ongoing:
-            ongoing.remove(message.author.id)
+        if pld.msg.author.id in ongoing:
+            ongoing.remove(pld.msg.author.id)
         raise

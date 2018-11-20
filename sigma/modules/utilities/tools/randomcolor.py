@@ -25,14 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def randomcolor(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     piece_r = secrets.randbelow(256)
     piece_g = secrets.randbelow(256)
     piece_b = secrets.randbelow(256)
     color_tupple = (piece_r, piece_g, piece_b)
     hexname = f'Color: `#{str(hex(piece_r))[2:]}{str(hex(piece_g))[2:]}{str(hex(piece_b))[2:]}`'
     image = Image.new('RGB', (128, 128), color_tupple)
-    image.save(f'cache/{message.id}.png')
-    img_file = discord.File(f'cache/{message.id}.png')
-    await message.channel.send(hexname, file=img_file)
-    os.remove(f'cache/{message.id}.png')
+    image.save(f'cache/{pld.msg.id}.png')
+    img_file = discord.File(f'cache/{pld.msg.id}.png')
+    await pld.msg.channel.send(hexname, file=img_file)
+    os.remove(f'cache/{pld.msg.id}.png')

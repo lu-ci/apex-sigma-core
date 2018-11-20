@@ -23,9 +23,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def addstatus(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        status_text = ' '.join(args)
+    if pld.args:
+        status_text = ' '.join(pld.args)
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one({'text': status_text})
         if not status_exists:
             status_id = secrets.token_hex(5)
@@ -35,4 +34,4 @@ async def addstatus(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Status already exists.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

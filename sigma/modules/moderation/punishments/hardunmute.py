@@ -40,25 +40,24 @@ def generate_log_embed(message, target, reason):
 
 
 async def hardunmute(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_channels:
-        if message.mentions:
-            target = message.mentions[0]
-            hierarchy_me = hierarchy_permit(message.guild.me, target)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
+            hierarchy_me = hierarchy_permit(pld.msg.guild.me, target)
             if hierarchy_me:
-                hierarchy_auth = hierarchy_permit(message.author, target)
+                hierarchy_auth = hierarchy_permit(pld.msg.author, target)
                 if hierarchy_auth:
-                    reason = ' '.join(args[1:]) if args[1:] else None
+                    reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
                     ongoing = discord.Embed(color=0x696969, title='⛓ Editing permissions...')
-                    ongoing_msg = await message.channel.send(embed=ongoing)
-                    for channel in message.guild.channels:
+                    ongoing_msg = await pld.msg.channel.send(embed=ongoing)
+                    for channel in pld.msg.guild.channels:
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
                                 # noinspection PyTypeChecker
                                 await channel.set_permissions(target, overwrite=None, reason=reason)
                             except discord.Forbidden:
                                 pass
-                    log_embed = generate_log_embed(message, target, reason)
+                    log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-unmuted.'
                     response = discord.Embed(color=0x77B255, title=title)
@@ -71,4 +70,4 @@ async def hardunmute(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Manage Channels')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

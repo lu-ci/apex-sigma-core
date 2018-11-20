@@ -26,14 +26,13 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
-    message = pld.msg
-    if message.guild:
-        if message.attachments:
-            if isinstance(message.author, discord.Member):
-                override = check_filter_perms(message, pld.settings, 'extensions')
-                is_owner = message.author.id in ev.bot.cfg.dsc.owners
-                if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
-                    att_files = [att.filename.lower() for att in message.attachments]
+    if pld.msg.guild:
+        if pld.msg.attachments:
+            if isinstance(pld.msg.author, discord.Member):
+                override = check_filter_perms(pld.msg, pld.settings, 'extensions')
+                is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+                if not any([pld.msg.author.permissions_in(pld.msg.channel).administrator, is_owner, override]):
+                    att_files = [att.filename.lower() for att in pld.msg.attachments]
                     bexts = pld.settings.get('blocked_extensions') or []
                     delete = False
                     reason = None
@@ -49,21 +48,21 @@ async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
                         try:
                             filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
-                                warn_data = warning_data(message.guild.me, message.author, f'Said "{reason}".')
+                                warn_data = warning_data(pld.msg.guild.me, pld.msg.author, f'Said "{reason}".')
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
-                            await message.delete()
+                            await pld.msg.delete()
                             title = f'🔥 Your upload was deleted for containing a "{reason}" file.'
                             to_author = discord.Embed(color=0xFFCC4D, title=title)
                             try:
-                                await message.author.send(embed=to_author)
+                                await pld.msg.author.send(embed=to_author)
                             except discord.Forbidden:
                                 pass
-                            author = f'{message.author.name}#{message.author.discriminator}'
+                            author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                             title = f'I deleted {author}\'s upload for having a `{reason}`.'
                             log_embed = discord.Embed(color=0xFFCC4D, timestamp=arrow.utcnow().datetime)
-                            log_embed.description = f'Content: {message.content}'
-                            log_embed.set_author(name=title, icon_url=user_avatar(message.author))
-                            log_embed.set_footer(text=f'Channel: #{message.channel.name} [{message.channel.id}]')
+                            log_embed.description = f'Content: {pld.msg.content}'
+                            log_embed.set_author(name=title, icon_url=user_avatar(pld.msg.author))
+                            log_embed.set_footer(text=f'Channel: #{pld.msg.channel.name} [{pld.msg.channel.id}]')
                             await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

@@ -21,17 +21,16 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def lovecalculator(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.mentions:
-        if len(message.mentions) in [1, 2]:
+    if pld.msg.mentions:
+        if len(pld.msg.mentions) in [1, 2]:
             first_tar = None
             second_tar = None
-            if len(message.mentions) == 1:
-                first_tar = message.author
-                second_tar = message.mentions[0]
-            elif len(message.mentions) == 2:
-                first_tar = message.mentions[0]
-                second_tar = message.mentions[1]
+            if len(pld.msg.mentions) == 1:
+                first_tar = pld.msg.author
+                second_tar = pld.msg.mentions[0]
+            elif len(pld.msg.mentions) == 2:
+                first_tar = pld.msg.mentions[0]
+                second_tar = pld.msg.mentions[1]
             first_item = first_tar.display_name
             second_item = second_tar.display_name
             value_one_one = int(str(first_tar.id)[6])
@@ -52,4 +51,4 @@ async def lovecalculator(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No targets given.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

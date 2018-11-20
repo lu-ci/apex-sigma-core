@@ -36,8 +36,7 @@ def hex_to_rgb(hexval: str):
 
 
 async def edgecalculator(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     avatar = user_avatar(target)
     name = target.name
     username_edge = ((len(name) - len([c for c in name if c not in string.ascii_letters])) / len(name)) * 30
@@ -50,4 +49,4 @@ async def edgecalculator(_cmd: SigmaCommand, pld: CommandPayload):
     response = discord.Embed(color=target.color)
     response.description = f'```py\n{edge_bar}\n```'
     response.set_author(name=f'{name}\'s Edge Results', icon_url=avatar)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

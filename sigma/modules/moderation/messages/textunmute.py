@@ -40,16 +40,15 @@ def generate_log_embed(message, target, reason):
 
 
 async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if not message.author.permissions_in(message.channel).manage_messages:
+    if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
         response = permission_denied('Manage Messages')
     else:
-        if not message.mentions:
+        if not pld.msg.mentions:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
         else:
-            author = message.author
-            target = message.mentions[0]
-            is_admin = author.permissions_in(message.channel).administrator
+            author = pld.msg.author
+            target = pld.msg.mentions[0]
+            is_admin = author.permissions_in(pld.msg.channel).administrator
             if author.id == target.id and not is_admin:
                 response = discord.Embed(color=0xBE1931, title='❗ Can\'t unmute yourself.')
             else:
@@ -65,9 +64,9 @@ async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
                         response = discord.Embed(color=0xBE1931, title=resp_title)
                     else:
                         mute_list.remove(target.id)
-                        reason = ' '.join(args[1:]) if args[1:] else None
-                        await cmd.db.set_guild_settings(message.guild.id, 'muted_users', mute_list)
+                        reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
-                        log_embed = generate_log_embed(message, target, reason)
+                        log_embed = generate_log_embed(pld.msg, target, reason)
                         await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

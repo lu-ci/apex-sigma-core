@@ -24,7 +24,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def dogfact(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     api_url = 'https://dog-api.kinduff.com/api/facts'
     async with aiohttp.ClientSession() as session:
         async with session.get(api_url) as data:
@@ -33,4 +32,4 @@ async def dogfact(_cmd: SigmaCommand, pld: CommandPayload):
     fact = data.get('facts')[0]
     response = discord.Embed(color=0xccd6dd)
     response.add_field(name='🐶 Did you know...', value=fact)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

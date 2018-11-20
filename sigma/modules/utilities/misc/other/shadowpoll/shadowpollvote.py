@@ -42,12 +42,11 @@ def check_roles(allowed_roles, all_users, user):
 
 
 async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) == 2:
-            poll_id = args[0].lower()
+    if pld.args:
+        if len(pld.args) == 2:
+            poll_id = pld.args[0].lower()
             try:
-                choice_num = int(args[1])
+                choice_num = int(pld.args[1])
             except ValueError:
                 choice_num = None
             if choice_num:
@@ -68,22 +67,22 @@ async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
                             if not chn_p and not rol_p and not usr_p:
                                 authorized = True
                             else:
-                                rol_auth = check_roles(rol_p, cmd.bot.get_all_members(), message.author)
-                                if message.channel:
-                                    chn_auth = message.channel.id in chn_p
+                                rol_auth = check_roles(rol_p, cmd.bot.get_all_members(), pld.msg.author)
+                                if pld.msg.channel:
+                                    chn_auth = pld.msg.channel.id in chn_p
                                 else:
                                     chn_auth = False
-                                usr_auth = message.author.id in usr_p
+                                usr_auth = pld.msg.author.id in usr_p
                                 if rol_auth or usr_auth or chn_auth:
                                     authorized = True
                                 else:
                                     authorized = False
                             if authorized:
-                                if str(message.author.id) in poll_file['votes']:
+                                if str(pld.msg.author.id) in poll_file['votes']:
                                     ender = 'updated'
                                 else:
                                     ender = 'recorded'
-                                poll_file['votes'].update({str(message.author.id): choice_num})
+                                poll_file['votes'].update({str(pld.msg.author.id): choice_num})
                                 poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
                                 await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                                 response = discord.Embed(color=0x66CC66, title=f'✅ Your choice has been {ender}.')
@@ -101,4 +100,4 @@ async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing the choice number.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and choice.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

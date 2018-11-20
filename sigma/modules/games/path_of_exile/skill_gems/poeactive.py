@@ -100,9 +100,8 @@ def parse_gem_info(gem_info: str):
 
 
 async def poeactive(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup_key = '_'.join(args).lower()
+    if pld.args:
+        lookup_key = '_'.join(pld.args).lower()
         await fill_gem_cache()
         gem_entry = active_gem_list_cache.get(lookup_key) or find_broad(lookup_key)
         if gem_entry:
@@ -130,4 +129,4 @@ async def poeactive(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Gem not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

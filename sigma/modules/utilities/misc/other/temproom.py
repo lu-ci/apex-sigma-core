@@ -35,12 +35,11 @@ async def get_category(cmd: SigmaCommand, guild: discord.Guild):
 
 
 async def temproom(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    room_name = ' '.join(args) or f'{message.author.display_name}\'s Room'
+    room_name = ' '.join(pld.args) or f'{pld.msg.author.display_name}\'s Room'
     room_name = f'[Σ] {room_name}'
-    reason = f'Temporary voice channel by {message.author.name}#{message.author.discriminator}.'
-    temp_vc_cat = await get_category(cmd, message.guild)
-    tmp_vc = await message.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
-    await tmp_vc.set_permissions(message.author, manage_channels=True)
+    reason = f'Temporary voice channel by {pld.msg.author.name}#{pld.msg.author.discriminator}.'
+    temp_vc_cat = await get_category(cmd, pld.msg.guild)
+    tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
+    await tmp_vc.set_permissions(pld.msg.author, manage_channels=True)
     response = discord.Embed(color=0x66CC66, title=f'✅ {room_name} created.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,9 +23,8 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def oserverinformation(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = ' '.join(args)
+    if pld.args:
+        lookup = ' '.join(pld.args)
         try:
             gld = cmd.bot.get_guild(int(lookup))
         except ValueError:
@@ -70,4 +69,4 @@ async def oserverinformation(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Guild not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

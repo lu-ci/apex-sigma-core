@@ -122,11 +122,10 @@ def get_weapon_satats_block(data: dict):
 
 
 async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if not tdoll_page_index:
         await fill_tdoll_data()
-    if args:
-        tdoll_search = ' '.join(args)
+    if pld.args:
+        tdoll_search = ' '.join(pld.args)
         tdoll_url = tdoll_page_index.get(tdoll_search.lower())
         if tdoll_url:
             tdoll_data = await get_tdoll_data(tdoll_url)
@@ -139,4 +138,4 @@ async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Nothing found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MemberPayload
 
 
-async def join_name_ban(ev: SigmaEvent, pld: MemberPayload):
+async def join_name_ban(_ev: SigmaEvent, pld: MemberPayload):
     if pld.member.guild:
         active = pld.settings.get('name_filter_ban')
         if active:

@@ -25,8 +25,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def wanikani(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     api_document = await cmd.db[cmd.db.db_nam].WaniKani.find_one({'user_id': target.id})
     if api_document:
         try:
@@ -100,4 +99,4 @@ async def wanikani(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ User has no Key saved.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

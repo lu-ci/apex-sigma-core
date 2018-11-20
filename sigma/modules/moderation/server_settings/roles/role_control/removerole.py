@@ -22,20 +22,19 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def removerole(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_roles:
-        if args:
-            if len(args) >= 2:
-                if message.mentions:
-                    target = message.mentions[0]
-                    lookup = ' '.join(args[1:]).lower()
-                    target_role = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
+    if pld.msg.author.guild_permissions.manage_roles:
+        if pld.args:
+            if len(pld.args) >= 2:
+                if pld.msg.mentions:
+                    target = pld.msg.mentions[0]
+                    lookup = ' '.join(pld.args[1:]).lower()
+                    target_role = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
                     if target_role:
-                        role_below = target_role.position < message.guild.me.top_role.position
+                        role_below = target_role.position < pld.msg.guild.me.top_role.position
                         if role_below:
                             user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup, target.roles)
                             if user_has_role:
-                                author = f'{message.author.name}#{message.author.discriminator}'
+                                author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                 await target.remove_roles(target_role, reason=f'Role removed by {author}.')
                                 title = f'✅ {target_role.name} has been removed from {target.name}.'
                                 response = discord.Embed(color=0x77B255, title=title)
@@ -53,4 +52,4 @@ async def removerole(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Roles')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

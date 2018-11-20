@@ -21,16 +21,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
+    if pld.args:
+        if len(pld.args) >= 2:
             target_id = None
-            if args[0].isdigit():
-                target_id = int(args[0])
+            if pld.args[0].isdigit():
+                target_id = int(pld.args[0])
             if target_id:
                 target = await cmd.bot.get_user(target_id)
                 if target:
-                    lookup = ' '.join(args[1:])
+                    lookup = ' '.join(pld.args[1:])
                     if lookup.lower() in cmd.bot.modules.categories:
                         black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
                         black_user_file = await black_user_collection.find_one({'user_id': target.id})
@@ -62,4 +61,4 @@ async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

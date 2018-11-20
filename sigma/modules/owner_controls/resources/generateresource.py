@@ -21,15 +21,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.mentions:
-        if len(args) >= 3:
-            target = message.mentions[0]
+    if pld.msg.mentions:
+        if len(pld.args) >= 3:
+            target = pld.msg.mentions[0]
             if not target.bot:
                 try:
-                    amount = abs(int(args[-1]))
-                    res_nam = 'currency' if args[0].lower() == cmd.bot.cfg.pref.currency.lower() else args[0].lower()
-                    await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, message, False)
+                    amount = abs(int(pld.args[-1]))
+                    currency = cmd.bot.cfg.pref.currency.lower()
+                    res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
+                    await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
                     title_text = f'✅ Ok, I\'ve given {amount} {res_nam} to {target.display_name}.'
                     response = discord.Embed(color=0x77B255, title=title_text)
                 except ValueError:
@@ -41,4 +41,4 @@ async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ Resource name, amount and target needed.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

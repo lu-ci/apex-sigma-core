@@ -22,18 +22,17 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def whoplays(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if args[0].isdigit():
-            game_title = ' '.join(args[1:])
+    if pld.args:
+        if pld.args[0].isdigit():
+            game_title = ' '.join(pld.args[1:])
             page = True
         else:
-            game_title = ' '.join(args)
+            game_title = ' '.join(pld.args)
             page = False
         game_name = None
         gamer_list = []
         x, y = 0, 0
-        for member in message.guild.members:
+        for member in pld.msg.guild.members:
             if member.activity:
                 x += 1
                 if member.activity.name.lower() == game_title.lower():
@@ -44,7 +43,7 @@ async def whoplays(_cmd: SigmaCommand, pld: CommandPayload):
         title = f'{y}/{x} people are playing {game_name}'
         if gamer_list:
             total_gamers = len(gamer_list)
-            page = args[0] if page else 1
+            page = pld.args[0] if page else 1
             gamer_list, page = PaginatorCore.paginate(sorted(gamer_list), page, 20)
             gamers = '\n- ' + '\n- '.join(gamer_list)
             response = discord.Embed(color=0x1ABC9C)
@@ -54,4 +53,4 @@ async def whoplays(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 No users are currently playing {game_title}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

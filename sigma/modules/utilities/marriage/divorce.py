@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import arrow
 import discord
 
@@ -32,22 +33,21 @@ async def send_divorce(author: discord.Member, target: discord.Member, is_divorc
 
 
 async def divorce(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     target = None
     is_id = False
     tid = None
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
         tid = target.id
     else:
-        if args:
+        if pld.args:
             try:
-                target = tid = int(args[0])
+                target = tid = int(pld.args[0])
                 is_id = True
             except ValueError:
                 target = None
     if tid:
-        if tid != message.author.id:
+        if tid != pld.msg.author.id:
             a_spouses = pld.profile.get('spouses') or []
             a_spouse_ids = [s.get('user_id') for s in a_spouses]
             if is_id:
@@ -55,8 +55,8 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 t_spouses = await cmd.db.get_profile(target.id, 'spouses') or []
             t_spouse_ids = [s.get('user_id') for s in t_spouses]
-            if message.author.id in t_spouse_ids and tid in a_spouse_ids:
-                current_kud = await cmd.db.get_resource(message.author.id, 'currency')
+            if pld.msg.author.id in t_spouse_ids and tid in a_spouse_ids:
+                current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                 current_kud = current_kud.current
                 marry_stamp = discord.utils.find(lambda s: s.get('user_id') == tid, a_spouses).get('time')
                 time_diff = arrow.utcnow().timestamp - marry_stamp
@@ -70,9 +70,9 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                             if sp.get('user_id') == target.id:
                                 a_spouses.remove(sp)
                     for sp in t_spouses:
-                        if sp.get('user_id') == message.author.id:
+                        if sp.get('user_id') == pld.msg.author.id:
                             t_spouses.remove(sp)
-                    await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
+                    await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
                     if is_id:
                         await cmd.db.set_profile(target, 'spouses', t_spouses)
                     else:
@@ -83,8 +83,8 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                         div_title = f'💔 You have divorced {target.name}...'
                     response = discord.Embed(color=0xe75a70, title=div_title)
                     if not is_id:
-                        await send_divorce(message.author, target, True)
-                    await cmd.db.del_resource(message.author.id, 'currency', div_cost, cmd.name, message)
+                        await send_divorce(pld.msg.author, target, True)
+                    await cmd.db.del_resource(pld.msg.author.id, 'currency', div_cost, cmd.name, pld.msg)
                 else:
                     currency = cmd.bot.cfg.pref.currency
                     no_kud = f'❗ You don\'t have {div_cost} {currency} to get a divorce.'
@@ -93,17 +93,17 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                 for sp in a_spouses:
                     if sp.get('user_id') == tid:
                         a_spouses.remove(sp)
-                await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
+                await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
                 if is_id:
                     canc_title = f'💔 You have canceled the proposal to {target}...'
                 else:
                     canc_title = f'💔 You have canceled the proposal to {target.name}...'
                 response = discord.Embed(color=0xe75a70, title=canc_title)
                 if not is_id:
-                    await send_divorce(message.author, target, False)
-            elif message.author.id in t_spouse_ids:
+                    await send_divorce(pld.msg.author, target, False)
+            elif pld.msg.author.id in t_spouse_ids:
                 for sp in t_spouses:
-                    if sp.get('user_id') == message.author.id:
+                    if sp.get('user_id') == pld.msg.author.id:
                         t_spouses.remove(sp)
                 if is_id:
                     await cmd.db.set_profile(target, 'spouses', t_spouses)
@@ -115,7 +115,7 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                     canc_title = f'💔 You have rejected {target.name}\'s proposal...'
                 response = discord.Embed(color=0xe75a70, title=canc_title)
                 if not is_id:
-                    await send_divorce(message.author, target, False)
+                    await send_divorce(pld.msg.author, target, False)
             else:
                 if is_id:
                     not_married = f'❗ You aren\'t married, nor have proposed, to {target}.'
@@ -126,4 +126,4 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Can\'t divorce yourself.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,12 +23,11 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) == 2:
+    if pld.args:
+        if len(pld.args) == 2:
             try:
-                min_num = int(args[0])
-                max_num = int(args[1])
+                min_num = int(pld.args[0])
+                max_num = int(pld.args[1])
             except ValueError:
                 min_num = None
                 max_num = None
@@ -45,4 +44,4 @@ async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,12 +23,11 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def coinflip(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     coin_images = {'heads': 'https://i.imgur.com/qLPkn7k.png', 'tails': 'https://i.imgur.com/Xx5dY4M.png'}
     result = secrets.choice(list(coin_images.keys()))
     response = discord.Embed(color=0x1B6F5F)
-    if args:
-        choice = args[0].lower()
+    if pld.args:
+        choice = pld.args[0].lower()
         if choice.startswith('t') or choice.startswith('h'):
             if choice.lower().startswith('t'):
                 choice = 'tails'
@@ -37,4 +36,4 @@ async def coinflip(_cmd: SigmaCommand, pld: CommandPayload):
             out = '☑ Nice guess!' if result == choice.lower() else '🇽 Better luck next time!'
             response = discord.Embed(color=0x1B6F5F, title=out)
     response.set_image(url=coin_images.get(result))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

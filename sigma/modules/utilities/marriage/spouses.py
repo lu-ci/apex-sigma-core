@@ -25,15 +25,14 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def spouses(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('spouses', [])
     spcount = len(splist)
-    page = args[0] if args else 1
+    page = pld.args[0] if pld.args else 1
     splist, page = PaginatorCore.paginate(splist, page, 5)
-    starter = 'You are' if target.id == message.author.id else f'{target.name} is'
-    mid = 'have' if target.id == message.author.id else 'has'
+    starter = 'You are' if target.id == pld.msg.author.id else f'{target.name} is'
+    mid = 'have' if target.id == pld.msg.author.id else 'has'
     if splist:
         spdata = []
         for sp in splist:
@@ -57,4 +56,4 @@ async def spouses(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
         else:
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter.split()[0]} {mid} nobody on page {page}.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -25,17 +25,16 @@ from sigma.modules.minigames.professions.nodes.properties import rarity_names
 
 
 async def chances(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
     else:
-        target = message.author
+        target = pld.msg.author
     upgrade_level = None
-    if args:
-        if message.author.id in cmd.bot.cfg.dsc.owners:
-            if args[-1].isdigit:
-                upgrade_level = int(args[-1])
+    if pld.args:
+        if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
+            if pld.args[-1].isdigit:
+                upgrade_level = int(pld.args[-1])
     if upgrade_level is None:
         upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
         upgrade_level = upgrade_file.get('luck') or 0
@@ -58,4 +57,4 @@ async def chances(cmd: SigmaCommand, pld: CommandPayload):
     response.set_author(name=f'{target.name}\'s Item Chances', icon_url=user_avatar(target))
     response.add_field(name='Luck', value=f'Your Luck is Level {upgrade_level}', inline=False)
     response.add_field(name=f'Chances Table', value=f'```bat\n{out_table}\n```', inline=False)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

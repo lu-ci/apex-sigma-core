@@ -24,12 +24,11 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) == 4:
-            amount = args[0]
-            from_curr = args[1].upper()
-            to_curr = args[3].upper()
+    if pld.args:
+        if len(pld.args) == 4:
+            amount = pld.args[0]
+            from_curr = pld.args[1].upper()
+            to_curr = pld.args[3].upper()
             try:
                 amount = float(amount)
             except ValueError:
@@ -37,7 +36,7 @@ async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
             if amount:
                 response = None
                 start_response = discord.Embed(color=0x3B88C3, title='🏧 Contacting our banks...')
-                start_message = await message.channel.send(embed=start_response)
+                start_message = await pld.msg.channel.send(embed=start_response)
                 api_url = f'http://free.currencyconverterapi.com/api/v3/convert?q={from_curr}_{to_curr}&compact=ultra'
                 async with aiohttp.ClientSession() as session:
                     async with session.get(api_url) as data:
@@ -59,4 +58,4 @@ async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if response:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

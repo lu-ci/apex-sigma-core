@@ -21,13 +21,12 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shadowpollvoters(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        poll_id = args[0].lower()
+    if pld.args:
+        poll_id = pld.args[0].lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
-            if author == message.author.id:
+            if author == pld.msg.author.id:
                 votes = poll_file['votes']
                 if votes:
                     response = discord.Embed(color=0xF9F9F9, title=f'📨 Poll {poll_id} Voters')
@@ -49,4 +48,4 @@ async def shadowpollvoters(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

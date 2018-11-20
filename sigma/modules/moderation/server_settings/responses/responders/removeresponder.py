@@ -22,14 +22,13 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def removeresponder(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            trigger = args[0].lower()
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            trigger = pld.args[0].lower()
             auto_responses = pld.settings.get('responder_triggers') or {}
             if trigger in auto_responses:
                 del auto_responses[trigger]
-                await cmd.db.set_guild_settings(message.guild.id, 'responder_triggers', auto_responses)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_responses)
                 response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
             else:
                 response = discord.Embed(color=0x696969, title='🔍 Trigger not found.')
@@ -37,4 +36,4 @@ async def removeresponder(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,15 +22,14 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.guild_permissions.create_instant_invite:
+    if pld.msg.author.guild_permissions.create_instant_invite:
         bound_invites = pld.settings.get('bound_invites')
         if bound_invites:
             output_lines = []
             output_role_data = []
             for key in bound_invites:
                 role_id = bound_invites.get(key)
-                target_role = message.guild.get_role(role_id)
+                target_role = pld.msg.guild.get_role(role_id)
                 if target_role:
                     role_name = target_role.name
                 else:
@@ -46,4 +45,4 @@ async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No invites have been bound.')
     else:
         response = permission_denied('Create Instant Invites')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -28,10 +28,9 @@ icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfd
 
 
 async def raffle(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if len(args) >= 2:
-        time_input = args[0]
-        raffle_title = ' '.join(args[1:])
+    if len(pld.args) >= 2:
+        time_input = pld.args[0]
+        raffle_title = ' '.join(pld.args[1:])
         try:
             time_sec = convert_to_seconds(time_input)
             start_stamp = arrow.utcnow().float_timestamp
@@ -44,17 +43,17 @@ async def raffle(cmd: SigmaCommand, pld: CommandPayload):
             rafid = secrets.token_hex(3)
             reaction_icon = secrets.choice(raffle_icons)
             icon_color = icon_colors.get(reaction_icon)
-            resp_title = f'{message.author.display_name} started a raffle!'
+            resp_title = f'{pld.msg.author.display_name} started a raffle!'
             starter = discord.Embed(color=icon_color, timestamp=end_dt)
-            starter.set_author(name=resp_title, icon_url=user_avatar(message.author))
+            starter.set_author(name=resp_title, icon_url=user_avatar(pld.msg.author))
             starter.description = f'Prize: **{raffle_title}**'
             starter.description += f'\nReact with a {reaction_icon} to enter the raffle.'
             starter.set_footer(text=f'[{rafid}] Raffle ends {end_hum}.')
-            starter_message = await message.channel.send(embed=starter)
+            starter_message = await pld.msg.channel.send(embed=starter)
             await starter_message.add_reaction(reaction_icon)
             raffle_data = {
-                'author': message.author.id,
-                'channel': message.channel.id,
+                'author': pld.msg.author.id,
+                'channel': pld.msg.channel.id,
                 'title': raffle_title,
                 'start': start_stamp,
                 'end': end_stamp,
@@ -71,4 +70,4 @@ async def raffle(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if response:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

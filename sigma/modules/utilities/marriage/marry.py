@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import arrow
 import discord
 
@@ -32,10 +33,9 @@ async def send_proposal(author: discord.Member, target: discord.Member, is_propo
 
 
 async def marry(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.mentions:
-        target = message.mentions[0]
-        author = message.author
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
+        author = pld.msg.author
         if target.id != author.id:
             if not target.bot:
                 author_upgrades = pld.profile.get('upgrades') or {}
@@ -51,7 +51,7 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
                 if not a_limited and not t_limited:
                     if target.id not in a_spouse_ids:
                         a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
-                        await cmd.db.set_profile(message.author.id, 'spouses', a_spouses)
+                        await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
                         if author.id not in t_spouse_ids:
                             response = discord.Embed(color=0xe75a70, title=f'💟 You proposed to {target.name}!')
                             await send_proposal(author, target, True)
@@ -74,4 +74,4 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xe75a70, title='💔 You love yourself too much.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

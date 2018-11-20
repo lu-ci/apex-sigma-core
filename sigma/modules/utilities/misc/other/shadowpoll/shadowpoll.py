@@ -61,15 +61,14 @@ def generate_data(message, poll_args):
 
 
 async def shadowpoll(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        poll_args = ' '.join(args).split('; ')
+    if pld.args:
+        poll_args = ' '.join(pld.args).split('; ')
         if len(poll_args) >= 3:
-            poll_data = generate_data(message, poll_args)
+            poll_data = generate_data(pld.msg, poll_args)
             await cmd.db[cmd.db.db_nam].ShadowPolls.insert_one(poll_data)
             response = discord.Embed(color=0x66CC66, title=f'✅ Shadowpoll `{poll_data["id"]}` has been created.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

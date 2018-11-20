@@ -34,11 +34,10 @@ async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
 
 
 async def greetmessage(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            greeting_text = ' '.join(args)
-            await cmd.db.set_guild_settings(message.guild.id, 'greet_message', greeting_text)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            greeting_text = ' '.join(pld.args)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_message', greeting_text)
             response = discord.Embed(color=0x77B255, title='✅ New Greeting Message set.')
         else:
             current_greeting = pld.settings.get('greet_message')
@@ -46,10 +45,10 @@ async def greetmessage(cmd: SigmaCommand, pld: CommandPayload):
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greet_embed = pld.settings.get('greet_embed') or {}
             if greet_embed.get('active'):
-                response = await make_greet_embed(greet_embed, current_greeting, message.guild)
+                response = await make_greet_embed(greet_embed, current_greeting, pld.msg.guild)
             else:
                 response = discord.Embed(color=0x3B88C3, title='ℹ Current Greeting Message')
                 response.description = current_greeting
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

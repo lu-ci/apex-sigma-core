@@ -39,10 +39,9 @@ def make_new_deck(uid):
 
 
 async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         try:
-            amount = int(args[0])
+            amount = int(pld.args[0])
             if amount > 10:
                 amount = 10
             if amount < 1:
@@ -51,7 +50,7 @@ async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
             amount = 1
     else:
         amount = 1
-    deck = deck_cache.get(message.author.id) or make_new_deck(message.author.id)
+    deck = deck_cache.get(pld.msg.author.id) or make_new_deck(pld.msg.author.id)
     if not len(deck) < amount:
         card_list = []
         while len(card_list) < amount:
@@ -73,4 +72,4 @@ async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
         prefix = cmd.db.get_prefix(pld.settings)
         no_cards_title = f'❗ Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.'
         response = discord.Embed(color=0xBE1931, title=no_cards_title)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

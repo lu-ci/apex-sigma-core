@@ -23,18 +23,17 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     custom_commands = pld.settings.get('custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))
         cmd_count = len(custom_commands)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         commands, page = PaginatorCore.paginate(custom_commands, page)
         start_range = (page - 1) * 10
         if commands:
             ender = 's' if cmd_count > 1 else ''
             summary = f'Showing **{len(commands)}** command{ender} from Page **#{page}**.'
-            summary += f'\n{message.guild.name} has **{cmd_count}** custom command{ender}.'
+            summary += f'\n{pld.msg.guild.name} has **{cmd_count}** custom command{ender}.'
             pfx = cmd.db.get_prefix(pld.settings)
             loop_index = start_range
             cmd_list_lines = []
@@ -43,13 +42,13 @@ async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
                 list_line = f'**{loop_index}**: {pfx}{key}'
                 cmd_list_lines.append(list_line)
             cmd_list = '\n'.join(cmd_list_lines)
-            srv_color = await get_image_colors(message.guild.icon_url)
+            srv_color = await get_image_colors(pld.msg.guild.icon_url)
             response = discord.Embed(color=srv_color)
-            response.set_author(name='Custom Commands', icon_url=message.guild.icon_url)
+            response.set_author(name='Custom Commands', icon_url=pld.msg.guild.icon_url)
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Command List', value=cmd_list, inline=False)
         else:
             response = discord.Embed(color=0xBE1931, title='❗ This page is empty.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ This server has no custom commands.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

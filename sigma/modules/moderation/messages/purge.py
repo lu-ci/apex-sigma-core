@@ -42,39 +42,38 @@ def generate_log_embed(message, target, channel, deleted):
 
 
 async def purge(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_messages:
-        if message.channel.id not in ongoing:
-            ongoing.append(message.channel.id)
-            args = [a.lower() for a in args]
-            purge_images = 'attachments' in args
-            purge_emotes = 'emotes' in args
-            until_pin = 'untilpin' in args
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+        if pld.msg.channel.id not in ongoing:
+            ongoing.append(pld.msg.channel.id)
+            pld.args = [a.lower() for a in pld.args]
+            purge_images = 'attachments' in pld.args
+            purge_emotes = 'emotes' in pld.args
+            until_pin = 'untilpin' in pld.args
             purge_filter = None
-            for i, arg in enumerate(args):
+            for i, arg in enumerate(pld.args):
                 if arg.startswith('content:'):
-                    purge_filter = ' '.join([arg.split(':')[1]] + args[i + 1:])
+                    purge_filter = ' '.join([arg.split(':')[1]] + pld.args[i + 1:])
                     break
 
             async def get_limit_and_target():
                 user = cmd.bot.user
                 limit = 100
-                if message.mentions:
-                    user = message.mentions[0]
-                    if len(args) == 2:
+                if pld.msg.mentions:
+                    user = pld.msg.mentions[0]
+                    if len(pld.args) == 2:
                         try:
-                            limit = int(args[0])
+                            limit = int(pld.args[0])
                         except ValueError:
                             limit = 100
                 else:
-                    if args:
+                    if pld.args:
                         user = None
                         try:
-                            limit = int(args[0])
+                            limit = int(pld.args[0])
                         except ValueError:
                             limit = 100
                 if until_pin:
-                    channel_hist = await message.channel.history(limit=limit).flatten()
+                    channel_hist = await pld.msg.channel.history(limit=limit).flatten()
                     for n, log in enumerate(channel_hist):
                         if log.pinned:
                             limit = n - 1
@@ -132,24 +131,24 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 return clean
 
             try:
-                await message.delete()
+                await pld.msg.delete()
             except discord.NotFound:
                 pass
             deleted = []
             try:
                 if target:
-                    deleted = await message.channel.purge(limit=count, check=purge_target_check)
+                    deleted = await pld.msg.channel.purge(limit=count, check=purge_target_check)
                 else:
-                    deleted = await message.channel.purge(limit=count, check=purge_wide_check)
+                    deleted = await pld.msg.channel.purge(limit=count, check=purge_wide_check)
             except Exception:
                 pass
             response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
-            log_embed = generate_log_embed(message, target, message.channel, deleted)
+            log_embed = generate_log_embed(pld.msg, target, pld.msg.channel, deleted)
             await log_event(cmd.bot, pld.settings, log_embed, 'log_purges')
-            if message.channel.id in ongoing:
-                ongoing.remove(message.channel.id)
+            if pld.msg.channel.id in ongoing:
+                ongoing.remove(pld.msg.channel.id)
             try:
-                del_response = await message.channel.send(embed=response)
+                del_response = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)
                 await del_response.delete()
             except discord.NotFound:
@@ -159,4 +158,4 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
     else:
         response = permission_denied('Manage Messages')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -26,9 +26,8 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def synonyms(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        query = '+'.join(args).lower()
+    if pld.args:
+        query = '+'.join(pld.args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=syn'
         api_url = f'https://api.datamuse.com/words?rel_syn={query}&max=11'
         async with aiohttp.ClientSession() as session:
@@ -49,4 +48,4 @@ async def synonyms(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 No results.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

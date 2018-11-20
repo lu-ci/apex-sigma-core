@@ -40,13 +40,12 @@ def parse_args(args: list):
 
 
 async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup, state, page = parse_args(args)
-        role_search = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
+    if pld.args:
+        lookup, state, page = parse_args(pld.args)
+        role_search = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
         if role_search:
             members = []
-            for member in message.guild.members:
+            for member in pld.msg.guild.members:
                 if role_search in member.roles:
                     if state:
                         if member.status.name == state:
@@ -68,4 +67,4 @@ async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

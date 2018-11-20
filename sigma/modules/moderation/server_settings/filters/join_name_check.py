@@ -19,7 +19,7 @@ from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import is_invalid, clean_name
 
 
-async def join_name_check(ev: SigmaEvent, pld: MemberPayload):
+async def join_name_check(_ev: SigmaEvent, pld: MemberPayload):
     if pld.member.guild:
         active = pld.settings.get('ascii_only_names')
         if active:

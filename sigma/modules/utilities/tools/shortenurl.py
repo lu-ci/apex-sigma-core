@@ -24,17 +24,16 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     text_cont = None
     if 'access_token' in cmd.cfg:
         access_token = cmd.cfg['access_token']
-        if args:
-            if args[-1].lower() == 'text':
+        if pld.args:
+            if pld.args[-1].lower() == 'text':
                 text_mode = True
-                long_url = '%20'.join(args[:-1])
+                long_url = '%20'.join(pld.args[:-1])
             else:
                 text_mode = False
-                long_url = '%20'.join(args)
+                long_url = '%20'.join(pld.args)
             api_url = 'https://api-ssl.bitly.com/v3/shorten'
             api_url += f'?longUrl={long_url}&domain=bit.ly&format=json'
             api_url += f'&access_token={access_token}'
@@ -59,4 +58,4 @@ async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No Bit.ly Access Token.')
-    await message.channel.send(text_cont, embed=response)
+    await pld.msg.channel.send(text_cont, embed=response)

@@ -39,14 +39,13 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
 
 
 async def allitems(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     item_o_list = item_core.all_items
     special = False
-    if args:
+    if pld.args:
         types = ['animals', 'animal', 'plants', 'plant', 'fish']
-        selection = args[0].lower()
+        selection = pld.args[0].lower()
         if selection in types:
             sort = selection[:-1] if selection.endswith('s') else selection
             item_o_list = [i for i in item_core.all_items if i.type == sort.title()]
@@ -55,9 +54,9 @@ async def allitems(cmd: SigmaCommand, pld: CommandPayload):
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
     if special:
-        page = args[1] if len(args) > 1 else 1
+        page = pld.args[1] if len(pld.args) > 1 else 1
     else:
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
     inv, page = PaginatorCore.paginate(item_o_list, page)
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
@@ -86,4 +85,4 @@ async def allitems(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
         response = discord.Embed(color=0xBE1931, title=f'❗ Could not retrieve Item Core data.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

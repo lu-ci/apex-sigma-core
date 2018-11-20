@@ -23,12 +23,11 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def antispam(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         current = pld.settings.get('antispam')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
-        await cmd.db.set_guild_settings(message.guild.id, 'antispam', toggle)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'antispam', toggle)
         response = discord.Embed(color=0x77B255, title=f'✅ Spam rate limitations {status}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

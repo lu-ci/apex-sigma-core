@@ -39,31 +39,58 @@ async def check_requirements(cmd, message, recipe):
     return req_satisfied
 
 
+def choose_recipe(recipe_core, recipe_type: str or None):
+    recipe_icons = {'dessert': ('🍰', 0xf9f9f9), 'meal': ('🍱', 0xdd2e44), 'drink': ('🍶', 0x55acee)}
+    if recipe_type:
+        lookup = recipe_icons.get(recipe_type)
+        recipe_icon = lookup[0]
+        recipe_color = lookup[1]
+    else:
+        recipe_look = secrets.choice(recipe_core.recipes)
+        recipe_icon = recipe_look.icon
+        recipe_color = recipe_look.color
+    return recipe_icon, recipe_color
+
+
+def get_filter(args: list):
+    craftable, recipe_type = False, None
+    if args:
+        for arg in args:
+            if arg.lower() == '--craftable':
+                craftable = True
+            elif arg.lower() in ['--desserts', '--meals', '--drinks']:
+                recipe_type = arg.lower()[2:-1]
+    return craftable, recipe_type
+
+
 async def recipes(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+    craftable, recipe_type = get_filter(pld.args)
     recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)
-    page = args[0] if args else 1
-    sales_data, page = PaginatorCore.paginate(recipe_list, page)
+    target_recipes = []
+    for recipe in recipe_list:
+        req_satisfied = await check_requirements(cmd, pld.msg, recipe)
+        req_needed = len(recipe.ingredients)
+        req_reqs = f'{req_satisfied}/{req_needed}'
+        if recipe.type.lower() == recipe_type or recipe_type is None:
+            if craftable:
+                if req_satisfied == req_needed:
+                    target_recipes.append([recipe.name, recipe.type, recipe.value, req_reqs])
+            else:
+                target_recipes.append([recipe.name, recipe.type, recipe.value, req_reqs])
+    page = pld.args[0] if pld.args else 1
+    sales_data, page = PaginatorCore.paginate(target_recipes, page)
     start_range, end_range = (page - 1) * 10, page * 10
-    recipe_look = secrets.choice(recipe_core.recipes)
-    recipe_icon = recipe_look.icon
-    recipe_color = recipe_look.color
-    recipe_boop_head = ['Name', 'Type', 'Value', 'Ingr.']
-    recipe_boop_list = []
-    stats_text = f'Showing recipes: {start_range}-{end_range}.'
-    stats_text += f'\nThere is a total of {len(recipe_core.recipes)} recipes.'
+    recipe_icon, recipe_color = choose_recipe(recipe_core, recipe_type)
     if sales_data:
-        for recipe in sales_data:
-            req_satisfied = await check_requirements(cmd, message, recipe)
-            req_needed = len(recipe.ingredients)
-            req_reqs = f'{req_satisfied}/{req_needed}'
-            recipe_boop_list.append([recipe.name, recipe.type, recipe.value, req_reqs])
-        recipe_table = boop(recipe_boop_list, recipe_boop_head)
+        recipe_boop_head = ['Name', 'Type', 'Value', 'Ingr.']
+        recipe_table = boop(sales_data, recipe_boop_head)
         response = discord.Embed(color=recipe_color)
+        stats_text = f'Showing recipes: {start_range}-{end_range}.'
+        stats_text += f'\nThere are a total of {len(recipe_core.recipes)} recipes.'
         response.add_field(name=f'{recipe_icon} Recipe Stats', value=f'```py\n{stats_text}\n```', inline=False)
         response.add_field(name=f'📰 Recipes On Page {page}', value=f'```hs\n{recipe_table}\n```')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 This page is empty.')
-    await message.channel.send(embed=response)
+        response = discord.Embed(color=0x696969, title=f'🔍 No recipes match the given filter.')
+    await pld.msg.channel.send(embed=response)

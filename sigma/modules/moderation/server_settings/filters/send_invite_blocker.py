@@ -25,17 +25,16 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
-    message = pld.msg
-    if message.guild:
-        if isinstance(message.author, discord.Member):
-            override = check_filter_perms(message, pld.settings, 'invites')
-            is_owner = message.author.id in ev.bot.cfg.dsc.owners
-            if not any([message.author.permissions_in(message.channel).administrator, is_owner, override]):
+    if pld.msg.guild:
+        if isinstance(pld.msg.author, discord.Member):
+            override = check_filter_perms(pld.msg, pld.settings, 'invites')
+            is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+            if not any([pld.msg.author.permissions_in(pld.msg.channel).administrator, is_owner, override]):
                 active = pld.settings.get('block_invites')
                 if active is None:
                     active = False
                 if active:
-                    arguments = message.content.split(' ')
+                    arguments = pld.msg.content.split(' ')
                     invite_found = False
                     for arg in arguments:
                         triggers = ['discord.gg/', 'discordapp.com/invite']
@@ -52,21 +51,21 @@ async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
                             invite_warn = pld.settings.get('invite_auto_warn')
                             if invite_warn:
                                 reason = f'Sent an invite to {invite_found.guild.name}.'
-                                warn_data = warning_data(message.guild.me, message.author, reason)
+                                warn_data = warning_data(pld.msg.guild.me, pld.msg.author, reason)
                                 await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
-                            await message.delete()
+                            await pld.msg.delete()
                             title = '⛓ Invite links are not allowed on this server.'
                             response = discord.Embed(color=0xF9F9F9, title=title)
                             try:
-                                await message.author.send(embed=response)
+                                await pld.msg.author.send(embed=response)
                             except discord.Forbidden:
                                 pass
                             log_embed = discord.Embed(color=0xF9F9F9)
-                            author = f'{message.author.name}#{message.author.discriminator}'
+                            author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                             log_embed.set_author(name=f'I removed {author}\'s invite link.',
-                                                 icon_url=user_avatar(message.author))
+                                                 icon_url=user_avatar(pld.msg.author))
                             log_embed.set_footer(
-                                text=f'Posted In: #{message.channel.name} | Leads To: {invite_found.guild.name}')
+                                text=f'Posted In: #{pld.msg.channel.name} | Leads To: {invite_found.guild.name}')
                             await log_event(ev.bot, pld.settings, log_embed, 'log_filters')
                         except (discord.ClientException, discord.NotFound, discord.Forbidden):
                             pass

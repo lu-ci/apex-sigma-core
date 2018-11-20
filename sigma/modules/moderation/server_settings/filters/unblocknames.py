@@ -22,20 +22,19 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def unblocknames(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
             blocked_names = pld.settings.get('blocked_names') or []
             removed_names = []
-            if args[-1].lower() == '--all':
+            if pld.args[-1].lower() == '--all':
                 removed_names = blocked_names
                 blocked_names = []
             else:
-                for name in args:
+                for name in pld.args:
                     if name.lower() in blocked_names:
                         blocked_names.remove(name.lower())
                         removed_names.append(name.lower())
-            await cmd.db.set_guild_settings(message.guild.id, 'blocked_names', blocked_names)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_names', blocked_names)
             if removed_names:
                 color = 0x66CC66
                 ender = 's' if len(removed_names) > 1 else ''
@@ -48,4 +47,4 @@ async def unblocknames(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,18 +22,17 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def hardblockwords(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
             blocked_words = pld.settings.get('hardblocked_words')
             if blocked_words is None:
                 blocked_words = []
             added_words = []
-            for word in args:
+            for word in pld.args:
                 if word.lower() not in blocked_words:
                     blocked_words.append(word.lower())
                     added_words.append(word.lower())
-            await cmd.db.set_guild_settings(message.guild.id, 'hardblocked_words', blocked_words)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'hardblocked_words', blocked_words)
             if added_words:
                 color = 0x66CC66
                 title = f'✅ I have added {len(added_words)} words to the heavy blacklist.'
@@ -45,4 +44,4 @@ async def hardblockwords(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

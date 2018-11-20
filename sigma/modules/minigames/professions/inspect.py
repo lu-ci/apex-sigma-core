@@ -24,29 +24,28 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 
 async def inspect(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     item_core = await get_item_core(cmd.db)
     recipe_core = await get_recipe_core(cmd.db)
-    if args:
-        lookup = ' '.join(args)
+    if pld.args:
+        lookup = ' '.join(pld.args)
         item = item_core.get_item_by_name(lookup)
         if item:
             if item.rarity != 0:
                 stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
-                all_stats = await stat_coll.find_one({'user_id': message.author.id}) or {}
+                all_stats = await stat_coll.find_one({'user_id': pld.msg.author.id}) or {}
                 item_total = 0
                 all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
                 for stat_doc in all_stat_docs:
                     item_total += stat_doc.get(item.file_id) or 0
                 stat_count = all_stats.get(item.file_id) or 0
-                owned_item = await cmd.db.get_inventory_item(message.author.id, item.file_id)
+                owned_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
                 footer = f'You Found: {stat_count} | Total Found: {item_total}'
                 if owned_item:
-                    inv = await cmd.db.get_inventory(message.author.id)
+                    inv = await cmd.db.get_inventory(pld.msg.author.id)
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
                     footer += f' | Owned: {count} | ItemID: {owned_item.get("item_id")}'
-                    response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
+                    response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
                 response.set_footer(text=footer)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Sorry but that\'s trash.')
@@ -54,5 +53,5 @@ async def inspect(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 Item not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-        response.set_author(name=message.author.display_name, icon_url=user_avatar(message.author))
-    await message.channel.send(embed=response)
+        response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
+    await pld.msg.channel.send(embed=response)

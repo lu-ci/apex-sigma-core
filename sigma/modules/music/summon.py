@@ -23,27 +23,26 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def summon(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.voice:
-        me = message.guild.me
-        vc = message.author.voice.channel
+    if pld.msg.author.voice:
+        me = pld.msg.guild.me
+        vc = pld.msg.author.voice.channel
         if me.permissions_in(vc).connect:
             if me.permissions_in(vc).speak:
-                if message.guild.voice_client:
-                    if message.author.voice.channel.id != message.guild.voice_client.channel.id:
-                        await message.guild.voice_client.move_to(message.author.voice.channel)
-                        title = f'🚩 Moved to {message.author.voice.channel.name}.'
+                if pld.msg.guild.voice_client:
+                    if pld.msg.author.voice.channel.id != pld.msg.guild.voice_client.channel.id:
+                        await pld.msg.guild.voice_client.move_to(pld.msg.author.voice.channel)
+                        title = f'🚩 Moved to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
                     else:
                         response = discord.Embed(color=0xBE1931, title='❗ We are in the same channel.')
                 else:
                     try:
-                        await message.author.voice.channel.connect(reconnect=False)
-                        title = f'🚩 Connected to {message.author.voice.channel.name}.'
+                        await pld.msg.author.voice.channel.connect(reconnect=False)
+                        title = f'🚩 Connected to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
                     except TimeoutError:
-                        if message.guild.voice_client:
-                            await message.guild.voice_client.disconnect()
+                        if pld.msg.guild.voice_client:
+                            await pld.msg.guild.voice_client.disconnect()
                         response = discord.Embed(color=0xBE1931, title='❗ I timed out while trying to connect.')
             else:
                 response = discord.Embed(color=0xBE1931, title=f'❗ I am not allowed to speak in {vc.name}.')
@@ -51,4 +50,4 @@ async def summon(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ I am not allowed to connect to {vc.name}.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

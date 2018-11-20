@@ -23,22 +23,21 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).kick_members:
-        if message.mentions:
-            target = message.mentions[0]
+    if pld.msg.author.permissions_in(pld.msg.channel).kick_members:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
             if cmd.bot.user.id != target.id:
-                if message.author.id != target.id:
-                    above_hier = hierarchy_permit(message.author, target)
-                    is_admin = message.author.permissions_in(message.channel).administrator
+                if pld.msg.author.id != target.id:
+                    above_hier = hierarchy_permit(pld.msg.author, target)
+                    is_admin = pld.msg.author.permissions_in(pld.msg.channel).administrator
                     if above_hier or is_admin:
-                        above_me = hierarchy_permit(message.guild.me, target)
+                        above_me = hierarchy_permit(pld.msg.guild.me, target)
                         if above_me:
                             if target.voice:
                                 tvc = target.voice.channel
-                                tempvc = discord.utils.find(lambda x: x.name == 'Kick Hall', message.guild.channels)
+                                tempvc = discord.utils.find(lambda x: x.name == 'Kick Hall', pld.msg.guild.channels)
                                 if not tempvc:
-                                    tempvc = await message.guild.create_voice_channel('Kick Hall')
+                                    tempvc = await pld.msg.guild.create_voice_channel('Kick Hall')
                                 await target.move_to(tempvc)
                                 await tempvc.delete()
                                 remove_title = f'👢 {target.name} has been removed from {tvc.name}.'
@@ -58,4 +57,4 @@ async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Kick permissions')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

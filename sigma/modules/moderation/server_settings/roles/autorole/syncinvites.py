@@ -22,12 +22,11 @@ from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher i
 
 
 async def syncinvites(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     try:
-        invites = await message.guild.invites()
+        invites = await pld.msg.guild.invites()
     except discord.Forbidden:
         invites = []
-    update_invites(message.guild, invites)
+    update_invites(pld.msg.guild, invites)
     bound_invites = pld.settings.get('bound_invites') or {}
     keys_to_remove = []
     for invite_code in bound_invites.keys():
@@ -37,12 +36,12 @@ async def syncinvites(cmd: SigmaCommand, pld: CommandPayload):
     if keys_to_remove:
         for key_to_remove in keys_to_remove:
             bound_invites.pop(key_to_remove)
-    await cmd.db.set_guild_settings(message.guild.id, 'bound_invites', bound_invites)
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bound_invites)
     noresp = False
-    if args:
-        if args[0] == 'noresp':
+    if pld.args:
+        if pld.args[0] == 'noresp':
             noresp = True
     if not noresp:
         inv_count = len(invites)
         response = discord.Embed(color=0x77B255, title=f'✅ Synced {inv_count} invites.')
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

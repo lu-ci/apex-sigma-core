@@ -23,9 +23,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        conv_input = ' '.join(args).split('>')
+    if pld.args:
+        conv_input = ' '.join(pld.args).split('>')
         if len(conv_input) == 2:
             from_pieces = conv_input[0].split()
             if len(from_pieces) == 2:
@@ -61,4 +60,4 @@ async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid input arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

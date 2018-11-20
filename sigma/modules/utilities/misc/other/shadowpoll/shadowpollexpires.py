@@ -23,16 +23,15 @@ from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
 async def shadowpollexpires(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) == 2:
-            poll_id = args[0].lower()
-            time_input = args[1]
+    if pld.args:
+        if len(pld.args) == 2:
+            poll_id = pld.args[0].lower()
+            time_input = pld.args[1]
             try:
                 exp_in = convert_to_seconds(time_input)
                 poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
-                    if poll_file['origin']['author'] == message.author.id:
+                    if poll_file['origin']['author'] == pld.msg.author.id:
                         end_stamp = arrow.utcnow().float_timestamp + exp_in
                         end_human = arrow.get(end_stamp).humanize()
                         end_datet = arrow.get(end_stamp).datetime
@@ -51,4 +50,4 @@ async def shadowpollexpires(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and expiration time.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

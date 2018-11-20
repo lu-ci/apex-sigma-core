@@ -30,16 +30,15 @@ streaks = {}
 
 
 async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.channel.id not in ongoing_list:
+    if pld.msg.channel.id not in ongoing_list:
         try:
-            ongoing_list.append(message.channel.id)
+            ongoing_list.append(pld.msg.channel.id)
             mal_icon = 'https://myanimelist.cdn-dena.com/img/sp/icon/apple-touch-icon-256.png'
             wait_embed = discord.Embed(color=0x1d439b)
             wait_embed.set_author(name='Hunting for a good specimen...', icon_url=mal_icon)
-            working_response = await message.channel.send(embed=wait_embed)
-            if args:
-                if args[0].lower() == 'hint':
+            working_response = await pld.msg.channel.send(embed=wait_embed)
+            if pld.args:
+                if pld.args[0].lower() == 'hint':
                     hint = True
                 else:
                     hint = False
@@ -96,10 +95,10 @@ async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
                 kud_reward = kud_reward // 2
                 scrambled_name = scramble(char_name)
                 question_embed.description = f'Name: {scrambled_name}'
-            await message.channel.send(embed=question_embed)
+            await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
-                if message.channel.id == msg.channel.id:
+                if pld.msg.channel.id == msg.channel.id:
                     if msg.content.lower() in char_name.lower().split():
                         correct = True
                     elif msg.content.lower() == char_name.lower():
@@ -112,26 +111,26 @@ async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
 
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-                reward_mult = streaks.get(message.channel.id) or 0
+                reward_mult = streaks.get(pld.msg.channel.id) or 0
                 kud_reward = int(kud_reward * (1 + (reward_mult * 0.35)))
-                await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, message)
+                await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency
-                streaks.update({message.channel.id: reward_mult + 1})
+                streaks.update({pld.msg.channel.id: reward_mult + 1})
                 win_title = f'🎉 Correct, {author}, it was {char_name}. You won {kud_reward} {currency}!'
                 win_embed = discord.Embed(color=0x77B255, title=win_title)
-                await message.channel.send(embed=win_embed)
+                await pld.msg.channel.send(embed=win_embed)
             except asyncio.TimeoutError:
-                if message.channel.id in streaks:
-                    streaks.pop(message.channel.id)
+                if pld.msg.channel.id in streaks:
+                    streaks.pop(pld.msg.channel.id)
                 timeout_title = f'🕙 Time\'s up! It was {char_name} from {anime_title}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-                await message.channel.send(embed=timeout_embed)
+                await pld.msg.channel.send(embed=timeout_embed)
         except (IndexError, KeyError):
             grab_error = discord.Embed(color=0xBE1931, title='❗ I failed to grab a character, try again.')
-            await message.channel.send(embed=grab_error)
-        if message.channel.id in ongoing_list:
-            ongoing_list.remove(message.channel.id)
+            await pld.msg.channel.send(embed=grab_error)
+        if pld.msg.channel.id in ongoing_list:
+            ongoing_list.remove(pld.msg.channel.id)
     else:
         ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
-        await message.channel.send(embed=ongoing_error)
+        await pld.msg.channel.send(embed=ongoing_error)

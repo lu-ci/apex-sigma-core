@@ -22,15 +22,14 @@ from sigma.modules.interactions.mech.interaction_mechanics import grab_interacti
 
 
 async def cry(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     interaction = await grab_interaction(cmd.db, 'cry')
-    target = get_target(message)
-    auth = message.author
-    if not target or target.id == message.author.id:
+    target = get_target(pld.msg)
+    auth = pld.msg.author
+    if not target or target.id == pld.msg.author.id:
         response = discord.Embed(color=0x5dadec, title=f'😢 {auth.display_name} cries.')
     else:
         response = discord.Embed(color=0x5dadec,
                                  title=f'😢 {auth.display_name} cries because of {target.display_name}.')
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

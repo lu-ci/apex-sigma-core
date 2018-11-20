@@ -26,14 +26,13 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if message.mentions:
-            target = message.mentions[0]
+    if pld.args:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
         else:
-            target = discord.utils.find(lambda x: x.name.lower() == ' '.join(args).lower(), message.guild.members)
+            target = discord.utils.find(lambda x: x.name.lower() == ' '.join(pld.args).lower(), pld.msg.guild.members)
     else:
-        target = message.author
+        target = pld.msg.author
     if target:
         chain_data = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
         if chain_data:
@@ -65,4 +64,4 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name=title, value=value)
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

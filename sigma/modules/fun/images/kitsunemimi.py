@@ -28,12 +28,11 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
 
 
 async def kitsunemimi(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     global links
     if not links:
         name = cmd.bot.user.name
         filler_message = discord.Embed(color=0xff3300, title=f'🦊 One moment, filling {name} with foxes...')
-        fill_notify = await message.channel.send(embed=filler_message)
+        fill_notify = await pld.msg.channel.send(embed=filler_message)
         links = await grab_post_list('fox_tail')
         filler_done = discord.Embed(color=0xff3300, title=f'🦊 We added {len(links)} foxes!')
         await fill_notify.edit(embed=filler_done)
@@ -41,4 +40,4 @@ async def kitsunemimi(cmd: SigmaCommand, pld: CommandPayload):
     post_choice = links.pop(rand_pop)
     icon = 'https://i.imgur.com/g0wv2Pf.jpg'
     response = generate_embed(post_choice, embed_titles, 0xff3300, icon=icon)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

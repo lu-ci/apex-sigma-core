@@ -22,9 +22,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def forcedataupdate(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
-    load_status = await message.channel.send(embed=response)
+    load_status = await pld.msg.channel.send(embed=response)
     ready_events = cmd.bot.modules.events.get('dbinit')
     for ready_event in ready_events:
         await ready_event.execute(True)

@@ -21,9 +21,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def getinteraction(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        react_id = args[0].lower()
+    if pld.args:
+        react_id = pld.args[0].lower()
         react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': react_id})
         if react_item:
             response = discord.Embed(color=0x5dadec)
@@ -33,4 +32,4 @@ async def getinteraction(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Reaction not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

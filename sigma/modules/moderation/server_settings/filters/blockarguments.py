@@ -22,16 +22,15 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def blockarguments(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
             blocked_args = pld.settings.get('blocked_args', [])
             added_args = []
-            for arg in args:
+            for arg in pld.args:
                 if arg.lower() not in blocked_args:
                     blocked_args.append(arg.lower())
                     added_args.append(arg.lower())
-            await cmd.db.set_guild_settings(message.guild.id, 'blocked_args', blocked_args)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_args', blocked_args)
             if added_args:
                 color = 0x66CC66
                 title = f'✅ I have added {len(added_args)} arguments to the blacklist.'
@@ -43,4 +42,4 @@ async def blockarguments(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

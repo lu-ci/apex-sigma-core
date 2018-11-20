@@ -48,11 +48,10 @@ def make_games_dict(guild: discord.Guild):
 
 
 async def ingame(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     response = discord.Embed(color=0x1ABC9C)
-    games, online, playing = make_games_dict(message.guild)
+    games, online, playing = make_games_dict(pld.msg.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)
-    page = args[0] if args else 1
+    page = pld.args[0] if pld.args else 1
     game_list, page = PaginatorCore.paginate(sorted_games, page)
     start_range = (page - 1) * 10
     out_table_list = []
@@ -66,6 +65,6 @@ async def ingame(_cmd: SigmaCommand, pld: CommandPayload):
     output = boop(out_table_list)
     general_stats_list = [['Online', online], ['In-Game', playing], ['Unique Games', game_count]]
     out_block = f'```hs\n{boop(general_stats_list)}\n```'
-    response.add_field(name='👾 Current Gaming Statistics on ' + message.guild.name, value=out_block, inline=False)
+    response.add_field(name='👾 Current Gaming Statistics on ' + pld.msg.guild.name, value=out_block, inline=False)
     response.add_field(name=f'🎮 By Game on Page {page}', value=f'```haskell\n{output}\n```', inline=False)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

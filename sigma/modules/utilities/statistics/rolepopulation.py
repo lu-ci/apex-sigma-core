@@ -30,32 +30,31 @@ def percentify(small, big):
 
 
 async def rolepopulation(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        rl_qry = ' '.join(args)
-        role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), message.guild.roles)
+    if pld.args:
+        rl_qry = ' '.join(pld.args)
+        role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), pld.msg.guild.roles)
         if role_search:
             counter = len(role_search.members)
             response = discord.Embed(color=role_search.color)
-            response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
+            response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
             response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 {rl_qry} not found.')
     else:
         role_dict = {}
-        for role in message.guild.roles:
-            if role.id != message.guild.id:
+        for role in pld.msg.guild.roles:
+            if role.id != pld.msg.guild.id:
                 role_key = role.name
                 role_count = len(role.members)
                 role_dict.update({role_key: role_count})
         sorted_roles = sorted(role_dict.items(), key=operator.itemgetter(1), reverse=True)
         output = []
         for srole in sorted_roles[:15]:
-            output.append([srole[0], srole[1], f'{str(percentify(srole[1], len(message.guild.members)))}%'])
+            output.append([srole[0], srole[1], f'{str(percentify(srole[1], len(pld.msg.guild.members)))}%'])
         out_text = boop(output)
-        stats_block = f'```py\nShowing {len(output)} roles out of {len(message.guild.roles) - 1}\n```'
+        stats_block = f'```py\nShowing {len(output)} roles out of {len(pld.msg.guild.roles) - 1}\n```'
         response = discord.Embed(color=0x3B88C3)
-        response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
+        response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
         response.add_field(name='Statistics', value=stats_block, inline=False)
         response.add_field(name=f'Role Population', value=f'```haskell\n{out_text}\n```', inline=False)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

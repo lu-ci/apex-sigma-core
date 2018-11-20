@@ -21,17 +21,16 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def hardblockedwords(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+async def hardblockedwords(_cmd: SigmaCommand, pld: CommandPayload):
     blocked_words = pld.settings.get('hardblocked_words')
     if not blocked_words:
         response = discord.Embed(color=0x3B88C3, title='ℹ There are no hard-blocked words.')
     else:
         total_count = len(blocked_words)
-        blocked_words, page = PaginatorCore.paginate(blocked_words, args[0] if args else 1, 20)
+        blocked_words, page = PaginatorCore.paginate(blocked_words, pld.args[0] if pld.args else 1, 20)
         showing_count = len(blocked_words)
-        title = f'ℹ Words hard-blocked on {message.guild.name}'
+        title = f'ℹ Words hard-blocked on {pld.msg.guild.name}'
         response = discord.Embed(color=0x3B88C3, title=title)
         response.description = ', '.join(blocked_words)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

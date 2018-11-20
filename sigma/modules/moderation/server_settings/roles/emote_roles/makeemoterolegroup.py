@@ -24,13 +24,12 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def makeemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.guild_permissions.manage_guild:
+    if pld.msg.author.guild_permissions.manage_guild:
         emote_groups = pld.settings.get('emote_role_groups') or {}
         group_id = secrets.token_hex(3)
         emote_groups.update({group_id: []})
-        await cmd.db.set_guild_settings(message.guild.id, 'emote_role_groups', emote_groups)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
         response = discord.Embed(color=0x66CC66, title=f'✅ Emote role group {group_id} has been created.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

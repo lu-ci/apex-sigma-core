@@ -22,15 +22,14 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def markovchain(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    target = message.mentions[0] if message.mentions else message.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     collection = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
     if collection:
         chain = collection.get('chain')
-        starter = 'You have' if target.id == message.author.id else f'{target.name} has'
-        ender = 'your' if target.id == message.author.id else 'their'
+        starter = 'You have' if target.id == pld.msg.author.id else f'{target.name} has'
+        ender = 'your' if target.id == pld.msg.author.id else 'their'
         response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} {len(chain)} items in {ender} chain.')
     else:
-        starter = 'You don\'t have' if target.id == message.author.id else f'{target.name} doesn\'t have'
+        starter = 'You don\'t have' if target.id == pld.msg.author.id else f'{target.name} doesn\'t have'
         response = discord.Embed(color=0x696969, title=f'🔍 {starter} a collected chain.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

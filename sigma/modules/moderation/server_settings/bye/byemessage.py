@@ -34,11 +34,10 @@ async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
 
 
 async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            goodbye_text = ' '.join(args)
-            await cmd.db.set_guild_settings(message.guild.id, 'bye_message', goodbye_text)
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            goodbye_text = ' '.join(pld.args)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_message', goodbye_text)
             response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message set.')
         else:
             current_goodbye = pld.settings.get('bye_message')
@@ -46,10 +45,10 @@ async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
                 current_goodbye = '{user_name} has left {server_name}.'
             bye_embed = pld.settings.get('bye_embed') or {}
             if bye_embed.get('active'):
-                response = await make_bye_embed(bye_embed, current_goodbye, message.guild)
+                response = await make_bye_embed(bye_embed, current_goodbye, pld.msg.guild)
             else:
                 response = discord.Embed(color=0x3B88C3, title='ℹ Current Goodbye Message')
                 response.description = current_goodbye
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

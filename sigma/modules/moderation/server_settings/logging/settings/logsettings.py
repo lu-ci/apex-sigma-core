@@ -24,8 +24,7 @@ from sigma.modules.moderation.server_settings.logging.settings.log import log_ke
 
 
 async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         settings = []
         for log_key in log_keys:
             if log_key == 'log_modules':
@@ -47,4 +46,4 @@ async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'📄 Details', value=f'```\n{output}\n```', inline=False)
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -22,10 +22,9 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_guild:
-        if args:
-            module_name = args[0].lower()
+    if pld.msg.author.guild_permissions.manage_guild:
+        if pld.args:
+            module_name = pld.args[0].lower()
             if module_name in cmd.bot.modules.categories:
                 logged_modules = pld.settings.get('logged_modules') or []
                 if module_name in logged_modules:
@@ -34,12 +33,12 @@ async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     result = 'enabled'
                     logged_modules.append(module_name)
-                await cmd.db.set_guild_settings(message.guild.id, 'logged_modules', logged_modules)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'logged_modules', logged_modules)
                 response = discord.Embed(color=0x77B255, title=f'✅ {module_name.upper()} logging {result}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Non-existent module given.')
+                response = discord.Embed(color=0x696969, title='🔍 Module not found.')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No module given.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

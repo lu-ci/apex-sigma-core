@@ -21,14 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     command = None
     cooldown = None
-    if args:
-        if len(args) == 2:
-            command = args[0].lower()
-            if args[1].isdigit():
-                cooldown = int(args[1])
+    if pld.args:
+        if len(pld.args) == 2:
+            command = pld.args[0].lower()
+            if pld.args[1].isdigit():
+                cooldown = int(pld.args[1])
         if command:
             if cooldown:
                 if command in cmd.bot.modules.alts:
@@ -51,4 +50,4 @@ async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing command to edit.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

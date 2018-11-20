@@ -41,9 +41,8 @@ def get_usercaps(username, trials):
 
 
 async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        username = ' '.join(args)
+    if pld.args:
+        username = ' '.join(pld.args)
         trials_url = f'https://api.trials.wf/api/player/pc/{username}/completed'
         async with aiohttp.ClientSession() as session:
             async with session.get(trials_url) as data:
@@ -208,4 +207,4 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
             except Exception:
                 error_text = f'⚠ Stats for {username} were found but contained errors.'
                 response = discord.Embed(color=0xFFCC4D, title=error_text)
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

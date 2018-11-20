@@ -24,21 +24,20 @@ from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
 async def avatar(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     gif = False
     static = False
     auto_color = False
-    if args:
-        if args[-1].lower() == 'gif':
+    if pld.args:
+        if pld.args[-1].lower() == 'gif':
             gif = True
-        elif args[-1].lower() == 'static':
+        elif pld.args[-1].lower() == 'static':
             static = True
-        elif args[-1].lower() == 'color':
+        elif pld.args[-1].lower() == 'color':
             auto_color = True
-    if message.mentions:
-        target = message.mentions[0]
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
     else:
-        target = message.author
+        target = pld.msg.author
     ava_url = user_avatar(target, gif, static)
     if auto_color:
         color = await get_image_colors(ava_url)
@@ -48,4 +47,4 @@ async def avatar(_cmd: SigmaCommand, pld: CommandPayload):
     if auto_color:
         response.description = f'Dominant Color: #{hexify_int(color)}'
     response.set_image(url=ava_url)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

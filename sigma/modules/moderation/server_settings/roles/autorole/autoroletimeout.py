@@ -22,15 +22,14 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def autoroletimeout(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
             try:
-                timeout = abs(int(args[0]))
+                timeout = abs(int(pld.args[0]))
             except ValueError:
                 timeout = None
             if timeout is not None:
-                await cmd.db.set_guild_settings(message.guild.id, 'auto_role_timeout', timeout)
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role_timeout', timeout)
                 response = discord.Embed(color=0x77B255, title=f'✅ Timeout set to {timeout} seconds.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
@@ -39,4 +38,4 @@ async def autoroletimeout(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

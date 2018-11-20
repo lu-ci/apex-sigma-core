@@ -23,13 +23,12 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def makehash(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            hash_name = args[0]
+    if pld.args:
+        if len(pld.args) >= 2:
+            hash_name = pld.args[0]
             hashes = hashlib.algorithms_available
             if hash_name in hashes:
-                qry = ' '.join(args[1:])
+                qry = ' '.join(pld.args[1:])
                 crypt = hashlib.new(hash_name)
                 crypt.update(qry.encode('utf-8'))
                 final = crypt.hexdigest()
@@ -42,4 +41,4 @@ async def makehash(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

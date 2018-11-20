@@ -21,11 +21,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def cookies(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    target = message.author if not message.mentions else message.mentions[0]
+    target = pld.msg.author if not pld.msg.mentions else pld.msg.mentions[0]
     cookie_data = await cmd.db.get_resource(target.id, 'cookies')
     ender = 'cookie' if cookie_data.current == 1 else 'cookies'
     title = f'🍪 {target.display_name} got {cookie_data.ranked} {ender} this month '
     title += f'and has {cookie_data.total} in total.'
     response = discord.Embed(color=0xd99e82, title=title)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -23,8 +23,7 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def serverinformation(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    gld = message.guild
+    gld = pld.msg.guild
     own = gld.owner
     response = discord.Embed(color=await get_image_colors(gld.icon_url))
     response.set_author(name=gld.name, icon_url=gld.icon_url)
@@ -65,4 +64,4 @@ async def serverinformation(_cmd: SigmaCommand, pld: CommandPayload):
     detail_text += f'\nShard: **{gld.shard_id}**'
     detail_text += f'\nVerification: **{gld.verification_level.name.upper()}**'
     response.add_field(name='Details', value=detail_text)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

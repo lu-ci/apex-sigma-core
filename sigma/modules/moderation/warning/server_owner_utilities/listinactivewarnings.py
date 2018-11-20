@@ -24,11 +24,10 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def listinactivewarnings(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author == message.guild.owner:
-        target = message.mentions[0] if message.mentions else message.author
+    if pld.msg.author == pld.msg.guild.owner:
+        target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
         if target:
-            lookup = {'guild': message.guild.id, 'target.id': target.id, 'warning.active': False}
+            lookup = {'guild': pld.msg.guild.id, 'target.id': target.id, 'warning.active': False}
             warnings = await cmd.db[cmd.db.db_nam].Warnings.find(lookup).to_list(None)
             if warnings:
                 warn_list = []
@@ -41,20 +40,20 @@ async def listinactivewarnings(cmd: SigmaCommand, pld: CommandPayload):
                         moderator = warning.get('moderator').get('name')
                     warn_time = arrow.get(warning.get('warning').get('timestamp')).format('DD. MMM. YYYY. HH:mm')
                     warn_list.append(f'`{warn_id}` by **{moderator}** on {warn_time}.')
-                page = args[1] if len(args) > 1 else 1
+                page = pld.args[1] if len(pld.args) > 1 else 1
                 warn_list, page = PaginatorCore.paginate(warn_list, page, 5)
                 start_range, end_range = (page - 1) * 5, page * 5
                 warn_list = '\n'.join(warn_list)
                 ender = 's' if len(warnings) > 1 else ''
-                start = f'{target.name} has' if target.id != message.author.id else 'You have'
+                start = f'{target.name} has' if target.id != pld.msg.author.id else 'You have'
                 response = discord.Embed(color=0xFFCC4D)
                 response.add_field(name=f'⚠ {start} {len(warnings)} inactive warning{ender}.', value=warn_list)
                 response.set_footer(text=f'Showing warns {start_range}-{end_range} out of {len(warnings)}.')
             else:
-                start = f'{target.name} doesn\'t' if target.id != message.author.id else 'You don\'t'
+                start = f'{target.name} doesn\'t' if target.id != pld.msg.author.id else 'You don\'t'
                 response = discord.Embed(color=0x55acee, title=f'💠 {start} have any inactive warnings.')
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
         response = permission_denied('Server Owner')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

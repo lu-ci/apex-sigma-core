@@ -37,19 +37,18 @@ def get_exceptions(message: discord.Message, exceptions: list, target_type: str)
 
 
 async def permitted(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            if ':' in args[1]:
-                target_type = get_target_type(args[0].lower())
+    if pld.args:
+        if len(pld.args) >= 2:
+            if ':' in pld.args[1]:
+                target_type = get_target_type(pld.args[0].lower())
                 if target_type:
-                    perm_mode = args[1].split(':')[0]
-                    node_name = args[1].split(':')[1]
+                    perm_mode = pld.args[1].split(':')[0]
+                    node_name = pld.args[1].split(':')[1]
                     modes = {
                         'c': ('Command', 'command_exceptions', cmd.bot.modules.commands, True),
                         'm': ('Module', 'module_exceptions', cmd.bot.modules.categories, False)
                     }
-                    perms = await get_all_perms(cmd.db, message)
+                    perms = await get_all_perms(cmd.db, pld.msg)
                     mode_vars = modes.get(perm_mode)
                     if mode_vars:
                         mode_name, exception_group, check_group, check_alts = mode_vars
@@ -58,16 +57,16 @@ async def permitted(cmd: SigmaCommand, pld: CommandPayload):
                                 node_name = cmd.bot.modules.alts[node_name]
                         if node_name in check_group:
                             exceptions = perms.get(exception_group, {}).get(node_name, {}).get(target_type, [])
-                            overridden_items = get_exceptions(message, exceptions, target_type)
+                            overridden_items = get_exceptions(pld.msg, exceptions, target_type)
                             if overridden_items:
                                 total_overrides = len(overridden_items)
-                                page = args[2] if len(args) > 2 else 1
+                                page = pld.args[2] if len(pld.args) > 2 else 1
                                 overrides, page = PaginatorCore.paginate(overridden_items, page, 50)
-                                title = f'{message.guild.name} {node_name.upper()} {target_type[:-1].title()} Overrides'
+                                title = f'{pld.msg.guild.name} {node_name.upper()} {target_type[:-1].title()} Overrides'
                                 info = f'[Page {page}] Showing {len(overrides)} '
                                 info += f'out of {total_overrides} channel overrides.'
-                                response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-                                response.set_author(name=title, icon_url=message.guild.icon_url)
+                                response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+                                response.set_author(name=title, icon_url=pld.msg.guild.icon_url)
                                 response.description = ', '.join(overrides)
                                 response.set_footer(text=info)
                             else:
@@ -86,4 +85,4 @@ async def permitted(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

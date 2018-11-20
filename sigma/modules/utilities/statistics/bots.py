@@ -22,11 +22,10 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def bots(_cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     online_bots = []
     offline_bots = []
     total_bots = 0
-    for user in message.guild.members:
+    for user in pld.msg.guild.members:
         if user.bot:
             total_bots += 1
             name = f'{user.name}#{user.discriminator}'
@@ -34,8 +33,8 @@ async def bots(_cmd: SigmaCommand, pld: CommandPayload):
     if total_bots == 0:
         response = discord.Embed(color=0xBE1931, title='❗ No bots were found on that server.')
     else:
-        response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-        response.set_author(name=f'Bots on {message.guild.name}', icon_url=message.guild.icon_url)
+        response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+        response.set_author(name=f'Bots on {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
         response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
         response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

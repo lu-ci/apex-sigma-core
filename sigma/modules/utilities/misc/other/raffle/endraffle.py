@@ -19,13 +19,12 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def endraffle(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        rafid = args[0].lower()
+    if pld.args:
+        rafid = pld.args[0].lower()
         raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'id': rafid, 'active': True})
         if raffle:
             aid = raffle.get('author')
-            if aid == message.author.id:
+            if aid == pld.msg.author.id:
                 await cmd.db[cmd.db.db_nam].Raffles.update_one(raffle, {'$set': {'end': 0}})
                 reaction = '✅'
             else:
@@ -34,4 +33,4 @@ async def endraffle(cmd: SigmaCommand, pld: CommandPayload):
             reaction = '🔍'
     else:
         reaction = '❗'
-    await message.add_reaction(reaction)
+    await pld.msg.add_reaction(reaction)

@@ -25,9 +25,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def e621(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     url = 'https://e621.net/post/index.json?tags='
-    url += '+'.join(args) if args else 'nude'
+    url += '+'.join(pld.args) if pld.args else 'nude'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'}
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as data:
@@ -44,4 +43,4 @@ async def e621(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
     else:
         response = discord.Embed(color=0x696969, title='🔍 No results.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -21,18 +21,18 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def destroyresource(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.mentions:
-        if len(args) >= 3:
-            target = message.mentions[0]
+    if pld.msg.mentions:
+        if len(pld.args) >= 3:
+            target = pld.msg.mentions[0]
             if not target.bot:
                 try:
-                    amount = abs(int(args[-1]))
-                    res_nam = 'currency' if args[0].lower() == cmd.bot.cfg.pref.currency.lower() else args[0].lower()
+                    amount = abs(int(pld.args[-1]))
+                    currency = cmd.bot.cfg.pref.currency.lower()
+                    res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
                     target_amount = await cmd.db.get_resource(target.id, res_nam)
                     target_amount = target_amount.current
                     if amount <= target_amount:
-                        await cmd.db.del_resource(target.id, res_nam, amount, cmd.name, message)
+                        await cmd.db.del_resource(target.id, res_nam, amount, cmd.name, pld.msg)
                         title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {res_nam} '
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
@@ -48,4 +48,4 @@ async def destroyresource(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title=f'❗ {cmd.bot.cfg.pref.currency} amount and target needed.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

@@ -21,8 +21,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def vault(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     currency = cmd.bot.cfg.pref.currency
     current_vault = pld.settings.get('currency_vault') or 0
     response = discord.Embed(color=0xa7d28b, title=f'💰 There is {current_vault} {currency} in the Vault.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

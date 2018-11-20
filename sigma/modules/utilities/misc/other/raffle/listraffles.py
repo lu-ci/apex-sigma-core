@@ -11,9 +11,10 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import arrow
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
@@ -22,8 +23,7 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def listraffles(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    lookup = {'author': message.author.id, 'active': True}
+    lookup = {'author': pld.msg.author.id, 'active': True}
     raffle_docs = await cmd.db[cmd.db.db_nam].Raffles.find(lookup).to_list(None)
     if raffle_docs:
         raffle_lines = []
@@ -37,9 +37,9 @@ async def listraffles(cmd: SigmaCommand, pld: CommandPayload):
             raffle_line = f'`{raf_doc.get("id")}` ends {hum_time} {location}.'
             raffle_lines.append(raffle_line)
         outlist = '\n'.join(raffle_lines)
-        response = discord.Embed(color=message.author.color)
-        response.set_author(name=f'{message.author.name}\'s Raffles', icon_url=user_avatar(message.author))
+        response = discord.Embed(color=pld.msg.author.color)
+        response.set_author(name=f'{pld.msg.author.name}\'s Raffles', icon_url=user_avatar(pld.msg.author))
         response.description = outlist
     else:
         response = discord.Embed(color=0x696969, title='🔍 You have no pending raffles.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

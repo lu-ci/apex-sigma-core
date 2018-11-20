@@ -24,11 +24,10 @@ wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
 
 
 async def translation(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        if len(args) >= 2:
-            trans_arg = args[0].lower()
-            sentence = ' '.join(args[1:])
+    if pld.args:
+        if len(pld.args) >= 2:
+            trans_arg = pld.args[0].lower()
+            sentence = ' '.join(pld.args[1:])
             if '>' in trans_arg:
                 trans_split = trans_arg.split('>')
                 from_lang = trans_split[0]
@@ -50,4 +49,4 @@ async def translation(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Missing language or sentence.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

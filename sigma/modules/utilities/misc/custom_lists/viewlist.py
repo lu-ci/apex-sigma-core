@@ -22,16 +22,15 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup_data = {'server_id': message.guild.id, 'list_id': args[0].lower()}
+    if pld.args:
+        lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
         list_coll = cmd.db[cmd.db.db_nam].CustomLists
         list_file = await list_coll.find_one(lookup_data)
         if list_file:
             author_id = list_file.get('user_id')
             list_name = list_file.get('name')
             if list_file.get('private'):
-                if author_id == message.author.id:
+                if author_id == pld.msg.author.id:
                     auth = True
                 else:
                     auth = False
@@ -41,7 +40,7 @@ async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
                 list_lines = []
                 for i, line in enumerate(list_file.get('contents')):
                     list_lines.append(f'**{i + 1}** {line}')
-                page = args[1] if len(args) > 1 else 1
+                page = pld.args[1] if len(pld.args) > 1 else 1
                 list_lines, page = PaginatorCore.paginate(list_lines, page, 20)
                 list_out = '\n'.join(list_lines)
                 mode, icon = list_file.get('mode'), ''
@@ -57,4 +56,4 @@ async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 List not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing list ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

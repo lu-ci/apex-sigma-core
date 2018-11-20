@@ -26,15 +26,14 @@ from sigma.modules.development.version_file_updater import version_file_updater
 
 # noinspection PyTypeChecker
 async def reload(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     await version_file_updater(cmd)
     await command_md(cmd)
-    if not args:
+    if not pld.args:
         cmd.log.info('---------------------------------')
         cmd.log.info('Reloading all modules...')
         cmd.bot.ready = False
         response = discord.Embed(color=0xF9F9F9, title='⚗ Reloading all modules...')
-        load_status = await message.channel.send(embed=response)
+        load_status = await pld.msg.channel.send(embed=response)
         cmd.bot.init_modules()
         cmd_count = len(cmd.bot.modules.commands)
         ev_count = 0
@@ -48,7 +47,7 @@ async def reload(cmd: SigmaCommand, pld: CommandPayload):
         cmd.log.info(f'Loaded {cmd_count} commands and {ev_count} events.')
         cmd.log.info('---------------------------------')
     else:
-        command_name = ' '.join(args)
+        command_name = ' '.join(pld.args)
         if command_name in cmd.bot.modules.alts:
             command_name = cmd.bot.modules.alts[command_name]
         if command_name not in cmd.bot.modules.commands.keys():
@@ -57,4 +56,4 @@ async def reload(cmd: SigmaCommand, pld: CommandPayload):
             module_to_reload = cmd.bot.modules.commands[command_name].command
             reimport(module_to_reload)
             response = discord.Embed(color=0x77B255, title=f'✅ Command `{command_name}` was reloaded.')
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

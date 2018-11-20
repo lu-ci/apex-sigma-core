@@ -23,17 +23,16 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def reminderinfo(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        rem_id = args[0].lower()
-        lookup_data = {'user_id': message.author.id, 'reminder_id': rem_id}
+    if pld.args:
+        rem_id = pld.args[0].lower()
+        lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             execution_stamp = reminder['execution_stamp']
             text_message = reminder['text_message']
             timestamp = arrow.get(execution_stamp).datetime
             human_time = arrow.get(execution_stamp).humanize(arrow.utcnow())
-            auth_title = f'{message.author.display_name}\'s Reminder: {rem_id}'
+            auth_title = f'{pld.msg.author.display_name}\'s Reminder: {rem_id}'
             channel = await cmd.bot.get_channel(reminder.get('channel_id'))
             if channel:
                 chan_name = f'**#{channel.name}**'
@@ -45,9 +44,9 @@ async def reminderinfo(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x66CC66, timestamp=timestamp)
             response.add_field(name='🏛 Location', value=location_text, inline=False)
             response.add_field(name='🗒 Reminder Text', value=text_message, inline=False)
-            response.set_author(name=auth_title, icon_url=user_avatar(message.author))
+            response.set_author(name=auth_title, icon_url=user_avatar(pld.msg.author))
         else:
             response = discord.Embed(color=0x696969, title=f'🔍 Reminder `{rem_id}` not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing reminder ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

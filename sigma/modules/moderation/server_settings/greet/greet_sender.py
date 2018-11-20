@@ -20,7 +20,7 @@ from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 
 
-async def greet_sender(ev: SigmaEvent, pld: MemberPayload):
+async def greet_sender(_ev: SigmaEvent, pld: MemberPayload):
     greet_active = pld.settings.get('greet')
     greet_active = True if greet_active is None else greet_active
     if greet_active:

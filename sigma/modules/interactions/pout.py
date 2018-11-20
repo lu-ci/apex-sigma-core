@@ -22,14 +22,13 @@ from sigma.modules.interactions.mech.interaction_mechanics import grab_interacti
 
 
 async def pout(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     interaction = await grab_interaction(cmd.db, 'pout')
-    target = get_target(message)
-    auth = message.author
-    if not target or target.id == message.author.id:
+    target = get_target(pld.msg)
+    auth = pld.msg.author
+    if not target or target.id == pld.msg.author.id:
         response = discord.Embed(color=0xffcc4d, title=f'😕 {auth.display_name} pouts.')
     else:
         response = discord.Embed(color=0xffcc4d, title=f'😕 {auth.display_name} pouts at {target.display_name}.')
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

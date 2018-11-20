@@ -23,25 +23,24 @@ from sigma.core.utilities.data_processing import get_image_colors
 
 
 async def listrolegroups(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     role_groups = pld.settings.get('role_groups') or {}
     group_list = list(role_groups.keys())
     if role_groups:
         group_count = len(group_list)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         group_list, page = PaginatorCore.paginate(group_list, page)
         ender = 's' if len(group_list) > 1 else ''
         summary = f'Showing **{len(group_list)}** group{ender} from Page **#{page}**.'
-        summary += f'\n{message.guild.name} has **{group_count}** role group{ender}.'
+        summary += f'\n{pld.msg.guild.name} has **{group_count}** role group{ender}.'
         rl_out = ''
         group_list = sorted(group_list)
         for rl in group_list:
             rl_out += f'\n`{rl}`: {len(list(role_groups.get(rl)))} Roles'
-        response = discord.Embed(color=await get_image_colors(message.guild.icon_url))
-        response.set_author(name=message.guild.name, icon_url=message.guild.icon_url)
+        response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
+        response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
         response.add_field(name=f'Role Group Summary', value=summary, inline=False)
         response.add_field(name=f'List of Role Groups', value=f'{rl_out}', inline=False)
         response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 {message.guild.name} has no role groups.')
-    await message.channel.send(embed=response)
+        response = discord.Embed(color=0x696969, title=f'🔍 {pld.msg.guild.name} has no role groups.')
+    await pld.msg.channel.send(embed=response)

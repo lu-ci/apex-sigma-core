@@ -24,11 +24,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if 'api_key' in cmd.cfg:
         api_key = cmd.cfg['api_key']
-        if args:
-            search = ' '.join(args)
+        if pld.args:
+            search = ' '.join(pld.args)
             url = f'http://food2fork.com/api/search?key={api_key}&q={search}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as data:
@@ -52,4 +51,4 @@ async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

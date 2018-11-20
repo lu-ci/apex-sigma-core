@@ -66,11 +66,10 @@ def get_dis_and_deg(unit, forecast):
 
 
 async def weather(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if 'secret_key' in cmd.cfg:
         secret_key = cmd.cfg['secret_key']
-        if args:
-            search, unit = get_unit_and_search(args)
+        if pld.args:
+            search, unit = get_unit_and_search(pld.args)
             if search:
                 geo_parser = Nominatim()
                 try:
@@ -121,4 +120,4 @@ async def weather(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

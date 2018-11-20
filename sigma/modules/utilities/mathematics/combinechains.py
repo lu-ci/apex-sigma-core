@@ -38,12 +38,11 @@ def combine_names(users: list):
 
 
 async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if len(message.mentions) >= 2:
+    if len(pld.msg.mentions) >= 2:
         empty_chain = False
         chain_objects = []
         with ThreadPoolExecutor() as threads:
-            for target in message.mentions:
+            for target in pld.msg.mentions:
                 target_chain = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
                 if not target_chain:
                     empty_chain = target
@@ -59,7 +58,7 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                     markov_data = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
                     await cmd.db.cache.set_cache(cache_key, markov_data)
                 chain_objects.append(markov_data)
-            combination_id = '_'.join(sorted([str(u.id) for u in message.mentions]))
+            combination_id = '_'.join(sorted([str(u.id) for u in pld.msg.mentions]))
             combination_key = f"mixed_chain_{combination_id}"
             failed = False
             combination = await cmd.db.cache.get_cache(combination_key)
@@ -72,16 +71,16 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                     failed = True
             if not empty_chain:
                 if not failed:
-                    await cmd.bot.cool_down.set_cooldown(cmd.name, message.author, 20)
+                    await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
                     sentence_function = functools.partial(combination.make_short_sentence, 500)
                     sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     if not sentence:
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
                         response = discord.Embed(color=0xBE1931, title=not_enough_data)
                     else:
-                        combined_name = combine_names(message.mentions)
+                        combined_name = combine_names(pld.msg.mentions)
                         response = discord.Embed(color=0xbdddf4)
-                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(message.mentions)))
+                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ Failed to combine the markov chains.')
@@ -89,4 +88,4 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0xBE1931, title=f'❗ {empty_chain.name} does not have a chain.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

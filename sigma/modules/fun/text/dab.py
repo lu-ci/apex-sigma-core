@@ -21,7 +21,6 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
-
 dab_imgs = [
     'https://i.ytimg.com/vi/6VatNMm6ac4/maxresdefault.jpg',
     'https://pa1.narvii.com/6724/6683da02ba2ee1ccce786c0f6b78117f666ab04c_hq.gif',

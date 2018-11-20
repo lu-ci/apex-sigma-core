@@ -21,10 +21,9 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        rem_id = args[0].lower()
-        lookup_data = {'user_id': message.author.id, 'reminder_id': rem_id}
+    if pld.args:
+        rem_id = pld.args[0].lower()
+        lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             await cmd.db[cmd.db.db_nam].Reminders.delete_one(lookup_data)
@@ -33,4 +32,4 @@ async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title=f'🔍 Reminder `{rem_id}` not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing reminder ID.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

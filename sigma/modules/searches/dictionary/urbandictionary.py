@@ -24,11 +24,10 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     api_key = cmd.cfg.get('api_key')
     if api_key:
-        if args:
-            ud_input = ' '.join(args).lower()
+        if pld.args:
+            ud_input = ' '.join(pld.args).lower()
             url = "https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + ud_input
             headers = {'X-Mashape-Key': api_key, 'Accept': 'text/plain'}
             async with aiohttp.ClientSession() as session:
@@ -55,4 +54,4 @@ async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

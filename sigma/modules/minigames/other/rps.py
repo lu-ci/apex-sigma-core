@@ -23,15 +23,14 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def rps(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
+    if pld.args:
         their_choice, counter = None, None
         sign_list = ['rock', 'paper', 'scissors']
-        if args[0].lower().startswith('r'):
+        if pld.args[0].lower().startswith('r'):
             their_choice, counter = 'rock', 'paper'
-        elif args[0].lower().startswith('p'):
+        elif pld.args[0].lower().startswith('p'):
             their_choice, counter = 'paper', 'scissors'
-        elif args[0].lower().startswith('s'):
+        elif pld.args[0].lower().startswith('s'):
             their_choice, counter = 'scissors', 'rock'
         if their_choice:
             my_choice = secrets.choice(sign_list)
@@ -46,4 +45,4 @@ async def rps(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Invalid sign.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

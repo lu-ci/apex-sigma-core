@@ -22,18 +22,17 @@ from sigma.modules.games.blizzard.overwatch.mech.utility import ow_icon, region_
 
 
 async def overwatch(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     init_resp = discord.Embed(color=0xff9c00)
     init_resp.set_author(name='Processing information...', icon_url=ow_icon)
-    init_resp_msg = await message.channel.send(embed=init_resp)
-    if args:
-        if len(args) >= 2:
-            region = args[0].lower()
+    init_resp_msg = await pld.msg.channel.send(embed=init_resp)
+    if pld.args:
+        if len(pld.args) >= 2:
+            region = pld.args[0].lower()
             if region in region_convert:
                 region = region_convert.get(region)
             region_list = ['eu', 'kr', 'us', 'cn', 'jp']
             if region in region_list:
-                battletag = ' '.join(args[1:])
+                battletag = ' '.join(pld.args[1:])
                 profile, timeout, failed = await get_profile(battletag, region)
                 if not failed:
                     if not timeout:

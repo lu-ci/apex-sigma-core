@@ -22,14 +22,13 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def removeinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author == message.guild.owner:
-        if message.mentions:
-            if len(args) == 2:
-                target = message.mentions[0]
-                warn_id = args[1].lower()
+    if pld.msg.author == pld.msg.guild.owner:
+        if pld.msg.mentions:
+            if len(pld.args) == 2:
+                target = pld.msg.mentions[0]
+                warn_id = pld.args[1].lower()
                 lookup = {
-                    'guild': message.guild.id,
+                    'guild': pld.msg.guild.id,
                     'target.id': target.id,
                     'warning.id': warn_id,
                     'warning.active': False
@@ -47,4 +46,4 @@ async def removeinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Server Owner')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

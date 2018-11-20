@@ -24,8 +24,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    jisho_q = ' '.join(args)
+    jisho_q = ' '.join(pld.args)
     async with aiohttp.ClientSession() as session:
         async with session.get('http://jisho.org/api/v1/search/words?keyword=' + jisho_q) as data:
             rq_text = await data.text()
@@ -33,7 +32,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
             rq_json = json.loads(rq_data)
     if rq_text.find('503 Service Unavailable') != -1:
         response = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)
         return
     request = rq_json
     # check if response contains data or nothing was found
@@ -41,7 +40,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
         request = request['data'][0]
     else:
         response = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)
         return
     output = ''
     starter = ''
@@ -109,4 +108,4 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
         if wk_lvls:
             footer_text += f" | Wanikani Level {', '.join(wk_lvls)}"
         response.set_footer(text=footer_text)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

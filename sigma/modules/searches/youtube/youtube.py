@@ -23,17 +23,16 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def youtube(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     yt_icon = 'https://i.imgur.com/qoH1MUP.png'
     yt_color = 0xcf2227
     text_mode = False
-    if args:
-        if args[-1].lower() == '--text':
+    if pld.args:
+        if pld.args[-1].lower() == '--text':
             text_mode = True
         if text_mode:
-            lookup = ' '.join(args[:-1])
+            lookup = ' '.join(pld.args[:-1])
         else:
-            lookup = ' '.join(args)
+            lookup = ' '.join(pld.args)
         extracted_info = await cmd.bot.music.extract_info(lookup)
         if lookup.startswith('http'):
             playlist_url = True
@@ -74,6 +73,6 @@ async def youtube(cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     if text_mode:
-        await message.channel.send(response)
+        await pld.msg.channel.send(response)
     else:
-        await message.channel.send(embed=response)
+        await pld.msg.channel.send(embed=response)

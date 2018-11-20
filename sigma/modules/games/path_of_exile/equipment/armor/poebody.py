@@ -107,9 +107,8 @@ def parse_armor_info(armor_info: str):
 
 
 async def poebody(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup_key = '_'.join(args).lower()
+    if pld.args:
+        lookup_key = '_'.join(pld.args).lower()
         await fill_body_armor_cache()
         armor_entry = body_armor_list_cache.get(lookup_key) or find_broad(lookup_key)
         if armor_entry:
@@ -135,4 +134,4 @@ async def poebody(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Armor not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

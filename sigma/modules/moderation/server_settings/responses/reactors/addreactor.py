@@ -22,17 +22,16 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def addreactor(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
-        if args:
-            if len(args) == 2:
-                trigger = args[0].lower()
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.args:
+            if len(pld.args) == 2:
+                trigger = pld.args[0].lower()
                 if '.' not in trigger:
-                    reaction = args[1].replace('<', '').replace('>', '')
+                    reaction = pld.args[1].replace('<', '').replace('>', '')
                     react_triggers = pld.settings.get('reactor_triggers', {})
                     res_text = 'updated' if trigger in react_triggers else 'added'
                     react_triggers.update({trigger: reaction})
-                    await cmd.db.set_guild_settings(message.guild.id, 'reactor_triggers', react_triggers)
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'reactor_triggers', react_triggers)
                     response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ The trigger can\'t have a dot in it.')
@@ -42,4 +41,4 @@ async def addreactor(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

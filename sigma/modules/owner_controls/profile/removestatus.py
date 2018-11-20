@@ -21,9 +21,8 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def removestatus(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        status_id = ''.join(args)
+    if pld.args:
+        status_id = ''.join(pld.args)
         status_data = {'id': status_id}
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one(status_data)
         if status_exists:
@@ -33,4 +32,4 @@ async def removestatus(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x696969, title='🔍 Status ID not found.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

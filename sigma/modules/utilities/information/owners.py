@@ -21,7 +21,6 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def owners(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
     owner_lines = []
     for owner in cmd.bot.cfg.dsc.owners:
         member = await cmd.bot.get_user(owner)
@@ -33,4 +32,4 @@ async def owners(cmd: SigmaCommand, pld: CommandPayload):
     owner_list = '\n'.join(owner_lines)
     response = discord.Embed(color=0x1B6F5F)
     response.add_field(name='Owner List', value=owner_list)
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

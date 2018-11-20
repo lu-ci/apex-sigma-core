@@ -23,8 +23,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         clrrls = pld.settings.get('color_roles')
         if clrrls:
             new_value = False
@@ -32,8 +31,8 @@ async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
         else:
             new_value = True
             ending = 'enabled'
-        await cmd.db.set_guild_settings(message.guild.id, 'color_roles', new_value)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'color_roles', new_value)
         response = discord.Embed(color=0x66CC66, title=f'✅ Color role creation has been {ending}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

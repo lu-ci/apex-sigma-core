@@ -23,17 +23,16 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def capslimit(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         try:
-            limit = abs(int(args[0]))
+            limit = abs(int(pld.args[0]))
         except (IndexError, ValueError):
             limit = None
         if limit is not None:
-            await cmd.db.set_guild_settings(message.guild.id, 'caps_limit', limit)
+            await cmd.db.set_guild_settings(pld.msg.guild.id, 'caps_limit', limit)
             response = discord.Embed(color=0x77B255, title=f'✅ Capital letter minimum set to {limit}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No limit or ivalid limit given.')
+            response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid limit given.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

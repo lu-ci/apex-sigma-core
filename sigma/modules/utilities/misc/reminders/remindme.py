@@ -25,24 +25,23 @@ from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 
 
 async def remindme(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        time_req = args[0]
+    if pld.args:
+        time_req = pld.args[0]
         try:
             in_seconds = convert_to_seconds(time_req)
             upper_limit = 7776000
             if in_seconds <= upper_limit:
-                rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'user_id': message.author.id})
+                rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'user_id': pld.msg.author.id})
                 rem_limit = 15
                 if rem_count < rem_limit:
                     is_dm = False
-                    if len(args) > 1:
-                        if args[-1].lower() == '--direct':
+                    if len(pld.args) > 1:
+                        if pld.args[-1].lower() == '--direct':
                             is_dm = True
-                            text_message = ' '.join(args[1:-1])
+                            text_message = ' '.join(pld.args[1:-1])
                             text_message = 'No reminder message set.' if not text_message else text_message
                         else:
-                            text_message = ' '.join(args[1:])
+                            text_message = ' '.join(pld.args[1:])
                     else:
                         text_message = 'No reminder message set.'
                     execution_stamp = arrow.utcnow().timestamp + in_seconds
@@ -54,18 +53,18 @@ async def remindme(cmd: SigmaCommand, pld: CommandPayload):
                     reminder_id = secrets.token_hex(2)
                     reminder_data = {
                         'reminder_id': reminder_id,
-                        'user_id': message.author.id,
+                        'user_id': pld.msg.author.id,
                         'creation_stamp': arrow.utcnow().timestamp,
                         'execution_stamp': execution_stamp,
-                        'channel_id': message.channel.id,
-                        'server_id': message.guild.id,
+                        'channel_id': pld.msg.channel.id,
+                        'server_id': pld.msg.guild.id,
                         'text_message': text_message,
                         'direct_message': is_dm
                     }
                     await cmd.db[cmd.db.db_nam].Reminders.insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)
                     response.description = text_message
-                    response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(message.author))
+                    response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(pld.msg.author))
                     response.set_footer(text=f'Executes: {time_diff.title()}')
                 else:
                     response = discord.Embed(color=0xBE1931, title='❗ You already have 15 reminders pending.')
@@ -75,4 +74,4 @@ async def remindme(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

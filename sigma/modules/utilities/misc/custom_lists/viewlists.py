@@ -22,8 +22,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 async def viewlists(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    lookup_data = {'server_id': message.guild.id}
+    lookup_data = {'server_id': pld.msg.guild.id}
     list_coll = cmd.db[cmd.db.db_nam].CustomLists
     list_files = await list_coll.find(lookup_data).to_list(None)
     if list_files:
@@ -38,11 +37,11 @@ async def viewlists(cmd: SigmaCommand, pld: CommandPayload):
                 icon = '⛔' if mode == 'private' else '🔏'
             list_line = f'`{list_file.get("list_id")}` - {list_name} - {creator} `{icon}`'
             list_lines.append(list_line)
-        page = args[0] if args else 1
+        page = pld.args[0] if pld.args else 1
         list_lines, page = PaginatorCore.paginate(list_lines, page)
         response = discord.Embed(color=0xF9F9F9, title=f':books: Custom Lists | Page {page}')
         list_list = '\n'.join(list_lines)
         response.description = list_list
     else:
         response = discord.Embed(color=0x696969, title='🔍 There are no lists on this server.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

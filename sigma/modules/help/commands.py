@@ -23,17 +23,16 @@ from sigma.core.mechanics.permissions import ServerCommandPermissions
 
 
 async def commands(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if args:
-        lookup = args[0].lower()
+    if pld.args:
+        lookup = pld.args[0].lower()
         command_items = cmd.bot.modules.commands
         command_list = []
         for command in command_items:
             command = command_items[command]
             category = command.category.lower()
             if category == lookup:
-                if message.guild:
-                    permission = ServerCommandPermissions(command, message)
+                if pld.msg.guild:
+                    permission = ServerCommandPermissions(command, pld.msg)
                     await permission.check_perms()
                 else:
                     permission = None
@@ -41,7 +40,7 @@ async def commands(cmd: SigmaCommand, pld: CommandPayload):
         if command_list:
             module_list = sorted(command_list, key=lambda x: x[0].name)
             module_count = len(module_list)
-            page = args[1] if len(args) > 1 else 1
+            page = pld.args[1] if len(pld.args) > 1 else 1
             module_list, page = PaginatorCore.paginate(module_list, page, 30)
             output = ''
             for module_item, module_perm in module_list:
@@ -81,4 +80,4 @@ async def commands(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='Modules', value=module_list_out, inline=False)
         response.add_field(name='Module List', value=f'```yml\n{output}\n```', inline=False)
         response.set_footer(text=f'Type {pfx}{cmd.name} [module] to see commands in that module.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

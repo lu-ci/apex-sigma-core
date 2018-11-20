@@ -36,10 +36,12 @@ commands:
     alts:
       - "cookbook"
     enabled:      true
+    usage:        "{pfx}{cmd} --meals --craftable"
     description:
-      Lists all recipes available for making.
-      The recipe list is limited to 10 items per page.
-      You can specify the page number you want to see.
+      Lists all recipes available for making. You can filter the recipes by type by adding "--desserts", "--meals",
+      or "--drinks" as an argument. You can also filter the recipes by whether you have all the ingredients or not
+      by adding "--craftable" as an argument. All filters go after the page number, if you specify one.
+      The recipe list is limited to 10 items per page. You can specify the page number you want to see.
 
   - name:         cook
     alts:

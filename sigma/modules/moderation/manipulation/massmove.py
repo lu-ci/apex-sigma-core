@@ -30,18 +30,17 @@ def get_vc(guild_vcs, lookup):
 
 
 async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.guild_permissions.manage_guild:
-        if args:
-            movereqs = [piece.strip() for piece in ' '.join(args).split(';')]
+    if pld.msg.author.guild_permissions.manage_guild:
+        if pld.args:
+            movereqs = [piece.strip() for piece in ' '.join(pld.args).split(';')]
             if len(movereqs) == 2:
-                guild_vcs = [vc for vc in message.guild.channels if isinstance(vc, discord.VoiceChannel)]
+                guild_vcs = [vc for vc in pld.msg.guild.channels if isinstance(vc, discord.VoiceChannel)]
                 lookup_one = movereqs[0]
                 lookup_two = movereqs[1]
                 vc_one = get_vc(guild_vcs, lookup_one)
                 vc_two = get_vc(guild_vcs, lookup_two)
                 if vc_one and vc_two:
-                    me = message.guild.me
+                    me = pld.msg.guild.me
                     if me.permissions_in(vc_one).mute_members and me.permissions_in(vc_two).mute_members:
                         membs_one = [vcm for vcm in vc_one.members if not vcm.bot]
                         for member in membs_one:
@@ -58,4 +57,4 @@ async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

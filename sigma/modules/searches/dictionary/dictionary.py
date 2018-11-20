@@ -26,15 +26,14 @@ oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 
 
 async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
     if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
         headers = {
             'Accept': 'application/json',
             'app_id': cmd.cfg['app_id'],
             'app_key': cmd.cfg['app_key']
         }
-        if args:
-            query = '_'.join(args).lower()
+        if pld.args:
+            query = '_'.join(pld.args).lower()
             oxford_url = f'https://en.oxforddictionaries.com/definition/{query}'
             api_url = f'https://od-api.oxforddictionaries.com/api/v1/entries/en/{query}'
             async with aiohttp.ClientSession() as session:
@@ -105,4 +104,4 @@ async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

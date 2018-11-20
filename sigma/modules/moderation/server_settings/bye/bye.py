@@ -22,13 +22,12 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 
 async def bye(cmd: SigmaCommand, pld: CommandPayload):
-    message = pld.msg
-    if message.author.permissions_in(message.channel).manage_guild:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         active = pld.settings.get('bye')
         active = True if active is None else active
         state, ender = (False, 'disabled') if active else (True, 'enabled')
-        await cmd.db.set_guild_settings(message.guild.id, 'bye', state)
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye', state)
         response = discord.Embed(color=0x77B255, title=f'✅ Goodbye Messages {ender}.')
     else:
         response = permission_denied('Manage Server')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)

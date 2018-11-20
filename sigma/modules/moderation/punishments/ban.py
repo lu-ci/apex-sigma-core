@@ -40,54 +40,53 @@ def generate_log_embed(message, target, reason):
 
 
 async def ban(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
-    if message.author.permissions_in(message.channel).ban_members:
-        if message.mentions:
-            target = message.mentions[0]
-            timed = args[-1].startswith('--time=')
+    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+        if pld.msg.mentions:
+            target = pld.msg.mentions[0]
+            timed = pld.args[-1].startswith('--time=')
             try:
                 now = arrow.utcnow().timestamp
-                endstamp = now + convert_to_seconds(args[-1].split('=')[-1]) if timed else None
+                endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
             except (LookupError, ValueError):
                 err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
-                await message.channel.send(embed=err_response)
+                await pld.msg.channel.send(embed=err_response)
                 return
-            if len(args) >= 2:
+            if len(pld.args) >= 2:
                 try:
                     if endstamp:
-                        clean_days = int(args[-2])
+                        clean_days = int(pld.args[-2])
                     else:
-                        clean_days = int(args[-1])
+                        clean_days = int(pld.args[-1])
                 except ValueError:
                     clean_days = 0
             else:
                 clean_days = 0
             clean_days = clean_days if clean_days in [0, 1, 7] else 0
             if cmd.bot.user.id != target.id:
-                if message.author.id != target.id:
-                    above_hier = hierarchy_permit(message.author, target)
-                    is_admin = message.author.permissions_in(message.channel).administrator
+                if pld.msg.author.id != target.id:
+                    above_hier = hierarchy_permit(pld.msg.author, target)
+                    is_admin = pld.msg.author.permissions_in(pld.msg.channel).administrator
                     if above_hier or is_admin:
-                        above_me = hierarchy_permit(message.guild.me, target)
+                        above_me = hierarchy_permit(pld.msg.guild.me, target)
                         if above_me:
-                            rarg = args[1:-1] if timed else args[1:] if args[1:] else None
+                            rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                             reason = ' '.join(rarg) if rarg else None
                             response = discord.Embed(color=0x696969, title=f'🔨 The user has been banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
                             to_target = discord.Embed(color=0x696969)
                             to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
-                            to_target.set_footer(text=f'From: {message.guild.name}.', icon_url=message.guild.icon_url)
+                            to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=pld.msg.guild.icon_url)
                             try:
                                 await target.send(embed=to_target)
                             except discord.Forbidden:
                                 pass
-                            audit_reason = f'By {message.author.name}: {reason}'
+                            audit_reason = f'By {pld.msg.author.name}: {reason}'
                             await target.ban(reason=audit_reason, delete_message_days=clean_days)
-                            log_embed = generate_log_embed(message, target, reason)
+                            log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                             if endstamp:
-                                doc_data = {'server_id': message.guild.id, 'user_id': target.id, 'time': endstamp}
+                                doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                                 await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
                         else:
                             response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
@@ -101,4 +100,4 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
         response = permission_denied('Ban permissions')
-    await message.channel.send(embed=response)
+    await pld.msg.channel.send(embed=response)
