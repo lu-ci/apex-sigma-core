@@ -54,7 +54,7 @@ def get_targets(message: discord.Message, args: list, target_type: str):
         targets = []
         lookups = ' '.join(args[2:]).split('; ')
         for lookup in lookups:
-            role_search = discord.utils.find(lambda x: x.name.lower() == lookup.strip(), message.guild.roles)
+            role_search = discord.utils.find(lambda x: x.name.lower() == lookup.lower(), message.guild.roles)
             if role_search:
                 targets.append(role_search)
             else:
