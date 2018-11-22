@@ -25,16 +25,13 @@ async def bye_sender(_ev: SigmaEvent, pld: MemberPayload):
     bye_active = True if bye_active is None else bye_active
     if bye_active:
         bye_channel_id = pld.settings.get('bye_channel')
-        if bye_channel_id:
-            target = pld.member.guild.get_channel(bye_channel_id)
-        else:
-            target = None
+        target = pld.member.guild.get_channel(bye_channel_id) if bye_channel_id else None
         if target:
             current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:
                 current_goodbye = '{user_name} has left {server_name}.'
             goodbye_text = movement_message_parser(pld.member, current_goodbye)
-            bye_embed = pld.settings.get('bye_embed') or {}
+            bye_embed = pld.settings.get('bye_embed', {})
             if bye_embed.get('active'):
                 goodbye = await make_bye_embed(bye_embed, goodbye_text, pld.member.guild)
                 await target.send(embed=goodbye)

@@ -24,18 +24,14 @@ async def greet_sender(_ev: SigmaEvent, pld: MemberPayload):
     greet_active = pld.settings.get('greet')
     greet_active = True if greet_active is None else greet_active
     if greet_active:
-        greet_dm = pld.settings.get('greet_dm')
-        if greet_dm:
-            target = pld.member
-        else:
-            greet_channel_id = pld.settings.get('greet_channel')
-            target = pld.member.guild.get_channel(greet_channel_id) if greet_channel_id else None
+        greet_channel_id = pld.settings.get('greet_channel')
+        target = pld.member.guild.get_channel(greet_channel_id) if greet_channel_id else None
         if target:
             current_greeting = pld.settings.get('greet_message')
             if not current_greeting:
                 current_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greeting_text = movement_message_parser(pld.member, current_greeting)
-            greet_embed = pld.settings.get('greet_embed') or {}
+            greet_embed = pld.settings.get('greet_embed', {})
             if greet_embed.get('active'):
                 greeting = await make_greet_embed(greet_embed, greeting_text, pld.member.guild)
                 await target.send(embed=greeting)
