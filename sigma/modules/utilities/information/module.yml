@@ -85,3 +85,17 @@ commands:
     enabled:      true
     description:
       Shows information about the bot, version, codename, authors, etc.
+
+  - name:         serverstatistics
+    alts:
+      - "serverstats"
+      - "sstats"
+    enabled:      true
+    description:
+      Shows the current server's statistics.
+      Population, message and command counts, and rates in the last 24 hours.
+
+events:
+  - name:        guild_watcher
+    type:        message
+    enabled:     true
