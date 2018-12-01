@@ -86,7 +86,7 @@ def get_selector_and_value(args: list):
 
 
 async def set_roul_cd(cmd: SigmaCommand, pld: CommandPayload):
-    upgrade_file = cmd.bot.db.get_profile('upgrades') or {}
+    upgrade_file = await cmd.bot.db.get_profile('upgrades') or {}
     base_cooldown = 60
     stamina = upgrade_file.get('casino', 0)
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
