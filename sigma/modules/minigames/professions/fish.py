@@ -35,7 +35,7 @@ async def fish(cmd: SigmaCommand, pld: CommandPayload):
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             cooldown = 5 if cooldown < 5 else cooldown
             await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
-            rarity = await item_core.roll_rarity(cmd.bot.db.get_profile(pld.msg.author.id))
+            rarity = await item_core.roll_rarity(await cmd.bot.db.get_profile(pld.msg.author.id))
             if pld.args:
                 if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
                     try:
