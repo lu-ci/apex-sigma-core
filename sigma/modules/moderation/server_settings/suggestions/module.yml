@@ -14,7 +14,7 @@ commands:
     usage:        "{pfx}{cmd} New server ideas!"
     description:
       Submits a suggestions to the set server suggestion channel.
-      Not to be confused with the bot suggestion command, "suggest".
+      Not to be confused with the bot suggestion command, "botsuggest".
 
   - name:         suggestionchannel
     alts:

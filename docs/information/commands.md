@@ -485,7 +485,7 @@ Commands | Description | Example
 `>>renamecommand` `>>rencmd` | Replaces a custom command's trigger without losing the original trigger's contents. The original custom command trigger goes first, followed by what you wish to change it to. This command requires the Manage Server permission. | `>>renamecommand hi howdy`
 `>>resetserver` | Permanently deletes all settings and permissions for Sigma on the current server. You can add "--permsonly" or "--settingsonly" as an argument to only delete permissions or settings respectively. This CANNOT be undone. This command requires the user to be the Server Owner. | `>>resetserver --permsonly`
 `>>responders` `>>resps` | Shows a list of the server's custom responder triggers. The list is separated into pages of 10 items each. You can specify the page number you want to see. | `>>responders 4`
-`>>serversuggestion` `>>serversugg` `>>suggest` `>>sugg` | Submits a suggestions to the set server suggestion channel. Not to be confused with the bot suggestion command, "suggest". | `>>serversuggestion New server ideas!`
+`>>serversuggestion` `>>serversugg` `>>suggest` `>>sugg` | Submits a suggestions to the set server suggestion channel. Not to be confused with the bot suggestion command, "botsuggest". | `>>serversuggestion New server ideas!`
 `>>starboard` `>>sbd` | Toggles the starboard on and off. When a message reaches enough ractions with the specified emote, it will be posted to the starboard channel. You can set the channel, emote, and minimum number of reactions before a message is posted. | `>>starboard`
 `>>starboardchannel` `>>sbchannel` `>>sbch` | Sets the channel for starboards to be posted in. | `>>starboardchannel #channel`
 `>>starboardemote` `>>sbemote` `>>sbe` | Sets the emote Sigma should associate with starboards. When a message reaches the set number of this reaction, it will be posted to the set starboard channel. The emote must be native to Discord. Custom emotes are not supported. | `>>starboardemote 100`
@@ -540,6 +540,7 @@ Commands | Description | Example
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data on the server. | `>>serverinformation`
+`>>serverstatistics` `>>serverstats` `>>sstats` | Shows the current server's statistics. Population, message and command counts, and rates in the last 24 hours. | `>>serverstatistics`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
 `>>spouses` `>>wives` `>>husbands` `>>waifus` `>>husbandos` | Shows the mentioned user's list of spouses, that is, people that they're married to. | `>>spouses @person`
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. | `>>statistics`
