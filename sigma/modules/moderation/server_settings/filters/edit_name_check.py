@@ -31,7 +31,7 @@ def is_invalid(name):
 
 def clean_name(name, default):
     end_name = ''
-    for char in name:
+    for char in str(name):
         if char in string.printable:
             end_name += char
     if not end_name:
