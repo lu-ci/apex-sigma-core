@@ -54,7 +54,7 @@ class ExecutionClockwork(object):
                         return
                     else:
                         cmd_pld = CommandPayload(self.bot, pld.msg, args)
-                        cmd_pld.settings, cmd_pld.profile = pld.settings, pld.profile
+                        cmd_pld.settings = pld.settings
                         task = command, cmd_pld
                         await self.cmd_queue.put(task)
 
