@@ -23,7 +23,6 @@ class SigmaPayload(abc.ABC):
     def __init__(self, bot):
         self.bot = bot
         self.settings = {}
-        self.profile = {}
 
     async def init(self):
         pass
@@ -48,14 +47,12 @@ class MessagePayload(SigmaPayload):
         self.msg = msg
 
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.msg.author.id)
         if self.msg.guild:
             self.settings = await self.bot.db.get_guild_settings(self.msg.guild.id)
 
 
 class MessageEditPayload(UpdatePayload):
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.after.author.id)
         if self.after.guild:
             self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
 
@@ -78,14 +75,12 @@ class MemberPayload(SigmaPayload):
         self.member = member
 
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.member.id)
         if self.member.guild:
             self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
 
 
 class MemberUpdatePayload(UpdatePayload):
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.after.id)
         if self.after.guild:
             self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
 
@@ -110,7 +105,6 @@ class VoiceStateUpdatePayload(UpdatePayload):
         self.member = member
 
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.member.id)
         if self.member.guild:
             self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
 
@@ -122,7 +116,6 @@ class ReactionPayload(SigmaPayload):
         self.user = user
 
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.user.id)
         if self.reaction.message.guild:
             self.settings = await self.bot.db.get_guild_settings(self.reaction.message.guild.id)
 
@@ -133,5 +126,4 @@ class RawReactionPayload(SigmaPayload):
         self.raw = raw
 
     async def init(self):
-        self.profile = await self.bot.db.get_profile(self.raw.user_id)
         self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)

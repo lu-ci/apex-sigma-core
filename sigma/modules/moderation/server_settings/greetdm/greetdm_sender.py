@@ -28,7 +28,7 @@ async def greetdm_sender(_ev: SigmaEvent, pld: MemberPayload):
             if not current_dm_greeting:
                 current_dm_greeting = 'Hello {user_mention}, welcome to {server_name}.'
             greeting_dm_text = movement_message_parser(pld.member, current_dm_greeting)
-            greet_dm_embed = pld.settings.get('greet_dm_embed') or {}
+            greet_dm_embed = pld.settings.get('greet_dm_embed', {})
             if greet_dm_embed.get('active'):
                 greeting_dm = await make_greet_embed(greet_dm_embed, greeting_dm_text, pld.member.guild)
                 await pld.member.send(embed=greeting_dm)

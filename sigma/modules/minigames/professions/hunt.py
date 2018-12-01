@@ -25,7 +25,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 async def hunt(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-        upgrade_file = pld.profile.get('upgrades') or {}
+        upgrade_file = cmd.bot.db.get_profile('upgrades') or {}
         inv = await cmd.db.get_inventory(pld.msg.author.id)
         storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)
@@ -35,7 +35,7 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
             cooldown = 5 if cooldown < 5 else cooldown
             await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
-            rarity = await item_core.roll_rarity(pld.profile)
+            rarity = await item_core.roll_rarity(cmd.bot.db.get_profile(pld.msg.author.id))
             if pld.args:
                 if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
                     try:

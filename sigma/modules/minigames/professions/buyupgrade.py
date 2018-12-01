@@ -32,7 +32,7 @@ def get_price_mod(base_price, upgrade_level):
 async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
     if pld.msg.author.id not in ongoing:
         ongoing.append(pld.msg.author.id)
-        upgrade_file = pld.profile.get('upgrades', {})
+        upgrade_file = cmd.bot.db.get_profile('upgrades') or {}
         upgrade_text = ''
         upgrade_index = 0
         for upgrade in upgrade_list:
