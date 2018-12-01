@@ -38,11 +38,11 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
         author = pld.msg.author
         if target.id != author.id:
             if not target.bot:
-                author_upgrades = await cmd.bot.db.get_profile('upgrades') or {}
+                author_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
                 target_upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
                 target_limit = 10 + (target_upgrades.get('harem') or 0)
-                a_spouses = await cmd.bot.db.get_profile('spouses') or []
+                a_spouses = await cmd.bot.db.get_profile(pld.msg.author.id, 'spouses') or []
                 a_spouse_ids = [s.get('user_id') for s in a_spouses]
                 t_spouses = await cmd.db.get_profile(target.id, 'spouses') or []
                 t_spouse_ids = [s.get('user_id') for s in t_spouses]

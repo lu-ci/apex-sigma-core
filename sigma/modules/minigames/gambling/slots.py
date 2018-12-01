@@ -64,7 +64,7 @@ async def slots(cmd: SigmaCommand, pld: CommandPayload):
         bet = 10
     if current_kud >= bet:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-            upgrade_file = await cmd.bot.db.get_profile('upgrades') or {}
+            upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
             base_cooldown = 60
             stamina = upgrade_file.get('casino', 0)
             cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))

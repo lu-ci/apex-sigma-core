@@ -25,7 +25,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 async def forage(cmd: SigmaCommand, pld: CommandPayload):
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-        upgrade_file = await cmd.bot.db.get_profile('upgrades') or {}
+        upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
         inv = await cmd.db.get_inventory(pld.msg.author.id)
         storage = upgrade_file.get('storage', 0)
         inv_limit = 64 + (8 * storage)
