@@ -24,22 +24,22 @@ donor_clock_running = False
 async def donor_updater(ev: SigmaEvent):
     global donor_clock_running
     if not donor_clock_running:
-        ev.bot.loop.create_task(donor_updater_clockwork(ev))
+        if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+            ev.bot.loop.create_task(donor_updater_clockwork(ev))
         donor_clock_running = True
 
 
 async def donor_updater_clockwork(ev: SigmaEvent):
     donor_coll = ev.db[ev.db.db_nam].DonorCache
     await donor_coll.drop()
-    if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
-        while True:
-            if ev.bot.is_ready():
-                donors = ev.bot.info.get_donors().raw_list
-                for donor in donors:
-                    lookup = {'duid': donor.get('duid')}
-                    donor_file = await donor_coll.find_one(lookup)
-                    if donor_file:
-                        await donor_coll.update_one(lookup, {'$set': donor})
-                    else:
-                        await donor_coll.insert_one(donor)
-            await asyncio.sleep(86400)
+    while True:
+        if ev.bot.is_ready():
+            donors = ev.bot.info.get_donors().raw_list
+            for donor in donors:
+                lookup = {'duid': donor.get('duid')}
+                donor_file = await donor_coll.find_one(lookup)
+                if donor_file:
+                    await donor_coll.update_one(lookup, {'$set': donor})
+                else:
+                    await donor_coll.insert_one(donor)
+        await asyncio.sleep(86400)

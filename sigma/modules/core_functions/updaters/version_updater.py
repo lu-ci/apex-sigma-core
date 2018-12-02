@@ -24,20 +24,20 @@ version_clock_running = False
 async def version_updater(ev: SigmaEvent):
     global version_clock_running
     if not version_clock_running:
-        ev.bot.loop.create_task(version_updater_clockwork(ev))
+        if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+            ev.bot.loop.create_task(version_updater_clockwork(ev))
         version_clock_running = True
 
 
 async def version_updater_clockwork(ev: SigmaEvent):
     version_coll = ev.db[ev.db.db_nam].VersionCache
-    if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
-        while True:
-            if ev.bot.is_ready():
-                version = ev.bot.info.get_version().raw
-                lookup = {'version': {'$exists': True}}
-                version_file = await version_coll.find_one(lookup)
-                if version_file:
-                    await version_coll.update_one(lookup, {'$set': version})
-                else:
-                    await version_coll.insert_one(version)
-            await asyncio.sleep(60)
+    while True:
+        if ev.bot.is_ready():
+            version = ev.bot.info.get_version().raw
+            lookup = {'version': {'$exists': True}}
+            version_file = await version_coll.find_one(lookup)
+            if version_file:
+                await version_coll.update_one(lookup, {'$set': version})
+            else:
+                await version_coll.insert_one(version)
+        await asyncio.sleep(60)
