@@ -40,7 +40,7 @@ You are NOT allowed to:
 * By using Sigma you comply with various user data being stored.
 * Only data needed for the functionality of a command is stored.
 
-> Not complying will result in the user or pld.guild being blacklisted.
+> Not complying will result in the user or guild being blacklisted.
 ```
 """
 

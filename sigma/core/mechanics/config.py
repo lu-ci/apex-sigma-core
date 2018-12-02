@@ -58,7 +58,6 @@ class PreferencesConfig(object):
         self.website = self.raw.get('website', 'https://gitlab.com/lu-ci/sigma/apex-sigma')
         self.text_only = self.raw.get('text_only', False)
         self.music_only = self.raw.get('music_only', False)
-        self.dscbots_token = self.raw.get('dscbots_token')
         self.movelog_channel = self.raw.get('movelog_channel')
         self.errorlog_channel = self.raw.get('errorlog_channel')
 

@@ -30,13 +30,14 @@ async def version_updater(ev: SigmaEvent):
 
 async def version_updater_clockwork(ev: SigmaEvent):
     version_coll = ev.db[ev.db.db_nam].VersionCache
-    while True:
-        if ev.bot.is_ready():
-            version = ev.bot.info.get_version().raw
-            lookup = {'version': {'$exists': True}}
-            version_file = await version_coll.find_one(lookup)
-            if version_file:
-                await version_coll.update_one(lookup, {'$set': version})
-            else:
-                await version_coll.insert_one(version)
-        await asyncio.sleep(60)
+    if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+        while True:
+            if ev.bot.is_ready():
+                version = ev.bot.info.get_version().raw
+                lookup = {'version': {'$exists': True}}
+                version_file = await version_coll.find_one(lookup)
+                if version_file:
+                    await version_coll.update_one(lookup, {'$set': version})
+                else:
+                    await version_coll.insert_one(version)
+            await asyncio.sleep(60)

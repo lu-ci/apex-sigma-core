@@ -8,7 +8,3 @@ events:
   - name:        population_clockwork
     type:        ready
     enabled:     true
-
-  - name:        discordbots_clock
-    type:        ready
-    enabled:     true

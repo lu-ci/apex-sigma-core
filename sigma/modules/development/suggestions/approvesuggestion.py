@@ -48,7 +48,7 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
 
 
 async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, delete: bool):
-    sugg_cmd = bot.modules.get('botsuggest')
+    sugg_cmd = bot.modules.commands.get('botsuggest')
     if sugg_cmd:
         chn_id = sugg_cmd.cfg.get('channel')
         if chn_id:

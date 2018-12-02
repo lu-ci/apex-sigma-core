@@ -24,9 +24,10 @@ pop_loop_running = False
 async def population_clockwork(ev: SigmaEvent):
     global pop_loop_running
     collection = 'GeneralStats'
-    search = await ev.db[ev.bot.cfg.db.database][collection].find_one({'name': 'population'})
+    lookup = {'name': 'population', 'shard': ev.bot.cfg.dsc.shard}
+    search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
     if not search:
-        await ev.db[ev.bot.cfg.db.database][collection].insert_one({'name': 'population'})
+        await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
     if not pop_loop_running and not ev.bot.cfg.pref.dev_mode:
         pop_loop_running = True
         ev.bot.loop.create_task(update_population_stats_node(ev))
@@ -53,7 +54,8 @@ async def update_population_stats_node(ev: SigmaEvent):
                 'guild_count': server_count,
                 'channel_count': channel_count,
                 'member_count': member_count,
-                'role_count': role_count
+                'role_count': role_count,
+                'shard': ev.bot.cfg.dsc.shard
             }
             update_target = {"name": 'population'}
             update_data = {"$set": popdata}
