@@ -57,7 +57,7 @@ async def update_population_stats_node(ev: SigmaEvent):
                 'role_count': role_count,
                 'shard': ev.bot.cfg.dsc.shard
             }
-            update_target = {"name": 'population'}
+            update_target = {"name": 'population', "shard": ev.bot.cfg.dsc.shard}
             update_data = {"$set": popdata}
             await ev.db[database][collection].update_one(update_target, update_data)
         await asyncio.sleep(60)
