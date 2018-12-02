@@ -34,6 +34,5 @@ class TestConfiguration(object):
         assert pref.website == 'https://gitlab.com/lu-ci/sigma/apex-sigma'
         assert pref.text_only is False
         assert pref.music_only is False
-        assert pref.dscbots_token is None
         assert pref.movelog_channel is None
         assert pref.errorlog_channel is None
