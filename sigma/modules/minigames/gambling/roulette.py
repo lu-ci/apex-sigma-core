@@ -100,7 +100,7 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
         if pld.args:
             sel, val = get_selector_and_value(pld.args)
             sel = 'color' if sel == 'colour' else sel
-            if sel and val:
+            if sel is not None and val is not None:
                 if sel in selector_ranges:
                     if val in selector_ranges.get(sel):
                         bet = get_bet(pld.args)
