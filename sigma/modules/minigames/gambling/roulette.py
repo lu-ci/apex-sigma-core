@@ -69,7 +69,7 @@ def get_bet(args):
 
 
 def get_selector_and_value(args: list):
-    selector_split = args[-1].split(':')
+    selector_split = [a.strip() for a in args[-1].split(':')]
     if len(selector_split) == 2:
         sel, val = [piece.strip().lower() for piece in selector_split]
         for key in selector_ranges:
