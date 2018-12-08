@@ -23,38 +23,41 @@ from sigma.core.mechanics.payload import CommandPayload
 async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
         if len(pld.args) >= 2:
-            target_id = None
-            if pld.args[0].isdigit():
-                target_id = int(pld.args[0])
+            try:
+                target_id = abs(int(pld.args[0]))
+            except ValueError:
+                target_id = None
             if target_id:
                 target = await cmd.bot.get_user(target_id)
                 if target:
-                    lookup = ' '.join(pld.args[1:])
-                    if lookup.lower() in cmd.bot.modules.categories:
-                        black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                        black_user_file = await black_user_collection.find_one({'user_id': target.id})
-                        if black_user_file:
-                            modules = black_user_file.get('modules', [])
-                            if lookup.lower() in modules:
-                                modules.remove(lookup.lower())
-                                icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist.'
-                            else:
-                                modules.append(lookup.lower())
-                                icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
-                            up_data = {'$set': {'user_id': target.id, 'modules': modules}}
-                            await black_user_collection.update_one({'user_id': target.id}, up_data)
-                        else:
-                            new_data = {'user_id': target.id, 'modules': [lookup.lower()]}
-                            await black_user_collection.insert_one(new_data)
-                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
-                        title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
-                        response = discord.Embed(color=0xFFCC4D, title=title)
-                        await cmd.db.cache.del_cache(target.id)
-                        await cmd.db.cache.del_cache(f'{target.id}_checked')
-                    else:
-                        response = discord.Embed(color=0x696969, title='🔍 Module not found.')
+                    target_id = target.id
+                    target_name = target.name
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
+                    target_name = target_id
+                lookup = ' '.join(pld.args[1:])
+                if lookup.lower() in cmd.bot.modules.categories:
+                    black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
+                    black_user_file = await black_user_collection.find_one({'user_id': target_id})
+                    if black_user_file:
+                        modules = black_user_file.get('modules', [])
+                        if lookup.lower() in modules:
+                            modules.remove(lookup.lower())
+                            icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist.'
+                        else:
+                            modules.append(lookup.lower())
+                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
+                        up_data = {'$set': {'user_id': target_id, 'modules': modules}}
+                        await black_user_collection.update_one({'user_id': target_id}, up_data)
+                    else:
+                        new_data = {'user_id': target_id, 'modules': [lookup.lower()]}
+                        await black_user_collection.insert_one(new_data)
+                        icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
+                    title = f'{icon} {target_name}#{target} has been {result}.'
+                    response = discord.Embed(color=0xFFCC4D, title=title)
+                    await cmd.db.cache.del_cache(target_id)
+                    await cmd.db.cache.del_cache(f'{target_id}_checked')
+                else:
+                    response = discord.Embed(color=0x696969, title='🔍 Module not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
         else:

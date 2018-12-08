@@ -22,22 +22,25 @@ from sigma.core.mechanics.payload import CommandPayload
 
 async def sabotageuser(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
-        target_id = None
-        if pld.args[0].isdigit():
-            target_id = int(pld.args[0])
+        try:
+            target_id = abs(int(pld.args[0]))
+        except ValueError:
+            target_id = None
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
                 target = await cmd.bot.get_user(target_id)
                 if target:
-                    sabotage_file = await cmd.db.is_sabotaged(target.id)
-                    if sabotage_file:
-                        icon, result, status = '🔓', 'unsabotaged', False
-                    else:
-                        icon, result, status = '🔒', 'sabotaged', True
-                    await cmd.db.set_profile(target.id, 'sabotaged', status)
-                    response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target.name} has been {result}.')
+                    target_id = target.id
+                    target_name = target.name
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
+                    target_name = target_id
+                sabotage_file = await cmd.db.is_sabotaged(target_id)
+                if sabotage_file:
+                    icon, result, status = '🔓', 'unsabotaged', False
+                else:
+                    icon, result, status = '🔒', 'sabotaged', True
+                await cmd.db.set_profile(target_id, 'sabotaged', status)
+                response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target_name} has been {result}.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ That target is immune.')
         else:

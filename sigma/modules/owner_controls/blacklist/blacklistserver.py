@@ -22,25 +22,28 @@ from sigma.core.mechanics.payload import CommandPayload
 
 async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
-        target_id = None
-        if pld.args[0].isdigit():
-            target_id = int(pld.args[0])
+        try:
+            target_id = abs(int(pld.args[0]))
+        except ValueError:
+            target_id = None
         if target_id:
             target = cmd.bot.get_guild(target_id)
             if target:
-                black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedServers
-                black_user_file = await black_user_collection.find_one({'server_id': target.id})
-                if black_user_file:
-                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.delete_one({'server_id': target.id})
-                    icon, result = '🔓', 'un-blacklisted'
-                else:
-                    await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'server_id': target.id})
-                    icon, result = '🔒', 'blacklisted'
-                response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target.name} has been {result}.')
-                await cmd.db.cache.del_cache(target.id)
-                await cmd.db.cache.del_cache(f'{target.id}_checked')
+                target_id = target.id
+                target_name = target.name
             else:
-                response = discord.Embed(color=0x696969, title='🔍 No guild with that ID was found.')
+                target_name = target_id
+            black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedServers
+            black_user_file = await black_user_collection.find_one({'server_id': target_id})
+            if black_user_file:
+                await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.delete_one({'server_id': target_id})
+                icon, result = '🔓', 'un-blacklisted'
+            else:
+                await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'server_id': target_id})
+                icon, result = '🔒', 'blacklisted'
+            response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target_name} has been {result}.')
+            await cmd.db.cache.del_cache(target_id)
+            await cmd.db.cache.del_cache(f'{target_id}_checked')
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid guild ID.')
     else:

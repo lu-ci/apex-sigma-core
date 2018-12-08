@@ -22,32 +22,35 @@ from sigma.core.mechanics.payload import CommandPayload
 
 async def blacklistuser(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
-        target_id = None
-        if pld.args[0].isdigit():
-            target_id = int(pld.args[0])
+        try:
+            target_id = abs(int(pld.args[0]))
+        except ValueError:
+            target_id = None
         if target_id:
             if target_id not in cmd.bot.cfg.dsc.owners:
                 target = await cmd.bot.get_user(target_id)
                 if target:
-                    black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                    black_user_file = await black_user_collection.find_one({'user_id': target.id})
-                    if black_user_file:
-                        if black_user_file.get('total'):
-                            update_data = {'$set': {'user_id': target.id, 'total': False}}
-                            icon, result = '🔓', 'un-blacklisted'
-                        else:
-                            update_data = {'$set': {'user_id': target.id, 'total': True}}
-                            icon, result = '🔒', 'blacklisted'
-                        await black_user_collection.update_one({'user_id': target.id}, update_data)
-                    else:
-                        await black_user_collection.insert_one({'user_id': target.id, 'total': True})
-                        icon, result = '🔒', 'blacklisted'
-                    await cmd.db.cache.del_cache(target.id)
-                    await cmd.db.cache.del_cache(f'{target.id}_checked')
-                    title = f'{icon} {target.name}#{target.discriminator} has been {result}.'
-                    response = discord.Embed(color=0xFFCC4D, title=title)
+                    target_id = target.id
+                    target_name = target.name
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 No user with that ID was found.')
+                    target_name = target_id
+                black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
+                black_user_file = await black_user_collection.find_one({'user_id': target_id})
+                if black_user_file:
+                    if black_user_file.get('total'):
+                        update_data = {'$set': {'user_id': target_id, 'total': False}}
+                        icon, result = '🔓', 'un-blacklisted'
+                    else:
+                        update_data = {'$set': {'user_id': target_id, 'total': True}}
+                        icon, result = '🔒', 'blacklisted'
+                    await black_user_collection.update_one({'user_id': target_id}, update_data)
+                else:
+                    await black_user_collection.insert_one({'user_id': target_id, 'total': True})
+                    icon, result = '🔒', 'blacklisted'
+                await cmd.db.cache.del_cache(target_id)
+                await cmd.db.cache.del_cache(f'{target_id}_checked')
+                title = f'{icon} {target_name} has been {result}.'
+                response = discord.Embed(color=0xFFCC4D, title=title)
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ That target is immune.')
         else:
