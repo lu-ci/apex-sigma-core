@@ -35,21 +35,23 @@ async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     target_name = target_id
                 lookup = ' '.join(pld.args[1:])
-                if lookup.lower() in cmd.bot.modules.categories:
+                if lookup.lower() in cmd.bot.modules.alts:
+                    lookup = cmd.bot.modules.alts[lookup.lower()]
+                if lookup.lower() in cmd.bot.modules.commands:
                     black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
                     black_user_file = await black_user_collection.find_one({'user_id': target_id})
                     if black_user_file:
-                        modules = black_user_file.get('modules', [])
-                        if lookup.lower() in modules:
-                            modules.remove(lookup.lower())
+                        commands = black_user_file.get('commands', [])
+                        if lookup.lower() in commands:
+                            commands.remove(lookup.lower())
                             icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist.'
                         else:
-                            modules.append(lookup.lower())
+                            commands.append(lookup.lower())
                             icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
-                        up_data = {'$set': {'user_id': target_id, 'modules': modules}}
+                        up_data = {'$set': {'user_id': target_id, 'commands': commands}}
                         await black_user_collection.update_one({'user_id': target_id}, up_data)
                     else:
-                        new_data = {'user_id': target_id, 'modules': [lookup.lower()]}
+                        new_data = {'user_id': target_id, 'commands': [lookup.lower()]}
                         await black_user_collection.insert_one(new_data)
                         icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
                     title = f'{icon} {target_name} has been {result}.'
@@ -57,7 +59,7 @@ async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db.cache.del_cache(target_id)
                     await cmd.db.cache.del_cache(f'{target_id}_checked')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Module not found.')
+                    response = discord.Embed(color=0x696969, title='🔍 Command not found.')
             else:
                 response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
         else:

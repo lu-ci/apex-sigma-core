@@ -75,6 +75,15 @@ class GlobalCommandPermissions(object):
             black_user = False
         return black_user
 
+    def check_black_cmd(self, black_user_file: dict):
+        black_commands = black_user_file.get('commands', {})
+        if self.cmd.name in black_commands:
+            black_user = True
+            self.module_denied = True
+        else:
+            black_user = False
+        return black_user
+
     async def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = await self.db.cache.get_cache(f'busr_{self.message.author.id}')
@@ -87,7 +96,9 @@ class GlobalCommandPermissions(object):
             if black_user_file.get('total'):
                 self.black_user = True
             else:
-                self.black_user = self.check_black_mdl(black_user_file)
+                black_mdl = self.check_black_mdl(black_user_file)
+                black_cmd = self.check_black_cmd(black_user_file)
+                self.black_user = black_mdl or black_cmd
         else:
             self.black_user = False
 

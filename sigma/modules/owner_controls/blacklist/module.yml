@@ -42,6 +42,18 @@ commands:
     description:
       Disallows a person from using a specific module category.
 
+  - name:         blacklistcommand
+    alts:
+      - "blackcommand"
+      - "blackcmd"
+    enabled:      true
+    permissions:
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} 0123456789 pun"
+    description:
+      Disallows a person from using a specific command.
+
   - name:         sabotageuser
     alts:
       - "sabusr"
