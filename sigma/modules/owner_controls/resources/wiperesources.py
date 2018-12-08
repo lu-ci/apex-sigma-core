@@ -23,16 +23,18 @@ from sigma.core.mechanics.resources import SigmaResource
 
 async def wiperesources(cmd: SigmaCommand, pld: CommandPayload):
     try:
-        target = await cmd.bot.get_user(int(pld.args[0])) if pld.args else None
+        target_id = abs(int(pld.args[0])) if pld.args else None
     except ValueError:
-        target = None
-    if target:
+        target_id = None
+    if target_id:
+        target = await cmd.bot.get_user(target_id)
+        target_name = target.name if target else target_id
         colls = await cmd.db[cmd.db.db_nam].list_collection_names()
         reses = list(sorted([coll[:-8].lower() for coll in colls if coll.endswith('Resource')]))
         for res in reses:
             new_res = SigmaResource({})
-            await cmd.db.update_resource(target.id, res, new_res)
-        response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target.display_name}\'s resources.')
+            await cmd.db.update_resource(target_id, res, new_res)
+        response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target_name}\'s resources.')
     else:
-        response = discord.Embed(color=0x696969, title='🔍 User not found.')
+        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     await pld.msg.channel.send(embed=response)
