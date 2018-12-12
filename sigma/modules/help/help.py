@@ -38,7 +38,8 @@ async def help(cmd: SigmaCommand, pld: CommandPayload):
             pfx = cmd.db.get_prefix(pld.settings)
             command = cmd.bot.modules.commands[cmd_name]
             usage = command.usage.replace('{pfx}', pfx).replace('{cmd}', command.name)
-            response = discord.Embed(color=0x1B6F5F, title=f'📄 {command.name.upper()} Usage and Information')
+            title = f'📄 [{command.category.upper()}] {command.name.upper()} Usage and Information'
+            response = discord.Embed(color=0x1B6F5F, title=title)
             response.add_field(name='Usage Example', value=f'`{usage}`', inline=False)
             response.add_field(name='Command Description', value=f'```\n{command.desc}\n```', inline=False)
             if command.alts:

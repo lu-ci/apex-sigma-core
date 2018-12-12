@@ -29,15 +29,15 @@ async def collectiontrigger(cmd: SigmaCommand, pld: CommandPayload):
                 trigger = pld.args[0].lower()
                 jar_doc.update({'trigger': trigger})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-                response = discord.Embed(color=7844437, title=f'✅ Collection Jar trigger set to `{trigger}`.')
+                response = discord.Embed(color=0x66CC66, title=f'✅ Collection Jar trigger set to `{trigger}`.')
             else:
-                response = discord.Embed(color=12458289, title="❗ Trigger can't be more than one word.")
+                response = discord.Embed(color=0xBE1931, title="❗ Trigger can't be more than one word.")
         else:
             trigger = jar_doc.get('trigger')
             if trigger:
-                response = discord.Embed(color=12443124, title=f'💬 The current trigger is `{trigger}`.')
+                response = discord.Embed(color=0xbdddf4, title=f'💬 The current trigger is `{trigger}`.')
             else:
-                response = discord.Embed(color=12458289, title='❗ A trigger has not been set.')
+                response = discord.Embed(color=0xBE1931, title='❗ A trigger has not been set.')
     else:
         response = permission_denied('Manage Server')
     await pld.msg.channel.send(embed=response)

@@ -23,7 +23,7 @@ from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar im
 
 
 async def add_to_jar(ev: SigmaEvent, message: discord.Message, jar: dict):
-    jar = CollectionJar(jar, message)
+    jar = CollectionJar(jar, message, message.author)
     jar.channels.update({str(message.channel.id): jar.channel + 1})
     jar.user.update({str(message.channel.id): jar.user_channel + 1})
     jar.users.update({str(message.author.id): jar.user})

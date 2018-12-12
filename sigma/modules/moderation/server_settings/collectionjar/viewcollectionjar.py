@@ -21,13 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 class CollectionJar(object):
-    def __init__(self, jar, message):
+    def __init__(self, jar, message, target):
         self.raw = jar
         self.total = self.raw.get('total', 0)
         self.channels = self.raw.get('channels', {})
         self.channel = self.channels.get(str(message.channel.id), 0)
         self.users = self.raw.get('users', {})
-        self.user = self.users.get(str(message.author.id), {})
+        self.user = self.users.get(str(target.id), {})
         self.user_channel = self.user.get(str(message.channel.id), 0)
 
     @property
@@ -41,13 +41,15 @@ class CollectionJar(object):
 async def viewcollectionjar(_cmd: SigmaCommand, pld: CommandPayload):
     jar_doc = pld.settings.get('collection_jar') or {}
     if jar_doc:
-        jar = CollectionJar(jar_doc, pld.msg)
-        response = discord.Embed(color=16636040, title='💰 Collection Jar')
+        target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
+        starters = ['Their', 'Them'] if pld.msg.mentions else ['Your', 'You']
+        jar = CollectionJar(jar_doc, pld.msg, target)
+        response = discord.Embed(color=0xfdd888, title='💰 Collection Jar')
         contents = f'Total: **{jar.total}**\n'
         contents += f'This Channel: **{jar.channel}**\n'
-        contents += f'Your Contributions: **{jar.user_total}**\n'
-        contents += f'You In This Channel: **{jar.user_channel}**'
+        contents += f'{starters[0]} Contributions: **{jar.user_total}**\n'
+        contents += f'{starters[1]} In This Channel: **{jar.user_channel}**'
         response.add_field(name='Contents', value=contents)
     else:
-        response = discord.Embed(color=13034677, title='💸 Totally empty...')
+        response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
     await pld.msg.channel.send(embed=response)

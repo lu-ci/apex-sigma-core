@@ -34,9 +34,9 @@ async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
         if pld.args:
             movereqs = [piece.strip() for piece in ' '.join(pld.args).split(';')]
             if len(movereqs) == 2:
-                guild_vcs = [vc for vc in pld.msg.guild.channels if isinstance(vc, discord.VoiceChannel)]
                 lookup_one = movereqs[0]
                 lookup_two = movereqs[1]
+                guild_vcs = pld.msg.guild.voice_channels
                 vc_one = get_vc(guild_vcs, lookup_one)
                 vc_two = get_vc(guild_vcs, lookup_two)
                 if vc_one and vc_two:

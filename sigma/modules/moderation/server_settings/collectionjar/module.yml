@@ -29,6 +29,7 @@ commands:
     description:
       Shows the contents of the collection jar. This includes the total,
       total for the current channel, total from you, and total from you in the current channel.
+      You can also mention someone to view their contributions instead of your own.
 
 events:
   - name:         collection_watcher
