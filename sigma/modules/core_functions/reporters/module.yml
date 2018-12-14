@@ -1,0 +1,22 @@
+name:            Reporter Clockworks
+
+category:        development
+
+enabled:         true
+
+events:
+  - name:        error_reporter
+    type:        ready
+    enabled:     true
+
+  - name:        interaction_reporter
+    type:        ready
+    enabled:     true
+
+  - name:        movement_reporter
+    type:        ready
+    enabled:     true
+
+  - name:        suggestion_reporter
+    type:        ready
+    enabled:     true

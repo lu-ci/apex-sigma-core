@@ -121,9 +121,9 @@ Commands | Description | Example
 ### HELP
 Commands | Description | Example
 ----------|-------------|--------
-`>>commands` `>>modules` `>>cmds` `>>mdls` | If not module name is inputed, it will show the list of available modules. To see the commands in a module category, input that modules name. | `>>commands minigames`
+`>>commands` `>>modules` `>>cmds` `>>mdls` | Lists all of Sigma's available modules. To view the commands within a specific module, add the module's name as an argument. | `>>commands minigames`
 `>>donate` | Shows donation information for Sigma. | `>>donate`
-`>>help` `>>h` | Provides the link to Sigma's website and support server. As well as show information about a command if something in inputted. | `>>help fish`
+`>>help` `>>h` | Provides the link to Sigma's website and support server. To view information on a specific command, add that command's name as an argument. | `>>help fish`
 `>>invite` `>>inv` | Provides Sigma's invitation link to add her to your server. | `>>invite`
 [Back To Top](#module-index)
 
@@ -498,7 +498,7 @@ Commands | Description | Example
 `>>unblockwords` `>>unblockword` | Removes a blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unblockwords boobs`
 `>>unflip` | Toggles if Sigma should respond to tables being flipped. This command requires the Manage Server permission. | `>>unflip`
 `>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unhardblockwords boobs`
-`>>viewcollectionjar` `>>viewjar` `>>jar` | Shows the contents of the collection jar. This includes the total, total for the current channel, total from you, and total from you in the current channel. | `>>viewcollectionjar`
+`>>viewcollectionjar` `>>viewjar` `>>jar` | Shows the contents of the collection jar. This includes the total, total for the current channel, total from you, and total from you in the current channel. You can also mention someone to view their contributions instead of your own. | `>>viewcollectionjar`
 [Back To Top](#module-index)
 
 ### STATISTICS

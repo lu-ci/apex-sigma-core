@@ -19,10 +19,40 @@ import discord
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import GuildPayload
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.modules.core_functions.system.move_log_embed import make_move_log_embed
+
+
+def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_count: int):
+    for user in gld.members:
+        if user.bot:
+            bot_count += 1
+        else:
+            user_count += 1
+    return {
+        'join': join,
+        'guild': {
+            'id': gld.id,
+            'name': gld.name,
+            'created_at': gld.created_at,
+            'icon': gld.icon_url
+        },
+        'owner': {
+            'id': gld.owner.id,
+            'name': gld.owner.name,
+            'discriminator': gld.owner.discriminator,
+            'avatar': user_avatar(gld.owner)
+        },
+        'population': {
+            'users': user_count,
+            'bots': bot_count,
+            'channels': len(gld.channels),
+            'roles': len(gld.roles)
+        },
+        'reported': False
+    }
 
 
 async def leave_move_log(ev: SigmaEvent, pld: GuildPayload):
+    owner = pld.guild.owner
     bot_count = 0
     user_count = 0
     for user in pld.guild.members:
@@ -30,20 +60,10 @@ async def leave_move_log(ev: SigmaEvent, pld: GuildPayload):
             bot_count += 1
         else:
             user_count += 1
-    owner = pld.guild.owner
     log_lines = f'Guild: {pld.guild.name}[{pld.guild.id}] | '
     log_lines += f'Owner: {owner.name} [{owner.id}] | '
     log_lines += f'Members: {user_count} | Bots: {bot_count}'
     ev.log.info(log_lines)
     if ev.bot.cfg.pref.movelog_channel:
-        mlc_id = ev.bot.cfg.pref.movelog_channel
-        mlc = await ev.bot.get_channel(mlc_id, True)
-        if mlc:
-            if pld.guild.icon_url:
-                icon = pld.guild.icon_url
-            else:
-                icon = user_avatar(pld.guild.owner)
-            log_embed = discord.Embed(color=0xBE1931)
-            log_embed.set_author(name='Left A Guild', icon_url=icon, url=icon)
-            make_move_log_embed(log_embed, pld.guild)
-            await mlc.send(embed=log_embed)
+        move_data = make_move_log_data(pld.guild, False, user_count, bot_count)
+        await ev.db[ev.db.db_nam].Movements.insert_one(move_data)

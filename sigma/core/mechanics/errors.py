@@ -42,14 +42,6 @@ class SigmaError(object):
         await self.send_error_message(pld)
         await self.log_error()
 
-    async def get_error_channel(self):
-        error_chn = None
-        if self.bot.cfg.pref.errorlog_channel:
-            err_chn_id = self.bot.cfg.pref.errorlog_channel
-            if err_chn_id:
-                error_chn = await self.bot.get_channel(err_chn_id, True)
-        return error_chn
-
     async def send_error_message(self, pld: MessagePayload):
         title, err_text = self.get_error_message(pld.settings)
         error_embed = discord.Embed(color=0xBE1931)
@@ -61,8 +53,6 @@ class SigmaError(object):
             pass
 
     async def log_error(self):
-        if await self.get_error_channel():
-            await self.send_error_log()
         await self.db[self.db.db_nam].Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'
         self.log.error(log_text)
@@ -77,6 +67,7 @@ class SigmaError(object):
         error_dict = {
             'token': self.token,
             'error': f'{self.exception}',
+            'reported': False,
             'traceback': {
                 'class': f'{self.exception.with_traceback}',
                 'details': traceback.format_exc()
@@ -100,6 +91,24 @@ class SigmaError(object):
             }
         }
         return error_dict
+
+    @staticmethod
+    def make_error_embed(error_file: dict):
+        response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
+        cmd_text = f'Command: **{error_file["message"]["command"]}**'
+        cmd_text += f'\nMessage ID: **{error_file["message"]["id"]}**'
+        cmd_text += f'\nArguments: **{" ".join(error_file["message"]["arguments"]) or "None"}**'
+        orgn_text = f'Author: **{error_file["author"]["name"]}**'
+        orgn_text += f'\nAuthor ID: **{error_file["author"]["id"]}**'
+        orgn_text += f'\nChannel: **{error_file["channel"]["name"]}**'
+        orgn_text += f'\nChannel ID: **{error_file["channel"]["id"]}**'
+        orgn_text += f'\nGuild: **{error_file["guild"]["name"]}**'
+        orgn_text += f'\nGuild ID: **{error_file["guild"]["id"]}**'
+        trace_text = f'Trace Class:\n**{error_file["traceback"]["class"]}**'
+        trace_text += f'\nTrace Details:\n```py\n{error_file["traceback"]["details"][:1800]}\n```'
+        response.add_field(name='Command', value=cmd_text)
+        response.add_field(name='Origin', value=orgn_text)
+        return response, trace_text
 
     def get_error_message(self, settings: dict):
         prefix = self.db.get_prefix(settings)
@@ -125,29 +134,3 @@ class SigmaError(object):
             err_text += f'\nIf you feel like dropping by and asking about it,'
             err_text += f'\nthe invite link is in the **{prefix}help** command.'
         return title, err_text
-
-    async def send_error_log(self):
-        error_chn = await self.get_error_channel()
-        if error_chn and self.data:
-            response, trace = make_error_embed(self.data)
-            await error_chn.send(embed=response)
-            if trace:
-                await error_chn.send(trace)
-
-
-def make_error_embed(error_file: dict):
-    response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
-    cmd_text = f'Command: **{error_file["message"]["command"]}**'
-    cmd_text += f'\nMessage ID: **{error_file["message"]["id"]}**'
-    cmd_text += f'\nArguments: **{" ".join(error_file["message"]["arguments"]) or "None"}**'
-    orgn_text = f'Author: **{error_file["author"]["name"]}**'
-    orgn_text += f'\nAuthor ID: **{error_file["author"]["id"]}**'
-    orgn_text += f'\nChannel: **{error_file["channel"]["name"]}**'
-    orgn_text += f'\nChannel ID: **{error_file["channel"]["id"]}**'
-    orgn_text += f'\nGuild: **{error_file["guild"]["name"]}**'
-    orgn_text += f'\nGuild ID: **{error_file["guild"]["id"]}**'
-    trace_text = f'Trace Class:\n**{error_file["traceback"]["class"]}**'
-    trace_text += f'\nTrace Details:\n```py\n{error_file["traceback"]["details"][:1800]}\n```'
-    response.add_field(name='Command', value=cmd_text)
-    response.add_field(name='Origin', value=orgn_text)
-    return response, trace_text
