@@ -23,41 +23,38 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-def make_sugg_embed(msg: discord.Message, args: list, token: str):
-    sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
-    sugg_embed.description = " ".join(args)
-    author_name = f'{msg.author.name} [{msg.author.id}]'
-    footer_content = f'[{token}] From {msg.guild.name}.'
-    sugg_embed.set_author(name=author_name, icon_url=user_avatar(msg.author))
-    sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=footer_content)
-    return sugg_embed
-
-
-def make_sugg_data(msg: discord.Message, args: list, token: str, smgs: discord.Message):
+def make_sugg_data(msg: discord.Message, args: list, token: str):
     return {
-        'suggestion': {'id': token, 'text': ' '.join(args)},
-        'user': {'id': msg.author.id, 'name': msg.author.name},
-        'guild': {'id': msg.guild.id, 'name': msg.guild.name},
+        'suggestion': {
+            'id': token,
+            'text': ' '.join(args)
+        },
+        'user': {
+            'id': msg.author.id,
+            'name': msg.author.name,
+            'color': msg.author.color.value,
+            'avatar': user_avatar(msg.author)
+        },
+        'guild': {
+            'id': msg.guild.id,
+            'name': msg.guild.name,
+            'icon': msg.guild.icon_url
+        },
         'timestamp': msg.created_at.timestamp(),
-        'message': smgs.id
+        'reported': False
     }
 
 
 async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
+    coll = cmd.db[cmd.db.db_nam].Suggestions
     sugg_chn_id = cmd.cfg.get('channel')
     if sugg_chn_id:
-        sugg_chn = await cmd.bot.get_channel(sugg_chn_id, True)
-        if sugg_chn:
-            if pld.args:
-                sugg_token = secrets.token_hex(4)
-                sugg_msg = await sugg_chn.send(embed=make_sugg_embed(pld.msg, pld.args, sugg_token))
-                [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
-                await cmd.db[cmd.db.db_nam].Suggestions.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token, sugg_msg))
-                response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
-            else:
-                response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        if pld.args:
+            sugg_token = secrets.token_hex(4)
+            await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
+            response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Cannot find suggestion channel.')
+            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
         response = discord.Embed(color=0xBE1931, title='❗ Missing suggestion channel configuration.')
     await pld.msg.channel.send(embed=response)

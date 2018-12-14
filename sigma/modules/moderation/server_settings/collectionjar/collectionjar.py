@@ -28,7 +28,7 @@ async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         jar_doc.update({'state': state})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-        response = discord.Embed(color=7844437, title=f'✅ Collection Jar {ender}.')
+        response = discord.Embed(color=0x66CC66, title=f'✅ Collection Jar {ender}.')
     else:
         response = permission_denied('Manage Server')
     await pld.msg.channel.send(embed=response)

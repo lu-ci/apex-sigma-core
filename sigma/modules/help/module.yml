@@ -14,7 +14,7 @@ commands:
     usage:        "{pfx}{cmd} fish"
     description:
       Provides the link to Sigma's website and support server.
-      As well as show information about a command if something in inputted.
+      To view information on a specific command, add that command's name as an argument.
 
   - name:         commands
     alts:
@@ -26,8 +26,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} minigames"
     description:
-      If not module name is inputed, it will show the list of available modules.
-      To see the commands in a module category, input that modules name.
+      Lists all of Sigma's available modules.
+      To view the commands within a specific module, add the module's name as an argument.
 
   - name:         invite
     alts:
