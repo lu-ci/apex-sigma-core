@@ -29,7 +29,55 @@ def get_price_mod(base_price, upgrade_level):
     return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
 
 
+def get_price(base_price, upgrade_level):
+    if upgrade_level == 0:
+        upgrade_price = base_price
+    else:
+        price_mod = get_price_mod(base_price, upgrade_level)
+        upgrade_price = price_mod + (price_mod // 2)
+    return upgrade_price
+
+
 async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
+    choice = None
+    if pld.args:
+        try:
+            choice = upgrade_list[abs(int(pld.args[0])) - 1]
+        except (IndexError, ValueError):
+            for upgrade in upgrade_list:
+                qry = pld.args[0].lower()
+                if upgrade.get('id') == qry:
+                    choice = upgrade
+                    break
+                elif qry in upgrade.get('name').lower() and len(qry) >= 3:
+                    choice = upgrade
+                    break
+    if choice:
+        await quick_buy(cmd, pld, choice)
+    else:
+        await slow_buy(cmd, pld)
+
+
+async def quick_buy(cmd: SigmaCommand, pld: CommandPayload, choice: dict):
+    currency = cmd.bot.cfg.pref.currency
+    user_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
+    upgrade_level = user_upgrades.get(choice.get('id'), 0)
+    upgrade_price = get_price(choice.get("cost"), upgrade_level)
+    current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
+    current_kud = current_kud.current
+    if current_kud >= upgrade_price:
+        user_upgrades.update({choice.get('id'): upgrade_level + 1})
+        await cmd.db.set_profile(pld.msg.author.id, 'upgrades', user_upgrades)
+        await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
+        upgrade_title = f'✅ Upgraded your {choice.get("name")} to Level {upgrade_level + 1}.'
+        response = discord.Embed(color=0x77B255, title=upgrade_title)
+    else:
+        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+    await pld.msg.channel.send(embed=response)
+
+
+async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
+    currency = cmd.bot.cfg.pref.currency
     if pld.msg.author.id not in ongoing:
         ongoing.append(pld.msg.author.id)
         upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
@@ -40,12 +88,7 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
             upgrade_id = upgrade.get('id')
             upgrade_level = upgrade_file.get(upgrade_id, 0)
             base_price = upgrade.get('cost')
-            if upgrade_level == 0:
-                upgrade_price = base_price
-            else:
-                price_mod = get_price_mod(base_price, upgrade_level)
-                upgrade_price = price_mod + (price_mod // 2)
-            currency = cmd.bot.cfg.pref.currency
+            upgrade_price = get_price(base_price, upgrade_level)
             next_upgrade = upgrade_level + 1
             upgrade_text += f'\n**{upgrade_index}**: Level {next_upgrade} {upgrade["name"]}'
             upgrade_text += f' - {upgrade_price} {currency}'
@@ -80,16 +123,9 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
                 current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                 current_kud = current_kud.current
                 upgrade_id = upgrade['id']
-                if upgrade_id in upgrade_file:
-                    upgrade_level = upgrade_file[upgrade_id]
-                else:
-                    upgrade_level = 0
+                upgrade_level = upgrade_file.get(upgrade_id, 0)
                 base_price = upgrade['cost']
-                if upgrade_level == 0:
-                    upgrade_price = base_price
-                else:
-                    price_mod = get_price_mod(base_price, upgrade_level)
-                    upgrade_price = price_mod + (price_mod // 2)
+                upgrade_price = get_price(base_price, upgrade_level)
                 if current_kud >= upgrade_price:
                     new_upgrade_level = upgrade_level + 1
                     upgrade_file.update({upgrade_id: new_upgrade_level})
