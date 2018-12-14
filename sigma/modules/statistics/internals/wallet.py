@@ -20,25 +20,54 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
+curr_leveler = 7537.0
+
+curr_prefixes = [
+    'Regular', 'Iron', 'Bronze', 'Silver', 'Gold',
+    'Platinum', 'Diamond', 'Opal', 'Sapphire', 'Musgravite'
+]
+
+curr_suffixes = [
+    'Pickpocket', 'Worker', 'Professional', 'Collector', 'Capitalist',
+    'Entrepreneur', 'Executive', 'Banker', 'Royal', 'Illuminati'
+]
+
+
+def get_title_indexes(level: int):
+    slevel = str(level)
+    suffix = int(slevel[-1])
+    prefix = int(slevel[-2]) if len(slevel) >= 2 else 0
+    return suffix, prefix
+
+
+def get_resource_level(amount: int, leveler: float):
+    return int(amount / leveler)
+
+
+def get_resource_title(amount: int, leveler: float, prefixes: list, suffixes: list):
+    level = get_resource_level(amount, leveler)
+    suffix_i, prefix_i = get_title_indexes(level)
+    return f'{prefixes[prefix_i]} {suffixes[suffix_i]}'
+
 
 async def wallet(cmd: SigmaCommand, pld: CommandPayload):
-    if pld.msg.mentions:
-        target = pld.msg.mentions[0]
-    else:
-        target = pld.msg.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     avatar = user_avatar(target)
     currency = await cmd.db.get_resource(target.id, 'currency')
-    currency_name = cmd.bot.cfg.pref.currency
+    cnam = cmd.bot.cfg.pref.currency
     currency_icon = cmd.bot.cfg.pref.currency_icon
     guild_currency = currency.origins.guilds.get(pld.msg.guild.id)
     response = discord.Embed(color=0xaa8dd8)
     response.set_author(name=f'{target.display_name}\'s Currency Data', icon_url=avatar)
-    response.description = f'{target.name} earned an all-time total of {currency.total} {currency_name}.'
-    current_title = f'{currency_icon} Current Amount'
-    guild_title = '🎪 Earned Here'
-    global_title = '📆 This Month'
-    response.add_field(name=current_title, value=f"```py\n{currency.current} {currency_name}\n```")
-    response.add_field(name=guild_title, value=f"```py\n{guild_currency} {currency_name}\n```")
-    response.add_field(name=global_title, value=f"```py\n{currency.ranked} {currency_name}\n```")
-    response.set_footer(text=f'{currency_icon} {currency_name} is earned by participating in minigames.')
+    response.description = f'{target.name} earned an all-time total of {currency.total} {cnam}.'
+    cur_head = f'{currency_icon} Current Amount'
+    gld_head = '🎪 Earned Here'
+    glb_head = '📆 This Month'
+    cur_title = get_resource_title(currency.current, curr_leveler, curr_prefixes, curr_suffixes)
+    gld_title = get_resource_title(guild_currency, curr_leveler, curr_prefixes, curr_suffixes)
+    glb_title = get_resource_title(currency.ranked, curr_leveler, curr_prefixes, curr_suffixes)
+    response.add_field(name=cur_head, value=f"```py\n{currency.current} {cnam}\n```\n{cur_title}")
+    response.add_field(name=gld_head, value=f"```py\n{guild_currency} {cnam}\n```\n{gld_title}")
+    response.add_field(name=glb_head, value=f"```py\n{currency.ranked} {cnam}\n```\n{glb_title}")
+    response.set_footer(text=f'{currency_icon} {cnam} is earned by participating in minigames.')
     await pld.msg.channel.send(embed=response)
