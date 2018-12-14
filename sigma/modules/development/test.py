@@ -20,4 +20,3 @@ from sigma.core.mechanics.payload import CommandPayload
 
 async def test(_cmd: SigmaCommand, pld: CommandPayload):
     await pld.msg.channel.send('All good.')
-    raise NotImplementedError
