@@ -64,22 +64,25 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
             if group_id in emote_groups:
                 role_items = []
                 group_roles = emote_groups.get(group_id)
-                for group_role in group_roles:
-                    role_item = pld.msg.guild.get_role(group_role)
-                    if role_item:
-                        role_items.append(role_item)
-                    else:
-                        group_roles.remove(group_role)
-                emote_groups.update({group_id: group_roles})
-                await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
-                binding_data = make_binding_data(role_items)
-                toggler_message_response = await make_binding_message(binding_data, pld.msg.guild, group_id, has_desc)
-                toggler_message = await target_ch.send(embed=toggler_message_response)
-                await fill_toggler_emotes(toggler_message, list(binding_data.keys()))
-                guild_togglers = pld.settings.get('emote_role_togglers') or {}
-                guild_togglers.update({str(toggler_message.id): binding_data})
-                await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_togglers', guild_togglers)
-                response = discord.Embed(color=0x66CC66, title=f'✅ Toggler {group_id} created in {target_ch.name}.')
+                if len(group_roles) > 0:
+                    for group_role in group_roles:
+                        role_item = pld.msg.guild.get_role(group_role)
+                        if role_item:
+                            role_items.append(role_item)
+                        else:
+                            group_roles.remove(group_role)
+                    emote_groups.update({group_id: group_roles})
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
+                    binding_data = make_binding_data(role_items)
+                    toggler_message_response = await make_binding_message(binding_data, pld.msg.guild, group_id, has_desc)
+                    toggler_message = await target_ch.send(embed=toggler_message_response)
+                    await fill_toggler_emotes(toggler_message, list(binding_data.keys()))
+                    guild_togglers = pld.settings.get('emote_role_togglers') or {}
+                    guild_togglers.update({str(toggler_message.id): binding_data})
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_togglers', guild_togglers)
+                    response = discord.Embed(color=0x66CC66, title=f'✅ Toggler {group_id} created in {target_ch.name}.')
+                else:
+                    response = discord.Embed(color=0x696969, title=f'🔍 No groups in the Emote group!')
             else:
                 response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
         else:
