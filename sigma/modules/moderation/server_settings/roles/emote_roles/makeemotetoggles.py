@@ -64,7 +64,7 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
             if group_id in emote_groups:
                 role_items = []
                 group_roles = emote_groups.get(group_id)
-                if len(group_roles) > 0:
+                if group_roles:
                     for group_role in group_roles:
                         role_item = pld.msg.guild.get_role(group_role)
                         if role_item:
