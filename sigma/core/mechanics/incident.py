@@ -92,6 +92,20 @@ class Incident(object):
         self.guild = IncidentLocation(self.data.get('guild'))
         self.reason = self.data.get('reason')
         self.edits = self.data.get('edits', [])
+        self.timestamp = self.data.get('timestamp')
+
+    @property
+    def last_edited(self, formatted=False):
+        last_edit_stamp = None
+        if self.edits:
+            sorted_edits = sorted(self.edits, key=lambda ed: ed.get('timestamp', 0), reverse=True)
+            last_edit_stamp = sorted_edits[0].get('timestamp')
+        if formatted:
+            if last_edit_stamp:
+                last_edit_stamp = 'Never'
+            else:
+                last_edit_stamp = arrow.get(last_edit_stamp).format("DD. MMM. YYYY HH:mm:ss (ZZ)")
+        return last_edit_stamp
 
     def set_moderator(self, user: discord.Member):
         self.moderator = IncidentUser(user)
@@ -108,6 +122,7 @@ class Incident(object):
 
     def edit(self, user: discord.Member, reason: str):
         previous = self.to_dict()
+        del previous['edits']
         self.reason = reason
         by = IncidentUser(user)
         when = arrow.utcnow().float_timestamp
@@ -118,8 +133,29 @@ class Incident(object):
             'id': self.id, 'variant': self.variant,
             'moderator': self.moderator, 'target': self.target,
             'channel': self.channel, 'guild': self.guild,
-            'reason': self.reason, 'edits': self.edits
+            'reason': self.reason, 'edits': self.edits,
+            'timestamp': self.timestamp
         }
+
+    def to_text(self):
+        if self.data.get('moderator'):
+            moderator = f'{self.moderator.name}#{self.moderator.discriminator} [{self.moderator.id}]'
+        else:
+            moderator = "Unknown Mod"
+        if self.data.get('target'):
+            target = f'{self.target.name}#{self.target.discriminator} [{self.target.id}]'
+        else:
+            target = "Unknown User"
+        if self.data.get('channel'):
+            location = f'in #{self.channel.name} [{self.channel.id}] on {self.guild.name} [{self.guild.id}]'
+        else:
+            location = f'on {self.guild.name} [{self.guild.id}]'
+        if self.data.get('timestamp'):
+            date_time = arrow.get(self.timestamp).format("DD. MMM. YYYY HH:mm:ss (ZZ)")
+        else:
+            date_time = "Unknown Date and Time"
+        output = f'{self.id}: {self.variant.title() if self.variant else "Unknown"} incident by '
+        output += f'{moderator} affecting {target} {location} on {date_time}'
 
 
 class IncidentCore(object):
@@ -127,18 +163,36 @@ class IncidentCore(object):
         self.db = db
         self.coll = self.db[self.db.db_nam].Incidents
 
-    async def get(self, guild: int, token: str, variant: str):
+    async def get_by_token(self, guild: int, token: str):
         incident = None
-        lookup = {'id': token, 'variant': variant, 'guild.id': guild}
+        lookup = {'id': token, 'guild.id': guild}
         incident_doc = await self.coll.find_one(lookup)
         if incident_doc is not None:
             incident = Incident(incident_doc)
         return incident
 
+    async def get_by_index(self, guild: int, index: int):
+        lookup = {'guild.id': guild}
+        incident_docs = await self.coll.find(lookup).to_list(None)
+        try:
+            incident = Incident(incident_docs[index])
+        except IndexError:
+            incident = None
+        return incident
+
+    async def get_all(self, guild: int, variant: str = None):
+        incidents = []
+        lookup = {'guild.id': guild} if variant is None else {'guild.id': guild, 'variant': variant}
+        incident_docs = await self.coll.find(lookup).to_list(None)
+        for incident_doc in incident_docs:
+            incident = Incident(incident_doc)
+            incidents.append(incident)
+        return incidents
+
     @staticmethod
     def generate(variant: str):
         token = secrets.token_hex(4)
-        return Incident({'id': token, 'variant': variant})
+        return Incident({'id': token, 'variant': variant, 'timestamp': arrow.utcnow().float_timestamp})
 
     async def save(self, incident: Incident):
         await self.coll.insert_one(incident.to_dict())
