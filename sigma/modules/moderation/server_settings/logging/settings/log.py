@@ -22,7 +22,7 @@ from sigma.core.utilities.generic_responses import permission_denied
 
 log_keys = [
     'log_antispam', 'log_bans', 'log_deletions', 'log_edits', 'log_filters',
-    'log_kicks', 'log_movement', 'log_mutes', 'log_purges', 'log_warnings'
+    'log_kicks', 'log_movement', 'log_mutes', 'log_purges', 'log_warnings', 'log_incidents'
 ]
 accepted_logs = [lk.lower()[4:] for lk in log_keys]
 
