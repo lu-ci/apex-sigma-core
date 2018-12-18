@@ -156,6 +156,7 @@ class Incident(object):
             date_time = "Unknown Date and Time"
         output = f'{self.id}: {self.variant.title() if self.variant else "Unknown"} incident by '
         output += f'{moderator} affecting {target} {location} on {date_time}'
+        return output
 
 
 class IncidentCore(object):
