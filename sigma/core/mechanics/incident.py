@@ -85,6 +85,7 @@ class Incident(object):
     def __init__(self, data: dict = None):
         self.data = data if data is not None else {}
         self.id = self.data.get('id')
+        self.order = self.data.get('order')
         self.variant = self.data.get('variant')
         self.moderator = IncidentUser(self.data.get('moderator'))
         self.target = IncidentUser(self.data.get('target'))
@@ -130,7 +131,7 @@ class Incident(object):
 
     def to_dict(self):
         return {
-            'id': self.id, 'variant': self.variant,
+            'id': self.id, 'order': self.order, 'variant': self.variant,
             'moderator': self.moderator, 'target': self.target,
             'channel': self.channel, 'guild': self.guild,
             'reason': self.reason, 'edits': self.edits,
@@ -164,22 +165,19 @@ class IncidentCore(object):
         self.db = db
         self.coll = self.db[self.db.db_nam].Incidents
 
-    async def get_by_token(self, guild: int, token: str):
+    async def get(self, guild: int, identifier: str, value: str or int):
         incident = None
-        lookup = {'id': token, 'guild.id': guild}
+        lookup = {identifier: value, 'guild.id': guild}
         incident_doc = await self.coll.find_one(lookup)
         if incident_doc is not None:
             incident = Incident(incident_doc)
         return incident
 
-    async def get_by_index(self, guild: int, index: int):
-        lookup = {'guild.id': guild}
-        incident_docs = await self.coll.find(lookup).to_list(None)
-        try:
-            incident = Incident(incident_docs[index])
-        except IndexError:
-            incident = None
-        return incident
+    async def get_by_token(self, guild: int, token: str):
+        return await self.get(guild, 'id', token)
+
+    async def get_by_order(self, guild: int, order: int):
+        await self.get(guild, 'order', order)
 
     async def get_all(self, guild: int, variant: str = None):
         incidents = []
@@ -190,10 +188,22 @@ class IncidentCore(object):
             incidents.append(incident)
         return incidents
 
+    async def count_incidents(self, guild: int):
+        return await self.coll.count_documents({'guild.id': guild})
+
     @staticmethod
-    def generate(variant: str):
-        token = secrets.token_hex(4)
-        return Incident({'id': token, 'variant': variant, 'timestamp': arrow.utcnow().float_timestamp})
+    async def generate(variant: str):
+        return Incident({
+            'id': secrets.token_hex(4),
+            'variant': variant,
+            'timestamp': arrow.utcnow().float_timestamp
+        })
 
     async def save(self, incident: Incident):
-        await self.coll.insert_one(incident.to_dict())
+        lookup = {'id': incident.id, 'guild.id': incident.guild.id}
+        lookup_doc = await self.coll.find_one(lookup)
+        if lookup:
+            await self.coll.update_one({lookup_doc}, {'$set': incident.to_dict()})
+        else:
+            incident.order = (await self.count_incidents(incident.guild.id)) + 1
+            await self.coll.insert_one(incident.to_dict())
