@@ -54,6 +54,13 @@ class IncidentUser(object):
         self.name = data.get('name')
         self.discriminator = data.get('discriminator')
 
+    def to_text(self, in_embed=True):
+        if in_embed:
+            output = f'<@{self.id}>\n{self.name}#{self.discriminator}'
+        else:
+            output = f'{self.name}#{self.discriminator} [{self.id}]'
+        return output
+
     def to_dict(self):
         return {'id': self.id, 'name': self.name, 'discriminator': self.discriminator}
 
@@ -61,6 +68,7 @@ class IncidentUser(object):
 class IncidentLocation(object):
     def __init__(self, entity: dict or discord.TextChannel or discord.Guild = None):
         self.entity = entity
+        self.variant = None
         if isinstance(entity, dict):
             self.from_dict(entity)
         elif isinstance(entity, discord.TextChannel) or isinstance(entity, discord.Guild):
@@ -72,10 +80,24 @@ class IncidentLocation(object):
     def from_obj(self, obj: discord.TextChannel or discord.Guild):
         self.id = obj.id
         self.name = obj.name
+        if isinstance(obj, discord.TextChannel):
+            self.variant = 'channel'
+        else:
+            self.variant = 'guild'
 
     def from_dict(self, data: dict):
         self.id = data.get('id')
         self.name = data.get('name')
+
+    def to_text(self, in_embed=True):
+        name_piece = f'#{self.name}' if self.variant == 'channel' else self.name
+        mention_piece = f'<#{self.id}>' if self.variant == 'channel' else None
+        if in_embed:
+            output = f'{mention_piece if mention_piece else ""}'
+            output += f'{name_piece}'
+        else:
+            output = f'{name_piece} [{self.id}]'
+        return output
 
     def to_dict(self):
         return {'id': self.id, 'name': self.name}
@@ -140,17 +162,17 @@ class Incident(object):
 
     def to_text(self):
         if self.data.get('moderator'):
-            moderator = f'{self.moderator.name}#{self.moderator.discriminator} [{self.moderator.id}]'
+            moderator = f'{self.moderator.to_text(False)}'
         else:
             moderator = "Unknown Mod"
         if self.data.get('target'):
-            target = f'{self.target.name}#{self.target.discriminator} [{self.target.id}]'
+            target = f'{self.target.to_text(False)}'
         else:
             target = "Unknown User"
         if self.data.get('channel'):
-            location = f'in #{self.channel.name} [{self.channel.id}] on {self.guild.name} [{self.guild.id}]'
+            location = f'in {self.channel.to_text(False)} on {self.guild.to_text(False)}'
         else:
-            location = f'on {self.guild.name} [{self.guild.id}]'
+            location = f'on {self.guild.to_text(False)}'
         if self.data.get('timestamp'):
             date_time = arrow.get(self.timestamp).format("DD. MMM. YYYY HH:mm:ss (ZZ)")
         else:
@@ -158,6 +180,17 @@ class Incident(object):
         output = f'{self.id}: {self.variant.title() if self.variant else "Unknown"} incident by '
         output += f'{moderator} affecting {target} {location} on {date_time}'
         return output
+
+    def to_embed(self, icon: str, color: int):
+        target = IncidentUser(self.data.get('target'))
+        author = IncidentUser(self.data.get('author'))
+        incident_title = f'{icon} {self.variant.title()} incident recorded.'
+        response = discord.Embed(color=color, timestamp=arrow.utcnow().datetime, title=incident_title)
+        response.add_field(name='🛡 Moderator', value=author.to_text())
+        response.add_field(name='⚠ Target', value=target.to_text())
+        response.add_field(name='📄 Reason', value=self.reason, inline=False)
+        response.set_footer(text=f'Incident ID: {self.id} | Incident Number: {self.order}')
+        return response
 
 
 class IncidentCore(object):
