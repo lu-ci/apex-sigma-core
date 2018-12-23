@@ -65,7 +65,7 @@ def get_targets(message: discord.Message, args: list, target_type: str):
 
 def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, target_type: str, perms: dict):
     exc_usrs, inner_exc, node_exc = exc_tuple
-    bad_item = False
+    bad_item = None
     for target in targets:
         if target.id in exc_usrs:
             bad_item = target
@@ -97,8 +97,8 @@ async def permit(cmd: SigmaCommand, pld: CommandPayload):
                 if ':' in pld.args[1]:
                     target_type = get_target_type(pld.args[0].lower())
                     if target_type:
-                        perm_mode = pld.args[1].split(':')[0]
-                        node_name = pld.args[1].split(':')[1]
+                        perm_mode = pld.args[1].split(':')[0].lower()
+                        node_name = pld.args[1].split(':')[1].lower()
                         modes = {
                             'c': ('command_exceptions', cmd.bot.modules.commands, True),
                             'm': ('module_exceptions', cmd.bot.modules.categories, False)
@@ -111,8 +111,9 @@ async def permit(cmd: SigmaCommand, pld: CommandPayload):
                                 exc_tuple, node_name, perms = await get_perm_group(cmd, pld.msg, mode_vars, node_name,
                                                                                    target_type)
                                 if exc_tuple:
-                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, target_type,
-                                                              perms)
+                                    bad_item = verify_targets(
+                                        targets, exc_tuple, exc_group, node_name, target_type, perms
+                                    )
                                     if not bad_item:
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': pld.msg.guild.id}, {'$set': perms}
