@@ -33,18 +33,18 @@ def get_incident_core(db: Database):
 
 
 class IncidentUser(object):
-    def __init__(self, entity: dict or discord.Member = None):
+    def __init__(self, entity: dict or discord.Member or discord.User = None):
         self.entity = entity
         if isinstance(entity, dict):
             self.from_dict(entity)
-        elif isinstance(entity, discord.Member):
+        elif isinstance(entity, discord.Member) or isinstance(entity, discord.User):
             self.from_user(entity)
         else:
             self.id = None
             self.name = None
             self.discriminator = None
 
-    def from_user(self, user: discord.Member):
+    def from_user(self, user: discord.Member or discord.User):
         self.id = user.id
         self.name = user.name
         self.discriminator = user.discriminator
@@ -130,15 +130,18 @@ class Incident(object):
                 last_edit_stamp = arrow.get(last_edit_stamp).format("DD. MMM. YYYY HH:mm:ss (ZZ)")
         return last_edit_stamp
 
-    def set_moderator(self, user: discord.Member):
+    def set_moderator(self, user: discord.Member or discord.User):
         self.moderator = IncidentUser(user)
 
-    def set_target(self, user: discord.Member):
+    def set_target(self, user: discord.Member or discord.User):
         self.target = IncidentUser(user)
 
-    def set_location(self, channel: discord.TextChannel):
-        self.channel = IncidentLocation(channel)
-        self.guild = IncidentLocation(channel.guild)
+    def set_location(self, location: discord.TextChannel or discord.Guild):
+        if isinstance(location, discord.TextChannel):
+            self.channel = IncidentLocation(location)
+            self.guild = IncidentLocation(location.guild)
+        else:
+            self.guild = IncidentLocation(location)
 
     def set_reason(self, text: str):
         self.reason = text
@@ -154,8 +157,8 @@ class Incident(object):
     def to_dict(self):
         return {
             'id': self.id, 'order': self.order, 'variant': self.variant,
-            'moderator': self.moderator, 'target': self.target,
-            'channel': self.channel, 'guild': self.guild,
+            'moderator': self.moderator.to_dict(), 'target': self.target.to_dict(),
+            'channel': self.channel.to_dict(), 'guild': self.guild.to_dict(),
             'reason': self.reason, 'edits': self.edits,
             'timestamp': self.timestamp
         }
@@ -235,8 +238,17 @@ class IncidentCore(object):
     async def save(self, incident: Incident):
         lookup = {'id': incident.id, 'guild.id': incident.guild.id}
         lookup_doc = await self.coll.find_one(lookup)
-        if lookup:
+        if lookup_doc:
             await self.coll.update_one({lookup_doc}, {'$set': incident.to_dict()})
         else:
             incident.order = (await self.count_incidents(incident.guild.id)) + 1
             await self.coll.insert_one(incident.to_dict())
+
+    async def report(self, guild: discord.Guild, incident_embed: discord.Embed):
+        incident_channel_id = await self.db.get_guild_settings(guild.id, 'log_incidents_channel')
+        incident_channel = guild.get_channel(incident_channel_id)
+        if incident_channel:
+            try:
+                await incident_channel.send(embed=incident_embed)
+            except (discord.Forbidden, discord.NotFound):
+                pass

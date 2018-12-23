@@ -1,0 +1,10 @@
+name:             Incident Detectors
+
+category:         settings
+
+enabled:          true
+
+events:
+  - name:         kick_incident_scanner
+    type:         member_remove
+    enabled:      true
