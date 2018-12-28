@@ -33,7 +33,7 @@ def parse_incidents(incidents: list, page):
     outlist = []
     for inc in incidents:
         timestamp = arrow.get(inc.timestamp).format('DD. MMM. YYYY. HH:mm')
-        details = f'`{inc.id}` - {inc.variant} incident for **{inc.target.name}** on {timestamp}'
+        details = f'**#{inc.order}** `{inc.id}` - {inc.variant} incident for **{inc.target.name}** on {timestamp}'
         outlist.append(details)
     return '\n'.join(outlist), page
 
