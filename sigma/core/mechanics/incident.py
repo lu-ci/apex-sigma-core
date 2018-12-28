@@ -247,7 +247,7 @@ class IncidentCore(object):
         lookup = {'id': incident.id, 'guild.id': incident.guild.id}
         lookup_doc = await self.coll.find_one(lookup)
         if lookup_doc:
-            await self.coll.update_one({lookup_doc}, {'$set': incident.to_dict()})
+            await self.coll.update_one(lookup_doc, {'$set': incident.to_dict()})
         else:
             incident.order = (await self.count_incidents(incident.guild.id)) + 1
             await self.coll.insert_one(incident.to_dict())
