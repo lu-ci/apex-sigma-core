@@ -29,7 +29,7 @@ identifiers = ['moderator', 'target', 'variant']
 
 def parse_incidents(incidents: list, page):
     incidents = sorted(incidents, key=lambda i: i.order)
-    incidents, page = PaginatorCore.paginate(incidents, page, 15)
+    incidents, page = PaginatorCore.paginate(incidents, page, 10)
     outlist = []
     for inc in incidents:
         timestamp = arrow.get(inc.timestamp).format('DD. MMM. YYYY. HH:mm')
