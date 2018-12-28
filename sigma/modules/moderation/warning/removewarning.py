@@ -18,6 +18,8 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -32,8 +34,18 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
     response.set_author(name=f'{target.name} has been un-warned by {author.name}.', icon_url=target_avatar)
     response.add_field(name='⚠ Warned User', value=target_descrp)
     response.add_field(name='🛡 Moderator', value=author_descrp)
-    response.set_footer(text=f'[{warn_iden}] user_id: {target.id}')
+    response.set_footer(text=f'[{warn_iden}] User ID {target.id}')
     return response
+
+
+async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member):
+    icore = get_incident_core(db)
+    inc = icore.generate('unwarn')
+    inc.set_location(gld)
+    inc.set_moderator(ath)
+    inc.set_target(trg)
+    await icore.save(inc)
+    await icore.report(gld, inc.to_embed('⚠', 0xFFCC4D))
 
 
 async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
@@ -50,6 +62,7 @@ async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
+                    await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target)
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)

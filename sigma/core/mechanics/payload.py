@@ -109,6 +109,18 @@ class VoiceStateUpdatePayload(UpdatePayload):
             self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
 
 
+class BanPayload(GuildPayload):
+    def __init__(self, bot, guild: discord.Guild, user: discord.Member or discord.User):
+        super().__init__(bot, guild)
+        self.user = user
+
+
+class UnbanPayload(GuildPayload):
+    def __init__(self, bot, guild: discord.Guild, user: discord.User):
+        super().__init__(bot, guild)
+        self.user = user
+
+
 class ReactionPayload(SigmaPayload):
     def __init__(self, bot, reaction: discord.Reaction, user: discord.User):
         super().__init__(bot)

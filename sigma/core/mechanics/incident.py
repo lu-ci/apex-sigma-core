@@ -124,7 +124,7 @@ class Incident(object):
             sorted_edits = sorted(self.edits, key=lambda ed: ed.get('timestamp', 0), reverse=True)
             last_edit_stamp = sorted_edits[0].get('timestamp')
         if formatted:
-            if last_edit_stamp:
+            if not last_edit_stamp:
                 last_edit_stamp = 'Never'
             else:
                 last_edit_stamp = arrow.get(last_edit_stamp).format("DD. MMM. YYYY HH:mm:ss (ZZ)")
@@ -164,15 +164,15 @@ class Incident(object):
         }
 
     def to_text(self):
-        if self.data.get('moderator'):
+        if all(self.data.get('moderator').values()):
             moderator = f'{self.moderator.to_text(False)}'
         else:
             moderator = "Unknown Mod"
-        if self.data.get('target'):
+        if all(self.data.get('target').values()):
             target = f'{self.target.to_text(False)}'
         else:
             target = "Unknown User"
-        if self.data.get('channel'):
+        if all(self.data.get('channel').values()):
             location = f'in {self.channel.to_text(False)} on {self.guild.to_text(False)}'
         else:
             location = f'on {self.guild.to_text(False)}'
@@ -185,13 +185,12 @@ class Incident(object):
         return output
 
     def to_embed(self, icon: str, color: int):
-        target = IncidentUser(self.data.get('target'))
-        author = IncidentUser(self.data.get('author'))
-        incident_title = f'{icon} {self.variant.title()} incident recorded.'
+        incident_title = f'{self.variant.title()} incident recorded.'
         response = discord.Embed(color=color, timestamp=arrow.utcnow().datetime, title=incident_title)
-        response.add_field(name='🛡 Moderator', value=author.to_text())
-        response.add_field(name='⚠ Target', value=target.to_text())
-        response.add_field(name='📄 Reason', value=self.reason, inline=False)
+        response.add_field(name=f'{icon} Target', value=self.target.to_text())
+        response.add_field(name='🛡 Moderator', value=self.moderator.to_text())
+        if self.reason:
+            response.add_field(name='📄 Reason', value=f'```\n{self.reason}\n```', inline=False)
         response.set_footer(text=f'Incident ID: {self.id} | Incident Number: {self.order}')
         return response
 
@@ -201,34 +200,43 @@ class IncidentCore(object):
         self.db = db
         self.coll = self.db[self.db.db_nam].Incidents
 
-    async def get(self, guild: int, identifier: str, value: str or int):
+    async def get(self, guild_id: int, identifier: str, value: str or int):
         incident = None
-        lookup = {identifier: value, 'guild.id': guild}
+        lookup = {identifier: value, 'guild.id': guild_id}
         incident_doc = await self.coll.find_one(lookup)
         if incident_doc is not None:
             incident = Incident(incident_doc)
         return incident
 
-    async def get_by_token(self, guild: int, token: str):
-        return await self.get(guild, 'id', token)
+    async def get_by_token(self, guild_id: int, token: str):
+        return await self.get(guild_id, 'id', token)
 
-    async def get_by_order(self, guild: int, order: int):
-        await self.get(guild, 'order', order)
+    async def get_by_order(self, guild_id: int, order: int):
+        return await self.get(guild_id, 'order', order)
 
-    async def get_all(self, guild: int, variant: str = None):
+    async def get_all(self, guild_id: int, identifier: int or str = None, identifier_id: int or str = None):
         incidents = []
-        lookup = {'guild.id': guild} if variant is None else {'guild.id': guild, 'variant': variant}
+        lookup = {'guild.id': guild_id} if identifier is None else {'guild.id': guild_id, identifier: identifier_id}
         incident_docs = await self.coll.find(lookup).to_list(None)
         for incident_doc in incident_docs:
             incident = Incident(incident_doc)
             incidents.append(incident)
         return incidents
 
-    async def count_incidents(self, guild: int):
-        return await self.coll.count_documents({'guild.id': guild})
+    async def get_all_by_variant(self, guild_id: int, variant: str):
+        return await self.get_all(guild_id, 'variant', variant)
+
+    async def get_all_by_mod(self, guild_id: int, mod_id: int):
+        return await self.get_all(guild_id, 'moderator.id', mod_id)
+
+    async def get_all_by_target(self, guild_id: int, target_id: int):
+        return await self.get_all(guild_id, 'target.id', target_id)
+
+    async def count_incidents(self, guild_id: int):
+        return await self.coll.count_documents({'guild.id': guild_id})
 
     @staticmethod
-    async def generate(variant: str):
+    def generate(variant: str):
         return Incident({
             'id': secrets.token_hex(4),
             'variant': variant,

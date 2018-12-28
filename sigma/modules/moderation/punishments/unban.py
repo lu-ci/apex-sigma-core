@@ -32,7 +32,7 @@ def generate_log_embed(message, target):
     author = message.author
     log_response.add_field(name='🛡 Responsible',
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
-    log_response.set_footer(text=f'user_id: {target.id}')
+    log_response.set_footer(text=f'User ID {target.id}')
     return log_response
 
 
@@ -47,7 +47,7 @@ async def unban(cmd: SigmaCommand, pld: CommandPayload):
                     target = entry.user
                     break
             if target:
-                await pld.msg.guild.unban(target, reason=f'By {pld.msg.author.name}.')
+                await pld.msg.guild.unban(target, reason=f'By {pld.msg.author.name}#{pld.msg.author.discriminator}.')
                 log_embed = generate_log_embed(pld.msg, target)
                 await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                 response = discord.Embed(color=0x77B255, title=f'✅ {target.name} has been unbanned.')

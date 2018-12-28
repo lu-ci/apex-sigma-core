@@ -17,29 +17,29 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import MemberPayload
+from sigma.core.mechanics.payload import UnbanPayload
 from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_reason
 
 
-async def kick_incident_scanner(ev: SigmaEvent, pld: MemberPayload):
-    kick_entry = None
+async def unban_incident_scanner(ev: SigmaCommand, pld: UnbanPayload):
+    unban_entry = None
     now = arrow.utcnow().float_timestamp
-    async for ali in pld.member.guild.audit_logs(limit=100, action=discord.AuditLogAction.kick):
-        if ali.target.id == pld.member.id:
+    async for ali in pld.guild.audit_logs(limit=100, action=discord.AuditLogAction.unban):
+        if ali.target.id == pld.user.id:
             kick_stamp = arrow.get(ali.created_at).float_timestamp
             if now - kick_stamp <= 5:
-                kick_entry = ali
-    if kick_entry:
-        mod, reason = get_mod_and_reason(kick_entry, pld.member.guild)
+                unban_entry = ali
+    if unban_entry:
+        mod, reason = get_mod_and_reason(unban_entry, pld.guild)
         icore = get_incident_core(ev.db)
-        incident = icore.generate('kick')
-        incident.set_location(pld.member.guild)
+        incident = icore.generate('unban')
+        incident.set_location(pld.guild)
         incident.set_moderator(mod)
-        incident.set_target(kick_entry.target)
+        incident.set_target(unban_entry.target)
         if reason:
             incident.set_reason(reason)
         await icore.save(incident)
-        incident_embed = incident.to_embed('👢', 0xc1694f)
-        await icore.report(pld.member.guild, incident_embed)
+        incident_embed = incident.to_embed('🔨', 0x696969)
+        await icore.report(pld.guild, incident_embed)

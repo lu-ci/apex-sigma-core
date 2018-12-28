@@ -20,6 +20,8 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -61,8 +63,19 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, re
     response.add_field(name='🛡 Moderator', value=author_descrp)
     if reason:
         response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    response.set_footer(text=f'[{warn_iden}] user_id: {target.id}')
+    response.set_footer(text=f'[{warn_iden}] User ID: {target.id}')
     return response
+
+
+async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+    icore = get_incident_core(db)
+    inc = icore.generate('warn')
+    inc.set_location(gld)
+    inc.set_moderator(ath)
+    inc.set_target(trg)
+    inc.set_reason(reason)
+    await icore.save(inc)
+    await icore.report(gld, inc.to_embed('⚠', 0xFFCC4D))
 
 
 async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
@@ -76,6 +89,7 @@ async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
                     response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
+                    await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                     to_target = discord.Embed(color=0xFFCC4D)

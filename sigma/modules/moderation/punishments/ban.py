@@ -26,7 +26,7 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 def generate_log_embed(message, target, reason):
-    log_response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
+    log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name=f'A User Has Been Banned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Banned User',
                            value=f'{target.mention}\n{target.name}#{target.discriminator}')
@@ -35,7 +35,7 @@ def generate_log_embed(message, target, reason):
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_response.set_footer(text=f'user_id: {target.id}')
+    log_response.set_footer(text=f'User ID {target.id}')
     return log_response
 
 
@@ -81,7 +81,7 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                                 await target.send(embed=to_target)
                             except discord.Forbidden:
                                 pass
-                            audit_reason = f'By {pld.msg.author.name}: {reason}'
+                            audit_reason = f'By {pld.msg.author.name}#{pld.msg.author.discriminator}: {reason}'
                             await target.ban(reason=audit_reason, delete_message_days=clean_days)
                             log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')

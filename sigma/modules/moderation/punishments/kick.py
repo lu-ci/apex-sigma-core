@@ -35,7 +35,7 @@ def generate_log_embed(message, target, reason):
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_response.set_footer(text=f'user_id: {target.id}')
+    log_response.set_footer(text=f'User ID {target.id}')
     return log_response
 
 
@@ -61,7 +61,8 @@ async def kick(cmd: SigmaCommand, pld: CommandPayload):
                                 await target.send(embed=to_target)
                             except discord.Forbidden:
                                 pass
-                            await target.kick(reason=f'By {pld.msg.author.name}: {reason}')
+                            author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
+                            await target.kick(reason=f'By {author}: {reason}')
                             log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_kicks')
                         else:

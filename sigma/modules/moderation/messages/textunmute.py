@@ -18,6 +18,8 @@ import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -35,8 +37,19 @@ def generate_log_embed(message, target, reason):
                         value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_embed.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_embed.set_footer(text=f'user_id: {target.id}')
+    log_embed.set_footer(text=f'User ID {target.id}')
     return log_embed
+
+
+async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+    icore = get_incident_core(db)
+    inc = icore.generate('textunmute')
+    inc.set_location(gld)
+    inc.set_moderator(ath)
+    inc.set_target(trg)
+    inc.set_reason(reason)
+    await icore.save(inc)
+    await icore.report(gld, inc.to_embed('🔊', 0x696969))
 
 
 async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
@@ -65,6 +78,7 @@ async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         mute_list.remove(target.id)
                         reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
+                        await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)
                         response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
                         log_embed = generate_log_embed(pld.msg, target, reason)
