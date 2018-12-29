@@ -17,7 +17,7 @@ commands:
       It can also accept a list of log types separated by a semicolon and space "; ". To disable all logging
       channels, ented "disable" as the channel argument. To disable channels for specific log types, input the log
       type after "disable". Disabling also acceptes a list of log types in the aforementioned format. Accepted log
-      types are antispam, bans, deletions, edits, filters, kicks, modules, movement, mutes, purges, and warnings.
+      types are antispam, bans, deletions, edits, filters, kicks, modules, movement, mutes, purges, incidents and warnings.
 
   - name:         log
     enabled:      true

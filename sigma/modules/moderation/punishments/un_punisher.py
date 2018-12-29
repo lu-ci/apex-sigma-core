@@ -40,6 +40,7 @@ async def unban(ev: SigmaEvent, doc: dict):
             banlist = await guild.bans()
             target = discord.utils.find(lambda u: u.user.id == uid, banlist)
             if target:
+                await ev.db[ev.db.db_nam].BanClockworkDocs.delete_one(doc)
                 ev.log.info(f'Un-banning {uid} from {gid}.')
                 await guild.unban(target.user, reason='Ban timer ran out.')
                 await asyncio.sleep(2)
@@ -61,6 +62,7 @@ async def untmute(ev: SigmaEvent, doc: dict):
             await asyncio.sleep(5)
             target = guild.get_member(uid)
             if target:
+                await ev.db[ev.db.db_nam].TextmuteClockworkDocs.delete_one(doc)
                 to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
                 await target.send(embed=to_target)
@@ -76,6 +78,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
         if guild:
             target = guild.get_member(uid)
             if target:
+                await ev.db[ev.db.db_nam].HardmuteClockworkDocs.delete_one(doc)
                 for channel in guild.channels:
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                         try:
@@ -100,13 +103,13 @@ async def un_punisher_clock(ev: SigmaEvent):
         if ev.bot.is_ready:
             now = arrow.utcnow().timestamp
             lookup = {'time': {'$lt': now}}
-            banned = await bancoll.find_one_and_delete(lookup)
-            if banned:
+            banned_list = await bancoll.find(lookup).to_list(None)
+            for banned in banned_list:
                 await unban(ev, banned)
-            tmuted = await tmutecoll.find_one_and_delete(lookup)
-            if tmuted:
+            tmuted_list = await tmutecoll.find(lookup).to_list(None)
+            for tmuted in tmuted_list:
                 await untmute(ev, tmuted)
-            hmuted = await hmutecoll.find_one_and_delete(lookup)
-            if hmuted:
+            hmuted_list = await hmutecoll.find(lookup).to_list(None)
+            for hmuted in hmuted_list:
                 await unhmute(ev, hmuted)
-        await asyncio.sleep(60)
+        await asyncio.sleep(5)
