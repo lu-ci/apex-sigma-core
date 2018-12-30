@@ -22,7 +22,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
-price = 0
+price = 10
 
 
 async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):

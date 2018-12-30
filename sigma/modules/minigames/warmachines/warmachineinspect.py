@@ -49,7 +49,7 @@ async def warmachineinspect(cmd: SigmaCommand, pld: CommandPayload):
             stats_block += f'\n**Critical Multiplier**: {machine.stats.damage}'
             stats_block += f' | **Armor**: {machine.stats.damage}'
             stats_block += f' | **Armor Penetration**: {machine.stats.damage}'
-            response = discord.Embed(color=0x3B88C3, title=f'🤖 {machine.name}')
+            response = discord.Embed(color=0x3B88C3, title=f'🤖 {machine.id}: {machine.name}')
             response.description = f'**Production**: {machine.product_name}'
             response.add_field(name='Battles', value=f'**Won**: {machine.won} | **Lost**: {machine.lost}', inline=False)
             response.add_field(name='Statistics', value=stats_block, inline=False)

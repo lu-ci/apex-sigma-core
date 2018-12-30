@@ -31,3 +31,12 @@ commands:
     description:
       Lists all machines owned by the target person, or yourself.
       The list is paginated with 5 machines on each page.
+
+  - name:         warmachinename
+    alts:
+      - "wmname"
+      - "wmnam"
+    enabled:      true
+    description:
+      Renames one of your warmachines.
+
