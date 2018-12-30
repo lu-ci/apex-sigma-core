@@ -19,26 +19,14 @@ import asyncio
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
-price = 450
-resource_names = ['metal', 'biomass', 'ammunition', 'sumarum', 'currency']
-
-
-async def check_resources(db: Database, uid: int):
-    missing = []
-    for res in resource_names:
-        user_res = await db.get_resource(uid, res)
-        if user_res.current < price:
-            missing.append(res)
-    return missing
+price = 0
 
 
 async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
-    res_list = '{", ".join(resource_names)}'.replace('currency', cmd.bot.cfg.pref.currency.lower())
-    confirm_desc = f'Building a machine costs **{price}** of **{res_list}** each, do you want to continue?'
+    confirm_desc = f'Building a machine costs **{price} sumarum**, do you want to continue?'
     confirm_embed = discord.Embed(color=0x8899a6, title=f'🔧 Are you sure, {pld.msg.author.name}?')
     confirm_embed.description = confirm_desc
     confirmation = await pld.msg.channel.send(embed=confirm_embed)
@@ -61,18 +49,16 @@ async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
     except asyncio.TimeoutError:
         canceled = True
     if not canceled:
-        missing = await check_resources(cmd.db, pld.msg.author.id)
-        if not missing:
-            for res in resource_names:
-                await cmd.db.del_resource(pld.msg.author.id, res, price, cmd.name, pld.msg)
+        sumarum = await cmd.db.get_resource(pld.msg.author.id, 'sumarum')
+        if sumarum.current >= price:
+            await cmd.db.del_resource(pld.msg.author.id, 'sumarum', price, cmd.name, pld.msg)
             prefix = cmd.db.get_prefix(pld.settings)
             machine = SigmaMachine(cmd.db, pld.msg.author, SigmaMachine.new())
             await machine.update()
             response = discord.Embed(color=0x8899a6, title=f'🔧 {machine.product_name} constructed.')
             response.set_footer(text=f'Use "{prefix}wminspect {machine.id}" to see its specifications.')
         else:
-            missing_list = f'{", ".join(missing)}'.replace('currency', cmd.bot.cfg.pref.currency.lower())
-            response = discord.Embed(color=0xBE1931, title=f'❗ Not enough {missing_list}.')
+            response = discord.Embed(color=0xBE1931, title='❗ Not enough sumarum.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❌ Construction canceled.')
+        response = discord.Embed(color=0xBE1931, title='❌ Construction canceled.')
     await pld.msg.channel.send(embed=response)

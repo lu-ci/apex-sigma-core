@@ -24,7 +24,7 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 async def resources(cmd: SigmaCommand, pld: CommandPayload):
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    reses = ['currency', 'metal', 'biomass', 'sumarum', 'ammunition']
+    reses = ['currency', 'sumarum']
     response = discord.Embed(color=await get_image_colors(user_avatar(target)))
     response.set_author(name=f'{target.name}\'s Resources', icon_url=user_avatar(target))
     boop_head = ['Name', 'Current', 'Local', 'Total']

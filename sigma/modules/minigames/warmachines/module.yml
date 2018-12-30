@@ -13,6 +13,14 @@ commands:
     description:
       Makes a new Warmachine.
 
+  - name:         warmachineinspect
+    alts:
+      - "wminspect"
+      - "wmins"
+    enabled:      true
+    description:
+      Shows the details of your warmachine, its stats, and battle wins and losses.
+
   - name:         warmachinelist
     alts:
       - "warmachines"
