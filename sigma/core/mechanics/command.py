@@ -47,7 +47,6 @@ class SigmaCommand(object):
         self.log = create_logger(self.name.upper())
         self.nsfw = False
         self.cfg = {}
-        self.cache = {}
         self.owner = False
         self.partner = False
         self.dmable = False

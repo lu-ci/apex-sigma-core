@@ -34,7 +34,8 @@ async def dbinit_shootfoot(ev: SigmaEvent, force=False):
         for lang in data.keys():
             lang_low = lang.lower()
             methods = data.get(lang)
-            doc_data = {'lang': lang, 'lang_low': lang_low, 'methods': methods}
+            aliases = data.get('alts')
+            doc_data = {'lang': lang, 'lang_low': lang_low, 'methods': methods, 'alts': aliases}
             documents.append(doc_data)
         await ev.db[ev.db.db_nam].ShootFootData.insert_many(documents)
         ev.log.info('Updated foot shooting files successfully.')

@@ -20,15 +20,30 @@ import secrets
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
+from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
+
+
+async def get_all_sf(db: Database):
+    joke_docs = await db.cache.get_cache('shoot_foot_docs')
+    if joke_docs is None:
+        joke_docs = await db[db.db_nam].ShootFootData.find().to_list(None)
+        await db.cache.set_cache('shoot_foot_docs', joke_docs)
+    return joke_docs
 
 
 async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
     lang = ' '.join(pld.args).lower() if pld.args else None
     if lang:
         joke_doc = await cmd.db[cmd.db.db_nam].ShootFootData.find_one({'lang_low': lang})
+        if not joke_doc:
+            joke_docs = await get_all_sf(cmd.db)
+            for joke_doc_item in joke_docs:
+                if lang in joke_doc_item.get('alts', []):
+                    joke_doc = joke_doc_item
+                    break
     else:
-        all_docs = await cmd.db[cmd.db.db_nam].ShootFootData.find().to_list(None)
+        all_docs = await get_all_sf(cmd.db)
         joke_doc = secrets.choice(all_docs)
     if joke_doc:
         joke = secrets.choice(joke_doc.get('methods'))
