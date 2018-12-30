@@ -120,13 +120,6 @@ class SigmaMachine(object):
             outs.append(comp_core.get_battle_cost(val, self.level))
         return tuple(outs)
 
-    def get_repair_costs(self):
-        outs = []
-        for att_key in self.get_comp_keys():
-            val = self.components.get(att_key)
-            outs.append(comp_core.get_repair_cost(val, self.level, self.stats.health, self.current_health))
-        return tuple(outs)
-
     def combine_components(self):
         attr, manu, ammo, clas = self.get_comp_stats()
         for sec_com in [attr, ammo, clas]:
@@ -135,12 +128,6 @@ class SigmaMachine(object):
 
     def combine_battle_cost(self):
         attr, manu, ammo, clas = self.get_battle_costs()
-        for sec_com in [attr, ammo, clas]:
-            manu.combine(sec_com)
-        return manu
-
-    def combine_repair_cost(self):
-        attr, manu, ammo, clas = self.get_repair_costs()
         for sec_com in [attr, ammo, clas]:
             manu.combine(sec_com)
         return manu
