@@ -20,7 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
+async def blacklistcommand(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
         if len(pld.args) >= 2:
             try:
