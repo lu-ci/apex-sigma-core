@@ -43,7 +43,7 @@ async def visualnovelquote(_cmd: SigmaCommand, pld: CommandPayload):
     try:
         vn_image = quote_page.cssselect('.vnimg')[0]
         if len(vn_image) == 1:
-            vn_image = quote_page.cssselect('.vnimg')[0][0][0].attrib.get('src')
+            vn_image = quote_page.cssselect('.vnimg')[0][0].attrib.get('src')
             nsfw = False
         else:
             vn_image = vndb_icon
