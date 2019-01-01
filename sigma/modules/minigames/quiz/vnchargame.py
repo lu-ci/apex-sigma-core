@@ -63,7 +63,7 @@ async def vnchargame(cmd: SigmaCommand, pld: CommandPayload):
                     vn_details_page_html = await vn_details_page_session.text()
             vn_details_page = html.fromstring(vn_details_page_html)
             vn_title = vn_details_page.cssselect('.stripe')[0][0][1].text_content().strip()
-            vn_image = vn_details_page.cssselect('.vnimg')[0][0][0].attrib['src']
+            vn_image = vn_details_page.cssselect('.vnimg')[0][0].attrib['src']
             character_objects = vn_details_page.cssselect('.chardetails')[:8]
             character = secrets.choice(character_objects)
             char_img = character[0][0].attrib['src']
