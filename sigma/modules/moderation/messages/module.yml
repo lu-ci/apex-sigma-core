@@ -24,6 +24,19 @@ commands:
       Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
       This command requires the Manage Messages permission.
 
+  - name:         removeemote
+    alts:
+      - "removeemote"
+      - "rememote"
+    enabled:      true
+    usage:        "{pfx}{cmd} 1234567890 lcHello"
+    requirements:
+      - "manage_messages"
+    description:
+      Removes the given emote from the specified message.
+      Specify the message by its ID. If the emote is custom, use its name, otherwise use the actual emote.
+      This command requires the Manage Messages permission.
+
   - name:         textmute
     alts:
       - "tmute"
