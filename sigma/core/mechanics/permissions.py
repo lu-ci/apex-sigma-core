@@ -86,12 +86,7 @@ class GlobalCommandPermissions(object):
 
     async def check_black_usr(self):
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
-        black_user_file = await self.db.cache.get_cache(f'busr_{self.message.author.id}')
-        black_user_file_checked = await self.db.cache.get_cache(f'busr_{self.message.author.id}_checked')
-        if not black_user_file and not black_user_file_checked:
-            black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
-            await self.db.cache.set_cache(f'bus{self.message.author.id}', black_user_file)
-            await self.db.cache.set_cache(f'busr_{self.message.author.id}_checked', True)
+        black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
         if black_user_file:
             if black_user_file.get('total'):
                 self.black_user = True
@@ -105,12 +100,7 @@ class GlobalCommandPermissions(object):
     async def check_black_srv(self):
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
-            black_srv_file = await self.db.cache.get_cache(f'bsrv_{self.message.guild.id}')
-            black_srv_file_checked = await self.db.cache.get_cache(f'bsrv_{self.message.guild.id}_checked')
-            if not black_srv_file and not black_srv_file_checked:
-                black_srv_file = await black_srv_collection.find_one({'server_id': self.message.guild.id})
-                await self.db.cache.set_cache(f'bsrv_{self.message.guild.id}', black_srv_file)
-                await self.db.cache.set_cache(f'bsrv_{self.message.guild.id}_checked', True)
+            black_srv_file = await black_srv_collection.find_one({'server_id': self.message.guild.id})
             if black_srv_file:
                 self.black_srv = True
             else:

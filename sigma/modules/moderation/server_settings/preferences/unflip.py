@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def unflip(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,5 +36,5 @@ async def unflip(cmd: SigmaCommand, pld: CommandPayload):
             ending = 'enabled'
         response = discord.Embed(color=0x77B255, title=f'✅ Table unflipping has been {ending}')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

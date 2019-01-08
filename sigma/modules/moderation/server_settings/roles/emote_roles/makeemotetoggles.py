@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 def make_binding_data(roles: list):
@@ -88,5 +88,5 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Missing group ID.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

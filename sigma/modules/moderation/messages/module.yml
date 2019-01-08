@@ -24,7 +24,7 @@ commands:
       Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
       This command requires the Manage Messages permission.
 
-  - name:         removeemote
+  - name:         removereaction
     alts:
       - "removeemote"
       - "rememote"

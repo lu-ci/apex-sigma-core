@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def unbindemoterole(cmd: SigmaCommand, pld: CommandPayload):
@@ -46,5 +46,5 @@ async def unbindemoterole(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

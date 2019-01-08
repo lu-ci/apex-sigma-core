@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
@@ -77,5 +77,5 @@ async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

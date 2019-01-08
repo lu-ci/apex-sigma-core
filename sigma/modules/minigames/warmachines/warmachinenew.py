@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 price = 10
@@ -29,26 +30,8 @@ async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
     confirm_desc = f'Building a machine costs **{price} sumarum**, do you want to continue?'
     confirm_embed = discord.Embed(color=0x8899a6, title=f'🔧 Are you sure, {pld.msg.author.name}?')
     confirm_embed.description = confirm_desc
-    confirmation = await pld.msg.channel.send(embed=confirm_embed)
-    await confirmation.add_reaction('✅')
-    await confirmation.add_reaction('❌')
-
-    def check_emote(reac, usr):
-        return usr.id == pld.msg.author.id and str(reac.emoji) in ['✅', '❌']
-
-    try:
-        ae, au = await cmd.bot.wait_for('reaction_add', timeout=60, check=check_emote)
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
-        if ae.emoji == '✅':
-            canceled = False
-        else:
-            canceled = True
-    except asyncio.TimeoutError:
-        canceled = True
-    if not canceled:
+    success = await bool_dialogue(cmd.bot, pld.msg, confirm_embed)
+    if success:
         sumarum = await cmd.db.get_resource(pld.msg.author.id, 'sumarum')
         if sumarum.current >= price:
             await cmd.db.del_resource(pld.msg.author.id, 'sumarum', price, cmd.name, pld.msg)

@@ -17,5 +17,25 @@
 import discord
 
 
-def permission_denied(permission: str):
-    return discord.Embed(color=0xBE1931, title=f'⛔ Access Denied. {permission} needed.')
+def generate_small_embed(icon: str, color: int, text: str):
+    return discord.Embed(color=color, title=f'{icon} {text}')
+
+
+def denied(permission: str):
+    return generate_small_embed('⛔', 0xBE1931, f'Access Denied. {permission} needed.')
+
+
+def ok(content: str):
+    return generate_small_embed('✅', 0x77B255, content)
+
+
+def info(content: str):
+    return generate_small_embed('ℹ', 0x3B88C3, content)
+
+
+def warn(content: str):
+    return generate_small_embed('⚠', 0xFFCC4D, content)
+
+
+def not_found(content: str):
+    return generate_small_embed('🔍', 0x696969, content)

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
@@ -44,5 +44,5 @@ async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0x696969, title='🔍 No invites have been bound.')
     else:
-        response = permission_denied('Create Instant Invites')
+        response = denied('Create Instant Invites')
     await pld.msg.channel.send(embed=response)

@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def editincident(cmd: SigmaCommand, pld: CommandPayload):
@@ -41,5 +41,5 @@ async def editincident(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
     else:
-        response = permission_denied('Manage Messages')
+        response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

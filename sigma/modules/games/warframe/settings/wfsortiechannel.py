@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def wfsortiechannel(cmd: SigmaCommand, pld: CommandPayload):
@@ -37,5 +37,5 @@ async def wfsortiechannel(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_sortie_channel', target_channel.id)
         response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Sortie Channel set to #{target_channel.name}')
     else:
-        response = permission_denied('Manage Channels')
+        response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

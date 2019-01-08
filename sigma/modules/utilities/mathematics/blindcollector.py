@@ -19,7 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,5 +38,5 @@ async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No channel given.')
     else:
-        response = permission_denied('Manage Channels')
+        response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']
@@ -94,7 +94,7 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
     else:
-        response = permission_denied('Manage Messages')
+        response = denied('Manage Messages')
     if pld.msg.guild.id in ongoing:
         ongoing.remove(pld.msg.guild.id)
     await pld.msg.channel.send(embed=response)

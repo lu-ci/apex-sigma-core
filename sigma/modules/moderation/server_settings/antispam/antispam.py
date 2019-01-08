@@ -19,7 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def antispam(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,5 +29,5 @@ async def antispam(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'antispam', toggle)
         response = discord.Embed(color=0x77B255, title=f'✅ Spam rate limitations {status}.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

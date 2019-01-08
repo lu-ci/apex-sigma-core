@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, convert_to_seconds
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
@@ -61,5 +61,5 @@ async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
     else:
-        response = permission_denied('Create Instant Invites')
+        response = denied('Create Instant Invites')
     await pld.msg.channel.send(embed=response)

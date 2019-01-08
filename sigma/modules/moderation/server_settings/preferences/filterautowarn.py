@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def filterautowarn(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,5 +33,5 @@ async def filterautowarn(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_auto_warn', new_value)
         response = discord.Embed(color=0x77B255, title=f'✅ Automatic filter warnings have been {ending}.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

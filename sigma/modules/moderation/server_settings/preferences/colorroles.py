@@ -19,7 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,5 +34,5 @@ async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'color_roles', new_value)
         response = discord.Embed(color=0x66CC66, title=f'✅ Color role creation has been {ending}.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

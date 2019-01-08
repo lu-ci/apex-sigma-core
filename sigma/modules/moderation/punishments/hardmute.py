@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -102,5 +102,5 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
     else:
-        response = permission_denied('Manage Channels')
+        response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

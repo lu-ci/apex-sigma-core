@@ -8,17 +8,7 @@
 
 ## Community
 
-<div align="center">
-  <a href="https://discordapp.com/invite/aEUCHwX">
-    <img src="https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2" alt="Discord Banner">
-  </a>
-</div>
-
-<div align="center">
-  <a href="https://discordbots.org/bot/216437513709944832?utm_source=widget">
-    <img src="https://discordbots.org/api/widget/216437513709944832.png" alt="Discord Bots">
-  </a>
-</div>
+[![Discord Banner](https://discordapp.com/api/guilds/200751504175398912/widget.png?style=banner2)](https://discord.gg/aEUCHwX)
 
 ## Development
 
@@ -42,4 +32,3 @@ Apex Sigma as well as all of her module code is licensed under the [GNU General 
 A short description of GPLv3 would be...
 
 > Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
-

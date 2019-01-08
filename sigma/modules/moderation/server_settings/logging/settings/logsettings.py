@@ -19,7 +19,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 from sigma.modules.moderation.server_settings.logging.settings.log import log_keys
 
 
@@ -45,5 +45,5 @@ async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'📋 Log settings', value=details, inline=False)
         response.add_field(name=f'📄 Details', value=f'```\n{output}\n```', inline=False)
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

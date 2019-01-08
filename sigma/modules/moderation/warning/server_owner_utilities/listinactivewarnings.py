@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def listinactivewarnings(cmd: SigmaCommand, pld: CommandPayload):
@@ -55,5 +55,5 @@ async def listinactivewarnings(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
     else:
-        response = permission_denied('Server Owner')
+        response = denied('Server Owner')
     await pld.msg.channel.send(embed=response)

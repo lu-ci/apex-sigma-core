@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
@@ -50,5 +50,5 @@ async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0x3B88C3, title='ℹ Current DM Greeting Message')
                 response.description = current_greeting
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

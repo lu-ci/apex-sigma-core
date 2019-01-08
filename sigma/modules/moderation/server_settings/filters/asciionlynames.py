@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import permission_denied
+from sigma.core.utilities.generic_responses import denied
 
 
 async def asciionlynames(cmd: SigmaCommand, pld: CommandPayload):
@@ -28,5 +28,5 @@ async def asciionlynames(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'ascii_only_names', ascii_names)
         response = discord.Embed(color=0x66CC66, title=f'✅ ASCII name enforcement has been {state}.')
     else:
-        response = permission_denied('Manage Server')
+        response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)
