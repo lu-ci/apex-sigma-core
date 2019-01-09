@@ -42,16 +42,16 @@ async def blacklistmodule(cmd: SigmaCommand, pld: CommandPayload):
                         modules = black_user_file.get('modules', [])
                         if lookup.lower() in modules:
                             modules.remove(lookup.lower())
-                            icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist.'
+                            icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
                         else:
                             modules.append(lookup.lower())
-                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
+                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                         up_data = {'$set': {'user_id': target_id, 'modules': modules}}
                         await black_user_collection.update_one({'user_id': target_id}, up_data)
                     else:
                         new_data = {'user_id': target_id, 'modules': [lookup.lower()]}
                         await black_user_collection.insert_one(new_data)
-                        icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist.'
+                        icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                     title = f'{icon} {target_name} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)
                     await cmd.db.cache.del_cache(target_id)

@@ -81,32 +81,35 @@ def hash_url(url: bytes):
 
 
 async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
-    if pld.args:
-        if len(pld.args) >= 2:
-            interaction_name = pld.args[0].lower()
-            interaction_link = ' '.join(pld.args[1:])
-            allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
-            if interaction_name in allowed_interactions:
-                valid, data = await validate_gif_url(interaction_link)
-                if valid:
-                    exists, url_hash = await check_existence(cmd.db, data, interaction_name)
-                    if not exists:
-                        imgur_link = await relay_image(cmd, interaction_link)
-                        if imgur_link:
-                            inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
-                            await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
-                            title = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
-                            response = discord.Embed(color=0x77B255, title=title)
+    if 'client_id' in cmd.bot.modules.commands['imgur'].cfg:
+        if pld.args:
+            if len(pld.args) >= 2:
+                interaction_name = pld.args[0].lower()
+                interaction_link = ' '.join(pld.args[1:])
+                allowed_interactions = get_allowed_interactions(cmd.bot.modules.commands)
+                if interaction_name in allowed_interactions:
+                    valid, data = await validate_gif_url(interaction_link)
+                    if valid:
+                        exists, url_hash = await check_existence(cmd.db, data, interaction_name)
+                        if not exists:
+                            imgur_link = await relay_image(cmd, interaction_link)
+                            if imgur_link:
+                                inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
+                                await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
+                                ttl = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
+                                response = discord.Embed(color=0x77B255, title=ttl)
+                            else:
+                                response = discord.Embed(color=0xBE1931, title=f'❗ Bad GIF.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ Bad GIF or Missing Imgur ID.')
+                            response = discord.Embed(color=0xBE1931, title=f'❗ That GIF has already been submitted.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ That GIF has already been submitted.')
+                        response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
+                    response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
+                response = discord.Embed(color=0xBE1931, title=f'❗ Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Not enough arguments.')
+            response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
     await pld.msg.channel.send(embed=response)

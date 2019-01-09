@@ -121,8 +121,8 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
                                 resp_color = 0x66cc66
                             else:
                                 resp_color = 0xBE1931
-                                footer = f'You lost {bet} {currency}.'
-                            footer += f' For betting on the {sel}.'
+                                footer = f'You lost {bet} {currency}'
+                            footer += f' for betting on the {sel}.'
                             response = discord.Embed(color=resp_color, title=spot.desc)
                             response.set_author(name=pld.msg.author.name, icon_url=user_avatar(pld.msg.author))
                             response.set_footer(text=footer)
