@@ -32,7 +32,7 @@ async def edit_word_blocker(ev: SigmaEvent, pld: MessageEditPayload):
         if isinstance(after.author, discord.Member):
             override = check_filter_perms(after, pld.settings, 'words')
             is_owner = after.author.id in ev.bot.cfg.dsc.owners
-            if not any([after.author.permissions_in(after.channel).administrator, is_owner, override]):
+            if not any([after.author.guild_permissions.administrator, is_owner, override]):
                 prefix = ev.db.get_prefix(pld.settings)
                 if not after.content.startswith(prefix):
                     text = clean_content(after.content.lower())

@@ -29,13 +29,13 @@ async def send_invite_blocker(ev: SigmaEvent, pld: MessagePayload):
         if isinstance(pld.msg.author, discord.Member):
             override = check_filter_perms(pld.msg, pld.settings, 'invites')
             is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
-            if not any([pld.msg.author.permissions_in(pld.msg.channel).administrator, is_owner, override]):
+            if not any([pld.msg.author.guild_permissions.administrator, is_owner, override]):
                 active = pld.settings.get('block_invites')
                 if active is None:
                     active = False
                 if active:
                     arguments = pld.msg.content.split(' ')
-                    invite_found = False
+                    invite_found = None
                     for arg in arguments:
                         triggers = ['discord.gg/', 'discordapp.com/invite']
                         for trigger in triggers:

@@ -14,32 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
+import json
+import aiohttp
 
 
-def generate_small_embed(icon: str, color: int, text: str):
-    return discord.Embed(color=color, title=f'{icon} {text}')
-
-
-def denied(permission: str):
-    return generate_small_embed('⛔', 0xBE1931, f'Access Denied. {permission} needed.')
-
-
-def ok(content: str):
-    return generate_small_embed('✅', 0x77B255, content)
-
-
-def info(content: str):
-    return generate_small_embed('ℹ', 0x3B88C3, content)
-
-
-def warn(content: str):
-    return generate_small_embed('⚠', 0xFFCC4D, content)
-
-
-def error(content: str):
-    return generate_small_embed('❗', 0xBE1931, content)
-
-
-def not_found(content: str):
-    return generate_small_embed('🔍', 0x696969, content)
+async def aioget(url: str, as_json: bool = False):
+    async with aiohttp.ClientSession() as aio_client:
+        async with aio_client.get(url) as aio_session:
+            response = await aio_session.text()
+            if as_json:
+                response = json.loads(response)
+    return response

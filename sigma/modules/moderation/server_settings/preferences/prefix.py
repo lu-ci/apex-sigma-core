@@ -26,19 +26,16 @@ async def prefix(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
         if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
             new_prefix = ''.join(pld.args)
-            if len(new_prefix) >= 2:
-                if new_prefix != current_prefix:
-                    prefix_text = new_prefix
-                    if new_prefix == cmd.bot.cfg.pref.prefix:
-                        new_prefix = None
-                        prefix_text = cmd.bot.cfg.pref.prefix
-                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'prefix', new_prefix)
-                    response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
-                    response = discord.Embed(color=0x77B255, title=response_title)
-                else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The current prefix and the new one are the same.')
+            if new_prefix != current_prefix:
+                prefix_text = new_prefix
+                if new_prefix == cmd.bot.cfg.pref.prefix:
+                    new_prefix = None
+                    prefix_text = cmd.bot.cfg.pref.prefix
+                await cmd.db.set_guild_settings(pld.msg.guild.id, 'prefix', new_prefix)
+                response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
+                response = discord.Embed(color=0x77B255, title=response_title)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The prefix needs to be at least two character.')
+                response = discord.Embed(color=0xBE1931, title='❗ The current prefix and the new one are the same.')
         else:
             response = denied('Manage Server')
     else:

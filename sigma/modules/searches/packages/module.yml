@@ -1,0 +1,16 @@
+name:             Package Lookup Commands
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         crates
+    alts:
+      - "crate"
+      - "cargo"
+    enabled:      true
+    usage:        "{pfx}{cmd} javelin"
+    description:
+      Search Rust's/Cargo's package repository on crates.io
+      for the wanted package and displays its details.
