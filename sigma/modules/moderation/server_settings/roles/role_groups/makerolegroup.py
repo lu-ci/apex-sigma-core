@@ -16,11 +16,9 @@
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def makerolegroup(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,7 +27,7 @@ async def makerolegroup(cmd: SigmaCommand, pld: CommandPayload):
         group_id = secrets.token_hex(3)
         role_groups.update({group_id: []})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'role_groups', role_groups)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Role group {group_id} has been created.')
+        response = ok(f'Role group {group_id} has been created.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

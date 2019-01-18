@@ -22,6 +22,7 @@ from geopy.geocoders import Nominatim
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 
@@ -74,8 +75,8 @@ async def weather(cmd: SigmaCommand, pld: CommandPayload):
                 geo_parser = Nominatim()
                 try:
                     location = geo_parser.geocode(search)
-                except Exception as error:
-                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {str(error).lower()}.')
+                except Exception as e:
+                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {str(e).lower()}.')
                 else:
                     if location:
                         lat = location.latitude
@@ -93,7 +94,7 @@ async def weather(cmd: SigmaCommand, pld: CommandPayload):
                         response = discord.Embed(color=icons[icon]['color'], title=forecast_title)
                         response.description = f'Location: {location}'
                         response.add_field(name='📄 Forecast', value=forecast, inline=False)
-                        info_title = f'🌡 Temperature'
+                        info_title = '🌡 Temperature'
                         info_text = f'Current: {round(curr["temperature"], 2)}{deg}'
                         info_text += f'\nFeels Like: {round(curr["apparentTemperature"], 2)}{deg}'
                         info_text += f'\nDew Point: {round(curr["dewPoint"], 2)}{deg}'
@@ -104,20 +105,19 @@ async def weather(cmd: SigmaCommand, pld: CommandPayload):
                         wind_text += f'\nBearing: {curr["windBearing"]}°'
                         response.add_field(name=wind_title, value=wind_text)
                         other_title = '📉 Other'
-                        other_text = f'Humidity: {round(curr["humidity"]*100, 2)}%'
+                        other_text = f'Humidity: {round(curr["humidity"] * 100, 2)}%'
                         other_text += f'\nPressure: {round(curr["pressure"], 2)}mbar'
                         if 'visibility' in curr:
                             other_text += f'\nVisibility: {round(curr["visibility"], 2)} {dis}'
                         else:
-                            other_text += f'\nVisibility: Unknown'
+                            other_text += '\nVisibility: Unknown'
                         response.add_field(name=other_title, value=other_text)
                     else:
-                        response = discord.Embed(color=0x696969, title='🔍 Location not found.')
-
+                        response = not_found('Location not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Missing location.')
+                response = error('Missing location.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

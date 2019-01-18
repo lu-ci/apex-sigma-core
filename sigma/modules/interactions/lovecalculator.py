@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def lovecalculator(_cmd: SigmaCommand, pld: CommandPayload):
@@ -48,7 +49,7 @@ async def lovecalculator(_cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name='Second Item', value=f'```haskell\n{second_item}\n```')
             response.add_field(name='Value', value=f'```css\n{bar_text}\n```', inline=False)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No targets given.')
+            response = error('No targets given.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

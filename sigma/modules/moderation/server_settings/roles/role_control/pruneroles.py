@@ -14,12 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def pruneroles(_cmd: SigmaCommand, pld: CommandPayload):
@@ -27,7 +24,7 @@ async def pruneroles(_cmd: SigmaCommand, pld: CommandPayload):
         top_role = pld.msg.guild.me.top_role.position
         empty_roles = list(filter(lambda r: len(r.members) == 0, pld.msg.guild.roles))
         deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
-        response = discord.Embed(color=0x77B255, title=f'✅ Removed {len(deleted_roles)} roles from this server.')
+        response = ok(f'Removed {len(deleted_roles)} roles from this server.')
     else:
         response = denied('Manage Roles')
     await pld.msg.channel.send(embed=response)

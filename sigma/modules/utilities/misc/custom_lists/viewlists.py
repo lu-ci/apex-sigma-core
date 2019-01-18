@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def viewlists(cmd: SigmaCommand, pld: CommandPayload):
@@ -43,5 +44,5 @@ async def viewlists(cmd: SigmaCommand, pld: CommandPayload):
         list_list = '\n'.join(list_lines)
         response.description = list_list
     else:
-        response = discord.Embed(color=0x696969, title='🔍 There are no lists on this server.')
+        response = not_found('There are no lists on this server.')
     await pld.msg.channel.send(embed=response)

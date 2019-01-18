@@ -16,10 +16,9 @@
 
 import inspect
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def evaluate(_cmd: SigmaCommand, pld: CommandPayload):
@@ -29,11 +28,11 @@ async def evaluate(_cmd: SigmaCommand, pld: CommandPayload):
             output = eval(execution)
             if inspect.isawaitable(output):
                 output = await output
-            response = discord.Embed(color=0x77B255, title='✅ Executed')
+            response = ok('Executed')
             response.description = f'```py\n{output}\n```'
         except Exception as e:
-            response = discord.Embed(color=0xBE1931, title='❗ Error')
+            response = error('Error')
             response.description = f'```py\n{e}\n```'
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

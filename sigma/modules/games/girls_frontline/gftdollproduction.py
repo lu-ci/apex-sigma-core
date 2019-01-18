@@ -20,6 +20,7 @@ from lxml import html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 tdoll_data = []
 gf_icon = 'https://en.gfwiki.com/images/c/c9/Logo.png'
@@ -80,7 +81,7 @@ async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
             response.set_author(name='Girls Frontline: T-Doll Production', icon_url=gf_icon)
             response.description = '\n'.join(lines)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Nothing found.')
+            response = not_found('Nothing found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

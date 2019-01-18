@@ -19,6 +19,7 @@ from cryptography.fernet import InvalidToken, InvalidSignature
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
@@ -43,13 +44,13 @@ async def decrypt(cmd: SigmaCommand, pld: CommandPayload):
                     response = ciphered
                 else:
                     response = discord.Embed(color=0xe75a70)
-                    response.add_field(name=f'💟 Token Decrypted', value=ciphered)
+                    response.add_field(name='💟 Token Decrypted', value=ciphered)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The token or key are incorrect.')
+                response = error('The token or key are incorrect.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing to decrypt.')
+            response = error('Nothing to decrypt.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You don\'t posses a key.')
+        response = error('You don\'t posses a key.')
     if text:
         await pld.msg.channel.send(response)
     else:

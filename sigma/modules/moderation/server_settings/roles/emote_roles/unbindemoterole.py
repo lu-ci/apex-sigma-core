@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def unbindemoterole(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,15 +36,15 @@ async def unbindemoterole(cmd: SigmaCommand, pld: CommandPayload):
                         bound_roles.remove(guild_role.id)
                         emote_groups.update({group_id: bound_roles})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ Removed {role_name} from group {group_id}.')
+                        response = ok(f'Removed {role_name} from group {group_id}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is not bound to {group_id}.')
+                        response = error(f'{role_name} is not bound to {group_id}.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find the {role_search} role.')
+                    response = not_found(f'Couldn\'t find the {role_search} role.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Couldn\'t find {group_id} in the group list.')
+                response = not_found(f'Couldn\'t find {group_id} in the group list.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

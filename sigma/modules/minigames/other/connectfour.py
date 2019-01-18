@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
 
 ongoing_list = []
@@ -58,7 +59,7 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                 bot = None
             else:
                 ender = 'another bot' if pld.msg.mentions[0].bot else 'yourself'
-                self_embed = discord.Embed(color=0xBE1931, title=f'❗ You can\'t play against {ender}.')
+                self_embed = error(f'You can\'t play against {ender}.')
                 await pld.msg.channel.send(embed=self_embed)
                 return
 
@@ -148,5 +149,5 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
         if pld.msg.channel.id in ongoing_list:
             ongoing_list.remove(pld.msg.channel.id)
     else:
-        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+        ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

@@ -23,6 +23,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def wfplainsofeidolon(_cmd: SigmaCommand, pld: CommandPayload):
@@ -65,5 +66,5 @@ async def wfplainsofeidolon(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=color)
         response.add_field(name=f'{icon} {state}', value=text_desc)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Plains of Eidolon data.')
+        response = error('Could not retrieve Plains of Eidolon data.')
     await pld.msg.channel.send(embed=response)

@@ -20,6 +20,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
@@ -38,5 +39,5 @@ async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_author(name='Cyanide and Happiness Random Comic Generator', icon_url=cnh_image, url=comic_url)
         response.set_image(url=comic_img_url)
     except IndexError:
-        response = discord.Embed(color=0xBE1931, title='❗ Failed to grab a comic, try again.')
+        response = error('Failed to grab a comic, try again.')
     await pld.msg.channel.send(embed=response)

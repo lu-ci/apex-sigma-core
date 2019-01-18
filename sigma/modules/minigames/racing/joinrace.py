@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.racing.nodes.race_storage import races, add_participant, names, colors
 
 
@@ -45,13 +46,13 @@ async def joinrace(cmd: SigmaCommand, pld: CommandPayload):
                         join_title = f'{icon} {pld.msg.author.display_name} joined as {connector} {names[icon]}!'
                         response = discord.Embed(color=colors[icon], title=join_title)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ You are already in the race!')
+                        response = error('You are already in the race!')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Sorry, no more room left!')
+                    response = error('Sorry, no more room left!')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ You don\'t have that much {currency}!')
+                response = error(f'You don\'t have that much {currency}!')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ We failed to sign you up for the race.')
+            response = error('We failed to sign you up for the race.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ There is no race in preparation.')
+        response = error('There is no race in preparation.')
     await pld.msg.channel.send(embed=response)

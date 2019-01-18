@@ -63,7 +63,7 @@ async def untmute(ev: SigmaEvent, doc: dict):
             target = guild.get_member(uid)
             if target:
                 await ev.db[ev.db.db_nam].TextmuteClockworkDocs.delete_one(doc)
-                to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-muted.')
+                to_target = discord.Embed(color=0x696969, title='🔇 You have been un-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
                 await target.send(embed=to_target)
     except Exception:
@@ -88,7 +88,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                             await asyncio.sleep(5)
                         except Exception:
                             pass
-                to_target = discord.Embed(color=0x696969, title=f'🔇 You have been un-hard-muted.')
+                to_target = discord.Embed(color=0x696969, title='🔇 You have been un-hard-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild.icon_url)
                 await target.send(embed=to_target)
     except Exception:

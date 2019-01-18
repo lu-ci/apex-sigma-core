@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def numberfact(_cmd: SigmaCommand, pld: CommandPayload):
@@ -43,8 +44,8 @@ async def numberfact(_cmd: SigmaCommand, pld: CommandPayload):
         async with session.get(num_fact_url) as number_get:
             number_response = await number_get.text()
     if not number_response.lower().startswith('cannot'):
-        response = discord.Embed(color=0x3B88C3, title=f'#⃣  Number Fact')
+        response = discord.Embed(color=0x3B88C3, title='#⃣  Number Fact')
         response.description = number_response
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API couldn\'t process that.')
+        response = error('The API couldn\'t process that.')
     await pld.msg.channel.send(embed=response)

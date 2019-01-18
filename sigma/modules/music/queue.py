@@ -23,6 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.music import QueueItem
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def queue(cmd: SigmaCommand, pld: CommandPayload):
@@ -89,18 +90,18 @@ async def queue(cmd: SigmaCommand, pld: CommandPayload):
                             final_resp.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                             final_resp.set_footer(text=f'Duration: {duration}')
                         else:
-                            final_resp = discord.Embed(color=0x696969, title='🔍 Addition returned a null item.')
+                            final_resp = not_found('Addition returned a null item.')
                     await init_res_msg.edit(embed=final_resp)
                 else:
-                    final_resp = discord.Embed(color=0x696969, title='🔍 No results.')
+                    final_resp = not_found('No results.')
                     await init_res_msg.edit(embed=final_resp)
             else:
                 if not pld.args:
-                    response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
+                    response = error('You are not in my voice channel.')
                     await pld.msg.channel.send(embed=response)
         else:
             if not pld.args:
-                response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+                response = error('You are not in a voice channel.')
                 await pld.msg.channel.send(embed=response)
     else:
         music_queue = cmd.bot.music.get_queue(pld.msg.guild.id)

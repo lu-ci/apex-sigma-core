@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 def count_votes(poll_file):
@@ -75,7 +76,7 @@ async def shadowpollstats(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 response = discord.Embed(color=0xFFCC4D, title='🔒 You can\'t view this poll\'s stats.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            response = not_found('Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
+        response = error('Missing poll ID.')
     await pld.msg.channel.send(embed=response)

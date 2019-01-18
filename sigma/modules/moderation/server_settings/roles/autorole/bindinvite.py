@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
 async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
@@ -40,13 +40,13 @@ async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
                         title = f'✅ Invite {target_inv.id} bound to {target_role.name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                        response = error('This role is above my highest role.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {role_name} not found.')
+                    response = not_found(f'{role_name} not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
+                response = error('No invite with that ID was found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
+            response = error('Not enough arguments. Invite and role name needed.')
     else:
         response = denied('Create Instant Invites')
     await pld.msg.channel.send(embed=response)

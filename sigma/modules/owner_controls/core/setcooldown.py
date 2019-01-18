@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
@@ -43,11 +44,11 @@ async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
                     title = f'✅ Command {command} now has a {cooldown}s cooldown.'
                     response = discord.Embed(color=0x66CC66, title=title)
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 Command `{command}` not found.')
+                    response = not_found(f'Command `{command}` not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid cooldown.')
+                response = error('Missing or invalid cooldown.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing command to edit.')
+            response = error('Missing command to edit.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

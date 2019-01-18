@@ -14,13 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 price = 10
@@ -41,7 +40,7 @@ async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x8899a6, title=f'🔧 {machine.product_name} constructed.')
             response.set_footer(text=f'Use "{prefix}wminspect {machine.id}" to see its specifications.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough sumarum.')
+            response = error('Not enough sumarum.')
     else:
         response = discord.Embed(color=0xBE1931, title='❌ Construction canceled.')
     await pld.msg.channel.send(embed=response)

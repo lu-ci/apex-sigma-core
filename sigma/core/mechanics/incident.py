@@ -21,7 +21,6 @@ import discord
 
 from sigma.core.mechanics.database import Database
 
-
 incident_core_cache = None
 
 

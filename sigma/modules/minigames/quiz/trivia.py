@@ -26,6 +26,7 @@ import ftfy
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 ongoing_list = []
 
@@ -116,7 +117,7 @@ async def trivia(cmd: SigmaCommand, pld: CommandPayload):
                     except json.JSONDecodeError:
                         if pld.msg.author.id in ongoing_list:
                             ongoing_list.remove(pld.msg.author.id)
-                        decode_error = discord.Embed(color=0xBE1931, title='❗ Could not retrieve a question.')
+                        decode_error = error('Could not retrieve a question.')
                         await pld.msg.channel.send(embed=decode_error)
                         return
             await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 30)
@@ -197,7 +198,7 @@ async def trivia(cmd: SigmaCommand, pld: CommandPayload):
             if pld.msg.author.id in ongoing_list:
                 ongoing_list.remove(pld.msg.author.id)
         else:
-            ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+            ongoing_error = error('There is already one ongoing.')
             await pld.msg.channel.send(embed=ongoing_error)
     except Exception:
         if pld.msg.author.id in ongoing_list:

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 
 
 async def shadowpollpermit(cmd: SigmaCommand, pld: CommandPayload):
@@ -43,17 +44,17 @@ async def shadowpollpermit(cmd: SigmaCommand, pld: CommandPayload):
                             poll_file['permissions'][perm_type].append(target.id)
                             await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id},
                                                                                {'$set': poll_file})
-                            response = discord.Embed(color=0x66CC66, title=f'✅ {target.name} has been permitted.')
+                            response = ok(f'{target.name} has been permitted.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ {target.name} is already permitted.')
+                            response = error(f'{target.name} is already permitted.')
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+                    response = not_found('Poll not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Target not located.')
+                response = error('Target not located.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and target.')
+        response = error('Missing poll ID and target.')
     await pld.msg.channel.send(embed=response)

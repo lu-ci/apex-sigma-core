@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def oserverbots(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,14 +37,14 @@ async def oserverbots(cmd: SigmaCommand, pld: CommandPayload):
                     name = f'{user.name}#{user.discriminator}'
                     offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
             if total_bots == 0:
-                response = discord.Embed(color=0xBE1931, title='❗ No bots were found on that server.')
+                response = error('No bots were found on that server.')
             else:
                 response = discord.Embed(color=await get_image_colors(gld.icon_url))
                 response.set_author(name=f'Bots on {gld.name}', icon_url=gld.icon_url)
                 response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
                 response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Guild not found.')
+            response = not_found('Guild not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

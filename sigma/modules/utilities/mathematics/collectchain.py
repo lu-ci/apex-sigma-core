@@ -14,13 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 from sigma.modules.utilities.mathematics.collector_clockwork import get_target, check_queued, get_channel
 
@@ -59,15 +59,15 @@ async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
                 response.set_author(name=title, icon_url=user_avatar(target_usr))
             else:
                 if target_usr.id == cmd.bot.user.id:
-                    response = discord.Embed(color=0xBE1931, title='❗ My chains are not interesting, trust me.')
+                    response = error('My chains are not interesting, trust me.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ I refuse to collect a chain for a bot.')
+                    response = error('I refuse to collect a chain for a bot.')
         else:
             mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
-            response = discord.Embed(color=0xBE1931, title=f'❗ {starter} already in the queue or {mid} pending entry.')
+            response = error(f'{starter} already in the queue or {mid} pending entry.')
     else:
         if blocked:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Only {target_usr.name} can collect their own chain.')
+            response = error(f'Only {target_usr.name} can collect their own chain.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Chains for #{target_chn.name} have been disabled')
+            response = error(f'Chains for #{target_chn.name} have been disabled')
     await pld.msg.channel.send(embed=response)

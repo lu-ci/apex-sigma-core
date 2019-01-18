@@ -22,6 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def wanikani(cmd: SigmaCommand, pld: CommandPayload):
@@ -96,7 +97,7 @@ async def wanikani(cmd: SigmaCommand, pld: CommandPayload):
                                 url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
             response.set_footer(text=f'Serving the Crabigator since {creation_date}')
         except KeyError:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid data was retrieved.')
+            response = error('Invalid data was retrieved.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ User has no Key saved.')
+        response = error('User has no Key saved.')
     await pld.msg.channel.send(embed=response)

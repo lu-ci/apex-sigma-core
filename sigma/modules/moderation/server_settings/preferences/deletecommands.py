@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def deletecommands(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,7 +30,7 @@ async def deletecommands(cmd: SigmaCommand, pld: CommandPayload):
         else:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'delete_commands', True)
             ending = 'enabled'
-        response = discord.Embed(color=0x77B255, title=f'✅ Command message deletion has been {ending}.')
+        response = ok(f'Command message deletion has been {ending}.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

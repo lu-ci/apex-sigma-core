@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 async def embedecho(_cmd: SigmaCommand, pld: CommandPayload):
@@ -27,5 +28,5 @@ async def embedecho(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
         response.description = f'{" ".join(pld.args)[:800]}'
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

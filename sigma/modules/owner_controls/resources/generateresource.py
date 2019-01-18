@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,12 +34,12 @@ async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
                     title_text = f'✅ Ok, I\'ve given {amount} {res_nam} to {target.display_name}.'
                     response = discord.Embed(color=0x77B255, title=title_text)
                 except ValueError:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+                    response = error('Invalid amount.')
             else:
-                err_title = f'❗ You can\'t give resources to bots.'
+                err_title = '❗ You can\'t give resources to bots.'
                 response = discord.Embed(color=0xBE1931, title=err_title)
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Resource name, amount and target needed.')
+            response = error('Resource name, amount and target needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

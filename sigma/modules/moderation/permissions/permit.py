@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms, generate_cmd_data
 
 
@@ -131,24 +131,24 @@ async def permit(cmd: SigmaCommand, pld: CommandPayload):
                                         response = discord.Embed(color=0xFFCC4D, title=title)
                                 else:
                                     perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                                    response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
+                                    response = not_found(f'{perm_type} not found.')
                             else:
                                 if targets:
-                                    response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
+                                    response = not_found(f'{targets} not found.')
                                 else:
                                     ender = 'specified' if target_type == 'roles' else 'targeted'
-                                    response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
+                                    response = not_found(f'No {target_type} {ender}.')
                         else:
                             response = discord.Embed(color=0xBE1931,
                                                      title='❗ Unrecognized lookup mode, see usage example.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
+                        response = error('Invalid target type.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
+                    response = error('Separate permission type and name with a colon.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 from sigma.modules.moderation.permissions.permit import get_target_type
 
@@ -74,15 +75,15 @@ async def permitted(cmd: SigmaCommand, pld: CommandPayload):
                                 response = discord.Embed(color=0x696969, title=title)
                         else:
                             mmn = mode_name.lower()
-                            response = discord.Embed(color=0x696969, title=f'🔍 No {node_name} {mmn} found.')
+                            response = not_found(f'No {node_name} {mmn} found.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
+                        response = error('Unrecognized lookup mode, see usage example.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
+                    response = error('Invalid target type.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
+                response = error('Separate permission type and name with a colon.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

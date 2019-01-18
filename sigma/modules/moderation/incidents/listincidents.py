@@ -21,7 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']
@@ -63,23 +63,23 @@ async def listincidents(cmd: SigmaCommand, pld: CommandPayload):
                     if variant in variants:
                         incidents = await icore.get_all_by_variant(pld.msg.guild.id, variant)
                         response = discord.Embed(color=0x226699)
-                        response.add_field(name=f'Details', value=f'```\nPage {page}\n```')
+                        response.add_field(name='Details', value=f'```\nPage {page}\n```')
                         incident_list, page = parse_incidents(incidents, page)
                         response.add_field(name=f'🗃️ {identifier.title()} incidents', value=incident_list)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid variant.')
+                        response = error('Invalid variant.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid identifier.')
+                response = error('Invalid identifier.')
         else:
             incidents = await icore.get_all(pld.msg.guild.id)
             response = discord.Embed(color=0x226699)
             incident_list, page = parse_incidents(incidents, page)
-            response.add_field(name=f'🗃️ All incidents', value=incident_list)
+            response.add_field(name='🗃️ All incidents', value=incident_list)
         if not incidents and (identifier in identifiers or not identifier):
             if identifier:
-                response = discord.Embed(color=0xBE1931, title=f'❗ No incidents found for that {identifier}.')
+                response = error(f'No incidents found for that {identifier}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ This server has no incidents.')
+                response = error('This server has no incidents.')
     else:
         response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

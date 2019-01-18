@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import json
 
 import aiohttp
@@ -20,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
 imgur_url = "https://api.imgur.com/3/image"
@@ -47,9 +49,9 @@ async def imgur(cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0x85BF25)
                 response.set_author(name=link, icon_url=imgur_icon, url=link)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Bad image.')
+                response = error('Bad image.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error
 
 
 async def bots(_cmd: SigmaCommand, pld: CommandPayload):
@@ -31,7 +32,7 @@ async def bots(_cmd: SigmaCommand, pld: CommandPayload):
             name = f'{user.name}#{user.discriminator}'
             offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
     if total_bots == 0:
-        response = discord.Embed(color=0xBE1931, title='❗ No bots were found on that server.')
+        response = error('No bots were found on that server.')
     else:
         response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
         response.set_author(name=f'Bots on {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)

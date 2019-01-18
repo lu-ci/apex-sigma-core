@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, info
 
 
 async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
@@ -38,7 +38,7 @@ async def greetmessage(cmd: SigmaCommand, pld: CommandPayload):
         if pld.args:
             greeting_text = ' '.join(pld.args)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_message', greeting_text)
-            response = discord.Embed(color=0x77B255, title='✅ New Greeting Message set.')
+            response = ok('New Greeting Message set.')
         else:
             current_greeting = pld.settings.get('greet_message')
             if not current_greeting:
@@ -47,7 +47,7 @@ async def greetmessage(cmd: SigmaCommand, pld: CommandPayload):
             if greet_embed.get('active'):
                 response = await make_greet_embed(greet_embed, current_greeting, pld.msg.guild)
             else:
-                response = discord.Embed(color=0x3B88C3, title='ℹ Current Greeting Message')
+                response = info('Current Greeting Message')
                 response.description = current_greeting
     else:
         response = denied('Manage Server')

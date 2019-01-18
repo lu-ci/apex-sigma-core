@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
 async def viewinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
@@ -52,11 +52,11 @@ async def viewinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
                     response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
                     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] user_id: {target.id}')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {target.name} has no {warn_id} warning.')
+                    response = not_found(f'{target.name} has no {warn_id} warning.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Both user tag and warning ID are needed.')
+                response = error('Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Server Owner')
     await pld.msg.channel.send(embed=response)

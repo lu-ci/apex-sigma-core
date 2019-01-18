@@ -16,10 +16,9 @@
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def addstatus(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,9 +28,9 @@ async def addstatus(cmd: SigmaCommand, pld: CommandPayload):
         if not status_exists:
             status_id = secrets.token_hex(5)
             await cmd.db[cmd.db.db_nam].StatusFiles.insert_one({'text': status_text, 'id': status_id})
-            response = discord.Embed(color=0x77B255, title=f'✅ Added status `{status_id}`.')
+            response = ok(f'Added status `{status_id}`.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Status already exists.')
+            response = error('Status already exists.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

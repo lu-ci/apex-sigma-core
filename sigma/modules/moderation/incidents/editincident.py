@@ -14,12 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def editincident(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,13 +31,13 @@ async def editincident(cmd: SigmaCommand, pld: CommandPayload):
                 if not len(reason) > 1000:
                     incident.edit(pld.msg.author, reason)
                     await icore.save(incident)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Incident {incident.id} updated.')
+                    response = ok(f'Incident {incident.id} updated.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Reasons have a limit of 1000 characters.')
+                    response = error('Reasons have a limit of 1000 characters.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ No incident with that ID was found.')
+                response = error('No incident with that ID was found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+            response = error('Invalid number of arguments.')
     else:
         response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

@@ -25,7 +25,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 ongoing = []
 
@@ -142,7 +142,7 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                     deleted = await pld.msg.channel.purge(limit=count, check=purge_wide_check)
             except Exception:
                 pass
-            response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
+            response = ok(f'Deleted {len(deleted)} Messages')
             log_embed = generate_log_embed(pld.msg, target, pld.msg.channel, deleted)
             await log_event(cmd.bot, pld.settings, log_embed, 'log_purges')
             if pld.msg.channel.id in ongoing:
@@ -155,7 +155,7 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 pass
             return
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+            response = error('There is already one ongoing.')
     else:
         response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

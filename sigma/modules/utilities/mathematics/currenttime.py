@@ -20,6 +20,7 @@ from arrow.parser import ParserError
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
@@ -40,5 +41,5 @@ async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
         time_out = now.format('DD. MMM. YYYY - HH:mm:ss')
         response = discord.Embed(color=0xf9f9f9, title=f'🕥 {time_out}')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Could not parse that time.')
+        response = error('Could not parse that time.')
     await pld.msg.channel.send(embed=response)

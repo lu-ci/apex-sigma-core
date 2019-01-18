@@ -23,6 +23,7 @@ import markovify
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
@@ -55,7 +56,7 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
                     response.set_author(name=target.name, icon_url=user_avatar(target))
                     response.add_field(name='💭 Hmm... something like...', value=sentence)
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s chain has no data.')
+                response = error(f'{target.name}\'s chain has no data.')
         else:
             response = discord.Embed(color=0x696969)
             prefix = cmd.db.get_prefix(pld.settings)
@@ -63,5 +64,5 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
             value = f'You can make one with `{prefix}collectchain @{target.name} #channel`!'
             response.add_field(name=title, value=value)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

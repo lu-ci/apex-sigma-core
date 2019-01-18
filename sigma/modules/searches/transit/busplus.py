@@ -22,6 +22,7 @@ import lxml.html as lx
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 bp_logo = "https://i.imgur.com/bNxFe09.png"
 
@@ -204,7 +205,7 @@ async def busplus(cmd: SigmaCommand, pld: CommandPayload):
                 time_list = make_time_list(terminus_times, current_time, data_pool)
                 response.add_field(name=terminus_name, value=" | ".join(time_list), inline=False)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Line not found or bad data.')
+            response = error('Line not found or bad data.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing line number.')
+        response = error('Missing line number.')
     await pld.msg.channel.send(embed=response)

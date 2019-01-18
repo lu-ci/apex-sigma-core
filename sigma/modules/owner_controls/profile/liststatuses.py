@@ -21,6 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, get_image_colors
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,5 +39,5 @@ async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='Info', value=f'```py\n{info}\n```')
         response.add_field(name="List", value=f'```\n{status_block}\n```', inline=False)
     else:
-        response = discord.Embed(color=0x696969, title='🔍 No statuses found.')
+        response = not_found('No statuses found.')
     await pld.msg.channel.send(embed=response)

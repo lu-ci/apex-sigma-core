@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,11 +32,11 @@ async def logmodule(cmd: SigmaCommand, pld: CommandPayload):
                     result = 'enabled'
                     logged_modules.append(module_name)
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'logged_modules', logged_modules)
-                response = discord.Embed(color=0x77B255, title=f'✅ {module_name.upper()} logging {result}.')
+                response = ok(f'{module_name.upper()} logging {result}.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Module not found.')
+                response = not_found('Module not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No module given.')
+            response = error('No module given.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

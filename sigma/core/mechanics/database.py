@@ -61,7 +61,7 @@ class Database(motor.AsyncIOMotorClient):
         self.bot.log.info(f'Finished pre-caching {len(all_settings)} member profiles.')
 
     async def precache_resources(self):
-        self.bot.log.info(f'Pre-Caching all resource data...')
+        self.bot.log.info('Pre-Caching all resource data...')
         res_cache_counter = 0
         all_colls = await self[self.db_nam].list_collection_names()
         for coll in all_colls:

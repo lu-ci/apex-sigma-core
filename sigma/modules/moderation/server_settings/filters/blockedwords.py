@@ -19,12 +19,13 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import info
 
 
 async def blockedwords(_cmd: SigmaCommand, pld: CommandPayload):
     blocked_words = pld.settings.get('blocked_words')
     if not blocked_words:
-        response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked words.')
+        response = info('There are no blocked words.')
     else:
         total_count = len(blocked_words)
         blocked_words, page = PaginatorCore.paginate(blocked_words, pld.args[0] if pld.args else 1, 20)

@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def send_divorce(author: discord.Member, target: discord.Member, is_divorce):
@@ -123,7 +124,7 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                     not_married = f'❗ You aren\'t married, nor have proposed, to {target.name}.'
                 response = discord.Embed(color=0xBE1931, title=not_married)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Can\'t divorce yourself.')
+            response = error('Can\'t divorce yourself.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

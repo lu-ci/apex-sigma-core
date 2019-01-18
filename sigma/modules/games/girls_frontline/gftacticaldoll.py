@@ -20,6 +20,7 @@ from lxml import html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 tdoll_page_index = {}
 tdoll_pages = {}
@@ -135,7 +136,7 @@ async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name='Weapon Information', value=get_weapon_info_block(tdoll_data), inline=False)
             response.add_field(name='Weapon Statistics', value=get_weapon_satats_block(tdoll_data), inline=False)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Nothing found.')
+            response = not_found('Nothing found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

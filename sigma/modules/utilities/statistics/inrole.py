@@ -20,6 +20,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
@@ -62,9 +63,9 @@ async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name='📄 Details', value=value, inline=False)
                 response.add_field(name='👥 Members', value=f'```hs\n{members_table}\n```', inline=False)
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 No users have the {role_search.name} role.')
+                response = not_found(f'No users have the {role_search.name} role.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+            response = not_found(f'{lookup} not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

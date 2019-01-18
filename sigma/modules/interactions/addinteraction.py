@@ -23,6 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
@@ -99,17 +100,17 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
                                 ttl = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
                                 response = discord.Embed(color=0x77B255, title=ttl)
                             else:
-                                response = discord.Embed(color=0xBE1931, title=f'❗ Bad GIF.')
+                                response = error('Bad GIF.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ That GIF has already been submitted.')
+                            response = error('That GIF has already been submitted.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ The submitted link gave a bad response.')
+                        response = error('The submitted link gave a bad response.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ No such interaction was found.')
+                    response = error('No such interaction was found.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

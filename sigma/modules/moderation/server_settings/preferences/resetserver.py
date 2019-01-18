@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def resetserver(cmd: SigmaCommand, pld: CommandPayload):
@@ -41,9 +39,9 @@ async def resetserver(cmd: SigmaCommand, pld: CommandPayload):
             title = f'Wiped all server {"permissions" if perms else ""}'
             title += " and " if perms and settings else ""
             title += 'settings' if settings else ''
-            response = discord.Embed(color=0x66CC66, title=f'✅ {title}.')
+            response = ok(f'{title}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments, see usage example.')
+            response = error('Invalid arguments, see usage example.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Settings can only be reset by the server owner.')
+        response = error('Settings can only be reset by the server owner.')
     await pld.msg.channel.send(embed=response)

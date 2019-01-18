@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 
 async def award(cmd: SigmaCommand, pld: CommandPayload):
@@ -47,11 +47,11 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+                    response = error('No user targeted.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+                response = error('Invalid amount.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+            response = error('Invalid number of arguments.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import warn, error
 
 
 async def togglerole(_cmd: SigmaCommand, pld: CommandPayload):
@@ -39,11 +40,11 @@ async def togglerole(_cmd: SigmaCommand, pld: CommandPayload):
                         title = f'✅ {target_role.name} has been added to you, {target.display_name}.'
                         response = discord.Embed(color=0x77B255, title=title)
                 else:
-                    response = discord.Embed(color=0xFFCC4D, title=f'⚠ {target_role.name} is not self assignable.')
+                    response = warn(f'{target_role.name} is not self assignable.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                response = error('This role is above my highest role.')
         else:
             response = discord.Embed(color=0x696969, title=f' 🔍 {lookup} not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 
 
 async def forcedataupdate(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,5 +27,5 @@ async def forcedataupdate(cmd: SigmaCommand, pld: CommandPayload):
     ready_events = cmd.bot.modules.events.get('dbinit')
     for ready_event in ready_events:
         await ready_event.execute(True)
-    response = discord.Embed(color=0x77B255, title=f'✅ Database static content reinitialized.')
+    response = ok('Database static content reinitialized.')
     await load_status.edit(embed=response)

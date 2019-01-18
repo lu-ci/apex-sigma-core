@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import info
 
 
 async def listselfroles(_cmd: SigmaCommand, pld: CommandPayload):
@@ -32,7 +33,7 @@ async def listselfroles(_cmd: SigmaCommand, pld: CommandPayload):
             if role == srv_role.id:
                 role_list.append(srv_role.name)
     if not role_list:
-        response = discord.Embed(color=0x3B88C3, title='ℹ No self assignable roles set.')
+        response = info('No self assignable roles set.')
     else:
         role_count = len(role_list)
         role_list = sorted(role_list)
@@ -46,6 +47,6 @@ async def listselfroles(_cmd: SigmaCommand, pld: CommandPayload):
             rl_out += '\n- ' + role
         response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
         response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
-        response.add_field(name=f'Self Assignable Role Stats', value=summary, inline=False)
-        response.add_field(name=f'List of Self Assignable Roles', value=f'{rl_out}', inline=False)
+        response.add_field(name='Self Assignable Role Stats', value=summary, inline=False)
+        response.add_field(name='List of Self Assignable Roles', value=f'{rl_out}', inline=False)
     await pld.msg.channel.send(embed=response)

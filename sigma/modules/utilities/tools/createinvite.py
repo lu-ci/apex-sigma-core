@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, convert_to_seconds
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 
 async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
@@ -51,15 +51,15 @@ async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
                             details += f"\n**Uses:** {uses or 'Unlimited'}"
                             response.description = details
                         except discord.Forbidden:
-                            response = discord.Embed(color=0xBE1931, title='❗ I was unable to make an invite.')
+                            response = error('I was unable to make an invite.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Maximum invite uses is 100.')
+                        response = error('Maximum invite uses is 100.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Max uses must be a number.')
+                    response = error('Max uses must be a number.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Maximum invite duration is 24 hours.')
+                response = error('Maximum invite duration is 24 hours.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+            response = error('Please use the format HH:MM:SS.')
     else:
         response = denied('Create Instant Invites')
     await pld.msg.channel.send(embed=response)

@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
@@ -31,7 +32,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
             rq_data = await data.read()
             rq_json = json.loads(rq_data)
     if rq_text.find('503 Service Unavailable') != -1:
-        response = discord.Embed(color=0xDB0000, title='❗ Jisho responded with 503 Service Unavailable.')
+        response = error('Jisho responded with 503 Service Unavailable.')
         await pld.msg.channel.send(embed=response)
         return
     request = rq_json
@@ -39,7 +40,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
     if request['data']:
         request = request['data'][0]
     else:
-        response = discord.Embed(color=0xDB0000, title=f"Sorry, couldn't find anything matching `{jisho_q}`")
+        response = not_found(f'Sorry, couldn\'t find anything matching `{jisho_q}`')
         await pld.msg.channel.send(embed=response)
         return
     output = ''

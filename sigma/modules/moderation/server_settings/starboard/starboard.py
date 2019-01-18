@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def starboard(cmd: SigmaCommand, pld: CommandPayload):
@@ -28,7 +26,7 @@ async def starboard(cmd: SigmaCommand, pld: CommandPayload):
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         starboard_doc.update({'state': state})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-        response = discord.Embed(color=0x77B255, title=f'✅ Starboard {ender}.')
+        response = ok(f'Starboard {ender}.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

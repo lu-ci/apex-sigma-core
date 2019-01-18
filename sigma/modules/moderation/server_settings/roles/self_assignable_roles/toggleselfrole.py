@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def toggleselfrole(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,17 +33,17 @@ async def toggleselfrole(cmd: SigmaCommand, pld: CommandPayload):
                     if target_role.id in self_roles:
                         self_roles.remove(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', self_roles)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} removed.')
+                        response = ok(f'{target_role.name} removed.')
                     else:
                         self_roles.append(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', self_roles)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} added.')
+                        response = ok(f'{target_role.name} added.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                    response = error('This role is above my highest role.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                response = not_found(f'{lookup} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Roles')
     await pld.msg.channel.send(embed=response)

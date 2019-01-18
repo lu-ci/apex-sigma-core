@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def givecurrency(cmd: SigmaCommand, pld: CommandPayload):
@@ -39,15 +40,15 @@ async def givecurrency(cmd: SigmaCommand, pld: CommandPayload):
                             title = f'✅ Transferred {amount} to {target.display_name}.'
                             response = discord.Embed(color=0x77B255, title=title)
                         else:
-                            response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have that much.')
+                            response = discord.Embed(color=0xa7d28b, title='💸 You don\'t have that much.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Guard.')
+                        response = error('Transaction declined by Lucia\'s Guard.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+                    response = error('Invalid amount.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+                response = error('No user targeted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
+            response = error('Missing arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

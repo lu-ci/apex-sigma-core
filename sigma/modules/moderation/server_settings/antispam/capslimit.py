@@ -14,12 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def capslimit(cmd: SigmaCommand, pld: CommandPayload):
@@ -30,9 +27,9 @@ async def capslimit(cmd: SigmaCommand, pld: CommandPayload):
             limit = None
         if limit is not None:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'caps_limit', limit)
-            response = discord.Embed(color=0x77B255, title=f'✅ Capital letter minimum set to {limit}.')
+            response = ok(f'Capital letter minimum set to {limit}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid limit given.')
+            response = error('Missing or invalid limit given.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

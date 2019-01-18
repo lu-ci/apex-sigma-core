@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def echo(_cmd: SigmaCommand, pld: CommandPayload):
@@ -26,5 +25,5 @@ async def echo(_cmd: SigmaCommand, pld: CommandPayload):
         content = content.replace('@everyone', 'everyone').replace('@here', 'here')
         await pld.msg.channel.send(content)
     else:
-        no_args = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        no_args = error('Nothing inputted.')
         await pld.msg.channel.send(embed=no_args)

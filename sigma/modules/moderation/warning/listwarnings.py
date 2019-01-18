@@ -20,6 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def listwarnings(cmd: SigmaCommand, pld: CommandPayload):
@@ -57,5 +58,5 @@ async def listwarnings(cmd: SigmaCommand, pld: CommandPayload):
             start = f'{target.name} doesn\'t' if target.id != pld.msg.author.id else 'You don\'t'
             response = discord.Embed(color=0x55acee, title=f'💠 {start} have any warnings.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

@@ -22,6 +22,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
@@ -92,5 +93,5 @@ async def recipes(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name=f'{recipe_icon} Recipe Stats', value=f'```py\n{stats_text}\n```', inline=False)
         response.add_field(name=f'📰 Recipes On Page {page}', value=f'```hs\n{recipe_table}\n```')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 No recipes match the given filter.')
+        response = not_found('No recipes match the given filter.')
     await pld.msg.channel.send(embed=response)

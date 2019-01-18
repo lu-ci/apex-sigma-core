@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
@@ -48,11 +48,11 @@ async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
                     addition_title = f'✅ {role_objc.name} has been added to you, {pld.msg.author.name}.'
                     response = discord.Embed(color=0x77B255, title=addition_title)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid HEX color code.')
+                    response = error('Invalid HEX color code.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No color HEX provided.')
+                response = error('No color HEX provided.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'⛔ Color roles are not enabled.')
+            response = discord.Embed(color=0xBE1931, title='⛔ Color roles are not enabled.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ I can\'t make a color role with my current role position.')
+        response = error('I can\'t make a color role with my current role position.')
     await pld.msg.channel.send(embed=response)

@@ -17,10 +17,10 @@
 import secrets
 
 import arrow
-import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 def generate_data(message, poll_args):
@@ -66,9 +66,9 @@ async def shadowpoll(cmd: SigmaCommand, pld: CommandPayload):
         if len(poll_args) >= 3:
             poll_data = generate_data(pld.msg, poll_args)
             await cmd.db[cmd.db.db_nam].ShadowPolls.insert_one(poll_data)
-            response = discord.Embed(color=0x66CC66, title=f'✅ Shadowpoll `{poll_data["id"]}` has been created.')
+            response = ok(f'Shadowpoll `{poll_data["id"]}` has been created.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

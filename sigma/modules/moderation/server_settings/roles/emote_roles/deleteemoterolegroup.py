@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
 async def deleteemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,9 +31,9 @@ async def deleteemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Emote role group {group_id} has been deleted.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
+                response = not_found(f'Group {group_id} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

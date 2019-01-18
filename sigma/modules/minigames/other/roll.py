@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def roll(_cmd: SigmaCommand, pld: CommandPayload):
@@ -55,11 +56,11 @@ async def roll(_cmd: SigmaCommand, pld: CommandPayload):
                     response = discord.Embed(color=0xea596e)
                     response.add_field(name='🎲 You Rolled', value=roll_out)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The high end must be positive and not a zero.')
+                    response = error('The high end must be positive and not a zero.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Maximum number allowed is 999999999999.')
+                response = error('Maximum number allowed is 999999999999.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Up to 10 dice please.')
+            response = error('Up to 10 dice please.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Invalid data given, please follow the example.')
+        response = error('Invalid data given, please follow the example.')
     await pld.msg.channel.send(embed=response)

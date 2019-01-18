@@ -20,6 +20,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
@@ -50,7 +51,7 @@ async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🔣 {level.title()} L33t Converter', value=text)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid l33t level.')
+            response = error('Invalid l33t level.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

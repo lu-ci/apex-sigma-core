@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, info, error
 
 
 async def prefix(cmd: SigmaCommand, pld: CommandPayload):
@@ -35,9 +35,9 @@ async def prefix(cmd: SigmaCommand, pld: CommandPayload):
                 response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
                 response = discord.Embed(color=0x77B255, title=response_title)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The current prefix and the new one are the same.')
+                response = error('The current prefix and the new one are the same.')
         else:
             response = denied('Manage Server')
     else:
-        response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
+        response = info(f'**{current_prefix}** is the current prefix.')
     await pld.msg.channel.send(embed=response)

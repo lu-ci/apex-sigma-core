@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.racing.nodes.race_storage import races, colors, make_race
 
 
@@ -99,9 +100,9 @@ async def race(cmd: SigmaCommand, pld: CommandPayload):
                     win_title += f' And got {winnings} {currency}.'
                 response = discord.Embed(color=colors[leader['icon']], title=win_title)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough participants in the race!')
+                response = error('Not enough participants in the race!')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Buyin can\'t be longer than 200 digits.')
+            response = error('Buyin can\'t be longer than 200 digits.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+        response = error('There is already one ongoing.')
     await pld.msg.channel.send(embed=response)

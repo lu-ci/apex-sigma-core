@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
@@ -63,18 +63,18 @@ async def filterunignore(cmd: SigmaCommand, pld: CommandPayload):
                                 return
                         else:
                             if targets:
-                                response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
+                                response = not_found(f'{targets} not found.')
                             else:
                                 ender = 'specified' if target_type == 'roles' else 'targeted'
-                                response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
+                                response = not_found(f'No {target_type} {ender}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid filter.')
+                        response = error('Invalid filter.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
+                    response = error('Invalid target type.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

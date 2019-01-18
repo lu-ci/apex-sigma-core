@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
@@ -50,7 +51,7 @@ async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
                                     for list_item in queue_list:
                                         await new_queue.put(list_item)
                                     cmd.bot.music.queues.update({pld.msg.guild.id: new_queue})
-                                    response = discord.Embed(color=0x66CC66, title=f'✅ Removed {item.title}.')
+                                    response = ok(f'Removed {item.title}.')
                                     requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                     response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                                 else:
@@ -60,17 +61,17 @@ async def unqueue(cmd: SigmaCommand, pld: CommandPayload):
                                     response = discord.Embed(color=0xBE1931)
                                     response.add_field(name='⛔ Access Denied', value=auth_deny_desc)
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ Input out of range.')
+                                response = error('Input out of range.')
                         except ValueError:
-                            response = discord.Embed(color=0xBE1931, title='❗ Invalid input. Numbers only.')
+                            response = error('Invalid input. Numbers only.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
+                        response = error('The queue is empty.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ I am not connected to any channel.')
+                    response = error('I am not connected to any channel.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
+                response = error('You are not in my voice channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+            response = error('You are not in a voice channel.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

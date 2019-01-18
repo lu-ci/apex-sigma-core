@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
@@ -45,7 +46,7 @@ async def blacklistserver(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db.cache.del_cache(target_id)
             await cmd.db.cache.del_cache(f'{target_id}_checked')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid guild ID.')
+            response = error('Invalid guild ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing guild ID.')
+        response = error('Missing guild ID.')
     await pld.msg.channel.send(embed=response)

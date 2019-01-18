@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def wfacolytechannel(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,13 +27,13 @@ async def wfacolytechannel(cmd: SigmaCommand, pld: CommandPayload):
             if pld.args:
                 if pld.args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_acolyte_channel', None)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Acolyte Channel disabled.')
+                    response = ok('Warframe Acolyte Channel disabled.')
                     await pld.msg.channel.send(embed=response)
                 return
             else:
                 target_channel = pld.msg.channel
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_acolyte_channel', target_channel.id)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Warframe Acolyte Channel set to #{target_channel.name}')
+        response = ok(f'Warframe Acolyte Channel set to #{target_channel.name}')
     else:
         response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

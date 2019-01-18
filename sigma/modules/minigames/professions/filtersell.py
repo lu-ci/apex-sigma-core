@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -67,12 +68,12 @@ async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments.')
+                    response = error('Invalid arguments.')
             else:
-                response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
+                response = discord.Embed(color=0xc6e4b5, title='💸 Your inventory is empty...')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

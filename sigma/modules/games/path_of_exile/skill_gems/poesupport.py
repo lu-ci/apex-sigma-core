@@ -21,6 +21,7 @@ import lxml.html as lx
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error, not_found
 
 passive_gem_list_cache = {}
 passive_gem_data_cache = {}
@@ -124,9 +125,9 @@ async def poesupport(_cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name='Information', value=gem_info_block, inline=False)
                 response.set_footer(text=f'Types: {" | ".join(gem_data.get("info").get("types"))}')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid gem data received.')
+                response = error('Invalid gem data received.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Gem not found.')
+            response = not_found('Gem not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

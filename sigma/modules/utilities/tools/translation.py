@@ -19,6 +19,7 @@ import translate
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
 
@@ -43,10 +44,10 @@ async def translation(_cmd: SigmaCommand, pld: CommandPayload):
                 response.description = trans_output
             else:
                 lang_iso = trans_output.split()[0].replace("'", "")
-                response = discord.Embed(color=0xBE1931, title=f'❗ {lang_iso} is an invalid language code.')
+                response = error(f'{lang_iso} is an invalid language code.')
                 response.description = f'[Click for a list of language ISO codes]({wiki_url})'
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing language or sentence.')
+            response = error('Missing language or sentence.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

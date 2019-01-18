@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.games.blizzard.overwatch.mech.utility import ow_icon, region_convert, clean_numbers, get_profile
 
 
@@ -70,17 +71,17 @@ async def overwatch(_cmd: SigmaCommand, pld: CommandPayload):
                             footer_text = 'Click the battletag at the top to see the user\'s profile.'
                             response.set_footer(text=footer_text, icon_url=ow_icon)
                         else:
-                            response = discord.Embed(color=0x696969, title='🔍 No results.')
+                            response = not_found('No results.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Sorry, my request timed out.')
+                        response = error('Sorry, my request timed out.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Sorry, I failed to retrieve any data.')
+                    response = error('Sorry, I failed to retrieve any data.')
             else:
                 region_error_text = f'Supported: {", ".join(region_list)}.\nOr: {", ".join(list(region_convert))}.'
                 response = discord.Embed(color=0xBE1931)
                 response.add_field(name='❗ Invalid region.', value=region_error_text)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Region and Battletag needed.')
+            response = error('Region and Battletag needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await init_resp_msg.edit(embed=response)

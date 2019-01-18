@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 async def nowplaying(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,5 +35,5 @@ async def nowplaying(cmd: SigmaCommand, pld: CommandPayload):
         response.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
         response.set_footer(text=f'Duration: {duration} | Tip: The author\'s name is a link.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No currently playing song data.')
+        response = error('No currently playing song data.')
     await pld.msg.channel.send(embed=response)

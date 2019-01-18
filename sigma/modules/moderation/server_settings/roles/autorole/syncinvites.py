@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import update_invites
 
 
@@ -43,5 +44,5 @@ async def syncinvites(cmd: SigmaCommand, pld: CommandPayload):
             noresp = True
     if not noresp:
         inv_count = len(invites)
-        response = discord.Embed(color=0x77B255, title=f'✅ Synced {inv_count} invites.')
+        response = ok(f'Synced {inv_count} invites.')
         await pld.msg.channel.send(embed=response)

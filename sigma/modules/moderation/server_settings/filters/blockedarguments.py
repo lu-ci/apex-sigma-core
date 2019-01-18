@@ -19,12 +19,13 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import info
 
 
 async def blockedarguments(_cmd: SigmaCommand, pld: CommandPayload):
     blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:
-        response = discord.Embed(color=0x3B88C3, title='ℹ There are no blocked arguments.')
+        response = info('There are no blocked arguments.')
     else:
         total_count = len(blocked_args)
         blocked_args, page = PaginatorCore.paginate(blocked_args, pld.args[0] if pld.args else 1, 20)

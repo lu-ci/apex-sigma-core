@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,7 +37,7 @@ async def httpstatus(cmd: SigmaCommand, pld: CommandPayload):
                 bonus_img = f'{bonus.get(bonus_arg)}/{lookup}.jpg'
                 response.set_image(url=bonus_img)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Response code not found.')
+            response = not_found('Response code not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

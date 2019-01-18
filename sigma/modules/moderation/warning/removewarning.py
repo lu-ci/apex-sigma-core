@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
@@ -66,15 +66,15 @@ async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deactivated.')
+                    response = ok(f'Warning {warn_iden} deactivated.')
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {target.name} has no {warn_id} warning.')
+                    response = not_found(f'{target.name} has no {warn_id} warning.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ Both user tag and warning ID are needed.')
+                response = error('Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

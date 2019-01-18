@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
@@ -37,11 +38,11 @@ async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
                     out_num = min_num + ran_num
                     response = discord.Embed(color=0xea596e, title=f'🎲 {out_num}')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The high number is smaller than the minimum.')
+                    response = error('The high number is smaller than the minimum.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid numbers.')
+                response = error('Invalid numbers.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+            response = error('Invalid number of arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

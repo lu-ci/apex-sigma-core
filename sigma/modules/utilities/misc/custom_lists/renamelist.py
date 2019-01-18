@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def renamelist(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,13 +37,13 @@ async def renamelist(cmd: SigmaCommand, pld: CommandPayload):
                         response = discord.Embed(color=0x77B255)
                         response.title = f'✅ List {list_file.get("list_id")} renamed to {new_name}.'
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ List names have a limit of 50 characters.')
+                        response = error('List names have a limit of 50 characters.')
                 else:
                     response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid list ID.')
+                response = error('Missing or invalid list ID.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

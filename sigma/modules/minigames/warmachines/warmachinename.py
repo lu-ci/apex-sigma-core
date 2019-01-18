@@ -15,13 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 from sigma.modules.minigames.warmachines.warmachineinspect import find_machine
-
 
 price = 1
 
@@ -37,11 +35,11 @@ async def warmachinename(cmd: SigmaCommand, pld: CommandPayload):
             if sumarum.current >= price:
                 machine.name = new_name
                 await machine.update()
-                response = discord.Embed(color=0x77B255, title=f'✅ Machine {machine.id} renamed.')
+                response = ok(f'Machine {machine.id} renamed.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough sumarum.')
+                response = error('Not enough sumarum.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 No warmachine found.')
+            response = not_found('No warmachine found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+        response = error('Invalid number of arguments.')
     await pld.msg.channel.send(embed=response)

@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 log_keys = [
     'log_antispam_channel', 'log_bans_channel', 'log_deletions_channel', 'log_edits_channel', 'log_filters_channel',
@@ -72,11 +72,11 @@ async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
                         response.title = '✅ Logging channels edited'
                         response.description = '\n'.join(results)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
+                    response = error('I can\'t write in that channel.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
+                response = error('No channel targeted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

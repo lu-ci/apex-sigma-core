@@ -22,6 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.sigma import ApexSigma
+from sigma.core.utilities.generic_responses import ok, error
 
 
 def parse_approval(args: list):
@@ -82,7 +83,7 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                 to_user_title = f'✅ Suggestion {token} approved by {pld.msg.author.display_name}.'
                 to_user = discord.Embed(color=0x77B255, title=to_user_title)
                 if gl_issue_url:
-                    to_user_desc = f'Your suggestion was approved, you can view its status and details [here]'
+                    to_user_desc = 'Your suggestion was approved, you can view its status and details [here]'
                     to_user_desc += f'({gl_issue_url}). If you need info, the support server is in the help command.'
                 else:
                     to_user_desc = f'```md\n{gl_desc}\n```'
@@ -91,9 +92,9 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                     await athr.send(embed=to_user)
                 except (discord.Forbidden, discord.NotFound):
                     pass
-            response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {token} approved.')
+            response = ok(f'Suggestion {token} approved.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No suggestion entry with that ID was found.')
+            response = error('No suggestion entry with that ID was found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        response = error('Not enough arguments.')
     await pld.msg.channel.send(embed=response)

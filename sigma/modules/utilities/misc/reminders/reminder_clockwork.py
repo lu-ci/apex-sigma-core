@@ -52,7 +52,7 @@ async def reminder_cycler(ev: SigmaEvent):
                     if target:
                         await coll.delete_one(reminder)
                         dt_stamp = arrow.get(reminder.get('creation_stamp')).datetime
-                        title = f'⏰ Your Reminder'
+                        title = '⏰ Your Reminder'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)
                         response.description = reminder.get('text_message')
                         if author:

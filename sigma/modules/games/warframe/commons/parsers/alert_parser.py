@@ -140,7 +140,7 @@ async def generate_alert_embed(data):
         alert_desc += f' + {data["rewards"]["item"]}'
     else:
         reward_icon = 'https://i.imgur.com/WeUJXIx.png'
-    response.add_field(name=f'Warframe Alert', value=f'{alert_desc}')
+    response.add_field(name='Warframe Alert', value=f'{alert_desc}')
     response.set_thumbnail(url=reward_icon)
     response.set_footer(icon_url='https://i.imgur.com/99ennZD.png', text=f'Duration: {duration_tag}')
     return response

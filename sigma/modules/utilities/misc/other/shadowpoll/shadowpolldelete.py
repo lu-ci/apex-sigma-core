@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 
 
 async def shadowpolldelete(cmd: SigmaCommand, pld: CommandPayload):
@@ -28,11 +29,11 @@ async def shadowpolldelete(cmd: SigmaCommand, pld: CommandPayload):
             author = poll_file['origin']['author']
             if author == pld.msg.author.id:
                 await cmd.db[cmd.db.db_nam].ShadowPolls.delete_one({'id': poll_id})
-                response = discord.Embed(color=0x66CC66, title=f'✅ Poll {poll_id} has been deleted.')
+                response = ok(f'Poll {poll_id} has been deleted.')
             else:
                 response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            response = not_found('Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
+        response = error('Missing poll ID.')
     await pld.msg.channel.send(embed=response)

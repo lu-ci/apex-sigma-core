@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 from sigma.modules.utilities.mathematics.collector_clockwork import current_user_collecting
 
 
@@ -29,9 +27,9 @@ async def cancelcollector(cmd: SigmaCommand, pld: CommandPayload):
         entry = await collector_coll.find_one({'user_id': pld.msg.author.id})
         if entry:
             await collector_coll.delete_one(entry)
-            response = discord.Embed(color=0x66CC66, title=f'✅ Ok, I removed you from the queue.')
+            response = ok('Ok, I removed you from the queue.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ You are not currently in the queue.')
+            response = error('You are not currently in the queue.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Can\'t cancel a already ongoing collection.')
+        response = error('Can\'t cancel a already ongoing collection.')
     await pld.msg.channel.send(embed=response)

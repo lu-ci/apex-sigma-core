@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def namefilterban(cmd: SigmaCommand, pld: CommandPayload):
@@ -26,7 +24,7 @@ async def namefilterban(cmd: SigmaCommand, pld: CommandPayload):
         active = pld.settings.get('name_filter_ban')
         ascii_names, state = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'name_filter_ban', ascii_names)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Name Filter Autoban has been {state}.')
+        response = ok(f'Name Filter Autoban has been {state}.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

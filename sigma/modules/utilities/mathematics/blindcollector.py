@@ -14,12 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 
 async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,7 +35,7 @@ async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
                 response_title = f'✅ Users can no longer collect chains from #{target.name}.'
             response = discord.Embed(color=0x66CC66, title=response_title)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel given.')
+            response = error('No channel given.')
     else:
         response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

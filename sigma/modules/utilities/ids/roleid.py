@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def roleid(_cmd: SigmaCommand, pld: CommandPayload):
@@ -36,9 +37,9 @@ async def roleid(_cmd: SigmaCommand, pld: CommandPayload):
                 response = role.id
         else:
             embed = True
-            response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+            response = not_found(f'{lookup} not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     if embed:
         await pld.msg.channel.send(embed=response)
     else:

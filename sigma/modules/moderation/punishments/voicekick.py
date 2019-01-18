@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -50,11 +50,11 @@ async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ Can\'t kick someone equal or above you.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ You can\'t kick yourself.')
+                    response = error('You can\'t kick yourself.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t kick myself.')
+                response = error('I can\'t kick myself.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Kick permissions')
     await pld.msg.channel.send(embed=response)

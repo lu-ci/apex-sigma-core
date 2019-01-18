@@ -21,6 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 def percentify(small, big):
@@ -39,7 +40,7 @@ async def rolepopulation(_cmd: SigmaCommand, pld: CommandPayload):
             response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
             response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 {rl_qry} not found.')
+            response = not_found(f'{rl_qry} not found.')
     else:
         role_dict = {}
         for role in pld.msg.guild.roles:
@@ -56,5 +57,5 @@ async def rolepopulation(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0x3B88C3)
         response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
         response.add_field(name='Statistics', value=stats_block, inline=False)
-        response.add_field(name=f'Role Population', value=f'```haskell\n{out_text}\n```', inline=False)
+        response.add_field(name='Role Population', value=f'```haskell\n{out_text}\n```', inline=False)
     await pld.msg.channel.send(embed=response)

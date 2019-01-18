@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def shadowpollclose(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,11 +34,11 @@ async def shadowpollclose(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0xFFCC4D, title=f'🔒 Poll {poll_file["id"]} has been closed.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Poll {poll_file["id"]} is not active.')
+                    response = error(f'Poll {poll_file["id"]} is not active.')
             else:
                 response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            response = not_found('Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
+        response = error('Missing poll ID.')
     await pld.msg.channel.send(embed=response)

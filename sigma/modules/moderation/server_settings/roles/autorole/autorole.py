@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def autorole(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,14 +31,14 @@ async def autorole(cmd: SigmaCommand, pld: CommandPayload):
                     role_bellow = bool(target_role.position < pld.msg.guild.me.top_role.position)
                     if role_bellow:
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', target_role.id)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target_role.name} is now the autorole.')
+                        response = ok(f'{target_role.name} is now the autorole.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                        response = error('This role is above my highest role.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                    response = not_found(f'{lookup} not found.')
             else:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', None)
-                response = discord.Embed(color=0x77B255, title=f'✅ Autorole has been disabled.')
+                response = ok('Autorole has been disabled.')
         else:
             curr_role_id = pld.settings.get('auto_role')
             if curr_role_id:
@@ -46,7 +46,7 @@ async def autorole(cmd: SigmaCommand, pld: CommandPayload):
                 if curr_role:
                     response = discord.Embed(color=0xF9F9F9, title=f'📇 The current autorole is **{curr_role}**.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ An autorole is set but was not found.')
+                    response = error('An autorole is set but was not found.')
             else:
                 response = discord.Embed(color=0xF9F9F9, title='📇 No autorole set.')
     else:

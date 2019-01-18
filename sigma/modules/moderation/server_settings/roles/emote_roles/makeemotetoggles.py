@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 def make_binding_data(roles: list):
@@ -80,13 +80,13 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
                     guild_togglers = pld.settings.get('emote_role_togglers') or {}
                     guild_togglers.update({str(toggler_message.id): binding_data})
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_togglers', guild_togglers)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ Toggler {group_id} created in {target_ch.name}.')
+                    response = ok(f'Toggler {group_id} created in {target_ch.name}.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No groups in the Emote group!')
+                    response = not_found('No groups in the Emote group!')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
+                response = not_found(f'Group {group_id} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing group ID.')
+            response = error('Missing group ID.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

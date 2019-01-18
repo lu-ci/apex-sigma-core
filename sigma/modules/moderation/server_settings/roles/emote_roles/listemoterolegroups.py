@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def listemoterolegroups(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,9 +39,9 @@ async def listemoterolegroups(cmd: SigmaCommand, pld: CommandPayload):
             rl_out += f'\n`{rl}`: {len(list(emote_groups.get(rl)))} Roles'
         response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
         response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
-        response.add_field(name=f'Emote Role Group Summary', value=summary, inline=False)
-        response.add_field(name=f'List of Emote Role Groups', value=f'{rl_out}', inline=False)
+        response.add_field(name='Emote Role Group Summary', value=summary, inline=False)
+        response.add_field(name='List of Emote Role Groups', value=f'{rl_out}', inline=False)
         response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 {pld.msg.guild.name} has no emote role groups.')
+        response = not_found(f'{pld.msg.guild.name} has no emote role groups.')
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
 async def giverole(_cmd: SigmaCommand, pld: CommandPayload):
@@ -39,17 +39,17 @@ async def giverole(_cmd: SigmaCommand, pld: CommandPayload):
                                 title = f'✅ {target_role.name} has been given to {target.name}.'
                                 response = discord.Embed(color=0x77B255, title=title)
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ That user already has this role.')
+                                response = error('That user already has this role.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                            response = error('This role is above my highest role.')
                     else:
-                        response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                        response = not_found(f'{lookup} not found.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+                    response = error('No user targeted.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Roles')
     await pld.msg.channel.send(embed=response)

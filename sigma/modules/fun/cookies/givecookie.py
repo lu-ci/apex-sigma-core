@@ -22,6 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 def check_name(m: discord.Member, lookup: str):
@@ -78,16 +79,16 @@ async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
                                 timeout_title = f'🕙 Your cookie will be baked {timeout}.'
                                 response = discord.Embed(color=0x696969, title=timeout_title)
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ Bots don\'t eat cookies.')
+                            response = error('Bots don\'t eat cookies.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ Nope, can\'t give cookies to yourself.')
+                        response = error('Nope, can\'t give cookies to yourself.')
                 else:
-                    title = f'❗ Sorry, your account is too young to give cookies.'
+                    title = '❗ Sorry, your account is too young to give cookies.'
                     response = discord.Embed(color=0xBE1931, title=title)
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ It seems that {target.name} is allergic to cookies.')
+                response = error(f'It seems that {target.name} is allergic to cookies.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ It seems that your oven is broken.')
+            response = error('It seems that your oven is broken.')
     else:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             response = discord.Embed(color=0xd99e82, title='🍪 Your cookie is ready to be given.')

@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def removecommand(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,11 +27,11 @@ async def removecommand(cmd: SigmaCommand, pld: CommandPayload):
             if trigger in custom_commands:
                 del custom_commands[trigger]
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
-                response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been removed.')
+                response = ok(f'{trigger} has been removed.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Command not found.')
+                response = not_found('Command not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

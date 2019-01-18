@@ -25,6 +25,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 
@@ -72,7 +73,7 @@ async def wfvoidtrader(_cmd: SigmaCommand, pld: CommandPayload):
                 response.set_footer(text=leaves)
             else:
                 response = discord.Embed(color=0x006666)
-                response.set_author(name=f'No items on this page.', icon_url=baro_icon)
+                response.set_author(name='No items on this page.', icon_url=baro_icon)
         else:
             diff = start_time.timestamp - now_time.timestamp
             if diff < 86400:
@@ -82,5 +83,5 @@ async def wfvoidtrader(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0x006666)
             response.set_author(name=f'Void Trader arrives {comes_time} on {data.get("Node")}.', icon_url=baro_icon)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Void Trader data.')
+        response = error('Could not retrieve Void Trader data.')
     await pld.msg.channel.send(embed=response)

@@ -18,13 +18,14 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
 async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
     awdbl = pld.args[0] if pld.args else None
     if awdbl:
-        init_resp = discord.Embed(color=0xf9f9f9, title=f'💴 Awarding leaderboards....')
+        init_resp = discord.Embed(color=0xf9f9f9, title='💴 Awarding leaderboards....')
         init_msg = await pld.msg.channel.send(embed=init_resp)
         coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']
         search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
@@ -38,7 +39,7 @@ async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
             cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
         await coll.update_many({}, {'$set': {'ranked': 0}})
         await init_msg.delete()
-        done_resp = discord.Embed(color=0x77B255, title=f'✅ All leaderboards awarded.')
+        done_resp = ok('All leaderboards awarded.')
     else:
-        done_resp = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+        done_resp = error('Nothing inputted.')
     await pld.msg.channel.send(embed=done_resp)

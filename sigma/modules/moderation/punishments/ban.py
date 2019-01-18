@@ -21,13 +21,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 def generate_log_embed(message, target, reason):
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
-    log_response.set_author(name=f'A User Has Been Banned', icon_url=user_avatar(target))
+    log_response.set_author(name='A User Has Been Banned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Banned User',
                            value=f'{target.mention}\n{target.name}#{target.discriminator}')
     author = message.author
@@ -48,7 +48,7 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                 now = arrow.utcnow().timestamp
                 endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
             except (LookupError, ValueError):
-                err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                err_response = error('Please use the format HH:MM:SS.')
                 await pld.msg.channel.send(embed=err_response)
                 return
             if len(pld.args) >= 2:
@@ -71,7 +71,7 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                         if above_me:
                             rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                             reason = ' '.join(rarg) if rarg else None
-                            response = discord.Embed(color=0x696969, title=f'🔨 The user has been banned.')
+                            response = discord.Embed(color=0x696969, title='🔨 The user has been banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
                             to_target = discord.Embed(color=0x696969)
@@ -93,11 +93,11 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         response = discord.Embed(color=0xBE1931, title='⛔ Can\'t ban someone equal or above you.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ You can\'t ban yourself.')
+                    response = error('You can\'t ban yourself.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t ban myself.')
+                response = error('I can\'t ban myself.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Ban permissions')
     await pld.msg.channel.send(embed=response)

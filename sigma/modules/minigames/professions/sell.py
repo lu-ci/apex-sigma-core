@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 ongoing = []
@@ -76,11 +77,11 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 I didn\'t find any {lookup} in your inventory.')
+                    response = not_found(f'I didn\'t find any {lookup} in your inventory.')
         else:
-            response = discord.Embed(color=0xc6e4b5, title=f'💸 Your inventory is empty...')
+            response = discord.Embed(color=0xc6e4b5, title='💸 Your inventory is empty...')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     if pld.msg.author.id in ongoing:
         ongoing.remove(pld.msg.author.id)
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))

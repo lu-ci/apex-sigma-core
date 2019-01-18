@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 
@@ -62,7 +63,7 @@ async def osu(_cmd: SigmaCommand, pld: CommandPayload):
             response.set_image(url=sig_url)
             response.set_author(name=f'{username}\'s osu! Profile', url=profile_url, icon_url=osu_logo)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Unable to retrieve profile.')
+            response = error('Unable to retrieve profile.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -67,7 +67,7 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                         now = arrow.utcnow().timestamp
                         endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
                     except (LookupError, ValueError):
-                        err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                        err_response = error('Please use the format HH:MM:SS.')
                         await pld.msg.channel.send(embed=err_response)
                         return
                     for channel in pld.msg.guild.channels:
@@ -84,7 +84,7 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                     title = f'✅ {target.display_name} has been hard-muted.'
                     response = discord.Embed(color=0x77B255, title=title)
-                    to_target_title = f'🔇 You have been hard-muted.'
+                    to_target_title = '🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name=to_target_title, value=f'Reason: {reason}')
                     to_target.set_footer(text=f'On: {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
@@ -96,11 +96,11 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                         doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                         await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ That user is equal or above you.')
+                    response = error('That user is equal or above you.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t mute a user equal or above me.')
+                response = error('I can\'t mute a user equal or above me.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Manage Channels')
     await pld.msg.channel.send(embed=response)

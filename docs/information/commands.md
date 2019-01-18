@@ -407,7 +407,7 @@ Commands | Description | Example
 `>>anime` `>>animu` `>>kitsuanime` | Searches Kitsu.io for the specified anime. The outputed results will be information like the number of episodes, user rating, air time, plot summary, and poster image. | `>>anime Plastic Memories`
 `>>antonyms` `>>antonym` `>>ant` | Looks up words that have the opposite meaning of the specified term. | `>>antonyms late`
 `>>busplus` | Returns the bus departure times from both terminus locations for the specified line number. It will display the departure times for the current, previous, and next hour. This is only for the Belgrade BusPlus transit tracking system. | `>>busplus 18`
-`>>crates` `>>crate` `>>cargo` | Search Rust's/Cargo's package repository on crates.io for the wanted package and displays its details. | `>>crates javelin`
+`>>crates` `>>crate` `>>cargo` | Search Rust's/Cargo's package repository on crates.io for the specified package and displays its details. | `>>crates javelin`
 `>>cryptocurrency` `>>cryptocur` `>>crypcur` `>>ecoin` | Shows the statistics for the specified crypto currency. Stats include the current market cap, price, supply, volume, and change. | `>>cryptocurrency ethereum`
 `>>deezer` `>>music` `>>findsong` | Searches Deezer for infomation on the specified song. The output will include a song preview link. | `>>deezer Highway to Hell`
 `>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun. | `>>describe noun ocean`
@@ -418,6 +418,7 @@ Commands | Description | Example
 `>>imdb` `>>movie` | Searches the Internet Movie Database for your input. Gives you the poster, release year, and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the specified manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
 `>>mapsearch` `>>maps` `>>map` | Searches Google Maps for the specified location. If specific details aren't found about the location, it will return in a broad search. | `>>mapsearch Belgrade`
+`>>packages` `>>package` `>>pypi` | Search Python's/PyPi's package repository on pypi.org for the specified package and displays its details. | `>>packages pip`
 `>>reddit` | Enter a subreddit and it will show a random post from the current top posts in hot. You can specify what filter to search the subreddit with as an argument after the subreddit name. The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop, and RandomTop. Random arguments choose randomly from a list of the first 100 entries. | `>>reddit ProgrammerHumor`
 `>>rhymes` `>>rhyme` | Looks up words that rhymes with the specified term. | `>>rhymes forgetful`
 `>>safebooru` `>>safe` | Returns a random image from the safebooru image repository. If no tag is given, the keyword "cute" will be used. Separate different tags with a space and replace spaces within a single tag with underscores "_". | `>>safebooru kawaii`

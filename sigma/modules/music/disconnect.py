@@ -14,11 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def disconnect(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,13 +31,13 @@ async def disconnect(cmd: SigmaCommand, pld: CommandPayload):
                 await pld.msg.guild.voice_client.disconnect()
                 if pld.msg.guild.id in cmd.bot.music.queues:
                     del cmd.bot.music.queues[pld.msg.guild.id]
-                response = discord.Embed(color=0x66CC66, title='✅ Disconnected and purged.')
+                response = ok('Disconnected and purged.')
                 requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                 response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I am not connected to any channel.')
+                response = error('I am not connected to any channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
+            response = error('You are not in my voice channel.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+        response = error('You are not in a voice channel.')
     await pld.msg.channel.send(embed=response)

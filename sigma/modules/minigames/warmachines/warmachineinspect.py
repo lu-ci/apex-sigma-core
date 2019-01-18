@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
@@ -54,7 +55,7 @@ async def warmachineinspect(cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name='Battles', value=f'**Won**: {machine.won} | **Lost**: {machine.lost}', inline=False)
             response.add_field(name='Statistics', value=stats_block, inline=False)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 No warmachine found.')
+            response = not_found('No warmachine found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+        response = error('Invalid number of arguments.')
     await pld.msg.channel.send(embed=response)

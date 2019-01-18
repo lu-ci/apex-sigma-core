@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 def user_auth(message: discord.Message, list_file: dict):
@@ -44,12 +45,12 @@ async def addline(cmd: SigmaCommand, pld: CommandPayload):
                 list_file.get('contents').append(add_line)
                 await list_coll.update_one(lookup_data, {'$set': list_file})
                 response = discord.Embed(color=0xF9F9F9)
-                response.title = f'📝 Your line was written to the list.'
+                response.title = '📝 Your line was written to the list.'
             else:
                 mode = 'private' if list_file.get('mode') == 'private' else 'locked'
                 response = discord.Embed(color=0xFFAC33, title=f'🔏 This list is {mode}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing or invalid list ID.')
+            response = error('Missing or invalid list ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        response = error('Not enough arguments.')
     await pld.msg.channel.send(embed=response)

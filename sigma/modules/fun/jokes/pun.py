@@ -20,6 +20,7 @@ import ftfy
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def pun(_cmd: SigmaCommand, pld: CommandPayload):
@@ -33,5 +34,5 @@ async def pun(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xFFDC5D, title='😒 Have A Pun')
         response.description = pun_text
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Sorry, I failed to find a pun.')
+        response = error('Sorry, I failed to find a pun.')
     await pld.msg.channel.send(embed=response)

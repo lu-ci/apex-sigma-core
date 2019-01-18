@@ -25,7 +25,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 def warning_data(author: discord.Member, target: discord.Member, reason: str):
@@ -88,7 +88,7 @@ async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
                     warn_data = warning_data(pld.msg.author, target, reason)
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} issued to {target.name}.')
+                    response = ok(f'Warning {warn_iden} issued to {target.name}.')
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
@@ -100,11 +100,11 @@ async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
                     except Exception:
                         pass
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn bots.')
+                    response = error('You can\'t warn bots.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ You can\'t warn yourself.')
+                response = error('You can\'t warn yourself.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ No user targeted.')
+            response = error('No user targeted.')
     else:
         response = denied('Manage Messages')
     await pld.msg.channel.send(embed=response)

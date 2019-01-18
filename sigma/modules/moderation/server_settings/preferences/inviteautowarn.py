@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def inviteautowarn(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,7 +29,7 @@ async def inviteautowarn(cmd: SigmaCommand, pld: CommandPayload):
             new_value = True
             ending = 'enabled'
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'invite_auto_warn', new_value)
-        response = discord.Embed(color=0x77B255, title=f'✅ Automatic invite warnings have been {ending}.')
+        response = ok(f'Automatic invite warnings have been {ending}.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

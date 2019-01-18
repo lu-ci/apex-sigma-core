@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, not_found
 from sigma.modules.development.command_md import command_md
 from sigma.modules.development.version_file_updater import version_file_updater
 
@@ -51,9 +52,9 @@ async def reload(cmd: SigmaCommand, pld: CommandPayload):
         if command_name in cmd.bot.modules.alts:
             command_name = cmd.bot.modules.alts[command_name]
         if command_name not in cmd.bot.modules.commands.keys():
-            response = discord.Embed(color=0x696969, title=f'🔍 Command `{command_name}` was not found.')
+            response = not_found(f'Command `{command_name}` was not found.')
         else:
             module_to_reload = cmd.bot.modules.commands[command_name].command
             reimport(module_to_reload)
-            response = discord.Embed(color=0x77B255, title=f'✅ Command `{command_name}` was reloaded.')
+            response = ok(f'Command `{command_name}` was reloaded.')
         await pld.msg.channel.send(embed=response)

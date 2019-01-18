@@ -16,11 +16,9 @@
 
 import re
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 def check_field(field, value):
@@ -67,11 +65,11 @@ async def greetembed(cmd: SigmaCommand, pld: CommandPayload):
                     res_line = f'{field.title()}: {res}'
                     results.append(res_line)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Separate fields and values with a colon.')
+                    response = error('Separate fields and values with a colon.')
                     await pld.msg.channel.send(embed=response)
                     return
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_embed', embed_data)
-            response = discord.Embed(color=0x77B255, title=f'✅ Greeting Embed updated.')
+            response = ok('Greeting Embed updated.')
             response.description = '\n'.join(results)
         else:
             if greet_embed.get('active'):
@@ -80,7 +78,7 @@ async def greetembed(cmd: SigmaCommand, pld: CommandPayload):
                 state, ender = True, 'enabled'
             embed_data.update({'active': state})
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_embed', embed_data)
-            response = discord.Embed(color=0x77B255, title=f'✅ Greeting Embed {ender}.')
+            response = ok(f'Greeting Embed {ender}.')
     else:
         response = denied('Manage Server')
     await pld.msg.channel.send(embed=response)

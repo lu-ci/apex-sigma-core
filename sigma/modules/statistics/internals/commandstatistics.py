@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def commandstatistics(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,4 +34,4 @@ async def commandstatistics(cmd: SigmaCommand, pld: CommandPayload):
         response += f'\n```hs\n{out_table}\n```'
         await pld.msg.channel.send(response)
     else:
-        await pld.msg.channel.send(embed=discord.Embed(color=0x696969, title='🔍 No statistics to show.'))
+        await pld.msg.channel.send(embed=not_found('No statistics to show.'))

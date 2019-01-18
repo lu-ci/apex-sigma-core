@@ -22,6 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def catfact(_cmd: SigmaCommand, pld: CommandPayload):
@@ -37,5 +38,5 @@ async def catfact(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xFFDC5D)
         response.add_field(name='🐱 Did you know...', value=fact)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Sorry, I got invalid data and couldn\'t get a fact.')
+        response = error('Sorry, I got invalid data and couldn\'t get a fact.')
     await pld.msg.channel.send(embed=response)

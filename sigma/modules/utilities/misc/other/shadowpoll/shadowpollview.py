@@ -20,6 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def shadowpollview(cmd: SigmaCommand, pld: CommandPayload):
@@ -60,7 +61,7 @@ async def shadowpollview(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 response = discord.Embed(color=0xFFCC4D, title='🔒 That poll is not active.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            response = not_found('Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
+        response = error('Missing poll ID.')
     await pld.msg.channel.send(embed=response)

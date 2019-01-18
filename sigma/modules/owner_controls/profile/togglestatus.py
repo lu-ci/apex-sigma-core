@@ -14,15 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 
 
 async def togglestatus(cmd: SigmaCommand, pld: CommandPayload):
     rotation = cmd.bot.cfg.pref.status_rotation
     rotation, state = (False, '**disabled**') if rotation else (True, '**enabled**')
     cmd.bot.cfg.pref.status_rotation = rotation
-    response = discord.Embed(color=0x77B255, title=f'✅ Status rotation {state}.')
+    response = ok(f'Status rotation {state}.')
     await pld.msg.channel.send(embed=response)

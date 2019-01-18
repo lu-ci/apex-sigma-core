@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 ongoing = []
@@ -143,11 +144,11 @@ async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
                 pass
             await pld.msg.channel.send(embed=response)
         except asyncio.TimeoutError:
-            timeout_title = f'🕙 Sorry, you timed out, feel free to open the shop again.'
+            timeout_title = '🕙 Sorry, you timed out, feel free to open the shop again.'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             await pld.msg.channel.send(embed=timeout_embed)
         if pld.msg.author.id in ongoing:
             ongoing.remove(pld.msg.author.id)
     else:
-        ongoing_response = discord.Embed(color=0xBE1931, title='❗ You already have a shop open.')
+        ongoing_response = error('You already have a shop open.')
         await pld.msg.channel.send(embed=ongoing_response)

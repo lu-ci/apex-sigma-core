@@ -22,6 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
+from sigma.core.utilities.generic_responses import error
 
 raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
@@ -66,8 +67,8 @@ async def raffle(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
             response = None
         except (LookupError, ValueError):
-            response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+            response = error('Please use the format HH:MM:SS.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     if response:
         await pld.msg.channel.send(embed=response)

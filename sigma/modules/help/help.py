@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import not_found
 
 lucia_image = 'https://i.imgur.com/xpDpHqz.png'
 sigma_title = 'Apex Sigma: The Database Giant'
@@ -45,7 +46,7 @@ async def help(cmd: SigmaCommand, pld: CommandPayload):
             if command.alts:
                 response.add_field(name='Command Aliases', value=f'```\n{", ".join(command.alts)}\n```')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Command not found.')
+            response = not_found('Command not found.')
     else:
         response = discord.Embed(color=0x1B6F5F)
         response.set_author(name=sigma_title, icon_url=user_avatar(cmd.bot.user), url=cmd.bot.cfg.pref.website)

@@ -24,6 +24,7 @@ import markovify
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 def combine_names(users: list):
@@ -83,9 +84,9 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                         response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Failed to combine the markov chains.')
+                    response = error('Failed to combine the markov chains.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ {empty_chain.name} does not have a chain.')
+                response = error(f'{empty_chain.name} does not have a chain.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
+        response = error('Invalid number of targets.')
     await pld.msg.channel.send(embed=response)

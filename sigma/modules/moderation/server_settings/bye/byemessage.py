@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, info
 
 
 async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
@@ -38,7 +38,7 @@ async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
         if pld.args:
             goodbye_text = ' '.join(pld.args)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_message', goodbye_text)
-            response = discord.Embed(color=0x77B255, title='✅ New Goodbye Message set.')
+            response = ok('New Goodbye Message set.')
         else:
             current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:
@@ -47,7 +47,7 @@ async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
             if bye_embed.get('active'):
                 response = await make_bye_embed(bye_embed, current_goodbye, pld.msg.guild)
             else:
-                response = discord.Embed(color=0x3B88C3, title='ℹ Current Goodbye Message')
+                response = info('Current Goodbye Message')
                 response.description = current_goodbye
     else:
         response = denied('Manage Server')

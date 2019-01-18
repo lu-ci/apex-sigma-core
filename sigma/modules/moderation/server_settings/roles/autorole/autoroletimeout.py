@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def autoroletimeout(cmd: SigmaCommand, pld: CommandPayload):
@@ -30,9 +30,9 @@ async def autoroletimeout(cmd: SigmaCommand, pld: CommandPayload):
                 timeout = None
             if timeout is not None:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role_timeout', timeout)
-                response = discord.Embed(color=0x77B255, title=f'✅ Timeout set to {timeout} seconds.')
+                response = ok(f'Timeout set to {timeout} seconds.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ This role is above my highest role.')
+                response = error('This role is above my highest role.')
         else:
             timeout = pld.settings.get('auto_role_timeout', 0)
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')

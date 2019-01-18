@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def setusername(cmd: SigmaCommand, pld: CommandPayload):
@@ -25,9 +26,9 @@ async def setusername(cmd: SigmaCommand, pld: CommandPayload):
         name_input = ' '.join(pld.args)
         try:
             await cmd.bot.user.edit(username=name_input)
-            response = discord.Embed(color=0x77B255, title=f'✅ Changed username to {name_input}.')
+            response = ok(f'Changed username to {name_input}.')
         except discord.Forbidden:
-            response = discord.Embed(color=0xBE1931, title=f'❗ I was unable to change my username.')
+            response = error('I was unable to change my username.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)
