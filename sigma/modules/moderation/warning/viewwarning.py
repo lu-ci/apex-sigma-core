@@ -58,5 +58,5 @@ async def viewwarning(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     await pld.msg.channel.send(embed=response)

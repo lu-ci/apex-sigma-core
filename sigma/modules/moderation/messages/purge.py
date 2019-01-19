@@ -157,5 +157,5 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('There is already one ongoing.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     await pld.msg.channel.send(embed=response)

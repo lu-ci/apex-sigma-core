@@ -41,8 +41,7 @@ async def reload(cmd: SigmaCommand, pld: CommandPayload):
         for key in cmd.bot.modules.events:
             event_group = cmd.bot.modules.events[key]
             ev_count += len(event_group)
-        load_end_title = f'✅ Loaded {cmd_count} Commands and {ev_count} Events.'
-        load_done_response = discord.Embed(color=0x77B255, title=load_end_title)
+        load_done_response = ok(f'Loaded {cmd_count} Commands and {ev_count} Events.')
         await load_status.edit(embed=load_done_response)
         cmd.bot.ready = True
         cmd.log.info(f'Loaded {cmd_count} commands and {ev_count} events.')

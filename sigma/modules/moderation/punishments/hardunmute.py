@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -73,8 +73,7 @@ async def hardunmute(cmd: SigmaCommand, pld: CommandPayload):
                                 pass
                     log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-                    title = f'✅ {target.display_name} has been hard-unmuted.'
-                    response = discord.Embed(color=0x77B255, title=title)
+                    response = ok(f'{target.display_name} has been hard-unmuted.')
                     await ongoing_msg.delete()
                 else:
                     response = error('That user is equal or above you.')
@@ -83,5 +82,5 @@ async def hardunmute(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Manage Channels')
+        response = denied('Access Denied. Manage Channels needed.')
     await pld.msg.channel.send(embed=response)

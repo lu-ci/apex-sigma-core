@@ -28,5 +28,5 @@ async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
         response = ok(f'Collection Jar {ender}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

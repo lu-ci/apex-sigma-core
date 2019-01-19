@@ -132,8 +132,7 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         ranges = selector_ranges.get(sel)
                         valids = f'{ranges[0]} - {ranges[-1]}'
-                        invalid_val_error = f'❗ Invalid value for {sel}. Accepted are {valids}'
-                        response = discord.Embed(color=0xBE1931, title=invalid_val_error)
+                        response = error(f'Invalid value for {sel}. Accepted are {valids}')
                 else:
                     response = error('Invalid selector, check the command description.')
             else:

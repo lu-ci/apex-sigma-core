@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok, error
+from sigma.core.utilities.generic_responses import ok, error, denied
 from sigma.modules.development.suggestions.approvesuggestion import react_to_suggestion
 
 
@@ -32,8 +32,7 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
             await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user_title = f'⛔ Suggestion {token} declined by {pld.msg.author.display_name}.'
-                to_user = discord.Embed(color=0xBE1931, title=to_user_title)
+                to_user = denied(f'Suggestion {token} declined by {pld.msg.author.display_name}.')
                 to_user.description = reason
                 try:
                     await athr.send(embed=to_user)

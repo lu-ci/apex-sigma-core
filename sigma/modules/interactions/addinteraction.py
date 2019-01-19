@@ -23,7 +23,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
@@ -97,8 +97,8 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
                             if imgur_link:
                                 inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
                                 await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
-                                ttl = f'✅ Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
-                                response = discord.Embed(color=0x77B255, title=ttl)
+                                title = f'Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
+                                response = ok(title)
                             else:
                                 response = error('Bad GIF.')
                         else:

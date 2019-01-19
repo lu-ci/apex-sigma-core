@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, ok, denied
 
 
 async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
@@ -45,14 +45,13 @@ async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
                         if member_role.name.startswith('SCR-'):
                             await pld.msg.author.remove_roles(member_role, reason='Assigning new color role.')
                     await pld.msg.author.add_roles(role_objc, reason='Assigned color role.')
-                    addition_title = f'✅ {role_objc.name} has been added to you, {pld.msg.author.name}.'
-                    response = discord.Embed(color=0x77B255, title=addition_title)
+                    response = ok(f'{role_objc.name} has been added to you, {pld.msg.author.name}.')
                 else:
                     response = error('Invalid HEX color code.')
             else:
                 response = error('No color HEX provided.')
         else:
-            response = discord.Embed(color=0xBE1931, title='⛔ Color roles are not enabled.')
+            response = denied('Color roles are not enabled.')
     else:
         response = error('I can\'t make a color role with my current role position.')
     await pld.msg.channel.send(embed=response)

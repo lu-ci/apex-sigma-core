@@ -31,5 +31,5 @@ async def filterautowarn(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_auto_warn', new_value)
         response = ok(f'Automatic filter warnings have been {ending}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

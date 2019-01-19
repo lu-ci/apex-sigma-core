@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, ok
 
 
 async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,13 +29,11 @@ async def generateresource(cmd: SigmaCommand, pld: CommandPayload):
                     currency = cmd.bot.cfg.pref.currency.lower()
                     res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
                     await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
-                    title_text = f'✅ Ok, I\'ve given {amount} {res_nam} to {target.display_name}.'
-                    response = discord.Embed(color=0x77B255, title=title_text)
+                    response = ok(f'Ok, I\'ve given {amount} {res_nam} to {target.display_name}.')
                 except ValueError:
                     response = error('Invalid amount.')
             else:
-                err_title = '❗ You can\'t give resources to bots.'
-                response = discord.Embed(color=0xBE1931, title=err_title)
+                response = error('You can\'t give resources to bots.')
         else:
             response = error('Resource name, amount and target needed.')
     else:

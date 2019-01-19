@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 async def award(cmd: SigmaCommand, pld: CommandPayload):
@@ -42,8 +42,7 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
                         await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
                         current_vault -= amount
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
-                        title_text = f'✅ {amount} {currency} given to {target.display_name} from the Vault.'
-                        response = discord.Embed(color=0x77B255, title=title_text)
+                        response = ok(f'{amount} {currency} given to {target.display_name} from the Vault.')
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
                 else:
@@ -53,5 +52,5 @@ async def award(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Invalid number of arguments.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

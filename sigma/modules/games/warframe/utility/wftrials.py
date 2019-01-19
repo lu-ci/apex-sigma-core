@@ -22,7 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import not_found, warn
 
 
 def time_to_seconds(time):
@@ -206,6 +206,5 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name='Jordas Verdict', value=jv_desc)
                 response.add_field(name='Total Trials', value=total_desc)
             except Exception:
-                error_text = f'⚠ Stats for {username} were found but contained errors.'
-                response = discord.Embed(color=0xFFCC4D, title=error_text)
+                response = warn(f'Stats for {username} were found but contained errors.')
         await pld.msg.channel.send(embed=response)

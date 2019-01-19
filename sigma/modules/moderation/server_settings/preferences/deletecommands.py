@@ -32,5 +32,5 @@ async def deletecommands(cmd: SigmaCommand, pld: CommandPayload):
             ending = 'enabled'
         response = ok(f'Command message deletion has been {ending}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

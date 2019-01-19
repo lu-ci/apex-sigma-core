@@ -74,8 +74,8 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
                     emote_groups.update({group_id: group_roles})
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
                     binding_data = make_binding_data(role_items)
-                    toggler_message_response = await make_binding_message(binding_data, pld.msg.guild, group_id, has_desc)
-                    toggler_message = await target_ch.send(embed=toggler_message_response)
+                    toggler_response = await make_binding_message(binding_data, pld.msg.guild, group_id, has_desc)
+                    toggler_message = await target_ch.send(embed=toggler_response)
                     await fill_toggler_emotes(toggler_message, list(binding_data.keys()))
                     guild_togglers = pld.settings.get('emote_role_togglers') or {}
                     guild_togglers.update({str(toggler_message.id): binding_data})
@@ -88,5 +88,5 @@ async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Missing group ID.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

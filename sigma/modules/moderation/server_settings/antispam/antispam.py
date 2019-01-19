@@ -26,5 +26,5 @@ async def antispam(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'antispam', toggle)
         response = ok(f'Spam rate limitations {status}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

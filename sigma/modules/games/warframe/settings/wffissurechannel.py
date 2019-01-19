@@ -35,5 +35,5 @@ async def wffissurechannel(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_fissure_channel', target_channel.id)
         response = ok(f'Warframe Void Fissure Channel set to #{target_channel.name}')
     else:
-        response = denied('Manage Channels')
+        response = denied('Access Denied. Manage Channels needed.')
     await pld.msg.channel.send(embed=response)

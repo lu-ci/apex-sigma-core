@@ -14,12 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 log_keys = [
     'log_antispam_channel', 'log_bans_channel', 'log_deletions_channel', 'log_edits_channel', 'log_filters_channel',
@@ -55,21 +53,19 @@ async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
                 all_keys = True
             if mode == 'disable':
                 results = await set_log_channels(keys, pld.msg.guild.id, None, cmd.db)
-                response = discord.Embed(color=0x77B255)
                 if all_keys:
-                    response.title = '✅ Logging channel disabled.'
+                    response = ok('Logging channel disabled.')
                 else:
-                    response.title = '✅ Logging channels disabled.'
+                    response = ok('Logging channels disabled.')
                     response.description = '\n'.join(results)
             elif pld.msg.channel_mentions:
                 target_chn = pld.msg.channel_mentions[0]
                 if pld.msg.guild.me.permissions_in(target_chn).send_messages:
                     results = await set_log_channels(keys, pld.msg.guild.id, target_chn.id, cmd.db)
-                    response = discord.Embed(color=0x77B255)
                     if all_keys:
-                        response.title = f'✅ Logging channel set to #{target_chn.name}.'
+                        response = ok(f'Logging channel set to #{target_chn.name}.')
                     else:
-                        response.title = '✅ Logging channels edited'
+                        response = ok('Logging channels edited')
                         response.description = '\n'.join(results)
                 else:
                     response = error('I can\'t write in that channel.')
@@ -78,5 +74,5 @@ async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

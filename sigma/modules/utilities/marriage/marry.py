@@ -62,8 +62,7 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
                             await send_proposal(author, target, False)
                     else:
                         if author.id in t_spouse_ids:
-                            married_error = f'❗ You and {target.name} are already married.'
-                            response = discord.Embed(color=0xBE1931, title=married_error)
+                            response = error(f'You and {target.name} are already married.')
                         else:
                             response = error(f'You already proposed to {target.name}.')
                 else:

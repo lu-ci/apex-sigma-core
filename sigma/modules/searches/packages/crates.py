@@ -61,5 +61,5 @@ async def crates(_cmd: SigmaCommand, pld: CommandPayload):
                 error_list = [err.get('detail') for err in errors]
                 response = errors(f'Crate Error: {". ".join(error_list)}.')
     else:
-        response = error('Nothing inputed.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

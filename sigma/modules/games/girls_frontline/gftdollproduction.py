@@ -76,7 +76,7 @@ async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
         time_q = pld.args[0].lower()
         dolls = [di for di in tdoll_data if di.get('time') == time_q]
         if dolls:
-            lines = [f'{d.get("rarity")}\* {d.get("type").upper()} - **{d.get("name")}**' for d in dolls]
+            lines = [rf'{d.get("rarity")}\* {d.get("type").upper()} - **{d.get("name")}**' for d in dolls]
             response = discord.Embed(color=gf_color)
             response.set_author(name='Girls Frontline: T-Doll Production', icon_url=gf_icon)
             response.description = '\n'.join(lines)

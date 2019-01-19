@@ -59,5 +59,5 @@ async def removereaction(_cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Invalid number of arguments.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     await pld.msg.channel.send(embed=response)

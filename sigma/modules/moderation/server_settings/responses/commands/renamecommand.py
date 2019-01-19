@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, ok, error, not_found
@@ -37,8 +35,7 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
                                 response = ok(f'{old_trigger} updated.')
                             else:
-                                response = discord.Embed(color=0xBE1931,
-                                                         title='❗ The new trigger is already a command.')
+                                response = error('The new trigger is already a command.')
                         else:
                             response = not_found('Command not found.')
                     else:
@@ -50,5 +47,5 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

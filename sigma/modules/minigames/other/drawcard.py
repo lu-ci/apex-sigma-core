@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 deck_cache = {}
 
@@ -70,6 +71,5 @@ async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
         response.description = '\n'.join(card_lines)
     else:
         prefix = cmd.db.get_prefix(pld.settings)
-        no_cards_title = f'❗ Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.'
-        response = discord.Embed(color=0xBE1931, title=no_cards_title)
+        response = error(f'Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.')
     await pld.msg.channel.send(embed=response)

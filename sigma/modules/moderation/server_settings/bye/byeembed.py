@@ -80,5 +80,5 @@ async def byeembed(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_embed', embed_data)
             response = ok(f'Bye Embed {ender}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

@@ -26,5 +26,5 @@ async def asciionlynames(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'ascii_only_names', ascii_names)
         response = ok(f'ASCII name enforcement has been {state}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

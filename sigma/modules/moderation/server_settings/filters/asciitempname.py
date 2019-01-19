@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def asciitempname(cmd: SigmaCommand, pld: CommandPayload):
@@ -29,10 +27,9 @@ async def asciitempname(cmd: SigmaCommand, pld: CommandPayload):
             if temp_name is None:
                 temp_name = '<ChangeMyName>'
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'ascii_temp_name', new_name)
-            title = f'✅ ASCII temp name changed from `{temp_name}` to `{new_name}`.'
-            response = discord.Embed(color=0x66CC66, title=title)
+            response = ok(f'ASCII temp name changed from `{temp_name}` to `{new_name}`.')
         else:
-            response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

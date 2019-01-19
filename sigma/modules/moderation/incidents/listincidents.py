@@ -81,5 +81,5 @@ async def listincidents(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 response = error('This server has no incidents.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     await pld.msg.channel.send(embed=response)

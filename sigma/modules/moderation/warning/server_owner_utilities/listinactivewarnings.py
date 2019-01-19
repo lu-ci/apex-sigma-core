@@ -55,5 +55,5 @@ async def listinactivewarnings(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Server Owner')
+        response = denied('Access Denied. Server Owner needed.')
     await pld.msg.channel.send(embed=response)

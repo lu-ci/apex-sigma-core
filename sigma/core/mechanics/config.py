@@ -75,14 +75,14 @@ class Configuration(object):
             self.log.warning('No discord configuration, using defaults.')
             self.client_cfg_data = {}
         if os.path.exists(db_cfg_path):
-            with open(db_cfg_path, encoding='utf-8') as discord_config:
-                self.db_cfg_data = yaml.safe_load(discord_config)
+            with open(db_cfg_path, encoding='utf-8') as database_config:
+                self.db_cfg_data = yaml.safe_load(database_config)
         else:
             self.log.warning('No database configuration, using defaults.')
             self.db_cfg_data = {}
         if os.path.exists(pref_cfg_config):
-            with open(pref_cfg_config, encoding='utf-8') as discord_config:
-                self.pref_cfg_data = yaml.safe_load(discord_config)
+            with open(pref_cfg_config, encoding='utf-8') as preferences_config:
+                self.pref_cfg_data = yaml.safe_load(preferences_config)
         else:
             self.log.warning('No preferences configuration, using defaults.')
             self.pref_cfg_data = {}

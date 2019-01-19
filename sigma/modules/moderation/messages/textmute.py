@@ -55,7 +55,7 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
 
 async def textmute(cmd: SigmaCommand, pld: CommandPayload):
     if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     else:
         if not pld.msg.mentions:
             response = error('No user targeted.')
@@ -67,7 +67,7 @@ async def textmute(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 above_hier = hierarchy_permit(author, target)
                 if not above_hier:
-                    response = discord.Embed(color=0xBE1931, title='⛔ Can\'t mute someone equal or above you.')
+                    response = denied('Can\'t mute someone equal or above you.')
                 else:
                     timed = pld.args[-1].startswith('--time=')
                     try:
@@ -81,8 +81,7 @@ async def textmute(cmd: SigmaCommand, pld: CommandPayload):
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
-                        resp_title = f'❗ {target.display_name} is already text muted.'
-                        response = discord.Embed(color=0xBE1931, title=resp_title)
+                        response = error(f'{target.display_name} is already text muted.')
                     else:
                         mute_list.append(target.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)

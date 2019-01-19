@@ -37,5 +37,5 @@ async def autoroletimeout(cmd: SigmaCommand, pld: CommandPayload):
             timeout = pld.settings.get('auto_role_timeout', 0)
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

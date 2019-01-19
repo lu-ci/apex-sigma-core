@@ -50,5 +50,5 @@ async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
                 response = info('Current Goodbye Message')
                 response.description = current_goodbye
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

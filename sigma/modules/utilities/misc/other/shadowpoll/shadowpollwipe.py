@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import ok, error, not_found
@@ -32,7 +30,7 @@ async def shadowpollwipe(cmd: SigmaCommand, pld: CommandPayload):
                 await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                 response = ok(f'Poll {poll_id} has been wiped.')
             else:
-                response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
+                response = error('You didn\'t make this poll.')
         else:
             response = not_found('Poll not found.')
     else:

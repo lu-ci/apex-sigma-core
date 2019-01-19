@@ -39,5 +39,5 @@ async def collectiontrigger(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 response = error('A trigger has not been set.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

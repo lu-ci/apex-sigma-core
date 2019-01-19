@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -82,8 +82,7 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-                    title = f'✅ {target.display_name} has been hard-muted.'
-                    response = discord.Embed(color=0x77B255, title=title)
+                    response = ok(f'{target.display_name} has been hard-muted.')
                     to_target_title = '🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name=to_target_title, value=f'Reason: {reason}')
@@ -102,5 +101,5 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Manage Channels')
+        response = denied('Access Denied. Manage Channels needed.')
     await pld.msg.channel.send(embed=response)

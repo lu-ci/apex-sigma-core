@@ -29,5 +29,5 @@ async def makeemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
         response = ok(f'Emote role group {group_id} has been created.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

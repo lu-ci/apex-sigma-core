@@ -50,5 +50,5 @@ async def bindemoterole(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Missing arguments.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

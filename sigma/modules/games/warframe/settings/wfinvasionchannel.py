@@ -35,5 +35,5 @@ async def wfinvasionchannel(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_invasion_channel', target_channel.id)
         response = ok(f'Warframe Invasion Channel set to #{target_channel.name}')
     else:
-        response = denied('Manage Channels')
+        response = denied('Access Denied. Manage Channels needed.')
     await pld.msg.channel.send(embed=response)

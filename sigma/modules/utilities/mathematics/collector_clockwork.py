@@ -17,9 +17,8 @@
 import asyncio
 import string
 
-import discord
-
 from sigma.core.mechanics.event import SigmaEvent
+from sigma.core.utilities.generic_responses import ok
 
 collector_loop_running = False
 current_user_collecting = None
@@ -110,10 +109,9 @@ def cleanse_content(log, text):
 
 async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
-    title = f'✅ Added {cltd} entries to your chain, {len(cltn)} entries total.'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     ftr_icn = tgt_chn.guild.icon_url or 'https://i.imgur.com/xpDpHqz.png'
-    response = discord.Embed(color=0x66CC66, title=title)
+    response = ok(f'Added {cltd} entries to your chain, {len(cltn)} entries total.')
     response.set_footer(text=footer, icon_url=ftr_icn)
     try:
         await tgt_usr.send(embed=response)

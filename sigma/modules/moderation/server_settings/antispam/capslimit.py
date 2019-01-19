@@ -31,5 +31,5 @@ async def capslimit(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Missing or invalid limit given.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

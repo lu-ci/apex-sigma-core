@@ -56,5 +56,5 @@ async def unban(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Nothing inputted.')
     else:
-        response = denied('Ban permissions')
+        response = denied('Access Denied. Ban permissions needed.')
     await pld.msg.channel.send(embed=response)

@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, info, error
 
 
 async def unblocknames(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,15 +34,12 @@ async def unblocknames(cmd: SigmaCommand, pld: CommandPayload):
                         removed_names.append(name.lower())
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_names', blocked_names)
             if removed_names:
-                color = 0x66CC66
                 ender = 's' if len(removed_names) > 1 else ''
-                title = f'✅ I have removed {len(removed_names)} name{ender} from the blacklist.'
+                response = ok(f'I have removed {len(removed_names)} name{ender} from the blacklist.')
             else:
-                color = 0x3B88C3
-                title = 'ℹ No name were removed.'
-            response = discord.Embed(color=color, title=title)
+                response = info('No name were removed.')
         else:
-            response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

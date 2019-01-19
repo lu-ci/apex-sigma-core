@@ -29,5 +29,5 @@ async def makerolegroup(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'role_groups', role_groups)
         response = ok(f'Role group {group_id} has been created.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

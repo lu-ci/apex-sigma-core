@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
 async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
@@ -41,8 +39,7 @@ async def setcooldown(cmd: SigmaCommand, pld: CommandPayload):
                         await cd_coll.insert_one(cddata)
                     else:
                         await cd_coll.update_one({'command': command}, {'$set': cddata})
-                    title = f'✅ Command {command} now has a {cooldown}s cooldown.'
-                    response = discord.Embed(color=0x66CC66, title=title)
+                    response = ok(f'Command {command} now has a {cooldown}s cooldown.')
                 else:
                     response = not_found(f'Command `{command}` not found.')
             else:

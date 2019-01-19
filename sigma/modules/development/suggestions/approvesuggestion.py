@@ -80,8 +80,7 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                 gl_issue_url = await submit_gl_issue(gl_token, gl_project, title, gl_desc)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user_title = f'✅ Suggestion {token} approved by {pld.msg.author.display_name}.'
-                to_user = discord.Embed(color=0x77B255, title=to_user_title)
+                to_user = ok(f'Suggestion {token} approved by {pld.msg.author.display_name}.')
                 if gl_issue_url:
                     to_user_desc = 'Your suggestion was approved, you can view its status and details [here]'
                     to_user_desc += f'({gl_issue_url}). If you need info, the support server is in the help command.'

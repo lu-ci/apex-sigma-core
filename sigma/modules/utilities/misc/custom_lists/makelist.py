@@ -16,10 +16,9 @@
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 
 
 def settings(lookup: str):
@@ -42,7 +41,6 @@ async def makelist(cmd: SigmaCommand, pld: CommandPayload):
         'contents': []
     }
     await cmd.db[cmd.db.db_nam].CustomLists.insert_one(list_data)
-    response = discord.Embed(color=0x77B255)
-    response.title = f'✅ List `{list_data.get("list_id")}` has been created.'
+    response = ok(f'List `{list_data.get("list_id")}` has been created.')
     response.set_footer(text=f'You can rename it with {cmd.bot.cfg.pref.prefix}renamelist.')
     await pld.msg.channel.send(embed=response)

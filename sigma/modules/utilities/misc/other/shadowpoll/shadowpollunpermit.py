@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok, error, not_found
+from sigma.core.utilities.generic_responses import ok, error, not_found, denied
 
 
 async def shadowpollunpermit(cmd: SigmaCommand, pld: CommandPayload):
@@ -50,7 +50,7 @@ async def shadowpollunpermit(cmd: SigmaCommand, pld: CommandPayload):
                         else:
                             response = error(f'{target.name} is not permitted.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
+                        response = denied('You didn\'t make this poll.')
                 else:
                     response = not_found('Poll not found.')
             else:

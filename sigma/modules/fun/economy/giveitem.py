@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import error, not_found, ok
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -44,8 +42,7 @@ async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
                             inv_item.update({'transferred': True})
                             await cmd.db.add_to_inventory(target.id, inv_item)
                             await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
-                            title = f'✅ Transferred {obj_item.name} to {target.display_name}.'
-                            response = discord.Embed(color=0x77B255, title=title)
+                            response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
                             response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
                         else:
                             response = error('Transfer declined by Lucia\'s Guard.')

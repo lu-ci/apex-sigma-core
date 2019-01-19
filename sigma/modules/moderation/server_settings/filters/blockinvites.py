@@ -26,5 +26,5 @@ async def blockinvites(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'block_invites', toggle)
         response = ok(f'Invite link removal has been {state}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

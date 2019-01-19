@@ -50,5 +50,5 @@ async def autorole(cmd: SigmaCommand, pld: CommandPayload):
             else:
                 response = discord.Embed(color=0xF9F9F9, title='📇 No autorole set.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

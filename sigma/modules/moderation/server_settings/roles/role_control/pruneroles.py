@@ -26,5 +26,5 @@ async def pruneroles(_cmd: SigmaCommand, pld: CommandPayload):
         deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
         response = ok(f'Removed {len(deleted_roles)} roles from this server.')
     else:
-        response = denied('Manage Roles')
+        response = denied('Access Denied. Manage Roles needed.')
     await pld.msg.channel.send(embed=response)

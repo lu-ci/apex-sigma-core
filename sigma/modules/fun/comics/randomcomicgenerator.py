@@ -25,6 +25,7 @@ from sigma.core.utilities.generic_responses import error
 
 async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
     comic_url = 'http://explosm.net/rcg/'
+    # noinspection PyTypeChecker
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:
         async with session.get(comic_url) as data:
             page = await data.text()

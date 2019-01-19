@@ -66,9 +66,9 @@ async def softban(cmd: SigmaCommand, pld: CommandPayload):
                             log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
+                            response = denied('Target is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='⛔ Can\'t soft-ban someone equal or above you.')
+                        response = denied('Can\'t soft-ban someone equal or above you.')
                 else:
                     response = error('You can\'t soft-ban yourself.')
             else:
@@ -76,5 +76,5 @@ async def softban(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Ban permissions')
+        response = denied('Access Denied. Ban permissions needed.')
     await pld.msg.channel.send(embed=response)

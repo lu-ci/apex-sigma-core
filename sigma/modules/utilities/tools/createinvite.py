@@ -61,5 +61,5 @@ async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Please use the format HH:MM:SS.')
     else:
-        response = denied('Create Instant Invites')
+        response = denied('Access Denied. Create Instant Invites needed.')
     await pld.msg.channel.send(embed=response)

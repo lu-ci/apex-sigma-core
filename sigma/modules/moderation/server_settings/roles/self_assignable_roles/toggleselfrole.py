@@ -45,5 +45,5 @@ async def toggleselfrole(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Nothing inputted.')
     else:
-        response = denied('Manage Roles')
+        response = denied('Access Denied. Manage Roles needed.')
     await pld.msg.channel.send(embed=response)

@@ -35,5 +35,5 @@ async def wfsortiechannel(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_sortie_channel', target_channel.id)
         response = ok(f'Warframe Sortie Channel set to #{target_channel.name}')
     else:
-        response = denied('Manage Channels')
+        response = denied('Access Denied. Manage Channels needed.')
     await pld.msg.channel.send(embed=response)

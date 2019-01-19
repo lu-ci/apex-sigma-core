@@ -31,5 +31,5 @@ async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'color_roles', new_value)
         response = ok(f'Color role creation has been {ending}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

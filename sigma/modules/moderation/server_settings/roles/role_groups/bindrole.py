@@ -50,5 +50,5 @@ async def bindrole(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('Not enough arguments.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

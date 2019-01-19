@@ -85,8 +85,7 @@ async def reddit(cmd: SigmaCommand, pld: CommandPayload):
                         response.set_footer(text=post_desc)
                         add_post_image(post, response)
                     else:
-                        nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
-                        response = discord.Embed(color=0xBE1931, title=nsfw_warning)
+                        response = error('NSFW Subreddits and posts are not allowed here.')
                 else:
                     response = error('That subreddit has no posts.')
             else:

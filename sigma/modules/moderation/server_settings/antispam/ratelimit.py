@@ -33,5 +33,5 @@ async def ratelimit(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No limit and span or ivalid input.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

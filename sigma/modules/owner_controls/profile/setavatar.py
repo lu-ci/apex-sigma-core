@@ -16,6 +16,7 @@
 
 import aiohttp
 import discord
+from aiohttp import client_exceptions
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
@@ -32,7 +33,7 @@ async def setavatar(cmd: SigmaCommand, pld: CommandPayload):
                         img_data = await image_response.read()
                 await cmd.bot.user.edit(avatar=img_data)
                 response = ok('My avatar has been changed.')
-            except aiohttp.client_exceptions.InvalidURL:
+            except client_exceptions.InvalidURL:
                 response = error('Invalid URL.')
         except discord.Forbidden:
             response = error('I was unable to change my avatar.')

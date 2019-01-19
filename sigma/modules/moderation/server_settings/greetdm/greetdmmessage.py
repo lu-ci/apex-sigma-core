@@ -50,5 +50,5 @@ async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
                 response = info('Current DM Greeting Message')
                 response.description = current_greeting
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

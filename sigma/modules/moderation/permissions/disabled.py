@@ -55,7 +55,7 @@ async def disabled(cmd: SigmaCommand, pld: CommandPayload):
                         exc = overridden_items.get(item_name)
                         exc_exists = any([exc.get('users'), exc.get('channels'), exc.get('roles')])
                         if exc_exists:
-                            item_name += '\*'
+                            item_name += r'\*'
                     disabled_list.append(item_name)
             if disabled_list:
                 disabled_count = len(disabled_list)

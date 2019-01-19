@@ -34,5 +34,5 @@ async def unflip(cmd: SigmaCommand, pld: CommandPayload):
             ending = 'enabled'
         response = ok(f'Table unflipping has been {ending}')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

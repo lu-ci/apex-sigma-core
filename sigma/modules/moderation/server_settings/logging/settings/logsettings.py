@@ -45,5 +45,5 @@ async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='📋 Log settings', value=details, inline=False)
         response.add_field(name='📄 Details', value=f'```\n{output}\n```', inline=False)
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

@@ -26,5 +26,5 @@ async def namefilterban(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'name_filter_ban', ascii_names)
         response = ok(f'Name Filter Autoban has been {state}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

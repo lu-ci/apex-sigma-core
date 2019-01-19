@@ -44,5 +44,5 @@ async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = not_found('No invites have been bound.')
     else:
-        response = denied('Create Instant Invites')
+        response = denied('Access Denied. Create Instant Invites needed.')
     await pld.msg.channel.send(embed=response)

@@ -83,8 +83,7 @@ async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         response = error('Nope, can\'t give cookies to yourself.')
                 else:
-                    title = '❗ Sorry, your account is too young to give cookies.'
-                    response = discord.Embed(color=0xBE1931, title=title)
+                    response = error('Sorry, your account is too young to give cookies.')
             else:
                 response = error(f'It seems that {target.name} is allergic to cookies.')
         else:

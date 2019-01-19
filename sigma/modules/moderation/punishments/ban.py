@@ -89,9 +89,9 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
                                 doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                                 await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
                         else:
-                            response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
+                            response = denied('Target is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='⛔ Can\'t ban someone equal or above you.')
+                        response = denied('Can\'t ban someone equal or above you.')
                 else:
                     response = error('You can\'t ban yourself.')
             else:
@@ -99,5 +99,5 @@ async def ban(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('No user targeted.')
     else:
-        response = denied('Ban permissions')
+        response = denied('Access Denied. Ban permissions needed.')
     await pld.msg.channel.send(embed=response)

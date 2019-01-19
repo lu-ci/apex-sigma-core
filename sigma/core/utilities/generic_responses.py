@@ -21,8 +21,8 @@ def generate_small_embed(icon: str, color: int, text: str):
     return discord.Embed(color=color, title=f'{icon} {text}')
 
 
-def denied(permission: str):
-    return generate_small_embed('⛔', 0xBE1931, f'Access Denied. {permission} needed.')
+def denied(content: str):
+    return generate_small_embed('⛔', 0xBE1931, content)
 
 
 def ok(content: str):

@@ -94,7 +94,7 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = error('There is already one ongoing.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     if pld.msg.guild.id in ongoing:
         ongoing.remove(pld.msg.guild.id)
     await pld.msg.channel.send(embed=response)
@@ -102,6 +102,5 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
         try:
             await pld.msg.author.send(file=file)
         except (discord.NotFound, discord.Forbidden):
-            denied_title = '❗ I was unable to DM you, please adjust your settings.'
-            denied_response = discord.Embed(color=0xBE1931, title=denied_title)
+            denied_response = error('I was unable to DM you, please adjust your settings.')
             await pld.msg.channel.send(pld.msg.author.mention, embed=denied_response)

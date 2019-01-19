@@ -14,15 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import ok, denied
 
 
 async def suggestionchannel(cmd: SigmaCommand, pld: CommandPayload):
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.msg.channel_mentions:
             target = pld.msg.channel_mentions[0]
         else:
@@ -37,5 +35,5 @@ async def suggestionchannel(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'suggestion_channel', target.id)
         response = ok(f'Suggestion Channel set to #{target.name}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='⛔ Access Denied. Manage Channels needed.')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

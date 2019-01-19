@@ -58,7 +58,7 @@ async def get_results(query_url: str):
 
 
 def make_safe_query(query: list):
-    safe = '`~!@$^*()[]{}\|:;"\'<>,.'
+    safe = r'`~!@$^*()[]{}\|:;"\'<>,.'
     query_list = list(' '.join(query))
     safe_query = ''
     while query_list:

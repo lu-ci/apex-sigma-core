@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, ok, denied
 
 
 async def renamelist(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,12 +32,11 @@ async def renamelist(cmd: SigmaCommand, pld: CommandPayload):
                     if len(new_name) <= 50:
                         list_file.update({'name': new_name})
                         await list_coll.update_one(lookup_data, {'$set': list_file})
-                        response = discord.Embed(color=0x77B255)
-                        response.title = f'✅ List {list_file.get("list_id")} renamed to {new_name}.'
+                        response = ok(f'List {list_file.get("list_id")} renamed to {new_name}.')
                     else:
                         response = error('List names have a limit of 50 characters.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
+                    response = denied('You didn\'t make this list.')
             else:
                 response = error('Missing or invalid list ID.')
         else:
