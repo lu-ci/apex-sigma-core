@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.combinechains import combine_names
 
 
@@ -26,5 +27,5 @@ async def combinenames(_cmd: SigmaCommand, pld: CommandPayload):
         combined_name = combine_names(pld.msg.mentions)
         response = discord.Embed(color=0x3B88C3, title=f'🔤 I dub thee... {combined_name}!')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Invalid number of targets.')
+        response = error('Invalid number of targets.')
     await pld.msg.channel.send(embed=response)

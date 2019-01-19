@@ -19,6 +19,7 @@ from geopy.geocoders import Nominatim
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
@@ -40,5 +41,5 @@ async def mapsearch(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=0xdd4e40)
             response.set_author(name=f'Broad Search: {search.title()}', icon_url=map_icon, url=maps_url)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

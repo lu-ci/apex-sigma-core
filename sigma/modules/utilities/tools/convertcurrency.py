@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
@@ -49,13 +50,13 @@ async def convertcurrency(_cmd: SigmaCommand, pld: CommandPayload):
                     title = f'🏧 {amount} {from_curr} = {out_amount} {to_curr}'
                     end_response = discord.Embed(color=0x3B88C3, title=title)
                 else:
-                    end_response = discord.Embed(color=0xBE1931, title='❗ Invalid currency.')
+                    end_response = error('Invalid currency.')
                 await start_message.edit(embed=end_response)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+                response = error('Invalid amount.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Bad number of arguments.')
+            response = error('Bad number of arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     if response:
         await pld.msg.channel.send(embed=response)

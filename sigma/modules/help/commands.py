@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.mechanics.permissions import ServerCommandPermissions
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def commands(cmd: SigmaCommand, pld: CommandPayload):
@@ -59,9 +60,9 @@ async def commands(cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name=f'{lookup.upper()} Commands', value=title_text, inline=False)
                 response.add_field(name=f'Commands List | Page {page}', value=f'```yml\n{output}\n```', inline=False)
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 No commands on page {page}.')
+                response = not_found(f'No commands on page {page}.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Module not found.')
+            response = not_found('Module not found.')
     else:
         pfx = cmd.db.get_prefix(pld.settings)
         command_list = cmd.bot.modules.commands

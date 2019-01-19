@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def starboardemote(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,15 +31,15 @@ async def starboardemote(cmd: SigmaCommand, pld: CommandPayload):
             if category(new_emote) == 'So':
                 starboard_doc.update({'emote': new_emote})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-                response = discord.Embed(color=0x77B255, title=f'✅ Starboard emote set to {new_emote}')
+                response = ok(f'Starboard emote set to {new_emote}')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Emote must be native to Discord.')
+                response = error('Emote must be native to Discord.')
         else:
             emote = starboard_doc.get('emote')
             if emote:
                 response = discord.Embed(color=0xFFAC33, title=f'🌟 The current emote is {emote}')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ An emote has not been set.')
+                response = error('An emote has not been set.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

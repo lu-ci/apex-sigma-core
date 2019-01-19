@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 emote_cache = {'stamp': 0, 'emotes': []}
 
@@ -78,10 +79,10 @@ async def emote(cmd: SigmaCommand, pld: CommandPayload):
             if emote_choice:
                 response = discord.Embed().set_image(url=emote_choice.url)
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Emote not found.')
+                response = not_found('Emote not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Emotes from other servers can be NSFW.')
+            response = error('Emotes from other servers can be NSFW.')
             response.description = 'Mark this channel as NSFW or move to one that is.'
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

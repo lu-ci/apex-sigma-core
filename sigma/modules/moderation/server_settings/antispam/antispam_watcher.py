@@ -47,7 +47,7 @@ async def antispam_watcher(ev: SigmaEvent, pld: MessagePayload):
                         timespan = pld.settings.get('rate_limit_timespan') or 5
                         if rate_limited(pld.msg, amount, timespan):
                             await pld.msg.delete()
-                            title = f'📢 Antispam: Removed a message.'
+                            title = '📢 Antispam: Removed a message.'
                             user = f'User: {pld.msg.author.id}'
                             channel = f'Channel: {pld.msg.channel.name}'
                             log_embed = discord.Embed(color=0xdd2e44, title=title)

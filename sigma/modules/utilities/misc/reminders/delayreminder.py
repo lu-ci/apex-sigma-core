@@ -20,6 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import convert_to_seconds
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
@@ -47,13 +48,13 @@ async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
                         response.title = f'✅ Reminder {rem_id} has been delayed.'
                         response.set_footer(text=f'Executes: {time_diff.title()}')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Reminders have a limit of 90 days.')
+                        response = error('Reminders have a limit of 90 days.')
                 except (LookupError, ValueError):
-                    response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                    response = error('Please use the format HH:MM:SS.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Reminder `{rem_id}` not found.')
+                response = not_found(f'Reminder `{rem_id}` not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+            response = error('Invalid number of arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing reminder ID and duration.')
+        response = error('Missing reminder ID and duration.')
     await pld.msg.channel.send(embed=response)

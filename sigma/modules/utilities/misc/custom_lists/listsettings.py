@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, denied
 
 
 async def listsettings(cmd: SigmaCommand, pld: CommandPayload):
@@ -40,13 +39,13 @@ async def listsettings(cmd: SigmaCommand, pld: CommandPayload):
                 if list_file.get('user_id') == pld.msg.author.id:
                     list_file.update({'mode': mode})
                     await list_coll.update_one(lookup_data, {'$set': list_file})
-                    response = discord.Embed(color=0x77B255, title=f'✅ List `{list_id}` marked as {mode}.')
+                    response = ok(f'List `{list_id}` marked as {mode}.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this list.')
+                    response = denied('You didn\'t make this list.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid list ID.')
+                response = error('Invalid list ID.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid mode.')
+            response = error('Invalid mode.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        response = error('Not enough arguments.')
     await pld.msg.channel.send(embed=response)

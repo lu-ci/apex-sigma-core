@@ -20,6 +20,7 @@ from arrow.parser import ParserError
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
@@ -53,11 +54,11 @@ async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
                     time_out = to_arrow.format('DD. MMM. YYYY - HH:mm:ss (ZZ)')
                     response = discord.Embed(color=0xf9f9f9, title=f'🕥 {time_out}')
                 except ParserError:
-                    response = discord.Embed(color=0xBE1931, title='❗ Could not parse that time.')
+                    response = error('Could not parse that time.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid first argument.')
+                response = error('Invalid first argument.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid input arguments.')
+            response = error('Invalid input arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

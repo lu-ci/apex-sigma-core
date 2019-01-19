@@ -16,6 +16,7 @@
 
 import aiohttp
 import yaml
+from aiohttp import client_exceptions
 from yaml import YAMLError
 
 from sigma.core.mechanics.event import SigmaEvent
@@ -28,7 +29,7 @@ async def version_check(ev: SigmaEvent):
             async with session.get(version_url) as version_data:
                 data = await version_data.read()
                 data = yaml.load(data)
-    except (aiohttp.client_exceptions.ClientConnectorError, YAMLError):
+    except (client_exceptions.ClientConnectorError, YAMLError):
         data = None
     if data:
         official_stamp = data['build_date']

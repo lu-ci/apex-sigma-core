@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, warn, error, not_found
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
@@ -47,17 +45,17 @@ async def enable(cmd: SigmaCommand, pld: CommandPayload):
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                 {'server_id': pld.msg.guild.id}, {'$set': perms})
                             await cmd.db.cache.del_cache(pld.msg.guild.id)
-                            response = discord.Embed(color=0x77B255, title=f'✅ `{node_name.upper()}` enabled.')
+                            response = ok(f'`{node_name.upper()}` enabled.')
                         else:
-                            response = discord.Embed(color=0xFFCC4D, title=f'⚠ {mode_name} not disabled.')
+                            response = warn(f'{mode_name} not disabled.')
                     else:
-                        response = discord.Embed(color=0x696969, title=f'🔍 {mode_name} not found.')
+                        response = not_found(f'{mode_name} not found.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Unrecognized lookup mode, see usage example.')
+                    response = error('Unrecognized lookup mode, see usage example.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
+                response = error('Separate permission type and name with a colon.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

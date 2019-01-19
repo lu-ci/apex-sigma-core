@@ -127,7 +127,7 @@ class GlobalCommandPermissions(object):
             return
         elif self.dm_denied:
             color = 0xBE1931
-            title = f'⛔ Can\'t be used in direct messages.'
+            title = '⛔ Can\'t be used in direct messages.'
             desc = f'Please use {prefix}{self.cmd.name} on a server where I am present.'
         elif self.owner_denied:
             color = 0xBE1931
@@ -194,7 +194,7 @@ class GlobalCommandPermissions(object):
         letters = ['u', 's', 'o', 'm', 'd', 'n', 'v']
         fmt = ''.join(map(lambda c, l: l if c else '-', conds, letters))
         log_line = (
-            f'ACCESS DENIED'
+            'ACCESS DENIED'
             f' | {fmt}'
             f' | USR: {self.message.author} ({self.message.author.id})'
         )

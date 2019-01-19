@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, ok
 
 
 async def givetovault(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,14 +39,13 @@ async def givetovault(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
                     current_vault += amount
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
-                    title_text = f'✅ You added {amount} {currency} to the Vault.'
-                    response = discord.Embed(color=0x77B255, title=title_text)
+                    response = ok(f'You added {amount} {currency} to the Vault.')
                 else:
                     response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Transaction declined by Lucia\'s Guard.')
+                response = error('Transaction declined by Lucia\'s Guard.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+            response = error('Invalid amount.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Amount missing.')
+        response = error('Amount missing.')
     await pld.msg.channel.send(embed=response)

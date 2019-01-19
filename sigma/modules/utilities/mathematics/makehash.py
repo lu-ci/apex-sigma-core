@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def makehash(_cmd: SigmaCommand, pld: CommandPayload):
@@ -38,7 +39,7 @@ async def makehash(_cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0xBE1931)
                 response.add_field(name='❗ Unknown Hashing Method', value=f'Available:\n```\n{", ".join(hashes)}\n```')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

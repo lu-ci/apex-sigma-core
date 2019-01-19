@@ -26,7 +26,7 @@ from sigma.core.utilities.event_logging import log_event
 async def join_logger(ev: SigmaEvent, pld: MemberPayload):
     member = pld.member
     response = discord.Embed(color=0x66CC66, timestamp=arrow.utcnow().datetime)
-    response.set_author(name=f'A Member Has Joined', icon_url=user_avatar(member))
+    response.set_author(name='A Member Has Joined', icon_url=user_avatar(member))
     response.add_field(name='📥 Joining Member', value=f'{member.mention}\n{member.name}#{member.discriminator}')
     new_acc, diff_msg = get_time_difference(member)
     if new_acc:

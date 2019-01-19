@@ -23,6 +23,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -84,5 +85,5 @@ async def allitems(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='📦 Item Pool Stats', value=f'```py\n{inv_text}\n```')
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Could not retrieve Item Core data.')
+        response = error('Could not retrieve Item Core data.')
     await pld.msg.channel.send(embed=response)

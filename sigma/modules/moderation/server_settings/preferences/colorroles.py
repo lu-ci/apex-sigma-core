@@ -14,12 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,7 +29,7 @@ async def colorroles(cmd: SigmaCommand, pld: CommandPayload):
             new_value = True
             ending = 'enabled'
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'color_roles', new_value)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Color role creation has been {ending}.')
+        response = ok(f'Color role creation has been {ending}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

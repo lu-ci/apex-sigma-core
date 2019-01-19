@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, info, error, ok
 
 
 async def prefix(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,12 +30,11 @@ async def prefix(cmd: SigmaCommand, pld: CommandPayload):
                     new_prefix = None
                     prefix_text = cmd.bot.cfg.pref.prefix
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'prefix', new_prefix)
-                response_title = f'✅ **{prefix_text}** has been set as the new prefix.'
-                response = discord.Embed(color=0x77B255, title=response_title)
+                response = ok(f'**{prefix_text}** has been set as the new prefix.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The current prefix and the new one are the same.')
+                response = error('The current prefix and the new one are the same.')
         else:
-            response = denied('Manage Server')
+            response = denied('Access Denied. Manage Server needed.')
     else:
-        response = discord.Embed(color=0x3B88C3, title=f'ℹ **{current_prefix}** is the current prefix.')
+        response = info(f'**{current_prefix}** is the current prefix.')
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 from sigma.modules.utilities.misc.other.quote import message_search
 
 
@@ -47,17 +47,17 @@ async def removereaction(_cmd: SigmaCommand, pld: CommandPayload):
                     if pld.msg.guild.me.permissions_in(message.channel).manage_messages:
                         removed = await remove_emote(message, emote)
                         if removed:
-                            response = discord.Embed(color=0x66CC66, title='✅ Reaction removed.')
+                            response = ok('Reaction removed.')
                         else:
-                            response = discord.Embed(color=0x696969, title='🔍 Emote not found on that message.')
+                            response = not_found('Emote not found on that message.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ I can\'t remove reactions in that channel.')
+                        response = error('I can\'t remove reactions in that channel.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Message not found.')
+                    response = not_found('Message not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
+                response = error('Invalid message ID.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+            response = error('Invalid number of arguments.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     await pld.msg.channel.send(embed=response)

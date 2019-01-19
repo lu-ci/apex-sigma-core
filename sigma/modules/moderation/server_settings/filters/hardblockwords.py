@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, info, error
 
 
 async def hardblockwords(cmd: SigmaCommand, pld: CommandPayload):
@@ -34,14 +32,11 @@ async def hardblockwords(cmd: SigmaCommand, pld: CommandPayload):
                     added_words.append(word.lower())
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'hardblocked_words', blocked_words)
             if added_words:
-                color = 0x66CC66
-                title = f'✅ I have added {len(added_words)} words to the heavy blacklist.'
+                response = ok(f'I have added {len(added_words)} words to the heavy blacklist.')
             else:
-                color = 0x3B88C3
-                title = 'ℹ No new words were added.'
-            response = discord.Embed(color=color, title=title)
+                response = info('No new words were added.')
         else:
-            response = discord.Embed(color=0xBE1931, title='⛔ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

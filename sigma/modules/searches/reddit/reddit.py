@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.searches.reddit.mech.reddit_core import RedditClient
 
 reddit_client = None
@@ -84,15 +85,14 @@ async def reddit(cmd: SigmaCommand, pld: CommandPayload):
                         response.set_footer(text=post_desc)
                         add_post_image(post, response)
                     else:
-                        nsfw_warning = '❗ NSFW Subreddits and posts are not allowed here.'
-                        response = discord.Embed(color=0xBE1931, title=nsfw_warning)
+                        response = error('NSFW Subreddits and posts are not allowed here.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ That subreddit has no posts.')
+                    response = error('That subreddit has no posts.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No such subreddit.')
+                response = error('No such subreddit.')
         else:
             reason = 'banned' if subreddit.banned else 'private'
-            response = discord.Embed(color=0xBE1931, title=f'❗ That subreddit is {reason}.')
+            response = error(f'That subreddit is {reason}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

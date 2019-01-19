@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import secrets
 
 import discord
@@ -22,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def get_all_sf(db: Database):
@@ -51,5 +51,5 @@ async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xbf6952, title=f'🔫 How to shoot yourself in the foot with {foot_lang}...')
         response.description = joke
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 I don\'t know how to do it in {lang}.')
+        response = not_found(f'I don\'t know how to do it in {lang}.')
     await pld.msg.channel.send(embed=response)

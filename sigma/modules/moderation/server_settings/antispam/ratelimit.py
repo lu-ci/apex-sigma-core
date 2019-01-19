@@ -14,12 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def ratelimit(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,9 +29,9 @@ async def ratelimit(cmd: SigmaCommand, pld: CommandPayload):
         if amount and timespan:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_amount', amount)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_timespan', timespan)
-            response = discord.Embed(color=0x77B255, title=f'✅ Message rate limit set to {amount} per {timespan}s.')
+            response = ok(f'Message rate limit set to {amount} per {timespan}s.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No limit and span or ivalid input.')
+            response = error('No limit and span or ivalid input.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

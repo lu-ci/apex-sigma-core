@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
@@ -34,5 +35,5 @@ async def keyvis(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0x744EAA)
         response.set_image(url=image_url)
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 No results.')
+        response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

@@ -20,6 +20,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 def make_kanji_dict(kanji_page):
@@ -128,9 +129,9 @@ async def kanji(_cmd: SigmaCommand, pld: CommandPayload):
                 response.set_image(url=kanji_dict['stroke order'])
                 response.add_field(name='Readings', value='\n'.join(rds))
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 No results.')
+                response = not_found('No results.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Jisho data.')
+            response = error('Could not retrieve Jisho data.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

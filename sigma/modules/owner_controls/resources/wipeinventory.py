@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,5 +32,5 @@ async def wipeinventory(cmd: SigmaCommand, pld: CommandPayload):
         await cmd.db.update_inventory(target_id, [])
         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target_name}\'s inventory.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

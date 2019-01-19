@@ -23,6 +23,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
@@ -127,10 +128,10 @@ async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
         except (IndexError, KeyError):
-            grab_error = discord.Embed(color=0xBE1931, title='❗ I failed to grab a character, try again.')
+            grab_error = error('I failed to grab a character, try again.')
             await pld.msg.channel.send(embed=grab_error)
         if pld.msg.channel.id in ongoing_list:
             ongoing_list.remove(pld.msg.channel.id)
     else:
-        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+        ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

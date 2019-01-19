@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def listrolegroups(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,9 +39,9 @@ async def listrolegroups(cmd: SigmaCommand, pld: CommandPayload):
             rl_out += f'\n`{rl}`: {len(list(role_groups.get(rl)))} Roles'
         response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
         response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
-        response.add_field(name=f'Role Group Summary', value=summary, inline=False)
-        response.add_field(name=f'List of Role Groups', value=f'{rl_out}', inline=False)
+        response.add_field(name='Role Group Summary', value=summary, inline=False)
+        response.add_field(name='List of Role Groups', value=f'{rl_out}', inline=False)
         response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
     else:
-        response = discord.Embed(color=0x696969, title=f'🔍 {pld.msg.guild.name} has no role groups.')
+        response = not_found(f'{pld.msg.guild.name} has no role groups.')
     await pld.msg.channel.send(embed=response)

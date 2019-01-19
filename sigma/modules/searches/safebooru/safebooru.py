@@ -22,6 +22,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def safebooru(_cmd: SigmaCommand, pld: CommandPayload):
@@ -43,5 +44,5 @@ async def safebooru(_cmd: SigmaCommand, pld: CommandPayload):
         response.set_image(url=image_url)
         response.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
     else:
-        response = discord.Embed(color=0x696969, title='🔍 No results.')
+        response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

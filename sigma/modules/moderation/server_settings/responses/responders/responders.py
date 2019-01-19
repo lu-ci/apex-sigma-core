@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error
 
 
 async def responders(_cmd: SigmaCommand, pld: CommandPayload):
@@ -47,7 +48,7 @@ async def responders(_cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Trigger List', value=trg_list, inline=False)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ This page is empty.')
+            response = error('This page is empty.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ This server has no responder triggers.')
+        response = error('This server has no responder triggers.')
     await pld.msg.channel.send(embed=response)

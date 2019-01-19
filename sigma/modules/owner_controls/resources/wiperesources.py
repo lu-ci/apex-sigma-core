@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.mechanics.resources import SigmaResource
+from sigma.core.utilities.generic_responses import error
 
 
 async def wiperesources(cmd: SigmaCommand, pld: CommandPayload):
@@ -36,5 +37,5 @@ async def wiperesources(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db.update_resource(target_id, res, new_res)
         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target_name}\'s resources.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

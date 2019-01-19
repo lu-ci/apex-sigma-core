@@ -68,5 +68,5 @@ async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='Details', value=f'```py\n{stat_block}\n```', inline=False)
         response.add_field(name=title, value=f'```hs\n{item_table}\n```', inline=False)
     else:
-        response = discord.Embed(color=0x336699, title=f'No items found, try adding the "all" argument.')
+        response = discord.Embed(color=0x336699, title='No items found, try adding the "all" argument.')
     await pld.msg.channel.send(embed=response)

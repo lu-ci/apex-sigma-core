@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
@@ -49,9 +50,9 @@ async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
                 if example:
                     response.add_field(name='Usage Example', value=example)
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Unable to find exact results.')
+                response = not_found('Unable to find exact results.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

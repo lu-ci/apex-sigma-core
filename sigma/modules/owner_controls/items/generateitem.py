@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -38,11 +39,11 @@ async def generateitem(cmd: SigmaCommand, pld: CommandPayload):
                     success_text = f'{item.icon} I have given {connector} {item.name} to {target.display_name}.'
                     response = discord.Embed(color=item.color, title=success_text)
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                    response = not_found(f'{lookup} not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

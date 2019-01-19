@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 
 
 async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,9 +26,9 @@ async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             await cmd.db[cmd.db.db_nam].Reminders.delete_one(lookup_data)
-            response = discord.Embed(color=0x66CC66, title=f'✅ Reminder {rem_id} has been deleted.')
+            response = ok(f'Reminder {rem_id} has been deleted.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 Reminder `{rem_id}` not found.')
+            response = not_found(f'Reminder `{rem_id}` not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing reminder ID.')
+        response = error('Missing reminder ID.')
     await pld.msg.channel.send(embed=response)

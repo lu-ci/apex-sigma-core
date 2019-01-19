@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 ongoing = []
@@ -69,8 +70,7 @@ async def quick_buy(cmd: SigmaCommand, pld: CommandPayload, choice: dict):
         user_upgrades.update({choice.get('id'): upgrade_level + 1})
         await cmd.db.set_profile(pld.msg.author.id, 'upgrades', user_upgrades)
         await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-        upgrade_title = f'✅ Upgraded your {choice.get("name")} to Level {upgrade_level + 1}.'
-        response = discord.Embed(color=0x77B255, title=upgrade_title)
+        response = ok(f'Upgraded your {choice.get("name")} to Level {upgrade_level + 1}.')
     else:
         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
     await pld.msg.channel.send(embed=response)
@@ -131,8 +131,7 @@ async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
                     upgrade_file.update({upgrade_id: new_upgrade_level})
                     await cmd.db.set_profile(pld.msg.author.id, 'upgrades', upgrade_file)
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-                    upgrade_title = f'✅ Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.'
-                    response = discord.Embed(color=0x77B255, title=upgrade_title)
+                    response = ok(f'Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.')
                 else:
                     response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
             else:
@@ -143,11 +142,11 @@ async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
                 pass
             await pld.msg.channel.send(embed=response)
         except asyncio.TimeoutError:
-            timeout_title = f'🕙 Sorry, you timed out, feel free to open the shop again.'
+            timeout_title = '🕙 Sorry, you timed out, feel free to open the shop again.'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             await pld.msg.channel.send(embed=timeout_embed)
         if pld.msg.author.id in ongoing:
             ongoing.remove(pld.msg.author.id)
     else:
-        ongoing_response = discord.Embed(color=0xBE1931, title='❗ You already have a shop open.')
+        ongoing_response = error('You already have a shop open.')
         await pld.msg.channel.send(embed=ongoing_response)

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def get_vc(guild_vcs, lookup):
@@ -45,16 +45,15 @@ async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
                         membs_one = [vcm for vcm in vc_one.members if not vcm.bot]
                         for member in membs_one:
                             await member.move_to(vc_two)
-                        move_title = f'✅ Moved {len(membs_one)} members to {vc_two.name}.'
-                        response = discord.Embed(color=0x66CC66, title=move_title)
+                        response = ok(f'Moved {len(membs_one)} members to {vc_two.name}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ I\'m not permitted to move members.')
+                        response = error('I\'m not permitted to move members.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ One or both of the channels weren\'t found.')
+                    response = error('One or both of the channels weren\'t found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid arguments. See the usage example.')
+                response = error('Invalid arguments. See the usage example.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

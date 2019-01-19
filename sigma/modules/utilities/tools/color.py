@@ -22,6 +22,7 @@ from PIL import Image
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import rgb_to_hex
+from sigma.core.utilities.generic_responses import error
 
 
 def store_image(im):
@@ -63,7 +64,7 @@ async def color(_cmd: SigmaCommand, pld: CommandPayload):
             response = discord.Embed(color=rgb_to_hex(color_tuple))
             response.set_image(url=f'attachment://{pld.msg.id}.png')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid input, HEX or RGB sequence, please.')
+            response = error('Invalid input, HEX or RGB sequence, please.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(file=file, embed=response)

@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def addresponder(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,13 +30,13 @@ async def addresponder(cmd: SigmaCommand, pld: CommandPayload):
                     res_text = 'updated' if trigger in auto_respones else 'added'
                     auto_respones.update({trigger: content})
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_respones)
-                    response = discord.Embed(color=0x66CC66, title=f'✅ {trigger} has been {res_text}')
+                    response = ok(f'{trigger} has been {res_text}')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The trigger can\'t have a dot in it.')
+                    response = error('The trigger can\'t have a dot in it.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Missing message to send')
+                response = error('Missing message to send')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

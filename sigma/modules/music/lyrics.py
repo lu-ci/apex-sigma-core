@@ -23,6 +23,7 @@ import lxml.html as lx
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error
 
 
 async def get_url_body(url: str):
@@ -103,13 +104,13 @@ async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
                     response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
                 await pld.msg.channel.send(embed=response)
             if len(chunks) > 5:
-                end_title = f'Lyrics too long to display in their entirety.'
+                end_title = 'Lyrics too long to display in their entirety.'
                 end_desc = f'View the full list of lyrics [here]({lyrics_url}).'
                 response = discord.Embed(color=await get_image_colors(image), title=end_title, description=end_desc)
                 await pld.msg.channel.send(embed=response)
             return
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Nothing found for {query}.')
+            response = error(f'Nothing found for {query}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No song information given, and nothing currently playing.')
+        response = error('No song information given, and nothing currently playing.')
     await pld.msg.channel.send(embed=response)

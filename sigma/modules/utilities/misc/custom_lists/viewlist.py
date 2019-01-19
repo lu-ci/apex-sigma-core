@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found, denied
 
 
 async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
@@ -51,9 +52,9 @@ async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
                 response.description = empty if list_out == '' else list_out
                 response.set_footer(text=f'[{list_file.get("list_id")}]{icon} Page {page}')
             else:
-                response = discord.Embed(color=0xBE1931, title='⛔ This list is private.')
+                response = denied('This list is private.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 List not found.')
+            response = not_found('List not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing list ID.')
+        response = error('Missing list ID.')
     await pld.msg.channel.send(embed=response)

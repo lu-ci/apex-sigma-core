@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -43,7 +44,7 @@ async def destroyitem(cmd: SigmaCommand, pld: CommandPayload):
             success_text = f'{item_o.icon} I have removed {connector} {item_o.name} from {target.display_name}.'
             response = discord.Embed(color=item_o.color, title=success_text)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No item with that ID was found.')
+            response = error('No item with that ID was found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

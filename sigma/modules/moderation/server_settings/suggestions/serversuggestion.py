@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import ok, error
 
 
 def make_sugg_embed(msg: discord.Message, args: list, token: str):
@@ -42,11 +43,11 @@ async def serversuggestion(cmd: SigmaCommand, pld: CommandPayload):
                 sugg_token = secrets.token_hex(4)
                 sugg_msg = await channel.send(embed=make_sugg_embed(pld.msg, pld.args, sugg_token))
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
-                response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
+                response = ok(f'Suggestion {sugg_token} submitted.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Cannot find suggestion channel.')
+                response = error('Cannot find suggestion channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Suggestion channel not set.')
+            response = error('Suggestion channel not set.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

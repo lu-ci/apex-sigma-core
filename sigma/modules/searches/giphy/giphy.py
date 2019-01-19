@@ -22,6 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
@@ -45,9 +46,9 @@ async def giphy(cmd: SigmaCommand, pld: CommandPayload):
                 response.set_image(url=gif_url)
                 response.set_footer(icon_url=giphy_icon, text='Powered By GIPHY.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 No results')
+                response = not_found('No results')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

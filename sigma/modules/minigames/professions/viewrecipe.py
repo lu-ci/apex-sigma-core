@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
@@ -56,7 +57,7 @@ async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
             response.add_field(name=f'{ing_icon} Ingredients', value=ingredients)
             response.add_field(name='📰 Description', value=recipe.desc, inline=False)
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
+            response = not_found('Recipe not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

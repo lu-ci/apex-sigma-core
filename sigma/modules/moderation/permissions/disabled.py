@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
@@ -54,7 +55,7 @@ async def disabled(cmd: SigmaCommand, pld: CommandPayload):
                         exc = overridden_items.get(item_name)
                         exc_exists = any([exc.get('users'), exc.get('channels'), exc.get('roles')])
                         if exc_exists:
-                            item_name += '\*'
+                            item_name += r'\*'
                     disabled_list.append(item_name)
             if disabled_list:
                 disabled_count = len(disabled_list)
@@ -67,9 +68,9 @@ async def disabled(cmd: SigmaCommand, pld: CommandPayload):
                 response.description = ', '.join(disabled_list)
                 response.set_footer(text=info)
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 No disabled {perm_name} found.')
+                response = not_found(f'No disabled {perm_name} found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid permission type.')
+            response = error('Invalid permission type.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -42,8 +42,8 @@ async def logsettings(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xC1694F)
         enabled_count = len([l for l in settings if l[2] == 'Enabled'])
         details = f'```py\n{enabled_count} out of {len(log_keys)} logs enabled.\n```'
-        response.add_field(name=f'📋 Log settings', value=details, inline=False)
-        response.add_field(name=f'📄 Details', value=f'```\n{output}\n```', inline=False)
+        response.add_field(name='📋 Log settings', value=details, inline=False)
+        response.add_field(name='📄 Details', value=f'```\n{output}\n```', inline=False)
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

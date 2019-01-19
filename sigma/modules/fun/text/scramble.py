@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble as scrfn
 
 
@@ -31,5 +32,5 @@ async def scramble(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0x3B88C3, title='🔣 Text Scrambler')
         response.description = scrfn(words, full)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

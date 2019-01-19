@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def bindemoterole(cmd: SigmaCommand, pld: CommandPayload):
@@ -38,17 +38,17 @@ async def bindemoterole(cmd: SigmaCommand, pld: CommandPayload):
                             bound_roles.append(guild_role.id)
                             emote_groups.update({group_id: bound_roles})
                             await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
-                            response = discord.Embed(color=0x66CC66, title=f'✅ Added {role_name} to group {group_id}.')
+                            response = ok(f'Added {role_name} to group {group_id}.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ {role_name} is bound to {group_id}.')
+                            response = error(f'{role_name} is bound to {group_id}.')
                     else:
-                        response = discord.Embed(color=0x696969, title=f'🔍 {lookup} not found.')
+                        response = not_found(f'{lookup} not found.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Groups are limited to 10 roles.')
+                    response = error('Groups are limited to 10 roles.')
             else:
-                response = discord.Embed(color=0x696969, title=f'🔍 Group {group_id} not found.')
+                response = not_found(f'Group {group_id} not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
+            response = error('Missing arguments.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

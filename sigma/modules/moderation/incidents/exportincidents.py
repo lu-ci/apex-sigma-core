@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']
@@ -51,7 +51,7 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
             icore = get_incident_core(cmd.db)
             response, target = None, None
             identifier, incidents = None, None
-            title = f'🗃️ Gathering all '
+            title = '🗃️ Gathering all '
             if pld.args:
                 if len(pld.args) == 2:
                     identifier = pld.args[0].lower()
@@ -70,9 +70,9 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
                                 incidents = await icore.get_all_by_variant(pld.msg.guild.id, target)
                                 title += f'{target} incidents.'
                             else:
-                                response = discord.Embed(color=0xBE1931, title='❗ Invalid variant.')
+                                response = error('Invalid variant.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid identifier.')
+                        response = error('Invalid identifier.')
             else:
                 incidents = await icore.get_all(pld.msg.guild.id)
                 title += 'incidents.'
@@ -88,13 +88,13 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
                     file = discord.File(f'cache/{file_name}', file_name)
                 else:
                     if identifier:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ No incidents found for that {identifier}.')
+                        response = error(f'No incidents found for that {identifier}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ This server has no incidents.')
+                        response = error('This server has no incidents.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ There is already one ongoing.')
+            response = error('There is already one ongoing.')
     else:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     if pld.msg.guild.id in ongoing:
         ongoing.remove(pld.msg.guild.id)
     await pld.msg.channel.send(embed=response)
@@ -102,6 +102,5 @@ async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
         try:
             await pld.msg.author.send(file=file)
         except (discord.NotFound, discord.Forbidden):
-            denied_title = '❗ I was unable to DM you, please adjust your settings.'
-            denied_response = discord.Embed(color=0xBE1931, title=denied_title)
+            denied_response = error('I was unable to DM you, please adjust your settings.')
             await pld.msg.channel.send(pld.msg.author.mention, embed=denied_response)

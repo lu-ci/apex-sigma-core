@@ -22,6 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 async def shuffle(cmd: SigmaCommand, pld: CommandPayload):
@@ -44,11 +45,11 @@ async def shuffle(cmd: SigmaCommand, pld: CommandPayload):
                     requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                     response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
+                    response = error('The queue is empty.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I am not connected to any channel.')
+                response = error('I am not connected to any channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
+            response = error('You are not in my voice channel.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+        response = error('You are not in a voice channel.')
     await pld.msg.channel.send(embed=response)

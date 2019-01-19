@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
@@ -63,12 +64,12 @@ async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
             win_embed = discord.Embed(color=0x77B255, title=win_title)
             await pld.msg.channel.send(embed=win_embed)
         except asyncio.TimeoutError:
-            timeout_title = f'🕙 Time\'s up!'
+            timeout_title = '🕙 Time\'s up!'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             timeout_embed.add_field(name=f'It was {word_choice.lower()}.', value=word_description)
             await pld.msg.channel.send(embed=timeout_embed)
         if pld.msg.channel.id in ongoing_list:
             ongoing_list.remove(pld.msg.channel.id)
     else:
-        ongoing_error = discord.Embed(color=0xBE1931, title='❗ There is one already ongoing.')
+        ongoing_error = error('There is one already ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

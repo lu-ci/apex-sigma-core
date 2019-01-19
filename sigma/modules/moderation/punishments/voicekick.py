@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -43,18 +43,17 @@ async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
                                 remove_title = f'👢 {target.name} has been removed from {tvc.name}.'
                                 response = discord.Embed(color=0xc1694f, title=remove_title)
                             else:
-                                not_in_voice = f'❗ {target.name} is not in a voice channel.'
-                                response = discord.Embed(color=0xBE1931, title=not_in_voice)
+                                response = error(f'{target.name} is not in a voice channel.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='⛔ Target is above my highest role.')
+                            response = denied('Target is above my highest role.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='⛔ Can\'t kick someone equal or above you.')
+                        response = denied('Can\'t kick someone equal or above you.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ You can\'t kick yourself.')
+                    response = error('You can\'t kick yourself.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t kick myself.')
+                response = error('I can\'t kick myself.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
-        response = denied('Kick permissions')
+        response = denied('Access Denied. Kick permissions needed.')
     await pld.msg.channel.send(embed=response)

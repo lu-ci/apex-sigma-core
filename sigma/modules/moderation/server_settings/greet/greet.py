@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def greet(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,7 +25,7 @@ async def greet(cmd: SigmaCommand, pld: CommandPayload):
         active = True if active is None else active
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet', state)
-        response = discord.Embed(color=0x77B255, title=f'✅ Greeting Messages {ender}.')
+        response = ok(f'Greeting Messages {ender}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

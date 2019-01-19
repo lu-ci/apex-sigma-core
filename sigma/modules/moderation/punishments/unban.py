@@ -21,12 +21,12 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 def generate_log_embed(message, target):
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
-    log_response.set_author(name=f'A User Has Been Unbanned', icon_url=user_avatar(target))
+    log_response.set_author(name='A User Has Been Unbanned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Unbanned User',
                            value=f'{target.mention}\n{target.name}#{target.discriminator}')
     author = message.author
@@ -50,11 +50,11 @@ async def unban(cmd: SigmaCommand, pld: CommandPayload):
                 await pld.msg.guild.unban(target, reason=f'By {pld.msg.author.name}#{pld.msg.author.discriminator}.')
                 log_embed = generate_log_embed(pld.msg, target)
                 await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
-                response = discord.Embed(color=0x77B255, title=f'✅ {target.name} has been unbanned.')
+                response = ok(f'{target.name} has been unbanned.')
             else:
                 response = discord.Embed(title=f'🔍 {lookup} not found in the ban list.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Ban permissions')
+        response = denied('Access Denied. Ban permissions needed.')
     await pld.msg.channel.send(embed=response)

@@ -32,10 +32,10 @@ async def table_unflipper(ev: SigmaEvent, pld: MessagePayload):
             table = ['┬─┬ ノ( ^_^ノ)',
                      '┬─┬ ﾉ(° -°ﾉ)',
                      '┬─┬ ノ(゜-゜ノ)',
-                     '┬─┬ ノ(ಠ\_ಠノ)',
+                     r'┬─┬ ノ(ಠ\_ಠノ)',
                      '┻━┻~~~~  ╯(°□° ╯)',
                      '┻━┻====  ╯(°□° ╯)',
-                     ' ┬──┬ ¯\_(ツ)',
+                     r' ┬──┬ ¯\_(ツ)',
                      '(ヘ･_･)ヘ┳━┳',
                      'ヘ(´° □°)ヘ┳━┳']
             table_resp = secrets.choice(table)

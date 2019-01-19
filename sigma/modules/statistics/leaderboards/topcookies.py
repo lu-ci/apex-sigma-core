@@ -46,11 +46,11 @@ async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
     gu = cmd.bot.get_user
     value_name = 'Cookies'
     resource = 'cookies'
-    sort_key = f'ranked'
+    sort_key = 'ranked'
     lb_category = 'This Month\'s'
     if pld.args:
         if pld.args[0].lower() == 'total':
-            sort_key = f'total'
+            sort_key = 'total'
             lb_category = 'Total'
         elif pld.args[0].lower() == 'local':
             sort_key = f'origins.guilds.{pld.msg.guild.id}'

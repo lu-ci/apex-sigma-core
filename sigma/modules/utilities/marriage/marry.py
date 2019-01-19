@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def send_proposal(author: discord.Member, target: discord.Member, is_proposal):
@@ -61,10 +62,9 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
                             await send_proposal(author, target, False)
                     else:
                         if author.id in t_spouse_ids:
-                            married_error = f'❗ You and {target.name} are already married.'
-                            response = discord.Embed(color=0xBE1931, title=married_error)
+                            response = error(f'You and {target.name} are already married.')
                         else:
-                            response = discord.Embed(color=0xBE1931, title=f'❗ You already proposed to {target.name}.')
+                            response = error(f'You already proposed to {target.name}.')
                 else:
                     limited = author if a_limited else target
                     response = discord.Embed(color=0xe75a70, title=f'💔 {limited.name} has too many spouses.')
@@ -73,5 +73,5 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
         else:
             response = discord.Embed(color=0xe75a70, title='💔 You love yourself too much.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

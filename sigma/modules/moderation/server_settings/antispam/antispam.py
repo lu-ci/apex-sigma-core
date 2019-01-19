@@ -14,12 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def antispam(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,7 +24,7 @@ async def antispam(cmd: SigmaCommand, pld: CommandPayload):
         current = pld.settings.get('antispam')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'antispam', toggle)
-        response = discord.Embed(color=0x77B255, title=f'✅ Spam rate limitations {status}.')
+        response = ok(f'Spam rate limitations {status}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
@@ -28,7 +26,7 @@ async def collectionjar(cmd: SigmaCommand, pld: CommandPayload):
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         jar_doc.update({'state': state})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-        response = discord.Embed(color=0x66CC66, title=f'✅ Collection Jar {ender}.')
+        response = ok(f'Collection Jar {ender}.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

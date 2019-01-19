@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 
@@ -95,13 +96,13 @@ async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
                     if response.fields:
                         response.set_footer(text=f'Category: {cat} | Features: {", ".join(feat_block)}')
                     else:
-                        response = discord.Embed(color=0x696969, title='🔍 No lexical data found.')
+                        response = not_found('No lexical data found.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 No lexical data found.')
+                    response = not_found('No lexical data found.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 No results.')
+                response = not_found('No results.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

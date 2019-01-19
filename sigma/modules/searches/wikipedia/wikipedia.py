@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 api_base = 'https://en.wikipedia.org/w/api.php?format=json'
 wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
@@ -76,9 +77,9 @@ async def wikipedia(_cmd: SigmaCommand, pld: CommandPayload):
                 response.set_author(name=summ_title, icon_url=wiki_icon, url=wiki_url)
                 response.description = summ_content
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Search too broad, please be more specific.')
+                response = error('Search too broad, please be more specific.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 No results.')
+            response = not_found('No results.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -21,11 +21,12 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 
 async def poll(_cmd: SigmaCommand, pld: CommandPayload):
     if not pld.args:
-        out_content = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        out_content = error('Nothing inputted.')
         await pld.msg.channel.send(embed=out_content)
         return
     all_qry = ' '.join(pld.args)
@@ -37,11 +38,11 @@ async def poll(_cmd: SigmaCommand, pld: CommandPayload):
         choice_qry = choice_qry[:-1]
     poll_choices = choice_qry.split('; ')
     if len(poll_choices) < 2:
-        out_content = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        out_content = error('Not enough arguments.')
         await pld.msg.channel.send(embed=out_content)
         return
     if len(poll_choices) > 9:
-        out_content = discord.Embed(color=0xBE1931, title='❗ Maximum is 9 choices.')
+        out_content = error('Maximum is 9 choices.')
         await pld.msg.channel.send(embed=out_content)
         return
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def sabotageuser(cmd: SigmaCommand, pld: CommandPayload):
@@ -42,9 +43,9 @@ async def sabotageuser(cmd: SigmaCommand, pld: CommandPayload):
                 await cmd.db.set_profile(target_id, 'sabotaged', status)
                 response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target_name} has been {result}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ That target is immune.')
+                response = error('That target is immune.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
+            response = error('Invalid user ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing user ID.')
+        response = error('Missing user ID.')
     await pld.msg.channel.send(embed=response)

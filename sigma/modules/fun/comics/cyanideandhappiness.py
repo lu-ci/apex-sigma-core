@@ -22,6 +22,7 @@ from lxml import html
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def cyanideandhappiness(_cmd: SigmaCommand, pld: CommandPayload):
@@ -48,5 +49,5 @@ async def cyanideandhappiness(_cmd: SigmaCommand, pld: CommandPayload):
         cnh_image = 'https://i.imgur.com/jJl7FoT.jpg'
         response.set_author(name='Cyanide and Happiness', icon_url=cnh_image, url=comic_url)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Failed to grab a comic, try again.')
+        response = error('Failed to grab a comic, try again.')
     await pld.msg.channel.send(embed=response)

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def lmgtfy(_cmd: SigmaCommand, pld: CommandPayload):
@@ -28,5 +29,5 @@ async def lmgtfy(_cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xF9F9F9)
         response.set_author(name='Click here to go to the results.', icon_url=google_icon, url=query_url)
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No search inputted.')
+        response = error('No search inputted.')
     await pld.msg.channel.send(embed=response)

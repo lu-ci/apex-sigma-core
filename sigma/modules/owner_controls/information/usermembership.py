@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
@@ -49,9 +50,9 @@ async def usermembership(cmd: SigmaCommand, pld: CommandPayload):
                     line_list.append(list_line)
                 response.description = '\n'.join(line_list)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No guild data found.')
+                response = error('No guild data found.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 User not found.')
+            response = not_found('User not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

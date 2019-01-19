@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 
 
 async def removestatus(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,9 +26,9 @@ async def removestatus(cmd: SigmaCommand, pld: CommandPayload):
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one(status_data)
         if status_exists:
             await cmd.db[cmd.db.db_nam].StatusFiles.delete_one(status_data)
-            response = discord.Embed(color=0x77B255, title=f'✅ Deleted status `{status_id}`.')
+            response = ok(f'Deleted status `{status_id}`.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Status ID not found.')
+            response = not_found('Status ID not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

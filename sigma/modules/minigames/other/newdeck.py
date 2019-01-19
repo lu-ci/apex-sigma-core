@@ -14,15 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 from sigma.modules.minigames.other.drawcard import make_new_deck
 
 
 async def newdeck(_cmd: SigmaCommand, pld: CommandPayload):
     make_new_deck(pld.msg.author.id)
-    addition_title = f'✅ Your deck has been rebuilt, {pld.msg.author.display_name}.'
-    response = discord.Embed(color=0x77B255, title=addition_title)
+    response = ok(f'Your deck has been rebuilt, {pld.msg.author.display_name}.')
     await pld.msg.channel.send(embed=response)

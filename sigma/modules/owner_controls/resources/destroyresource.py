@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def destroyresource(cmd: SigmaCommand, pld: CommandPayload):
@@ -37,15 +38,13 @@ async def destroyresource(cmd: SigmaCommand, pld: CommandPayload):
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
                     else:
-                        err_title = f'❗ {target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.'
-                        response = discord.Embed(color=0xBE1931, title=err_title)
+                        response = error(f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.')
                 except ValueError:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid amount.')
+                    response = error('Invalid amount.')
             else:
-                err_title = f'❗ You can\'t take {cmd.bot.cfg.pref.currency} from bots.'
-                response = discord.Embed(color=0xBE1931, title=err_title)
+                response = error(f'You can\'t take {cmd.bot.cfg.pref.currency} from bots.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ {cmd.bot.cfg.pref.currency} amount and target needed.')
+            response = error(f'{cmd.bot.cfg.pref.currency} amount and target needed.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

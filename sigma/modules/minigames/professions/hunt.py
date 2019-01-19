@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -47,7 +48,7 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
                         pass
             if rarity == 0:
                 item_color = 0x67757f
-                response_title = f'🗑 You failed to catch anything.'
+                response_title = '🗑 You failed to catch anything.'
             else:
                 item = item_core.pick_item_in_rarity('animal', rarity)
                 connector = 'a'
@@ -61,7 +62,7 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
                 await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
             response = discord.Embed(color=item_color, title=response_title)
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ Your inventory is full.')
+            response = error('Your inventory is full.')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You are resting for another {timeout} seconds.')

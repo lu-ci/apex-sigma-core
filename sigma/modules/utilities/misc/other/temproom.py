@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 
 
 async def get_category(cmd: SigmaCommand, guild: discord.Guild):
@@ -41,5 +42,5 @@ async def temproom(cmd: SigmaCommand, pld: CommandPayload):
     temp_vc_cat = await get_category(cmd, pld.msg.guild)
     tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
     await tmp_vc.set_permissions(pld.msg.author, manage_channels=True)
-    response = discord.Embed(color=0x66CC66, title=f'✅ {room_name} created.')
+    response = ok(f'{room_name} created.')
     await pld.msg.channel.send(embed=response)

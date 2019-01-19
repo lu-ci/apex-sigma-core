@@ -23,7 +23,7 @@ import arrow
 systemd_journal_available = False
 
 try:
-    # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyPackageRequirements
+    # noinspection PyUnresolvedReferences,PyPackageRequirements
     from systemd import journal
 
     systemd_journal_available = True

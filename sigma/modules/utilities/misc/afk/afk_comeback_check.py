@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
+from sigma.core.utilities.generic_responses import info
 
 
 async def afk_comeback_check(ev: SigmaEvent, pld: MessagePayload):
@@ -29,7 +30,7 @@ async def afk_comeback_check(ev: SigmaEvent, pld: MessagePayload):
             afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': pld.msg.author.id})
             if afk_data:
                 await ev.db.cache.del_cache(f'afk_{pld.msg.author.id}')
-                response = discord.Embed(color=0x3B88C3, title='ℹ I have removed your AFK status.')
+                response = info('I have removed your AFK status.')
                 removal = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)
                 try:

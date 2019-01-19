@@ -22,10 +22,11 @@ import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
-wolfram_url = f'http://www.wolframalpha.com/input/?i='
+wolfram_url = 'http://www.wolframalpha.com/input/?i='
 api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&podindex=2&input='
 
 
@@ -57,7 +58,7 @@ async def get_results(query_url: str):
 
 
 def make_safe_query(query: list):
-    safe = '`~!@$^*()[]{}\|:;"\'<>,.'
+    safe = r'`~!@$^*()[]{}\|:;"\'<>,.'
     query_list = list(' '.join(query))
     safe_query = ''
     while query_list:
@@ -88,14 +89,14 @@ async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
                         response.set_author(name='Wolfram Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
                         response.set_footer(text='View the full results by clicking the embed title.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Results too long to display.')
+                        response = error('Results too long to display.')
                         response.description = f'You can view them directly [here]({wolfram_url + query}).'
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No results.')
+                    response = not_found('No results.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+                response = error('Nothing inputted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Wolfram can\'t be used during an ongoing math game.')
+            response = error('Wolfram can\'t be used during an ongoing math game.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await send_response(pld.msg, init_message, response)

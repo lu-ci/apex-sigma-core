@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def pause(_cmd: SigmaCommand, pld: CommandPayload):
@@ -30,13 +31,13 @@ async def pause(_cmd: SigmaCommand, pld: CommandPayload):
             if pld.msg.guild.voice_client:
                 if pld.msg.guild.voice_client.is_playing():
                     pld.msg.guild.voice_client.pause()
-                    response = discord.Embed(color=0x3B88C3, title=f'⏸ Music player paused.')
+                    response = discord.Embed(color=0x3B88C3, title='⏸ Music player paused.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The player is not active.')
+                    response = error('The player is not active.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I am not connected to a voice channel.')
+                response = error('I am not connected to a voice channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ You are not in my voice channel.')
+            response = error('You are not in my voice channel.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+        response = error('You are not in a voice channel.')
     await pld.msg.channel.send(embed=response)

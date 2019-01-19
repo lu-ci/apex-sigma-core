@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, denied
 from sigma.modules.development.suggestions.approvesuggestion import react_to_suggestion
 
 
@@ -31,18 +32,17 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
             await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user_title = f'⛔ Suggestion {token} declined by {pld.msg.author.display_name}.'
-                to_user = discord.Embed(color=0xBE1931, title=to_user_title)
+                to_user = denied(f'Suggestion {token} declined by {pld.msg.author.display_name}.')
                 to_user.description = reason
                 try:
                     await athr.send(embed=to_user)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {token} declined.')
+                    response = ok(f'Suggestion {token} declined.')
                 except (discord.Forbidden, discord.NotFound):
-                    response = discord.Embed(color=0xBE1931, title='❗ Failed to send the notification.')
+                    response = error('Failed to send the notification.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The author wasn\'t found.')
+                response = error('The author wasn\'t found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No suggestion entry with that ID was found.')
+            response = error('No suggestion entry with that ID was found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        response = error('Not enough arguments.')
     await pld.msg.channel.send(embed=response)

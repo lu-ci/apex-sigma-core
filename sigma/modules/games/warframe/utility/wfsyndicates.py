@@ -53,7 +53,7 @@ async def wfsyndicates(_cmd: SigmaCommand, pld: CommandPayload):
             if plat_price:
                 items_text += f' {plat_price} p'
             else:
-                items_text += f' ?? p'
+                items_text += ' ?? p'
             items_text += f' | {synd_price} Standing'
             if plat_price:
                 items_text += f' ({round(plat_price / synd_price * 1000, 2)} p/KS)'

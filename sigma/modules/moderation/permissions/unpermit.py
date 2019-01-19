@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found, warn, ok
 from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_target_type
 
 
@@ -65,35 +63,34 @@ async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
                                             {'server_id': pld.msg.guild.id}, {'$set': perms})
                                         await cmd.db.cache.del_cache(pld.msg.guild.id)
                                         if len(targets) > 1:
-                                            title = f'✅ {len(targets)} {target_type} can no longer use `{node_name}`.'
+                                            title = f'{len(targets)} {target_type} can no longer use `{node_name}`.'
+                                            response = ok(title)
                                         else:
                                             pnd = '#' if target_type == 'channels' else ''
-                                            title = f'✅ {pnd}{targets[0].name} can no longer use `{node_name}`.'
-                                        response = discord.Embed(color=0x77B255, title=title)
+                                            response = ok(f'{pnd}{targets[0].name} can no longer use `{node_name}`.')
                                     else:
                                         pnd = '#' if target_type == 'channels' else ''
-                                        title = f'⚠ {pnd}{bad_item.name} didn\'t have an override for `{node_name}`.'
-                                        response = discord.Embed(color=0xFFCC4D, title=title)
+                                        title = f'{pnd}{bad_item.name} didn\'t have an override for `{node_name}`.'
+                                        response = warn(title)
                                 else:
                                     perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                                    response = discord.Embed(color=0x696969, title=f'🔍 {perm_type} not found.')
+                                    response = not_found(f'{perm_type} not found.')
                             else:
                                 if targets:
-                                    response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
+                                    response = not_found(f'{targets} not found.')
                                 else:
                                     ender = 'specified' if target_type == 'roles' else 'targeted'
-                                    response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
+                                    response = not_found(f'No {target_type} {ender}.')
                         else:
-                            response = discord.Embed(color=0xBE1931,
-                                                     title='❗ Unrecognized lookup mode, see usage example.')
+                            response = error('Unrecognized lookup mode, see usage example.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
+                        response = error('Invalid target type.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Separate permission type and name with a colon.')
+                    response = error('Separate permission type and name with a colon.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

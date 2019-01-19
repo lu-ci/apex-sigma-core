@@ -22,6 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.core.utilities.stats_processing import add_special_stats
 
 
@@ -80,7 +81,7 @@ async def play(cmd: SigmaCommand, pld: CommandPayload):
                     init_song_embed = discord.Embed(color=0x3B88C3, title=f'🔽 Downloading {item.title}...')
                     init_song_msg = await pld.msg.channel.send(embed=init_song_embed)
                     if not pld.msg.guild.voice_client:
-                        no_client = discord.Embed(color=0xBE1931, title='❗ The voice client seems to have broken.')
+                        no_client = error('The voice client seems to have broken.')
                         await pld.msg.channel.send(embed=no_client)
                         return
                     await item.create_player(pld.msg.guild.voice_client)
@@ -104,9 +105,9 @@ async def play(cmd: SigmaCommand, pld: CommandPayload):
                 if 'donate' in cmd.bot.modules.commands:
                     await cmd.bot.modules.commands['donate'].execute(pld)
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ The queue is empty.')
+                response = error('The queue is empty.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Channel miss-match prevented me from playing.')
+            response = error('Channel miss-match prevented me from playing.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+        response = error('You are not in a voice channel.')
     await pld.msg.channel.send(embed=response)

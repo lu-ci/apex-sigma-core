@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def removeinteraction(cmd: SigmaCommand, pld: CommandPayload):
@@ -28,7 +29,7 @@ async def removeinteraction(cmd: SigmaCommand, pld: CommandPayload):
             await cmd.db[cmd.db.db_nam].Interactions.delete_one(interaction_item)
             response = discord.Embed(color=0xFFCC4D, title=f'🔥 Reaction `{lookup}` has been removed.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Reaction not found.')
+            response = not_found('Reaction not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

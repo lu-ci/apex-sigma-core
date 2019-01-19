@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def wftag(cmd: SigmaCommand, pld: CommandPayload):
@@ -32,9 +30,9 @@ async def wftag(cmd: SigmaCommand, pld: CommandPayload):
                     if alert_tag in wf_tags:
                         wf_tags.pop(alert_tag)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_tags', wf_tags)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ Tag unbound.')
+                        response = ok('Tag unbound.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing is bound to {alert_tag}.')
+                        response = error(f'Nothing is bound to {alert_tag}.')
                 else:
                     alert_role = None
                     for role in pld.msg.guild.roles:
@@ -51,13 +49,13 @@ async def wftag(cmd: SigmaCommand, pld: CommandPayload):
                             response_title = f'`{alert_tag.upper()}` has been updated to bind to {alert_role.name}'
                         wf_tags.update({alert_tag: alert_role.id})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_tags', wf_tags)
-                        response = discord.Embed(color=0x66CC66, title=f'✅ {response_title}')
+                        response = ok(f'{response_title}')
                     else:
-                        response = discord.Embed(color=0x696969, title=f'🔍 {alert_role_search} not found.')
+                        response = not_found(f'{alert_role_search} not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Roles')
+        response = denied('Access Denied. Manage Roles needed.')
     await pld.msg.channel.send(embed=response)

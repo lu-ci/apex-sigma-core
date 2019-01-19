@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def summon(_cmd: SigmaCommand, pld: CommandPayload):
@@ -34,7 +35,7 @@ async def summon(_cmd: SigmaCommand, pld: CommandPayload):
                         title = f'🚩 Moved to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ We are in the same channel.')
+                        response = error('We are in the same channel.')
                 else:
                     try:
                         await pld.msg.author.voice.channel.connect(reconnect=False)
@@ -43,11 +44,11 @@ async def summon(_cmd: SigmaCommand, pld: CommandPayload):
                     except TimeoutError:
                         if pld.msg.guild.voice_client:
                             await pld.msg.guild.voice_client.disconnect()
-                        response = discord.Embed(color=0xBE1931, title='❗ I timed out while trying to connect.')
+                        response = error('I timed out while trying to connect.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ I am not allowed to speak in {vc.name}.')
+                response = error(f'I am not allowed to speak in {vc.name}.')
         else:
-            response = discord.Embed(color=0xBE1931, title=f'❗ I am not allowed to connect to {vc.name}.')
+            response = error(f'I am not allowed to connect to {vc.name}.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You are not in a voice channel.')
+        response = error('You are not in a voice channel.')
     await pld.msg.channel.send(embed=response)

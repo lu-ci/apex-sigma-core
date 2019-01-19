@@ -18,11 +18,12 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def send(cmd: SigmaCommand, pld: CommandPayload):
     if pld.args:
-        error_response = discord.Embed(color=0xBE1931, title='❗ Bad input.')
+        error_response = error('Bad input.')
         try:
             mode, identifier = pld.args[0].split(':')
             identifier = int(identifier)
@@ -43,11 +44,11 @@ async def send(cmd: SigmaCommand, pld: CommandPayload):
         if text:
             try:
                 await target.send(text)
-                response = discord.Embed(color=0x77B255, title=f'✅ Message sent to {title_end}.')
+                response = ok(f'Message sent to {title_end}.')
             except discord.Forbidden:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t message that user.')
+                response = error('I can\'t message that user.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing message to send.')
+            response = error('Missing message to send.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

@@ -20,6 +20,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
@@ -35,5 +36,5 @@ async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='List', value=out_list, inline=False)
         response.set_footer(text=f'[Page {page}] Showing {len(machines)}/{machines_owned} machines owned.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ You don\'t own any machine.')
+        response = error('You don\'t own any machine.')
     await pld.msg.channel.send(embed=response)

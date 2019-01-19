@@ -24,6 +24,7 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.mechanics.resources import ResourceOrigins, ResourceDict
 from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 def sort_transfers(dictlike: ResourceDict):
@@ -96,7 +97,7 @@ async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
             pool = resource.expenses if expense else resource.origins
             response = await make_response(cmd.bot, pool, target, res_nam, expense)
         else:
-            response = discord.Embed(color=0x696969, title='🔍 No resource data found.')
+            response = not_found('No resource data found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Need at least a resource name.')
+        response = error('Need at least a resource name.')
     await pld.msg.channel.send(embed=response)

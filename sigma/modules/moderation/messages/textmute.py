@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar, convert_to_seconds
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -55,44 +55,43 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
 
 async def textmute(cmd: SigmaCommand, pld: CommandPayload):
     if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     else:
         if not pld.msg.mentions:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
         else:
             author = pld.msg.author
             target = pld.msg.mentions[0]
             if author.id == target.id:
-                response = discord.Embed(color=0xBE1931, title='❗ Can\'t mute yourself.')
+                response = error('Can\'t mute yourself.')
             else:
                 above_hier = hierarchy_permit(author, target)
                 if not above_hier:
-                    response = discord.Embed(color=0xBE1931, title='⛔ Can\'t mute someone equal or above you.')
+                    response = denied('Can\'t mute someone equal or above you.')
                 else:
                     timed = pld.args[-1].startswith('--time=')
                     try:
                         now = arrow.utcnow().timestamp
                         endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
                     except (LookupError, ValueError):
-                        err_response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                        err_response = error('Please use the format HH:MM:SS.')
                         await pld.msg.channel.send(embed=err_response)
                         return
                     mute_list = pld.settings.get('muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
-                        resp_title = f'❗ {target.display_name} is already text muted.'
-                        response = discord.Embed(color=0xBE1931, title=resp_title)
+                        response = error(f'{target.display_name} is already text muted.')
                     else:
                         mute_list.append(target.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been text muted.')
+                        response = ok(f'{target.display_name} has been text muted.')
                         rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                         reason = ' '.join(rarg) if rarg else None
                         await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                         log_embed = generate_log_embed(pld.msg, target, reason)
                         await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-                        to_target_title = f'🔇 You have been text muted.'
+                        to_target_title = '🔇 You have been text muted.'
                         to_target = discord.Embed(color=0x696969)
                         to_target.add_field(name=to_target_title, value=f'Reason: {reason}')
                         to_target.set_footer(text=f'On: {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)

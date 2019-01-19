@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import cook_quality
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -59,10 +60,10 @@ async def cook(cmd: SigmaCommand, pld: CommandPayload):
                 head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                 response = discord.Embed(color=recipe.color, title=head_title)
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ You\'re missing ingredients.')
+                response = error('You\'re missing ingredients.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🔍 Recipe not found.')
+            response = not_found('Recipe not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title=f'❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

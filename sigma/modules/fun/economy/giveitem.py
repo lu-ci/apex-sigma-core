@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found, ok
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -44,19 +42,18 @@ async def giveitem(cmd: SigmaCommand, pld: CommandPayload):
                             inv_item.update({'transferred': True})
                             await cmd.db.add_to_inventory(target.id, inv_item)
                             await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
-                            title = f'✅ Transferred {obj_item.name} to {target.display_name}.'
-                            response = discord.Embed(color=0x77B255, title=title)
+                            response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
                             response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
                         else:
-                            response = discord.Embed(color=0xBE1931, title='❗ Transfer declined by Lucia\'s Guard.')
+                            response = error('Transfer declined by Lucia\'s Guard.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title=f'❗ {target.name}\'s inventory is full.')
+                        response = error(f'{target.name}\'s inventory is full.')
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No {obj_item.name} found in your inventory.')
+                    response = not_found(f'No {obj_item.name} found in your inventory.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 No such item exists.')
+                response = not_found('No such item exists.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+        response = error('Not enough arguments.')
     await pld.msg.channel.send(embed=response)

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def blacklistcommand(cmd: SigmaCommand, pld: CommandPayload):
@@ -59,11 +60,11 @@ async def blacklistcommand(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db.cache.del_cache(target_id)
                     await cmd.db.cache.del_cache(f'{target_id}_checked')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Command not found.')
+                    response = not_found('Command not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid user ID.')
+                response = error('Invalid user ID.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+            response = error('Not enough arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

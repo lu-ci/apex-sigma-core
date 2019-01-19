@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found, denied
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
@@ -41,13 +42,13 @@ async def shadowpollexpires(cmd: SigmaCommand, pld: CommandPayload):
                         title = f'⏰ Poll set to expire {end_human}.'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=end_datet)
                     else:
-                        response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
+                        response = denied('You didn\'t make this poll.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+                    response = not_found('Poll not found.')
             except (LookupError, ValueError):
-                response = discord.Embed(color=0xBE1931, title='❗ Please use the format HH:MM:SS.')
+                response = error('Please use the format HH:MM:SS.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing arguments.')
+            response = error('Missing arguments.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and expiration time.')
+        response = error('Missing poll ID and expiration time.')
     await pld.msg.channel.send(embed=response)

@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found, denied
 
 
 async def shadowpollinvisible(cmd: SigmaCommand, pld: CommandPayload):
@@ -33,11 +34,11 @@ async def shadowpollinvisible(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0x161616, title=f'🕶 Poll {poll_file["id"]} is now invisible.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Poll {poll_file["id"]} is already invisible.')
+                    response = error(f'Poll {poll_file["id"]} is already invisible.')
             else:
-                response = discord.Embed(color=0xBE1931, title='⛔ You didn\'t make this poll.')
+                response = denied('You didn\'t make this poll.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+            response = not_found('Poll not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID.')
+        response = error('Missing poll ID.')
     await pld.msg.channel.send(embed=response)

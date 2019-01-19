@@ -19,6 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def send_divorce(author: discord.Member, target: discord.Member, is_divorce):
@@ -87,8 +88,7 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', div_cost, cmd.name, pld.msg)
                 else:
                     currency = cmd.bot.cfg.pref.currency
-                    no_kud = f'❗ You don\'t have {div_cost} {currency} to get a divorce.'
-                    response = discord.Embed(color=0xBE1931, title=no_kud)
+                    response = error(f'You don\'t have {div_cost} {currency} to get a divorce.')
             elif tid in a_spouse_ids:
                 for sp in a_spouses:
                     if sp.get('user_id') == tid:
@@ -118,12 +118,11 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                     await send_divorce(pld.msg.author, target, False)
             else:
                 if is_id:
-                    not_married = f'❗ You aren\'t married, nor have proposed, to {target}.'
+                    response = error(f'You aren\'t married, nor have proposed, to {target}.')
                 else:
-                    not_married = f'❗ You aren\'t married, nor have proposed, to {target.name}.'
-                response = discord.Embed(color=0xBE1931, title=not_married)
+                    response = error(f'You aren\'t married, nor have proposed, to {target.name}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Can\'t divorce yourself.')
+            response = error('Can\'t divorce yourself.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

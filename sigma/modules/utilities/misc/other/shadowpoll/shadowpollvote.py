@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error, not_found
 
 
 def origin(x, poll_file):
@@ -85,19 +86,19 @@ async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
                                 poll_file['votes'].update({str(pld.msg.author.id): choice_num})
                                 poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
                                 await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
-                                response = discord.Embed(color=0x66CC66, title=f'✅ Your choice has been {ender}.')
+                                response = ok(f'Your choice has been {ender}.')
                             else:
                                 response = discord.Embed(color=0xFFCC4D, title='🔒 Not authorized to vote.')
                         else:
                             response = discord.Embed(color=0xFFCC4D, title='🔒 That poll is not active.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Choice number out of range.')
+                        response = error('Choice number out of range.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Poll not found.')
+                    response = not_found('Poll not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not a valid choice number.')
+                response = error('Not a valid choice number.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing the choice number.')
+            response = error('Missing the choice number.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing poll ID and choice.')
+        response = error('Missing poll ID and choice.')
     await pld.msg.channel.send(embed=response)

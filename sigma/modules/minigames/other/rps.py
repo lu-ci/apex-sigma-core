@@ -20,6 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def rps(_cmd: SigmaCommand, pld: CommandPayload):
@@ -42,7 +43,7 @@ async def rps(_cmd: SigmaCommand, pld: CommandPayload):
                 color, icon, resp = 0x3B88C3, '💎', 'You win'
             response = discord.Embed(color=color, title=f'{icon} {my_choice.title()}! {resp}!')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid sign.')
+            response = error('Invalid sign.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

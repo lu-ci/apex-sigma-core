@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 plat_img = 'http://i.imgur.com/wa6J9bz.png'
 
@@ -86,13 +87,13 @@ async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
                     response.set_author(name=f'Warframe Market: {name}', icon_url=plat_img, url=page_url)
                     response.set_thumbnail(url=thumb)
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Item not found.')
+                    response = not_found('Item not found.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Item not found.')
+                response = not_found('Item not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Could not retrieve Warframe Market data.')
+            response = error('Could not retrieve Warframe Market data.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     try:
         await init_resp_msg.edit(embed=response)
     except discord.NotFound:

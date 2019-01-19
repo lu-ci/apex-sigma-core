@@ -18,6 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
@@ -42,5 +43,5 @@ async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
         poll_list = '\n'.join(list_lines)
         response.description = poll_list
     else:
-        response = discord.Embed(color=0x696969, title='🔍 There are no polls.')
+        response = not_found('There are no polls.')
     await pld.msg.channel.send(embed=response)

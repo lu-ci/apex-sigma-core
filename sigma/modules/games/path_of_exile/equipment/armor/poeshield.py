@@ -20,6 +20,7 @@ import lxml.html as lx
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 shield_list_cache = {}
 shield_data_cache = {}
@@ -126,9 +127,9 @@ async def poeshield(_cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name='Information', value=armor_info_block, inline=False)
                 response.set_footer(text=armor_entry.get("requirements"))
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid shield data received.')
+                response = error('Invalid shield data received.')
         else:
-            response = discord.Embed(color=0x696969, title='🔍 Shield not found.')
+            response = not_found('Shield not found.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

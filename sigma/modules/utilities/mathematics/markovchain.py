@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def markovchain(cmd: SigmaCommand, pld: CommandPayload):
@@ -31,5 +31,5 @@ async def markovchain(cmd: SigmaCommand, pld: CommandPayload):
         response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} {len(chain)} items in {ender} chain.')
     else:
         starter = 'You don\'t have' if target.id == pld.msg.author.id else f'{target.name} doesn\'t have'
-        response = discord.Embed(color=0x696969, title=f'🔍 {starter} a collected chain.')
+        response = not_found(f'{starter} a collected chain.')
     await pld.msg.channel.send(embed=response)

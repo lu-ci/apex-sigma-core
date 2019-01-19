@@ -22,6 +22,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import not_found, warn
 
 
 def time_to_seconds(time):
@@ -49,7 +50,7 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
                 trial_data = await data.read()
                 trial_data = json.loads(trial_data)
         if len(trial_data) == 0:
-            response = discord.Embed(color=0x696969, title=f'🔍 User {username} Not Found.')
+            response = not_found(f'User {username} Not Found.')
         else:
             # noinspection PyBroadException
             try:
@@ -188,7 +189,7 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
                     total_desc = f'Total: {total_count}'
                     total_desc += f'\nWin/Lose: {total_won}/{total_failed}'
                     total_desc += f'\nTotal Time: {str(datetime.timedelta(seconds=total_time_total))}'
-                    total_desc += f'\nAverage Time: '
+                    total_desc += '\nAverage Time: '
                     total_desc += f'{str(datetime.timedelta(seconds=(total_time_total // total_count)))}'
                     total_desc += f'\nShortest Time: {str(datetime.timedelta(seconds=total_time_short))}'
                     total_desc += f'\nKills: {total_kills}'
@@ -205,6 +206,5 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name='Jordas Verdict', value=jv_desc)
                 response.add_field(name='Total Trials', value=total_desc)
             except Exception:
-                error_text = f'⚠ Stats for {username} were found but contained errors.'
-                response = discord.Embed(color=0xFFCC4D, title=error_text)
+                response = warn(f'Stats for {username} were found but contained errors.')
         await pld.msg.channel.send(embed=response)

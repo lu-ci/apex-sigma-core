@@ -22,7 +22,6 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.core.utilities.url_processing import aioget
 
-
 crates_io_icon = 'https://i.imgur.com/Nyw7kSc.png'
 
 
@@ -53,7 +52,7 @@ async def crates(_cmd: SigmaCommand, pld: CommandPayload):
             if cdat.get('keywords'):
                 response.set_footer(text=f'Keywords: {", ".join(cdat.get("keywords"))}')
             else:
-                response.set_footer(text=f'Last updated')
+                response.set_footer(text='Last updated')
         else:
             error_details = errors[0].get('detail')
             if error_details == 'Not Found':
@@ -62,5 +61,5 @@ async def crates(_cmd: SigmaCommand, pld: CommandPayload):
                 error_list = [err.get('detail') for err in errors]
                 response = errors(f'Crate Error: {". ".join(error_list)}.')
     else:
-        response = error('Nothing inputed.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

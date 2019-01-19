@@ -15,10 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok
 
 
 async def blockcollector(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,9 +26,8 @@ async def blockcollector(cmd: SigmaCommand, pld: CommandPayload):
     block_file = await block_coll.find_one(block_data)
     if not block_file:
         await block_coll.insert_one(block_data)
-        response_title = '✅ Other users are no longer able to collect a chain for you.'
+        response = ok('Other users are no longer able to collect a chain for you.')
     else:
         await block_coll.delete_one(block_data)
-        response_title = '✅ Other users can once again collect a chain for you.'
-    response = discord.Embed(color=0x66CC66, title=response_title)
+        response = ok('Other users can once again collect a chain for you.')
     await pld.msg.channel.send(embed=response)

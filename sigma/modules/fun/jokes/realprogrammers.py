@@ -25,6 +25,6 @@ from sigma.core.mechanics.payload import CommandPayload
 async def realprogrammers(cmd: SigmaCommand, pld: CommandPayload):
     joke_docs = await cmd.db[cmd.db.db_nam].RealDevsData.find().to_list(None)
     joke = secrets.choice(joke_docs).get('content')
-    response = discord.Embed(color=0xf9f9f9, title=f'💻 Real programmers...')
+    response = discord.Embed(color=0xf9f9f9, title='💻 Real programmers...')
     response.description = joke
     await pld.msg.channel.send(embed=response)

@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import ok, error
 
 
 async def wipechain(cmd: SigmaCommand, pld: CommandPayload):
@@ -26,7 +25,7 @@ async def wipechain(cmd: SigmaCommand, pld: CommandPayload):
     if exist_check:
         chain_len = len(exist_check['chain'])
         await cmd.db[cmd.db.db_nam].MarkovChains.delete_one({'user_id': uid})
-        response = discord.Embed(color=0x66CC66, title=f'✅ Your chain of {chain_len} items has been wiped.')
+        response = ok(f'Your chain of {chain_len} items has been wiped.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ You don\'t have a Markov Chain.')
+        response = error('You don\'t have a Markov Chain.')
     await pld.msg.channel.send(embed=response)

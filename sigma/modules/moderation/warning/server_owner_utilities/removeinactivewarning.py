@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def removeinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
@@ -37,13 +35,13 @@ async def removeinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
                 if warn_data:
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.delete_one(lookup)
-                    response = discord.Embed(color=0x77B255, title=f'✅ Warning {warn_iden} deleted.')
+                    response = ok(f'Warning {warn_iden} deleted.')
                 else:
-                    response = discord.Embed(color=0x696969, title='🔍 Inactive warning not found.')
+                    response = not_found('Inactive warning not found.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Both user tag and warning ID are needed.')
+                response = error('Both user tag and warning ID are needed.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
     else:
-        response = denied('Server Owner')
+        response = denied('Access Denied. Server Owner needed.')
     await pld.msg.channel.send(embed=response)

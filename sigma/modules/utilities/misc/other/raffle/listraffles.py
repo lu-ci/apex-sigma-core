@@ -20,6 +20,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def listraffles(cmd: SigmaCommand, pld: CommandPayload):
@@ -41,5 +42,5 @@ async def listraffles(cmd: SigmaCommand, pld: CommandPayload):
         response.set_author(name=f'{pld.msg.author.name}\'s Raffles', icon_url=user_avatar(pld.msg.author))
         response.description = outlist
     else:
-        response = discord.Embed(color=0x696969, title='🔍 You have no pending raffles.')
+        response = not_found('You have no pending raffles.')
     await pld.msg.channel.send(embed=response)

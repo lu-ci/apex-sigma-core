@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 
 
 async def greetchannel(cmd: SigmaCommand, pld: CommandPayload):
@@ -27,11 +25,11 @@ async def greetchannel(cmd: SigmaCommand, pld: CommandPayload):
             target_channel = pld.msg.channel_mentions[0]
             if pld.msg.guild.me.permissions_in(target_channel).send_messages:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_channel', target_channel.id)
-                response = discord.Embed(color=0x77B255, title=f'✅ Greeting Channel set to {target_channel.name}.')
+                response = ok(f'Greeting Channel set to {target_channel.name}.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ I can\'t write in that channel.')
+                response = error('I can\'t write in that channel.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ No channel targeted.')
+            response = error('No channel targeted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

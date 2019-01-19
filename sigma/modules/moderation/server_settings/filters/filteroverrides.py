@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
+from sigma.core.utilities.generic_responses import error, not_found
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
@@ -55,11 +56,11 @@ async def filteroverrides(_cmd: SigmaCommand, pld: CommandPayload):
                             ovr_lines = get_overrides(pld.msg, data[0], data[1])
                             response.add_field(name=data[1].title(), value=', '.join(ovr_lines), inline=False)
                 else:
-                    response = discord.Embed(color=0x696969, title=f'🔍 No overrides for `blocked{filter_name}` found.')
+                    response = not_found(f'No overrides for `blocked{filter_name}` found.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 No overrides found.')
+                response = not_found('No overrides found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid filter.')
+            response = error('Invalid filter.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

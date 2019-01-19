@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
 
 
 async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
@@ -51,11 +52,11 @@ async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
                     response = discord.Embed(color=0x66CC66)
                     response.add_field(name='✅ URL Shortened', value=short_url)
             elif status_code == 500:
-                response = discord.Embed(color=0xBE1931, title='❗ Bad URL.')
+                response = error('Bad URL.')
             else:
-                response = discord.Embed(color=0xBE1931, title=f'❗ Error {status_code} - {data["status_txt"]}.')
+                response = error(f'Error {status_code} - {data["status_txt"]}.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ No Bit.ly Access Token.')
+        response = error('No Bit.ly Access Token.')
     await pld.msg.channel.send(text_cont, embed=response)

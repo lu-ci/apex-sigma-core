@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 
 hor_1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
 hor_2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
@@ -131,14 +132,13 @@ async def roulette(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         ranges = selector_ranges.get(sel)
                         valids = f'{ranges[0]} - {ranges[-1]}'
-                        invalid_val_error = f'❗ Invalid value for {sel}. Accepted are {valids}'
-                        response = discord.Embed(color=0xBE1931, title=invalid_val_error)
+                        response = error(f'Invalid value for {sel}. Accepted are {valids}')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid selector, check the command description.')
+                    response = error('Invalid selector, check the command description.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid selector and value syntax.')
+                response = error('Invalid selector and value syntax.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Missing selector.')
+            response = error('Missing selector.')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')

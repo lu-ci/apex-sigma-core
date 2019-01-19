@@ -25,3 +25,4 @@ commands:
       Designates a channel for server suggestions.
       When a new suggestion is made, the details will be posted there.
       To disable this, write disable after the command instead of a channel.
+      This command requires the Manage Server permission.

@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
@@ -39,14 +39,13 @@ async def unbindinvite(cmd: SigmaCommand, pld: CommandPayload):
                 if inv_id in bindings:
                     bindings.pop(inv_id)
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
-                    title = f'✅ Invite {inv_id} has been unbound.'
-                    response = discord.Embed(color=0x77B255, title=title)
+                    response = ok(f'Invite {inv_id} has been unbound.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title=f'❗ Invite {inv_id} not bound.')
+                    response = error(f'Invite {inv_id} not bound.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ No invite with that ID was found.')
+                response = error('No invite with that ID was found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments. Invite and role name needed.')
+            response = error('Not enough arguments. Invite and role name needed.')
     else:
-        response = denied('Create Instant Invites')
+        response = denied('Access Denied. Create Instant Invites needed.')
     await pld.msg.channel.send(embed=response)

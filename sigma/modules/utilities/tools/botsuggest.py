@@ -21,6 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import ok, error
 
 
 def make_sugg_data(msg: discord.Message, args: list, token: str):
@@ -52,9 +53,9 @@ async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
         if pld.args:
             sugg_token = secrets.token_hex(4)
             await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
-            response = discord.Embed(color=0x77B255, title=f'✅ Suggestion {sugg_token} submitted.')
+            response = ok(f'Suggestion {sugg_token} submitted.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Missing suggestion channel configuration.')
+        response = error('Missing suggestion channel configuration.')
     await pld.msg.channel.send(embed=response)

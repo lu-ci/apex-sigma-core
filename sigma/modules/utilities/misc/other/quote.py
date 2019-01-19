@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def message_search(lookup: int, message: discord.Message):
@@ -68,11 +69,11 @@ async def quote(_cmd: SigmaCommand, pld: CommandPayload):
                         attachments.append(details)
                     response.add_field(name='Attachments', value='\n'.join(attachments), inline=False)
                 if not valid:
-                    response = discord.Embed(color=0xBE1931, title='❗ That message has no text content.')
+                    response = error('That message has no text content.')
             else:
-                response = discord.Embed(color=0x696969, title='🔍 Message not found.')
+                response = not_found('Message not found.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Invalid message ID.')
+            response = error('Invalid message ID.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

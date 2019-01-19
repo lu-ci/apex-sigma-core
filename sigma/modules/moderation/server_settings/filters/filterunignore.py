@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
@@ -44,8 +42,7 @@ async def filterunignore(cmd: SigmaCommand, pld: CommandPayload):
                                 if target.id in override:
                                     override.remove(target.id)
                                 else:
-                                    title = f'❗ {target.name} didn\'t have an override for that filter.'
-                                    error_response = discord.Embed(color=0xBE1931, title=title)
+                                    error_response = error(f'{target.name} didn\'t have an override for that filter.')
                                     break
                             if not error_response:
                                 override_data.update({target_type: override})
@@ -53,28 +50,27 @@ async def filterunignore(cmd: SigmaCommand, pld: CommandPayload):
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
                                     starter = f'{len(targets)} {target_type}'
-                                    title = f'✅ {starter} are now affected by `blocked{filter_name}`.'
+                                    response = ok(f'{starter} are now affected by `blocked{filter_name}`.')
                                 else:
                                     pnd = '#' if target_type == 'channels' else ''
-                                    title = f'✅ {pnd}{targets[0].name} is now affected by `blocked{filter_name}`.'
-                                response = discord.Embed(color=0x77B255, title=title)
+                                    response = ok(f'{pnd}{targets[0].name} is now affected by `blocked{filter_name}`.')
                             else:
                                 await pld.msg.channel.send(embed=error_response)
                                 return
                         else:
                             if targets:
-                                response = discord.Embed(color=0x696969, title=f'🔍 {targets} not found.')
+                                response = not_found(f'{targets} not found.')
                             else:
                                 ender = 'specified' if target_type == 'roles' else 'targeted'
-                                response = discord.Embed(color=0x696969, title=f'🔍 No {target_type} {ender}.')
+                                response = not_found(f'No {target_type} {ender}.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Invalid filter.')
+                        response = error('Invalid filter.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ Invalid target type.')
+                    response = error('Invalid target type.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Not enough arguments.')
+                response = error('Not enough arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

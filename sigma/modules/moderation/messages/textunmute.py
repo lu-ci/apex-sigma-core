@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -54,33 +54,32 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
 
 async def textunmute(cmd: SigmaCommand, pld: CommandPayload):
     if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        response = denied('Manage Messages')
+        response = denied('Access Denied. Manage Messages needed.')
     else:
         if not pld.msg.mentions:
-            response = discord.Embed(color=0xBE1931, title='❗ No user targeted.')
+            response = error('No user targeted.')
         else:
             author = pld.msg.author
             target = pld.msg.mentions[0]
             is_admin = author.permissions_in(pld.msg.channel).administrator
             if author.id == target.id and not is_admin:
-                response = discord.Embed(color=0xBE1931, title='❗ Can\'t unmute yourself.')
+                response = error('Can\'t unmute yourself.')
             else:
                 above_hier = hierarchy_permit(author, target)
                 if not above_hier and not is_admin:
-                    response = discord.Embed(color=0xBE1931, title='⛔ Can\'t unmute someone equal or above you.')
+                    response = denied('Can\'t unmute someone equal or above you.')
                 else:
                     mute_list = pld.settings.get('muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id not in mute_list:
-                        resp_title = f'❗ {target.display_name} is not text muted.'
-                        response = discord.Embed(color=0xBE1931, title=resp_title)
+                        response = error(f'{target.display_name} is not text muted.')
                     else:
                         mute_list.remove(target.id)
                         reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
                         await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)
-                        response = discord.Embed(color=0x77B255, title=f'✅ {target.display_name} has been unmuted.')
+                        response = ok(f'{target.display_name} has been unmuted.')
                         log_embed = generate_log_embed(pld.msg, target, reason)
                         await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
     await pld.msg.channel.send(embed=response)

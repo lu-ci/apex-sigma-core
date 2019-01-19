@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import discord
-
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import denied, ok, error, not_found
 
 
 async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
@@ -35,20 +33,19 @@ async def renamecommand(cmd: SigmaCommand, pld: CommandPayload):
                                 custom_commands.update({new_trigger: custom_commands[old_trigger]})
                                 del custom_commands[old_trigger]
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
-                                response = discord.Embed(color=0x66CC66, title=f'✅ {old_trigger} updated.')
+                                response = ok(f'{old_trigger} updated.')
                             else:
-                                response = discord.Embed(color=0xBE1931,
-                                                         title='❗ The new trigger is already a command.')
+                                response = error('The new trigger is already a command.')
                         else:
-                            response = discord.Embed(color=0x696969, title='🔍 Command not found.')
+                            response = not_found('Command not found.')
                     else:
-                        response = discord.Embed(color=0xBE1931, title='❗ Can\'t replace an existing core command.')
+                        response = error('Can\'t replace an existing core command.')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❗ The command can\'t have a dot in it.')
+                    response = error('The command can\'t have a dot in it.')
             else:
-                response = discord.Embed(color=0xBE1931, title='❗ Invalid number of arguments.')
+                response = error('Invalid number of arguments.')
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = denied('Manage Server')
+        response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

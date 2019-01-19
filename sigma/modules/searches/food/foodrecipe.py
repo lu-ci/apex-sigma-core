@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
@@ -35,7 +36,7 @@ async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
                     search_data = json.loads(search_data)
             count = search_data['count']
             if count == 0:
-                response = discord.Embed(color=0x696969, title='🔍 No results.')
+                response = not_found('No results.')
             else:
                 info = search_data['recipes'][0]
                 title = info['title']
@@ -48,7 +49,7 @@ async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
                 response.add_field(name=title, value='[Recipe Here](' + source_url + ')')
                 response.set_thumbnail(url=image_url)
         else:
-            response = discord.Embed(color=0xBE1931, title='❗ Nothing inputted.')
+            response = error('Nothing inputted.')
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ The API Key is missing.')
+        response = error('The API Key is missing.')
     await pld.msg.channel.send(embed=response)

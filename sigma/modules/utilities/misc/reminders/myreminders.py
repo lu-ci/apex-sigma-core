@@ -21,6 +21,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import not_found
 
 
 async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
@@ -59,5 +60,5 @@ async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
         response.add_field(name='Reminder Count', value=reminder_list_title, inline=False)
         response.add_field(name='Reminder List', value=reminder_list, inline=False)
     else:
-        response = discord.Embed(color=0x696969, title='🔍 You have no pending reminders.')
+        response = not_found('You have no pending reminders.')
     await pld.msg.channel.send(embed=response)
