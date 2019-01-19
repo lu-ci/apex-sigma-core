@@ -44,7 +44,7 @@ class SigmaCommand(object):
         self.path = self.command_info.get('path')
         self.category = self.plugin_info.get('category')
         self.subcategory = self.plugin_info.get('subcategory')
-        self.log = create_logger(self.name.upper())
+        self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
         self.nsfw = False
         self.cfg = {}
         self.owner = False

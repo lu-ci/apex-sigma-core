@@ -16,7 +16,6 @@
 
 import asyncio
 
-from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.payload import MessagePayload, CommandPayload, SigmaPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
 
@@ -24,7 +23,6 @@ from sigma.core.mechanics.statistics import StatisticsStorage
 class ExecutionClockwork(object):
     def __init__(self, bot):
         self.bot = bot
-        self.log = create_logger('Threader')
         self.ev_queue = asyncio.Queue()
         self.cmd_queue = asyncio.Queue()
         self.bot.loop.create_task(self.queue_ev_loop())

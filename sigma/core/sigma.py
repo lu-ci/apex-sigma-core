@@ -99,7 +99,7 @@ class ApexSigma(client_class):
             exit(errno.ETIMEDOUT)
 
     def init_logger(self):
-        self.log = create_logger('Sigma')
+        self.log = create_logger('Sigma', shard=init_cfg.dsc.shard)
         self.log.info('Logger Created')
 
     def init_config(self):

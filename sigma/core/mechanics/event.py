@@ -32,7 +32,7 @@ class SigmaEvent(object):
         self.name = self.event_info.get('name')
         self.category = self.plugin_info.get('category')
         self.subcategory = self.plugin_info.get('subcategory')
-        self.log = create_logger(self.name.upper())
+        self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
 
     def get_exception(self):
         if self.bot.cfg.pref.dev_mode:

@@ -28,7 +28,7 @@ class PluginManager(object):
     def __init__(self, bot, init: bool):
         self.bot = bot
         self.init = init
-        self.log = create_logger('Plugin Manager')
+        self.log = create_logger('Plugin Manager', shard=self.bot.cfg.dsc.shard)
         self.alts = {}
         self.commands = {}
         self.events = {}

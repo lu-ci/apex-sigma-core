@@ -31,9 +31,10 @@ except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
 
-def create_logger(name: str, *, to_title: bool = False, level=None):
+def create_logger(name: str, *, to_title: bool = False, level=None, shard=None):
     """
     Add a new logger.
+    :param shard:
     :param name:
     :param to_title:
     :param level:
@@ -44,7 +45,7 @@ def create_logger(name: str, *, to_title: bool = False, level=None):
     else:
         logname = name
 
-    return Logger.create(logname, level=level)
+    return Logger.create(logname, level=level, shard=shard)
 
 
 def titleize(string: str):
@@ -112,9 +113,10 @@ class Logger(object):
         return self._logger.exception(message)
 
     @classmethod
-    def create(cls, name: str, *, level=None):
+    def create(cls, name: str, *, level=None, shard=None):
         """
         Create a logger with :name: if it has not been created before.
+        :param shard:
         :param name:
         :param level:
         :return:
@@ -128,7 +130,7 @@ class Logger(object):
         else:
             cls.add_stdout_handler(logger)
 
-        cls.add_file_handler(logger)
+        cls.add_file_handler(logger, shard)
         logger.created = True
         return logger
 
@@ -167,9 +169,10 @@ class Logger(object):
         logger.add_handler(handler)
 
     @staticmethod
-    def add_file_handler(logger):
+    def add_file_handler(logger, shard=None):
         """
         Adds a regular file handler for the logging.
+        :param shard:
         :param logger:
         :return:
         """
@@ -177,6 +180,10 @@ class Logger(object):
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
         now = arrow.utcnow()
-        filename = os.path.join(log_dir, f'sigma.{now.format("YYYY-MM-DD")}.log')
+        if shard is not None:
+            format_name = f'sigma.{shard}.{now.format("YYYY-MM-DD")}.log'
+        else:
+            format_name = f'sigma.{now.format("YYYY-MM-DD")}.log'
+        filename = os.path.join(log_dir, format_name)
         handler = logging.FileHandler(filename, encoding='utf-8')
         logger.add_handler(handler)
