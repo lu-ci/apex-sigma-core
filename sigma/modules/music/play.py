@@ -65,9 +65,11 @@ async def play(cmd: SigmaCommand, pld: CommandPayload):
                 same_bound = False
         if same_bound:
             if not pld.msg.guild.voice_client:
-                await cmd.bot.modules.commands['summon'].execute(pld)
+                cmn_cmd = cmd.bot.modules.commands['summon']
+                await getattr(cmn_cmd.command, cmn_cmd.name)(cmn_cmd, pld)
             if pld.args:
-                await cmd.bot.modules.commands['queue'].execute(pld)
+                queue_cmd = cmd.bot.modules.commands['queue']
+                await getattr(queue_cmd.command, queue_cmd.name)(queue_cmd, pld)
             if not cmd.bot.music.get_queue(pld.msg.guild.id).empty():
                 while not cmd.bot.music.get_queue(pld.msg.guild.id).empty():
                     queue = cmd.bot.music.get_queue(pld.msg.guild.id)
