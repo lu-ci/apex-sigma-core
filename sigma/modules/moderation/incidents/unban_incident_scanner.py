@@ -32,7 +32,7 @@ async def unban_incident_scanner(ev: SigmaCommand, pld: UnbanPayload):
             if now - kick_stamp <= 5:
                 unban_entry = ali
     if unban_entry:
-        mod, reason = get_mod_and_reason(unban_entry, pld.guild)
+        mod, reason = get_mod_and_reason(ev.bot, unban_entry, pld.guild)
         icore = get_incident_core(ev.db)
         incident = icore.generate('unban')
         incident.set_location(pld.guild)

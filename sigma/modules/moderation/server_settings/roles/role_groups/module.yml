@@ -10,7 +10,6 @@ commands:
       - "mrg"
       - "crg"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Creates a role group for binding a role to.
       Role groups are limited to 32 roles per group.

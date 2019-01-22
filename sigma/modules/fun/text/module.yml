@@ -59,16 +59,14 @@ commands:
       - "randomq"
       - "rq"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       The bot will ask you a random question, that's all...
 
   - name:         randomactivity
     alts:
-    - "randomtodo"
-    - "randomact"
-    - "bored"
+      - "randomtodo"
+      - "randomact"
+      - "bored"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Provides a random thing for you to do...

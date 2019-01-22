@@ -135,6 +135,7 @@ async def search_youtube(qry: str):
     async with aiohttp.ClientSession() as session:
         async with session.get(f'{url_base}', params={"q": qry}) as data:
             html_content = await data.text()
+            # matches video hyperlinks in YouTube's results HTML
             search_results = re.findall(r'href=\"/watch\?v=(.{11})', html_content)
             video_url = f'https://www.youtube.com/watch?v={search_results[0]}'
     return video_url

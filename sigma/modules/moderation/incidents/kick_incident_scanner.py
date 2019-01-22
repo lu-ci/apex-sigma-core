@@ -32,7 +32,7 @@ async def kick_incident_scanner(ev: SigmaEvent, pld: MemberPayload):
             if now - kick_stamp <= 5:
                 kick_entry = ali
     if kick_entry:
-        mod, reason = get_mod_and_reason(kick_entry, pld.member.guild)
+        mod, reason = get_mod_and_reason(ev.bot, kick_entry, pld.member.guild)
         icore = get_incident_core(ev.db)
         incident = icore.generate('kick')
         incident.set_location(pld.member.guild)

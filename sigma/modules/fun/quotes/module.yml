@@ -78,11 +78,11 @@ commands:
       the image will be hidden and the footer will state that.
 
 events:
-  - name:        dbinit_fortune
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_fortune
+    type:         dbinit
+    enabled:      true
 
-  - name:        dbinit_shootfoot
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_shootfoot
+    type:         dbinit
+    enabled:      true
 

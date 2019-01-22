@@ -70,7 +70,6 @@ commands:
 
   - name:         newdeck
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Rebuilds your deck of cards.
 

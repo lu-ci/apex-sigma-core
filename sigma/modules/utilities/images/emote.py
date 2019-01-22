@@ -38,8 +38,10 @@ def get_emote_cache(cmd: SigmaCommand):
 def get_emote(emoji: str or discord.Emoji):
     lookup, eid = emoji, None
     if ':' in emoji:
-        server_match = re.match(r'^<a?:(\w+):(\d+)>$', emoji)
-        custom_match = re.match(r'^:(\w+):$', emoji)
+        # matches non local custom emote
+        server_match = re.search(r'<a?:(\w+):(\d+)>', emoji)
+        # matches global emote or local custom emote
+        custom_match = re.search(r':(\w+):', emoji)
         if server_match:
             lookup, eid = server_match.group(1), server_match.group(2)
         elif custom_match:

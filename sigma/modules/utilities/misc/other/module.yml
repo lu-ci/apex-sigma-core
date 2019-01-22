@@ -73,10 +73,10 @@ commands:
       Embeds cannot be quoted.
 
 events:
-  - name:        temproom_checker
-    type:        voice_state_update
-    enabled:     true
+  - name:         temproom_checker
+    type:         voice_state_update
+    enabled:      true
 
-  - name:        dbinit_httpstatus
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_httpstatus
+    type:         dbinit
+    enabled:      true

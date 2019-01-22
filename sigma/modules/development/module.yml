@@ -1,34 +1,34 @@
-name:            Development
+name:             Development
 
-category:        development
+category:         development
 
-enabled:         true
+enabled:          true
 
 commands:
-  - name:        evaluate
+  - name:         evaluate
     alts:
       - "eval"
       - "exec"
       - "code"
       - "python"
       - "py"
-    enabled:     true
+    enabled:      true
     permissions:
-      owner:     true
-      dmable:    true
-    usage:       "{pfx}{cmd} print('Hello')"
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} print('Hello')"
     description:
       Executes raw python code. This should be used with caution.
       You should never use this unless you are certain of what you are doing.
 
-  - name:        sysexec
+  - name:         sysexec
     alts:
       - "sh"
-    enabled:     true
+    enabled:      true
     permissions:
-      owner:     true
-      dmable:    true
-    usage:       "{pfx}{cmd} echo 'Hello'"
+      owner:      true
+      dmable:     true
+    usage:        "{pfx}{cmd} echo 'Hello'"
     description:
       Executes a shell command. Extreme warning!
       This executes commands in the Operating System's Shell.
@@ -36,19 +36,19 @@ commands:
       It will execute things on the same level of authority as the program is ran by.
       Meaning, don't do something stupid and wipe your damn root.
 
-  - name:        test
-    enabled:     true
+  - name:         test
+    enabled:      true
     permissions:
-      owner:     true
+      owner:      true
     description:
       For testing purposes, obviously.
       Used as a placeholder for testing functions.
 
 events:
-  - name:        version_file_updater
-    type:        ready
-    enabled:     true
+  - name:         version_file_updater
+    type:         ready
+    enabled:      true
 
-  - name:        command_md
-    type:        ready
-    enabled:     true
+  - name:         command_md
+    type:         ready
+    enabled:      true

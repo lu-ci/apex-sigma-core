@@ -63,14 +63,14 @@ commands:
       Tells you what real programmers do.
 
 events:
-  - name:        dbinit_dadjoke
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_dadjoke
+    type:         dbinit
+    enabled:      true
 
-  - name:        dbinit_realdevs
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_realdevs
+    type:         dbinit
+    enabled:      true
 
-  - name:        dbinit_jokes
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_jokes
+    type:         dbinit
+    enabled:      true

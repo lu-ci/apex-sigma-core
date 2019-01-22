@@ -61,7 +61,6 @@ commands:
     enabled:      true
     requirements:
       - "add_reactions"
-    usage:        "{pfx}{cmd}"
     description:
       Lists all your ongoing raffles and their information,
       such as when they end and in what channel.

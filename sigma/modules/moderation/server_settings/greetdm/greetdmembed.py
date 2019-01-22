@@ -19,17 +19,7 @@ import re
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, ok, error
-
-
-def check_field(field, value):
-    if field == 'color':
-        try:
-            int_value = int(value, 16)
-            return int_value <= 16777215
-        except ValueError:
-            return False
-    if field in ['thumbnail', 'image']:
-        return re.match(r"^(?:http(s)?://)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$", value)
+from sigma.modules.moderation.server_settings.greet.greetembed import check_field
 
 
 async def greetdmembed(cmd: SigmaCommand, pld: CommandPayload):

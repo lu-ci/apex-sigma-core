@@ -43,7 +43,6 @@ commands:
     alts:
       - "exportincs"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Exports all instances on server to a text file and DM's it to you.
       This requires that allow direct messages from server members.

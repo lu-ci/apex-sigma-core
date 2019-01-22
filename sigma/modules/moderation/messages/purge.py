@@ -88,10 +88,13 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 if msg.content:
                     for piece in msg.content.split():
                         piece = piece.strip()
-                        if re.match(r'^<a?:\w+:\d+>$', piece):
+                        # matches non local custom emote
+                        if re.search(r'<a?:\w+:\d+>', piece):
                             clean = True
-                        elif re.match(r'^:\w+:$', piece):
+                        # matches global emote or local custom emote
+                        elif re.search(r':\w+:', piece):
                             clean = True
+                        # matches Unicode character
                         elif len(piece) == 1 and category(piece) == 'So':
                             clean = True
                         else:

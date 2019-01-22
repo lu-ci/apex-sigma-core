@@ -112,6 +112,7 @@ class SigmaError(object):
 
     def get_error_message(self, settings: dict):
         prefix = self.db.get_prefix(settings)
+        # escapes markdown formatting
         prefix, name = list(map(lambda i: re.sub(r'([*_~`])', r'\\\1', i), [prefix, self.name]))
         if isinstance(self.exception, discord.Forbidden):
             title = '❗ Error: Forbidden!'

@@ -159,6 +159,6 @@ commands:
       The number of items per type and per rarity.
 
 events:
-  - name:        dbinit_items
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_items
+    type:         dbinit
+    enabled:      true

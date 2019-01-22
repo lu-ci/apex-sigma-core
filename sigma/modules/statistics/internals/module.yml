@@ -23,7 +23,6 @@ commands:
       - "reslist"
       - "res"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows all the available resources and how many you have of each.
 
@@ -50,6 +49,5 @@ commands:
       - "commandstats"
       - "cmdstats"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows a paginated table showing how many times each command was used.

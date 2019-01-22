@@ -206,12 +206,12 @@ commands:
       You can specify multiple targets at once. If you set roles as the type, separate the specified
       roles with a semi-colon and a space "; ". This command requires the Manage Server permission.
 
-  - name:        filteroverrides
+  - name:         filteroverrides
     alts:
       - "foverrides"
       - "fovrs"
-    enabled:     true
-    usage:       "{pfx}{cmd} words"
+    enabled:      true
+    usage:        "{pfx}{cmd} words"
     description:
       Lists all overrides for the specified filter.
       The accepted filters are asciinames, arguments, extensions, words, and invites.

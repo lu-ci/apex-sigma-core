@@ -77,6 +77,6 @@ commands:
       The Kud reward is equal to the number of letters in the word.
 
 events:
-  - name:        dbinit_dictionary
-    type:        dbinit
-    enabled:     true
+  - name:         dbinit_dictionary
+    type:         dbinit
+    enabled:      true

@@ -22,16 +22,21 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import BanPayload
+from sigma.core.sigma import ApexSigma
 
 
-def get_mod_and_reason(ban_entry: discord.AuditLogAction, guild: discord.Guild):
-    audit_reason = re.search(r'By (.+)#(\d{4})(: |.)(.*)', ban_entry.reason or '')
+def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogAction, guild: discord.Guild):
+    # matches Sigma's Audit reason for bans/kicks
+    audit_reason = re.search(r'By (.+)#(\d{4})(: |\.)(.*)', ban_entry.reason or '')
     reason_group = audit_reason.group(4) if audit_reason else None
     reason = reason_group if reason_group else None
-    if ban_entry.user.bot:
-        name = audit_reason.group(1).lower()
-        udisc = audit_reason.group(2)
-        lookup = discord.utils.find(lambda u: u.name.lower() == name and u.discriminator == udisc, guild.members)
+    if ban_entry.user.id == bot.user.id:
+        try:
+            name = audit_reason.group(1).lower()
+            udisc = audit_reason.group(2)
+            lookup = discord.utils.find(lambda u: u.name.lower() == name and u.discriminator == udisc, guild.members)
+        except AttributeError:
+            lookup = None
         if lookup:
             mod = lookup
         else:
@@ -50,7 +55,7 @@ async def ban_incident_scanner(ev: SigmaCommand, pld: BanPayload):
             if now - kick_stamp <= 5:
                 ban_entry = ali
     if ban_entry:
-        mod, reason = get_mod_and_reason(ban_entry, pld.guild)
+        mod, reason = get_mod_and_reason(ev.bot, ban_entry, pld.guild)
         icore = get_incident_core(ev.db)
         incident = icore.generate('ban')
         incident.set_location(pld.guild)

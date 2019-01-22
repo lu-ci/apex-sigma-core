@@ -39,7 +39,6 @@ commands:
       - "randomcolour"
       - "rclr"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows you a random color block along with its HEX code.
 

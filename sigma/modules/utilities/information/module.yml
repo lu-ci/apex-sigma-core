@@ -96,6 +96,6 @@ commands:
       Population, message and command counts, and rates in the last 24 hours.
 
 events:
-  - name:        guild_watcher
-    type:        message
-    enabled:     true
+  - name:         guild_watcher
+    type:         message
+    enabled:      true

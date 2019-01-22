@@ -83,10 +83,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
     description:
-      "Adds new GIF to the specified interaction type. Accepted
+      Adds new GIF to the specified interaction type. Accepted
       types are bite, cry, dance, drink, explode, facepalm,
       feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
-      punch, shoot, shrug, sip, slap, stab, and stare."
+      punch, shoot, shrug, sip, slap, stab, and stare.
 
   - name:         slap
     enabled:      true
