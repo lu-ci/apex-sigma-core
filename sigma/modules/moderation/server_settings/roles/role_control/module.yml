@@ -15,9 +15,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Gives the specified role to the mentioned user.
-      The role must be below Sigma's highest role.
-      This command requires the Manage Roles permission.
+                  Gives the specified role to the mentioned user.
+                  The role must be below Sigma's highest role.
+                  This command requires the Manage Roles permission.
 
   - name:         removerole
     alts:
@@ -29,17 +29,17 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Removes the specified role from the mentioned user.
-      The role must be below Sigma's highest role.
-      This command requires the Manage Roles permission.
+                  Removes the specified role from the mentioned user.
+                  The role must be below Sigma's highest role.
+                  This command requires the Manage Roles permission.
 
-  - name: pruneroles
+  - name:    pruneroles
     alts:
       - "proles"
     enabled: true
-    usage : "{pfx}{cmd}"
+    usage:   "{pfx}{cmd}"
     requirements:
       - "manage_roles"
     description:
-      Removes all empty roles from the server that are below Sigma.
-      This command requires the Manage Roles permission.
+             Removes all empty roles from the server that are below Sigma.
+             This command requires the Manage Roles permission.

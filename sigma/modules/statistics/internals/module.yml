@@ -13,10 +13,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how much of Sigma's internal currency you currently have,
-      as well as how much you've earned on the current server and in total.
-      Kud is earned by being an active member of the community.
-      Yes, this is meant to be vague.
+                  Shows how much of Sigma's internal currency you currently have,
+                  as well as how much you've earned on the current server and in total.
+                  Kud is earned by being an active member of the community.
+                  Yes, this is meant to be vague.
 
   - name:         resources
     alts:
@@ -24,7 +24,7 @@ commands:
       - "res"
     enabled:      true
     description:
-      Shows all the available resources and how many you have of each.
+                  Shows all the available resources and how many you have of each.
 
   - name:         resourcestatistics
     alts:
@@ -33,15 +33,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} currency @person --expense"
     description:
-      Shows statistical data for the given resource type.
-      You can use the bot's currency name instead of "currency", like "kud" for example.
-      Resources also include "experience" and "cookies".
-      The command will show where you got that resource.
-      From which user, which server, which channel and with which function.
-      Only "earned" resources are tracked however, meaning that there's no data on gambling.
-      You can also add "--expense" to the end of the command to see where you spent that resource
-      instead of showing where you got it as well as target a user with the command to see their stats.
-      You can see all available resources with the "resourcelist" command.
+                  Shows statistical data for the given resource type.
+                  You can use the bot's currency name instead of "currency", like "kud" for example.
+                  Resources also include "experience" and "cookies".
+                  The command will show where you got that resource.
+                  From which user, which server, which channel and with which function.
+                  Only "earned" resources are tracked however, meaning that there's no data on gambling.
+                  You can also add "--expense" to the end of the command to see where you spent that resource
+                  instead of showing where you got it as well as target a user with the command to see their stats.
+                  You can see all available resources with the "resourcelist" command.
 
   - name:         commandstatistics
     alts:
@@ -50,4 +50,4 @@ commands:
       - "cmdstats"
     enabled:      true
     description:
-      Shows a paginated table showing how many times each command was used.
+                  Shows a paginated table showing how many times each command was used.

@@ -30,9 +30,9 @@ async def afk(cmd: SigmaCommand, pld: CommandPayload):
     else:
         afk_reason = 'No reason stated.'
     in_data = {
-        'user_id': pld.msg.author.id,
+        'user_id':   pld.msg.author.id,
         'timestamp': arrow.utcnow().timestamp,
-        'reason': afk_reason
+        'reason':    afk_reason
     }
     if afk_data:
         title = 'Your status has been updated'

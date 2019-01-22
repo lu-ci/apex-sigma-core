@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error, ok, denied
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 async def renamelist(cmd: SigmaCommand, pld: CommandPayload):

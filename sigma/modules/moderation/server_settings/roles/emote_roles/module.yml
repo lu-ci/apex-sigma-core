@@ -10,11 +10,11 @@ commands:
       - "merg"
     enabled:      true
     description:
-      Creates an emote role group for binding roles to.
-      Emote roles need to be bound to groups due to messages havinga limited number
-      of reactions that can be added. An upside is this allows you to place
-      multiple emote toggle messages in different places with slight alterations.
-      This command requires the Manage Server permission.
+                  Creates an emote role group for binding roles to.
+                  Emote roles need to be bound to groups due to messages havinga limited number
+                  of reactions that can be added. An upside is this allows you to place
+                  multiple emote toggle messages in different places with slight alterations.
+                  This command requires the Manage Server permission.
 
   - name:         deleteemoterolegroup
     alts:
@@ -22,9 +22,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3"
     description:
-      Deletes an emote role group. This cannot be undone.
-      Emote role groups are created with the makeemoterolegroup command.
-      This command requires the Manage Server permission.
+                  Deletes an emote role group. This cannot be undone.
+                  Emote role groups are created with the makeemoterolegroup command.
+                  This command requires the Manage Server permission.
 
   - name:         listemoterolegroups
     alts:
@@ -32,11 +32,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2"
     description:
-      Lists all emote role groups on the server.
-      The list is paginated, each page has up to 10 items.
-      You can specify the page number you want to see.
-      To view an emote role group's details, such as the populace and
-      roles that are bound to that group, use the viewemoterolegroup command.
+                  Lists all emote role groups on the server.
+                  The list is paginated, each page has up to 10 items.
+                  You can specify the page number you want to see.
+                  To view an emote role group's details, such as the populace and
+                  roles that are bound to that group, use the viewemoterolegroup command.
 
   - name:         viewemoterolegroup
     alts:
@@ -44,8 +44,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3"
     description:
-      Shows details on the specified emote role group, such as the roles
-      that are in the group and the total population of the group's roles.
+                  Shows details on the specified emote role group, such as the roles
+                  that are in the group and the total population of the group's roles.
 
   - name:         bindemoterole
     alts:
@@ -53,9 +53,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3 King Killers"
     description:
-      Binds a role to an emote role group.
-      Emote role groups are limited to 10 roles per group.
-      This command requires the Manage Server permission.
+                  Binds a role to an emote role group.
+                  Emote role groups are limited to 10 roles per group.
+                  This command requires the Manage Server permission.
 
   - name:         unbindemoterole
     alts:
@@ -63,8 +63,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3 Serpent Squires"
     description:
-      Unbinds a role from an emote role group.
-      This command requires the Manage Server permission.
+                  Unbinds a role from an emote role group.
+                  This command requires the Manage Server permission.
 
   - name:         makeemotetoggles
     alts:
@@ -72,12 +72,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5a8e3 #channel"
     description:
-      Makes the core message that cotains the emotes for the emote role togglers.
-      Specify the group you want to a message for by ID. Youcan also specify the channel you
-      want it to go. If no channel is specified, the toggler will be created in the current channel.
-      The toggler message contains instruction on how to use the toggles. You can add "nodesc"
-      to the end of the command if you don't want the toggle instructions to be displayed in
-      the toggler message. This command requires the Manage Server permission.
+                  Makes the core message that cotains the emotes for the emote role togglers.
+                  Specify the group you want to a message for by ID. Youcan also specify the channel you
+                  want it to go. If no channel is specified, the toggler will be created in the current channel.
+                  The toggler message contains instruction on how to use the toggles. You can add "nodesc"
+                  to the end of the command if you don't want the toggle instructions to be displayed in
+                  the toggler message. This command requires the Manage Server permission.
 
 events:
   - name:         emote_role_toggle

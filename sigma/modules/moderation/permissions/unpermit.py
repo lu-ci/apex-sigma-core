@@ -16,8 +16,8 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, error, not_found, warn, ok
-from sigma.modules.moderation.permissions.permit import get_perm_group, get_targets, get_target_type
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
+from sigma.modules.moderation.permissions.permit import get_perm_group, get_target_type, get_targets
 
 
 def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, target_type: str, perms: dict):

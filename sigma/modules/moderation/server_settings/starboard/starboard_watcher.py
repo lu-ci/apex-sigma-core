@@ -20,7 +20,7 @@ import discord
 from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
-from sigma.core.utilities.data_processing import user_avatar, get_image_colors
+from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 star_cache = None
 

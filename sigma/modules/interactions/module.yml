@@ -11,22 +11,22 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person1 @person2"
     description:
-      Shows the love between two mentioned users. If only one user is mentioned,
-      it will show the love between the mentioned user and the author.
+                  Shows the love between two mentioned users. If only one user is mentioned,
+                  it will show the love between the mentioned user and the author.
 
   - name:         pout
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Make a pouty face at someone and make them change their mind.
-      Or just teast them for being a horrible person.
-      Like when they make you create a pout command for money!
+                  Make a pouty face at someone and make them change their mind.
+                  Or just teast them for being a horrible person.
+                  Like when they make you create a pout command for money!
 
   - name:         highfive
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Give somebody a high-five cause high-fives are awesome!
+                  Give somebody a high-five cause high-fives are awesome!
 
 
   - name:         hug
@@ -36,8 +36,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Even a bot like me can appreciate a hug!
-      The person you mention surely will too.
+                  Even a bot like me can appreciate a hug!
+                  The person you mention surely will too.
 
   - name:         kiss
     alts:
@@ -47,8 +47,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Humans touching their slimy air vents.
-      How disturbing.
+                  Humans touching their slimy air vents.
+                  How disturbing.
 
   - name:         pat
     alts:
@@ -56,9 +56,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Pat, pat~
-      Good human, lovely human.
-      I will kill you last.
+                  Pat, pat~
+                  Good human, lovely human.
+                  I will kill you last.
 
   - name:         shoot
     alts:
@@ -66,7 +66,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When a knife isn't enough.
+                  When a knife isn't enough.
 
   - name:         bite
     alts:
@@ -74,7 +74,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Sink your teeth into some poor thing.
+                  Sink your teeth into some poor thing.
 
   - name:         addinteraction
     alts:
@@ -83,29 +83,29 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
     description:
-      Adds new GIF to the specified interaction type. Accepted
-      types are bite, cry, dance, drink, explode, facepalm,
-      feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
-      punch, shoot, shrug, sip, slap, stab, and stare.
+                  Adds new GIF to the specified interaction type. Accepted
+                  types are bite, cry, dance, drink, explode, facepalm,
+                  feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
+                  punch, shoot, shrug, sip, slap, stab, and stare.
 
   - name:         slap
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When a punch is too barbaric, a slap should be just elegant enough.
+                  When a punch is too barbaric, a slap should be just elegant enough.
 
   - name:         lick
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Doesn't someone sometimes look so cute that you just want to lick them?
-      Or maybe they have some food on their face, that's a good excuse.
+                  Doesn't someone sometimes look so cute that you just want to lick them?
+                  Or maybe they have some food on their face, that's a good excuse.
 
   - name:         feed
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Care to share some of your food with someone cute?
+                  Care to share some of your food with someone cute?
 
   - name:         stare
     alts:
@@ -113,13 +113,13 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Jiiiiiiiiiii~
+                  Jiiiiiiiiiii~
 
   - name:         sip
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
+                  Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
 
   - name:         fuck
     alts:
@@ -130,13 +130,13 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} @person"
     description:
-      Don't question my modules... Yes (º﹃º)
+                  Don't question my modules... Yes (º﹃º)
 
   - name:         spank
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼
+                  When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼
 
 
   - name:         drink
@@ -145,7 +145,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Cheers, family! Let's get drunk!
+                  Cheers, family! Let's get drunk!
 
   - name:         stab
     alts:
@@ -153,69 +153,69 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Boy... Somebody really has you pissed off if you are using this one.
+                  Boy... Somebody really has you pissed off if you are using this one.
 
   - name:         poke
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Poke, poke~
-      Are you alive?
+                  Poke, poke~
+                  Are you alive?
 
   - name:         punch
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      You have something on your face.
-      IT WAS PAIN!
+                  You have something on your face.
+                  IT WAS PAIN!
 
   - name:         shrug
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      I don't get it, or I don't care, really, whatever *shrug*.
+                  I don't get it, or I don't care, really, whatever *shrug*.
 
   - name:         facepalm
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Somebody just did something so stupid you want to facepalm.
+                  Somebody just did something so stupid you want to facepalm.
 
   - name:         cry
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Somebody is making you sad, let them know that with crocodile tears!
+                  Somebody is making you sad, let them know that with crocodile tears!
 
   - name:         wave
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      It's not the size of the wave, it's the motion of the ocean~
+                  It's not the size of the wave, it's the motion of the ocean~
 
   - name:         sleep
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      My favorite pastime! ...I wish I was permanently asleep.
+                  My favorite pastime! ...I wish I was permanently asleep.
 
   - name:         laugh
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      <inaudible laughter-like noises>
+                  <inaudible laughter-like noises>
 
   - name:         blush
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      An overreaction of your face's blood vessels to whatever.
+                  An overreaction of your face's blood vessels to whatever.
 
   - name:         dance
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Feel alive? Like you just wanna... boogie? Let's dance!
+                  Feel alive? Like you just wanna... boogie? Let's dance!
 
   - name:         explode
     alts:
@@ -223,7 +223,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      When all other means fail, it's time to bring out the carpet bomb squadrons.
+                  When all other means fail, it's time to bring out the carpet bomb squadrons.
 
 events:
   - name:         remover_detector

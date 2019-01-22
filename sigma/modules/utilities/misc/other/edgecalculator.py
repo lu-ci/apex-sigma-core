@@ -45,7 +45,7 @@ async def edgecalculator(_cmd: SigmaCommand, pld: CommandPayload):
     total_edge = round(image_edge + color_edge + username_edge, 2)
     bar_len = int(20 * (total_edge / 100))
     empty_len = 20 - bar_len
-    edge_bar = f'[{"▣"*bar_len}{"▢"*empty_len}] {total_edge}%'
+    edge_bar = f'[{"▣" * bar_len}{"▢" * empty_len}] {total_edge}%'
     response = discord.Embed(color=target.color)
     response.description = f'```py\n{edge_bar}\n```'
     response.set_author(name=f'{name}\'s Edge Results', icon_url=avatar)

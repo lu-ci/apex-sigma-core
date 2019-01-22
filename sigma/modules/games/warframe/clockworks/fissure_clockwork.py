@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.fissure_parser import get_fissure_data, generate_fissure_embed
+from sigma.modules.games.warframe.commons.parsers.fissure_parser import generate_fissure_embed, get_fissure_data
 
 wff_loop_running = False
 

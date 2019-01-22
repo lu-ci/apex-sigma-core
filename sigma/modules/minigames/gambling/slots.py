@@ -25,7 +25,7 @@ from sigma.core.utilities.data_processing import user_avatar
 rarity_rewards = {
     '🍆': 50,
     '🍒': 55,
-    '⚓': 60,
+    '⚓':  60,
     '🏵': 70,
     '💖': 75,
     '🏮': 80,
@@ -42,7 +42,7 @@ rarity_rewards = {
     '🍬': 135,
     '💎': 140,
     '🔰': 145,
-    '⚜': 150
+    '⚜':  150
 }
 
 symbols = []

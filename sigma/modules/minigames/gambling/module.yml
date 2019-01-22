@@ -9,11 +9,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 52"
     description:
-      Spin the slot machine, maybe you win, maybe you don't.
-      Who knows? The default bet is 10 Kud but you can specify any amount you want.
-      The rewards are based on how many of the same icon you get
-      in the middle row. Rewards are different for each icon.
-      The slots can be spun only once every 60 seconds.
+                  Spin the slot machine, maybe you win, maybe you don't.
+                  Who knows? The default bet is 10 Kud but you can specify any amount you want.
+                  The rewards are based on how many of the same icon you get
+                  in the middle row. Rewards are different for each icon.
+                  The slots can be spun only once every 60 seconds.
 
   - name:         roulette
     alts:
@@ -21,9 +21,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 150 color:red"
     description:
-      Spin the roulette wheel and maybe you'll win.
-      The default bet is 10 Kud but you can specify any amount you want.
-      The syntax of playing is the bet amount first, it can be ommitted however,
-      and then the roulette spot choice in the form of [selector]:[value].
-      Accepted specifiers are color:black or number:15, column:2, dozen:1, half:1, and type:odd.
-      Good luck.
+                  Spin the roulette wheel and maybe you'll win.
+                  The default bet is 10 Kud but you can specify any amount you want.
+                  The syntax of playing is the bet amount first, it can be ommitted however,
+                  and then the roulette spot choice in the form of [selector]:[value].
+                  Accepted specifiers are color:black or number:15, column:2, dozen:1, half:1, and type:odd.
+                  Good luck.

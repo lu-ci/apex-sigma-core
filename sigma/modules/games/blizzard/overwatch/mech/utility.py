@@ -21,13 +21,13 @@ from overwatch_api.core import AsyncOWAPI
 ow_cli = AsyncOWAPI(request_timeout=60)
 ow_icon = 'https://i.imgur.com/YZ4w2ey.png'
 region_convert = {
-    'europe': 'eu',
-    'korea': 'kr',
-    'na': 'us',
+    'europe':   'eu',
+    'korea':    'kr',
+    'na':       'us',
     'americas': 'us',
-    'america': 'us',
-    'china': 'cn',
-    'japan': 'jp'
+    'america':  'us',
+    'china':    'cn',
+    'japan':    'jp'
 }
 
 

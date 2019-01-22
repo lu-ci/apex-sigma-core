@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MemberPayload
-from sigma.modules.moderation.server_settings.filters.edit_name_check import is_invalid, clean_name
+from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name, is_invalid
 
 
 async def join_name_check(_ev: SigmaEvent, pld: MemberPayload):

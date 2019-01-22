@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok, error, not_found
+from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
 async def removestatus(cmd: SigmaCommand, pld: CommandPayload):

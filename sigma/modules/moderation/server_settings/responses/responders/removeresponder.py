@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, ok, error, not_found
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
 async def removeresponder(cmd: SigmaCommand, pld: CommandPayload):

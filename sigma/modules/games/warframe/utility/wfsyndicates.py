@@ -49,7 +49,7 @@ async def wfsyndicates(_cmd: SigmaCommand, pld: CommandPayload):
         for item in syndicate.get('offerings')[:item_count]:
             plat_price = item.get("platPrice") if isinstance(item.get("platPrice"), int) else None
             synd_price = item.get("standingCost")
-            items_text += f'[{item.get("name")}]({wfmarket+item.get("marketURL")}):'
+            items_text += f'[{item.get("name")}]({wfmarket + item.get("marketURL")}):'
             if plat_price:
                 items_text += f' {plat_price} p'
             else:

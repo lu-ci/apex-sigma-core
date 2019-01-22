@@ -18,7 +18,7 @@ import re
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, ok, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def check_field(field, value):
@@ -37,10 +37,10 @@ async def greetembed(cmd: SigmaCommand, pld: CommandPayload):
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         greet_embed = pld.settings.get('greet_embed') or {}
         embed_data = {
-            'active': greet_embed.get('active'),
-            'color': greet_embed.get('color'),
+            'active':    greet_embed.get('active'),
+            'color':     greet_embed.get('color'),
             'thumbnail': greet_embed.get('thumbnail'),
-            'image': greet_embed.get('image')
+            'image':     greet_embed.get('image')
         }
         if pld.args:
             queries = ' '.join(pld.args).split()

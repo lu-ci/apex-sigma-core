@@ -18,8 +18,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} print('Hello')"
     description:
-      Executes raw python code. This should be used with caution.
-      You should never use this unless you are certain of what you are doing.
+                  Executes raw python code. This should be used with caution.
+                  You should never use this unless you are certain of what you are doing.
 
   - name:         sysexec
     alts:
@@ -30,19 +30,19 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} echo 'Hello'"
     description:
-      Executes a shell command. Extreme warning!
-      This executes commands in the Operating System's Shell.
-      Command Prompt on Windows and Bash on Linux.
-      It will execute things on the same level of authority as the program is ran by.
-      Meaning, don't do something stupid and wipe your damn root.
+                  Executes a shell command. Extreme warning!
+                  This executes commands in the Operating System's Shell.
+                  Command Prompt on Windows and Bash on Linux.
+                  It will execute things on the same level of authority as the program is ran by.
+                  Meaning, don't do something stupid and wipe your damn root.
 
   - name:         test
     enabled:      true
     permissions:
       owner:      true
     description:
-      For testing purposes, obviously.
-      Used as a placeholder for testing functions.
+                  For testing purposes, obviously.
+                  Used as a placeholder for testing functions.
 
 events:
   - name:         version_file_updater

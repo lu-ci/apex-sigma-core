@@ -17,7 +17,7 @@
 import discord
 
 from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MessagePayload, CommandPayload
+from sigma.core.mechanics.payload import CommandPayload, MessagePayload
 
 
 def log_dm(ev: SigmaEvent, pld: MessagePayload):

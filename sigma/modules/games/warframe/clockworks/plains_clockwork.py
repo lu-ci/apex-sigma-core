@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.plains_parser import get_plains_data, generate_plains_embed
+from sigma.modules.games.warframe.commons.parsers.plains_parser import generate_plains_embed, get_plains_data
 
 wfaco_loop_running = False
 

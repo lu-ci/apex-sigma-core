@@ -19,8 +19,8 @@ import secrets
 import discord
 
 from sigma.core.mechanics.database import Database
-from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem, SigmaCookedItem
-from sigma.modules.minigames.professions.nodes.properties import rarity_names, item_icons, item_colors
+from sigma.modules.minigames.professions.nodes.item_object import SigmaCookedItem, SigmaRawItem
+from sigma.modules.minigames.professions.nodes.properties import item_colors, item_icons, rarity_names
 
 item_core_cache = None
 

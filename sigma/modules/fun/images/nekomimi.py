@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.searches.safebooru.mech.safe_core import grab_post_list, generate_embed
+from sigma.modules.searches.safebooru.mech.safe_core import generate_embed, grab_post_list
 
 links = []
 embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', 'ὃ⍜ὅ', 'ㅇㅅㅇ',

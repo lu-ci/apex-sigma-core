@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.acolyte_parser import get_acolyte_data, generate_acolyte_embed
+from sigma.modules.games.warframe.commons.parsers.acolyte_parser import generate_acolyte_embed, get_acolyte_data
 
 wfaco_loop_running = False
 

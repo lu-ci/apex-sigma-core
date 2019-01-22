@@ -18,8 +18,8 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, error, not_found, warn, ok
-from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms, generate_cmd_data
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
+from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
 
 
 async def get_perm_group(cmd: SigmaCommand, msg: discord.Message, mode_vars: tuple, node_name: str, target_type: str):

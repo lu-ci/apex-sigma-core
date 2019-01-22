@@ -31,13 +31,13 @@ from sigma.core.utilities.generic_responses import error
 ongoing_list = []
 
 awards = {
-    'easy': 10,
+    'easy':   10,
     'medium': 20,
-    'hard': 50
+    'hard':   50
 }
 
 categories = {
-    9: ['general'],
+    9:  ['general'],
     10: ['books', 'book'],
     11: ['films', 'film', 'movies', 'movie'],
     12: ['music'],

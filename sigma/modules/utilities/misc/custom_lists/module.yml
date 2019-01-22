@@ -11,9 +11,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} private"
     description:
-      Creates a custom list. The list is public by default, but can be made private (only viewable and editable
-      by you) by adding "private" as an argument, or locked, so anyone can view it but only you can add to it,
-      by adding "locked" as an argument.
+                  Creates a custom list. The list is public by default, but can be made private (only viewable and editable
+                  by you) by adding "private" as an argument, or locked, so anyone can view it but only you can add to it,
+                  by adding "locked" as an argument.
 
   - name:         deletelist
     alts:
@@ -22,7 +22,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe"
     description:
-      Permanently deletes a list. You must be the list creator to delete it.
+                  Permanently deletes a list. You must be the list creator to delete it.
 
   - name:         listsettings
     alts:
@@ -30,11 +30,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe private"
     description:
-      Marks the specified list as private, locked, or public.
-      Private means no one but the creator can view it.
-      Locked means no one but the creator can add to it.
-      Public means anyone can view it or add to it.
-      Specify the mode by adding it as the argument.
+                  Marks the specified list as private, locked, or public.
+                  Private means no one but the creator can view it.
+                  Locked means no one but the creator can add to it.
+                  Public means anyone can view it or add to it.
+                  Specify the mode by adding it as the argument.
 
   - name:         addline
     alts:
@@ -42,7 +42,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe Lists are awesome!"
     description:
-      Adds the inputted line to the specified list.
+                  Adds the inputted line to the specified list.
 
   - name:         removeline
     alts:
@@ -51,15 +51,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 3"
     description:
-      Deletes a line from the specified list. Specify the line to delete by number.
-      Line numbers are not tied to specific lines. Deleting line 1 will result in line 2 becoming the new line 1.
+                  Deletes a line from the specified list. Specify the line to delete by number.
+                  Line numbers are not tied to specific lines. Deleting line 1 will result in line 2 becoming the new line 1.
 
   - name:         viewlists
     alts:
       - "vls"
     enabled:      true
     description:
-      Shows all of the custom lists on the server.
+                  Shows all of the custom lists on the server.
 
   - name:         viewlist
     alts:
@@ -67,7 +67,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe"
     description:
-      Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public.
+                  Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public.
 
   - name:         renamelist
     alts:
@@ -75,4 +75,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 38fe Fancy List Name"
     description:
-      Changes the name of the specified list. Only the creator of the list can change its name.
+                  Changes the name of the specified list. Only the creator of the list can change its name.

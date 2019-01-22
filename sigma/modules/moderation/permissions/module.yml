@@ -11,10 +11,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} m:minigames"
     description:
-      Enables a previosuly disabled command/module.
-      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
-      You can use a command's alias instead of its full name if desired.
-      This command requires the Manage Server permission.
+                  Enables a previosuly disabled command/module.
+                  Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+                  You can use a command's alias instead of its full name if desired.
+                  This command requires the Manage Server permission.
 
   - name:         disable
     alts:
@@ -22,10 +22,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} m:fun"
     description:
-      Enables or disables a command/module.
-      Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
-      You can use a command's alias instead of its full name if desired.
-      This command requires the Manage Server permission.
+                  Enables or disables a command/module.
+                  Use the syntax {c|m}:{name} to specify if it's a command or a module, and its name.
+                  You can use a command's alias instead of its full name if desired.
+                  This command requires the Manage Server permission.
 
   - name:         disabled
     alts:
@@ -33,10 +33,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} commands"
     description:
-      Shows a list of commands or modules that are disabled on the server.
-      Commands/modules that are disabled, but overridden in any way, will have an asterisk.
-      The list is paginated, each page has up to 50 items.
-      You can specify the page number you want to see.
+                  Shows a list of commands or modules that are disabled on the server.
+                  Commands/modules that are disabled, but overridden in any way, will have an asterisk.
+                  The list is paginated, each page has up to 50 items.
+                  You can specify the page number you want to see.
 
   - name:         permit
     alts:
@@ -45,11 +45,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} channels m:minigames Gamblers; Warlards"
     description:
-      Adds an override for the for specified command/module.
-      Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
-      The accepted types are channels, users, and roles. You can specify multiple targets at once.
-      If you set roles as the type, separate the specified roles with a semi-colon and a space "; ".
-      This command requires the Manage Server permission.
+                  Adds an override for the for specified command/module.
+                  Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
+                  The accepted types are channels, users, and roles. You can specify multiple targets at once.
+                  If you set roles as the type, separate the specified roles with a semi-colon and a space "; ".
+                  This command requires the Manage Server permission.
 
   - name:         unpermit
     alts:
@@ -58,11 +58,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} channels m:minigames Gamblers; Warlards"
     description:
-      Removes a previosuly added override for the for specified command/module.
-      Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
-      The accepted types are channels, users, and roles. You can specify multiple targets at once.
-      If you set roles as the type, separate the specified roles with a semi-colon and a space "; ".
-      This command requires the Manage Server permission.
+                  Removes a previosuly added override for the for specified command/module.
+                  Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
+                  The accepted types are channels, users, and roles. You can specify multiple targets at once.
+                  If you set roles as the type, separate the specified roles with a semi-colon and a space "; ".
+                  This command requires the Manage Server permission.
 
   - name:         permitted
     alts:
@@ -71,8 +71,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} channels m:minigames"
     description:
-      Lists all overrides of the specified type for the specified command or module.
-      Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
-      The accepted types are channels, users, and roles.
-      You can use a command's alias instead of its full name if desired.
-      The list is paginated, each page has up to 50 items.
+                  Lists all overrides of the specified type for the specified command or module.
+                  Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
+                  The accepted types are channels, users, and roles.
+                  You can use a command's alias instead of its full name if desired.
+                  The list is paginated, each page has up to 50 items.

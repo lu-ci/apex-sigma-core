@@ -25,28 +25,28 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, ok, error
+from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def warning_data(author: discord.Member, target: discord.Member, reason: str):
     data = {
-        'guild': author.guild.id,
+        'guild':     author.guild.id,
         'moderator': {
-            'id': author.id,
-            'name': author.name,
+            'id':            author.id,
+            'name':          author.name,
             'discriminator': author.discriminator,
-            'nickname': author.display_name
+            'nickname':      author.display_name
         },
-        'target': {
-            'id': target.id,
-            'name': target.name,
+        'target':    {
+            'id':            target.id,
+            'name':          target.name,
             'discriminator': author.discriminator,
-            'nickname': author.display_name
+            'nickname':      author.display_name
         },
-        'warning': {
-            'id': secrets.token_hex(2),
-            'active': True,
-            'reason': reason,
+        'warning':   {
+            'id':        secrets.token_hex(2),
+            'active':    True,
+            'reason':    reason,
             'timestamp': arrow.utcnow().float_timestamp
         }
     }

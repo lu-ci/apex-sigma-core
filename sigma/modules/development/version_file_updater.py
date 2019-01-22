@@ -33,14 +33,14 @@ async def version_file_updater(ev: SigmaEvent):
         major = current_version_data['version']['major']
         codename = current_version_data['codename']
         data_out = {
-            'beta': beta,
+            'beta':       beta,
             'build_date': build_date,
-            'version': {
+            'version':    {
                 'major': major,
                 'minor': minor,
                 'patch': patch
             },
-            'codename': codename
+            'codename':   codename
         }
         with open('info/version.yml', 'w') as version_out:
             yaml.dump(data_out, version_out, default_flow_style=False)

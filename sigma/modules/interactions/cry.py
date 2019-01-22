@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer
+from sigma.modules.interactions.mech.interaction_mechanics import get_target, grab_interaction, make_footer
 
 
 async def cry(cmd: SigmaCommand, pld: CommandPayload):

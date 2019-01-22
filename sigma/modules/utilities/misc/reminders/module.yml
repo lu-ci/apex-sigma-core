@@ -14,11 +14,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!"
     description:
-      Sets a timer that will mention the author when it's done.
-      The time format is H:M:S, but is not limited to the constraints of their types,
-      meaning you can type "200:5000:999999" if you wish.
-      Reminders are limited to 90 days, and you are limited to 15 reminders.
-      You can also add "--direct" as the final argument to make the reminder a direct message.
+                  Sets a timer that will mention the author when it's done.
+                  The time format is H:M:S, but is not limited to the constraints of their types,
+                  meaning you can type "200:5000:999999" if you wish.
+                  Reminders are limited to 90 days, and you are limited to 15 reminders.
+                  You can also add "--direct" as the final argument to make the reminder a direct message.
 
   - name:         myreminders
     alts:
@@ -27,9 +27,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} here"
     description:
-      Shows a list of the reminders that you have created,
-      the location where they are set to execute in, and when they will be executed.
-      If you add "here" to the end of the command, it will only show reminders made in the current channel.
+                  Shows a list of the reminders that you have created,
+                  the location where they are set to execute in, and when they will be executed.
+                  If you add "here" to the end of the command, it will only show reminders made in the current channel.
 
   - name:         reminderinfo
     alts:
@@ -39,8 +39,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} f93f"
     description:
-      Shows information about your reminder with the specified ID,
-      such as when it will execute and where.
+                  Shows information about your reminder with the specified ID,
+                  such as when it will execute and where.
 
   - name:         removereminder
     alts:
@@ -50,7 +50,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 1a9e"
     description:
-      Deletes a reminder of yours with the specified ID.
+                  Deletes a reminder of yours with the specified ID.
 
   - name:         delayreminder
     alts:
@@ -59,7 +59,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 3f47 7:59:03"
     description:
-      Delays a reminder of yours with the specified ID by the specified duration.
+                  Delays a reminder of yours with the specified ID by the specified duration.
 
 events:
   - name:    reminder_clockwork

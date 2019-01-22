@@ -14,10 +14,10 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Sets a role as self assignable.
-      Roles that are self assignable can be manually assign by anyone.
-      To assign a self assignbale role to yourself, use the togglerole command.
-      This command requires the Manage Roles permission.
+                  Sets a role as self assignable.
+                  Roles that are self assignable can be manually assign by anyone.
+                  To assign a self assignbale role to yourself, use the togglerole command.
+                  This command requires the Manage Roles permission.
 
   - name:         delselfrole
     alts:
@@ -29,7 +29,7 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      This command requires the Manage Roles permission.
+                  This command requires the Manage Roles permission.
 
   - name:         toggleselfrole
     alts:
@@ -39,9 +39,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      The addselfrole and delselfrole in one.
-      It toggles the self-assignability of a role.
-      This command requires the Manage Roles permission.
+                  The addselfrole and delselfrole in one.
+                  It toggles the self-assignability of a role.
+                  This command requires the Manage Roles permission.
 
   - name:         listselfroles
     alts:
@@ -52,7 +52,7 @@ commands:
       - "lsrl"
     enabled:      true
     description:
-      Lists all self assignable roles on the server.
+                  Lists all self assignable roles on the server.
 
   - name:         togglerole
     alts:
@@ -64,9 +64,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      Toggles a self assignable role.
-      If you don't have the role, it will be given to you.
-      If you do have the role, it will be removed from you.
+                  Toggles a self assignable role.
+                  If you don't have the role, it will be given to you.
+                  If you do have the role, it will be removed from you.
 
   - name:         colorme
     alts:
@@ -77,9 +77,9 @@ commands:
     requirements:
       - "manage_roles"
     description:
-      If the current guild has color roles enabled, you can assign one to yourself with this command.
-      For more information about how this works, use the help command on "colorroles".
-      Any other color roles made via this command will be removed from you prior to adding the new one.
+                  If the current guild has color roles enabled, you can assign one to yourself with this command.
+                  For more information about how this works, use the help command on "colorroles".
+                  Any other color roles made via this command will be removed from you prior to adding the new one.
 
 events:
   - name:         scr_cleaner_clock

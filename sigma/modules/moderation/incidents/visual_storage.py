@@ -15,40 +15,40 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 icons = {
-    'ban': {
-        'icon': '🔨',
+    'ban':        {
+        'icon':  '🔨',
         'color': 0x993300
     },
-    'unban': {
-        'icon': '🔨',
+    'unban':      {
+        'icon':  '🔨',
         'color': 0x993300
     },
-    'kick': {
-        'icon': '👢',
+    'kick':       {
+        'icon':  '👢',
         'color': 0xc1694f
     },
-    'warn': {
-        'icon': '⚠',
+    'warn':       {
+        'icon':  '⚠',
         'color': 0xFFCC4D
     },
-    'unwarn': {
-        'icon': '⚠',
+    'unwarn':     {
+        'icon':  '⚠',
         'color': 0xFFCC4D
     },
-    'textmute': {
-        'icon': '🔇',
+    'textmute':   {
+        'icon':  '🔇',
         'color': 0x696969
     },
     'textunmute': {
-        'icon': '🔊',
+        'icon':  '🔊',
         'color': 0x696969
     },
-    'hardmute': {
-        'icon': '🔇',
+    'hardmute':   {
+        'icon':  '🔇',
         'color': 0x696969
     },
     'hardunmute': {
-        'icon': '🔊',
+        'icon':  '🔊',
         'color': 0x696969
     },
 }

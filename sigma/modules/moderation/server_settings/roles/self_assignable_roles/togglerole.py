@@ -18,7 +18,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import warn, error, ok
+from sigma.core.utilities.generic_responses import error, ok, warn
 
 
 async def togglerole(_cmd: SigmaCommand, pld: CommandPayload):

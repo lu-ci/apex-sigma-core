@@ -11,12 +11,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hello"
     description:
-      Reverses the text that you input into the command.
+                  Reverses the text that you input into the command.
 
   - name:         dab
     enabled:      true
     description:
-      All words escape me on what this command does, just use it.
+                  All words escape me on what this command does, just use it.
 
   - name:         scramble
     alts:
@@ -24,14 +24,14 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} I like spaghetti!"
     description:
-      It randomly scrambles all the text you give the command.
-      By default, it scrambles words individually. If you want to
-      scramble the text as a whole, add "--full" as the last argument.
+                  It randomly scrambles all the text you give the command.
+                  By default, it scrambles words individually. If you want to
+                  scramble the text as a whole, add "--full" as the last argument.
 
   - name:         dab
     enabled:      true
     description:
-      All words escape me on what this command does, just use it.
+                  All words escape me on what this command does, just use it.
 
   - name:         leetspeak
     alts:
@@ -40,9 +40,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} owned level:ultimate"
     description:
-      Turns the specified statement into l33t text.
-      You can specify which level of leet you want your text to be converted to,
-      as shown in the usage example. The accepted levels are basic, advanced, and ultimate.
+                  Turns the specified statement into l33t text.
+                  You can specify which level of leet you want your text to be converted to,
+                  as shown in the usage example. The accepted levels are basic, advanced, and ultimate.
 
   - name:         combinenames
     alts:
@@ -51,7 +51,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person1 @person2 @person3..."
     description:
-      Mixes the names of all the targets.
+                  Mixes the names of all the targets.
 
   - name:         randomquestion
     alts:
@@ -60,7 +60,7 @@ commands:
       - "rq"
     enabled:      true
     description:
-      The bot will ask you a random question, that's all...
+                  The bot will ask you a random question, that's all...
 
   - name:         randomactivity
     alts:
@@ -69,4 +69,4 @@ commands:
       - "bored"
     enabled:      true
     description:
-      Provides a random thing for you to do...
+                  Provides a random thing for you to do...

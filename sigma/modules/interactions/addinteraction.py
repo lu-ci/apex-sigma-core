@@ -29,14 +29,14 @@ from sigma.modules.utilities.tools.imgur import upload_image
 
 def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str, url_hash: str):
     return {
-        'name': interaction_name.lower(),
-        'user_id': message.author.id,
-        'server_id': message.guild.id,
-        'url': interaction_url,
-        'hash': url_hash,
+        'name':           interaction_name.lower(),
+        'user_id':        message.author.id,
+        'server_id':      message.guild.id,
+        'url':            interaction_url,
+        'hash':           url_hash,
         'interaction_id': secrets.token_hex(4),
-        'message_id': None,
-        'reported': False
+        'message_id':     None,
+        'reported':       False
     }
 
 

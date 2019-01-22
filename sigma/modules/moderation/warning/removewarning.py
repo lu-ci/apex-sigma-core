@@ -23,7 +23,7 @@ from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, ok, error, not_found
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
@@ -55,9 +55,9 @@ async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
                 target = pld.msg.mentions[0]
                 warn_id = pld.args[1].lower()
                 lookup = {
-                    'guild': pld.msg.guild.id,
-                    'target.id': target.id,
-                    'warning.id': warn_id,
+                    'guild':          pld.msg.guild.id,
+                    'target.id':      target.id,
+                    'warning.id':     warn_id,
                     'warning.active': True
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)

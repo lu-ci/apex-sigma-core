@@ -8,17 +8,17 @@ commands:
   - name:         anticaps
     enabled:      true
     description:
-      Toggles the anticaps limiter.
-      The default is a minimum of 5 capital letters and 60% of the message being caps.
-      This can be controlled with the "capslimit" and "capspercentage" commands.
+                  Toggles the anticaps limiter.
+                  The default is a minimum of 5 capital letters and 60% of the message being caps.
+                  This can be controlled with the "capslimit" and "capspercentage" commands.
 
   - name:         capslimit
     enabled:      true
     usage:        "{pfx}{cmd} 9"
     description:
-      Sets the minimum number of capital letters in a message to check for before
-      the message is checked for what percentage of it is in caps.
-      Message below this limit will be ignored.
+                  Sets the minimum number of capital letters in a message to check for before
+                  the message is checked for what percentage of it is in caps.
+                  Message below this limit will be ignored.
 
   - name:         capspercentage
     alts:
@@ -26,24 +26,24 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 80"
     description:
-      Sets the minimum percentage of capital letters in a message to check for before it is deleted.
-      For example, if 80% of the message is caps (as set in the usage example), it will be deleted.
+                  Sets the minimum percentage of capital letters in a message to check for before it is deleted.
+                  For example, if 80% of the message is caps (as set in the usage example), it will be deleted.
 
   - name:         antispam
     enabled:      true
     description:
-      Toggles the antispam limiter.
-      This basically enforces a custom rate limiter upon users.
-      The default is 5 messages per 5 seconds.
+                  Toggles the antispam limiter.
+                  This basically enforces a custom rate limiter upon users.
+                  The default is 5 messages per 5 seconds.
 
   - name:         ratelimit
     enabled:      true
     usage:        "{pfx}{cmd} 6:10"
     description:
-      Sets the message amount and timespan for the rate limiter.
-      Separated by a colon, the amount goes first and timespan second.
-      The usage example translates to a limit of 6 messages per 10 seconds.
-      Any messages that cross this limit will be deleted.
+                  Sets the message amount and timespan for the rate limiter.
+                  Separated by a colon, the amount goes first and timespan second.
+                  The usage example translates to a limit of 6 messages per 10 seconds.
+                  Any messages that cross this limit will be deleted.
 
 events:
   - name:         anticaps_watcher

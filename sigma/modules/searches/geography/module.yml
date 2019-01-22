@@ -12,7 +12,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Belgrade"
     description:
-      Searches Google Maps for the specified location.
-      If specific details aren't found about the location,
-      it will return in a broad search.
+                  Searches Google Maps for the specified location.
+                  If specific details aren't found about the location,
+                  it will return in a broad search.
 

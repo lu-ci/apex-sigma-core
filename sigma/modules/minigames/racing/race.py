@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
-from sigma.modules.minigames.racing.nodes.race_storage import races, colors, make_race
+from sigma.modules.minigames.racing.nodes.race_storage import colors, make_race, races
 
 
 async def race(cmd: SigmaCommand, pld: CommandPayload):

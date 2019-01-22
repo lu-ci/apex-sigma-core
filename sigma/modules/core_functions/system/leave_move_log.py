@@ -28,26 +28,26 @@ def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_coun
         else:
             user_count += 1
     return {
-        'join': join,
-        'guild': {
-            'id': gld.id,
-            'name': gld.name,
+        'join':       join,
+        'guild':      {
+            'id':         gld.id,
+            'name':       gld.name,
             'created_at': gld.created_at,
-            'icon': gld.icon_url
+            'icon':       gld.icon_url
         },
-        'owner': {
-            'id': gld.owner.id,
-            'name': gld.owner.name,
+        'owner':      {
+            'id':            gld.owner.id,
+            'name':          gld.owner.name,
             'discriminator': gld.owner.discriminator,
-            'avatar': user_avatar(gld.owner)
+            'avatar':        user_avatar(gld.owner)
         },
         'population': {
-            'users': user_count,
-            'bots': bot_count,
+            'users':    user_count,
+            'bots':     bot_count,
             'channels': len(gld.channels),
-            'roles': len(gld.roles)
+            'roles':    len(gld.roles)
         },
-        'reported': False
+        'reported':   False
     }
 
 

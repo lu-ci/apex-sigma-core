@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.alert_parser import get_alert_data, generate_alert_embed
+from sigma.modules.games.warframe.commons.parsers.alert_parser import generate_alert_embed, get_alert_data
 
 wfa_loop_running = False
 

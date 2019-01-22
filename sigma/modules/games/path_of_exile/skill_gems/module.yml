@@ -11,7 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Cold Snap"
     description:
-      Shows information about the specified Path of Exile Active Skill Gem.
+                  Shows information about the specified Path of Exile Active Skill Gem.
 
   - name:         poesupport
     alts:
@@ -19,4 +19,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Iron Will"
     description:
-      Shows information about the specified Path of Exile Support Skill Gem.
+                  Shows information about the specified Path of Exile Support Skill Gem.

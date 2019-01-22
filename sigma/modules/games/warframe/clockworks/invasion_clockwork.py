@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.invasion_parser import get_invasion_data, generate_invasion_embed
+from sigma.modules.games.warframe.commons.parsers.invasion_parser import generate_invasion_embed, get_invasion_data
 
 wfa_loop_running = False
 

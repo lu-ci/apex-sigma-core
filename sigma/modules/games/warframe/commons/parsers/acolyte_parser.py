@@ -22,11 +22,11 @@ import arrow
 import discord
 
 ac_imgs = {
-    'angst': 'https://vignette.wikia.nocookie.net/warframe/images/e/ec/StrikerAcolyte.png',
-    'malice': 'https://vignette.wikia.nocookie.net/warframe/images/1/1b/HeavyAcolyte.png',
-    'mania': 'https://vignette.wikia.nocookie.net/warframe/images/a/a9/RogueAcolyte.png',
-    'misery': 'https://vignette.wikia.nocookie.net/warframe/images/1/19/AreaCasterAcolyte.png',
-    'torment': 'https://vignette.wikia.nocookie.net/warframe/images/3/38/ControlAcolyte.png',
+    'angst':    'https://vignette.wikia.nocookie.net/warframe/images/e/ec/StrikerAcolyte.png',
+    'malice':   'https://vignette.wikia.nocookie.net/warframe/images/1/1b/HeavyAcolyte.png',
+    'mania':    'https://vignette.wikia.nocookie.net/warframe/images/a/a9/RogueAcolyte.png',
+    'misery':   'https://vignette.wikia.nocookie.net/warframe/images/1/19/AreaCasterAcolyte.png',
+    'torment':  'https://vignette.wikia.nocookie.net/warframe/images/3/38/ControlAcolyte.png',
     'violence': 'https://vignette.wikia.nocookie.net/warframe/images/5/56/DuellistAcolyte.png'
 }
 

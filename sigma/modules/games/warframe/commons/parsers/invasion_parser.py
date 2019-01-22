@@ -51,19 +51,19 @@ def parse_invasion_data(invasion_data):
     for line in lines[1:-1]:
         spliced = line.split('|')
         data = {
-            'id': spliced[0],
-            'title': spliced[-1],
-            'node': spliced[1],
-            'planet': spliced[2],
+            'id':       spliced[0],
+            'title':    spliced[-1],
+            'node':     spliced[1],
+            'planet':   spliced[2],
             'factions': {
                 'one': spliced[3],
                 'two': spliced[8]
             },
-            'stamps': {
+            'stamps':   {
                 'start': int(lines[0]),
-                'end': int(spliced[13])
+                'end':   int(spliced[13])
             },
-            'rewards': {
+            'rewards':  {
                 'one': item_name_fixer(spliced[5]),
                 'two': item_name_fixer(spliced[10])
             }

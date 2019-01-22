@@ -19,7 +19,7 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.data_processing import get_image_colors, convert_to_seconds
+from sigma.core.utilities.data_processing import convert_to_seconds, get_image_colors
 from sigma.core.utilities.generic_responses import denied, error
 
 

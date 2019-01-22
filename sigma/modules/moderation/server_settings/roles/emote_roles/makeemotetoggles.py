@@ -21,7 +21,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied, ok, error, not_found
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
 def make_binding_data(roles: list):

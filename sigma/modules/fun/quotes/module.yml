@@ -10,7 +10,7 @@ commands:
       - "fquote"
     enabled:      true
     description:
-      Gives you a random inspirational or deep quote.
+                  Gives you a random inspirational or deep quote.
 
   - name:         numberfact
     alts:
@@ -19,19 +19,19 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 42"
     description:
-      Searches for interesting things about a given number.
-      You can also insert a date in the DAY/MON format.
-      You can specify a type of number you want retrived in the format TYPE:NUMBER.
-      The accepted types are trivia, math, date, and year.
-      You can also specify "random" instead of a number to make it a random number.
+                  Searches for interesting things about a given number.
+                  You can also insert a date in the DAY/MON format.
+                  You can specify a type of number you want retrived in the format TYPE:NUMBER.
+                  The accepted types are trivia, math, date, and year.
+                  You can also specify "random" instead of a number to make it a random number.
 
   - name:         fortune
     alts:
       - "fortune-mod"
     enabled:      true
     description:
-      Linux users, and raw UNIX users in general will know the fortune-mod.
-      This command uses their entire database to output one of their quotes.
+                  Linux users, and raw UNIX users in general will know the fortune-mod.
+                  This command uses their entire database to output one of their quotes.
 
   - name:         shootfoot
     alts:
@@ -39,32 +39,32 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Python"
     description:
-      Tells you how to shoot yourself in the foot with the specified programming language.
-      If no language is provided, it will pick a random one.
+                  Tells you how to shoot yourself in the foot with the specified programming language.
+                  If no language is provided, it will pick a random one.
 
   - name:         bash
     alts:
       - "qdb"
     enabled:      true
     description:
-      If you are old enough to know what IRC is or remember what it looked like,
-      then you will appreciate the quotes that the bash command produces.
-      Personal favorite quote command.
+                  If you are old enough to know what IRC is or remember what it looked like,
+                  then you will appreciate the quotes that the bash command produces.
+                  Personal favorite quote command.
 
   - name:         catfact
     alts:
       - "kittyfact"
     enabled:      true
     description:
-      Outputs a random fact about your lovely furry assh~
-      eerrrr... I mean, companion!
+                  Outputs a random fact about your lovely furry assh~
+                  eerrrr... I mean, companion!
 
   - name:         dogfact
     alts:
       - "doggofact"
     enabled:      true
     description:
-      Outputs a random fact about man's best friend.
+                  Outputs a random fact about man's best friend.
 
   - name:         visualnovelquote
     alts:
@@ -72,10 +72,10 @@ commands:
       - "vnq"
     enabled:      true
     description:
-      Outputs a random quote from a random VN.
-      Displays its source as well, of course.
-      If the source visual novel of the quote is NSFW,
-      the image will be hidden and the footer will state that.
+                  Outputs a random quote from a random VN.
+                  Displays its source as well, of course.
+                  If the source visual novel of the quote is NSFW,
+                  the image will be hidden and the footer will state that.
 
 events:
   - name:         dbinit_fortune

@@ -9,8 +9,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Sleep; Eat; Code; Lewd Stuff"
     description:
-      The bot will select a thing from the inputed list.
-      Separate list items with a semicolon and space.
+                  The bot will select a thing from the inputed list.
+                  Separate list items with a semicolon and space.
 
   - name:         poll
     requirements:
@@ -18,8 +18,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Want to eat?; Yes; No; Hand me the cheese!"
     description:
-      Creates a poll with the items from the inputted list.
-      Separate list items with a semicolon and a space.
+                  Creates a poll with the items from the inputted list.
+                  Separate list items with a semicolon and a space.
 
   - name:         httpstatus
     alts:
@@ -27,8 +27,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 404"
     description:
-      Shows information about a HTTP response status code.
-      Add "cat" or "dog" as the last argument for an added bonus.
+                  Shows information about a HTTP response status code.
+                  Add "cat" or "dog" as the last argument for an added bonus.
 
   - name:         temproom
     alts:
@@ -39,10 +39,10 @@ commands:
       - "manage_channels"
       - "manage_roles"
     description:
-      Makes a temporary voice channel that you can fully manage.
-      Once everyone leaves the channel (not including bots) it's destroyed.
-      The temp voice channels are checked by their prefix ([Σ]), if this is
-      edited out, the channel will not be destroyed when emptied.
+                  Makes a temporary voice channel that you can fully manage.
+                  Once everyone leaves the channel (not including bots) it's destroyed.
+                  The temp voice channels are checked by their prefix ([Σ]), if this is
+                  edited out, the channel will not be destroyed when emptied.
 
   - name:         edgecalculator
     alts:
@@ -50,8 +50,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Calculates how edgy the targeted person is.
-      If no user is tagged, the target will be the one who uses the command.
+                  Calculates how edgy the targeted person is.
+                  If no user is tagged, the target will be the one who uses the command.
 
   - name:         randombetween
     alts:
@@ -59,18 +59,18 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 59 974"
     description:
-      Outputs a random number between two inputted numbers.
+                  Outputs a random number between two inputted numbers.
 
   - name:         quote
     enabled:      true
     usage:        "{pfx}{cmd} 381449702589202432"
     description:
-      Quotes a message from its given ID.
-      The message must have text content or an attachment.
-      The quote author header is clickable and will lead to the message.
-      Note that if you use Discord PTB or Canary you must add "--ptb" or "--canary"
-      for the link to the message to work properly.
-      Embeds cannot be quoted.
+                  Quotes a message from its given ID.
+                  The message must have text content or an attachment.
+                  The quote author header is clickable and will lead to the message.
+                  Note that if you use Discord PTB or Canary you must add "--ptb" or "--canary"
+                  for the link to the message to work properly.
+                  Embeds cannot be quoted.
 
 events:
   - name:         temproom_checker

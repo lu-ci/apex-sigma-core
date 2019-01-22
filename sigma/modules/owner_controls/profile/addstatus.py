@@ -18,7 +18,7 @@ import secrets
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok, error
+from sigma.core.utilities.generic_responses import error, ok
 
 
 async def addstatus(cmd: SigmaCommand, pld: CommandPayload):

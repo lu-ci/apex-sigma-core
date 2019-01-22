@@ -18,7 +18,7 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
-from sigma.modules.games.warframe.commons.parsers.sortie_parser import get_sortie_data, generate_sortie_embed
+from sigma.modules.games.warframe.commons.parsers.sortie_parser import generate_sortie_embed, get_sortie_data
 
 wfs_loop_running = False
 

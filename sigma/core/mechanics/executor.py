@@ -16,7 +16,7 @@
 
 import asyncio
 
-from sigma.core.mechanics.payload import MessagePayload, CommandPayload, SigmaPayload
+from sigma.core.mechanics.payload import CommandPayload, MessagePayload, SigmaPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 

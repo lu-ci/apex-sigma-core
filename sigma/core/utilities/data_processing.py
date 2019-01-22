@@ -71,20 +71,20 @@ def command_message_parser(message: discord.Message, text: str):
     command_text = text
     tgt = message.mentions[0] if message.mentions else ath
     translator = {
-        '{author_name}': ath.name,
-        '{author_nick}': ath.display_name,
-        '{author_mention}': ath.mention,
-        '{author_id}': str(ath.id),
-        '{channel_name}': chn.name,
+        '{author_name}':     ath.name,
+        '{author_nick}':     ath.display_name,
+        '{author_mention}':  ath.mention,
+        '{author_id}':       str(ath.id),
+        '{channel_name}':    chn.name,
         '{channel_mention}': chn.mention,
-        '{channel_id}': str(chn.id),
-        '{server_name}': gld.name,
-        '{server_id}': str(gld.id),
-        '{target_name}': tgt.name,
-        '{target_nick}': tgt.display_name,
-        '{target_mention}': tgt.mention,
-        '{target_id}': str(tgt.id),
-        '{population}': str(len(gld.members))
+        '{channel_id}':      str(chn.id),
+        '{server_name}':     gld.name,
+        '{server_id}':       str(gld.id),
+        '{target_name}':     tgt.name,
+        '{target_nick}':     tgt.display_name,
+        '{target_mention}':  tgt.mention,
+        '{target_id}':       str(tgt.id),
+        '{population}':      str(len(gld.members))
     }
     for key in translator:
         command_text = command_text.replace(key, translator[key])
@@ -95,19 +95,19 @@ def movement_message_parser(member: discord.Member, text: str):
     guild = member.guild
     greeting_text = text
     translator = {
-        '{user_name}': member.name,
-        '{user_nick}': member.display_name,
-        '{user_mention}': member.mention,
-        '{user_discriminator}': member.discriminator,
-        '{user_id}': str(member.id),
-        '{server_name}': guild.name,
-        '{server_id}': str(guild.id),
-        '{owner_name}': guild.owner.name,
-        '{owner_nick}': guild.owner.display_name,
-        '{owner_mention}': guild.owner.mention,
+        '{user_name}':           member.name,
+        '{user_nick}':           member.display_name,
+        '{user_mention}':        member.mention,
+        '{user_discriminator}':  member.discriminator,
+        '{user_id}':             str(member.id),
+        '{server_name}':         guild.name,
+        '{server_id}':           str(guild.id),
+        '{owner_name}':          guild.owner.name,
+        '{owner_nick}':          guild.owner.display_name,
+        '{owner_mention}':       guild.owner.mention,
         '{owner_discriminator}': guild.owner.discriminator,
-        '{owner_id}': str(guild.owner.id),
-        '{population}': str(len(guild.members))
+        '{owner_id}':            str(guild.owner.id),
+        '{population}':          str(len(guild.members))
     }
     for key in translator:
         greeting_text = greeting_text.replace(key, translator[key])
@@ -155,12 +155,12 @@ def rgb_maximum(colors_tuple: list):
     b_max = b_sorted_tuple[len(colors_tuple) - 1][1][2]
 
     return {
-        "r_max": r_max,
-        "r_min": r_min,
-        "g_max": g_max,
-        "g_min": g_min,
-        "b_max": b_max,
-        "b_min": b_min,
+        "r_max":    r_max,
+        "r_min":    r_min,
+        "g_max":    g_max,
+        "g_min":    g_min,
+        "b_max":    b_max,
+        "b_min":    b_min,
         "r_dvalue": (r_max - r_min) / 3,
         "g_dvalue": (g_max - g_min) / 3,
         "b_dvalue": (b_max - b_min) / 3

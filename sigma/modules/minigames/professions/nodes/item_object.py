@@ -18,8 +18,8 @@ import secrets
 
 import discord
 
-from sigma.modules.minigames.professions.nodes.properties import item_colors, cook_icons, cook_colors
-from sigma.modules.minigames.professions.nodes.properties import rarity_names, item_icons
+from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons, item_colors
+from sigma.modules.minigames.professions.nodes.properties import item_icons, rarity_names
 
 
 class SigmaRawItem(object):
@@ -62,7 +62,7 @@ class SigmaRawItem(object):
     def generate_inventory_item(self):
         token = secrets.token_hex(16)
         data = {
-            'item_id': token,
+            'item_id':      token,
             'item_file_id': self.file_id
         }
         return data
@@ -121,8 +121,8 @@ class SigmaCookedItem(object):
     def generate_inventory_item(self):
         token = secrets.token_hex(16)
         data = {
-            'item_id': token,
-            'quality': self.roll_quality(),
+            'item_id':      token,
+            'quality':      self.roll_quality(),
             'item_file_id': self.file_id
         }
         return data

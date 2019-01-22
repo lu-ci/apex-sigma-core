@@ -11,9 +11,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows the mentioned user's WaniKani statistics.
-      If no person is mentioned, it will show the author's stats.
-      This requires the target to have a WaniKani API key stored with the wanikanisave command.
+                  Shows the mentioned user's WaniKani statistics.
+                  If no person is mentioned, it will show the author's stats.
+                  This requires the target to have a WaniKani API key stored with the wanikanisave command.
 
   - name:         wanikanisave
     alts:
@@ -21,4 +21,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 123456798"
     description:
-      Saves your WaniKani API key in the database so the wanikani command can be used.
+                  Saves your WaniKani API key in the database so the wanikani command can be used.

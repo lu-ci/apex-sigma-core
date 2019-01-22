@@ -11,7 +11,7 @@ commands:
       - "wmn"
     enabled:      true
     description:
-      Makes a new Warmachine.
+                  Makes a new Warmachine.
 
   - name:         warmachineinspect
     alts:
@@ -19,7 +19,7 @@ commands:
       - "wmins"
     enabled:      true
     description:
-      Shows the details of your warmachine, its stats, and battle wins and losses.
+                  Shows the details of your warmachine, its stats, and battle wins and losses.
 
   - name:         warmachinelist
     alts:
@@ -29,8 +29,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2 @person"
     description:
-      Lists all machines owned by the target person, or yourself.
-      The list is paginated with 5 machines on each page.
+                  Lists all machines owned by the target person, or yourself.
+                  The list is paginated with 5 machines on each page.
 
   - name:         warmachinename
     alts:
@@ -38,5 +38,5 @@ commands:
       - "wmnam"
     enabled:      true
     description:
-      Renames one of your warmachines.
+                  Renames one of your warmachines.
 

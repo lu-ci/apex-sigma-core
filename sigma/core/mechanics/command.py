@@ -26,7 +26,7 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.payload import CommandPayload, CommandEventPayload
+from sigma.core.mechanics.payload import CommandEventPayload, CommandPayload
 from sigma.core.mechanics.permissions import GlobalCommandPermissions, ServerCommandPermissions, check_filter_perms
 from sigma.core.mechanics.requirements import CommandRequirements
 from sigma.core.utilities.stats_processing import add_cmd_stat

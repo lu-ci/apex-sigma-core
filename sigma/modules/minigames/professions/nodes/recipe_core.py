@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.professions.nodes.properties import cook_icons, cook_colors
+from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons
 
 recipe_core_cache = None
 

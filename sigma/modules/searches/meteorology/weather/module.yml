@@ -11,7 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Belgrade unit:si"
     description:
-      "Shows meteorological information about the specified location. You can add a unit argument at the end of
+                  "Shows meteorological information about the specified location. You can add a unit argument at the end of
       the lookup: auto: automatically select units based on geographic location, ca: same as si, except that wind
       speed is in kilometers per hour, uk2: same as si, except that nearest storm distance and visibility are in miles
       and wind speed is in miles per hour, s: Imperial units (the default), si: SI units. If no unit is selected,

@@ -69,12 +69,12 @@ async def get_armor_data(armor_name: str, armor_url: str):
             armor_desc = None
         armor_image = page_html.cssselect(".image")[0][0].attrib.get("src")
         armor_data = {
-            'name': armor_name,
-            'url': armor_url,
-            'info': parse_armor_info(armor_info),
-            'level': armor_level,
-            'desc': armor_desc,
-            'image': armor_image,
+            'name':         armor_name,
+            'url':          armor_url,
+            'info':         parse_armor_info(armor_info),
+            'level':        armor_level,
+            'desc':         armor_desc,
+            'image':        armor_image,
             'requirements': requitements
         }
         shield_data_cache.update({armor_key: armor_data})

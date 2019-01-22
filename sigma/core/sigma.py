@@ -5,7 +5,7 @@ import shutil
 import arrow
 import discord
 from discord.raw_models import RawReactionActionEvent
-from pymongo.errors import ServerSelectionTimeoutError, OperationFailure
+from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.config import Configuration
@@ -15,8 +15,8 @@ from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.music import MusicCore
-from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, VoiceStateUpdatePayload, ReactionPayload
-from sigma.core.mechanics.payload import MessagePayload, MessageEditPayload, MemberPayload, MemberUpdatePayload
+from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, ReactionPayload, VoiceStateUpdatePayload
+from sigma.core.mechanics.payload import MemberPayload, MemberUpdatePayload, MessageEditPayload, MessagePayload
 from sigma.core.mechanics.payload import RawReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.plugman import PluginManager
 from sigma.core.utilities.data_processing import set_color_cache_coll

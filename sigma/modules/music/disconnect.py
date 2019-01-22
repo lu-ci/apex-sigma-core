@@ -17,7 +17,7 @@
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import ok, error
+from sigma.core.utilities.generic_responses import error, ok
 
 
 async def disconnect(cmd: SigmaCommand, pld: CommandPayload):

@@ -33,13 +33,13 @@ async def command_updater(ev: SigmaEvent):
 async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
     mdl_doc = await mdl_coll.find_one({'name': cmd.category})
     cmd_data = {
-        "desc": cmd.desc,
-        "alts": cmd.alts,
-        "name": cmd.name,
-        "usage": cmd.usage,
-        "nsfw": cmd.nsfw,
-        "partner": cmd.partner,
-        "admin": cmd.owner,
+        "desc":        cmd.desc,
+        "alts":        cmd.alts,
+        "name":        cmd.name,
+        "usage":       cmd.usage,
+        "nsfw":        cmd.nsfw,
+        "partner":     cmd.partner,
+        "admin":       cmd.owner,
         "category_id": mdl_doc.get('_id')
     }
     return cmd_data

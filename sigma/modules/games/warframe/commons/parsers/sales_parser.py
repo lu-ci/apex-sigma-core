@@ -30,11 +30,11 @@ def parse_sales_data(text: str, discount_only: bool = True):
         if 'prime access' not in name.lower():
             if not discount_only or redu > 0:
                 data = {
-                    'name': name,
-                    'discount': redu,
-                    'platinum': plat,
+                    'name':      name,
+                    'discount':  redu,
+                    'platinum':  plat,
                     'activates': actv,
-                    'expires': expr
+                    'expires':   expr
                 }
                 sale_items.append(data)
     return sale_items

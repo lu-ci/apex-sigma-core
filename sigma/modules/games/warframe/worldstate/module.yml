@@ -10,8 +10,8 @@ commands:
       - "wfa"
     enabled:      true
     description:
-      Shows the currently ongoing alerts in Warframe.
-      As well as their respective rewards.
+                  Shows the currently ongoing alerts in Warframe.
+                  As well as their respective rewards.
 
   - name:         wfsortie
     alts:
@@ -19,7 +19,7 @@ commands:
       - "wfs"
     enabled:      true
     description:
-      Shows the ongoing sortie missions in Warframe.
+                  Shows the ongoing sortie missions in Warframe.
 
   - name:         wffissures
     alts:
@@ -27,8 +27,8 @@ commands:
       - "wff"
     enabled:      true
     description:
-      Shows the current fissure locations in Warframe.
-      As well as their tiers, locations and mission types.
+                  Shows the current fissure locations in Warframe.
+                  As well as their tiers, locations and mission types.
 
   - name:         wfinvasions
     alts:
@@ -36,23 +36,23 @@ commands:
       - "wfi"
     enabled:      true
     description:
-      Shows the current ongoing invasions in Warframe.
-      As well as their factions, locations and rewards.
+                  Shows the current ongoing invasions in Warframe.
+                  As well as their factions, locations and rewards.
 
   - name:         wfnews
     alts:
       - "wfn"
     enabled:      true
     description:
-      Shows the current ative news in Warframe.
+                  Shows the current ative news in Warframe.
 
   - name:         wfacolytes
     alts:
       - "wfacol"
     enabled:      true
     description:
-      Shows data on the Stalker's acolytes.
-      Their names, locations and health.
+                  Shows data on the Stalker's acolytes.
+                  Their names, locations and health.
 
   - name:         wfplainsofeidolon
     alts:
@@ -60,8 +60,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} exact"
     description:
-      Shows the current time on the Plains of Eidolon in warframe.
-      As well as the next day/night cycle rotations.
+                  Shows the current time on the Plains of Eidolon in warframe.
+                  As well as the next day/night cycle rotations.
 
   - name:         wfsales
     alts:
@@ -69,11 +69,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2 all"
     description:
-      Shows items that are currently on sale in Warframe's market.
-      This list shows only items that have reduced prices by default.
-      If you want it to list all promoted items regardless of reduction
-      add "all" to the end of the command as in the example.
-      The item list is also paginated.
+                  Shows items that are currently on sale in Warframe's market.
+                  This list shows only items that have reduced prices by default.
+                  If you want it to list all promoted items regardless of reduction
+                  add "all" to the end of the command as in the example.
+                  The item list is also paginated.
 
   - name:         wfvoidtrader
     alts:
@@ -83,6 +83,6 @@ commands:
       - "wfvt"
     enabled:      true
     description:
-      Shows the items that Baro Ki'Teer is currently selling
-      as well as the statistics such as total number of items,
-      total amount of ducats and credits needed and where he's located.
+                  Shows the items that Baro Ki'Teer is currently selling
+                  as well as the statistics such as total number of items,
+                  total amount of ducats and credits needed and where he's located.

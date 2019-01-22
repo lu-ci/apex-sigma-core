@@ -19,7 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied, ok, info
+from sigma.core.utilities.generic_responses import denied, info, ok
 
 
 async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):

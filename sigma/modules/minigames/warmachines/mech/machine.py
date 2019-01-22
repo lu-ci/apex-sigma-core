@@ -138,12 +138,12 @@ class SigmaMachine(object):
 
     def dictify(self):
         return {
-            'machine_id': self.id,
-            'user_id': self.owner.id,
-            'components': self.components,
-            'name': self.name,
-            'experience': self.experience,
-            'battles': self.battles,
+            'machine_id':     self.id,
+            'user_id':        self.owner.id,
+            'components':     self.components,
+            'name':           self.name,
+            'experience':     self.experience,
+            'battles':        self.battles,
             'current_health': self.current_health
         }
 
@@ -155,7 +155,7 @@ class SigmaMachine(object):
     async def add_battle(self, opponent, result: int):
         battle_data = {
             'user_id': opponent.owner.id, 'machine_id': opponent.id,
-            'result': result, 'timestamp': arrow.utcnow().timestamp
+            'result':  result, 'timestamp': arrow.utcnow().timestamp
         }
         self.battles.append(battle_data)
         await self.update()

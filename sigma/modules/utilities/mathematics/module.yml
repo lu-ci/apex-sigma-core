@@ -11,10 +11,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 69+42"
     description:
-      Makes a request for Wolfram Alpha to process.
-      This can be a lot of things, the most popular being complex math operations.
-      The results are displayed in "pods" and the most relevant pod is shown,
-      along with a link to the full results.
+                  Makes a request for Wolfram Alpha to process.
+                  This can be a lot of things, the most popular being complex math operations.
+                  The results are displayed in "pods" and the most relevant pod is shown,
+                  along with a link to the full results.
 
   - name:         makehash
     alts:
@@ -22,14 +22,14 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} md5 Nabzi is best tree."
     description:
-      Creates a hash using the specified hash type.
-      The accepted hash types you can use are
-      sha512, sha3_224, sha3_512, MD4, dsaWithSHA,
-      ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1,
-      sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA,
-      SHA384, blake2b, dsaEncryption, SHA256, sha384,
-      sha, DSA, shake_128, sha224, SHA1, shake_256,
-      sha256, MD5, blake2s, md5, sha3_256, whirlpool.
+                  Creates a hash using the specified hash type.
+                  The accepted hash types you can use are
+                  sha512, sha3_224, sha3_512, MD4, dsaWithSHA,
+                  ripemd160, RIPEMD160, SHA, ecdsa-with-SHA1,
+                  sha3_384, SHA512, sha1, SHA224, md4, DSA-SHA,
+                  SHA384, blake2b, dsaEncryption, SHA256, sha384,
+                  sha, DSA, shake_128, sha224, SHA1, shake_256,
+                  sha256, MD5, blake2s, md5, sha3_256, whirlpool.
 
   - name:         collectchain
     alts:
@@ -37,18 +37,18 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person #channel"
     description:
-      Collects messages sent by the mentioned user and saves it as a chain.
-      Only one chain can be collected at a time so a queue is used.
-      If a user isn't mentioned, it will collect a chain for the author.
-      If a channel isn't mentioned, it will collect items from the current channel.
+                  Collects messages sent by the mentioned user and saves it as a chain.
+                  Only one chain can be collected at a time so a queue is used.
+                  If a user isn't mentioned, it will collect a chain for the author.
+                  If a channel isn't mentioned, it will collect items from the current channel.
 
   - name:         cancelcollector
     alts:
       - "cancelcoll"
     enabled:      true
     description:
-      Removes you from the collection queue if you're currently in in.
-      You cannot cancel a collection that has already started, nor can you cancel someone else's collection..
+                  Removes you from the collection queue if you're currently in in.
+                  You cannot cancel a collection that has already started, nor can you cancel someone else's collection..
 
   - name:         blockcollector
     alts:
@@ -58,9 +58,9 @@ commands:
       - "disablecollector"
     enabled:      true
     description:
-      Toggles the ability for other users to collect a chain for you.
-      If active, only you will be able to collect a Markov chain for yourself.
-      If not, the collector works as always, where anybody can start a chain collection for you.
+                  Toggles the ability for other users to collect a chain for you.
+                  If active, only you will be able to collect a Markov chain for yourself.
+                  If not, the collector works as always, where anybody can start a chain collection for you.
 
   - name:         blindcollector
     alts:
@@ -68,10 +68,10 @@ commands:
       - "nochannelchain"
     enabled:      true
     description:
-      Toggles the ability for users to collect chain items from a specific channel.
-      If disabled, only users that have the Manage Channel permission within that channel can collect
-      a chain from it, otherwise a response that they can not target that channel is given.
-      This command requires athe Manage Channels permission.
+                  Toggles the ability for users to collect chain items from a specific channel.
+                  If disabled, only users that have the Manage Channel permission within that channel can collect
+                  a chain from it, otherwise a response that they can not target that channel is given.
+                  This command requires athe Manage Channels permission.
 
   - name:         markovchain
     alts:
@@ -79,15 +79,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how many items you have have in their chain.
-      You can view another user's chain count by mentioning them.
+                  Shows how many items you have have in their chain.
+                  You can view another user's chain count by mentioning them.
 
   - name:         wipechain
     alts:
       - "clearchain"
     enabled:      true
     description:
-      Wipes your entire Markov chain, if you have one. This cannot be undone.
+                  Wipes your entire Markov chain, if you have one. This cannot be undone.
 
   - name:         dokidoki
     alts:
@@ -95,24 +95,24 @@ commands:
       - "dd"
     enabled:      true
     description:
-      Makes a random Markov chain based sentence from a random Doki Doki Literature Club character quote.
-      You can force which character to quote by adding their name or first initial as an argument to the command.
-      You can also force a glitch by adding ":glitch" as the last argument.
+                  Makes a random Markov chain based sentence from a random Doki Doki Literature Club character quote.
+                  You can force which character to quote by adding their name or first initial as an argument to the command.
+                  You can also force a glitch by adding ":glitch" as the last argument.
 
   - name:         encrypt
     enabled:      true
     usage:        "{pfx}{cmd} I will always be here to talk to you for as long as you want."
     description:
-      Encrypts the message of your choice using Sigma's Heart Key.
-      The message can be decrypted using the decrypt command.
-      You can add ":t" at the end to force it to be raw text instead of an embed.
+                  Encrypts the message of your choice using Sigma's Heart Key.
+                  The message can be decrypted using the decrypt command.
+                  You can add ":t" at the end to force it to be raw text instead of an embed.
 
   - name:         decrypt
     enabled:      true
     usage:        "{pfx}{cmd} H7U2JfWkr0zCApDPDkO"
     description:
-      Decrypts any message that was encrypted using Sigma's Heart Key.
-      You can add ":t" at the end to force it to be raw text instead of an embed.
+                  Decrypts any message that was encrypted using Sigma's Heart Key.
+                  You can add ":t" at the end to force it to be raw text instead of an embed.
 
   - name:         impersonate
     alts:
@@ -120,11 +120,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-      Tries to impersonate the mentioned user if a chain file for them exists.
-      The more items in your chain you have, the better the output.
-      Having a low number of items, or having items that aren't good enough, might
-      result in Sigma not being able to generate anything. The optimal amount is 5000 items.
-      You can check how many items you have with the chain command.
+                  Tries to impersonate the mentioned user if a chain file for them exists.
+                  The more items in your chain you have, the better the output.
+                  Having a low number of items, or having items that aren't good enough, might
+                  result in Sigma not being able to generate anything. The optimal amount is 5000 items.
+                  You can check how many items you have with the chain command.
 
   - name:         combinechains
     alts:
@@ -134,8 +134,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person_one @person_two"
     description:
-      Like the impersonate command.
-      This one however targets two uers and uses their chains to generated a mixed response.
+                  Like the impersonate command.
+                  This one however targets two uers and uses their chains to generated a mixed response.
 
   - name:         timeconvert
     alts:
@@ -143,7 +143,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 18:57 UTC>PST"
     description:
-      Converts the specified time in the specified time zone to the specified time zone.
+                  Converts the specified time in the specified time zone to the specified time zone.
 
   - name:         currenttime
     alts:
@@ -151,15 +151,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} PDT"
     description:
-      Shows the current time in UTC.
-      You can specify a time zone as well.
-      If you wish to convert time, use the timeconvert command.
+                  Shows the current time in UTC.
+                  You can specify a time zone as well.
+                  If you wish to convert time, use the timeconvert command.
 
 events:
-  - name: collector_clockwork
-    type: ready
+  - name:    collector_clockwork
+    type:    ready
     enabled: true
 
-  - name: dbinit_timezones
-    type: dbinit
+  - name:    dbinit_timezones
+    type:    dbinit
     enabled: true

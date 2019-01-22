@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, ok, warn, error, not_found
+from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
