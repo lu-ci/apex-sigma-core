@@ -14,6 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import secrets
+
+import arrow
 import asyncio
 
 import arrow
@@ -21,6 +24,7 @@ import discord
 
 from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 
 bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
@@ -60,6 +64,7 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
 async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, start: int, end: int):
     start = 0 if start < 0 else start
     end = 9 if end > 9 else end
+    question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
     confirmation = await msg.channel.send(embed=question)
     [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end)]
 
@@ -83,3 +88,40 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
     except asyncio.TimeoutError:
         number = None
     return number
+
+
+async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item: SigmaRawItem):
+    icons.pop(0)
+    icon_list = [icons.get(ic) for ic in icons]
+    possible_proto = [item.icon]
+    while len(possible_proto) < 5:
+        possible_proto.append(icon_list.pop(secrets.randbelow(len(icon_list))))
+    possible = []
+    while possible_proto:
+        possible.append(possible_proto.pop(secrets.randbelow(len(possible_proto))))
+    question = discord.Embed(color=item.color, title=f'{item.icon} Quick! Get the correct {item.type.lower()}!')
+    question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
+    confirmation = await msg.channel.send(embed=question)
+    [await confirmation.add_reaction(preac) for preac in possible]
+
+    def check_emote(reac, usr):
+        same_author = usr.id == msg.author.id
+        same_message = reac.message.id == confirmation.id
+        valid_reaction = str(reac.emoji) in possible
+        return same_author and same_message and valid_reaction
+
+    try:
+        ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
+        try:
+            await confirmation.delete()
+        except discord.NotFound:
+            pass
+        timeout = False
+        if ae.emoji == item.icon:
+            success = True
+        else:
+            success = False
+    except asyncio.TimeoutError:
+        success = False
+        timeout = True
+    return success, timeout
