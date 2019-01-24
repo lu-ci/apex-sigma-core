@@ -1,7 +1,7 @@
 beta: false
-build_date: 1548370925
+build_date: 1548372669
 codename: Yuzu
 version:
   major: 4
   minor: 30
-  patch: 605
+  patch: 611

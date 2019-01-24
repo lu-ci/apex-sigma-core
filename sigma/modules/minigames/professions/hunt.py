@@ -19,8 +19,10 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.dialogue_controls import item_dialogue
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
+from sigma.modules.minigames.professions.nodes.properties import item_icons
 
 
 async def hunt(cmd: SigmaCommand, pld: CommandPayload):
@@ -47,20 +49,28 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
                     except TypeError:
                         pass
             if rarity == 0:
-                item_color = 0x67757f
-                response_title = '🗑 You failed to catch anything.'
+                response = discord.Embed(color=0x67757f, title='🗑 You failed to catch anything.')
             else:
                 item = item_core.pick_item_in_rarity('animal', rarity)
-                connector = 'a'
-                if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-                    connector = 'an'
-                item_color = item.color
-                response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
-                data_for_inv = item.generate_inventory_item()
-                await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
-                await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
-                await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-            response = discord.Embed(color=item_color, title=response_title)
+                success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
+                if success:
+                    connector = 'a'
+                    if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
+                        connector = 'an'
+                    item_color = item.color
+                    response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
+                    data_for_inv = item.generate_inventory_item()
+                    await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
+                    await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
+                    await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
+                    response = discord.Embed(color=item_color, title=response_title)
+                else:
+                    if timed_out:
+                        response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'
+                        response = discord.Embed(color=0x696969, title=response_title)
+                    else:
+                        response_title = f'❌ Oh no... The feisty little thing slipped out of your grasp...'
+                        response = discord.Embed(color=0xBE1931, title=response_title)
         else:
             response = error('Your inventory is full.')
     else:

@@ -1,6 +1,16 @@
 # Apex Sigma Changelog
 
-***Note**: This changelog started on the **6th of January 2018** and does not contain changes made prior to this date. The only documentation regarding previous changes are the fairly vague commit names in the official repository.*
+## 2019-01-25
+
+### Added
+
+- The item dialogue function has been created.
+
+### Changed
+
+- Moved the changelog note to the bottom of the document.
+- Item finding professions are now more interactive. They require the user to select a correct icon for the fish/plant/animal they are catching for it to succeed instead of just typing the command.
+- Fish rarity 7 and plant rarity 7 icons have been swapped. Makes more sense for a fish to use the "fish cake" icon.
 
 ## 2019-01-24
 
@@ -70,3 +80,7 @@
 ### Changed
 
 - Disable caching of blacklist items. Those are user, server, module and command blacklist entries.
+
+## Notes
+
+> This changelog started on the **6th of January 2018** and does not contain changes made prior to this date. The only documentation regarding previous changes are the fairly vague commit names in the official repository.*

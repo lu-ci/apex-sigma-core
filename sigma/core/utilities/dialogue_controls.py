@@ -14,10 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import secrets
-
-import arrow
 import asyncio
+import secrets
 
 import arrow
 import discord
@@ -91,10 +89,10 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
 
 
 async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item: SigmaRawItem):
-    icons.pop(0)
-    icon_list = [icons.get(ic) for ic in icons]
+    icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
+    icon_list.pop(0)
     possible_proto = [item.icon]
-    while len(possible_proto) < 5:
+    while len(possible_proto) < secrets.randbelow(2) + 3:
         possible_proto.append(icon_list.pop(secrets.randbelow(len(icon_list))))
     possible = []
     while possible_proto:
