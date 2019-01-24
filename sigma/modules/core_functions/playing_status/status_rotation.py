@@ -38,9 +38,7 @@ async def status_clockwork(ev: SigmaEvent):
             if ev.bot.cfg.pref.status_rotation:
                 if not status_cache:
                     status_files = await ev.db[ev.db.db_nam].StatusFiles.find().to_list(None)
-                    for status_file in status_files:
-                        status_text = status_file.get('text')
-                        status_cache.append(status_text)
+                    [status_cache.append(status_file.get('text')) for status_file in status_files]
                 if status_cache:
                     status = status_cache.pop(secrets.randbelow(len(status_cache)))
                     activity = discord.Activity(name=status, type=discord.ActivityType.playing)

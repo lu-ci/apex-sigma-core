@@ -2,6 +2,29 @@
 
 ***Note**: This changelog started on the **6th of January 2018** and does not contain changes made prior to this date. The only documentation regarding previous changes are the fairly vague commit names in the official repository.*
 
+## 2019-01-24
+
+### Added
+
+- Selling your entire inventory or selling items with a filter will trigger a confirmation dialogue for the user to confirm their sale.
+- The bool dialogue generator now takes a `tracked: bool` argument that records how long the user took to respond.
+
+### Changed
+
+- The interaction addition is now a whitelist mechanic. Instead of being able to remove submitted interactions with an `❌` emote reaction to the log message, you now approve it instead with a `✅`. Unless approved, the interaction will not be used. Sigma will then add a `🆗` reaction of her own if successfully approved.
+
+## 2019-01-22
+
+### Changed
+
+- Server renamed to Support in the `>>help` command and make the command link lead to the website once again.
+- Fix the invite URL in the `CONTRIBUTING.md` document and remove the nonexistent setup link.
+- Suggestion approval and declining commands return an `ok` response if the user was not found or if the notification was undelivered, specifying the lookup or delivery failure.
+- Shortened the `status_clockwork(ev: SigmaEvent)` lines for caching the status files.
+- Placed `.get()` methods in `afk_mention_check.py` to combat possible (but unlikely) `KeyError` instances.
+- Refactored `module.yml` files automatically for visual alignment and clarity.
+- The `>>youtube` command was repaired by *Shifty*.
+
 ## 2019-01-19
 
 ### Changed

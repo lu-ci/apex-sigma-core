@@ -27,11 +27,11 @@ async def remover_detector(ev: SigmaEvent, pld: RawReactionPayload):
     if uid in ev.bot.cfg.dsc.owners:
         log_ch_id = ev.bot.modules.commands.get('addinteraction').cfg.get('log_ch')
         if cid is not None and cid == log_ch_id:
-            if emoji.name == '❌':
+            if emoji.name == '✅':
                 interaction_item = await ev.db[ev.db.db_nam].Interactions.find_one({'message_id': mid})
                 if interaction_item:
-                    await ev.db[ev.db.db_nam].Interactions.delete_one(interaction_item)
+                    await ev.db[ev.db.db_nam].Interactions.update_one(interaction_item, {'$set': {'active': True}})
                     channel = await ev.bot.get_channel(log_ch_id, True)
                     message = await channel.get_message(mid) if channel else None
                     if message:
-                        await message.add_reaction('🔥')
+                        await message.add_reaction('🆗')

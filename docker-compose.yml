@@ -16,9 +16,9 @@ services:
     build:
       context: .
     volumes:
-      - type: bind
-        source: "./config"
-        target: "/app/config"
+      - type:      bind
+        source:    "./config"
+        target:    "/app/config"
         read_only: true
     depends_on:
       - "database"

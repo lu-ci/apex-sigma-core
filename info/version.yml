@@ -1,7 +1,7 @@
 beta: false
-build_date: 1548195844
-codename: Tsuyu
+build_date: 1548335658
+codename: Yuzu
 version:
   major: 4
-  minor: 28
-  patch: 568
+  minor: 30
+  patch: 602

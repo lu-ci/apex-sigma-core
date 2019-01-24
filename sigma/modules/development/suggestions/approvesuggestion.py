@@ -89,9 +89,11 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                 to_user.description = to_user_desc
                 try:
                     await athr.send(embed=to_user)
+                    response = ok(f'Suggestion {token} approved.')
                 except (discord.Forbidden, discord.NotFound):
-                    pass
-            response = ok(f'Suggestion {token} approved.')
+                    response = ok(f'Suggestion {token} approved, but delivery to author failed.')
+            else:
+                response = ok(f'Suggestion {token} approved, but the author was not found.')
         else:
             response = error('No suggestion entry with that ID was found.')
     else:

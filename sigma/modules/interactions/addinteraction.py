@@ -35,8 +35,9 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
         'url':            interaction_url,
         'hash':           url_hash,
         'interaction_id': secrets.token_hex(4),
-        'message_id':     None,
-        'reported':       False
+        'message_id': None,
+        'reported': False,
+        'active': False
     }
 
 
@@ -96,6 +97,8 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
                             imgur_link = await relay_image(cmd, interaction_link)
                             if imgur_link:
                                 inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
+                                if cmd.cfg.get('log_ch') is None:
+                                    inter_data.update({'active': True})
                                 await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
                                 title = f'Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
                                 response = ok(title)

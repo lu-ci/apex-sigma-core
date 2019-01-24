@@ -38,9 +38,9 @@ async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
                     await athr.send(embed=to_user)
                     response = ok(f'Suggestion {token} declined.')
                 except (discord.Forbidden, discord.NotFound):
-                    response = error('Failed to send the notification.')
+                    response = ok(f'Suggestion {token} declined, but delivery to author failed.')
             else:
-                response = error('The author wasn\'t found.')
+                response = ok(f'Suggestion {token} declined, but the author was not found.')
         else:
             response = error('No suggestion entry with that ID was found.')
     else:

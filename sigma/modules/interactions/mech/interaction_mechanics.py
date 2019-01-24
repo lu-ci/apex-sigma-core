@@ -18,14 +18,16 @@ import secrets
 
 import discord
 
+from sigma.core.mechanics.database import Database
+
 interaction_cache = {}
 
 
-async def get_interaction_list(db, intername):
-    return await db[db.db_nam].Interactions.find({'name': intername}).to_list(None)
+async def get_interaction_list(db: Database, intername: str):
+    return await db[db.db_nam].Interactions.find({'name': intername, 'active': True}).to_list(None)
 
 
-async def grab_interaction(db, intername):
+async def grab_interaction(db: Database, intername: str):
     fill = False if interaction_cache.get(intername) else True
     if fill:
         interactions = await get_interaction_list(db, intername)
@@ -37,11 +39,11 @@ async def grab_interaction(db, intername):
     return choice
 
 
-def target_check(x, lookup):
-    return x.display_name.lower() == lookup.lower() or x.name.lower() == lookup.lower()
+def target_check(usr: discord.Member, lookup: str):
+    return usr.display_name.lower() == lookup.lower() or usr.name.lower() == lookup.lower()
 
 
-def get_target(message):
+def get_target(message: discord.Message):
     if message.mentions:
         target = message.mentions[0]
     else:
@@ -53,13 +55,24 @@ def get_target(message):
     return target
 
 
+async def update_data(db: Database, data: dict, user: discord.User, guild: discord.Guild):
+    if user:
+        unam = data.get('user_name')
+        if unam is None or unam != user.name:
+            await db[db.db_nam].Interactions.update_one(data, {'$set': {'user_name': user.name}})
+    if guild:
+        snam = data.get('server_name')
+        if snam is None or snam != guild.name:
+            await db[db.db_nam].Interactions.update_one(data, {'$set': {'server_name': guild.name}})
+
+
 async def make_footer(cmd, item):
     uid = item.get('user_id')
     user = await cmd.bot.get_user(uid)
-    username = user.name if user else 'Unknown User'
+    username = user.name if user else 'Unknown User' or item.get('user_name')
     sid = item.get('server_id')
     srv = cmd.bot.get_guild(sid)
-    servername = srv.name if srv else 'Unknown Server'
+    servername = srv.name if srv else 'Unknown Server' or item.get('server_name')
     react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
     return footer

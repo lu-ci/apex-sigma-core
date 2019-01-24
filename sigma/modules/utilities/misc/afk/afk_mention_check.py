@@ -33,15 +33,15 @@ async def afk_mention_check(ev: SigmaEvent, pld: MessagePayload):
                 if not afk_data:
                     afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one({'user_id': target.id})
                 if afk_data:
-                    time_then = arrow.get(afk_data['timestamp'])
+                    time_then = arrow.get(afk_data.get('timestamp', 0))
                     afk_time = arrow.get(time_then).humanize(arrow.utcnow()).title()
-                    afk_reason = afk_data['reason']
+                    afk_reason = afk_data.get('reason')
                     url = None
                     for piece in afk_reason.split():
                         if piece.startswith('http'):
                             suffix = piece.split('.')[-1]
                             if suffix in ['gif', 'jpg', 'jpeg', 'png']:
-                                afk_reason = afk_reason.replace(piece, '')
+                                afk_reason = afk_reason.replace(piece, '') if afk_reason is not None else afk_reason
                                 url = piece
                                 break
                     response = discord.Embed(color=0x3B88C3, timestamp=time_then.datetime)

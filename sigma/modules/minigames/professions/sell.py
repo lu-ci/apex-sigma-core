@@ -19,6 +19,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
@@ -36,17 +37,24 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
         if inv:
             lookup = ' '.join(pld.args)
             if lookup.lower() == 'all':
-                value = 0
-                count = 0
-                for invitem in inv.copy():
-                    item_ob_id = item_core.get_item_by_file_id(invitem['item_file_id'])
-                    value += item_ob_id.value
-                    count += 1
-                    await cmd.db.del_from_inventory(pld.msg.author.id, invitem['item_id'])
-                await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
-                ender = 's' if count != 1 else ''
-                response = discord.Embed(color=0xc6e4b5)
-                response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
+                ender = 's' if len(inv) != 1 else ''
+                worth = sum([item_core.get_item_by_file_id(ient['item_file_id']).value for ient in inv])
+                question = f'❔ Are you sure you want to sell {len(inv)} item{ender} worth {worth} {currency}?'
+                quesbed = discord.Embed(color=0xF9F9F9, title=question)
+                sell_confirm = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
+                if sell_confirm:
+                    value = 0
+                    count = 0
+                    for invitem in inv.copy():
+                        item_ob_id = item_core.get_item_by_file_id(invitem['item_file_id'])
+                        value += item_ob_id.value
+                        count += 1
+                        await cmd.db.del_from_inventory(pld.msg.author.id, invitem['item_id'])
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
+                    response = discord.Embed(color=0xc6e4b5)
+                    response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
+                else:
+                    response = discord.Embed(color=0xBE1931, title='❌ Item sale canceled.')
             elif lookup.lower() == 'duplicates':
                 value = 0
                 count = 0

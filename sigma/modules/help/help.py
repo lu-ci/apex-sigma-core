@@ -26,7 +26,6 @@ sigma_title = 'Apex Sigma: The Database Giant'
 patreon_url = 'https://www.patreon.com/ApexSigma'
 paypal_url = 'https://www.paypal.me/AleksaRadovic'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
-command_md = 'https://gitlab.com/lu-ci/sigma/apex-sigma/blob/master/docs/information/commands.md'
 
 
 # noinspection PyShadowingBuiltins
@@ -52,8 +51,8 @@ async def help(cmd: SigmaCommand, pld: CommandPayload):
         response.set_author(name=sigma_title, icon_url=user_avatar(cmd.bot.user), url=cmd.bot.cfg.pref.website)
         invite_url = f'https://discordapp.com/oauth2/authorize?client_id={cmd.bot.user.id}&scope=bot&permissions=8'
         support_text = f'**Add Me**: [Link]({invite_url})'
-        support_text += f' | **Commands**: [Link]({command_md})'
-        support_text += f' | **Server**: [Link]({support_url})'
+        support_text += f' | **Commands**: [Link]({cmd.bot.cfg.pref.website}/commands)'
+        support_text += f' | **Support**: [Link]({support_url})'
         support_text += f'\nWanna help? **Patreon**: [Link]({patreon_url}) | **PayPal**: [Link]({paypal_url})'
         response.add_field(name='Help', value=support_text)
         response.set_thumbnail(url=user_avatar(cmd.bot.user))

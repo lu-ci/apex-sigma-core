@@ -19,7 +19,8 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -61,12 +62,21 @@ async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
                             value += item_ob_id.value
                             count += 1
                             sell_id_list.append(item['item_id'])
-                    await sell_item_ids(cmd.db, pld.msg.author, sell_id_list)
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
-                    currency = cmd.bot.cfg.pref.currency
-                    ender = 's' if count != 1 else ''
-                    response = discord.Embed(color=0xc6e4b5)
-                    response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
+                    if sell_id_list:
+                        ender = 's' if count != 1 else ''
+                        currency = cmd.bot.cfg.pref.currency
+                        question = f'❔ Are you sure you want to sell {count} item{ender} worth {value} {currency}?'
+                        quesbed = discord.Embed(color=0xF9F9F9, title=question)
+                        sell_confirm = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
+                        if sell_confirm:
+                            await sell_item_ids(cmd.db, pld.msg.author, sell_id_list)
+                            await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
+                            response = discord.Embed(color=0xc6e4b5)
+                            response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
+                        else:
+                            response = discord.Embed(color=0xBE1931, title=f'❌ Item sale by {mode} canceled.')
+                    else:
+                        response = not_found('No items with the selected criteria were found.')
                 else:
                     response = error('Invalid arguments.')
             else:

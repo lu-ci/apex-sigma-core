@@ -14,17 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import arrow
 import asyncio
 
 import discord
 
 from sigma.core.sigma import ApexSigma
+from sigma.core.utilities.data_processing import user_avatar
 
 bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
 
 
-async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed):
+async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, tracked: bool = False):
+    question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
     confirmation = await msg.channel.send(embed=question)
     [await confirmation.add_reaction(preac) for preac in bool_reacts]
 
@@ -35,7 +38,12 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
         return same_author and same_message and valid_reaction
 
     try:
+        start_stamp = arrow.utcnow().float_timestamp
         ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
+        end_stamp = arrow.utcnow().float_timestamp
+        if tracked:
+            log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
+            bot.log.info(f'BOOL DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
         try:
             await confirmation.delete()
         except discord.NotFound:
