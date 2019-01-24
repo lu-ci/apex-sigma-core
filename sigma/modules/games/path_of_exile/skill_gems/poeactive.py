@@ -64,13 +64,13 @@ async def get_gem_data(gem_name: str, gem_url: str):
         gem_image = page_html.cssselect(".image")[1][0].attrib.get("src")
         spell_image = page_html.cssselect(".image")[0][0].attrib.get("src")
         gem_data = {
-            'name':  gem_name,
-            'url':   gem_url,
-            'info':  parse_gem_info(gem_info),
+            'name': gem_name,
+            'url': gem_url,
+            'info': parse_gem_info(gem_info),
             'level': gem_level,
-            'desc':  gem_desc,
+            'desc': gem_desc,
             'image': {
-                'gem':   gem_image,
+                'gem': gem_image,
                 'spell': spell_image
             }
         }

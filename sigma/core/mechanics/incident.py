@@ -155,10 +155,10 @@ class Incident(object):
 
     def to_dict(self):
         return {
-            'id':        self.id, 'order': self.order, 'variant': self.variant,
+            'id': self.id, 'order': self.order, 'variant': self.variant,
             'moderator': self.moderator.to_dict(), 'target': self.target.to_dict(),
-            'channel':   self.channel.to_dict(), 'guild': self.guild.to_dict(),
-            'reason':    self.reason, 'edits': self.edits,
+            'channel': self.channel.to_dict(), 'guild': self.guild.to_dict(),
+            'reason': self.reason, 'edits': self.edits,
             'timestamp': self.timestamp
         }
 
@@ -237,8 +237,8 @@ class IncidentCore(object):
     @staticmethod
     def generate(variant: str):
         return Incident({
-            'id':        secrets.token_hex(4),
-            'variant':   variant,
+            'id': secrets.token_hex(4),
+            'variant': variant,
             'timestamp': arrow.utcnow().float_timestamp
         })
 

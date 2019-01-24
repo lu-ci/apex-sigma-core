@@ -27,7 +27,7 @@ from sigma.core.utilities.generic_responses import error
 bp_logo = "https://i.imgur.com/bNxFe09.png"
 
 headers = {
-    'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 }
 
@@ -85,9 +85,9 @@ def parse_slices(slices: list):
         slice_data.update(
             {
                 'hour': slice_hour,
-                'reg':  regular_minutes,
-                'sat':  saturday_minutes,
-                'sun':  sunday_minutes
+                'reg': regular_minutes,
+                'sat': saturday_minutes,
+                'sun': sunday_minutes
             }
         )
         slice_list.append(slice_data)

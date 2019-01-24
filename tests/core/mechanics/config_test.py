@@ -1,4 +1,4 @@
-from sigma.core.mechanics.config import DiscordConfig, DatabaseConfig, PreferencesConfig
+from sigma.core.mechanics.config import DatabaseConfig, DiscordConfig, PreferencesConfig
 
 
 class TestConfiguration(object):

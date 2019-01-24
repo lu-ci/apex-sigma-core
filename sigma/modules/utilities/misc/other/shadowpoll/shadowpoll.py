@@ -34,27 +34,27 @@ def generate_data(message, poll_args):
     else:
         sid = None
     poll_file_data = {
-        'id':          secrets.token_hex(3),
-        'created':     arrow.utcnow().float_timestamp,
-        'origin':      {
-            'author':  uid,
+        'id': secrets.token_hex(3),
+        'created': arrow.utcnow().float_timestamp,
+        'origin': {
+            'author': uid,
             'channel': cid,
-            'server':  sid
+            'server': sid
         },
-        'poll':        {
+        'poll': {
             'question': poll_args[0],
-            'answers':  poll_args[1:]
+            'answers': poll_args[1:]
         },
-        'votes':       {},
+        'votes': {},
         'permissions': {
             'channels': [],
-            'users':    [],
-            'roles':    []
+            'users': [],
+            'roles': []
         },
-        'settings':    {
+        'settings': {
             'visible': False,
             'expires': None,
-            'active':  True
+            'active': True
         }
     }
     return poll_file_data

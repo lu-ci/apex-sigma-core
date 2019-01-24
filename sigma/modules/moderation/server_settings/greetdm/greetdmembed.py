@@ -24,10 +24,10 @@ async def greetdmembed(cmd: SigmaCommand, pld: CommandPayload):
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         greet_embed = pld.settings.get('greet_dm_embed') or {}
         embed_data = {
-            'active':    greet_embed.get('active'),
-            'color':     greet_embed.get('color'),
+            'active': greet_embed.get('active'),
+            'color': greet_embed.get('color'),
             'thumbnail': greet_embed.get('thumbnail'),
-            'image':     greet_embed.get('image')
+            'image': greet_embed.get('image')
         }
         if pld.args:
             queries = ' '.join(pld.args).split()

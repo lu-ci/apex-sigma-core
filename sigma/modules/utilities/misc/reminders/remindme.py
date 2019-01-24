@@ -53,14 +53,14 @@ async def remindme(cmd: SigmaCommand, pld: CommandPayload):
                         time_diff = arrow.get(execution_stamp + 5).humanize(arrow.utcnow())
                     reminder_id = secrets.token_hex(2)
                     reminder_data = {
-                        'reminder_id':     reminder_id,
-                        'user_id':         pld.msg.author.id,
-                        'creation_stamp':  arrow.utcnow().timestamp,
+                        'reminder_id': reminder_id,
+                        'user_id': pld.msg.author.id,
+                        'creation_stamp': arrow.utcnow().timestamp,
                         'execution_stamp': execution_stamp,
-                        'channel_id':      pld.msg.channel.id,
-                        'server_id':       pld.msg.guild.id,
-                        'text_message':    text_message,
-                        'direct_message':  is_dm
+                        'channel_id': pld.msg.channel.id,
+                        'server_id': pld.msg.guild.id,
+                        'text_message': text_message,
+                        'direct_message': is_dm
                     }
                     await cmd.db[cmd.db.db_nam].Reminders.insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)

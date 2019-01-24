@@ -25,26 +25,26 @@ from sigma.core.utilities.generic_responses import error, not_found
 tdoll_page_index = {}
 tdoll_pages = {}
 tdoll_colors = {
-    '2':     0xffffff,
-    '3':     0x68dec9,
-    '4':     0xd2de61,
-    '5':     0xfda82e,
+    '2': 0xffffff,
+    '3': 0x68dec9,
+    '4': 0xd2de61,
+    '5': 0xfda82e,
     'EXTRA': 0xdfb6ff
 }
 gf_icon = 'https://en.gfwiki.com/images/c/c9/Logo.png'
 stat_coords = {
-    'health':       [0, 0, 1, 0],
-    'ammo':         [0, 0, 1, 1],
-    'rations':      [0, 0, 1, 2],
-    'damage':       [1, 0, 0, 1],
-    'evasion':      [1, 0, 0, 3],
-    'accuracy':     [1, 0, 1, 1],
+    'health': [0, 0, 1, 0],
+    'ammo': [0, 0, 1, 1],
+    'rations': [0, 0, 1, 2],
+    'damage': [1, 0, 0, 1],
+    'evasion': [1, 0, 0, 3],
+    'accuracy': [1, 0, 1, 1],
     'rate of fire': [1, 0, 1, 3],
-    'move speed':   [1, 0, 2, 1],
-    'armor':        [1, 0, 2, 3],
-    'crit. rate':   [1, 0, 3, 1],
+    'move speed': [1, 0, 2, 1],
+    'armor': [1, 0, 2, 3],
+    'crit. rate': [1, 0, 3, 1],
     'crit. damage': [1, 0, 3, 3],
-    'amor pen.':    [1, 0, 4, 1]
+    'amor pen.': [1, 0, 4, 1]
 }
 
 
@@ -84,8 +84,8 @@ async def get_tdoll_data(url: str):
         tdoll_image = root.cssselect('.dollprofileimage')[0].attrib.get('src')
         tdoll_rarity = root.cssselect('.raritystars')[0].attrib.get('class').split('rarity')[-1]
         tdoll_data = {
-            'name':   tdoll_name,
-            'image':  tdoll_image,
+            'name': tdoll_name,
+            'image': tdoll_image,
             'rarity': tdoll_rarity,
         }
         tdoll_data.update(get_profile_info(root))

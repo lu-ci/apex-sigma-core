@@ -50,22 +50,22 @@ def parse_alert_data(alert_data):
         else:
             item_reward = None
         data = {
-            'id':      spliced[0],
-            'node':    spliced[1],
-            'planet':  spliced[2],
-            'type':    spliced[3],
+            'id': spliced[0],
+            'node': spliced[1],
+            'planet': spliced[2],
+            'type': spliced[3],
             'faction': spliced[4],
-            'levels':  {
-                'low':  spliced[5],
+            'levels': {
+                'low': spliced[5],
                 'high': spliced[6]
             },
-            'stamps':  {
+            'stamps': {
                 'start': int(spliced[7]),
-                'end':   int(spliced[8])
+                'end': int(spliced[8])
             },
             'rewards': {
                 'credits': credit_reward,
-                'item':    item_reward
+                'item': item_reward
             }
         }
         out_list.append(data)

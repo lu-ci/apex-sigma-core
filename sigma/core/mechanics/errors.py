@@ -65,29 +65,29 @@ class SigmaError(object):
         cid = message.channel.id if gld else None
         auth = f'{message.author.name}#{message.author.discriminator}'
         error_dict = {
-            'token':     self.token,
-            'error':     f'{self.exception}',
-            'reported':  False,
+            'token': self.token,
+            'error': f'{self.exception}',
+            'reported': False,
             'traceback': {
-                'class':   f'{self.exception.with_traceback}',
+                'class': f'{self.exception.with_traceback}',
                 'details': traceback.format_exc()
             },
-            'message':   {
-                'command':   self.name,
+            'message': {
+                'command': self.name,
                 'arguments': self.args,
-                'id':        message.id
+                'id': message.id
             },
-            'author':    {
+            'author': {
                 'name': auth,
-                'id':   message.author.id
+                'id': message.author.id
             },
-            'guild':     {
+            'guild': {
                 'name': gnam,
-                'id':   gid
+                'id': gid
             },
-            'channel':   {
+            'channel': {
                 'name': cnam,
-                'id':   cid
+                'id': cid
             }
         }
         return error_dict

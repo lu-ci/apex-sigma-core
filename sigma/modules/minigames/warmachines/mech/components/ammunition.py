@@ -29,144 +29,144 @@ ammo_names = {
 
 ammo_bases = {
     0: {
-        'health':       80,
-        'damage':       9,
-        'accuracy':     2,
-        'evasion':      10,
+        'health': 80,
+        'damage': 9,
+        'accuracy': 2,
+        'evasion': 10,
         'rate_of_fire': 71,
-        'crit_chance':  5,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 5,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     1: {
-        'health':       42,
-        'damage':       41,
-        'accuracy':     10,
-        'evasion':      4,
+        'health': 42,
+        'damage': 41,
+        'accuracy': 10,
+        'evasion': 4,
         'rate_of_fire': 30,
-        'crit_chance':  40,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 40,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     2: {
-        'health':       61,
-        'damage':       24,
-        'accuracy':     5,
-        'evasion':      4,
+        'health': 61,
+        'damage': 24,
+        'accuracy': 5,
+        'evasion': 4,
         'rate_of_fire': 36,
-        'crit_chance':  20,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 20,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     3: {
-        'health':       75,
-        'damage':       28,
-        'accuracy':     4,
-        'evasion':      4,
+        'health': 75,
+        'damage': 28,
+        'accuracy': 4,
+        'evasion': 4,
         'rate_of_fire': 90,
-        'crit_chance':  5,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 5,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     4: {
-        'health':       38,
-        'damage':       11,
-        'accuracy':     7,
-        'evasion':      9,
+        'health': 38,
+        'damage': 11,
+        'accuracy': 7,
+        'evasion': 9,
         'rate_of_fire': 36,
-        'crit_chance':  20,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 20,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     5: {
-        'health':       55,
-        'damage':       22,
-        'accuracy':     5,
-        'evasion':      4,
+        'health': 55,
+        'damage': 22,
+        'accuracy': 5,
+        'evasion': 4,
         'rate_of_fire': 39,
-        'crit_chance':  20,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 20,
+        'crit_damage': 50,
+        'amor_pen': 10
     },
     6: {
-        'health':       121,
-        'damage':       12,
-        'accuracy':     2,
-        'evasion':      2,
+        'health': 121,
+        'damage': 12,
+        'accuracy': 2,
+        'evasion': 2,
         'rate_of_fire': 20,
-        'crit_chance':  40,
-        'crit_damage':  50,
-        'amor':         3,
-        'amor_pen':     10
+        'crit_chance': 40,
+        'crit_damage': 50,
+        'amor': 3,
+        'amor_pen': 10
     },
     7: {
-        'health':       29,
-        'damage':       8,
-        'accuracy':     8,
-        'evasion':      13,
+        'health': 29,
+        'damage': 8,
+        'accuracy': 8,
+        'evasion': 13,
         'rate_of_fire': 42,
-        'crit_chance':  20,
-        'crit_damage':  50,
-        'amor_pen':     10
+        'crit_chance': 20,
+        'crit_damage': 50,
+        'amor_pen': 10
     }
 }
 
 ammo_scale = {
     0: {
-        'health':       0.79,
-        'damage':       0.15,
-        'accuracy':     0.09,
-        'evasion':      0.69,
+        'health': 0.79,
+        'damage': 0.15,
+        'accuracy': 0.09,
+        'evasion': 0.69,
         'rate_of_fire': 0.33
     },
     1: {
-        'health':       0.42,
-        'damage':       0.67,
-        'accuracy':     0.61,
-        'evasion':      0.23,
+        'health': 0.42,
+        'damage': 0.67,
+        'accuracy': 0.61,
+        'evasion': 0.23,
         'rate_of_fire': 0.13
     },
     2: {
-        'health':       0.6,
-        'damage':       0.45,
-        'accuracy':     0.32,
-        'evasion':      0.29,
+        'health': 0.6,
+        'damage': 0.45,
+        'accuracy': 0.32,
+        'evasion': 0.29,
         'rate_of_fire': 0.18
     },
     3: {
-        'health':       0.74,
-        'damage':       0.52,
-        'accuracy':     0.3,
-        'evasion':      0.3,
+        'health': 0.74,
+        'damage': 0.52,
+        'accuracy': 0.3,
+        'evasion': 0.3,
         'rate_of_fire': 0.45
     },
     4: {
-        'health':       0.38,
-        'damage':       0.22,
-        'accuracy':     0.43,
-        'evasion':      0.59,
+        'health': 0.38,
+        'damage': 0.22,
+        'accuracy': 0.43,
+        'evasion': 0.59,
         'rate_of_fire': 0.17
     },
     5: {
-        'health':       0.55,
-        'damage':       0.33,
-        'accuracy':     0.36,
-        'evasion':      0.32,
+        'health': 0.55,
+        'damage': 0.33,
+        'accuracy': 0.36,
+        'evasion': 0.32,
         'rate_of_fire': 0.2
     },
     6: {
-        'health':       1.21,
-        'damage':       0.18,
-        'accuracy':     0.09,
-        'evasion':      0.11,
+        'health': 1.21,
+        'damage': 0.18,
+        'accuracy': 0.09,
+        'evasion': 0.11,
         'rate_of_fire': 0.08,
-        'amor':         0.19
+        'amor': 0.19
     },
     7: {
-        'health':       0.28,
-        'damage':       0.16,
-        'accuracy':     0.59,
-        'evasion':      0.99,
+        'health': 0.28,
+        'damage': 0.16,
+        'accuracy': 0.59,
+        'evasion': 0.99,
         'rate_of_fire': 0.23
     }
 }

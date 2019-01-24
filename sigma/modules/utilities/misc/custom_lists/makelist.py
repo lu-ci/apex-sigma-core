@@ -34,11 +34,11 @@ async def makelist(cmd: SigmaCommand, pld: CommandPayload):
         mode = settings(pld.args[0].lower())
     list_data = {
         'server_id': pld.msg.guild.id,
-        'user_id':   pld.msg.author.id,
-        'list_id':   secrets.token_hex(2),
-        'mode':      mode,
-        'name':      f'{pld.msg.author.name}\'s List',
-        'contents':  []
+        'user_id': pld.msg.author.id,
+        'list_id': secrets.token_hex(2),
+        'mode': mode,
+        'name': f'{pld.msg.author.name}\'s List',
+        'contents': []
     }
     await cmd.db[cmd.db.db_nam].CustomLists.insert_one(list_data)
     response = ok(f'List `{list_data.get("list_id")}` has been created.')

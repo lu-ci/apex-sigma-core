@@ -26,9 +26,9 @@ async def activatewarning(cmd: SigmaCommand, pld: CommandPayload):
                 target = pld.msg.mentions[0]
                 warn_id = pld.args[1].lower()
                 lookup = {
-                    'guild':          pld.msg.guild.id,
-                    'target.id':      target.id,
-                    'warning.id':     warn_id,
+                    'guild': pld.msg.guild.id,
+                    'target.id': target.id,
+                    'warning.id': warn_id,
                     'warning.active': False
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)

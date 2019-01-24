@@ -29,8 +29,8 @@ oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
     if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
         headers = {
-            'Accept':  'application/json',
-            'app_id':  cmd.cfg['app_id'],
+            'Accept': 'application/json',
+            'app_id': cmd.cfg['app_id'],
             'app_key': cmd.cfg['app_key']
         }
         if pld.args:

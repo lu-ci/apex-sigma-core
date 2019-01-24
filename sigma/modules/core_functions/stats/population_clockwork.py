@@ -51,11 +51,11 @@ async def update_population_stats_node(ev: SigmaEvent):
             channel_count = len(list(ev.bot.get_all_channels()))
             role_count = len(get_all_roles(ev.bot.guilds))
             popdata = {
-                'guild_count':   server_count,
+                'guild_count': server_count,
                 'channel_count': channel_count,
-                'member_count':  member_count,
-                'role_count':    role_count,
-                'shard':         ev.bot.cfg.dsc.shard
+                'member_count': member_count,
+                'role_count': role_count,
+                'shard': ev.bot.cfg.dsc.shard
             }
             update_target = {"name": 'population', "shard": ev.bot.cfg.dsc.shard}
             update_data = {"$set": popdata}

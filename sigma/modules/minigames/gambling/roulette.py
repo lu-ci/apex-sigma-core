@@ -29,20 +29,20 @@ hor_3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 
 selector_ranges = {
     'number': range(0, 37),
-    'type':   ['odd', 'even'],
-    'color':  ['red', 'black'],
+    'type': ['odd', 'even'],
+    'color': ['red', 'black'],
     'column': range(1, 4),
-    'dozen':  range(1, 4),
-    'half':   [1, 2]
+    'dozen': range(1, 4),
+    'half': [1, 2]
 }
 
 selector_mults = {
     'number': 35,
-    'type':   1,
-    'color':  1,
+    'type': 1,
+    'color': 1,
     'column': 2,
-    'dozen':  2,
-    'half':   1
+    'dozen': 2,
+    'half': 1
 }
 
 

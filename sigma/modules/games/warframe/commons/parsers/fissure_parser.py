@@ -25,7 +25,7 @@ tier_names = {'VoidT1': 'Lith', 'VoidT2': 'Meso', 'VoidT3': 'Neo', 'VoidT4': 'Ax
 
 relic_images = {
     'lith': 'http://i.imgur.com/B6DzvKG.png', 'meso': 'http://i.imgur.com/RLWqK6Y.png',
-    'neo':  'http://i.imgur.com/nNRJaHn.png', 'axi': 'http://i.imgur.com/xnx0PSB.png'
+    'neo': 'http://i.imgur.com/nNRJaHn.png', 'axi': 'http://i.imgur.com/xnx0PSB.png'
 }
 
 

@@ -15,22 +15,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 rarity_names = {
-    0:  'trash',
-    1:  'common',
-    2:  'uncommon',
-    3:  'rare',
-    4:  'legendary',
-    5:  'prime',
-    6:  'spectral',
-    7:  'ethereal',
-    8:  'antimatter',
-    9:  'omnipotent',
+    0: 'trash',
+    1: 'common',
+    2: 'uncommon',
+    3: 'rare',
+    4: 'legendary',
+    5: 'prime',
+    6: 'spectral',
+    7: 'ethereal',
+    8: 'antimatter',
+    9: 'omnipotent',
     10: 'material',
     11: 'delicacy'
 }
 
 item_icons = {
-    'fish':   {
+    'fish': {
         0: '🗑',
         1: '🦐',
         2: '🐟',
@@ -42,7 +42,7 @@ item_icons = {
         8: '✴',
         9: '🔰'
     },
-    'plant':  {
+    'plant': {
         0: '🗑',
         1: '☘',
         2: '🌾',
@@ -69,7 +69,7 @@ item_icons = {
 }
 
 item_colors = {
-    'fish':   {
+    'fish': {
         0: 0x67757f,
         1: 0xc16a4f,
         2: 0x55acee,
@@ -81,7 +81,7 @@ item_colors = {
         8: 0x292f33,
         9: 0x47ded4
     },
-    'plant':  {
+    'plant': {
         0: 0x67757f,
         1: 0x77b255,
         2: 0xffcc4d,
@@ -108,14 +108,14 @@ item_colors = {
 }
 
 cook_icons = {
-    'drink':   '🍶',
-    'meal':    '🍱',
+    'drink': '🍶',
+    'meal': '🍱',
     'dessert': '🍰'
 }
 
 cook_colors = {
-    'drink':   0x55ACEE,
-    'meal':    0xDD2E44,
+    'drink': 0x55ACEE,
+    'meal': 0xDD2E44,
     'dessert': 0xF9F9F9
 }
 

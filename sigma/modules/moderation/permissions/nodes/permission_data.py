@@ -17,8 +17,8 @@
 
 def generate_default_data(message):
     return {
-        'server_id':          message.guild.id,
-        'disabled_commands':  [], 'disabled_modules': [],
+        'server_id': message.guild.id,
+        'disabled_commands': [], 'disabled_modules': [],
         'command_exceptions': {}, 'module_exceptions': {},
     }
 

@@ -38,9 +38,9 @@ async def leetspeak(_cmd: SigmaCommand, pld: CommandPayload):
             leet_url = 'http://www.robertecker.com/hp/research/leet-converter.php?lang=en'
             data = {
                 'textbox_input': text,
-                'language':      'en',
-                'encode':        'encode',
-                'modus':         level
+                'language': 'en',
+                'encode': 'encode',
+                'modus': level
             }
             async with aiohttp.ClientSession() as session:
                 api_data = await session.post(leet_url, data=data)

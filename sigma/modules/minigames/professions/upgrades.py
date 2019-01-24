@@ -25,27 +25,27 @@ def calculate_upgrade(up_id, level):
     up_table = {
         'stamina': {
             'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
-            'end':    'Seconds'
+            'end': 'Seconds'
         },
-        'luck':    {
+        'luck': {
             'amount': int((0.5 * level) / (1.5 + (0.0018 * level))),
-            'end':    '% Luckier'
+            'end': '% Luckier'
         },
         'storage': {
             'amount': 64 + (level * 8),
-            'end':    'Spaces'
+            'end': 'Spaces'
         },
-        'oven':    {
+        'oven': {
             'amount': -(3600 - (int(3600 - ((3600 / 100) * (level / (1.25 + (0.01 * level))))))),
-            'end':    'Seconds'
+            'end': 'Seconds'
         },
-        'casino':  {
+        'casino': {
             'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
-            'end':    'Seconds'
+            'end': 'Seconds'
         },
-        'harem':   {
+        'harem': {
             'amount': 10 + level,
-            'end':    'Spaces'
+            'end': 'Spaces'
         }
     }
     return up_table[up_id]

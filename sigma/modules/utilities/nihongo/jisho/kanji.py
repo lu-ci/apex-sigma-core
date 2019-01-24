@@ -26,12 +26,12 @@ from sigma.core.utilities.generic_responses import error, not_found
 def make_kanji_dict(kanji_page):
     stroke_source = kanji_page.cssselect('.stroke_diagram img')[0].attrib.get('src')
     kanji_dict = {
-        'kanji':        kanji_page.cssselect('.literal.japanese')[0].text.strip(),
-        'strokes':      kanji_page.cssselect('.specs strong')[0].text,
+        'kanji': kanji_page.cssselect('.literal.japanese')[0].text.strip(),
+        'strokes': kanji_page.cssselect('.specs strong')[0].text,
         'stroke order': f'http://classic.jisho.org{stroke_source}',
-        'meta':         {'radical': None, 'parts': [], 'variants': []},
-        'readings':     {'kun': [], 'on': [], 'names': []},
-        'meanings':     []
+        'meta': {'radical': None, 'parts': [], 'variants': []},
+        'readings': {'kun': [], 'on': [], 'names': []},
+        'meanings': []
     }
     return kanji_dict
 

@@ -62,7 +62,7 @@ class SigmaRawItem(object):
     def generate_inventory_item(self):
         token = secrets.token_hex(16)
         data = {
-            'item_id':      token,
+            'item_id': token,
             'item_file_id': self.file_id
         }
         return data
@@ -121,8 +121,8 @@ class SigmaCookedItem(object):
     def generate_inventory_item(self):
         token = secrets.token_hex(16)
         data = {
-            'item_id':      token,
-            'quality':      self.roll_quality(),
+            'item_id': token,
+            'quality': self.roll_quality(),
             'item_file_id': self.file_id
         }
         return data

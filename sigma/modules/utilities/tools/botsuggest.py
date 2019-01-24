@@ -27,22 +27,22 @@ from sigma.core.utilities.generic_responses import error, ok
 def make_sugg_data(msg: discord.Message, args: list, token: str):
     return {
         'suggestion': {
-            'id':   token,
+            'id': token,
             'text': ' '.join(args)
         },
-        'user':       {
-            'id':     msg.author.id,
-            'name':   msg.author.name,
-            'color':  msg.author.color.value,
+        'user': {
+            'id': msg.author.id,
+            'name': msg.author.name,
+            'color': msg.author.color.value,
             'avatar': user_avatar(msg.author)
         },
-        'guild':      {
-            'id':   msg.guild.id,
+        'guild': {
+            'id': msg.guild.id,
             'name': msg.guild.name,
             'icon': msg.guild.icon_url
         },
-        'timestamp':  msg.created_at.timestamp(),
-        'reported':   False
+        'timestamp': msg.created_at.timestamp(),
+        'reported': False
     }
 
 

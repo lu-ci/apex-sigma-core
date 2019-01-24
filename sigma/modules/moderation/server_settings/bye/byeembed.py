@@ -24,10 +24,10 @@ async def byeembed(cmd: SigmaCommand, pld: CommandPayload):
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         bye_embed = pld.settings.get('bye_embed', {})
         embed_data = {
-            'active':    bye_embed.get('active'),
-            'color':     bye_embed.get('color'),
+            'active': bye_embed.get('active'),
+            'color': bye_embed.get('color'),
             'thumbnail': bye_embed.get('thumbnail'),
-            'image':     bye_embed.get('image')
+            'image': bye_embed.get('image')
         }
         if pld.args:
             queries = ' '.join(pld.args).split()
