@@ -73,11 +73,7 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
         return same_author and same_message and valid_reaction
 
     try:
-        start_stamp = arrow.utcnow().float_timestamp
         ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
-        end_stamp = arrow.utcnow().float_timestamp
-        log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
-        bot.log.info(f'ITEM DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
         try:
             await confirmation.delete()
         except discord.NotFound:
@@ -112,8 +108,13 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
         valid_reaction = str(reac.emoji) in possible
         return same_author and same_message and valid_reaction
 
+    log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
+
     try:
+        start_stamp = arrow.utcnow().float_timestamp
         ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
+        end_stamp = arrow.utcnow().float_timestamp
+        bot.log.info(f'ITEM DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
         try:
             await confirmation.delete()
         except discord.NotFound:
@@ -126,4 +127,5 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
     except asyncio.TimeoutError:
         success = False
         timeout = True
+        bot.log.info(f'ITEM DIALOGUE: {log_usr} timed out.')
     return success, timeout
