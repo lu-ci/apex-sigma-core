@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Fixed the `>>spelledlike` command. That issue was there for a long time but nobody really uses this command...
 - The `>>shadowpollvote` command will now try to delete the vote command message.
 
 ## 2019-02-02

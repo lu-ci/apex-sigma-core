@@ -27,8 +27,8 @@ icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
 async def spelledlike(_cmd: SigmaCommand, pld: CommandPayload):
-    if pld.msg:
-        query = '+'.join(pld.msg).lower()
+    if pld.args:
+        query = '+'.join(pld.args).lower()
         site_url = f'http://www.rhymezone.com/r/rhyme.cgi?Word={query}&typeofrhyme=spell'
         api_url = f'https://api.datamuse.com/words?sp={query}&max=11'
         async with aiohttp.ClientSession() as session:
