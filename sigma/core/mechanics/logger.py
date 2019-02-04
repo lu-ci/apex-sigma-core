@@ -38,6 +38,7 @@ def create_logger(name: str, *, to_title: bool = False, level=None, shard=None):
     :param name:
     :param to_title:
     :param level:
+    :param shard:
     :return:
     """
     if to_title:

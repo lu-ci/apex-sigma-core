@@ -47,7 +47,7 @@ commands:
       - "yomama"
       - "yomoma"
       - "ym"
-    enabled:      true
+    enabled:      false
     description:
                   Want to insult some poor fool's mother but don't have the right comeback?
                   This command will provide the perfect yo momma joke for the task.

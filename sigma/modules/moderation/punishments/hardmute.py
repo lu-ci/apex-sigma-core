@@ -76,7 +76,10 @@ async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
                                 await channel.set_permissions(target, send_messages=False, add_reactions=False)
                             except discord.Forbidden:
                                 pass
-                    await ongoing_msg.delete()
+                    try:
+                        await ongoing_msg.delete()
+                    except discord.NotFound:
+                        pass
                     rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                     reason = ' '.join(rarg) if rarg else None
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)

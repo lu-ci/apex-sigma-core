@@ -96,7 +96,10 @@ async def play(cmd: SigmaCommand, pld: CommandPayload):
                     song_embed.set_thumbnail(url=item.thumbnail)
                     song_embed.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
                     song_embed.set_footer(text=f'Duration: {duration}')
-                    await init_song_msg.edit(embed=song_embed)
+                    try:
+                        await init_song_msg.edit(embed=song_embed)
+                    except discord.NotFound:
+                        await pld.msg.channel.send(embed=song_embed)
                     while player_active(pld.msg.guild.voice_client):
                         await asyncio.sleep(2)
                 response = discord.Embed(color=0x3B88C3, title='🎵 Queue complete.')
