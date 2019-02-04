@@ -86,6 +86,10 @@ async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
                                 poll_file['votes'].update({str(pld.msg.author.id): choice_num})
                                 poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
                                 await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
+                                try:
+                                    await pld.msg.delete()
+                                except (discord.NotFound, discord.Forbidden):
+                                    pass
                                 response = ok(f'Your choice has been {ender}.')
                             else:
                                 response = discord.Embed(color=0xFFCC4D, title='🔒 Not authorized to vote.')

@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 2019-02-04
+
+### Changed
+
+- The `>>shadowpollvote` command will now try to delete the vote command message.
+
 ## 2019-02-02
 
 ### Changed
