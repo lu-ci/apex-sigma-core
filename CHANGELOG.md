@@ -1,5 +1,17 @@
 # Apex Sigma Changelog
 
+## 2019-02-02
+
+### Changed
+
+- Hardmute ongoing message deletion safeguard. By *Shifty*.
+- Music playing notification edit safeguard. By *Shifty*.
+- Replace aiohttp exceptions to reduce imports. By *Shifty*.
+
+### Removed
+
+- Disabled `>>yomomma` while a replacement endpoint is found. By *Shifty*.
+
 ## 2019-01-25
 
 ### Added
