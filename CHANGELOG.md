@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 2019-02-05
+
+### Added
+
+- The `>>visualnoveldatabase` (I know it's long, use `>>vndb` or `>>vn` instead) command was revived. Now with 100% less locks and 100% more async. It looks up visual novels, obviously.
+
 ## 2019-02-04
 
 ### Changed

@@ -21,10 +21,11 @@ from lxml import html
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
+source_page = 'https://vndb.org/r'
+vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
+
 
 async def visualnovelquote(_cmd: SigmaCommand, pld: CommandPayload):
-    source_page = 'https://vndb.org/r'
-    vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
     async with aiohttp.ClientSession() as session:
         async with session.get(source_page) as data:
             data = await data.text()

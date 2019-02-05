@@ -1,0 +1,18 @@
+name:             Visual Novel Database
+
+category:         searches
+
+enabled:          true
+
+commands:
+  - name:         visualnoveldatabase
+    alts:
+      - "vndb"
+      - "vn"
+    enabled:      true
+    usage:        "{pfx}{cmd} Imojoku"
+    description:
+                  Returns information about the given Visual Novel search.
+                  You can specify an ID instead of a name to get the exact result.
+                  You can also enter "--random" to get a random visual novel.
+                  Novels that are NSFW will not appear in channels that are not marked as such.

@@ -108,7 +108,6 @@ Commands | Description | Example
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
-`>>yomomma` `>>yomama` `>>yomoma` `>>ym` | Want to insult some poor fool's mother but don't have the right comeback? This command will provide the perfect yo momma joke for the task. | `>>yomomma`
 [Back To Top](#module-index)
 
 ### GIRLS FRONTLINE
@@ -426,6 +425,7 @@ Commands | Description | Example
 `>>spelledlike` `>>spelllike` `>>spellike` `>>spellcheck` | Looks up words that are spelled similarly to the specified term. Supports the following wildcards: ? - one character * - one or many characters  | `>>spelledlike coneticut`
 `>>synonyms` `>>synonym` `>>syn` | Looks up words that have exactly or nearly the same meaning as the specified term. | `>>synonyms ocean`
 `>>urbandictionary` `>>urbandict` `>>urban` `>>ud` | Looks up the definition for a word or term in the Urban Dictionary. It is strongly suggested to take these with a grain of salt. | `>>urbandictionary dictionary`
+`>>visualnoveldatabase` `>>vndb` `>>vn` | Returns information about the given Visual Novel search. You can specify an ID instead of a name to get the exact result. Novels that are NSFW will not appear in channels that are not marked as such. | `>>visualnoveldatabase Imojoku`
 `>>weather` `>>we` | Shows meteorological information about the specified location. You can add a unit argument at the end of the lookup: auto: automatically select units based on geographic location, ca: same as si, except that wind speed is in kilometers per hour, uk2: same as si, except that nearest storm distance and visibility are in miles and wind speed is in miles per hour, s: Imperial units (the default), si: SI units. If no unit is selected, it defaults to auto. | `>>weather Belgrade unit:si`
 `>>wikipedia` `>>wiki` | Returns the summary of the specified wikipedia page. If a search is too general, an error will be returned. | `>>wikipedia Thread (Computing)`
 `>>youtube` `>>yt` | A simple YouTube search. Outputs the resulting video's information and URL. You can add "--text" at the end of your search to make it a normal URL to the video instead of an embed with information. | `>>youtube Game Grumps`
