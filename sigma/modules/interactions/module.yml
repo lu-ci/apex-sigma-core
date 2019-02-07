@@ -225,6 +225,14 @@ commands:
     description:
                   When all other means fail, it's time to bring out the carpet bomb squadrons.
 
+  - name:         sniff
+    alts:
+      - "smell"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person"
+    description:
+                  Smells nice? Sniff it!
+
 events:
   - name:         remover_detector
     type:         raw_reaction_add
