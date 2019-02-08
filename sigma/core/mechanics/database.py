@@ -130,7 +130,7 @@ class Database(motor.AsyncIOMotorClient):
     async def update_resource(self, user_id: int, resource_name: str, resource: SigmaResource):
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
         coll = self[self.db_nam][f'{resource_name.title()}Resource']
-        data = resource.dictify()
+        data = resource.to_dict()
         if resources:
             await coll.update_one({'user_id': user_id}, {'$set': data})
         else:

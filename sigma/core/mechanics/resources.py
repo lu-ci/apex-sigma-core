@@ -35,7 +35,7 @@ class ResourceOrigins(object):
         self.channels = ResourceDict(self.raw.get('channels') or {})
         self.functions = ResourceDict(self.raw.get('functions') or {})
 
-    def dictify(self):
+    def to_dict(self):
         return {'users': self.users, 'guilds': self.guilds, 'channels': self.channels, 'functions': self.functions}
 
     def add_trigger(self, trigger: str, amount: int):
@@ -69,10 +69,10 @@ class SigmaResource(object):
         self.origins = ResourceOrigins(self.raw.get('origins'))
         self.expenses = ResourceOrigins(self.raw.get('expenses'))
 
-    def dictify(self):
+    def to_dict(self):
         return {
             'current': self.current, 'total': self.total, 'ranked': self.ranked,
-            'origins': self.origins.dictify(), 'expenses': self.expenses.dictify()
+            'origins': self.origins.to_dict(), 'expenses': self.expenses.to_dict()
         }
 
     def add_value(self, amount: int, trigger: str, origin, ranked: bool):

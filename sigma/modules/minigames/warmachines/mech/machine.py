@@ -136,7 +136,7 @@ class SigmaMachine(object):
         attr, manu, ammo, clas = self.get_comp_names()
         return f'{attr} {manu} {ammo} {clas}'
 
-    def dictify(self):
+    def to_dict(self):
         return {
             'machine_id': self.id,
             'user_id': self.owner.id,
@@ -149,7 +149,7 @@ class SigmaMachine(object):
 
     async def update(self):
         machines = await self.db.get_profile(self.owner.id, 'machines') or {}
-        machines.update({self.id: self.dictify()})
+        machines.update({self.id: self.to_dict()})
         await self.db.set_profile(self.owner.id, 'machines', machines)
 
     async def add_battle(self, opponent, result: int):

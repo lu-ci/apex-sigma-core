@@ -52,7 +52,7 @@ class StatContainer(object):
         self.armor_pen = int((self.armor_pen + other.armor_pen) / 2)
         return self
 
-    def dictify(self):
+    def to_dict(self):
         return {
             'health': self.health,
             'damage': self.damage,
@@ -82,7 +82,7 @@ class CostContainer(object):
         self.ammunition = int((self.ammunition + other.ammunition) / 2)
         self.currency = int((self.currency + other.currency) / 2)
 
-    def dictify(self):
+    def to_dict(self):
         return {
             'metal': self.metal,
             'biomass': self.biomass,
