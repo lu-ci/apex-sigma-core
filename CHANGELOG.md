@@ -10,6 +10,12 @@
 
 - Renamed all instances of the method `dictify()` to `to_dict()`. It's more uniform and logical.
 
+## 2019-02-07
+
+### Added
+
+- The `>>sniff` interaction has been added. I have no official reason behind this besides liking the idea of lewd sniffs. Just being honest...
+
 ## 2019-02-05
 
 ### Added
