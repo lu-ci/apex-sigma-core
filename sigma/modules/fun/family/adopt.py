@@ -34,9 +34,9 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
         if len(child.parents) >= 2:
             response = error(f'{target.name} already has two parents.')
         elif child.is_child(pld.msg.author.id):
-            response = error(f'{target.name} is one of your descendants.')
-        elif child.is_parent(pld.msg.author.id):
             response = error(f'{target.name} is one of your ancestors.')
+        elif child.is_parent(pld.msg.author.id):
+            response = error(f'{target.name} is one of your descendants.')
         else:
             parent.children.append(child)
             await parent.save(cmd.db)

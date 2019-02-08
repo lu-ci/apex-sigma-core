@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import json
 
 import aiohttp
@@ -30,7 +29,10 @@ async def familytree(cmd: SigmaCommand, pld: CommandPayload):
     human = AdoptableHuman()
     await human.load(cmd.db, target.id)
     if human.exists:
-        tree_data = human.draw_tree()
+        top_parent = human.top_parent()
+        new_top_parent = AdoptableHuman(False, True)
+        await new_top_parent.load(cmd.db, top_parent.id)
+        tree_data = new_top_parent.draw_tree(human.id)
         async with aiohttp.ClientSession() as session:
             async with session.post('https://hastebin.com/documents', data=tree_data) as response:
                 data = json.loads(await response.read())

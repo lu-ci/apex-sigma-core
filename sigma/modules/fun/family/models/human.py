@@ -21,13 +21,14 @@ from sigma.core.mechanics.database import Database
 
 
 class AdoptableHuman(object):
-    def __init__(self):
+    def __init__(self, parents_only=False, children_only=False):
         self.id = None
         self.name = None
         self.parents = []
         self.children = []
         self.exists = False
-        self.processed = []
+        self.parents_only = parents_only
+        self.children_only = children_only
 
     async def new(self, db: Database, user: discord.Member):
         self.id = user.id
@@ -40,22 +41,21 @@ class AdoptableHuman(object):
             self.exists = True
             self.id = user_id
             self.name = family.get('user_name')
-            await self.load_iterable(db, family.get('parents', []), self.parents, self.processed)
-            await self.load_iterable(db, family.get('children', []), self.children, self.processed)
+            if not self.children_only:
+                await self.load_iterable(db, family.get('parents', []), self.parents, True, False)
+            if not self.parents_only:
+                await self.load_iterable(db, family.get('children', []), self.children, False, True)
 
     @staticmethod
-    async def load_iterable(db: Database, iterable: list, appendable: list, processed: list):
+    async def load_iterable(db: Database, iterable: list, appendable: list, p_only: bool, c_only: bool):
         for iter_item in iterable:
-            if iter_item not in processed:
-                processed.append(iter_item)
-                human_object = AdoptableHuman()
-                human_object.processed = processed
-                await human_object.load(db, iter_item)
-                appendable.append(human_object)
+            human_object = AdoptableHuman(p_only, c_only)
+            await human_object.load(db, iter_item)
+            appendable.append(human_object)
 
     async def save(self, db: Database, new=False):
         data = self.to_dict()
-        if new or not self.exists:
+        if new:
             await db[db.db_nam].Families.insert_one(data)
         else:
             await db[db.db_nam].Families.update_one({'user_id': self.id}, {'$set': data})
@@ -104,17 +104,13 @@ class AdoptableHuman(object):
                     break
         return bot
 
-    def to_tree(self, origin: int, start=True):
-        if start:
-            top_parent = self.top_parent()
-            return top_parent.to_tree(origin, False)
-        else:
-            name = self.name if self.id != origin else f'> {self.name} <'
-            children = [c.to_tree(origin, False) for c in self.children]
-            return {name: children}
+    def to_tree(self, origin: int):
+        name = self.name if self.id != origin else f'> {self.name} <'
+        children = [c.to_tree(origin) for c in self.children]
+        return {name: children}
 
-    def draw_tree(self):
-        tree_data = self.to_tree(self.id)
+    def draw_tree(self, origin: int):
+        tree_data = self.to_tree(origin)
         tree_out = yaml.safe_dump(tree_data, default_flow_style=False)
         return tree_out
 
