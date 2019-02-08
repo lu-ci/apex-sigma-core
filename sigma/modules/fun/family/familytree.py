@@ -30,14 +30,11 @@ async def familytree(cmd: SigmaCommand, pld: CommandPayload):
     human = AdoptableHuman()
     await human.load(cmd.db, target.id)
     if human.exists:
-        tree_loc = human.draw_tree()
-        with open(tree_loc, 'r') as tree_file:
-            tree_data = tree_file.read()
+        tree_data = human.draw_tree()
         async with aiohttp.ClientSession() as session:
             async with session.post('https://hastebin.com/documents', data=tree_data) as response:
                 data = json.loads(await response.read())
         haste_url = f"https://hastebin.com/{data.get('key')}.yml"
-        os.remove(tree_loc)
         response = ok('Family tree file exported.')
         response.description = f'You can view it [here on hastebin]({haste_url}).'
     else:

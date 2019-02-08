@@ -114,10 +114,8 @@ class AdoptableHuman(object):
             return {name: children}
 
     def draw_tree(self):
-        tree_out = f'cache/family_{self.id}.yml'
         tree_data = self.to_tree(self.id)
-        with open(tree_out, 'w', encoding='utf-8') as tree_file:
-            yaml.safe_dump(tree_data, tree_file, default_flow_style=False)
+        tree_out = yaml.safe_dump(tree_data, default_flow_style=False)
         return tree_out
 
     def to_dict(self):

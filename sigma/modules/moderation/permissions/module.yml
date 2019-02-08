@@ -43,7 +43,7 @@ commands:
       - "perm"
       - "prm"
     enabled:      true
-    usage:        "{pfx}{cmd} channels m:minigames Gamblers; Warlards"
+    usage:        "{pfx}{cmd} channels m:minigames #channel1 #channel2"
     description:
                   Adds an override for the for specified command/module.
                   Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and its name.
