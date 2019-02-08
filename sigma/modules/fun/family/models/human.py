@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import yaml
 import discord
+import yaml
 
 from sigma.core.mechanics.database import Database
 
@@ -27,6 +27,7 @@ class AdoptableHuman(object):
         self.parents = []
         self.children = []
         self.exists = False
+        self.processed = []
 
     async def new(self, db: Database, user: discord.Member):
         self.id = user.id
@@ -39,15 +40,18 @@ class AdoptableHuman(object):
             self.exists = True
             self.id = user_id
             self.name = family.get('user_name')
-            await self.load_iterable(db, family.get('parents', []), self.parents)
-            await self.load_iterable(db, family.get('children', []), self.children)
+            await self.load_iterable(db, family.get('parents', []), self.parents, self.processed)
+            await self.load_iterable(db, family.get('children', []), self.children, self.processed)
 
     @staticmethod
-    async def load_iterable(db: Database, iterable: list, appendable: list):
+    async def load_iterable(db: Database, iterable: list, appendable: list, processed: list):
         for iter_item in iterable:
-            human_object = AdoptableHuman()
-            await human_object.load(db, iter_item)
-            await appendable.append(human_object)
+            if iter_item not in processed:
+                processed.append(iter_item)
+                human_object = AdoptableHuman()
+                human_object.processed = processed
+                await human_object.load(db, iter_item)
+                appendable.append(human_object)
 
     async def save(self, db: Database, new=False):
         data = self.to_dict()
@@ -103,12 +107,11 @@ class AdoptableHuman(object):
     def to_tree(self, origin: int, start=True):
         if start:
             top_parent = self.top_parent()
-            return top_parent.to_tree(False)
+            return top_parent.to_tree(origin, False)
         else:
-            return {
-                'name': self.name if self.id != origin else f'> {self.name} <',
-                'children': [c.to_tree(origin, False) for c in self.children]
-            }
+            name = self.name if self.id != origin else f'> {self.name} <'
+            children = [c.to_tree(origin, False) for c in self.children]
+            return {name: children}
 
     def draw_tree(self):
         tree_out = f'cache/family_{self.id}.yml'
