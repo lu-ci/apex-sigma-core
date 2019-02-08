@@ -1,0 +1,27 @@
+name:             Family Module
+
+category:         fun
+
+enabled:          true
+
+commands:
+  - name:         adopt
+    enabled:      true
+    description:
+                  You adopt a person as your child, it's that simple.
+                  Naturally, you can't adopt somebody that's your ancestor or descendant.
+
+  - name:         disown
+    enabled:      true
+    description:
+                  You can disown one of your parents or children with this.
+                  Cutting yourself, or them, off of the family tree as it is currently.
+
+  - name:         familytree
+    alts:
+      - "famtree"
+    enabled:      true
+    description:
+                  Dumps your entire family tree. From the top ancestor to the bottom child.
+                  Since this can be enormous and impossible to fit into Discord, the results
+                  are uploaded to HasteBin instead.

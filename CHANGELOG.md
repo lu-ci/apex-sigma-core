@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## 2019-02-08
+
+### Added
+
+- The family tree functions have been added. You can `>>adopt` people, if you don't like them you can `>>disown` them. If you want to see your entire family tree from start to end use `>>familytree` and it will generate a nice little link with your entire tree in it. A thing to note that is that this mimics an actual biological family tree, meaning that you can't have more than 2 parents, cause biology.
+
+### Changed
+
+- Renamed all instances of the method `dictify()` to `to_dict()`. It's more uniform and logical.
+
 ## 2019-02-05
 
 ### Added

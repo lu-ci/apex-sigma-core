@@ -69,6 +69,7 @@ Commands | Description | Example
 ### FUN
 Commands | Description | Example
 ----------|-------------|--------
+`>>adopt` | You adopt a person as your child, it's that simple. Naturally, you can't adopt somebody that's your ancestor or descendant. | `>>adopt`
 `>>award` `>>pay` | Awards the specified amount of Kud from the vault to a mentioned person. The Kud amount goes first, followed by the target. Anybody can contribute to the vault with the givetovault command, but only users with the Manage Server permission can award Kud from the vault. | `>>award 500 @person`
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
@@ -81,8 +82,10 @@ Commands | Description | Example
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you're a good kid. | `>>dadjoke`
 `>>daily` | Gives an amount of Kud to you with a 22 hour cooldown. The amount is modified by the number of days in a row that you've collected your daily Kud up to 10 days, as well as a little random factor in there just for fun. While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected. | `>>daily`
+`>>disown` | You can disown one of your parents or children with this. Cutting yourself, or them, off of the family tree as it is currently. | `>>disown`
 `>>dog` | Outputs a random dog image. Cutest, loyalest, little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
+`>>familytree` `>>famtree` | Dumps your entire family tree. From the top ancestor to the bottom child. Since this can be enormous and impossible to fit into Discord, the results are uploaded to HasteBin instead. | `>>familytree`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
@@ -154,6 +157,7 @@ Commands | Description | Example
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
 `>>sleep` | My favorite pastime! ...I wish I was permanently asleep. | `>>sleep @person`
+`>>sniff` `>>smell` | Smells nice? Sniff it! | `>>sniff @person`
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
 `>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
@@ -425,7 +429,7 @@ Commands | Description | Example
 `>>spelledlike` `>>spelllike` `>>spellike` `>>spellcheck` | Looks up words that are spelled similarly to the specified term. Supports the following wildcards: ? - one character * - one or many characters  | `>>spelledlike coneticut`
 `>>synonyms` `>>synonym` `>>syn` | Looks up words that have exactly or nearly the same meaning as the specified term. | `>>synonyms ocean`
 `>>urbandictionary` `>>urbandict` `>>urban` `>>ud` | Looks up the definition for a word or term in the Urban Dictionary. It is strongly suggested to take these with a grain of salt. | `>>urbandictionary dictionary`
-`>>visualnoveldatabase` `>>vndb` `>>vn` | Returns information about the given Visual Novel search. You can specify an ID instead of a name to get the exact result. Novels that are NSFW will not appear in channels that are not marked as such. | `>>visualnoveldatabase Imojoku`
+`>>visualnoveldatabase` `>>vndb` `>>vn` | Returns information about the given Visual Novel search. You can specify an ID instead of a name to get the exact result. You can also enter "--random" to get a random visual novel. Novels that are NSFW will not appear in channels that are not marked as such. | `>>visualnoveldatabase Imojoku`
 `>>weather` `>>we` | Shows meteorological information about the specified location. You can add a unit argument at the end of the lookup: auto: automatically select units based on geographic location, ca: same as si, except that wind speed is in kilometers per hour, uk2: same as si, except that nearest storm distance and visibility are in miles and wind speed is in miles per hour, s: Imperial units (the default), si: SI units. If no unit is selected, it defaults to auto. | `>>weather Belgrade unit:si`
 `>>wikipedia` `>>wiki` | Returns the summary of the specified wikipedia page. If a search is too general, an error will be returned. | `>>wikipedia Thread (Computing)`
 `>>youtube` `>>yt` | A simple YouTube search. Outputs the resulting video's information and URL. You can add "--text" at the end of your search to make it a normal URL to the video instead of an embed with information. | `>>youtube Game Grumps`
