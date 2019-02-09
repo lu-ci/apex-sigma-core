@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 2019-02-09
+
+### Changed
+
+- No longer able to `>>adopt` bots.
+- Clean the `.name` attribute of `AdoptableHuman` because fuck special characters.
+- Have the `.name` attribute of `AdoptableHuman` update when they're interacted with.
+
 ## 2019-02-08
 
 ### Added

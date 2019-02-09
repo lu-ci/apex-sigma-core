@@ -18,6 +18,7 @@ import discord
 import yaml
 
 from sigma.core.mechanics.database import Database
+from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
 
 class AdoptableHuman(object):
@@ -32,7 +33,7 @@ class AdoptableHuman(object):
 
     async def new(self, db: Database, user: discord.Member):
         self.id = user.id
-        self.name = user.name
+        self.name = clean_name(user.name, str(self.id))
         await self.save(db, True)
 
     async def load(self, db: Database, user_id: int):
@@ -40,11 +41,14 @@ class AdoptableHuman(object):
         if family:
             self.exists = True
             self.id = user_id
-            self.name = family.get('user_name')
+            self.name = clean_name(family.get('user_name'), str(self.id))
             if not self.children_only:
                 await self.load_iterable(db, family.get('parents', []), self.parents, True, False)
             if not self.parents_only:
                 await self.load_iterable(db, family.get('children', []), self.children, False, True)
+
+    def update_name(self, name: str):
+        self.name = clean_name(name, str(self.id))
 
     @staticmethod
     async def load_iterable(db: Database, iterable: list, appendable: list, p_only: bool, c_only: bool):

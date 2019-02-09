@@ -27,10 +27,14 @@ async def disown(cmd: SigmaCommand, pld: CommandPayload):
         await disowner.load(cmd.db, pld.msg.author.id)
         if not disowner.exists:
             await disowner.new(cmd.db, pld.msg.author)
+        else:
+            disowner.update_name(pld.msg.author.name)
         disownee = AdoptableHuman()
         await disownee.load(cmd.db, target.id)
         if not disownee.exists:
             await disownee.new(cmd.db, target)
+        else:
+            disownee.update_name(target.name)
         if disowner.id in [par.id for par in disownee.parents]:
             update = True
             disowner.children = [dcld for dcld in disowner.children if dcld.id != disownee.id]
