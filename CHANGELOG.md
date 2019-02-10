@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 2019-02-10
+
+### Changed
+
+- Renamed `>>packages` to `>>pythonpackage`, packages is too broad and has no corelation with what the command does.
+
 ## 2019-02-09
 
 ### Changed

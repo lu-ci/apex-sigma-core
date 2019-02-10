@@ -15,9 +15,10 @@ commands:
                   Search Rust's/Cargo's package repository on crates.io
                   for the specified package and displays its details.
 
-  - name:         packages
+  - name:         pythonpackage
     alts:
-      - "package"
+      - "pythonpackageindex"
+      - "pypackage"
       - "pypi"
     enabled:      true
     usage:        "{pfx}{cmd} pip"
