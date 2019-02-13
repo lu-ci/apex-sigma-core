@@ -49,7 +49,7 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
                 await child.save(cmd.db)
                 response = ok(f'Congrats on adopting {target.name}!')
         else:
-            error('You can\'t adopt bots.')
+            response = error('You can\'t adopt bots.')
     else:
         response = error('No user tagged.')
     await pld.msg.channel.send(embed=response)

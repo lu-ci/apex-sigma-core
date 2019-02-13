@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 2019-02-12
+
+### Changed
+
+- Fixed the adopt response not being assigned to the response variable when targeting bots.
+
 ## 2019-02-09
 
 ### Changed
