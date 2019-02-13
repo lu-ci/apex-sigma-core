@@ -22,8 +22,10 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 
 class AdoptableHuman(object):
-    def __init__(self, parents_only=False, children_only=False):
-        self.id = None
+    def __init__(self, db: Database, user_id: int, parents_only=False, children_only=False):
+        self.id = user_id
+        self.db = db
+        self.data = {}
         self.name = None
         self.parents = []
         self.children = []
@@ -31,38 +33,95 @@ class AdoptableHuman(object):
         self.parents_only = parents_only
         self.children_only = children_only
 
-    async def new(self, db: Database, user: discord.Member):
+    async def new(self, user: discord.Member):
         self.id = user.id
         self.name = clean_name(user.name, str(self.id))
-        await self.save(db, True)
+        await self.save(True)
 
-    async def load(self, db: Database, user_id: int):
-        family = await db[db.db_nam].Families.find_one({'user_id': user_id})
+    async def load(self):
+        family = await self.db[self.db.db_nam].Families.find_one({'user_id': self.id})
         if family:
+            self.data = family
             self.exists = True
-            self.id = user_id
             self.name = clean_name(family.get('user_name'), str(self.id))
             if not self.children_only:
-                await self.load_iterable(db, family.get('parents', []), self.parents, True, False)
+                await self.load_iterable(family.get('parents', []), self.parents, True, False)
             if not self.parents_only:
-                await self.load_iterable(db, family.get('children', []), self.children, False, True)
+                await self.load_iterable(family.get('children', []), self.children, False, True)
 
     def update_name(self, name: str):
         self.name = clean_name(name, str(self.id))
 
-    @staticmethod
-    async def load_iterable(db: Database, iterable: list, appendable: list, p_only: bool, c_only: bool):
+    async def load_iterable(self, iterable: list, appendable: list, p_only: bool, c_only: bool):
         for iter_item in iterable:
-            human_object = AdoptableHuman(p_only, c_only)
-            await human_object.load(db, iter_item)
+            human_object = AdoptableHuman(self.db, iter_item, p_only, c_only)
+            await human_object.load()
             appendable.append(human_object)
 
-    async def save(self, db: Database, new=False):
-        data = self.to_dict()
+    async def save(self, new=False):
+        self.data = self.to_dict()
         if new:
-            await db[db.db_nam].Families.insert_one(data)
+            await self.db[self.db.db_nam].Families.insert_one(self.data)
         else:
-            await db[db.db_nam].Families.update_one({'user_id': self.id}, {'$set': data})
+            await self.db[self.db.db_nam].Families.update_one({'user_id': self.id}, {'$set': self.data})
+
+    async def is_related(self, human):
+        child_check = self.is_child(human.id)
+        parent_check = self.is_parent(human.id)
+        sibling_check = self.is_sibling(human.id)
+        direct = child_check or parent_check or sibling_check
+        sibling = sibling_check
+        ancestor = parent_check
+        descendant = child_check
+        if not sibling and not ancestor and not descendant:
+            cousin, sd, cd, _sf, _cf = await self.is_cousin(self, human)
+            if cousin:
+                if sd > cd:
+                    descendant = True
+                elif sd < cd:
+                    ancestor = True
+                elif sd == cd:
+                    sibling = True
+        return direct, sibling, ancestor, descendant
+
+    @staticmethod
+    async def is_cousin(me, human, tp=None, sd: int = 0, cd: int = 0, sf: bool = False, cf: bool = False):
+        cousin = False
+        self_depth = sd
+        cous_depth = cd
+        self_found = sf
+        cous_found = cf
+        if not self_found:
+            self_depth += 1
+        if not cous_found:
+            cous_depth += 1
+        top_parent = tp
+        if top_parent is None:
+            top_parent = AdoptableHuman(me.db, human.top_parent().id, False, True)
+            await top_parent.load()
+        for child in top_parent.children:
+            if not self_found:
+                if child.id == me.id:
+                    self_found = True
+            if not cous_found:
+                if child.id == human.id:
+                    cous_found = True
+            if not self_found or not cous_found:
+                await child.is_cousin(me, human, child, self_depth, cous_depth, self_found, cous_found)
+        if self_found and self_depth:
+            cousin = True
+        return cousin, self_depth, cous_depth, self_found, cous_found
+
+    def is_sibling(self, user_id: int):
+        sibling = False
+        for parent in self.parents:
+            for child in parent.data.get('children', []):
+                if child == user_id:
+                    sibling = True
+                    break
+            if sibling:
+                break
+        return sibling
 
     def is_parent(self, user_id: int):
         confirmed = False
@@ -109,9 +168,7 @@ class AdoptableHuman(object):
         return bot
 
     def to_tree(self, origin: int):
-        name = self.name if self.id != origin else f'> {self.name} <'
-        children = [c.to_tree(origin) for c in self.children]
-        return {name: children}
+        return {self.name: [c.to_tree(origin) for c in self.children]}
 
     def draw_tree(self, origin: int):
         tree_data = self.to_tree(origin)
