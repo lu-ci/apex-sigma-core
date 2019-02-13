@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Major family module fixes. Added sibling checks and make recursion issues less likely.
 - Fixed the `>>colorme` hex color safeguard check.
 - Fixed the `>>adopt` response not being assigned to the response variable when targeting bots.
 

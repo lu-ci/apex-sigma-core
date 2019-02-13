@@ -23,16 +23,16 @@ from sigma.modules.fun.family.models.human import AdoptableHuman
 async def disown(cmd: SigmaCommand, pld: CommandPayload):
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target is not None:
-        disowner = AdoptableHuman()
-        await disowner.load(cmd.db, pld.msg.author.id)
+        disowner = AdoptableHuman(cmd.db, pld.msg.author.id)
+        await disowner.load()
         if not disowner.exists:
-            await disowner.new(cmd.db, pld.msg.author)
+            await disowner.new(pld.msg.author)
         else:
             disowner.update_name(pld.msg.author.name)
-        disownee = AdoptableHuman()
-        await disownee.load(cmd.db, target.id)
+        disownee = AdoptableHuman(cmd.db, target.id)
+        await disownee.load()
         if not disownee.exists:
-            await disownee.new(cmd.db, target)
+            await disownee.new(target)
         else:
             disownee.update_name(target.name)
         if disowner.id in [par.id for par in disownee.parents]:
@@ -48,7 +48,7 @@ async def disown(cmd: SigmaCommand, pld: CommandPayload):
         else:
             update = False
             response = error(f'You are not related to {target.name}.')
-        [await human.save(cmd.db) for human in [disowner, disownee] if update]
+        [await human.save() for human in [disowner, disownee] if update]
     else:
         response = error('No user tagged.')
     await pld.msg.channel.send(embed=response)

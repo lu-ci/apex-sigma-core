@@ -26,12 +26,12 @@ from sigma.modules.fun.family.models.human import AdoptableHuman
 
 async def familytree(cmd: SigmaCommand, pld: CommandPayload):
     target, is_self = (pld.msg.mentions[0], False) if pld.msg.mentions else (pld.msg.author, True)
-    human = AdoptableHuman()
-    await human.load(cmd.db, target.id)
+    human = AdoptableHuman(cmd.db, target.id)
+    await human.load()
     if human.exists:
         top_parent = human.top_parent()
-        new_top_parent = AdoptableHuman(False, True)
-        await new_top_parent.load(cmd.db, top_parent.id)
+        new_top_parent = AdoptableHuman(cmd.db, top_parent.id, False, True)
+        await new_top_parent.load()
         tree_data = new_top_parent.draw_tree(human.id)
         async with aiohttp.ClientSession() as session:
             async with session.post('https://hastebin.com/documents', data=tree_data) as response:
