@@ -32,12 +32,16 @@ async def colorme(_cmd: SigmaCommand, pld: CommandPayload):
                     hex_req = hex_req * 2
                 if len(hex_req) != 6:
                     bad_hex = True
+                try:
+                    color_int = int(f'0x{hex_req}', 16)
+                except ValueError:
+                    color_int = None
+                    bad_hex = True
                 if not bad_hex:
                     role_name = f'SCR-{hex_req.upper()}'
                     role_posi = pld.msg.author.top_role.position + 1
                     role_objc = discord.utils.find(lambda role: role.name == role_name, pld.msg.guild.roles)
                     if not role_objc:
-                        color_int = int(f'0x{hex_req}', 16)
                         role_color = discord.Color(color_int)
                         role_objc = await pld.msg.guild.create_role(name=role_name, color=role_color)
                         await role_objc.edit(position=role_posi)

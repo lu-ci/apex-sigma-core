@@ -4,7 +4,8 @@
 
 ### Changed
 
-- Fixed the adopt response not being assigned to the response variable when targeting bots.
+- Fixed the `>>colorme` hex color safeguard check.
+- Fixed the `>>adopt` response not being assigned to the response variable when targeting bots.
 
 ## 2019-02-09
 
