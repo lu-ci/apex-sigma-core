@@ -145,15 +145,20 @@ class AdoptableHuman(object):
                     break
         return confirmed
 
+    @staticmethod
+    def get_break(index: int, heritage: list):
+        return index == 1 or len(heritage) == 1
+
     def top_parent(self):
         top = None
         if len(self.parents) == 0:
             top = self
         else:
-            for parent in self.parents:
+            for i, parent in enumerate(self.parents):
                 top = parent.top_parent()
                 if top:
-                    break
+                    if self.get_break(i, self.parents):
+                        break
         return top
 
     def bot_child(self):
@@ -161,10 +166,11 @@ class AdoptableHuman(object):
         if len(self.children) == 0:
             bot = self
         else:
-            for child in self.children:
+            for i, child in enumerate(self.children):
                 bot = child.bot_child()
                 if bot:
-                    break
+                    if self.get_break(i, self.children):
+                        break
         return bot
 
     def to_tree(self, origin: int):
