@@ -25,11 +25,10 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def foodrecipe(cmd: SigmaCommand, pld: CommandPayload):
-    if 'api_key' in cmd.cfg:
-        api_key = cmd.cfg['api_key']
+    if cmd.cfg.api_key:
         if pld.args:
             search = ' '.join(pld.args)
-            url = f'http://food2fork.com/api/search?key={api_key}&q={search}'
+            url = f'http://food2fork.com/api/search?key={cmd.cfg.api_key}&q={search}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as data:
                     search_data = await data.read()

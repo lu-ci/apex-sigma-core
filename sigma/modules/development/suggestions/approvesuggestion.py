@@ -51,9 +51,8 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
 async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, delete: bool):
     sugg_cmd = bot.modules.commands.get('botsuggest')
     if sugg_cmd:
-        chn_id = sugg_cmd.cfg.get('channel')
-        if chn_id:
-            sugg_chn = await bot.get_channel(chn_id, True)
+        if sugg_cmd.cfg.channel:
+            sugg_chn = await bot.get_channel(sugg_cmd.cfg.channel, True)
             if sugg_chn:
                 smsg = await sugg_chn.get_message(suggestion.get('message'))
                 if smsg:
@@ -72,12 +71,10 @@ async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             await react_to_suggestion(cmd.bot, suggestion, '✅', False)
-            gl_token = cmd.cfg.get('token')
-            gl_project = cmd.cfg.get('project')
             gl_issue_url = gl_desc = None
-            if gl_token and gl_project:
+            if cmd.cfg.token and cmd.cfg.project:
                 gl_desc = make_gl_suggestion(token, description, suggestion)
-                gl_issue_url = await submit_gl_issue(gl_token, gl_project, title, gl_desc)
+                gl_issue_url = await submit_gl_issue(cmd.cfg.token, cmd.cfg.project, title, gl_desc)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
                 to_user = ok(f'Suggestion {token} approved by {pld.msg.author.display_name}.')

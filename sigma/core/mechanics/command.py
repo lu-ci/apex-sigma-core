@@ -21,6 +21,7 @@ import arrow
 import discord
 import yaml
 
+from sigma.core.mechanics.config import ModuleConfig
 from sigma.core.mechanics.cooldown import CommandRateLimiter
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
@@ -46,7 +47,7 @@ class SigmaCommand(object):
         self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
         self.nsfw = False
-        self.cfg = {}
+        self.cfg = ModuleConfig(self)
         self.owner = False
         self.partner = False
         self.dmable = False
@@ -75,7 +76,7 @@ class SigmaCommand(object):
         config_path = f'config/modules/{self.name}.yml'
         if os.path.exists(config_path):
             with open(config_path) as config_file:
-                self.cfg = yaml.safe_load(config_file)
+                self.cfg.load(yaml.safe_load(config_file))
 
     def resource(self, res_path: str):
         module_path = self.path

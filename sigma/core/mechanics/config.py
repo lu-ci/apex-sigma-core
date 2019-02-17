@@ -21,12 +21,22 @@ import yaml
 from sigma.core.mechanics.logger import create_logger
 
 
-class ModuleConfig(object):
-    def __init__(self, data: dict):
-        self.data = data
+class ModuleConfig(dict):
+    def __init__(self, cmd):
+        self.cmd = cmd
+        try:
+            self.data = getattr(self.cmd.command, 'defaults')
+            print(self.data)
+        except AttributeError:
+            self.data = {}
+        super().__init__(self.data)
 
     def __getattr__(self, item):
-        return self.data.get(item)
+        return self.get(item)
+
+    def load(self, data: dict):
+        self.data = data
+        self.update(self.data)
 
 
 class DiscordConfig(object):

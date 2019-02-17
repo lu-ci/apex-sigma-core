@@ -67,8 +67,7 @@ def get_dis_and_deg(unit, forecast):
 
 
 async def weather(cmd: SigmaCommand, pld: CommandPayload):
-    if 'secret_key' in cmd.cfg:
-        secret_key = cmd.cfg['secret_key']
+    if cmd.cfg.secret_key:
         if pld.args:
             search, unit = get_unit_and_search(pld.args)
             if search:
@@ -81,7 +80,7 @@ async def weather(cmd: SigmaCommand, pld: CommandPayload):
                     if location:
                         lat = location.latitude
                         lon = location.longitude
-                        req_url = f'https://api.darksky.net/forecast/{secret_key}/{lat},{lon}?units={unit}'
+                        req_url = f'https://api.darksky.net/forecast/{cmd.cfg.secret_key}/{lat},{lon}?units={unit}'
                         async with aiohttp.ClientSession() as session:
                             async with session.get(req_url) as data:
                                 search_data = await data.read()

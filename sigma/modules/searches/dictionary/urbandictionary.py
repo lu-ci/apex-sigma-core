@@ -25,12 +25,11 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def urbandictionary(cmd: SigmaCommand, pld: CommandPayload):
-    api_key = cmd.cfg.get('api_key')
-    if api_key:
+    if cmd.cfg.api_key:
         if pld.args:
             ud_input = ' '.join(pld.args).lower()
             url = "https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + ud_input
-            headers = {'X-Mashape-Key': api_key, 'Accept': 'text/plain'}
+            headers = {'X-Mashape-Key': cmd.cfg.api_key, 'Accept': 'text/plain'}
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=headers) as data_response:
                     data = await data_response.read()
