@@ -106,10 +106,10 @@ ENV/
 
 # Config files
 /config/core/*
-/config/plugins/*
+/config/modules/*
 !/config/.gitkeep
 !/config/core/.gitkeep
-!/config/plugins/.gitkeep
+!/config/modules/.gitkeep
 /doctest/*
 
 # Cached Directory

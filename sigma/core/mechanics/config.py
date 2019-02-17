@@ -21,6 +21,14 @@ import yaml
 from sigma.core.mechanics.logger import create_logger
 
 
+class ModuleConfig(object):
+    def __init__(self, data: dict):
+        self.data = data
+
+    def __getattr__(self, item):
+        return self.data.get(item)
+
+
 class DiscordConfig(object):
     def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data

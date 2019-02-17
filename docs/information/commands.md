@@ -421,7 +421,7 @@ Commands | Description | Example
 `>>imdb` `>>movie` | Searches the Internet Movie Database for your input. Gives you the poster, release year, and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the specified manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
 `>>mapsearch` `>>maps` `>>map` | Searches Google Maps for the specified location. If specific details aren't found about the location, it will return in a broad search. | `>>mapsearch Belgrade`
-`>>packages` `>>package` `>>pypi` | Search Python's/PyPi's package repository on pypi.org for the specified package and displays its details. | `>>packages pip`
+`>>pythonpackage` `>>pythonpackageindex` `>>pypackage` `>>pypi` | Search Python's/PyPi's package repository on pypi.org for the specified package and displays its details. | `>>pythonpackage pip`
 `>>reddit` | Enter a subreddit and it will show a random post from the current top posts in hot. You can specify what filter to search the subreddit with as an argument after the subreddit name. The accepted arguments are TopHot, RandomHot, TopNew, RandomNew, TopTop, and RandomTop. Random arguments choose randomly from a list of the first 100 entries. | `>>reddit ProgrammerHumor`
 `>>rhymes` `>>rhyme` | Looks up words that rhymes with the specified term. | `>>rhymes forgetful`
 `>>safebooru` `>>safe` | Returns a random image from the safebooru image repository. If no tag is given, the keyword "cute" will be used. Separate different tags with a space and replace spaces within a single tag with underscores "_". | `>>safebooru kawaii`

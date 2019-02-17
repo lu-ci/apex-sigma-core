@@ -18,7 +18,7 @@ from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, ReactionPayload, VoiceStateUpdatePayload
 from sigma.core.mechanics.payload import MemberPayload, MemberUpdatePayload, MessageEditPayload, MessagePayload
 from sigma.core.mechanics.payload import RawReactionPayload, ShardReadyPayload
-from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.modman import ModuleManager
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
@@ -139,7 +139,7 @@ class ApexSigma(client_class):
     def init_modules(self, init: bool = False):
         if init:
             self.log.info('Loading Sigma Modules')
-        self.modules = PluginManager(self, init)
+        self.modules = ModuleManager(self, init)
 
     def is_ready(self):
         try:

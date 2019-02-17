@@ -22,16 +22,16 @@ from sigma.core.mechanics.payload import SigmaPayload
 
 
 class SigmaEvent(object):
-    def __init__(self, bot, event, plugin_info, event_info):
+    def __init__(self, bot, event, module_info, event_info):
         self.bot = bot
         self.db = self.bot.db
         self.event = event
-        self.plugin_info = plugin_info
+        self.module_info = module_info
         self.event_info = event_info
         self.event_type = self.event_info.get('type')
         self.name = self.event_info.get('name')
-        self.category = self.plugin_info.get('category')
-        self.subcategory = self.plugin_info.get('subcategory')
+        self.category = self.module_info.get('category')
+        self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
 
     def get_exception(self):

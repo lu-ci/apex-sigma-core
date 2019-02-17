@@ -24,11 +24,11 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.logger import create_logger
 
 
-class PluginManager(object):
+class ModuleManager(object):
     def __init__(self, bot, init: bool):
         self.bot = bot
         self.init = init
-        self.log = create_logger('Plugin Manager', shard=self.bot.cfg.dsc.shard)
+        self.log = create_logger('Module Manager', shard=self.bot.cfg.dsc.shard)
         self.alts = {}
         self.commands = {}
         self.events = {}
@@ -80,18 +80,18 @@ class PluginManager(object):
             if event_data.get('enabled'):
                 self.load_event_executable(root, event_data, module_data)
 
-    def load_command_executable(self, root: str, command_data: dict, plugin_data: dict):
+    def load_command_executable(self, root: str, command_data: dict, module_data: dict):
         command_data.update({'path': os.path.join(root)})
         command_function = self.load_function(root, command_data)
-        cmd = SigmaCommand(self.bot, command_function, plugin_data, command_data)
+        cmd = SigmaCommand(self.bot, command_function, module_data, command_data)
         if cmd.alts:
             for alt in cmd.alts:
                 self.alts.update({alt: cmd.name})
         self.commands.update({command_data.get('name'): cmd})
 
-    def load_event_executable(self, root: str, event_data: dict, plugin_data: dict):
+    def load_event_executable(self, root: str, event_data: dict, module_data: dict):
         event_function = self.load_function(root, event_data)
-        event = SigmaEvent(self.bot, event_function, plugin_data, event_data)
+        event = SigmaEvent(self.bot, event_function, module_data, event_data)
         if event.event_type in self.events:
             event_list = self.events.get(event.event_type)
         else:
@@ -108,7 +108,7 @@ class PluginManager(object):
             for file in files:
                 if file == 'module.yml':
                     file_path = os.path.join(root, file)
-                    with open(file_path, encoding='utf-8') as plugin_file:
-                        module_data = yaml.safe_load(plugin_file)
+                    with open(file_path, encoding='utf-8') as module_file:
+                        module_data = yaml.safe_load(module_file)
                         if module_data.get('enabled'):
                             self.load_module(root, module_data)

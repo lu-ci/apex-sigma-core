@@ -33,17 +33,17 @@ from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
-    def __init__(self, bot, command, plugin_info: dict, command_info: dict):
+    def __init__(self, bot, command, module_info: dict, command_info: dict):
         self.bot = bot
         self.db: Database = self.bot.db
         self.cd = CommandRateLimiter(self)
         self.command = command
-        self.plugin_info = plugin_info
+        self.module_info = module_info
         self.command_info = command_info
         self.name = self.command_info.get('name')
         self.path = self.command_info.get('path')
-        self.category = self.plugin_info.get('category')
-        self.subcategory = self.plugin_info.get('subcategory')
+        self.category = self.module_info.get('category')
+        self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
         self.nsfw = False
         self.cfg = {}
@@ -72,7 +72,7 @@ class SigmaCommand(object):
             self.desc += '\n(Bot Owner Only)'
 
     def load_command_config(self):
-        config_path = f'config/plugins/{self.name}.yml'
+        config_path = f'config/modules/{self.name}.yml'
         if os.path.exists(config_path):
             with open(config_path) as config_file:
                 self.cfg = yaml.safe_load(config_file)
