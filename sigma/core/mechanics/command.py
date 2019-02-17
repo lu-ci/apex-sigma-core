@@ -85,11 +85,7 @@ class SigmaCommand(object):
         return res_path
 
     def get_exception(self):
-        if self.bot.cfg.pref.dev_mode:
-            cmd_exception = DummyException
-        else:
-            cmd_exception = Exception
-        return cmd_exception
+        return DummyException if self.bot.cfg.pref.dev_mode else Exception
 
     def log_command_usage(self, message: discord.Message, args: list, extime: int):
         crst = arrow.get(message.created_at).float_timestamp
