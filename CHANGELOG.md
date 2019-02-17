@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- The initial `run.py` file now checks for any import errors. If detected, it'll try to install the requirements file.
+
 ## 2019-02-12
 
 ### Changed
