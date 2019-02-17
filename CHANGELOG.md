@@ -9,7 +9,9 @@
 
 ### Changed
 
+- Updated all copyright comments from 2018 to 2019.
 - All instances of `plugin` have been renamed to `module`. Meaning that you need to rename `config/plugins` to `config/modules`.
+- Family tree consistency fixes by *Shifty*.
 
 ## 2019-02-12
 
