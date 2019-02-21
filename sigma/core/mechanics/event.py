@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,16 +22,17 @@ from sigma.core.mechanics.payload import SigmaPayload
 
 
 class SigmaEvent(object):
-    def __init__(self, bot, event, plugin_info, event_info):
+    def __init__(self, bot, event, module_info, event_info):
         self.bot = bot
         self.db = self.bot.db
         self.event = event
-        self.plugin_info = plugin_info
+        self.module_info = module_info
         self.event_info = event_info
+        self.path = self.event_info.get('path')
         self.event_type = self.event_info.get('type')
         self.name = self.event_info.get('name')
-        self.category = self.plugin_info.get('category')
-        self.subcategory = self.plugin_info.get('subcategory')
+        self.category = self.module_info.get('category')
+        self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
 
     def get_exception(self):
@@ -44,6 +45,12 @@ class SigmaEvent(object):
     def log_error(self, exception: Exception):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
+
+    def resource(self, res_path: str):
+        module_path = self.path
+        res_path = f'{module_path}/res/{res_path}'
+        res_path = res_path.replace('\\', '/')
+        return res_path
 
     async def execute(self, pld: SigmaPayload = None):
         if self.bot.ready:

@@ -18,14 +18,14 @@ from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, ReactionPayload, VoiceStateUpdatePayload
 from sigma.core.mechanics.payload import MemberPayload, MemberUpdatePayload, MessageEditPayload, MessagePayload
 from sigma.core.mechanics.payload import RawReactionPayload, ShardReadyPayload
-from sigma.core.mechanics.plugman import PluginManager
+from sigma.core.mechanics.modman import ModuleManager
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
 
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ class ApexSigma(client_class):
     def init_modules(self, init: bool = False):
         if init:
             self.log.info('Loading Sigma Modules')
-        self.modules = PluginManager(self, init)
+        self.modules = ModuleManager(self, init)
 
     def is_ready(self):
         try:

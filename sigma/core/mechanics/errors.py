@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,6 @@ class SigmaError(object):
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
         await self.icon_resp(pld.msg, '❗')
-        await self.send_error_message(pld)
         await self.log_error()
 
     async def send_error_message(self, pld: MessagePayload):

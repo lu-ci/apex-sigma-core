@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,10 +27,9 @@ cat_cache = []
 
 
 async def cat(cmd: SigmaCommand, pld: CommandPayload):
-    cat_api_key = cmd.cfg.get('api_key')
     api_url = 'http://thecatapi.com/api/images/get?format=json&results_per_page=100'
-    if cat_api_key:
-        api_url += f'&api_key={cat_api_key}'
+    if cmd.cfg.api_key:
+        api_url += f'&api_key={cmd.cfg.api_key}'
     if not cat_cache:
         async with aiohttp.ClientSession() as session:
             async with session.get(api_url) as raw_page:

@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,11 +28,10 @@ giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
 
 async def giphy(cmd: SigmaCommand, pld: CommandPayload):
-    api_key = cmd.cfg.get('api_key')
-    if api_key:
+    if cmd.cfg.api_key:
         if pld.args:
             qry = ' '.join(pld.args)
-            url = f'https://api.giphy.com/v1/gifs/search?q={qry}&api_key={api_key}'
+            url = f'https://api.giphy.com/v1/gifs/search?q={qry}&api_key={cmd.cfg.api_key}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as data_response:
                     search_data = await data_response.read()

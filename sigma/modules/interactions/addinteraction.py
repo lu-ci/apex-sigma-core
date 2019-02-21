@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
                             imgur_link = await relay_image(cmd, interaction_link)
                             if imgur_link:
                                 inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
-                                if cmd.cfg.get('log_ch') is None:
+                                if cmd.cfg.log_ch is None:
                                     inter_data.update({'active': True})
                                 await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
                                 title = f'Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'

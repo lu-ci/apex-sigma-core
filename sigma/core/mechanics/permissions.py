@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -217,7 +217,7 @@ class ServerCommandPermissions(object):
         mdl_exc = perms.get('module_exceptions', {})
         author = self.msg.author
         if mdl_exc:
-            mdl_name = self.cmd.plugin_info.get('category', 'unknown')
+            mdl_name = self.cmd.module_info.get('category', 'unknown')
             if mdl_name in mdl_exc:
                 exceptions = mdl_exc[mdl_name]
                 if author.id in exceptions.get('users', []):
@@ -275,7 +275,7 @@ class ServerCommandPermissions(object):
                     permitted = True
                 else:
                     cmd = self.cmd.name
-                    mdl = self.cmd.plugin_info.get('category', 'unknown')
+                    mdl = self.cmd.module_info.get('category', 'unknown')
                     mdl_override = self.check_mdl_overwrites(perms)
                     disabled_modules = perms.get('disabled_modules', [])
                     mdl_disabled = mdl in disabled_modules

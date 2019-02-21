@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,24 @@ import os
 import yaml
 
 from sigma.core.mechanics.logger import create_logger
+
+
+class ModuleConfig(dict):
+    def __init__(self, cmd):
+        self.cmd = cmd
+        try:
+            self.data = getattr(self.cmd.command, 'defaults')
+            print(self.data)
+        except AttributeError:
+            self.data = {}
+        super().__init__(self.data)
+
+    def __getattr__(self, item):
+        return self.get(item)
+
+    def load(self, data: dict):
+        self.data = data
+        self.update(self.data)
 
 
 class DiscordConfig(object):

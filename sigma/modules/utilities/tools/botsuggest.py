@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,8 +48,7 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
 
 async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
     coll = cmd.db[cmd.db.db_nam].Suggestions
-    sugg_chn_id = cmd.cfg.get('channel')
-    if sugg_chn_id:
+    if cmd.cfg.channel:
         if pld.args:
             sugg_token = secrets.token_hex(4)
             await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))

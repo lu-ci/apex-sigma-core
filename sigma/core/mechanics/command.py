@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import arrow
 import discord
 import yaml
 
+from sigma.core.mechanics.config import ModuleConfig
 from sigma.core.mechanics.cooldown import CommandRateLimiter
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.errors import SigmaError
@@ -33,20 +34,20 @@ from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
 class SigmaCommand(object):
-    def __init__(self, bot, command, plugin_info: dict, command_info: dict):
+    def __init__(self, bot, command, module_info: dict, command_info: dict):
         self.bot = bot
         self.db: Database = self.bot.db
         self.cd = CommandRateLimiter(self)
         self.command = command
-        self.plugin_info = plugin_info
+        self.module_info = module_info
         self.command_info = command_info
         self.name = self.command_info.get('name')
         self.path = self.command_info.get('path')
-        self.category = self.plugin_info.get('category')
-        self.subcategory = self.plugin_info.get('subcategory')
+        self.category = self.module_info.get('category')
+        self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
         self.nsfw = False
-        self.cfg = {}
+        self.cfg = ModuleConfig(self)
         self.owner = False
         self.partner = False
         self.dmable = False
@@ -72,10 +73,10 @@ class SigmaCommand(object):
             self.desc += '\n(Bot Owner Only)'
 
     def load_command_config(self):
-        config_path = f'config/plugins/{self.name}.yml'
+        config_path = f'config/modules/{self.name}.yml'
         if os.path.exists(config_path):
             with open(config_path) as config_file:
-                self.cfg = yaml.safe_load(config_file)
+                self.cfg.load(yaml.safe_load(config_file))
 
     def resource(self, res_path: str):
         module_path = self.path
@@ -84,11 +85,7 @@ class SigmaCommand(object):
         return res_path
 
     def get_exception(self):
-        if self.bot.cfg.pref.dev_mode:
-            cmd_exception = DummyException
-        else:
-            cmd_exception = Exception
-        return cmd_exception
+        return DummyException if self.bot.cfg.pref.dev_mode else Exception
 
     def log_command_usage(self, message: discord.Message, args: list, extime: int):
         crst = arrow.get(message.created_at).float_timestamp

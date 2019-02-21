@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,8 +26,7 @@ from sigma.core.utilities.generic_responses import error
 
 async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
     text_cont = None
-    if 'access_token' in cmd.cfg:
-        access_token = cmd.cfg['access_token']
+    if cmd.cfg.access_token:
         if pld.args:
             if pld.args[-1].lower() == 'text':
                 text_mode = True
@@ -37,7 +36,7 @@ async def shortenurl(cmd: SigmaCommand, pld: CommandPayload):
                 long_url = '%20'.join(pld.args)
             api_url = 'https://api-ssl.bitly.com/v3/shorten'
             api_url += f'?longUrl={long_url}&domain=bit.ly&format=json'
-            api_url += f'&access_token={access_token}'
+            api_url += f'&access_token={cmd.cfg.access_token}'
             async with aiohttp.ClientSession() as session:
                 async with session.get(api_url) as data:
                     data = await data.read()

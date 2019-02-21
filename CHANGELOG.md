@@ -1,5 +1,21 @@
 # Apex Sigma Changelog
 
+## 4.35.712: Ange
+
+### Added
+
+- Created the `ModuleConfig` class that wraps command config data for future configuration expansions.
+- The initial `run.py` file now checks for any import errors. If detected, it'll try to install the requirements file.
+- The ChatterBot Core returns! Brought back AI without ChatterBot, now with AIML... it's good enough.
+
+### Changed
+
+- Codename changed to **Ange** for **4.35**.
+- The `SigmaEvent` class now has a `path` attribute and `resource()` method like the one for commands.
+- Updated all copyright comments from 2018 to 2019.
+- All instances of `plugin` have been renamed to `module`. Meaning that you need to rename `config/plugins` to `config/modules`.
+- Family tree consistency fixes by *Shifty*.
+
 ## 2019-02-12
 
 ### Changed

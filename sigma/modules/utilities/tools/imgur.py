@@ -1,5 +1,5 @@
 # Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,10 +41,10 @@ async def upload_image(image_url: str, client_id: str):
 
 
 async def imgur(cmd: SigmaCommand, pld: CommandPayload):
-    if 'client_id' in cmd.cfg:
+    if cmd.cfg.client_id:
         if pld.args or pld.msg.attachments:
             image_url = pld.msg.attachments[0].url if pld.msg.attachments else pld.args[0]
-            link = await upload_image(image_url, cmd.cfg.get("client_id"))
+            link = await upload_image(image_url, cmd.cfg.client_id)
             if link:
                 response = discord.Embed(color=0x85BF25)
                 response.set_author(name=link, icon_url=imgur_icon, url=link)

@@ -1,5 +1,5 @@
 ﻿# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2018  Lucia's Cipher
+# Copyright (C) 2019  Lucia's Cipher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,11 +27,11 @@ oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 
 
 async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
-    if 'app_id' in cmd.cfg and 'app_key' in cmd.cfg:
+    if cmd.cfg.app_id is not None and cmd.cfg.app_key is not None:
         headers = {
             'Accept': 'application/json',
-            'app_id': cmd.cfg['app_id'],
-            'app_key': cmd.cfg['app_key']
+            'app_id': cmd.cfg.app_id,
+            'app_key': cmd.cfg.app_key
         }
         if pld.args:
             query = '_'.join(pld.args).lower()
