@@ -18,13 +18,13 @@ import asyncio
 
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
-from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core
+from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
 
 async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
     if pld.msg.content:
         start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')
-        start_two = pld.msg.content.startswith(f'<!@{ev.bot.user.id}>')
+        start_two = pld.msg.content.startswith(f'<@!{ev.bot.user.id}>')
         if start_one or start_two:
             clean_msg = ' '.join(pld.msg.content.split()[1:])
             if clean_msg:
@@ -33,6 +33,8 @@ async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
                 active = pld.settings.get('chatterbot')
                 if active:
                     async with pld.msg.channel.typing():
+                        if not chatter_core.numCategories():
+                            train(ev, chatter_core)
                         response_text = chatter_core.respond(clean_msg, pld.msg.author.id)
                         sleep_time = len(response_text) * 0.185
                         await asyncio.sleep(sleep_time)

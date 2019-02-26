@@ -20,10 +20,14 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 chatter_core = aiml.Kernel()
+chatter_core.verbose(False)
+
+
+def train(ev: SigmaEvent, core):
+    aiml_files = sorted(os.listdir(ev.resource('aiml_files')))
+    for aiml_file in aiml_files:
+        core.learn(ev.resource(f'aiml_files/{aiml_file}'))
 
 
 async def chatter_core_init(ev: SigmaEvent):
-    chatter_core.verbose(False)
-    aiml_files = sorted(os.listdir(ev.resource('aiml_files')))
-    for aiml_file in aiml_files:
-        chatter_core.learn(ev.resource(f'aiml_files/{aiml_file}'))
+    train(ev, chatter_core)

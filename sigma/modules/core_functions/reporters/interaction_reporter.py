@@ -21,23 +21,21 @@ import discord
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
-interaction_chn_cache = None
+interaction_channel = None
 interaction_reporter_running = False
 
 
 async def get_interaction_channel(bot: ApexSigma):
-    global interaction_chn_cache
-    interaction_chn = None or interaction_chn_cache
-    if interaction_chn is None:
+    global interaction_channel
+    if interaction_channel is None:
         intr_chn_id = bot.modules.commands.get('addinteraction').cfg.get('log_ch')
         if intr_chn_id:
-            interaction_chn_cache = interaction_chn = await bot.get_channel(intr_chn_id, True)
-    return interaction_chn
+            interaction_channel = await bot.get_channel(intr_chn_id, True)
 
 
 async def interaction_reporter(ev: SigmaEvent):
     global interaction_reporter_running
-    interaction_channel = await get_interaction_channel(ev.bot)
+    await get_interaction_channel(ev.bot)
     if not interaction_reporter_running and interaction_channel:
         interaction_reporter_running = True
         ev.bot.loop.create_task(interaction_reporter_clockwork(ev))
@@ -55,7 +53,7 @@ async def send_interaction_log_message(inter_data: dict):
     log_resp = discord.Embed(color=0x3B88C3)
     log_resp.add_field(name=log_resp_title, value=data_desc)
     log_resp.set_thumbnail(url=interaction_url)
-    log_msg = await interaction_chn_cache.send(embed=log_resp)
+    log_msg = await interaction_channel.send(embed=log_resp)
     return log_msg
 
 
@@ -64,6 +62,8 @@ async def interaction_reporter_clockwork(ev: SigmaEvent):
         if ev.bot.is_ready():
             interaction_docs = await ev.db[ev.db.db_nam].Interactions.find({'reported': False}).to_list(None)
             for interaction_doc in interaction_docs:
+                if not interaction_channel:
+                    await get_interaction_channel(ev.bot)
                 log_msg = await send_interaction_log_message(interaction_doc)
                 update_dict = {'$set': {'reported': True, 'message_id': log_msg.id if log_msg else None}}
                 await ev.db[ev.db.db_nam].Interactions.update_one(interaction_doc, update_dict)
