@@ -93,7 +93,7 @@ class ApexSigma(client_class):
 
     async def init_cacher(self):
         try:
-            self.cache = await get_cache(self.cfg.db.cache_type)
+            self.cache = await get_cache(self.cfg.cache)
         except OSError:
             self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
             exit(errno.ETIMEDOUT)
@@ -174,7 +174,11 @@ class ApexSigma(client_class):
         try:
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
-            super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
+            if self.cfg.dsc.token is not None:
+                super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
+            else:
+                self.log.error('You need to configure the Discord bot token before starting.')
+                exit(errno.EPERM)
         except discord.LoginFailure:
             self.log.error('Invalid Token!')
             exit(errno.EPERM)

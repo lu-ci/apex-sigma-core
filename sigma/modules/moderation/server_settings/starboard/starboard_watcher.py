@@ -17,7 +17,8 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.caching import get_cache
+from sigma.core.mechanics.caching import get_cache, MemoryCacher
+from sigma.core.mechanics.config import CacheConfig
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
@@ -71,7 +72,7 @@ async def check_emotes(mid: int, sbl: int):
 async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
     global star_cache
     if not star_cache:
-        star_cache = await get_cache('memory')
+        star_cache = MemoryCacher(CacheConfig({}))
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id

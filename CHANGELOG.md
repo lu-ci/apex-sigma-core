@@ -1,5 +1,18 @@
 # Apex Sigma Changelog
 
+## 4.35.726: Ange
+
+### Added
+
+- Created the `CacherConfiguration` class that handles all `Cacher` classes. This adds a new core config file at `config/core/cache.yml` that should contain the cacher parameters. Those are: `type` for the type of `Cacher` to use, `size` for the max number of items in LRU and TTL caches, `time` for the time-to-live time limit in the TTL cache, and `host` and `port` for the Redis and Mixed cachers.
+
+### Changed
+
+- The `>>adopt` command now requires emote reaction confirmation that they agree to being adopted.
+- The `>>familytree` command now uploads a yaml file instead of posting the contents to hastebin due to hastebin's low storage allowance.
+- `Cacher` classes now take a `CacheConfiguration` value, instead of specific required values.
+- The default value for the bot token has been removed and replaced with a safeguard check. Sigma now terminates without trying to contact discord if the token is `None`.
+
 ## 4.35.712: Ange
 
 ### Added

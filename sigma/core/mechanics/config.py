@@ -42,7 +42,7 @@ class ModuleConfig(dict):
 class DiscordConfig(object):
     def __init__(self, client_cfg_data: dict):
         self.raw = client_cfg_data
-        self.token = self.raw.get('token', 'You got no token, son!')
+        self.token = self.raw.get('token')
         self.owners = self.raw.get('owners', [137951917644054529])
         self.bot = self.raw.get('bot', True)
         try:
@@ -80,12 +80,23 @@ class PreferencesConfig(object):
         self.errorlog_channel = self.raw.get('errorlog_channel')
 
 
+class CacheConfig(object):
+    def __init__(self, cache_cfg_data):
+        self.raw = cache_cfg_data
+        self.type = self.raw.get('type')
+        self.time = self.raw.get('time', 300)
+        self.size = self.raw.get('size', 1000000)
+        self.host = self.raw.get('host', '127.0.0.1')
+        self.port = self.raw.get('port', 6379)
+
+
 class Configuration(object):
     def __init__(self):
         self.log = create_logger('Config')
         cli_cfg_path = 'config/core/discord.yml'
         db_cfg_path = 'config/core/database.yml'
-        pref_cfg_config = 'config/core/preferences.yml'
+        pref_cfg_path = 'config/core/preferences.yml'
+        cache_cfg_path = 'config/core/cache.yml'
         if os.path.exists(cli_cfg_path):
             with open(cli_cfg_path, encoding='utf-8') as discord_config:
                 self.client_cfg_data = yaml.safe_load(discord_config)
@@ -98,12 +109,19 @@ class Configuration(object):
         else:
             self.log.warning('No database configuration, using defaults.')
             self.db_cfg_data = {}
-        if os.path.exists(pref_cfg_config):
-            with open(pref_cfg_config, encoding='utf-8') as preferences_config:
+        if os.path.exists(pref_cfg_path):
+            with open(pref_cfg_path, encoding='utf-8') as preferences_config:
                 self.pref_cfg_data = yaml.safe_load(preferences_config)
         else:
             self.log.warning('No preferences configuration, using defaults.')
             self.pref_cfg_data = {}
+        if os.path.exists(cache_cfg_path):
+            with open(cache_cfg_path, encoding='utf-8') as cache_config:
+                self.cache_cfg_data = yaml.safe_load(cache_config)
+        else:
+            self.log.warning('No cache configuration, using defaults.')
+            self.cache_cfg_data = {}
         self.dsc = DiscordConfig(self.client_cfg_data)
         self.db = DatabaseConfig(self.db_cfg_data)
         self.pref = PreferencesConfig(self.pref_cfg_data)
+        self.cache = CacheConfig(self.cache_cfg_data)
