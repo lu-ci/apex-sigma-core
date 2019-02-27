@@ -26,12 +26,11 @@ error_reporter_running = False
 
 async def get_error_channel(bot: ApexSigma):
     global error_chn_cache
-    error_chn = None or error_chn_cache
-    if bot.cfg.pref.errorlog_channel and error_chn is None:
+    if bot.cfg.pref.errorlog_channel and error_chn_cache is None:
         err_chn_id = bot.cfg.pref.errorlog_channel
         if err_chn_id:
-            error_chn_cache = error_chn = await bot.get_channel(err_chn_id, True)
-    return error_chn
+            error_chn_cache = await bot.get_channel(err_chn_id, True)
+    return error_chn_cache
 
 
 async def error_reporter(ev: SigmaEvent):
