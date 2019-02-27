@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.35.730: Ange
+
+### Added
+
+- The `>>roleswithpermission` (the `>>rlwperm` for short) command has been made. It lists all roles that have a given permission or list of permissions  separated by a `;` (semicolon). You can reverse the search so it shows that don't have the permission by adding `--negative` to the end of the command.
+
 ## 4.35.726: Ange
 
 ### Added

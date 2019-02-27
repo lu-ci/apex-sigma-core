@@ -550,6 +550,7 @@ Commands | Description | Example
 `>>roleid` `>>rankid` `>>rid` | Shows the Role ID of the specified role. Unlike the other ID commands, a role specification is required. Roles mentions do not work here, lookup is done via role name. If you don't want the message to be an embed, add "text" at the end. | `>>roleid Warlards`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data on the specified role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
 `>>rolepopulation` `>>rolepop` | Shows the population of the specified role. If no arguments are provided, it will show the top 15 roles by population. | `>>rolepopulation Warlard`
+`>>roleswithpermission` `>>roleswithpermissions` `>>roleswithperms` `>>roleswithperm` `>>rlwperms` `>>rlwperm` | Lists all roles with the given permissions. You can list multiple permissions to look for roles that contain all of them. You can also reverse the search by adding "--negative" to the command. This will return roles that have that permissions denied. | `>>roleswithpermission Manage Messages; Administrator`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
 `>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data on the server. | `>>serverinformation`

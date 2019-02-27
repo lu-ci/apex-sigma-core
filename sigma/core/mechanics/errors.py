@@ -40,6 +40,7 @@ class SigmaError(object):
         self.data = self.make_error_dict(pld.msg)
         await self.icon_resp(pld.msg, '❗')
         await self.log_error()
+        await self.send_error_message(pld)
 
     async def send_error_message(self, pld: MessagePayload):
         title, err_text = self.get_error_message(pld.settings)

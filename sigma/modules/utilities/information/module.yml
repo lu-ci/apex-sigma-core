@@ -52,6 +52,21 @@ commands:
                   Shows which permissions a user has and which they do not.
                   If no user is mentioned, it will target the message author.
 
+  - name:         roleswithpermission
+    alts:
+      - "roleswithpermissions"
+      - "roleswithperms"
+      - "roleswithperm"
+      - "rlwperms"
+      - "rlwperm"
+    enabled:      true
+    usage:        "{pfx}{cmd} Manage Messages; Administrator"
+    description:
+                  Lists all roles with the given permissions.
+                  You can list multiple permissions to look for roles that contain all of them.
+                  You can also reverse the search by adding "--negative" to the command.
+                  This will return roles that have that permissions denied.
+
   - name:         owners
     enabled:      true
     description:
