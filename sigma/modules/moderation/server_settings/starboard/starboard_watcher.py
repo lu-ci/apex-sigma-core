@@ -17,7 +17,7 @@
 import arrow
 import discord
 
-from sigma.core.mechanics.caching import get_cache, MemoryCacher
+from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload

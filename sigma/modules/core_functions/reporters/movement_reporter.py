@@ -22,29 +22,27 @@ import discord
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
-movement_chn_cache = None
+movement_channel = None
 movement_reporter_running = False
 
 
 async def get_movement_channel(bot: ApexSigma):
-    global movement_chn_cache
-    movement_chn = None or movement_chn_cache
-    mvmt_chn_id = bot.cfg.pref.movelog_channel
-    if movement_chn is None and mvmt_chn_id is not None:
-        if mvmt_chn_id:
-            movement_chn_cache = movement_chn = await bot.get_channel(mvmt_chn_id, True)
-    return movement_chn
+    global movement_channel
+    move_chn_id = bot.cfg.pref.movelog_channel
+    if bot.cfg.pref.movelog_channel and not movement_channel:
+        if move_chn_id:
+            movement_channel = await bot.get_channel(move_chn_id, True)
 
 
 async def movement_reporter(ev: SigmaEvent):
     global movement_reporter_running
-    movement_channel = await get_movement_channel(ev.bot)
+    await get_movement_channel(ev.bot)
     if not movement_reporter_running and movement_channel:
         movement_reporter_running = True
         ev.bot.loop.create_task(movement_reporter_clockwork(ev))
 
 
-def make_move_log_embed(data: dict):
+def make_movement_log_embed(data: dict):
     joined = data.get('join')
     gld = data.get('guild', {})
     owner = data.get('owner', {})
@@ -69,9 +67,9 @@ def make_move_log_embed(data: dict):
 
 
 async def send_movement_log_message(bot: ApexSigma, move_data: dict):
-    response = make_move_log_embed(move_data)
     move_log_channel = await get_movement_channel(bot)
     if move_log_channel:
+        response = make_movement_log_embed(move_data)
         await move_log_channel.send(embed=response)
 
 
@@ -80,6 +78,8 @@ async def movement_reporter_clockwork(ev: SigmaEvent):
         if ev.bot.is_ready():
             movement_docs = await ev.db[ev.db.db_nam].Movements.find({'reported': False}).to_list(None)
             for movement_doc in movement_docs:
+                if not movement_channel:
+                    await get_movement_channel(ev.bot)
                 await send_movement_log_message(ev.bot, movement_doc)
                 await ev.db[ev.db.db_nam].Movements.update_one(movement_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)

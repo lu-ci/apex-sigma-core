@@ -54,15 +54,15 @@ async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, d
         if sugg_cmd.cfg.channel:
             sugg_chn = await bot.get_channel(sugg_cmd.cfg.channel, True)
             if sugg_chn:
-                smsg = await sugg_chn.get_message(suggestion.get('message'))
-                if smsg:
-                    try:
+                try:
+                    smsg = await sugg_chn.get_message(suggestion.get('message'))
+                    if smsg:
                         if delete:
                             await smsg.delete()
                         else:
                             await smsg.add_reaction(reaction)
-                    except (discord.Forbidden, discord.NotFound):
-                        pass
+                except (discord.Forbidden, discord.NotFound):
+                    pass
 
 
 async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):

@@ -41,7 +41,7 @@ async def interaction_reporter(ev: SigmaEvent):
         ev.bot.loop.create_task(interaction_reporter_clockwork(ev))
 
 
-async def send_interaction_log_message(inter_data: dict):
+async def make_interaction_log_embed(inter_data: dict):
     interaction_url = inter_data.get('url')
     interaction_id = inter_data.get('interaction_id')
     interaction_name = inter_data.get('name')
@@ -49,12 +49,18 @@ async def send_interaction_log_message(inter_data: dict):
     data_desc += f'\nGuild ID: {inter_data.get("server_id")}'
     data_desc += f'\nInteraction URL: [Here]({interaction_url})'
     data_desc += f'\nInteraction ID: {interaction_id}'
-    log_resp_title = f'🆙 Added a new {interaction_name.lower()}'
-    log_resp = discord.Embed(color=0x3B88C3)
-    log_resp.add_field(name=log_resp_title, value=data_desc)
-    log_resp.set_thumbnail(url=interaction_url)
-    log_msg = await interaction_channel.send(embed=log_resp)
-    return log_msg
+    response_title = f'🆙 Added a new {interaction_name.lower()}'
+    response = discord.Embed(color=0x3B88C3)
+    response.add_field(name=response_title, value=data_desc)
+    response.set_thumbnail(url=interaction_url)
+    return response
+
+
+async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
+    intr_log_channel = await get_interaction_channel(bot)
+    if intr_log_channel:
+        response = make_interaction_log_embed(move_data)
+        await intr_log_channel.send(embed=response)
 
 
 async def interaction_reporter_clockwork(ev: SigmaEvent):
@@ -64,7 +70,7 @@ async def interaction_reporter_clockwork(ev: SigmaEvent):
             for interaction_doc in interaction_docs:
                 if not interaction_channel:
                     await get_interaction_channel(ev.bot)
-                log_msg = await send_interaction_log_message(interaction_doc)
+                log_msg = await send_interaction_log_message(ev.bot, interaction_doc)
                 update_dict = {'$set': {'reported': True, 'message_id': log_msg.id if log_msg else None}}
                 await ev.db[ev.db.db_nam].Interactions.update_one(interaction_doc, update_dict)
                 await asyncio.sleep(1)

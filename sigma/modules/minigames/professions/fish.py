@@ -44,9 +44,7 @@ async def fish(cmd: SigmaCommand, pld: CommandPayload):
                     try:
                         if int(pld.args[0]) <= 9:
                             rarity = int(pld.args[0])
-                        else:
-                            pass
-                    except TypeError:
+                    except ValueError:
                         pass
             item = item_core.pick_item_in_rarity('fish', rarity)
             connector = 'a'

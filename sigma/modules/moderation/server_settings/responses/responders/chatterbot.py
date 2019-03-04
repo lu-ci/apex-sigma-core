@@ -16,7 +16,7 @@
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import ok, denied
+from sigma.core.utilities.generic_responses import denied, ok
 
 
 async def chatterbot(cmd: SigmaCommand, pld: CommandPayload):

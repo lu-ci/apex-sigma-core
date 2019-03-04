@@ -44,26 +44,26 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
                     try:
                         if int(pld.args[0]) <= 9:
                             rarity = int(pld.args[0])
-                        else:
-                            pass
-                    except TypeError:
+                    except ValueError:
                         pass
+            item = item_core.pick_item_in_rarity('animal', rarity)
+            connector = 'a'
+            if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
+                connector = 'an'
             if rarity == 0:
-                response = discord.Embed(color=0x67757f, title='🗑 You failed to catch anything.')
+                if item.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
+                    connector = 'an'
+                response_title = f'{item.icon} You caught {connector} {item.name} and threw it away!'
+                response = discord.Embed(color=item.color, title=response_title)
             else:
-                item = item_core.pick_item_in_rarity('animal', rarity)
                 success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
                 if success:
-                    connector = 'a'
-                    if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-                        connector = 'an'
-                    item_color = item.color
                     response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                     data_for_inv = item.generate_inventory_item()
                     await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
                     await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
                     await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                    response = discord.Embed(color=item_color, title=response_title)
+                    response = discord.Embed(color=item.color, title=response_title)
                 else:
                     if timed_out:
                         response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'

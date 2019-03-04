@@ -16,38 +16,37 @@
 
 import asyncio
 
-from sigma.core.mechanics.errors import SigmaError
+from sigma.core.mechanics.error import SigmaError
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
-error_chn_cache = None
+error_channel = None
 error_reporter_running = False
 
 
 async def get_error_channel(bot: ApexSigma):
-    global error_chn_cache
-    if bot.cfg.pref.errorlog_channel and error_chn_cache is None:
+    global error_channel
+    if bot.cfg.pref.errorlog_channel and error_channel is None:
         err_chn_id = bot.cfg.pref.errorlog_channel
         if err_chn_id:
-            error_chn_cache = await bot.get_channel(err_chn_id, True)
-    return error_chn_cache
+            error_channel = await bot.get_channel(err_chn_id, True)
 
 
 async def error_reporter(ev: SigmaEvent):
     global error_reporter_running
-    error_channel = await get_error_channel(ev.bot)
+    await get_error_channel(ev.bot)
     if not error_reporter_running and error_channel:
         error_reporter_running = True
         ev.bot.loop.create_task(error_reporter_clockwork(ev))
 
 
-async def send_error_log(bot: ApexSigma, error_data):
-    error_chn = await get_error_channel(bot)
-    if error_chn and error_data:
+async def send_error_log_message(bot: ApexSigma, error_data):
+    error_log_chn = await get_error_channel(bot)
+    if error_log_chn and error_data:
         response, trace = SigmaError.make_error_embed(error_data)
-        await error_chn.send(embed=response)
+        await error_log_chn.send(tradcembed=response)
         if trace:
-            await error_chn.send(trace)
+            await error_log_chn.send(trace)
 
 
 async def error_reporter_clockwork(ev: SigmaEvent):
@@ -55,7 +54,9 @@ async def error_reporter_clockwork(ev: SigmaEvent):
         if ev.bot.is_ready():
             error_docs = await ev.db[ev.db.db_nam].Errors.find({'reported': False}).to_list(None)
             for error_doc in error_docs:
-                await send_error_log(ev.bot, error_doc)
+                if not error_channel:
+                    await get_error_channel(ev.bot)
+                await send_error_log_message(ev.bot, error_doc)
                 await ev.db[ev.db.db_nam].Errors.update_one(error_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)
         await asyncio.sleep(1)
