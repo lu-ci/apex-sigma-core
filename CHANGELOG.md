@@ -1,5 +1,21 @@
 # Apex Sigma Changelog
 
+## Unreleased
+
+### Added
+
+- The `>>massban` command was added by *Shifty*. Bans all mentioned users.
+- The `>>masskick` command was added by *Shifty*. Kicks all mentioned users.
+- The `>>choosemany` command was added by *Shifty*. Chooses `n` items from a given, semicolon-separated, list.
+
+### Changed
+
+- Misc and Utility modules have been moved and re-organized by *Shifty*.
+- Profession rarity check exceptions have been replaced with proper ones by *Shifty*.
+- Import lines cleaned and re-ordered by *Shifty*.
+- The `>>disown` command's response when trying to disown someone who's not in your immediate family has been changed by *Shifty* to be clearer that you can only disown immediate family members.
+- The `errors.py` core file was renamed to `error.py` by *Shifty*. Reason being that the file name should be consistently singular.
+
 ## 4.35.730: Ange
 
 ### Added
