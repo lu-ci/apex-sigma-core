@@ -14,23 +14,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import secrets
+
+import discord
+
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.error import SigmaError
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def geterror(cmd: SigmaCommand, pld: CommandPayload):
-    trace_text = None
-    if pld.args:
-        token = pld.args[0]
-        error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'token': token})
-        if error_file:
-            response, trace_text = SigmaError.make_error_embed(error_file)
+async def choosemany(_cmd: SigmaCommand, pld: CommandPayload):
+    if len(pld.args) >= 2:
+        if pld.args[0].isdigit():
+            choices = ' '.join(pld.args[1:]).split('; ')
+            limit = int(pld.args[0])
+            if 0 < limit < len(choices):
+                results = []
+                for _ in range(limit):
+                    choice = choices.pop(secrets.randbelow(len(choices)))
+                    results.append(choice)
+                response = discord.Embed(color=0x1ABC9C, title=f'🤔 I choose...')
+                results = list(map(lambda x: x if len(x) < 25 else x[:25] + '...', results))
+                response.description = '\n'.join(results)
+            else:
+                response = error('Limit must be lower than the number of choices.')
         else:
-            response = error('No error with that token was found.')
+            response = error('Limit must be a number.')
     else:
-        response = error('Missing error token.')
+        response = error('Invalid number of arguments.')
     await pld.msg.channel.send(embed=response)
-    if trace_text:
-        await pld.msg.channel.send(trace_text)

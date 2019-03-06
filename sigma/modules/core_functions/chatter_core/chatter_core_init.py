@@ -15,9 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import aiml
-from sigma.core.mechanics.event import SigmaEvent
 
+import aiml
+
+from sigma.core.mechanics.event import SigmaEvent
 
 chatter_core = aiml.Kernel()
 chatter_core.verbose(False)

@@ -23,23 +23,27 @@ from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
 async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
-    awdbl = pld.args[0] if pld.args else None
-    if awdbl:
-        init_resp = discord.Embed(color=0xf9f9f9, title='💴 Awarding leaderboards....')
-        init_msg = await pld.msg.channel.send(embed=init_resp)
-        coll = cmd.db[cmd.db.db_nam][f'{awdbl.title()}Resource']
-        search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
-        all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
-        leader_docs = list(reversed(await get_leader_docs(cmd, all_docs, 'ranked')))
-        for ld_index, ld_entry in enumerate(leader_docs):
-            ld_position = ld_index + 1
-            ld_award = ld_position * 100000
-            await cmd.db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', pld.msg, False)
-            value = f'{ld_entry[1]} {awdbl.title()}'
-            cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
-        await coll.update_many({}, {'$set': {'ranked': 0}})
-        await init_msg.delete()
-        done_resp = ok('All leaderboards awarded.')
+    if pld.args:
+        coll_title = pld.args[0].title()
+        coll_title = 'Currency' if coll_title == cmd.bot.cfg.pref.currency.title() else coll_title
+        if coll_title in ['Cookies', 'Currency']:
+            init_resp = discord.Embed(color=0xf9f9f9, title='💴 Awarding leaderboards....')
+            init_msg = await pld.msg.channel.send(embed=init_resp)
+            coll = cmd.db[cmd.db.db_nam][f'{coll_title}Resource']
+            search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
+            all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
+            leader_docs = list(reversed(await get_leader_docs(cmd, all_docs, 'ranked')))
+            for ld_index, ld_entry in enumerate(leader_docs):
+                ld_position = ld_index + 1
+                ld_award = ld_position * 100000
+                await cmd.db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', pld.msg, False)
+                value = f'{ld_entry[1]} {coll_title}'
+                cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
+            await coll.update_many({}, {'$set': {'ranked': 0}})
+            await init_msg.delete()
+            response = ok(f'All leaderboards awarded.')
+        else:
+            response = error('Invalid collection.')
     else:
-        done_resp = error('Nothing inputted.')
-    await pld.msg.channel.send(embed=done_resp)
+        response = error('Nothing inputted.')
+    await pld.msg.channel.send(embed=response)

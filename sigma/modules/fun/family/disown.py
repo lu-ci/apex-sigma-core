@@ -47,7 +47,7 @@ async def disown(cmd: SigmaCommand, pld: CommandPayload):
             response = ok(f'{target.name} is no longer your parent.')
         else:
             update = False
-            response = error(f'You are not related to {target.name}.')
+            response = error(f'{target.name} is not part of your immediate family.')
         [await human.save() for human in [disowner, disownee] if update]
     else:
         response = error('No user tagged.')

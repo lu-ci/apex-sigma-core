@@ -1,5 +1,28 @@
 # Apex Sigma Changelog
 
+## Unreleased
+
+### Added
+
+- The `get_scaled()` method was added to the Cooldown Controller to get a scaled up cooldown from a base value. The scaled time is slightly randomized and exponential with a passive cleaning method and cap.
+- The `>>massban` command was added by *Shifty*. Bans all mentioned users.
+- The `>>masskick` command was added by *Shifty*. Kicks all mentioned users.
+- The `>>choosemany` command was added by *Shifty*. Chooses `n` items from a given, semicolon-separated, list.
+
+### Changed
+
+- Commands' antispam cooldown now uses the the scaling cooldown to additionally prevent abuse. 
+- Professions now have special, partially randomized, scaling cooldowns.
+- Misc and Utility modules have been moved and re-organized by *Shifty*.
+- Profession rarity check exceptions have been replaced with proper ones by *Shifty*.
+- Import lines cleaned and re-ordered by *Shifty*.
+- The `>>disown` command's response when trying to disown someone who's not in your immediate family has been changed by *Shifty* to be clearer that you can only disown immediate family members.
+- The `errors.py` core file was renamed to `error.py` by *Shifty*. Reason being that the file name should be consistently singular.
+
+### Removed
+
+- Profession emote interaction validation.
+
 ## 4.35.730: Ange
 
 ### Added
@@ -100,16 +123,6 @@
 
 ## 2019-01-25
 
-### Added
-
-- The item dialogue function has been created.
-
-### Changed
-
-- Moved the changelog note to the bottom of the document.
-- Item finding professions are now more interactive. They require the user to select a correct icon for the fish/plant/animal they are catching for it to succeed instead of just typing the command.
-- Fish rarity 7 and plant rarity 7 icons have been swapped. Makes more sense for a fish to use the "fish cake" icon.
-
 ## 2019-01-24
 
 ### Added
@@ -178,7 +191,3 @@
 ### Changed
 
 - Disable caching of blacklist items. Those are user, server, module and command blacklist entries.
-
-## Notes
-
-> This changelog started on the **6th of January 2018** and does not contain changes made prior to this date. The only documentation regarding previous changes are the fairly vague commit names in the official repository.*

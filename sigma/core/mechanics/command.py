@@ -24,7 +24,7 @@ import yaml
 from sigma.core.mechanics.config import ModuleConfig
 from sigma.core.mechanics.cooldown import CommandRateLimiter
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.errors import SigmaError
+from sigma.core.mechanics.error import SigmaError
 from sigma.core.mechanics.exceptions import DummyException
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.payload import CommandEventPayload, CommandPayload
