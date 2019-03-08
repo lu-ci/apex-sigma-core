@@ -18,17 +18,14 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.interactions.mech.interaction_mechanics import get_target, grab_interaction, make_footer
+from sigma.modules.interactions.mech.interaction_mechanics import get_author, get_target, grab_interaction, make_footer
 
 
 async def wave(cmd: SigmaCommand, pld: CommandPayload):
     interaction = await grab_interaction(cmd.db, 'wave')
-    target = get_target(pld.msg)
-    auth = pld.msg.author
-    if not target or target.id == pld.msg.author.id:
-        response = discord.Embed(color=0xffcc4d, title=f'👋 {auth.display_name} waves at themself.')
-    else:
-        response = discord.Embed(color=0xffcc4d, title=f'👋 {auth.display_name} waves at {target.display_name}.')
+    target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
+    ender = 'waves at themself' if target.id == pld.msg.author.id else f'waves at {target.display_name}'
+    response = discord.Embed(color=0xffcc4d, title=f'👋 {auth.display_name} {ender}.')
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
     await pld.msg.channel.send(embed=response)

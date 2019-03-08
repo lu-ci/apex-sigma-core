@@ -147,7 +147,6 @@ Commands | Description | Example
 `>>kiss` `>>peck` `>>chu` `>>smooch` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
 `>>laugh` | <inaudible laughter-like noises> | `>>laugh @person`
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, that's a good excuse. | `>>lick @person`
-`>>lovecalculator` `>>lovecalc` | Shows the love between two mentioned users. If only one user is mentioned, it will show the love between the mentioned user and the author. | `>>lovecalculator @person1 @person2`
 `>>pat` `>>pato` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
 `>>poke` | Poke, poke~ Are you alive? | `>>poke @person`
 `>>pout` | Make a pouty face at someone and make them change their mind. Or just teast them for being a horrible person. Like when they make you create a pout command for money! | `>>pout @person`
@@ -240,6 +239,7 @@ Commands | Description | Example
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. Add "cat" or "dog" as the last argument for an added bonus. | `>>httpstatus 404`
 `>>listraffles` `>>listraf` `>>lraf` | Lists all your ongoing raffles and their information, such as when they end and in what channel. | `>>listraffles`
 `>>listsettings` `>>ls` | Marks the specified list as private, locked, or public. Private means no one but the creator can view it. Locked means no one but the creator can add to it. Public means anyone can view it or add to it. Specify the mode by adding it as the argument. | `>>listsettings 38fe private`
+`>>lovecalculator` `>>lovecalc` | Shows the love between two mentioned users. If only one user is mentioned, it will show the love between the mentioned user and the author. | `>>lovecalculator @person1 @person2`
 `>>makelist` `>>ml` | Creates a custom list. The list is public by default, but can be made private (only viewable and editable by you) by adding "private" as an argument, or locked, so anyone can view it but only you can add to it, by adding "locked" as an argument. | `>>makelist private`
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created, the location where they are set to execute in, and when they will be executed. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`

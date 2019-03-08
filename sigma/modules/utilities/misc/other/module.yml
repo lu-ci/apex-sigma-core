@@ -53,6 +53,15 @@ commands:
                   The temp voice channels are checked by their prefix ([Σ]), if this is
                   edited out, the channel will not be destroyed when emptied.
 
+  - name:         lovecalculator
+    alts:
+      - "lovecalc"
+    enabled:      true
+    usage:        "{pfx}{cmd} @person1 @person2"
+    description:
+                  Shows the love between two mentioned users. If only one user is mentioned,
+                  it will show the love between the mentioned user and the author.
+
   - name:         edgecalculator
     alts:
       - "edgecalc"

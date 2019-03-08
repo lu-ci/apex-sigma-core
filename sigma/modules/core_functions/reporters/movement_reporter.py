@@ -67,10 +67,10 @@ def make_movement_log_embed(data: dict):
 
 
 async def send_movement_log_message(bot: ApexSigma, move_data: dict):
-    move_log_channel = await get_movement_channel(bot)
-    if move_log_channel:
+    await get_movement_channel(bot)
+    if movement_channel:
         response = make_movement_log_embed(move_data)
-        await move_log_channel.send(embed=response)
+        await movement_channel.send(embed=response)
 
 
 async def movement_reporter_clockwork(ev: SigmaEvent):

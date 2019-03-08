@@ -41,7 +41,7 @@ async def interaction_reporter(ev: SigmaEvent):
         ev.bot.loop.create_task(interaction_reporter_clockwork(ev))
 
 
-async def make_interaction_log_embed(inter_data: dict):
+def make_interaction_log_embed(inter_data: dict):
     interaction_url = inter_data.get('url')
     interaction_id = inter_data.get('interaction_id')
     interaction_name = inter_data.get('name')
@@ -57,10 +57,11 @@ async def make_interaction_log_embed(inter_data: dict):
 
 
 async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
-    intr_log_channel = await get_interaction_channel(bot)
-    if intr_log_channel:
+    await get_interaction_channel(bot)
+    if interaction_channel:
         response = make_interaction_log_embed(move_data)
-        await intr_log_channel.send(embed=response)
+        intr_msg = await interaction_channel.send(embed=response)
+        return intr_msg
 
 
 async def interaction_reporter_clockwork(ev: SigmaEvent):

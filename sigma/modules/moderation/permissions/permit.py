@@ -22,24 +22,6 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok,
 from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
 
 
-async def get_perm_group(cmd: SigmaCommand, msg: discord.Message, mode_vars: tuple, node_name: str, target_type: str):
-    exc_group, check_group, check_alts = mode_vars
-    perms = await get_all_perms(cmd.db, msg)
-    exc_tuple = None
-    if check_alts:
-        if node_name in cmd.bot.modules.alts:
-            node_name = cmd.bot.modules.alts[node_name]
-    if node_name in check_group:
-        node_exc = perms[exc_group]
-        if node_name in perms[exc_group]:
-            inner_exc = node_exc[node_name]
-        else:
-            inner_exc = generate_cmd_data(node_name)[node_name]
-        exc_usrs = inner_exc[target_type]
-        exc_tuple = (exc_usrs, inner_exc, node_exc)
-    return exc_tuple, node_name, perms
-
-
 def get_targets(message: discord.Message, args: list, target_type: str):
     targets, valid = None, False
     if target_type == 'channels':
@@ -63,21 +45,6 @@ def get_targets(message: discord.Message, args: list, target_type: str):
     return targets, valid
 
 
-def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, target_type: str, perms: dict):
-    exc_usrs, inner_exc, node_exc = exc_tuple
-    bad_item = None
-    for target in targets:
-        if target.id in exc_usrs:
-            bad_item = target
-            break
-        else:
-            exc_usrs.append(target.id)
-            inner_exc.update({target_type: exc_usrs})
-            node_exc.update({node_name: inner_exc})
-            perms.update({exc_group: node_exc})
-    return bad_item
-
-
 def get_target_type(target_type: str):
     if target_type in ['channel', 'channels']:
         target_type = 'channels'
@@ -99,26 +66,47 @@ async def permit(cmd: SigmaCommand, pld: CommandPayload):
                     if target_type:
                         perm_mode = pld.args[1].split(':')[0].lower()
                         node_name = pld.args[1].split(':')[1].lower()
+
                         modes = {
                             'c': ('command_exceptions', cmd.bot.modules.commands, True),
                             'm': ('module_exceptions', cmd.bot.modules.categories, False)
                         }
+
                         mode_vars = modes.get(perm_mode)
                         if mode_vars:
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(pld.msg, pld.args, target_type)
                             if valid_targets:
-                                exc_tuple, node_name, perms = await get_perm_group(cmd, pld.msg, mode_vars, node_name,
-                                                                                   target_type)
-                                if exc_tuple:
-                                    bad_item = verify_targets(
-                                        targets, exc_tuple, exc_group, node_name, target_type, perms
-                                    )
+
+                                perms = await get_all_perms(cmd.db, pld.msg)
+                                if check_alts:
+                                    if node_name in cmd.bot.modules.alts:
+                                        node_name = cmd.bot.modules.alts[node_name]
+                                if node_name in check_group:
+                                    node_exc = perms[exc_group]
+                                    if node_name in perms[exc_group]:
+                                        inner_exc = node_exc[node_name]
+                                    else:
+                                        inner_exc = generate_cmd_data(node_name)[node_name]
+                                    exc_usrs = inner_exc[target_type]
+
+                                    bad_item = None
+                                    for target in targets:
+                                        if target.id not in exc_usrs:
+                                            exc_usrs.append(target.id)
+                                            inner_exc.update({target_type: exc_usrs})
+                                            node_exc.update({node_name: inner_exc})
+                                            perms.update({exc_group: node_exc})
+                                        else:
+                                            bad_item = target
+                                            break
+
                                     if not bad_item:
+                                        await cmd.db.cache.del_cache(pld.msg.guild.id)
                                         await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                             {'server_id': pld.msg.guild.id}, {'$set': perms}
                                         )
-                                        await cmd.db.cache.del_cache(pld.msg.guild.id)
+
                                         if len(targets) > 1:
                                             response = ok(f'{len(targets)} {target_type} can now use `{node_name}`.')
                                         else:

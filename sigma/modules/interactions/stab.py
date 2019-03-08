@@ -18,17 +18,14 @@ import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.interactions.mech.interaction_mechanics import get_target, grab_interaction, make_footer
+from sigma.modules.interactions.mech.interaction_mechanics import get_author, get_target, grab_interaction, make_footer
 
 
 async def stab(cmd: SigmaCommand, pld: CommandPayload):
     interaction = await grab_interaction(cmd.db, 'stab')
-    target = get_target(pld.msg)
-    auth = pld.msg.author
-    if not target or target.id == pld.msg.author.id:
-        response = discord.Embed(color=0xccd6dd, title=f'🔪 {auth.display_name} stabs themself.')
-    else:
-        response = discord.Embed(color=0xccd6dd, title=f'🔪 {auth.display_name} stabs {target.display_name}.')
+    target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
+    ender = 'stabs themself' if target.id == pld.msg.author.id else f'stabs {target.display_name}'
+    response = discord.Embed(color=0xccd6dd, title=f'🔪 {auth.display_name} {ender}.')
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
     await pld.msg.channel.send(embed=response)

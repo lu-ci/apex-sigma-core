@@ -57,11 +57,11 @@ def make_suggestion_log_embed(data: dict):
 
 
 async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
-    sugg_log_channel = await get_suggestion_channel(bot)
-    if sugg_log_channel:
+    await get_suggestion_channel(bot)
+    if suggestion_channel:
         response = make_suggestion_log_embed(sugg_data)
         sugg_msg = await sugg_log_channel.send(embed=response)
-        [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
+        [await sugg_msg.suggestion_channel(r) for r in ['⬆', '⬇']]
         return sugg_msg
 
 

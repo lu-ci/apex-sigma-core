@@ -60,7 +60,7 @@ def get_allowed_interactions(commands: dict):
     for command in commands:
         command = commands.get(command)
         if command.category.lower() == 'interactions':
-            if command.name not in ['addinteraction', 'lovecalculator']:
+            if command.name != 'addinteraction':
                 allowed_interactions.append(command.name)
     return allowed_interactions
 

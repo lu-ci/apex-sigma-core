@@ -43,16 +43,38 @@ def target_check(usr: discord.Member, lookup: str):
     return usr.display_name.lower() == lookup.lower() or usr.name.lower() == lookup.lower()
 
 
-def get_target(message: discord.Message):
-    if message.mentions:
-        target = message.mentions[0]
+# message.mentions are not always in the correct order
+def get_mentions(message: discord.Message):
+    return list(filter(lambda x: x, [message.guild.get_member(i) for i in message.raw_mentions]))
+
+
+def get_target(sigma, message: discord.Message):
+    mentions = get_mentions(message)
+    if mentions:
+        if mentions[0].id == sigma.id and len(mentions) >= 2:
+            target = mentions[1]
+        else:
+            target = mentions[0]
     else:
         if message.content:
             lookup = ' '.join(message.content.split(' ')[1:])
-            target = discord.utils.find(lambda x: target_check(x, lookup), message.guild.members)
+            user = discord.utils.find(lambda x: target_check(x, lookup), message.guild.members)
+            target = user if user else message.author
         else:
-            target = None
+            target = message.author
     return target
+
+
+def get_author(sigma, message: discord.Message):
+    mentions = get_mentions(message)
+    if len(mentions) >= 2:
+        if mentions[0].id == sigma.id:
+            author = sigma
+        else:
+            author = message.author
+    else:
+        author = message.author
+    return author
 
 
 async def update_data(db: Database, data: dict, user: discord.User, guild: discord.Guild):

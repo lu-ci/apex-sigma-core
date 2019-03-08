@@ -41,12 +41,12 @@ async def error_reporter(ev: SigmaEvent):
 
 
 async def send_error_log_message(bot: ApexSigma, error_data):
-    error_log_chn = await get_error_channel(bot)
-    if error_log_chn and error_data:
+    await get_error_channel(bot)
+    if error_channel and error_data:
         response, trace = SigmaError.make_error_embed(error_data)
-        await error_log_chn.send(tradcembed=response)
+        await error_channel.send(tradcembed=response)
         if trace:
-            await error_log_chn.send(trace)
+            await error_channel.send(trace)
 
 
 async def error_reporter_clockwork(ev: SigmaEvent):

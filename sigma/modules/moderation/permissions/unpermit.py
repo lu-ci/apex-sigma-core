@@ -17,22 +17,8 @@
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
-from sigma.modules.moderation.permissions.permit import get_perm_group, get_target_type, get_targets
-
-
-def verify_targets(targets: list, exc_tuple: tuple, exc_group: str, node_name: str, target_type: str, perms: dict):
-    exc_usrs, inner_exc, cmd_exc = exc_tuple
-    bad_item = False
-    for target in targets:
-        if target.id in exc_usrs:
-            exc_usrs.remove(target.id)
-            inner_exc.update({target_type: exc_usrs})
-            cmd_exc.update({node_name: inner_exc})
-            perms.update({exc_group: cmd_exc})
-        else:
-            bad_item = target
-            break
-    return bad_item
+from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
+from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 
 async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
@@ -42,26 +28,49 @@ async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
                 if ':' in pld.args[1]:
                     target_type = get_target_type(pld.args[0].lower())
                     if target_type:
-                        perm_mode = pld.args[1].split(':')[0]
-                        node_name = pld.args[1].split(':')[1]
+                        perm_mode = pld.args[1].split(':')[0].lower()
+                        node_name = pld.args[1].split(':')[1].lower()
+
                         modes = {
                             'c': ('command_exceptions', cmd.bot.modules.commands, True),
                             'm': ('module_exceptions', cmd.bot.modules.categories, False)
                         }
+
                         mode_vars = modes.get(perm_mode)
                         if mode_vars:
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(pld.msg, pld.args, target_type)
                             if valid_targets:
-                                exc_tuple, node_name, perms = await get_perm_group(cmd, pld.msg, mode_vars, node_name,
-                                                                                   target_type)
-                                if exc_tuple:
-                                    bad_item = verify_targets(targets, exc_tuple, exc_group, node_name, target_type,
-                                                              perms)
+
+                                perms = await get_all_perms(cmd.db, pld.msg)
+                                if check_alts:
+                                    if node_name in cmd.bot.modules.alts:
+                                        node_name = cmd.bot.modules.alts[node_name]
+                                if node_name in check_group:
+                                    node_exc = perms[exc_group]
+                                    if node_name in perms[exc_group]:
+                                        inner_exc = node_exc[node_name]
+                                    else:
+                                        inner_exc = generate_cmd_data(node_name)[node_name]
+                                    exc_usrs = inner_exc[target_type]
+
+                                    bad_item = None
+                                    for target in targets:
+                                        if target.id in exc_usrs:
+                                            exc_usrs.remove(target.id)
+                                            inner_exc.update({target_type: exc_usrs})
+                                            node_exc.update({node_name: inner_exc})
+                                            perms.update({exc_group: node_exc})
+                                        else:
+                                            bad_item = target
+                                            break
+
                                     if not bad_item:
-                                        await cmd.db[cmd.db.db_nam].Permissions.update_one(
-                                            {'server_id': pld.msg.guild.id}, {'$set': perms})
                                         await cmd.db.cache.del_cache(pld.msg.guild.id)
+                                        await cmd.db[cmd.db.db_nam].Permissions.update_one(
+                                            {'server_id': pld.msg.guild.id}, {'$set': perms}
+                                        )
+
                                         if len(targets) > 1:
                                             title = f'{len(targets)} {target_type} can no longer use `{node_name}`.'
                                             response = ok(title)
