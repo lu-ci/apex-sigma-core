@@ -61,7 +61,7 @@ async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
     if suggestion_channel:
         response = make_suggestion_log_embed(sugg_data)
         sugg_msg = await suggestion_channel.send(embed=response)
-        [await sugg_msg.suggestion_channel(r) for r in ['⬆', '⬇']]
+        [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
         return sugg_msg
 
 
