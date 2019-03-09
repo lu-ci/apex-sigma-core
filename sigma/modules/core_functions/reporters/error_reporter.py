@@ -44,7 +44,7 @@ async def send_error_log_message(bot: ApexSigma, error_data):
     await get_error_channel(bot)
     if error_channel and error_data:
         response, trace = SigmaError.make_error_embed(error_data)
-        await error_channel.send(tradcembed=response)
+        await error_channel.send(embed=response)
         if trace:
             await error_channel.send(trace)
 
