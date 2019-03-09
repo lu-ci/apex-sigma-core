@@ -14,11 +14,11 @@ from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
-from sigma.core.mechanics.music import MusicCore
-from sigma.core.mechanics.payload import GuildPayload, GuildUpdatePayload, ReactionPayload, VoiceStateUpdatePayload
-from sigma.core.mechanics.payload import MemberPayload, MemberUpdatePayload, MessageEditPayload, MessagePayload
-from sigma.core.mechanics.payload import RawReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.modman import ModuleManager
+from sigma.core.mechanics.music import MusicCore
+from sigma.core.mechanics.payload import BanPayload, GuildPayload, GuildUpdatePayload, MemberPayload
+from sigma.core.mechanics.payload import MemberUpdatePayload, MessageEditPayload, MessagePayload, RawReactionPayload
+from sigma.core.mechanics.payload import ReactionPayload, ShardReadyPayload, UnbanPayload, VoiceStateUpdatePayload
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
@@ -54,16 +54,16 @@ class ApexSigma(client_class):
         super().__init__()
         self.ready = False
         # State attributes before initialization.
-        self.log = None
-        self.cfg = init_cfg
-        self.shard_count = self.cfg.dsc.shard_count
-        self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
         self.db = None
-        self.cool_down = None
+        self.log = None
+        self.cache = None
         self.music = None
         self.modules = None
+        self.cool_down = None
+        self.cfg = init_cfg
         self.queue = ExecutionClockwork(self)
-        self.cache = None
+        self.shard_count = self.cfg.dsc.shard_count
+        self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -93,7 +93,7 @@ class ApexSigma(client_class):
 
     async def init_cacher(self):
         try:
-            self.cache = await get_cache(self.cfg.db.cache_type)
+            self.cache = await get_cache(self.cfg.cache)
         except OSError:
             self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
             exit(errno.ETIMEDOUT)
@@ -174,7 +174,11 @@ class ApexSigma(client_class):
         try:
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
-            super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
+            if self.cfg.dsc.token is not None:
+                super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
+            else:
+                self.log.error('You need to configure the Discord bot token before starting.')
+                exit(errno.EPERM)
         except discord.LoginFailure:
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
@@ -231,6 +235,14 @@ class ApexSigma(client_class):
     async def on_member_update(self, before: discord.Member, after: discord.Member):
         if not before.bot:
             self.loop.create_task(self.queue.event_runner('member_update', MemberUpdatePayload(self, before, after)))
+
+    async def on_member_ban(self, guild: discord.Guild, user: discord.Member or discord.User):
+        if not user.bot:
+            self.loop.create_task(self.queue.event_runner('member_ban', BanPayload(self, guild, user)))
+
+    async def on_member_unban(self, guild: discord.Guild, user: discord.User):
+        if not user.bot:
+            self.loop.create_task(self.queue.event_runner('member_unban', UnbanPayload(self, guild, user)))
 
     async def on_guild_join(self, guild: discord.Guild):
         self.loop.create_task(self.queue.event_runner('guild_join', GuildPayload(self, guild)))

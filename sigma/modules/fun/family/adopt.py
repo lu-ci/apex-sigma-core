@@ -14,8 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import copy
+
+import discord
+
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.fun.family.models.human import AdoptableHuman
 
@@ -24,6 +29,8 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target is not None:
         if not target.bot:
+            fake_msg = copy.copy(pld.msg)
+            fake_msg.author = target
             parent = AdoptableHuman(cmd.db, pld.msg.author.id)
             await parent.load()
             if not parent.exists:
@@ -49,11 +56,16 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
             elif child.is_parent(pld.msg.author.id):
                 response = error(f'{target.name} is one of your descendants.')
             else:
-                parent.children.append(child)
-                await parent.save()
-                child.parents.append(parent)
-                await child.save()
-                response = ok(f'Congrats on adopting {target.name}!')
+                adop_q = discord.Embed(color=0xf9f9f9, title=f'📋 {target.name}, do you accept to be adopted?')
+                accepted = await bool_dialogue(cmd.bot, fake_msg, adop_q)
+                if accepted:
+                    parent.children.append(child)
+                    await parent.save()
+                    child.parents.append(parent)
+                    await child.save()
+                    response = ok(f'Congrats on adopting {target.name}!')
+                else:
+                    response = discord.Embed(color=0xBE1931, title='❌ Adoption canceled.')
         else:
             response = error('You can\'t adopt bots.')
     else:

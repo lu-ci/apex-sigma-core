@@ -97,7 +97,7 @@ class SigmaError(object):
         response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
         cmd_text = f'Command: **{error_file["message"]["command"]}**'
         cmd_text += f'\nMessage ID: **{error_file["message"]["id"]}**'
-        cmd_text += f'\nArguments: **{" ".join(error_file["message"]["arguments"]) or "None"}**'
+        cmd_text += f'\nArguments: **{" ".join(error_file["message"]["arguments"][:200]) or "None"}**'
         orgn_text = f'Author: **{error_file["author"]["name"]}**'
         orgn_text += f'\nAuthor ID: **{error_file["author"]["id"]}**'
         orgn_text += f'\nChannel: **{error_file["channel"]["name"]}**'

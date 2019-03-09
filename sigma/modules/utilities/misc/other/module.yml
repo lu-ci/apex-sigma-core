@@ -9,7 +9,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Sleep; Eat; Code; Lewd Stuff"
     description:
-                  The bot will select a thing from the inputed list.
+                  Randomly chooses one item from a list.
+                  Separate list items with a semicolon and space.
+
+  - name:         choosemany
+    enabled:      true
+    usage:        "{pfx}{cmd} 2 Sleep; Eat; Code; Lewd Stuff"
+    description:
+                  Randomly chooses items from a list.
+                  Specify the number of items chosen via the first argument.
                   Separate list items with a semicolon and space.
 
   - name:         poll
@@ -33,6 +41,7 @@ commands:
   - name:         temproom
     alts:
       - "tempvc"
+      - "room"
     enabled:      true
     usage:        "{pfx}{cmd} Orgy For One"
     requirements:

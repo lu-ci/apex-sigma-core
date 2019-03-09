@@ -14,7 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import secrets
+
 import arrow
+
+
+scaler_cache = None
 
 
 class CommandRateLimiter(object):
@@ -23,7 +28,8 @@ class CommandRateLimiter(object):
         self.stamps = {}
 
     def is_cooling(self, message):
-        timeout = 1.25
+        base = 1.25
+        timeout = self.cmd.bot.cool_down.get_scaled(base, message.author.id)
         last_stamp = self.stamps.get(message.author.id, 0)
         curr_stamp = arrow.utcnow().float_timestamp
         return (last_stamp + timeout) > curr_stamp
@@ -38,6 +44,7 @@ class CooldownControl(object):
         self.bot = bot
         self.db = self.bot.db
         self.cds = self.db[self.db.db_nam].CooldownSystem
+        self.scaling = {}
 
     async def on_cooldown(self, cmd, user):
         if isinstance(user, str):
@@ -95,3 +102,19 @@ class CooldownControl(object):
     async def clean_cooldowns(self):
         now = arrow.utcnow().timestamp
         await self.cds.delete_many({'end_stamp': {'$lt': now}})
+
+    def get_scaled(self, base: int or float, uid: int):
+        last_entry = self.scaling.get(uid, {})
+        last_stamp = last_entry.get('stamp', 0)
+        last_count = last_entry.get('count', 0)
+        now_stamp = arrow.utcnow().timestamp
+        if now_stamp - last_stamp > base * 5:
+            cooldown = base
+            data_entry = {'stamp': now_stamp, 'count': 0}
+        else:
+            mod_base, mod_divider = 1125, 1000
+            modifier = (int(mod_base * 0.8) + secrets.randbelow(int(mod_base * 0.2))) / mod_divider
+            cooldown = base * (1 + (modifier * last_count))
+            data_entry = {'stamp': now_stamp, 'count': last_count + 1}
+        self.scaling.update({uid: data_entry})
+        return int(cooldown)

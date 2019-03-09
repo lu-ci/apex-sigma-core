@@ -1,14 +1,59 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.37.744: Ange
+
+### Added
+
+- The `get_scaled()` method was added to the Cooldown Controller to get a scaled up cooldown from a base value. The scaled time is slightly randomized and exponential with a passive cleaning method and cap.
+- The `>>massban` command was added by *Shifty*. Bans all mentioned users.
+- The `>>masskick` command was added by *Shifty*. Kicks all mentioned users.
+- The `>>choosemany` command was added by *Shifty*. Chooses `n` items from a given, semicolon-separated, list.
+
+### Changed
+
+- Commands' antispam cooldown now uses the the scaling cooldown to additionally prevent abuse. 
+- Professions now have special, partially randomized, scaling cooldowns.
+- Misc and Utility modules have been moved and re-organized by *Shifty*.
+- Profession rarity check exceptions have been replaced with proper ones by *Shifty*.
+- Import lines cleaned and re-ordered by *Shifty*.
+- The `>>disown` command's response when trying to disown someone who's not in your immediate family has been changed by *Shifty* to be clearer that you can only disown immediate family members.
+- The `errors.py` core file was renamed to `error.py` by *Shifty*. Reason being that the file name should be consistently singular.
+
+### Removed
+
+- Profession emote interaction validation.
+
+## 4.35.730: Ange
+
+### Added
+
+- The `>>roleswithpermission` (the `>>rlwperm` for short) command has been made. It lists all roles that have a given permission or list of permissions  separated by a `;` (semicolon). You can reverse the search so it shows that don't have the permission by adding `--negative` to the end of the command.
+
+## 4.35.726: Ange
+
+### Added
+
+- Created the `CacherConfiguration` class that handles all `Cacher` classes. This adds a new core config file at `config/core/cache.yml` that should contain the cacher parameters. Those are: `type` for the type of `Cacher` to use, `size` for the max number of items in LRU and TTL caches, `time` for the time-to-live time limit in the TTL cache, and `host` and `port` for the Redis and Mixed cachers.
+
+### Changed
+
+- The `>>adopt` command now requires emote reaction confirmation that they agree to being adopted.
+- The `>>familytree` command now uploads a yaml file instead of posting the contents to hastebin due to hastebin's low storage allowance.
+- `Cacher` classes now take a `CacheConfiguration` value, instead of specific required values.
+- The default value for the bot token has been removed and replaced with a safeguard check. Sigma now terminates without trying to contact discord if the token is `None`.
+
+## 4.35.712: Ange
 
 ### Added
 
 - Created the `ModuleConfig` class that wraps command config data for future configuration expansions.
 - The initial `run.py` file now checks for any import errors. If detected, it'll try to install the requirements file.
+- The ChatterBot Core returns! Brought back AI without ChatterBot, now with AIML... it's good enough.
 
 ### Changed
 
+- Codename changed to **Ange** for **4.35**.
+- The `SigmaEvent` class now has a `path` attribute and `resource()` method like the one for commands.
 - Updated all copyright comments from 2018 to 2019.
 - All instances of `plugin` have been renamed to `module`. Meaning that you need to rename `config/plugins` to `config/modules`.
 - Family tree consistency fixes by *Shifty*.
@@ -78,16 +123,6 @@
 
 ## 2019-01-25
 
-### Added
-
-- The item dialogue function has been created.
-
-### Changed
-
-- Moved the changelog note to the bottom of the document.
-- Item finding professions are now more interactive. They require the user to select a correct icon for the fish/plant/animal they are catching for it to succeed instead of just typing the command.
-- Fish rarity 7 and plant rarity 7 icons have been swapped. Makes more sense for a fish to use the "fish cake" icon.
-
 ## 2019-01-24
 
 ### Added
@@ -156,7 +191,3 @@
 ### Changed
 
 - Disable caching of blacklist items. Those are user, server, module and command blacklist entries.
-
-## Notes
-
-> This changelog started on the **6th of January 2018** and does not contain changes made prior to this date. The only documentation regarding previous changes are the fairly vague commit names in the official repository.*

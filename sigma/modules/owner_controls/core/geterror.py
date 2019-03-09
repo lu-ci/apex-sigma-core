@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.errors import SigmaError
+from sigma.core.mechanics.error import SigmaError
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 

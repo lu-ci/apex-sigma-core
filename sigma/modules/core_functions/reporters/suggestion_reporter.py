@@ -22,47 +22,47 @@ import discord
 from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
-suggestion_chn_cache = None
+suggestion_channel = None
 suggestion_reporter_running = False
 
 
-def make_sugg_embed(data: dict):
-    usr = data.get('user')
-    sgg = data.get('suggestion')
-    gld = data.get('guild')
-    icon = gld.get('icon') or usr.get('avatar')
-    sugg_embed = discord.Embed(color=usr.get('color'), timestamp=arrow.get(data.get('timestamp')).datetime)
-    sugg_embed.description = sgg.get('text')
-    author_name = f'{usr.get("name")} [{usr.get("id")}]'
-    footer_content = f'[{sgg.get("id")}] From {gld.get("name")}.'
-    sugg_embed.set_author(name=author_name, icon_url=usr.get('avatar'))
-    sugg_embed.set_footer(icon_url=icon, text=footer_content)
-    return sugg_embed
-
-
 async def get_suggestion_channel(bot: ApexSigma):
-    global suggestion_chn_cache
-    suggestion_chn = None or suggestion_chn_cache
-    if suggestion_chn is None:
+    global suggestion_channel
+    if suggestion_channel is None:
         sugg_chn_id = bot.modules.commands.get('botsuggest').cfg.get('channel')
         if sugg_chn_id:
-            suggestion_chn_cache = suggestion_chn = await bot.get_channel(sugg_chn_id, True)
-    return suggestion_chn
+            suggestion_channel = await bot.get_channel(sugg_chn_id, True)
 
 
 async def suggestion_reporter(ev: SigmaEvent):
     global suggestion_reporter_running
-    suggestion_channel = await get_suggestion_channel(ev.bot)
+    await get_suggestion_channel(ev.bot)
     if not suggestion_reporter_running and suggestion_channel:
         suggestion_reporter_running = True
         ev.bot.loop.create_task(suggestion_reporter_clockwork(ev))
 
 
+def make_suggestion_log_embed(data: dict):
+    usr = data.get('user')
+    sgg = data.get('suggestion')
+    gld = data.get('guild')
+    icon = gld.get('icon') or usr.get('avatar')
+    response = discord.Embed(color=usr.get('color'), timestamp=arrow.get(data.get('timestamp')).datetime)
+    response.description = sgg.get('text')
+    author_name = f'{usr.get("name")} [{usr.get("id")}]'
+    footer_content = f'[{sgg.get("id")}] From {gld.get("name")}.'
+    response.set_author(name=author_name, icon_url=usr.get('avatar'))
+    response.set_footer(icon_url=icon, text=footer_content)
+    return response
+
+
 async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
-    sugg_chn = await get_suggestion_channel(bot)
-    sugg_msg = await sugg_chn.send(embed=make_sugg_embed(sugg_data))
-    [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
-    return sugg_msg
+    sugg_log_channel = await get_suggestion_channel(bot)
+    if sugg_log_channel:
+        response = make_suggestion_log_embed(sugg_data)
+        sugg_msg = await sugg_log_channel.send(embed=response)
+        [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
+        return sugg_msg
 
 
 async def suggestion_reporter_clockwork(ev: SigmaEvent):
@@ -70,6 +70,8 @@ async def suggestion_reporter_clockwork(ev: SigmaEvent):
         if ev.bot.is_ready():
             suggestion_docs = await ev.db[ev.db.db_nam].Suggestions.find({'reported': False}).to_list(None)
             for suggestion_doc in suggestion_docs:
+                if not suggestion_channel:
+                    await get_suggestion_channel(ev.bot)
                 log_msg = await send_suggestion_log_message(ev.bot, suggestion_doc)
                 update_dict = {'$set': {'reported': True, 'message': log_msg.id if log_msg else None}}
                 await ev.db[ev.db.db_nam].Suggestions.update_one(suggestion_doc, update_dict)

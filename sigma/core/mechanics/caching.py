@@ -20,27 +20,31 @@ import pickle
 import aioredis
 import cachetools
 
+from sigma.core.mechanics.config import CacheConfig
 
-async def get_cache(cache_type, max_size: int = 1000000, ttl_time: int = 300):
-    if isinstance(cache_type, str):
-        cache_type = cache_type.strip().lower()
-    if cache_type == 'memory':
-        cache = MemoryCacher()
-    elif cache_type == 'lru':
-        cache = LRUCacher(max_size)
-    elif cache_type == 'ttl':
-        cache = TTLCacher(max_size, ttl_time)
-    elif cache_type == 'redis':
-        cache = RedisCacher()
-    elif cache_type == 'mixed':
-        cache = MixedCacher()
+
+async def get_cache(cfg: CacheConfig):
+    caches = {
+        'memory': MemoryCacher,
+        'lru': LRUCacher,
+        'ttl': TTLCacher,
+        'redis': RedisCacher,
+        'mixed': MixedCacher
+    }
+    if cfg.type is not None:
+        cfg.type = cfg.type.strip().lower()
+        cache_class = caches.get(cfg.type, Cacher)
     else:
-        cache = Cacher()
+        cache_class = Cacher
+    cache = cache_class(cfg)
     await cache.init()
     return cache
 
 
 class Cacher(abc.ABC):
+    def __init__(self, cfg: CacheConfig):
+        self.cfg = cfg
+
     async def init(self):
         pass
 
@@ -55,7 +59,8 @@ class Cacher(abc.ABC):
 
 
 class MemoryCacher(Cacher):
-    def __init__(self):
+    def __init__(self, cfg: CacheConfig):
+        super().__init__(cfg)
         self.cache = {}
 
     async def get_cache(self, key: str or int):
@@ -70,23 +75,24 @@ class MemoryCacher(Cacher):
 
 
 class LRUCacher(MemoryCacher):
-    def __init__(self, max_size: int):
-        super().__init__()
-        self.cache = cachetools.LRUCache(max_size)
+    def __init__(self, cfg: CacheConfig):
+        super().__init__(cfg)
+        self.cache = cachetools.LRUCache(self.cfg.size)
 
 
 class TTLCacher(LRUCacher):
-    def __init__(self, max_size: int, ttl_time: int):
-        super().__init__(max_size)
-        self.cache = cachetools.TTLCache(max_size, ttl_time)
+    def __init__(self, cfg: CacheConfig):
+        super().__init__(cfg)
+        self.cache = cachetools.TTLCache(self.cfg.size, self.cfg.time)
 
 
 class RedisCacher(Cacher):
-    def __init__(self):
+    def __init__(self, cfg: CacheConfig):
+        super().__init__(cfg)
         self.conn = None
 
     async def init(self):
-        self.conn = await aioredis.create_redis('redis://localhost')
+        self.conn = await aioredis.create_redis(f'redis://{self.cfg.host}:{self.cfg.port}')
 
     async def get_cache(self, key: str or int):
         data = await self.conn.get(str(key))
@@ -103,13 +109,13 @@ class RedisCacher(Cacher):
 
 
 class MixedCacher(RedisCacher):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, cfg: CacheConfig):
+        super().__init__(cfg)
         self.ttl: TTLCacher = None
 
     async def init(self):
         await super().init()
-        self.ttl = await get_cache('ttl')
+        self.ttl = await get_cache(self.cfg)
 
     async def get_cache(self, key: str or int):
         cached_data = await self.ttl.get_cache(key)

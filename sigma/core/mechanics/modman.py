@@ -91,6 +91,7 @@ class ModuleManager(object):
 
     def load_event_executable(self, root: str, event_data: dict, module_data: dict):
         event_function = self.load_function(root, event_data)
+        event_data.update({'path': os.path.join(root)})
         event = SigmaEvent(self.bot, event_function, module_data, event_data)
         if event.event_type in self.events:
             event_list = self.events.get(event.event_type)

@@ -28,6 +28,7 @@ class SigmaEvent(object):
         self.event = event
         self.module_info = module_info
         self.event_info = event_info
+        self.path = self.event_info.get('path')
         self.event_type = self.event_info.get('type')
         self.name = self.event_info.get('name')
         self.category = self.module_info.get('category')
@@ -44,6 +45,12 @@ class SigmaEvent(object):
     def log_error(self, exception: Exception):
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
+
+    def resource(self, res_path: str):
+        module_path = self.path
+        res_path = f'{module_path}/res/{res_path}'
+        res_path = res_path.replace('\\', '/')
+        return res_path
 
     async def execute(self, pld: SigmaPayload = None):
         if self.bot.ready:

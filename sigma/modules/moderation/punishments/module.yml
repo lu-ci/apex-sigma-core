@@ -16,6 +16,21 @@ commands:
                   This is to preserve compatibility with logging and audit logs.
                   This command requires the Kick permission.
 
+  - name:         masskick
+    alts:
+      - "mkick"
+    enabled:      true
+    requirements:
+      - "kick_members"
+    usage:        "{pfx}{cmd} @person1 @person2 @person3 Couldn't handle the spice."
+    description:
+                  Kicks all the mentioned users from the server.
+                  Users can only be mentioned by a mention tag.
+                  This is to preserve compatibility with logging and audit logs.
+                  If you don't have the permissions to kick someone,
+                  the reason will be returned and no one will be kicked.
+                  This command requires the Kick permission.
+
   - name:         voicekick
     alts:
       - "vkick"
@@ -42,6 +57,21 @@ commands:
                   This is to preserve compatibility with logging and audit logs.
                   You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
                   The user will be automatically unbanned after the duration elapses.
+                  This command requires the Ban permission.
+
+  - name:         massban
+    alts:
+      - "mban"
+    enabled:      true
+    requirements:
+      - "ban_members"
+    usage:        "{pfx}{cmd} @person1 @person2 @person3 Way, WAY too spicy for us..."
+    description:
+                  Bans all the mentioned users from the server.
+                  Users can only be mentioned by a mention tag.
+                  This is to preserve compatibility with logging and audit logs.
+                  If you don't have the permissions to kick someone,
+                  the reason will be returned and no one will be banned.
                   This command requires the Ban permission.
 
   - name:         softban

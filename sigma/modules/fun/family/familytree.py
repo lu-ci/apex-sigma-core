@@ -14,17 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json
+from io import BytesIO
 
-import aiohttp
+import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.fun.family.models.human import AdoptableHuman
 
 
 async def familytree(cmd: SigmaCommand, pld: CommandPayload):
+    tree_file = None
+    response = None
+    text_response = None
     target, is_self = (pld.msg.mentions[0], False) if pld.msg.mentions else (pld.msg.author, True)
     human = AdoptableHuman(cmd.db, target.id)
     await human.load()
@@ -33,13 +36,12 @@ async def familytree(cmd: SigmaCommand, pld: CommandPayload):
         new_top_parent = AdoptableHuman(cmd.db, top_parent.id, False, True)
         await new_top_parent.load()
         tree_data = new_top_parent.draw_tree(human.id)
-        async with aiohttp.ClientSession() as session:
-            async with session.post('https://hastebin.com/documents', data=tree_data) as response:
-                data = json.loads(await response.read())
-        haste_url = f"https://hastebin.com/{data.get('key')}.yml"
-        response = ok('Family tree file exported.')
-        response.description = f'You can view it [here on hastebin]({haste_url}).'
+        io = BytesIO()
+        io.write(tree_data.encode('utf-8'))
+        io.seek(0)
+        text_response = '✅ Family tree file exported.'
+        tree_file = discord.File(io, f'family_tree_{pld.msg.id}.yml')
     else:
         starter, ender = ('You may', 'you') if is_self else (f'{target.name} might', 'them')
         response = error(f'{starter} not have a family, but I\'ll always love {ender}.')
-    await pld.msg.channel.send(embed=response)
+    await pld.msg.channel.send(text_response, file=tree_file, embed=response)

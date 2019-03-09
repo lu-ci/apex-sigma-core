@@ -47,3 +47,12 @@ commands:
                   Shows a list of the server's custom responder triggers.
                   The list is separated into pages of 10 items each.
                   You can specify the page number you want to see.
+
+  - name:         chatterbot
+    alts:
+      - "ai"
+      - "cb"
+    enabled:      true
+    usage:        "{pfx}{cmd}"
+    description:
+                  Toggles the ChatterBot core on and off.
