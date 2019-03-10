@@ -21,6 +21,13 @@ from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
 
+def set_session_info(pld: MessagePayload):
+    chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
+    chatter_core.setPredicate('name', pld.msg.author.name, pld.msg.author.id)
+    chatter_core.setPredicate('nickname', pld.msg.author.display_name, pld.msg.author.id)
+    chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
+
+
 async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
     if pld.msg.content:
         start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')
@@ -35,6 +42,7 @@ async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
                     async with pld.msg.channel.typing():
                         if not chatter_core.numCategories():
                             train(ev, chatter_core)
+                        set_session_info(pld)
                         response_text = chatter_core.respond(clean_msg, pld.msg.author.id)
                         sleep_time = len(response_text) * 0.185
                         await asyncio.sleep(sleep_time)

@@ -1,5 +1,14 @@
 # Apex Sigma Changelog
 
+## 4.37.759: Ange
+
+### Changed
+
+- Chatterbot has been improved with better details, and missing details filled.
+- Fixed reporter inconsistencies and errors.
+- Sigma can now be told to interact with a user like `>>lick @Sigma @NotALoli`.
+
+
 ## 4.37.744: Ange
 
 ### Added

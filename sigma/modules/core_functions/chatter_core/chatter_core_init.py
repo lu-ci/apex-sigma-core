@@ -17,6 +17,8 @@
 import os
 
 import aiml
+import arrow
+import yaml
 
 from sigma.core.mechanics.event import SigmaEvent
 
@@ -32,3 +34,18 @@ def train(ev: SigmaEvent, core):
 
 async def chatter_core_init(ev: SigmaEvent):
     train(ev, chatter_core)
+    with open(ev.resource('properties.yml')) as prop_file:
+        prop_data = yaml.safe_load(prop_file)
+    for prop_key in prop_data:
+        prop_val = prop_data.get(prop_key)
+        chatter_core.setBotPredicate(prop_key, prop_val)
+    ver_nest = ev.bot.info.get_version().raw.get('version')
+    full_version = f'{ver_nest.get("major")}.{ver_nest.get("minor")}.{ver_nest.get("patch")}'
+    chatter_core.setBotPredicate('version', full_version)
+    birthday_date = arrow.get('2016-08-16', format='YYYY-MM-DD')
+    age = (arrow.utcnow() - birthday_date).days // 365.25
+    chatter_core.setBotPredicate('age', age)
+    chatter_core.setBotPredicate('birthday', birthday_date.format('MMMM DD'))
+    chatter_core.setBotPredicate('birthdate', birthday_date.format('MMMM DD, YYYY'))
+    chatter_core.setBotPredicate('name', ev.bot.user.name)
+

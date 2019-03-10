@@ -1386,17 +1386,17 @@
     <template>Who tells you that?</template>
   </category>
   <category>
-    <pattern>I HAVE BLUE EYES AND * HAIR</pattern>
+    <pattern>I HAVE GREEN EYES AND * HAIR</pattern>
     <template>People with
       <person /> hair are considered the most attractive. <think>
-        <set name="looklike">blue eyes and
+        <set name="looklike">green eyes and
           <person /> hair</set>
       </think></template>
   </category>
   <category>
-    <pattern>I HAVE BLUE EYES AND *</pattern>
-    <template>Blue eyes are very attractive. <think>
-        <set name="looklike">blue eyes
+    <pattern>I HAVE GREEN EYES AND *</pattern>
+    <template>Green eyes are very attractive. <think>
+        <set name="looklike">green eyes
           <person />
         </set>
       </think></template>
