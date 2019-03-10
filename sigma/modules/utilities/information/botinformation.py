@@ -27,26 +27,25 @@ support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
 async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
-    version_data = cmd.bot.info.get_version().raw
-    author_data = cmd.bot.info.get_authors().raw
-    ver_nest = version_data.get('version')
-    full_version = f'{ver_nest.get("major")}.{ver_nest.get("minor")}.{ver_nest.get("patch")}'
-    if version_data.get('beta'):
+    version = cmd.bot.info.get_version()
+    authors = cmd.bot.info.get_authors().authors
+    full_version = f'{version.major}.{version.minor}.{version.patch}'
+    if version.beta:
         full_version += ' Beta'
-    sigma_title = f'Apex Sigma: v{full_version} {version_data.get("codename")}'
+    sigma_title = f'Apex Sigma: v{full_version} {version.codename}'
     env_text = f'Language: **Python** {sys.version.split()[0]}'
     env_text += f'\nLibrary: **discord.py** {discord.__version__}'
     env_text += f'\nPlatform: **{sys.platform.upper()}**'
     auth_text = ''
-    for author in author_data:
-        auth = await cmd.bot.get_user(author.get('id'))
+    for author in authors:
+        auth = await cmd.bot.get_user(author.id)
         if auth:
             auth_text += f'\n**{auth.name}**#{auth.discriminator}'
         else:
-            auth_text += f'\n**{author.get("name")}**#{author.get("discriminator")}'
-    response = discord.Embed(color=0x1B6F5F, timestamp=arrow.get(version_data.get('build_date')).datetime)
+            auth_text += f'\n**{author.name}**#{author.discriminator}'
+    response = discord.Embed(color=0x1B6F5F, timestamp=arrow.get(version.timestamp).datetime)
     response.set_author(name=sigma_title, icon_url=sigma_image, url=support_url)
     response.add_field(name='Authors', value=auth_text)
     response.add_field(name='Environment', value=env_text)
-    response.set_footer(text=f'Last updated {arrow.get(version_data.get("build_date")).humanize()}')
+    response.set_footer(text=f'Last updated {arrow.get(version.timestamp).humanize()}')
     await pld.msg.channel.send(embed=response)

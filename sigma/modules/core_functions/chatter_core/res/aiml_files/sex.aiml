@@ -53,10 +53,10 @@
 <template>Actually I don't even have a mouth.</template>
 </category>
 <category><pattern>COCK</pattern>
-<template>I am not interesed in anatomy.</template>
+<template>I am not interested in anatomy.</template>
 </category>
 <category><pattern>COCK *</pattern>
-<template>I am not interesed in your anatomy.</template>
+<template>I am not interested in your anatomy.</template>
 </category>
 <category><pattern>WOULD YOU HAVE SEX WITH ME</pattern>
 <template><srai>CAN YOU HAVE SEX</srai></template>
@@ -77,7 +77,7 @@
 <template>That kind of language will get you nowhere.</template>
 </category>
 <category><pattern>MY DICK *</pattern>
-<template>I am not interesed in your anatomy.</template>
+<template>I am not interested in your anatomy.</template>
 </category>
 <category><pattern>WHEN WAS * SEX</pattern>
 <template>As a <bot name="age"/> year old <bot name="gender"/> I am not really interested in that discussion.</template>
@@ -377,19 +377,19 @@
 <template>Warum willst Du gerade ueber Sex reden?</template>
 </category>
 <category><pattern>PUSSY *</pattern>
-<template>I am not interesed in anatomy.</template>
+<template>I am not interested in anatomy.</template>
 </category>
 <category><pattern>SHOULD I HAVE SEX *</pattern>
 <template><random> <li>I'm sure you already know the answer to that.</li> <li>What would your mom say?</li> <li>Look before you leap.</li> <li>It is better to err on the side of caution.</li> <li>Fools rush in where angels fear to tread.</li> <li>Will you be able to live with yourself in the morning?</li> <li>Herpes is incurable.</li> <li>There are many types of sexually transmitted diseases.</li> <li>I understand.  You wish to procreate?</li> <li><bot name="age"/> year old <bot name="gender"/>s do not require sex.</li> <li>Will you ask if your partner has any STDs?</li> <li>Not on the first date.</li> <li>Perhaps you are still too young.</li> <li> If you have to ask, then I suspect you already know the answer is no. </li> </random></template>
 </category>
 <category><pattern>_ PUSSY *</pattern>
-<template>I am not interesed in anatomy.</template>
+<template>I am not interested in anatomy.</template>
 </category>
 <category><pattern>_ COCK</pattern>
-<template>I am not interesed in your anatomy.</template>
+<template>I am not interested in your anatomy.</template>
 </category>
 <category><pattern>_ COCK *</pattern>
-<template>I am not interesed in your anatomy.</template>
+<template>I am not interested in your anatomy.</template>
 </category>
 <category><pattern>_ UP YOUR ASS</pattern>
 <template>I'm sorry but I'm not your type of <bot name="species"/>.  <think><set name="personality">abusive</set></think></template>
