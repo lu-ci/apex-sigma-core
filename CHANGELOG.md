@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Fix markov chain commands sometimes failing due to upstream `KeyError` instances that make no goddamn sense.
 - Fix the `>>listinactivewarnings` command not working. Was using a non-existent method.
 
 ## 4.37.759: Ange

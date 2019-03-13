@@ -41,13 +41,16 @@ async def impersonate(cmd: SigmaCommand, pld: CommandPayload):
                 total_string = ' '.join(chain_data['chain'])
                 chain_function = functools.partial(markovify.Text, total_string)
                 with ThreadPoolExecutor() as threads:
-                    cache_key = f'chain_{target.id}'
-                    chain = await cmd.db.cache.get_cache(cache_key)
-                    if not chain:
-                        chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                        await cmd.db.cache.set_cache(cache_key, chain)
-                    sentence_function = functools.partial(chain.make_short_sentence, 500)
-                    sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    try:
+                        cache_key = f'chain_{target.id}'
+                        chain = await cmd.db.cache.get_cache(cache_key)
+                        if not chain:
+                            chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
+                            await cmd.db.cache.set_cache(cache_key, chain)
+                        sentence_function = functools.partial(chain.make_short_sentence, 500)
+                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    except KeyError:
+                        sentence = None
                 if not sentence:
                     not_enough_data = '😖 I could not think of anything... I need more chain items!'
                     response = discord.Embed(color=0xBE1931, title=not_enough_data)

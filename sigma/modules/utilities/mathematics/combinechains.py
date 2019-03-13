@@ -40,7 +40,7 @@ def combine_names(users: list):
 
 async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
     if len(pld.msg.mentions) >= 2:
-        empty_chain = False
+        empty_chain = None
         chain_objects = []
         with ThreadPoolExecutor() as threads:
             for target in pld.msg.mentions:
@@ -68,13 +68,16 @@ async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
                     combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
                     combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
                     await cmd.db.cache.set_cache(combination_key, combination)
-                except ValueError:
+                except (ValueError, KeyError):
                     failed = True
             if not empty_chain:
                 if not failed:
                     await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
-                    sentence_function = functools.partial(combination.make_short_sentence, 500)
-                    sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    try:
+                        sentence_function = functools.partial(combination.make_short_sentence, 500)
+                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
+                    except KeyError:
+                        sentence = None
                     if not sentence:
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
                         response = discord.Embed(color=0xBE1931, title=not_enough_data)
