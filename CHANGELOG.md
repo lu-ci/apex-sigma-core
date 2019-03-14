@@ -1,5 +1,12 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Fix markov chain commands sometimes failing due to upstream `KeyError` instances that make no goddamn sense.
+- Fix the `>>listinactivewarnings` command not working. Was using a non-existent method.
+
 ## 4.37.759: Ange
 
 ### Changed
@@ -7,7 +14,6 @@
 - Chatterbot has been improved with better details, and missing details filled.
 - Fixed reporter inconsistencies and errors.
 - Sigma can now be told to interact with a user like `>>lick @Sigma @NotALoli`.
-
 
 ## 4.37.744: Ange
 
