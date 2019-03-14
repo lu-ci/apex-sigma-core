@@ -129,28 +129,6 @@ class SigmaCommand(object):
         trigg_args = [arg for arg in args if arg in black_args]
         return any(trigg_args)
 
-    @staticmethod
-    def get_hms_diff(tdelta):
-        hours, remainder = divmod(tdelta.seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return hours, minutes, seconds
-
-    async def protest_response(self, pld: CommandPayload):
-        start_stamp = 1552608000
-        end_stamp = 1552694400
-        fs_h, fs_m, fs_s = self.get_hms_diff(arrow.utcnow() - arrow.get(start_stamp))
-        te_h, te_m, te_s = self.get_hms_diff(arrow.get(end_stamp) - arrow.utcnow())
-        fs_line, te_line = (f'{fs_h}h{fs_s}m{fs_s}s', f'{te_h}h{te_m}m{te_s}s')
-        location = pld.msg.guild.name if pld.msg.guild else pld.msg.author.name
-        exp_text = f'Sorry {location}, {self.bot.user.name}\'s functions have been disabled in protest '
-        exp_text += 'of the finalization of EU\'s **Article 13**. For information about what that is you can '
-        exp_text += 'read up on it [here](https://www.alphr.com/politics/1009470/article-13-EU-what-is-it-copyright). '
-        exp_text += f'Functionality has now been down for **{fs_line}** and will be returned in **{te_line}**. '
-        exp_text += 'You can talk to my creators [here](https://discord.gg/aEUCHwX) if you need more info.'
-        response = discord.Embed(color=0xBE1931, title=f'🚨 Functionality Hiatus: Article 13')
-        response.description = exp_text
-        await pld.msg.channel.send(embed=response)
-
     async def execute(self, payload: CommandPayload):
         if self.bot.ready:
             if payload.msg.guild:
@@ -185,8 +163,7 @@ class SigmaCommand(object):
                             requirements = CommandRequirements(self, payload.msg)
                             if requirements.reqs_met:
                                 try:
-                                    await self.protest_response(payload)
-                                    # await getattr(self.command, self.name)(self, payload)
+                                    await getattr(self.command, self.name)(self, payload)
                                     await add_cmd_stat(self)
                                     await self.add_usage_sum(payload.msg)
                                     self.bot.command_count += 1

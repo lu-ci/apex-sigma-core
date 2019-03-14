@@ -64,15 +64,14 @@ class ExecutionClockwork(object):
         return stats_handler
 
     async def event_runner(self, event_name: str, pld: SigmaPayload = None):
-        pass
-        # if self.bot.ready:
-        #     if event_name in self.bot.modules.events:
-        #         if pld:
-        #             await pld.init()
-        #         self.get_stats_storage(event_name).add_stat()
-        #         for event in self.bot.modules.events[event_name]:
-        #             task = event, pld
-        #             await self.ev_queue.put(task)
+        if self.bot.ready:
+            if event_name in self.bot.modules.events:
+                if pld:
+                    await pld.init()
+                self.get_stats_storage(event_name).add_stat()
+                for event in self.bot.modules.events[event_name]:
+                    task = event, pld
+                    await self.ev_queue.put(task)
 
     async def queue_ev_loop(self):
         while True:
