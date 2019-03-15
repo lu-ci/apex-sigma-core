@@ -81,11 +81,15 @@ async def update_data(db: Database, data: dict, user: discord.User, guild: disco
     if user:
         unam = data.get('user_name')
         if unam is None or unam != user.name:
-            await db[db.db_nam].Interactions.update_one(data, {'$set': {'user_name': user.name}})
+            await db[db.db_nam].Interactions.update_many(
+                {'user_id': data.get('user_id')}, {'$set': {'user_name': user.name}}
+            )
     if guild:
         snam = data.get('server_name')
         if snam is None or snam != guild.name:
-            await db[db.db_nam].Interactions.update_one(data, {'$set': {'server_name': guild.name}})
+            await db[db.db_nam].Interactions.update_many(
+                {'server_id': data.get('server_id')}, {'$set': {'server_name': guild.name}}
+            )
 
 
 async def make_footer(cmd, item):
@@ -95,6 +99,7 @@ async def make_footer(cmd, item):
     sid = item.get('server_id')
     srv = cmd.bot.get_guild(sid)
     servername = srv.name if srv else 'Unknown Server' or item.get('server_name')
+    await update_data(cmd.db, item, user, srv)
     react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
     return footer
