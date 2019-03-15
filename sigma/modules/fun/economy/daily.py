@@ -32,7 +32,7 @@ async def daily(cmd: SigmaCommand, pld: CommandPayload):
     now_stamp = arrow.utcnow().timestamp
     last_daily = daily_doc.get('stamp') or 0
     streak = daily_doc.get('streak') or 0
-    streak = (0 if now_stamp > last_daily + 172800 else streak) + 1
+    streak = (0 if now_stamp > last_daily + 259200 else streak) + 1
     if now_stamp > last_daily + 79200:
         currency = cmd.bot.cfg.pref.currency
         random_part = secrets.randbelow(100)
