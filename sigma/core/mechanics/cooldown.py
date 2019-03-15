@@ -28,8 +28,7 @@ class CommandRateLimiter(object):
         self.stamps = {}
 
     def is_cooling(self, message):
-        base = 1.25
-        timeout = self.cmd.bot.cool_down.get_scaled(base, message.author.id)
+        timeout = self.cmd.bot.cool_down.get_scaled(message.author.id, 1.25)
         last_stamp = self.stamps.get(message.author.id, 0)
         curr_stamp = arrow.utcnow().float_timestamp
         return (last_stamp + timeout) > curr_stamp
@@ -103,12 +102,12 @@ class CooldownControl(object):
         now = arrow.utcnow().timestamp
         await self.cds.delete_many({'end_stamp': {'$lt': now}})
 
-    def get_scaled(self, base: int or float, uid: int):
+    def get_scaled(self, uid: int, base: int or float, multiplier: int or float = 5):
         last_entry = self.scaling.get(uid, {})
         last_stamp = last_entry.get('stamp', 0)
         last_count = last_entry.get('count', 0)
         now_stamp = arrow.utcnow().timestamp
-        if now_stamp - last_stamp > base * 5:
+        if now_stamp - last_stamp > base * multiplier:
             cooldown = base
             data_entry = {'stamp': now_stamp, 'count': 0}
         else:

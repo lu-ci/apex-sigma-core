@@ -1,9 +1,12 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.40.809: Mirakurun
 
 ### Changed
 
+- Interactions will not try to fill missing user and guild data for usage in the footer text.
+- The order of the `get_scaled()` arguments has been changed for more logic, it also takes the maximum multiplier cap as an argument.
+- The proffession emote reactions are back. Here's what happened with this. People were pissed about it being made, and when we reverted it, more people were pissed about it being gone. So "fuck you" to the little bitches that can't click an icon.
 - Fix markov chain commands sometimes failing due to upstream `KeyError` instances that make no goddamn sense.
 - Fix the `>>listinactivewarnings` command not working. Was using a non-existent method.
 
