@@ -46,16 +46,14 @@ async def hunt(cmd: SigmaCommand, pld: CommandPayload):
                             rarity = int(pld.args[0])
                     except ValueError:
                         pass
-            item = item_core.pick_item_in_rarity('animal', rarity)
-            connector = 'a'
-            if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-                connector = 'an'
             if rarity == 0:
-                if item.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-                    connector = 'an'
-                response_title = f'{item.icon} You caught {connector} {item.name} and threw it away!'
-                response = discord.Embed(color=item.color, title=response_title)
+                response_title = '🗑 You hunted for a while but found nothing...'
+                response = discord.Embed(color=0x67757f, title=response_title)
             else:
+                item = item_core.pick_item_in_rarity('animal', rarity)
+                connector = 'a'
+                if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
+                    connector = 'an'
                 success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
                 if success:
                     response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
