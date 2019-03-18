@@ -86,3 +86,11 @@ commands:
                   Shows the items that Baro Ki'Teer is currently selling
                   as well as the statistics such as total number of items,
                   total amount of ducats and credits needed and where he's located.
+
+  - name:         wfnightwave
+    alts:
+      - "wfchallenges"
+      - "wfnw"
+    enabled:      true
+    description:
+                  Shows the current Nightwave challenges in Warframe.

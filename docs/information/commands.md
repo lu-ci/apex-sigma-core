@@ -581,6 +581,7 @@ Commands | Description | Example
 `>>wfinvasions` `>>wfinvasion` `>>wfi` | Shows the current ongoing invasions in Warframe. As well as their factions, locations and rewards. | `>>wfinvasions`
 `>>wfnews` `>>wfn` | Shows the current ative news in Warframe. | `>>wfnews`
 `>>wfnewschannel` `>>wfnc` | Designates a channel for Warframe news. When Digital Extremes posts a news for Warframe it will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfnewschannel #wf-news`
+`>>wfnightwave` `>>wfchallenges` `>>wfnw` | Shows the current Nightwave challenges in Warframe. | `>>wfnightwave`
 `>>wfplainschannel` `>>wfpoec` | Designates a channel for Warframe plains of eidolon day-night cycle. When day shifts to night, and vice versa, a notification is sent to that channel. To disable this, write disable after the command instead of a channel. | `>>wfplainschannel #wf-daylight`
 `>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
 `>>wfpricecheck` `>>wfmarket` `>>wfpc` | Checks the price for the specified item. This will only list items by members that are currently online and in the game. The API requires a precise item name. For an item set, put "set" after the item name. | `>>wfpricecheck Volt Prime Set`
