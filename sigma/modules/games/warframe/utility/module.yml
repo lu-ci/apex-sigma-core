@@ -30,16 +30,3 @@ commands:
                   Note that DE hasn't been tracking this data forever.
                   So some really old raids won't be shown due to having no data.
                   The shortest raid time shown only counts victorious raids.
-
-  - name:         wfsyndicates
-    alts:
-      - "wfsyndicate"
-      - "wfsyndi"
-      - "wfsy"
-    enabled:      true
-    description:
-                  Lists the best tradable offerings sold by each syndicate.
-                  Items with no current sell offers are listed first.
-                  Otherwise items are listed from most valuable to least valuable.
-                  This command is used to help you decide what to sell in case you have excess standing.
-                  For price checking user t wfpricecheck command instead.
