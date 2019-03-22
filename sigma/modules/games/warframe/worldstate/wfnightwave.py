@@ -15,9 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import json
 
-import aiohttp
 import arrow
 import discord
 
@@ -32,22 +30,23 @@ nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 def get_challenges(challenges: dict):
     dailies, weeklies, weeklies_hard = [], [], []
     for challenge in challenges:
-        if challenge['xpAmount'] == '1000':
+        if challenge['reputation'] == 1000:
             dailies.append(challenge)
-        if challenge['xpAmount'] == '3000':
+        if challenge['reputation'] == 3000:
             weeklies.append(challenge)
-        if challenge['xpAmount'] == '5000':
+        if challenge['reputation'] == 5000:
             weeklies_hard.append(challenge)
-    dailies_sorted = list(sorted(dailies, key=lambda x: x['description']))
-    weeklies_sorted = list(sorted(weeklies, key=lambda x: x['description']))
-    weeklies_hard_sorted = list(sorted(weeklies_hard, key=lambda x: x['description']))
+    dailies_sorted = list(sorted(dailies, key=lambda x: x['desc']))
+    weeklies_sorted = list(sorted(weeklies, key=lambda x: x['desc']))
+    weeklies_hard_sorted = list(sorted(weeklies_hard, key=lambda x: x['desc']))
     return dailies_sorted, weeklies_sorted, weeklies_hard_sorted
 
 
 def get_offsets(challenges: list):
     offsets = []
     for challenge_list in challenges:
-        offset = challenge_list[0]['end'] - arrow.utcnow().timestamp
+        expiry = arrow.get(challenge_list[0]['expiry']).timestamp
+        offset = expiry - arrow.utcnow().timestamp
         offsets.append(str(datetime.timedelta(seconds=offset)))
     return offsets
 
@@ -55,16 +54,16 @@ def get_offsets(challenges: list):
 def get_descriptions(challenges: list):
     descriptions = []
     for challenge_list in challenges:
-        descriptions.append([c['description'] for c in challenge_list])
+        descriptions.append([c['desc'] for c in challenge_list])
     return descriptions
 
 
 async def wfnightwave(_cmd: SigmaCommand, pld: CommandPayload):
-    nw = await WorldState().challenges
+    nw = await WorldState().nightwave
     if nw:
         response = discord.Embed(color=0x6b1724, title=f'Nightwave Season {nw["season"] + 1}', )
         response.set_thumbnail(url=nightwave_icon)
-        dailies, weeklies, weeklies_hard = get_challenges(nw['challenges'])
+        dailies, weeklies, weeklies_hard = get_challenges(nw['activeChallenges'])
         d_offset, w_offset, wh_offset = get_offsets([dailies, weeklies, weeklies_hard])
         d_descs, w_descs, wh_descs = get_descriptions([dailies, weeklies, weeklies_hard])
         response.add_field(name=f'Dailies - 1000rep - {d_offset}', value='\n'.join(d_descs), inline=False)

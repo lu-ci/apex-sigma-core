@@ -89,8 +89,8 @@ class WorldState(object):
         return await self.safe_get(tools_url, 'dailydeals', True)
 
     @property
-    async def challenges(self):
-        return await self.safe_get(tools_url, 'challenges', True)
+    async def nightwave(self):
+        return await self.safe_get(stats_url, 'nightwave')
 
     @property
     async def vallistime(self):
