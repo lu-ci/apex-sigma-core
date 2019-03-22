@@ -142,6 +142,7 @@ class ApexSigma(client_class):
         self.modules = ModuleManager(self, init)
 
     def is_ready(self):
+        # noinspection PyBroadException
         try:
             ready = super().is_ready()
         except Exception:

@@ -174,6 +174,7 @@ def run(db_addr, skippable):
                     sdoc, slugged, skipped = slugify_doc(doc)
                     tsl += slugged
                     tsk += skipped
+                    # noinspection PyBroadException
                     try:
                         collx.delete_one(doc)
                         collx.insert_one(sdoc)

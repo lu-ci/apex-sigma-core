@@ -15,39 +15,45 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import json
 
-import aiohttp
 import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.generic_responses import error
+from sigma.modules.games.warframe.commons.worldstate import WorldState
 
-tier_names = {
-    'VoidT1': 'Lith',
-    'VoidT2': 'Meso',
-    'VoidT3': 'Neo',
-    'VoidT4': 'Axi'
-}
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 
+def sort_fissures(fissures: list):
+    lith, meso, neo, axi = [], [], [], []
+    for fissure in fissures:
+        if fissure['tier'] == 'Lith':
+            lith.append(fissure)
+        if fissure['tier'] == 'Meso':
+            meso.append(fissure)
+        if fissure['tier'] == 'Neo':
+            neo.append(fissure)
+        if fissure['tier'] == 'Axi':
+            axi.append(fissure)
+    return lith + meso + neo + axi
+
+
 async def wffissures(_cmd: SigmaCommand, pld: CommandPayload):
-    fissure_url = 'https://deathsnacks.com/wf/data/activemissions.json'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(fissure_url) as data:
-            fissure_data = await data.read()
-            fissure_list = json.loads(fissure_data)
-    response = discord.Embed(color=0x66ccff, title='Currently Ongoing Fissures')
-    fissure_list = sorted(fissure_list, key=lambda k: k['Modifier'])
-    for fis in fissure_list:
-        relic_tier = tier_names[fis['Modifier']]
-        fis_desc = f'Location: {fis["Node"]}'
-        time_left = fis['Expiry']['sec'] - arrow.utcnow().timestamp
-        death_time = str(datetime.timedelta(seconds=time_left))
-        fis_desc += f'\nDisappears In: {death_time}'
-        response.add_field(name=f'{relic_tier} Void Fissure', value=fis_desc, inline=False)
-    response.set_footer(text='Timers are not updated live.')
-    response.set_thumbnail(url=fissure_icon)
+    fissures = await WorldState().fissures
+    if fissures:
+        response = discord.Embed(color=0x66ccff, title='Currently Ongoing Fissures')
+        for fissure in sort_fissures(fissures):
+            fissure_desc = f'Location: {fissure["location"]} - {fissure["missionType"]}'
+            fissure_desc += f'\nFaction: {fissure["faction"]}'
+            offset = fissure['end'] - arrow.utcnow().timestamp
+            expiry = str(datetime.timedelta(seconds=offset))
+            fissure_desc += f'\nDisappears In: {expiry}'
+            response.add_field(name=f'{fissure["tier"]} Void Fissure', value=fissure_desc, inline=False)
+        response.set_footer(text='Timers are not updated live.')
+        response.set_thumbnail(url=fissure_icon)
+    else:
+        response = error('Could not retrieve Fissure data.')
     await pld.msg.channel.send(embed=response)

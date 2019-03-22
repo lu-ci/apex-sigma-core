@@ -14,31 +14,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import aiohttp
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.games.warframe.commons.parsers.invasion_parser import parse_invasion_data
+from sigma.core.utilities.generic_responses import error
+from sigma.modules.games.warframe.commons.worldstate import WorldState
+
+invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
 
 
 async def wfinvasions(_cmd: SigmaCommand, pld: CommandPayload):
-    invasion_url = 'https://deathsnacks.com/wf/data/invasion_raw.txt'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(invasion_url) as data:
-            invasion_data = await data.text()
-    invasion_list = parse_invasion_data(invasion_data)
-    response = discord.Embed(color=0xff5050)
-    response.set_author(name='Currently Ongoing Invasions')
-    for invasion in invasion_list:
-        invasion_desc = f'Location: {invasion["node"]} ({invasion["planet"]})'
-        if invasion['factions']['one'].lower().startswith('infes'):
-            invasion_desc += f'\nReward: {invasion["rewards"]["two"]}'
-        elif invasion['factions']['two'].lower().startswith('infes'):
-            invasion_desc += f'\nReward: {invasion["rewards"]["one"]}'
-        else:
-            invasion_desc += f'\nRewards: {invasion["rewards"]["one"]} vs {invasion["rewards"]["two"]}'
-        response.add_field(name=f'{invasion["title"]}', value=f'{invasion_desc}', inline=False)
-        response.set_thumbnail(url='https://i.imgur.com/QUPS0ql.png')
-        response.set_footer(text='Timers are not updated live.')
+    invasions = await WorldState().invasions
+    if invasions:
+        response = discord.Embed(color=0xff5050, title='Currently Ongoing Invasions')
+        response.set_thumbnail(url=invasion_icon)
+        for invasion in invasions:
+            active = invasion['endScore'] > abs(invasion['score'])
+            if active:
+                invasion_desc = f'Location: {invasion["location"]}'
+                reward_def = invasion['rewardsDefender']['items'][0]
+                reward_one = f'{reward_def["count"]} {reward_def["name"]}'
+                invasion_desc += f'\nRewards: {reward_one}'
+                if invasion.get('rewardsAttacker'):
+                    reward_atk = invasion['rewardsAttacker']['items'][0]
+                    reward_two = f'{reward_atk["count"]} {reward_atk["name"]}'
+                    invasion_desc += f' vs {reward_two}'
+                invasion_title = f'{invasion["factionDefender"]} vs {invasion["factionAttacker"]}'
+                response.add_field(name=invasion_title, value=f'{invasion_desc}', inline=False)
+    else:
+        response = error('Could not retrieve Invasion data.')
     await pld.msg.channel.send(embed=response)

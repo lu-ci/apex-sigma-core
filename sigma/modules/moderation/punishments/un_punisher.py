@@ -32,6 +32,7 @@ async def un_punisher(ev: SigmaEvent):
 
 
 async def unban(ev: SigmaEvent, doc: dict):
+    # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
@@ -50,6 +51,7 @@ async def unban(ev: SigmaEvent, doc: dict):
 
 
 async def untmute(ev: SigmaEvent, doc: dict):
+    # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
@@ -71,6 +73,7 @@ async def untmute(ev: SigmaEvent, doc: dict):
 
 
 async def unhmute(ev: SigmaEvent, doc: dict):
+    # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
@@ -81,6 +84,7 @@ async def unhmute(ev: SigmaEvent, doc: dict):
                 await ev.db[ev.db.db_nam].HardmuteClockworkDocs.delete_one(doc)
                 for channel in guild.channels:
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
+                        # noinspection PyBroadException
                         try:
                             ev.log.info(f'Un-hardmuting {uid} from {gid}.')
                             # noinspection PyTypeChecker

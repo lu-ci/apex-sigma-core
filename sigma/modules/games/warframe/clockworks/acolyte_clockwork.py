@@ -33,6 +33,7 @@ async def acolyte_clockwork(ev: SigmaEvent):
 async def acolyte_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 acolytes, triggers = await get_acolyte_data(ev.db)
                 if acolytes:

@@ -56,6 +56,7 @@ async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
             try:
                 username_proper = get_usercaps(username, trial_data)
                 raidlist_url = f'https://trials.wf/player/?user={username_proper}'
+
                 # LoR
                 lor_deaths = 0
                 lor_kills = 0

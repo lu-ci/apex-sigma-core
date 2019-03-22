@@ -24,6 +24,7 @@ async def log_event(client: ApexSigma, settings: dict, response: discord.Embed, 
     if log_channel_id and log_event_active:
         log_channel = await client.get_channel(log_channel_id, True)
         if log_channel:
+            # noinspection PyBroadException
             try:
                 await log_channel.send(embed=response)
             except Exception:

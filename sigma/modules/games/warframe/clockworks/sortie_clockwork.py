@@ -33,6 +33,7 @@ async def sortie_clockwork(ev: SigmaEvent):
 async def sortie_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 sorties, triggers = await get_sortie_data(ev.db)
                 if sorties:

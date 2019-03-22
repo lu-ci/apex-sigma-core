@@ -138,6 +138,7 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
             except discord.NotFound:
                 pass
             deleted = []
+            # noinspection PyBroadException
             try:
                 if target:
                     deleted = await pld.msg.channel.purge(limit=count, check=purge_target_check)

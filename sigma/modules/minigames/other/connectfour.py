@@ -47,7 +47,7 @@ async def send_board_msg(message: discord.Message, board_msg: discord.Message, b
 
 
 async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
-    if pld.msg.author.id not in ongoing_list:
+    if pld.msg.channel.id not in ongoing_list:
         ongoing_list.append(pld.msg.channel.id)
         competitor, curr_turn = None, pld.msg.author
         color = pld.args[0][0].lower() if pld.args else None
@@ -127,17 +127,21 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
                     else:
                         cancel_embed = discord.Embed(color=0xFFCC4D, title='🔥 Game canceled!')
                         await pld.msg.channel.send(embed=cancel_embed)
+                        if pld.msg.channel.id in ongoing_list:
+                            ongoing_list.remove(pld.msg.channel.id)
                         return
             except asyncio.TimeoutError:
                 timeout_title = f'🕙 Time\'s up {curr_turn.display_name}!'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
+                if pld.msg.channel.id in ongoing_list:
+                    ongoing_list.remove(pld.msg.channel.id)
                 return
 
         if winner:
             if bot:
                 if winner == getattr(board, player):
-                    color, icon, resp = 0x3B88C3, '💎', 'You win'
+                    color, icon, resp = 0x3B88C3, '💎', 'You wnn'
                 else:
                     color, icon, resp = 0x292929, '💣', 'You lose'
             else:

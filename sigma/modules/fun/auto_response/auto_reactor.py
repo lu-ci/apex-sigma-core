@@ -30,6 +30,7 @@ async def auto_reactor(ev: SigmaEvent, pld: MessagePayload):
                     arg = clean_word(arg)
                     if arg in triggers:
                         reaction = triggers[arg]
+                        # noinspection PyBroadException
                         try:
                             await pld.msg.add_reaction(reaction)
                         except Exception:

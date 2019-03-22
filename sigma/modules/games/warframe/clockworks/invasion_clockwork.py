@@ -33,6 +33,7 @@ async def invasion_clockwork(ev: SigmaEvent):
 async def invasion_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 invasions, triggers = await get_invasion_data(ev.db)
                 if invasions:

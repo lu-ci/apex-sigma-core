@@ -23,6 +23,9 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
+api_url = 'https://api.warframe.market/v1/items/'
+items_url = 'https://warframe.market/items/'
+assets_url = 'https://warframe.market/static/assets/'
 plat_img = 'http://i.imgur.com/wa6J9bz.png'
 
 
@@ -47,13 +50,12 @@ async def get_lowest_trader(order_url):
 
 
 async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
-    initial_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
-    init_resp_msg = await pld.msg.channel.send(embed=initial_response)
+    init_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
+    init_message = await pld.msg.channel.send(embed=init_response)
     if pld.args:
         lookup = '_'.join(pld.args).lower()
-        lookup_url = f'https://api.warframe.market/v1/items/{lookup}'
+        lookup_url = api_url + lookup
         orders_url = f'{lookup_url}/orders'
-        asset_base = 'https://warframe.market/static/assets/'
         async with aiohttp.ClientSession() as session:
             async with session.get(lookup_url) as data:
                 page_data = await data.read()
@@ -79,8 +81,8 @@ async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
                         seller_text = '\n'.join(seller_lines)
                     else:
                         seller_text = 'No sellers found.'
-                    page_url = f'https://warframe.market/items/{lookup}'
-                    thumb = asset_base + item['icon']
+                    page_url = items_url + lookup
+                    thumb = assets_url + item['icon']
                     name = item['en']['item_name']
                     response = discord.Embed(color=0xFFCC66)
                     response.description = seller_text
@@ -95,6 +97,6 @@ async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
     else:
         response = error('Nothing inputted.')
     try:
-        await init_resp_msg.edit(embed=response)
+        await init_message.edit(embed=response)
     except discord.NotFound:
         pass

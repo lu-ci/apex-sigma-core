@@ -22,18 +22,22 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
+darvo_icon = 'https://i.imgur.com/bpDzO9W.png'
 
-async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
-    news_list = await WorldState().news
-    if news_list:
-        news_lines = []
-        for news in reversed(news_list):
-            if news.get('text'):
-                human_time = arrow.get(news.get('start')).humanize()
-                news_line = f'[{news.get("text")}]({news.get("link")}) - {human_time}'
-                news_lines.append(news_line)
-        output_text = '\n'.join(news_lines)
-        response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
+
+async def wfdailydeal(_cmd: SigmaCommand, pld: CommandPayload):
+    item = await WorldState().dailydeals
+    if item:
+        end_time = arrow.get(item['end']).humanize()
+        item_out = f"**Item:** {item['item']['name']}\n"
+        item_out += f'**Sale Price:** {item["price"]} Plat\n'
+        item_out += f'**Original Price:** {item["originalPrice"]} Plat\n'
+        discount = int((1 - item['price'] / item['originalPrice']) * 100)
+        item_out += f"**Discount:** {discount}%\n"
+        item_out += f'**Quantity:** {item["stock"] - item["sold"]}/{item["stock"]}'
+        response = discord.Embed(color=0xff6100)
+        response.add_field(name="Darvo's Daily Deal", value=item_out)
+        response.set_footer(text=f'Sale ends {end_time}', icon_url=darvo_icon)
     else:
-        response = error('Could not retrieve News data.')
+        response = error('Could not retrieve Daily Deal data.')
     await pld.msg.channel.send(embed=response)

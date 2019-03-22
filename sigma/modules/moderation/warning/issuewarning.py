@@ -95,6 +95,7 @@ async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
                     to_target.set_footer(text=f'From {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
+                    # noinspection PyBroadException
                     try:
                         await target.send(embed=to_target)
                     except Exception:

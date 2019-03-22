@@ -42,6 +42,7 @@ async def status_clockwork(ev: SigmaEvent):
                 if status_cache:
                     status = status_cache.pop(secrets.randbelow(len(status_cache)))
                     activity = discord.Activity(name=status, type=discord.ActivityType.playing)
+                    # noinspection PyBroadException
                     try:
                         if ev.bot.cfg.pref.dev_mode:
                             status_type = discord.Status.dnd

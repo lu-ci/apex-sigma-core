@@ -5,16 +5,6 @@ category:         warframe
 enabled:          true
 
 commands:
-  - name:         wfalertchannel
-    alts:
-      - "wfac"
-    enabled:      true
-    usage:        "{pfx}{cmd} #wf-alerts"
-    description:
-                  Designates a channel for Warframe alerts.
-                  When a new alert shows up the news will be posted there.
-                  To disable this, write disable after the command instead of a channel.
-
   - name:         wfacolytechannel
     alts:
       - "wfacolc"

@@ -30,3 +30,11 @@ commands:
                   Note that DE hasn't been tracking this data forever.
                   So some really old raids won't be shown due to having no data.
                   The shortest raid time shown only counts victorious raids.
+
+  - name:         wfdroptables
+    alts:
+      - "wfdroptable"
+      - "wfdrops"
+    enabled:      true
+    description:
+                  Links a webpage for Warframe's drop tables.

@@ -24,6 +24,7 @@ import discord
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 
@@ -59,15 +60,7 @@ def get_descriptions(challenges: list):
 
 
 async def wfnightwave(_cmd: SigmaCommand, pld: CommandPayload):
-    worldstate_url = 'https://api.tenno.tools/worldstate/pc'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(worldstate_url) as data:
-            data = await data.read()
-            worldstate = json.loads(data)
-    try:
-        nw = worldstate['challenges']['data'][0]
-    except (KeyError, IndexError):
-        nw = None
+    nw = await WorldState().challenges
     if nw:
         response = discord.Embed(color=0x6b1724, title=f'Nightwave Season {nw["season"] + 1}', )
         response.set_thumbnail(url=nightwave_icon)

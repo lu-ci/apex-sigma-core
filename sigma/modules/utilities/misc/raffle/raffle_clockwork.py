@@ -45,6 +45,7 @@ async def cycler(ev: SigmaEvent):
     raffle_coll = ev.db[ev.db.db_nam].Raffles
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 now = arrow.utcnow().float_timestamp
                 raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True}).to_list(None)

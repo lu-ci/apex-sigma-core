@@ -33,6 +33,7 @@ async def news_clockwork(ev: SigmaEvent):
 async def news_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 news, triggers = await get_news_data(ev.db)
                 if news:

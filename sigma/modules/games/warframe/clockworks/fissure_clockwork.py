@@ -33,6 +33,7 @@ async def fissure_clockwork(ev: SigmaEvent):
 async def fissure_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 fissures, triggers = await get_fissure_data(ev.db)
                 if fissures:

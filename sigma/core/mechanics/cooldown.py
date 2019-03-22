@@ -18,7 +18,6 @@ import secrets
 
 import arrow
 
-
 scaler_cache = None
 
 

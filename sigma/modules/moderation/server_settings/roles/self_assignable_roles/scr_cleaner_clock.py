@@ -33,6 +33,7 @@ async def scr_cleaner_clock(ev: SigmaEvent):
 async def scr_clockwork(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 coll = ev.db[ev.db.db_nam].ServerSettings
                 colored_guild_docs = await coll.find({'color_roles': True}).to_list(None)

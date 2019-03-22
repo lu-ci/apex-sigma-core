@@ -33,6 +33,7 @@ async def plains_clockwork(ev: SigmaEvent):
 async def plains_cycler(ev: SigmaEvent):
     while True:
         if ev.bot.is_ready():
+            # noinspection PyBroadException
             try:
                 plains, triggers = await get_plains_data(ev.db)
                 if plains:

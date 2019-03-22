@@ -5,21 +5,13 @@ category:         warframe
 enabled:          true
 
 commands:
-  - name:         wfalerts
+  - name:         wfsorties
     alts:
-      - "wfa"
-    enabled:      true
-    description:
-                  Shows the currently ongoing alerts in Warframe.
-                  As well as their respective rewards.
-
-  - name:         wfsortie
-    alts:
-      - "wfsorties"
+      - "wfsortie"
       - "wfs"
     enabled:      true
     description:
-                  Shows the ongoing sortie missions in Warframe.
+                  Shows the ongoing Sortie missions in Warframe.
 
   - name:         wffissures
     alts:
@@ -60,7 +52,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} exact"
     description:
-                  Shows the current time on the Plains of Eidolon in warframe.
+                  Shows the current time on the Plains of Eidolon in Warframe.
                   As well as the next day/night cycle rotations.
 
   - name:         wfsales
@@ -94,3 +86,29 @@ commands:
     enabled:      true
     description:
                   Shows the current Nightwave challenges in Warframe.
+
+  - name:         wfdailydeal
+    alts:
+      - "wfdeal"
+      - "wfdarvo"
+      - "darvo"
+      - "wfdd"
+    enabled:      true
+    description:
+                  Shows the current daily deal by Darvo.
+
+  - name:         wffactionprogress
+    alts:
+      - "wfinvasionprogress"
+      - "wfprogress"
+    enabled:      true
+    description:
+                  Shows the current faction progress for invasions in Warframe.
+
+  - name:         wforbvallis
+    alts:
+      - "wftemp"
+      - "wfov"
+    enabled:      true
+    description:
+                  Shows the current temperature in Orb Vallis in Warframe.

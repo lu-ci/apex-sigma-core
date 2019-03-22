@@ -24,6 +24,7 @@ async def join_name_check(_ev: SigmaEvent, pld: MemberPayload):
         active = pld.settings.get('ascii_only_names')
         if active:
             if is_invalid(pld.member.display_name):
+                # noinspection PyBroadException
                 try:
                     temp_name = pld.settings.get('ascii_temp_name', '<Change My Name>')
                     new_name = clean_name(pld.member.display_name, temp_name)

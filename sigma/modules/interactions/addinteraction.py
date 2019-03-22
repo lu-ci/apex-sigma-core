@@ -43,6 +43,7 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
 
 async def validate_gif_url(url: str):
     valid, data = False, None
+    # noinspection PyBroadException
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:

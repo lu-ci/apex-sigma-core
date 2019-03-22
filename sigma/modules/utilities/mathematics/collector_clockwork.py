@@ -113,6 +113,7 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     ftr_icn = tgt_chn.guild.icon_url or 'https://i.imgur.com/xpDpHqz.png'
     response = ok(f'Added {cltd} entries to your chain, {len(cltn)} entries total.')
     response.set_footer(text=footer, icon_url=ftr_icn)
+    # noinspection PyBroadException
     try:
         await tgt_usr.send(embed=response)
     except Exception:
@@ -142,6 +143,7 @@ async def cycler(ev: SigmaEvent):
                     collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
                     collection = collection.get('chain') if collection else []
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
+                    # noinspection PyBroadException
                     try:
                         async for log in cl_chn.history(limit=100000):
                             cnt = log.content

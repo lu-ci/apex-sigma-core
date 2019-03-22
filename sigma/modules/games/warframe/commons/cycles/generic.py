@@ -60,9 +60,10 @@ async def clean_wf_cache(db: Database):
 async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
     channels = await get_channels(ev, marker)
     for channel in channels:
+        # noinspection PyBroadException
         try:
             if triggers:
-                mentions = await get_triggers(ev.db, triggers, channel.guild)
+                mentions = await get_triggers(ev.db, triggers, channel)
                 if mentions:
                     mentions = ' '.join(mentions)
                     await channel.send(mentions, embed=response)

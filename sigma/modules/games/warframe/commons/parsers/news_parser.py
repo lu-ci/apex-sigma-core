@@ -14,55 +14,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json
-
-import aiohttp
 import arrow
 import discord
 
-
-def language_check(data):
-    english = False
-    for message in data['Messages']:
-        if message['LanguageCode'] == 'en':
-            english = True
-            break
-    return english
+from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 
 async def get_news_data(db):
-    news_url = 'http://content.warframe.com/dynamic/worldState.php'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(news_url) as data:
-            news_data = await data.read()
-            news_data = json.loads(news_data)
-    news_data = news_data['Events']
+    news_list = await WorldState().news
     news_out = None
     triggers = ['news']
-    for news in news_data:
-        event_id = news['_id']['$oid']
+    for news in news_list:
+        event_id = news['id']
         db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
         if not db_check:
             now = arrow.utcnow().timestamp
             await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
-            if language_check(news):
-                news_out = news
-                en_news = discord.utils.find(lambda n: n.get('LanguageCode') == 'en', news.get('Messages'))
-                triggers += [piece.lower() for piece in en_news.get('Message').lower().split()]
-                break
+            news_out = news
+            triggers += [piece.lower() for piece in news_out.get('text').lower().split()]
+            break
     return news_out, triggers
 
 
 def generate_news_embed(data):
-    event_datetime = arrow.get().utcfromtimestamp(int(data['Date']['$date']['$numberLong']) // 1000).datetime
-    message_content = None
-    for message in data['Messages']:
-        if message['LanguageCode'] == 'en':
-            message_content = message
-            break
-    headline = message_content['Message']
-    news_url = data['Prop']
+    event_datetime = arrow.get(data['start']).datetime
+    headline = data['text']
+    news_url = data['link']
     response = discord.Embed(color=0x336699, title=headline, timestamp=event_datetime, url=news_url)
-    if data.get('ImageUrl'):
-        response.set_image(url=data['ImageUrl'])
     return response

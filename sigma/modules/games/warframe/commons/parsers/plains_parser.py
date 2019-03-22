@@ -61,5 +61,5 @@ def generate_plains_embed(poedat):
         state = 'Night'
         icon = '🌖'
         color = 0xb8c5cd
-    response = discord.Embed(color=color, title=f'{icon} {state} has started, tenno.')
+    response = discord.Embed(color=color, title=f'{icon} {state} has started, Tenno.')
     return response

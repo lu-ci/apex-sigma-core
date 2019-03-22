@@ -14,59 +14,77 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import aiohttp
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.games.warframe.commons.parsers.sales_parser import parse_sales_data
+from sigma.core.utilities.generic_responses import error
+from sigma.modules.games.warframe.commons.worldstate import WorldState
 
-wf_logo = 'https://i.imgur.com/yrY1kWg.png'
+sales_url = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
+warframe_icon = 'https://i.imgur.com/yrY1kWg.png'
+
+
+def get_mode(args: list):
+    discount_only = True
+    if args:
+        if args[0].lower() == 'all':
+            discount_only = False
+    if not discount_only:
+        title = 'List of Promoted Warframe Items'
+    else:
+        title = 'List of Warframe Items on Sale'
+    return discount_only, title
+
+
+def get_items(sales: list, discount_only: bool):
+    sale_items = []
+    for sale in sales:
+        if 'prime access' not in sale['item'].lower():
+            if not discount_only or sale['discount'] > 0:
+                sale_items.append(sale)
+    return sale_items
 
 
 async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
-    sales_api = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(sales_api) as data:
-            sales_text = await data.text()
-    discount_only = True
-    title = 'List of Warframe Items on Sale'
-    if pld.args:
-        if pld.args[-1].lower() == 'all':
-            discount_only = False
-            title = 'List of Promoted Warframe Items'
-    sales_data_all = parse_sales_data(sales_text, discount_only)
-    total_item = len(sales_data_all)
-    page = pld.args[0] if pld.args else 1
-    sales_data, page = PaginatorCore.paginate(sales_data_all, page)
-    start_range, end_range = (page - 1) * 10, page * 10
-    no_discounts = True
-    for item in sales_data:
-        if item.get('discount') != 0:
-            no_discounts = False
-            break
-    if no_discounts:
+    sales = await WorldState().flashsales
+    if sales:
+        discount_only, title = get_mode(pld.args)
+        sales_data_all = get_items(sales, discount_only)
+        total_item = len(sales_data_all)
+        page = pld.args[-1] if pld.args else 1
+        sales_data, page = PaginatorCore.paginate(sales_data_all, page)
+        start_range, end_range = (page - 1) * 10, page * 10
+        no_discounts = True
+        for item in sales_data:
+            if item['discount'] != 0:
+                no_discounts = False
+                break
         headers = ['Name', 'Platinum']
+        if not no_discounts:
+            headers.append('Discount')
+        if sales_data:
+            total_plat = sum([x['premiumOverride'] for x in sales_data_all])
+            sales_data = sorted(sales_data, key=lambda x: x['item'])
+            stat_block = f'Showing items {start_range}-{end_range}. Page {page}'
+            stat_block += f'\nThere are {total_item} items valued at {total_plat} platinum.'
+            item_list = []
+            for sale_item in sales_data:
+                if no_discounts:
+                    item_list.append([sale_item.get('item'), sale_item.get('premiumOverride')])
+                else:
+                    item_list.append(
+                        [sale_item.get('item'), sale_item.get('premiumOverride'), f"-{sale_item.get('discount')}%"])
+            item_table = boop(item_list, headers)
+            response = discord.Embed(color=0x336699)
+            response.set_author(name='Warframe Promotions', icon_url=warframe_icon)
+            response.add_field(name='Details', value=f'```py\n{stat_block}\n```', inline=False)
+            response.add_field(name=title, value=f'```hs\n{item_table}\n```', inline=False)
+        else:
+            response = discord.Embed(color=0x336699)
+            response.set_author(name='No items found, try adding the "all" argument.', icon_url=warframe_icon)
     else:
-        headers = ['Name', 'Platinum', 'Discount']
-    if sales_data:
-        total_plat = sum([x.get('platinum') for x in sales_data_all])
-        sales_data = sorted(sales_data, key=lambda x: x.get('name'))
-        stat_block = f'Showing items {start_range}-{end_range}.'
-        stat_block += f'\nThere are {total_item} items valued at {total_plat} platinum.'
-        item_list = []
-        for sale_item in sales_data:
-            if no_discounts:
-                item_list.append([sale_item.get('name'), sale_item.get('platinum')])
-            else:
-                item_list.append([sale_item.get('name'), sale_item.get('platinum'), f"-{sale_item.get('discount')}%"])
-        item_table = boop(item_list, headers)
-        response = discord.Embed(color=0x336699)
-        response.set_author(name='Warframe Promotions', icon_url=wf_logo)
-        response.add_field(name='Details', value=f'```py\n{stat_block}\n```', inline=False)
-        response.add_field(name=title, value=f'```hs\n{item_table}\n```', inline=False)
-    else:
-        response = discord.Embed(color=0x336699, title='No items found, try adding the "all" argument.')
+        response = error('Could not retrieve Sales data.')
     await pld.msg.channel.send(embed=response)

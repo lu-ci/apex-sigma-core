@@ -573,8 +573,9 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>wfacolytechannel` `>>wfacolc` | Designates a channel for Warframe acolyte notifications. When an acolute is found it will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfacolytechannel #wf-acolytes`
 `>>wfacolytes` `>>wfacol` | Shows data on the Stalker's acolytes. Their names, locations and health. | `>>wfacolytes`
-`>>wfalertchannel` `>>wfac` | Designates a channel for Warframe alerts. When a new alert shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfalertchannel #wf-alerts`
-`>>wfalerts` `>>wfa` | Shows the currently ongoing alerts in Warframe. As well as their respective rewards. | `>>wfalerts`
+`>>wfdailydeal` `>>wfdeal` `>>wfdarvo` `>>darvo` `>>wfdd` | Shows the current daily deal by Darvo. | `>>wfdailydeal`
+`>>wfdroptables` `>>wfdroptable` `>>wfdrops` | Links a webpage for Warframe's drop tables. | `>>wfdroptables`
+`>>wffactionprogress` `>>wfinvasionprogress` `>>wfprogress` | Shows the current faction progress for invasions in Warframe. | `>>wffactionprogress`
 `>>wffissurechannel` `>>wffc` | Designates a channel for Warframe void fissures. When a new void fissure shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wffissurechannel #wf-fissures`
 `>>wffissures` `>>wffissure` `>>wff` | Shows the current fissure locations in Warframe. As well as their tiers, locations and mission types. | `>>wffissures`
 `>>wfinvasionchannel` `>>wfic` | Designates a channel for Warframe invasions. When a new invasion shows up the news will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfinvasionchannel #wf-invasions`
@@ -582,13 +583,13 @@ Commands | Description | Example
 `>>wfnews` `>>wfn` | Shows the current ative news in Warframe. | `>>wfnews`
 `>>wfnewschannel` `>>wfnc` | Designates a channel for Warframe news. When Digital Extremes posts a news for Warframe it will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfnewschannel #wf-news`
 `>>wfnightwave` `>>wfchallenges` `>>wfnw` | Shows the current Nightwave challenges in Warframe. | `>>wfnightwave`
+`>>wforbvallis` `>>wftemp` `>>wfov` | Shows the current temperature in Orb Vallis in Warframe. | `>>wforbvallis`
 `>>wfplainschannel` `>>wfpoec` | Designates a channel for Warframe plains of eidolon day-night cycle. When day shifts to night, and vice versa, a notification is sent to that channel. To disable this, write disable after the command instead of a channel. | `>>wfplainschannel #wf-daylight`
-`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
+`>>wfplainsofeidolon` `>>wfpoe` | Shows the current time on the Plains of Eidolon in Warframe. As well as the next day/night cycle rotations. | `>>wfplainsofeidolon exact`
 `>>wfpricecheck` `>>wfmarket` `>>wfpc` | Checks the price for the specified item. This will only list items by members that are currently online and in the game. The API requires a precise item name. For an item set, put "set" after the item name. | `>>wfpricecheck Volt Prime Set`
 `>>wfsales` `>>wfsale` | Shows items that are currently on sale in Warframe's market. This list shows only items that have reduced prices by default. If you want it to list all promoted items regardless of reduction add "all" to the end of the command as in the example. The item list is also paginated. | `>>wfsales 2 all`
-`>>wfsortie` `>>wfsorties` `>>wfs` | Shows the ongoing sortie missions in Warframe. | `>>wfsortie`
 `>>wfsortiechannel` `>>wfsc` | Designates a channel for Warframe sorties. When a new sortie shows up the details will be posted there. To disable this, write disable after the command instead of a channel. | `>>wfsortiechannel #wf-sorties`
-`>>wfsyndicates` `>>wfsyndicate` `>>wfsyndi` `>>wfsy` | Lists the best tradable offerings sold by each syndicate. Items with no current sell offers are listed first. Otherwise items are listed from most valuable to least valuable. This command is used to help you decide what to sell in case you have excess standing. For price checking user t wfpricecheck command instead. | `>>wfsyndicates`
+`>>wfsorties` `>>wfsortie` `>>wfs` | Shows the ongoing Sortie missions in Warframe. | `>>wfsorties`
 `>>wftag` `>>wftagrole` `>>wfnotify` `>>wfbind` | Binds a certain keyword to a role. When this keyword appears in any Warframe post, all roles bound to its triggers will be mentioned. Enter "disable" instead of a role name to remove the tag binding. | `>>wftag aura Aura Squad`
 `>>wftrials` `>>wftrial` `>>wfraids` `>>wfraid` `>>wft` `>>wfr` | Shows raid statistics for the specified username. Note that DE hasn't been tracking this data forever. So some really old raids won't be shown due to having no data. The shortest raid time shown only counts victorious raids. | `>>wftrials AXAz0r`
 `>>wfvoidtrader` `>>wfbarokiteer` `>>wfbaro` `>>baro` `>>wfvt` | Shows the items that Baro Ki'Teer is currently selling as well as the statistics such as total number of items, total amount of ducats and credits needed and where he's located. | `>>wfvoidtrader`

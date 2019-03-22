@@ -14,26 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import error
-from sigma.modules.games.warframe.commons.worldstate import WorldState
+
+droptables_url = 'https://n8k6e2y6.ssl.hwcdn.net/repos/hnfvc0o3jnfvc873njb03enrf56.html'
+warframe_icon = 'https://i.imgur.com/fHWyk3q.png'
 
 
-async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
-    news_list = await WorldState().news
-    if news_list:
-        news_lines = []
-        for news in reversed(news_list):
-            if news.get('text'):
-                human_time = arrow.get(news.get('start')).humanize()
-                news_line = f'[{news.get("text")}]({news.get("link")}) - {human_time}'
-                news_lines.append(news_line)
-        output_text = '\n'.join(news_lines)
-        response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
-    else:
-        response = error('Could not retrieve News data.')
+async def wfdroptables(_cmd: SigmaCommand, pld: CommandPayload):
+    response = discord.Embed(color=0x287393)
+    response.set_author(name='Click here to view Warframe\'s drop tables.', icon_url=warframe_icon, url=droptables_url)
+    response.set_footer(text='The link looks obfuscated but it is official.')
     await pld.msg.channel.send(embed=response)

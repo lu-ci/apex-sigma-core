@@ -29,6 +29,7 @@ star_cache = None
 async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
     channel = msg.guild.get_channel(sbc)
     if channel:
+        # noinspection PyBroadException
         try:
             await channel.send(embed=response)
         except Exception:

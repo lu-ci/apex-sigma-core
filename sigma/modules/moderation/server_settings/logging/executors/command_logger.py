@@ -36,6 +36,7 @@ async def command_logger(ev: SigmaEvent, pld: CommandEventPayload):
         if log_channel_id and log_event_active:
             log_channel = await ev.bot.get_channel(log_channel_id, True)
             if log_channel:
+                # noinspection PyBroadException
                 try:
                     await log_channel.send(embed=log_embed)
                 except Exception:

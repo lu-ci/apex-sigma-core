@@ -49,6 +49,7 @@ async def get_profile(battletag: str, region: str):
     profile = None
     timeout = False
     failed = False
+    # noinspection PyBroadException
     try:
         profile = await ow_cli.get_profile(battletag, regions=region)
     except asyncio.TimeoutError:

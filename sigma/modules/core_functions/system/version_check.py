@@ -27,7 +27,7 @@ async def version_check(ev: SigmaEvent):
         async with aiohttp.ClientSession() as session:
             async with session.get(version_url) as version_data:
                 data = await version_data.read()
-                data = yaml.load(data)
+                data = yaml.safe_load(data)
     except (aiohttp.ClientConnectorError, YAMLError):
         data = None
     if data:

@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
+
 import arrow
 import discord
 
@@ -22,18 +24,20 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
+fissure_icon = 'https://i.imgur.com/vANGxqe.png'
+temps = {'warm': {'color': 0xFFCC4D, 'icon': '🔥'}, 'cold': {'color': 0x88C9F9, 'icon': '❄'}}
 
-async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
-    news_list = await WorldState().news
-    if news_list:
-        news_lines = []
-        for news in reversed(news_list):
-            if news.get('text'):
-                human_time = arrow.get(news.get('start')).humanize()
-                news_line = f'[{news.get("text")}]({news.get("link")}) - {human_time}'
-                news_lines.append(news_line)
-        output_text = '\n'.join(news_lines)
-        response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
+
+async def wforbvallis(_cmd: SigmaCommand, pld: CommandPayload):
+    time = await WorldState().vallistime
+    if time:
+        temp, temp_in = ('warm', 'Cold') if time['isWarm'] else ('cold', 'Warm')
+        color, icon = temps[temp].values()
+        offset = arrow.get(time['expiry']).timestamp - arrow.utcnow().timestamp
+        in_time = str(datetime.timedelta(seconds=offset)).partition(':')[2]
+        text_desc = f'Next {temp_in} Cycle: **{in_time}**'
+        response = discord.Embed(color=color)
+        response.add_field(name=f'{icon} It\'s Currently {temp.title()}', value=text_desc)
     else:
-        response = error('Could not retrieve News data.')
+        response = error('Could not retrieve Orb Vallis data.')
     await pld.msg.channel.send(embed=response)

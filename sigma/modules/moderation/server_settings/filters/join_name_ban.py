@@ -31,6 +31,7 @@ async def join_name_ban(_ev: SigmaEvent, pld: MemberPayload):
                     bad_name = name
                     break
             if bad_name:
+                # noinspection PyBroadException
                 try:
                     reason = f'Had "{bad_name}" in their name'
                     to_target = discord.Embed(color=0x696969)

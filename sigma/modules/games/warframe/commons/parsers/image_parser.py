@@ -24,12 +24,9 @@ class FailedIconGrab(Exception):
 
 
 def remove_revision(url):
-    dot_split = url.split('.')
-    pre_ext = '.'.join(dot_split[:-1])
-    post_ext = dot_split[-1]
-    ext = post_ext.split('/')[0]
-    out_url = f'{pre_ext}.{ext}'
-    return out_url
+    if '/revision' in url:
+        url = url[:url.index('/revision')]
+    return url
 
 
 def clean_generics(name):

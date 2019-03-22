@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
+
 import arrow
 import discord
 
@@ -22,18 +24,23 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
+sortie_icon = 'https://i.imgur.com/Okg20Uk.png'
 
-async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
-    news_list = await WorldState().news
-    if news_list:
-        news_lines = []
-        for news in reversed(news_list):
-            if news.get('text'):
-                human_time = arrow.get(news.get('start')).humanize()
-                news_line = f'[{news.get("text")}]({news.get("link")}) - {human_time}'
-                news_lines.append(news_line)
-        output_text = '\n'.join(news_lines)
-        response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
+
+async def wfsorties(_cmd: SigmaCommand, pld: CommandPayload):
+    sorties = await WorldState().sorties
+    if sorties:
+        expiry_dt = arrow.get(sorties['end']).datetime
+        response = discord.Embed(color=0x6666FF, title='Current Sorties', timestamp=expiry_dt)
+        response.set_thumbnail(url=sortie_icon)
+        for i, sortie in enumerate(sorties['missions']):
+            sortie_desc = f'Type: {sortie["missionType"]}'
+            sortie_desc += f'\nLocation: {sortie["location"]}'
+            sortie_desc += f'\nModifier: {sortie["modifier"]}'
+            response.add_field(name=f'Mission {i + 1}', value=sortie_desc, inline=False)
+        offset = sorties['end'] - arrow.utcnow().timestamp
+        expiry = str(datetime.timedelta(seconds=offset))
+        response.set_footer(text=f'Resets in {expiry}')
     else:
-        response = error('Could not retrieve News data.')
+        response = error('Could not retrieve Sorties data.')
     await pld.msg.channel.send(embed=response)

@@ -15,11 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import hashlib
-import json
 
-import aiohttp
 import arrow
 import discord
+
+from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 ac_imgs = {
     'angst': 'https://vignette.wikia.nocookie.net/warframe/images/e/ec/StrikerAcolyte.png',
@@ -40,17 +40,9 @@ def make_acolyte_id(ac_name, ac_location):
 
 
 async def get_acolyte_data(db):
-    api_url = 'https://api.tenno.tools/worldstate/pc'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as tools_session:
-            tool_data = await tools_session.read()
-            world_data = json.loads(tool_data)
-    acolytes = world_data.get('acolytes')
-    if acolytes:
-        acolytes = acolytes.get('data')
-    else:
-        acolytes = []
+    acolytes = await WorldState().acolytes
     acolytes_out = None
+    triggers = ['acolyte']
     if acolytes:
         for acolyte in acolytes:
             if acolyte.get('discovered'):
@@ -60,11 +52,8 @@ async def get_acolyte_data(db):
                     now = arrow.utcnow().timestamp
                     await db[db.db_nam].WarframeCache.insert_one({'event_id': ac_id, 'created': now})
                     acolytes_out = acolyte
+                    triggers.append((acolytes_out.get('name').lower()))
                     break
-    if acolytes_out:
-        triggers = ['acolyte', acolytes_out.get('name').lower()]
-    else:
-        triggers = []
     return acolytes_out, triggers
 
 

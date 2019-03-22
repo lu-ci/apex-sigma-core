@@ -14,20 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json
-
-import aiohttp
+import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.modules.games.warframe.commons.parsers.sortie_parser import generate_sortie_embed
+from sigma.core.utilities.generic_responses import error
+from sigma.modules.games.warframe.commons.worldstate import WorldState
+
+invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
 
 
-async def wfsortie(_cmd: SigmaCommand, pld: CommandPayload):
-    sortie_url = 'https://deathsnacks.com/wf/data/sorties.json'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(sortie_url) as data:
-            sortie_data = await data.read()
-            sortie_data = json.loads(sortie_data)
-    response = generate_sortie_embed(sortie_data)
+async def wffactionprogress(_cmd: SigmaCommand, pld: CommandPayload):
+    faction_projects = await WorldState().factionprojects
+    if faction_projects:
+        response = discord.Embed(color=0xff5050, title='Current Faction Progress')
+        response.set_thumbnail(url=invasion_icon)
+        for faction in faction_projects:
+            response.add_field(name=faction['type'], value=f'{int(faction["progress"])}% Complete', inline=False)
+    else:
+        response = error('Could not retrieve Faction Projects data.')
     await pld.msg.channel.send(embed=response)
