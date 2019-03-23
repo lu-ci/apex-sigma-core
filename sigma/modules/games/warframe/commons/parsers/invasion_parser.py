@@ -45,9 +45,9 @@ async def get_invasion_data(db):
                 now = arrow.utcnow().timestamp
                 await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
                 invasion_out = invasion
-                item_rewards = [invasion_out['rewardDefender']['items'][0]['name']]
+                item_rewards = [invasion_out['rewardsDefender']['items'][0]['name']]
                 if invasion.get('rewardsAttacker'):
-                    item_rewards.append(invasion_out['rewardAttacker']['items'][0]['name'])
+                    item_rewards.append(invasion_out['rewardsAttacker']['items'][0]['name'])
                 for item_reward in item_rewards:
                     triggers += item_reward.lower().split(' ')
                     if item_reward.lower() in aura_list:

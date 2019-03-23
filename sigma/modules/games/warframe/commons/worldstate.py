@@ -39,7 +39,7 @@ class WorldState(object):
     async def safe_get(self, url: str, key: str, indexed: bool = False):
         await self.init(url, key)
         data = self.raw
-        if 'tools' in url:
+        if url == tools_url:
             data = data.get(key, {}).get('data', [])
         if indexed:
             try:
@@ -50,7 +50,7 @@ class WorldState(object):
 
     @property
     async def news(self):
-        return await self.safe_get(tools_url, 'news')
+        return await self.safe_get(stats_url, 'news')
 
     @property
     async def sorties(self):

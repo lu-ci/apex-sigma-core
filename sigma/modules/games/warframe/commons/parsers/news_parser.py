@@ -30,15 +30,18 @@ async def get_news_data(db):
         if not db_check:
             now = arrow.utcnow().timestamp
             await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
-            news_out = news
-            triggers += [piece.lower() for piece in news_out.get('text').lower().split()]
-            break
+            en_trans = news.get('translations', {}).get('en')
+            if en_trans:
+                news_out = news
+                triggers += [piece.lower() for piece in en_trans.lower().split()]
+                break
     return news_out, triggers
 
 
 def generate_news_embed(data):
-    event_datetime = arrow.get(data['start']).datetime
-    headline = data['text']
-    news_url = data['link']
-    response = discord.Embed(color=0x336699, title=headline, timestamp=event_datetime, url=news_url)
+    event_datetime = arrow.get(data['date']).datetime
+    en_trans = data['translations']['en']
+    response = discord.Embed(color=0x336699, title=en_trans, timestamp=event_datetime, url=data['link'])
+    if data.get('imageLink'):
+        response.set_image(url=data['imageLink'])
     return response

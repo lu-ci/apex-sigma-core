@@ -28,9 +28,10 @@ async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
     if news_list:
         news_lines = []
         for news in reversed(news_list):
-            if news.get('text'):
-                human_time = arrow.get(news.get('start')).humanize()
-                news_line = f'[{news.get("text")}]({news.get("link")}) - {human_time}'
+            en_trans = news.get('translations', {}).get('en')
+            if en_trans:
+                human_time = arrow.get(news['date']).humanize()
+                news_line = f'[{en_trans}]({news["link"]}) - {human_time}'
                 news_lines.append(news_line)
         output_text = '\n'.join(news_lines)
         response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
