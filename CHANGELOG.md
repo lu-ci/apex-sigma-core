@@ -1,5 +1,49 @@
 # Apex Sigma Changelog
 
+## 4.41.820: Mirakurun
+
+### Changed
+
+- Fixed `KeyError` exceptions in `invasion_parser.py`.
+- Switched which API `wfnews.py` and `news_parser.py` use to one that provides images.
+
+## 4.40.818: Mirakurun
+
+### Added
+
+- Suppressions for "Exception too broad" warnings.
+- The `WorldState` class was added for handling Waframe API calls.
+- The `wforbvallis` command for checking the temperature on Orb Vallis in Warframe.
+- The `wfdroptables` command which provides a link to Warframe's official drop tables.
+- The `wfdailydeal` command for checking the current Daily Deal in Warframe.
+- The `wffactionprogress` command for viewing faction progress for Invasions in Warframe.
+- Appended the completion percentage to Waframe Invasions in `wfinvasions`.
+
+### Changed
+
+- All Warframe API calls have been changed to use the new `WorldState` class.
+- Simplified the `remove_revision` function in `image_parser.py`.
+- `version_check.py` now uses `yaml.safe_load` instead of the depreciated `yaml.load`.
+- Fixed an incorrectly passed parameter in `generic.py`.
+- The `wfsortie.py` file was renamed to `wfsorties.py`, along with its associated command.
+- Fixed a `KeyError` exception in `wfvoidtrader`.
+- Miscellanious refactors in most Warframe commands.
+
+### Removed
+
+- Warframe Alert commands and events.
+
+## 4.40.810: Mirakurun
+
+### Added
+
+- More AIML properties for the Chatterbot.
+- The `>>wfnightwave` command was added. Shows the current Nightwave challenges in Warframe.
+
+### Removed
+
+- The `wfsyndicates` command. API shutdown by host.
+
 ## 4.40.809: Mirakurun
 
 ### Changed
