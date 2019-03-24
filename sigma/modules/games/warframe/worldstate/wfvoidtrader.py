@@ -34,10 +34,8 @@ baro_icon = 'https://i.imgur.com/xY4fAOU.png'
 async def wfvoidtrader(_cmd: SigmaCommand, pld: CommandPayload):
     trader = await WorldState().voidtraders
     if trader:
-        all_items = trader['items'] or []
-        now = arrow.get().timestamp
-        start_time = arrow.get(trader['start'])
-        if start_time.timestamp < now:
+        if trader['active']:
+            all_items = trader['items'] or []
             ending_time = arrow.get(trader['end'])
             headers = ['Item', 'Ducats', 'Credits']
             item_list = []
@@ -69,9 +67,10 @@ async def wfvoidtrader(_cmd: SigmaCommand, pld: CommandPayload):
                 response = discord.Embed(color=0x006666)
                 response.set_author(name='No items on this page.', icon_url=baro_icon)
         else:
-            diff = start_time.timestamp - now
-            if diff < 86400:
-                arrival_time = str(datetime.timedelta(seconds=diff))
+            start_time = arrow.get(trader['start'])
+            offset = start_time.timestamp - arrow.get().timestamp
+            if offset < 86400:
+                arrival_time = str(datetime.timedelta(seconds=offset))
             else:
                 arrival_time = start_time.humanize()
             response = discord.Embed(color=0x006666)

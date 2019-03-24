@@ -32,6 +32,7 @@ async def wfinvasions(_cmd: SigmaCommand, pld: CommandPayload):
         for invasion in invasions:
             active = invasion['endScore'] > abs(invasion['score'])
             if active:
+                percent = round((abs(invasion['score']) / invasion['endScore']) * 100, 2)
                 invasion_desc = f'Location: {invasion["location"]}'
                 reward_def = invasion['rewardsDefender']['items'][0]
                 reward_one = f'{reward_def["count"]} {reward_def["name"]}'
@@ -40,7 +41,7 @@ async def wfinvasions(_cmd: SigmaCommand, pld: CommandPayload):
                     reward_atk = invasion['rewardsAttacker']['items'][0]
                     reward_two = f'{reward_atk["count"]} {reward_atk["name"]}'
                     invasion_desc += f' vs {reward_two}'
-                invasion_title = f'{invasion["factionDefender"]} vs {invasion["factionAttacker"]}'
+                invasion_title = f'{invasion["factionDefender"]} vs {invasion["factionAttacker"]} - {percent}%'
                 response.add_field(name=invasion_title, value=f'{invasion_desc}', inline=False)
     else:
         response = error('Could not retrieve Invasion data.')
