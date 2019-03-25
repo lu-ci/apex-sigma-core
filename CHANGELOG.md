@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.41.821: Mirakurun
+
+### Changed
+
+- Switched which API for `>>wfnightwave` back due to the current one having placeholder descriptions.
+
 ## 4.41.820: Mirakurun
 
 ### Changed
