@@ -56,7 +56,11 @@ async def error_reporter_clockwork(ev: SigmaEvent):
             for error_doc in error_docs:
                 if not error_channel:
                     await get_error_channel(ev.bot)
-                await send_error_log_message(ev.bot, error_doc)
+                # noinspection PyBroadException
+                try:
+                    await send_error_log_message(ev.bot, error_doc)
+                except Exception:
+                    pass
                 await ev.db[ev.db.db_nam].Errors.update_one(error_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

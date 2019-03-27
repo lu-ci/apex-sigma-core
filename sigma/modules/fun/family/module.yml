@@ -2,7 +2,7 @@ name:             Family Module
 
 category:         fun
 
-enabled:          true
+enabled:          false
 
 commands:
   - name:         adopt
