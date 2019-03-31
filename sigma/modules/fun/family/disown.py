@@ -50,5 +50,5 @@ async def disown(cmd: SigmaCommand, pld: CommandPayload):
             response = error(f'{target.name} is not part of your immediate family.')
         [await human.save() for human in [disowner, disownee] if update]
     else:
-        response = error('No user tagged.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

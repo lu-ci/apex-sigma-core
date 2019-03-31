@@ -1,5 +1,14 @@
 # Apex Sigma Changelog
 
+## 4.41.824: Mirakurun
+
+### Changed
+
+- `>>marry` now use a bool dialogue rather than a permanent proposal. You're either married or you're not.
+- `>>divorce` and `>>spouses` have been refactored to reflect the marriage change.
+- `bool_dialogue` now returns a `timeout` bool that says whether the dialogue was declined or timed out.
+- `>>filtersell`, `>>sell` and `>>adopt` have been changed to use the previously mentioned `timeout` value.
+
 ## 4.41.821: Mirakurun
 
 ### Changed

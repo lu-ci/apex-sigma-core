@@ -41,7 +41,7 @@ async def sell(cmd: SigmaCommand, pld: CommandPayload):
                 worth = sum([item_core.get_item_by_file_id(ient['item_file_id']).value for ient in inv])
                 question = f'❔ Are you sure you want to sell {len(inv)} item{ender} worth {worth} {currency}?'
                 quesbed = discord.Embed(color=0xF9F9F9, title=question)
-                sell_confirm = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
+                sell_confirm, timeout = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
                 if sell_confirm:
                     value = 0
                     count = 0

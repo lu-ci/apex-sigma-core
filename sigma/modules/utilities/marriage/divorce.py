@@ -89,38 +89,11 @@ async def divorce(cmd: SigmaCommand, pld: CommandPayload):
                 else:
                     currency = cmd.bot.cfg.pref.currency
                     response = error(f'You don\'t have {div_cost} {currency} to get a divorce.')
-            elif tid in a_spouse_ids:
-                for sp in a_spouses:
-                    if sp.get('user_id') == tid:
-                        a_spouses.remove(sp)
-                await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
-                if is_id:
-                    canc_title = f'💔 You have canceled the proposal to {target}...'
-                else:
-                    canc_title = f'💔 You have canceled the proposal to {target.name}...'
-                response = discord.Embed(color=0xe75a70, title=canc_title)
-                if not is_id:
-                    await send_divorce(pld.msg.author, target, False)
-            elif pld.msg.author.id in t_spouse_ids:
-                for sp in t_spouses:
-                    if sp.get('user_id') == pld.msg.author.id:
-                        t_spouses.remove(sp)
-                if is_id:
-                    await cmd.db.set_profile(target, 'spouses', t_spouses)
-                else:
-                    await cmd.db.set_profile(target.id, 'spouses', t_spouses)
-                if is_id:
-                    canc_title = f'💔 You have rejected {target}\'s proposal...'
-                else:
-                    canc_title = f'💔 You have rejected {target.name}\'s proposal...'
-                response = discord.Embed(color=0xe75a70, title=canc_title)
-                if not is_id:
-                    await send_divorce(pld.msg.author, target, False)
             else:
                 if is_id:
-                    response = error(f'You aren\'t married, nor have proposed, to {target}.')
+                    response = error(f'You aren\'t married to {target}.')
                 else:
-                    response = error(f'You aren\'t married, nor have proposed, to {target.name}.')
+                    response = error(f'You aren\'t married to {target.name}.')
         else:
             response = error('Can\'t divorce yourself.')
     else:

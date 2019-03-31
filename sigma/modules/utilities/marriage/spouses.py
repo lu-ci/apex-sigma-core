@@ -41,9 +41,9 @@ async def spouses(cmd: SigmaCommand, pld: CommandPayload):
             sp_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('spouses') or []
             sp_spouse_ids = [s.get('user_id') for s in sp_spouses]
-            sp_status = 'Married' if target.id in sp_spouse_ids else 'Proposed'
-            spdata.append([spmemb, sp_status, arrow.get(sp.get('time')).humanize().title()])
-        spbody = boop(spdata, ['Name', 'Status', 'Since'])
+            if target.id in sp_spouse_ids:
+                spdata.append([spmemb, arrow.get(sp.get('time')).humanize().title()])
+        spbody = boop(spdata, ['Name', 'Since'])
         upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
         limit = 10 + (upgrades.get('harem') or 0)
         stats = f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.'

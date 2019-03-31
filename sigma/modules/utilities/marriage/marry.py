@@ -14,23 +14,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import copy
+
 import arrow
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error
 
 
-async def send_proposal(author: discord.Member, target: discord.Member, is_proposal):
-    if is_proposal:
-        proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {author.name} has proposed to you!')
-    else:
-        proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {author.name} has accepted your proposal!')
-    try:
-        await target.send(embed=proposal)
-    except discord.Forbidden:
-        pass
+def sync_spouses(spouses: list, user_id: int):
+    for spouse in spouses:
+        if spouse.get('user_id') == user_id:
+            spouses.remove(spouse)
+            break
 
 
 async def marry(cmd: SigmaCommand, pld: CommandPayload):
@@ -39,6 +38,8 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
         author = pld.msg.author
         if target.id != author.id:
             if not target.bot:
+                fake_msg = copy.copy(pld.msg)
+                fake_msg.author = target
                 author_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
                 target_upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
                 author_limit = 10 + (author_upgrades.get('harem') or 0)
@@ -50,16 +51,23 @@ async def marry(cmd: SigmaCommand, pld: CommandPayload):
                 a_limited = True if len(a_spouses) >= author_limit else False
                 t_limited = True if len(t_spouses) >= target_limit else False
                 if not a_limited and not t_limited:
-                    if target.id not in a_spouse_ids:
-                        a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
-                        await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
-                        if author.id not in t_spouse_ids:
-                            response = discord.Embed(color=0xe75a70, title=f'💟 You proposed to {target.name}!')
-                            await send_proposal(author, target, True)
-                        else:
+                    married = target.id in a_spouse_ids and pld.msg.author.id in t_spouse_ids
+                    if not married:
+                        proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {target.name}, do you accept the proposal?')
+                        accepted, timeout = await bool_dialogue(cmd.bot, fake_msg, proposal)
+                        if accepted:
+                            sync_spouses(a_spouses, target.id), sync_spouses(t_spouses, pld.msg.author.id)
+                            a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
+                            t_spouses.append({'user_id': pld.msg.author.id, 'time': arrow.utcnow().timestamp})
+                            await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
+                            await cmd.db.set_profile(fake_msg.author.id, 'spouses', t_spouses)
                             congrats_title = f'🎉 Congrats to {author.name} and {target.name}!'
                             response = discord.Embed(color=0x66cc66, title=congrats_title)
-                            await send_proposal(author, target, False)
+                        else:
+                            if timeout:
+                                response = discord.Embed(color=0x696969, title=f'🕙 {target.name} didn\'t respond.')
+                            else:
+                                response = discord.Embed(color=0xe75a70, title=f'💔 {target.name} rejected you.')
                     else:
                         if author.id in t_spouse_ids:
                             response = error(f'You and {target.name} are already married.')

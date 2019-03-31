@@ -67,7 +67,7 @@ async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
                         currency = cmd.bot.cfg.pref.currency
                         question = f'❔ Are you sure you want to sell {count} item{ender} worth {value} {currency}?'
                         quesbed = discord.Embed(color=0xF9F9F9, title=question)
-                        sell_confirm = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
+                        sell_confirm, timeout = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
                         if sell_confirm:
                             await sell_item_ids(cmd.db, pld.msg.author, sell_id_list)
                             await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)

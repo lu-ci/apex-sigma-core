@@ -2,7 +2,7 @@ name:             Warframe Settings
 
 category:         warframe
 
-enabled:          true
+enabled:          false
 
 commands:
   - name:         wfacolytechannel

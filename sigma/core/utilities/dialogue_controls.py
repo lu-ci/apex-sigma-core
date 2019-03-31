@@ -46,17 +46,19 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
         if tracked:
             log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
             bot.log.info(f'BOOL DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
         if ae.emoji == '✅':
             success = True
         else:
             success = False
+        timeout = False
     except asyncio.TimeoutError:
         success = False
-    return success
+        timeout = True
+    try:
+        await confirmation.delete()
+    except discord.NotFound:
+        pass
+    return success, timeout
 
 
 async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, start: int, end: int):

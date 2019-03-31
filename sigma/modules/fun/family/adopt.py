@@ -57,7 +57,7 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
                 response = error(f'{target.name} is one of your descendants.')
             else:
                 adop_q = discord.Embed(color=0xf9f9f9, title=f'📋 {target.name}, do you accept to be adopted?')
-                accepted = await bool_dialogue(cmd.bot, fake_msg, adop_q)
+                accepted, timeout = await bool_dialogue(cmd.bot, fake_msg, adop_q)
                 if accepted:
                     parent.children.append(child)
                     await parent.save()
@@ -65,9 +65,12 @@ async def adopt(cmd: SigmaCommand, pld: CommandPayload):
                     await child.save()
                     response = ok(f'Congrats on adopting {target.name}!')
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❌ Adoption canceled.')
+                    if timeout:
+                        response = discord.Embed(color=0x696969, title=f'🕙 {target.name} didn\'t respond.')
+                    else:
+                        response = error(f'{target.name} rejected the adoption.')
         else:
             response = error('You can\'t adopt bots.')
     else:
-        response = error('No user tagged.')
+        response = error('No user targeted.')
     await pld.msg.channel.send(embed=response)

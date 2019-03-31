@@ -69,7 +69,6 @@ Commands | Description | Example
 ### FUN
 Commands | Description | Example
 ----------|-------------|--------
-`>>adopt` | You adopt a person as your child, it's that simple. Naturally, you can't adopt somebody that's your ancestor or descendant. | `>>adopt`
 `>>award` `>>pay` | Awards the specified amount of Kud from the vault to a mentioned person. The Kud amount goes first, followed by the target. Anybody can contribute to the vault with the givetovault command, but only users with the Manage Server permission can award Kud from the vault. | `>>award 500 @person`
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
@@ -82,10 +81,8 @@ Commands | Description | Example
 `>>dab` | All words escape me on what this command does, just use it. | `>>dab`
 `>>dadjoke` | This will provide a joke that might be something your father would say. You know they are bad, but you will love them anyway, cause you're a good kid. | `>>dadjoke`
 `>>daily` | Gives an amount of Kud to you with a 22 hour cooldown. The amount is modified by the number of days in a row that you've collected your daily Kud up to 10 days, as well as a little random factor in there just for fun. While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected. | `>>daily`
-`>>disown` | You can disown one of your parents or children with this. Cutting yourself, or them, off of the family tree as it is currently. | `>>disown`
 `>>dog` | Outputs a random dog image. Cutest, loyalest, little woofers. | `>>dog`
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
-`>>familytree` `>>famtree` | Dumps your entire family tree. From the top ancestor to the bottom child. Since this can be enormous and impossible to fit into Discord, the results are uploaded to HasteBin instead. | `>>familytree`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
@@ -539,13 +536,13 @@ Commands | Description | Example
 `>>color` `>>colour` `>>clr` | Shows the specified color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>convertcurrency` `>>convert` | Converts the specified amount of money. The format of "{amount} {from_currency} in {to_currency}" must be followed. | `>>convertcurrency 50 EUR in USD`
 `>>createinvite` `>>makeinvite` `>>createinv` `>>makeinv` | Creates an instant invite for the specified channel. If no channel is specified, it's made for the current channel. You can set an expiration by adding "d:HH:MM:SS" as an argument. You can also set a limited number of uses by adding "u:num" where "num" is the amount of uses. The order of the arguments doesn't matter. An invite's maximum duration is 24 hours and maximum uses is 100. This command requires the Create Instant Invite permission. | `>>createinvite d:12:0:0 u:10 #general`
-`>>divorce` `>>reject` | Divorces the mentioned user that you are married with. Divorces cost 15 Kud per hour that you were married, unless you're just canceling a proposal. | `>>divorce @person`
+`>>divorce` `>>reject` | Divorces the mentioned user that you are married with. Divorces cost 15 Kud per hour that you were married. | `>>divorce @person`
 `>>emote` `>>emoji` `>>em` | Searches for an emoji. You can use the actual emoji or just its name. If you use its name you can make the search more precise by adding the ID of the emote or server ID that the emote is from, like in this example "monika:375824498882117635". By default this searches emotes on the current server. If you wish to search emotes on all servers, add "--global" as the last argument. Note that this makes the command NSFW due to the possibility of other server's emotes being explicit. | `>>emote Monika`
 `>>imgur` `>>img` | Anonymously uploads the specified attachment or URL to imgur and returns a direct link to it. Attachment must be an image (GIFs are images). URL must be a direct link to an image. | `>>imgur [imgfile.png]`
 `>>ingame` | Shows the top played games on the server. The list is paginated, each page has up to 10 items. You can specify the page number you want to see. | `>>ingame`
 `>>inrole` | Shows all the users in the server who have the specified role. The list is paginated, each page has up to 10 items. You can specify the page number you want to see. You can also filter the list by Discord status by adding "--status" as the last argument, replacing "status" with the status you wish to filter by. The accepted statuses are "dnd", "idle", "offline", and "online". | `>>inrole Warlards --online`
 `>>lmgtfy` `>>letmegooglethatforyou` | Outputs a link that will google the specified query for you. | `>>lmgtfy Sexy Sneks`
-`>>marry` `>>propose` | Proposes to the mentioned user, or accepts their marriage proposal if they proposed to you. | `>>marry @person`
+`>>marry` `>>propose` | Proposes to the mentioned user. | `>>marry @person`
 `>>owners` | Shows a list of Sigma's owners. Users in this list have access to the administration module. | `>>owners`
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
 `>>ping` | Shows the latency of every shard the bot is on. | `>>ping`
