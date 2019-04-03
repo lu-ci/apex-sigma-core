@@ -41,7 +41,7 @@ async def edit_invite_blocker(ev: SigmaEvent, pld: MessageEditPayload):
                             if trigger in arg:
                                 try:
                                     code = arg.split('/')[-1]
-                                    invite_found = await ev.bot.get_invite(code)
+                                    invite_found = await ev.bot.fetch_invite(code)
                                     break
                                 except (discord.NotFound, IndexError):
                                     pass

@@ -60,7 +60,7 @@ async def emote_role_toggle(ev: SigmaEvent, pld: RawReactionPayload):
                     user = guild.get_member(uid)
                     if user:
                         if not user.bot:
-                            message = await channel.get_message(mid)
+                            message = await channel.fetch_message(mid)
                             if message:
                                 smid = str(mid)
                                 if smid in guild_togglers:
