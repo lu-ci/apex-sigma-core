@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import asyncio
 import functools
@@ -42,7 +44,17 @@ ytdl_params = {
 
 
 class QueueItem(object):
-    def __init__(self, requester: discord.Member, item_info: dict):
+    """
+    An item wrapping the information of a queued music item.
+    """
+
+    def __init__(self, requester, item_info):
+        """
+        :param requester: The user that queued the item.
+        :type requester: discord.Member
+        :param item_info: Document containing the queued item's details.
+        :type item_info: dict
+        """
         self.requester = requester
         self.item_info = item_info
         self.url = self.item_info.get('webpage_url')
@@ -60,6 +72,12 @@ class QueueItem(object):
         self.location = None
 
     def tokenize(self):
+        """
+        Generates a token identifier for
+        a queued item for cache storage.
+        :return:
+        :rtype: str
+        """
         name = 'yt_' + self.video_id
         crypt = hashlib.new('md5')
         crypt.update(name.encode('utf-8'))
@@ -67,6 +85,11 @@ class QueueItem(object):
         return final
 
     async def download(self):
+        """
+        Downloads a queued item.
+        :return:
+        :rtype:
+        """
         if self.url:
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
@@ -76,7 +99,15 @@ class QueueItem(object):
                 self.downloaded = True
             self.location = out_location
 
-    async def create_player(self, voice_client: discord.VoiceClient):
+    async def create_player(self, voice_client):
+        """
+        Creates a player instance for a voice client
+        to deliver the item's music data to.
+        :param voice_client: The voice client to use for delivery.
+        :type voice_client: discord.VoiceClient
+        :return:
+        :rtype:
+        """
         await self.download()
         if self.location:
             audio_source = discord.FFmpegPCMAudio(self.location)
@@ -85,7 +116,16 @@ class QueueItem(object):
 
 
 class MusicCore(object):
+    """
+    The core class for handling music
+    queuing, storage and handling.
+    """
+
     def __init__(self, bot):
+        """
+        :param bot: The core client class.
+        :type bot: sigma.core.sigma.ApexSigma
+        """
         self.bot = bot
         self.db = bot.db
         self.loop = asyncio.get_event_loop()
@@ -96,18 +136,42 @@ class MusicCore(object):
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
-    async def extract_info(self, url: str):
+    async def extract_info(self, url):
+        """
+        Grabs the information of a downloadable URL
+        or one that's parse-able by YTDL.
+        :param url: The URL to try and parse.
+        :type url: str
+        :return:
+        :rtype: dict
+        """
         task = functools.partial(self.ytdl.extract_info, url, False)
         information = await self.loop.run_in_executor(self.threads, task)
         return information
 
     def get_queue(self, guild_id: int):
+        """
+        Gets a guild's queue.
+        If the guild doesn't have one, it'll be generated.
+        :param guild_id: The Guild ID.
+        :type guild_id: int
+        :return:
+        :rtype: asyncio.Queue
+        """
         queue = self.queues.get(guild_id, Queue())
         self.queues.update({guild_id: queue})
         return queue
 
     @staticmethod
-    async def listify_queue(queue: asyncio.Queue):
+    async def listify_queue(queue):
+        """
+        Due to the asyncronous nature of the queue
+        this is for making a standard list out of a queue item.
+        :param queue: An asyncronous queue storage.
+        :type queue: asyncio.Queue
+        :return:
+        :rtype: list[sigma.core.mechanics.music.Queue
+        """
         item_list = []
         while not queue.empty():
             item = await queue.get()

@@ -1,34 +1,47 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import asyncio
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
-
 
 class GlobalCommandPermissions(object):
-    def __init__(self, command, pld: MessagePayload):
+    """
+    Handles the main core permissions of commands
+    such as if the command is DM-able, owner only, nsfw,
+    if a user or guild has been blacklisted from using it,
+    and similar limitations.
+    """
+
+    def __init__(self, command, pld):
+        """
+        :param command: The command instance.
+        :type command: sigma.core.mechanics.command.SigmaCommand
+        :param pld: The message payload data.
+        :type pld: sigma.core.mechanics.payload.CommandPayload
+        """
         self.pld = pld
         self.message = self.pld.msg
         self.settings = self.pld.settings
-        self.bot = command.bot
         self.cmd = command
-        self.db = command.db
+        self.bot = self.cmd.bot
+        self.db = self.cmd.db
         self.loop = asyncio.get_event_loop()
         # Default States
         self.nsfw_denied = False
@@ -37,6 +50,7 @@ class GlobalCommandPermissions(object):
         self.owner_denied = False
         self.partner_denied = False
         self.module_denied = False
+        self.command_denied = False
         self.dm_denied = False
         self.permitted = True
         self.response = None
@@ -46,6 +60,11 @@ class GlobalCommandPermissions(object):
         self.check_owner()
 
     def check_dmable(self):
+        """
+        Checks of the command can be used in direct messages.
+        :return:
+        :rtype:
+        """
         if not self.message.guild:
             if self.cmd.dmable:
                 self.dm_denied = False
@@ -55,6 +74,12 @@ class GlobalCommandPermissions(object):
             self.dm_denied = False
 
     def check_nsfw(self):
+        """
+        Checks if the command is NSFW
+        and if the place it's called is marked as NSFW.
+        :return:
+        :rtype:
+        """
         if isinstance(self.message.channel, discord.TextChannel):
             if self.cmd.nsfw:
                 if self.message.channel.is_nsfw():
@@ -66,7 +91,15 @@ class GlobalCommandPermissions(object):
         else:
             self.nsfw_denied = False
 
-    def check_black_mdl(self, black_user_file: dict):
+    def check_black_mdl(self, black_user_file):
+        """
+        Checks if a user has been blacklisted
+        from using the given module specifically.
+        :param black_user_file: Users' blacklist data.
+        :type black_user_file: dict
+        :return:
+        :rtype: bool
+        """
         black_modules = black_user_file.get('modules', {})
         if self.cmd.category in black_modules:
             black_user = True
@@ -75,16 +108,30 @@ class GlobalCommandPermissions(object):
             black_user = False
         return black_user
 
-    def check_black_cmd(self, black_user_file: dict):
+    def check_black_cmd(self, black_user_file):
+        """
+        Checks if a user has been blacklisted
+        from using the given command specifically.
+        :param black_user_file: Users' blacklist data.
+        :type black_user_file: dict
+        :return:
+        :rtype: bool
+        """
         black_commands = black_user_file.get('commands', {})
         if self.cmd.name in black_commands:
             black_user = True
-            self.module_denied = True
+            self.command_denied = True
         else:
             black_user = False
         return black_user
 
     async def check_black_usr(self):
+        """
+        Checks if a user has been blacklisted from using
+        the given command, either fully, module or command.
+        :return:
+        :rtype:
+        """
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
         if black_user_file:
@@ -98,6 +145,12 @@ class GlobalCommandPermissions(object):
             self.black_user = False
 
     async def check_black_srv(self):
+        """
+        Checks if a guild has been blacklisted
+        from using the given command.
+        :return:
+        :rtype:
+        """
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
             black_srv_file = await black_srv_collection.find_one({'server_id': self.message.guild.id})
@@ -109,6 +162,12 @@ class GlobalCommandPermissions(object):
             self.black_srv = False
 
     def check_owner(self):
+        """
+        Checks if the command is owner-only
+        and if the user calling it is an owner.
+        :return:
+        :rtype:
+        """
         auth = self.message.author
         owners = self.bot.cfg.dsc.owners
         if self.cmd.owner:
@@ -120,6 +179,12 @@ class GlobalCommandPermissions(object):
             self.owner_denied = False
 
     def generate_response(self):
+        """
+        Generates embed reponses for some more
+        common permission denials.
+        :return:
+        :rtype: discord.Embed
+        """
         prefix = self.db.get_prefix(self.settings)
         if self.black_srv:
             return
@@ -155,6 +220,13 @@ class GlobalCommandPermissions(object):
         self.response = response
 
     def check_final(self):
+        """
+        Runs the final check which is
+        going through all individual checks.
+        If any has been triggered, the execution is intercepted.
+        :return:
+        :rtype:
+        """
         checklist = [
             self.dm_denied,
             self.nsfw_denied,
@@ -175,6 +247,7 @@ class GlobalCommandPermissions(object):
             - `s`: Server Blacklisted
             - `o`: Owner Only
             - `m`: Module Blacklisted
+            - `c`: Command Blacklisted
             - `d`: Direct Message Not Allowed
             - `n`: NSFW Channels Only
             - `v`: Parter Only
@@ -187,11 +260,12 @@ class GlobalCommandPermissions(object):
             self.black_srv,
             self.owner_denied,
             self.module_denied,
+            self.command_denied,
             self.dm_denied,
             self.nsfw_denied,
             self.partner_denied
         ]
-        letters = ['u', 's', 'o', 'm', 'd', 'n', 'v']
+        letters = ['u', 's', 'o', 'm', 'c', 'd', 'n', 'v']
         fmt = ''.join(map(lambda c, l: l if c else '-', conds, letters))
         log_line = (
             'ACCESS DENIED'
@@ -204,7 +278,17 @@ class GlobalCommandPermissions(object):
 
 
 class ServerCommandPermissions(object):
-    def __init__(self, command, message: discord.Message):
+    """
+    Wraps and handles processing of server-specific permission settings.
+    """
+
+    def __init__(self, command, message):
+        """
+        :param command: The command or event instance.
+        :type command: sigma.core.mechanics.command.SigmaCommand or sigma.core.mechanics.event.SigmaEvent
+        :param message: The message that triggered the command.
+        :type message: discord.Message
+        """
         self.cmd = command
         self.db = self.cmd.db
         self.bot = self.cmd.bot
@@ -212,7 +296,14 @@ class ServerCommandPermissions(object):
         self.permitted = True
         self.perm_coll = self.db[self.bot.cfg.db.database].Permissions
 
-    def check_mdl_overwrites(self, perms: dict):
+    def check_mdl_overwrites(self, perms):
+        """
+        Checks if a module has overrides when it's disabled.
+        :param perms: The guild's permission document.
+        :type perms: dict
+        :return:
+        :rtype: bool
+        """
         mdl_overwritten = False
         mdl_exc = perms.get('module_exceptions', {})
         author = self.msg.author
@@ -230,7 +321,14 @@ class ServerCommandPermissions(object):
                         break
         return mdl_overwritten
 
-    def check_cmd_overwrites(self, perms: dict):
+    def check_cmd_overwrites(self, perms):
+        """
+        Checks if a command has overrides when it's disabled.
+        :param perms: The guild's permission document.
+        :type perms: dict
+        :return:
+        :rtype: bool
+        """
         cmd_overwritten = False
         cmd_exc = perms.get('command_exceptions', {})
         author = self.msg.author
@@ -248,7 +346,21 @@ class ServerCommandPermissions(object):
         return cmd_overwritten
 
     @staticmethod
-    def cross_permits(mdl_o: bool, cmd_o: bool, mdl_d: bool, cmd_d: bool):
+    def cross_permits(mdl_o, cmd_o, mdl_d, cmd_d):
+        """
+        Cross-references permission of both modules and commands
+        to determine if the function should be executed or not.
+        :param mdl_o: Is the module overridden.
+        :type mdl_o: bool
+        :param cmd_o: Is the command overridden.
+        :type cmd_o: bool
+        :param mdl_d: Is the module disabled.
+        :type mdl_d: bool
+        :param cmd_d: Is the command disabled.
+        :type cmd_d: bool
+        :return:
+        :rtype: bool
+        """
         if mdl_d or cmd_d:
             if mdl_o:
                 if cmd_d:
@@ -262,6 +374,11 @@ class ServerCommandPermissions(object):
         return override
 
     async def check_perms(self):
+        """
+        The main permission checking method that calls the others.
+        :return:
+        :rtype: bool
+        """
         if self.msg.guild:
             author = self.msg.author
             is_guild_admin = author.permissions_in(self.msg.channel).administrator
@@ -291,7 +408,19 @@ class ServerCommandPermissions(object):
         return permitted
 
 
-def check_filter_perms(msg: discord.Message, settings: dict, filter_name: str):
+def check_filter_perms(msg, settings, filter_name):
+    """
+    Checks permissions for filtering functions.
+    This is to avoid filtering administrators and overridden rules.
+    :param msg: The message to process.
+    :type msg: discord.Message
+    :param settings: The guild's settings document,
+    :type settings: dict
+    :param filter_name: The name of the filter to check.
+    :type filter_name: str
+    :return:
+    :rtype: bool
+    """
     permitted = False
     overrides = settings.get('filter_overrides')
     if overrides:

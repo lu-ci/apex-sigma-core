@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import logging
 import os
@@ -31,29 +33,34 @@ except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
 
-def create_logger(name: str, *, to_title: bool = False, level=None, shard=None):
+def create_logger(name, *, to_title=False, level=None, shard=None):
     """
-    Add a new logger.
-    :param shard:
-    :param name:
-    :param to_title:
-    :param level:
-    :param shard:
+    Adds a new logger instance.
+    :param name: The logger name.
+    :type name: str
+    :param to_title: Should the logger name be titleized.
+    :type to_title: bool
+    :param level: The logging level.
+    :type level: int
+    :param shard: The logging shard identifier.
+    :type shard: int
     :return:
+    :rtype: sigma.core.mechanics.logger.Logger
     """
     if to_title:
         logname = titleize(name)
     else:
         logname = name
-
     return Logger.create(logname, level=level, shard=shard)
 
 
-def titleize(string: str):
+def titleize(string):
     """
     Convert a string from :ModuleName: to :Module Name:.
-    :param string:
+    :param string: The string to titleize.
+    :type string: str
     :return:
+    :rtype: str
     """
     new_string = ""
     for i, char in enumerate(string):
@@ -70,12 +77,17 @@ class Logger(object):
     This log module will log to a file at "{project_root}/log" which will be rotated daily.
     Logs will also be written to the Systemd Journal if it's available.
     Otherwise logs will be written to stdout.
-    :param name:
-    :param level:
     """
     loggers = {}
 
-    def __init__(self, name: str, *, level=None):
+    def __init__(self, name, *, level=None):
+        """
+
+        :param name: The logger name and indentifier.
+        :type name: str
+        :param level: The logging level.
+        :type level: int
+        """
         self.default_fmt = '[ {levelname:^8s} | {asctime:s} | {name:<25.25s} ] {message:s}'
         self.default_date_fmt = '%Y.%m.%d %H:%M:%S'
         self.name = name
@@ -84,43 +96,93 @@ class Logger(object):
         self.created = False
 
     @classmethod
-    def get(cls, name: str, *, level=None):
+    def get(cls, name, *, level=None):
         """
         Get a logger with :name: or create a new one.
-        :param name:
-        :param level:
+        :param name: The name of the logger.
+        :type name: str
+        :param level: The logging level.
+        :type level: int
         :return:
+        :rtype: sigma.core.mechanics.logger.Logger
         """
         if name not in cls.loggers.keys():
             cls.loggers.update({name: cls(name, level=level)})
         return cls.loggers.get(name)
 
-    def info(self, message: str):
+    def info(self, message):
+        """
+        Generates an INFO level logging line.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self._logger.info(message)
 
-    def debug(self, message: str):
+    def debug(self, message):
+        """
+        Generates an DEBUG level logging line.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self._logger.debug(message)
 
-    def error(self, message: str):
+    def error(self, message):
+        """
+        Generates an ERROR level logging line.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self._logger.error(message)
 
-    def warn(self, message: str):
+    def warn(self, message):
+        """
+        This just calls the warning method
+        due to the parent method being deprecated.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self.warning(message)
 
-    def warning(self, message: str):
+    def warning(self, message):
+        """
+        Generates an WARNING level logging line.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self._logger.warning(message)
 
-    def exception(self, message: str):
+    def exception(self, message):
+        """
+        Generates an EXCEPTION level logging line.
+        :param message: The logged text contents.
+        :type message: str
+        :return:
+        :rtype:
+        """
         return self._logger.exception(message)
 
     @classmethod
-    def create(cls, name: str, *, level=None, shard=None):
+    def create(cls, name, *, level=None, shard=None):
         """
-        Create a logger with :name: if it has not been created before.
-        :param shard:
-        :param name:
-        :param level:
+        Creates a new logger class instance.
+        :param name: The name of the logger.
+        :type name: str
+        :param level: The logger level.
+        :type level: int
+        :param shard: The logging shard identifier.
+        :type shard: int
         :return:
+        :rtype: sigma.core.mechanics.logger.Logger
         """
         logger = cls.get(name, level=level)
         if logger.created:

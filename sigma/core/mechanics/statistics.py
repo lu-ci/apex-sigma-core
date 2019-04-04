@@ -1,26 +1,37 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import asyncio
 
-from sigma.core.mechanics.database import Database
-
 
 class StatisticsStorage(object):
-    def __init__(self, db: Database, name: str):
+    """
+    Statistics handling class to reduce database load.
+    Updates the statistics every 60 seconds instead of instantly.
+    """
+
+    def __init__(self, db, name):
+        """
+        :param db: The core database instance.
+        :type db: sigma.core.mechanics.database.Database
+        :param name: The name of that statistic.
+        :type name: str
+        """
         self.db = db
         self.loop = asyncio.get_event_loop()
         self.name = name
@@ -28,9 +39,20 @@ class StatisticsStorage(object):
         self.loop.create_task(self.insert_stats())
 
     def add_stat(self):
+        """
+        Increments the current statistic by 1.
+        :return:
+        :rtype:
+        """
         self.count += 1
 
     async def insert_stats(self):
+        """
+        An infinite loop that dumps the statistics
+        in the database every 60 seconds.
+        :return:
+        :rtype:
+        """
         while True:
             def_stat_data = {'event': self.name, 'count': 0}
             collection = 'EventStats'

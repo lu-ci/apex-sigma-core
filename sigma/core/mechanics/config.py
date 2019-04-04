@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import os
 
@@ -22,7 +24,17 @@ from sigma.core.mechanics.logger import create_logger
 
 
 class ModuleConfig(dict):
+    """
+    This class contains module configuration data
+    that is stored in an object with pseudo-attributes.
+    It's just a dict with an overwritten __getattr__ method.
+    """
+
     def __init__(self, cmd):
+        """
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        :param cmd: The command instance.
+        """
         self.cmd = cmd
         try:
             self.data = getattr(self.cmd.command, 'defaults')
@@ -34,13 +46,27 @@ class ModuleConfig(dict):
     def __getattr__(self, item):
         return self.get(item)
 
-    def load(self, data: dict):
+    def load(self, data):
+        """
+        Loads or overwrites the current module config settings.
+        :type data: dict
+        :param data: Data to overwrite or set the configs current data.
+        :return:
+        """
         self.data = data
         self.update(self.data)
 
 
 class DiscordConfig(object):
-    def __init__(self, client_cfg_data: dict):
+    """
+    Holds the Discord client configuration data.
+    """
+
+    def __init__(self, client_cfg_data):
+        """
+        :type client_cfg_data: dict
+        :param client_cfg_data: Client configration data.
+        """
         self.raw = client_cfg_data
         self.token = self.raw.get('token')
         self.owners = self.raw.get('owners', [137951917644054529])
@@ -54,7 +80,15 @@ class DiscordConfig(object):
 
 
 class DatabaseConfig(object):
-    def __init__(self, db_cfg_data: dict):
+    """
+    Holds the MongoDB connection configuration data.
+    """
+
+    def __init__(self, db_cfg_data):
+        """
+        :type db_cfg_data: dict
+        :param db_cfg_data: Database configration data.
+        """
         self.raw = db_cfg_data
         self.database = self.raw.get('database', 'sigma')
         self.auth = self.raw.get('auth', False)
@@ -66,7 +100,15 @@ class DatabaseConfig(object):
 
 
 class PreferencesConfig(object):
-    def __init__(self, pref_cfg_data: dict):
+    """
+    Holds personalization preferences and settings data.
+    """
+
+    def __init__(self, pref_cfg_data):
+        """
+        :type pref_cfg_data: dict
+        :param pref_cfg_data: Preference configration data.
+        """
         self.raw = pref_cfg_data
         self.dev_mode = self.raw.get('dev_mode', False)
         self.status_rotation = self.raw.get('status_rotation', True)
@@ -81,7 +123,15 @@ class PreferencesConfig(object):
 
 
 class CacheConfig(object):
+    """
+    Holds configuration parameters for all cache types.
+    """
+
     def __init__(self, cache_cfg_data):
+        """
+        :type cache_cfg_data: dict
+        :param cache_cfg_data: Cache configration data.
+        """
         self.raw = cache_cfg_data
         self.type = self.raw.get('type')
         self.time = self.raw.get('time', 300)
@@ -91,6 +141,11 @@ class CacheConfig(object):
 
 
 class Configuration(object):
+    """
+    Main configuration container.
+    Holds all other configuration classes.
+    """
+
     def __init__(self):
         self.log = create_logger('Config')
         cli_cfg_path = 'config/core/discord.yml'

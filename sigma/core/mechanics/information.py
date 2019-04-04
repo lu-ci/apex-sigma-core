@@ -1,37 +1,62 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import yaml
 
 
 class Information(object):
+    """
+    An information wrapping class.
+    """
+
     @staticmethod
     def get_version():
+        """
+        Grabs the version information class.
+        :return:
+        :rtype: sigma.core.mechanics.information.Version
+        """
         return Version()
 
     @staticmethod
     def get_authors():
+        """
+        Grabs the author information class.
+        :return:
+        :rtype: sigma.core.mechanics.information.Authors
+        """
         return Authors()
 
     @staticmethod
     def get_donors():
+        """
+        Grabs the donor information class.
+        :return:
+        :rtype: sigma.core.mechanics.information.Donors
+        """
         return Donors()
 
 
 class Version(object):
+    """
+    Version information containing wrapper class.
+    """
+
     def __init__(self):
         with open('info/version.yml', encoding='utf-8') as version_file:
             version_data = yaml.safe_load(version_file)
@@ -46,13 +71,25 @@ class Version(object):
 
 
 class Author(object):
+    """
+    Version information containing wrapper class.
+    """
+
     def __init__(self, author):
+        """
+        :param author: The author information data.
+        :type author: dict
+        """
         self.name = author.get('name', 'Unknown')
         self.discriminator = author.get('discriminator', '0000')
         self.id = author.get('id', 0)
 
 
 class Authors(object):
+    """
+    Author information containing wrapper class.
+    """
+
     def __init__(self):
         with open('info/authors.yml', encoding='utf-8') as authors_file:
             authors_data = yaml.safe_load(authors_file)
@@ -64,7 +101,16 @@ class Authors(object):
 
 
 class Donor(object):
+    """
+    Donor information containing wrapper class.
+    """
+
     def __init__(self, donor):
+        """
+        Donor information containing wrapper class.
+        :param donor: The donor information data.
+        :type donor: dict
+        """
         self.name = donor.get('name', 'Unknown')
         self.tier = donor.get('tier', 0)
         self.avatar = donor.get('avatar')
@@ -72,6 +118,10 @@ class Donor(object):
 
 
 class Donors(object):
+    """
+    Contains and handles the loading of a list of donor files.
+    """
+
     def __init__(self):
         with open('info/donors.yml', encoding='utf-8') as donors_file:
             donors_data = yaml.safe_load(donors_file)

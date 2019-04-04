@@ -1,22 +1,34 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 
 class CommandRequirements(object):
+    """
+    Handles the checking of a command's execution requirements.
+    """
+
     def __init__(self, cmd, message):
+        """
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        :param message: The message that triggered the command.
+        :type message: discord.Message
+        """
         self.cmd = cmd
         self.msg = message
         self.reqs = cmd.requirements
@@ -26,6 +38,11 @@ class CommandRequirements(object):
         self.check_requirements()
 
     def check_requirements(self):
+        """
+        Starts the checking of all requirements for the given command.
+        :return:
+        :rtype:
+        """
         if self.msg.guild:
             for requirement in self.reqs:
                 req_status = getattr(self.msg.guild.me.permissions_in(self.chn), requirement)
