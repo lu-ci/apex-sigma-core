@@ -43,7 +43,6 @@ async def get_item_core(db: Database):
 
 
 class ItemCore(object):
-
     def __init__(self, db: Database):
         self.db = db
         self.rarity_names = rarity_names
@@ -100,7 +99,6 @@ class ItemCore(object):
         return choice
 
     async def init_items(self):
-
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
         all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)

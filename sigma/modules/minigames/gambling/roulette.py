@@ -47,7 +47,6 @@ selector_mults = {
 
 
 class RouletteSpot(object):
-
     def __init__(self, number):
         self.number = number
         self.type = 'odd' if divmod(number, 2)[1] else 'even'

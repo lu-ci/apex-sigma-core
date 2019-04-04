@@ -47,7 +47,6 @@ async def unpermit(cmd, pld):
                             exc_group, check_group, check_alts = mode_vars
                             targets, valid_targets = get_targets(pld.msg, pld.args, target_type)
                             if valid_targets:
-
                                 perms = await get_all_perms(cmd.db, pld.msg)
                                 if check_alts:
                                     if node_name in cmd.bot.modules.alts:

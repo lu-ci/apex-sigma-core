@@ -20,7 +20,6 @@ import discord
 
 
 class CollectionJar(object):
-
     def __init__(self, jar, message, target):
         self.raw = jar
         self.total = self.raw.get('total', 0)

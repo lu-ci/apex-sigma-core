@@ -36,9 +36,7 @@ class_core = ClassificationCore()
 
 
 class SigmaMachine(object):
-
     def __init__(self, db: Database, owner: discord.Member, data: dict):
-
         # Refferences
 
         self.db = db
@@ -211,7 +209,6 @@ class SigmaMachine(object):
         }
 
     async def update(self):
-
         machines = await self.db.get_profile(self.owner.id, 'machines') or {}
         machines.update({self.id: self.to_dict()})
         await self.db.set_profile(self.owner.id, 'machines', machines)

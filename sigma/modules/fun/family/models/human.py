@@ -24,7 +24,6 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 
 class AdoptableHuman(object):
-
     def __init__(self, db: Database, user_id: int, parents_only=False, children_only=False):
         self.id = user_id
         self.db = db
@@ -47,7 +46,6 @@ class AdoptableHuman(object):
         await self.save(True)
 
     async def load(self):
-
         family = await self.db[self.db.db_nam].Families.find_one({'user_id': self.id})
         if family:
             self.data = family

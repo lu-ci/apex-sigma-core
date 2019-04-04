@@ -20,7 +20,6 @@ import secrets
 
 
 class ConnectFourBoard(object):
-
     def __init__(self):
         self.rows = []
         self.r = '🔴'

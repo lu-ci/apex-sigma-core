@@ -25,7 +25,6 @@ from sigma.modules.minigames.professions.nodes.properties import item_icons, rar
 
 
 class SigmaRawItem(object):
-
     def __init__(self, item_data):
         self.name = item_data['name']
         self.desc = item_data['description']
@@ -93,7 +92,6 @@ class SigmaRawItem(object):
 
 
 class SigmaCookedItem(object):
-
     def __init__(self, item_data):
         self.name = item_data['name']
         self.desc = item_data['description']

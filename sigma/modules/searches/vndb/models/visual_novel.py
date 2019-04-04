@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class VisualNovel(object):
-
     def __init__(self, page_root):
         self.page = page_root
         self.id = self.page.cssselect('.maintabs')[0][0][0].attrib.get('href').split('/')[1][1:]
@@ -41,7 +40,6 @@ class VisualNovel(object):
         self.get_screenshots()
 
     def get_tags(self):
-
         self.tags = []
         proto_tags = [tag for tag in self.page.cssselect('#vntags')[0].text_content().split('.')]
 
@@ -61,7 +59,6 @@ class VisualNovel(object):
         self.tags = [stag.strip() for stag in self.tags]
 
     def get_image(self):
-
         try:
             vn_image_proto = self.details[0]
             try:
@@ -78,7 +75,6 @@ class VisualNovel(object):
             pass
 
     def get_screenshots(self):
-
         try:
             screen_links = self.page.cssselect('.scrlnk')
             for slink in screen_links:
