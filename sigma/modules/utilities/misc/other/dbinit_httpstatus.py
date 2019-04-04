@@ -20,14 +20,11 @@ import json
 
 import aiohttp
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def dbinit_httpstatus(ev: SigmaEvent, force=False):
+async def dbinit_httpstatus(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """

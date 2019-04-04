@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
@@ -44,11 +43,10 @@ def log_command_usage(log, message, command):
     log.info(log_text)
 
 
-async def custom_command(ev: SigmaEvent, pld: MessagePayload):
+async def custom_command(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

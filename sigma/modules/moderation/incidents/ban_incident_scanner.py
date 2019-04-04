@@ -61,9 +61,8 @@ def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogAction, guild:
 
 async def ban_incident_scanner(ev: SigmaCommand, pld: BanPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

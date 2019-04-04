@@ -21,15 +21,13 @@ import asyncio
 import arrow
 
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import GuildPayload
 
 
-async def get_channels(ev: SigmaEvent, marker):
+async def get_channels(ev, marker):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param marker:
     :type marker:
     :return:
@@ -84,11 +82,10 @@ async def clean_wf_cache(db: Database):
     await db[db.db_nam].WarframeCache.delete_many({'created': {'$lt': cutoff}})
 
 
-async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
+async def send_to_channels(ev, response, marker, triggers=None):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param response:
     :type response:
     :param marker:

@@ -20,7 +20,6 @@ import string
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -47,11 +46,10 @@ def count_chars(text):
     return total, upper, percent
 
 
-async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
+async def anticaps_watcher(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

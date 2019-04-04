@@ -25,11 +25,10 @@ from sigma.core.utilities.data_processing import get_time_difference, user_avata
 from sigma.core.utilities.event_logging import log_event
 
 
-async def leave_logger(ev: SigmaEvent, pld: MemberPayload):
+async def leave_logger(ev, pld: MemberPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

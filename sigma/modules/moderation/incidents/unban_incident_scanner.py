@@ -27,9 +27,8 @@ from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_
 
 async def unban_incident_scanner(ev: SigmaCommand, pld: UnbanPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

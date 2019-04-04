@@ -20,7 +20,6 @@ import asyncio
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
 interaction_channel = None
@@ -40,11 +39,10 @@ async def get_interaction_channel(bot: ApexSigma):
             interaction_channel = await bot.get_channel(intr_chn_id, True)
 
 
-async def interaction_reporter(ev: SigmaEvent):
+async def interaction_reporter(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global interaction_reporter_running
     await get_interaction_channel(ev.bot)
@@ -92,11 +90,10 @@ async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
         return intr_msg
 
 
-async def interaction_reporter_clockwork(ev: SigmaEvent):
+async def interaction_reporter_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

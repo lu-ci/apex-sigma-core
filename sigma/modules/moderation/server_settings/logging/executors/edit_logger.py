@@ -25,11 +25,10 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def edit_logger(ev: SigmaEvent, pld: MessageEditPayload):
+async def edit_logger(ev, pld: MessageEditPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

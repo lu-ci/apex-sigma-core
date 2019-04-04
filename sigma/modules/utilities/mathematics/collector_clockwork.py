@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import string
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.utilities.generic_responses import ok
 
 collector_loop_running = False
@@ -222,11 +221,10 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
         pass
 
 
-async def collector_clockwork(ev: SigmaEvent):
+async def collector_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global collector_loop_running
     if not collector_loop_running:
@@ -234,11 +232,10 @@ async def collector_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(cycler(ev))
 
 
-async def cycler(ev: SigmaEvent):
+async def cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global current_user_collecting
     while True:

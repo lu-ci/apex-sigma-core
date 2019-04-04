@@ -18,16 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
-
 version_clock_running = False
 
 
-async def version_updater(ev: SigmaEvent):
+async def version_updater(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global version_clock_running
     if not version_clock_running:
@@ -36,11 +33,10 @@ async def version_updater(ev: SigmaEvent):
         version_clock_running = True
 
 
-async def version_updater_clockwork(ev: SigmaEvent):
+async def version_updater_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     version_coll = ev.db[ev.db.db_nam].VersionCache
     while True:

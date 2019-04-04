@@ -18,18 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.news_parser import generate_news_embed, get_news_data
 
 wfn_loop_running = False
 
 
-async def news_clockwork(ev: SigmaEvent):
+async def news_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global wfn_loop_running
     if not wfn_loop_running:
@@ -37,11 +35,10 @@ async def news_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(news_cycler(ev))
 
 
-async def news_cycler(ev: SigmaEvent):
+async def news_cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

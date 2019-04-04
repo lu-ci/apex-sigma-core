@@ -79,11 +79,10 @@ async def update_cache(guild: discord.Guild):
     cache.update({guild.id: invites})
 
 
-async def bound_role_cacher(ev: SigmaEvent):
+async def bound_role_cacher(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     ev.log.info('Starting invite caching...')
     counter = 0

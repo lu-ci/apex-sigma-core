@@ -21,17 +21,14 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
-
 status_cache = []
 status_loop_running = False
 
 
-async def status_rotation(ev: SigmaEvent):
+async def status_rotation(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global status_loop_running
     if not status_loop_running:
@@ -39,11 +36,10 @@ async def status_rotation(ev: SigmaEvent):
         ev.bot.loop.create_task(status_clockwork(ev))
 
 
-async def status_clockwork(ev: SigmaEvent):
+async def status_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

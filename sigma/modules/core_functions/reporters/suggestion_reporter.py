@@ -21,7 +21,6 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
 suggestion_channel = None
@@ -41,11 +40,10 @@ async def get_suggestion_channel(bot: ApexSigma):
             suggestion_channel = await bot.get_channel(sugg_chn_id, True)
 
 
-async def suggestion_reporter(ev: SigmaEvent):
+async def suggestion_reporter(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global suggestion_reporter_running
     await get_suggestion_channel(ev.bot)
@@ -93,11 +91,10 @@ async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
         return sugg_msg
 
 
-async def suggestion_reporter_clockwork(ev: SigmaEvent):
+async def suggestion_reporter_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

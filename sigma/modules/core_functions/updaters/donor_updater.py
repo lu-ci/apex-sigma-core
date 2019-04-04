@@ -18,16 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
-
 donor_clock_running = False
 
 
-async def donor_updater(ev: SigmaEvent):
+async def donor_updater(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global donor_clock_running
     if not donor_clock_running:
@@ -36,11 +33,10 @@ async def donor_updater(ev: SigmaEvent):
         donor_clock_running = True
 
 
-async def donor_updater_clockwork(ev: SigmaEvent):
+async def donor_updater_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     donor_coll = ev.db[ev.db.db_nam].DonorCache
     await donor_coll.drop()

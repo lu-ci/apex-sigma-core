@@ -18,17 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.fun.auto_response.auto_responder import clean_word
 from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar import CollectionJar
 
 
-async def add_to_jar(ev: SigmaEvent, message: discord.Message, jar: dict):
+async def add_to_jar(ev, message: discord.Message, jar: dict):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param message:
     :type message:
     :param jar:
@@ -42,11 +40,10 @@ async def add_to_jar(ev: SigmaEvent, message: discord.Message, jar: dict):
     await ev.db.set_guild_settings(message.guild.id, 'collection_jar', jar.raw)
 
 
-async def collection_watcher(ev: SigmaEvent, pld: MessagePayload):
+async def collection_watcher(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

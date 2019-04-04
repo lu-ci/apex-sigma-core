@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 
 from sigma.core.mechanics.error import SigmaError
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
 error_channel = None
@@ -39,11 +38,10 @@ async def get_error_channel(bot: ApexSigma):
             error_channel = await bot.get_channel(err_chn_id, True)
 
 
-async def error_reporter(ev: SigmaEvent):
+async def error_reporter(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global error_reporter_running
     await get_error_channel(ev.bot)
@@ -68,11 +66,10 @@ async def send_error_log_message(bot: ApexSigma, error_data):
             await error_channel.send(trace[:900])
 
 
-async def error_reporter_clockwork(ev: SigmaEvent):
+async def error_reporter_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

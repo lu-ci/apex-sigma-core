@@ -22,17 +22,14 @@ import aiml
 import arrow
 import yaml
 
-from sigma.core.mechanics.event import SigmaEvent
-
 chatter_core = aiml.Kernel()
 chatter_core.verbose(False)
 
 
-def train(ev: SigmaEvent, core, init=False):
+def train(ev, core, init=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param core:
     :type core:
     :param init:
@@ -59,10 +56,9 @@ def train(ev: SigmaEvent, core, init=False):
         ev.log.info('Loaded Chatter Core.')
 
 
-async def chatter_core_init(ev: SigmaEvent):
+async def chatter_core_init(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     train(ev, chatter_core, True)

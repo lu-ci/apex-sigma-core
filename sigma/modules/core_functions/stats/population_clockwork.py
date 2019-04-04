@@ -18,16 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
-
 pop_loop_running = False
 
 
-async def population_clockwork(ev: SigmaEvent):
+async def population_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global pop_loop_running
     collection = 'GeneralStats'
@@ -55,11 +52,10 @@ def get_all_roles(guilds):
     return roles
 
 
-async def update_population_stats_node(ev: SigmaEvent):
+async def update_population_stats_node(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

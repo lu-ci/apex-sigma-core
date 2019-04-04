@@ -24,11 +24,10 @@ from sigma.core.mechanics.payload import CommandEventPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def command_logger(ev: SigmaEvent, pld: CommandEventPayload):
+async def command_logger(ev, pld: CommandEventPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

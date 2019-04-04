@@ -20,8 +20,6 @@ import json
 
 import aiohttp
 
-from sigma.core.mechanics.event import SigmaEvent
-
 
 def clean_entries(entries):
     """
@@ -37,11 +35,10 @@ def clean_entries(entries):
     [entries.remove(x) for x in to_remove]
 
 
-async def dbinit_jokes(ev: SigmaEvent, force=False):
+async def dbinit_jokes(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """

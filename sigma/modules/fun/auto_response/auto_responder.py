@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import string
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import command_message_parser
 
@@ -38,11 +37,10 @@ def clean_word(text):
     return output
 
 
-async def auto_responder(ev: SigmaEvent, pld: MessagePayload):
+async def auto_responder(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

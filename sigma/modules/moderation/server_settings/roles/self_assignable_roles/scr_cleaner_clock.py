@@ -25,11 +25,10 @@ from sigma.core.mechanics.event import SigmaEvent
 scr_clock_running = False
 
 
-async def scr_cleaner_clock(ev: SigmaEvent):
+async def scr_cleaner_clock(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global scr_clock_running
     if not scr_clock_running:
@@ -37,11 +36,10 @@ async def scr_cleaner_clock(ev: SigmaEvent):
         scr_clock_running = True
 
 
-async def scr_clockwork(ev: SigmaEvent):
+async def scr_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

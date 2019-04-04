@@ -21,15 +21,13 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 
 
-async def afk_mention_check(ev: SigmaEvent, pld: MessagePayload):
+async def afk_mention_check(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

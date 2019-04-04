@@ -20,14 +20,11 @@ import aiohttp
 import yaml
 from yaml import YAMLError
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def version_check(ev: SigmaEvent):
+async def version_check(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     version_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma/raw/master/info/version.yml'
     try:

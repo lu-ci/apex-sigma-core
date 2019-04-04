@@ -19,14 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def dbinit_items(ev: SigmaEvent, force=False):
+async def dbinit_items(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """
@@ -34,11 +31,10 @@ async def dbinit_items(ev: SigmaEvent, force=False):
     await dbinit_recipe_data(ev, force)
 
 
-async def dbinit_item_data(ev: SigmaEvent, force=False):
+async def dbinit_item_data(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """
@@ -55,11 +51,10 @@ async def dbinit_item_data(ev: SigmaEvent, force=False):
         ev.log.info('Updated profession item files successfully.')
 
 
-async def dbinit_recipe_data(ev: SigmaEvent, force=False):
+async def dbinit_recipe_data(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """

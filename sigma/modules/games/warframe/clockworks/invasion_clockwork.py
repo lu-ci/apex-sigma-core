@@ -18,18 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.invasion_parser import generate_invasion_embed, get_invasion_data
 
 wfa_loop_running = False
 
 
-async def invasion_clockwork(ev: SigmaEvent):
+async def invasion_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global wfa_loop_running
     if not wfa_loop_running:
@@ -37,11 +35,10 @@ async def invasion_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(invasion_cycler(ev))
 
 
-async def invasion_cycler(ev: SigmaEvent):
+async def invasion_cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

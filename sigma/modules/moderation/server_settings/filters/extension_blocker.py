@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
@@ -27,11 +26,10 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
-async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
+async def extension_blocker(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

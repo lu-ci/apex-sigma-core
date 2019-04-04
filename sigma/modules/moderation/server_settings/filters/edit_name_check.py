@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import string
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MemberUpdatePayload
 
 
@@ -57,11 +56,10 @@ def clean_name(name, default):
     return end_name.strip()
 
 
-async def edit_name_check(ev: SigmaEvent, pld: MemberUpdatePayload):
+async def edit_name_check(ev, pld: MemberUpdatePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

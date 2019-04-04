@@ -18,14 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def command_md(ev: SigmaEvent):
+async def command_md(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     if ev.bot.cfg.pref.dev_mode:
         if not os.path.exists('docs/information'):

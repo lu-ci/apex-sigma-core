@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import arrow
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 
 stats = {}
@@ -40,11 +39,10 @@ def update_stat(guild_id: int, stat: str):
     stats.update({guild_id: gld_stats})
 
 
-async def guild_watcher(ev: SigmaEvent, pld: MessagePayload):
+async def guild_watcher(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

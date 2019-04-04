@@ -21,16 +21,13 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
-
 sp_xp_loop_running = False
 
 
-async def expiration_clock(ev: SigmaEvent):
+async def expiration_clock(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global sp_xp_loop_running
     if not sp_xp_loop_running:
@@ -38,11 +35,10 @@ async def expiration_clock(ev: SigmaEvent):
         ev.bot.loop.create_task(cycler(ev))
 
 
-async def cycler(ev: SigmaEvent):
+async def cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     poll_coll = ev.db[ev.db.db_nam].ShadowPolls
     while True:

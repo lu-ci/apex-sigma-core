@@ -19,16 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 
 from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.event import SigmaEvent
 
 command_clock_running = False
 
 
-async def command_updater(ev: SigmaEvent):
+async def command_updater(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global command_clock_running
     if not command_clock_running:
@@ -61,11 +59,10 @@ async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
     return cmd_data
 
 
-async def command_updater_clockwork(ev: SigmaEvent):
+async def command_updater_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     module_coll = ev.db[ev.db.db_nam].ModuleCache
     command_coll = ev.db[ev.db.db_nam].CommandCache

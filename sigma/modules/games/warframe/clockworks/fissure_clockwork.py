@@ -18,18 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.fissure_parser import generate_fissure_embed, get_fissure_data
 
 wff_loop_running = False
 
 
-async def fissure_clockwork(ev: SigmaEvent):
+async def fissure_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global wff_loop_running
     if not wff_loop_running:
@@ -37,11 +35,10 @@ async def fissure_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(fissure_cycler(ev))
 
 
-async def fissure_cycler(ev: SigmaEvent):
+async def fissure_cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

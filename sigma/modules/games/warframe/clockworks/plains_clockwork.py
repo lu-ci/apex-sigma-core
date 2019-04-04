@@ -18,18 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.modules.games.warframe.commons.cycles.generic import send_to_channels
 from sigma.modules.games.warframe.commons.parsers.plains_parser import generate_plains_embed, get_plains_data
 
 wfaco_loop_running = False
 
 
-async def plains_clockwork(ev: SigmaEvent):
+async def plains_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global wfaco_loop_running
     if not wfaco_loop_running:
@@ -37,11 +35,10 @@ async def plains_clockwork(ev: SigmaEvent):
         ev.bot.loop.create_task(plains_cycler(ev))
 
 
-async def plains_cycler(ev: SigmaEvent):
+async def plains_cycler(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

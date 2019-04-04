@@ -21,16 +21,13 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
-
 unpun_loop_running = False
 
 
-async def un_punisher(ev: SigmaEvent):
+async def un_punisher(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global unpun_loop_running
     if not unpun_loop_running:
@@ -38,11 +35,10 @@ async def un_punisher(ev: SigmaEvent):
         ev.bot.loop.create_task(un_punisher_clock(ev))
 
 
-async def unban(ev: SigmaEvent, doc: dict):
+async def unban(ev, doc: dict):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
     :type doc:
     """
@@ -64,11 +60,10 @@ async def unban(ev: SigmaEvent, doc: dict):
         pass
 
 
-async def untmute(ev: SigmaEvent, doc: dict):
+async def untmute(ev, doc: dict):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
     :type doc:
     """
@@ -93,11 +88,10 @@ async def untmute(ev: SigmaEvent, doc: dict):
         pass
 
 
-async def unhmute(ev: SigmaEvent, doc: dict):
+async def unhmute(ev, doc: dict):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
     :type doc:
     """
@@ -127,11 +121,10 @@ async def unhmute(ev: SigmaEvent, doc: dict):
         pass
 
 
-async def un_punisher_clock(ev: SigmaEvent):
+async def un_punisher_clock(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     bancoll = ev.db[ev.db.db_nam].BanClockworkDocs
     tmutecoll = ev.db[ev.db.db_nam].TextmuteClockworkDocs

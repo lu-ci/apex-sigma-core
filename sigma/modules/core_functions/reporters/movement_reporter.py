@@ -21,7 +21,6 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.sigma import ApexSigma
 
 movement_channel = None
@@ -41,11 +40,10 @@ async def get_movement_channel(bot: ApexSigma):
             movement_channel = await bot.get_channel(move_chn_id, True)
 
 
-async def movement_reporter(ev: SigmaEvent):
+async def movement_reporter(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global movement_reporter_running
     await get_movement_channel(ev.bot)
@@ -99,11 +97,10 @@ async def send_movement_log_message(bot: ApexSigma, move_data: dict):
         await movement_channel.send(embed=response)
 
 
-async def movement_reporter_clockwork(ev: SigmaEvent):
+async def movement_reporter_clockwork(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     while True:
         if ev.bot.is_ready():

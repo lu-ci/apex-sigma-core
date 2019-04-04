@@ -16,16 +16,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import GuildPayload
 from sigma.modules.core_functions.system.leave_move_log import make_move_log_data
 
 
-async def join_move_log(ev: SigmaEvent, pld: GuildPayload):
+async def join_move_log(ev, pld: GuildPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

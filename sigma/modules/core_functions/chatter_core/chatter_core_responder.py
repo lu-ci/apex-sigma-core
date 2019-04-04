@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
@@ -35,11 +34,10 @@ def set_session_info(pld: MessagePayload):
     chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
 
 
-async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
+async def chatter_core_responder(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

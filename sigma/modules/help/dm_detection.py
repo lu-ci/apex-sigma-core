@@ -18,15 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import CommandPayload, MessagePayload
 
 
-def log_dm(ev: SigmaEvent, pld: MessagePayload):
+def log_dm(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """
@@ -34,11 +32,10 @@ def log_dm(ev: SigmaEvent, pld: MessagePayload):
     ev.log.info(f'DM From {author_text}: {pld.msg.content}')
 
 
-async def has_invite(ev: SigmaEvent, arguments):
+async def has_invite(ev, arguments):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param arguments:
     :type arguments:
     :return:
@@ -58,11 +55,10 @@ async def has_invite(ev: SigmaEvent, arguments):
     return invite_found
 
 
-async def dm_detection(ev: SigmaEvent, pld: MessagePayload):
+async def dm_detection(ev, pld: MessagePayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

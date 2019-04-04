@@ -21,14 +21,11 @@ import json
 import arrow
 import yaml
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def version_file_updater(ev: SigmaEvent):
+async def version_file_updater(ev):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     if ev.bot.cfg.pref.dev_mode:
         with open('info/version.yml', 'r') as version_file:

@@ -19,14 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-from sigma.core.mechanics.event import SigmaEvent
 
-
-async def dbinit_realdevs(ev: SigmaEvent, force=False):
+async def dbinit_realdevs(ev, force=False):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param force:
     :type force:
     """

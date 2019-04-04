@@ -21,7 +21,6 @@ import discord
 
 from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
-from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
@@ -97,11 +96,10 @@ async def check_emotes(mid: int, sbl: int):
     return trigger
 
 
-async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
+async def starboard_watcher(ev, pld: RawReactionPayload):
     """
-
-    :param ev:
-    :type ev:
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """
