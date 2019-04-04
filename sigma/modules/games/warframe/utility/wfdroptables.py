@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 droptables_url = 'https://n8k6e2y6.ssl.hwcdn.net/repos/hnfvc0o3jnfvc873njb03enrf56.html'
 warframe_icon = 'https://i.imgur.com/fHWyk3q.png'
 

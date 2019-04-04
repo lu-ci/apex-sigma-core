@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.statistics.internals.wallet import get_resource_title
 
 ckk_leveler = 5.15

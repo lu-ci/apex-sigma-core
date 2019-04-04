@@ -19,9 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error
 
 

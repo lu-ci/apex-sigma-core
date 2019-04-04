@@ -21,9 +21,7 @@ import arrow
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 bp_logo = "https://i.imgur.com/bNxFe09.png"

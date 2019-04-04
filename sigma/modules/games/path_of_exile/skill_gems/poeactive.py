@@ -20,8 +20,6 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 
@@ -30,9 +28,6 @@ active_gem_data_cache = {}
 
 
 async def fill_gem_cache():
-    """
-
-    """
     if not active_gem_list_cache:
         active_sg_url = 'https://pathofexile.gamepedia.com/List_of_active_skill_gems'
         async with aiohttp.ClientSession() as session:

@@ -24,9 +24,7 @@ reddit_base = 'https://www.reddit.com/r'
 
 
 class RedditPost(object):
-    """
 
-    """
     def __init__(self, data: dict):
         self.raw = data
         for key in self.raw:
@@ -34,9 +32,7 @@ class RedditPost(object):
 
 
 class RedditSub(object):
-    """
 
-    """
     def __init__(self, data: dict):
         self.private = data.get('reason') == 'private'
         self.banned = data.get('reason') == 'banned'
@@ -47,9 +43,7 @@ class RedditSub(object):
 
 
 class RedditClient(object):
-    """
 
-    """
     def __init__(self, bot_client_id: int):
         self.headers = {'User-Agent': f'Apex Sigma Derivate {bot_client_id}'}
 

@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
 from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets

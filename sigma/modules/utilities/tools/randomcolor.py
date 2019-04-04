@@ -22,9 +22,6 @@ import secrets
 import discord
 from PIL import Image
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 
 async def randomcolor(_cmd, pld):
     """

@@ -25,9 +25,7 @@ stats_url = 'https://api.warframestat.us/pc/'
 
 
 class WorldState(object):
-    """
 
-    """
     def __init__(self):
         self.raw = {}
 

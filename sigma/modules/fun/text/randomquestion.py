@@ -20,9 +20,6 @@ import aiohttp
 import discord
 from lxml import html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 
 async def randomquestion(_cmd, pld):
     """

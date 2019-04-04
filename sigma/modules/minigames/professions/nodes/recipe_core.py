@@ -39,9 +39,7 @@ async def get_recipe_core(db: Database):
 
 
 class SigmaRecipe(object):
-    """
 
-    """
     def __init__(self, core, item_data):
         self.recipe_core = core
         self.raw_data = item_data
@@ -66,9 +64,7 @@ class SigmaRecipe(object):
 
 
 class RecipeCore(object):
-    """
 
-    """
     def __init__(self, db: Database):
         self.db = db
         self.item_core = None

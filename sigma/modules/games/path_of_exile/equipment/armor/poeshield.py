@@ -20,8 +20,6 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 shield_list_cache = {}
@@ -31,9 +29,6 @@ item_urls = ['https://pathofexile.gamepedia.com/Shield', 'https://pathofexile.ga
 
 
 async def fill_shields_cache():
-    """
-
-    """
     if not shield_list_cache:
         for active_sg_url in item_urls:
             async with aiohttp.ClientSession() as session:

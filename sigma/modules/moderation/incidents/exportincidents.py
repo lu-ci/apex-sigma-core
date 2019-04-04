@@ -21,9 +21,7 @@ import os
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']

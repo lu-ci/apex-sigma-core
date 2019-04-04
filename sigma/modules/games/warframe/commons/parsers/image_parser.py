@@ -21,9 +21,7 @@ from lxml import html
 
 
 class FailedIconGrab(Exception):
-    """
 
-    """
     def __init__(self):
         self.message = 'Failed to grab an image due to a key or index error.'
 

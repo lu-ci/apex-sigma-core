@@ -43,9 +43,7 @@ async def get_item_core(db: Database):
 
 
 class ItemCore(object):
-    """
 
-    """
     def __init__(self, db: Database):
         self.db = db
         self.rarity_names = rarity_names

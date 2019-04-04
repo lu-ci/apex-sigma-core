@@ -20,8 +20,6 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 helmet_list_cache = {}
@@ -31,9 +29,6 @@ item_urls = ['https://pathofexile.gamepedia.com/Helmets', 'https://pathofexile.g
 
 
 async def fill_helmets_cache():
-    """
-
-    """
     if not helmet_list_cache:
         for active_sg_url in item_urls:
             async with aiohttp.ClientSession() as session:

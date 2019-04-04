@@ -20,9 +20,6 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 source_page = 'https://vndb.org/r'
 vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 

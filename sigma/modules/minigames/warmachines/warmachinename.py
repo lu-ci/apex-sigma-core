@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found, ok
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 from sigma.modules.minigames.warmachines.warmachineinspect import find_machine

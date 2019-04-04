@@ -36,9 +36,7 @@ class_core = ClassificationCore()
 
 
 class SigmaMachine(object):
-    """
 
-    """
     def __init__(self, db: Database, owner: discord.Member, data: dict):
 
         # Refferences

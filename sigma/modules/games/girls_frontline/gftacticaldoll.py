@@ -20,8 +20,6 @@ import aiohttp
 import discord
 from lxml import html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 tdoll_page_index = {}
@@ -51,9 +49,6 @@ stat_coords = {
 
 
 async def fill_tdoll_data():
-    """
-
-    """
     async with aiohttp.ClientSession() as session:
         async with session.get('https://en.gfwiki.com/wiki/T-Doll_Index') as data:
             page = await data.text()

@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size

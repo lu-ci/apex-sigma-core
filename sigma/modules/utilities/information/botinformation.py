@@ -21,9 +21,6 @@ import sys
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 sigma_image = 'https://i.imgur.com/mGyqMe1.png'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
 

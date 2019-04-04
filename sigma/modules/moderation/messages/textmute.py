@@ -19,10 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok

@@ -22,9 +22,7 @@ import arrow
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 

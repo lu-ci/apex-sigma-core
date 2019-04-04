@@ -20,8 +20,6 @@ import secrets
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.core.utilities.url_processing import aioget

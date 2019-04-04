@@ -21,8 +21,6 @@ import secrets
 import discord
 import markovify
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 titles = {

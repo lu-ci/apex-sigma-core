@@ -22,8 +22,6 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
 

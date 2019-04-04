@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 

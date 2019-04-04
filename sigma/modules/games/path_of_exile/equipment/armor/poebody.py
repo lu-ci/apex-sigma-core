@@ -20,8 +20,6 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 body_armor_list_cache = {}
@@ -34,9 +32,6 @@ item_urls = [
 
 
 async def fill_body_armor_cache():
-    """
-
-    """
     if not body_armor_list_cache:
         for active_sg_url in item_urls:
             async with aiohttp.ClientSession() as session:

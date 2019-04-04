@@ -21,8 +21,6 @@ from io import BytesIO
 import discord
 from PIL import Image
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import rgb_to_hex
 from sigma.core.utilities.generic_responses import error
 

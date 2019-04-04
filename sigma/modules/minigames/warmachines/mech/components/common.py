@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class StatContainer(object):
-    """
 
-    """
     def __init__(self, stat_data: dict, modifier=1):
         self.raw = stat_data
         self.health = self.raw.get('health', 0) * modifier
@@ -84,9 +82,7 @@ class StatContainer(object):
 
 
 class CostContainer(object):
-    """
 
-    """
     def __init__(self, costs):
         self.raw = costs
         self.metal = self.raw.get('metal', 0)

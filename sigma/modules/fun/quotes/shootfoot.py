@@ -20,9 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import not_found
 
 

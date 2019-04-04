@@ -18,14 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-
 
 class CollectionJar(object):
-    """
 
-    """
     def __init__(self, jar, message, target):
         self.raw = jar
         self.total = self.raw.get('total', 0)

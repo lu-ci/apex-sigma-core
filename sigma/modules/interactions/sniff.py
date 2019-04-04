@@ -20,8 +20,6 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.interactions.mech.interaction_mechanics import get_author, get_target, grab_interaction, make_footer
 
 endings = ['themself', 'something off the table', 'panties', 'glue', ]

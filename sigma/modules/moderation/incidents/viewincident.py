@@ -16,9 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error
 from sigma.modules.moderation.incidents.visual_storage import icons
 

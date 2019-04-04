@@ -20,8 +20,6 @@ import aiohttp
 import discord
 from lxml import html as lx
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 tdoll_data = []
@@ -70,9 +68,6 @@ def make_doll_data(row):
 
 
 async def fill_tdoll_data():
-    """
-
-    """
     global tdoll_root
     async with aiohttp.ClientSession() as session:
         async with session.get('https://en.gfwiki.com/wiki/T-Doll_Production') as data:

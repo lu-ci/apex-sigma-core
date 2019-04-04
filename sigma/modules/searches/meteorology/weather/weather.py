@@ -22,8 +22,6 @@ import aiohttp
 import discord
 from geopy.geocoders import Nominatim
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
