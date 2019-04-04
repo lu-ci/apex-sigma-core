@@ -47,9 +47,7 @@ class AdoptableHuman(object):
         await self.save(True)
 
     async def load(self):
-        """
 
-        """
         family = await self.db[self.db.db_nam].Families.find_one({'user_id': self.id})
         if family:
             self.data = family

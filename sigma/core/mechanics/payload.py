@@ -259,9 +259,7 @@ class VoiceStateUpdatePayload(UpdatePayload):
         self.member = member
 
     async def init(self):
-        """
 
-        """
         if self.member.guild:
             self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
 

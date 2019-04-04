@@ -55,9 +55,7 @@ class SigmaRecipe(object):
         self.load_ingredients()
 
     def load_ingredients(self):
-        """
 
-        """
         for ingredient in self.raw_ingredients:
             ingr_item = self.recipe_core.item_core.get_item_by_file_id(ingredient)
             self.ingredients.append(ingr_item)
@@ -86,9 +84,7 @@ class RecipeCore(object):
         return out
 
     async def init_items(self):
-        """
 
-        """
         self.item_core = await get_item_core(self.db)
         all_recipes = await self.db[self.db.db_nam].RecipeData.find().to_list(None)
         for item_data in all_recipes:

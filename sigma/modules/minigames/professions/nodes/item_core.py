@@ -100,9 +100,7 @@ class ItemCore(object):
         return choice
 
     async def init_items(self):
-        """
 
-        """
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
         all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)

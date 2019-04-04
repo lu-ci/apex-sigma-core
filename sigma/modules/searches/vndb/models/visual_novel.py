@@ -41,9 +41,7 @@ class VisualNovel(object):
         self.get_screenshots()
 
     def get_tags(self):
-        """
 
-        """
         self.tags = []
         proto_tags = [tag for tag in self.page.cssselect('#vntags')[0].text_content().split('.')]
 
@@ -63,9 +61,7 @@ class VisualNovel(object):
         self.tags = [stag.strip() for stag in self.tags]
 
     def get_image(self):
-        """
 
-        """
         try:
             vn_image_proto = self.details[0]
             try:
@@ -82,9 +78,7 @@ class VisualNovel(object):
             pass
 
     def get_screenshots(self):
-        """
 
-        """
         try:
             screen_links = self.page.cssselect('.scrlnk')
             for slink in screen_links:
