@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import secrets
 
@@ -50,9 +52,14 @@ async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
     coll = cmd.db[cmd.db.db_nam].Suggestions
     if cmd.cfg.channel:
         if pld.args:
-            sugg_token = secrets.token_hex(4)
-            await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
-            response = ok(f'Suggestion {sugg_token} submitted.')
+            sugg_text = ' '.join(pld.args)
+            exmp_text = ' '.join(cmd.usage.split(' ')[1:])
+            if sugg_text.lower() != exmp_text.lower():
+                sugg_token = secrets.token_hex(4)
+                await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
+                response = ok(f'Suggestion {sugg_token} submitted.')
+            else:
+                response = error('Please do not use this command to submit the usage example.')
         else:
             response = error('Nothing inputted.')
     else:

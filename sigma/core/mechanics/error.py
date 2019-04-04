@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import re
 import secrets
@@ -20,29 +22,48 @@ import traceback
 
 import discord
 
-from sigma.core.mechanics.payload import CommandPayload, MessagePayload
-
 
 class SigmaError(object):
-    def __init__(self, cmd, exc: Exception):
+    """
+    This class contains error processing methods.
+    """
+
+    def __init__(self, cmd, exc):
+        """
+        :param cmd: The command instance generating the error.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        :param exc: The exception to process.
+        :type exc: Exception
+        """
         self.args = []
         self.data = {}
-        self.db = cmd.db
-        self.bot = cmd.bot
-        self.log = cmd.log
-        self.name = cmd.name
+        self.cmd = cmd
         self.exception = exc
         self.token = secrets.token_hex(16)
-        self.icon_resp = cmd.respond_with_icon
 
-    async def error_handler(self, pld: CommandPayload):
+    async def error_handler(self, pld):
+        """
+        Processes an error that happened during a command's execution.
+        :param pld: The command's payload data.
+        :type pld: sigma.core.mechanics.payload.CommandPayload
+        :return:
+        :rtype:
+        """
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
-        await self.icon_resp(pld.msg, '❗')
+        await self.cmd.respond_with_emote(pld.msg, '❗')
         await self.send_error_message(pld)
         await self.log_error()
 
-    async def send_error_message(self, pld: MessagePayload):
+    async def send_error_message(self, pld):
+        """
+        Sends an error embed with an explanation to the
+        channel where the command broke.
+        :param pld: The command's payload data.
+        :type pld: sigma.core.mechanics.payload.CommandPayload
+        :return:
+        :rtype:
+        """
         title, err_text = self.get_error_message(pld.settings)
         error_embed = discord.Embed(color=0xBE1931)
         error_embed.add_field(name=title, value=err_text)
@@ -53,11 +74,25 @@ class SigmaError(object):
             pass
 
     async def log_error(self):
-        await self.db[self.db.db_nam].Errors.insert_one(self.data)
+        """
+        Adds a line to the logger with the error information.
+        Also adds the error data to the database.
+        :return:
+        :rtype:
+        """
+        await self.cmd.db[self.cmd.db.db_nam].Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'
-        self.log.error(log_text)
+        self.cmd.log.error(log_text)
 
-    def make_error_dict(self, message: discord.Message):
+    def make_error_dict(self, message):
+        """
+        Constructs the dict data of the error
+        to be stored in the database.
+        :param message:
+        :type message:
+        :return:
+        :rtype:
+        """
         gld = message.guild
         gnam = message.guild.name if gld else None
         gid = message.guild.id if gld else None
@@ -73,7 +108,7 @@ class SigmaError(object):
                 'details': traceback.format_exc()
             },
             'message': {
-                'command': self.name,
+                'command': self.cmd.name,
                 'arguments': self.args,
                 'id': message.id
             },
@@ -93,7 +128,15 @@ class SigmaError(object):
         return error_dict
 
     @staticmethod
-    def make_error_embed(error_file: dict):
+    def make_error_embed(error_file):
+        """
+        Constructs the embed with the error's details
+        to report back to the owner's error log channel.
+        :param error_file: Dict data with error details.
+        :type error_file: dict
+        :return:
+        :rtype: (discord.Embed, str)
+        """
         response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
         cmd_text = f'Command: **{error_file["message"]["command"]}**'
         cmd_text += f'\nMessage ID: **{error_file["message"]["id"]}**'
@@ -110,28 +153,36 @@ class SigmaError(object):
         response.add_field(name='Origin', value=orgn_text)
         return response, trace_text
 
-    def get_error_message(self, settings: dict):
-        prefix = self.db.get_prefix(settings)
+    def get_error_message(self, settings):
+        """
+        Generates a message to show to the users
+        that were affected by the command breaking.
+        :param settings: The guild's settings.
+        :type settings: dict
+        :return:
+        :rtype: (str, str)
+        """
+        prefix = self.cmd.db.get_prefix(settings)
         # escapes markdown formatting
-        prefix, name = list(map(lambda i: re.sub(r'([*_~`])', r'\\\1', i), [prefix, self.name]))
+        prefix, name = list(map(lambda i: re.sub(r'([*_~`])', r'\\\1', i), [prefix, self.cmd.name]))
         if isinstance(self.exception, discord.Forbidden):
             title = '❗ Error: Forbidden!'
             err_text = f'It seems that you tried running something that {name} isn\'t allowed to'
-            err_text += f'\ndo. This is something when {name} is missing permissions for stuff'
-            err_text += '\nlike sending messages, adding reactions, uploading files, etc. The'
-            err_text += '\nerror has been relayed to the developers. If you feel like dropping by'
-            err_text += f'\nand asking about it, the invite link is in the **{prefix}help** command.'
+            err_text += f' do. This is something when {name} is missing permissions for stuff'
+            err_text += ' like sending messages, adding reactions, uploading files, etc. The'
+            err_text += ' error has been relayed to the developers. If you feel like dropping by'
+            err_text += f' and asking about it, the invite link is in the **{prefix}help** command.'
         elif isinstance(self.exception, discord.NotFound):
             title = '❗ Error: Not Found!'
             err_text = 'It might have been a target that got removed while the command was'
-            err_text += f'\nexecuting, whatever it was, {name} couldn\'t find it and encountered an'
-            err_text += '\nerror. The error has been relayed to the developers. If you feel like'
-            err_text += f'\ndropping by and asking about it, the invite link is in the **{prefix}help** command.'
+            err_text += f' executing, whatever it was, {name} couldn\'t find it and encountered an'
+            err_text += ' error. The error has been relayed to the developers. If you feel like'
+            err_text += f' dropping by and asking about it, the invite link is in the **{prefix}help** command.'
         else:
             title = '❗ An Unhandled Error Occurred!'
             err_text = 'Something seems to have gone wrong.'
-            err_text += '\nPlease be patient while we work on fixing the issue.'
-            err_text += '\nThe error has been relayed to the developers.'
-            err_text += '\nIf you feel like dropping by and asking about it,'
-            err_text += f'\nthe invite link is in the **{prefix}help** command.'
+            err_text += ' Please be patient while we work on fixing the issue.'
+            err_text += ' The error has been relayed to the developers.'
+            err_text += ' If you feel like dropping by and asking about it,'
+            err_text += f' the invite link is in the **{prefix}help** command.'
         return title, err_text

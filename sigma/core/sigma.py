@@ -1,10 +1,27 @@
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
 import errno
 import os
 import shutil
 
 import arrow
 import discord
-from discord.raw_models import RawReactionActionEvent
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from sigma.core.mechanics.caching import get_cache
@@ -24,20 +41,6 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
 
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 ci_token = os.getenv('CI')
 if not ci_token:
     init_cfg = Configuration()
@@ -50,6 +53,10 @@ else:
 
 
 class ApexSigma(client_class):
+    """
+    The core client class of the Apex Framework.
+    """
+
     def __init__(self):
         super().__init__()
         self.ready = False
@@ -87,11 +94,20 @@ class ApexSigma(client_class):
 
     @staticmethod
     def create_cache():
+        """
+        Initializes the static cache folder.
+        Mostly, if not only, used for music file caching.
+        :return:
+        """
         if os.path.exists('cache'):
             shutil.rmtree('cache')
         os.makedirs('cache')
 
     async def init_cacher(self):
+        """
+        Initializes the core client Cacher.
+        :return:
+        """
         try:
             self.cache = await get_cache(self.cfg.cache)
         except OSError:
@@ -99,16 +115,29 @@ class ApexSigma(client_class):
             exit(errno.ETIMEDOUT)
 
     def init_logger(self):
+        """
+        Initializes the core client Logger.
+        :return:
+        """
         self.log = create_logger('Sigma', shard=init_cfg.dsc.shard)
         self.log.info('Logger Created')
 
     def init_config(self):
+        """
+        Reads the configuration files and adds them to the core client.
+        :return:
+        """
         self.log.info('Loading Configuration...')
         self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
         self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
         self.log.info('Core Configuration Data Loaded')
 
     async def init_database(self):
+        """
+        Initializes the database connection to MongoDB.
+        Also pre-caches potentially heavy resources from the DB.
+        :return:
+        """
         self.log.info('Connecting to Database...')
         self.db = Database(self, self.cfg.db)
         try:
@@ -126,22 +155,41 @@ class ApexSigma(client_class):
         self.log.info('Successfully Connected to Database')
 
     def init_cool_down(self):
+        """
+        Initializes the core client cooldown handler.
+        :return:
+        """
         self.log.info('Loading Cool-down Controls...')
         self.cool_down = CooldownControl(self)
         self.loop.run_until_complete(self.cool_down.clean_cooldowns())
         self.log.info('Cool-down Controls Successfully Enabled')
 
     def init_music(self):
+        """
+        Initializes the music handling core.
+        :return:
+        """
         self.log.info('Loading Music Controller...')
         self.music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
 
-    def init_modules(self, init: bool = False):
+    def init_modules(self, init=False):
+        """
+        Loads all modules and within them, commands and events.
+        :type init: bool
+        :param init: Should the initialized modules be logged.
+        :return:
+        """
         if init:
             self.log.info('Loading Sigma Modules')
         self.modules = ModuleManager(self, init)
 
     def is_ready(self):
+        """
+        Check if the bot is ready.
+        If for whatever reason the check fails, it is treated as False.
+        :return:
+        """
         # noinspection PyBroadException
         try:
             ready = super().is_ready()
@@ -149,7 +197,17 @@ class ApexSigma(client_class):
             ready = False
         return ready
 
-    async def get_user(self, uid, cached: bool = False):
+    async def get_user(self, uid, cached=False):
+        """
+        Gets a user from the core client
+        or from the cache if one exists in the Cacher class.
+        TODO: These objects can't be pickled, must find alternative caching method.
+        :type uid: int
+        :type cached: bool
+        :param uid: The User ID of the requested user.
+        :param cached: Should the user be cached/obtained from the cache.
+        :return:
+        """
         if cached:
             cache_key = f'get_usr_{uid}'
             out = await self.cache.get_cache(cache_key)
@@ -160,7 +218,17 @@ class ApexSigma(client_class):
             out = super().get_user(uid)
         return out
 
-    async def get_channel(self, cid: int, cached: bool = False):
+    async def get_channel(self, cid, cached=False):
+        """
+        Gets a channel from the core client
+        or from the cache if one exists in the Cacher class.
+        TODO: These objects can't be pickled, must find alternative caching method.
+        :type cid: int
+        :type cached: bool
+        :param cid: The Channel ID of the requested channel.
+        :param cached: Should the channel be cached/obtained from the cache.
+        :return:
+        """
         if cached:
             cache_key = f'get_chn_{cid}'
             out = await self.cache.get_cache(cache_key)
@@ -172,6 +240,10 @@ class ApexSigma(client_class):
         return out
 
     def run(self):
+        """
+        Starts the gateway connection processes.
+        :return:
+        """
         try:
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
@@ -185,13 +257,27 @@ class ApexSigma(client_class):
             exit(errno.EPERM)
 
     async def on_connect(self):
+        """
+        Starts events when the client connects to the Discord gateway.
+        :return:
+        """
         self.loop.create_task(self.queue.event_runner('connect'))
 
-    async def on_shard_ready(self, shard_id: int):
+    async def on_shard_ready(self, shard_id):
+        """
+        Starts events when the client connects to a shard, if the client is sharded.
+        :type shard_id: int
+        :param shard_id: The ID of the shard that the connection was established to.
+        :return:
+        """
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
         self.loop.create_task(self.queue.event_runner('shard_ready', ShardReadyPayload(self, shard_id)))
 
     async def on_ready(self):
+        """
+        Starts events when the full client connection process is finished.
+        :return:
+        """
         self.gateway_finish = arrow.utcnow().float_timestamp
         self.log.info(f'Gateway connection established in {round(self.gateway_finish - self.gateway_start, 3)}s')
         self.ready = True
@@ -208,7 +294,13 @@ class ApexSigma(client_class):
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 
-    async def on_message(self, message: discord.Message):
+    async def on_message(self, message):
+        """
+        Starts events whenver a user sends a message.
+        :type message: discord.Message
+        :param message: The message class of the sent message.
+        :return:
+        """
         self.message_count += 1
         if not message.author.bot:
             payload = MessagePayload(self, message)
@@ -217,67 +309,186 @@ class ApexSigma(client_class):
                 self.loop.create_task(self.queue.event_runner('mention', payload))
             await self.queue.command_runner(payload)
 
-    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+    async def on_message_edit(self, before, after):
+        """
+        Starts events when a message is edited.
+        This event triggers only if the message is in the core message cache.
+        As the gateway only reports edits by their IDs and not content.
+        To catch all edits use the raw event trigger function.
+        :type before: discord.Message
+        :type after: discord.Message
+        :param before: The message as it was before the edit.
+        :param after: The message as it is after the edit.
+        :return:
+        """
         if not after.author.bot:
             self.loop.create_task(self.queue.event_runner('message_edit', MessageEditPayload(self, before, after)))
 
-    async def on_message_delete(self, message: discord.Message):
+    async def on_message_delete(self, message):
+        """
+        Starts events when a message is deleted.
+        This event triggers only if the message is in the core message cache.
+        As the gateway only reports deletions by their IDs and not content.
+        To catch all deletions use the raw event trigger function.
+        :type message: discord.Message
+        :param message: The message class of the deleted message.
+        :return:
+        """
         if not message.author.bot:
             self.loop.create_task(self.queue.event_runner('message_delete', MessagePayload(self, message)))
 
-    async def on_member_join(self, member: discord.Member):
+    async def on_member_join(self, member):
+        """
+        Starts events when a user joins a guild.
+        :type member: discord.Member
+        :param member: The member that joined.
+        :return:
+        """
         if not member.bot:
             self.loop.create_task(self.queue.event_runner('member_join', MemberPayload(self, member)))
 
-    async def on_member_remove(self, member: discord.Member):
+    async def on_member_remove(self, member):
+        """
+        Starts events when a user leaves, or is removed from, a guild.
+        :type member: discord.Member
+        :param member: The member that left.
+        :return:
+        """
         if not member.bot:
             self.loop.create_task(self.queue.event_runner('member_remove', MemberPayload(self, member)))
 
-    async def on_member_update(self, before: discord.Member, after: discord.Member):
+    async def on_member_update(self, before, after):
+        """
+        Starts events when a member is updated.
+        This can be various things such as avatar changes,
+        playing status message changes, online status changes, etc.
+        :type before: discord.Member
+        :type after: discord.Member
+        :param before: The member before the change.
+        :param after: The member after the change.
+        :return:
+        """
         if not before.bot:
             self.loop.create_task(self.queue.event_runner('member_update', MemberUpdatePayload(self, before, after)))
 
-    async def on_member_ban(self, guild: discord.Guild, user: discord.Member or discord.User):
+    async def on_member_ban(self, guild, user):
+        """
+        Starts events when a member is banned from a guild.
+        :type guild: discord.Guild
+        :type user: discord.Member or discord.User
+        :param guild: The guild on which the member was banned.
+        :param user: The user that was banned.
+        :return:
+        """
         if not user.bot:
             self.loop.create_task(self.queue.event_runner('member_ban', BanPayload(self, guild, user)))
 
-    async def on_member_unban(self, guild: discord.Guild, user: discord.User):
+    async def on_member_unban(self, guild, user):
+        """
+        Starts events when a user is removed from a guild's ban list.
+        :type guild: discord.Guild
+        :type user: discord.User
+        :param guild: The guild from which the user was unbanned.
+        :param user: The user that was unbanned.
+        :return:
+        """
         if not user.bot:
             self.loop.create_task(self.queue.event_runner('member_unban', UnbanPayload(self, guild, user)))
 
-    async def on_guild_join(self, guild: discord.Guild):
+    async def on_guild_join(self, guild):
+        """
+        Starts events when this client joins a guild.
+        :type guild: discord.Guild
+        :param guild: The guild that the client joined.
+        :return:
+        """
         self.loop.create_task(self.queue.event_runner('guild_join', GuildPayload(self, guild)))
 
-    async def on_guild_remove(self, guild: discord.Guild):
+    async def on_guild_remove(self, guild):
+        """
+        Starts events when this client leaves, or is removed from, a guild.
+        :type guild: discord.Guild
+        :param guild: The guild that the client left.
+        :return:
+        """
         self.loop.create_task(self.queue.event_runner('guild_remove', GuildPayload(self, guild)))
 
-    async def on_guild_update(self, before: discord.Guild, after: discord.Guild):
+    async def on_guild_update(self, before, after):
+        """
+        Starts events when a guild, or a guild settings entry, is updated/changed.
+        :type before: discord.Guild
+        :type after: discord.Guild
+        :param before: The guild as it was before the change.
+        :param after: The guild as it is after the change.
+        :return:
+        """
         self.loop.create_task(self.queue.event_runner('guild_update', GuildUpdatePayload(self, before, after)))
 
-    async def on_voice_state_update(self, member: discord.Member, b: discord.VoiceState, a: discord.VoiceState):
+    async def on_voice_state_update(self, member, before, after):
+        """
+        Starts events when a user changes their voice state.
+        Such as connecting, disconnecting and moving between channels.
+        :type member: discord.Member
+        :type before: discord.VoiceState
+        :type after: discord.VoiceState
+        :param member: The member that changed their voice state.
+        :param before: The member as they were before the change.
+        :param after: The member as they are after the change.
+        :return:
+        """
         if not member.bot:
-            payload = VoiceStateUpdatePayload(self, member, b, a)
+            payload = VoiceStateUpdatePayload(self, member, before, after)
             self.loop.create_task(self.queue.event_runner('voice_state_update', payload))
 
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
+    async def on_reaction_add(self, reaction, user):
+        """
+        Starts events when a user adds an emote reaction to a message.
+        This event is triggered only if the message that had a reaction removed is cached.
+        :type reaction: discord.Reaction
+        :type user: discord.User
+        :param reaction: The reaction that was added to the message.
+        :param user: The user that added the reaction.
+        :return:
+        """
         if not user.bot:
             payload = ReactionPayload(self, reaction, user)
             self.loop.create_task(self.queue.event_runner('reaction_add', payload))
             if str(reaction.emoji) in ['⬅', '➡']:
                 self.loop.create_task(self.queue.event_runner('paginate', payload))
 
-    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
+    async def on_reaction_remove(self, reaction, user):
+        """
+        Starts events when a user removes an emote reaction from a message.
+        This event is triggered only if the message that had a reaction removed is cached.
+        :type reaction: discord.Reaction
+        :type user: discord.User
+        :param reaction: The reaction that was removed from the message.
+        :param user: The user that removed the reaction.
+        :return:
+        """
         if not user.bot:
             payload = ReactionPayload(self, reaction, user)
             self.loop.create_task(self.queue.event_runner('reaction_remove', payload))
 
-    async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
+    async def on_raw_reaction_add(self, payload):
+        """
+        Starts events when a user adds an emote reaction to a message regardless of it being cached.
+        :type payload: discord.RawReactionActionEvent
+        :param payload: The raw reaction addition event payload.
+        :return:
+        """
         if payload.user_id != payload.channel_id:
             payload = RawReactionPayload(self, payload)
             self.loop.create_task(self.queue.event_runner('raw_reaction_add', payload))
             if str(payload.raw.emoji) in ['⬅', '➡']:
                 self.loop.create_task(self.queue.event_runner('raw_paginate', payload))
 
-    async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
+    async def on_raw_reaction_remove(self, payload):
+        """
+        Starts events when a user removes an emote reaction from a message regardless of it being cached.
+        :type payload: discord.RawReactionActionEvent
+        :param payload: The raw reaction removal event payload.
+        :return:
+        """
         if payload.user_id != payload.channel_id:
             self.loop.create_task(self.queue.event_runner('raw_reaction_remove', RawReactionPayload(self, payload)))

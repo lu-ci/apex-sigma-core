@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import errno
 import os
 import subprocess
@@ -13,8 +14,17 @@ except (ImportError, ModuleNotFoundError):
 
 modules_installed = False
 
+if not sys.version_info >= (3, 6):
+    print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
+    exit(errno.EINVAL)
+
 
 def install_requirements():
+    """
+    Tries to install the pip requirements
+    if startup fails due to a missing module.
+    :return:
+    """
     global modules_installed
     if not modules_installed:
         pip_cmd = ['pip', 'install', '-Ur', 'requirements.txt']
@@ -31,6 +41,11 @@ def install_requirements():
 
 
 def run():
+    """
+    The main run call.
+    Runs the entire client core.
+    :return:
+    """
     global modules_missing
     ci_token = os.getenv('CI')
     if not ci_token:
@@ -44,10 +59,6 @@ def run():
     else:
         exit(0)
 
-
-if not sys.version_info >= (3, 6):
-    print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
-    exit(errno.EINVAL)
 
 if __name__ == '__main__':
     run()

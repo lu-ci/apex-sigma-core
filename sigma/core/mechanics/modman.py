@@ -1,18 +1,20 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import importlib
 import os
@@ -25,7 +27,19 @@ from sigma.core.mechanics.logger import create_logger
 
 
 class ModuleManager(object):
-    def __init__(self, bot, init: bool):
+    """
+    The module manager handles all loading of modules
+    as well as the commands and events within those modules.
+    It also serves as a reference storage of loaded instances.
+    """
+
+    def __init__(self, bot, init):
+        """
+        :param bot: The core client class.
+        :type bot: sigma.core.sigma.ApexSigma
+        :param init: Is this the first module manager initialization.
+        :type init: bool
+        """
         self.bot = bot
         self.init = init
         self.log = create_logger('Module Manager', shard=self.bot.cfg.dsc.shard)
@@ -45,11 +59,27 @@ class ModuleManager(object):
             self.log.info('---------------------------------')
 
     @staticmethod
-    def clean_path(path: str):
+    def clean_path(path):
+        """
+        Cleans the OS path of a module to a python interpretable one.
+        :param path: The path to the module.
+        :type path: str
+        :return:
+        :rtype: str
+        """
         out = path.replace('/', '.').replace('\\', '.')
         return out
 
-    def load_module(self, root: str, module_data: dict):
+    def load_module(self, root, module_data):
+        """
+        Loads a given modules commands, events, and information.
+        :param root: The module origin path.
+        :type root: str
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         if self.init:
             self.log.info(f'Loading the {module_data.get("name")} Module')
         self.load_category(module_data)
@@ -60,27 +90,72 @@ class ModuleManager(object):
                 if 'events' in module_data:
                     self.load_events(root, module_data)
 
-    def load_function(self, root: str, data: dict):
+    def load_function(self, root, data):
+        """
+        Loads the defining function to execute of the event or command.
+        :param root: The module origin path.
+        :type root: str
+        :param data: Document containing the module's details.
+        :type data: dict
+        :return:
+        :rtype: function
+        """
         module_location = self.clean_path(os.path.join(root, data.get("name")))
         module_function = importlib.import_module(module_location)
         importlib.reload(module_function)
         return module_function
 
     def load_category(self, module_data):
+        """
+        Loads the category identifier of the module.
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         if module_data.get('category') not in self.categories:
             self.categories.append(module_data.get('category'))
 
-    def load_commands(self, root: str, module_data: dict):
+    def load_commands(self, root, module_data):
+        """
+        Loads the commands within the given module.
+        :param root: The module origin path.
+        :type root: str
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         for command_data in module_data.get('commands'):
             if command_data.get('enabled'):
                 self.load_command_executable(root, command_data, module_data)
 
-    def load_events(self, root: str, module_data: dict):
+    def load_events(self, root, module_data):
+        """
+        Loads the events within the given module.
+        :param root: The module origin path.
+        :type root: str
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         for event_data in module_data.get('events'):
             if event_data.get('enabled'):
                 self.load_event_executable(root, event_data, module_data)
 
-    def load_command_executable(self, root: str, command_data: dict, module_data: dict):
+    def load_command_executable(self, root, command_data, module_data):
+        """
+        Loads the command's executable and defining function call.
+        :param root: The command origin path.
+        :type root: str
+        :param command_data: Document containing the command's details.
+        :type command_data: dict
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         command_data.update({'path': os.path.join(root)})
         command_function = self.load_function(root, command_data)
         cmd = SigmaCommand(self.bot, command_function, module_data, command_data)
@@ -89,7 +164,18 @@ class ModuleManager(object):
                 self.alts.update({alt: cmd.name})
         self.commands.update({command_data.get('name'): cmd})
 
-    def load_event_executable(self, root: str, event_data: dict, module_data: dict):
+    def load_event_executable(self, root, event_data, module_data):
+        """
+        Loads the event's executable and defining function call.
+        :param root: The command origin path.
+        :type root: str
+        :param event_data: Document containing the event's details.
+        :type event_data: dict
+        :param module_data: Document containing the module's details.
+        :type module_data: dict
+        :return:
+        :rtype:
+        """
         event_function = self.load_function(root, event_data)
         event_data.update({'path': os.path.join(root)})
         event = SigmaEvent(self.bot, event_function, module_data, event_data)
@@ -101,6 +187,12 @@ class ModuleManager(object):
         self.events.update({event.event_type: event_list})
 
     def load_all_modules(self):
+        """
+        Loads all modules by going through every module yaml
+        in the modules directory recursively.
+        :return:
+        :rtype:
+        """
         self.alts = {}
         self.commands = {}
         self.events = {}

@@ -1,27 +1,37 @@
-# Apex Sigma: The Database Giant Discord Bot.
-# Copyright (C) 2019  Lucia's Cipher
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""
+Apex Sigma: The Database Giant Discord Bot.
+Copyright (C) 2019  Lucia's Cipher
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import asyncio
 
-from sigma.core.mechanics.payload import CommandPayload, MessagePayload, SigmaPayload
+from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 
 class ExecutionClockwork(object):
+    """
+    This acts as a queueing mechanism for tasks to be executed.
+    """
+
     def __init__(self, bot):
+        """
+        :param bot: The main client core class instance.
+        :type bot: sigma.core.sigma.ApexSigma
+        """
         self.bot = bot
         self.ev_queue = asyncio.Queue()
         self.cmd_queue = asyncio.Queue()
@@ -31,12 +41,28 @@ class ExecutionClockwork(object):
         self.stats = {}
 
     @staticmethod
-    async def get_cmd_and_args(pfx: str, args: list):
+    async def get_cmd_and_args(pfx, args):
+        """
+        Gets the command name and arguments from a message.
+        :param pfx: The command prefix.
+        :type pfx: str
+        :param args: All arguments in the message content.
+        :type args: list[str]
+        :return:
+        :rtype: (str, list[str])
+        """
         args = list(filter(lambda a: a != '', args))
         cmd = args.pop(0)[len(pfx):].lower()
         return cmd, args
 
-    async def command_runner(self, pld: MessagePayload):
+    async def command_runner(self, pld):
+        """
+        Function in charge of getting a command ready for the queue.
+        :param pld: The message payload data that triggers the command.
+        :type pld: sigma.core.mechanics.payload.MessagePayload
+        :return:
+        :rtype:
+        """
         if self.bot.ready:
             await pld.init()
             prefix = self.bot.db.get_prefix(pld.settings)
@@ -57,13 +83,29 @@ class ExecutionClockwork(object):
                         await self.cmd_queue.put(task)
 
     def get_stats_storage(self, event):
+        """
+        Gets the statistics handler for the given event.
+        :param event: The name of the event.
+        :type event: str
+        :return:
+        :rtype: sigma.core.mechanics.statistics.StatisticsStorage
+        """
         stats_handler = self.stats.get(event)
         if not stats_handler:
             stats_handler = StatisticsStorage(self.bot.db, event)
             self.stats.update({event: stats_handler})
         return stats_handler
 
-    async def event_runner(self, event_name: str, pld: SigmaPayload = None):
+    async def event_runner(self, event_name, pld=None):
+        """
+        Function in charge of getting events ready for the queue.
+        :param event_name: The name of the event.
+        :type event_name: str
+        :param pld: The payload data of the event.
+        :type pld: sigma.core.mechanics.payload.SigmaPayload
+        :return:
+        :rtype:
+        """
         if self.bot.ready:
             if event_name in self.bot.modules.events:
                 if pld:
@@ -74,6 +116,11 @@ class ExecutionClockwork(object):
                     await self.ev_queue.put(task)
 
     async def queue_ev_loop(self):
+        """
+        Infinite loop that executes queued events.
+        :return:
+        :rtype:
+        """
         while True:
             if self.bot.ready:
                 item, pld = await self.ev_queue.get()
@@ -83,6 +130,11 @@ class ExecutionClockwork(object):
                 await asyncio.sleep(1)
 
     async def queue_cmd_loop(self):
+        """
+        Infinite loop that executes queued commands.
+        :return:
+        :rtype:
+        """
         while True:
             if self.bot.ready:
                 item, pld = await self.cmd_queue.get()
