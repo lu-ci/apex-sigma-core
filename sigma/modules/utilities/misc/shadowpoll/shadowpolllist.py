@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def shadowpolllist(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpolllist(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if pld.args[0].startswith('c'):
             lookup = {'origin.channel': pld.msg.channel.id, 'settings.active': True}

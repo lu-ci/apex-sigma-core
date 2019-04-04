@@ -24,7 +24,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
-async def viewlist(cmd: SigmaCommand, pld: CommandPayload):
+async def viewlist(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
         list_coll = cmd.db[cmd.db.db_nam].CustomLists

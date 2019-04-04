@@ -30,6 +30,13 @@ from sigma.core.utilities.generic_responses import error
 
 
 def combine_names(users: list):
+    """
+
+    :param users:
+    :type users:
+    :return:
+    :rtype:
+    """
     pieces = []
     total_length = sum([len(u.name) for u in users])
     usable_length = total_length // len(users)
@@ -40,7 +47,13 @@ def combine_names(users: list):
     return ''.join(pieces)
 
 
-async def combinechains(cmd: SigmaCommand, pld: CommandPayload):
+async def combinechains(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.msg.mentions) >= 2:
         empty_chain = None
         chain_objects = []

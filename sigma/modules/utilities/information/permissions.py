@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import info, ok
 
 
-async def permissions(_cmd: SigmaCommand, pld: CommandPayload):
+async def permissions(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     allowed_list = []
     disallowed_list = []
     if pld.msg.mentions:

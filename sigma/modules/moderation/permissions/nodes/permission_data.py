@@ -18,6 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 def generate_default_data(message):
+    """
+
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     return {
         'server_id': message.guild.id,
         'disabled_commands': [], 'disabled_modules': [],
@@ -26,10 +33,26 @@ def generate_default_data(message):
 
 
 def generate_cmd_data(cmd_name):
+    """
+
+    :param cmd_name:
+    :type cmd_name:
+    :return:
+    :rtype:
+    """
     return {cmd_name: {'users': [], 'channels': [], 'roles': []}}
 
 
 async def get_all_perms(db, message):
+    """
+
+    :param db:
+    :type db:
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     perms = await db.cache.get_cache(f'perm_{message.guild.id}')
     if not perms:
         perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})

@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
-async def shadowpolldelete(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpolldelete(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         poll_id = pld.args[0].lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})

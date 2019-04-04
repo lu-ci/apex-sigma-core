@@ -27,7 +27,13 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 darvo_icon = 'https://i.imgur.com/bpDzO9W.png'
 
 
-async def wfdailydeal(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfdailydeal(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item = await WorldState().dailydeals
     if item:
         end_time = arrow.get(item['end']).humanize()

@@ -23,6 +23,13 @@ from sigma.core.mechanics.payload import MessagePayload
 
 
 async def mute_checker(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if isinstance(pld.msg.author, discord.Member):
             if pld.msg.author.id not in ev.bot.cfg.dsc.owners:

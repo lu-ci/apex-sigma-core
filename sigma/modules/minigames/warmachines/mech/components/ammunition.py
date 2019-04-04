@@ -177,12 +177,27 @@ ammo_scale = {
 class AmmunitionCore(ComponentCore):
     @property
     def names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return ammo_names
 
     @property
     def bases(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return ammo_bases
 
     @property
     def scaling(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return ammo_scale

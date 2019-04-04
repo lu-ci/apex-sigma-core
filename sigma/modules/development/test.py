@@ -20,5 +20,11 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def test(_cmd: SigmaCommand, pld: CommandPayload):
+async def test(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     await pld.msg.channel.send('All good.')

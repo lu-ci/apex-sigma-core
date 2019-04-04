@@ -24,6 +24,11 @@ from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_
 
 
 def set_session_info(pld: MessagePayload):
+    """
+
+    :param pld:
+    :type pld:
+    """
     chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
     chatter_core.setPredicate('name', pld.msg.author.name, pld.msg.author.id)
     chatter_core.setPredicate('nickname', pld.msg.author.display_name, pld.msg.author.id)
@@ -31,6 +36,13 @@ def set_session_info(pld: MessagePayload):
 
 
 async def chatter_core_responder(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.content:
         start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')
         start_two = pld.msg.content.startswith(f'<@!{ev.bot.user.id}>')

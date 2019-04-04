@@ -28,11 +28,23 @@ color_cache_coll = None
 
 
 def set_color_cache_coll(coll):
+    """
+
+    :param coll:
+    :type coll:
+    """
     global color_cache_coll
     color_cache_coll = coll
 
 
 def convert_to_seconds(time_input: str):
+    """
+
+    :param time_input:
+    :type time_input:
+    :return:
+    :rtype:
+    """
     indent_list = time_input.split(':')
     try:
         if len(indent_list) == 3:
@@ -49,6 +61,17 @@ def convert_to_seconds(time_input: str):
 
 
 def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
+    """
+
+    :param user:
+    :type user:
+    :param gif:
+    :type gif:
+    :param static:
+    :type static:
+    :return:
+    :rtype:
+    """
     if user.avatar_url:
         output = user.avatar_url
     else:
@@ -67,6 +90,15 @@ def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
 
 
 def command_message_parser(message: discord.Message, text: str):
+    """
+
+    :param message:
+    :type message:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     gld = message.guild
     ath = message.author
     chn = message.channel
@@ -94,6 +126,15 @@ def command_message_parser(message: discord.Message, text: str):
 
 
 def movement_message_parser(member: discord.Member, text: str):
+    """
+
+    :param member:
+    :type member:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     guild = member.guild
     greeting_text = text
     translator = {
@@ -117,6 +158,15 @@ def movement_message_parser(member: discord.Member, text: str):
 
 
 def get_time_difference(member: discord.Member, leave: bool = False):
+    """
+
+    :param member:
+    :type member:
+    :param leave:
+    :type leave:
+    :return:
+    :rtype:
+    """
     if leave:
         creation_time = member.joined_at
     else:
@@ -133,6 +183,13 @@ def get_time_difference(member: discord.Member, leave: bool = False):
 
 
 async def search_youtube(qry: str):
+    """
+
+    :param qry:
+    :type qry:
+    :return:
+    :rtype:
+    """
     url_base = "https://www.youtube.com/results?"
     async with aiohttp.ClientSession() as session:
         async with session.get(f'{url_base}', params={"q": qry}) as data:
@@ -144,6 +201,13 @@ async def search_youtube(qry: str):
 
 
 def rgb_maximum(colors_tuple: list):
+    """
+
+    :param colors_tuple:
+    :type colors_tuple:
+    :return:
+    :rtype:
+    """
     r_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][0])
     g_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][1])
     b_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][2])
@@ -170,6 +234,13 @@ def rgb_maximum(colors_tuple: list):
 
 
 def group_by_accuracy(sorted_tuple: list):
+    """
+
+    :param sorted_tuple:
+    :type sorted_tuple:
+    :return:
+    :rtype:
+    """
     rgb_maximum_json = rgb_maximum(sorted_tuple)
     r_min = rgb_maximum_json.get("r_min")
     g_min = rgb_maximum_json.get("g_min")
@@ -196,6 +267,13 @@ def group_by_accuracy(sorted_tuple: list):
 
 
 def get_weighted_mean(grouped_image_color: list):
+    """
+
+    :param grouped_image_color:
+    :type grouped_image_color:
+    :return:
+    :rtype:
+    """
     sigma_count = 0
     sigma_r = 0
     sigma_g = 0
@@ -216,6 +294,13 @@ def get_weighted_mean(grouped_image_color: list):
 
 
 def rgb_to_hex(rgb_tuple: tuple):
+    """
+
+    :param rgb_tuple:
+    :type rgb_tuple:
+    :return:
+    :rtype:
+    """
     hex_str = ''
     for piece in rgb_tuple:
         hex_piece = str(hex(piece))
@@ -228,6 +313,13 @@ def rgb_to_hex(rgb_tuple: tuple):
 
 
 async def get_image_colors(img_url: str):
+    """
+
+    :param img_url:
+    :type img_url:
+    :return:
+    :rtype:
+    """
     if img_url:
         cached_color = await color_cache_coll.find_one({'url': img_url})
         if not cached_color:

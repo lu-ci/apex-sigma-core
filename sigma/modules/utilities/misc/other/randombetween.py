@@ -25,7 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def randombetween(_cmd: SigmaCommand, pld: CommandPayload):
+async def randombetween(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) == 2:
             try:

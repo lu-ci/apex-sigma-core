@@ -25,6 +25,15 @@ from sigma.core.utilities.generic_responses import error
 
 
 async def send_divorce(author: discord.Member, target: discord.Member, is_divorce):
+    """
+
+    :param author:
+    :type author:
+    :param target:
+    :type target:
+    :param is_divorce:
+    :type is_divorce:
+    """
     if is_divorce:
         splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
     else:
@@ -35,7 +44,13 @@ async def send_divorce(author: discord.Member, target: discord.Member, is_divorc
         pass
 
 
-async def divorce(cmd: SigmaCommand, pld: CommandPayload):
+async def divorce(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = None
     is_id = False
     tid = None

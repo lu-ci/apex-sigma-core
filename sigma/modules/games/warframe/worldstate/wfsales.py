@@ -30,6 +30,13 @@ warframe_icon = 'https://i.imgur.com/yrY1kWg.png'
 
 
 def get_mode(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     discount_only = True
     if args:
         if args[0].lower() == 'all':
@@ -42,6 +49,15 @@ def get_mode(args: list):
 
 
 def get_items(sales: list, discount_only: bool):
+    """
+
+    :param sales:
+    :type sales:
+    :param discount_only:
+    :type discount_only:
+    :return:
+    :rtype:
+    """
     sale_items = []
     for sale in sales:
         if 'prime access' not in sale['item'].lower():
@@ -50,7 +66,13 @@ def get_items(sales: list, discount_only: bool):
     return sale_items
 
 
-async def wfsales(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfsales(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     sales = await WorldState().flashsales
     if sales:
         discount_only, title = get_mode(pld.args)

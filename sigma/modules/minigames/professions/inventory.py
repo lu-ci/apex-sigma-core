@@ -31,6 +31,15 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 
 def is_ingredient(recipes: list, item: SigmaRawItem):
+    """
+
+    :param recipes:
+    :type recipes:
+    :param item:
+    :type item:
+    :return:
+    :rtype:
+    """
     is_ingr = False
     for recipe in recipes:
         for ingredient in recipe.ingredients:
@@ -41,6 +50,13 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
 
 
 def get_filter(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     filter_lookup = None
     if args:
         if not args[0].startswith('<'):
@@ -54,11 +70,26 @@ def get_filter(args: list):
 
 
 def item_belongs(filter_string: str, item: SigmaRawItem):
+    """
+
+    :param filter_string:
+    :type filter_string:
+    :param item:
+    :type item:
+    :return:
+    :rtype:
+    """
     flt = filter_string.lower()
     return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.desc.lower()
 
 
-async def inventory(cmd: SigmaCommand, pld: CommandPayload):
+async def inventory(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     if pld.msg.mentions:

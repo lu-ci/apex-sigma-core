@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
-async def removereminder(cmd: SigmaCommand, pld: CommandPayload):
+async def removereminder(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         rem_id = pld.args[0].lower()
         lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}

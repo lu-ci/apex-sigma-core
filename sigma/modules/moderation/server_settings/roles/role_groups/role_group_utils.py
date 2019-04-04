@@ -20,6 +20,15 @@ import discord
 
 
 async def appropriate_roles(member: discord.Member, role: discord.Role, role_groups: dict):
+    """
+
+    :param member:
+    :type member:
+    :param role:
+    :type role:
+    :param role_groups:
+    :type role_groups:
+    """
     match_group = None
     for role_group in role_groups:
         role_items = role_groups.get(role_group)

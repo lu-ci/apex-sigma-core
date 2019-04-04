@@ -26,7 +26,13 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def liststatuses(cmd: SigmaCommand, pld: CommandPayload):
+async def liststatuses(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     status_data = await cmd.db[cmd.db.db_nam].StatusFiles.find({}).to_list(None)
     if status_data:
         status_list = [[s['id'], s['text']] for s in status_data]

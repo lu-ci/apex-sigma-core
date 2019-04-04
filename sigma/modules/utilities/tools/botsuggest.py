@@ -27,6 +27,17 @@ from sigma.core.utilities.generic_responses import error, ok
 
 
 def make_sugg_data(msg: discord.Message, args: list, token: str):
+    """
+
+    :param msg:
+    :type msg:
+    :param args:
+    :type args:
+    :param token:
+    :type token:
+    :return:
+    :rtype:
+    """
     return {
         'suggestion': {
             'id': token,
@@ -48,7 +59,13 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
     }
 
 
-async def botsuggest(cmd: SigmaCommand, pld: CommandPayload):
+async def botsuggest(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     coll = cmd.db[cmd.db.db_nam].Suggestions
     if cmd.cfg.channel:
         if pld.args:

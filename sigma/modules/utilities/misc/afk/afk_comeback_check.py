@@ -26,6 +26,13 @@ from sigma.core.utilities.generic_responses import info
 
 
 async def afk_comeback_check(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         pfx = ev.db.get_prefix(pld.settings)
         if not pld.msg.content.startswith(pfx):

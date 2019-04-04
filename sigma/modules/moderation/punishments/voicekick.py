@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
-async def voicekick(cmd: SigmaCommand, pld: CommandPayload):
+async def voicekick(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).kick_members:
         if pld.msg.mentions:
             target = pld.msg.mentions[0]

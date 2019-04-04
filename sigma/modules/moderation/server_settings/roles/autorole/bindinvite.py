@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
-async def bindinvite(cmd: SigmaCommand, pld: CommandPayload):
+async def bindinvite(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.create_instant_invite:
         await cmd.bot.modules.commands.get('syncinvites').execute(CommandPayload(cmd.bot, pld.msg, ['noresp']))
         if len(pld.args) >= 2:

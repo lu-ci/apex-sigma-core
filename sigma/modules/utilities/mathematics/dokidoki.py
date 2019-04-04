@@ -74,6 +74,15 @@ files = {
 
 
 def clean(text, author):
+    """
+
+    :param text:
+    :type text:
+    :param author:
+    :type author:
+    :return:
+    :rtype:
+    """
     output = text.replace('{i}', '*')
     output = output.replace('{/i}', '*')
     output = output.replace('[player]', author.display_name)
@@ -81,7 +90,13 @@ def clean(text, author):
     return output
 
 
-async def dokidoki(cmd: SigmaCommand, pld: CommandPayload):
+async def dokidoki(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     char = None
     glitch = False
     if pld.args:

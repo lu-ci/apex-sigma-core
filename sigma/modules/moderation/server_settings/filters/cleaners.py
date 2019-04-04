@@ -20,6 +20,13 @@ import string
 
 
 def clean_content(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     symbols = string.punctuation
     out = ''
     for char in text:

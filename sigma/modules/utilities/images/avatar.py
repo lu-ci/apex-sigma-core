@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
-async def avatar(_cmd: SigmaCommand, pld: CommandPayload):
+async def avatar(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     gif = False
     static = False
     auto_color = False

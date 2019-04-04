@@ -25,6 +25,15 @@ from sigma.modules.utilities.misc.other.quote import message_search
 
 
 async def remove_emote(message: discord.Message, emote: str):
+    """
+
+    :param message:
+    :type message:
+    :param emote:
+    :type emote:
+    :return:
+    :rtype:
+    """
     emote_to_remove = None
     for reaction in message.reactions:
         if isinstance(reaction.emoji, str):
@@ -39,7 +48,13 @@ async def remove_emote(message: discord.Message, emote: str):
     return emote_to_remove
 
 
-async def removereaction(_cmd: SigmaCommand, pld: CommandPayload):
+async def removereaction(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
         if len(pld.args) == 2:
             mid, emote = pld.args

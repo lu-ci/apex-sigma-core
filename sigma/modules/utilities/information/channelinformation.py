@@ -23,7 +23,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def channelinformation(_cmd: SigmaCommand, pld: CommandPayload):
+async def channelinformation(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     chan = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
     response = discord.Embed(color=0x1B6F5F)
     creation_time = arrow.get(chan.created_at).format('DD. MMMM YYYY')

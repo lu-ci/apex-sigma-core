@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, not_found
 
 
-async def boundinvites(_cmd: SigmaCommand, pld: CommandPayload):
+async def boundinvites(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.create_instant_invite:
         bound_invites = pld.settings.get('bound_invites')
         if bound_invites:

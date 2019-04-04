@@ -24,7 +24,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def realprogrammers(cmd: SigmaCommand, pld: CommandPayload):
+async def realprogrammers(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     joke_docs = await cmd.db[cmd.db.db_nam].RealDevsData.find().to_list(None)
     joke = secrets.choice(joke_docs).get('content')
     response = discord.Embed(color=0xf9f9f9, title='💻 Real programmers...')

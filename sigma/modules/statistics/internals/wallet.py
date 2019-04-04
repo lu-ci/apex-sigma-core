@@ -36,6 +36,13 @@ curr_suffixes = [
 
 
 def get_title_indexes(level: int):
+    """
+
+    :param level:
+    :type level:
+    :return:
+    :rtype:
+    """
     slevel = str(level)
     suffix = int(slevel[-1])
     prefix = int(slevel[-2]) if len(slevel) >= 2 else 0
@@ -43,16 +50,44 @@ def get_title_indexes(level: int):
 
 
 def get_resource_level(amount: int, leveler: float):
+    """
+
+    :param amount:
+    :type amount:
+    :param leveler:
+    :type leveler:
+    :return:
+    :rtype:
+    """
     return int(amount / leveler)
 
 
 def get_resource_title(amount: int, leveler: float, prefixes: list, suffixes: list):
+    """
+
+    :param amount:
+    :type amount:
+    :param leveler:
+    :type leveler:
+    :param prefixes:
+    :type prefixes:
+    :param suffixes:
+    :type suffixes:
+    :return:
+    :rtype:
+    """
     level = get_resource_level(amount, leveler)
     suffix_i, prefix_i = get_title_indexes(level)
     return f'{prefixes[prefix_i]} {suffixes[suffix_i]}'
 
 
-async def wallet(cmd: SigmaCommand, pld: CommandPayload):
+async def wallet(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     avatar = user_avatar(target)
     currency = await cmd.db.get_resource(target.id, 'currency')

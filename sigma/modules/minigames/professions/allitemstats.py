@@ -26,6 +26,13 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 def type_rarity_counter(items: list):
+    """
+
+    :param items:
+    :type items:
+    :return:
+    :rtype:
+    """
     types = {'animal': {}, 'fish': {}, 'plant': {}}
     for item in items:
         if item.type.lower() in types:
@@ -39,7 +46,13 @@ def type_rarity_counter(items: list):
     return types
 
 
-async def allitemstats(cmd: SigmaCommand, pld: CommandPayload):
+async def allitemstats(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     item_o_list = sorted(item_core.all_items, key=lambda x: x.rarity, reverse=True)
     types = type_rarity_counter(item_o_list)

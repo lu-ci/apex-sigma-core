@@ -20,6 +20,15 @@ import secrets
 
 
 def scramble(text, full=False):
+    """
+
+    :param text:
+    :type text:
+    :param full:
+    :type full:
+    :return:
+    :rtype:
+    """
     separated_text = text.split()
     char_list = list(text.replace(' ', ''))
     chunks = []

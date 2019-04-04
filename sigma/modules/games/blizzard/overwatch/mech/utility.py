@@ -34,6 +34,13 @@ region_convert = {
 
 
 def clean_numbers(stats: dict):
+    """
+
+    :param stats:
+    :type stats:
+    :return:
+    :rtype:
+    """
     for key in stats:
         try:
             int_value = int(stats.get(key))
@@ -48,6 +55,15 @@ def clean_numbers(stats: dict):
 
 
 async def get_profile(battletag: str, region: str):
+    """
+
+    :param battletag:
+    :type battletag:
+    :param region:
+    :type region:
+    :return:
+    :rtype:
+    """
     profile = None
     timeout = False
     failed = False

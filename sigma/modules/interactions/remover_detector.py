@@ -21,6 +21,13 @@ from sigma.core.mechanics.payload import RawReactionPayload
 
 
 async def remover_detector(ev: SigmaEvent, pld: RawReactionPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id

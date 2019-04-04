@@ -33,6 +33,19 @@ ongoing = []
 
 
 def generate_log_embed(message, target, channel, deleted):
+    """
+
+    :param message:
+    :type message:
+    :param target:
+    :type target:
+    :param channel:
+    :type channel:
+    :param deleted:
+    :type deleted:
+    :return:
+    :rtype:
+    """
     response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     response.set_author(name=f'#{channel.name} Has Been Pruned', icon_url=user_avatar(message.author))
     target_text = f'{target.mention}\n{target.name}#{target.discriminator}' if target else 'No Filter'
@@ -43,7 +56,13 @@ def generate_log_embed(message, target, channel, deleted):
     return response
 
 
-async def purge(cmd: SigmaCommand, pld: CommandPayload):
+async def purge(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
         if pld.msg.channel.id not in ongoing:
             ongoing.append(pld.msg.channel.id)
@@ -58,6 +77,11 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                     break
 
             async def get_limit_and_target():
+                """
+
+                :return:
+                :rtype:
+                """
                 user = cmd.bot.user
                 limit = 100
                 if pld.msg.mentions:
@@ -86,6 +110,13 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
             count, target = await get_limit_and_target()
 
             def is_emotes(msg):
+                """
+
+                :param msg:
+                :type msg:
+                :return:
+                :rtype:
+                """
                 clean = False
                 if msg.content:
                     for piece in msg.content.split():
@@ -105,6 +136,13 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 return clean
 
             def purge_target_check(msg):
+                """
+
+                :param msg:
+                :type msg:
+                :return:
+                :rtype:
+                """
                 clean = False
                 if not msg.pinned:
                     if msg.author.id == target.id:
@@ -121,6 +159,13 @@ async def purge(cmd: SigmaCommand, pld: CommandPayload):
                 return clean
 
             def purge_wide_check(msg):
+                """
+
+                :param msg:
+                :type msg:
+                :return:
+                :rtype:
+                """
                 clean = False
                 if not msg.pinned:
                     if purge_images:

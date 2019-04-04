@@ -24,6 +24,13 @@ from lxml import html
 
 
 async def grab_post_list(tags):
+    """
+
+    :param tags:
+    :type tags:
+    :return:
+    :rtype:
+    """
     links = []
     for x in range(0, 20):
         resource = f'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+{tags}&pid={x}'
@@ -44,6 +51,19 @@ async def grab_post_list(tags):
 
 
 def generate_embed(post, titles, color=0xff6699, icon='https://i.imgur.com/WQbzk9y.png'):
+    """
+
+    :param post:
+    :type post:
+    :param titles:
+    :type titles:
+    :param color:
+    :type color:
+    :param icon:
+    :type icon:
+    :return:
+    :rtype:
+    """
     image_url = post.attrib['file_url']
     image_source = f'http://safebooru.org/index.php?page=post&s=view&id={post.attrib["id"]}'
     if image_url.startswith('//'):

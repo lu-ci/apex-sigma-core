@@ -34,6 +34,9 @@ item_urls = [
 
 
 async def fill_body_armor_cache():
+    """
+
+    """
     if not body_armor_list_cache:
         for active_sg_url in item_urls:
             async with aiohttp.ClientSession() as session:
@@ -51,6 +54,15 @@ async def fill_body_armor_cache():
 
 
 async def get_armor_data(armor_name: str, armor_url: str):
+    """
+
+    :param armor_name:
+    :type armor_name:
+    :param armor_url:
+    :type armor_url:
+    :return:
+    :rtype:
+    """
     armor_key = armor_name.replace(' ', '_').lower()
     armor_data = body_armor_data_cache.get(armor_key)
     if not armor_data:
@@ -87,6 +99,13 @@ async def get_armor_data(armor_name: str, armor_url: str):
 
 
 def find_broad(lookup: str):
+    """
+
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     out = None
     for key in body_armor_list_cache:
         if lookup in key:
@@ -96,6 +115,13 @@ def find_broad(lookup: str):
 
 
 def parse_armor_info(armor_info: str):
+    """
+
+    :param armor_info:
+    :type armor_info:
+    :return:
+    :rtype:
+    """
     sects = armor_info.split('\n\n')
     types = sects[0].split('\n')[0]
     types = types.split(': ')
@@ -109,7 +135,13 @@ def parse_armor_info(armor_info: str):
     return {'types': types, 'details': info_lines}
 
 
-async def poebody(_cmd: SigmaCommand, pld: CommandPayload):
+async def poebody(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup_key = '_'.join(pld.args).lower()
         await fill_body_armor_cache()

@@ -23,6 +23,11 @@ stats_handler = None
 
 
 async def add_cmd_stat(cmd):
+    """
+
+    :param cmd:
+    :type cmd:
+    """
     lookup_target = {'command': cmd.name}
     stat_file = await cmd.db[cmd.db.db_nam].CommandStats.find_one(lookup_target)
     if stat_file:
@@ -34,6 +39,13 @@ async def add_cmd_stat(cmd):
 
 
 async def add_special_stats(db: Database, stat_name: str):
+    """
+
+    :param db:
+    :type db:
+    :param stat_name:
+    :type stat_name:
+    """
     global stats_handler
     if not stats_handler:
         stats_handler = StatisticsStorage(db, stat_name)

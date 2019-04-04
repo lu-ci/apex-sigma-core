@@ -26,7 +26,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def manga(_cmd: SigmaCommand, pld: CommandPayload):
+async def manga(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         qry = '%20'.join(pld.args)
         url = f'https://kitsu.io/api/edge/manga?filter[text]={qry}'

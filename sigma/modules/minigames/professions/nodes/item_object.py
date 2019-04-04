@@ -25,6 +25,9 @@ from sigma.modules.minigames.professions.nodes.properties import item_icons, rar
 
 
 class SigmaRawItem(object):
+    """
+
+    """
     def __init__(self, item_data):
         self.name = item_data['name']
         self.desc = item_data['description']
@@ -37,6 +40,13 @@ class SigmaRawItem(object):
         self.file_id = item_data['file_id']
 
     def get_recipe_presence(self, rc):
+        """
+
+        :param rc:
+        :type rc:
+        :return:
+        :rtype:
+        """
         used_in = []
         recipe_list = sorted(rc.recipes, key=lambda x: x.name)
         for recipe in recipe_list:
@@ -47,6 +57,15 @@ class SigmaRawItem(object):
         return used_in
 
     def make_inspect_embed(self, currency, recipe_core):
+        """
+
+        :param currency:
+        :type currency:
+        :param recipe_core:
+        :type recipe_core:
+        :return:
+        :rtype:
+        """
         used_in_recipes = self.get_recipe_presence(recipe_core)
         connector = 'A'
         if self.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
@@ -62,6 +81,11 @@ class SigmaRawItem(object):
         return response
 
     def generate_inventory_item(self):
+        """
+
+        :return:
+        :rtype:
+        """
         token = secrets.token_hex(16)
         data = {
             'item_id': token,
@@ -71,6 +95,9 @@ class SigmaRawItem(object):
 
 
 class SigmaCookedItem(object):
+    """
+
+    """
     def __init__(self, item_data):
         self.name = item_data['name']
         self.desc = item_data['description']
@@ -83,6 +110,13 @@ class SigmaCookedItem(object):
         self.rarity_name = rarity_names[self.rarity]
 
     def get_recipe_presence(self, rc):
+        """
+
+        :param rc:
+        :type rc:
+        :return:
+        :rtype:
+        """
         used_in = []
         recipe_list = sorted(rc.recipes, key=lambda x: x.name)
         for recipe in recipe_list:
@@ -93,6 +127,15 @@ class SigmaCookedItem(object):
         return used_in
 
     def make_inspect_embed(self, currency, recipe_core):
+        """
+
+        :param currency:
+        :type currency:
+        :param recipe_core:
+        :type recipe_core:
+        :return:
+        :rtype:
+        """
         used_in_recipes = self.get_recipe_presence(recipe_core)
         connector = 'A'
         if self.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
@@ -109,6 +152,11 @@ class SigmaCookedItem(object):
 
     @staticmethod
     def roll_quality():
+        """
+
+        :return:
+        :rtype:
+        """
         roll_num = secrets.randbelow(100)
         if roll_num in range(66, 85):
             quality = 1
@@ -121,6 +169,11 @@ class SigmaCookedItem(object):
         return quality
 
     def generate_inventory_item(self):
+        """
+
+        :return:
+        :rtype:
+        """
         token = secrets.token_hex(16)
         data = {
             'item_id': token,

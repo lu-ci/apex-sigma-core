@@ -23,6 +23,13 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_timezones(ev: SigmaEvent, force=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param force:
+    :type force:
+    """
     doc_count = await ev.db[ev.db.db_nam].TimezoneData.count_documents({})
     if not doc_count or force:
         file_urls = {

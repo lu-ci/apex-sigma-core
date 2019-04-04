@@ -26,6 +26,13 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def edit_logger(ev: SigmaEvent, pld: MessageEditPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     before, after = pld.before, pld.after
     if after.guild:
         if before.content and after.content and (before.content != after.content):

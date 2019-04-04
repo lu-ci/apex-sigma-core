@@ -25,7 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def randomcomicgenerator(_cmd: SigmaCommand, pld: CommandPayload):
+async def randomcomicgenerator(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     comic_url = 'http://explosm.net/rcg/'
     # noinspection PyTypeChecker
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:

@@ -39,6 +39,15 @@ first_symbols = [group[0] for group in symbol_groups]
 
 
 def check_answer(arguments, sequence):
+    """
+
+    :param arguments:
+    :type arguments:
+    :param sequence:
+    :type sequence:
+    :return:
+    :rtype:
+    """
     filtered_args = [group[0] for char in arguments for group in symbol_groups if char in group]
     results = []
     correct = True
@@ -55,7 +64,13 @@ def check_answer(arguments, sequence):
     return correct, results
 
 
-async def sequencegame(cmd: SigmaCommand, pld: CommandPayload):
+async def sequencegame(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.id in ongoing:
         ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)
@@ -70,6 +85,13 @@ async def sequencegame(cmd: SigmaCommand, pld: CommandPayload):
         await pld.msg.channel.send(embed=start_embed)
 
         def answer_check(msg):
+            """
+
+            :param msg:
+            :type msg:
+            :return:
+            :rtype:
+            """
             if pld.msg.author.id != msg.author.id:
                 return
             if pld.msg.channel.id != msg.channel.id:

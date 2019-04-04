@@ -29,6 +29,15 @@ star_cache = None
 
 
 async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
+    """
+
+    :param msg:
+    :type msg:
+    :param response:
+    :type response:
+    :param sbc:
+    :type sbc:
+    """
     channel = msg.guild.get_channel(sbc)
     if channel:
         # noinspection PyBroadException
@@ -39,6 +48,13 @@ async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int
 
 
 async def generate_embed(msg: discord.Message):
+    """
+
+    :param msg:
+    :type msg:
+    :return:
+    :rtype:
+    """
     avatar = user_avatar(msg.author)
     user_color = await get_image_colors(avatar)
     response = discord.Embed(color=user_color, timestamp=arrow.utcnow().datetime)
@@ -58,6 +74,15 @@ async def generate_embed(msg: discord.Message):
 
 
 async def check_emotes(mid: int, sbl: int):
+    """
+
+    :param mid:
+    :type mid:
+    :param sbl:
+    :type sbl:
+    :return:
+    :rtype:
+    """
     trigger = False
     executed = await star_cache.get_cache(f'exec_{mid}')
     if not executed:
@@ -73,6 +98,13 @@ async def check_emotes(mid: int, sbl: int):
 
 
 async def starboard_watcher(ev: SigmaEvent, pld: RawReactionPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     global star_cache
     if not star_cache:
         star_cache = MemoryCacher(CacheConfig({}))

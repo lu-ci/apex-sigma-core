@@ -25,7 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def currenttime(cmd: SigmaCommand, pld: CommandPayload):
+async def currenttime(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     shift = None
     if pld.args:
         shift = ' '.join(pld.args).lower()

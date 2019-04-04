@@ -28,6 +28,17 @@ from sigma.modules.moderation.permissions.permit import get_target_type
 
 
 def get_exceptions(message: discord.Message, exceptions: list, target_type: str):
+    """
+
+    :param message:
+    :type message:
+    :param exceptions:
+    :type exceptions:
+    :param target_type:
+    :type target_type:
+    :return:
+    :rtype:
+    """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}
     guild_items = guild_dict.get(target_type)
@@ -39,7 +50,13 @@ def get_exceptions(message: discord.Message, exceptions: list, target_type: str)
     return overridden_items
 
 
-async def permitted(cmd: SigmaCommand, pld: CommandPayload):
+async def permitted(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) >= 2:
             if ':' in pld.args[1]:

@@ -28,10 +28,25 @@ from sigma.core.utilities.generic_responses import error
 
 
 def check_name(m: discord.Member, lookup: str):
+    """
+
+    :param m:
+    :type m:
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()
 
 
-async def givecookie(cmd: SigmaCommand, pld: CommandPayload):
+async def givecookie(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     someoned = False
     if pld.msg.mentions:
         target = pld.msg.mentions[0]

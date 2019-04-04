@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, info, ok
 
 
-async def prefix(cmd: SigmaCommand, pld: CommandPayload):
+async def prefix(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     current_prefix = cmd.db.get_prefix(pld.settings)
     if pld.args:
         if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:

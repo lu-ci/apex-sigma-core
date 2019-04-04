@@ -48,6 +48,13 @@ You are NOT allowed to:
 
 
 async def disclaimer_sender(_ev: SigmaEvent, pld: GuildPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     try:
         await pld.guild.owner.send(disclaimer)
     except discord.Forbidden:

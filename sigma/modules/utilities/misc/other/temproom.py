@@ -24,6 +24,15 @@ from sigma.core.utilities.generic_responses import ok
 
 
 async def get_category(cmd: SigmaCommand, guild: discord.Guild):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param guild:
+    :type guild:
+    :return:
+    :rtype:
+    """
     temp_cat = None
     cat_count = len(guild.categories)
     for category in guild.categories:
@@ -37,7 +46,13 @@ async def get_category(cmd: SigmaCommand, guild: discord.Guild):
     return temp_cat
 
 
-async def temproom(cmd: SigmaCommand, pld: CommandPayload):
+async def temproom(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     room_name = ' '.join(pld.args) or f'{pld.msg.author.display_name}\'s Room'
     room_name = f'[Σ] {room_name}'
     reason = f'Temporary voice channel by {pld.msg.author.name}#{pld.msg.author.discriminator}.'

@@ -26,6 +26,11 @@ wfa_loop_running = False
 
 
 async def invasion_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global wfa_loop_running
     if not wfa_loop_running:
         wfa_loop_running = True
@@ -33,6 +38,11 @@ async def invasion_clockwork(ev: SigmaEvent):
 
 
 async def invasion_cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException

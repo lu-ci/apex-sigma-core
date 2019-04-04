@@ -26,7 +26,13 @@ from sigma.core.mechanics.payload import CommandPayload
 joke_cache = []
 
 
-async def joke(cmd: SigmaCommand, pld: CommandPayload):
+async def joke(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     global joke_cache
     if not joke_cache:
         joke_cache = await cmd.db[cmd.db.db_nam].JokeData.find().to_list(None)

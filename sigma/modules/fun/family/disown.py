@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.fun.family.models.human import AdoptableHuman
 
 
-async def disown(cmd: SigmaCommand, pld: CommandPayload):
+async def disown(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target is not None:
         disowner = AdoptableHuman(cmd.db, pld.msg.author.id)

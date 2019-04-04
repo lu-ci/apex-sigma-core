@@ -25,6 +25,13 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 async def command_logger(ev: SigmaEvent, pld: CommandEventPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s used {pld.cmd.name.upper()}.'
         arguments = ' '.join(pld.args) if pld.args else 'No Arguments'

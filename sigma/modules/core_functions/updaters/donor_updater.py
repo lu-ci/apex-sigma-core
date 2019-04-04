@@ -24,6 +24,11 @@ donor_clock_running = False
 
 
 async def donor_updater(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global donor_clock_running
     if not donor_clock_running:
         if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
@@ -32,6 +37,11 @@ async def donor_updater(ev: SigmaEvent):
 
 
 async def donor_updater_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     donor_coll = ev.db[ev.db.db_nam].DonorCache
     await donor_coll.drop()
     while True:

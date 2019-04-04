@@ -26,7 +26,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
-async def warmachinelist(cmd: SigmaCommand, pld: CommandPayload):
+async def warmachinelist(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     machines = await SigmaMachine.get_machines(cmd.db, target)
     machines_owned = len(machines)

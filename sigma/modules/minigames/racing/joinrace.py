@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.racing.nodes.race_storage import add_participant, colors, names, races
 
 
-async def joinrace(cmd: SigmaCommand, pld: CommandPayload):
+async def joinrace(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     currency = f'{cmd.bot.cfg.pref.currency}'
     if pld.msg.channel.id in races:
         race = races[pld.msg.channel.id]

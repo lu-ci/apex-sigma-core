@@ -26,7 +26,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def spouses(cmd: SigmaCommand, pld: CommandPayload):
+async def spouses(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('spouses', [])

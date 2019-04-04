@@ -24,7 +24,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
-async def resources(cmd: SigmaCommand, pld: CommandPayload):
+async def resources(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     reses = ['currency', 'sumarum']
     response = discord.Embed(color=await get_image_colors(user_avatar(target)))

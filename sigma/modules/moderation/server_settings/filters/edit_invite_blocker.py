@@ -27,6 +27,13 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def edit_invite_blocker(ev: SigmaEvent, pld: MessageEditPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     after = pld.after
     if after.guild:
         if isinstance(after.author, discord.Member):

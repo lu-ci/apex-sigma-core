@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class StatContainer(object):
+    """
+
+    """
     def __init__(self, stat_data: dict, modifier=1):
         self.raw = stat_data
         self.health = self.raw.get('health', 0) * modifier
@@ -43,6 +46,13 @@ class StatContainer(object):
         return self
 
     def combine(self, other):
+        """
+
+        :param other:
+        :type other:
+        :return:
+        :rtype:
+        """
         self.health = int((self.health + other.health) / 2)
         self.damage = int((self.damage + other.damage) / 2)
         self.accuracy = int((self.accuracy + other.accuracy) / 2)
@@ -55,6 +65,11 @@ class StatContainer(object):
         return self
 
     def to_dict(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {
             'health': self.health,
             'damage': self.damage,
@@ -69,6 +84,9 @@ class StatContainer(object):
 
 
 class CostContainer(object):
+    """
+
+    """
     def __init__(self, costs):
         self.raw = costs
         self.metal = self.raw.get('metal', 0)
@@ -78,6 +96,11 @@ class CostContainer(object):
         self.currency = self.raw.get('currency', 0)
 
     def combine(self, other):
+        """
+
+        :param other:
+        :type other:
+        """
         self.metal = int((self.metal + other.metal) / 2)
         self.biomass = int((self.biomass + other.biomass) / 2)
         self.sumarum = int((self.sumarum + other.sumarum) / 2)
@@ -85,6 +108,11 @@ class CostContainer(object):
         self.currency = int((self.currency + other.currency) / 2)
 
     def to_dict(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {
             'metal': self.metal,
             'biomass': self.biomass,
@@ -97,18 +125,38 @@ class CostContainer(object):
 class ComponentCore(object):
     @property
     def names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {}
 
     @property
     def bases(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {}
 
     @property
     def scaling(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {}
 
     @property
     def costs(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {
             0: {
                 'battle': {
@@ -193,14 +241,39 @@ class ComponentCore(object):
         }
 
     def get_name(self, comp_id: int):
+        """
+
+        :param comp_id:
+        :type comp_id:
+        :return:
+        :rtype:
+        """
         return self.names.get(comp_id)
 
     def get_stats(self, comp_id: int, level: int):
+        """
+
+        :param comp_id:
+        :type comp_id:
+        :param level:
+        :type level:
+        :return:
+        :rtype:
+        """
         base = StatContainer(self.bases.get(comp_id))
         scale = StatContainer(self.scaling.get(comp_id), modifier=level)
         return base + scale
 
     def get_battle_cost(self, comp_id: int, level: int):
+        """
+
+        :param comp_id:
+        :type comp_id:
+        :param level:
+        :type level:
+        :return:
+        :rtype:
+        """
         requirements = {}
         base_requirements = self.costs.get(comp_id, {}).get('battle', {})
         for key in base_requirements:
@@ -208,6 +281,19 @@ class ComponentCore(object):
         return CostContainer(requirements)
 
     def get_repair_cost(self, comp_id: int, level: int, health: int, current_health: int):
+        """
+
+        :param comp_id:
+        :type comp_id:
+        :param level:
+        :type level:
+        :param health:
+        :type health:
+        :param current_health:
+        :type current_health:
+        :return:
+        :rtype:
+        """
         repairs = {}
         base_repairs = self.costs.get(comp_id, {}).get('repair', {})
         missing_health = (((health - current_health) / health) * 100)

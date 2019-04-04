@@ -24,7 +24,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def dadjoke(cmd: SigmaCommand, pld: CommandPayload):
+async def dadjoke(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     joke_list = await cmd.db[cmd.db.db_nam].DadjokeData.find().to_list(None)
     end_joke_choice = secrets.choice(joke_list)
     end_joke = end_joke_choice.get('setup')

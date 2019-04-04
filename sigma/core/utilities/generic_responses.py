@@ -20,28 +20,81 @@ import discord
 
 
 def generate_small_embed(icon: str, color: int, text: str):
+    """
+
+    :param icon:
+    :type icon:
+    :param color:
+    :type color:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     return discord.Embed(color=color, title=f'{icon} {text}')
 
 
 def denied(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('⛔', 0xBE1931, content)
 
 
 def ok(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('✅', 0x77B255, content)
 
 
 def info(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('ℹ', 0x3B88C3, content)
 
 
 def warn(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('⚠', 0xFFCC4D, content)
 
 
 def error(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('❗', 0xBE1931, content)
 
 
 def not_found(content: str):
+    """
+
+    :param content:
+    :type content:
+    :return:
+    :rtype:
+    """
     return generate_small_embed('🔍', 0x696969, content)

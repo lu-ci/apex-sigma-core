@@ -24,6 +24,11 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 def clean_entries(entries):
+    """
+
+    :param entries:
+    :type entries:
+    """
     to_remove = []
     for entry in entries:
         joke_body = entry.get('body')
@@ -33,6 +38,13 @@ def clean_entries(entries):
 
 
 async def dbinit_jokes(ev: SigmaEvent, force=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param force:
+    :type force:
+    """
     doc_count = await ev.db[ev.db.db_nam].JokeData.count_documents({})
     if not doc_count or force:
         file_urls = [

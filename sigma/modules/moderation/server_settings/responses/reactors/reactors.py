@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error
 
 
-async def reactors(_cmd: SigmaCommand, pld: CommandPayload):
+async def reactors(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     reactor_files = pld.settings.get('reactor_triggers')
     if reactor_files:
         reactor_list = sorted(list(reactor_files.keys()))

@@ -28,7 +28,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 icon = 'https://i.imgur.com/GKM6AMT.png'
 
 
-async def describe(_cmd: SigmaCommand, pld: CommandPayload):
+async def describe(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         mode = pld.args[0].lower().lower()
         if mode in ['adjectives', 'adjective', 'adj', 'a', 'nouns', 'noun', 'n']:

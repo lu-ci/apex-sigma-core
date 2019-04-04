@@ -27,6 +27,17 @@ current_user_collecting = None
 
 
 async def check_queued(db, aid, uid):
+    """
+
+    :param db:
+    :type db:
+    :param aid:
+    :type aid:
+    :param uid:
+    :type uid:
+    :return:
+    :rtype:
+    """
     target_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
     author_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'author_id': aid}))
     in_current = current_user_collecting == uid
@@ -34,14 +45,37 @@ async def check_queued(db, aid, uid):
 
 
 async def add_to_queue(db, collector_item):
+    """
+
+    :param db:
+    :type db:
+    :param collector_item:
+    :type collector_item:
+    """
     await db[db.db_nam].CollectorQueue.insert_one(collector_item)
 
 
 async def get_queue_size(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     return await db[db.db_nam].CollectorQueue.count_documents({})
 
 
 def check_for_bot_prefixes(prefix, text):
+    """
+
+    :param prefix:
+    :type prefix:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     common_pfx = [prefix, '!', '/', '\\', '~', '.', '>', '<', '-', '_', '?']
     prefixed = False
     for pfx in common_pfx:
@@ -52,6 +86,13 @@ def check_for_bot_prefixes(prefix, text):
 
 
 def get_channel(msg):
+    """
+
+    :param msg:
+    :type msg:
+    :return:
+    :rtype:
+    """
     if msg.channel_mentions:
         target_chn = msg.channel_mentions[0]
     else:
@@ -60,6 +101,13 @@ def get_channel(msg):
 
 
 def get_target(msg):
+    """
+
+    :param msg:
+    :type msg:
+    :return:
+    :rtype:
+    """
     if msg.mentions:
         target_usr = msg.mentions[0]
     else:
@@ -68,6 +116,13 @@ def get_target(msg):
 
 
 def check_for_bad_content(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     disallowed = ['```', 'http', '"', ':gw']
     bad = False
     for cont in disallowed:
@@ -78,6 +133,13 @@ def check_for_bad_content(text):
 
 
 def clean_bad_chars(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     disallowed = ['`', '\n', '\\', '\\n']
     for char in disallowed:
         text = text.replace(char, '')
@@ -85,6 +147,15 @@ def clean_bad_chars(text):
 
 
 def replace_mentions(log, text):
+    """
+
+    :param log:
+    :type log:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     if log.mentions:
         for mention in log.mentions:
             text = text.replace(mention.mention, mention.name)
@@ -95,6 +166,13 @@ def replace_mentions(log, text):
 
 
 def punctuate_content(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     text = text.strip()
     last_char = text[-1]
     if last_char not in string.punctuation:
@@ -103,6 +181,15 @@ def punctuate_content(text):
 
 
 def cleanse_content(log, text):
+    """
+
+    :param log:
+    :type log:
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     text = replace_mentions(log, text)
     text = clean_bad_chars(text)
     text = punctuate_content(text)
@@ -110,6 +197,19 @@ def cleanse_content(log, text):
 
 
 async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
+    """
+
+    :param ath:
+    :type ath:
+    :param tgt_usr:
+    :type tgt_usr:
+    :param tgt_chn:
+    :type tgt_chn:
+    :param cltd:
+    :type cltd:
+    :param cltn:
+    :type cltn:
+    """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     ftr_icn = tgt_chn.guild.icon_url or 'https://i.imgur.com/xpDpHqz.png'
@@ -123,6 +223,11 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
 
 
 async def collector_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global collector_loop_running
     if not collector_loop_running:
         collector_loop_running = True
@@ -130,6 +235,11 @@ async def collector_clockwork(ev: SigmaEvent):
 
 
 async def cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global current_user_collecting
     while True:
         if ev.bot.is_ready():

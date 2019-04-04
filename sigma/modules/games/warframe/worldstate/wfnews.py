@@ -25,7 +25,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 
-async def wfnews(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfnews(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     news_list = await WorldState().news
     if news_list:
         news_lines = []

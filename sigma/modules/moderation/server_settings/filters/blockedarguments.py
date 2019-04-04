@@ -22,7 +22,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import info
 
 
-async def blockedarguments(_cmd: SigmaCommand, pld: CommandPayload):
+async def blockedarguments(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:
         response = info('There are no blocked arguments.')

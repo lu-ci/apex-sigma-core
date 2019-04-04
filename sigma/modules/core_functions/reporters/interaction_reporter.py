@@ -28,6 +28,11 @@ interaction_reporter_running = False
 
 
 async def get_interaction_channel(bot: ApexSigma):
+    """
+
+    :param bot:
+    :type bot:
+    """
     global interaction_channel
     if interaction_channel is None:
         intr_chn_id = bot.modules.commands.get('addinteraction').cfg.get('log_ch')
@@ -36,6 +41,11 @@ async def get_interaction_channel(bot: ApexSigma):
 
 
 async def interaction_reporter(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global interaction_reporter_running
     await get_interaction_channel(ev.bot)
     if not interaction_reporter_running and interaction_channel:
@@ -44,6 +54,13 @@ async def interaction_reporter(ev: SigmaEvent):
 
 
 def make_interaction_log_embed(inter_data: dict):
+    """
+
+    :param inter_data:
+    :type inter_data:
+    :return:
+    :rtype:
+    """
     interaction_url = inter_data.get('url')
     interaction_id = inter_data.get('interaction_id')
     interaction_name = inter_data.get('name')
@@ -59,6 +76,15 @@ def make_interaction_log_embed(inter_data: dict):
 
 
 async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
+    """
+
+    :param bot:
+    :type bot:
+    :param move_data:
+    :type move_data:
+    :return:
+    :rtype:
+    """
     await get_interaction_channel(bot)
     if interaction_channel:
         response = make_interaction_log_embed(move_data)
@@ -67,6 +93,11 @@ async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
 
 
 async def interaction_reporter_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             interaction_docs = await ev.db[ev.db.db_nam].Interactions.find({'reported': False}).to_list(None)

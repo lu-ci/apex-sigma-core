@@ -27,6 +27,13 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
 def make_binding_data(roles: list):
+    """
+
+    :param roles:
+    :type roles:
+    :return:
+    :rtype:
+    """
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
     binding_data = {}
     for role in roles:
@@ -36,6 +43,19 @@ def make_binding_data(roles: list):
 
 
 async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: str, description: bool):
+    """
+
+    :param bind_data:
+    :type bind_data:
+    :param guild:
+    :type guild:
+    :param group_id:
+    :type group_id:
+    :param description:
+    :type description:
+    :return:
+    :rtype:
+    """
     emote_block_lines = []
     for icon_key in bind_data.keys():
         role = guild.get_role(bind_data.get(icon_key))
@@ -52,11 +72,24 @@ async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: 
 
 
 async def fill_toggler_emotes(toggler: discord.Message, emotes: list):
+    """
+
+    :param toggler:
+    :type toggler:
+    :param emotes:
+    :type emotes:
+    """
     for emote in emotes:
         await toggler.add_reaction(emote)
 
 
-async def makeemotetoggles(cmd: SigmaCommand, pld: CommandPayload):
+async def makeemotetoggles(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_guild:
         if pld.args:
             group_id = pld.args[0].lower()

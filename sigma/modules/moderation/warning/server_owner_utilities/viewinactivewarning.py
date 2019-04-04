@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import denied, error, not_found
 
 
-async def viewinactivewarning(cmd: SigmaCommand, pld: CommandPayload):
+async def viewinactivewarning(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author == pld.msg.guild.owner:
         if pld.msg.mentions:
             if len(pld.args) == 2:

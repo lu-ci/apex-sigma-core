@@ -49,6 +49,9 @@ selector_mults = {
 
 
 class RouletteSpot(object):
+    """
+
+    """
     def __init__(self, number):
         self.number = number
         self.type = 'odd' if divmod(number, 2)[1] else 'even'
@@ -64,6 +67,13 @@ spots = [RouletteSpot(num) for num in range(0, 37)]
 
 
 def get_bet(args):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     try:
         bet = abs(int(args[0]))
     except ValueError:
@@ -72,6 +82,13 @@ def get_bet(args):
 
 
 def get_selector_and_value(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     selector_split = [a.strip() for a in args[-1].split(':')]
     if len(selector_split) == 2:
         sel, val = [piece.strip().lower() for piece in selector_split]
@@ -88,7 +105,13 @@ def get_selector_and_value(args: list):
     return sel, val
 
 
-async def set_roul_cd(cmd: SigmaCommand, pld: CommandPayload):
+async def set_roul_cd(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
     base_cooldown = 60
     stamina = upgrade_file.get('casino', 0)
@@ -98,7 +121,13 @@ async def set_roul_cd(cmd: SigmaCommand, pld: CommandPayload):
     await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
 
 
-async def roulette(cmd: SigmaCommand, pld: CommandPayload):
+async def roulette(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
         if pld.args:
             sel, val = get_selector_and_value(pld.args)

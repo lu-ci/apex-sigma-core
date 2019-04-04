@@ -27,6 +27,15 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
 async def sell_item_ids(db, user, items):
+    """
+
+    :param db:
+    :type db:
+    :param user:
+    :type user:
+    :param items:
+    :type items:
+    """
     inv = await db.get_inventory(user.id)
     for item in items:
         for inv_item in inv:
@@ -35,7 +44,13 @@ async def sell_item_ids(db, user, items):
     await db.update_inventory(user.id, inv)
 
 
-async def filtersell(cmd: SigmaCommand, pld: CommandPayload):
+async def filtersell(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     if pld.args:
         full_qry = ' '.join(pld.args)

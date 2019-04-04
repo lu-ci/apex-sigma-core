@@ -25,7 +25,13 @@ from sigma.core.utilities.generic_responses import denied, error, not_found
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
-async def shadowpollexpires(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpollexpires(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) == 2:
             poll_id = pld.args[0].lower()

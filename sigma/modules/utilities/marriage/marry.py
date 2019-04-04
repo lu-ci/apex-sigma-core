@@ -28,13 +28,26 @@ from sigma.core.utilities.generic_responses import error
 
 
 def sync_spouses(spouses: list, user_id: int):
+    """
+
+    :param spouses:
+    :type spouses:
+    :param user_id:
+    :type user_id:
+    """
     for spouse in spouses:
         if spouse.get('user_id') == user_id:
             spouses.remove(spouse)
             break
 
 
-async def marry(cmd: SigmaCommand, pld: CommandPayload):
+async def marry(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.mentions:
         target = pld.msg.mentions[0]
         author = pld.msg.author

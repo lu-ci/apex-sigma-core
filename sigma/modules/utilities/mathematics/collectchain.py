@@ -28,6 +28,17 @@ from sigma.modules.utilities.mathematics.collector_clockwork import check_queued
 
 
 async def is_blocked(db: Database, target: discord.Member, author: discord.Member):
+    """
+
+    :param db:
+    :type db:
+    :param target:
+    :type target:
+    :param author:
+    :type author:
+    :return:
+    :rtype:
+    """
     if target.id == author.id:
         blocked = False
     else:
@@ -36,6 +47,17 @@ async def is_blocked(db: Database, target: discord.Member, author: discord.Membe
 
 
 async def is_blinded(db: Database, channel: discord.TextChannel, author: discord.Member):
+    """
+
+    :param db:
+    :type db:
+    :param channel:
+    :type channel:
+    :param author:
+    :type author:
+    :return:
+    :rtype:
+    """
     if author.permissions_in(channel).manage_channels:
         blinded = False
     else:
@@ -43,7 +65,13 @@ async def is_blinded(db: Database, channel: discord.TextChannel, author: discord
     return blinded
 
 
-async def collectchain(cmd: SigmaCommand, pld: CommandPayload):
+async def collectchain(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target_usr = get_target(pld.msg)
     target_chn = get_channel(pld.msg)
     starter = 'You are' if pld.msg.author.id == target_usr.id else f'{target_usr.name} is'

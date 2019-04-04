@@ -25,6 +25,13 @@ from sigma.core.mechanics.payload import MemberPayload
 
 
 async def autorole_control(_ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     curr_role_id = pld.settings.get('auto_role')
     if curr_role_id:
         curr_role = pld.member.guild.get_role(curr_role_id)

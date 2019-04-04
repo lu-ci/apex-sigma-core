@@ -23,6 +23,13 @@ from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_emb
 
 
 async def bye_sender(_ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     bye_active = pld.settings.get('bye')
     bye_active = True if bye_active is None else bye_active
     if bye_active:

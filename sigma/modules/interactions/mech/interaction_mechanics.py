@@ -26,10 +26,28 @@ interaction_cache = {}
 
 
 async def get_interaction_list(db: Database, intername: str):
+    """
+
+    :param db:
+    :type db:
+    :param intername:
+    :type intername:
+    :return:
+    :rtype:
+    """
     return await db[db.db_nam].Interactions.find({'name': intername, 'active': True}).to_list(None)
 
 
 async def grab_interaction(db: Database, intername: str):
+    """
+
+    :param db:
+    :type db:
+    :param intername:
+    :type intername:
+    :return:
+    :rtype:
+    """
     fill = False if interaction_cache.get(intername) else True
     if fill:
         interactions = await get_interaction_list(db, intername)
@@ -42,15 +60,40 @@ async def grab_interaction(db: Database, intername: str):
 
 
 def target_check(usr: discord.Member, lookup: str):
+    """
+
+    :param usr:
+    :type usr:
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     return usr.display_name.lower() == lookup.lower() or usr.name.lower() == lookup.lower()
 
 
 # message.mentions are not always in the correct order
 def get_mentions(message: discord.Message):
+    """
+
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     return list(filter(lambda x: x, [message.guild.get_member(i) for i in message.raw_mentions]))
 
 
 def get_target(sigma, message: discord.Message):
+    """
+
+    :param sigma:
+    :type sigma:
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     mentions = get_mentions(message)
     if mentions:
         if mentions[0].id == sigma.id and len(mentions) >= 2:
@@ -68,6 +111,15 @@ def get_target(sigma, message: discord.Message):
 
 
 def get_author(sigma, message: discord.Message):
+    """
+
+    :param sigma:
+    :type sigma:
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     mentions = get_mentions(message)
     if len(mentions) >= 2:
         if mentions[0].id == sigma.id:
@@ -80,6 +132,17 @@ def get_author(sigma, message: discord.Message):
 
 
 async def update_data(db: Database, data: dict, user: discord.User, guild: discord.Guild):
+    """
+
+    :param db:
+    :type db:
+    :param data:
+    :type data:
+    :param user:
+    :type user:
+    :param guild:
+    :type guild:
+    """
     if user:
         unam = data.get('user_name')
         if unam is None or unam != user.name:
@@ -95,6 +158,15 @@ async def update_data(db: Database, data: dict, user: discord.User, guild: disco
 
 
 async def make_footer(cmd, item):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param item:
+    :type item:
+    :return:
+    :rtype:
+    """
     uid = item.get('user_id')
     user = await cmd.bot.get_user(uid)
     username = user.name if user else 'Unknown User' or item.get('user_name')

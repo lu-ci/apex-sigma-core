@@ -27,7 +27,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def e621(_cmd: SigmaCommand, pld: CommandPayload):
+async def e621(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     url = 'https://e621.net/post/index.json?tags='
     url += '+'.join(pld.args) if pld.args else 'nude'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'}

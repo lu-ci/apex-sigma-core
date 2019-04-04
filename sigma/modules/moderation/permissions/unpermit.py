@@ -23,7 +23,13 @@ from sigma.modules.moderation.permissions.nodes.permission_data import generate_
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 
-async def unpermit(cmd: SigmaCommand, pld: CommandPayload):
+async def unpermit(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             if len(pld.args) >= 3:

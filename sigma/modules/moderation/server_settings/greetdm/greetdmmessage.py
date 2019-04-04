@@ -25,6 +25,17 @@ from sigma.core.utilities.generic_responses import denied, info, ok
 
 
 async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
+    """
+
+    :param data:
+    :type data:
+    :param greeting:
+    :type greeting:
+    :param guild:
+    :type guild:
+    :return:
+    :rtype:
+    """
     guild_color = await get_image_colors(guild.icon_url)
     greeting = discord.Embed(color=data.get('color') or guild_color, description=greeting)
     greeting.set_author(name=guild.name, icon_url=guild.icon_url)
@@ -35,7 +46,13 @@ async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
     return greeting
 
 
-async def greetdmmessage(cmd: SigmaCommand, pld: CommandPayload):
+async def greetdmmessage(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             greeting_text = ' '.join(pld.args)

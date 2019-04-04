@@ -22,6 +22,13 @@ from sigma.modules.core_functions.system.leave_move_log import make_move_log_dat
 
 
 async def join_move_log(ev: SigmaEvent, pld: GuildPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     owner = pld.guild.owner
     bot_count = 0
     user_count = 0

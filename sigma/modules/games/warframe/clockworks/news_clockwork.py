@@ -26,6 +26,11 @@ wfn_loop_running = False
 
 
 async def news_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global wfn_loop_running
     if not wfn_loop_running:
         wfn_loop_running = True
@@ -33,6 +38,11 @@ async def news_clockwork(ev: SigmaEvent):
 
 
 async def news_cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException

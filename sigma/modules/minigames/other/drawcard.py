@@ -31,6 +31,13 @@ names = {1: 'Ace', 12: 'Jack', 13: 'Queen', 14: 'King'}
 
 
 def make_new_deck(uid):
+    """
+
+    :param uid:
+    :type uid:
+    :return:
+    :rtype:
+    """
     card_list = []
     for suit in list(suits):
         for val in range(1, 15):
@@ -41,7 +48,13 @@ def make_new_deck(uid):
     return deck_cache.get(uid)
 
 
-async def drawcard(cmd: SigmaCommand, pld: CommandPayload):
+async def drawcard(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         try:
             amount = int(pld.args[0])

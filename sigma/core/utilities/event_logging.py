@@ -22,6 +22,17 @@ from sigma.core.sigma import ApexSigma
 
 
 async def log_event(client: ApexSigma, settings: dict, response: discord.Embed, event: str):
+    """
+
+    :param client:
+    :type client:
+    :param settings:
+    :type settings:
+    :param response:
+    :type response:
+    :param event:
+    :type event:
+    """
     log_channel_id, log_event_active = settings.get(f'{event}_channel'), settings.get(event)
     if log_channel_id and log_event_active:
         log_channel = await client.get_channel(log_channel_id, True)

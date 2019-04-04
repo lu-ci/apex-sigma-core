@@ -27,6 +27,11 @@ error_reporter_running = False
 
 
 async def get_error_channel(bot: ApexSigma):
+    """
+
+    :param bot:
+    :type bot:
+    """
     global error_channel
     if bot.cfg.pref.errorlog_channel and error_channel is None:
         err_chn_id = bot.cfg.pref.errorlog_channel
@@ -35,6 +40,11 @@ async def get_error_channel(bot: ApexSigma):
 
 
 async def error_reporter(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global error_reporter_running
     await get_error_channel(ev.bot)
     if not error_reporter_running and error_channel:
@@ -43,6 +53,13 @@ async def error_reporter(ev: SigmaEvent):
 
 
 async def send_error_log_message(bot: ApexSigma, error_data):
+    """
+
+    :param bot:
+    :type bot:
+    :param error_data:
+    :type error_data:
+    """
     await get_error_channel(bot)
     if error_channel and error_data:
         response, trace = SigmaError.make_error_embed(error_data)
@@ -52,6 +69,11 @@ async def send_error_log_message(bot: ApexSigma, error_data):
 
 
 async def error_reporter_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             error_docs = await ev.db[ev.db.db_nam].Errors.find({'reported': False}).to_list(None)

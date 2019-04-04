@@ -24,7 +24,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def userinformation(cmd: SigmaCommand, pld: CommandPayload):
+async def userinformation(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.mentions:
         target = pld.msg.mentions[0]
     else:

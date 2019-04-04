@@ -29,6 +29,13 @@ from sigma.core.utilities.generic_responses import error
 
 
 async def get_url_body(url: str):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             data = await data.read()
@@ -36,6 +43,13 @@ async def get_url_body(url: str):
 
 
 def parse_parts(lyr: str):
+    """
+
+    :param lyr:
+    :type lyr:
+    :return:
+    :rtype:
+    """
     pieces = []
     lines = lyr.split('\n')
     chunk = []
@@ -51,6 +65,13 @@ def parse_parts(lyr: str):
 
 
 async def get_lyrics_from_html(lyrics_url: str):
+    """
+
+    :param lyrics_url:
+    :type lyrics_url:
+    :return:
+    :rtype:
+    """
     lyrics_text = None
     artist = None
     song = None
@@ -69,6 +90,13 @@ async def get_lyrics_from_html(lyrics_url: str):
 
 
 def find_result(resp: dict):
+    """
+
+    :param resp:
+    :type resp:
+    :return:
+    :rtype:
+    """
     lyr_url = None
     resp = resp or {}
     results = resp.get('response', {}).get('sections', [{}])
@@ -80,7 +108,13 @@ def find_result(resp: dict):
     return lyr_url
 
 
-async def lyrics(cmd: SigmaCommand, pld: CommandPayload):
+async def lyrics(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         query = ' '.join(pld.args)
     elif cmd.bot.music.currents.get(pld.msg.guild.id):

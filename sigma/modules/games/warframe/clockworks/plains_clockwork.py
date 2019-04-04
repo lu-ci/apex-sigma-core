@@ -26,6 +26,11 @@ wfaco_loop_running = False
 
 
 async def plains_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global wfaco_loop_running
     if not wfaco_loop_running:
         wfaco_loop_running = True
@@ -33,6 +38,11 @@ async def plains_clockwork(ev: SigmaEvent):
 
 
 async def plains_cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException

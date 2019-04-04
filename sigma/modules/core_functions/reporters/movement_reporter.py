@@ -29,6 +29,11 @@ movement_reporter_running = False
 
 
 async def get_movement_channel(bot: ApexSigma):
+    """
+
+    :param bot:
+    :type bot:
+    """
     global movement_channel
     move_chn_id = bot.cfg.pref.movelog_channel
     if bot.cfg.pref.movelog_channel and not movement_channel:
@@ -37,6 +42,11 @@ async def get_movement_channel(bot: ApexSigma):
 
 
 async def movement_reporter(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global movement_reporter_running
     await get_movement_channel(ev.bot)
     if not movement_reporter_running and movement_channel:
@@ -45,6 +55,13 @@ async def movement_reporter(ev: SigmaEvent):
 
 
 def make_movement_log_embed(data: dict):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     joined = data.get('join')
     gld = data.get('guild', {})
     owner = data.get('owner', {})
@@ -69,6 +86,13 @@ def make_movement_log_embed(data: dict):
 
 
 async def send_movement_log_message(bot: ApexSigma, move_data: dict):
+    """
+
+    :param bot:
+    :type bot:
+    :param move_data:
+    :type move_data:
+    """
     await get_movement_channel(bot)
     if movement_channel:
         response = make_movement_log_embed(move_data)
@@ -76,6 +100,11 @@ async def send_movement_log_message(bot: ApexSigma, move_data: dict):
 
 
 async def movement_reporter_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             movement_docs = await ev.db[ev.db.db_nam].Movements.find({'reported': False}).to_list(None)

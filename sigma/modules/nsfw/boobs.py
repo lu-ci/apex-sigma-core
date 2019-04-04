@@ -26,7 +26,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def boobs(_cmd: SigmaCommand, pld: CommandPayload):
+async def boobs(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     api_url = 'http://api.oboobs.ru/boobs/'
     api_url += str(secrets.randbelow(12243) + 1)
     async with aiohttp.ClientSession() as session:

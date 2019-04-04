@@ -25,6 +25,13 @@ from sigma.core.mechanics.config import Configuration
 
 
 def get_encryptor(cfg: Configuration):
+    """
+
+    :param cfg:
+    :type cfg:
+    :return:
+    :rtype:
+    """
     cipher = None
     cipher_password = cfg.pref.raw.get('key_to_my_heart')
     if cipher_password:

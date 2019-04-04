@@ -28,6 +28,13 @@ from sigma.core.utilities.generic_responses import error, ok
 
 
 def parse_approval(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     suggestion_token = args[0].lower()
     suggestion_details = ' '.join(args[1:])
     suggestion_title, suggestion_description = suggestion_details.split('; ')
@@ -35,6 +42,17 @@ def parse_approval(args: list):
 
 
 def make_gl_suggestion(tkn: str, dsc: str, sugg: dict):
+    """
+
+    :param tkn:
+    :type tkn:
+    :param dsc:
+    :type dsc:
+    :param sugg:
+    :type sugg:
+    :return:
+    :rtype:
+    """
     sugg_txt = sugg.get("suggestion", {}).get("text")
     sugg_uid = sugg.get("user", {}).get('id')
     sugg_unam = sugg.get('user', {}).get('name')
@@ -42,6 +60,19 @@ def make_gl_suggestion(tkn: str, dsc: str, sugg: dict):
 
 
 async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
+    """
+
+    :param tkn:
+    :type tkn:
+    :param prj:
+    :type prj:
+    :param ttl:
+    :type ttl:
+    :param dsc:
+    :type dsc:
+    :return:
+    :rtype:
+    """
     api_url = f'https://gitlab.com/api/v4/projects/{prj}/issues'
     req_body = {'title': ttl, 'description': dsc, 'labels': 'Suggestion'}
     async with aiohttp.ClientSession() as session:
@@ -51,6 +82,17 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
 
 
 async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, delete: bool):
+    """
+
+    :param bot:
+    :type bot:
+    :param suggestion:
+    :type suggestion:
+    :param reaction:
+    :type reaction:
+    :param delete:
+    :type delete:
+    """
     sugg_cmd = bot.modules.commands.get('botsuggest')
     if sugg_cmd:
         if sugg_cmd.cfg.channel:
@@ -67,7 +109,13 @@ async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, d
                     pass
 
 
-async def approvesuggestion(cmd: SigmaCommand, pld: CommandPayload):
+async def approvesuggestion(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 3:
         token, title, description = parse_approval(pld.args)
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})

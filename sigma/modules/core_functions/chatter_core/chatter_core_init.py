@@ -29,6 +29,15 @@ chatter_core.verbose(False)
 
 
 def train(ev: SigmaEvent, core, init=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param core:
+    :type core:
+    :param init:
+    :type init:
+    """
     core.learn(os.sep.join([ev.resource(f'aiml_files'), '*.aiml']))
     with open(ev.resource('properties.yml')) as prop_file:
         prop_data = yaml.safe_load(prop_file)
@@ -51,4 +60,9 @@ def train(ev: SigmaEvent, core, init=False):
 
 
 async def chatter_core_init(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     train(ev, chatter_core, True)

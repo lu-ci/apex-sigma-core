@@ -24,6 +24,11 @@ pop_loop_running = False
 
 
 async def population_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global pop_loop_running
     collection = 'GeneralStats'
     lookup = {'name': 'population', 'shard': ev.bot.cfg.dsc.shard}
@@ -36,6 +41,13 @@ async def population_clockwork(ev: SigmaEvent):
 
 
 def get_all_roles(guilds):
+    """
+
+    :param guilds:
+    :type guilds:
+    :return:
+    :rtype:
+    """
     roles = []
     for g in guilds:
         for role in g.roles:
@@ -44,6 +56,11 @@ def get_all_roles(guilds):
 
 
 async def update_population_stats_node(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             collection = 'GeneralStats'

@@ -32,6 +32,17 @@ ongoing = []
 
 
 def make_export_file(guild_name: str, incidents: list, modifier: str):
+    """
+
+    :param guild_name:
+    :type guild_name:
+    :param incidents:
+    :type incidents:
+    :param modifier:
+    :type modifier:
+    :return:
+    :rtype:
+    """
     if not os.path.exists('cache'):
         os.makedirs('cache')
     file_name = f'{guild_name} Incidents.txt'
@@ -45,7 +56,13 @@ def make_export_file(guild_name: str, incidents: list, modifier: str):
     return file_name
 
 
-async def exportincidents(cmd: SigmaCommand, pld: CommandPayload):
+async def exportincidents(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     file = None
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
         if pld.msg.guild.id not in ongoing:

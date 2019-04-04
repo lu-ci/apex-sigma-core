@@ -23,6 +23,13 @@ from sigma.core.mechanics.payload import VoiceStateUpdatePayload
 
 
 async def temproom_checker(_ev: SigmaEvent, pld: VoiceStateUpdatePayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     b = pld.before
     if b:
         if b.channel:

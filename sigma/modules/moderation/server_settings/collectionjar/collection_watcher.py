@@ -25,6 +25,15 @@ from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar im
 
 
 async def add_to_jar(ev: SigmaEvent, message: discord.Message, jar: dict):
+    """
+
+    :param ev:
+    :type ev:
+    :param message:
+    :type message:
+    :param jar:
+    :type jar:
+    """
     jar = CollectionJar(jar, message, message.author)
     jar.channels.update({str(message.channel.id): jar.channel + 1})
     jar.user.update({str(message.channel.id): jar.user_channel + 1})
@@ -34,6 +43,13 @@ async def add_to_jar(ev: SigmaEvent, message: discord.Message, jar: dict):
 
 
 async def collection_watcher(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)

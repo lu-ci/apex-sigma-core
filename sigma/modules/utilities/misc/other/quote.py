@@ -25,6 +25,15 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def message_search(lookup: int, message: discord.Message):
+    """
+
+    :param lookup:
+    :type lookup:
+    :param message:
+    :type message:
+    :return:
+    :rtype:
+    """
     try:
         msg = await message.channel.fetch_message(lookup)
     except discord.NotFound:
@@ -40,7 +49,13 @@ async def message_search(lookup: int, message: discord.Message):
     return msg
 
 
-async def quote(_cmd: SigmaCommand, pld: CommandPayload):
+async def quote(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup = pld.args[0]
         if lookup.isdigit():

@@ -27,7 +27,13 @@ from sigma.modules.interactions.mech.interaction_mechanics import get_author, ge
 icons = ['💃', '🕺']
 
 
-async def dance(cmd: SigmaCommand, pld: CommandPayload):
+async def dance(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     interaction = await grab_interaction(cmd.db, 'dance')
     target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
     icon = secrets.choice(icons)

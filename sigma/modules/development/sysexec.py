@@ -23,10 +23,23 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 def from_output(output: bytes) -> str:
+    """
+
+    :param output:
+    :type output:
+    :return:
+    :rtype:
+    """
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
 
 
-async def sysexec(cmd: SigmaCommand, pld: CommandPayload):
+async def sysexec(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     response = None
     if pld.args:
         try:

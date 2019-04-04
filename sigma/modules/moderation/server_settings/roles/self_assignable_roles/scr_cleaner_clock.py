@@ -26,6 +26,11 @@ scr_clock_running = False
 
 
 async def scr_cleaner_clock(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global scr_clock_running
     if not scr_clock_running:
         ev.bot.loop.create_task(scr_clockwork(ev))
@@ -33,6 +38,11 @@ async def scr_cleaner_clock(ev: SigmaEvent):
 
 
 async def scr_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException

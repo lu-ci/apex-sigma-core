@@ -25,7 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def timeconvert(cmd: SigmaCommand, pld: CommandPayload):
+async def timeconvert(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         conv_input = ' '.join(pld.args).split('>')
         if len(conv_input) == 2:

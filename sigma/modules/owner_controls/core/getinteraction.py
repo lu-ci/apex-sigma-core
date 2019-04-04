@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def getinteraction(cmd: SigmaCommand, pld: CommandPayload):
+async def getinteraction(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         react_id = pld.args[0].lower()
         react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': react_id})

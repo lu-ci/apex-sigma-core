@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.interactions.mech.interaction_mechanics import get_author, get_target, grab_interaction, make_footer
 
 
-async def shoot(cmd: SigmaCommand, pld: CommandPayload):
+async def shoot(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     interaction = await grab_interaction(cmd.db, 'shoot')
     target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
     ender = 'shoots themself' if target.id == pld.msg.author.id else f'shoots {target.display_name}'

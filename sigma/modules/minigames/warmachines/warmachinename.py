@@ -25,7 +25,13 @@ from sigma.modules.minigames.warmachines.warmachineinspect import find_machine
 price = 1
 
 
-async def warmachinename(cmd: SigmaCommand, pld: CommandPayload):
+async def warmachinename(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 2:
         lookup = pld.args[0]
         new_name = ' '.join(pld.args[1:])

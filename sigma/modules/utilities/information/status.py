@@ -30,6 +30,11 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 def get_os_icon():
+    """
+
+    :return:
+    :rtype:
+    """
     if sys.platform == 'win32':
         icon = 'https://i.imgur.com/wTMT4yG.png'
         color = 0x11b7ee
@@ -43,6 +48,15 @@ def get_os_icon():
 
 
 def get_shard_latency(latencies: list, shard_id: int):
+    """
+
+    :param latencies:
+    :type latencies:
+    :param shard_id:
+    :type shard_id:
+    :return:
+    :rtype:
+    """
     shard_latency = None
     for lat_sd, lat_ms in latencies:
         if lat_sd == shard_id:
@@ -51,7 +65,13 @@ def get_shard_latency(latencies: list, shard_id: int):
     return int(shard_latency * 1000)
 
 
-async def status(cmd: SigmaCommand, pld: CommandPayload):
+async def status(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     uptime_set = arrow.utcnow().float_timestamp - cmd.bot.start_time.float_timestamp
     processed = round(cmd.bot.queue.processed / uptime_set, 3)
     os_icon, os_color = get_os_icon()

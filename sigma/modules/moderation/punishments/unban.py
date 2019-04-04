@@ -27,6 +27,15 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def generate_log_embed(message, target):
+    """
+
+    :param message:
+    :type message:
+    :param target:
+    :type target:
+    :return:
+    :rtype:
+    """
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name='A User Has Been Unbanned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Unbanned User',
@@ -38,7 +47,13 @@ def generate_log_embed(message, target):
     return log_response
 
 
-async def unban(cmd: SigmaCommand, pld: CommandPayload):
+async def unban(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
         if pld.args:
             lookup = ' '.join(pld.args)

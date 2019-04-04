@@ -26,6 +26,13 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def delete_logger(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if pld.msg.content:
             log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s message was deleted.'

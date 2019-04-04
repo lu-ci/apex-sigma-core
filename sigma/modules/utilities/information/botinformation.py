@@ -28,7 +28,13 @@ sigma_image = 'https://i.imgur.com/mGyqMe1.png'
 support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
-async def botinformation(cmd: SigmaCommand, pld: CommandPayload):
+async def botinformation(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     version = cmd.bot.info.get_version()
     authors = cmd.bot.info.get_authors().authors
     full_version = f'{version.major}.{version.minor}.{version.patch}'

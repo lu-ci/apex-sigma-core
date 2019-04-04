@@ -27,6 +27,13 @@ from sigma.core.utilities.event_logging import log_event
 
 
 def count_chars(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     upper = 0
     lower = 0
     for c in text:
@@ -41,6 +48,13 @@ def count_chars(text):
 
 
 async def anticaps_watcher(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild and pld.msg.author:
         if isinstance(pld.msg.author, discord.Member):
             is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners

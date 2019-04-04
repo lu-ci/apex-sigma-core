@@ -34,6 +34,15 @@ ac_imgs = {
 
 
 def make_acolyte_id(ac_name, ac_location):
+    """
+
+    :param ac_name:
+    :type ac_name:
+    :param ac_location:
+    :type ac_location:
+    :return:
+    :rtype:
+    """
     time_sect = arrow.utcnow().format('YYYY-MM-DD-HH')
     hash_string = f'acolyte_{ac_name}_{ac_location}_ {time_sect}'
     cryp = hashlib.new('md5')
@@ -42,6 +51,13 @@ def make_acolyte_id(ac_name, ac_location):
 
 
 async def get_acolyte_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     acolytes = await WorldState().acolytes
     acolytes_out = None
     triggers = ['acolyte']
@@ -60,6 +76,13 @@ async def get_acolyte_data(db):
 
 
 def generate_acolyte_embed(acd):
+    """
+
+    :param acd:
+    :type acd:
+    :return:
+    :rtype:
+    """
     details = f'Health: **{round(acd.get("health") * 100, 2)}%**'
     details += f'\nLocation: **{acd.get("location")}**'
     response = discord.Embed(color=0xcc0000, title=f'{acd.get("name")} has been found!')

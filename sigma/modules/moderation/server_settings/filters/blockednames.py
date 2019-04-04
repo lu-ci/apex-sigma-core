@@ -22,7 +22,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import info
 
 
-async def blockednames(_cmd: SigmaCommand, pld: CommandPayload):
+async def blockednames(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     blocked_names = pld.settings.get('blocked_names')
     if not blocked_names:
         response = info('There are no blocked names.')

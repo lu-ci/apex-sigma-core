@@ -24,7 +24,13 @@ from sigma.modules.moderation.permissions.permit import get_target_type, get_tar
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
-async def filterignore(cmd: SigmaCommand, pld: CommandPayload):
+async def filterignore(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             if len(pld.args) >= 3:

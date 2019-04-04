@@ -27,7 +27,13 @@ from sigma.core.utilities.url_processing import aioget
 crates_io_icon = 'https://i.imgur.com/Nyw7kSc.png'
 
 
-async def crates(_cmd: SigmaCommand, pld: CommandPayload):
+async def crates(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     lookup = '_'.join(pld.args) if pld.args else None
     if lookup:
         crate_url = f'https://crates.io/api/v1/crates/{lookup}'

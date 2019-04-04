@@ -26,7 +26,13 @@ from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
-async def keyvis(_cmd: SigmaCommand, pld: CommandPayload):
+async def keyvis(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     keys = [key for key in key_vn_list]
     choice = pld.args[0].lower() if pld.args else secrets.choice(keys)
     item = key_vn_list.get(choice)

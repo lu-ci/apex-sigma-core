@@ -28,6 +28,13 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def extension_blocker(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if pld.msg.attachments:
             if isinstance(pld.msg.author, discord.Member):

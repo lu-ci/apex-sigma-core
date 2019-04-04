@@ -24,10 +24,30 @@ from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
 def origin(x, poll_file):
+    """
+
+    :param x:
+    :type x:
+    :param poll_file:
+    :type poll_file:
+    :return:
+    :rtype:
+    """
     return x.id == poll_file["origin"]["server"]
 
 
 def check_roles(allowed_roles, all_users, user):
+    """
+
+    :param allowed_roles:
+    :type allowed_roles:
+    :param all_users:
+    :type all_users:
+    :param user:
+    :type user:
+    :return:
+    :rtype:
+    """
     members = []
     for member in all_users:
         if member.id == user.id:
@@ -44,7 +64,13 @@ def check_roles(allowed_roles, all_users, user):
     return authorized
 
 
-async def shadowpollvote(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpollvote(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) == 2:
             poll_id = pld.args[0].lower()

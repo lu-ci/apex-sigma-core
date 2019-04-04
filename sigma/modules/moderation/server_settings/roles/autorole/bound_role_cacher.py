@@ -26,10 +26,28 @@ cache = {}
 
 
 def update_invites(guild, invites):
+    """
+
+    :param guild:
+    :type guild:
+    :param invites:
+    :type invites:
+    """
     cache.update({guild.id: invites})
 
 
 def get_changed_invite(guild_id, bound_list, invites):
+    """
+
+    :param guild_id:
+    :type guild_id:
+    :param bound_list:
+    :type bound_list:
+    :param invites:
+    :type invites:
+    :return:
+    :rtype:
+    """
     invite = None
     cached = cache.get(guild_id)
     if cached is None:
@@ -49,6 +67,11 @@ def get_changed_invite(guild_id, bound_list, invites):
 
 
 async def update_cache(guild: discord.Guild):
+    """
+
+    :param guild:
+    :type guild:
+    """
     try:
         invites = await guild.invites()
     except discord.Forbidden:
@@ -57,6 +80,11 @@ async def update_cache(guild: discord.Guild):
 
 
 async def bound_role_cacher(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     ev.log.info('Starting invite caching...')
     counter = 0
     for guild in ev.bot.guilds:

@@ -25,7 +25,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def famousquote(_cmd: SigmaCommand, pld: CommandPayload):
+async def famousquote(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     resource = 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
     data = None
     tries = 0

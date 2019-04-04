@@ -26,7 +26,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def itemstatistics(cmd: SigmaCommand, pld: CommandPayload):
+async def itemstatistics(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     if pld.msg.mentions:
         target = pld.msg.mentions[0]

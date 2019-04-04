@@ -26,7 +26,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.fun.family.models.human import AdoptableHuman
 
 
-async def familytree(cmd: SigmaCommand, pld: CommandPayload):
+async def familytree(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     tree_file = None
     response = None
     text_response = None

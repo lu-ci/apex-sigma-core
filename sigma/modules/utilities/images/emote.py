@@ -29,6 +29,13 @@ emote_cache = {'stamp': 0, 'emotes': []}
 
 
 def get_emote_cache(cmd: SigmaCommand):
+    """
+
+    :param cmd:
+    :type cmd:
+    :return:
+    :rtype:
+    """
     if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
         all_emotes = cmd.bot.emojis
         emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
@@ -38,6 +45,13 @@ def get_emote_cache(cmd: SigmaCommand):
 
 
 def get_emote(emoji: str or discord.Emoji):
+    """
+
+    :param emoji:
+    :type emoji:
+    :return:
+    :rtype:
+    """
     lookup, eid = emoji, None
     if ':' in emoji:
         # matches non local custom emote
@@ -57,7 +71,13 @@ def get_emote(emoji: str or discord.Emoji):
     return lookup, eid
 
 
-async def emote(cmd: SigmaCommand, pld: CommandPayload):
+async def emote(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         nsfw = True
         lookup, eid = pld.args[0].lower(), None

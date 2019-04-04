@@ -29,6 +29,13 @@ from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 
 def get_unit_and_search(args):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     if args[-1].startswith('unit'):
         allowed_units = ['auto', 'ca', 'uk2', 'us', 'si']
         unit_trans = {'c': 'si', 'metric': 'si', 'f': 'us', 'imperial': 'us'}
@@ -48,6 +55,15 @@ def get_unit_and_search(args):
 
 
 def get_dis_and_deg(unit, forecast):
+    """
+
+    :param unit:
+    :type unit:
+    :param forecast:
+    :type forecast:
+    :return:
+    :rtype:
+    """
     if unit in ['si', 'ca', 'uk2']:
         if unit == 'uk2':
             deg = '°C'
@@ -68,7 +84,13 @@ def get_dis_and_deg(unit, forecast):
     return dis, deg
 
 
-async def weather(cmd: SigmaCommand, pld: CommandPayload):
+async def weather(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if cmd.cfg.secret_key:
         if pld.args:
             search, unit = get_unit_and_search(pld.args)

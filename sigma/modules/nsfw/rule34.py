@@ -30,6 +30,11 @@ cache = {}
 
 
 async def fill_r34_cache(tags):
+    """
+
+    :param tags:
+    :type tags:
+    """
     r34_url = 'https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=' + tags
     async with aiohttp.ClientSession() as session:
         async with session.get(r34_url) as data:
@@ -38,7 +43,13 @@ async def fill_r34_cache(tags):
             cache.update({tags: list(posts)})
 
 
-async def rule34(_cmd: SigmaCommand, pld: CommandPayload):
+async def rule34(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     tags = '+'.join(pld.args) if pld.args else 'nude'
     collect_needed = False if cache.get(tags) else True
     if collect_needed:

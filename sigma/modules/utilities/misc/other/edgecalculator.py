@@ -26,6 +26,13 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
 def hexify_int(value: int):
+    """
+
+    :param value:
+    :type value:
+    :return:
+    :rtype:
+    """
     hexpiece = hex(value)[2:]
     while len(hexpiece) < 6:
         hexpiece = f'0{hexpiece}'
@@ -33,10 +40,23 @@ def hexify_int(value: int):
 
 
 def hex_to_rgb(hexval: str):
+    """
+
+    :param hexval:
+    :type hexval:
+    :return:
+    :rtype:
+    """
     return [int(hexval[:2], 16), int(hexval[2:-2], 16), int(hexval[-2:], 16)]
 
 
-async def edgecalculator(_cmd: SigmaCommand, pld: CommandPayload):
+async def edgecalculator(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     avatar = user_avatar(target)
     name = target.name

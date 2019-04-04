@@ -24,7 +24,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def commandstatistics(cmd: SigmaCommand, pld: CommandPayload):
+async def commandstatistics(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     all_stats = await cmd.db[cmd.db.db_nam].CommandStats.find({}).to_list(None)
     all_stats = [asi for asi in all_stats if asi.get('command') in cmd.bot.modules.commands]
     stat_list = sorted(all_stats, key=lambda k: k.get('count'), reverse=True)

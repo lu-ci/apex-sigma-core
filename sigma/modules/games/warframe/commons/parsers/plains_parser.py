@@ -24,6 +24,13 @@ import discord
 
 
 async def get_plains_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
     try:
         async with aiohttp.ClientSession() as session:
@@ -55,6 +62,13 @@ async def get_plains_data(db):
 
 
 def generate_plains_embed(poedat):
+    """
+
+    :param poedat:
+    :type poedat:
+    :return:
+    :rtype:
+    """
     if poedat.get('day'):
         icon = '☀'
         state = 'Day'

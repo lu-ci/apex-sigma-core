@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, ok
 
 
-async def listsettings(cmd: SigmaCommand, pld: CommandPayload):
+async def listsettings(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) > 1:
         mode_name = pld.args[1].lower()
         if mode_name == 'private':

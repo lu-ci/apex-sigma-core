@@ -35,6 +35,13 @@ aura_list = [
 
 
 async def get_invasion_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     invasions = await WorldState().invasions
     invasion_out = None
     triggers = ['invasion']
@@ -58,6 +65,13 @@ async def get_invasion_data(db):
 
 
 async def generate_invasion_embed(data):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     timestamp_start = data['start']
     event_datetime = arrow.get(timestamp_start).datetime
     attacker = data['factionAttacker']

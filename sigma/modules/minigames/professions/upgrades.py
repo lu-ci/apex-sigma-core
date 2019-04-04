@@ -24,6 +24,15 @@ from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_lis
 
 
 def calculate_upgrade(up_id, level):
+    """
+
+    :param up_id:
+    :type up_id:
+    :param level:
+    :type level:
+    :return:
+    :rtype:
+    """
     up_table = {
         'stamina': {
             'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
@@ -53,7 +62,13 @@ def calculate_upgrade(up_id, level):
     return up_table[up_id]
 
 
-async def upgrades(cmd: SigmaCommand, pld: CommandPayload):
+async def upgrades(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
     upgrade_text = ''

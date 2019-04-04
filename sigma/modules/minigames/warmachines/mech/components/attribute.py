@@ -177,12 +177,27 @@ attr_scale = {
 class AttributeCore(ComponentCore):
     @property
     def names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return attr_names
 
     @property
     def bases(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return attr_bases
 
     @property
     def scaling(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return attr_scale

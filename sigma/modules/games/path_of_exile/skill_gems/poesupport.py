@@ -30,6 +30,9 @@ passive_gem_data_cache = {}
 
 
 async def fill_gem_cache():
+    """
+
+    """
     if not passive_gem_list_cache:
         active_sg_url = 'https://pathofexile.gamepedia.com/List_of_support_skill_gems'
         async with aiohttp.ClientSession() as session:
@@ -46,6 +49,15 @@ async def fill_gem_cache():
 
 
 async def get_gem_data(gem_name: str, gem_url: str):
+    """
+
+    :param gem_name:
+    :type gem_name:
+    :param gem_url:
+    :type gem_url:
+    :return:
+    :rtype:
+    """
     gem_key = gem_name.replace(' ', '_').lower()
     gem_data = passive_gem_data_cache.get(gem_key)
     if not gem_data:
@@ -81,6 +93,13 @@ async def get_gem_data(gem_name: str, gem_url: str):
 
 
 def find_broad(lookup: str):
+    """
+
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     out = None
     for key in passive_gem_list_cache:
         if lookup in key:
@@ -90,6 +109,13 @@ def find_broad(lookup: str):
 
 
 def parse_gem_info(gem_info: str):
+    """
+
+    :param gem_info:
+    :type gem_info:
+    :return:
+    :rtype:
+    """
     sects = gem_info.split('\n\n')
     types = sects[0].split('\n')
     det_sects = sects[1:]
@@ -102,7 +128,13 @@ def parse_gem_info(gem_info: str):
     return {'types': types, 'details': info_lines}
 
 
-async def poesupport(_cmd: SigmaCommand, pld: CommandPayload):
+async def poesupport(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup_key = '_'.join(pld.args).lower()
         await fill_gem_cache()

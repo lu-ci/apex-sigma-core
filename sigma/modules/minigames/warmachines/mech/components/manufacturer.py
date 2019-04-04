@@ -177,12 +177,27 @@ manu_scale = {
 class ManufacturerCore(ComponentCore):
     @property
     def names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return manu_names
 
     @property
     def bases(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return manu_bases
 
     @property
     def scaling(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return manu_scale

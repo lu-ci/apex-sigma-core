@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import ok
 
 
-async def blockcollector(cmd: SigmaCommand, pld: CommandPayload):
+async def blockcollector(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     block_data = {'user_id': pld.msg.author.id}
     block_coll = cmd.db[cmd.db.db_nam].BlockedChains
     block_file = await block_coll.find_one(block_data)

@@ -27,7 +27,13 @@ from sigma.modules.minigames.professions.nodes.properties import cook_quality
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-async def cook(cmd: SigmaCommand, pld: CommandPayload):
+async def cook(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     recipe_core = await get_recipe_core(cmd.db)
     if pld.args:

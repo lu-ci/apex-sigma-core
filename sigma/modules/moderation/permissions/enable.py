@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok,
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
-async def enable(cmd: SigmaCommand, pld: CommandPayload):
+async def enable(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             if ':' in pld.args[0]:

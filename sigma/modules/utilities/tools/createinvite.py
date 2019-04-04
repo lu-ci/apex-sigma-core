@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import convert_to_seconds, get_image_c
 from sigma.core.utilities.generic_responses import denied, error
 
 
-async def createinvite(_cmd: SigmaCommand, pld: CommandPayload):
+async def createinvite(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.create_instant_invite:
         target = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
         age, uses = 0, 0

@@ -28,6 +28,11 @@ rem_loop_running = False
 
 
 async def reminder_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global rem_loop_running
     if not rem_loop_running:
         rem_loop_running = True
@@ -35,6 +40,11 @@ async def reminder_clockwork(ev: SigmaEvent):
 
 
 async def reminder_cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     coll = ev.db[ev.db.db_nam].Reminders
     while True:
         if ev.bot.is_ready():

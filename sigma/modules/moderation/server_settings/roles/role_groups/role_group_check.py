@@ -24,6 +24,13 @@ from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils
 
 
 async def role_group_check(_ev: SigmaEvent, pld: MemberUpdatePayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     before_role_ids = [role.id for role in pld.before.roles]
     added_role = discord.utils.find(lambda role: role.id not in before_role_ids, pld.after.roles)
     if added_role:

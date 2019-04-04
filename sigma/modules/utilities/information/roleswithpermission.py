@@ -24,10 +24,26 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 def get_perm_names(gld: discord.Guild):
+    """
+
+    :param gld:
+    :type gld:
+    :return:
+    :rtype:
+    """
     return [x[0].replace('_', ' ').title() for x in gld.roles[0].permissions]
 
 
 def check_perm_validity(gld: discord.Guild, requested: list):
+    """
+
+    :param gld:
+    :type gld:
+    :param requested:
+    :type requested:
+    :return:
+    :rtype:
+    """
     invalid_perms = []
     for req in requested:
         valid = False
@@ -40,7 +56,13 @@ def check_perm_validity(gld: discord.Guild, requested: list):
     return invalid_perms
 
 
-async def roleswithpermission(_cmd: SigmaCommand, pld: CommandPayload):
+async def roleswithpermission(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     lookup = pld.args if pld.args else None
     if lookup is not None:
         args, negative = (pld.args[:-1], True) if pld.args[-1].lower() == '--negative' else (pld.args, False)

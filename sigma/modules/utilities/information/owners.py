@@ -22,7 +22,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def owners(cmd: SigmaCommand, pld: CommandPayload):
+async def owners(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     owner_lines = []
     for owner in cmd.bot.cfg.dsc.owners:
         member = await cmd.bot.get_user(owner)

@@ -24,6 +24,13 @@ from sigma.core.utilities.data_processing import command_message_parser
 
 
 def clean_word(text):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     output = ''
     for char in text:
         if char.lower() not in string.punctuation:
@@ -32,6 +39,13 @@ def clean_word(text):
 
 
 async def auto_responder(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)

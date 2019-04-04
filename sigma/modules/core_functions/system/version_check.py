@@ -24,6 +24,11 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def version_check(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     version_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma/raw/master/info/version.yml'
     try:
         async with aiohttp.ClientSession() as session:

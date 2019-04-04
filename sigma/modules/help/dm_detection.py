@@ -23,11 +23,27 @@ from sigma.core.mechanics.payload import CommandPayload, MessagePayload
 
 
 def log_dm(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     author_text = f'{pld.msg.author.name}#{pld.msg.author.discriminator} [{pld.msg.author.id}]'
     ev.log.info(f'DM From {author_text}: {pld.msg.content}')
 
 
 async def has_invite(ev: SigmaEvent, arguments):
+    """
+
+    :param ev:
+    :type ev:
+    :param arguments:
+    :type arguments:
+    :return:
+    :rtype:
+    """
     invite_found = False
     for arg in arguments:
         triggers = ['discord.gg', 'discordapp.com']
@@ -43,6 +59,13 @@ async def has_invite(ev: SigmaEvent, arguments):
 
 
 async def dm_detection(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if not pld.msg.guild:
         if not pld.msg.author.bot:
             pfx = ev.db.get_prefix(pld.settings)

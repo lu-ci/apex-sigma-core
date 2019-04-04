@@ -27,6 +27,17 @@ from sigma.core.utilities.generic_responses import error, ok
 
 
 def make_sugg_embed(msg: discord.Message, args: list, token: str):
+    """
+
+    :param msg:
+    :type msg:
+    :param args:
+    :type args:
+    :param token:
+    :type token:
+    :return:
+    :rtype:
+    """
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
     sugg_embed.description = " ".join(args)
     author_name = f'{msg.author.name} [{msg.author.id}]'
@@ -36,7 +47,13 @@ def make_sugg_embed(msg: discord.Message, args: list, token: str):
     return sugg_embed
 
 
-async def serversuggestion(cmd: SigmaCommand, pld: CommandPayload):
+async def serversuggestion(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     sugg_channel = await cmd.db.get_guild_settings(pld.msg.guild.id, 'suggestion_channel')
     if pld.args:
         if sugg_channel:

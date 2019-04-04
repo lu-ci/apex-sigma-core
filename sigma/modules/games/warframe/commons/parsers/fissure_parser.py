@@ -31,6 +31,13 @@ relic_images = {
 
 
 async def get_fissure_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     fissures = await WorldState().fissures
     fissure_out = None
     triggers = ['fissure']
@@ -49,6 +56,13 @@ async def get_fissure_data(db):
 
 
 def generate_fissure_embed(data):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     timestamp_start = data['start']
     timestamp_end = data['end']
     relic_tier = data['tier']

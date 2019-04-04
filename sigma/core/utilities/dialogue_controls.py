@@ -31,11 +31,33 @@ int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8
 
 
 async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, tracked: bool = False):
+    """
+
+    :param bot:
+    :type bot:
+    :param msg:
+    :type msg:
+    :param question:
+    :type question:
+    :param tracked:
+    :type tracked:
+    :return:
+    :rtype:
+    """
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
     confirmation = await msg.channel.send(embed=question)
     [await confirmation.add_reaction(preac) for preac in bool_reacts]
 
     def check_emote(reac, usr):
+        """
+
+        :param reac:
+        :type reac:
+        :param usr:
+        :type usr:
+        :return:
+        :rtype:
+        """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
         valid_reaction = str(reac.emoji) in bool_reacts
@@ -64,6 +86,21 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
 
 
 async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, start: int, end: int):
+    """
+
+    :param bot:
+    :type bot:
+    :param msg:
+    :type msg:
+    :param question:
+    :type question:
+    :param start:
+    :type start:
+    :param end:
+    :type end:
+    :return:
+    :rtype:
+    """
     start = 0 if start < 0 else start
     end = 9 if end > 9 else end
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
@@ -71,6 +108,15 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
     [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end)]
 
     def check_emote(reac, usr):
+        """
+
+        :param reac:
+        :type reac:
+        :param usr:
+        :type usr:
+        :return:
+        :rtype:
+        """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
         valid_reaction = str(reac.emoji) in int_reacts
@@ -93,6 +139,19 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
 
 
 async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item: SigmaRawItem):
+    """
+
+    :param bot:
+    :type bot:
+    :param msg:
+    :type msg:
+    :param icons:
+    :type icons:
+    :param item:
+    :type item:
+    :return:
+    :rtype:
+    """
     icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
     icon_list.pop(0)
     possible_proto = [item.icon]
@@ -107,6 +166,15 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
     [await confirmation.add_reaction(preac) for preac in possible]
 
     def check_emote(reac, usr):
+        """
+
+        :param reac:
+        :type reac:
+        :param usr:
+        :type usr:
+        :return:
+        :rtype:
+        """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
         valid_reaction = str(reac.emoji) in possible

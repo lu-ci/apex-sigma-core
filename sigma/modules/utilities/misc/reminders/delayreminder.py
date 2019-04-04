@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import convert_to_seconds
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def delayreminder(cmd: SigmaCommand, pld: CommandPayload):
+async def delayreminder(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) == 2:
             rem_id = pld.args[0].lower()

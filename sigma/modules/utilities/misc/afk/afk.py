@@ -23,7 +23,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def afk(cmd: SigmaCommand, pld: CommandPayload):
+async def afk(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     afk_data = await cmd.db.cache.get_cache(f'afk_{pld.msg.author.id}')
     if not afk_data:
         afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': pld.msg.author.id})

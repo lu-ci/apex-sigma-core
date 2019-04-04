@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import ok
 from sigma.modules.minigames.other.drawcard import make_new_deck
 
 
-async def newdeck(_cmd: SigmaCommand, pld: CommandPayload):
+async def newdeck(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     make_new_deck(pld.msg.author.id)
     response = ok(f'Your deck has been rebuilt, {pld.msg.author.display_name}.')
     await pld.msg.channel.send(embed=response)

@@ -26,6 +26,15 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 def get_average(dislikes: int, likes: int):
+    """
+
+    :param dislikes:
+    :type dislikes:
+    :param likes:
+    :type likes:
+    :return:
+    :rtype:
+    """
     total = likes + dislikes
     try:
         bad = (dislikes / total) * 5
@@ -35,7 +44,13 @@ def get_average(dislikes: int, likes: int):
     return round(average, 2)
 
 
-async def youtube(cmd: SigmaCommand, pld: CommandPayload):
+async def youtube(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     yt_icon = 'https://i.imgur.com/qoH1MUP.png'
     yt_color = 0xcf2227
     text_mode = False

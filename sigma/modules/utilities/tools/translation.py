@@ -26,7 +26,13 @@ from sigma.core.utilities.generic_responses import error
 wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
 
 
-async def translation(_cmd: SigmaCommand, pld: CommandPayload):
+async def translation(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         if len(pld.args) >= 2:
             trans_arg = pld.args[0].lower()

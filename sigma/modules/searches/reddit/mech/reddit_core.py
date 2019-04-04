@@ -24,6 +24,9 @@ reddit_base = 'https://www.reddit.com/r'
 
 
 class RedditPost(object):
+    """
+
+    """
     def __init__(self, data: dict):
         self.raw = data
         for key in self.raw:
@@ -31,6 +34,9 @@ class RedditPost(object):
 
 
 class RedditSub(object):
+    """
+
+    """
     def __init__(self, data: dict):
         self.private = data.get('reason') == 'private'
         self.banned = data.get('reason') == 'banned'
@@ -41,6 +47,9 @@ class RedditSub(object):
 
 
 class RedditClient(object):
+    """
+
+    """
     def __init__(self, bot_client_id: int):
         self.headers = {'User-Agent': f'Apex Sigma Derivate {bot_client_id}'}
 
@@ -51,11 +60,27 @@ class RedditClient(object):
         return data
 
     async def get_subreddit(self, subreddit: str):
+        """
+
+        :param subreddit:
+        :type subreddit:
+        :return:
+        :rtype:
+        """
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
         sub_about_data = await self.__get_data(sub_about_url)
         return RedditSub(sub_about_data)
 
     async def get_posts(self, subreddit: str, listing: str):
+        """
+
+        :param subreddit:
+        :type subreddit:
+        :param listing:
+        :type listing:
+        :return:
+        :rtype:
+        """
         sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json'
         sub_listing_data = await self.__get_data(sub_listing_url)
         sub_listing_list = sub_listing_data.get('data', {}).get('children', [])

@@ -26,7 +26,13 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
 
 
-async def wffactionprogress(_cmd: SigmaCommand, pld: CommandPayload):
+async def wffactionprogress(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     faction_projects = await WorldState().factionprojects
     if faction_projects:
         response = discord.Embed(color=0xff5050, title='Current Faction Progress')

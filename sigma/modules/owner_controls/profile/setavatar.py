@@ -24,7 +24,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, ok
 
 
-async def setavatar(cmd: SigmaCommand, pld: CommandPayload):
+async def setavatar(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args or pld.msg.attachments:
         image_url = pld.msg.attachments[0].url if pld.msg.attachments else pld.args[0]
         try:

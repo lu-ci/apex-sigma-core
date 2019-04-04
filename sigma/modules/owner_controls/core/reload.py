@@ -28,7 +28,13 @@ from sigma.modules.development.version_file_updater import version_file_updater
 
 
 # noinspection PyTypeChecker
-async def reload(cmd: SigmaCommand, pld: CommandPayload):
+async def reload(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     await version_file_updater(cmd)
     await command_md(cmd)
     if not pld.args:

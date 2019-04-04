@@ -29,7 +29,13 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 sortie_icon = 'https://i.imgur.com/Okg20Uk.png'
 
 
-async def wfsorties(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfsorties(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     sorties = await WorldState().sorties
     if sorties:
         expiry_dt = arrow.get(sorties['end']).datetime

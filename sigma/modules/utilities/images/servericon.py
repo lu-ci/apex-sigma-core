@@ -22,7 +22,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def servericon(_cmd: SigmaCommand, pld: CommandPayload):
+async def servericon(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     response = discord.Embed(color=0x3B88C3)
     response.set_image(url=pld.msg.guild.icon_url)
     await pld.msg.channel.send(embed=response)

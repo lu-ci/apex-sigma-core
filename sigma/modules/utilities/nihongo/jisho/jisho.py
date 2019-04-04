@@ -27,6 +27,15 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
+    """
+
+    :param _cmd:
+    :type _cmd:
+    :param pld:
+    :type pld:
+    :return:
+    :rtype:
+    """
     jisho_q = ' '.join(pld.args)
     async with aiohttp.ClientSession() as session:
         async with session.get('http://jisho.org/api/v1/search/words?keyword=' + jisho_q) as data:

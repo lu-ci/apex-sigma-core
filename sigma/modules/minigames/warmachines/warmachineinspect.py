@@ -25,6 +25,15 @@ from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 
 
 def find_machine(lookup: str, machines: list):
+    """
+
+    :param lookup:
+    :type lookup:
+    :param machines:
+    :type machines:
+    :return:
+    :rtype:
+    """
     machine = None
     lookup = lookup.lower()
     for machine_item in machines:
@@ -37,7 +46,13 @@ def find_machine(lookup: str, machines: list):
     return machine
 
 
-async def warmachineinspect(cmd: SigmaCommand, pld: CommandPayload):
+async def warmachineinspect(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup = ' '.join(pld.args)
         machines = await SigmaMachine.get_machines(cmd.db, pld.msg.author)

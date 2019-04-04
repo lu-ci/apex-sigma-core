@@ -27,6 +27,17 @@ filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
 def get_overrides(message: discord.Message, overrides: list, target_type: str):
+    """
+
+    :param message:
+    :type message:
+    :param overrides:
+    :type overrides:
+    :param target_type:
+    :type target_type:
+    :return:
+    :rtype:
+    """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}
     guild_items = guild_dict.get(target_type)
@@ -38,7 +49,13 @@ def get_overrides(message: discord.Message, overrides: list, target_type: str):
     return overridden_items
 
 
-async def filteroverrides(_cmd: SigmaCommand, pld: CommandPayload):
+async def filteroverrides(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         filter_name = pld.args[0].lower()
         if filter_name in filter_names:

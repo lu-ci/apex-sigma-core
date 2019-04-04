@@ -24,6 +24,15 @@ from sigma.core.sigma import ApexSigma
 
 
 def user_has_role(role, user_roles):
+    """
+
+    :param role:
+    :type role:
+    :param user_roles:
+    :type user_roles:
+    :return:
+    :rtype:
+    """
     has = False
     for user_role in user_roles:
         if user_role.id == role.id:
@@ -33,6 +42,15 @@ def user_has_role(role, user_roles):
 
 
 async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
+    """
+
+    :param bot:
+    :type bot:
+    :param msg:
+    :type msg:
+    :param togglers:
+    :type togglers:
+    """
     bid = bot.user.id
     present_emoji = []
     for reaction in msg.reactions:
@@ -47,6 +65,13 @@ async def check_emotes(bot: ApexSigma, msg: discord.Message, togglers: dict):
 
 
 async def emote_role_toggle(ev: SigmaEvent, pld: RawReactionPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id

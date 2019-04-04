@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import ok
 
 
-async def forcedataupdate(cmd: SigmaCommand, pld: CommandPayload):
+async def forcedataupdate(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
     load_status = await pld.msg.channel.send(embed=response)
     ready_events = cmd.bot.modules.events.get('dbinit')

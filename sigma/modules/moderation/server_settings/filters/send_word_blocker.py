@@ -29,6 +29,13 @@ from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
 async def send_word_blocker(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if isinstance(pld.msg.author, discord.Member):
             override = check_filter_perms(pld.msg, pld.settings, 'words')

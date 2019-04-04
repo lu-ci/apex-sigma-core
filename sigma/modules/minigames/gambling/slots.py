@@ -52,7 +52,13 @@ for symbol in rarity_rewards:
     symbols.append(symbol)
 
 
-async def slots(cmd: SigmaCommand, pld: CommandPayload):
+async def slots(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
     current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')

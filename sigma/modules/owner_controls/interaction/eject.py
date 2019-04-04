@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
-async def eject(cmd: SigmaCommand, pld: CommandPayload):
+async def eject(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         try:
             target = cmd.bot.get_guild(int(''.join(pld.args)))

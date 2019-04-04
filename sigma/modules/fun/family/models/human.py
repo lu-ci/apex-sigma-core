@@ -24,6 +24,9 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 
 class AdoptableHuman(object):
+    """
+
+    """
     def __init__(self, db: Database, user_id: int, parents_only=False, children_only=False):
         self.id = user_id
         self.db = db
@@ -36,11 +39,19 @@ class AdoptableHuman(object):
         self.children_only = children_only
 
     async def new(self, user: discord.Member):
+        """
+
+        :param user:
+        :type user:
+        """
         self.id = user.id
         self.name = clean_name(user.name, str(self.id))
         await self.save(True)
 
     async def load(self):
+        """
+
+        """
         family = await self.db[self.db.db_nam].Families.find_one({'user_id': self.id})
         if family:
             self.data = family
@@ -52,15 +63,36 @@ class AdoptableHuman(object):
                 await self.load_iterable(family.get('children', []), self.children, False, True)
 
     def update_name(self, name: str):
+        """
+
+        :param name:
+        :type name:
+        """
         self.name = clean_name(name, str(self.id))
 
     async def load_iterable(self, iterable: list, appendable: list, p_only: bool, c_only: bool):
+        """
+
+        :param iterable:
+        :type iterable:
+        :param appendable:
+        :type appendable:
+        :param p_only:
+        :type p_only:
+        :param c_only:
+        :type c_only:
+        """
         for iter_item in iterable:
             human_object = AdoptableHuman(self.db, iter_item, p_only, c_only)
             await human_object.load()
             appendable.append(human_object)
 
     async def save(self, new=False):
+        """
+
+        :param new:
+        :type new:
+        """
         self.data = self.to_dict()
         if new:
             await self.db[self.db.db_nam].Families.insert_one(self.data)
@@ -68,6 +100,13 @@ class AdoptableHuman(object):
             await self.db[self.db.db_nam].Families.update_one({'user_id': self.id}, {'$set': self.data})
 
     async def is_related(self, human):
+        """
+
+        :param human:
+        :type human:
+        :return:
+        :rtype:
+        """
         child_check = self.is_child(human.id)
         parent_check = self.is_parent(human.id)
         sibling_check = self.is_sibling(human.id)
@@ -88,6 +127,25 @@ class AdoptableHuman(object):
 
     @staticmethod
     async def is_cousin(me, human, tp=None, sd: int = 0, cd: int = 0, sf: bool = False, cf: bool = False):
+        """
+
+        :param me:
+        :type me:
+        :param human:
+        :type human:
+        :param tp:
+        :type tp:
+        :param sd:
+        :type sd:
+        :param cd:
+        :type cd:
+        :param sf:
+        :type sf:
+        :param cf:
+        :type cf:
+        :return:
+        :rtype:
+        """
         cousin = False
         self_depth = sd
         cous_depth = cd
@@ -115,6 +173,13 @@ class AdoptableHuman(object):
         return cousin, self_depth, cous_depth, self_found, cous_found
 
     def is_sibling(self, user_id: int):
+        """
+
+        :param user_id:
+        :type user_id:
+        :return:
+        :rtype:
+        """
         sibling = False
         for parent in self.parents:
             for child in parent.data.get('children', []):
@@ -126,6 +191,13 @@ class AdoptableHuman(object):
         return sibling
 
     def is_parent(self, user_id: int):
+        """
+
+        :param user_id:
+        :type user_id:
+        :return:
+        :rtype:
+        """
         confirmed = False
         if self.id == user_id:
             confirmed = True
@@ -137,6 +209,13 @@ class AdoptableHuman(object):
         return confirmed
 
     def is_child(self, user_id: int):
+        """
+
+        :param user_id:
+        :type user_id:
+        :return:
+        :rtype:
+        """
         confirmed = False
         if self.id == user_id:
             confirmed = True
@@ -149,9 +228,23 @@ class AdoptableHuman(object):
 
     @staticmethod
     def get_break(index: int, heritage: list):
+        """
+
+        :param index:
+        :type index:
+        :param heritage:
+        :type heritage:
+        :return:
+        :rtype:
+        """
         return index == 1 or len(heritage) == 1
 
     def top_parent(self):
+        """
+
+        :return:
+        :rtype:
+        """
         top = None
         if len(self.parents) == 0:
             top = self
@@ -164,6 +257,11 @@ class AdoptableHuman(object):
         return top
 
     def bot_child(self):
+        """
+
+        :return:
+        :rtype:
+        """
         bot = None
         if len(self.children) == 0:
             bot = self
@@ -176,14 +274,33 @@ class AdoptableHuman(object):
         return bot
 
     def to_tree(self, origin: int):
+        """
+
+        :param origin:
+        :type origin:
+        :return:
+        :rtype:
+        """
         return {self.name: [c.to_tree(origin) for c in self.children]}
 
     def draw_tree(self, origin: int):
+        """
+
+        :param origin:
+        :type origin:
+        :return:
+        :rtype:
+        """
         tree_data = self.to_tree(origin)
         tree_out = yaml.safe_dump(tree_data, default_flow_style=False)
         return tree_out
 
     def to_dict(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {
             'user_id': self.id,
             'user_name': self.name,

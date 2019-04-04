@@ -29,6 +29,17 @@ from sigma.modules.moderation.punishments.ban import generate_log_embed
 
 
 def get_members(cmd: SigmaCommand, message: discord.Message, targets: list):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param message:
+    :type message:
+    :param targets:
+    :type targets:
+    :return:
+    :rtype:
+    """
     results = []
     for target in targets:
         if cmd.bot.user.id != target.id:
@@ -51,6 +62,17 @@ def get_members(cmd: SigmaCommand, message: discord.Message, targets: list):
 
 
 async def ban_members(cmd: SigmaCommand, pld: CommandPayload, targets: list, reason: str):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param pld:
+    :type pld:
+    :param targets:
+    :type targets:
+    :param reason:
+    :type reason:
+    """
     for target in targets:
         to_target = discord.Embed(color=0x696969)
         to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
@@ -64,7 +86,13 @@ async def ban_members(cmd: SigmaCommand, pld: CommandPayload, targets: list, rea
         await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
 
 
-async def massban(cmd: SigmaCommand, pld: CommandPayload):
+async def massban(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
         if pld.msg.mentions:
             results = get_members(cmd, pld.msg, pld.msg.mentions)

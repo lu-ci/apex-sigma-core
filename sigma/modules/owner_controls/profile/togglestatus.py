@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import ok
 
 
-async def togglestatus(cmd: SigmaCommand, pld: CommandPayload):
+async def togglestatus(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     rotation = cmd.bot.cfg.pref.status_rotation
     rotation, state = (False, '**disabled**') if rotation else (True, '**enabled**')
     cmd.bot.cfg.pref.status_rotation = rotation

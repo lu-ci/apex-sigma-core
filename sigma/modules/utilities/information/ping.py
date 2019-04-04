@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
-async def ping(cmd: SigmaCommand, pld: CommandPayload):
+async def ping(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     avatar = user_avatar(cmd.bot.user)
     shard_lines = []
     response = discord.Embed(color=await get_image_colors(avatar))

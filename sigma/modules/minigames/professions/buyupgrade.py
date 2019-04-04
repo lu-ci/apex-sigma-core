@@ -29,10 +29,28 @@ ongoing = []
 
 
 def get_price_mod(base_price, upgrade_level):
+    """
+
+    :param base_price:
+    :type base_price:
+    :param upgrade_level:
+    :type upgrade_level:
+    :return:
+    :rtype:
+    """
     return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
 
 
 def get_price(base_price, upgrade_level):
+    """
+
+    :param base_price:
+    :type base_price:
+    :param upgrade_level:
+    :type upgrade_level:
+    :return:
+    :rtype:
+    """
     if upgrade_level == 0:
         upgrade_price = base_price
     else:
@@ -41,7 +59,13 @@ def get_price(base_price, upgrade_level):
     return upgrade_price
 
 
-async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
+async def buyupgrade(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     choice = None
     if pld.args:
         try:
@@ -62,6 +86,15 @@ async def buyupgrade(cmd: SigmaCommand, pld: CommandPayload):
 
 
 async def quick_buy(cmd: SigmaCommand, pld: CommandPayload, choice: dict):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param pld:
+    :type pld:
+    :param choice:
+    :type choice:
+    """
     currency = cmd.bot.cfg.pref.currency
     user_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
     upgrade_level = user_upgrades.get(choice.get('id'), 0)
@@ -78,7 +111,13 @@ async def quick_buy(cmd: SigmaCommand, pld: CommandPayload, choice: dict):
     await pld.msg.channel.send(embed=response)
 
 
-async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
+async def slow_buy(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     currency = cmd.bot.cfg.pref.currency
     if pld.msg.author.id not in ongoing:
         ongoing.append(pld.msg.author.id)
@@ -101,6 +140,13 @@ async def slow_buy(cmd: SigmaCommand, pld: CommandPayload):
         shop_listing = await pld.msg.channel.send(embed=upgrade_list_embed)
 
         def check_answer(msg):
+            """
+
+            :param msg:
+            :type msg:
+            :return:
+            :rtype:
+            """
             if pld.msg.author.id == msg.author.id:
                 if msg.content.lower() == 'cancel':
                     correct = True

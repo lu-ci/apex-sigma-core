@@ -27,7 +27,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.racing.nodes.race_storage import colors, make_race, races
 
 
-async def race(cmd: SigmaCommand, pld: CommandPayload):
+async def race(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.channel.id not in races:
         if pld.args:
             try:

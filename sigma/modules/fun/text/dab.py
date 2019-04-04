@@ -34,7 +34,13 @@ faces = [
 ]
 
 
-async def dab(_cmd: SigmaCommand, pld: CommandPayload):
+async def dab(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     face = secrets.choice(faces)
     signs = ['.', '...', '!', '!!!']
     sign = secrets.choice(signs)

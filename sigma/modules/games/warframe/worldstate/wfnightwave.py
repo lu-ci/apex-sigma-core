@@ -30,6 +30,13 @@ nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 
 
 def get_challenges(challenges: dict):
+    """
+
+    :param challenges:
+    :type challenges:
+    :return:
+    :rtype:
+    """
     dailies, weeklies, weeklies_hard = [], [], []
     for challenge in challenges:
         if challenge['xpAmount'] == '1000':
@@ -45,6 +52,13 @@ def get_challenges(challenges: dict):
 
 
 def get_offsets(challenges: list):
+    """
+
+    :param challenges:
+    :type challenges:
+    :return:
+    :rtype:
+    """
     offsets = []
     for challenge_list in challenges:
         expiry = arrow.get(challenge_list[0]['end']).timestamp
@@ -54,13 +68,26 @@ def get_offsets(challenges: list):
 
 
 def get_descriptions(challenges: list):
+    """
+
+    :param challenges:
+    :type challenges:
+    :return:
+    :rtype:
+    """
     descriptions = []
     for challenge_list in challenges:
         descriptions.append([c['description'] for c in challenge_list])
     return descriptions
 
 
-async def wfnightwave(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfnightwave(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     nw = await WorldState().nightwave
     if nw:
         response = discord.Embed(color=0x6b1724, title=f'Nightwave Season {nw["season"] + 1}', )

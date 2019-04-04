@@ -24,7 +24,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def viewrolegroup(cmd: SigmaCommand, pld: CommandPayload):
+async def viewrolegroup(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         group_id = pld.args[0].lower()
         role_groups = pld.settings.get('role_groups') or {}

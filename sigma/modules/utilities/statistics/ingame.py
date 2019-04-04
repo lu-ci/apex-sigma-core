@@ -27,6 +27,13 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 def make_games_dict(guild: discord.Guild):
+    """
+
+    :param guild:
+    :type guild:
+    :return:
+    :rtype:
+    """
     games = {}
     online_count = 0
     playing_count = 0
@@ -49,7 +56,13 @@ def make_games_dict(guild: discord.Guild):
     return games, online_count, playing_count
 
 
-async def ingame(_cmd: SigmaCommand, pld: CommandPayload):
+async def ingame(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     response = discord.Embed(color=0x1ABC9C)
     games, online, playing = make_games_dict(pld.msg.guild)
     sorted_games = sorted(games.items(), key=operator.itemgetter(1), reverse=True)

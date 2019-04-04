@@ -26,7 +26,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 
 
-async def nowplaying(cmd: SigmaCommand, pld: CommandPayload):
+async def nowplaying(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.guild.id in cmd.bot.music.currents:
         item = cmd.bot.music.currents[pld.msg.guild.id]
         duration = str(datetime.timedelta(seconds=item.duration))

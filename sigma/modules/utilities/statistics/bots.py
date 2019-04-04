@@ -24,7 +24,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error
 
 
-async def bots(_cmd: SigmaCommand, pld: CommandPayload):
+async def bots(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     online_bots = []
     offline_bots = []
     total_bots = 0

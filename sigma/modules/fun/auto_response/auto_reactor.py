@@ -22,6 +22,13 @@ from sigma.modules.fun.auto_response.auto_responder import clean_word
 
 
 async def auto_reactor(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)

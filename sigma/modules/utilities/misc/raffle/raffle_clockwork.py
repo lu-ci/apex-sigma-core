@@ -30,6 +30,11 @@ raffle_loop_running = False
 
 
 async def raffle_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global raffle_loop_running
     if not raffle_loop_running:
         raffle_loop_running = True
@@ -37,6 +42,13 @@ async def raffle_clockwork(ev: SigmaEvent):
 
 
 def extra_shuffle(some_list):
+    """
+
+    :param some_list:
+    :type some_list:
+    :return:
+    :rtype:
+    """
     new_list = []
     while some_list:
         new_list.append(some_list.pop(secrets.randbelow(len(some_list))))
@@ -44,6 +56,11 @@ def extra_shuffle(some_list):
 
 
 async def cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     raffle_coll = ev.db[ev.db.db_nam].Raffles
     while True:
         if ev.bot.is_ready():

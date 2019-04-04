@@ -24,6 +24,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 def count_votes(poll_file):
+    """
+
+    :param poll_file:
+    :type poll_file:
+    :return:
+    :rtype:
+    """
     vote_coll = {}
     for vote in poll_file['votes'].keys():
         vote_index = poll_file['votes'].get(vote)
@@ -37,6 +44,15 @@ def count_votes(poll_file):
 
 
 def make_bar(points, total):
+    """
+
+    :param points:
+    :type points:
+    :param total:
+    :type total:
+    :return:
+    :rtype:
+    """
     try:
         fill = int((points / total) * 10)
     except ZeroDivisionError:
@@ -46,7 +62,13 @@ def make_bar(points, total):
     return bar
 
 
-async def shadowpollstats(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpollstats(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         poll_id = pld.args[0].lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})

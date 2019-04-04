@@ -27,6 +27,11 @@ sp_xp_loop_running = False
 
 
 async def expiration_clock(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global sp_xp_loop_running
     if not sp_xp_loop_running:
         sp_xp_loop_running = True
@@ -34,6 +39,11 @@ async def expiration_clock(ev: SigmaEvent):
 
 
 async def cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     poll_coll = ev.db[ev.db.db_nam].ShadowPolls
     while True:
         if ev.bot.is_ready():

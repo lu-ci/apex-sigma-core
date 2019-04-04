@@ -26,6 +26,15 @@ from sigma.core.utilities.generic_responses import error, ok
 
 
 def generate_data(message, poll_args):
+    """
+
+    :param message:
+    :type message:
+    :param poll_args:
+    :type poll_args:
+    :return:
+    :rtype:
+    """
     uid = message.author.id
     if message.channel:
         cid = message.channel.id
@@ -62,7 +71,13 @@ def generate_data(message, poll_args):
     return poll_file_data
 
 
-async def shadowpoll(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpoll(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         poll_args = ' '.join(pld.args).split('; ')
         if len(poll_args) >= 3:

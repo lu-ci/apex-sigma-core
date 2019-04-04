@@ -71,6 +71,13 @@ participant_icons = ['🐶', '🐱', '🐭', '🐰', '🐙', '🐠', '🦊', '�
 
 
 def make_race(channel_id, buyin):
+    """
+
+    :param channel_id:
+    :type channel_id:
+    :param buyin:
+    :type buyin:
+    """
     icon_copy = copy.deepcopy(participant_icons)
     race_data = {
         'icons': icon_copy,
@@ -81,6 +88,15 @@ def make_race(channel_id, buyin):
 
 
 def add_participant(channel_id, user):
+    """
+
+    :param channel_id:
+    :type channel_id:
+    :param user:
+    :type user:
+    :return:
+    :rtype:
+    """
     race = races[channel_id]
     icons = race['icons']
     users = race['users']

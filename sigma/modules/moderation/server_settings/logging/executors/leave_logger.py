@@ -26,6 +26,13 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def leave_logger(ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     member = pld.member
     response = discord.Embed(color=0xBE1931, timestamp=arrow.utcnow().datetime)
     response.set_author(name='A Member Has Left', icon_url=user_avatar(member))

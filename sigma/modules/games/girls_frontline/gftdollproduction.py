@@ -30,6 +30,13 @@ gf_color = 0xffcc4d
 
 
 def get_rarity(elem):
+    """
+
+    :param elem:
+    :type elem:
+    :return:
+    :rtype:
+    """
     rarities = {
         5: 'ffcd4a',
         4: 'd6e35a',
@@ -45,6 +52,11 @@ def get_rarity(elem):
 
 
 def make_doll_data(row):
+    """
+
+    :param row:
+    :type row:
+    """
     prod_time = ':'.join(row[0].text.split(':')[:-1]).strip()
     dolls = row[1]
     for doll in dolls:
@@ -58,6 +70,9 @@ def make_doll_data(row):
 
 
 async def fill_tdoll_data():
+    """
+
+    """
     global tdoll_root
     async with aiohttp.ClientSession() as session:
         async with session.get('https://en.gfwiki.com/wiki/T-Doll_Production') as data:
@@ -71,7 +86,13 @@ async def fill_tdoll_data():
     tdoll_data.sort(key=lambda tdd: tdd.get('rarity'), reverse=True)
 
 
-async def gftdollproduction(_cmd: SigmaCommand, pld: CommandPayload):
+async def gftdollproduction(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not tdoll_data:
         await fill_tdoll_data()
     if pld.args:

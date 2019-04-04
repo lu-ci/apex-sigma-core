@@ -33,6 +33,13 @@ api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&podindex=2&inpu
 
 
 async def get_url_body(url: str):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             data = await data.read()
@@ -40,6 +47,13 @@ async def get_url_body(url: str):
 
 
 async def get_results(query_url: str):
+    """
+
+    :param query_url:
+    :type query_url:
+    :return:
+    :rtype:
+    """
     results = ''
     if query_url:
         query_page_xml = await get_url_body(query_url)
@@ -60,6 +74,13 @@ async def get_results(query_url: str):
 
 
 def make_safe_query(query: list):
+    """
+
+    :param query:
+    :type query:
+    :return:
+    :rtype:
+    """
     safe = r'`~!@$^*()[]{}\|:;"\'<>,.'
     query_list = list(' '.join(query))
     safe_query = ''
@@ -70,10 +91,25 @@ def make_safe_query(query: list):
 
 
 async def send_response(message: discord.Message, init: discord.Message or None, response: discord.Embed):
+    """
+
+    :param message:
+    :type message:
+    :param init:
+    :type init:
+    :param response:
+    :type response:
+    """
     await init.edit(embed=response) if init else await message.channel.send(embed=response)
 
 
-async def wolframalpha(cmd: SigmaCommand, pld: CommandPayload):
+async def wolframalpha(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     init_message = None
     if cmd.cfg.app_id:
         if pld.msg.channel.id not in math_chs:

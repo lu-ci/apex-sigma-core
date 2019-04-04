@@ -27,6 +27,15 @@ from sigma.core.utilities.generic_responses import error
 
 
 async def poll(_cmd: SigmaCommand, pld: CommandPayload):
+    """
+
+    :param _cmd:
+    :type _cmd:
+    :param pld:
+    :type pld:
+    :return:
+    :rtype:
+    """
     if not pld.args:
         out_content = error('Nothing inputted.')
         await pld.msg.channel.send(embed=out_content)

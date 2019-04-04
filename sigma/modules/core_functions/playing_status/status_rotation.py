@@ -28,6 +28,11 @@ status_loop_running = False
 
 
 async def status_rotation(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global status_loop_running
     if not status_loop_running:
         status_loop_running = True
@@ -35,6 +40,11 @@ async def status_rotation(ev: SigmaEvent):
 
 
 async def status_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             if ev.bot.cfg.pref.status_rotation:

@@ -30,7 +30,13 @@ fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 temps = {'warm': {'color': 0xFFCC4D, 'icon': '🔥'}, 'cold': {'color': 0x88C9F9, 'icon': '❄'}}
 
 
-async def wforbvallis(_cmd: SigmaCommand, pld: CommandPayload):
+async def wforbvallis(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     time = await WorldState().vallistime
     if time:
         temp, temp_in = ('warm', 'Cold') if time['isWarm'] else ('cold', 'Warm')

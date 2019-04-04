@@ -29,6 +29,17 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
+    """
+
+    :param author:
+    :type author:
+    :param target:
+    :type target:
+    :param warn_iden:
+    :type warn_iden:
+    :return:
+    :rtype:
+    """
     target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
@@ -41,6 +52,17 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
 
 
 async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member):
+    """
+
+    :param db:
+    :type db:
+    :param gld:
+    :type gld:
+    :param ath:
+    :type ath:
+    :param trg:
+    :type trg:
+    """
     icore = get_incident_core(db)
     inc = icore.generate('unwarn')
     inc.set_location(gld)
@@ -50,7 +72,13 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
     await icore.report(gld, inc.to_embed('⚠', 0xFFCC4D))
 
 
-async def removewarning(cmd: SigmaCommand, pld: CommandPayload):
+async def removewarning(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_messages:
         if pld.msg.mentions:
             if len(pld.args) == 2:

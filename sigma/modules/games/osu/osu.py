@@ -31,6 +31,13 @@ user_data_cache = {}
 
 
 async def find_user_data(profile_url: str):
+    """
+
+    :param profile_url:
+    :type profile_url:
+    :return:
+    :rtype:
+    """
     data_cache = user_data_cache.get(profile_url)
     if not data_cache:
         async with aiohttp.ClientSession() as session:
@@ -52,7 +59,13 @@ async def find_user_data(profile_url: str):
     return user_data
 
 
-async def osu(_cmd: SigmaCommand, pld: CommandPayload):
+async def osu(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         osu_input = '%20'.join(pld.args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'

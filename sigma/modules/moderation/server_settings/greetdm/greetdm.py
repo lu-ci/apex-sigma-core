@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, ok
 
 
-async def greetdm(cmd: SigmaCommand, pld: CommandPayload):
+async def greetdm(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         active = pld.settings.get('greet_dm')
         state, ender = (False, 'disabled') if active else (True, 'enabled')

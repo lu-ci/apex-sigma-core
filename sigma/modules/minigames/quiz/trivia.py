@@ -69,6 +69,13 @@ streaks = {}
 
 
 def shuffle_questions(question_list):
+    """
+
+    :param question_list:
+    :type question_list:
+    :return:
+    :rtype:
+    """
     output = []
     while question_list:
         question_choice = question_list.pop(secrets.randbelow(len(question_list)))
@@ -77,6 +84,15 @@ def shuffle_questions(question_list):
 
 
 def get_correct_index(question_list, answer):
+    """
+
+    :param question_list:
+    :type question_list:
+    :param answer:
+    :type answer:
+    :return:
+    :rtype:
+    """
     index = 0
     for item in question_list:
         if item == answer:
@@ -86,7 +102,13 @@ def get_correct_index(question_list, answer):
     return index
 
 
-async def trivia(cmd: SigmaCommand, pld: CommandPayload):
+async def trivia(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     global streaks
     if await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
@@ -156,6 +178,13 @@ async def trivia(cmd: SigmaCommand, pld: CommandPayload):
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
+                """
+
+                :param msg:
+                :type msg:
+                :return:
+                :rtype:
+                """
                 if pld.msg.channel.id != msg.channel.id:
                     return
                 if pld.msg.author.id != msg.author.id:

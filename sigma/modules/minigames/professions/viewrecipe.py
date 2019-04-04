@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-async def viewrecipe(cmd: SigmaCommand, pld: CommandPayload):
+async def viewrecipe(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     recipe_core = await get_recipe_core(cmd.db)
     if pld.args:
         lookup = ' '.join(pld.args)

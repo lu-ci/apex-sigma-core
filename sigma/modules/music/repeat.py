@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def repeat(cmd: SigmaCommand, pld: CommandPayload):
+async def repeat(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.guild.voice_client:
         if pld.msg.author.voice:
             if pld.msg.guild.voice_client.channel.id == pld.msg.author.voice.channel.id:

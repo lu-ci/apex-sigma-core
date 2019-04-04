@@ -23,6 +23,13 @@ from sigma.modules.moderation.server_settings.greet.greetmessage import make_gre
 
 
 async def greetdm_sender(_ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     greet_dm_active = pld.settings.get('greet_dm')
     if greet_dm_active:
         if pld.member:

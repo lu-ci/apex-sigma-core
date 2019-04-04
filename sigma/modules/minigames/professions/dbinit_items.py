@@ -23,11 +23,25 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def dbinit_items(ev: SigmaEvent, force=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param force:
+    :type force:
+    """
     await dbinit_item_data(ev, force)
     await dbinit_recipe_data(ev, force)
 
 
 async def dbinit_item_data(ev: SigmaEvent, force=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param force:
+    :type force:
+    """
     doc_count = await ev.db[ev.db.db_nam].ItemData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml'
@@ -42,6 +56,13 @@ async def dbinit_item_data(ev: SigmaEvent, force=False):
 
 
 async def dbinit_recipe_data(ev: SigmaEvent, force=False):
+    """
+
+    :param ev:
+    :type ev:
+    :param force:
+    :type force:
+    """
     doc_count = await ev.db[ev.db.db_nam].RecipeData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml'

@@ -30,6 +30,17 @@ ongoing_list = []
 
 
 def generate_response(avatar, current: discord.Member, rows: list):
+    """
+
+    :param avatar:
+    :type avatar:
+    :param current:
+    :type current:
+    :param rows:
+    :type rows:
+    :return:
+    :rtype:
+    """
     board_out = "\n".join([' '.join(row) for row in rows])
     board_resp = discord.Embed(color=0x2156be, description=board_out)
     board_resp.set_author(icon_url=avatar, name='Connect Four')
@@ -38,6 +49,17 @@ def generate_response(avatar, current: discord.Member, rows: list):
 
 
 async def send_board_msg(message: discord.Message, board_msg: discord.Message, board_resp: discord.Embed):
+    """
+
+    :param message:
+    :type message:
+    :param board_msg:
+    :type board_msg:
+    :param board_resp:
+    :type board_resp:
+    :return:
+    :rtype:
+    """
     if board_msg:
         try:
             await board_msg.edit(embed=board_resp)
@@ -48,7 +70,13 @@ async def send_board_msg(message: discord.Message, board_msg: discord.Message, b
     return board_msg
 
 
-async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
+async def connectfour(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.channel.id not in ongoing_list:
         ongoing_list.append(pld.msg.channel.id)
         competitor, curr_turn = None, pld.msg.author
@@ -71,6 +99,13 @@ async def connectfour(cmd: SigmaCommand, pld: CommandPayload):
         board_msg = await pld.msg.channel.send(embed=board_resp)
 
         def check_answer(msg):
+            """
+
+            :param msg:
+            :type msg:
+            :return:
+            :rtype:
+            """
             if curr_turn.id != msg.author.id:
                 return
             if pld.msg.channel.id != msg.channel.id:

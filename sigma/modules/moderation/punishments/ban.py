@@ -28,6 +28,17 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 def generate_log_embed(message, target, reason):
+    """
+
+    :param message:
+    :type message:
+    :param target:
+    :type target:
+    :param reason:
+    :type reason:
+    :return:
+    :rtype:
+    """
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name='A User Has Been Banned', icon_url=user_avatar(target))
     log_response.add_field(name='🔨 Banned User',
@@ -41,7 +52,13 @@ def generate_log_embed(message, target, reason):
     return log_response
 
 
-async def ban(cmd: SigmaCommand, pld: CommandPayload):
+async def ban(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
         if pld.msg.mentions:
             target = pld.msg.mentions[0]

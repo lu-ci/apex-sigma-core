@@ -22,6 +22,15 @@ import aiohttp
 
 
 async def aioget(url: str, as_json: bool = False):
+    """
+
+    :param url:
+    :type url:
+    :param as_json:
+    :type as_json:
+    :return:
+    :rtype:
+    """
     async with aiohttp.ClientSession() as aio_client:
         async with aio_client.get(url) as aio_session:
             response = await aio_session.text()

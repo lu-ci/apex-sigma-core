@@ -25,6 +25,11 @@ from sigma.core.mechanics.event import SigmaEvent
 
 
 async def version_file_updater(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     if ev.bot.cfg.pref.dev_mode:
         with open('info/version.yml', 'r') as version_file:
             current_version_data = yaml.safe_load(version_file)

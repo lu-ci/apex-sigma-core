@@ -35,7 +35,13 @@ ckk_suffixes = [
 ]
 
 
-async def cookies(cmd: SigmaCommand, pld: CommandPayload):
+async def cookies(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     target = pld.msg.author if not pld.msg.mentions else pld.msg.mentions[0]
     cookie_data = await cmd.db.get_resource(target.id, 'cookies')
     ender = 'cookie' if cookie_data.ranked == 1 else 'cookies'

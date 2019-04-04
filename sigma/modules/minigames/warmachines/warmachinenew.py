@@ -27,7 +27,13 @@ from sigma.modules.minigames.warmachines.mech.machine import SigmaMachine
 price = 10
 
 
-async def warmachinenew(cmd: SigmaCommand, pld: CommandPayload):
+async def warmachinenew(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     confirm_desc = f'Building a machine costs **{price} sumarum**, do you want to continue?'
     confirm_embed = discord.Embed(color=0x8899a6, title=f'🔧 Are you sure, {pld.msg.author.name}?')
     confirm_embed.description = confirm_desc

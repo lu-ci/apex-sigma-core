@@ -24,6 +24,15 @@ from sigma.core.utilities.generic_responses import error
 
 
 def user_auth(message: discord.Message, list_file: dict):
+    """
+
+    :param message:
+    :type message:
+    :param list_file:
+    :type list_file:
+    :return:
+    :rtype:
+    """
     author_id = list_file.get('user_id')
     if list_file.get('mode') in ['private', 'locked']:
         if author_id == message.author.id:
@@ -35,7 +44,13 @@ def user_auth(message: discord.Message, list_file: dict):
     return auth
 
 
-async def addline(cmd: SigmaCommand, pld: CommandPayload):
+async def addline(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 2:
         add_line = ' '.join(pld.args[1:])
         list_coll = cmd.db[cmd.db.db_nam].CustomLists

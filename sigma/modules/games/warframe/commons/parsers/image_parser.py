@@ -21,17 +21,34 @@ from lxml import html
 
 
 class FailedIconGrab(Exception):
+    """
+
+    """
     def __init__(self):
         self.message = 'Failed to grab an image due to a key or index error.'
 
 
 def remove_revision(url):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     if '/revision' in url:
         url = url[:url.index('/revision')]
     return url
 
 
 def clean_generics(name):
+    """
+
+    :param name:
+    :type name:
+    :return:
+    :rtype:
+    """
     sections = name.split('_')
     sects_low = [x.lower() for x in sections]
     if 'vauban' in sects_low:
@@ -42,6 +59,13 @@ def clean_generics(name):
 
 
 async def grab_image(name):
+    """
+
+    :param name:
+    :type name:
+    :return:
+    :rtype:
+    """
     try:
         name = clean_generics(name)
         page_url = f'http://warframe.wikia.com/wiki/{name}'

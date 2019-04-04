@@ -29,6 +29,11 @@ suggestion_reporter_running = False
 
 
 async def get_suggestion_channel(bot: ApexSigma):
+    """
+
+    :param bot:
+    :type bot:
+    """
     global suggestion_channel
     if suggestion_channel is None:
         sugg_chn_id = bot.modules.commands.get('botsuggest').cfg.get('channel')
@@ -37,6 +42,11 @@ async def get_suggestion_channel(bot: ApexSigma):
 
 
 async def suggestion_reporter(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global suggestion_reporter_running
     await get_suggestion_channel(ev.bot)
     if not suggestion_reporter_running and suggestion_channel:
@@ -45,6 +55,13 @@ async def suggestion_reporter(ev: SigmaEvent):
 
 
 def make_suggestion_log_embed(data: dict):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     usr = data.get('user')
     sgg = data.get('suggestion')
     gld = data.get('guild')
@@ -59,6 +76,15 @@ def make_suggestion_log_embed(data: dict):
 
 
 async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
+    """
+
+    :param bot:
+    :type bot:
+    :param sugg_data:
+    :type sugg_data:
+    :return:
+    :rtype:
+    """
     await get_suggestion_channel(bot)
     if suggestion_channel:
         response = make_suggestion_log_embed(sugg_data)
@@ -68,6 +94,11 @@ async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
 
 
 async def suggestion_reporter_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             suggestion_docs = await ev.db[ev.db.db_nam].Suggestions.find({'reported': False}).to_list(None)

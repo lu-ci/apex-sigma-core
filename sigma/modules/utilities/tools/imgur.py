@@ -30,6 +30,15 @@ imgur_url = "https://api.imgur.com/3/image"
 
 
 async def upload_image(image_url: str, client_id: str):
+    """
+
+    :param image_url:
+    :type image_url:
+    :param client_id:
+    :type client_id:
+    :return:
+    :rtype:
+    """
     link = None
     data = {'type': 'URL', 'image': image_url}
     headers = {'Authorization': f'Client-ID {client_id}'}
@@ -42,7 +51,13 @@ async def upload_image(image_url: str, client_id: str):
     return link
 
 
-async def imgur(cmd: SigmaCommand, pld: CommandPayload):
+async def imgur(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if cmd.cfg.client_id:
         if pld.args or pld.msg.attachments:
             image_url = pld.msg.attachments[0].url if pld.msg.attachments else pld.args[0]

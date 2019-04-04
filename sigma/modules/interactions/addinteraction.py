@@ -30,6 +30,19 @@ from sigma.modules.utilities.tools.imgur import upload_image
 
 
 def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str, url_hash: str):
+    """
+
+    :param message:
+    :type message:
+    :param interaction_name:
+    :type interaction_name:
+    :param interaction_url:
+    :type interaction_url:
+    :param url_hash:
+    :type url_hash:
+    :return:
+    :rtype:
+    """
     return {
         'name': interaction_name.lower(),
         'user_id': message.author.id,
@@ -44,6 +57,13 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
 
 
 async def validate_gif_url(url: str):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     valid, data = False, None
     # noinspection PyBroadException
     try:
@@ -59,6 +79,13 @@ async def validate_gif_url(url: str):
 
 
 def get_allowed_interactions(commands: dict):
+    """
+
+    :param commands:
+    :type commands:
+    :return:
+    :rtype:
+    """
     allowed_interactions = []
     for command in commands:
         command = commands.get(command)
@@ -69,23 +96,56 @@ def get_allowed_interactions(commands: dict):
 
 
 async def relay_image(cmd: SigmaCommand, url: str):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
     return await upload_image(url, client_id)
 
 
 async def check_existence(db: Database, data: bytes, name: str):
+    """
+
+    :param db:
+    :type db:
+    :param data:
+    :type data:
+    :param name:
+    :type name:
+    :return:
+    :rtype:
+    """
     url_hash = hash_url(data)
     exists = bool(await db[db.db_nam].Interactions.find_one({'hash': url_hash, 'name': name}))
     return exists, url_hash
 
 
 def hash_url(url: bytes):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     crypt = hashlib.new('md5')
     crypt.update(url)
     return crypt.hexdigest()
 
 
-async def addinteraction(cmd: SigmaCommand, pld: CommandPayload):
+async def addinteraction(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if 'client_id' in cmd.bot.modules.commands['imgur'].cfg:
         if pld.args:
             if len(pld.args) >= 2:

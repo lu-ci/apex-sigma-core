@@ -25,6 +25,17 @@ from sigma.modules.moderation.permissions.nodes.permission_data import generate_
 
 
 def get_targets(message: discord.Message, args: list, target_type: str):
+    """
+
+    :param message:
+    :type message:
+    :param args:
+    :type args:
+    :param target_type:
+    :type target_type:
+    :return:
+    :rtype:
+    """
     targets, valid = None, False
     if target_type == 'channels':
         if message.channel_mentions:
@@ -48,6 +59,13 @@ def get_targets(message: discord.Message, args: list, target_type: str):
 
 
 def get_target_type(target_type: str):
+    """
+
+    :param target_type:
+    :type target_type:
+    :return:
+    :rtype:
+    """
     if target_type in ['channel', 'channels']:
         target_type = 'channels'
     elif target_type in ['user', 'users']:
@@ -59,7 +77,13 @@ def get_target_type(target_type: str):
     return target_type
 
 
-async def permit(cmd: SigmaCommand, pld: CommandPayload):
+async def permit(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             if len(pld.args) >= 3:

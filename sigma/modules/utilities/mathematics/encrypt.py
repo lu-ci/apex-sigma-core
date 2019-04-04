@@ -25,7 +25,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
-async def encrypt(cmd: SigmaCommand, pld: CommandPayload):
+async def encrypt(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     text = False
     cipher = get_encryptor(cmd.bot.cfg)
     if cipher:

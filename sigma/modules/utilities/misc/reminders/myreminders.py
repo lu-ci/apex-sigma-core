@@ -26,7 +26,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def myreminders(cmd: SigmaCommand, pld: CommandPayload):
+async def myreminders(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     here = False
     if pld.args:
         if pld.args[-1].lower() == 'here':

@@ -27,6 +27,11 @@ unpun_loop_running = False
 
 
 async def un_punisher(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global unpun_loop_running
     if not unpun_loop_running:
         unpun_loop_running = True
@@ -34,6 +39,13 @@ async def un_punisher(ev: SigmaEvent):
 
 
 async def unban(ev: SigmaEvent, doc: dict):
+    """
+
+    :param ev:
+    :type ev:
+    :param doc:
+    :type doc:
+    """
     # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
@@ -53,6 +65,13 @@ async def unban(ev: SigmaEvent, doc: dict):
 
 
 async def untmute(ev: SigmaEvent, doc: dict):
+    """
+
+    :param ev:
+    :type ev:
+    :param doc:
+    :type doc:
+    """
     # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
@@ -75,6 +94,13 @@ async def untmute(ev: SigmaEvent, doc: dict):
 
 
 async def unhmute(ev: SigmaEvent, doc: dict):
+    """
+
+    :param ev:
+    :type ev:
+    :param doc:
+    :type doc:
+    """
     # noinspection PyBroadException
     try:
         gid = doc.get('server_id')
@@ -102,6 +128,11 @@ async def unhmute(ev: SigmaEvent, doc: dict):
 
 
 async def un_punisher_clock(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     bancoll = ev.db[ev.db.db_nam].BanClockworkDocs
     tmutecoll = ev.db[ev.db.db_nam].TextmuteClockworkDocs
     hmutecoll = ev.db[ev.db.db_nam].HardmuteClockworkDocs

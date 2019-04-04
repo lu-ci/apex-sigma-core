@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def listrolegroups(cmd: SigmaCommand, pld: CommandPayload):
+async def listrolegroups(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     role_groups = pld.settings.get('role_groups') or {}
     group_list = list(role_groups.keys())
     if role_groups:

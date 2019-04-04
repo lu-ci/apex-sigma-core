@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-async def generateitem(cmd: SigmaCommand, pld: CommandPayload):
+async def generateitem(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     if pld.args:
         if pld.msg.mentions:

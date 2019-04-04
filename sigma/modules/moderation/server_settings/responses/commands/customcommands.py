@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error
 
 
-async def customcommands(cmd: SigmaCommand, pld: CommandPayload):
+async def customcommands(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     custom_commands = pld.settings.get('custom_commands')
     if custom_commands:
         custom_commands = sorted(list(custom_commands.keys()))

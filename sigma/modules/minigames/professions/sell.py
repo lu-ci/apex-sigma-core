@@ -28,7 +28,13 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 ongoing = []
 
 
-async def sell(cmd: SigmaCommand, pld: CommandPayload):
+async def sell(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.id in ongoing:
         return
     ongoing.append(pld.msg.author.id)

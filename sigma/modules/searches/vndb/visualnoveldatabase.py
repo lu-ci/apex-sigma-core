@@ -31,6 +31,15 @@ vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 
 
 def get_name_match(results: list, lookup: str):
+    """
+
+    :param results:
+    :type results:
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     match = None
     results = results[1:]
     if len(results):
@@ -48,6 +57,13 @@ def get_name_match(results: list, lookup: str):
 
 
 async def get_details_page(lookup: str):
+    """
+
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     if lookup == '--random':
         lookup = secrets.randbelow(25261) + 1
     try:
@@ -69,6 +85,13 @@ async def get_details_page(lookup: str):
 
 
 async def get_vn(lookup: str):
+    """
+
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     vn_data = None
     page_root = await get_details_page(lookup)
     if page_root is not None:
@@ -76,7 +99,13 @@ async def get_vn(lookup: str):
     return vn_data
 
 
-async def visualnoveldatabase(_cmd: SigmaCommand, pld: CommandPayload):
+async def visualnoveldatabase(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     lookup = ' '.join(pld.args) if pld.args else None
     if lookup:
         vn = await get_vn(lookup)

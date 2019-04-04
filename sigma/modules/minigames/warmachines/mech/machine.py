@@ -36,6 +36,9 @@ class_core = ClassificationCore()
 
 
 class SigmaMachine(object):
+    """
+
+    """
     def __init__(self, db: Database, owner: discord.Member, data: dict):
 
         # Refferences
@@ -67,6 +70,11 @@ class SigmaMachine(object):
 
     @staticmethod
     def new():
+        """
+
+        :return:
+        :rtype:
+        """
         components = {'attribute': None, 'manufacturer': None, 'ammunition': None, 'classification': None}
         for ck in components:
             comp_roll = secrets.randbelow(8)
@@ -78,6 +86,15 @@ class SigmaMachine(object):
 
     @staticmethod
     async def get_machines(db: Database, target: discord.Member):
+        """
+
+        :param db:
+        :type db:
+        :param target:
+        :type target:
+        :return:
+        :rtype:
+        """
         machines = await db.get_profile(target.id, 'machines') or {}
         machine_list = []
         if machines:
@@ -88,6 +105,13 @@ class SigmaMachine(object):
 
     @staticmethod
     def get_level(xp: int):
+        """
+
+        :param xp:
+        :type xp:
+        :return:
+        :rtype:
+        """
         base = 100
         level = 0
         xp_needed = 0
@@ -98,9 +122,19 @@ class SigmaMachine(object):
 
     @staticmethod
     def get_comp_keys():
+        """
+
+        :return:
+        :rtype:
+        """
         return ['attribute', 'manufacturer', 'ammunition', 'classification']
 
     def get_comp_stats(self):
+        """
+
+        :return:
+        :rtype:
+        """
         attr = attr_core.get_stats(self.components.get('attribute'), self.level)
         manu = manu_core.get_stats(self.components.get('manufacturer'), self.level)
         ammo = ammo_core.get_stats(self.components.get('ammunition'), self.level)
@@ -108,6 +142,11 @@ class SigmaMachine(object):
         return attr, manu, ammo, clas
 
     def get_comp_names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         attr = attr_core.get_name(self.components.get('attribute'))
         manu = manu_core.get_name(self.components.get('manufacturer'))
         ammo = ammo_core.get_name(self.components.get('ammunition'))
@@ -115,6 +154,11 @@ class SigmaMachine(object):
         return attr, manu, ammo, clas
 
     def get_battle_costs(self):
+        """
+
+        :return:
+        :rtype:
+        """
         outs = []
         for att_key in self.get_comp_keys():
             val = self.components.get(att_key)
@@ -122,22 +166,42 @@ class SigmaMachine(object):
         return tuple(outs)
 
     def combine_components(self):
+        """
+
+        :return:
+        :rtype:
+        """
         attr, manu, ammo, clas = self.get_comp_stats()
         for sec_com in [attr, ammo, clas]:
             manu.combine(sec_com)
         return manu
 
     def combine_battle_cost(self):
+        """
+
+        :return:
+        :rtype:
+        """
         attr, manu, ammo, clas = self.get_battle_costs()
         for sec_com in [attr, ammo, clas]:
             manu.combine(sec_com)
         return manu
 
     def gen_prod_name(self):
+        """
+
+        :return:
+        :rtype:
+        """
         attr, manu, ammo, clas = self.get_comp_names()
         return f'{attr} {manu} {ammo} {clas}'
 
     def to_dict(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return {
             'machine_id': self.id,
             'user_id': self.owner.id,
@@ -149,11 +213,21 @@ class SigmaMachine(object):
         }
 
     async def update(self):
+        """
+
+        """
         machines = await self.db.get_profile(self.owner.id, 'machines') or {}
         machines.update({self.id: self.to_dict()})
         await self.db.set_profile(self.owner.id, 'machines', machines)
 
     async def add_battle(self, opponent, result: int):
+        """
+
+        :param opponent:
+        :type opponent:
+        :param result:
+        :type result:
+        """
         battle_data = {
             'user_id': opponent.owner.id, 'machine_id': opponent.id,
             'result': result, 'timestamp': arrow.utcnow().timestamp
@@ -163,13 +237,30 @@ class SigmaMachine(object):
 
     @property
     def won(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return len([b for b in self.battles if b.get('result') == 1])
 
     @property
     def lost(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return len([b for b in self.battles if b.get('result') == 0])
 
     def get_battles_with_user(self, user_id: int):
+        """
+
+        :param user_id:
+        :type user_id:
+        :return:
+        :rtype:
+        """
         battles = [b for b in self.battles if b.get('user_id') == user_id]
         won_against = 0
         lost_against = 0
@@ -182,21 +273,52 @@ class SigmaMachine(object):
         return battles, won_against, lost_against
 
     def is_alive(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return bool(self.current_health)
 
     def roll_crit(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return secrets.randbelow(100) <= self.stats.crit_chance
 
     def is_hit(self, accuracy: int):
+        """
+
+        :param accuracy:
+        :type accuracy:
+        :return:
+        :rtype:
+        """
         return secrets.randbelow(accuracy) > secrets.randbelow(self.stats.evasion)
 
     def do_damage(self):
+        """
+
+        :return:
+        :rtype:
+        """
         damage_done = int(((self.stats.damage * 0.6) + secrets.randbelow(self.stats.damage * 0.6)))
         if self.roll_crit():
             damage_done = int(damage_done * (1 + (self.stats.crit_damage / 100)))
         return damage_done
 
     async def take_damage(self, damage: int, armor_pen: int):
+        """
+
+        :param damage:
+        :type damage:
+        :param armor_pen:
+        :type armor_pen:
+        :return:
+        :rtype:
+        """
         eff_armor = self.stats.armor - armor_pen
         armor_mitigation = eff_armor / (1 + (eff_armor * 0.0215))
         damage_taken = int(damage * (1 - (armor_mitigation / 100)))

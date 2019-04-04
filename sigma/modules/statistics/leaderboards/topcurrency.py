@@ -25,7 +25,13 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
-async def topcurrency(cmd: SigmaCommand, pld: CommandPayload):
+async def topcurrency(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     gu = cmd.bot.get_user
     value_name = cmd.bot.cfg.pref.currency
     resource = 'currency'

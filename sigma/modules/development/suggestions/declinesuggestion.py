@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.modules.development.suggestions.approvesuggestion import react_to_suggestion
 
 
-async def declinesuggestion(cmd: SigmaCommand, pld: CommandPayload):
+async def declinesuggestion(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 2:
         token = pld.args[0].lower()
         reason = ' '.join(pld.args[1:])

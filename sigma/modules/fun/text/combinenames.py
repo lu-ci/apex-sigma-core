@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.combinechains import combine_names
 
 
-async def combinenames(_cmd: SigmaCommand, pld: CommandPayload):
+async def combinenames(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.msg.mentions) >= 2:
         combined_name = combine_names(pld.msg.mentions)
         response = discord.Embed(color=0x3B88C3, title=f'🔤 I dub thee... {combined_name}!')

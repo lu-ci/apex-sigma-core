@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.utilities.mathematics.collector_clockwork import current_user_collecting
 
 
-async def cancelcollector(cmd: SigmaCommand, pld: CommandPayload):
+async def cancelcollector(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     collector_coll = cmd.db[cmd.db.db_nam].CollectorQueue
     current = current_user_collecting
     if pld.msg.author.id != current:

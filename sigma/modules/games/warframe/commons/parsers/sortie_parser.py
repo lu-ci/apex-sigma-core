@@ -27,6 +27,13 @@ sortie_icon = 'https://i.imgur.com/Okg20Uk.png'
 
 
 async def get_sortie_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     sorties = await WorldState().sorties
     event_id = sorties['id']
     db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
@@ -37,6 +44,13 @@ async def get_sortie_data(db):
 
 
 def generate_sortie_embed(data):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     expiry_dt = arrow.get(data['end']).datetime
     response = discord.Embed(color=0x6666FF, title='Current Sorties', timestamp=expiry_dt)
     response.set_thumbnail(url=sortie_icon)

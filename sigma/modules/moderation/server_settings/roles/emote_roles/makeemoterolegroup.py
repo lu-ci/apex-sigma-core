@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, ok
 
 
-async def makeemoterolegroup(cmd: SigmaCommand, pld: CommandPayload):
+async def makeemoterolegroup(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_guild:
         emote_groups = pld.settings.get('emote_role_groups') or {}
         group_id = secrets.token_hex(3)

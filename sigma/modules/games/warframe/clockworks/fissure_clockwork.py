@@ -26,6 +26,11 @@ wff_loop_running = False
 
 
 async def fissure_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global wff_loop_running
     if not wff_loop_running:
         wff_loop_running = True
@@ -33,6 +38,11 @@ async def fissure_clockwork(ev: SigmaEvent):
 
 
 async def fissure_cycler(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException

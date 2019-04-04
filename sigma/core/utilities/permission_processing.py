@@ -18,6 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 def hierarchy_permit(author, target):
+    """
+
+    :param author:
+    :type author:
+    :param target:
+    :type target:
+    :return:
+    :rtype:
+    """
     top_author_role = author.top_role.position
     top_target_role = target.top_role.position
     target_is_owner = target.id == target.guild.owner.id

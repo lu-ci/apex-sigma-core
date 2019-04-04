@@ -22,7 +22,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def shutdown(cmd: SigmaCommand, pld: CommandPayload):
+async def shutdown(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     status = discord.Embed(color=0x808080, title=f'☠ {cmd.bot.user.name} Shutting Down.')
     await pld.msg.channel.send(embed=status)
     cmd.log.info(f'Terminated by {pld.msg.author.name}#{pld.msg.author.discriminator}')

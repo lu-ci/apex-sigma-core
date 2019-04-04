@@ -28,7 +28,13 @@ from sigma.core.mechanics.payload import CommandPayload
 cat_cache = []
 
 
-async def cat(cmd: SigmaCommand, pld: CommandPayload):
+async def cat(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     api_url = 'http://thecatapi.com/api/images/get?format=json&results_per_page=100'
     if cmd.cfg.api_key:
         api_url += f'&api_key={cmd.cfg.api_key}'

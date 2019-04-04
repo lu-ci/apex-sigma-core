@@ -25,7 +25,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def choosemany(_cmd: SigmaCommand, pld: CommandPayload):
+async def choosemany(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 2:
         if pld.args[0].isdigit():
             choices = ' '.join(pld.args[1:]).split('; ')

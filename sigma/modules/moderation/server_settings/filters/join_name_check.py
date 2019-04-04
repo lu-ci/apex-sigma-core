@@ -22,6 +22,13 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 
 async def join_name_check(_ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     if pld.member.guild:
         active = pld.settings.get('ascii_only_names')
         if active:

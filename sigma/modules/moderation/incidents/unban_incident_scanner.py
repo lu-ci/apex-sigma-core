@@ -26,6 +26,13 @@ from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_
 
 
 async def unban_incident_scanner(ev: SigmaCommand, pld: UnbanPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     unban_entry = None
     now = arrow.utcnow().float_timestamp
     async for ali in pld.guild.audit_logs(limit=100, action=discord.AuditLogAction.unban):

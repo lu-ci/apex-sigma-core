@@ -30,6 +30,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 def sort_transfers(dictlike: ResourceDict):
+    """
+
+    :param dictlike:
+    :type dictlike:
+    :return:
+    :rtype:
+    """
     sortable = []
     for dck in dictlike.keys():
         sortable.append([dck, dictlike.get(dck)])
@@ -39,6 +46,15 @@ def sort_transfers(dictlike: ResourceDict):
 
 
 async def describe_transfers(translist: list, getter):
+    """
+
+    :param translist:
+    :type translist:
+    :param getter:
+    :type getter:
+    :return:
+    :rtype:
+    """
     described = []
     for transitem in translist:
         transobject = await getter(int(transitem[0])) if inspect.isawaitable(getter) else getter(int(transitem[0]))
@@ -52,6 +68,15 @@ async def describe_transfers(translist: list, getter):
 
 
 async def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
+    """
+
+    :param bot:
+    :type bot:
+    :param pool:
+    :type pool:
+    :return:
+    :rtype:
+    """
     user_pool = sort_transfers(pool.users)
     user_desc = await describe_transfers(user_pool, bot.get_user)
     guild_pool = sort_transfers(pool.guilds)
@@ -63,6 +88,21 @@ async def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
 
 
 async def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.Member, res_nam: str, expense: bool):
+    """
+
+    :param bot:
+    :type bot:
+    :param pool:
+    :type pool:
+    :param target:
+    :type target:
+    :param res_nam:
+    :type res_nam:
+    :param expense:
+    :type expense:
+    :return:
+    :rtype:
+    """
     user_desc, guild_desc, channel_desc, function_desc = await get_top_transfers(bot, pool)
     descriptor = 'spent' if expense else 'obtained'
     titletor = 'expenses' if expense else 'origins'
@@ -88,7 +128,13 @@ async def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.M
     return response
 
 
-async def resourcestatistics(cmd: SigmaCommand, pld: CommandPayload):
+async def resourcestatistics(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         res_nam = pld.args[0].lower()
         res_nam = 'currency' if cmd.bot.cfg.pref.currency.lower() == res_nam else res_nam

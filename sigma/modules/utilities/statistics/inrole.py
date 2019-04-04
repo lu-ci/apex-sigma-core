@@ -28,6 +28,13 @@ accepted_states = ['dnd', 'idle', 'offline', 'online']
 
 
 def parse_args(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     state, page = None, 1
     for _ in range(0, 2):
         if args[-1].startswith('--'):
@@ -42,7 +49,13 @@ def parse_args(args: list):
     return lookup, state, page
 
 
-async def inrole(_cmd: SigmaCommand, pld: CommandPayload):
+async def inrole(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup, state, page = parse_args(pld.args)
         role_search = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)

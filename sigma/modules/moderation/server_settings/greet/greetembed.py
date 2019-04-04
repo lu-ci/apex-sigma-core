@@ -24,6 +24,15 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def check_field(field, value):
+    """
+
+    :param field:
+    :type field:
+    :param value:
+    :type value:
+    :return:
+    :rtype:
+    """
     if field == 'color':
         try:
             int_value = int(value, 16)
@@ -35,7 +44,13 @@ def check_field(field, value):
         return re.match(r"^(?:http(s)?://)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$", value)
 
 
-async def greetembed(cmd: SigmaCommand, pld: CommandPayload):
+async def greetembed(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         greet_embed = pld.settings.get('greet_embed') or {}
         embed_data = {

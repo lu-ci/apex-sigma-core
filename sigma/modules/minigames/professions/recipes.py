@@ -29,6 +29,17 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 
 async def check_requirements(cmd, message, recipe):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param message:
+    :type message:
+    :param recipe:
+    :type recipe:
+    :return:
+    :rtype:
+    """
     req_satisfied = 0
     for ingredient in recipe.ingredients:
         user_inv = await cmd.db.get_inventory(message.author.id)
@@ -43,6 +54,15 @@ async def check_requirements(cmd, message, recipe):
 
 
 def choose_recipe(recipe_core, recipe_type: str or None):
+    """
+
+    :param recipe_core:
+    :type recipe_core:
+    :param recipe_type:
+    :type recipe_type:
+    :return:
+    :rtype:
+    """
     recipe_icons = {'dessert': ('🍰', 0xf9f9f9), 'meal': ('🍱', 0xdd2e44), 'drink': ('🍶', 0x55acee)}
     if recipe_type:
         lookup = recipe_icons.get(recipe_type)
@@ -56,6 +76,13 @@ def choose_recipe(recipe_core, recipe_type: str or None):
 
 
 def get_filter(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     craftable, recipe_type = False, None
     if args:
         for arg in args:
@@ -66,7 +93,13 @@ def get_filter(args: list):
     return craftable, recipe_type
 
 
-async def recipes(cmd: SigmaCommand, pld: CommandPayload):
+async def recipes(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     craftable, recipe_type = get_filter(pld.args)
     recipe_core = await get_recipe_core(cmd.db)
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)

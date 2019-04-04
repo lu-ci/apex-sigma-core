@@ -24,7 +24,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def oserverbots(cmd: SigmaCommand, pld: CommandPayload):
+async def oserverbots(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup = ' '.join(pld.args)
         try:

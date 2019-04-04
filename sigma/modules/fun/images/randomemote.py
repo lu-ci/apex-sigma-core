@@ -26,7 +26,13 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.images.emote import get_emote_cache
 
 
-async def randomemote(cmd: SigmaCommand, pld: CommandPayload):
+async def randomemote(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     emotes, nsfw = pld.msg.guild.emojis, False
     if pld.args:
         if pld.args[-1].lower() == '--global':

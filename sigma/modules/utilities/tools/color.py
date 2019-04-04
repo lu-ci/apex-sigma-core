@@ -28,6 +28,13 @@ from sigma.core.utilities.generic_responses import error
 
 
 def store_image(im):
+    """
+
+    :param im:
+    :type im:
+    :return:
+    :rtype:
+    """
     io = BytesIO()
     im.save(io, "PNG")
     io.seek(0)
@@ -35,6 +42,13 @@ def store_image(im):
 
 
 def get_color_tuple(args: list):
+    """
+
+    :param args:
+    :type args:
+    :return:
+    :rtype:
+    """
     color_tuple = None
     if len(args) == 1:
         color_input = args[0]
@@ -55,7 +69,13 @@ def get_color_tuple(args: list):
     return color_tuple
 
 
-async def color(_cmd: SigmaCommand, pld: CommandPayload):
+async def color(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     file = None
     if pld.args:
         color_tuple = get_color_tuple(pld.args)

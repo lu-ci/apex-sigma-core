@@ -31,6 +31,15 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
 async def grab_post(subreddit, argument):
+    """
+
+    :param subreddit:
+    :type subreddit:
+    :param argument:
+    :type argument:
+    :return:
+    :rtype:
+    """
     try:
         subreddit_name = subreddit.display_name
     except AttributeError:
@@ -53,6 +62,13 @@ async def grab_post(subreddit, argument):
 
 
 def add_post_image(post, response):
+    """
+
+    :param post:
+    :type post:
+    :param response:
+    :type response:
+    """
     if post.url.split('.')[-1] in ['png', 'jpg', 'jpeg', 'gif']:
         response.set_image(url=post.url)
     elif hasattr(post, 'preview'):
@@ -65,7 +81,13 @@ def add_post_image(post, response):
                 response.set_image(url=prev_img)
 
 
-async def reddit(cmd: SigmaCommand, pld: CommandPayload):
+async def reddit(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     global reddit_client
     if pld.args:
         if reddit_client is None:

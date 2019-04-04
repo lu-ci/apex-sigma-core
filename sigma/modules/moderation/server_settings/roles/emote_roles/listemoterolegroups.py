@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def listemoterolegroups(cmd: SigmaCommand, pld: CommandPayload):
+async def listemoterolegroups(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     emote_groups = pld.settings.get('emote_role_groups') or {}
     if emote_groups:
         group_list = list(emote_groups.keys())

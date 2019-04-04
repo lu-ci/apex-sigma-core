@@ -24,6 +24,11 @@ version_clock_running = False
 
 
 async def version_updater(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global version_clock_running
     if not version_clock_running:
         if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
@@ -32,6 +37,11 @@ async def version_updater(ev: SigmaEvent):
 
 
 async def version_updater_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     version_coll = ev.db[ev.db.db_nam].VersionCache
     while True:
         if ev.bot.is_ready():

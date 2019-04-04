@@ -32,7 +32,13 @@ ongoing_list = []
 streaks = {}
 
 
-async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
+async def mangachargame(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.channel.id not in ongoing_list:
         try:
             ongoing_list.append(pld.msg.channel.id)
@@ -101,6 +107,13 @@ async def mangachargame(cmd: SigmaCommand, pld: CommandPayload):
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
+                """
+
+                :param msg:
+                :type msg:
+                :return:
+                :rtype:
+                """
                 if pld.msg.channel.id == msg.channel.id:
                     if msg.content.lower() in char_name.lower().split():
                         correct = True

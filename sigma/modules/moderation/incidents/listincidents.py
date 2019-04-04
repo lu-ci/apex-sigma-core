@@ -30,6 +30,15 @@ identifiers = ['moderator', 'target', 'variant']
 
 
 def parse_incidents(incidents: list, page):
+    """
+
+    :param incidents:
+    :type incidents:
+    :param page:
+    :type page:
+    :return:
+    :rtype:
+    """
     incidents = sorted(incidents, key=lambda i: i.order)
     incidents, page = PaginatorCore.paginate(incidents, page, 10)
     outlist = []
@@ -40,7 +49,13 @@ def parse_incidents(incidents: list, page):
     return '\n'.join(outlist), page
 
 
-async def listincidents(cmd: SigmaCommand, pld: CommandPayload):
+async def listincidents(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
         icore = get_incident_core(cmd.db)
         identifier, incidents = None, None

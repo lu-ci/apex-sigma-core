@@ -23,6 +23,13 @@ from sigma.core.mechanics.payload import MemberUpdatePayload
 
 
 def is_invalid(name):
+    """
+
+    :param name:
+    :type name:
+    :return:
+    :rtype:
+    """
     invalid = False
     for char in name:
         if char not in string.printable:
@@ -32,6 +39,15 @@ def is_invalid(name):
 
 
 def clean_name(name, default):
+    """
+
+    :param name:
+    :type name:
+    :param default:
+    :type default:
+    :return:
+    :rtype:
+    """
     end_name = ''
     for char in str(name):
         if char in string.printable:
@@ -42,6 +58,13 @@ def clean_name(name, default):
 
 
 async def edit_name_check(ev: SigmaEvent, pld: MemberUpdatePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.after.guild:
         is_owner = pld.after.id in ev.bot.cfg.dsc.owners
         if not any([pld.after.guild_permissions.administrator, is_owner]):

@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
-async def awardleaderboards(cmd: SigmaCommand, pld: CommandPayload):
+async def awardleaderboards(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         coll_title = pld.args[0].title()
         coll_title = 'Currency' if coll_title == cmd.bot.cfg.pref.currency.title() else coll_title

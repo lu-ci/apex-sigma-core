@@ -27,7 +27,13 @@ log_keys = [
 accepted_logs = [lk.lower()[4:] for lk in log_keys]
 
 
-async def log(cmd: SigmaCommand, pld: CommandPayload):
+async def log(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             order = ' '.join(pld.args).lower()

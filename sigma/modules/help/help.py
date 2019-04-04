@@ -31,7 +31,13 @@ support_url = 'https://discordapp.com/invite/aEUCHwX'
 
 
 # noinspection PyShadowingBuiltins
-async def help(cmd: SigmaCommand, pld: CommandPayload):
+async def help(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         cmd_name = ''.join(pld.args).lower()
         if cmd_name in cmd.bot.modules.alts:

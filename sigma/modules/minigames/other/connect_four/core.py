@@ -20,6 +20,9 @@ import secrets
 
 
 class ConnectFourBoard(object):
+    """
+
+    """
     def __init__(self):
         self.rows = []
         self.r = '🔴'
@@ -28,10 +31,24 @@ class ConnectFourBoard(object):
 
     @property
     def make(self):
+        """
+
+        :return:
+        :rtype:
+        """
         [self.rows.append([self.e for _ in range(7)]) for _ in range(6)]
         return self.rows
 
     def edit(self, column: int, player: str):
+        """
+
+        :param column:
+        :type column:
+        :param player:
+        :type player:
+        :return:
+        :rtype:
+        """
         piece = getattr(self, player)
         for i, cell in reversed(list(enumerate(self.column(column)))):
             if cell == self.e:
@@ -40,21 +57,50 @@ class ConnectFourBoard(object):
         return self.rows
 
     def column(self, column: int):
+        """
+
+        :param column:
+        :type column:
+        :return:
+        :rtype:
+        """
         return [row[column] for row in self.rows]
 
     @property
     def columns(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return [self.column(i) for i, r in enumerate(self.rows)]
 
     def column_full(self, column: int):
+        """
+
+        :param column:
+        :type column:
+        :return:
+        :rtype:
+        """
         return self.rows[0][column] != self.e
 
     @property
     def full(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return all([self.rows[0][i] != self.e for i in range(len(self.rows))])
 
     @property
     def winner(self):
+        """
+
+        :return:
+        :rtype:
+        """
         full = self.full
         for row in self.rows:
             chunks = [row[0:4], row[1:5], row[2:6], row[3:7]]
@@ -70,6 +116,13 @@ class ConnectFourBoard(object):
         return full, winner, win
 
     def first_check(self, chunks: list):
+        """
+
+        :param chunks:
+        :type chunks:
+        :return:
+        :rtype:
+        """
         winner, win = None, False
         for chunk in chunks:
             if all(x == chunk[0] != self.e for x in chunk):
@@ -78,6 +131,11 @@ class ConnectFourBoard(object):
         return winner, win
 
     def second_check(self):
+        """
+
+        :return:
+        :rtype:
+        """
         for chunk in self.chunks(self.rows):
             if all(x == chunk[0] != self.e for x in chunk):
                 return chunk[0], True
@@ -89,6 +147,13 @@ class ConnectFourBoard(object):
 
     @staticmethod
     def chunks(rows: list):
+        """
+
+        :param rows:
+        :type rows:
+        :return:
+        :rtype:
+        """
         # Gets all diagonal winning positions in one direction
         bases = [[(3, 0), (2, 1), (1, 2), (0, 3)], [(4, 0), (3, 1), (2, 2), (1, 3)], [(5, 0), (4, 1), (3, 2), (2, 3)]]
         chunks = []
@@ -100,6 +165,13 @@ class ConnectFourBoard(object):
         return rows
 
     def bot_move(self, last: int):
+        """
+
+        :param last:
+        :type last:
+        :return:
+        :rtype:
+        """
         choice, bad_col = None, True
         while bad_col:
             move = secrets.randbelow(3)

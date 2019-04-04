@@ -26,6 +26,15 @@ from sigma.core.mechanics.payload import GuildPayload
 
 
 async def get_channels(ev: SigmaEvent, marker):
+    """
+
+    :param ev:
+    :type ev:
+    :param marker:
+    :type marker:
+    :return:
+    :rtype:
+    """
     channel_list = []
     lookup = {marker: {'$exists': True}}
     setting_files = await ev.db[ev.db.db_nam].ServerSettings.find(lookup).to_list(None)
@@ -40,6 +49,17 @@ async def get_channels(ev: SigmaEvent, marker):
 
 
 async def get_triggers(db, triggers, pld: GuildPayload):
+    """
+
+    :param db:
+    :type db:
+    :param triggers:
+    :type triggers:
+    :param pld:
+    :type pld:
+    :return:
+    :rtype:
+    """
     mentions = []
     for trigger in triggers:
         wf_tags = await db.get_guild_settings(pld.guild.id, 'warframe_tags')
@@ -55,11 +75,27 @@ async def get_triggers(db, triggers, pld: GuildPayload):
 
 
 async def clean_wf_cache(db: Database):
+    """
+
+    :param db:
+    :type db:
+    """
     cutoff = arrow.utcnow().timestamp - 2592000
     await db[db.db_nam].WarframeCache.delete_many({'created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev: SigmaEvent, response, marker, triggers=None):
+    """
+
+    :param ev:
+    :type ev:
+    :param response:
+    :type response:
+    :param marker:
+    :type marker:
+    :param triggers:
+    :type triggers:
+    """
     channels = await get_channels(ev, marker)
     for channel in channels:
         # noinspection PyBroadException

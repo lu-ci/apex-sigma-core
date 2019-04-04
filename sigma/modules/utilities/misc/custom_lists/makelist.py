@@ -24,13 +24,26 @@ from sigma.core.utilities.generic_responses import ok
 
 
 def settings(lookup: str):
+    """
+
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     mode = None
     if lookup in ['private', 'locked']:
         mode = lookup
     return mode
 
 
-async def makelist(cmd: SigmaCommand, pld: CommandPayload):
+async def makelist(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     mode = None
     if pld.args:
         mode = settings(pld.args[0].lower())

@@ -30,6 +30,19 @@ accepted_logs = [lk.lower()[4:-8] for lk in log_keys]
 
 
 async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
+    """
+
+    :param log_ords:
+    :type log_ords:
+    :param gld_id:
+    :type gld_id:
+    :param chn:
+    :type chn:
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     results = []
     for log_ord in log_ords:
         if log_ord in accepted_logs:
@@ -43,7 +56,13 @@ async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
     return results
 
 
-async def loggingchannel(cmd: SigmaCommand, pld: CommandPayload):
+async def loggingchannel(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             mode, order = pld.args[0].lower(), ' '.join(pld.args[1:]).lower()

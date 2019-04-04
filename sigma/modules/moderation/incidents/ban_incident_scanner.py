@@ -28,6 +28,17 @@ from sigma.core.sigma import ApexSigma
 
 
 def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogAction, guild: discord.Guild):
+    """
+
+    :param bot:
+    :type bot:
+    :param ban_entry:
+    :type ban_entry:
+    :param guild:
+    :type guild:
+    :return:
+    :rtype:
+    """
     # matches Sigma's Audit reason for bans/kicks
     audit_reason = re.search(r'By (.+)#(\d{4})(: |\.)(.*)', ban_entry.reason or '')
     reason_group = audit_reason.group(4) if audit_reason else None
@@ -49,6 +60,13 @@ def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogAction, guild:
 
 
 async def ban_incident_scanner(ev: SigmaCommand, pld: BanPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     ban_entry = None
     now = arrow.utcnow().float_timestamp
     async for ali in pld.guild.audit_logs(limit=100, action=discord.AuditLogAction.ban):

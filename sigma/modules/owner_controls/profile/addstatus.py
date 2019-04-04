@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, ok
 
 
-async def addstatus(cmd: SigmaCommand, pld: CommandPayload):
+async def addstatus(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         status_text = ' '.join(pld.args)
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one({'text': status_text})

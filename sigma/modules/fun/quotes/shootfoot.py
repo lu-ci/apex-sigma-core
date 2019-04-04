@@ -27,6 +27,13 @@ from sigma.core.utilities.generic_responses import not_found
 
 
 async def get_all_sf(db: Database):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     joke_docs = await db.cache.get_cache('shoot_foot_docs')
     if joke_docs is None:
         joke_docs = await db[db.db_nam].ShootFootData.find().to_list(None)
@@ -34,7 +41,13 @@ async def get_all_sf(db: Database):
     return joke_docs
 
 
-async def shootfoot(cmd: SigmaCommand, pld: CommandPayload):
+async def shootfoot(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     lang = ' '.join(pld.args).lower() if pld.args else None
     if lang:
         joke_doc = await cmd.db[cmd.db.db_nam].ShootFootData.find_one({'lang_low': lang})

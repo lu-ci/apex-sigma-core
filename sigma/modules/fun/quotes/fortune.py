@@ -26,7 +26,13 @@ from sigma.core.mechanics.payload import CommandPayload
 fortune_files = []
 
 
-async def fortune(cmd: SigmaCommand, pld: CommandPayload):
+async def fortune(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not fortune_files:
         fortune_docs = await cmd.db[cmd.db.db_nam].FortuneData.find().to_list(None)
         [fortune_files.append(fd) for fd in fortune_docs if 0 < len(fd) < 800]

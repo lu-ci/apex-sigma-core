@@ -28,6 +28,13 @@ item_core_cache = None
 
 
 async def get_item_core(db: Database):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     global item_core_cache
     if not item_core_cache:
         item_core_cache = ItemCore(db)
@@ -36,6 +43,9 @@ async def get_item_core(db: Database):
 
 
 class ItemCore(object):
+    """
+
+    """
     def __init__(self, db: Database):
         self.db = db
         self.rarity_names = rarity_names
@@ -44,6 +54,13 @@ class ItemCore(object):
         self.all_items = []
 
     def get_item_by_name(self, name):
+        """
+
+        :param name:
+        :type name:
+        :return:
+        :rtype:
+        """
         output = None
         for item in self.all_items:
             if item.name.lower() == name.lower():
@@ -52,6 +69,13 @@ class ItemCore(object):
         return output
 
     def get_item_by_file_id(self, name):
+        """
+
+        :param name:
+        :type name:
+        :return:
+        :rtype:
+        """
         output = None
         for item in self.all_items:
             if item.file_id == name:
@@ -60,6 +84,15 @@ class ItemCore(object):
         return output
 
     def pick_item_in_rarity(self, item_category, rarity):
+        """
+
+        :param item_category:
+        :type item_category:
+        :param rarity:
+        :type rarity:
+        :return:
+        :rtype:
+        """
         in_rarity = []
         for item in self.all_items:
             if item.type.lower() == item_category:
@@ -69,6 +102,9 @@ class ItemCore(object):
         return choice
 
     async def init_items(self):
+        """
+
+        """
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
         all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
@@ -85,9 +121,27 @@ class ItemCore(object):
 
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):
+        """
+
+        :param upgrade:
+        :type upgrade:
+        :param rarity_chance:
+        :type rarity_chance:
+        :param rarity_modifier:
+        :type rarity_modifier:
+        :return:
+        :rtype:
+        """
         return (rarity_chance + ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
 
     def create_roll_range(self, upgrade):
+        """
+
+        :param upgrade:
+        :type upgrade:
+        :return:
+        :rtype:
+        """
         chances = {
             0: 32.00,
             1: 26.00,
@@ -135,6 +189,13 @@ class ItemCore(object):
         return top_roll, rarities
 
     async def roll_rarity(self, profile: dict):
+        """
+
+        :param profile:
+        :type profile:
+        :return:
+        :rtype:
+        """
         upgrade_file = profile.get('upgrades') or {}
         upgrade_level = upgrade_file.get('luck', 0)
         top_roll, rarities = self.create_roll_range(upgrade_level)
@@ -149,6 +210,15 @@ class ItemCore(object):
 
     @staticmethod
     async def add_item_statistic(db: Database, item: SigmaRawItem, member: discord.Member):
+        """
+
+        :param db:
+        :type db:
+        :param item:
+        :type item:
+        :param member:
+        :type member:
+        """
         member_stats = await db[db.db_nam].ItemStatistics.find_one({'user_id': member.id})
         if member_stats is None:
             await db[db.db_nam].ItemStatistics.insert_one({'user_id': member.id})

@@ -20,7 +20,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def endraffle(cmd: SigmaCommand, pld: CommandPayload):
+async def endraffle(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         rafid = pld.args[0].lower()
         raffle = await cmd.db[cmd.db.db_nam].Raffles.find_one({'id': rafid, 'active': True})

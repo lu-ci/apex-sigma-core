@@ -29,7 +29,13 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
                 '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
-async def kitsunemimi(cmd: SigmaCommand, pld: CommandPayload):
+async def kitsunemimi(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     global links
     if not links:
         name = cmd.bot.user.name

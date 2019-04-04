@@ -24,6 +24,19 @@ from sigma.core.utilities.data_processing import user_avatar
 
 
 def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_count: int):
+    """
+
+    :param gld:
+    :type gld:
+    :param join:
+    :type join:
+    :param user_count:
+    :type user_count:
+    :param bot_count:
+    :type bot_count:
+    :return:
+    :rtype:
+    """
     for user in gld.members:
         if user.bot:
             bot_count += 1
@@ -54,6 +67,13 @@ def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_coun
 
 
 async def leave_move_log(ev: SigmaEvent, pld: GuildPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     owner = pld.guild.owner
     bot_count = 0
     user_count = 0

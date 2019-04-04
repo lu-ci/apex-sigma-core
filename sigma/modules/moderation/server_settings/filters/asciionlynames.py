@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, ok
 
 
-async def asciionlynames(cmd: SigmaCommand, pld: CommandPayload):
+async def asciionlynames(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         active = pld.settings.get('ascii_only_names')
         ascii_names, state = (False, 'disabled') if active else (True, 'enabled')

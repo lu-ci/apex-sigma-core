@@ -28,12 +28,28 @@ from sigma.core.utilities.generic_responses import not_found, warn
 
 
 def time_to_seconds(time):
+    """
+
+    :param time:
+    :type time:
+    :return:
+    :rtype:
+    """
     hrs, mins, secs = time.split(':')
     output = (int(hrs) * 3600) + (int(mins) * 60) + int(secs)
     return output
 
 
 def get_usercaps(username, trials):
+    """
+
+    :param username:
+    :type username:
+    :param trials:
+    :type trials:
+    :return:
+    :rtype:
+    """
     output = username
     for trial in trials:
         for player in trial['players']:
@@ -43,7 +59,13 @@ def get_usercaps(username, trials):
     return output
 
 
-async def wftrials(_cmd: SigmaCommand, pld: CommandPayload):
+async def wftrials(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         username = ' '.join(pld.args)
         trials_url = f'https://api.trials.wf/api/player/pc/{username}/completed'

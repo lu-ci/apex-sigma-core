@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
-async def addcommand(cmd: SigmaCommand, pld: CommandPayload):
+async def addcommand(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             attachment = len(pld.args) == 1 and pld.msg.attachments

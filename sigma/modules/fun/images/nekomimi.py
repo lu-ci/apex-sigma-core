@@ -35,7 +35,13 @@ embed_titles = ['Nyaa~', 'Nyanpasu!', 'Mnya :3', 'Meow~', '(｡･ω･｡)', '�
                 '(○｀ω´○)', '(●ↀωↀ●)', '(｡･ω･｡)', '(*Φ皿Φ*)', '§ꊘ⃑٥ꊘ⃐§', ']*ΦωΦ)ノ']
 
 
-async def nekomimi(cmd: SigmaCommand, pld: CommandPayload):
+async def nekomimi(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     global links
     if not links:
         name = cmd.bot.user.name

@@ -23,7 +23,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error
 
 
-async def lmgtfy(_cmd: SigmaCommand, pld: CommandPayload):
+async def lmgtfy(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup = '%20'.join(pld.args)
         google_icon = 'https://maxcdn.icons8.com/Share/icon/Logos/google_logo1600.png'

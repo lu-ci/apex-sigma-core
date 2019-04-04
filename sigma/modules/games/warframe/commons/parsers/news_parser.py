@@ -23,6 +23,13 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 
 async def get_news_data(db):
+    """
+
+    :param db:
+    :type db:
+    :return:
+    :rtype:
+    """
     news_list = await WorldState().news
     news_out = None
     triggers = ['news']
@@ -41,6 +48,13 @@ async def get_news_data(db):
 
 
 def generate_news_embed(data):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     event_datetime = arrow.get(data['date']).datetime
     en_trans = data['translations']['en']
     response = discord.Embed(color=0x336699, title=en_trans, timestamp=event_datetime, url=data['link'])

@@ -25,6 +25,17 @@ from sigma.core.utilities.generic_responses import denied, info, ok
 
 
 async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
+    """
+
+    :param data:
+    :type data:
+    :param goodbye:
+    :type goodbye:
+    :param guild:
+    :type guild:
+    :return:
+    :rtype:
+    """
     guild_color = await get_image_colors(guild.icon_url)
     goodbye = discord.Embed(color=data.get('color') or guild_color, description=goodbye)
     goodbye.set_author(name=guild.name, icon_url=guild.icon_url)
@@ -35,7 +46,13 @@ async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
     return goodbye
 
 
-async def byemessage(cmd: SigmaCommand, pld: CommandPayload):
+async def byemessage(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
             goodbye_text = ' '.join(pld.args)

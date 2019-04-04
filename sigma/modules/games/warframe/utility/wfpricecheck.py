@@ -32,6 +32,13 @@ plat_img = 'http://i.imgur.com/wa6J9bz.png'
 
 
 async def get_lowest_trader(order_url):
+    """
+
+    :param order_url:
+    :type order_url:
+    :return:
+    :rtype:
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(order_url) as data:
             page_data = await data.read()
@@ -51,7 +58,13 @@ async def get_lowest_trader(order_url):
     return sellers
 
 
-async def wfpricecheck(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfpricecheck(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     init_response = discord.Embed(color=0xFFCC66, title='🔬 Processing...')
     init_message = await pld.msg.channel.send(embed=init_response)
     if pld.args:

@@ -51,6 +51,9 @@ stat_coords = {
 
 
 async def fill_tdoll_data():
+    """
+
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get('https://en.gfwiki.com/wiki/T-Doll_Index') as data:
             page = await data.text()
@@ -64,6 +67,13 @@ async def fill_tdoll_data():
 
 
 def get_profile_info(root):
+    """
+
+    :param root:
+    :type root:
+    :return:
+    :rtype:
+    """
     data = {}
     pbox = root.cssselect('.profiletable')[0]
     for row in pbox:
@@ -76,6 +86,13 @@ def get_profile_info(root):
 
 
 async def get_tdoll_data(url: str):
+    """
+
+    :param url:
+    :type url:
+    :return:
+    :rtype:
+    """
     tdoll_data = tdoll_pages.get(url)
     if not tdoll_data:
         async with aiohttp.ClientSession() as session:
@@ -97,6 +114,13 @@ async def get_tdoll_data(url: str):
 
 
 def get_weapon_info_block(data: dict):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     out = f'**Full Name**: {data.get("full_name", "Unknown")}'
     out += f'\n**Manufacturer**: {data.get("manufacturer", "Unknown")}'
     out += f'\n**Country of Origin**: {data.get("country_of_origin", "Unknown")}'
@@ -104,6 +128,13 @@ def get_weapon_info_block(data: dict):
 
 
 def get_tdoll_stats(root):
+    """
+
+    :param root:
+    :type root:
+    :return:
+    :rtype:
+    """
     sr = root.cssselect('.stattabcontainer')[0][0][0]
     data = {}
     for key in stat_coords:
@@ -116,6 +147,13 @@ def get_tdoll_stats(root):
 
 
 def get_weapon_satats_block(data: dict):
+    """
+
+    :param data:
+    :type data:
+    :return:
+    :rtype:
+    """
     stats = data.get('stats')
     lines = []
     for key in stats.keys():
@@ -124,7 +162,13 @@ def get_weapon_satats_block(data: dict):
     return '\n'.join(lines)
 
 
-async def gftacticaldoll(_cmd: SigmaCommand, pld: CommandPayload):
+async def gftacticaldoll(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not tdoll_page_index:
         await fill_tdoll_data()
     if pld.args:

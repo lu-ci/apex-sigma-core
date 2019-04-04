@@ -26,6 +26,13 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def join_logger(ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     member = pld.member
     response = discord.Embed(color=0x66CC66, timestamp=arrow.utcnow().datetime)
     response.set_author(name='A Member Has Joined', icon_url=user_avatar(member))

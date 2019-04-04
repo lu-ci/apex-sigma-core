@@ -35,6 +35,13 @@ headers = {
 
 
 async def get_line_url(line_number: str):
+    """
+
+    :param line_number:
+    :type line_number:
+    :return:
+    :rtype:
+    """
     url_base = 'https://www.busevi.com'
     async with aiohttp.ClientSession() as session:
         async with session.get(url_base) as qs_session:
@@ -51,6 +58,13 @@ async def get_line_url(line_number: str):
 
 
 def parse_time(element):
+    """
+
+    :param element:
+    :type element:
+    :return:
+    :rtype:
+    """
     row_list = []
     for row in element:
         text_list = []
@@ -61,6 +75,13 @@ def parse_time(element):
 
 
 def parse_title(head):
+    """
+
+    :param head:
+    :type head:
+    :return:
+    :rtype:
+    """
     line_title_split = head.text_content().strip().split('\n')
     line_title_one = line_title_split[0].strip()
     line_title_two = line_title_split[-1][2:].strip()
@@ -68,6 +89,13 @@ def parse_title(head):
 
 
 def parse_slices(slices: list):
+    """
+
+    :param slices:
+    :type slices:
+    :return:
+    :rtype:
+    """
     slice_list = []
     for slice_piece in slices:
         slice_data = {}
@@ -97,6 +125,13 @@ def parse_slices(slices: list):
 
 
 async def get_time_table(page_url: str):
+    """
+
+    :param page_url:
+    :type page_url:
+    :return:
+    :rtype:
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(page_url) as qs_session:
             time_html = await qs_session.text()
@@ -119,6 +154,13 @@ async def get_time_table(page_url: str):
 
 
 def parse_lines(html_str: str):
+    """
+
+    :param html_str:
+    :type html_str:
+    :return:
+    :rtype:
+    """
     root = lx.fromstring(html_str)
     line_items = root.cssselect('.asl_res_url')
     line_list = []
@@ -131,6 +173,15 @@ def parse_lines(html_str: str):
 
 
 def get_correct(lookup: int, itterable: list):
+    """
+
+    :param lookup:
+    :type lookup:
+    :param itterable:
+    :type itterable:
+    :return:
+    :rtype:
+    """
     result = None
     for itter in itterable:
         itter_name = itter.get('name')
@@ -141,6 +192,15 @@ def get_correct(lookup: int, itterable: list):
 
 
 async def get_line_data(db: Database, line_number: str):
+    """
+
+    :param db:
+    :type db:
+    :param line_number:
+    :type line_number:
+    :return:
+    :rtype:
+    """
     target_cache = await db[db.db_nam].BusPlusCache.find_one({'Line': line_number})
     if target_cache:
         target_cache.pop('_id')
@@ -161,6 +221,15 @@ async def get_line_data(db: Database, line_number: str):
 
 
 def find_hr(times: list, hr: int):
+    """
+
+    :param times:
+    :type times:
+    :param hr:
+    :type hr:
+    :return:
+    :rtype:
+    """
     data = None
     for elem in times:
         if elem.get('hour') == hr:
@@ -169,12 +238,32 @@ def find_hr(times: list, hr: int):
 
 
 def make_time(hour: int, minutes: int):
+    """
+
+    :param hour:
+    :type hour:
+    :param minutes:
+    :type minutes:
+    :return:
+    :rtype:
+    """
     hour = str(hour) if len(str(hour)) == 2 else f'0{hour}'
     minutes = str(minutes) if len(str(minutes)) == 2 else f'0{minutes}'
     return f'{hour}:{minutes}'
 
 
 def make_time_list(terminus_times: list, current_time: arrow.Arrow, data_pool: str):
+    """
+
+    :param terminus_times:
+    :type terminus_times:
+    :param current_time:
+    :type current_time:
+    :param data_pool:
+    :type data_pool:
+    :return:
+    :rtype:
+    """
     time_list = []
     previous_hour = int(current_time.shift(hours=-1).format('HH'))
     current_hour = int(current_time.format('HH'))
@@ -191,7 +280,13 @@ def make_time_list(terminus_times: list, current_time: arrow.Arrow, data_pool: s
     return time_list
 
 
-async def busplus(cmd: SigmaCommand, pld: CommandPayload):
+async def busplus(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         line_number = " ".join(pld.args)
         current_time = arrow.utcnow().to('Europe/Belgrade')

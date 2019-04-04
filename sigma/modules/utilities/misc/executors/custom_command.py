@@ -25,6 +25,15 @@ from sigma.core.utilities.data_processing import command_message_parser
 
 
 def log_command_usage(log, message, command):
+    """
+
+    :param log:
+    :type log:
+    :param message:
+    :type message:
+    :param command:
+    :type command:
+    """
     if message.guild:
         cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '
         cmd_location += f'CHN: #{message.channel.name} [{message.channel.id}]'
@@ -36,6 +45,13 @@ def log_command_usage(log, message, command):
 
 
 async def custom_command(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild:
         prefix = ev.db.get_prefix(pld.settings)
         if pld.msg.content.startswith(prefix):

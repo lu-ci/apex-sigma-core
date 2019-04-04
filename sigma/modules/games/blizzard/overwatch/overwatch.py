@@ -24,7 +24,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.games.blizzard.overwatch.mech.utility import clean_numbers, get_profile, ow_icon, region_convert
 
 
-async def overwatch(_cmd: SigmaCommand, pld: CommandPayload):
+async def overwatch(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     init_resp = discord.Embed(color=0xff9c00)
     init_resp.set_author(name='Processing information...', icon_url=ow_icon)
     init_resp_msg = await pld.msg.channel.send(embed=init_resp)

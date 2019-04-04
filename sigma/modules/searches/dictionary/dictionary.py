@@ -28,7 +28,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 oxford_icon = 'https://i.imgur.com/lrinjBC.png'
 
 
-async def dictionary(cmd: SigmaCommand, pld: CommandPayload):
+async def dictionary(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if cmd.cfg.app_id is not None and cmd.cfg.app_key is not None:
         headers = {
             'Accept': 'application/json',

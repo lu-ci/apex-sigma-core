@@ -30,6 +30,17 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
 def generate_log_embed(message, target, reason):
+    """
+
+    :param message:
+    :type message:
+    :param target:
+    :type target:
+    :param reason:
+    :type reason:
+    :return:
+    :rtype:
+    """
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Hard Muted', icon_url=user_avatar(target))
     log_embed.add_field(name='🔇 Muted User',
@@ -44,6 +55,19 @@ def generate_log_embed(message, target, reason):
 
 
 async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+    """
+
+    :param db:
+    :type db:
+    :param gld:
+    :type gld:
+    :param ath:
+    :type ath:
+    :param trg:
+    :type trg:
+    :param reason:
+    :type reason:
+    """
     icore = get_incident_core(db)
     inc = icore.generate('hardmute')
     inc.set_location(gld)
@@ -54,7 +78,13 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
     await icore.report(gld, inc.to_embed('🔇', 0x696969))
 
 
-async def hardmute(cmd: SigmaCommand, pld: CommandPayload):
+async def hardmute(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
         if pld.msg.mentions:
             target = pld.msg.mentions[0]

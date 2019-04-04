@@ -27,6 +27,17 @@ rate_limit_cache = {}
 
 
 def rate_limited(msg: discord.Message, amt: int, tsp: int):
+    """
+
+    :param msg:
+    :type msg:
+    :param amt:
+    :type amt:
+    :param tsp:
+    :type tsp:
+    :return:
+    :rtype:
+    """
     limit_key = f'{msg.guild.id}_{msg.author.id}'
     limit_items = rate_limit_cache.get(limit_key, [])
     limit_items.append(msg)
@@ -38,6 +49,13 @@ def rate_limited(msg: discord.Message, amt: int, tsp: int):
 
 
 async def antispam_watcher(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     if pld.msg.guild and pld.msg.author:
         if isinstance(pld.msg.author, discord.Member):
             is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners

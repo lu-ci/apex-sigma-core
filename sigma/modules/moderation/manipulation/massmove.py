@@ -24,6 +24,15 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def get_vc(guild_vcs, lookup):
+    """
+
+    :param guild_vcs:
+    :type guild_vcs:
+    :param lookup:
+    :type lookup:
+    :return:
+    :rtype:
+    """
     if lookup.isdigit():
         vc = discord.utils.find(lambda x: x.id == int(lookup), guild_vcs)
     else:
@@ -31,7 +40,13 @@ def get_vc(guild_vcs, lookup):
     return vc
 
 
-async def massmove(_cmd: SigmaCommand, pld: CommandPayload):
+async def massmove(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_guild:
         if pld.args:
             movereqs = [piece.strip() for piece in ' '.join(pld.args).split(';')]

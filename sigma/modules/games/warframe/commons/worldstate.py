@@ -25,10 +25,22 @@ stats_url = 'https://api.warframestat.us/pc/'
 
 
 class WorldState(object):
+    """
+
+    """
     def __init__(self):
         self.raw = {}
 
     async def init(self, url: str, key: str):
+        """
+
+        :param url:
+        :type url:
+        :param key:
+        :type key:
+        :return:
+        :rtype:
+        """
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url + key) as data:
@@ -39,6 +51,17 @@ class WorldState(object):
         return self
 
     async def safe_get(self, url: str, key: str, indexed: bool = False):
+        """
+
+        :param url:
+        :type url:
+        :param key:
+        :type key:
+        :param indexed:
+        :type indexed:
+        :return:
+        :rtype:
+        """
         await self.init(url, key)
         data = self.raw
         if url == tools_url:
@@ -52,48 +75,108 @@ class WorldState(object):
 
     @property
     async def news(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(stats_url, 'news')
 
     @property
     async def sorties(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'sorties', True)
 
     @property
     async def invasions(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'invasions')
 
     @property
     async def fissures(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'fissures')
 
     @property
     async def bounties(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'bounties')
 
     @property
     async def factionprojects(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'factionprojects')
 
     @property
     async def voidtraders(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'voidtraders', True)
 
     @property
     async def acolytes(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'acolytes')
 
     @property
     async def flashsales(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(stats_url, 'flashSales')
 
     @property
     async def dailydeals(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'dailydeals', True)
 
     @property
     async def nightwave(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(tools_url, 'challenges', True)
 
     @property
     async def vallistime(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return await self.safe_get(stats_url, 'vallisCycle')

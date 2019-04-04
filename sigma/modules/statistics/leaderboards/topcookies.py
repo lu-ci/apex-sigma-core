@@ -25,6 +25,15 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 
 def get_user_value(data: dict, coords: str):
+    """
+
+    :param data:
+    :type data:
+    :param coords:
+    :type coords:
+    :return:
+    :rtype:
+    """
     user_value = data
     for coord in coords.split('.'):
         user_value = user_value.get(coord, {})
@@ -32,6 +41,17 @@ def get_user_value(data: dict, coords: str):
 
 
 async def get_leader_docs(cmd, all_docs, sort_key):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param all_docs:
+    :type all_docs:
+    :param sort_key:
+    :type sort_key:
+    :return:
+    :rtype:
+    """
     leader_docs = []
     for data_doc in all_docs:
         user_value = get_user_value(data_doc, sort_key)
@@ -44,7 +64,13 @@ async def get_leader_docs(cmd, all_docs, sort_key):
     return leader_docs
 
 
-async def topcookies(cmd: SigmaCommand, pld: CommandPayload):
+async def topcookies(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     gu = cmd.bot.get_user
     value_name = 'Cookies'
     resource = 'cookies'

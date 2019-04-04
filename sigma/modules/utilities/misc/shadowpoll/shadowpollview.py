@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def shadowpollview(cmd: SigmaCommand, pld: CommandPayload):
+async def shadowpollview(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         poll_id = ''.join(pld.args).lower()
         poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})

@@ -23,7 +23,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def statistics(cmd: SigmaCommand, pld: CommandPayload):
+async def statistics(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     sigma_title = 'Apex Sigma: Statistics'
     support_url = 'https://discordapp.com/invite/aEUCHwX'

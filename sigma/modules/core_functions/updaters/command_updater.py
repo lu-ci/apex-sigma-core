@@ -25,6 +25,11 @@ command_clock_running = False
 
 
 async def command_updater(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     global command_clock_running
     if not command_clock_running:
         if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
@@ -33,6 +38,15 @@ async def command_updater(ev: SigmaEvent):
 
 
 async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param mdl_coll:
+    :type mdl_coll:
+    :return:
+    :rtype:
+    """
     mdl_doc = await mdl_coll.find_one({'name': cmd.category})
     cmd_data = {
         "desc": cmd.desc,
@@ -48,6 +62,11 @@ async def gen_cmd_cache_data(cmd: SigmaCommand, mdl_coll):
 
 
 async def command_updater_clockwork(ev: SigmaEvent):
+    """
+
+    :param ev:
+    :type ev:
+    """
     module_coll = ev.db[ev.db.db_nam].ModuleCache
     command_coll = ev.db[ev.db.db_nam].CommandCache
     await module_coll.drop()

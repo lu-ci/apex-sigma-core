@@ -27,6 +27,15 @@ from sigma.modules.moderation.permissions.nodes.permission_data import get_all_p
 
 
 def get_perm_type(cmd: SigmaCommand, perm_type: str):
+    """
+
+    :param cmd:
+    :type cmd:
+    :param perm_type:
+    :type perm_type:
+    :return:
+    :rtype:
+    """
     if perm_type == 'modules':
         perm_name = 'modules'
         perm_type = 'disabled_modules'
@@ -43,7 +52,13 @@ def get_perm_type(cmd: SigmaCommand, perm_type: str):
     return perm_name, perm_type, exception_type, item_list
 
 
-async def disabled(cmd: SigmaCommand, pld: CommandPayload):
+async def disabled(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         perm_name, perm_type, exception_type, item_list = get_perm_type(cmd, pld.args[0].lower())
         if perm_name:

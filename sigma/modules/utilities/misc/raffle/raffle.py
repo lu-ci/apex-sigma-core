@@ -30,7 +30,13 @@ raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
 
 
-async def raffle(cmd: SigmaCommand, pld: CommandPayload):
+async def raffle(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if len(pld.args) >= 2:
         time_input = pld.args[0]
         raffle_title = ' '.join(pld.args[1:])

@@ -23,6 +23,13 @@ from sigma.core.mechanics.payload import MemberPayload
 
 
 async def join_name_ban(_ev: SigmaEvent, pld: MemberPayload):
+    """
+
+    :param _ev:
+    :type _ev:
+    :param pld:
+    :type pld:
+    """
     if pld.member.guild:
         active = pld.settings.get('name_filter_ban')
         if active:

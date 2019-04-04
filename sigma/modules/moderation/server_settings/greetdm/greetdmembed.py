@@ -22,7 +22,13 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.modules.moderation.server_settings.greet.greetembed import check_field
 
 
-async def greetdmembed(cmd: SigmaCommand, pld: CommandPayload):
+async def greetdmembed(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         greet_embed = pld.settings.get('greet_dm_embed') or {}
         embed_data = {

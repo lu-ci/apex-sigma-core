@@ -30,7 +30,13 @@ ongoing_list = []
 word_cache = {}
 
 
-async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
+async def unscramblegame(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:
@@ -48,6 +54,13 @@ async def unscramblegame(cmd: SigmaCommand, pld: CommandPayload):
         await pld.msg.channel.send(embed=question_embed)
 
         def check_answer(msg):
+            """
+
+            :param msg:
+            :type msg:
+            :return:
+            :rtype:
+            """
             if pld.msg.channel.id == msg.channel.id:
                 if msg.content.lower() == word_choice.lower():
                     correct = True

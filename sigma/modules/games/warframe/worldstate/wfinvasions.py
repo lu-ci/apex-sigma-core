@@ -26,7 +26,13 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
 
 
-async def wfinvasions(_cmd: SigmaCommand, pld: CommandPayload):
+async def wfinvasions(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     invasions = await WorldState().invasions
     if invasions:
         response = discord.Embed(color=0xff5050, title='Currently Ongoing Invasions')

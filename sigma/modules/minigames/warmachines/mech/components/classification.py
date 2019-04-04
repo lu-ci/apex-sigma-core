@@ -177,12 +177,27 @@ class_scale = {
 class ClassificationCore(ComponentCore):
     @property
     def names(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return class_names
 
     @property
     def bases(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return class_bases
 
     @property
     def scaling(self):
+        """
+
+        :return:
+        :rtype:
+        """
         return class_scale

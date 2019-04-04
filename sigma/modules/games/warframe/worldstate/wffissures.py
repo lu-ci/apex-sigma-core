@@ -30,6 +30,13 @@ fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 
 def sort_fissures(fissures: list):
+    """
+
+    :param fissures:
+    :type fissures:
+    :return:
+    :rtype:
+    """
     lith, meso, neo, axi = [], [], [], []
     for fissure in fissures:
         if fissure['tier'] == 'Lith':
@@ -43,7 +50,13 @@ def sort_fissures(fissures: list):
     return lith + meso + neo + axi
 
 
-async def wffissures(_cmd: SigmaCommand, pld: CommandPayload):
+async def wffissures(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     fissures = await WorldState().fissures
     if fissures:
         response = discord.Embed(color=0x66ccff, title='Currently Ongoing Fissures')

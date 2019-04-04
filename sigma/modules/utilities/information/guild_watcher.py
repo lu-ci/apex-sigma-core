@@ -27,6 +27,13 @@ end_stamp = start_stamp + 86400
 
 
 def update_stat(guild_id: int, stat: str):
+    """
+
+    :param guild_id:
+    :type guild_id:
+    :param stat:
+    :type stat:
+    """
     gld_stats = stats.get(guild_id, {})
     count = gld_stats.get(stat, 0)
     gld_stats.update({stat: count + 1})
@@ -34,6 +41,13 @@ def update_stat(guild_id: int, stat: str):
 
 
 async def guild_watcher(ev: SigmaEvent, pld: MessagePayload):
+    """
+
+    :param ev:
+    :type ev:
+    :param pld:
+    :type pld:
+    """
     global start_stamp, end_stamp
     if pld.msg.guild:
         now = arrow.utcnow().timestamp

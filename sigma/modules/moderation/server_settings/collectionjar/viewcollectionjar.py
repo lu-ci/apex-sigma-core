@@ -23,6 +23,9 @@ from sigma.core.mechanics.payload import CommandPayload
 
 
 class CollectionJar(object):
+    """
+
+    """
     def __init__(self, jar, message, target):
         self.raw = jar
         self.total = self.raw.get('total', 0)
@@ -34,13 +37,24 @@ class CollectionJar(object):
 
     @property
     def user_total(self):
+        """
+
+        :return:
+        :rtype:
+        """
         contributions = 0
         for chn, amount in self.user.items():
             contributions += amount
         return contributions
 
 
-async def viewcollectionjar(_cmd: SigmaCommand, pld: CommandPayload):
+async def viewcollectionjar(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     jar_doc = pld.settings.get('collection_jar') or {}
     if jar_doc:
         target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author

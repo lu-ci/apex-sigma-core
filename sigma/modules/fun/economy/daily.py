@@ -25,7 +25,13 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 
 
-async def daily(cmd: SigmaCommand, pld: CommandPayload):
+async def daily(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     daily_doc = await cmd.db[cmd.db.db_nam].DailyCache.find_one({'user_id': pld.msg.author.id}) or {}
     if not daily_doc:
         def_data = {'user_id': pld.msg.author.id, 'stamp': 0, 'streak': 0}

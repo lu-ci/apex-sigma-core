@@ -27,7 +27,13 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
 
 
-async def fish(cmd: SigmaCommand, pld: CommandPayload):
+async def fish(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     item_core = await get_item_core(cmd.db)
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
         upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}

@@ -25,7 +25,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error
 
 
-async def responders(_cmd: SigmaCommand, pld: CommandPayload):
+async def responders(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     responder_files = pld.settings.get('responder_triggers')
     if responder_files:
         responder_list = sorted(list(responder_files.keys()))

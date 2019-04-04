@@ -21,7 +21,13 @@ from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import denied, error, ok
 
 
-async def blindcollector(cmd: SigmaCommand, pld: CommandPayload):
+async def blindcollector(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_channels:
         if pld.msg.channel_mentions:
             target = pld.msg.channel_mentions[0]

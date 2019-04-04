@@ -29,7 +29,13 @@ from sigma.core.utilities.url_processing import aioget
 pypi_io_icon = 'https://i.imgur.com/BSUf5p2.png'
 
 
-async def pythonpackage(_cmd: SigmaCommand, pld: CommandPayload):
+async def pythonpackage(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         lookup = '_'.join(pld.args)
         package_url = f'https://pypi.org/pypi/{lookup}/json'

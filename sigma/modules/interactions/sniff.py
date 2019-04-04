@@ -27,7 +27,13 @@ from sigma.modules.interactions.mech.interaction_mechanics import get_author, ge
 endings = ['themself', 'something off the table', 'panties', 'glue', ]
 
 
-async def sniff(cmd: SigmaCommand, pld: CommandPayload):
+async def sniff(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     interaction = await grab_interaction(cmd.db, 'sniff')
     target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
     noun = secrets.choice(endings)

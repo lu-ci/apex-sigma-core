@@ -26,6 +26,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 
 def make_kanji_dict(kanji_page):
+    """
+
+    :param kanji_page:
+    :type kanji_page:
+    :return:
+    :rtype:
+    """
     stroke_source = kanji_page.cssselect('.stroke_diagram img')[0].attrib.get('src')
     kanji_dict = {
         'kanji': kanji_page.cssselect('.literal.japanese')[0].text.strip(),
@@ -39,6 +46,13 @@ def make_kanji_dict(kanji_page):
 
 
 def parse_radical_data(kanji_data, kanji_page):
+    """
+
+    :param kanji_data:
+    :type kanji_data:
+    :param kanji_page:
+    :type kanji_page:
+    """
     for element in kanji_page.cssselect('.connections')[0]:
         if element.tag == 'strong':
             data_type = element.text.strip()[:-1].lower()
@@ -53,6 +67,13 @@ def parse_radical_data(kanji_data, kanji_page):
 
 
 def parse_readings_data(kanji_data, kanji_page):
+    """
+
+    :param kanji_data:
+    :type kanji_data:
+    :param kanji_page:
+    :type kanji_page:
+    """
     type_cache = ''
     for element in kanji_page.cssselect('.readings .japanese_readings')[0]:
         if element.text:
@@ -75,6 +96,13 @@ def parse_readings_data(kanji_data, kanji_page):
 
 
 def parse_meanings_data(kanji_data, kanji_page):
+    """
+
+    :param kanji_data:
+    :type kanji_data:
+    :param kanji_page:
+    :type kanji_page:
+    """
     meanings = kanji_page.cssselect('.meanings .english_meanings p')[0]
     kanji_data['meanings'].append(meanings.text[:-1])  # append the first meaning
     for element in meanings:
@@ -85,6 +113,13 @@ def parse_meanings_data(kanji_data, kanji_page):
 
 
 def clean_readings_data(kanji_dict):
+    """
+
+    :param kanji_dict:
+    :type kanji_dict:
+    :return:
+    :rtype:
+    """
     readings = kanji_dict['readings']
     bad_chars = ['、 ', '、', '\t', ' ']
     rds = {'readings': {'kun': [], 'on': [], 'names': []}}
@@ -98,7 +133,13 @@ def clean_readings_data(kanji_dict):
     return rds
 
 
-async def kanji(_cmd: SigmaCommand, pld: CommandPayload):
+async def kanji(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         query = pld.args[0][0]
         async with aiohttp.ClientSession() as session:

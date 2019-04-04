@@ -30,6 +30,13 @@ wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_
 
 
 def shorten_sentences(text: str):
+    """
+
+    :param text:
+    :type text:
+    :return:
+    :rtype:
+    """
     sentences = [f'{s.strip()}.' for s in text.replace('\n', ' ').split('.')]
     new_sentences = []
     for sentence in sentences:
@@ -41,6 +48,13 @@ def shorten_sentences(text: str):
 
 
 def get_exact_results(search_data: list):
+    """
+
+    :param search_data:
+    :type search_data:
+    :return:
+    :rtype:
+    """
     exact_result = None
     search, results, descs, urls = search_data
     for i, result in enumerate(results):
@@ -52,7 +66,13 @@ def get_exact_results(search_data: list):
     return exact_result
 
 
-async def wikipedia(_cmd: SigmaCommand, pld: CommandPayload):
+async def wikipedia(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.args:
         api_url = f'{api_base}&action=opensearch&search={" ".join(pld.args)}&redirects=resolve'
         async with aiohttp.ClientSession() as session:

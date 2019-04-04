@@ -31,6 +31,17 @@ from sigma.core.utilities.generic_responses import denied, error, ok
 
 
 def warning_data(author: discord.Member, target: discord.Member, reason: str):
+    """
+
+    :param author:
+    :type author:
+    :param target:
+    :type target:
+    :param reason:
+    :type reason:
+    :return:
+    :rtype:
+    """
     data = {
         'guild': author.guild.id,
         'moderator': {
@@ -56,6 +67,19 @@ def warning_data(author: discord.Member, target: discord.Member, reason: str):
 
 
 def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, reason):
+    """
+
+    :param author:
+    :type author:
+    :param target:
+    :type target:
+    :param warn_iden:
+    :type warn_iden:
+    :param reason:
+    :type reason:
+    :return:
+    :rtype:
+    """
     target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
     target_descrp = f'{target.mention}\n{target.name}#{target.discriminator}'
@@ -70,6 +94,19 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, re
 
 
 async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+    """
+
+    :param db:
+    :type db:
+    :param gld:
+    :type gld:
+    :param ath:
+    :type ath:
+    :param trg:
+    :type trg:
+    :param reason:
+    :type reason:
+    """
     icore = get_incident_core(db)
     inc = icore.generate('warn')
     inc.set_location(gld)
@@ -80,7 +117,13 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
     await icore.report(gld, inc.to_embed('⚠', 0xFFCC4D))
 
 
-async def issuewarning(cmd: SigmaCommand, pld: CommandPayload):
+async def issuewarning(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if pld.msg.author.guild_permissions.manage_messages:
         if pld.msg.mentions:
             target = pld.msg.mentions[0]
