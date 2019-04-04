@@ -34,6 +34,6 @@ async def remover_detector(ev: SigmaEvent, pld: RawReactionPayload):
                 if interaction_item:
                     await ev.db[ev.db.db_nam].Interactions.update_one(interaction_item, {'$set': {'active': True}})
                     channel = await ev.bot.get_channel(log_ch_id, True)
-                    message = await channel.get_message(mid) if channel else None
+                    message = await channel.fetch_message(mid) if channel else None
                     if message:
                         await message.add_reaction('🆗')

@@ -57,7 +57,7 @@ async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, d
             sugg_chn = await bot.get_channel(sugg_cmd.cfg.channel, True)
             if sugg_chn:
                 try:
-                    smsg = await sugg_chn.get_message(suggestion.get('message'))
+                    smsg = await sugg_chn.fetch_message(suggestion.get('message'))
                     if smsg:
                         if delete:
                             await smsg.delete()

@@ -26,14 +26,14 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 async def message_search(lookup: int, message: discord.Message):
     try:
-        msg = await message.channel.get_message(lookup)
+        msg = await message.channel.fetch_message(lookup)
     except discord.NotFound:
         msg = None
     if not msg:
         for channel in message.guild.channels:
             if isinstance(channel, discord.TextChannel):
                 try:
-                    msg = await channel.get_message(lookup)
+                    msg = await channel.fetch_message(lookup)
                     break
                 except (discord.Forbidden, discord.NotFound):
                     msg = None

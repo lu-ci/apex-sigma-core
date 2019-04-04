@@ -62,7 +62,7 @@ async def cycler(ev: SigmaEvent):
                         channel = await ev.bot.get_channel(cid)
                         if channel:
                             await raffle_coll.update_one(raffle, {'$set': {'active': False}})
-                            message = await channel.get_message(mid)
+                            message = await channel.fetch_message(mid)
                             if message:
                                 contestants = []
                                 reactions = message.reactions

@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.41.827: Mirakurun
+
+### Changed
+
+- Renamed `get_` Discord HTTP functions to `fetch_` to coincide with a recent library update.
+
 ## 4.41.824: Mirakurun
 
 ### Changed

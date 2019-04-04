@@ -34,7 +34,7 @@ async def has_invite(ev: SigmaEvent, arguments):
         for trigger in triggers:
             if trigger in arg:
                 try:
-                    await ev.bot.get_invite(arg)
+                    await ev.bot.fetch_invite(arg)
                     invite_found = True
                     break
                 except discord.NotFound:
