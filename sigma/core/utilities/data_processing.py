@@ -130,7 +130,7 @@ def movement_message_parser(member, text):
     Parses variables in the output of movement messages.
     :param member: The member object to fill in variables.
     :type member: discord.Member
-    :param text: The text output of the movement message
+    :param text: The text output of the movement message.
     :type text: str
     :return:
     :rtype: str
@@ -160,7 +160,7 @@ def movement_message_parser(member, text):
 def get_time_difference(member, leave=False):
     """
     Gets the difference between a member's creation or join date and the current UTC time.
-    :param member: The member object to fetch from,
+    :param member: The member object to fetch from.
     :type member: discord.Member
     :param leave: Whether to fetch the creation date or guild join date.
     :type leave: bool
@@ -184,7 +184,7 @@ def get_time_difference(member, leave=False):
 
 async def search_youtube(qry):
     """
-    Searches youtube with the given query
+    Searches youtube with the given query.
     :param qry: The query to search for.
     :type qry: str
     :return:
@@ -200,13 +200,12 @@ async def search_youtube(qry):
     return video_url
 
 
-def rgb_maximum(colors_tuple: list):
+def rgb_maximum(colors_tuple):
     """
-
-    :param colors_tuple:
-    :type colors_tuple:
+    :param colors_tuple: Tuple of RGB color values.
+    :type colors_tuple: list[tuple]
     :return:
-    :rtype:
+    :rtype: dict
     """
     r_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][0])
     g_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][1])
@@ -233,13 +232,12 @@ def rgb_maximum(colors_tuple: list):
     }
 
 
-def group_by_accuracy(sorted_tuple: list):
+def group_by_accuracy(sorted_tuple):
     """
-
-    :param sorted_tuple:
-    :type sorted_tuple:
+    :param sorted_tuple: List of sorted RGB color values.
+    :type sorted_tuple: list[tuple]
     :return:
-    :rtype:
+    :rtype: list[tuple]
     """
     rgb_maximum_json = rgb_maximum(sorted_tuple)
     r_min = rgb_maximum_json.get("r_min")
@@ -266,11 +264,10 @@ def group_by_accuracy(sorted_tuple: list):
     return rgb
 
 
-def get_weighted_mean(grouped_image_color: list):
+def get_weighted_mean(grouped_image_color):
     """
-
-    :param grouped_image_color:
-    :type grouped_image_color:
+    :param grouped_image_color: List of colors in RGB groups.
+    :type grouped_image_color: list[tuple]
     :return:
     :rtype:
     """
