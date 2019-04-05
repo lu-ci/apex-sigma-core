@@ -32,7 +32,7 @@ int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8
 async def bool_dialogue(bot, msg, question, tracked=False):
     """
     Creates an interactive bool dialogue message for a user to react to.
-    :param bot: The bot instance associated with this message
+    :param bot: The bot instance associated with this message.
     :type bot: sigma.core.sigma.ApexSigma
     :param msg: The message object to reply to.
     :type msg: discord.Message
@@ -87,7 +87,7 @@ async def bool_dialogue(bot, msg, question, tracked=False):
 async def int_dialogue(bot, msg, question, start, end):
     """
     Creates an interactive int dialogue message for a user to react to.
-    :param bot: The bot instance associated with this message
+    :param bot: The bot instance associated with this message.
     :type bot: sigma.core.sigma.ApexSigma
     :param msg: The message object to reply to.
     :type msg: discord.Message
