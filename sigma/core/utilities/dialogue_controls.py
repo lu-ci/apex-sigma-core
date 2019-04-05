@@ -22,7 +22,6 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 
@@ -30,19 +29,19 @@ bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
 
 
-async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, tracked: bool = False):
+async def bool_dialogue(bot, msg, question, tracked=False):
     """
-
-    :param bot:
-    :type bot:
-    :param msg:
-    :type msg:
-    :param question:
-    :type question:
-    :param tracked:
-    :type tracked:
+    Creates an interactive bool dialogue message for a user to react to.
+    :param bot: The bot instance associated with this message
+    :type bot: sigma.core.sigma.ApexSigma
+    :param msg: The message object to reply to.
+    :type msg: discord.Message
+    :param question: The embed object to display the interactive bool on.
+    :type question: discord.Embed
+    :param tracked: Whether or not this usage is logged.
+    :type tracked: bool
     :return:
-    :rtype:
+    :rtype: (bool, bool)
     """
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
     confirmation = await msg.channel.send(embed=question)
@@ -50,13 +49,13 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
 
     def check_emote(reac, usr):
         """
-
-        :param reac:
-        :type reac:
-        :param usr:
-        :type usr:
+        Checks for a valid message reaction.
+        :param reac: The reaction to validate.
+        :type reac: discord.Reaction
+        :param usr: The user who reacted to the message.
+        :type usr: discord.Member
         :return:
-        :rtype:
+        :rtype: bool
         """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
@@ -70,11 +69,11 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
         if tracked:
             log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
             bot.log.info(f'BOOL DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
+        timeout = False
         if ae.emoji == '✅':
             success = True
         else:
             success = False
-        timeout = False
     except asyncio.TimeoutError:
         success = False
         timeout = True
@@ -85,21 +84,21 @@ async def bool_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.
     return success, timeout
 
 
-async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.Embed, start: int, end: int):
+async def int_dialogue(bot, msg, question, start, end):
     """
-
-    :param bot:
-    :type bot:
-    :param msg:
-    :type msg:
-    :param question:
-    :type question:
-    :param start:
-    :type start:
-    :param end:
-    :type end:
+    Creates an interactive int dialogue message for a user to react to.
+    :param bot: The bot instance associated with this message
+    :type bot: sigma.core.sigma.ApexSigma
+    :param msg: The message object to reply to.
+    :type msg: discord.Message
+    :param question: The embed object to display the interactive int on.
+    :type question: discord.Embed
+    :param start: The number to start the range at.
+    :type start: int
+    :param end: The number to end the range at.
+    :type end: int
     :return:
-    :rtype:
+    :rtype: (int, bool)
     """
     start = 0 if start < 0 else start
     end = 9 if end > 9 else end
@@ -109,13 +108,13 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
 
     def check_emote(reac, usr):
         """
-
-        :param reac:
-        :type reac:
-        :param usr:
-        :type usr:
+        Checks for a valid message reaction.
+        :param reac: The reaction to validate.
+        :type reac: discord.Reaction
+        :param usr: The user who reacted to the message.
+        :type usr: discord.Member
         :return:
-        :rtype:
+        :rtype: bool
         """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
@@ -124,10 +123,7 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
 
     try:
         ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
+        timeout = False
         number = None
         for react_index, int_react in enumerate(int_reacts):
             if int_react == str(ae.emoji):
@@ -135,22 +131,27 @@ async def int_dialogue(bot: ApexSigma, msg: discord.Message, question: discord.E
                 break
     except asyncio.TimeoutError:
         number = None
-    return number
+        timeout = True
+    try:
+        await confirmation.delete()
+    except discord.NotFound:
+        pass
+    return number, timeout
 
 
-async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item: SigmaRawItem):
+async def item_dialogue(bot, msg, icons, item: SigmaRawItem):
     """
-
-    :param bot:
-    :type bot:
-    :param msg:
-    :type msg:
-    :param icons:
-    :type icons:
-    :param item:
-    :type item:
+    Creates an interactive item dialogue message for a user to react to.
+    :param bot: The bot instance associated with this message.
+    :type bot: sigma.core.sigma.ApexSigma
+    :param msg: The message object to reply to.
+    :type msg: discord.Message
+    :param icons: The icons to display on the message.
+    :type icons: dict
+    :param item: The item to base the item dialogue on.
+    :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
     :return:
-    :rtype:
+    :rtype: (bool, bool)
     """
     icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
     icon_list.pop(0)
@@ -167,13 +168,13 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
 
     def check_emote(reac, usr):
         """
-
-        :param reac:
-        :type reac:
-        :param usr:
-        :type usr:
+        Checks for a valid message reaction.
+        :param reac: The reaction to validate.
+        :type reac: discord.Reaction
+        :param usr: The user who reacted to the message.
+        :type usr: discord.Member
         :return:
-        :rtype:
+        :rtype: bool
         """
         same_author = usr.id == msg.author.id
         same_message = reac.message.id == confirmation.id
@@ -187,10 +188,6 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
         ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
         end_stamp = arrow.utcnow().float_timestamp
         bot.log.info(f'ITEM DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
         timeout = False
         if ae.emoji == item.icon:
             success = True
@@ -200,4 +197,8 @@ async def item_dialogue(bot: ApexSigma, msg: discord.Message, icons: dict, item:
         success = False
         timeout = True
         bot.log.info(f'ITEM DIALOGUE: {log_usr} timed out.')
+    try:
+        await confirmation.delete()
+    except discord.NotFound:
+        pass
     return success, timeout

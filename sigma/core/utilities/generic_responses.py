@@ -19,82 +19,82 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 
-def generate_small_embed(icon: str, color: int, text: str):
+def generate_small_embed(icon, color, text):
     """
-
-    :param icon:
-    :type icon:
-    :param color:
-    :type color:
-    :param text:
-    :type text:
+    Creates an embed object for generic responses.
+    :param icon: The icon to use for this embed.
+    :type icon: str
+    :param color: The color to use for this embed.
+    :type color: int
+    :param text: The text to use for this embed.
+    :type text: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return discord.Embed(color=color, title=f'{icon} {text}')
 
 
-def denied(content: str):
+def denied(content):
     """
-
-    :param content:
-    :type content:
+    Creates a generic denial response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('⛔', 0xBE1931, content)
 
 
 def ok(content: str):
     """
-
-    :param content:
-    :type content:
+    Creates a generic success response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('✅', 0x77B255, content)
 
 
 def info(content: str):
     """
-
-    :param content:
-    :type content:
+    Creates a generic information response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('ℹ', 0x3B88C3, content)
 
 
 def warn(content: str):
     """
-
-    :param content:
-    :type content:
+    Creates a generic warning response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('⚠', 0xFFCC4D, content)
 
 
 def error(content: str):
     """
-
-    :param content:
-    :type content:
+    Creates a generic error response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('❗', 0xBE1931, content)
 
 
 def not_found(content: str):
     """
-
-    :param content:
-    :type content:
+    Creates a generic not-found response.
+    :param content: The text to use for this response.
+    :type content: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     return generate_small_embed('🔍', 0x696969, content)

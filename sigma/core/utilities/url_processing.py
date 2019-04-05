@@ -21,15 +21,15 @@ import json
 import aiohttp
 
 
-async def aioget(url: str, as_json: bool = False):
+async def aioget(url, as_json=False):
     """
-
-    :param url:
-    :type url:
-    :param as_json:
-    :type as_json:
+    Asynchronously fetches a URL.
+    :param url: The URL to fetch.
+    :type url: str
+    :param as_json: Whether or not to parse the response into JSON.
+    :type as_json: bool
     :return:
-    :rtype:
+    :rtype: str or dict
     """
     async with aiohttp.ClientSession() as aio_client:
         async with aio_client.get(url) as aio_session:

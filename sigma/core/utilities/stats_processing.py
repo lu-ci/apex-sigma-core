@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.statistics import StatisticsStorage
 
 stats_handler = None
@@ -24,9 +23,9 @@ stats_handler = None
 
 async def add_cmd_stat(cmd):
     """
-
-    :param cmd:
-    :type cmd:
+    Increments the usage count for this command by one.
+    :param cmd: The command to increment stats for.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     """
     lookup_target = {'command': cmd.name}
     stat_file = await cmd.db[cmd.db.db_nam].CommandStats.find_one(lookup_target)
@@ -38,13 +37,13 @@ async def add_cmd_stat(cmd):
         await cmd.db[cmd.db.db_nam].CommandStats.insert_one({'command': cmd.name, 'count': count})
 
 
-async def add_special_stats(db: Database, stat_name: str):
+async def add_special_stats(db, stat_name):
     """
-
-    :param db:
-    :type db:
-    :param stat_name:
-    :type stat_name:
+    Increments the usage count for this statistic by one.
+    :param db: The core database instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param stat_name: The name of the statistic to track.
+    :type stat_name: str
     """
     global stats_handler
     if not stats_handler:

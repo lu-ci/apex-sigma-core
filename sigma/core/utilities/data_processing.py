@@ -29,21 +29,21 @@ color_cache_coll = None
 
 def set_color_cache_coll(coll):
     """
-
-    :param coll:
-    :type coll:
+    Sets the color cache to the given database collection.
+    :param coll: The database collection to set as the cache.
+    :type coll: motor.motor_asyncio.AsyncIOMotorCollection
     """
     global color_cache_coll
     color_cache_coll = coll
 
 
-def convert_to_seconds(time_input: str):
+def convert_to_seconds(time_input):
     """
-
-    :param time_input:
-    :type time_input:
+    Converts time with the format H:M:S into seconds.
+    :param time_input: The time to covert into seconds.
+    :type time_input: str
     :return:
-    :rtype:
+    :rtype: int
     """
     indent_list = time_input.split(':')
     try:
@@ -60,17 +60,17 @@ def convert_to_seconds(time_input: str):
     return output
 
 
-def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
+def user_avatar(user, gif=False, static=False):
     """
-
-    :param user:
-    :type user:
-    :param gif:
-    :type gif:
-    :param static:
-    :type static:
+    Fetches the avatar of Discord member.
+    :param user: The user to fetch the avatar from.
+    :type user: discord.Member
+    :param gif: Whether or not the returned image should be a GIF.
+    :type gif: bool
+    :param static: Whether or not the returned image should be static.
+    :type static: bool
     :return:
-    :rtype:
+    :rtype: str
     """
     if user.avatar_url:
         output = user.avatar_url
@@ -89,15 +89,15 @@ def user_avatar(user: discord.Member, gif: bool = False, static: bool = False):
     return output
 
 
-def command_message_parser(message: discord.Message, text: str):
+def command_message_parser(message, text):
     """
-
-    :param message:
-    :type message:
-    :param text:
-    :type text:
+    Parses variables in the output of custom commands.
+    :param message: The message object to fill in variables.
+    :type message: discord.Message
+    :param text: The text output of the custom command.
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     gld = message.guild
     ath = message.author
@@ -125,15 +125,15 @@ def command_message_parser(message: discord.Message, text: str):
     return command_text
 
 
-def movement_message_parser(member: discord.Member, text: str):
+def movement_message_parser(member, text):
     """
-
-    :param member:
-    :type member:
-    :param text:
-    :type text:
+    Parses variables in the output of movement messages.
+    :param member: The member object to fill in variables.
+    :type member: discord.Member
+    :param text: The text output of the movement message
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     guild = member.guild
     greeting_text = text
@@ -157,15 +157,15 @@ def movement_message_parser(member: discord.Member, text: str):
     return greeting_text
 
 
-def get_time_difference(member: discord.Member, leave: bool = False):
+def get_time_difference(member, leave=False):
     """
-
-    :param member:
-    :type member:
-    :param leave:
-    :type leave:
+    Gets the difference between a member's creation or join date and the current UTC time.
+    :param member: The member object to fetch from,
+    :type member: discord.Member
+    :param leave: Whether to fetch the creation date or guild join date.
+    :type leave: bool
     :return:
-    :rtype:
+    :rtype: (bool, str)
     """
     if leave:
         creation_time = member.joined_at
@@ -182,13 +182,13 @@ def get_time_difference(member: discord.Member, leave: bool = False):
     return new_acc, human_msg
 
 
-async def search_youtube(qry: str):
+async def search_youtube(qry):
     """
-
-    :param qry:
-    :type qry:
+    Searches youtube with the given query
+    :param qry: The query to search for.
+    :type qry: str
     :return:
-    :rtype:
+    :rtype: str
     """
     url_base = "https://www.youtube.com/results?"
     async with aiohttp.ClientSession() as session:
@@ -293,13 +293,13 @@ def get_weighted_mean(grouped_image_color: list):
     return weighted_mean
 
 
-def rgb_to_hex(rgb_tuple: tuple):
+def rgb_to_hex(rgb_tuple):
     """
-
-    :param rgb_tuple:
-    :type rgb_tuple:
+    Converts an RGB tuple into a decimal color.
+    :param rgb_tuple: The RGB tuple to convert.
+    :type rgb_tuple: tuple
     :return:
-    :rtype:
+    :rtype: int
     """
     hex_str = ''
     for piece in rgb_tuple:
@@ -312,13 +312,13 @@ def rgb_to_hex(rgb_tuple: tuple):
     return hex_out
 
 
-async def get_image_colors(img_url: str):
+async def get_image_colors(img_url):
     """
-
-    :param img_url:
-    :type img_url:
+    Fetches the most dominant color from an image.
+    :param img_url: The image to fetch from.
+    :type img_url: str
     :return:
-    :rtype:
+    :rtype: int
     """
     if img_url:
         cached_color = await color_cache_coll.find_one({'url': img_url})
