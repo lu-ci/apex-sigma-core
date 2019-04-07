@@ -56,12 +56,12 @@ def clean_name(name, default):
     return end_name.strip()
 
 
-async def edit_name_check(ev, pld: MemberUpdatePayload):
+async def edit_name_check(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberUpdatePayload
     """
     if pld.after.guild:
         is_owner = pld.after.id in ev.bot.cfg.dsc.owners

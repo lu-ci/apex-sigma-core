@@ -43,12 +43,12 @@ def log_command_usage(log, message, command):
     log.info(log_text)
 
 
-async def custom_command(ev, pld: MessagePayload):
+async def custom_command(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild:
         prefix = ev.db.get_prefix(pld.settings)

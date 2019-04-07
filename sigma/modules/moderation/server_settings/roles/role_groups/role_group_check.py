@@ -23,12 +23,12 @@ from sigma.core.mechanics.payload import MemberUpdatePayload
 from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 
-async def role_group_check(_ev, pld: MemberUpdatePayload):
+async def role_group_check(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberUpdatePayload
     """
     before_role_ids = [role.id for role in pld.before.roles]
     added_role = discord.utils.find(lambda role: role.id not in before_role_ids, pld.after.roles)

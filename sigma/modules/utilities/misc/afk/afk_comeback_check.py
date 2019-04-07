@@ -24,12 +24,12 @@ from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.generic_responses import info
 
 
-async def afk_comeback_check(ev, pld: MessagePayload):
+async def afk_comeback_check(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild:
         pfx = ev.db.get_prefix(pld.settings)

@@ -47,12 +47,12 @@ You are NOT allowed to:
 """
 
 
-async def disclaimer_sender(_ev, pld: GuildPayload):
+async def disclaimer_sender(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.GuildPayload
     """
     try:
         await pld.guild.owner.send(disclaimer)

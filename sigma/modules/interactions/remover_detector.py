@@ -19,12 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from sigma.core.mechanics.payload import RawReactionPayload
 
 
-async def remover_detector(ev, pld: RawReactionPayload):
+async def remover_detector(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.RawReactionPayload
     """
     payload = pld.raw
     uid = payload.user_id

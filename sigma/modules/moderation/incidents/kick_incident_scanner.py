@@ -24,12 +24,12 @@ from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_reason
 
 
-async def kick_incident_scanner(ev, pld: MemberPayload):
+async def kick_incident_scanner(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     kick_entry = None
     now = arrow.utcnow().float_timestamp

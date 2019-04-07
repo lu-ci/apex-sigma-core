@@ -20,12 +20,12 @@ from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.fun.auto_response.auto_responder import clean_word
 
 
-async def auto_reactor(ev, pld: MessagePayload):
+async def auto_reactor(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild:
         if pld.msg.content:

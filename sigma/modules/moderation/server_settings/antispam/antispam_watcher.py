@@ -47,12 +47,12 @@ def rate_limited(msg: discord.Message, amt: int, tsp: int):
     return len(limit_items) > amt
 
 
-async def antispam_watcher(ev, pld: MessagePayload):
+async def antispam_watcher(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild and pld.msg.author:
         if isinstance(pld.msg.author, discord.Member):

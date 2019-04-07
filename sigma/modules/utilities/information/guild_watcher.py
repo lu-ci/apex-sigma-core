@@ -39,12 +39,12 @@ def update_stat(guild_id: int, stat: str):
     stats.update({guild_id: gld_stats})
 
 
-async def guild_watcher(ev, pld: MessagePayload):
+async def guild_watcher(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     global start_stamp, end_stamp
     if pld.msg.guild:

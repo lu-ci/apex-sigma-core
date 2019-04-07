@@ -22,12 +22,12 @@ from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.stats_processing import add_special_stats
 
 
-async def table_unflipper(ev, pld: MessagePayload):
+async def table_unflipper(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in pld.msg.content.replace(' ', ''):
         if pld.msg.guild:

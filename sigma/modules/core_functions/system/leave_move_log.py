@@ -65,12 +65,12 @@ def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_coun
     }
 
 
-async def leave_move_log(ev, pld: GuildPayload):
+async def leave_move_log(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.GuildPayload
     """
     owner = pld.guild.owner
     bot_count = 0

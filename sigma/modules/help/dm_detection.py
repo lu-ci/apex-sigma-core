@@ -21,12 +21,12 @@ import discord
 from sigma.core.mechanics.payload import CommandPayload, MessagePayload
 
 
-def log_dm(ev, pld: MessagePayload):
+def log_dm(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     author_text = f'{pld.msg.author.name}#{pld.msg.author.discriminator} [{pld.msg.author.id}]'
     ev.log.info(f'DM From {author_text}: {pld.msg.content}')
@@ -55,12 +55,12 @@ async def has_invite(ev, arguments):
     return invite_found
 
 
-async def dm_detection(ev, pld: MessagePayload):
+async def dm_detection(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if not pld.msg.guild:
         if not pld.msg.author.bot:

@@ -24,12 +24,12 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import MemberPayload
 
 
-async def autorole_control(_ev, pld: MemberPayload):
+async def autorole_control(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     curr_role_id = pld.settings.get('auto_role')
     if curr_role_id:

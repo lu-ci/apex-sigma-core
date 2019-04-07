@@ -21,12 +21,12 @@ from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import get_changed_invite
 
 
-async def bound_role_control(_ev, pld: MemberPayload):
+async def bound_role_control(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     if pld.member.guild.me.guild_permissions.create_instant_invite:
         bound_invites = pld.settings.get('bound_invites')

@@ -24,12 +24,12 @@ from sigma.core.utilities.data_processing import get_time_difference, user_avata
 from sigma.core.utilities.event_logging import log_event
 
 
-async def join_logger(ev, pld: MemberPayload):
+async def join_logger(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     member = pld.member
     response = discord.Embed(color=0x66CC66, timestamp=arrow.utcnow().datetime)

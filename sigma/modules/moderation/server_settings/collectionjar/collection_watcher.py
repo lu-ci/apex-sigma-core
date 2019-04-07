@@ -40,12 +40,12 @@ async def add_to_jar(ev, message: discord.Message, jar: dict):
     await ev.db.set_guild_settings(message.guild.id, 'collection_jar', jar.raw)
 
 
-async def collection_watcher(ev, pld: MessagePayload):
+async def collection_watcher(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild:
         if pld.msg.content:

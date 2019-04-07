@@ -96,12 +96,12 @@ async def check_emotes(mid: int, sbl: int):
     return trigger
 
 
-async def starboard_watcher(ev, pld: RawReactionPayload):
+async def starboard_watcher(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.RawReactionPayload
     """
     global star_cache
     if not star_cache:

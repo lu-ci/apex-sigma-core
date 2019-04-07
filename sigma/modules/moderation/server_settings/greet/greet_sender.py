@@ -22,12 +22,12 @@ from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 
 
-async def greet_sender(_ev, pld: MemberPayload):
+async def greet_sender(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     greet_active = pld.settings.get('greet')
     greet_active = True if greet_active is None else greet_active

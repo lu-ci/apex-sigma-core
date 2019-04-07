@@ -34,12 +34,12 @@ def set_session_info(pld: MessagePayload):
     chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
 
 
-async def chatter_core_responder(ev, pld: MessagePayload):
+async def chatter_core_responder(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.content:
         start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')

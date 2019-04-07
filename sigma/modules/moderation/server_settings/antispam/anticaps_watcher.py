@@ -46,12 +46,12 @@ def count_chars(text):
     return total, upper, percent
 
 
-async def anticaps_watcher(ev, pld: MessagePayload):
+async def anticaps_watcher(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild and pld.msg.author:
         if isinstance(pld.msg.author, discord.Member):

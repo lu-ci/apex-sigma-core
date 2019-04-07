@@ -23,12 +23,12 @@ from sigma.core.mechanics.payload import CommandEventPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def command_logger(ev, pld: CommandEventPayload):
+async def command_logger(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.CommandEventPayload
     """
     if pld.msg.guild:
         log_title = f'{pld.msg.author.name}#{pld.msg.author.discriminator}\'s used {pld.cmd.name.upper()}.'

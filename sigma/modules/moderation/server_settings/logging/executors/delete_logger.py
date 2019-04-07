@@ -24,12 +24,12 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def delete_logger(ev, pld: MessagePayload):
+async def delete_logger(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.guild:
         if pld.msg.content:

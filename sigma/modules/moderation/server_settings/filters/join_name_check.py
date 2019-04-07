@@ -21,12 +21,12 @@ from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name, is_invalid
 
 
-async def join_name_check(_ev, pld: MemberPayload):
+async def join_name_check(_ev, pld):
     """
     :param _ev: The main event instance referenced.
     :type _ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberPayload
     """
     if pld.member.guild:
         active = pld.settings.get('ascii_only_names')
