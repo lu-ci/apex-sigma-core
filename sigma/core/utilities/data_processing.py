@@ -76,6 +76,7 @@ def user_avatar(user, gif=False, static=False):
         output = user.avatar_url
     else:
         output = user.default_avatar_url
+    output = str(output)
     if gif:
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
@@ -318,6 +319,7 @@ async def get_image_colors(img_url):
     :rtype: int
     """
     if img_url:
+        img_url = str(img_url)
         cached_color = await color_cache_coll.find_one({'url': img_url})
         if not cached_color:
             async with aiohttp.ClientSession() as session:
