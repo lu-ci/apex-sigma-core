@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
-
 
 async def mute_checker(ev, pld):
     """

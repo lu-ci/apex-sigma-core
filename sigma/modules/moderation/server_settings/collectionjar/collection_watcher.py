@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.fun.auto_response.auto_responder import clean_word
 from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar import CollectionJar
 

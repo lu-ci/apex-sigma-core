@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MemberUpdatePayload
 from sigma.modules.moderation.server_settings.roles.role_groups.role_group_utils import appropriate_roles
 
 

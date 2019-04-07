@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.payload import MessageEditPayload
 from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event

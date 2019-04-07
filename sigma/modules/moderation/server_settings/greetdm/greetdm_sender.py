@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MemberPayload
 from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 

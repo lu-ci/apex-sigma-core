@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import VoiceStateUpdatePayload
-
 
 async def temproom_checker(_ev, pld):
     """

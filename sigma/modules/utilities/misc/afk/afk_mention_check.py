@@ -21,8 +21,6 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
-
 
 async def afk_mention_check(ev, pld):
     """

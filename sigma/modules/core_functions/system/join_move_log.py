@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.payload import GuildPayload
 from sigma.modules.core_functions.system.leave_move_log import make_move_log_data
 
 

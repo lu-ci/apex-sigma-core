@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import arrow
 
-from sigma.core.mechanics.payload import MessagePayload
-
 stats = {}
 start_stamp = arrow.utcnow().timestamp
 end_stamp = start_stamp + 86400

@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.stats_processing import add_special_stats
 
 

@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.fun.auto_response.auto_responder import clean_word
 
 

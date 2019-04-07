@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name, is_invalid
 
 

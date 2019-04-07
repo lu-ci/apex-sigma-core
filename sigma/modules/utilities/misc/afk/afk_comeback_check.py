@@ -20,7 +20,6 @@ import asyncio
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.generic_responses import info
 
 

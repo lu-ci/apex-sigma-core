@@ -20,7 +20,6 @@ import arrow
 import discord
 
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_reason
 
 

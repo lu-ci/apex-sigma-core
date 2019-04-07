@@ -21,7 +21,6 @@ import discord
 
 from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
-from sigma.core.mechanics.payload import RawReactionPayload
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 star_cache = None

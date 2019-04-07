@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
 

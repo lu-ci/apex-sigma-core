@@ -20,7 +20,6 @@ import string
 
 import discord
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 

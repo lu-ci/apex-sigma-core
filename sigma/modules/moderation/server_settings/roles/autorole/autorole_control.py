@@ -20,9 +20,6 @@ import asyncio
 
 import discord
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MemberPayload
-
 
 async def autorole_control(_ev, pld):
     """

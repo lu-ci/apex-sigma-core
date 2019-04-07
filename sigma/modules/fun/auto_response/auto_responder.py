@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import string
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.core.utilities.data_processing import command_message_parser
 
 
