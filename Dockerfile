@@ -6,7 +6,10 @@ RUN mkdir -p /build
 WORKDIR /build
 
 COPY requirements.txt ./
-RUN apt-get update \
+RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list \
+ && echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
+ && sed -i '/deb http:\/\/\(deb\|httpredir\).debian.org\/debian jessie.* main/d' /etc/apt/sources.list \
+ && apt-get -o Acquire::Check-Valid-Until=false update \
  && apt-get install -y \
     build-essential \
     libxml2-dev \
@@ -27,8 +30,10 @@ FROM python:3.6-slim AS apex-sigma
 
 LABEL maintainer="dev.patrick.auernig@gmail.com"
 
-RUN echo "deb http://ftp.uk.debian.org/debian jessie-backports main" >> /etc/apt/sources.list \
- && apt-get update \
+RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list \
+ && echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
+ && sed -i '/deb http:\/\/\(deb\|httpredir\).debian.org\/debian jessie.* main/d' /etc/apt/sources.list \
+ && apt-get -o Acquire::Check-Valid-Until=false update \
  && apt-get install -y \
     libxml2 \
     ffmpeg \

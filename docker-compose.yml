@@ -12,7 +12,7 @@ services:
       - "mongodb:/data/db"
 
   bot:
-    image: "registry.gitlab.com/lu-ci/sigma/apex-sigma:latest"
+    image: "registry.gitlab.com/lu-ci/sigma/apex-sigma:develop"
     build:
       context: .
     volumes:
