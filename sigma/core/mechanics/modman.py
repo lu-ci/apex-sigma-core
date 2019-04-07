@@ -33,6 +33,11 @@ class ModuleManager(object):
     It also serves as a reference storage of loaded instances.
     """
 
+    __slots__ = (
+        "bot", "init", "log", "alts",
+        "commands", "events", "categories"
+    )
+
     def __init__(self, bot, init):
         """
         :param bot: The core client class.
@@ -197,7 +202,7 @@ class ModuleManager(object):
         self.commands = {}
         self.events = {}
         directory = 'sigma/modules'
-        for root, dirs, files in os.walk(directory):
+        for root, _dirs, files in os.walk(directory):
             for file in files:
                 if file == 'module.yml':
                     file_path = os.path.join(root, file)

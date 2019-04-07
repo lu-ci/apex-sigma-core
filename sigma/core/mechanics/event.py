@@ -27,6 +27,12 @@ class SigmaEvent(object):
     The core event class for handling and executing event functions.
     """
 
+    __slots__ = (
+        "bot", "db", "event", "module_info",
+        "event_info", "path", "event_type", "name",
+        "category", "subcategory", "log"
+    )
+
     def __init__(self, bot, event, module_info, event_info):
         """
         :param bot: The client core class instance.

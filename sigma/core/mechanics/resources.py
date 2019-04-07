@@ -48,6 +48,8 @@ class ResourceOrigins(object):
     Wraps data about the origins of a resource.
     """
 
+    __slots__ = ("raw", "users", "guilds", "channels", "functions")
+
     def __init__(self, data):
         """
         :param data: Resource origin data document.
@@ -122,6 +124,8 @@ class SigmaResource(object):
     The main resource class handling the parsing
     and creation of resource data and its storage.
     """
+
+    __slots__ = ("raw", "empty", "current", "total", "ranked", "origins", "expenses")
 
     def __init__(self, data):
         """

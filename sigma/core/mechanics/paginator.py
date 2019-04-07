@@ -25,6 +25,8 @@ class PaginatorInstance(object):
     The paginator instance handles data display and processing.
     """
 
+    __slots__ = ("message", "items", "span", "current_page")
+
     def __init__(self, message, items, span):
         """
         :param message: The message of the paginator.
@@ -75,6 +77,8 @@ class PaginatorCore(object):
     """
     The core in charge of tracking and caching paginators.
     """
+
+    __slots__ = ("paginators",)
 
     def __init__(self):
         self.paginators = cachetools.TTLCache(500, 300)

@@ -62,6 +62,10 @@ class DiscordConfig(object):
     Holds the Discord client configuration data.
     """
 
+    __slots__ = (
+        "raw", "token", "owners", "bot", "shard", "shard_count"
+    )
+
     def __init__(self, client_cfg_data):
         """
         :type client_cfg_data: dict
@@ -84,6 +88,11 @@ class DatabaseConfig(object):
     Holds the MongoDB connection configuration data.
     """
 
+    __slots__ = (
+        "raw", "database", "auth", "host", "port",
+        "username", "password", "cache_type"
+    )
+
     def __init__(self, db_cfg_data):
         """
         :type db_cfg_data: dict
@@ -103,6 +112,12 @@ class PreferencesConfig(object):
     """
     Holds personalization preferences and settings data.
     """
+
+    __slots__ = (
+        "raw", "dev_mode", "status_rotation", "prefix",
+        "currency", "currency_icon", "website", "text_only",
+        "music_only", "movelog_channel", "errorlog_channel"
+    )
 
     def __init__(self, pref_cfg_data):
         """
@@ -127,6 +142,12 @@ class CacheConfig(object):
     Holds configuration parameters for all cache types.
     """
 
+    __slots__ = (
+        "raw", "type",
+        "time", "size",
+        "host", "port"
+    )
+
     def __init__(self, cache_cfg_data):
         """
         :type cache_cfg_data: dict
@@ -145,6 +166,11 @@ class Configuration(object):
     Main configuration container.
     Holds all other configuration classes.
     """
+
+    __slots__ = (
+        "log", "client_cfg_data", "db_cfg_data", "pref_cfg_data",
+        "cache_cfg_data", "dsc", "db", "pref", "cache"
+    )
 
     def __init__(self):
         self.log = create_logger('Config')

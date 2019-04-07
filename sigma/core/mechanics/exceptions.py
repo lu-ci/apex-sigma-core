@@ -23,5 +23,7 @@ class DummyException(Exception):
     This is for debugging purposes.
     """
 
+    __slots__ = ("message",)
+
     def __init__(self):
         self.message = 'This is a dummy exception, it should never be raised.'

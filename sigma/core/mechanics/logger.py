@@ -78,6 +78,12 @@ class Logger(object):
     Logs will also be written to the Systemd Journal if it's available.
     Otherwise logs will be written to stdout.
     """
+
+    __slots__ = (
+        "default_fmt", "default_date_fmt", "name",
+        "created", "_logger"
+    )
+
     loggers = {}
 
     def __init__(self, name, *, level=None):

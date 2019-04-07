@@ -40,6 +40,8 @@ from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
 # Valebu pls, no take my spaghetti... :'(
+#
+# 🍝
 
 ci_token = os.getenv('CI')
 if not ci_token:
@@ -56,6 +58,13 @@ class ApexSigma(client_class):
     """
     The core client class of the Apex Framework.
     """
+
+    __slots__ = (
+        "ready", "db", "log", "cache", "music", "modules",
+        "cool_down", "cfg", "queue", "shard_count", "shard_ids",
+        "loop", "start_time", "message_count", "command_count",
+        "gateway_start", "gateway_finish"
+    )
 
     def __init__(self):
         super().__init__()

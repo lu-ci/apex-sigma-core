@@ -44,6 +44,8 @@ class IncidentUser(object):
     An abstraction class for handling incident user data.
     """
 
+    __slots__ = ("entity", "id", "name", "discriminator")
+
     def __init__(self, entity=None):
         """
         :param entity: User data storage.

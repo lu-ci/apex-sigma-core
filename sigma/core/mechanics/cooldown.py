@@ -28,6 +28,8 @@ class CommandRateLimiter(object):
     Miniature cooldown handler to rate-limit command spamming.
     """
 
+    __slots__ = ("cmd", "stamps")
+
     def __init__(self, cmd):
         """
         :type cmd: sigma.core.mechanics.command.SigmaCommand

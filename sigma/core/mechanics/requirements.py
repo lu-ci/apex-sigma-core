@@ -22,6 +22,8 @@ class CommandRequirements(object):
     Handles the checking of a command's execution requirements.
     """
 
+    __slots__ = ("cmd", "msg", "reqs", "chn", "reqs_met", "missing_list")
+
     def __init__(self, cmd, message):
         """
         :param cmd: The command instance.

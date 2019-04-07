@@ -29,6 +29,13 @@ class GlobalCommandPermissions(object):
     and similar limitations.
     """
 
+    __slots__ = (
+        "pld", "message", "settings", "cmd", "bot",
+        "db", "loop", "nsfw_denied", "black_user", "black_srv",
+        "owner_denied", "partner_denied", "module_denied",
+        "command_denied", "dm_denied", "permitted", "response"
+    )
+
     def __init__(self, command, pld):
         """
         :param command: The command instance.
@@ -281,6 +288,8 @@ class ServerCommandPermissions(object):
     """
     Wraps and handles processing of server-specific permission settings.
     """
+
+    __slots__ = ("cmd", "db", "bot", "msg", "permitted", "perm_coll")
 
     def __init__(self, command, message):
         """

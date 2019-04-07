@@ -27,6 +27,8 @@ class ExecutionClockwork(object):
     This acts as a queueing mechanism for tasks to be executed.
     """
 
+    __slots__ = ("bot", "ev_queue", "cmd_queue", "processed", "stats")
+
     def __init__(self, bot):
         """
         :param bot: The main client core class instance.

@@ -57,6 +57,8 @@ class Version(object):
     Version information containing wrapper class.
     """
 
+    __slots__ = ("raw", "beta", "timestamp", "codename", "version", "major", "minor", "patch")
+
     def __init__(self):
         with open('info/version.yml', encoding='utf-8') as version_file:
             version_data = yaml.safe_load(version_file)
@@ -75,6 +77,8 @@ class Author(object):
     Version information containing wrapper class.
     """
 
+    __slots__ = ("name", "discriminator", "id")
+
     def __init__(self, author):
         """
         :param author: The author information data.
@@ -90,6 +94,8 @@ class Authors(object):
     Author information containing wrapper class.
     """
 
+    __slots__ = ("raw", "authors")
+
     def __init__(self):
         with open('info/authors.yml', encoding='utf-8') as authors_file:
             authors_data = yaml.safe_load(authors_file)
@@ -104,6 +110,8 @@ class Donor(object):
     """
     Donor information containing wrapper class.
     """
+
+    __slots__ = ("name", "tier", "avatar", "id")
 
     def __init__(self, donor):
         """
@@ -121,6 +129,8 @@ class Donors(object):
     """
     Contains and handles the loading of a list of donor files.
     """
+
+    __slots__ = ("raw", "raw_list", "donors")
 
     def __init__(self):
         with open('info/donors.yml', encoding='utf-8') as donors_file:

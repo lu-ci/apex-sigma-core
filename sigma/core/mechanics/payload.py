@@ -26,6 +26,8 @@ class SigmaPayload(abc.ABC):
     The base abstraction class for payload data.
     """
 
+    __slots__ = ("bot", "settings")
+
     def __init__(self, bot):
         """
         :param bot: The core client class.
@@ -51,6 +53,8 @@ class UpdatePayload(SigmaPayload):
     such as user profile, guild settings or message edits.
     """
 
+    __slots__ = ("before", "after")
+
     def __init__(self, bot, before, after):
         """
         :param bot: The core client class.
@@ -70,6 +74,8 @@ class ShardReadyPayload(SigmaPayload):
     Payload generated when a shard is ready.
     """
 
+    __slots__ = ("shard",)
+
     def __init__(self, bot, shard):
         """
         :param bot: The core client class.
@@ -85,6 +91,8 @@ class MessagePayload(SigmaPayload):
     """
     Payload generated when a message is sent.
     """
+
+    __slots__ = ("msg",)
 
     def __init__(self, bot, msg):
         """
@@ -128,6 +136,8 @@ class CommandPayload(MessagePayload):
     Payload generated for command execution.
     """
 
+    __slots__ = ("args",)
+
     def __init__(self, bot, msg, args):
         """
         :param bot: The core client class.
@@ -146,6 +156,8 @@ class CommandEventPayload(CommandPayload):
     Payload generated when a command is executed.
     """
 
+    __slots__ = ("cmd",)
+
     def __init__(self, bot, cmd, pld):
         """
         :param bot: The core client class.
@@ -163,6 +175,8 @@ class MemberPayload(SigmaPayload):
     """
     Base abstraction class for payloads containing member data.
     """
+
+    __slots__ = ("member",)
 
     def __init__(self, bot, member):
         """
@@ -206,6 +220,8 @@ class GuildPayload(SigmaPayload):
     Base abstraction class for payloads that use guild data.
     """
 
+    __slots__ = ("guild",)
+
     def __init__(self, bot, guild):
         """
         :param bot: The core client class.
@@ -244,6 +260,8 @@ class VoiceStateUpdatePayload(UpdatePayload):
     Payload generated when a member changes their voice state.
     """
 
+    __slots__ = ("member",)
+
     def __init__(self, bot, member, before, after):
         """
         :param bot: The core client class.
@@ -268,6 +286,8 @@ class BanPayload(GuildPayload):
     Payload generated when a member is banned from a guild.
     """
 
+    __slots__ = ("user",)
+
     def __init__(self, bot, guild, user):
         """
         :param bot: The core client class.
@@ -286,6 +306,8 @@ class UnbanPayload(GuildPayload):
     Payload generated when a member is unbanned.
     """
 
+    __slots__ = ("user",)
+
     def __init__(self, bot, guild, user):
         """
         :param bot: The core client class.
@@ -303,6 +325,8 @@ class ReactionPayload(SigmaPayload):
     """
     Payload generated when a reaction event triggers it.
     """
+
+    __slots__ = ("user", "reaction")
 
     def __init__(self, bot, reaction, user):
         """
@@ -332,6 +356,8 @@ class RawReactionPayload(SigmaPayload):
     Payload generated when a reaction is added regardless
     of its message being cached or not.
     """
+
+    __slots__ = ("raw",)
 
     def __init__(self, bot, raw):
         """

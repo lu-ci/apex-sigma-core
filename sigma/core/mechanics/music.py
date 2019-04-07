@@ -48,6 +48,12 @@ class QueueItem(object):
     An item wrapping the information of a queued music item.
     """
 
+    __slots__ = (
+        "requester", "item_info", "url", "video_id", "uploader",
+        "title", "thumbnail", "duration", "downloaded", "loop",
+        "threads", "ytdl_params", "ytdl", "token", "location"
+    )
+
     def __init__(self, requester, item_info):
         """
         :param requester: The user that queued the item.
@@ -120,6 +126,12 @@ class MusicCore(object):
     The core class for handling music
     queuing, storage and handling.
     """
+
+    __slots__ = (
+        "bot", "db", "loop", "threads", "queues",
+        "currents", "repeaters", "ytdl_params",
+        "ytdl"
+    )
 
     def __init__(self, bot):
         """

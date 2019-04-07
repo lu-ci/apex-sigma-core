@@ -40,6 +40,14 @@ class SigmaCommand(object):
     be checked before a command executes and finally execute the command.
     """
 
+    __slots__ = (
+        "bot", "db", "cd", "command", "module_info",
+        "command_info", "name", "path", "category",
+        "subcategory", "log", "nsfw", "cfg", "owner",
+        "partner", "dmable", "requirements", "alts",
+        "usage", "desc"
+    )
+
     def __init__(self, bot, command, module_info, command_info):
         """
         :type bot: sigma.core.sigma.ApexSigma

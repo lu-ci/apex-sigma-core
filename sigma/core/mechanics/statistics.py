@@ -25,6 +25,8 @@ class StatisticsStorage(object):
     Updates the statistics every 60 seconds instead of instantly.
     """
 
+    __slots__ = ("db", "loop", "name", "count")
+
     def __init__(self, db, name):
         """
         :param db: The core database instance.

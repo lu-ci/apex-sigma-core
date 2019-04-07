@@ -28,6 +28,8 @@ class SigmaError(object):
     This class contains error processing methods.
     """
 
+    __slots__ = ("args", "data", "cmd", "exception", "token")
+
     def __init__(self, cmd, exc):
         """
         :param cmd: The command instance generating the error.
