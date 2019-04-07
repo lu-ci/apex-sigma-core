@@ -47,11 +47,10 @@ You are NOT allowed to:
 """
 
 
-async def disclaimer_sender(_ev: SigmaEvent, pld: GuildPayload):
+async def disclaimer_sender(_ev, pld: GuildPayload):
     """
-
-    :param _ev:
-    :type _ev:
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

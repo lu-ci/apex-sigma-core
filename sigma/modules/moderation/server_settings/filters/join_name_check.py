@@ -21,11 +21,10 @@ from sigma.core.mechanics.payload import MemberPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name, is_invalid
 
 
-async def join_name_check(_ev: SigmaEvent, pld: MemberPayload):
+async def join_name_check(_ev, pld: MemberPayload):
     """
-
-    :param _ev:
-    :type _ev:
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

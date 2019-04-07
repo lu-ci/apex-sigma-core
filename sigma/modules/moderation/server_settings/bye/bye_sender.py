@@ -22,11 +22,10 @@ from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.bye.byemessage import make_bye_embed
 
 
-async def bye_sender(_ev: SigmaEvent, pld: MemberPayload):
+async def bye_sender(_ev, pld: MemberPayload):
     """
-
-    :param _ev:
-    :type _ev:
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

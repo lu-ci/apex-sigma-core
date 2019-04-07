@@ -22,11 +22,10 @@ from sigma.core.mechanics.event import SigmaEvent
 from sigma.core.mechanics.payload import VoiceStateUpdatePayload
 
 
-async def temproom_checker(_ev: SigmaEvent, pld: VoiceStateUpdatePayload):
+async def temproom_checker(_ev, pld: VoiceStateUpdatePayload):
     """
-
-    :param _ev:
-    :type _ev:
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """

@@ -22,11 +22,10 @@ from sigma.core.utilities.data_processing import movement_message_parser
 from sigma.modules.moderation.server_settings.greet.greetmessage import make_greet_embed
 
 
-async def greetdm_sender(_ev: SigmaEvent, pld: MemberPayload):
+async def greetdm_sender(_ev, pld: MemberPayload):
     """
-
-    :param _ev:
-    :type _ev:
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld:
     :type pld:
     """
