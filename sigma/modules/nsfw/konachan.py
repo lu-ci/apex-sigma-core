@@ -22,7 +22,7 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import not_found, error
 
 
 async def konachan(_cmd, pld):
@@ -37,8 +37,13 @@ async def konachan(_cmd, pld):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             data = await data.read()
-            data = json.loads(data)
-    if data:
+            try:
+                data = json.loads(data)
+                failed = False
+            except json.JSONDecodeError:
+                data = []
+                failed = True
+    if data and not failed:
         post = secrets.choice(data)
         post_url = f'http://konachan.com/post/show/{post["id"]}'
         icon_url = 'https://i.imgur.com/qc4awFL.png'
@@ -48,5 +53,8 @@ async def konachan(_cmd, pld):
         response.set_footer(
             text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]} | Uploaded By: {post["author"]}')
     else:
-        response = not_found('No results.')
+        if failed:
+            response = error('Failed to parse Konachan\'s data...')
+        else:
+            response = not_found('No results.')
     await pld.msg.channel.send(embed=response)
