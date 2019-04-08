@@ -1,5 +1,22 @@
 # Apex Sigma Changelog
 
+## 4.45.902: Sakurako
+
+### Added
+
+- Docstrings, docstrings **EVERYWHERE**! Every single docstringable thing has been given a docstring.
+- Common mostly static classes have been given `__slots__` attributes by *Valeth*.
+- The permission logging lines now have a command blacklisting marker separate from the module one.
+
+### Removed
+
+- Removed parameter type hints.
+
+### Changed
+
+- The `>>konachan` command excepts a JSON parsing error now due to the CloudFlare issue.
+- Docker build image fixes by *Valeth*.
+
 ## 4.41.827: Mirakurun
 
 ### Changed
