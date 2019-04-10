@@ -50,8 +50,8 @@ async def grab_interaction(db, intername):
     if fill:
         interactions = await get_interaction_list(db, intername)
         await db.cache.set_cache(cache_key, interactions)
-    if interaction_cache.get(intername):
-        choice = interaction_cache[intername].pop(secrets.randbelow(len(interaction_cache[intername])))
+    if interaction_cache:
+        choice = interaction_cache.pop(secrets.randbelow(len(interaction_cache)))
         await db.cache.set_cache(cache_key, interaction_cache)
     else:
         choice = {'url': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'interaction_id': None}
