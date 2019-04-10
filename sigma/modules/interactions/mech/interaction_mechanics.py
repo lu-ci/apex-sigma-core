@@ -20,79 +20,78 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.database import Database
 
-interaction_cache = {}
-
-
-async def get_interaction_list(db: Database, intername: str):
+async def get_interaction_list(db, intername):
     """
-
-    :param db:
-    :type db:
-    :param intername:
-    :type intername:
+    Gets all interaction for the given interaction type name.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param intername: The name of the interaction type.
+    :type intername: str
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
     return await db[db.db_nam].Interactions.find({'name': intername, 'active': True}).to_list(None)
 
 
-async def grab_interaction(db: Database, intername: str):
+async def grab_interaction(db, intername):
     """
-
-    :param db:
-    :type db:
-    :param intername:
-    :type intername:
+    Gets a single interaction for the given interaction type name.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param intername: The name of the interaction type.
+    :type intername: str
     :return:
-    :rtype:
+    :rtype: dict
     """
-    fill = False if interaction_cache.get(intername) else True
+    cache_key = f'interaction_cache_{intername}'
+    interaction_cache = await db.cache.get_cache(cache_key) or {}
+    fill = False if interaction_cache else True
     if fill:
         interactions = await get_interaction_list(db, intername)
-        interaction_cache.update({intername: interactions})
+        await db.cache.set_cache(cache_key, interactions)
     if interaction_cache.get(intername):
         choice = interaction_cache[intername].pop(secrets.randbelow(len(interaction_cache[intername])))
+        await db.cache.set_cache(cache_key, interaction_cache)
     else:
         choice = {'url': 'https://i.imgur.com/m59E4nx.gif', 'user_id': None, 'server_id': None, 'interaction_id': None}
     return choice
 
 
-def target_check(usr: discord.Member, lookup: str):
+def target_check(usr, lookup):
     """
-
-    :param usr:
-    :type usr:
-    :param lookup:
-    :type lookup:
+    Checks a user if they are the possible lookup target.
+    :param usr: The user to check.
+    :type usr: discord.Member
+    :param lookup: The lookup query.
+    :type lookup: str
     :return:
-    :rtype:
+    :rtype: bool
     """
     return usr.display_name.lower() == lookup.lower() or usr.name.lower() == lookup.lower()
 
 
 # message.mentions are not always in the correct order
-def get_mentions(message: discord.Message):
+def get_mentions(message):
     """
-
-    :param message:
-    :type message:
+    Grabs mentions from a message.
+    :param message: The message object.
+    :type message: discord.Message
     :return:
     :rtype:
     """
     return list(filter(lambda x: x, [message.guild.get_member(i) for i in message.raw_mentions]))
 
 
-def get_target(sigma, message: discord.Message):
+def get_target(sigma, message):
     """
-
-    :param sigma:
-    :type sigma:
-    :param message:
-    :type message:
+    Gets the target of the interaction.
+    :param sigma: The client's member object.
+    :type sigma: discord.Member
+    :param message: The message of the interaction cause.
+    :type message: discord.Message
     :return:
-    :rtype:
+    :rtype: discord.Member
     """
     mentions = get_mentions(message)
     if mentions:
@@ -110,15 +109,15 @@ def get_target(sigma, message: discord.Message):
     return target
 
 
-def get_author(sigma, message: discord.Message):
+def get_author(sigma, message):
     """
-
-    :param sigma:
-    :type sigma:
-    :param message:
-    :type message:
+    Gets the author of the interaction.
+    :param sigma: The client's member object.
+    :type sigma: discord.Member
+    :param message: The message of the interaction cause.
+    :type message: discord.Message
     :return:
-    :rtype:
+    :rtype: discord.Member
     """
     mentions = get_mentions(message)
     if len(mentions) >= 2:
@@ -131,17 +130,18 @@ def get_author(sigma, message: discord.Message):
     return author
 
 
-async def update_data(db: Database, data: dict, user: discord.User, guild: discord.Guild):
+async def update_data(db, data, user, guild):
     """
-
-    :param db:
-    :type db:
-    :param data:
-    :type data:
-    :param user:
-    :type user:
-    :param guild:
-    :type guild:
+    Updates the static data of an interaction
+    if the guild and member that submitted it are found.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param data: The interaction data document.
+    :type data: dict
+    :param user: The user that submitted it.
+    :type user: discord.Member
+    :param guild: The guild that submitted it.
+    :type guild: discord.Guild
     """
     if user:
         unam = data.get('user_name')
@@ -159,13 +159,13 @@ async def update_data(db: Database, data: dict, user: discord.User, guild: disco
 
 async def make_footer(cmd, item):
     """
-
-    :param cmd:
-    :type cmd:
-    :param item:
-    :type item:
+    Generates the footer for the embed with submitter details.
+    :param cmd: The main command instance and reference.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param item: The interaction document item.
+    :type item: dict
     :return:
-    :rtype:
+    :rtype: str
     """
     uid = item.get('user_id')
     user = await cmd.bot.get_user(uid)

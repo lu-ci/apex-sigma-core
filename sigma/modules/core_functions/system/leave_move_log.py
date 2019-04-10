@@ -46,7 +46,7 @@ def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_coun
             'id': gld.id,
             'name': gld.name,
             'created_at': gld.created_at,
-            'icon': gld.icon_url
+            'icon': str(gld.icon_url) if gld.icon_url else None
         },
         'owner': {
             'id': gld.owner.id,

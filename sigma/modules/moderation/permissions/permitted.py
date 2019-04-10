@@ -76,6 +76,7 @@ async def permitted(cmd, pld):
                         if node_name in check_group:
                             exceptions = perms.get(exception_group, {}).get(node_name, {}).get(target_type, [])
                             overridden_items = get_exceptions(pld.msg, exceptions, target_type)
+                            guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
                             if overridden_items:
                                 total_overrides = len(overridden_items)
                                 page = pld.args[2] if len(pld.args) > 2 else 1
@@ -83,8 +84,8 @@ async def permitted(cmd, pld):
                                 title = f'{pld.msg.guild.name} {node_name.upper()} {target_type[:-1].title()} Overrides'
                                 info = f'[Page {page}] Showing {len(overrides)} '
                                 info += f'out of {total_overrides} channel overrides.'
-                                response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
-                                response.set_author(name=title, icon_url=pld.msg.guild.icon_url)
+                                response = discord.Embed(color=await get_image_colors(guild_icon))
+                                response.set_author(name=title, icon_url=guild_icon)
                                 response.description = ', '.join(overrides)
                                 response.set_footer(text=info)
                             else:

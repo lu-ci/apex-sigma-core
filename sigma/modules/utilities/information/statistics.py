@@ -28,7 +28,10 @@ async def statistics(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
-    sigma_title = 'Apex Sigma: Statistics'
+    if cmd.bot.shard_ids and cmd.bot.shard_count:
+        sigma_title = f'Apex Sigma: Shard #{pld.msg.guild.shard_id} Statistics'
+    else:
+        sigma_title = 'Apex Sigma: Statistics'
     support_url = 'https://discordapp.com/invite/aEUCHwX'
     role_count = 0
     for guild in cmd.bot.guilds:

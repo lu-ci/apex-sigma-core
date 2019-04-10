@@ -46,13 +46,14 @@ async def rolepopulation(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
     if pld.args:
         rl_qry = ' '.join(pld.args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), pld.msg.guild.roles)
         if role_search:
             counter = len(role_search.members)
             response = discord.Embed(color=role_search.color)
-            response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
+            response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
             response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
         else:
             response = not_found(f'{rl_qry} not found.')
@@ -70,7 +71,7 @@ async def rolepopulation(_cmd, pld):
         out_text = boop(output)
         stats_block = f'```py\nShowing {len(output)} roles out of {len(pld.msg.guild.roles) - 1}\n```'
         response = discord.Embed(color=0x3B88C3)
-        response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
+        response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
         response.add_field(name='Statistics', value=stats_block, inline=False)
         response.add_field(name='Role Population', value=f'```haskell\n{out_text}\n```', inline=False)
     await pld.msg.channel.send(embed=response)

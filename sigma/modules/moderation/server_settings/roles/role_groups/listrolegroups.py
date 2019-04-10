@@ -43,8 +43,9 @@ async def listrolegroups(cmd, pld):
         group_list = sorted(group_list)
         for rl in group_list:
             rl_out += f'\n`{rl}`: {len(list(role_groups.get(rl)))} Roles'
-        response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
-        response.set_author(name=pld.msg.guild.name, icon_url=pld.msg.guild.icon_url)
+        guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+        response = discord.Embed(color=await get_image_colors(guild_icon))
+        response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
         response.add_field(name='Role Group Summary', value=summary, inline=False)
         response.add_field(name='List of Role Groups', value=f'{rl_out}', inline=False)
         response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')

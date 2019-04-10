@@ -1,5 +1,27 @@
 # Apex Sigma Changelog
 
+## 4.47.943: Sakurako
+
+### Added
+
+- The **Azur Lane** module is born!
+- The `>>almimic` command will generate a random markov chain impersonation using all Azur Lane quotes. Or a single ship, though due to being a tiny amount of data, they can be very repetitive.
+- The `>>alship` command shows basic Azur Lane ship information and stats. More commands comming soon as I've made a complete scraper for the AL wiki within Sigma.
+
+### Changed
+
+- The `>>stats` command now shows for which shard it is showing stats.
+- Error reporter tweaks and safeguards.
+- Change all calls of the `discord.Guild.icon_url` to be compatible with the new `discord.Asset` class.
+- Tweaked a few `discord.User.avatar_url` calls to make sure assets don't break those.
+- The `dbinit` event will now start only on **Shard #0** if the client is sharded.
+- Replaced the `discord.py` requirement from a hard repository URL to just the pypi name since rewrite is now the master branch and the repo branch is archived and broken.
+- When booting the client will set a booting status message and clear it when it's done.
+- Gelbooru uses the core cacher instead of a local dict variable.
+- Interactions now use the core cacher instead of a local dict variable.
+- Path of Exile Active Skill Gems now use the core cacher... you get the premise, more of these will come soon.
+- Made the `get_channel()` and `get_user()` not try to cache their results if the caching method is `redis` or `mixed`.
+
 ## 4.45.902: Sakurako
 
 ### Added

@@ -1,0 +1,34 @@
+name:             Azur Lane Commands
+
+category:         azur_lane
+
+enabled:          true
+
+commands:
+  - name:         azurlaneship
+    alts:
+      - "alship"
+      - "azurelaneship"
+    enabled:      true
+    usage:        "{pfx}{cmd} Laffey"
+    description:
+                  Shows information about an Azur Lane ship.
+                  Such as stats, rarity, skills, etc.
+                  You can add "--no-image" to the end of the command
+                  to prevent the addition of the ship's default image.
+
+  - name:         azurlaneimpersonate
+    alts:
+      - "azurlanemimic"
+      - "alimpersonate"
+      - "almimic"
+    enabled:      true
+    usage:        "{pfx}{cmd} Helena"
+    description:
+                  Makes a markov chain generated sentence from
+                  the ship's quotes. If no ship is specified all will be used.
+
+events:
+  - name:         dbinit_azur_lane
+    type:         dbinit
+    enabled:      true

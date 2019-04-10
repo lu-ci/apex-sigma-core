@@ -67,7 +67,7 @@ class ApexSigma(client_class):
     )
 
     def __init__(self):
-        super().__init__()
+        super().__init__(status=discord.Status.dnd, activity=discord.Game('booting...'))
         self.ready = False
         # State attributes before initialization.
         self.db = None
@@ -210,14 +210,13 @@ class ApexSigma(client_class):
         """
         Gets a user from the core client
         or from the cache if one exists in the Cacher class.
-        TODO: These objects can't be pickled, must find alternative caching method.
         :type uid: int
         :type cached: bool
         :param uid: The User ID of the requested user.
         :param cached: Should the user be cached/obtained from the cache.
         :return:
         """
-        if cached:
+        if cached and self.cfg.cache.type not in ['mixed', 'redis']:
             cache_key = f'get_usr_{uid}'
             out = await self.cache.get_cache(cache_key)
             if not out:
@@ -231,14 +230,13 @@ class ApexSigma(client_class):
         """
         Gets a channel from the core client
         or from the cache if one exists in the Cacher class.
-        TODO: These objects can't be pickled, must find alternative caching method.
         :type cid: int
         :type cached: bool
         :param cid: The Channel ID of the requested channel.
         :param cached: Should the channel be cached/obtained from the cache.
         :return:
         """
-        if cached:
+        if cached and self.cfg.cache.type not in ['mixed', 'redis']:
             cache_key = f'get_chn_{cid}'
             out = await self.cache.get_cache(cache_key)
             if not out:
@@ -298,8 +296,9 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
-        self.log.info('Launching DB-Init Modules...')
-        self.loop.create_task(self.queue.event_runner('dbinit'))
+        if 0 in (self.shard_ids or [0]):
+            self.log.info('Launching DB-Init Modules...')
+            self.loop.create_task(self.queue.event_runner('dbinit'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 

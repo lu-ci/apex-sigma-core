@@ -43,9 +43,10 @@ async def serverstatistics(_cmd, pld):
     exec_text += f'\nCommand Rate: **{command_rate}/s**'
     exec_text += f'\nMessages: **{gld_stats.get("messages", 0)}**'
     exec_text += f'\nMessage Rate: **{message_rate}/s**'
-    color = await get_image_colors(pld.msg.guild.icon_url)
+    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+    color = await get_image_colors(guild_icon)
     response = discord.Embed(color=color, timestamp=arrow.get(start_time).datetime)
-    response.set_author(name=f'{pld.msg.guild.name} Statistics', icon_url=pld.msg.guild.icon_url)
+    response.set_author(name=f'{pld.msg.guild.name} Statistics', icon_url=guild_icon)
     response.add_field(name='Population', value=pop_text)
     response.add_field(name='Usage', value=exec_text)
     response.set_footer(text=f'Tracking since {start_time.humanize()}')

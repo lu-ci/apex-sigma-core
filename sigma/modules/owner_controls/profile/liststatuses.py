@@ -39,7 +39,7 @@ async def liststatuses(cmd, pld):
         page = pld.args[0] if pld.args else 1
         status_list, page = PaginatorCore.paginate(status_list, page)
         status_block = boop(status_list, ['ID', 'Text'])
-        response = discord.Embed(color=await get_image_colors(cmd.bot.user.avatar_url))
+        response = discord.Embed(color=await get_image_colors(user_avatar(cmd.bot.user)))
         response.set_author(name=f'{cmd.bot.user.name}\'s Status Rotation Items', icon_url=user_avatar(cmd.bot.user))
         info = f'Showing {len(status_list)} items out of {total_status} on page {page}.'
         response.add_field(name='Info', value=f'```py\n{info}\n```')

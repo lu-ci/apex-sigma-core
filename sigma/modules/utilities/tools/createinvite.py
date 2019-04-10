@@ -50,8 +50,9 @@ async def createinvite(_cmd, pld):
                     if not uses > 100:
                         try:
                             invite = await target.create_invite(max_age=age, max_uses=uses)
-                            response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
-                            response.set_author(name=f'Invite for {target.name}.', icon_url=pld.msg.guild.icon_url)
+                            guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+                            response = discord.Embed(color=await get_image_colors(guild_icon))
+                            response.set_author(name=f'Invite for {target.name}.', icon_url=guild_icon)
                             age = arrow.get(arrow.utcnow().timestamp + age).humanize() if age else None
                             details = f"**Link:** {invite}\n**Expires:** {age or 'Never'}"
                             details += f"\n**Uses:** {uses or 'Unlimited'}"

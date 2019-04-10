@@ -1,6 +1,7 @@
 **Hey there!** We need your **help**! Come support us on [**Patreon**](https://www.patreon.com/ApexSigma)!
 
 ## Module Index
+- [AZUR LANE](#azur-lane)
 - [DEVELOPMENT](#development)
 - [FUN](#fun)
 - [GIRLS FRONTLINE](#girls-frontline)
@@ -23,6 +24,13 @@
 - [STATISTICS](#statistics)
 - [UTILITY](#utility)
 - [WARFRAME](#warframe)
+
+### AZUR LANE
+Commands | Description | Example
+----------|-------------|--------
+`>>azurlaneimpersonate` `>>azurlanemimic` `>>alimpersonate` `>>almimic` | Makes a markov chain generated sentence from the ship's quotes. If no ship is specified all will be used. | `>>azurlaneimpersonate Helena`
+`>>azurlaneship` `>>alship` `>>azurelaneship` | Shows information about an Azur Lane ship. Such as stats, rarity, skills, etc. You can add "--no-image" to the end of the command to prevent the addition of the ship's default image. | `>>azurlaneship Laffey`
+[Back To Top](#module-index)
 
 ### DEVELOPMENT
 Commands | Description | Example

@@ -36,12 +36,13 @@ def make_sugg_embed(msg: discord.Message, args: list, token: str):
     :return:
     :rtype:
     """
+    guild_icon = str(msg.guild.icon_url) if msg.guild.icon_url else discord.Embed.Empty
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
     sugg_embed.description = " ".join(args)
     author_name = f'{msg.author.name} [{msg.author.id}]'
     footer_content = f'[{token}]'
     sugg_embed.set_author(name=author_name, icon_url=user_avatar(msg.author))
-    sugg_embed.set_footer(icon_url=msg.guild.icon_url, text=footer_content)
+    sugg_embed.set_footer(icon_url=guild_icon, text=footer_content)
     return sugg_embed
 
 

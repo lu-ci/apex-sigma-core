@@ -79,8 +79,9 @@ async def disabled(cmd, pld):
                 disabled_list, page_num = PaginatorCore.paginate(disabled_list, page, 50)
                 title = f'{pld.msg.guild.name} Disabled {perm_name.title()}'
                 info = f'[Page {page_num}] Showing {len(disabled_list)} out of {disabled_count} disabled {perm_name}.'
-                response = discord.Embed(color=await get_image_colors(pld.msg.guild.icon_url))
-                response.set_author(name=title, icon_url=pld.msg.guild.icon_url)
+                guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+                response = discord.Embed(color=await get_image_colors(guild_icon))
+                response.set_author(name=title, icon_url=guild_icon)
                 response.description = ', '.join(disabled_list)
                 response.set_footer(text=info)
             else:

@@ -23,12 +23,19 @@ import lxml.html as lx
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 
-active_gem_list_cache = {}
-active_gem_data_cache = {}
 
-
-async def fill_gem_cache():
+async def fill_gem_cache(db):
+    """
+    Fills the index cache of all active skill gems.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :return:
+    :rtype:
+    """
+    cache_key = 'poe_active_gem_index'
+    active_gem_list_cache = await db.cache.get_cache(cache_key)
     if not active_gem_list_cache:
+        gem_cache_document = {}
         active_sg_url = 'https://pathofexile.gamepedia.com/List_of_active_skill_gems'
         async with aiohttp.ClientSession() as session:
             async with session.get(active_sg_url) as data:
@@ -40,21 +47,25 @@ async def fill_gem_cache():
             gem_dkey = gem_name.replace(' ', '_').lower()
             url_pointer = gem_item[0][1].attrib.get("href")
             gem_link = f'https://pathofexile.gamepedia.com/{url_pointer}'
-            active_gem_list_cache.update({gem_dkey: {'name': gem_name, 'url': gem_link}})
+            gem_cache_document.update({gem_dkey: {'name': gem_name, 'url': gem_link}})
+        await db.cache.set_cache(cache_key, gem_cache_document)
 
 
-async def get_gem_data(gem_name: str, gem_url: str):
+async def get_gem_data(db, gem_name, gem_url):
     """
-
-    :param gem_name:
-    :type gem_name:
-    :param gem_url:
-    :type gem_url:
+    Grabs data for a gem with the given name.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param gem_name: The gem's name.
+    :type gem_name: str
+    :param gem_url: The gem's page URL.
+    :type gem_url: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     gem_key = gem_name.replace(' ', '_').lower()
-    gem_data = active_gem_data_cache.get(gem_key)
+    cache_key = f'poe_ag_{gem_key}'
+    gem_data = await db.cache.get_cache(cache_key)
     if not gem_data:
         async with aiohttp.ClientSession() as session:
             async with session.get(gem_url) as data:
@@ -83,31 +94,33 @@ async def get_gem_data(gem_name: str, gem_url: str):
                 'spell': spell_image
             }
         }
-        active_gem_data_cache.update({gem_key: gem_data})
+        await db.cache.set_cache(cache_key, gem_data)
     return gem_data
 
 
-def find_broad(lookup: str):
+def find_broad(gem_index, lookup):
     """
-
-    :param lookup:
-    :type lookup:
+    Finds a loosely defined gem by the given search query.
+    :param gem_index: The document containing the gem index.
+    :type gem_index: dict
+    :param lookup: What to look for.
+    :type lookup: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     out = None
-    for key in active_gem_list_cache:
+    for key in gem_index:
         if lookup in key:
-            out = active_gem_list_cache.get(key)
+            out = gem_index.get(key)
             break
     return out
 
 
-def parse_gem_info(gem_info: str):
+def parse_gem_info(gem_info):
     """
-
-    :param gem_info:
-    :type gem_info:
+    Parses a gem's info from its text block.
+    :param gem_info: The gem's text block.
+    :type gem_info: str
     :return:
     :rtype:
     """
@@ -123,19 +136,20 @@ def parse_gem_info(gem_info: str):
     return {'types': types, 'details': info_lines}
 
 
-async def poeactive(_cmd, pld):
+async def poeactive(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
         lookup_key = '_'.join(pld.args).lower()
-        await fill_gem_cache()
-        gem_entry = active_gem_list_cache.get(lookup_key) or find_broad(lookup_key)
+        await fill_gem_cache(cmd.db)
+        gem_list_index = await cmd.db.cache.get_cache('poe_active_gem_index')
+        gem_entry = gem_list_index.get(lookup_key) or find_broad(gem_list_index, lookup_key)
         if gem_entry:
-            gem_data = await get_gem_data(gem_entry.get('name'), gem_entry.get('url'))
+            gem_data = await get_gem_data(cmd.db, gem_entry.get('name'), gem_entry.get('url'))
             if gem_data:
                 if gem_data.get('level'):
                     gem_info_block = f'**Level**: {gem_data.get("level")}'

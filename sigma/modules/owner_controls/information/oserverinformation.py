@@ -38,8 +38,9 @@ async def oserverinformation(cmd, pld):
             gld = discord.utils.find(lambda u: u.name.lower() == lookup.lower(), cmd.bot.guilds)
         if gld:
             own = gld.owner
-            response = discord.Embed(color=await get_image_colors(gld.icon_url))
-            response.set_author(name=gld.name, icon_url=gld.icon_url)
+            guild_icon = str(gld.icon_url) if gld.icon_url else discord.Embed.Empty
+            response = discord.Embed(color=await get_image_colors(guild_icon))
+            response.set_author(name=gld.name, icon_url=guild_icon)
             creation_time = arrow.get(gld.created_at).format('DD. MMMM YYYY')
             bot_count = len([u for u in gld.members if u.bot])
             user_count = len([u for u in gld.members if not u.bot])

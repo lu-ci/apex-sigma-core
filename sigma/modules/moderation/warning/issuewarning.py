@@ -135,9 +135,10 @@ async def issuewarning(cmd, pld):
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
+                    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
-                    to_target.set_footer(text=f'From {pld.msg.guild.name}', icon_url=pld.msg.guild.icon_url)
+                    to_target.set_footer(text=f'From {pld.msg.guild.name}', icon_url=guild_icon)
                     # noinspection PyBroadException
                     try:
                         await target.send(embed=to_target)

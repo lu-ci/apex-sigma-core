@@ -50,7 +50,7 @@ def make_sugg_data(msg: discord.Message, args: list, token: str):
         'guild': {
             'id': msg.guild.id,
             'name': msg.guild.name,
-            'icon': msg.guild.icon_url
+            'icon': str(msg.guild.icon_url) if msg.guild.icon_url else None
         },
         'timestamp': msg.created_at.timestamp(),
         'reported': False

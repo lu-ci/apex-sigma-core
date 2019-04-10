@@ -74,9 +74,10 @@ async def kick_members(cmd: SigmaCommand, pld: CommandPayload, targets: list, re
     :type reason:
     """
     for target in targets:
+        guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
         to_target = discord.Embed(color=0xc1694f)
         to_target.add_field(name='👢 You have been kicked.', value=f'Reason: {reason}')
-        to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=pld.msg.guild.icon_url)
+        to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
         try:
             await target.send(embed=to_target)
         except discord.Forbidden:

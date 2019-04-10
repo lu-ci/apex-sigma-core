@@ -48,9 +48,10 @@ async def responders(_cmd, pld):
                 list_line = f'**{loop_index}**: {key}'
                 trg_list_lines.append(list_line)
             trg_list = '\n'.join(trg_list_lines)
-            srv_color = await get_image_colors(pld.msg.guild.icon_url)
+            guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+            srv_color = await get_image_colors(guild_icon)
             response = discord.Embed(color=srv_color)
-            response.set_author(name='Automatic Responder Triggers', icon_url=pld.msg.guild.icon_url)
+            response.set_author(name='Automatic Responder Triggers', icon_url=guild_icon)
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Trigger List', value=trg_list, inline=False)
         else:

@@ -24,36 +24,37 @@ from lxml import html
 
 from sigma.core.utilities.generic_responses import not_found
 
-cache = {}
 
-
-async def fill_gelbooru_cache(tags):
+async def fill_gelbooru_cache(db, tags):
     """
-
-    :param tags:
-    :type tags:
+    Fills the gelbooru cache with images from the given search criteria.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param tags: The tags to fill the cache for.
+    :type tags: str
     """
+    cache_key = f'gelbooru_{tags}'
     gelbooru_url = f'http://gelbooru.com/index.php?page=dapi&s=post&q=index&tags={tags}'
-    if tags not in cache:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(gelbooru_url) as data:
-                data = await data.read()
-                posts = html.fromstring(data)
-                cache.update({tags: list(posts)})
+    async with aiohttp.ClientSession() as session:
+        async with session.get(gelbooru_url) as data:
+            data = await data.read()
+            posts = html.fromstring(data)
+            await db.cache.set_cache(cache_key, posts)
 
 
-async def gelbooru(_cmd, pld):
+async def gelbooru(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    tags = '+'.join(pld.args) if pld.args else 'nude'
-    collect_needed = False if cache.get(tags) else True
+    tags = '+'.join(sorted(list(pld.args))) if pld.args else 'nude'
+    cache_key = f'gelbooru_{tags}'
+    collect_needed = False if await cmd.db.cache.get_cache(cache_key) else True
     if collect_needed:
-        await fill_gelbooru_cache(tags)
-    collection = cache.get(tags)
+        await fill_gelbooru_cache(cmd.db, tags)
+    collection = await cmd.db.cache.get_cache(cache_key)
     if collection:
         choice = collection.pop(secrets.randbelow(len(collection)))
         img_url = choice.attrib['file_url']

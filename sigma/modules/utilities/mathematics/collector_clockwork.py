@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import string
 
+import discord
+
 from sigma.core.utilities.generic_responses import ok
 
 collector_loop_running = False
@@ -211,9 +213,9 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
-    ftr_icn = tgt_chn.guild.icon_url or 'https://i.imgur.com/xpDpHqz.png'
+    guild_icon = str(tgt_chn.msg.guild.icon_url) if tgt_chn.msg.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
     response = ok(f'Added {cltd} entries to your chain, {len(cltn)} entries total.')
-    response.set_footer(text=footer, icon_url=ftr_icn)
+    response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
     try:
         await tgt_usr.send(embed=response)
