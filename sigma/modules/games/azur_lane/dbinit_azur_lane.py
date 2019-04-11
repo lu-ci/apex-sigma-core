@@ -41,18 +41,19 @@ async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
     """
     ev.log.info(f'Updating basic data for {table_type} ships...')
     for row in table[1:]:
-        ship_data = AzurLaneShip()
-        if cutter and prefix:
-            ship_data.id = f'{prefix}_{row[0][0].text.replace(cutter, "")}'
-        else:
-            ship_data.id = int(row[0][0].text)
-        ship_data.url = f'{url_base}{row[0][0].attrib["href"]}'
-        ship_data.name = row[1][0].text.strip()
-        ship_data.rarity = row[2].text.strip()
-        ship_data.type = row[3][0].text.strip()
-        ship_data.subtype = row[4][0].text.strip() if len(row) == 12 else None
-        ship_data.faction = row[5][0].text.strip() if ship_data.subtype else row[4][0].text.strip()
-        await ship_data.save(ev.db)
+        if len(row) in [11, 12]:
+            ship_data = AzurLaneShip()
+            if cutter and prefix:
+                ship_data.id = f'{prefix}_{row[0][0].text.replace(cutter, "")}'
+            else:
+                ship_data.id = int(row[0][0].text)
+            ship_data.url = f'{url_base}{row[0][0].attrib["href"]}'
+            ship_data.name = row[1][0].text.strip()
+            ship_data.rarity = row[2].text.strip()
+            ship_data.type = row[3].text_content().strip()
+            ship_data.subtype = row[4][0].text.strip() if len(row) == 12 else None
+            ship_data.faction = row[5][0].text.strip() if ship_data.subtype else row[4][0].text.strip()
+            await ship_data.save(ev.db)
 
 
 async def basic_index_fill(ev):
