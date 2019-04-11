@@ -39,6 +39,7 @@ async def fill_gelbooru_cache(db, tags):
         async with session.get(gelbooru_url) as data:
             data = await data.read()
             posts = html.fromstring(data)
+            posts = [ps.attrib for ps in posts if ps.attrib.get('file_url')]
             await db.cache.set_cache(cache_key, posts)
 
 
@@ -57,14 +58,14 @@ async def gelbooru(cmd, pld):
     collection = await cmd.db.cache.get_cache(cache_key)
     if collection:
         choice = collection.pop(secrets.randbelow(len(collection)))
-        img_url = choice.attrib['file_url']
+        img_url = choice.get('file_url')
         if not img_url.startswith('http'):
-            img_url = f"https:{choice.attrib['file_url']}"
-        post_url = f'https://gelbooru.com/index.php?page=post&s=view&id={choice.attrib["id"]}'
+            img_url = f"https:{choice.get('file_url')}"
+        post_url = f'https://gelbooru.com/index.php?page=post&s=view&id={choice.get("id")}'
         icon_url = 'https://gelbooru.com/favicon.png'
         response = discord.Embed(color=0x006ffa)
         response.set_author(name='Gelbooru', icon_url=icon_url, url=post_url)
-        footer_text = f'Score: {choice.attrib["score"]} | Size: {choice.attrib["width"]}x{choice.attrib["height"]}'
+        footer_text = f'Score: {choice.get("score")} | Size: {choice.get("width")}x{choice.get("height")}'
         response.set_image(url=img_url)
         response.set_footer(text=footer_text)
     else:
