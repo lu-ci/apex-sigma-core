@@ -53,11 +53,8 @@ async def get_all_perms(db, message):
     :return:
     :rtype:
     """
-    perms = await db.cache.get_cache(f'perm_{message.guild.id}')
+    perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})
     if not perms:
-        perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})
-        if not perms:
-            perms = generate_default_data(message)
-            await db[db.db_nam].Permissions.insert_one(perms)
-        await db.cache.set_cache(f'perm_{message.guild.id}', perms)
+        perms = generate_default_data(message)
+        await db[db.db_nam].Permissions.insert_one(perms)
     return perms

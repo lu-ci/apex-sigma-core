@@ -393,10 +393,7 @@ class ServerCommandPermissions(object):
             is_guild_admin = author.permissions_in(self.msg.channel).administrator
             if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
                 # Crunderwood was here...
-                perms = await self.db.cache.get_cache(f'perm_{self.msg.guild.id}')
-                if not perms:
-                    perms = await self.perm_coll.find_one({'server_id': self.msg.guild.id})
-                    await self.db.cache.set_cache(f'perm_{self.msg.guild.id}', perms)
+                perms = await self.perm_coll.find_one({'server_id': self.msg.guild.id})
                 if not perms:
                     permitted = True
                 else:
