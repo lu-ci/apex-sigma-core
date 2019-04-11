@@ -90,7 +90,7 @@ class ShipStats(object):
         for stat_coord_key in stat_coords:
             stat_coord_row, stat_coord_col = stat_coords.get(stat_coord_key)
             stat_val = table[stat_coord_row][stat_coord_col].text.strip()
-            stat_val = 0 if not stat_val else stat_val
+            stat_val = 0 if not stat_val or not stat_val.isdigit() else stat_val
             try:
                 stat_val = int(stat_val)
             except ValueError:
