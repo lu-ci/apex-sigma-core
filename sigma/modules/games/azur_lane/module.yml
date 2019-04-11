@@ -16,6 +16,8 @@ commands:
                   Such as stats, rarity, skills, etc.
                   You can add "--no-image" to the end of the command
                   to prevent the addition of the ship's default image.
+                  You can also add "--retrofit" to show the ship's retrofit stats,
+                  and "--awaken" to see Lv. 100 and 120 stats instead of Base and Lv. 100.
 
   - name:         azurlaneimpersonate
     alts:

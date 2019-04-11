@@ -39,7 +39,7 @@ async def fill_gelbooru_cache(db, tags):
         async with session.get(gelbooru_url) as data:
             data = await data.read()
             posts = html.fromstring(data)
-            posts = [ps.attrib for ps in posts if ps.attrib.get('file_url')]
+            posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
             await db.cache.set_cache(cache_key, posts)
 
 

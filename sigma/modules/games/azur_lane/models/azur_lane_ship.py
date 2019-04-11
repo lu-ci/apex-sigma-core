@@ -67,7 +67,7 @@ class ShipStats(object):
         stat_attrs = [
             'firepower', 'health', 'anti_air', 'reload',
             'evasion', 'aviation', 'torpedo', 'oil_consumption',
-            'speed', 'luck', 'accuracy', 'anti_submarine', 'armor'
+            'speed', 'luck', 'accuracy', 'anti_submarine'
         ]
         return round(sum([getattr(self, satt) for satt in stat_attrs]) / len(stat_attrs), 2)
 
@@ -163,9 +163,11 @@ class ShipStatsByLevel(object):
         self.maxed = ShipStats(self.raw.get('maxed'))
         self.awake = ShipStats(self.raw.get('awake'))
 
-    def describe(self):
+    def describe(self, awoken=False):
         """
         Returns a text block meant for embed information.
+        :param awoken: Is the function describing a retrofit.
+        :type awoken: bool
         :return:
         :rtype: str
         """
@@ -185,11 +187,13 @@ class ShipStatsByLevel(object):
             ['Anti-Sub', 'anti_submarine']
         ]
         out_list = []
+        lvconts = [self.base, self.maxed] if not awoken else [self.maxed, self.awake]
         for proto_data in out_proto:
             out_sub = [proto_data[0]]
-            for lvcont in [self.base, self.maxed]:
+            for lvcont in lvconts:
                 out_sub.append(str(getattr(lvcont, proto_data[1])))
             out_list.append(out_sub)
+        out_list.append(['Average', str(self.base.average), str(self.maxed.average)])
         out = boop(out_list, ['Stat', 'Base', 'Lv. 100'])
         return out
 

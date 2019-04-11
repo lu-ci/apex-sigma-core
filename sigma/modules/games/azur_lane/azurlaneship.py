@@ -86,12 +86,10 @@ async def azurlaneship(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    lookup = ' '.join(pld.args) if pld.args else None
-    no_image = False
-    if lookup:
-        no_image = pld.args[-1].lower() == '--no-image'
-        if no_image:
-            lookup = ' '.join(pld.args[:-1]) if pld.args[:-1] else None
+    lookup = ' '.join([pla for pla in pld.args if not pla.startswith('--')])
+    no_image = '--no-image' in pld.args
+    retrofit = '--retrofit' in pld.args
+    awoken = '--awaken' in pld.args
     try:
         lookup = int(lookup)
     except ValueError:
@@ -111,7 +109,10 @@ async def azurlaneship(cmd, pld):
                     break
             if ship.images.chibi:
                 response.set_thumbnail(url=ship.images.chibi)
-            response.add_field(name='Statistics', value=f'```py\n{ship.stats.normal.describe()}\n```')
+            if retrofit:
+                response.add_field(name='Retrofit', value=f'```py\n{ship.stats.retrofit.describe(awoken)}\n```')
+            else:
+                response.add_field(name='Statistics', value=f'```py\n{ship.stats.normal.describe(awoken)}\n```')
             faction_prefix = faction_prefixes.get(ship.faction.lower())
             faction_icon = faction_icons.get(ship.faction.lower()) or discord.Embed.Empty
             if faction_prefix:

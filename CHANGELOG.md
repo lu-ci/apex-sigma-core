@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.48.960: Sakurako
+
+### Changed
+
+- The `>>alship` command now accepts `--retrofit` to show the ship's retrofit stats and also shows an average value of the ship's stats. You can also add `--awaken` to see the Lv. 120 stas instead of the base stats.
+- A few fixes for Azur Lane statistics processing and wiki scraping.
+- Gelbooru hopefully fixed, shit's weird...
+
 ## 4.47.943: Sakurako
 
 ### Added
