@@ -24,7 +24,7 @@ import discord
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-def get_emote_cache(cmd):
+async def get_emote_cache(cmd):
     """
     Gets all emotes the client is exposed to.
     :param cmd: The main command instance reference.
@@ -85,7 +85,7 @@ async def emote(cmd, pld):
         if ':' in lookup:
             lookup, eid = get_emote(lookup)
         if pld.args[-1].lower() == '--global':
-            all_emotes = get_emote_cache(cmd)
+            all_emotes = await get_emote_cache(cmd)
         else:
             all_emotes = pld.msg.guild.emojis
             nsfw = False
