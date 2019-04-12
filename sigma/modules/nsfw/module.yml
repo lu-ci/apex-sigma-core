@@ -87,7 +87,7 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} thighhighs"
     description:
-                  Searches Sigmaachan for the specified tag.
+                  Searches Konachan for the specified tag.
                   If no tag is given, the keyword "nude" will be used.
                   Separate different tags with a space and replace spaces within
                   a single tag with underscores "_".
