@@ -57,7 +57,7 @@ async def gelbooru(cmd, pld):
         await fill_gelbooru_cache(cmd.db, tags)
     collection = await cmd.db.cache.get_cache(cache_key)
     if collection:
-        choice = collection.pop(secrets.randbelow(len(collection)))
+        choice = secrets.choice(collection)
         img_url = choice.get('file_url')
         if not img_url.startswith('http'):
             img_url = f"https:{choice.get('file_url')}"

@@ -21,35 +21,37 @@ import re
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.utilities.generic_responses import error, not_found
 
-emote_cache = {'stamp': 0, 'emotes': []}
 
-
-def get_emote_cache(cmd: SigmaCommand):
+def get_emote_cache(cmd):
     """
-
-    :param cmd:
-    :type cmd:
+    Gets all emotes the client is exposed to.
+    :param cmd: The main command instance reference.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :return:
-    :rtype:
+    :rtype: list
     """
-    if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
+    fill = False
+    emote_cache = await cmd.db.cache.get_cache('emote_cache')
+    if emote_cache:
+        if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
+            fill = True
+    if fill:
         all_emotes = cmd.bot.emojis
-        emote_cache.update({'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
+        await cmd.db.cache.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
     else:
         all_emotes = emote_cache.get('emotes')
     return all_emotes
 
 
-def get_emote(emoji: str or discord.Emoji):
+def get_emote(emoji):
     """
-
-    :param emoji:
-    :type emoji:
+    Gets a specific emote by lookup.
+    :param emoji: The emote to get.
+    :type emoji: str or discord.Emoji
     :return:
-    :rtype:
+    :rtype: (str, int)
     """
     lookup, eid = emoji, None
     if ':' in emoji:
