@@ -11,7 +11,7 @@ commands:
     enabled:      true
     description:
                   Toggles the starboard on and off.
-                  When a message reaches enough ractions with the specified emote,
+                  When a message reaches enough reactions with the specified emote,
                   it will be posted to the starboard channel. You can set the channel,
                   emote, and minimum number of reactions before a message is posted.
 
