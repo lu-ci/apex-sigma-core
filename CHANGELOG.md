@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.48.966: Sakurako
 
 ### Changed
 
