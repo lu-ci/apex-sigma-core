@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.48.961: Sakurako
+
+### Changed
+
+- Fixed the `>>shootfoot` command breaking due to an invalid dict default setting.
+
 ## 4.48.960: Sakurako
 
 ### Changed

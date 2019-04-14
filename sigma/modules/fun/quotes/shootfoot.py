@@ -52,7 +52,7 @@ async def shootfoot(cmd, pld):
         if not joke_doc:
             joke_docs = await get_all_sf(cmd.db)
             for joke_doc_item in joke_docs:
-                if lang in joke_doc_item.get('alts', []):
+                if lang in joke_doc_item.get('alts') or []:
                     joke_doc = joke_doc_item
                     break
     else:
