@@ -48,8 +48,8 @@ async def grab_interaction(db, intername):
     interaction_cache = await db.cache.get_cache(cache_key) or {}
     fill = False if interaction_cache else True
     if fill:
-        interactions = await get_interaction_list(db, intername)
-        await db.cache.set_cache(cache_key, interactions)
+        interaction_cache = await get_interaction_list(db, intername)
+        await db.cache.set_cache(cache_key, interaction_cache)
     if interaction_cache:
         choice = interaction_cache.pop(secrets.randbelow(len(interaction_cache)))
         await db.cache.set_cache(cache_key, interaction_cache)

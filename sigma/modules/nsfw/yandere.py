@@ -40,14 +40,16 @@ async def yandere(_cmd, pld):
             data = json.loads(data)
     if data:
         post = secrets.choice(data)
-        image_url = post['file_url']
+        image_url = post.get('file_url')
         icon_url = 'https://i.imgur.com/vgJwau2.png'
-        post_url = f'https://yande.re/post/show/{post["id"]}'
+        post_url = f'https://yande.re/post/show/{post.get("id")}'
+        score_text = f'Score: {post.get("score")}'
+        size_text = f'Size: {post.get("width")}x{post.get("height")}'
+        author_text = f'Uploaded By: {post.get("author")}'
         response = discord.Embed(color=0xad3d3d)
         response.set_author(name='Yande.re', url=post_url, icon_url=icon_url)
         response.set_image(url=image_url)
-        response.set_footer(
-            text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]} | Uploaded By: {post["author"]}')
+        response.set_footer(text=f'{score_text} | {size_text} | {author_text}')
     else:
         response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

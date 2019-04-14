@@ -24,43 +24,46 @@ from lxml import html
 
 from sigma.core.utilities.generic_responses import not_found
 
-cache = {}
 
-
-async def fill_r34_cache(tags):
+async def fill_r34_cache(db, tags):
     """
-
-    :param tags:
-    :type tags:
+    Fills the rule34 cache with images from the given search criteria.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param tags: The tags to fill the cache for.
+    :type tags: str
     """
+    cache_key = f'rule34_{tags}'
     r34_url = 'https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=' + tags
     async with aiohttp.ClientSession() as session:
         async with session.get(r34_url) as data:
             data = await data.read()
             posts = html.fromstring(data)
-            cache.update({tags: list(posts)})
+            posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
+            await db.cache.set_cache(cache_key, posts)
 
 
-async def rule34(_cmd, pld):
+async def rule34(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     tags = '+'.join(pld.args) if pld.args else 'nude'
-    collect_needed = False if cache.get(tags) else True
+    cache_key = f'rule34_{tags}'
+    collect_needed = False if await cmd.db.cache.get_cache(cache_key) else True
     if collect_needed:
-        await fill_r34_cache(tags)
-    collection = cache.get(tags)
+        await fill_r34_cache(cmd.db, tags)
+    collection = await cmd.db.cache.get_cache(cache_key)
     if collection:
-        choice = collection.pop(secrets.randbelow(len(collection)))
-        img_url = choice.attrib['file_url']
+        choice = secrets.choice(collection)
+        img_url = choice.get('file_url')
         if not img_url.startswith('http'):
-            img_url = f"https:{choice.attrib['file_url']}"
+            img_url = f"https:{choice.get('file_url')}"
         icon_url = 'https://i.imgur.com/63GGrmG.png'
-        post_url = f'https://rule34.xxx/index.php?page=post&s=view&id={choice.attrib["id"]}'
-        footer_text = f'Score: {choice.attrib["score"]} | Size: {choice.attrib["width"]}x{choice.attrib["height"]}'
+        post_url = f'https://rule34.xxx/index.php?page=post&s=view&id={choice.get("id")}'
+        footer_text = f'Score: {choice.get("score")} | Size: {choice.get("width")}x{choice.get("height")}'
         response = discord.Embed(color=0xaae5a3)
         response.set_author(name='Rule 34', url=post_url, icon_url=icon_url)
         response.set_image(url=img_url)

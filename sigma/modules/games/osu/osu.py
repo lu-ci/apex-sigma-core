@@ -20,6 +20,7 @@ import json
 
 import aiohttp
 import discord
+import hashlib
 
 from sigma.core.utilities.generic_responses import error
 
@@ -28,15 +29,31 @@ osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 user_data_cache = {}
 
 
-async def find_user_data(profile_url: str):
+def make_url_hash(url):
     """
-
-    :param profile_url:
-    :type profile_url:
+    Makes a quick md5 hash of the given URL.
+    :param url: The URL to hash.
+    :type url: str
     :return:
-    :rtype:
+    :rtype: str
     """
-    data_cache = user_data_cache.get(profile_url)
+    url_hash = hashlib.new('md5')
+    url_hash.update(url.encode('utf-8'))
+    return url_hash.hexdigest()
+
+
+async def find_user_data(db, profile_url):
+    """
+    Scrapes the page to find the user's actual information.
+    :param db: The main database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param profile_url: The user's profile URL.
+    :type profile_url: str
+    :return:
+    :rtype: dict
+    """
+    cache_key = f'osu_profile_{make_url_hash(profile_url)}'
+    data_cache = await db.cache.get_cache(cache_key)
     if not data_cache:
         async with aiohttp.ClientSession() as session:
             async with session.get(profile_url) as data:
@@ -51,23 +68,23 @@ async def find_user_data(profile_url: str):
                     break
                 except json.JSONDecodeError:
                     pass
-        user_data_cache.update({profile_url: user_data})
+        await db.cache.set_cache(cache_key, user_data)
     else:
         user_data = data_cache
     return user_data
 
 
-async def osu(_cmd, pld):
+async def osu(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
         osu_input = '%20'.join(pld.args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'
-        user_data = await find_user_data(profile_url)
+        user_data = await find_user_data(cmd.db, profile_url)
         username = user_data.get('username')
         if username:
             user_color = str(pld.msg.author.color)[1:]

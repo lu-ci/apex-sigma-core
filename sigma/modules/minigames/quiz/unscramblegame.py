@@ -25,7 +25,6 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble
 
 ongoing_list = []
-word_cache = {}
 
 
 async def unscramblegame(cmd, pld):
@@ -35,6 +34,7 @@ async def unscramblegame(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    word_cache = {}
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:
@@ -53,9 +53,9 @@ async def unscramblegame(cmd, pld):
 
         def check_answer(msg):
             """
-
-            :param msg:
-            :type msg:
+            Checks if the answer message is correct.
+            :param msg: The mssage to check.
+            :type msg: discord.Message
             :return:
             :rtype:
             """
