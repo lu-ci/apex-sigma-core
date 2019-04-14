@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import secrets
 
 import discord
 
@@ -34,15 +35,18 @@ async def colorme(_cmd, pld):
             if pld.args:
                 bad_hex = False
                 hex_req = pld.args[0].lower().strip('#')
-                if len(hex_req) == 3:
-                    hex_req = hex_req * 2
-                if len(hex_req) != 6:
-                    bad_hex = True
-                try:
-                    color_int = int(f'0x{hex_req}', 16)
-                except ValueError:
-                    color_int = None
-                    bad_hex = True
+                if hex_req.lower() == 'surprised':
+                    color_int = secrets.randbelow(16777215)
+                else:
+                    if len(hex_req) == 3:
+                        hex_req = hex_req * 2
+                    if len(hex_req) != 6:
+                        bad_hex = True
+                    try:
+                        color_int = int(f'0x{hex_req}', 16)
+                    except ValueError:
+                        color_int = None
+                        bad_hex = True
                 if not bad_hex:
                     role_name = f'SCR-{hex_req.upper()}'
                     role_posi = pld.msg.author.top_role.position + 1

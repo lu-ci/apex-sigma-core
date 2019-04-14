@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Added the `colourme` alias to the `>>colorme` command.
+- The `>>colorme` command now takes "surprised" as an argument that will give you a random color.
 - Fixed the `>>shootfoot` command breaking due to an invalid dict default setting.
 
 ## 4.48.960: Sakurako
