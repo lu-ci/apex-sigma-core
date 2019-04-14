@@ -48,7 +48,7 @@ async def colorme(_cmd, pld):
                         color_int = None
                         bad_hex = True
                 if not bad_hex:
-                    role_name = f'SCR-{hex_req.upper()}'
+                    role_name = f'SCR-{hex(color_int).split("x")[1]}'
                     role_posi = pld.msg.author.top_role.position + 1
                     role_objc = discord.utils.find(lambda role: role.name == role_name, pld.msg.guild.roles)
                     if not role_objc:
