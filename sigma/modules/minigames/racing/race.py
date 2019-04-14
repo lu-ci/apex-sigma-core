@@ -103,7 +103,7 @@ async def race(cmd, pld):
                 if race_instance['buyin']:
                     winnings = race_instance["buyin"] * len(race_instance['users'])
                     await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, pld.msg, False)
-                    win_title += f' And got {winnings} {currency}.'
+                    win_title = f'{win_title[:-1]} and got {winnings} {currency}!'
                 response = discord.Embed(color=colors[leader['icon']], title=win_title)
             else:
                 response = error('Not enough participants in the race!')

@@ -9,13 +9,14 @@
 - Fixed the `>>shootfoot` command breaking due to an invalid dict default setting.
 - Change the osu! command's caching.
 - Change the Emote command's emote caching.
-- The Unscrable Game no longer caches words, instead just runs a quick check of their validity.
+- The Unscramble Game no longer caches words, instead just runs a quick check of their validity.
 - Yande.re command key getting refactor.
-- Interaction core fixed for clients that don't use a Cacher.
+- Interaction core fixed for clients that don't use a cacher.
 - Changed the XBooru cache to use the core cacher.
 - Changed the PoE Passive Skill Gem command to use the core cacher.
 - Changed the Rule34 cache to use the core cacher.
 - NSFW caches made non-depletable.
+- Various typo fixes.
 
 ### Removed
 
