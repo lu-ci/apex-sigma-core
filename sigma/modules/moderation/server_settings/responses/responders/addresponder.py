@@ -27,22 +27,25 @@ async def addresponder(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-        if pld.args:
-            if len(pld.args) >= 2:
-                trigger = pld.args[0].lower()
-                if '.' not in trigger:
-                    content = ' '.join(pld.args[1:])
-                    auto_respones = pld.settings.get('responder_triggers', {})
-                    res_text = 'updated' if trigger in auto_respones else 'added'
-                    auto_respones.update({trigger: content})
-                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_respones)
-                    response = ok(f'{trigger} has been {res_text}')
+        if len(pld.args) >= 2:
+            content = ' '.join(pld.args)
+            if ';' in content:
+                trigger, _, resp = content.partition(';')
+                if len(trigger) <= 200:
+                    if '.' not in trigger:
+                        auto_responses = pld.settings.get('responder_triggers', {})
+                        res_text = 'updated' if trigger in auto_responses else 'added'
+                        auto_responses.update({trigger.strip(): resp.strip()})
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_responses)
+                        response = ok(f'{trigger} has been {res_text}')
+                    else:
+                        response = error('The trigger can\'t have a dot in it.')
                 else:
-                    response = error('The trigger can\'t have a dot in it.')
+                    response = error('The trigger has a limit of 200 characters.')
             else:
-                response = error('Missing message to send')
+                response = error('Separate the trigger and response with a semicolon.')
         else:
-            response = error('Nothing inputted.')
+            response = error('Invalid number of arguments.')
     else:
         response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

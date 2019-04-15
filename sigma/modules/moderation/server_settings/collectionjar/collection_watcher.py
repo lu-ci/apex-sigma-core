@@ -16,20 +16,35 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import string
+
 import discord
 
-from sigma.modules.fun.auto_response.auto_responder import clean_word
 from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar import CollectionJar
 
 
-async def add_to_jar(ev, message: discord.Message, jar: dict):
+def clean_word(text):
+    """
+    Removes punctuation from a string.
+    :param text: The string to clean.
+    :type text: str
+    :return:
+    :rtype: str
+    """
+    output = ''
+    for char in text:
+        if char.lower() not in string.punctuation:
+            output += char.lower()
+    return output
+
+
+async def add_to_jar(ev, message, jar):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param message:
-    :type message:
+    :type message: discord.Message
     :param jar:
-    :type jar:
     """
     jar = CollectionJar(jar, message, message.author)
     jar.channels.update({str(message.channel.id): jar.channel + 1})

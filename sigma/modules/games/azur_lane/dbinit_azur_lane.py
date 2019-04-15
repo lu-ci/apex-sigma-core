@@ -64,7 +64,7 @@ async def basic_index_fill(ev):
     :return:
     :rtype:
     """
-    ev.log.info('Updating basic Azur Lane ship information from the index...')
+    ev.log.info('Updating basic Azur Lane ship information...')
     index_url = f'{url_base}/List_of_Ships'
     async with aiohttp.ClientSession() as session:
         async with session.get(index_url) as index_req:
@@ -74,7 +74,7 @@ async def basic_index_fill(ev):
     await basic_index_save(ev, normal, 'standard')
     await basic_index_save(ev, planned, 'Planned', 'Plan', 'planned')
     await basic_index_save(ev, collab, 'Collab', 'Collab', 'collab')
-    ev.log.info('Basic data inserted.')
+    ev.log.info('Updated basic ship data successfully.')
 
 
 async def detailed_ship_fill(ev):
@@ -100,7 +100,7 @@ async def detailed_ship_fill(ev):
         ship.from_tables(ship_tables)
         ship.images.from_etree(ship_root)
         await ship.save(ev.db)
-    ev.log.info('Detailed data inserted.')
+    ev.log.info('Updated detailed ship data successfully.')
 
 
 async def dbinit_azur_lane(ev, force=False):

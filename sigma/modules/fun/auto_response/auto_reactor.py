@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.modules.fun.auto_response.auto_responder import clean_word
+import re
 
 
 async def auto_reactor(ev, pld):
@@ -31,11 +31,12 @@ async def auto_reactor(ev, pld):
             pfx = ev.db.get_prefix(pld.settings)
             if not pld.msg.content.startswith(pfx):
                 triggers = pld.settings.get('reactor_triggers') or {}
-                arguments = pld.msg.content.split(' ')
-                for arg in arguments:
-                    arg = clean_word(arg)
-                    if arg in triggers:
-                        reaction = triggers[arg]
+                # sort triggers by word count to avoid longer ones never triggering
+                triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
+                for trigger, reaction in triggers:
+                    # matches <string-start|non-word-char><trigger><string-end|non-word-char>
+                    match = re.search(r'(^|\W)' + trigger + r'($|\W)', pld.msg.content)
+                    if match:
                         # noinspection PyBroadException
                         try:
                             await pld.msg.add_reaction(reaction)

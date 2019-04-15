@@ -28,7 +28,7 @@ async def removeresponder(cmd, pld):
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
-            trigger = pld.args[0].lower()
+            trigger = ' '.join(pld.args).lower()
             auto_responses = pld.settings.get('responder_triggers') or {}
             if trigger in auto_responses:
                 del auto_responses[trigger]

@@ -16,24 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import string
+import re
 
 from sigma.core.utilities.data_processing import command_message_parser
-
-
-def clean_word(text):
-    """
-
-    :param text:
-    :type text:
-    :return:
-    :rtype:
-    """
-    output = ''
-    for char in text:
-        if char.lower() not in string.punctuation:
-            output += char.lower()
-    return output
 
 
 async def auto_responder(ev, pld):
@@ -47,14 +32,13 @@ async def auto_responder(ev, pld):
         if pld.msg.content:
             pfx = ev.db.get_prefix(pld.settings)
             if not pld.msg.content.startswith(pfx):
-                triggers = pld.settings.get('responder_triggers')
-                if triggers is None:
-                    triggers = {}
-                arguments = pld.msg.content.split(' ')
-                for arg in arguments:
-                    arg = clean_word(arg)
-                    if arg in triggers:
-                        response = triggers[arg]
+                triggers = pld.settings.get('responder_triggers') or {}
+                # sort triggers by word count to avoid longer ones never triggering
+                triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
+                for trigger, response in triggers:
+                    # matches <string-start|non-word-char><trigger><string-end|non-word-char>
+                    match = re.search(r'(^|\W)' + trigger + r'($|\W)', pld.msg.content)
+                    if match:
                         response = command_message_parser(pld.msg, response)
                         await pld.msg.channel.send(response)
                         break

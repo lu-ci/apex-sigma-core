@@ -27,22 +27,22 @@ async def addreactor(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-        if pld.args:
-            if len(pld.args) == 2:
-                trigger = pld.args[0].lower()
+        if len(pld.args) >= 2:
+            trigger = ' '.join(pld.args[:-1]).lower()
+            if len(trigger) <= 200:
                 if '.' not in trigger:
-                    reaction = pld.args[1].replace('<', '').replace('>', '')
-                    react_triggers = pld.settings.get('reactor_triggers', {})
-                    res_text = 'updated' if trigger in react_triggers else 'added'
-                    react_triggers.update({trigger: reaction})
-                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'reactor_triggers', react_triggers)
+                    reaction = pld.args[-1].replace('<', '').replace('>', '')
+                    auto_reactions = pld.settings.get('reactor_triggers', {})
+                    res_text = 'updated' if trigger in auto_reactions else 'added'
+                    auto_reactions.update({trigger.strip(): reaction.strip()})
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'reactor_triggers', auto_reactions)
                     response = ok(f'{trigger} has been {res_text}')
                 else:
                     response = error('The trigger can\'t have a dot in it.')
             else:
-                response = error('Invalid number of arguments.')
+                response = error('The trigger has a limit of 200 characters.')
         else:
-            response = error('Nothing inputted.')
+            response = error('Invalid number of arguments.')
     else:
         response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

@@ -28,7 +28,7 @@ async def removereactor(cmd, pld):
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if pld.args:
-            trigger = pld.args[0].lower()
+            trigger = ' '.join(pld.args).lower()
             auto_reactions = pld.settings.get('reactor_triggers') or {}
             if trigger in auto_reactions:
                 del auto_reactions[trigger]

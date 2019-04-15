@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.48.969: Sakurako
+
+### Changed
+
+- Auto Reactors and Responders now accept phrases as triggers.
+- Moved the `clean_word` function to `collection_watcher.py`.
+- Tweaked the log lines in `dbinit_azur_lane.py` to match the other DB-Init logs.
+
 ## 4.48.966: Sakurako
 
 ### Changed
