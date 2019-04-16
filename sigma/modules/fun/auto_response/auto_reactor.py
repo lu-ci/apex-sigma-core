@@ -16,18 +16,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import re
 
-
-def make_literal(text):
+def match_trigger(text, trigger):
     """
-    Makes a string completely literal for use in regex.
-    :param text: The string to turn into a literal.
+    Compares text content for a trigger's presence.
+    :param text: The text to check.
     :type text: str
+    :param trigger: The trigger to search for.
+    :type trigger: str
     :return:
-    :rtype: str
+    :rtype: bool
     """
-    return ''.join([f'\\{tc}' for tc in text.lower()])
+    if len(trigger.split()) == 1:
+        return trigger.lower() in text.lower().split()
+    else:
+        return trigger.lower() in text.lower()
 
 
 async def auto_reactor(ev, pld):
@@ -46,7 +49,7 @@ async def auto_reactor(ev, pld):
                 triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
                 for trigger, reaction in triggers:
                     # matches <string-start|non-word-char><trigger><string-end|non-word-char>
-                    match = re.search(rf'(^|\W){make_literal(trigger)}($|\W)', pld.msg.content)
+                    match = match_trigger(pld.msg.content, trigger)
                     if match:
                         # noinspection PyBroadException
                         try:
