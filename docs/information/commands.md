@@ -16,7 +16,6 @@
 - [NSFW](#nsfw)
 - [OSU](#osu)
 - [OVERWATCH](#overwatch)
-- [PATH OF EXILE](#path-of-exile)
 - [PERMISSIONS](#permissions)
 - [ROLES](#roles)
 - [SEARCHES](#searches)
@@ -356,18 +355,6 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the specified player from the specified region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978. | `>>overwatch EU Aurora#22978`
-[Back To Top](#module-index)
-
-### PATH OF EXILE
-Commands | Description | Example
-----------|-------------|--------
-`>>poeactive` `>>poeasg` | Shows information about the specified Path of Exile Active Skill Gem. | `>>poeactive Cold Snap`
-`>>poebody` | Shows information about the specified Path of Exile Body armor piece. | `>>poebody Arena Plate`
-`>>poeboots` | Shows information about the specified Path of Exile boots. | `>>poeboots Arena Plate`
-`>>poegloves` | Shows information about the specified Path of Exile gloves. | `>>poegloves Arena Plate`
-`>>poehelmet` | Shows information about the specified Path of Exile helmet. | `>>poehelmet Arena Plate`
-`>>poeshield` | Shows information about the specified Path of Exile shield. | `>>poeshield Arena Plate`
-`>>poesupport` `>>poessg` | Shows information about the specified Path of Exile Support Skill Gem. | `>>poesupport Iron Will`
 [Back To Top](#module-index)
 
 ### PERMISSIONS

@@ -77,6 +77,7 @@ class ApexSigma(client_class):
         self.modules = None
         self.cool_down = None
         self.cfg = init_cfg
+        self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = ExecutionClockwork(self)
         self.shard_count = self.cfg.dsc.shard_count
         self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None

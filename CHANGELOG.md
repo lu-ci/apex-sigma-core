@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added the ability to specify the max amount of cached messages in the main client. No less than 100 can be stored.
 - The `>>azurlaneskins` has been added to list all the skins a ship has.
 - The `>>azurlaneskin` has been added to show the given skin.
 
