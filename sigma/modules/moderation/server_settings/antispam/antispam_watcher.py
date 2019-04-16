@@ -63,7 +63,7 @@ async def antispam_watcher(ev, pld):
                     if antispam:
                         amount = pld.settings.get('rate_limit_amount') or 5
                         timespan = pld.settings.get('rate_limit_timespan') or 5
-                        if rate_limited(ev.db, pld.msg, amount, timespan):
+                        if await rate_limited(ev.db, pld.msg, amount, timespan):
                             await pld.msg.delete()
                             title = '📢 Antispam: Removed a message.'
                             user = f'User: {pld.msg.author.id}'
