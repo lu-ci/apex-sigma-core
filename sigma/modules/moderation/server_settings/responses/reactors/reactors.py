@@ -45,7 +45,7 @@ async def reactors(_cmd, pld):
             trg_list_lines = []
             for key in triggers:
                 loop_index += 1
-                list_line = f'**{loop_index}**: {key}'
+                list_line = f'**{loop_index}**: {key.lower()}'
                 trg_list_lines.append(list_line)
             trg_list = '\n'.join(trg_list_lines)
             guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty

@@ -30,7 +30,7 @@ async def removereactor(cmd, pld):
         if pld.args:
             trigger = ' '.join(pld.args).lower()
             auto_reactions = pld.settings.get('reactor_triggers') or {}
-            if trigger in auto_reactions:
+            if trigger.lower() in auto_reactions:
                 del auto_reactions[trigger]
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'reactor_triggers', auto_reactions)
                 response = ok(f'{trigger} has been removed.')

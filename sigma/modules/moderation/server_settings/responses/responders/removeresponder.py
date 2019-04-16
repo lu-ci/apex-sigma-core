@@ -30,7 +30,7 @@ async def removeresponder(cmd, pld):
         if pld.args:
             trigger = ' '.join(pld.args).lower()
             auto_responses = pld.settings.get('responder_triggers') or {}
-            if trigger in auto_responses:
+            if trigger.lower() in auto_responses:
                 del auto_responses[trigger]
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_responses)
                 response = ok(f'{trigger} has been removed.')

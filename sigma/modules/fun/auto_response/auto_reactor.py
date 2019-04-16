@@ -19,6 +19,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import re
 
 
+def make_literal(text):
+    """
+    Makes a string completely literal for use in regex.
+    :param text: The string to turn into a literal.
+    :type text: str
+    :return:
+    :rtype: str
+    """
+    return ''.join([f'\\{tc}' for tc in text.lower()])
+
+
 async def auto_reactor(ev, pld):
     """
     :param ev: The event object referenced in the event.
@@ -35,7 +46,7 @@ async def auto_reactor(ev, pld):
                 triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
                 for trigger, reaction in triggers:
                     # matches <string-start|non-word-char><trigger><string-end|non-word-char>
-                    match = re.search(r'(^|\W)' + trigger + r'($|\W)', pld.msg.content)
+                    match = re.search(rf'(^|\W){make_literal(trigger)}($|\W)', pld.msg.content)
                     if match:
                         # noinspection PyBroadException
                         try:

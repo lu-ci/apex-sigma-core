@@ -33,6 +33,7 @@ async def addresponder(cmd, pld):
                 trigger, _, resp = content.partition(';')
                 if len(trigger) <= 200:
                     if '.' not in trigger:
+                        trigger = trigger.lower()
                         auto_responses = pld.settings.get('responder_triggers', {})
                         res_text = 'updated' if trigger in auto_responses else 'added'
                         auto_responses.update({trigger.strip(): resp.strip()})
