@@ -22,9 +22,7 @@ import discord
 import markovify
 
 from sigma.core.utilities.generic_responses import not_found
-from sigma.modules.games.azur_lane.azurlaneship import get_ship
-from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip
-
+from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip, get_ship
 
 al_wiki = 'https://azurlane.koumakan.jp'
 al_icon = 'https://i.imgur.com/iQ6npWa.png'

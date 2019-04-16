@@ -26,8 +26,6 @@ from sigma.core.utilities.generic_responses import error
 
 osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
 
-user_data_cache = {}
-
 
 def make_url_hash(url):
     """

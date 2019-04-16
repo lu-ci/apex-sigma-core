@@ -100,7 +100,7 @@ class SigmaEvent(object):
         :return:
         :rtype:
         """
-        if self.bot.ready:
+        if self.bot.ready or self.event_type in ['dbinit', 'boot']:
             try:
                 if pld:
                     await getattr(self.event, self.name)(self, pld)

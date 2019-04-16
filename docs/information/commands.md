@@ -30,6 +30,8 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>azurlaneimpersonate` `>>azurlanemimic` `>>alimpersonate` `>>almimic` | Makes a markov chain generated sentence from the ship's quotes. If no ship is specified all will be used. | `>>azurlaneimpersonate Helena`
 `>>azurlaneship` `>>alship` `>>azurelaneship` | Shows information about an Azur Lane ship. Such as stats, rarity, skills, etc. You can add "--no-image" to the end of the command to prevent the addition of the ship's default image. You can also add "--retrofit" to show the ship's retrofit stats, and "--awaken" to see Lv. 100 and 120 stats instead of Base and Lv. 100. | `>>azurlaneship Laffey`
+`>>azurlaneskin` `>>azurelaneskin` `>>alskin` | Shows the given ship skin. You can get a list of skins that a ship has with the "azurlaneskins" command. | `>>azurlaneskin Ning Hai; Summer Hunger`
+`>>azurlaneskins` `>>azurelaneskins` `>>alskins` | Lists all the skins that the given ship has. The skins can be viewed with the "azurlaneskin" command. | `>>azurlaneskins Cygnet`
 [Back To Top](#module-index)
 
 ### DEVELOPMENT

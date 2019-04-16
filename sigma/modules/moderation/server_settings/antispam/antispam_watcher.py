@@ -21,28 +21,29 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
-rate_limit_cache = {}
 
-
-def rate_limited(msg: discord.Message, amt: int, tsp: int):
+async def rate_limited(db, msg, amt, tsp):
     """
-
-    :param msg:
-    :type msg:
-    :param amt:
-    :type amt:
-    :param tsp:
-    :type tsp:
+    Chceks if the sent message was subject to rate limiting.
+    :param db: The main database handler instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param msg: The message that was sent.
+    :type msg: discord.Message
+    :param amt: Maximum amount to send in the timespan.
+    :type amt: int
+    :param tsp: The timespan in which the messages are subjecto limitations.
+    :type tsp: int
     :return:
-    :rtype:
+    :rtype: bool
     """
     limit_key = f'{msg.guild.id}_{msg.author.id}'
-    limit_items = rate_limit_cache.get(limit_key, [])
+    cache_key = f'rate_limit_{limit_key}'
+    limit_items = await db.cache.get_cache(cache_key) or []
     limit_items.append(msg)
     for lit in limit_items:
         if lit.created_at.timestamp() < limit_items[-1].created_at.timestamp() - tsp:
             limit_items.remove(lit)
-    rate_limit_cache.update({limit_key: limit_items})
+    await db.cache.set_cache(cache_key, limit_items)
     return len(limit_items) > amt
 
 
@@ -62,7 +63,7 @@ async def antispam_watcher(ev, pld):
                     if antispam:
                         amount = pld.settings.get('rate_limit_amount') or 5
                         timespan = pld.settings.get('rate_limit_timespan') or 5
-                        if rate_limited(pld.msg, amount, timespan):
+                        if rate_limited(ev.db, pld.msg, amount, timespan):
                             await pld.msg.delete()
                             title = '📢 Antispam: Removed a message.'
                             user = f'User: {pld.msg.author.id}'

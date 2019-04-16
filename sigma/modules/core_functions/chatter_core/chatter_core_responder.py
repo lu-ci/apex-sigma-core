@@ -24,14 +24,15 @@ from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_
 
 def set_session_info(pld: MessagePayload):
     """
-
-    :param pld:
-    :type pld:
+    Sets basic session information depending on the user.
+    :param pld: The message payload of the interaction.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
     chatter_core.setPredicate('name', pld.msg.author.name, pld.msg.author.id)
     chatter_core.setPredicate('nickname', pld.msg.author.display_name, pld.msg.author.id)
     chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
+    chatter_core.setBotPredicate('name', pld.msg.guild.me.name)
 
 
 async def chatter_core_responder(ev, pld):

@@ -30,8 +30,11 @@ async def forcedataupdate(cmd, pld):
     """
     response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
     load_status = await pld.msg.channel.send(embed=response)
-    ready_events = cmd.bot.modules.events.get('dbinit')
-    for ready_event in ready_events:
-        await ready_event.execute(True)
+    db_init_events = cmd.bot.modules.events.get('dbinit')
+    for db_init_event in db_init_events:
+        try:
+            await db_init_event.execute(True)
+        except Exception:
+            cmd.log.error(f'Failied reinitializing {db_init_event.name} content.')
     response = ok('Database static content reinitialized.')
     await load_status.edit(embed=response)

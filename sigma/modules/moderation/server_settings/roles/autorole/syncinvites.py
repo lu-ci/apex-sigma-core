@@ -33,7 +33,7 @@ async def syncinvites(cmd, pld):
         invites = await pld.msg.guild.invites()
     except discord.Forbidden:
         invites = []
-    update_invites(pld.msg.guild, invites)
+    await update_invites(cmd.db, pld.msg.guild, invites)
     bound_invites = pld.settings.get('bound_invites') or {}
     keys_to_remove = []
     for invite_code in bound_invites.keys():

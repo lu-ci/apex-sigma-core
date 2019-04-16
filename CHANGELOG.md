@@ -1,12 +1,28 @@
 # Apex Sigma Changelog
 
-## 4.48.969: Sakurako
+## [Unreleased]
 
-### Changed
+### Added
 
-- Auto Reactors and Responders now accept phrases as triggers.
-- Moved the `clean_word` function to `collection_watcher.py`.
-- Tweaked the log lines in `dbinit_azur_lane.py` to match the other DB-Init logs.
+- The `>>azurlaneskins` has been added to list all the skins a ship has.
+- The `>>azurlaneskin` has been added to show the given skin.
+
+### Change
+
+- Made the `>>unscramblegame` command use the core cacher.
+- Made the antispam checker event use the core cacher.
+- Made the role binding mechanics use the core cacher.
+- Made the `>>drawcard` command use the core cacher.
+- Fix the collector clockwork breakin due to an invalid icon attribute parent.
+- Add more detailed logging to most of the dbinit and boot events since they're a part of startup now.
+- Changed the way startup events are started, they are now executed before the gateway connection starts.
+- Bumped the Python version of the base image to 3.7 from 3.6, that's overdue.
+- Moved static detail dicts to the core AzurLaneShip model and add a no-mobile cookie for their wiki.
+
+### Removed
+
+- Removed an unused cache dict from the `>>osu` command.
+- The **Path of Exile** module has been completely **removed**. Nobody uses it, don't know why I thought anybody would...
 
 ## 4.48.966: Sakurako
 

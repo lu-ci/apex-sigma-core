@@ -22,19 +22,16 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 
-deck_cache = {}
 
 suits = {'♥': 'Hearts', '♠': 'Spades', '♦': 'Diamonds', '♣': 'Clubs'}
 names = {1: 'Ace', 12: 'Jack', 13: 'Queen', 14: 'King'}
 
 
-def make_new_deck(uid):
+def make_new_deck():
     """
-
-    :param uid:
-    :type uid:
+    Makes a deck of cards.
     :return:
-    :rtype:
+    :rtype: list[tuple]
     """
     card_list = []
     for suit in list(suits):
@@ -42,8 +39,7 @@ def make_new_deck(uid):
             if val != 11:
                 card = (suit, val)
                 card_list.append(card)
-    deck_cache.update({uid: card_list})
-    return deck_cache.get(uid)
+    return card_list
 
 
 async def drawcard(cmd, pld):
@@ -64,13 +60,15 @@ async def drawcard(cmd, pld):
             amount = 1
     else:
         amount = 1
-    deck = deck_cache.get(pld.msg.author.id) or make_new_deck(pld.msg.author.id)
+    cache_key = f'{cmd.name}_deck_{pld.msg.author.id}'
+    deck = await cmd.db.cache.get_cache(cache_key) or make_new_deck()
     if not len(deck) < amount:
         card_list = []
         while len(card_list) < amount:
             deck_count = len(deck)
             card = deck.pop(secrets.randbelow(deck_count))
             card_list.append(card)
+        await cmd.db.cache.set_cache(cache_key)
         card_lines = []
         resp_clr = secrets.choice([0xdd2e44, 0x292f33])
         resp_icon = secrets.choice(list(suits))

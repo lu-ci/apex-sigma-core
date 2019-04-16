@@ -87,19 +87,24 @@ async def detailed_ship_fill(ev):
     :rtype:
     """
     ev.log.info('Updating detailed Azur Lane ship information...')
+    headers = {'Cookie': 'stopMobileRedirect=true'}
     all_ships = await ev.db[ev.db.db_nam].AzurLaneShips.find({}).to_list(None)
     for ship_doc in all_ships:
         ship = AzurLaneShip(ship_doc)
-        async with aiohttp.ClientSession() as session:
-            async with session.get(ship.url) as ship_req:
-                ship_html = await ship_req.text()
-        ship_root = lx.fromstring(ship_html)
-        ship_tabbers = ship_root.cssselect('.tabbertab')
-        ship.from_tabbers(ship_tabbers)
-        ship_tables = ship_root.cssselect('.wikitable')
-        ship.from_tables(ship_tables)
-        ship.images.from_etree(ship_root)
-        await ship.save(ev.db)
+        ev.log.info(f'Parsing {ship.name} details...')
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(ship.url, headers=headers) as ship_req:
+                    ship_html = await ship_req.text()
+            ship_root = lx.fromstring(ship_html)
+            ship_tabbers = ship_root.cssselect('.tabbertab')
+            ship.from_tabbers(ship_tabbers)
+            ship_tables = ship_root.cssselect('.wikitable')
+            ship.from_tables(ship_tables)
+            ship.images.from_etree(ship_root)
+            await ship.save(ev.db)
+        except Exception as e:
+            ev.log.error(f'Failed getting details for {ship.name}: {type(e)} {e}')
     ev.log.info('Updated detailed ship data successfully.')
 
 

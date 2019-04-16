@@ -1,6 +1,6 @@
 # |-------<[ Build ]>-------|
 
-FROM python:3.6-slim AS build
+FROM python:3.7-slim AS build
 
 RUN mkdir -p /build
 WORKDIR /build
@@ -26,7 +26,7 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
 
 # |-------<[ App ]>-------|
 
-FROM python:3.6-slim AS apex-sigma
+FROM python:3.7-slim AS apex-sigma
 
 LABEL maintainer="dev.patrick.auernig@gmail.com"
 

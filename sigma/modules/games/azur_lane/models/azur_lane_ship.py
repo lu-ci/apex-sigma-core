@@ -26,6 +26,36 @@ skill_types_by_color = {
     'pink': 'Offense'
 }
 
+rarity_colors = {
+    'normal': 0xdcdcdc,
+    'rare': 0xb0e0e6,
+    'elite': 0xdda0dd,
+    'super rare': 0xeee8aa,
+    'ultra rare': 0x69ffad
+}
+
+faction_prefixes = {
+    'sakura empire': 'IJN',
+    'eagle union': 'USS',
+    'royal navy': 'HMS',
+    'ironblood': 'KMS',
+    'eastern radiance': 'PRAN',
+    'north union': 'SN',
+    'iris libre': 'FFNF',
+    'vichya dominion': 'MNF'
+}
+
+faction_icons = {
+    'sakura empire': 'https://azurlane.koumakan.jp/w/images/9/93/Sakuraempire_orig.png',
+    'eagle union': 'https://azurlane.koumakan.jp/w/images/2/21/Eagleunion_orig.png',
+    'royal navy': 'https://azurlane.koumakan.jp/w/images/8/86/Royalnavy_orig.png',
+    'ironblood': 'https://azurlane.koumakan.jp/w/images/f/f5/Ironblood_edited.png',
+    'eastern radiance': 'https://azurlane.koumakan.jp/w/images/3/3f/Azurlane-logo-1.png',
+    'north union': 'https://i.imgur.com/UdQvZBT.png',
+    'iris libre': 'https://i.imgur.com/vVhABbq.png',
+    'vichya dominion': 'https://i.imgur.com/L4mBDp9.png'
+}
+
 
 class ShipStats(object):
     """
@@ -268,6 +298,26 @@ class ShipImages(object):
         self.main = ShipSkin(self.raw.get('main'))
         self.chibi = self.raw.get('chibi')
         self.skins = [ShipSkin(skdat) for skdat in self.raw.get('skins', [])]
+
+    def get_skin(self, lookup):
+        """
+        Gets a skin based on the lookup query.
+        :param lookup: What to search for.
+        :type lookup: str
+        :return:
+        :rtype: sigma.modules.games.azur_lane.models.azur_lane_ship.ShipSkin
+        """
+        out = None
+        for skin in self.skins:
+            if skin.name.lower() == lookup.lower():
+                out = skin
+                break
+        if not out:
+            for skin in self.skins:
+                if lookup.lower() in skin.name.lower():
+                    out = skin
+                    break
+        return out
 
     def from_etree(self, page):
         """
@@ -633,7 +683,8 @@ class AzurLaneShip(object):
     __slots__ = (
         'raw', 'url', 'id', 'name', 'rarity', 'type',
         'subtype', 'faction', 'stats', 'images',
-        'equipment', 'skills', 'ranks', 'acquisition', 'quotes'
+        'equipment', 'skills', 'ranks', 'acquisition', 'quotes',
+        'faction_icon', 'faction_short', 'rarity_color'
     )
 
     def __init__(self, data=None):
@@ -646,9 +697,12 @@ class AzurLaneShip(object):
         self.url = self.raw.get('url')
         self.name = self.raw.get('name')
         self.rarity = self.raw.get('rarity')
+        self.rarity_color = rarity_colors.get(self.rarity.lower()) if self.rarity else None
         self.type = self.raw.get('type')
         self.subtype = self.raw.get('subtype')
         self.faction = self.raw.get('faction')
+        self.faction_icon = faction_icons.get(self.faction.lower()) if self.faction else None
+        self.faction_short = faction_prefixes.get(self.faction.lower()) if self.faction else None
         self.stats = ShipStatsByRetrofit(self.raw.get('stats'))
         self.images = ShipImages(self.raw.get('images'))
         self.equipment = [ShipEquipment(seqdat) for seqdat in self.raw.get('equipment', [])]
@@ -788,3 +842,29 @@ class AzurLaneShip(object):
             await al_coll.insert_one(self.to_dict())
         else:
             await al_coll.update_one({'id': self.id}, {'$set': self.to_dict()})
+
+
+async def get_ship(db, lookup):
+    """
+    Gets a ship from the given lookup criteria.
+    :param db: The database handler reference.
+    :type db: sigma.core.mechanics.database.Database
+    :param lookup: What to search for.
+    :type lookup: str
+    :return:
+    :rtype: dict
+    """
+    ship = await db[db.db_nam].AzurLaneShips.find_one({'id': lookup})
+    if ship is None:
+        ship = await db[db.db_nam].AzurLaneShips.find_one({'name': lookup.title()})
+        if ship is None:
+            all_ships = await db[db.db_nam].AzurLaneShips.find({}).to_list(None)
+            for ship_item in all_ships:
+                ship_object = AzurLaneShip(ship_item)
+                if ship_object.name.lower() == lookup.lower():
+                    ship = ship_item
+                elif lookup.lower() in ship_object.name.lower():
+                    ship = ship_item
+                if ship:
+                    break
+    return ship

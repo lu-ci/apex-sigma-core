@@ -26,21 +26,40 @@ chatter_core = aiml.Kernel()
 chatter_core.verbose(False)
 
 
+def cb_log(ev, init, text):
+    """
+    Logs a chatterbot core initialization line.
+    :param ev: The event object references in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :param init: If the training is initializing or runtime.
+    :type init: boot
+    :param text: The text to log.
+    :type text: str
+    :return:
+    :rtype:
+    """
+    if init:
+        ev.log.info(text)
+
+
 def train(ev, core, init=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param core:
-    :type core:
-    :param init:
-    :type init:
+    :param core: The chatterbot core class.
+    :type core: aiml.Kernel
+    :param init: If the training is initializing or runtime.
+    :type init: bool
     """
+    cb_log(ev, init, 'Learning generic AIML interactions...')
     core.learn(os.sep.join([ev.resource(f'aiml_files'), '*.aiml']))
+    cb_log(ev, init, 'Learning properties unique to the client...')
     with open(ev.resource('properties.yml')) as prop_file:
         prop_data = yaml.safe_load(prop_file)
     for prop_key in prop_data:
         prop_val = prop_data.get(prop_key)
         chatter_core.setBotPredicate(prop_key, prop_val)
+    cb_log(ev, init, 'Learnin additional software details...')
     version = ev.bot.info.get_version()
     full_version = f'{version.major}.{version.minor}.{version.patch}'
     if version.beta:
@@ -51,9 +70,7 @@ def train(ev, core, init=False):
     chatter_core.setBotPredicate('age', str(int(age)))
     chatter_core.setBotPredicate('birthday', birthday_date.format('MMMM DD'))
     chatter_core.setBotPredicate('birthdate', birthday_date.format('MMMM DD, YYYY'))
-    chatter_core.setBotPredicate('name', ev.bot.user.name)
-    if init:
-        ev.log.info('Loaded Chatter Core.')
+    cb_log(ev, init, 'Loaded Chatter Core.')
 
 
 async def chatter_core_init(ev):
@@ -61,4 +78,6 @@ async def chatter_core_init(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
+    ev.log.info('Training chatter core...')
     train(ev, chatter_core, True)
+    ev.log.info('Chatter core training finished.')

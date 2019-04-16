@@ -30,6 +30,26 @@ commands:
                   Makes a markov chain generated sentence from
                   the ship's quotes. If no ship is specified all will be used.
 
+  - name:         azurlaneskins
+    alts:
+      - "azurelaneskins"
+      - "alskins"
+    enabled:      true
+    usage:        "{pfx}{cmd} Cygnet"
+    description:
+                  Lists all the skins that the given ship has.
+                  The skins can be viewed with the "azurlaneskin" command.
+
+  - name:         azurlaneskin
+    alts:
+      - "azurelaneskin"
+      - "alskin"
+    enabled:      true
+    usage:        "{pfx}{cmd} Ning Hai; Summer Hunger"
+    description:
+                  Shows the given ship skin.
+                  You can get a list of skins that a ship has with the "azurlaneskins" command.
+
 events:
   - name:         dbinit_azur_lane
     type:         dbinit

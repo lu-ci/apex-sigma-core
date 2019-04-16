@@ -6,7 +6,7 @@ enabled:          true
 
 events:
   - name:         chatter_core_init
-    type:         ready
+    type:         boot
     enabled:      true
 
   - name:         chatter_core_responder

@@ -100,6 +100,8 @@ class ApexSigma(client_class):
         self.command_count = 0
         self.gateway_start = 0
         self.gateway_finish = 0
+        self.loop.run_until_complete(self.on_boot())
+        self.log.info('---------------------------------')
 
     @staticmethod
     def create_cache():
@@ -296,11 +298,29 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
-        if 0 in (self.shard_ids or [0]):
-            self.log.info('Launching DB-Init Modules...')
-            self.loop.create_task(self.queue.event_runner('dbinit'))
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
+
+    async def on_boot(self):
+        """
+        Starts initialization modules that don't require
+        an active discord connection to be ran. Such as
+        static database initialization data and pre-processing.
+        :return:
+        :rtype:
+        """
+        boot_events = self.modules.events.get('boot', [])
+        dbinit_events = self.modules.events.get('dbinit', [])
+        if boot_events:
+            self.log.info('Launching boot events...')
+            for boot_event in boot_events:
+                await boot_event.execute()
+            self.log.info('Boot events executed.')
+        if 0 in (self.shard_ids or [0]) and dbinit_events:
+            self.log.info('Launching DB-Init events...')
+            for dbinit_event in dbinit_events:
+                await dbinit_event.execute()
+            self.log.info('DB-Init events executed.')
 
     async def on_message(self, message):
         """

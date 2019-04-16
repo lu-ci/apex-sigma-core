@@ -20,37 +20,44 @@ import asyncio
 
 import discord
 
-cache = {}
 
-
-def update_invites(guild, invites):
+async def update_invites(db, guild, invites):
     """
-
-    :param guild:
-    :type guild:
-    :param invites:
-    :type invites:
+    :param db: The main database handler instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param guild: The guild that the invites are from.
+    :type guild: discord.Guild
+    :param invites: The list of invites.
+    :type invites: list[discord.Invite]
     """
+    cache_key = f'invite_cache_{guild.id}'
+    cache = await db.cache.get_cache(cache_key) or {}
     cache.update({guild.id: invites})
+    await db.cache.set_cache(cache_key, cache)
 
 
-def get_changed_invite(guild_id, bound_list, invites):
+async def get_changed_invite(db, guild_id, bound_list, invites):
     """
-
-    :param guild_id:
-    :type guild_id:
-    :param bound_list:
-    :type bound_list:
-    :param invites:
-    :type invites:
+    Checks for invite count changes to get the one that triggered.
+    :param db: The main database handler instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param guild_id: The ID of the guild.
+    :type guild_id: int
+    :param bound_list: A list of bound roles.
+    :type bound_list: list
+    :param invites: A list of the guild's invites.
+    :type invites: list[discord.Invite]
     :return:
-    :rtype:
+    :rtype: discord.Invite
     """
     invite = None
+    cache_key = f'invite_cache_{guild_id}'
+    cache = await db.cache.get_cache(cache_key) or {}
     cached = cache.get(guild_id)
     if cached is None:
         cached = []
     cache.update({guild_id: invites})
+    await db.cache.set_cache(cache_key, cache)
     if invites is None:
         invites = []
     if invites:
@@ -64,17 +71,19 @@ def get_changed_invite(guild_id, bound_list, invites):
     return invite
 
 
-async def update_cache(guild: discord.Guild):
+async def update_cache(db, guild):
     """
-
-    :param guild:
-    :type guild:
+    Updates the cache with fresh invites.
+    :param db: The main database handler instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param guild: The discord guild of the invites.
+    :type guild: discord.Guild
     """
     try:
         invites = await guild.invites()
     except discord.Forbidden:
         invites = []
-    cache.update({guild.id: invites})
+    await update_invites(db, guild, invites)
 
 
 async def bound_role_cacher(ev):
@@ -88,6 +97,6 @@ async def bound_role_cacher(ev):
         if await ev.db.get_guild_settings(guild.id, 'bound_invites'):
             if guild.me.guild_permissions.create_instant_invite:
                 counter += 1
-                await update_cache(guild)
+                await update_cache(ev.db, guild)
                 await asyncio.sleep(5)
     ev.log.info(f'Finished caching invites for {counter} guilds.')
