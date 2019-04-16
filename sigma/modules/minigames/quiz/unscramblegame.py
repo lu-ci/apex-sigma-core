@@ -35,14 +35,14 @@ async def unscramblegame(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     cache_key = f'unscramble_word_cache'
-    word_cache = await cmd.db.get_cache(cache_key) or {}
+    word_cache = await cmd.db.cache.get_cache(cache_key) or {}
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:
             word = ddoc.get('word')
             if len(word) > 3 and len(word.split(' ')) == 1:
                 word_cache.update({word: ddoc.get('description')})
-        await cmd.db.set_cache(cache_key, word_cache)
+        await cmd.db.cache.set_cache(cache_key, word_cache)
     if pld.msg.channel.id not in ongoing_list:
         ongoing_list.append(pld.msg.channel.id)
         words = list(word_cache.keys())
