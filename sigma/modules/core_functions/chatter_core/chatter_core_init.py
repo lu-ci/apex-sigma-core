@@ -59,7 +59,7 @@ def train(ev, core, init=False):
     for prop_key in prop_data:
         prop_val = prop_data.get(prop_key)
         chatter_core.setBotPredicate(prop_key, prop_val)
-    cb_log(ev, init, 'Learnin additional software details...')
+    cb_log(ev, init, 'Learning additional software details...')
     version = ev.bot.info.get_version()
     full_version = f'{version.major}.{version.minor}.{version.patch}'
     if version.beta:

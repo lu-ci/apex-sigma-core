@@ -27,10 +27,24 @@ def match_trigger(text, trigger):
     :return:
     :rtype: bool
     """
-    if len(trigger.split()) == 1:
-        return trigger.lower() in text.lower().split()
-    else:
-        return trigger.lower() in text.lower()
+    text_pieces = text.lower().split()
+    trigger_pieces = trigger.lower().split()
+    matching_trigger = False
+    if len(text_pieces) >= len(trigger_pieces):
+        piece_location = None
+        for piece_index, piece_text in enumerate(text_pieces):
+            if piece_text == trigger_pieces[0]:
+                piece_location = piece_index
+                break
+        if piece_location is not None:
+            missmatch = False
+            for trigger_index, trigger_piece in enumerate(trigger_pieces):
+                if text_pieces[piece_location + trigger_index] != trigger_piece:
+                    missmatch = True
+                    break
+            if not missmatch:
+                matching_trigger = True
+    return matching_trigger
 
 
 async def auto_reactor(ev, pld):
