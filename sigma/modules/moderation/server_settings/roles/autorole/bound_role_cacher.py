@@ -20,10 +20,10 @@ import asyncio
 
 import discord
 
-from sigma.core.mechanics.caching import TTLCacher
+from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
 
-invite_cache = TTLCacher(CacheConfig({}))
+invite_cache = MemoryCacher(CacheConfig({}))
 
 
 async def update_invites(guild, invites):
