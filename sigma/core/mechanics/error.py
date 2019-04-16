@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import re
 import secrets
 import traceback
 
@@ -166,7 +165,9 @@ class SigmaError(object):
         """
         prefix = self.cmd.db.get_prefix(settings)
         # escapes markdown formatting
-        prefix, name = list(map(lambda i: re.sub(r'([*_~`])', r'\\\1', i), [prefix, self.cmd.name]))
+        name = self.cmd.name
+        for escapable in '*_~`':
+            prefix = prefix.replace(escapable, f'\\{escapable}')
         if isinstance(self.exception, discord.Forbidden):
             title = '❗ Error: Forbidden!'
             err_text = f'It seems that you tried running something that {name} isn\'t allowed to'
