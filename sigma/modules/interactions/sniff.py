@@ -35,7 +35,7 @@ async def sniff(cmd, pld):
     interaction = await grab_interaction(cmd.db, 'sniff')
     target, auth = get_target(pld.msg.guild.me, pld.msg), get_author(pld.msg.guild.me, pld.msg)
     noun = secrets.choice(endings)
-    ender = f'sniffs {noun}' if target.id == pld.msg.author.id else f'dances with {target.display_name}'
+    ender = f'sniffs {noun}' if target.id == pld.msg.author.id else f'sniffs {target.display_name}'
     response = discord.Embed(color=0xffcc4d, title=f'👃 {auth.display_name} {ender}.')
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))

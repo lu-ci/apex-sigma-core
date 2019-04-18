@@ -68,7 +68,7 @@ async def drawcard(cmd, pld):
             deck_count = len(deck)
             card = deck.pop(secrets.randbelow(deck_count))
             card_list.append(card)
-        await cmd.db.cache.set_cache(cache_key)
+        await cmd.db.cache.set_cache(cache_key, deck)
         card_lines = []
         resp_clr = secrets.choice([0xdd2e44, 0x292f33])
         resp_icon = secrets.choice(list(suits))

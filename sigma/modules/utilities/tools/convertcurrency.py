@@ -24,42 +24,47 @@ import discord
 from sigma.core.utilities.generic_responses import error
 
 
-async def convertcurrency(_cmd, pld):
+async def convertcurrency(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
         if len(pld.args) == 4:
-            amount = pld.args[0]
-            from_curr = pld.args[1].upper()
-            to_curr = pld.args[3].upper()
-            try:
-                amount = float(amount)
-            except ValueError:
-                amount = None
-            if amount:
-                response = None
-                start_response = discord.Embed(color=0x3B88C3, title='🏧 Contacting our banks...')
-                start_message = await pld.msg.channel.send(embed=start_response)
-                api_url = f'http://free.currencyconverterapi.com/api/v3/convert?q={from_curr}_{to_curr}&compact=ultra'
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(api_url) as data:
-                        data = await data.read()
-                        data = json.loads(data)
-                if data:
-                    curr_key = list(data.keys())[0]
-                    multi = data[curr_key]
-                    out_amount = round(amount * multi, 5)
-                    title = f'🏧 {amount} {from_curr} = {out_amount} {to_curr}'
-                    end_response = discord.Embed(color=0x3B88C3, title=title)
+            api_key = cmd.cfg.get('api_key')
+            if api_key:
+                amount = pld.args[0]
+                from_curr = pld.args[1].upper()
+                to_curr = pld.args[3].upper()
+                try:
+                    amount = float(amount)
+                except ValueError:
+                    amount = None
+                if amount:
+                    response = None
+                    start_response = discord.Embed(color=0x3B88C3, title='🏧 Contacting our banks...')
+                    start_message = await pld.msg.channel.send(embed=start_response)
+                    api_base = 'http://free.currconv.com/api/v7'
+                    api_url = f'{api_base}/convert?q={from_curr}_{to_curr}&compact=ultra&apiKey={api_key}'
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(api_url) as data:
+                            data = await data.read()
+                            data = json.loads(data)
+                    if data:
+                        curr_key = list(data.keys())[0]
+                        multi = data[curr_key]
+                        out_amount = round(amount * multi, 5)
+                        title = f'🏧 {amount} {from_curr} = {out_amount} {to_curr}'
+                        end_response = discord.Embed(color=0x3B88C3, title=title)
+                    else:
+                        end_response = error('Invalid currency.')
+                    await start_message.edit(embed=end_response)
                 else:
-                    end_response = error('Invalid currency.')
-                await start_message.edit(embed=end_response)
+                    response = error('Invalid amount.')
             else:
-                response = error('Invalid amount.')
+                response = error('API key missing.')
         else:
             response = error('Bad number of arguments.')
     else:

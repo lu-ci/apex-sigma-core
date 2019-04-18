@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.50.1007: Chito
 
 ### Added
 
@@ -10,6 +10,10 @@
 
 ### Change
 
+- Fix the `>>sniff` command saying "dances" instead of "sniffs".
+- Fixed the `>>drawcard` command.
+- Fixed `>>convertcurrency` by adapting it to v7 of the API.
+- More role binding cache fixes.
 - Made the `>>unscramblegame` command use the core cacher.
 - Made the antispam checker event use the core cacher.
 - Made the role binding mechanics use the core cacher.
