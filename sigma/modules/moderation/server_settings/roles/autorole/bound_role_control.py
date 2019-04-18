@@ -33,7 +33,7 @@ async def bound_role_control(ev, pld):
         if bound_invites:
             invites = await pld.member.guild.invites()
             bound_list = list(bound_invites)
-            changed_inv = await get_changed_invite(ev.db, pld.member.guild.id, bound_list, invites)
+            changed_inv = await get_changed_invite(pld.member.guild.id, bound_list, invites)
             if changed_inv:
                 role_id = bound_invites.get(changed_inv.id)
                 target_role = pld.member.guild.get_role(role_id)
