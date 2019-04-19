@@ -17,27 +17,32 @@
 import arrow
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
-async def topexperience(cmd: SigmaCommand, pld: CommandPayload):
-    message, args = pld.msg, pld.args
+async def topexperience(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    gu = cmd.bot.get_user
     value_name = 'Experience'
     resource = 'experience'
-    sort_key = f'ranked'
+    sort_key = 'ranked'
     lb_category = 'This Month\'s'
-    localed = False
-    if args:
-        if args[0].lower() == 'total':
+    if pld.args:
+        if pld.args[0].lower() == 'total':
             sort_key = 'total'
             lb_category = 'Total'
-        elif args[0].lower() == 'local':
-            sort_key = f'origins.guilds.{message.guild.id}'
-            lb_category = message.guild.name
-            localed = True
+        elif pld.args[0].lower() == 'current':
+            sort_key = 'current'
+            lb_category = 'Current'
+        elif pld.args[0].lower() == 'local':
+            sort_key = f'origins.guilds.{pld.msg.guild.id}'
+            lb_category = pld.msg.guild.name
     now = arrow.utcnow().timestamp
     leader_docs = await cmd.db.cache.get_cache(f'{resource}_{sort_key}')
     leader_timer = await cmd.db.cache.get_cache(f'{resource}_{sort_key}_stamp') or now
@@ -45,19 +50,18 @@ async def topexperience(cmd: SigmaCommand, pld: CommandPayload):
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
-        leader_docs = await get_leader_docs(cmd, message, localed, all_docs, sort_key)
+        leader_docs = await get_leader_docs(cmd, all_docs, sort_key)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
     table_data = [
         [
-            pos + 1 if not doc[0].id == message.author.id else f'{pos + 1} <',
-            clean_name(doc[0].name, 'Unknown')[:12],
-            str(int(doc[1] / 13266.85)),
+            pos + 1 if not doc[0] == pld.msg.author.id else f'{pos + 1} <',
+            clean_name((await gu(doc[0])).name if await gu(doc[0]) else doc[0], 'Unknown')[:12],
             str(doc[1])
         ] for pos, doc in enumerate(leader_docs)
     ]
-    table_body = boop(table_data, ['#', 'User Name', 'Level', value_name])
+    table_body = boop(table_data, ['#', 'User Name', value_name])
     response = f'🔰 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
     response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
-    await message.channel.send(response)
+    await pld.msg.channel.send(response)

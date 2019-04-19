@@ -2,7 +2,7 @@ name:             Experience Awarding
 
 category:         administration
 
-enabled:          false
+enabled:          true
 
 events:
   - name:         experience_activity

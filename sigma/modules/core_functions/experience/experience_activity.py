@@ -16,11 +16,14 @@
 
 import secrets
 
-from sigma.core.mechanics.event import SigmaEvent
-from sigma.core.mechanics.payload import MessagePayload
 
-
-async def experience_activity(ev: SigmaEvent, pld: MessagePayload):
+async def experience_activity(ev, pld):
+    """
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
+    """
     if pld.msg.guild:
         if not await ev.bot.cool_down.on_cooldown(ev.name, pld.msg.author):
             await ev.bot.cool_down.set_cooldown(ev.name, pld.msg.author, 80)

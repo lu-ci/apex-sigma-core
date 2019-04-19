@@ -16,12 +16,16 @@
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 
 
-async def experience(cmd: SigmaCommand, pld: CommandPayload):
+async def experience(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     message, args = pld.msg, pld.args
     target = message.mentions[0] if message.mentions else message.author
     avatar = user_avatar(target)
