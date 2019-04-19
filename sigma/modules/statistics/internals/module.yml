@@ -24,7 +24,7 @@ commands:
       - "level"
       - "exp"
       - "xp"
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} @person"
     description:
       Shows how much of Sigma's internal experience you've obtained.

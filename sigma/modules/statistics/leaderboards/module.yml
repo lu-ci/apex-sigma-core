@@ -32,7 +32,7 @@ commands:
     alts:
       - "topexp"
       - "topxp"
-    enabled:      true
+    enabled:      false
     usage:        "{pfx}{cmd} total"
     description:
       Shows the top 20 users who have the most experience.
