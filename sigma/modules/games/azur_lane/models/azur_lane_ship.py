@@ -109,7 +109,7 @@ class ShipStats(object):
         :return:
         :rtype:
         """
-        table = tabber[1]
+        table = tabber[1][0]
         stat_coords = {
             'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5], 'speed': [0, 7],
             'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5], 'luck': [1, 7],
@@ -770,6 +770,7 @@ class AzurLaneShip(object):
         :rtype:
         """
         for table in tables:
+            table = table[0]
             try:
                 table_title = table[0][0].text_content().strip() if table[0][0].text_content() else None
             except IndexError:
