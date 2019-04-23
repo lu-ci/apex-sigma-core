@@ -50,6 +50,15 @@ commands:
                   Shows the given ship skin.
                   You can get a list of skins that a ship has with the "azurlaneskins" command.
 
+  - name:         azurlaneskills
+    alts:
+      - "azurelaneskills"
+      - "alskills"
+    enabled:      true
+    usage:        "{pfx}{cmd} Avrora"
+    description:
+                  Shows the ship's skills, what type they are and what they do.
+
 events:
   - name:         dbinit_azur_lane
     type:         dbinit

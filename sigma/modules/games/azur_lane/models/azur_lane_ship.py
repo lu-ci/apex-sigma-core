@@ -119,8 +119,8 @@ class ShipStats(object):
         }
         for stat_coord_key in stat_coords:
             stat_coord_row, stat_coord_col = stat_coords.get(stat_coord_key)
-            stat_val = table[stat_coord_row][stat_coord_col].text.strip()
-            stat_val = 0 if not stat_val or not stat_val.isdigit() else stat_val
+            stat_val = table[stat_coord_row][stat_coord_col].text
+            stat_val = 0 if not stat_val or not stat_val.isdigit() else stat_val.strip()
             try:
                 stat_val = int(stat_val)
             except ValueError:
@@ -384,9 +384,9 @@ class ShipLimitBreakContainer(object):
         """
         Turns the data in this class into a list.
         :return:
-        :rtype:
+        :rtype: list[ShipSkill]
         """
-        return [self.first, self.second, self.third]
+        return [skill for skill in [self.first, self.second, self.third] if skill.type is not None]
 
     def to_dict(self):
         """

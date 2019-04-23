@@ -29,6 +29,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>azurlaneimpersonate` `>>azurlanemimic` `>>alimpersonate` `>>almimic` | Makes a markov chain generated sentence from the ship's quotes. If no ship is specified all will be used. | `>>azurlaneimpersonate Helena`
 `>>azurlaneship` `>>alship` `>>azurelaneship` | Shows information about an Azur Lane ship. Such as stats, rarity, skills, etc. You can add "--no-image" to the end of the command to prevent the addition of the ship's default image. You can also add "--retrofit" to show the ship's retrofit stats, and "--awaken" to see Lv. 100 and 120 stats instead of Base and Lv. 100. | `>>azurlaneship Laffey`
+`>>azurlaneskills` `>>azurelaneskills` `>>alskills` | Shows the ship's skills, what type they are and what they do. | `>>azurlaneskills Avrora`
 `>>azurlaneskin` `>>azurelaneskin` `>>alskin` | Shows the given ship skin. You can get a list of skins that a ship has with the "azurlaneskins" command. | `>>azurlaneskin Ning Hai; Summer Hunger`
 `>>azurlaneskins` `>>azurelaneskins` `>>alskins` | Lists all the skins that the given ship has. The skins can be viewed with the "azurlaneskin" command. | `>>azurlaneskins Cygnet`
 [Back To Top](#module-index)
@@ -514,12 +515,10 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>commandstatistics` `>>cmdstatistics` `>>commandstats` `>>cmdstats` | Shows a paginated table showing how many times each command was used. | `>>commandstatistics`
-`>>experience` `>>activity` `>>level` `>>exp` `>>xp` | Shows how much of Sigma's internal experience you've obtained. Experience is earned by being an active member of the community. Yes, this is meant to be vague. | `>>experience @person`
 `>>resources` `>>reslist` `>>res` | Shows all the available resources and how many you have of each. | `>>resources`
 `>>resourcestatistics` `>>resourcestats` `>>resstats` | Shows statistical data for the given resource type. You can use the bot's currency name instead of "currency", like "kud" for example. Resources also include "experience" and "cookies". The command will show where you got that resource. From which user, which server, which channel and with which function. Only "earned" resources are tracked however, meaning that there's no data on gambling. You can also add "--expense" to the end of the command to see where you spent that resource instead of showing where you got it as well as target a user with the command to see their stats. You can see all available resources with the "resourcelist" command. | `>>resourcestatistics currency @person --expense`
 `>>topcookies` `>>toprep` | Shows the top 20 users who have the most cookies. A filter can be added, either global or total, sorting it by the amount they globaly have right now, which is the default, or the total amount of cookies that they have collected over time regardless of resets. | `>>topcookies global`
 `>>topcurrency` `>>topkud` | Shows the top 20 users who have the most currency. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of currency that they have collected over time regardless of resets. | `>>topcurrency local`
-`>>topexperience` `>>topexp` `>>topxp` | Shows the top 20 users who have the most experience. A filter can be added, either global, local or total, sorting it by the amount they globaly have right now, which is the default, sorted by the amount that users have earned on this guild, or the total amount of experience that they have collected over time regardless of resets. | `>>topexperience total`
 `>>wallet` `>>currency` `>>money` `>>kud` | Shows how much of Sigma's internal currency you currently have, as well as how much you've earned on the current server and in total. Kud is earned by being an active member of the community. Yes, this is meant to be vague. | `>>wallet @person`
 [Back To Top](#module-index)
 
