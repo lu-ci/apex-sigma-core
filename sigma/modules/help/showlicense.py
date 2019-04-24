@@ -15,6 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import os
+
 import discord
 
 from sigma.modules.help.integrity_check import get_license
@@ -28,4 +30,5 @@ async def showlicense(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     license_text = get_license(f'{cmd.path}/{cmd.name}.py')
-    await pld.msg.channel.send(license_text, file=discord.File('LICENSE.md', 'LICENSE.md'))
+    license_file = discord.File('LICENSE.md', 'LICENSE.md') if os.path.exists('LICENSE.md') else None
+    await pld.msg.channel.send(license_text, file=license_file)
