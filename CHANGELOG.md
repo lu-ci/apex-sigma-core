@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## 4.52.1043: Chito
+## 4.52.1048: Chito
 
 ### Added
 
@@ -10,6 +10,7 @@
 
 ### Changed
 
+- Altered command execution to handle ClientOSError instances.
 - The redis cacher will now flush all data on boot.
 
 ## 4.50.1007: Chito

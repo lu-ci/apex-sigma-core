@@ -15,7 +15,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import asyncio
 
+import aiohttp
 import os
 import secrets
 
@@ -282,7 +284,19 @@ class SigmaCommand(object):
                             requirements = CommandRequirements(self, payload.msg)
                             if requirements.reqs_met:
                                 try:
-                                    await getattr(self.command, self.name)(self, payload)
+                                    executed = False
+                                    last_error = None
+                                    client_os_broken_tries = 0
+                                    while client_os_broken_tries < 3 and not executed:
+                                        try:
+                                            await getattr(self.command, self.name)(self, payload)
+                                            executed = True
+                                        except aiohttp.ClientOSError as err:
+                                            last_error = err
+                                            client_os_broken_tries += 1
+                                            await asyncio.sleep(1)
+                                    if not executed:
+                                        raise last_error
                                     await add_cmd_stat(self)
                                     await self.add_usage_sumarum(payload.msg)
                                     self.bot.command_count += 1
