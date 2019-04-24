@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import errno
 import hashlib
-
+import os
 
 METHOD = 'sha3_512'
 LONG_HASH = ''.join("""
@@ -71,13 +71,14 @@ async def integrity_check(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     mdn_path = 'LICENSE.md'
-    with open(mdn_path, 'rb') as mdn_license:
-        mdn_bytes = mdn_license.read()
-    if check_license(mdn_bytes, True):
-        ev.log.info('Main license file intergrity check passed...')
-    else:
-        ev.log.error('Main license file intergrity check failed.')
-        exit(errno.EACCES)
+    if os.path.exists('LICENSE.md'):
+        with open(mdn_path, 'rb') as mdn_license:
+            mdn_bytes = mdn_license.read()
+        if check_license(mdn_bytes, True):
+            ev.log.info('Main license file intergrity check passed...')
+        else:
+            ev.log.error('Main license file intergrity check failed.')
+            exit(errno.EACCES)
     bad_license = False
     ev.log.info('Checking command file intergrity...')
     for cmd_key in ev.bot.modules.commands:

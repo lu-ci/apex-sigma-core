@@ -4,6 +4,7 @@
 
 ### Added
 
+- The `>>azurlaneskills` command shows the skill information of the given ship.
 - The `>>showlicense` command shows the software's license information.
 - The `>>repository` command shows the project's repository URL.
 - An integrity check event has been added that checks the integrity of all license comments. Any missmatching of the license text is a violation of the GPLv3 that the project is distributed with and will shut down the software.
