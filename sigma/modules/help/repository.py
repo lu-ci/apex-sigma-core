@@ -15,22 +15,26 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-"""
----------- IMPORTANT ----------
-You may not modify this command file
-under any circumstance as it delivers
-the details behind the software's license
-in a readable form to any end-user as
-well as any licensor information.
--------------------------------
-"""
+import discord
 
 
-async def showlicense(cmd, pld):
+REPO_URL = 'https://gitlab.com/lu-ci/sigma/apex-sigma'
+REPO_ICON = 'https://framablog.org/wp-content/uploads/2016/01/gitlab.png'
+REPO_TITLE = 'Apex Sigma: The Database Giant'
+
+
+async def repository(_cmd, pld):
     """
-    :param cmd: The command object referenced in the command.
-    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    if '--text' in pld.args:
+        response_embed = None
+        response_text = REPO_URL
+    else:
+        response_text = None
+        response_embed = discord.Embed(color=0xF7682D)
+        response_embed.set_author(name=REPO_TITLE, icon_url=REPO_ICON, url=REPO_URL)
+    await pld.msg.channel.send(response_text, embed=response_embed)

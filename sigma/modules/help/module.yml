@@ -45,8 +45,31 @@ commands:
     description:
                   Shows donation information for Sigma.
 
+  - name:         showlicense
+    alts:
+      - "license"
+    enabled:      true
+    permissions:
+      dmable:     true
+    description:
+                  Shows the license of the Apex Sigma project.
+
+  - name:         repository
+    alts:
+      - "repo"
+      - "project"
+    enabled:      true
+    permissions:
+      dmable:     true
+    description:
+                  Shows the link to the project's repository page.
+                  You can add "--text" to the command to show just the link as pure text.
 
 events:
   - name:         dm_detection
     type:         message
+    enabled:      true
+
+  - name:         integrity_check
+    type:         boot
     enabled:      true

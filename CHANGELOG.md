@@ -1,5 +1,17 @@
 # Apex Sigma Changelog
 
+## 4.52.1043: Chito
+
+### Added
+
+- The `>>showlicense` command shows the software's license information.
+- The `>>repository` command shows the project's repository URL.
+- An integrity check event has been added that checks the integrity of all license comments. Any missmatching of the license text is a violation of the GPLv3 that the project is distributed with and will shut down the software.
+
+### Changed
+
+- The redis cacher will now flush all data on boot.
+
 ## 4.50.1007: Chito
 
 ### Added
