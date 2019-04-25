@@ -43,7 +43,7 @@ def get_license(file):
     :return:
     :rtype: str
     """
-    with open(file, 'r') as py_file:
+    with open(file, 'r', encoding='utf-8') as py_file:
         license_lines = py_file.readlines()[1:16]
     return ''.join(license_lines)
 
@@ -75,19 +75,19 @@ async def integrity_check(ev):
         with open(mdn_path, 'rb') as mdn_license:
             mdn_bytes = mdn_license.read()
         if check_license(mdn_bytes, True):
-            ev.log.info('Main license file intergrity check passed...')
+            ev.log.info('Main license file integrity check passed.')
         else:
-            ev.log.error('Main license file intergrity check failed.')
+            ev.log.error('Main license file integrity check failed.')
             exit(errno.EACCES)
     bad_license = False
-    ev.log.info('Checking command file intergrity...')
+    ev.log.info('Checking command file integrity...')
     for cmd_key in ev.bot.modules.commands:
         command = ev.bot.modules.commands.get(cmd_key)
         cmd_file_path = f'{command.path}/{command.name}.py'
         cmd_license = get_license(cmd_file_path)
         cmd_license_ok = check_license(cmd_license.encode('utf-8'))
         if not cmd_license_ok:
-            ev.log.warn(f'License intergrity check failed for the {command.name.upper()} command!')
+            ev.log.warn(f'License integrity check failed for the {command.name.upper()} command!')
             bad_license = True
     for ev_type in ev.bot.modules.events:
         ev_group = ev.bot.modules.events.get(ev_type)
@@ -96,13 +96,13 @@ async def integrity_check(ev):
             ev_license = get_license(ev_file_path)
             ev_license_ok = check_license(ev_license.encode('utf-8'))
             if not ev_license_ok:
-                ev.log.warn(f'License intergrity check failed for the {ev_item.name.upper()} event!')
+                ev.log.warn(f'License integrity check failed for the {ev_item.name.upper()} event!')
                 bad_license = True
     if not bad_license:
-        ev.log.info('Command license checks passed...')
+        ev.log.info('Command license checks passed.')
     if not bad_license:
-        ev.log.info('Event license checks passed...')
+        ev.log.info('Event license checks passed.')
     if bad_license:
-        ev.log.error('Module license intergrity check failed.')
+        ev.log.error('Module license integrity check failed.')
         exit(errno.EACCES)
     ev.log.info('All license checks passed.')

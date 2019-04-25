@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.52.1049: Chito
+
+### Changed
+
+- Fixed a possible encoding error in `integrity_check`.
+- Fixed typos and inconsistent punctuation in `integrity_check`.
+- Refactored the `>>convertcurrency` command to have match Sigma's command structure.
+
 ## 4.52.1048: Chito
 
 ### Added

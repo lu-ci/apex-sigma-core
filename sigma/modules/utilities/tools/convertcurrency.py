@@ -23,6 +23,8 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 
+api_base = 'http://free.currconv.com/api/v7'
+
 
 async def convertcurrency(cmd, pld):
     """
@@ -31,10 +33,9 @@ async def convertcurrency(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.args:
-        if len(pld.args) == 4:
-            api_key = cmd.cfg.get('api_key')
-            if api_key:
+    if cmd.cfg.api_key:
+        if pld.args:
+            if len(pld.args) == 4:
                 amount = pld.args[0]
                 from_curr = pld.args[1].upper()
                 to_curr = pld.args[3].upper()
@@ -46,8 +47,7 @@ async def convertcurrency(cmd, pld):
                     response = None
                     start_response = discord.Embed(color=0x3B88C3, title='🏧 Contacting our banks...')
                     start_message = await pld.msg.channel.send(embed=start_response)
-                    api_base = 'http://free.currconv.com/api/v7'
-                    api_url = f'{api_base}/convert?q={from_curr}_{to_curr}&compact=ultra&apiKey={api_key}'
+                    api_url = f'{api_base}/convert?q={from_curr}_{to_curr}&compact=ultra&apiKey={cmd.cfg.api_key}'
                     async with aiohttp.ClientSession() as session:
                         async with session.get(api_url) as data:
                             data = await data.read()
@@ -64,10 +64,10 @@ async def convertcurrency(cmd, pld):
                 else:
                     response = error('Invalid amount.')
             else:
-                response = error('API key missing.')
+                response = error('Bad number of arguments.')
         else:
-            response = error('Bad number of arguments.')
+            response = error('Nothing inputted.')
     else:
-        response = error('Nothing inputted.')
+        response = error('The API Key is missing.')
     if response:
         await pld.msg.channel.send(embed=response)
