@@ -16,31 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import secrets
-
-import aiohttp
 import discord
-from lxml import html
 
 from sigma.core.utilities.generic_responses import not_found
-
-
-async def fill_gelbooru_cache(db, tags):
-    """
-    Fills the gelbooru cache with images from the given search criteria.
-    :param db: The main database handler reference.
-    :type db: sigma.core.mechanics.database.Database
-    :param tags: The tags to fill the cache for.
-    :type tags: str
-    """
-    cache_key = f'gelbooru_{tags}'
-    gelbooru_url = f'http://gelbooru.com/index.php?page=dapi&s=post&q=index&tags={tags}'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(gelbooru_url) as data:
-            data = await data.read()
-            posts = html.fromstring(data)
-            posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
-            await db.cache.set_cache(cache_key, posts)
+from sigma.modules.nsfw.mech.core import gelbooru_client
 
 
 async def gelbooru(cmd, pld):
@@ -50,22 +29,16 @@ async def gelbooru(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    tags = '+'.join(sorted(list(pld.args))) if pld.args else 'nude'
-    cache_key = f'gelbooru_{tags}'
-    collect_needed = False if await cmd.db.cache.get_cache(cache_key) else True
-    if collect_needed:
-        await fill_gelbooru_cache(cmd.db, tags)
-    collection = await cmd.db.cache.get_cache(cache_key)
-    if collection:
-        choice = secrets.choice(collection)
-        img_url = choice.get('file_url')
+    client = gelbooru_client(cmd.db.cache)
+    post = await client.randpost(pld.args)
+    if post:
+        img_url = post.get('file_url')
         if not img_url.startswith('http'):
-            img_url = f"https:{choice.get('file_url')}"
-        post_url = f'https://gelbooru.com/index.php?page=post&s=view&id={choice.get("id")}'
-        icon_url = 'https://gelbooru.com/favicon.png'
+            img_url = f"https:{post.get('file_url')}"
+        post_url = client.post_url + str(post.get('id'))
+        footer_text = f'Score: {post.get("score")} | Size: {post.get("width")}x{post.get("height")}'
         response = discord.Embed(color=0x006ffa)
-        response.set_author(name='Gelbooru', icon_url=icon_url, url=post_url)
-        footer_text = f'Score: {choice.get("score")} | Size: {choice.get("width")}x{choice.get("height")}'
+        response.set_author(name='Gelbooru', url=post_url, icon_url=client.icon_url)
         response.set_image(url=img_url)
         response.set_footer(text=footer_text)
     else:

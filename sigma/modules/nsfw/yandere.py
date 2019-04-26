@@ -16,39 +16,29 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json
-import secrets
-
-import aiohttp
 import discord
 
 from sigma.core.utilities.generic_responses import not_found
+from sigma.modules.nsfw.mech.core import yandere_client
 
 
-async def yandere(_cmd, pld):
+async def yandere(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    url = 'https://yande.re/post.json?limit=100&tags='
-    url += '+'.join(pld.args) if pld.args else 'nude'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as data:
-            data = await data.read()
-            data = json.loads(data)
-    if data:
-        post = secrets.choice(data)
-        image_url = post.get('file_url')
-        icon_url = 'https://i.imgur.com/vgJwau2.png'
-        post_url = f'https://yande.re/post/show/{post.get("id")}'
+    client = yandere_client(cmd.db.cache)
+    post = await client.randpost(pld.args)
+    if post:
+        post_url = client.post_url + str(post.get('id'))
         score_text = f'Score: {post.get("score")}'
         size_text = f'Size: {post.get("width")}x{post.get("height")}'
         author_text = f'Uploaded By: {post.get("author")}'
         response = discord.Embed(color=0xad3d3d)
-        response.set_author(name='Yande.re', url=post_url, icon_url=icon_url)
-        response.set_image(url=image_url)
+        response.set_author(name='Yande.re', url=post_url, icon_url=client.icon_url)
+        response.set_image(url=post.get('file_url'))
         response.set_footer(text=f'{score_text} | {size_text} | {author_text}')
     else:
         response = not_found('No results.')

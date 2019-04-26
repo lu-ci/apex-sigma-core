@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.52.1050: Chito
+
+### Changed
+
+- Added a core GalleryClient class for some of the NSFW module. This acts as a universal handler for API calls to reduce redundant local functions.
+
 ## 4.52.1049: Chito
 
 ### Changed
