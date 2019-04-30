@@ -1,5 +1,10 @@
 # Apex Sigma Changelog
 
+## 4.52.1052: Chito
+
+- Fixed some docstrings in the NSFW Core file.
+- Refactored `>>wolframalpha` to use a more direct CSS query.
+
 ## 4.52.1050: Chito
 
 ### Changed

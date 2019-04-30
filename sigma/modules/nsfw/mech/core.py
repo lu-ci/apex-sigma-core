@@ -153,7 +153,7 @@ class GalleryClient(object):
         """
         Fetches posts from the client.
         :return:
-        :rtype: list[dict[
+        :rtype: list[dict]
         """
         async with aiohttp.ClientSession() as aio_client:
             async with aio_client.get(self.client_url + self.tags, headers=self.headers) as aio_session:
@@ -171,7 +171,7 @@ class GalleryClient(object):
         """
         Filters posts based on if they include a file_url field.
         :param posts: The posts to filter.
-        :type posts:
+        :type posts: dict or list[lxml.html.HtmlElement]
         :return:
         :rtype: list[dict]
         """
