@@ -698,7 +698,7 @@ class AzurLaneShip(object):
         self.url = self.raw.get('url')
         self.name = self.raw.get('name')
         self.rarity = self.raw.get('rarity')
-        self.rarity_color = rarity_colors.get(self.rarity.lower()) if self.rarity else 0xf9f9f9
+        self.rarity_color = rarity_colors.get(self.rarity.lower()) or 0xf9f9f9
         self.type = self.raw.get('type')
         self.subtype = self.raw.get('subtype')
         self.faction = self.raw.get('faction')
