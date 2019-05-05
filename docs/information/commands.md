@@ -27,6 +27,7 @@
 ### AZUR LANE
 Commands | Description | Example
 ----------|-------------|--------
+`>>azurlaneacquisition` `>>azurelaneacquisition` `>>azurelaneacq` `>>azurlaneacq` `>>azurelanedrops` `>>azurlanedrops` `>>azurelanedrop` `>>azurlanedrop` `>>azurelanebuild` `>>azurlanebuild` `>>alacq` `>>aldrops` `>>aldrop` | Shows how you can get the given ship. | `>>azurlaneacquisition Hardy`
 `>>azurlaneimpersonate` `>>azurlanemimic` `>>alimpersonate` `>>almimic` | Makes a markov chain generated sentence from the ship's quotes. If no ship is specified all will be used. | `>>azurlaneimpersonate Helena`
 `>>azurlaneship` `>>alship` `>>azurelaneship` | Shows information about an Azur Lane ship. Such as stats, rarity, skills, etc. You can add "--no-image" to the end of the command to prevent the addition of the ship's default image. You can also add "--retrofit" to show the ship's retrofit stats, and "--awaken" to see Lv. 100 and 120 stats instead of Base and Lv. 100. | `>>azurlaneship Laffey`
 `>>azurlaneskills` `>>azurelaneskills` `>>alskills` | Shows the ship's skills, what type they are and what they do. | `>>azurlaneskills Avrora`

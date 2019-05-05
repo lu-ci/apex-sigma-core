@@ -59,6 +59,25 @@ commands:
     description:
                   Shows the ship's skills, what type they are and what they do.
 
+  - name:         azurlaneacquisition
+    alts:
+      - "azurelaneacquisition"
+      - "azurelaneacq"
+      - "azurlaneacq"
+      - "azurelanedrops"
+      - "azurlanedrops"
+      - "azurelanedrop"
+      - "azurlanedrop"
+      - "azurelanebuild"
+      - "azurlanebuild"
+      - "alacq"
+      - "aldrops"
+      - "aldrop"
+    enabled:      true
+    usage:        "{pfx}{cmd} Hardy"
+    description:
+                  Shows how you can get the given ship.
+
 events:
   - name:         dbinit_azur_lane
     type:         dbinit
