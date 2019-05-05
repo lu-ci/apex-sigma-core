@@ -120,9 +120,9 @@ class ShipStats(object):
         for stat_coord_key in stat_coords:
             stat_coord_row, stat_coord_col = stat_coords.get(stat_coord_key)
             stat_val = table[stat_coord_row][stat_coord_col].text
-            stat_val = 0 if not stat_val or not stat_val.isdigit() else stat_val.strip()
+            stat_val = 0 if not stat_val else stat_val.strip()
             try:
-                stat_val = int(stat_val)
+                stat_val = int(stat_val.strip())
             except ValueError:
                 pass
             setattr(self, stat_coord_key, stat_val)
@@ -594,7 +594,7 @@ class ShipAcquisition(object):
                     cell_color = cell.attrib.get('style')
                     if cell_color:
                         cell_color = cell_color.split(':')[-1].lower()
-                        if cell_color == 'lemonchiffon':
+                        if cell_color == 'lemonchiffon' or cell_color == 'lightyellow':
                             sdm.possible = True
                             sdm.boss_only = True
                         elif cell_color.endswith('green'):
@@ -610,7 +610,8 @@ class ShipAcquisition(object):
         self.missions = list(sorted(self.missions, key=lambda mshn: str(mshn.map)))
         self.missions = list(sorted(self.missions, key=lambda mshn: mshn.chapter))
         last_row = table[-1]
-        if last_row[0].text_content().strip() == 'Additional Notes':
+        last_text = last_row[0].text_content().strip()
+        if last_text == 'Additional Notes' or last_text == 'Notes':
             self.notes = last_row[1].text_content().strip().replace('\n', '. ')
 
     def to_dict(self):
