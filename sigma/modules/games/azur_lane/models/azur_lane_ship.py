@@ -697,7 +697,7 @@ class AzurLaneShip(object):
         self.url = self.raw.get('url')
         self.name = self.raw.get('name')
         self.rarity = self.raw.get('rarity')
-        self.rarity_color = rarity_colors.get(self.rarity.lower()) if self.rarity else None
+        self.rarity_color = rarity_colors.get(self.rarity.lower()) if self.rarity else 0xf9f9f9
         self.type = self.raw.get('type')
         self.subtype = self.raw.get('subtype')
         self.faction = self.raw.get('faction')
@@ -794,6 +794,8 @@ class AzurLaneShip(object):
                     lbrk_eqp = ShipLimitBreakContainer()
                     if len(efficiency_pieces) == 2:
                         efficiency_pieces = [efficiency_pieces[0], None, efficiency_pieces[-1]]
+                    elif len(efficiency_pieces) == 1:
+                        efficiency_pieces = [None, None, None]
                     lbrk_eqp.first, lbrk_eqp.second, lbrk_eqp.third = efficiency_pieces
                     eqp_ent.efficiency = lbrk_eqp
                     eqp_ent.equippable = table_row[2][0].text_content().strip()
