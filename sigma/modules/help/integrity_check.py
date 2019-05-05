@@ -21,12 +21,6 @@ import hashlib
 import os
 
 METHOD = 'sha3_512'
-LONG_HASH = ''.join("""
-e6ce7558c4b8d0a04495fc9ac1058b6d86
-62a4d3ea43320c4ec62674b6dbfadda421
-d67f5f659d206e39e0357ac5cfac64c26b
-a9cc6337ad5484a9caea8552d7
-""".split('\n'))
 SHORT_HASH = ''.join("""
 8f860c72eeffa4301fe0b8bd087fb1f772
 ce16194f578357b45ebeec92737a4a1fa2
@@ -48,21 +42,18 @@ def get_license(file):
     return ''.join(license_lines)
 
 
-def check_license(text_bytes, long=False):
+def check_license(text_bytes):
     """
     Checks the license text if it matches the official hash.
     :param text_bytes: The bytes of the text to check.
     :type text_bytes: bytes
-    :param long: The long or short version of the license.
-    :type long: bool
     :return:
     :rtype:
     """
     crypt = hashlib.new(METHOD)
     crypt.update(text_bytes)
     final = crypt.hexdigest()
-    comparison = LONG_HASH if long else SHORT_HASH
-    return final == comparison
+    return final == SHORT_HASH
 
 
 async def integrity_check(ev):
@@ -70,15 +61,6 @@ async def integrity_check(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    mdn_path = 'LICENSE.md'
-    if os.path.exists('LICENSE.md'):
-        with open(mdn_path, 'rb') as mdn_license:
-            mdn_bytes = mdn_license.read()
-        if check_license(mdn_bytes, True):
-            ev.log.info('Main license file integrity check passed.')
-        else:
-            ev.log.error('Main license file integrity check failed.')
-            exit(errno.EACCES)
     bad_license = False
     ev.log.info('Checking command file integrity...')
     for cmd_key in ev.bot.modules.commands:
