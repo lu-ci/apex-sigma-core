@@ -68,7 +68,7 @@ def next_weekly():
     now = arrow.utcnow()
     ttw = arrow.get(starting_point)
     while now > ttw:
-        ttw = ttw.replace(week=1)
+        ttw = ttw.replace(days=7)
     return ttw
 
 
