@@ -1,6 +1,6 @@
 donors:
   - name:   "Crunderwood"
-    tier:   6
+    tier:   4
     avatar: "https://www.gravatar.com/avatar/fbee801b533ebe094d8e020724436cae.png?s=128"
     duid:   146002691993108482
   - name:   "Kreasu"
@@ -112,11 +112,11 @@ donors:
     avatar: "https://i.imgur.com/xNIgRIM.png"
     duid:   263704629387198464
   - name:   "Bre"
-    tier:   4
+    tier:   0
     avatar: "https://i.imgur.com/q1QeyIC.png"
     duid:   433751385612222486
   - name:   "High"
-    tier:   2
+    tier:   0
     avatar: "https://i.imgur.com/X9aw088.png"
     duid:   228291869732372480
   - name:   "Sasha0z"
@@ -124,7 +124,7 @@ donors:
     avatar: "https://i.imgur.com/CgP58zV.png"
     duid:   118274348770525193
   - name:   "NL | MetallicaDutch"
-    tier:   5
+    tier:   0
     avatar: "https://i.imgur.com/qg9uz3X.png"
     duid:   188009639198195712
   - name:   "[1FS]SuperLiberty"
@@ -144,6 +144,6 @@ donors:
     avatar: "https://i.imgur.com/DHt5aSN.png"
     duid:   129448647900397568
   - name:   "Miusaka"
-    tier:   3
+    tier:   0
     avatar: "https://i.imgur.com/KwkdIo0.png"
     duid:   181252251170504704
