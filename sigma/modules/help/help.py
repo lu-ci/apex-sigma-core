@@ -21,7 +21,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import not_found
 
-lucia_image = 'https://i.imgur.com/xpDpHqz.png'
+lucia_image = 'https://i.imgur.com/KVgdtNg.png'
 sigma_title = 'Apex Sigma: The Database Giant'
 patreon_url = 'https://www.patreon.com/ApexSigma'
 paypal_url = 'https://www.paypal.me/AleksaRadovic'

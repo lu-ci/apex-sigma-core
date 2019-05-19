@@ -131,7 +131,7 @@ class PreferencesConfig(object):
         self.prefix = self.raw.get('prefix', '>>')
         self.currency = self.raw.get('currency', 'Kud')
         self.currency_icon = self.raw.get('currency_icon', '⚜')
-        self.website = self.raw.get('website', 'https://lucia.moe/sigma')
+        self.website = self.raw.get('website', 'https://luciascipher.com/sigma')
         self.text_only = self.raw.get('text_only', False)
         self.music_only = self.raw.get('music_only', False)
         self.movelog_channel = self.raw.get('movelog_channel')
