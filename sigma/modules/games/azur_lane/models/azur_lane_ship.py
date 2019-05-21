@@ -73,19 +73,19 @@ class ShipStats(object):
         :type data: dict
         """
         self.raw = data if data is not None else {}
-        self.firepower = self.raw.get('firepower', 0)
-        self.health = self.raw.get('health', 0)
-        self.anti_air = self.raw.get('anti_air', 0)
-        self.evasion = self.raw.get('evasion', 0)
-        self.aviation = self.raw.get('aviation', 0)
-        self.torpedo = self.raw.get('torpedo', 0)
-        self.oil_consumption = self.raw.get('oil_consumption', 0)
-        self.speed = self.raw.get('speed', 0)
-        self.luck = self.raw.get('luck', 0)
-        self.accuracy = self.raw.get('accuracy', 0)
-        self.anti_submarine = self.raw.get('anti_submarine', 0)
+        self.firepower = self.raw.get('firepower') or 0
+        self.health = self.raw.get('health') or 0
+        self.anti_air = self.raw.get('anti_air') or 0
+        self.evasion = self.raw.get('evasion') or 0
+        self.aviation = self.raw.get('aviation') or 0
+        self.torpedo = self.raw.get('torpedo') or 0
+        self.oil_consumption = self.raw.get('oil_consumption') or 0
+        self.speed = self.raw.get('speed') or 0
+        self.luck = self.raw.get('luck') or 0
+        self.accuracy = self.raw.get('accuracy') or 0
+        self.anti_submarine = self.raw.get('anti_submarine') or 0
         self.armor = self.raw.get('armor') or None
-        self.reload = self.raw.get('reload', 0)
+        self.reload = self.raw.get('reload') or 0
 
     @property
     def average(self):
@@ -99,7 +99,11 @@ class ShipStats(object):
             'evasion', 'aviation', 'torpedo', 'oil_consumption',
             'speed', 'luck', 'accuracy', 'anti_submarine'
         ]
-        return round(sum([getattr(self, satt) for satt in stat_attrs]) / len(stat_attrs), 2)
+        return round(sum(
+            [
+                getattr(self, satt) for satt in stat_attrs if isinstance(getattr(self, satt), int)
+            ]
+        ) / len(stat_attrs), 2)
 
     def from_tabber(self, tabber):
         """
