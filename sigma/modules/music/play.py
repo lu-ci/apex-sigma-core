@@ -106,22 +106,40 @@ async def play(cmd, pld):
                         no_client = error('The voice client seems to have broken.')
                         await pld.msg.channel.send(embed=no_client)
                         return
-                    await item.create_player(pld.msg.guild.voice_client)
-                    await add_special_stats(cmd.db, 'songs_played')
-                    cmd.bot.music.currents.update({pld.msg.guild.id: item})
-                    duration = str(datetime.timedelta(seconds=item.duration))
-                    author = f'{item.requester.name}#{item.requester.discriminator}'
-                    song_embed = discord.Embed(color=0x3B88C3)
-                    song_embed.add_field(name='🎵 Now Playing', value=item.title)
-                    song_embed.set_thumbnail(url=item.thumbnail)
-                    song_embed.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
-                    song_embed.set_footer(text=f'Duration: {duration}')
-                    try:
-                        await init_song_msg.edit(embed=song_embed)
-                    except discord.NotFound:
-                        await pld.msg.channel.send(embed=song_embed)
-                    while player_active(pld.msg.guild.voice_client):
-                        await asyncio.sleep(2)
+                    player_made = False
+                    player_attempts = 0
+                    while not player_made and player_attempts < 3:
+                        try:
+                            await item.create_player(pld.msg.guild.voice_client)
+                            player_made = True
+                        except discord.ClientException:
+                            player_attempts += 1
+                            try:
+                                await pld.msg.guild.voice_client.disconnect()
+                                cmn_cmd = cmd.bot.modules.commands['summon']
+                                await getattr(cmn_cmd.command, cmn_cmd.name)(cmn_cmd, pld)
+                            except Exception:
+                                pass
+                    if not player_made:
+                        no_client = error('The voice client seems to be unable to connect.')
+                        await pld.msg.channel.send(embed=no_client)
+                        return
+                    else:
+                        await add_special_stats(cmd.db, 'songs_played')
+                        cmd.bot.music.currents.update({pld.msg.guild.id: item})
+                        duration = str(datetime.timedelta(seconds=item.duration))
+                        author = f'{item.requester.name}#{item.requester.discriminator}'
+                        song_embed = discord.Embed(color=0x3B88C3)
+                        song_embed.add_field(name='🎵 Now Playing', value=item.title)
+                        song_embed.set_thumbnail(url=item.thumbnail)
+                        song_embed.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
+                        song_embed.set_footer(text=f'Duration: {duration}')
+                        try:
+                            await init_song_msg.edit(embed=song_embed)
+                        except discord.NotFound:
+                            await pld.msg.channel.send(embed=song_embed)
+                        while player_active(pld.msg.guild.voice_client):
+                            await asyncio.sleep(2)
                 response = discord.Embed(color=0x3B88C3, title='🎵 Queue complete.')
                 if pld.msg.guild.voice_client:
                     await pld.msg.guild.voice_client.disconnect()

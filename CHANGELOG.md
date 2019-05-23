@@ -1,5 +1,28 @@
 # Apex Sigma Changelog
 
+## 4.54.1088 Chito
+
+## Added
+
+- Add a `>>finalffantasyxivtimers` command that shows Final Fantasy XIV timers casue Heide is a little bitch.
+- Add `>>alacquisition` command that shows how you can get an Azur Lane ship.
+
+## Changed
+
+- Jisho URL format safeguard and a safeguard for the reading key for when it doesn't exist.
+- Wolfram result display type check fixes and safeguards.
+- The `>>lyrics` command got a fallback splitted in case the chunks are too big when split by newline.
+- The YouTube command's like/dislike count has default values of 0 now to avoid a NoneType incompatibility.
+- Added safeguards to profession commands and their dialogue generators.
+- The music playing functions got a safeguard for voice client connections during playback and connection timeout safeguard when joining a channel.
+- The donation link is now hardcoded to Patreon.
+- Add Azur Lane stats processing safeguards for type missmatches and content checks.
+- Add Azur Lane ship color safeguards and safeguards in case of Repair ships.
+
+## Removed
+
+- Remove checking the main License file's integrity to preserve docker container sanity and cross-platform byte reading compatibility. Holy fucking shit, fuck Windows.
+
 ## 4.52.1052: Chito
 
 - Fixed some docstrings in the NSFW Core file.

@@ -23,17 +23,15 @@ import discord
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-def get_average(dislikes: int, likes: int):
+def get_average(dislikes, likes):
     """
-
-    :param dislikes:
-    :type dislikes:
-    :param likes:
-    :type likes:
-    :return:
-    :rtype:
+    :param dislikes: The amount of dislikes the video has.
+    :type dislikes: int
+    :param likes: The amount of likes the video has.
+    :type likes: int
+    :rtype: float
     """
-    total = likes + dislikes
+    total = (likes or 0) + (dislikes or 0)
     try:
         bad = (dislikes / total) * 5
     except ZeroDivisionError:

@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from concurrent.futures import TimeoutError
-
 import discord
 
 from sigma.core.utilities.generic_responses import error
@@ -47,7 +45,7 @@ async def summon(_cmd, pld):
                         await pld.msg.author.voice.channel.connect(reconnect=False)
                         title = f'🚩 Connected to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
-                    except TimeoutError:
+                    except Exception:
                         if pld.msg.guild.voice_client:
                             await pld.msg.guild.voice_client.disconnect()
                         response = error('I timed out while trying to connect.')

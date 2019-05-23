@@ -60,7 +60,10 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
     try:
         starter += f"{request['japanese'][0]['word']} [{request['japanese'][0]['reading']}]"
     except KeyError:
-        starter += f"{request['japanese'][0]['reading']}"
+        try:
+            starter += f"{request['japanese'][0]['reading']}"
+        except KeyError:
+            pass
     wk_lvls = []
     for tag in request['tags']:
         if tag.find('wanikani') != -1:
@@ -108,7 +111,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
         for i in range(1, len(request['japanese'])):
             if 'word' in request['japanese'][i]:
                 other_forms += request['japanese'][i]['word'] + '、'
-    search_url = f'http://jisho.org/search/{jisho_q}'
+    search_url = f'http://jisho.org/search/{jisho_q.replace(" ", "%20")}'
     jisho_icon = 'https://i.imgur.com/X1fCJLV.png'
     response = discord.Embed(color=0xF9F9F9)
     response.set_author(name='Jisho.org', url=search_url, icon_url=jisho_icon)

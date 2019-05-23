@@ -19,15 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 
-async def donate(cmd, pld):
+async def donate(_cmd, pld):
     """
-    :param cmd: The command object referenced in the command.
-    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     sigma_title = 'Sigma Donation Information'
-    donation_url = f'{cmd.bot.cfg.pref.website}/donate'
+    donation_url = 'https://www.patreon.com/ApexSigma'
     response = discord.Embed(color=0x1B6F5F, title=sigma_title)
     response.description = f'Care to help out? Come [support]({donation_url}) Sigma!'
     await pld.msg.channel.send(embed=response)

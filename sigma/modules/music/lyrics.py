@@ -40,16 +40,17 @@ async def get_url_body(url: str):
     return data
 
 
-def parse_parts(lyr: str):
+def parse_parts(lyr, fallback=False):
     """
-
-    :param lyr:
-    :type lyr:
+    :param lyr: The lyrics text content.
+    :type lyr: str
+    :param fallback: Split by periods instead of new lines.
+    :type fallback: bool
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     pieces = []
-    lines = lyr.split('\n')
+    lines = lyr.split('.' if fallback else '\n')
     chunk = []
     for line in lines:
         if sum(len(c) for c in chunk) + len(line) >= 1024:
@@ -59,7 +60,11 @@ def parse_parts(lyr: str):
             chunk.append(line)
     if chunk:
         pieces.append("\n".join(chunk))
-    return pieces
+    if any([len(lpiece) > 1024 for lpiece in pieces]) and not fallback:
+        output = parse_parts('\n'.join(pieces), True)
+    else:
+        output = pieces
+    return output
 
 
 async def get_lyrics_from_html(lyrics_url: str):

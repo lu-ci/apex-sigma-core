@@ -62,7 +62,10 @@ async def fish(cmd, pld):
                 response_title = f'{item.icon} You caught {connector} {item.name} and threw it away!'
                 response = discord.Embed(color=item.color, title=response_title)
             else:
-                success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
+                try:
+                    success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
+                except (discord.NotFound, discord.Forbidden):
+                    success = timed_out = False
                 if success:
                     response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                     data_for_inv = item.generate_inventory_item()

@@ -58,7 +58,7 @@ async def get_results(query_url):
         query_page = lx.fromstring(query_page_xml)
         pod_data = query_page.cssselect('queryresult > pod[title] > subpod > plaintext')
         if pod_data:
-            results += '\n\n'.join([elem.text for elem in pod_data])
+            results += '\n\n'.join([elem.text_content().strip() for elem in pod_data if elem.text_content().strip()])
     return results
 
 
