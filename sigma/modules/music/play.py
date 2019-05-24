@@ -115,7 +115,8 @@ async def play(cmd, pld):
                         except discord.ClientException:
                             player_attempts += 1
                             try:
-                                await pld.msg.guild.voice_client.disconnect()
+                                if pld.msg.guild.voice_client:
+                                    await pld.msg.guild.voice_client.disconnect()
                                 cmn_cmd = cmd.bot.modules.commands['summon']
                                 await getattr(cmn_cmd.command, cmn_cmd.name)(cmn_cmd, pld)
                             except Exception:

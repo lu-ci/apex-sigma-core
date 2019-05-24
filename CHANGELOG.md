@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Fix missing player creation voice client existence check.
 - Add a JSON parsing safeguard for `>>ud` results.
 - Fix deck generation for the `>>newdeck` command.
 - Minor changelog heading fixes from the previous version.
