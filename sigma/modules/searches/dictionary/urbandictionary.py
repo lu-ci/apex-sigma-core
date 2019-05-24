@@ -39,23 +39,38 @@ async def urbandictionary(cmd, pld):
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=headers) as data_response:
                     data = await data_response.read()
-                    data = json.loads(data)
-            if data.get('list'):
-                entry = data.get('list', [{}])[0]
-                definition = entry.get('definition', 'Nothing...')
-                if len(definition) > 1000:
-                    definition = definition[:1000] + '...'
-                example = entry.get('example', 'Nothing...')
-                if len(example) > 1000:
-                    example = example[:1000] + '...'
-                definition, example = list(map(lambda i: i.replace('[', '').replace(']', ''), [definition, example]))
-                response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: {ud_input.upper()}')
-                response.set_footer(text=f'Thumbs Up/Down: {entry.get("thumbs_up", 0)}/{entry.get("thumbs_down", 0)}')
-                response.add_field(name='Definition', value=definition)
-                if example:
-                    response.add_field(name='Usage Example', value=example)
+                    try:
+                        data = json.loads(data)
+                        json_failed = False
+                    except json.JSONDecodeError:
+                        data = {}
+                        json_failed = True
+            if not json_failed:
+                if data.get('list'):
+                    entry = data.get('list', [{}])[0]
+                    definition = entry.get('definition', 'Nothing...')
+                    if len(definition) > 1000:
+                        definition = definition[:1000] + '...'
+                    example = entry.get('example', 'Nothing...')
+                    if len(example) > 1000:
+                        example = example[:1000] + '...'
+                    definition, example = list(
+                        map(
+                            lambda i: i.replace('[', '').replace(']', ''),
+                            [definition, example]
+                        )
+                    )
+                    thumbs_up = entry.get("thumbs_up", 0)
+                    thumbs_down = entry.get("thumbs_down", 0)
+                    response = discord.Embed(color=0xe27e00, title=f'🥃 Urban Dictionary: {ud_input.upper()}')
+                    response.set_footer(text=f'Thumbs Up/Down: {thumbs_up}/{thumbs_down}')
+                    response.add_field(name='Definition', value=definition)
+                    if example:
+                        response.add_field(name='Usage Example', value=example)
+                else:
+                    response = not_found('Unable to find exact results.')
             else:
-                response = not_found('Unable to find exact results.')
+                response = error('Failed to parse UD\'s response!')
         else:
             response = error('Nothing inputted.')
     else:
