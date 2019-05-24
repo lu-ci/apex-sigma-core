@@ -1,13 +1,21 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Add a JSON parsing safeguard for `>>ud` results.
+- Fix deck generation for the `>>newdeck` command.
+- Minor changelog heading fixes from the previous version.
+
 ## 4.54.1088 Chito
 
-## Added
+### Added
 
 - Add a `>>finalffantasyxivtimers` command that shows Final Fantasy XIV timers casue Heide is a little bitch.
 - Add `>>alacquisition` command that shows how you can get an Azur Lane ship.
 
-## Changed
+### Changed
 
 - Jisho URL format safeguard and a safeguard for the reading key for when it doesn't exist.
 - Wolfram result display type check fixes and safeguards.
@@ -19,7 +27,7 @@
 - Add Azur Lane stats processing safeguards for type missmatches and content checks.
 - Add Azur Lane ship color safeguards and safeguards in case of Repair ships.
 
-## Removed
+### Removed
 
 - Remove checking the main License file's integrity to preserve docker container sanity and cross-platform byte reading compatibility. Holy fucking shit, fuck Windows.
 
