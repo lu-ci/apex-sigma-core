@@ -117,8 +117,9 @@ class QueueItem(object):
         await self.download()
         if self.location:
             audio_source = discord.FFmpegPCMAudio(self.location)
-            if not voice_client.is_playing():
-                voice_client.play(audio_source)
+            if voice_client:
+                if not voice_client.is_playing():
+                    voice_client.play(audio_source)
 
 
 class MusicCore(object):
