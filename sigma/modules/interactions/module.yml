@@ -10,7 +10,7 @@ commands:
     usage:        "{pfx}{cmd} @person"
     description:
                   Make a pouty face at someone and make them change their mind.
-                  Or just teast them for being a horrible person.
+                  Or just tease them for being a horrible person.
                   Like when they make you create a pout command for money!
 
   - name:         highfive

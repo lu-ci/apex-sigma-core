@@ -166,7 +166,7 @@ Commands | Description | Example
 `>>lick` | Doesn't someone sometimes look so cute that you just want to lick them? Or maybe they have some food on their face, that's a good excuse. | `>>lick @person`
 `>>pat` `>>pato` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
 `>>poke` | Poke, poke~ Are you alive? | `>>poke @person`
-`>>pout` | Make a pouty face at someone and make them change their mind. Or just teast them for being a horrible person. Like when they make you create a pout command for money! | `>>pout @person`
+`>>pout` | Make a pouty face at someone and make them change their mind. Or just tease them for being a horrible person. Like when they make you create a pout command for money! | `>>pout @person`
 `>>punch` | You have something on your face. IT WAS PAIN! | `>>punch @person`
 `>>shoot` `>>pew` | When a knife isn't enough. | `>>shoot @person`
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
