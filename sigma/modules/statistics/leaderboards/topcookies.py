@@ -38,11 +38,11 @@ def get_user_value(data: dict, coords: str):
     return user_value or 0
 
 
-async def get_leader_docs(cmd, all_docs, sort_key):
+async def get_leader_docs(db, all_docs, sort_key):
     """
 
-    :param cmd:
-    :type cmd:
+    :param db:
+    :type db:
     :param all_docs:
     :type all_docs:
     :param sort_key:
@@ -55,7 +55,7 @@ async def get_leader_docs(cmd, all_docs, sort_key):
         user_value = get_user_value(data_doc, sort_key)
         user_id = data_doc.get('user_id')
         if user_value:
-            if not await cmd.db.is_sabotaged(user_id):
+            if not await db.is_sabotaged(user_id):
                 leader_docs.append([user_id, user_value])
                 if len(leader_docs) >= 20:
                     break
@@ -88,7 +88,7 @@ async def topcookies(cmd, pld):
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
-        leader_docs = await get_leader_docs(cmd, all_docs, sort_key)
+        leader_docs = await get_leader_docs(cmd.db, all_docs, sort_key)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
     table_data = [

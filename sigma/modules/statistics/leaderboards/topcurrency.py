@@ -52,7 +52,7 @@ async def topcurrency(cmd, pld):
         coll = cmd.db[cmd.db.db_nam][f'{resource.title()}Resource']
         search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
         all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
-        leader_docs = await get_leader_docs(cmd, all_docs, sort_key)
+        leader_docs = await get_leader_docs(cmd.db, all_docs, sort_key)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
     table_data = [
