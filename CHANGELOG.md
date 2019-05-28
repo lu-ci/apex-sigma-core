@@ -4,6 +4,7 @@
 
 ### Changed
 
+- The Reminder clock no longer uses a DM as a fallback but instead lets another shard take over the task for that reminder.
 - Fix missing player creation voice client existence check.
 - Add a JSON parsing safeguard for `>>ud` results.
 - Fix deck generation for the `>>newdeck` command.

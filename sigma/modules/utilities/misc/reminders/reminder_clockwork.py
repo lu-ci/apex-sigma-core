@@ -52,12 +52,7 @@ async def reminder_cycler(ev):
                     is_dm = reminder.get('direct_message')
                     channel = await ev.bot.get_channel(reminder.get('channel_id'))
                     author = await ev.bot.get_user(reminder.get('user_id'))
-                    if channel and not is_dm:
-                        target = channel
-                    elif author or is_dm:
-                        target = author
-                    else:
-                        target = None
+                    target = author if is_dm else channel
                     if target:
                         await coll.delete_one(reminder)
                         dt_stamp = arrow.get(reminder.get('creation_stamp')).datetime
