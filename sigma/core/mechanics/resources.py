@@ -159,7 +159,7 @@ class SigmaResource(object):
         :param trigger: The triggering function for the change.
         :type trigger: str
         :param origin: The origin data of the change.
-        :type origin: discord.Message
+        :type origin: discord.Message or None
         :param ranked: Does this change reflect on the leaderboards.
         :type ranked: bool
         :return:

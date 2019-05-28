@@ -259,7 +259,7 @@ class Database(motor.AsyncIOMotorClient):
         :param trigger: The function that caused the change.
         :type trigger: str
         :param origin: The origin of the change.
-        :type origin: discord.Message
+        :type origin: discord.Message or None
         :param ranked: If this change counts towards the leaderboard.
         :type ranked: bool
         :return:
