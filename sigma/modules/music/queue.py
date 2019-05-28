@@ -97,10 +97,16 @@ async def queue(cmd, pld):
                             final_resp.set_footer(text=f'Duration: {duration}')
                         else:
                             final_resp = not_found('Addition returned a null item.')
-                    await init_res_msg.edit(embed=final_resp)
+                    try:
+                        await init_res_msg.edit(embed=final_resp)
+                    except discord.NotFound:
+                        pass
                 else:
                     final_resp = not_found('No results.')
-                    await init_res_msg.edit(embed=final_resp)
+                    try:
+                        await init_res_msg.edit(embed=final_resp)
+                    except discord.NotFound:
+                        pass
             else:
                 if not pld.args:
                     response = error('You are not in my voice channel.')
