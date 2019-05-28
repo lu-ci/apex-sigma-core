@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- An automatic leaderboard resetting clockwork has been added. It resets the leaderboards at midnight UTC.
+
 ### Changed
 
 - The Reminder clock no longer uses a DM as a fallback but instead lets another shard take over the task for that reminder.

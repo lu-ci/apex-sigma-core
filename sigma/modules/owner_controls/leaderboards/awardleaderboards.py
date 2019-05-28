@@ -22,6 +22,29 @@ from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
+async def reset_resource(db, log, res):
+    """
+    Resets the leaderboards for the specified resource.
+    :param db: The main database instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param log: A command or event logger instance.
+    :type log: sigma.core.mechanics.logger.Logger
+    :param res: The name of the resource titleized.
+    :type res: str
+    """
+    coll = db[db.db_nam][f'{res}Resource']
+    search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
+    all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
+    leader_docs = list(reversed(await get_leader_docs(db, all_docs, 'ranked')))
+    for ld_index, ld_entry in enumerate(leader_docs):
+        ld_position = ld_index + 1
+        ld_award = ld_position * 100000
+        await db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', None, False)
+        value = f'{ld_entry[1]} {res}'
+        log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
+    await coll.update_many({}, {'$set': {'ranked': 0}})
+
+
 async def awardleaderboards(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -35,17 +58,7 @@ async def awardleaderboards(cmd, pld):
         if coll_title in ['Cookies', 'Currency']:
             init_resp = discord.Embed(color=0xf9f9f9, title='💴 Awarding leaderboards....')
             init_msg = await pld.msg.channel.send(embed=init_resp)
-            coll = cmd.db[cmd.db.db_nam][f'{coll_title}Resource']
-            search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
-            all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
-            leader_docs = list(reversed(await get_leader_docs(cmd, all_docs, 'ranked')))
-            for ld_index, ld_entry in enumerate(leader_docs):
-                ld_position = ld_index + 1
-                ld_award = ld_position * 100000
-                await cmd.db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', pld.msg, False)
-                value = f'{ld_entry[1]} {coll_title}'
-                cmd.log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
-            await coll.update_many({}, {'$set': {'ranked': 0}})
+            await reset_resource(cmd.db, cmd.log, coll_title)
             await init_msg.delete()
             response = ok(f'All leaderboards awarded.')
         else:
