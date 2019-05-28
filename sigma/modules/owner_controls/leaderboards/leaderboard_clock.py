@@ -30,9 +30,9 @@ async def leaderboard_clock(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global status_loop_running
-    if not status_loop_running:
-        status_loop_running = True
+    global leaderboard_loop_running
+    if not leaderboard_loop_running:
+        leaderboard_loop_running = True
         ev.bot.loop.create_task(leaderboard_clockwork(ev))
 
 
