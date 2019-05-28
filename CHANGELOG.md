@@ -8,6 +8,7 @@
 
 ### Changed
 
+- Added a safeguard for `>>bash` for the event where its cache depletes and it's not possible to refill it.
 - The Reminder clock no longer uses a DM as a fallback but instead lets another shard take over the task for that reminder.
 - Fix missing player creation voice client existence check.
 - Add a JSON parsing safeguard for `>>ud` results.
