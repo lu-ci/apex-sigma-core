@@ -25,8 +25,8 @@ from lxml import html
 
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
 
-ongoing_list = []
 streaks = {}
 
 
@@ -37,9 +37,9 @@ async def animechargame(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.channel.id not in ongoing_list:
+    if not is_ongoing(cmd.name, pld.msg.channel.id):
         try:
-            ongoing_list.append(pld.msg.channel.id)
+            set_ongoing(cmd.name, pld.msg.channel.id)
             mal_icon = 'https://myanimelist.cdn-dena.com/img/sp/icon/apple-touch-icon-256.png'
             wait_embed = discord.Embed(color=0x1d439b)
             wait_embed.set_author(name='Hunting for a good specimen...', icon_url=mal_icon)
@@ -143,8 +143,8 @@ async def animechargame(cmd, pld):
         except (IndexError, KeyError):
             grab_error = error('I failed to grab a character, try again.')
             await pld.msg.channel.send(embed=grab_error)
-        if pld.msg.channel.id in ongoing_list:
-            ongoing_list.remove(pld.msg.channel.id)
+        if is_ongoing(cmd.name, pld.msg.channel.id):
+            del_ongoing(cmd.name, pld.msg.channel.id)
     else:
         ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

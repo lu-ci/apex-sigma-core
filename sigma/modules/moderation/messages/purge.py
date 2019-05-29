@@ -26,8 +26,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok
-
-ongoing = []
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 
 def generate_log_embed(message, target, channel, deleted):
@@ -62,8 +61,8 @@ async def purge(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        if pld.msg.channel.id not in ongoing:
-            ongoing.append(pld.msg.channel.id)
+        if not is_ongoing(cmd.name, pld.msg.channel.id):
+            set_ongoing(cmd.name, pld.msg.channel.id)
             pld.args = [a.lower() for a in pld.args]
             purge_images = 'attachments' in pld.args
             purge_emotes = 'emotes' in pld.args
@@ -194,8 +193,8 @@ async def purge(cmd, pld):
             response = ok(f'Deleted {len(deleted)} Messages')
             log_embed = generate_log_embed(pld.msg, target, pld.msg.channel, deleted)
             await log_event(cmd.bot, pld.settings, log_embed, 'log_purges')
-            if pld.msg.channel.id in ongoing:
-                ongoing.remove(pld.msg.channel.id)
+            if is_ongoing(cmd.name, pld.msg.channel.id):
+                del_ongoing(cmd.name, pld.msg.channel.id)
             try:
                 del_response = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)

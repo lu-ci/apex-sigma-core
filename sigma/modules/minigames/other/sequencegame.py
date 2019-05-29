@@ -22,8 +22,8 @@ import secrets
 import discord
 
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing, set_ongoing
 
-ongoing = []
 symbol_groups = (
     ('♥', '❤'),  # :hearts:, :heart:
     ('♦',),  # :diamonds:
@@ -69,12 +69,12 @@ async def sequencegame(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.id in ongoing:
+    if is_ongoing(cmd.name, pld.msg.author.id):
         ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)
         return
     try:
-        ongoing.append(pld.msg.author.id)
+        set_ongoing(cmd.name, pld.msg.author.id)
         chosen = [secrets.choice(first_symbols) for _ in range(4)]
         title = f'🎯 {pld.msg.author.display_name}, you have 90 seconds for each attempt.'
         desc = f'Symbols you can use: {"".join(first_symbols)}'
@@ -136,8 +136,8 @@ async def sequencegame(cmd, pld):
             lose_title = f'💥 Ooh, sorry {pld.msg.author.display_name}, it was {"".join(chosen)}'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await pld.msg.channel.send(embed=final_embed)
-        ongoing.remove(pld.msg.author.id)
+        del_ongoing(cmd.name, pld.msg.author.id)
     except Exception:
-        if pld.msg.author.id in ongoing:
-            ongoing.remove(pld.msg.author.id)
+        if is_ongoing(cmd.name, pld.msg.author.id):
+            del_ongoing(cmd.name, pld.msg.author.id)
         raise

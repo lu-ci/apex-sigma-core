@@ -23,8 +23,7 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.mech.utils import scramble
-
-ongoing_list = []
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing, set_ongoing
 
 
 async def unscramblegame(cmd, pld):
@@ -43,8 +42,8 @@ async def unscramblegame(cmd, pld):
             if len(word) > 3 and len(word.split(' ')) == 1:
                 word_cache.update({word: ddoc.get('description')})
         await cmd.db.cache.set_cache(cache_key, word_cache)
-    if pld.msg.channel.id not in ongoing_list:
-        ongoing_list.append(pld.msg.channel.id)
+    if not is_ongoing(cmd.name, pld.msg.channel.id):
+        set_ongoing(cmd.name, pld.msg.channel.id)
         words = list(word_cache.keys())
         word_choice = secrets.choice(words)
         word_description = word_cache.get(word_choice)
@@ -83,8 +82,8 @@ async def unscramblegame(cmd, pld):
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             timeout_embed.add_field(name=f'It was {word_choice.lower()}.', value=word_description)
             await pld.msg.channel.send(embed=timeout_embed)
-        if pld.msg.channel.id in ongoing_list:
-            ongoing_list.remove(pld.msg.channel.id)
+        if is_ongoing(cmd.name, pld.msg.channel.id):
+            del_ongoing(cmd.name, pld.msg.channel.id)
     else:
         ongoing_error = error('There is one already ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

@@ -1,9 +1,11 @@
 # Apex Sigma Changelog
 
-## 4.54.1094 Chito
+## [Unreleased]
 
 ### Changed
 
+- The new `>>resetongoing` command will reset any "ongoing" locks that are placed on longer minigames to prevent duplicates. If a minigame gets stuck in an "ongoing" state you can clear it with this.
+- All ongoing lists have been reworked to be resettable.
 - Added a parameter to `>>commandstatistics` for viewing a specific command's use count.
 
 ## 4.54.1093 Chito

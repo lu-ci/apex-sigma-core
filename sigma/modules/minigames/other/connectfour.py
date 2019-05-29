@@ -23,8 +23,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
-
-ongoing_list = []
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
 
 
 def generate_response(avatar, current: discord.Member, rows: list):
@@ -75,8 +74,8 @@ async def connectfour(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.channel.id not in ongoing_list:
-        ongoing_list.append(pld.msg.channel.id)
+    if not is_ongoing(cmd.name, pld.msg.channel.id):
+        set_ongoing(cmd.name, pld.msg.channel.id)
         competitor, curr_turn = None, pld.msg.author
         color = pld.args[0][0].lower() if pld.args else None
         player = 'b' if color == 'b' else 'r'
@@ -162,15 +161,15 @@ async def connectfour(cmd, pld):
                     else:
                         cancel_embed = discord.Embed(color=0xFFCC4D, title='🔥 Game canceled!')
                         await pld.msg.channel.send(embed=cancel_embed)
-                        if pld.msg.channel.id in ongoing_list:
-                            ongoing_list.remove(pld.msg.channel.id)
+                        if is_ongoing(cmd.name, pld.msg.channel.id):
+                            del_ongoing(cmd.name, pld.msg.channel.id)
                         return
             except asyncio.TimeoutError:
                 timeout_title = f'🕙 Time\'s up {curr_turn.display_name}!'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
-                if pld.msg.channel.id in ongoing_list:
-                    ongoing_list.remove(pld.msg.channel.id)
+                if is_ongoing(cmd.name, pld.msg.channel.id):
+                    del_ongoing(cmd.name, pld.msg.channel.id)
                 return
 
         if winner:
@@ -185,8 +184,8 @@ async def connectfour(cmd, pld):
             color, icon, resp = 0xFFCC4D, '🔥', 'It\'s a draw'
         response = discord.Embed(color=color, title=f'{icon} {resp}!')
         await pld.msg.channel.send(embed=response)
-        if pld.msg.channel.id in ongoing_list:
-            ongoing_list.remove(pld.msg.channel.id)
+        if is_ongoing(cmd.name, pld.msg.channel.id):
+            del_ongoing(cmd.name, pld.msg.channel.id)
     else:
         ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

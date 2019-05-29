@@ -22,8 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-
-ongoing = []
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
 
 
 async def sell(cmd, pld):
@@ -33,9 +32,9 @@ async def sell(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.id in ongoing:
+    if is_ongoing(cmd.name, pld.msg.author.id):
         return
-    ongoing.append(pld.msg.author.id)
+    set_ongoing(cmd.name, pld.msg.author.id)
     item_core = await get_item_core(cmd.db)
     currency = cmd.bot.cfg.pref.currency
     if pld.args:
@@ -96,7 +95,7 @@ async def sell(cmd, pld):
             response = discord.Embed(color=0xc6e4b5, title='💸 Your inventory is empty...')
     else:
         response = error('Nothing inputted.')
-    if pld.msg.author.id in ongoing:
-        ongoing.remove(pld.msg.author.id)
+    if is_ongoing(cmd.name, pld.msg.author.id):
+        del_ongoing(cmd.name, pld.msg.author.id)
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

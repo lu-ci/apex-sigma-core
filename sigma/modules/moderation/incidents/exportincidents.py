@@ -23,10 +23,10 @@ import discord
 
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.generic_responses import denied, error
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']
-ongoing = []
 
 
 def make_export_file(guild_name: str, incidents: list, modifier: str):
@@ -63,8 +63,8 @@ async def exportincidents(cmd, pld):
     """
     file = None
     if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        if pld.msg.guild.id not in ongoing:
-            ongoing.append(pld.msg.guild.id)
+        if not is_ongoing(cmd.name, pld.msg.guild.id):
+            set_ongoing(cmd.name, pld.msg.guild.id)
             icore = get_incident_core(cmd.db)
             response, target = None, None
             identifier, incidents = None, None
@@ -112,8 +112,8 @@ async def exportincidents(cmd, pld):
             response = error('There is already one ongoing.')
     else:
         response = denied('Access Denied. Manage Messages needed.')
-    if pld.msg.guild.id in ongoing:
-        ongoing.remove(pld.msg.guild.id)
+    if is_ongoing(cmd.name, pld.msg.guild.id):
+        del_ongoing(cmd.name, pld.msg.guild.id)
     await pld.msg.channel.send(embed=response)
     if file:
         try:

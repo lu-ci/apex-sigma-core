@@ -27,8 +27,7 @@ import ftfy
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
-
-ongoing_list = []
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing, set_ongoing
 
 awards = {
     'easy': 10,
@@ -114,8 +113,8 @@ async def trivia(cmd, pld):
         await pld.msg.channel.send(embed=on_cooldown)
         return
     try:
-        if pld.msg.author.id not in ongoing_list:
-            ongoing_list.append(pld.msg.author.id)
+        if not is_ongoing(cmd.name, pld.msg.author.id):
+            set_ongoing(cmd.name, pld.msg.author.id)
             allotted_time = 20
             trivia_api_url = 'https://opentdb.com/api.php?amount=1'
             cat_chosen = False
@@ -137,8 +136,8 @@ async def trivia(cmd, pld):
                     try:
                         data = json.loads(number_response).get('results')[0]
                     except json.JSONDecodeError:
-                        if pld.msg.author.id in ongoing_list:
-                            ongoing_list.remove(pld.msg.author.id)
+                        if is_ongoing(cmd.name, pld.msg.author.id):
+                            del_ongoing(cmd.name, pld.msg.author.id)
                         decode_error = error('Could not retrieve a question.')
                         await pld.msg.channel.send(embed=decode_error)
                         return
@@ -224,12 +223,12 @@ async def trivia(cmd, pld):
                 timeout_title = f'🕙 Time\'s up! It was {correct_answer}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
-            if pld.msg.author.id in ongoing_list:
-                ongoing_list.remove(pld.msg.author.id)
+            if is_ongoing(cmd.name, pld.msg.author.id):
+                del_ongoing(cmd.name, pld.msg.author.id)
         else:
             ongoing_error = error('There is already one ongoing.')
             await pld.msg.channel.send(embed=ongoing_error)
     except Exception:
-        if pld.msg.author.id in ongoing_list:
-            ongoing_list.remove(pld.msg.author.id)
+        if is_ongoing(cmd.name, pld.msg.author.id):
+            del_ongoing(cmd.name, pld.msg.author.id)
         raise

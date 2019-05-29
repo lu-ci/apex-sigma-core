@@ -23,7 +23,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.utilities.generic_responses import error, not_found
-from sigma.modules.minigames.quiz.mathgame import ongoing_list as math_chs
+from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
 wolfram_url = 'http://www.wolframalpha.com/input/?i='
@@ -103,7 +103,7 @@ async def wolframalpha(cmd, pld):
     """
     init_message = None
     if cmd.cfg.app_id:
-        if pld.msg.channel.id not in math_chs:
+        if not is_ongoing('mathgame', pld.msg.channel.id):
             if pld.args:
                 query = make_safe_query(pld.args)
                 url = f'{api_url}{query}&appid={cmd.cfg.app_id}'
