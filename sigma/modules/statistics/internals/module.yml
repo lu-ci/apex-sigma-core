@@ -27,9 +27,9 @@ commands:
     enabled:      false
     usage:        "{pfx}{cmd} @person"
     description:
-      Shows how much of Sigma's internal experience you've obtained.
-      Experience is earned by being an active member of the community.
-      Yes, this is meant to be vague.
+                  Shows how much of Sigma's internal experience you've obtained.
+                  Experience is earned by being an active member of the community.
+                  Yes, this is meant to be vague.
 
   - name:         resources
     alts:
@@ -62,5 +62,7 @@ commands:
       - "commandstats"
       - "cmdstats"
     enabled:      true
+    usage:        "{pfx}{cmd} shootfoot"
     description:
                   Shows a paginated table showing how many times each command was used.
+                  You can view a specific command by adding its name as an argument.

@@ -524,7 +524,7 @@ Commands | Description | Example
 ### STATISTICS
 Commands | Description | Example
 ----------|-------------|--------
-`>>commandstatistics` `>>cmdstatistics` `>>commandstats` `>>cmdstats` | Shows a paginated table showing how many times each command was used. | `>>commandstatistics`
+`>>commandstatistics` `>>cmdstatistics` `>>commandstats` `>>cmdstats` | Shows a paginated table showing how many times each command was used. You can view a specific command by adding its name as an argument. | `>>commandstatistics shootfoot`
 `>>resources` `>>reslist` `>>res` | Shows all the available resources and how many you have of each. | `>>resources`
 `>>resourcestatistics` `>>resourcestats` `>>resstats` | Shows statistical data for the given resource type. You can use the bot's currency name instead of "currency", like "kud" for example. Resources also include "experience" and "cookies". The command will show where you got that resource. From which user, which server, which channel and with which function. Only "earned" resources are tracked however, meaning that there's no data on gambling. You can also add "--expense" to the end of the command to see where you spent that resource instead of showing where you got it as well as target a user with the command to see their stats. You can see all available resources with the "resourcelist" command. | `>>resourcestatistics currency @person --expense`
 `>>topcookies` `>>toprep` | Shows the top 20 users who have the most cookies. A filter can be added, either global or total, sorting it by the amount they globaly have right now, which is the default, or the total amount of cookies that they have collected over time regardless of resets. | `>>topcookies global`

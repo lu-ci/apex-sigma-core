@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.54.1094 Chito
+
+### Changed
+
+- Added a parameter to `>>commandstatistics` for viewing a specific command's use count.
+
 ## 4.54.1093 Chito
 
 ### Added
