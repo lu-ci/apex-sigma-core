@@ -16,6 +16,7 @@
 
 ### Changed
 
+- Change `>>servericon` fallback type on no icon URL.
 - Fix `>>serverinfo` to handle unrecognized/unenumerated regions.
 - Added a safeguard for `>>queue` when editing lookup status messages.
 - Added a safeguard for `>>bash` for the event where its cache depletes and it's not possible to refill it.
