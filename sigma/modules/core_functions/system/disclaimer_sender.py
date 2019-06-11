@@ -35,11 +35,19 @@ You are NOT allowed to:
 * Actively attempt to overload or damage the bot's functionality.
 * Automate or bot any and all commands in any way. This includes, but is not limited to botting and using macros.
 
-## Disclaimer
-* By using Sigma you comply with various user data being stored.
-* Only data needed for the functionality of a command is stored.
+> In a nutshell: Don't be an asshole.
+> Breaking these might get you blacklisted.
 
-> Not complying will result in the user or guild being blacklisted.
+## Disclaimer
+
+> We're required to state our privacy and security policy.
+> In short, it's the following.
+
+* No personal data is ever seen, let alone stored.
+* Only data needed for functionality is stored, nothing more.
+* Nobody other than the staff maintaining the bot will have access to any data.
+* We pledge to never share any details of any kind with external persons or organizations.
+* Not for legal, not for monetary, not for any reason, ever.
 ```
 """
 
