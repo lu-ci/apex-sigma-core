@@ -27,21 +27,36 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 
 
-def get_challenges(challenges: dict):
+def get_xp_ammounts(challenges):
     """
-
-    :param challenges:
-    :type challenges:
+    Gets a unique set of XP amounts from the given challenges.
+    :param challenges: The challenges to parse.
+    :type challenges: dict
     :return:
-    :rtype:
+    :rtype: list[str]
+    """
+    xp_amounts = list(set([c['xpAmount'] for c in challenges]))
+    xp_amounts.sort()
+    return xp_amounts
+
+
+def get_challenges(challenges, xp_amounts):
+    """
+    Sorts challenges based on how much rep they give.
+    :param challenges: The challenges to be sorted.
+    :type challenges: dict
+    :param xp_amounts: The XP amounts for each difficulty.
+    :type xp_amounts: list[str]
+    :return:
+    :rtype: (list, list, list)
     """
     dailies, weeklies, weeklies_hard = [], [], []
     for challenge in challenges:
-        if challenge['xpAmount'] == '1000':
+        if challenge['xpAmount'] == xp_amounts[0]:
             dailies.append(challenge)
-        if challenge['xpAmount'] == '3000':
+        if challenge['xpAmount'] == xp_amounts[1]:
             weeklies.append(challenge)
-        if challenge['xpAmount'] == '5000':
+        if challenge['xpAmount'] == xp_amounts[2]:
             weeklies_hard.append(challenge)
     dailies_sorted = list(sorted(dailies, key=lambda x: x['description']))
     weeklies_sorted = list(sorted(weeklies, key=lambda x: x['description']))
@@ -49,13 +64,13 @@ def get_challenges(challenges: dict):
     return dailies_sorted, weeklies_sorted, weeklies_hard_sorted
 
 
-def get_offsets(challenges: list):
+def get_offsets(challenges):
     """
-
-    :param challenges:
-    :type challenges:
+    Gets the time offsets for challenge expiry in each category.
+    :param challenges: The challenges to be parsed.
+    :type challenges: list[list]
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     offsets = []
     for challenge_list in challenges:
@@ -65,13 +80,13 @@ def get_offsets(challenges: list):
     return offsets
 
 
-def get_descriptions(challenges: list):
+def get_descriptions(challenges):
     """
-
-    :param challenges:
-    :type challenges:
+    Gets the description for challenges in each category.
+    :param challenges: The challenges to be parsed.
+    :type challenges: list[list]
     :return:
-    :rtype:
+    :rtype: list[list]
     """
     descriptions = []
     for challenge_list in challenges:
@@ -90,12 +105,13 @@ async def wfnightwave(_cmd, pld):
     if nw:
         response = discord.Embed(color=0x6b1724, title=f'Nightwave Season {nw["season"] + 1}', )
         response.set_thumbnail(url=nightwave_icon)
-        dailies, weeklies, weeklies_hard = get_challenges(nw['challenges'])
+        xp = get_xp_ammounts(nw['challenges'])
+        dailies, weeklies, weeklies_hard = get_challenges(nw['challenges'], xp)
         d_offset, w_offset, wh_offset = get_offsets([dailies, weeklies, weeklies_hard])
         d_descs, w_descs, wh_descs = get_descriptions([dailies, weeklies, weeklies_hard])
-        response.add_field(name=f'Dailies - 1000rep - {d_offset}', value='\n'.join(d_descs), inline=False)
-        response.add_field(name=f'Weeklies - 3000rep - {w_offset}', value='\n'.join(w_descs), inline=False)
-        response.add_field(name=f'Weekly Elites - 5000rep - {wh_offset}', value='\n'.join(wh_descs), inline=False)
+        response.add_field(name=f'Dailies - {xp[0]}rep - {d_offset}', value='\n'.join(d_descs), inline=False)
+        response.add_field(name=f'Weeklies - {xp[1]}rep - {w_offset}', value='\n'.join(w_descs), inline=False)
+        response.add_field(name=f'Weekly Elites - {xp[2]}rep - {wh_offset}', value='\n'.join(wh_descs), inline=False)
     else:
         response = error('Could not retrieve Nightwave data.')
     await pld.msg.channel.send(embed=response)
