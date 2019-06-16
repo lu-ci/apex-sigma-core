@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Updated `>>randomcomicgenerator` to accommodate joining the three images returned by the web page. 
 - Changed `>>wfnightwave` to not have hardcoded XP amounts, which caused errors.  
 - The new `>>resetongoing` command will reset any "ongoing" locks that are placed on longer minigames to prevent duplicates. If a minigame gets stuck in an "ongoing" state you can clear it with this.
 - All ongoing lists have been reworked to be resettable.
