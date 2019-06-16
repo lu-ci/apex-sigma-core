@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+
 ### Changed
 
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
