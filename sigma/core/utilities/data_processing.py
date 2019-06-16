@@ -351,3 +351,33 @@ async def get_image_colors(img_url):
         dominant = (105, 105, 105)
     dominant = rgb_to_hex(dominant)
     return dominant
+
+
+def get_broad_target(pld):
+    """
+    Gets a target from a message by mentions, ID and name, nickname.
+    :param pld: The command payload to process.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    :return:
+    :rtype: discord.Member or None
+    """
+    target = None
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
+    else:
+        if pld.args:
+            try:
+                possible_id = int(pld.args[0])
+            except ValueError:
+                possible_id = None
+            if possible_id is not None:
+                target = pld.msg.guild.get_member(possible_id)
+            else:
+                possible_name = ' '.join(pld.args)
+                for member in pld.msg.guild.members:
+                    name_match = member.name.lower() == possible_name.lower()
+                    display_name_match = member.display_name.lower() == possible_name.lower()
+                    if name_match or display_name_match:
+                        target = member
+                        break
+    return target

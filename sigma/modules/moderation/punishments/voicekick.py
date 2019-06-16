@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
+from sigma.core.utilities.data_processing import get_broad_target
 from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
@@ -30,8 +31,8 @@ async def voicekick(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).kick_members:
-        if pld.msg.mentions:
-            target = pld.msg.mentions[0]
+        target = get_broad_target(pld)
+        if target:
             if cmd.bot.user.id != target.id:
                 if pld.msg.author.id != target.id:
                     above_hier = hierarchy_permit(pld.msg.author, target)

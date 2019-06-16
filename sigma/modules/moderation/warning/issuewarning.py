@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, get_broad_target
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok
 
@@ -123,8 +123,8 @@ async def issuewarning(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.guild_permissions.manage_messages:
-        if pld.msg.mentions:
-            target = pld.msg.mentions[0]
+        target = get_broad_target(pld)
+        if target:
             if target.id != pld.msg.author.id:
                 if not target.bot:
                     reason = ' '.join(pld.args[1:]) if pld.args[1:] else None

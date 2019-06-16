@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import user_avatar, get_broad_target
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.core.utilities.permission_processing import hierarchy_permit
@@ -84,8 +84,8 @@ async def hardunmute(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
-        if pld.msg.mentions:
-            target = pld.msg.mentions[0]
+        target = get_broad_target(pld)
+        if target:
             hierarchy_me = hierarchy_permit(pld.msg.guild.me, target)
             if hierarchy_me:
                 hierarchy_auth = hierarchy_permit(pld.msg.author, target)

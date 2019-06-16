@@ -2,11 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+
+- Made the `get_broad_target(pld: CommandPayload)` function to get a target from a payload in a hierarchy order of `mention > id > name or nick`.
 
 ### Changed
 
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
 - Added a unique user safeguard to prevent one user from spamming the reaction.
+- Added broad targeting to `ban`, `hardmute`, `hardunmute`, `kick`, `softban`, `voicekick` and `issuewarning`. Be careful with broad targeting when using names.
 - Changed `>>starboardlimit` to show the current limit if one isn't specified.
 - Changed `>>starboardchannel` to use the current channel if one isn't mentioned.
 - Fixed an error in `starboard_watcher` resulting in disabling the starboard having no effect.
