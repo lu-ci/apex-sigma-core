@@ -8,6 +8,7 @@
 
 ### Changed
 
+- Cleaned up the changelog a bit. Slightly less spelling and grammatical mistakes.
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
 - Added a unique user safeguard to prevent one user from spamming the reaction.
 - Added broad targeting to `ban`, `hardmute`, `hardunmute`, `kick`, `softban`, `voicekick` and `issuewarning`. Be careful with broad targeting when using names.
@@ -51,19 +52,19 @@
 
 ### Added
 
-- Add a `>>finalffantasyxivtimers` command that shows Final Fantasy XIV timers casue Heide is a little bitch.
+- Add a `>>finalffantasyxivtimers` command that shows Final Fantasy XIV timers cause Heide is a little bitch.
 - Add `>>alacquisition` command that shows how you can get an Azur Lane ship.
 
 ### Changed
 
 - Jisho URL format safeguard and a safeguard for the reading key for when it doesn't exist.
 - Wolfram result display type check fixes and safeguards.
-- The `>>lyrics` command got a fallback splitted in case the chunks are too big when split by newline.
+- The `>>lyrics` command got a fallback splitter in case the chunks are too big when split by newline.
 - The YouTube command's like/dislike count has default values of 0 now to avoid a NoneType incompatibility.
 - Added safeguards to profession commands and their dialogue generators.
 - The music playing functions got a safeguard for voice client connections during playback and connection timeout safeguard when joining a channel.
 - The donation link is now hardcoded to Patreon.
-- Add Azur Lane stats processing safeguards for type missmatches and content checks.
+- Add Azur Lane stats processing safeguards for type mismatches and content checks.
 - Add Azur Lane ship color safeguards and safeguards in case of Repair ships.
 
 ### Removed
@@ -107,7 +108,7 @@
 
 ### Added
 
-- Added the ability to specify the max amount of cached messages in the main client. No less than 100 can be stored.
+- Added the ability to specify the max number of cached messages in the main client. No less than 100 can be stored.
 - The `>>azurlaneskins` has been added to list all the skins a ship has.
 - The `>>azurlaneskin` has been added to show the given skin.
 
@@ -121,7 +122,7 @@
 - Made the antispam checker event use the core cacher.
 - Made the role binding mechanics use the core cacher.
 - Made the `>>drawcard` command use the core cacher.
-- Fix the collector clockwork breakin due to an invalid icon attribute parent.
+- Fix the collector clockwork breaking due to an invalid icon attribute parent.
 - Add more detailed logging to most of the dbinit and boot events since they're a part of startup now.
 - Changed the way startup events are started, they are now executed before the gateway connection starts.
 - Bumped the Python version of the base image to 3.7 from 3.6, that's overdue.
@@ -168,7 +169,7 @@
 
 - The **Azur Lane** module is born!
 - The `>>almimic` command will generate a random markov chain impersonation using all Azur Lane quotes. Or a single ship, though due to being a tiny amount of data, they can be very repetitive.
-- The `>>alship` command shows basic Azur Lane ship information and stats. More commands comming soon as I've made a complete scraper for the AL wiki within Sigma.
+- The `>>alship` command shows basic Azur Lane ship information and stats. More commands coming soon as I've made a complete scraper for the AL wiki within Sigma.
 
 ### Changed
 
@@ -272,7 +273,7 @@
 
 - Interactions will not try to fill missing user and guild data for usage in the footer text.
 - The order of the `get_scaled()` arguments has been changed for more logic, it also takes the maximum multiplier cap as an argument.
-- The proffession emote reactions are back. Here's what happened with this. People were pissed about it being made, and when we reverted it, more people were pissed about it being gone. So "fuck you" to the little bitches that can't click an icon.
+- The profession emote reactions are back. Here's what happened with this. People were pissed about it being made, and when we reverted it, more people were pissed about it being gone. So "fuck you" to the little bitches that can't click an icon.
 - Fix markov chain commands sometimes failing due to upstream `KeyError` instances that make no goddamn sense.
 - Fix the `>>listinactivewarnings` command not working. Was using a non-existent method.
 
@@ -311,7 +312,7 @@
 
 ### Added
 
-- The `>>roleswithpermission` (the `>>rlwperm` for short) command has been made. It lists all roles that have a given permission or list of permissions  separated by a `;` (semicolon). You can reverse the search so it shows that don't have the permission by adding `--negative` to the end of the command.
+- The `>>roleswithpermission` (the `>>rlwperm` for short) command has been made. It lists all roles that have a given permission or list of permissions separated by a `; ` (semicolon). You can reverse the search so it shows that don't have the permission by adding `--negative` to the end of the command.
 
 ## 4.35.726: Ange
 
@@ -354,7 +355,7 @@
 
 ### Changed
 
-- Renamed `>>packages` to `>>pythonpackage`, packages is too broad and has no corelation with what the command does.
+- Renamed `>>packages` to `>>pythonpackage`, packages is too broad and has no correlation with what the command does.
 
 ## 2019-02-09
 
@@ -397,7 +398,7 @@
 
 ### Changed
 
-- Hardmute ongoing message deletion safeguard. By *Shifty*.
+- Hard mute ongoing message deletion safeguard. By *Shifty*.
 - Music playing notification edit safeguard. By *Shifty*.
 - Replace aiohttp exceptions to reduce imports. By *Shifty*.
 
@@ -444,7 +445,7 @@
 ### Changed
 
 - Generic responses implementation by *Shifty*, first pass.
-- Fixed extention blocked incompatibility with the Payload system by *Shifty*.
+- Fixed extension blocked incompatibility with the Payload system by *Shifty*.
 
 ## 2019-01-10
 
