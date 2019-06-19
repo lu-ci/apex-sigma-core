@@ -1,11 +1,19 @@
 # Apex Sigma Changelog
 
-## 4.54.1096 Chito
+## [Unreleased]
 
 ### Changed
 
+- Changed `>>starboardlimit` to show the current limit if one isn't specified.
+- Changed `>>starboardchannel` to use the current channel if one isn't mentioned.
+- Fixed an error in `starboard_watcher` resulting in disabling the starboard having no effect.
 - Updated `>>randomcomicgenerator` to accommodate joining the three images returned by the web page. 
 - Changed `>>wfnightwave` to not have hardcoded XP amounts, which caused errors.  
+
+## 4.54.1095 Chito
+
+### Changed
+
 - The new `>>resetongoing` command will reset any "ongoing" locks that are placed on longer minigames to prevent duplicates. If a minigame gets stuck in an "ongoing" state you can clear it with this.
 - All ongoing lists have been reworked to be resettable.
 - Added a parameter to `>>commandstatistics` for viewing a specific command's use count.

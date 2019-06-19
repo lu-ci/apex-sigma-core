@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import discord
+
 from sigma.core.utilities.generic_responses import denied, error, ok
 
 
@@ -27,20 +29,24 @@ async def starboardlimit(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        starboard_doc = pld.settings.get('starboard') or {}
         if pld.args:
             try:
                 new_limit = abs(int(pld.args[0]))
             except ValueError:
                 new_limit = None
             if new_limit is not None:
-                starboard_doc = pld.settings.get('starboard') or {}
                 starboard_doc.update({'limit': int(new_limit)})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
                 response = ok(f'Starboard limit set to {new_limit}.')
             else:
                 response = error('Limit must be a number.')
         else:
-            response = error('Nothing inputted.')
+            limit = starboard_doc.get('limit')
+            if limit:
+                response = discord.Embed(color=0xFFAC33, title=f'🌟 The current limit is {limit}')
+            else:
+                response = error('A limit has not been set.')
     else:
         response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

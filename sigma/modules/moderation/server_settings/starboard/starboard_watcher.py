@@ -26,15 +26,15 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 star_cache = None
 
 
-async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int):
+async def post_starboard(msg, response, sbc):
     """
-
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :param response:
-    :type response:
+    :type response: discord.Embed
     :param sbc:
-    :type sbc:
+    :type sbc: int
+    :return:
     """
     channel = msg.guild.get_channel(sbc)
     if channel:
@@ -45,13 +45,12 @@ async def post_starboard(msg: discord.Message, response: discord.Embed, sbc: int
             pass
 
 
-async def generate_embed(msg: discord.Message):
+async def generate_embed(msg):
     """
-
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     avatar = user_avatar(msg.author)
     user_color = await get_image_colors(avatar)
@@ -71,15 +70,14 @@ async def generate_embed(msg: discord.Message):
     return response
 
 
-async def check_emotes(mid: int, sbl: int):
+async def check_emotes(mid, sbl):
     """
-
     :param mid:
-    :type mid:
+    :type mid: int
     :param sbl:
-    :type sbl:
+    :type sbl: int
     :return:
-    :rtype:
+    :rtype: bool
     """
     trigger = False
     executed = await star_cache.get_cache(f'exec_{mid}')
@@ -116,7 +114,7 @@ async def starboard_watcher(ev, pld):
             guild = channel.guild
             if guild:
                 starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
-                if starboard_doc:
+                if starboard_doc.get('state'):
                     sbc = starboard_doc.get('channel_id')
                     sbe = starboard_doc.get('emote')
                     sbl = starboard_doc.get('limit')
