@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.permissions import check_filter_perms
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.modules.moderation.server_settings.filters.cleaners import clean_content
+from sigma.modules.moderation.server_settings.collectionjar.collection_watcher import clean_word
 from sigma.modules.moderation.warning.issuewarning import warning_data
 
 
@@ -41,7 +41,7 @@ async def edit_word_blocker(ev, pld):
             if not any([after.author.guild_permissions.administrator, is_owner, override]):
                 prefix = ev.db.get_prefix(pld.settings)
                 if not after.content.startswith(prefix):
-                    text = clean_content(after.content.lower())
+                    text = clean_word(after.content)
                     elements = text.split(' ')
                     blocked_words = pld.settings.get('blocked_words') or []
                     hard_blocked_words = pld.settings.get('hardblocked_words') or []

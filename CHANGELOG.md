@@ -4,11 +4,17 @@
 
 ### Changed
 
+- Changed the trigger checker function for auto reactors/responders to remove punctuation.
+- Added a unique user safeguard to prevent one user from spamming the reaction.
 - Changed `>>starboardlimit` to show the current limit if one isn't specified.
 - Changed `>>starboardchannel` to use the current channel if one isn't mentioned.
 - Fixed an error in `starboard_watcher` resulting in disabling the starboard having no effect.
 - Updated `>>randomcomicgenerator` to accommodate joining the three images returned by the web page. 
 - Changed `>>wfnightwave` to not have hardcoded XP amounts, which caused errors.  
+
+## Removed
+
+- Removed a duplicate of `clean_word`.
 
 ## 4.54.1095 Chito
 

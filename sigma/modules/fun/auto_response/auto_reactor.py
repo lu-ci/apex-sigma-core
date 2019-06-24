@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from sigma.modules.moderation.server_settings.collectionjar.collection_watcher import clean_word
+
 
 def match_trigger(text, trigger):
     """
@@ -27,8 +29,8 @@ def match_trigger(text, trigger):
     :return:
     :rtype: bool
     """
-    text_pieces = text.lower().split()
-    trigger_pieces = trigger.lower().split()
+    text_pieces = clean_word(text).split()
+    trigger_pieces = clean_word(trigger).split()
     matching_trigger = False
     if len(text_pieces) >= len(trigger_pieces):
         piece_location = None
@@ -62,7 +64,6 @@ async def auto_reactor(ev, pld):
                 # sort triggers by word count to avoid longer ones never triggering
                 triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
                 for trigger, reaction in triggers:
-                    # matches <string-start|non-word-char><trigger><string-end|non-word-char>
                     match = match_trigger(pld.msg.content, trigger)
                     if match:
                         # noinspection PyBroadException

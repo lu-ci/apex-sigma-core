@@ -70,10 +70,12 @@ async def generate_embed(msg):
     return response
 
 
-async def check_emotes(mid, sbl):
+async def check_emotes(mid, uid, sbl):
     """
     :param mid:
     :type mid: int
+    :param uid:
+    type uid: int
     :param sbl:
     :type sbl: int
     :return:
@@ -82,9 +84,10 @@ async def check_emotes(mid, sbl):
     trigger = False
     executed = await star_cache.get_cache(f'exec_{mid}')
     if not executed:
-        stars = await star_cache.get_cache(f'sbem_{mid}') or 0
-        stars += 1
-        if stars >= sbl:
+        stars = await star_cache.get_cache(f'sbem_{mid}') or []
+        if uid not in stars:
+            stars.append(uid)
+        if len(stars) >= sbl:
             trigger = True
             await star_cache.del_cache(f'sbem_{mid}')
             await star_cache.set_cache(f'exec_{mid}', True)
@@ -125,7 +128,7 @@ async def starboard_watcher(ev, pld):
                                 if user:
                                     if not user.bot:
                                         try:
-                                            enough = await check_emotes(mid, sbl)
+                                            enough = await check_emotes(mid, uid, sbl)
                                             if enough:
                                                 message = await channel.fetch_message(mid)
                                                 if not message.author.bot:

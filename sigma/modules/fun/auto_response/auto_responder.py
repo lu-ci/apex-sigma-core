@@ -35,7 +35,6 @@ async def auto_responder(ev, pld):
                 # sort triggers by word count to avoid longer ones never triggering
                 triggers = sorted(triggers.items(), key=lambda x: len(x[0].split()), reverse=True)
                 for trigger, response in triggers:
-                    # matches <string-start|non-word-char><trigger><string-end|non-word-char>
                     match = match_trigger(pld.msg.content, trigger)
                     if match:
                         response = command_message_parser(pld.msg, response)
