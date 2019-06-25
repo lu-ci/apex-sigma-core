@@ -8,7 +8,6 @@
 
 ### Changed
 
-- Updated `>>randomcomicgenerator` to accommodate joining the three images returned by the web page. 
 - Cleaned up the changelog a bit. Slightly less spelling and grammatical mistakes.
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
 - Added a unique user safeguard to prevent one user from spamming the reaction.
