@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import errno
 import hashlib
-import os
 
 METHOD = 'sha3_512'
 SHORT_HASH = ''.join("""

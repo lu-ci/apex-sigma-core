@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import discord
 
-
 REPO_URL = 'https://gitlab.com/lu-ci/sigma/apex-sigma'
 REPO_ICON = 'https://framablog.org/wp-content/uploads/2016/01/gitlab.png'
 REPO_TITLE = 'Apex Sigma: The Database Giant'

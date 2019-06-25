@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import string
 
-import discord
-
 from sigma.core.utilities.generic_responses import ok
 
 collector_loop_running = False

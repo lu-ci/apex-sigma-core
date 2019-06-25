@@ -16,11 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import hashlib
 import json
 
 import aiohttp
 import discord
-import hashlib
 
 from sigma.core.utilities.generic_responses import error
 

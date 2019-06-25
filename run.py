@@ -5,9 +5,9 @@ import os
 import subprocess
 import sys
 
-
 try:
     from sigma.core.sigma import ApexSigma
+
     modules_missing = False
 except (ImportError, ModuleNotFoundError):
     modules_missing = True

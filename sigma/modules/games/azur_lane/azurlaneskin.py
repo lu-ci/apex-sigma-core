@@ -48,5 +48,3 @@ async def azurlaneskin(cmd, pld):
     else:
         response = error('Invalid input. Please follow the usage example.')
     await pld.msg.channel.send(embed=response)
-
-

@@ -22,7 +22,6 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 
-
 suits = {'♥': 'Hearts', '♠': 'Spades', '♦': 'Diamonds', '♣': 'Clubs'}
 names = {1: 'Ace', 12: 'Jack', 13: 'Queen', 14: 'King'}
 

@@ -17,8 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import datetime
 import json
-import arrow
+
 import aiohttp
+import arrow
 import discord
 
 TIMER_URL = 'https://www.xenoveritas.org/static/ffxiv/timer.html'
@@ -81,7 +82,7 @@ def to_delta(arrow_object):
     """
     now = arrow.utcnow().timestamp
     aot = arrow_object.timestamp
-    out = datetime.timedelta(seconds=abs(now-aot))
+    out = datetime.timedelta(seconds=abs(now - aot))
     return str(out)
 
 
