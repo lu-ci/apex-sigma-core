@@ -11,21 +11,21 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} how are you; I am well!"
     description:  |
-                  Adds an auto-responder to the server. Sigma will automatically reply with the set message to any sentence that conaints the specified trigger in it as a standalone word. The trigger can be a word or phrase, separate the trigger from the response wuth a semicolon. Responders can have special dynamic arguments in them.
-                  {author_name}     - Message author name.
-                  {author_nick}     - Message author nickname.
-                  {author_mention}  - Tag the message author.
-                  {author_id}       - Message author's ID.
-                  {channel_name}    - Channel name.
-                  {channel_mention} - Channel tag.
-                  {channel_id}      - Channel ID.
-                  {server_name}     - Server name.
-                  {server_id}       - Server ID.
-                  {target_name}     - Target name.
-                  {target_nick}     - Target nickname.
-                  {target_mention}  - Tag the target.
-                  {target_id}       - Target ID.
-                  This command requires the Manage Server permission.
+      Adds an auto-responder to the server. Sigma will automatically reply with the set message to any sentence that conaints the specified trigger in it as a standalone word. The trigger can be a word or phrase, separate the trigger from the response wuth a semicolon. Responders can have special dynamic arguments in them.
+      {author_name}     - Message author name.
+      {author_nick}     - Message author nickname.
+      {author_mention}  - Tag the message author.
+      {author_id}       - Message author's ID.
+      {channel_name}    - Channel name.
+      {channel_mention} - Channel tag.
+      {channel_id}      - Channel ID.
+      {server_name}     - Server name.
+      {server_id}       - Server ID.
+      {target_name}     - Target name.
+      {target_nick}     - Target nickname.
+      {target_mention}  - Tag the target.
+      {target_id}       - Target ID.
+      This command requires the Manage Server permission.
 
   - name:         removeresponder
     alts:
@@ -35,8 +35,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
-                  Removes a custom responder trigger from the server.
-                  This command requires the Manage Server permission.
+      Removes a custom responder trigger from the server.
+      This command requires the Manage Server permission.
 
   - name:         responders
     alts:
@@ -44,9 +44,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 4"
     description:
-                  Shows a list of the server's custom responder triggers.
-                  The list is separated into pages of 10 items each.
-                  You can specify the page number you want to see.
+      Shows a list of the server's custom responder triggers.
+      The list is separated into pages of 10 items each.
+      You can specify the page number you want to see.
 
   - name:         chatterbot
     alts:
@@ -55,4 +55,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd}"
     description:
-                  Toggles the ChatterBot core on and off.
+      Toggles the ChatterBot core on and off.

@@ -11,9 +11,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-acolytes"
     description:
-                  Designates a channel for Warframe acolyte notifications.
-                  When an acolute is found it will be posted there.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe acolyte notifications.
+      When an acolute is found it will be posted there.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wfinvasionchannel
     alts:
@@ -21,9 +21,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-invasions"
     description:
-                  Designates a channel for Warframe invasions.
-                  When a new invasion shows up the news will be posted there.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe invasions.
+      When a new invasion shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wfnewschannel
     alts:
@@ -31,9 +31,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-news"
     description:
-                  Designates a channel for Warframe news.
-                  When Digital Extremes posts a news for Warframe it will be posted there.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe news.
+      When Digital Extremes posts a news for Warframe it will be posted there.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wffissurechannel
     alts:
@@ -41,9 +41,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-fissures"
     description:
-                  Designates a channel for Warframe void fissures.
-                  When a new void fissure shows up the news will be posted there.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe void fissures.
+      When a new void fissure shows up the news will be posted there.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wfsortiechannel
     alts:
@@ -51,9 +51,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-sorties"
     description:
-                  Designates a channel for Warframe sorties.
-                  When a new sortie shows up the details will be posted there.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe sorties.
+      When a new sortie shows up the details will be posted there.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wfplainschannel
     alts:
@@ -61,9 +61,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #wf-daylight"
     description:
-                  Designates a channel for Warframe plains of eidolon day-night cycle.
-                  When day shifts to night, and vice versa, a notification is sent to that channel.
-                  To disable this, write disable after the command instead of a channel.
+      Designates a channel for Warframe plains of eidolon day-night cycle.
+      When day shifts to night, and vice versa, a notification is sent to that channel.
+      To disable this, write disable after the command instead of a channel.
 
   - name:         wftag
     alts:
@@ -73,6 +73,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} aura Aura Squad"
     description:
-                  Binds a certain keyword to a role.
-                  When this keyword appears in any Warframe post, all roles bound to its triggers will be mentioned.
-                  Enter "disable" instead of a role name to remove the tag binding.
+      Binds a certain keyword to a role.
+      When this keyword appears in any Warframe post, all roles bound to its triggers will be mentioned.
+      Enter "disable" instead of a role name to remove the tag binding.

@@ -14,7 +14,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
     description:
-                  Marks a user as blacklisted, disallowing them to use any command.
+      Marks a user as blacklisted, disallowing them to use any command.
 
   - name:         blacklistserver
     alts:
@@ -27,8 +27,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
     description:
-                  Marks a server as blacklisted.
-                  This disallows any user on that server from using commands.
+      Marks a server as blacklisted.
+      This disallows any user on that server from using commands.
 
   - name:         blacklistmodule
     alts:
@@ -40,7 +40,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789 minigames"
     description:
-                  Disallows a person from using a specific module category.
+      Disallows a person from using a specific module category.
 
   - name:         blacklistcommand
     alts:
@@ -52,7 +52,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789 pun"
     description:
-                  Disallows a person from using a specific command.
+      Disallows a person from using a specific command.
 
   - name:         sabotageuser
     alts:
@@ -63,4 +63,4 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 0123456789"
     description:
-                  Sabotages a user making them have extreme bad luck in various modules.
+      Sabotages a user making them have extreme bad luck in various modules.

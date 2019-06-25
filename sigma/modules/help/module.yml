@@ -13,8 +13,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} fish"
     description:
-                  Provides the link to Sigma's website and support server.
-                  To view information on a specific command, add that command's name as an argument.
+      Provides the link to Sigma's website and support server.
+      To view information on a specific command, add that command's name as an argument.
 
   - name:         commands
     alts:
@@ -26,8 +26,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} minigames"
     description:
-                  Lists all of Sigma's available modules.
-                  To view the commands within a specific module, add the module's name as an argument.
+      Lists all of Sigma's available modules.
+      To view the commands within a specific module, add the module's name as an argument.
 
   - name:         invite
     alts:
@@ -36,14 +36,14 @@ commands:
     permissions:
       dmable:     true
     description:
-                  Provides Sigma's invitation link to add her to your server.
+      Provides Sigma's invitation link to add her to your server.
 
   - name:         donate
     enabled:      true
     permissions:
       dmable:     true
     description:
-                  Shows donation information for Sigma.
+      Shows donation information for Sigma.
 
   - name:         showlicense
     alts:
@@ -52,7 +52,7 @@ commands:
     permissions:
       dmable:     true
     description:
-                  Shows the license of the Apex Sigma project.
+      Shows the license of the Apex Sigma project.
 
   - name:         repository
     alts:
@@ -62,8 +62,8 @@ commands:
     permissions:
       dmable:     true
     description:
-                  Shows the link to the project's repository page.
-                  You can add "--text" to the command to show just the link as pure text.
+      Shows the link to the project's repository page.
+      You can add "--text" to the command to show just the link as pure text.
 
 events:
   - name:         dm_detection

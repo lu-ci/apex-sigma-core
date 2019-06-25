@@ -11,7 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Proposes to the mentioned user.
+      Proposes to the mentioned user.
 
   - name:         divorce
     alts:
@@ -19,8 +19,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Divorces the mentioned user that you are married with.
-                  Divorces cost 15 Kud per hour that you were married.
+      Divorces the mentioned user that you are married with.
+      Divorces cost 15 Kud per hour that you were married.
 
   - name:         spouses
     alts:
@@ -31,4 +31,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows the mentioned user's list of spouses, that is, people that they're married to.
+      Shows the mentioned user's list of spouses, that is, people that they're married to.

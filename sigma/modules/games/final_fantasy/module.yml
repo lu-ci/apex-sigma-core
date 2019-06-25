@@ -12,4 +12,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd}"
     description:
-                  Shows the timers for all FFXIV events and resets.
+      Shows the timers for all FFXIV events and resets.

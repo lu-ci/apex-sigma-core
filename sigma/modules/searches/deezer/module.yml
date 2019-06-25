@@ -12,5 +12,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Highway to Hell"
     description:
-                  Searches Deezer for infomation on the specified song.
-                  The output will include a song preview link.
+      Searches Deezer for infomation on the specified song.
+      The output will include a song preview link.

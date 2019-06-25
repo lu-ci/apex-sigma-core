@@ -13,11 +13,11 @@ commands:
       - "add_reactions"
     usage:        "{pfx}{cmd} 48:30:59 50,000 Kud"
     description:
-                  Starts a raffle with a given timer and title.
-                  Entering the raffle works by reacting to Sigma's embed message
-                  with an automatically given reaction. When the timer runs out
-                  a message will appear in the channel the raffle was made in
-                  and the creator of the raffle and the winner will be tagged.
+      Starts a raffle with a given timer and title.
+      Entering the raffle works by reacting to Sigma's embed message
+      with an automatically given reaction. When the timer runs out
+      a message will appear in the channel the raffle was made in
+      and the creator of the raffle and the winner will be tagged.
 
   - name:         redrawraffle
     alts:
@@ -27,15 +27,15 @@ commands:
       - "add_reactions"
     usage:        "{pfx}{cmd} 1abc9c"
     description:
-                  Redraws a raffle in case that's ever needed.
-                  This command is only usable by the author of the raffle.
-                  To redraw a raffle use the raffle's ID that can be found in its footer.
-                  This command has no response aside from a reaction to your message.
-                  A raffle needs to be marked as ended before it can be redrawn.
-                  green check mark - redraw successful
-                  magnifying glass - raffle not found
-                  no entry sign    - you aren't the raffle creator
-                  exclamation mark - no arguments given
+      Redraws a raffle in case that's ever needed.
+      This command is only usable by the author of the raffle.
+      To redraw a raffle use the raffle's ID that can be found in its footer.
+      This command has no response aside from a reaction to your message.
+      A raffle needs to be marked as ended before it can be redrawn.
+      green check mark - redraw successful
+      magnifying glass - raffle not found
+      no entry sign    - you aren't the raffle creator
+      exclamation mark - no arguments given
 
   - name:         endraffle
     alts:
@@ -45,14 +45,14 @@ commands:
       - "add_reactions"
     usage:        "{pfx}{cmd} 1abc9c"
     description:
-                  Prematurely ends a raffle.
-                  This command is only usable by the author of the raffle.
-                  To end a raffle use the raffle's ID that can be found in its footer.
-                  This command has no response aside from a reaction to your message.
-                  green check mark - redraw successful
-                  magnifying glass - raffle not found
-                  no entry sign    - you aren't the raffle creator
-                  exclamation mark - no arguments given
+      Prematurely ends a raffle.
+      This command is only usable by the author of the raffle.
+      To end a raffle use the raffle's ID that can be found in its footer.
+      This command has no response aside from a reaction to your message.
+      green check mark - redraw successful
+      magnifying glass - raffle not found
+      no entry sign    - you aren't the raffle creator
+      exclamation mark - no arguments given
 
   - name:         listraffles
     alts:
@@ -62,8 +62,8 @@ commands:
     requirements:
       - "add_reactions"
     description:
-                  Lists all your ongoing raffles and their information,
-                  such as when they end and in what channel.
+      Lists all your ongoing raffles and their information,
+      such as when they end and in what channel.
 
 events:
   - name:    raffle_clockwork

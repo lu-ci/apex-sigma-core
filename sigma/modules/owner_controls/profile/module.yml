@@ -14,9 +14,9 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} https://my_fomain.net/my_avatar.png"
     description:
-                  Sets the avatar of Sigma either to the linked or attached image.
-                  The officially supported formats for bot avatars are JPG and PNG images.
-                  Note that bots, like all users, have limited profile changes per time period.
+      Sets the avatar of Sigma either to the linked or attached image.
+      The officially supported formats for bot avatars are JPG and PNG images.
+      Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setusername
     alts:
@@ -27,8 +27,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} Supreme Bot"
     description:
-                  Sets the name of Sigma to the specified text.
-                  Note that bots, like all users, have limited profile changes per time period.
+      Sets the name of Sigma to the specified text.
+      Note that bots, like all users, have limited profile changes per time period.
 
   - name:         setstatus
     enabled:      true
@@ -37,9 +37,9 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} with fishies"
     description:
-                  Sets the current playing status of Sigma.
-                  To use this, the automatic status rotation needs to be disabled.
-                  It can be toggled with the togglestatus command.
+      Sets the current playing status of Sigma.
+      To use this, the automatic status rotation needs to be disabled.
+      It can be toggled with the togglestatus command.
 
   - name:         addstatus
     enabled:      true
@@ -48,7 +48,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} with tentacles"
     description:
-                  Adds a status message to Sigma's database for automatic status rotation.
+      Adds a status message to Sigma's database for automatic status rotation.
 
   - name:         removestatus
     alts:
@@ -59,7 +59,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 1d9cae144f"
     description:
-                  Removes a status with the specified ID from Sigma's status database.
+      Removes a status with the specified ID from Sigma's status database.
 
   - name:         togglestatus
     enabled:      true
@@ -67,7 +67,7 @@ commands:
       owner:      true
       dmable:     true
     description:
-                  Toggles if the automatic status rotation is enabled or disabled.
+      Toggles if the automatic status rotation is enabled or disabled.
 
   - name:         liststatuses
     alts:
@@ -77,4 +77,4 @@ commands:
       owner:      true
       dmable:     true
     description:
-                  Shows the list of statuses in the status database.
+      Shows the list of statuses in the status database.

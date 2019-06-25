@@ -11,48 +11,48 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Kaskade Disarm You Illenium Remix"
     description:
-                  Queues up a song to play from YouTube.
-                  Either from a direct URL or text search.
-                  Playlists are supported but take a long time to process.
+      Queues up a song to play from YouTube.
+      Either from a direct URL or text search.
+      Playlists are supported but take a long time to process.
 
   - name:         play
     alts:
       - "start"
     enabled:      true
     description:
-                  Starts playing the music queue.
+      Starts playing the music queue.
 
   - name:         pause
     enabled:      true
     description:
-                  Pauses the music player.
+      Pauses the music player.
 
   - name:         resume
     enabled:      true
     description:
-                  Resumes the music player.
+      Resumes the music player.
 
   - name:         disconnect
     alts:
       - "stop"
     enabled:      true
     description:
-                  Stops the music, disconnects Sigma from the current voice channel,
-                  and purges the music queue.
+      Stops the music, disconnects Sigma from the current voice channel,
+      and purges the music queue.
 
   - name:         summon
     alts:
       - "move"
     enabled:      true
     description:
-                  If Sigma isn't connected to any channel, she will connect to yours.
-                  If it is connected, it will move to you.
+      If Sigma isn't connected to any channel, she will connect to yours.
+      If it is connected, it will move to you.
 
   - name:         repeat
     enabled:      true
     description:
-                  Toggles if the current queue should be repeated.
-                  Whenever a song is played, it's re-added to the end of the queue.
+      Toggles if the current queue should be repeated.
+      Whenever a song is played, it's re-added to the end of the queue.
 
   - name:         unqueue
     alts:
@@ -60,15 +60,15 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 5"
     description:
-                  Removes a song from the queue.
-                  Minimum number is 1 and the maximum is however many items the queue has.
+      Removes a song from the queue.
+      Minimum number is 1 and the maximum is however many items the queue has.
 
   - name:         skip
     alts:
       - "next"
     enabled:      true
     description:
-                  Skips the currently playing song.
+      Skips the currently playing song.
 
   - name:         nowplaying
     alts:
@@ -77,12 +77,12 @@ commands:
       - "np"
     enabled:      true
     description:
-                  Shows information on the currently playing song.
+      Shows information on the currently playing song.
 
   - name:         shuffle
     enabled:      true
     description:
-                  Randomizes the current song queue.
+      Randomizes the current song queue.
 
   - name:         lyrics
     alts:
@@ -90,6 +90,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Imagine Dragons - Radioactive"
     description:
-                  Searches for the lyrics of the specified song.
-                  Requires both the song and artist, separated by a dash "-".
-                  If no arguments are given, it will try to get the currently playing song's lyrics.
+      Searches for the lyrics of the specified song.
+      Requires both the song and artist, separated by a dash "-".
+      If no arguments are given, it will try to get the currently playing song's lyrics.

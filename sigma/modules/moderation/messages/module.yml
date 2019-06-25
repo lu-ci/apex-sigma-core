@@ -13,16 +13,16 @@ commands:
     requirements:
       - "manage_messages"
     description:
-                  Deletes any messages posted by the mentioned user within the last X messages.
-                  If a user is not provided, it will prune the last X messages regardless of poster.
-                  If a number is not provided it will prune all messages posted by the mentioned user within the last 100 messages.
-                  If neither number nor user is provided, it will prune Sigma's messages within the last 100 messages.
-                  If you add "attachments" to the command arguments it will only purge messages that have attachments.
-                  If you add "emotes" to the command arguments it will only purge messages that are just emotes.
-                  If you add "content:something you want gone" to the command arguments it will only delete messages
-                  that have the specified content after "content:" in them, which can be a word or a sentence.
-                  Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
-                  This command requires the Manage Messages permission.
+      Deletes any messages posted by the mentioned user within the last X messages.
+      If a user is not provided, it will prune the last X messages regardless of poster.
+      If a number is not provided it will prune all messages posted by the mentioned user within the last 100 messages.
+      If neither number nor user is provided, it will prune Sigma's messages within the last 100 messages.
+      If you add "attachments" to the command arguments it will only purge messages that have attachments.
+      If you add "emotes" to the command arguments it will only purge messages that are just emotes.
+      If you add "content:something you want gone" to the command arguments it will only delete messages
+      that have the specified content after "content:" in them, which can be a word or a sentence.
+      Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
+      This command requires the Manage Messages permission.
 
   - name:         removereaction
     alts:
@@ -33,9 +33,9 @@ commands:
     requirements:
       - "manage_messages"
     description:
-                  Removes the given emote from the specified message.
-                  Specify the message by its ID. If the emote is custom, use its name, otherwise use the actual emote.
-                  This command requires the Manage Messages permission.
+      Removes the given emote from the specified message.
+      Specify the message by its ID. If the emote is custom, use its name, otherwise use the actual emote.
+      This command requires the Manage Messages permission.
 
   - name:         textmute
     alts:
@@ -45,11 +45,11 @@ commands:
     requirements:
       - "manage_messages"
     description:
-                  Disallows the user from typing. Well technically, it will make Sigma auto delete any message they send.
-                  You can add a reason after the user mention if desired. Users with the Those with the Administrator
-                  permission are not affected. You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
-                  The user will be automatically unmuted after the duration elapses.
-                  This command requires the Manage Messages permission.
+      Disallows the user from typing. Well technically, it will make Sigma auto delete any message they send.
+      You can add a reason after the user mention if desired. Users with the Those with the Administrator
+      permission are not affected. You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
+      The user will be automatically unmuted after the duration elapses.
+      This command requires the Manage Messages permission.
 
   - name:         textunmute
     alts:
@@ -59,9 +59,9 @@ commands:
     requirements:
       - "manage_messages"
     description:
-                  Removes the mentioned person from the list of muted users,
-                  making Sigma no longer delete their messages.
-                  This command requires the Manage Messages permission.
+      Removes the mentioned person from the list of muted users,
+      making Sigma no longer delete their messages.
+      This command requires the Manage Messages permission.
 
 events:
   - name:         mute_checker

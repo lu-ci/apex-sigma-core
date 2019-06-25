@@ -13,8 +13,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} dictionary"
     description:
-                  Looks up the definition for a word or term in the Urban Dictionary.
-                  It is strongly suggested to take these with a grain of salt.
+      Looks up the definition for a word or term in the Urban Dictionary.
+      It is strongly suggested to take these with a grain of salt.
 
   - name:         dictionary
     alts:
@@ -25,7 +25,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} cork"
     description:
-                  Searches the Oxford dictionary for the definition of your input.
+      Searches the Oxford dictionary for the definition of your input.
 
   - name:         synonyms
     alts:
@@ -34,7 +34,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} ocean"
     description:
-                  Looks up words that have exactly or nearly the same meaning as the specified term.
+      Looks up words that have exactly or nearly the same meaning as the specified term.
 
   - name:         antonyms
     alts:
@@ -43,7 +43,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} late"
     description:
-                  Looks up words that have the opposite meaning of the specified term.
+      Looks up words that have the opposite meaning of the specified term.
 
   - name:         homophones
     alts:
@@ -51,7 +51,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} coarse"
     description:
-                  Looks up words that sound like the specified term.
+      Looks up words that sound like the specified term.
 
   - name:         describe
     alts:
@@ -59,7 +59,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} noun ocean"
     description:
-                  "Looks up words that are often used to describe nouns or
+      "Looks up words that are often used to describe nouns or
       are often used by the adjective. Specify the mode in the
       first argument. adjectives, adjective, adj, a: To look
       up nouns that are often described by an adjective. nouns,
@@ -71,7 +71,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} forgetful"
     description:
-                  Looks up words that rhymes with the specified term.
+      Looks up words that rhymes with the specified term.
 
   - name:         spelledlike
     alts:
@@ -81,9 +81,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} coneticut"
     description:  |
-                  Looks up words that are spelled similarly to the specified term. Supports the following wildcards:
-                  ? - one character
-                  * - one or many characters
+      Looks up words that are spelled similarly to the specified term. Supports the following wildcards:
+      ? - one character
+      * - one or many characters
 
   - name:         soundslike
     alts:
@@ -91,4 +91,4 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} elefint"
     description:
-                  Looks up words that sound similar to the specified term.
+      Looks up words that sound similar to the specified term.

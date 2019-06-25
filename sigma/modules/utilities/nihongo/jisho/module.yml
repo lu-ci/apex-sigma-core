@@ -9,12 +9,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Kawaii"
     description:
-                  Searches Jisho, which is the Japanese language dictionary, for the specified term.
-                  Returns various types of information regarding the term.
+      Searches Jisho, which is the Japanese language dictionary, for the specified term.
+      Returns various types of information regarding the term.
 
   - name:         kanji
     enabled:      true
     usage:        "{pfx}{cmd} 夢"
     description:
-                  Searches Jisho, which is the Japanese language dictionary, for specified kanji.
-                  Returns stroke count, stroke order, parts, variants, meanings, and readings.
+      Searches Jisho, which is the Japanese language dictionary, for specified kanji.
+      Returns stroke count, stroke order, parts, variants, meanings, and readings.

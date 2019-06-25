@@ -14,12 +14,12 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 2 @person"
     description:
-                  Shows the current inventory of the mentioned user.
-                  If no user is mentioned, it will show the author's inventory.
-                  The inventory has 64 slots at the start but can be upgraded in the shop.
-                  You can also specify the page number you want to see.
-                  The inventory is sorted by item rarity and items used
-                  in recipes are marked with an asterisk.
+      Shows the current inventory of the mentioned user.
+      If no user is mentioned, it will show the author's inventory.
+      The inventory has 64 slots at the start but can be upgraded in the shop.
+      You can also specify the page number you want to see.
+      The inventory is sorted by item rarity and items used
+      in recipes are marked with an asterisk.
 
   - name:         inspect
     alts:
@@ -27,9 +27,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Nabfischz"
     description:
-                  Shows the name, value, and description of the specified item
-                  If you have this item in your inventory an Item ID will be in the footer.
-                  Also shows how many times you've caught this item.
+      Shows the name, value, and description of the specified item
+      If you have this item in your inventory an Item ID will be in the footer.
+      Also shows how many times you've caught this item.
 
 
   - name:         recipes
@@ -38,10 +38,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} --meals --craftable"
     description:
-                  Lists all recipes available for making. You can filter the recipes by type by adding "--desserts", "--meals",
-                  or "--drinks" as an argument. You can also filter the recipes by whether you have all the ingredients or not
-                  by adding "--craftable" as an argument. All filters go after the page number, if you specify one.
-                  The recipe list is limited to 10 items per page. You can specify the page number you want to see.
+      Lists all recipes available for making. You can filter the recipes by type by adding "--desserts", "--meals",
+      or "--drinks" as an argument. You can also filter the recipes by whether you have all the ingredients or not
+      by adding "--craftable" as an argument. All filters go after the page number, if you specify one.
+      The recipe list is limited to 10 items per page. You can specify the page number you want to see.
 
   - name:         cook
     alts:
@@ -49,14 +49,14 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Shade Tea"
     description:
-                  Uses a recipe to create an item from raw resources that you've gathered.
-                  You can see all available recipes with the recipes command.
+      Uses a recipe to create an item from raw resources that you've gathered.
+      You can see all available recipes with the recipes command.
 
   - name:         chances
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows a table with your item chance statistics.
+      Shows a table with your item chance statistics.
 
   - name:         viewrecipe
     alts:
@@ -65,30 +65,30 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Shade Tea"
     description:
-                  Shows details on the specified recipe,
-                  such as the ingredients required, value of the item, and its description.
+      Shows details on the specified recipe,
+      such as the ingredients required, value of the item, and its description.
 
   - name:         sell
     enabled:      true
     usage:        "{pfx}{cmd} Copula"
     description:
-                  Sells an item from your inventory.
-                  Input "all" instead of the item name to sell your entire inventory.
-                  Input "duplicates" instead of the item name to sell all duplicate items.
+      Sells an item from your inventory.
+      Input "all" instead of the item name to sell your entire inventory.
+      Input "duplicates" instead of the item name to sell all duplicate items.
 
   - name:         buyupgrade
     alts:
       - "shop"
     enabled:      true
     description:
-                  Opens Sigma's profession upgrade shop.
+      Opens Sigma's profession upgrade shop.
 
   - name:         upgrades
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows your current upgrade levels.
-                  You can view another user's upgrades by mentioning them.
+      Shows your current upgrade levels.
+      You can view another user's upgrades by mentioning them.
 
   - name:         filtersell
     alts:
@@ -96,27 +96,27 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} rarity:Legendary"
     description:
-                  Sells all items that have a certain attribute.
-                  The accepted attributes are name, type, and rarity.
+      Sells all items that have a certain attribute.
+      The accepted attributes are name, type, and rarity.
 
   - name:         fish
     enabled:      true
     description:
-                  Cast a lure and try to catch some fish.
-                  You can fish once every 60 seconds, better not scare the fish away.
+      Cast a lure and try to catch some fish.
+      You can fish once every 60 seconds, better not scare the fish away.
 
   - name:         hunt
     enabled:      true
     description:
-                  Go into the wilderness and hunt for game.
-                  You can hunt once every 60 seconds, everyone needs rest.
+      Go into the wilderness and hunt for game.
+      You can hunt once every 60 seconds, everyone needs rest.
 
   - name:         forage
     enabled:      true
     description:
-                  Go hiking and search nature for all the delicious bounties it has.
-                  Look for plants that you might want to use for cooking in the future.
-                  You can forage once every 60 seconds, hiking is really tiring.
+      Go hiking and search nature for all the delicious bounties it has.
+      Look for plants that you might want to use for cooking in the future.
+      You can forage once every 60 seconds, hiking is really tiring.
 
   - name:         inventorystats
     alts:
@@ -125,9 +125,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows the statistics of the your inventory.
-                  The number of items per type and per rarity.
-                  You can view another person's stats by mentioning them.
+      Shows the statistics of the your inventory.
+      The number of items per type and per rarity.
+      You can view another person's stats by mentioning them.
 
   - name:         itemstatistics
     alts:
@@ -135,28 +135,28 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows the statistics of your item history.
-                  How much of which item you've caught, that is.
-                  It's sorted by the most caught to the least caught items.
-                  Items that you've never obtained are not shown.
-                  You can view another person's statistics by mentioning them.
+      Shows the statistics of your item history.
+      How much of which item you've caught, that is.
+      It's sorted by the most caught to the least caught items.
+      Items that you've never obtained are not shown.
+      You can view another person's statistics by mentioning them.
 
   - name:         allitems
     enabled:      true
     usage:        "{pfx}{cmd} desserts"
     description:
-                  Shows the entire item pool.
-                  You can specify a type to only show items of that type.
-                  You can also specify the page number you want to see,
-                  this goes after the item type if you give one.
-                  The item pool is sorted by item rarity.
-                  Items used in recipes are marked with an asterisk.
+      Shows the entire item pool.
+      You can specify a type to only show items of that type.
+      You can also specify the page number you want to see,
+      this goes after the item type if you give one.
+      The item pool is sorted by item rarity.
+      Items used in recipes are marked with an asterisk.
 
   - name:         allitemstats
     enabled:      true
     description:
-                  Shows the statistics of the entire item pool.
-                  The number of items per type and per rarity.
+      Shows the statistics of the entire item pool.
+      The number of items per type and per rarity.
 
 events:
   - name:         dbinit_items

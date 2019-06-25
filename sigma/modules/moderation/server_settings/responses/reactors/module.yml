@@ -11,10 +11,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi there :lcHello:"
     description:
-                  Adds an automatic reactor to the server. Whenever the specified trigger is detected,
-                  Sigma will react to the message with the specified emote. The trigger can be a word or phrase.
-                  The ":lcHello:" above given in the example is a custom emote.
-                  This command requires the Manage Server permission.
+      Adds an automatic reactor to the server. Whenever the specified trigger is detected,
+      Sigma will react to the message with the specified emote. The trigger can be a word or phrase.
+      The ":lcHello:" above given in the example is a custom emote.
+      This command requires the Manage Server permission.
 
   - name:         removereactor
     alts:
@@ -24,8 +24,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} hi"
     description:
-                  Removes an automatic reaction trigger.
-                  This command requires the Manage Server permission.
+      Removes an automatic reaction trigger.
+      This command requires the Manage Server permission.
 
   - name:         reactors
     alts:
@@ -33,6 +33,6 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 4"
     description:
-                  Shows a list of the server's reaction triggers.
-                  The list is separated into pages of 10 items each.
-                  You can specify the page number you want to see.
+      Shows a list of the server's reaction triggers.
+      The list is separated into pages of 10 items each.
+      You can specify the page number you want to see.

@@ -14,9 +14,9 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} 8e39c9bb Some Title; This does a thing!"
     description:
-                  Approves a submitted suggestion and notifies the submitter.
-                  If there are GitLab credentials in the command's config, it'll make an issue as well.
-                  First the suggestion ID, then the suggestion title and notes separated by a semicolon and space.
+      Approves a submitted suggestion and notifies the submitter.
+      If there are GitLab credentials in the command's config, it'll make an issue as well.
+      First the suggestion ID, then the suggestion title and notes separated by a semicolon and space.
 
   - name:         declinesuggestion
     alts:
@@ -27,4 +27,4 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} 8e39c9bb Some Title; This does a thing!"
     description:
-                  Declines a submitted suggestion and notifies the submitter.
+      Declines a submitted suggestion and notifies the submitter.

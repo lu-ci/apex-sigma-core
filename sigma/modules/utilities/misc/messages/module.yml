@@ -11,7 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Beep, bop-boop!"
     description:
-                  Makes Sigma repeat what you entered, simple enough.
+      Makes Sigma repeat what you entered, simple enough.
 
   - name:         embedecho
     alts:
@@ -20,5 +20,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Beep, bop-boop!"
     description:
-                  Just like echo, but the message is an embed object
-                  that has you as the author, your color, and the time it was executed.
+      Just like echo, but the message is an embed object
+      that has you as the author, your color, and the time it was executed.

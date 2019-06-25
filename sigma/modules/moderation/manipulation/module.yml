@@ -11,7 +11,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} 1234567890; New Voice"
     description:
-                  Moves all members from one voice channel to another. Both channels
-                  require an identifier;either its name or its ID. The channel identifiers
-                  channel should be separated with a semicolon and a space "; ".
-                  This command requires the Manage Server permission.
+      Moves all members from one voice channel to another. Both channels
+      require an identifier;either its name or its ID. The channel identifiers
+      channel should be separated with a semicolon and a space "; ".
+      This command requires the Manage Server permission.

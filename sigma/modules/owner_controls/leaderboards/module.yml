@@ -14,7 +14,7 @@ commands:
       owner:      true
       dmable:     false
     description:
-                  Award all the leaderboards with appropirate amounts of currency and resets their ranked values.
+      Award all the leaderboards with appropirate amounts of currency and resets their ranked values.
 
 events:
   - name:         leaderboard_clock

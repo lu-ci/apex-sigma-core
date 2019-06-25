@@ -11,8 +11,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Game Grumps"
     description:
-                  A simple YouTube search.
-                  Outputs the resulting video's information and URL.
-                  You can add "--text" at the end of your search to make it a
-                  normal URL to the video instead of an embed with information.
+      A simple YouTube search.
+      Outputs the resulting video's information and URL.
+      You can add "--text" at the end of your search to make it a
+      normal URL to the video instead of an embed with information.
 

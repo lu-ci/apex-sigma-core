@@ -11,8 +11,8 @@ commands:
       owner:      true
       dmable:     true
     description:
-                  Reloads all of the modules in Sigma.
-                  This includes both commands and events.
+      Reloads all of the modules in Sigma.
+      This includes both commands and events.
 
   - name:         forcedataupdate
     alts:
@@ -22,8 +22,8 @@ commands:
       owner:      true
       dmable:     true
     description:
-                  Forces all static content data in the databse to be updated
-                  from the repository's static file storage.
+      Forces all static content data in the databse to be updated
+      from the repository's static file storage.
 
   - name:         shutdown
     enabled:      true
@@ -31,7 +31,7 @@ commands:
       owner:      true
       dmable:     true
     description:
-                  Forces Sigma to disconnect from Discord and shut down all processes.
+      Forces Sigma to disconnect from Discord and shut down all processes.
 
   - name:         geterror
     enabled:      true
@@ -40,7 +40,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 9a2e9a374ac90294f225782f362e2ab1"
     description:
-                  Gets an error's details using the specified token.
+      Gets an error's details using the specified token.
 
   - name:         removeinteraction
     alts:
@@ -52,7 +52,7 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 1ba2e263"
     description:
-                  Remove an interaction with the specified ID.
+      Remove an interaction with the specified ID.
 
   - name:         setcooldown
     alts:
@@ -63,8 +63,8 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} roll 50"
     description:
-                  Sets a global cooldown on a command.
-                  The cooldown is user-bound and specified in seconds.
+      Sets a global cooldown on a command.
+      The cooldown is user-bound and specified in seconds.
 
   - name:         getinteraction
     alts:
@@ -75,4 +75,4 @@ commands:
       dmable:     true
     usage:        "{pfx}{cmd} 4242ea69"
     description:
-                  Retrieves the source image for the interaction with the specified ID.
+      Retrieves the source image for the interaction with the specified ID.

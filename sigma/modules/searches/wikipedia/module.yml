@@ -11,5 +11,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Thread (Computing)"
     description:
-                  Returns the summary of the specified wikipedia page.
-                  If a search is too general, an error will be returned.
+      Returns the summary of the specified wikipedia page.
+      If a search is too general, an error will be returned.

@@ -12,7 +12,7 @@ commands:
     permissions:
       nsfw:       true
     description:
-                  Outputs a random NSFW image focusing on the breasts of the model.
+      Outputs a random NSFW image focusing on the breasts of the model.
 
   - name:         butts
     alts:
@@ -21,7 +21,7 @@ commands:
     permissions:
       nsfw:       true
     description:
-                  Outputs a random NSFW image focusing on the butt of the model.
+      Outputs a random NSFW image focusing on the butt of the model.
 
   - name:         e621
     enabled:      true
@@ -29,10 +29,10 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} knot"
     description:
-                  Searches E621 for the specified tag.
-                  If no tag is given, the keyword "nude" will be used.
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches E621 for the specified tag.
+      If no tag is given, the keyword "nude" will be used.
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
 
   - name:         gelbooru
     alts:
@@ -42,10 +42,10 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} ovum"
     description:
-                  Searches Gelbooru for the specified tag.
-                  If no tag is given, the keyword "nude" will be used
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches Gelbooru for the specified tag.
+      If no tag is given, the keyword "nude" will be used
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
 
   - name:         xbooru
     alts:
@@ -55,10 +55,10 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} ovum"
     description:
-                  Searches Xbooru for the specified tag.
-                  If no tag is given, the keyword "nude" will be used.
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches Xbooru for the specified tag.
+      If no tag is given, the keyword "nude" will be used.
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
 
   - name:         keyvis
     enabled:      true
@@ -66,18 +66,18 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} kud"
     description:  |
-                  Returns a Key Visual Arts VN CG.
-                  It picks a random VN and a random CG from that VN.
-                  You can specify the VN you want the CG to be from.
-                  "kud"    - Kud Wafter
-                  "air"    - Air
-                  "kanon"  - Kanon
-                  "little" - Little Busters
-                  "clan"   - Clannad
-                  "plan"   - Planetarian
-                  "rewr"   - Rewrite
-                  "harv"   - Rewrite Harvest Festa
-                  This command is NSFW due to some CGs being explicit.
+      Returns a Key Visual Arts VN CG.
+      It picks a random VN and a random CG from that VN.
+      You can specify the VN you want the CG to be from.
+      "kud"    - Kud Wafter
+      "air"    - Air
+      "kanon"  - Kanon
+      "little" - Little Busters
+      "clan"   - Clannad
+      "plan"   - Planetarian
+      "rewr"   - Rewrite
+      "harv"   - Rewrite Harvest Festa
+      This command is NSFW due to some CGs being explicit.
 
   - name:         konachan
     alts:
@@ -87,10 +87,10 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} thighhighs"
     description:
-                  Searches Konachan for the specified tag.
-                  If no tag is given, the keyword "nude" will be used.
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches Konachan for the specified tag.
+      If no tag is given, the keyword "nude" will be used.
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
 
   - name:         rule34
     alts:
@@ -100,10 +100,10 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} switch"
     description:
-                  Searches Rule34 for the specified tag.
-                  If no tag is given, the keyword "nude" will be used
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches Rule34 for the specified tag.
+      If no tag is given, the keyword "nude" will be used
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
 
   - name:         yandere
     alts:
@@ -113,7 +113,7 @@ commands:
       nsfw:       true
     usage:        "{pfx}{cmd} naked_apron"
     description:
-                  Searches yandere for the specified tag.
-                  If no tag is given, the keyword "nude" will be used.
-                  Separate different tags with a space and replace spaces within
-                  a single tag with underscores "_".
+      Searches yandere for the specified tag.
+      If no tag is given, the keyword "nude" will be used.
+      Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".

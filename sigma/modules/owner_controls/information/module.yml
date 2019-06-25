@@ -14,8 +14,8 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} AXAz0r#0001"
     description:
-                  Shows information and data on the specified user.
-                  The lookup is by either Name#Discriminator or by user ID.
+      Shows information and data on the specified user.
+      The lookup is by either Name#Discriminator or by user ID.
 
 
   - name:         oserverinformation
@@ -27,8 +27,8 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} Lucia's Cipher"
     description:
-                  Shows information and data on the specified server.
-                  The lookup is by either name or guild ID.
+      Shows information and data on the specified server.
+      The lookup is by either name or guild ID.
 
   - name:         usermembership
     alts:
@@ -39,8 +39,8 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} 137951917644054529"
     description:
-                  Shows membership information and data on the specified user.
-                  The lookup is by either Name#Discriminator or by user ID.
+      Shows membership information and data on the specified user.
+      The lookup is by either Name#Discriminator or by user ID.
 
   - name:         oserverbots
     alts:
@@ -50,5 +50,5 @@ commands:
       owner:      true
     usage:        "{pfx}{cmd} Lucia's Cipher"
     description:
-                  Lists the bots and their statuses on the specified server.
-                  The lookup is by either name or by guild ID.
+      Lists the bots and their statuses on the specified server.
+      The lookup is by either name or by guild ID.

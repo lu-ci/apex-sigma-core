@@ -13,5 +13,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} ethereum"
     description:
-                  Shows the statistics for the specified crypto currency.
-                  Stats include the current market cap, price, supply, volume, and change.
+      Shows the statistics for the specified crypto currency.
+      Stats include the current market cap, price, supply, volume, and change.

@@ -12,11 +12,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows the mentioned user's avatar.
-                  If no user is mentioned, it shows the author's avatar.
-                  You can add "gif" to the end of the command to indicate that it's a gif.
-                  Or you can add "auto" to show the predominant color of the image.
-                  You can also add "static" to the end to make it return the full sized static version of your avatar.
+      Shows the mentioned user's avatar.
+      If no user is mentioned, it shows the author's avatar.
+      You can add "gif" to the end of the command to indicate that it's a gif.
+      Or you can add "auto" to show the predominant color of the image.
+      You can also add "static" to the end to make it return the full sized static version of your avatar.
 
   - name:         servericon
     alts:
@@ -24,7 +24,7 @@ commands:
       - "icon"
     enabled:      true
     description:
-                  Shows the server's icon image.
+      Shows the server's icon image.
 
   - name:         emote
     alts:
@@ -33,9 +33,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Monika"
     description:
-                  Searches for an emoji. You can use the actual emoji or just its name.
-                  If you use its name you can make the search more precise by adding
-                  the ID of the emote or server ID that the emote is from, like in this
-                  example "monika:375824498882117635". By default this searches emotes on the current server.
-                  If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
-                  makes the command NSFW due to the possibility of other server's emotes being explicit.
+      Searches for an emoji. You can use the actual emoji or just its name.
+      If you use its name you can make the search more precise by adding
+      the ID of the emote or server ID that the emote is from, like in this
+      example "monika:375824498882117635". By default this searches emotes on the current server.
+      If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
+      makes the command NSFW due to the possibility of other server's emotes being explicit.

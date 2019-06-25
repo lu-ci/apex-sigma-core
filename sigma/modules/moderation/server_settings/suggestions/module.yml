@@ -13,8 +13,8 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} New server ideas!"
     description:
-                  Submits a suggestions to the set server suggestion channel.
-                  Not to be confused with the bot suggestion command, "botsuggest".
+      Submits a suggestions to the set server suggestion channel.
+      Not to be confused with the bot suggestion command, "botsuggest".
 
   - name:         suggestionchannel
     alts:
@@ -22,7 +22,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #server-suggestions"
     description:
-                  Designates a channel for server suggestions.
-                  When a new suggestion is made, the details will be posted there.
-                  To disable this, write disable after the command instead of a channel.
-                  This command requires the Manage Server permission.
+      Designates a channel for server suggestions.
+      When a new suggestion is made, the details will be posted there.
+      To disable this, write disable after the command instead of a channel.
+      This command requires the Manage Server permission.

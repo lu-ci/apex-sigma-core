@@ -12,9 +12,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Volt Prime Set"
     description:
-                  Checks the price for the specified item.
-                  This will only list items by members that are currently online and in the game.
-                  The API requires a precise item name. For an item set, put "set" after the item name.
+      Checks the price for the specified item.
+      This will only list items by members that are currently online and in the game.
+      The API requires a precise item name. For an item set, put "set" after the item name.
 
   - name:         wftrials
     alts:
@@ -26,10 +26,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} AXAz0r"
     description:
-                  Shows raid statistics for the specified username.
-                  Note that DE hasn't been tracking this data forever.
-                  So some really old raids won't be shown due to having no data.
-                  The shortest raid time shown only counts victorious raids.
+      Shows raid statistics for the specified username.
+      Note that DE hasn't been tracking this data forever.
+      So some really old raids won't be shown due to having no data.
+      The shortest raid time shown only counts victorious raids.
 
   - name:         wfdroptables
     alts:
@@ -37,4 +37,4 @@ commands:
       - "wfdrops"
     enabled:      true
     description:
-                  Links a webpage for Warframe's drop tables.
+      Links a webpage for Warframe's drop tables.

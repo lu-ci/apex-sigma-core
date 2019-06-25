@@ -11,10 +11,10 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} global"
     description:
-                  Shows the top 20 users who have the most cookies.
-                  A filter can be added, either global or total, sorting it by
-                  the amount they globaly have right now, which is the default, or
-                  the total amount of cookies that they have collected over time regardless of resets.
+      Shows the top 20 users who have the most cookies.
+      A filter can be added, either global or total, sorting it by
+      the amount they globaly have right now, which is the default, or
+      the total amount of cookies that they have collected over time regardless of resets.
 
   - name:         topcurrency
     alts:
@@ -22,11 +22,11 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} local"
     description:
-                  Shows the top 20 users who have the most currency.
-                  A filter can be added, either global, local or total, sorting it by
-                  the amount they globaly have right now, which is the default, sorted by the amount
-                  that users have earned on this guild, or the total amount of currency that they have
-                  collected over time regardless of resets.
+      Shows the top 20 users who have the most currency.
+      A filter can be added, either global, local or total, sorting it by
+      the amount they globaly have right now, which is the default, sorted by the amount
+      that users have earned on this guild, or the total amount of currency that they have
+      collected over time regardless of resets.
 
   - name:         topexperience
     alts:

@@ -11,9 +11,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} @person"
     description:
-                  Shows the User ID of the mentioned user.
-                  If no user is mentioned, it will show the author's ID.
-                  If you don't want the message to be an embed, add "text" at the end.
+      Shows the User ID of the mentioned user.
+      If no user is mentioned, it will show the author's ID.
+      If you don't want the message to be an embed, add "text" at the end.
 
   - name:         channelid
     alts:
@@ -22,9 +22,9 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} #channel"
     description:
-                  Shows the User ID of the mentioned channel.
-                  If no channel is mentioned, it will show the ID of the channel the command is used in.
-                  If you don't want the message to be an embed, add "text" at the end.
+      Shows the User ID of the mentioned channel.
+      If no channel is mentioned, it will show the ID of the channel the command is used in.
+      If you don't want the message to be an embed, add "text" at the end.
 
   - name:         serverid
     alts:
@@ -34,8 +34,8 @@ commands:
       - "gid"
     enabled:      true
     description:
-                  Shows the Server ID of the server the command is used in.
-                  If you don't want the message to be an embed, add "text" at the end.
+      Shows the Server ID of the server the command is used in.
+      If you don't want the message to be an embed, add "text" at the end.
 
   - name:         roleid
     alts:
@@ -44,7 +44,7 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Warlards"
     description:
-                  Shows the Role ID of the specified role.
-                  Unlike the other ID commands, a role specification is required.
-                  Roles mentions do not work here, lookup is done via role name.
-                  If you don't want the message to be an embed, add "text" at the end.
+      Shows the Role ID of the specified role.
+      Unlike the other ID commands, a role specification is required.
+      Roles mentions do not work here, lookup is done via role name.
+      If you don't want the message to be an embed, add "text" at the end.

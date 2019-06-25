@@ -8,35 +8,35 @@ commands:
   - name:         bots
     enabled:      true
     description:
-                  Lists the bots on the server and shows their status.
+      Lists the bots on the server and shows their status.
 
   - name:         ingame
     enabled:      true
     description:
-                  Shows the top played games on the server.
-                  The list is paginated, each page has up to 10 items.
-                  You can specify the page number you want to see.
+      Shows the top played games on the server.
+      The list is paginated, each page has up to 10 items.
+      You can specify the page number you want to see.
 
   - name:         inrole
     enabled:      true
     usage:        "{pfx}{cmd} Warlards --online"
     description:
-                  Shows all the users in the server who have the specified role.
-                  The list is paginated, each page has up to 10 items.
-                  You can specify the page number you want to see.
-                  You can also filter the list by Discord status by adding "--status"
-                  as the last argument, replacing "status" with the status you wish
-                  to filter by. The accepted statuses are "dnd", "idle", "offline", and "online".
+      Shows all the users in the server who have the specified role.
+      The list is paginated, each page has up to 10 items.
+      You can specify the page number you want to see.
+      You can also filter the list by Discord status by adding "--status"
+      as the last argument, replacing "status" with the status you wish
+      to filter by. The accepted statuses are "dnd", "idle", "offline", and "online".
 
   - name:         whoplays
     enabled:      true
     usage:        "{pfx}{cmd} Overwatch"
     description:
-                  Generates a list of users playing the specified game.
-                  The list is paginated, each page has up to 20 items.
-                  You can specify the page number you want to see.
-                  Due to some game names ending with a number,
-                  the page indicator goes before the game name.
+      Generates a list of users playing the specified game.
+      The list is paginated, each page has up to 20 items.
+      You can specify the page number you want to see.
+      Due to some game names ending with a number,
+      the page indicator goes before the game name.
 
   - name:         rolepopulation
     alts:
@@ -44,5 +44,5 @@ commands:
     enabled:      true
     usage:        "{pfx}{cmd} Warlard"
     description:
-                  Shows the population of the specified role.
-                  If no arguments are provided, it will show the top 15 roles by population.
+      Shows the population of the specified role.
+      If no arguments are provided, it will show the top 15 roles by population.

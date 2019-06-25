@@ -8,39 +8,39 @@ commands:
   - name:         chucknorris
     enabled:      true
     description:
-                  This command outputs a random Chuck Norris joke.
-                  We use Chuck jokes because Bruce Lee is no joke, obviously.
+      This command outputs a random Chuck Norris joke.
+      We use Chuck jokes because Bruce Lee is no joke, obviously.
 
   - name:         ronswanson
     enabled:      true
     description:
-                  This command outputs a random quote from Ron Swanson.
-                  Everyone's favorite character from Parks and Recreation.
+      This command outputs a random quote from Ron Swanson.
+      Everyone's favorite character from Parks and Recreation.
 
   - name:         csshumor
     enabled:      true
     description:
-                  The only thing better than a joke is a joke written in CSS.
-                  And while that is sarcasm to a certain degree, these really are fun.
-                  Embrace your inner web designer and read some CSS jokes.
+      The only thing better than a joke is a joke written in CSS.
+      And while that is sarcasm to a certain degree, these really are fun.
+      Embrace your inner web designer and read some CSS jokes.
 
   - name:         pun
     enabled:      true
     description:
-                  If you do not know what a pun is... Oh you poor innocent soul.
-                  This command will produce a lovely little pun for you. Enjoy the cringe!
+      If you do not know what a pun is... Oh you poor innocent soul.
+      This command will produce a lovely little pun for you. Enjoy the cringe!
 
   - name:         dadjoke
     enabled:      true
     description:
-                  This will provide a joke that might be something your father would say.
-                  You know they are bad, but you will love them anyway, cause you're a good kid.
+      This will provide a joke that might be something your father would say.
+      You know they are bad, but you will love them anyway, cause you're a good kid.
 
   - name:         joke
     enabled:      true
     description:
-                  Outputs a joke. It is not really special or anything...
-                  Sometimes they are funny, most of the times they are not.
+      Outputs a joke. It is not really special or anything...
+      Sometimes they are funny, most of the times they are not.
 
   - name:         yomomma
     alts:
@@ -49,8 +49,8 @@ commands:
       - "ym"
     enabled:      false
     description:
-                  Want to insult some poor fool's mother but don't have the right comeback?
-                  This command will provide the perfect yo momma joke for the task.
+      Want to insult some poor fool's mother but don't have the right comeback?
+      This command will provide the perfect yo momma joke for the task.
 
   - name:         realprogrammers
     alts:
@@ -60,7 +60,7 @@ commands:
       - "rd"
     enabled:      true
     description:
-                  Tells you what real programmers do.
+      Tells you what real programmers do.
 
 events:
   - name:         dbinit_dadjoke
