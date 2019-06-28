@@ -1,105 +1,80 @@
-name:             Utility Tools
-
-category:         utility
-
-enabled:          true
-
+category: utility
 commands:
-  - name:         shortenurl
-    alts:
-      - "shorten"
-      - "bitly"
-    enabled:      true
-    usage:        "{pfx}{cmd} https://i.redd.it/ngwebbf5nwfz.jpg"
-    description:
-      Shortens a URL for you using BitLy.
-      All URLs returned via Sigma are without ads, merely shortened using the service.
-
-  - name:         convertcurrency
-    alts:
-      - "convert"
-    enabled:      true
-    usage:        "{pfx}{cmd} 50 EUR in USD"
-    description:
-      Converts the specified amount of money.
-      The format of "{amount} {from_currency} in {to_currency}" must be followed.
-
-  - name:         color
-    alts:
-      - "colour"
-      - "clr"
-    enabled:      true
-    usage:        "{pfx}{cmd} #1abc9c"
-    description:
-      Shows the specified color.
-      It accepts either a HEX code or an RGB array.
-
-  - name:         randomcolor
-    alts:
-      - "randomcolour"
-      - "rclr"
-    enabled:      true
-    description:
-      Shows you a random color block along with its HEX code.
-
-  - name:         botsuggest
-    alts:
-      - "botsugg"
-      - "bsugg"
-    enabled:      true
-    usage:        "{pfx}{cmd} Add some new stuff!!!"
-    description:
-      Submits a suggestions to the owners of the bot to do stuff.
-      Development and change wise.
-
-  - name:         translation
-    alts:
-      - "translate"
-      - "trans"
-    enabled:      true
-    usage:        "{pfx}{cmd} EN>JA Hello there!"
-    description:
-      Translates a language from and to the specified ones.
-      If a conversion input is not stated, the first argument
-      will be considered the input language and the output
-      will be in english. The language codes used abide by
-      the ISO 639-1 format. For the whole list, you can go
-      to the following wikipedia article https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-
-  - name:         createinvite
-    alts:
-      - "makeinvite"
-      - "createinv"
-      - "makeinv"
-    enabled:      true
-    requirements:
-      - "manage_guild"
-      - "create_instant_invite"
-    usage:        "{pfx}{cmd} d:12:0:0 u:10 #general"
-    description:
-      Creates an instant invite for the specified channel. If
-      no channel is specified, it's made for the current
-      channel. You can set an expiration by adding "d:HH:MM:SS"
-      as an argument. You can also set a limited number of uses
-      by adding "u:num" where "num" is the amount of uses. The
-      order of the arguments doesn't matter. An invite's maximum
-      duration is 24 hours and maximum uses is 100.
-      This command requires the Create Instant Invite permission.
-
-  - name:         lmgtfy
-    alts:
-      - "letmegooglethatforyou"
-    enabled:      true
-    usage:        "{pfx}{cmd} Sexy Sneks"
-    description:
-      Outputs a link that will google the specified query for you.
-
-  - name:         imgur
-    alts:
-      - "img"
-    enabled:      true
-    usage:        "{pfx}{cmd} [imgfile.png]"
-    description:
-      Anonymously uploads the specified attachment or URL to imgur
-      and returns a direct link to it. Attachment must be an image
-      (GIFs are images). URL must be a direct link to an image.
+- alts:
+  - shorten
+  - bitly
+  description: Shortens a URL for you using BitLy. All URLs returned via Sigma are
+    without ads, merely shortened using the service.
+  enabled: true
+  name: shortenurl
+  usage: '{pfx}{cmd} https://i.redd.it/ngwebbf5nwfz.jpg'
+- alts:
+  - convert
+  description: Converts the specified amount of money. The format of "{amount} {from_currency}
+    in {to_currency}" must be followed.
+  enabled: true
+  name: convertcurrency
+  usage: '{pfx}{cmd} 50 EUR in USD'
+- alts:
+  - colour
+  - clr
+  description: Shows the specified color. It accepts either a HEX code or an RGB array.
+  enabled: true
+  name: color
+  usage: '{pfx}{cmd} #1abc9c'
+- alts:
+  - randomcolour
+  - rclr
+  description: Shows you a random color block along with its HEX code.
+  enabled: true
+  name: randomcolor
+- alts:
+  - botsugg
+  - bsugg
+  description: Submits a suggestions to the owners of the bot to do stuff. Development
+    and change wise.
+  enabled: true
+  name: botsuggest
+  usage: '{pfx}{cmd} Add some new stuff!!!'
+- alts:
+  - translate
+  - trans
+  description: Translates a language from and to the specified ones. If a conversion
+    input is not stated, the first argument will be considered the input language
+    and the output will be in english. The language codes used abide by the ISO 639-1
+    format. For the whole list, you can go to the following wikipedia article https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+  enabled: true
+  name: translation
+  usage: '{pfx}{cmd} EN>JA Hello there!'
+- alts:
+  - makeinvite
+  - createinv
+  - makeinv
+  description: Creates an instant invite for the specified channel. If no channel
+    is specified, it's made for the current channel. You can set an expiration by
+    adding "d:HH:MM:SS" as an argument. You can also set a limited number of uses
+    by adding "u:num" where "num" is the amount of uses. The order of the arguments
+    doesn't matter. An invite's maximum duration is 24 hours and maximum uses is 100.
+    This command requires the Create Instant Invite permission.
+  enabled: true
+  name: createinvite
+  requirements:
+  - manage_guild
+  - create_instant_invite
+  usage: '{pfx}{cmd} d:12:0:0 u:10 #general'
+- alts:
+  - letmegooglethatforyou
+  description: Outputs a link that will google the specified query for you.
+  enabled: true
+  name: lmgtfy
+  usage: '{pfx}{cmd} Sexy Sneks'
+- alts:
+  - img
+  description: Anonymously uploads the specified attachment or URL to imgur and returns
+    a direct link to it. Attachment must be an image (GIFs are images). URL must be
+    a direct link to an image.
+  enabled: true
+  name: imgur
+  usage: '{pfx}{cmd} [imgfile.png]'
+enabled: true
+name: Utility Tools

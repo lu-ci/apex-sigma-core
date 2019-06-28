@@ -1,62 +1,45 @@
-name:             Image Commands
-
-category:         fun
-
-enabled:          true
-
+category: fun
 commands:
-  - name:         cat
-    enabled:      true
-    description:
-      Outputs a random cat image.
-      Furry felines like it when their owners observe them.
-
-  - name:         dog
-    enabled:      true
-    description:
-      Outputs a random dog image.
-      Cutest, loyalest, little woofers.
-
-  - name:         kitsunemimi
-    alts:
-      - "fluffytail"
-      - "kitsune"
-      - "kon"
-    enabled:      true
-    description:
-      Displays a random kitsunemimi image.
-      In case you don't know what a kitsunemimi is, it's a foxgirl.
-      All images are sourced from Safebooru, but be warned that some
-      can be very borderline.
-
-  - name:         usagimimi
-    alts:
-      - "usagi"
-      - "pyon"
-    enabled:      true
-    description:
-      Displays a random usagimimi image.
-      In case you don't know what a usagimimi is, it's a rabbitgirl.
-      All images are sourced from Safebooru, but be warned that some
-      can be very borderline.
-
-  - name:         nekomimi
-    alts:
-      - "neko"
-      - "nyaa"
-    enabled:      true
-    description:
-      Displays a random nekomimi image.
-      In case you don't know what a nekomimi is, it's a catgirl.
-      All images are sourced from Safebooru, but be warned that some
-      can be very borderline.
-
-  - name:         randomemote
-    alts:
-      - "randomemoji"
-      - "ranem"
-    enabled:      true
-    description:
-      Displays a random emote from the server's custom emotes.
-      If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
-      makes the command NSFW due to the possibility of other server's emotes being explicit.
+- description: Outputs a random cat image. Furry felines like it when their owners
+    observe them.
+  enabled: true
+  name: cat
+- description: Outputs a random dog image. Cutest, loyalest, little woofers.
+  enabled: true
+  name: dog
+- alts:
+  - fluffytail
+  - kitsune
+  - kon
+  description: Displays a random kitsunemimi image. In case you don't know what a
+    kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but be
+    warned that some can be very borderline.
+  enabled: true
+  name: kitsunemimi
+- alts:
+  - usagi
+  - pyon
+  description: Displays a random usagimimi image. In case you don't know what a usagimimi
+    is, it's a rabbitgirl. All images are sourced from Safebooru, but be warned that
+    some can be very borderline.
+  enabled: true
+  name: usagimimi
+- alts:
+  - neko
+  - nyaa
+  description: Displays a random nekomimi image. In case you don't know what a nekomimi
+    is, it's a catgirl. All images are sourced from Safebooru, but be warned that
+    some can be very borderline.
+  enabled: true
+  name: nekomimi
+- alts:
+  - randomemoji
+  - ranem
+  description: Displays a random emote from the server's custom emotes. If you wish
+    to search emotes on all servers, add "--global" as the last argument. Note that
+    this makes the command NSFW due to the possibility of other server's emotes being
+    explicit.
+  enabled: true
+  name: randomemote
+enabled: true
+name: Image Commands

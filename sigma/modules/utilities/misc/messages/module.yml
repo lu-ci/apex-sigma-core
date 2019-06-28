@@ -1,24 +1,18 @@
-name:             Message Utilities
-
-category:         miscellaneous
-
-enabled:          true
-
+category: miscellaneous
 commands:
-  - name:         echo
-    alts:
-      - "say"
-    enabled:      true
-    usage:        "{pfx}{cmd} Beep, bop-boop!"
-    description:
-      Makes Sigma repeat what you entered, simple enough.
-
-  - name:         embedecho
-    alts:
-      - "esay"
-      - "eecho"
-    enabled:      true
-    usage:        "{pfx}{cmd} Beep, bop-boop!"
-    description:
-      Just like echo, but the message is an embed object
-      that has you as the author, your color, and the time it was executed.
+- alts:
+  - say
+  description: Makes Sigma repeat what you entered, simple enough.
+  enabled: true
+  name: echo
+  usage: '{pfx}{cmd} Beep, bop-boop!'
+- alts:
+  - esay
+  - eecho
+  description: Just like echo, but the message is an embed object that has you as
+    the author, your color, and the time it was executed.
+  enabled: true
+  name: embedecho
+  usage: '{pfx}{cmd} Beep, bop-boop!'
+enabled: true
+name: Message Utilities

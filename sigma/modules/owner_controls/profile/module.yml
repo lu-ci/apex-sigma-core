@@ -1,80 +1,64 @@
-name:             Bot Profile Control
-
-category:         development
-
-enabled:          true
-
+category: development
 commands:
-  - name:         setavatar
-    alts:
-      - "setav"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} https://my_fomain.net/my_avatar.png"
-    description:
-      Sets the avatar of Sigma either to the linked or attached image.
-      The officially supported formats for bot avatars are JPG and PNG images.
-      Note that bots, like all users, have limited profile changes per time period.
-
-  - name:         setusername
-    alts:
-      - "setname"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} Supreme Bot"
-    description:
-      Sets the name of Sigma to the specified text.
-      Note that bots, like all users, have limited profile changes per time period.
-
-  - name:         setstatus
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} with fishies"
-    description:
-      Sets the current playing status of Sigma.
-      To use this, the automatic status rotation needs to be disabled.
-      It can be toggled with the togglestatus command.
-
-  - name:         addstatus
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} with tentacles"
-    description:
-      Adds a status message to Sigma's database for automatic status rotation.
-
-  - name:         removestatus
-    alts:
-      - "delstatus"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    usage:        "{pfx}{cmd} 1d9cae144f"
-    description:
-      Removes a status with the specified ID from Sigma's status database.
-
-  - name:         togglestatus
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    description:
-      Toggles if the automatic status rotation is enabled or disabled.
-
-  - name:         liststatuses
-    alts:
-      - "statuses"
-    enabled:      true
-    permissions:
-      owner:      true
-      dmable:     true
-    description:
-      Shows the list of statuses in the status database.
+- alts:
+  - setav
+  description: Sets the avatar of Sigma either to the linked or attached image. The
+    officially supported formats for bot avatars are JPG and PNG images. Note that
+    bots, like all users, have limited profile changes per time period.
+  enabled: true
+  name: setavatar
+  permissions:
+    dmable: true
+    owner: true
+  usage: '{pfx}{cmd} https://my_fomain.net/my_avatar.png'
+- alts:
+  - setname
+  description: Sets the name of Sigma to the specified text. Note that bots, like
+    all users, have limited profile changes per time period.
+  enabled: true
+  name: setusername
+  permissions:
+    dmable: true
+    owner: true
+  usage: '{pfx}{cmd} Supreme Bot'
+- description: Sets the current playing status of Sigma. To use this, the automatic
+    status rotation needs to be disabled. It can be toggled with the togglestatus
+    command.
+  enabled: true
+  name: setstatus
+  permissions:
+    dmable: true
+    owner: true
+  usage: '{pfx}{cmd} with fishies'
+- description: Adds a status message to Sigma's database for automatic status rotation.
+  enabled: true
+  name: addstatus
+  permissions:
+    dmable: true
+    owner: true
+  usage: '{pfx}{cmd} with tentacles'
+- alts:
+  - delstatus
+  description: Removes a status with the specified ID from Sigma's status database.
+  enabled: true
+  name: removestatus
+  permissions:
+    dmable: true
+    owner: true
+  usage: '{pfx}{cmd} 1d9cae144f'
+- description: Toggles if the automatic status rotation is enabled or disabled.
+  enabled: true
+  name: togglestatus
+  permissions:
+    dmable: true
+    owner: true
+- alts:
+  - statuses
+  description: Shows the list of statuses in the status database.
+  enabled: true
+  name: liststatuses
+  permissions:
+    dmable: true
+    owner: true
+enabled: true
+name: Bot Profile Control

@@ -1,21 +1,17 @@
-name:             Owner Leaderboard Controls
-
-category:         development
-
-enabled:          true
-
+category: development
 commands:
-  - name:         awardleaderboards
-    alts:
-      - "awardlbs"
-      - "albs"
-    enabled:      true
-    permissions:
-      owner:      true
-    description:
-      Award all the leaderboards with appropirate amounts of currency and resets their ranked values.
-
+- alts:
+  - awardlbs
+  - albs
+  description: Award all the leaderboards with appropirate amounts of currency and
+    resets their ranked values.
+  enabled: true
+  name: awardleaderboards
+  permissions:
+    owner: true
+enabled: true
 events:
-  - name:         leaderboard_clock
-    type:         ready
-    enabled:      true
+- enabled: true
+  name: leaderboard_clock
+  type: ready
+name: Owner Leaderboard Controls

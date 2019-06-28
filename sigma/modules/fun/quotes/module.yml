@@ -1,88 +1,66 @@
-name:             Quote Commands
-
-category:         fun
-
-enabled:          true
-
+category: fun
 commands:
-  - name:         famousquote
-    alts:
-      - "fquote"
-    enabled:      true
-    description:
-      Gives you a random inspirational or deep quote.
-
-  - name:         numberfact
-    alts:
-      - "numfact"
-      - "numf"
-    enabled:      true
-    usage:        "{pfx}{cmd} 42"
-    description:
-      Searches for interesting things about a given number.
-      You can also insert a date in the DAY/MON format.
-      You can specify a type of number you want retrived in the format TYPE:NUMBER.
-      The accepted types are trivia, math, date, and year.
-      You can also specify "random" instead of a number to make it a random number.
-
-  - name:         fortune
-    alts:
-      - "fortune-mod"
-    enabled:      true
-    description:
-      Linux users, and raw UNIX users in general will know the fortune-mod.
-      This command uses their entire database to output one of their quotes.
-
-  - name:         shootfoot
-    alts:
-      - "sf"
-    enabled:      true
-    usage:        "{pfx}{cmd} Python"
-    description:
-      Tells you how to shoot yourself in the foot with the specified programming language.
-      If no language is provided, it will pick a random one.
-
-  - name:         bash
-    alts:
-      - "qdb"
-    enabled:      true
-    description:
-      If you are old enough to know what IRC is or remember what it looked like,
-      then you will appreciate the quotes that the bash command produces.
-      Personal favorite quote command.
-
-  - name:         catfact
-    alts:
-      - "kittyfact"
-    enabled:      true
-    description:
-      Outputs a random fact about your lovely furry assh~
-      eerrrr... I mean, companion!
-
-  - name:         dogfact
-    alts:
-      - "doggofact"
-    enabled:      true
-    description:
-      Outputs a random fact about man's best friend.
-
-  - name:         visualnovelquote
-    alts:
-      - "vnquote"
-      - "vnq"
-    enabled:      true
-    description:
-      Outputs a random quote from a random VN.
-      Displays its source as well, of course.
-      If the source visual novel of the quote is NSFW,
-      the image will be hidden and the footer will state that.
-
+- alts:
+  - fquote
+  description: Gives you a random inspirational or deep quote.
+  enabled: true
+  name: famousquote
+- alts:
+  - numfact
+  - numf
+  description: Searches for interesting things about a given number. You can also
+    insert a date in the DAY/MON format. You can specify a type of number you want
+    retrived in the format TYPE:NUMBER. The accepted types are trivia, math, date,
+    and year. You can also specify "random" instead of a number to make it a random
+    number.
+  enabled: true
+  name: numberfact
+  usage: '{pfx}{cmd} 42'
+- alts:
+  - fortune-mod
+  description: Linux users, and raw UNIX users in general will know the fortune-mod.
+    This command uses their entire database to output one of their quotes.
+  enabled: true
+  name: fortune
+- alts:
+  - sf
+  description: Tells you how to shoot yourself in the foot with the specified programming
+    language. If no language is provided, it will pick a random one.
+  enabled: true
+  name: shootfoot
+  usage: '{pfx}{cmd} Python'
+- alts:
+  - qdb
+  description: If you are old enough to know what IRC is or remember what it looked
+    like, then you will appreciate the quotes that the bash command produces. Personal
+    favorite quote command.
+  enabled: true
+  name: bash
+- alts:
+  - kittyfact
+  description: Outputs a random fact about your lovely furry assh~ eerrrr... I mean,
+    companion!
+  enabled: true
+  name: catfact
+- alts:
+  - doggofact
+  description: Outputs a random fact about man's best friend.
+  enabled: true
+  name: dogfact
+- alts:
+  - vnquote
+  - vnq
+  description: Outputs a random quote from a random VN. Displays its source as well,
+    of course. If the source visual novel of the quote is NSFW, the image will be
+    hidden and the footer will state that.
+  enabled: true
+  name: visualnovelquote
+enabled: true
 events:
-  - name:         dbinit_fortune
-    type:         dbinit
-    enabled:      true
-
-  - name:         dbinit_shootfoot
-    type:         dbinit
-    enabled:      true
-
+- enabled: true
+  name: dbinit_fortune
+  type: dbinit
+- enabled: true
+  name: dbinit_shootfoot
+  type: dbinit
+name: Quote Commands

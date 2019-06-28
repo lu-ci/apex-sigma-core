@@ -1,61 +1,69 @@
-name:             Custom Command Controls
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         addcommand
-    alts:
-      - "addcmd"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi Hello {author_name}!"
-    description:  |
-      Adds a custom command to the server. Whenever the specified trigger word is used with a command prefix, the specified response will be returned. This command requires the Manage Server permission. Custom commands can have special dynamic arguments in them.
-      {author_name}     - Message author's name.
-      {author_nick}     - Message author's nickname.
-      {author_mention}  - Tag the message author.
-      {author_id}       - Message author's ID.
-      {channel_name}    - Channel name.
-      {channel_mention} - Channel tag.
-      {channel_id}      - Channel ID.
-      {server_name}     - Server name.
-      {server_id}       - Server ID.
-      {target_name}     - Target's name.
-      {target_nick}     - Target's nickname.
-      {target_mention}  - Tag the target.
-      {target_id}       - Target's ID.
-      This command requires the Manage Server permission.
+- alts:
+  - addcmd
+  description: 'Adds a custom command to the server. Whenever the specified trigger
+    word is used with a command prefix, the specified response will be returned. This
+    command requires the Manage Server permission. Custom commands can have special
+    dynamic arguments in them.
 
-  - name:         removecommand
-    alts:
-      - "deletecommand"
-      - "remcmd"
-      - "delcmd"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi"
-    description:
-      Removes a custom command trigger from the server.
-      This command requires the Manage Server permission.
+    {author_name}     - Message author''s name.
 
-  - name:         renamecommand
-    alts:
-      - "rencmd"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi howdy"
-    description:
-      Replaces a custom command's trigger without losing the original trigger's contents.
-      The original custom command trigger goes first, followed by what you wish to change it to.
-      This command requires the Manage Server permission.
+    {author_nick}     - Message author''s nickname.
 
-  - name:         customcommands
-    alts:
-      - "customcmds"
-      - "custcmds"
-      - "ccmds"
-    enabled:      true
-    usage:        "{pfx}{cmd} 4"
-    description:
-      Shows a list of the server's custom commands.
-      The list is separated into pages of 10 items each.
-      You can specify the page number you want to see.
+    {author_mention}  - Tag the message author.
+
+    {author_id}       - Message author''s ID.
+
+    {channel_name}    - Channel name.
+
+    {channel_mention} - Channel tag.
+
+    {channel_id}      - Channel ID.
+
+    {server_name}     - Server name.
+
+    {server_id}       - Server ID.
+
+    {target_name}     - Target''s name.
+
+    {target_nick}     - Target''s nickname.
+
+    {target_mention}  - Tag the target.
+
+    {target_id}       - Target''s ID.
+
+    This command requires the Manage Server permission.
+
+    '
+  enabled: true
+  name: addcommand
+  usage: '{pfx}{cmd} hi Hello {author_name}!'
+- alts:
+  - deletecommand
+  - remcmd
+  - delcmd
+  description: Removes a custom command trigger from the server. This command requires
+    the Manage Server permission.
+  enabled: true
+  name: removecommand
+  usage: '{pfx}{cmd} hi'
+- alts:
+  - rencmd
+  description: Replaces a custom command's trigger without losing the original trigger's
+    contents. The original custom command trigger goes first, followed by what you
+    wish to change it to. This command requires the Manage Server permission.
+  enabled: true
+  name: renamecommand
+  usage: '{pfx}{cmd} hi howdy'
+- alts:
+  - customcmds
+  - custcmds
+  - ccmds
+  description: Shows a list of the server's custom commands. The list is separated
+    into pages of 10 items each. You can specify the page number you want to see.
+  enabled: true
+  name: customcommands
+  usage: '{pfx}{cmd} 4'
+enabled: true
+name: Custom Command Controls

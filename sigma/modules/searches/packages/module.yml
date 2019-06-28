@@ -1,27 +1,21 @@
-name:             Package Lookup Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         crates
-    alts:
-      - "crate"
-      - "cargo"
-    enabled:      true
-    usage:        "{pfx}{cmd} javelin"
-    description:
-      Search Rust's/Cargo's package repository on crates.io
-      for the specified package and displays its details.
-
-  - name:         pythonpackage
-    alts:
-      - "pythonpackageindex"
-      - "pypackage"
-      - "pypi"
-    enabled:      true
-    usage:        "{pfx}{cmd} pip"
-    description:
-      Search Python's/PyPi's package repository on pypi.org
-      for the specified package and displays its details.
+- alts:
+  - crate
+  - cargo
+  description: Search Rust's/Cargo's package repository on crates.io for the specified
+    package and displays its details.
+  enabled: true
+  name: crates
+  usage: '{pfx}{cmd} javelin'
+- alts:
+  - pythonpackageindex
+  - pypackage
+  - pypi
+  description: Search Python's/PyPi's package repository on pypi.org for the specified
+    package and displays its details.
+  enabled: true
+  name: pythonpackage
+  usage: '{pfx}{cmd} pip'
+enabled: true
+name: Package Lookup Commands

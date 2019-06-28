@@ -1,10 +1,7 @@
-name:             Custom Command Executor
-
-category:         custom
-
-enabled:          true
-
+category: custom
+enabled: true
 events:
-  - name:         custom_command
-    type:         message
-    enabled:      true
+- enabled: true
+  name: custom_command
+  type: message
+name: Custom Command Executor

@@ -1,94 +1,79 @@
-name:             Dictionary Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         urbandictionary
-    alts:
-      - "urbandict"
-      - "urban"
-      - "ud"
-    enabled:      true
-    usage:        "{pfx}{cmd} dictionary"
-    description:
-      Looks up the definition for a word or term in the Urban Dictionary.
-      It is strongly suggested to take these with a grain of salt.
+- alts:
+  - urbandict
+  - urban
+  - ud
+  description: Looks up the definition for a word or term in the Urban Dictionary.
+    It is strongly suggested to take these with a grain of salt.
+  enabled: true
+  name: urbandictionary
+  usage: '{pfx}{cmd} dictionary'
+- alts:
+  - dict
+  - definition
+  - define
+  - def
+  description: Searches the Oxford dictionary for the definition of your input.
+  enabled: true
+  name: dictionary
+  usage: '{pfx}{cmd} cork'
+- alts:
+  - synonym
+  - syn
+  description: Looks up words that have exactly or nearly the same meaning as the
+    specified term.
+  enabled: true
+  name: synonyms
+  usage: '{pfx}{cmd} ocean'
+- alts:
+  - antonym
+  - ant
+  description: Looks up words that have the opposite meaning of the specified term.
+  enabled: true
+  name: antonyms
+  usage: '{pfx}{cmd} late'
+- alts:
+  - homophone
+  description: Looks up words that sound like the specified term.
+  enabled: true
+  name: homophones
+  usage: '{pfx}{cmd} coarse'
+- alts:
+  - desc
+  description: 'Looks up words that are often used to describe nouns or are often
+    used by the adjective. Specify the mode in the first argument. adjectives, adjective,
+    adj, a: To look up nouns that are often described by an adjective. nouns, noun,
+    n: To look up adjectives that are often used to describe a noun.'
+  enabled: true
+  name: describe
+  usage: '{pfx}{cmd} noun ocean'
+- alts:
+  - rhyme
+  description: Looks up words that rhymes with the specified term.
+  enabled: true
+  name: rhymes
+  usage: '{pfx}{cmd} forgetful'
+- alts:
+  - spelllike
+  - spellike
+  - spellcheck
+  description: 'Looks up words that are spelled similarly to the specified term. Supports
+    the following wildcards:
 
-  - name:         dictionary
-    alts:
-      - "dict"
-      - "definition"
-      - "define"
-      - "def"
-    enabled:      true
-    usage:        "{pfx}{cmd} cork"
-    description:
-      Searches the Oxford dictionary for the definition of your input.
+    ? - one character
 
-  - name:         synonyms
-    alts:
-      - "synonym"
-      - "syn"
-    enabled:      true
-    usage:        "{pfx}{cmd} ocean"
-    description:
-      Looks up words that have exactly or nearly the same meaning as the specified term.
+    * - one or many characters
 
-  - name:         antonyms
-    alts:
-      - "antonym"
-      - "ant"
-    enabled:      true
-    usage:        "{pfx}{cmd} late"
-    description:
-      Looks up words that have the opposite meaning of the specified term.
-
-  - name:         homophones
-    alts:
-      - "homophone"
-    enabled:      true
-    usage:        "{pfx}{cmd} coarse"
-    description:
-      Looks up words that sound like the specified term.
-
-  - name:         describe
-    alts:
-      - "desc"
-    enabled:      true
-    usage:        "{pfx}{cmd} noun ocean"
-    description:
-      "Looks up words that are often used to describe nouns or
-      are often used by the adjective. Specify the mode in the
-      first argument. adjectives, adjective, adj, a: To look
-      up nouns that are often described by an adjective. nouns,
-      noun, n: To look up adjectives that are often used to describe a noun."
-
-  - name:         rhymes
-    alts:
-      - "rhyme"
-    enabled:      true
-    usage:        "{pfx}{cmd} forgetful"
-    description:
-      Looks up words that rhymes with the specified term.
-
-  - name:         spelledlike
-    alts:
-      - "spelllike"
-      - "spellike"
-      - "spellcheck"
-    enabled:      true
-    usage:        "{pfx}{cmd} coneticut"
-    description:  |
-      Looks up words that are spelled similarly to the specified term. Supports the following wildcards:
-      ? - one character
-      * - one or many characters
-
-  - name:         soundslike
-    alts:
-      - "soundlike"
-    enabled:      true
-    usage:        "{pfx}{cmd} elefint"
-    description:
-      Looks up words that sound similar to the specified term.
+    '
+  enabled: true
+  name: spelledlike
+  usage: '{pfx}{cmd} coneticut'
+- alts:
+  - soundlike
+  description: Looks up words that sound similar to the specified term.
+  enabled: true
+  name: soundslike
+  usage: '{pfx}{cmd} elefint'
+enabled: true
+name: Dictionary Commands

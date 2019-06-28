@@ -1,34 +1,27 @@
-name:             Whisper Settings
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         whisperchannel
-    alts:
-      - "whisperch"
-    enabled:      true
-    usage:        "{pfx}{cmd} #channel"
-    description:
-      Designates a channel for whispers.
-      When a new whisper is submitted, it will be posted there.
-      To disable this, write disable after the command instead of a channel.
-
-  - name:         whisper
-    alts:
-      - "confess"
-    enabled:      true
-    permissions:
-      dmable:     true
-    usage:        "{pfx}{cmd} My secret confession!"
-    description:
-      Submits an anonymous whisper to the server's designated channel.
-      Whispers can be whatever you want. Maybe it's your deepest darkest confession O_O
-      This command can be used in a DM if you wish to do it privately,
-      however, if you use it in a DM, you must include a server ID before your message.
-
+- alts:
+  - whisperch
+  description: Designates a channel for whispers. When a new whisper is submitted,
+    it will be posted there. To disable this, write disable after the command instead
+    of a channel.
+  enabled: true
+  name: whisperchannel
+  usage: '{pfx}{cmd} #channel'
+- alts:
+  - confess
+  description: Submits an anonymous whisper to the server's designated channel. Whispers
+    can be whatever you want. Maybe it's your deepest darkest confession O_O This
+    command can be used in a DM if you wish to do it privately, however, if you use
+    it in a DM, you must include a server ID before your message.
+  enabled: true
+  name: whisper
+  permissions:
+    dmable: true
+  usage: '{pfx}{cmd} My secret confession!'
+enabled: true
 events:
-  - name:         whisper_reporter
-    type:         ready
-    enabled:      true
+- enabled: true
+  name: whisper_reporter
+  type: ready
+name: Whisper Settings

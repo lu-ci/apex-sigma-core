@@ -1,61 +1,66 @@
-name:             Goodbye Settings
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         bye
-    alts:
-      - "goodbye"
-    enabled:      true
-    description:
-      Toggles if Sigma should say when users leave the server.
-      The goodbye feature is active by default.
+- alts:
+  - goodbye
+  description: Toggles if Sigma should say when users leave the server. The goodbye
+    feature is active by default.
+  enabled: true
+  name: bye
+- alts:
+  - byech
+  description: Sets the channel the goodbye messages should be sent to.
+  enabled: true
+  name: byechannel
+  usage: '{pfx}{cmd} #welcome'
+- alts:
+  - byemsg
+  description: 'This sets the message shown on the server when a member leaves. Goodbye
+    messages can have special dynamic arguments in them.
 
-  - name:         byechannel
-    alts:
-      - "byech"
-    enabled:      true
-    usage:        "{pfx}{cmd} #welcome"
-    description:
-      Sets the channel the goodbye messages should be sent to.
+    {user_name}     - Leaving user''s name.
 
-  - name:         byemessage
-    alts:
-      - "byemsg"
-    enabled:      true
-    usage:        "{pfx}{cmd} Goodbye {user_mention}!"
-    description:  |
-      This sets the message shown on the server when a member leaves. Goodbye messages can have special dynamic arguments in them.
-      {user_name}     - Leaving user's name.
-      {user_disc}     - "#xxxx" in the user's name.
-      {user_nick}     - Message author's nickname.
-      {user_mention}  - Tag the leaving user.
-      {user_id}       - Leaving user's ID.
-      {server_name}   - Server name.
-      {server_id}     - Server ID.
-      {owner_name}    - Server owner's name.
-      {owner_disc}    - "#xxxx" in the server owner's name.
-      {owner_nick}    - Server owner's nickname.
-      {owner_mention} - Tag the server owner.
-      {owner_id}      - Server owner's ID.
-      This command requires the Manage Server permission.
+    {user_disc}     - "#xxxx" in the user''s name.
 
-  - name:         byeembed
-    alts:
-      - "byeemb"
-    enabled:      true
-    usage:        "{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png"
-    description:
-      Toggles whether bye messages are an embed or not. Also customizes the embed that is used.
-      You can change the embed color, set the thumbnail, and set the image. To do so, specify the
-      field and the value separated by a colon (see usage example). The accepted fields are color,
-      thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct
-      image URLs. Provide no arguments to toggle this feature on or off.
+    {user_nick}     - Message author''s nickname.
 
+    {user_mention}  - Tag the leaving user.
+
+    {user_id}       - Leaving user''s ID.
+
+    {server_name}   - Server name.
+
+    {server_id}     - Server ID.
+
+    {owner_name}    - Server owner''s name.
+
+    {owner_disc}    - "#xxxx" in the server owner''s name.
+
+    {owner_nick}    - Server owner''s nickname.
+
+    {owner_mention} - Tag the server owner.
+
+    {owner_id}      - Server owner''s ID.
+
+    This command requires the Manage Server permission.
+
+    '
+  enabled: true
+  name: byemessage
+  usage: '{pfx}{cmd} Goodbye {user_mention}!'
+- alts:
+  - byeemb
+  description: Toggles whether bye messages are an embed or not. Also customizes the
+    embed that is used. You can change the embed color, set the thumbnail, and set
+    the image. To do so, specify the field and the value separated by a colon (see
+    usage example). The accepted fields are color, thumbnail, and image. Color accepts
+    only HEX codes, while the other two accept only direct image URLs. Provide no
+    arguments to toggle this feature on or off.
+  enabled: true
+  name: byeembed
+  usage: '{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png'
+enabled: true
 events:
-  - name:         bye_sender
-    type:         member_remove
-    enabled:      true
-
+- enabled: true
+  name: bye_sender
+  type: member_remove
+name: Goodbye Settings

@@ -1,41 +1,33 @@
-name:             Image Utilities
-
-category:         utility
-
-enabled:          true
-
+category: utility
 commands:
-  - name:         avatar
-    alts:
-      - "av"
-      - "pfp"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows the mentioned user's avatar.
-      If no user is mentioned, it shows the author's avatar.
-      You can add "gif" to the end of the command to indicate that it's a gif.
-      Or you can add "auto" to show the predominant color of the image.
-      You can also add "static" to the end to make it return the full sized static version of your avatar.
-
-  - name:         servericon
-    alts:
-      - "srvicon"
-      - "icon"
-    enabled:      true
-    description:
-      Shows the server's icon image.
-
-  - name:         emote
-    alts:
-      - "emoji"
-      - "em"
-    enabled:      true
-    usage:        "{pfx}{cmd} Monika"
-    description:
-      Searches for an emoji. You can use the actual emoji or just its name.
-      If you use its name you can make the search more precise by adding
-      the ID of the emote or server ID that the emote is from, like in this
-      example "monika:375824498882117635". By default this searches emotes on the current server.
-      If you wish to search emotes on all servers, add "--global" as the last argument. Note that this
-      makes the command NSFW due to the possibility of other server's emotes being explicit.
+- alts:
+  - av
+  - pfp
+  description: Shows the mentioned user's avatar. If no user is mentioned, it shows
+    the author's avatar. You can add "gif" to the end of the command to indicate that
+    it's a gif. Or you can add "auto" to show the predominant color of the image.
+    You can also add "static" to the end to make it return the full sized static version
+    of your avatar.
+  enabled: true
+  name: avatar
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - srvicon
+  - icon
+  description: Shows the server's icon image.
+  enabled: true
+  name: servericon
+- alts:
+  - emoji
+  - em
+  description: Searches for an emoji. You can use the actual emoji or just its name.
+    If you use its name you can make the search more precise by adding the ID of the
+    emote or server ID that the emote is from, like in this example "monika:375824498882117635".
+    By default this searches emotes on the current server. If you wish to search emotes
+    on all servers, add "--global" as the last argument. Note that this makes the
+    command NSFW due to the possibility of other server's emotes being explicit.
+  enabled: true
+  name: emote
+  usage: '{pfx}{cmd} Monika'
+enabled: true
+name: Image Utilities

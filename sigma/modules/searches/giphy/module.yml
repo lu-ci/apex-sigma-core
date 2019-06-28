@@ -1,16 +1,11 @@
-name:             Giphy Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         giphy
-    alts:
-      - "gif"
-    enabled:      true
-    usage:        "{pfx}{cmd} kittens"
-    description:
-      Searches Giphy with the specified tag and returns a random result.
-      The tag can be multiple words.
-      
+- alts:
+  - gif
+  description: Searches Giphy with the specified tag and returns a random result.
+    The tag can be multiple words.
+  enabled: true
+  name: giphy
+  usage: '{pfx}{cmd} kittens'
+enabled: true
+name: Giphy Commands

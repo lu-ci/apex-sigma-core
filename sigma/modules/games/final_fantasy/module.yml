@@ -1,14 +1,10 @@
-name:             Final Fantasy XIV
-
-category:         final_fantasy
-
-enabled:          true
-
+category: final_fantasy
 commands:
-  - name:         finalfantasyxivtimers
-    alts:
-      - "ffxivtimers"
-      - "ffxivt"
-    enabled:      true
-    description:
-      Shows the timers for all FFXIV events and resets.
+- alts:
+  - ffxivtimers
+  - ffxivt
+  description: Shows the timers for all FFXIV events and resets.
+  enabled: true
+  name: finalfantasyxivtimers
+enabled: true
+name: Final Fantasy XIV

@@ -1,17 +1,12 @@
-name:             Reddit Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         reddit
-    enabled:      true
-    usage:        "{pfx}{cmd} ProgrammerHumor"
-    description:
-      Enter a subreddit and it will show a random post from the
-      current top posts in hot. You can specify what filter to
-      search the subreddit with as an argument after the
-      subreddit name. The accepted arguments are TopHot,
-      RandomHot, TopNew, RandomNew, TopTop, and RandomTop.
-      Random arguments choose randomly from a list of the first 100 entries.
+- description: Enter a subreddit and it will show a random post from the current top
+    posts in hot. You can specify what filter to search the subreddit with as an argument
+    after the subreddit name. The accepted arguments are TopHot, RandomHot, TopNew,
+    RandomNew, TopTop, and RandomTop. Random arguments choose randomly from a list
+    of the first 100 entries.
+  enabled: true
+  name: reddit
+  usage: '{pfx}{cmd} ProgrammerHumor'
+enabled: true
+name: Reddit Commands

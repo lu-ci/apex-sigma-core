@@ -1,20 +1,14 @@
-name:             Jisho Commands
-
-category:         nihongo
-
-enabled:          true
-
+category: nihongo
 commands:
-  - name:         jisho
-    enabled:      true
-    usage:        "{pfx}{cmd} Kawaii"
-    description:
-      Searches Jisho, which is the Japanese language dictionary, for the specified term.
-      Returns various types of information regarding the term.
-
-  - name:         kanji
-    enabled:      true
-    usage:        "{pfx}{cmd} 夢"
-    description:
-      Searches Jisho, which is the Japanese language dictionary, for specified kanji.
-      Returns stroke count, stroke order, parts, variants, meanings, and readings.
+- description: Searches Jisho, which is the Japanese language dictionary, for the
+    specified term. Returns various types of information regarding the term.
+  enabled: true
+  name: jisho
+  usage: '{pfx}{cmd} Kawaii'
+- description: Searches Jisho, which is the Japanese language dictionary, for specified
+    kanji. Returns stroke count, stroke order, parts, variants, meanings, and readings.
+  enabled: true
+  name: kanji
+  usage: "{pfx}{cmd} \u5922"
+enabled: true
+name: Jisho Commands

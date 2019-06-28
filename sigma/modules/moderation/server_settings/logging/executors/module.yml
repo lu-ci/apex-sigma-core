@@ -1,26 +1,19 @@
-name:             Logging Executors
-
-category:         settings
-
-enabled:          true
-
+category: settings
+enabled: true
 events:
-  - name:         command_logger
-    type:         command
-    enabled:      true
-
-  - name:         delete_logger
-    type:         message_delete
-    enabled:      true
-
-  - name:         edit_logger
-    type:         message_edit
-    enabled:      true
-
-  - name:         join_logger
-    type:         member_join
-    enabled:      true
-
-  - name:         leave_logger
-    type:         member_remove
-    enabled:      true
+- enabled: true
+  name: command_logger
+  type: command
+- enabled: true
+  name: delete_logger
+  type: message_delete
+- enabled: true
+  name: edit_logger
+  type: message_edit
+- enabled: true
+  name: join_logger
+  type: member_join
+- enabled: true
+  name: leave_logger
+  type: member_remove
+name: Logging Executors

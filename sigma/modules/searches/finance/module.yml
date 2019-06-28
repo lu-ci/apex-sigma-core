@@ -1,17 +1,13 @@
-name:             Financial Searches
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         cryptocurrency
-    alts:
-      - "cryptocur"
-      - "crypcur"
-      - "ecoin"
-    enabled:      true
-    usage:        "{pfx}{cmd} ethereum"
-    description:
-      Shows the statistics for the specified crypto currency.
-      Stats include the current market cap, price, supply, volume, and change.
+- alts:
+  - cryptocur
+  - crypcur
+  - ecoin
+  description: Shows the statistics for the specified crypto currency. Stats include
+    the current market cap, price, supply, volume, and change.
+  enabled: true
+  name: cryptocurrency
+  usage: '{pfx}{cmd} ethereum'
+enabled: true
+name: Financial Searches

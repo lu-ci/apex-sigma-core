@@ -1,67 +1,54 @@
-﻿name:             Reminder Functions
-
-category:         miscellaneous
-
-enabled:          true
-
+category: miscellaneous
 commands:
-  - name:         remindme
-    alts:
-      - "setreminder"
-      - "remind"
-      - "alarm"
-      - "rmme"
-    enabled:      true
-    usage:        "{pfx}{cmd} 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!"
-    description:
-      Sets a timer that will mention the author when it's done.
-      The time format is H:M:S, but is not limited to the constraints of their types,
-      meaning you can type "200:5000:999999" if you wish.
-      Reminders are limited to 90 days, and you are limited to 15 reminders.
-      You can also add "--direct" as the final argument to make the reminder a direct message.
-
-  - name:         myreminders
-    alts:
-      - "reminders"
-      - "rms"
-    enabled:      true
-    usage:        "{pfx}{cmd} here"
-    description:
-      Shows a list of the reminders that you have created,
-      the location where they are set to execute in, and when they will be executed.
-      If you add "here" to the end of the command, it will only show reminders made in the current channel.
-
-  - name:         reminderinfo
-    alts:
-      - "reminder"
-      - "rminfo"
-      - "rmi"
-    enabled:      true
-    usage:        "{pfx}{cmd} f93f"
-    description:
-      Shows information about your reminder with the specified ID,
-      such as when it will execute and where.
-
-  - name:         removereminder
-    alts:
-      - "delreminder"
-      - "unremind"
-      - "delrm"
-    enabled:      true
-    usage:        "{pfx}{cmd} 1a9e"
-    description:
-      Deletes a reminder of yours with the specified ID.
-
-  - name:         delayreminder
-    alts:
-      - "delayrem"
-      - "drm"
-    enabled:      true
-    usage:        "{pfx}{cmd} 3f47 7:59:03"
-    description:
-      Delays a reminder of yours with the specified ID by the specified duration.
-
+- alts:
+  - setreminder
+  - remind
+  - alarm
+  - rmme
+  description: Sets a timer that will mention the author when it's done. The time
+    format is H:M:S, but is not limited to the constraints of their types, meaning
+    you can type "200:5000:999999" if you wish. Reminders are limited to 90 days,
+    and you are limited to 15 reminders. You can also add "--direct" as the final
+    argument to make the reminder a direct message.
+  enabled: true
+  name: remindme
+  usage: '{pfx}{cmd} 1:03:15 LEEEEROOOOY JEEEEEENKIIIIINS!'
+- alts:
+  - reminders
+  - rms
+  description: Shows a list of the reminders that you have created, the location where
+    they are set to execute in, and when they will be executed. If you add "here"
+    to the end of the command, it will only show reminders made in the current channel.
+  enabled: true
+  name: myreminders
+  usage: '{pfx}{cmd} here'
+- alts:
+  - reminder
+  - rminfo
+  - rmi
+  description: Shows information about your reminder with the specified ID, such as
+    when it will execute and where.
+  enabled: true
+  name: reminderinfo
+  usage: '{pfx}{cmd} f93f'
+- alts:
+  - delreminder
+  - unremind
+  - delrm
+  description: Deletes a reminder of yours with the specified ID.
+  enabled: true
+  name: removereminder
+  usage: '{pfx}{cmd} 1a9e'
+- alts:
+  - delayrem
+  - drm
+  description: Delays a reminder of yours with the specified ID by the specified duration.
+  enabled: true
+  name: delayreminder
+  usage: '{pfx}{cmd} 3f47 7:59:03'
+enabled: true
 events:
-  - name:    reminder_clockwork
-    type:    ready
-    enabled: true
+- enabled: true
+  name: reminder_clockwork
+  type: ready
+name: Reminder Functions

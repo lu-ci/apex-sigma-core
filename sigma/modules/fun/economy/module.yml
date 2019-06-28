@@ -1,66 +1,52 @@
-name:             Economy Commands
-
-category:         fun
-
-enabled:          true
-
+category: fun
 commands:
-  - name:         givecurrency
-    alts:
-      - "givecurr"
-      - "givekud"
-      - "gibcurr"
-      - "gibkud"
-    enabled:      true
-    usage:        "{pfx}{cmd} 500 @person"
-    description:
-      Transfers Kud between you and a mentioned person.
-      The Kud amount goes first, followed by the target.
-
-  - name:         giveitem
-    alts:
-      - "giveitm"
-      - "givei"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Karmotree"
-    description:
-      Transfers an item between you and a mentioned person.
-      Unlike currency commands, the target goes first and then the item name.
-
-  - name:         vault
-    alts:
-      - "bank"
-    enabled:      true
-    description:
-      Shows the current amount of Kud in the guild's vault.
-
-  - name:         givetovault
-    alts:
-      - "givetobank"
-      - "gtv"
-      - "gtb"
-    enabled:      true
-    usage:        "{pfx}{cmd} 500"
-    description:
-      The vault is a server specific Kud storage system.
-      Members can contribute to the vault with this command.
-      The Kud can then be awarded to users using the award command.
-
-  - name:         award
-    alts:
-      - "pay"
-    enabled:      true
-    usage:        "{pfx}{cmd} 500 @person"
-    description:
-      Awards the specified amount of Kud from the vault to a mentioned person.
-      The Kud amount goes first, followed by the target.
-      Anybody can contribute to the vault with the givetovault command,
-      but only users with the Manage Server permission can award Kud from the vault.
-
-  - name:         daily
-    enabled:      true
-    description:
-      Gives an amount of Kud to you with a 22 hour cooldown.
-      The amount is modified by the number of days in a row that you've collected
-      your daily Kud up to 10 days, as well as a little random factor in there just for fun.
-      While the Kud can be collected ever 22h, the streak resets 48h after the last one was collected.
+- alts:
+  - givecurr
+  - givekud
+  - gibcurr
+  - gibkud
+  description: Transfers Kud between you and a mentioned person. The Kud amount goes
+    first, followed by the target.
+  enabled: true
+  name: givecurrency
+  usage: '{pfx}{cmd} 500 @person'
+- alts:
+  - giveitm
+  - givei
+  description: Transfers an item between you and a mentioned person. Unlike currency
+    commands, the target goes first and then the item name.
+  enabled: true
+  name: giveitem
+  usage: '{pfx}{cmd} @person Karmotree'
+- alts:
+  - bank
+  description: Shows the current amount of Kud in the guild's vault.
+  enabled: true
+  name: vault
+- alts:
+  - givetobank
+  - gtv
+  - gtb
+  description: The vault is a server specific Kud storage system. Members can contribute
+    to the vault with this command. The Kud can then be awarded to users using the
+    award command.
+  enabled: true
+  name: givetovault
+  usage: '{pfx}{cmd} 500'
+- alts:
+  - pay
+  description: Awards the specified amount of Kud from the vault to a mentioned person.
+    The Kud amount goes first, followed by the target. Anybody can contribute to the
+    vault with the givetovault command, but only users with the Manage Server permission
+    can award Kud from the vault.
+  enabled: true
+  name: award
+  usage: '{pfx}{cmd} 500 @person'
+- description: Gives an amount of Kud to you with a 22 hour cooldown. The amount is
+    modified by the number of days in a row that you've collected your daily Kud up
+    to 10 days, as well as a little random factor in there just for fun. While the
+    Kud can be collected ever 22h, the streak resets 48h after the last one was collected.
+  enabled: true
+  name: daily
+enabled: true
+name: Economy Commands

@@ -1,12 +1,8 @@
-name:             Osu Commands
-
-category:         osu
-
-enabled:          true
-
+category: osu
 commands:
-  - name:         osu
-    enabled:      true
-    usage:        "{pfx}{cmd} AXAz0r"
-    description:
-      Generates a signature image with the specified user's stats for osu!.
+- description: Generates a signature image with the specified user's stats for osu!.
+  enabled: true
+  name: osu
+  usage: '{pfx}{cmd} AXAz0r'
+enabled: true
+name: Osu Commands

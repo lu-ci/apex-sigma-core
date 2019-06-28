@@ -1,57 +1,67 @@
-name:             Custom Responder Controls
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         addresponder
-    alts:
-      - "addres"
-    enabled:      true
-    usage:        "{pfx}{cmd} how are you; I am well!"
-    description:  |
-      Adds an auto-responder to the server. Sigma will automatically reply with the set message to any sentence that conaints the specified trigger in it as a standalone word. The trigger can be a word or phrase, separate the trigger from the response wuth a semicolon. Responders can have special dynamic arguments in them.
-      {author_name}     - Message author name.
-      {author_nick}     - Message author nickname.
-      {author_mention}  - Tag the message author.
-      {author_id}       - Message author's ID.
-      {channel_name}    - Channel name.
-      {channel_mention} - Channel tag.
-      {channel_id}      - Channel ID.
-      {server_name}     - Server name.
-      {server_id}       - Server ID.
-      {target_name}     - Target name.
-      {target_nick}     - Target nickname.
-      {target_mention}  - Tag the target.
-      {target_id}       - Target ID.
-      This command requires the Manage Server permission.
+- alts:
+  - addres
+  description: 'Adds an auto-responder to the server. Sigma will automatically reply
+    with the set message to any sentence that conaints the specified trigger in it
+    as a standalone word. The trigger can be a word or phrase, separate the trigger
+    from the response wuth a semicolon. Responders can have special dynamic arguments
+    in them.
 
-  - name:         removeresponder
-    alts:
-      - "deleteresponder"
-      - "remres"
-      - "delres"
-    enabled:      true
-    usage:        "{pfx}{cmd} hi"
-    description:
-      Removes a custom responder trigger from the server.
-      This command requires the Manage Server permission.
+    {author_name}     - Message author name.
 
-  - name:         responders
-    alts:
-      - "resps"
-    enabled:      true
-    usage:        "{pfx}{cmd} 4"
-    description:
-      Shows a list of the server's custom responder triggers.
-      The list is separated into pages of 10 items each.
-      You can specify the page number you want to see.
+    {author_nick}     - Message author nickname.
 
-  - name:         chatterbot
-    alts:
-      - "ai"
-      - "cb"
-    enabled:      true
-    description:
-      Toggles the ChatterBot core on and off.
+    {author_mention}  - Tag the message author.
+
+    {author_id}       - Message author''s ID.
+
+    {channel_name}    - Channel name.
+
+    {channel_mention} - Channel tag.
+
+    {channel_id}      - Channel ID.
+
+    {server_name}     - Server name.
+
+    {server_id}       - Server ID.
+
+    {target_name}     - Target name.
+
+    {target_nick}     - Target nickname.
+
+    {target_mention}  - Tag the target.
+
+    {target_id}       - Target ID.
+
+    This command requires the Manage Server permission.
+
+    '
+  enabled: true
+  name: addresponder
+  usage: '{pfx}{cmd} how are you; I am well!'
+- alts:
+  - deleteresponder
+  - remres
+  - delres
+  description: Removes a custom responder trigger from the server. This command requires
+    the Manage Server permission.
+  enabled: true
+  name: removeresponder
+  usage: '{pfx}{cmd} hi'
+- alts:
+  - resps
+  description: Shows a list of the server's custom responder triggers. The list is
+    separated into pages of 10 items each. You can specify the page number you want
+    to see.
+  enabled: true
+  name: responders
+  usage: '{pfx}{cmd} 4'
+- alts:
+  - ai
+  - cb
+  description: Toggles the ChatterBot core on and off.
+  enabled: true
+  name: chatterbot
+enabled: true
+name: Custom Responder Controls

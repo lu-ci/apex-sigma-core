@@ -1,14 +1,10 @@
-name:             Chatter Core
-
-category:         development
-
-enabled:          true
-
+category: development
+enabled: true
 events:
-  - name:         chatter_core_init
-    type:         boot
-    enabled:      true
-
-  - name:         chatter_core_responder
-    type:         message
-    enabled:      true
+- enabled: true
+  name: chatter_core_init
+  type: boot
+- enabled: true
+  name: chatter_core_responder
+  type: message
+name: Chatter Core

@@ -1,18 +1,12 @@
-name:             Geography Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         mapsearch
-    alts:
-      - "maps"
-      - "map"
-    enabled:      true
-    usage:        "{pfx}{cmd} Belgrade"
-    description:
-      Searches Google Maps for the specified location.
-      If specific details aren't found about the location,
-      it will return in a broad search.
-
+- alts:
+  - maps
+  - map
+  description: Searches Google Maps for the specified location. If specific details
+    aren't found about the location, it will return in a broad search.
+  enabled: true
+  name: mapsearch
+  usage: '{pfx}{cmd} Belgrade'
+enabled: true
+name: Geography Commands

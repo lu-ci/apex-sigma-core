@@ -1,62 +1,45 @@
-name:             Preference Settings
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         prefix
-    enabled:      true
-    usage:        "{pfx}{cmd} !!"
-    description:
-      Sets the prefix that Sigma should respond to.
-      This will be bound to your server and you can set it to anything you'd like.
-      However, the prefix must be two characters or longer and can not contain spaces,
-      they will be automatically removed. This command requires the Manage Server permission.
-
-  - name:         unflip
-    enabled:      true
-    description:
-      Toggles if Sigma should respond to tables being flipped.
-      This command requires the Manage Server permission.
-
-  - name:         filterautowarn
-    enabled:      true
-    description:
-      Toggles whether users will automatically receive a
-      warning upon triggering the blacklisted word/extentions filter.
-      Like the issuewarning command does, but automated.
-      This command requires the Manage Server permission.
-
-  - name:         inviteautowarn
-    enabled:      true
-    description:
-      Toggles whether users will automatically receive a
-      warning upon triggering the blacklisted invites filter.
-      Like the issuewarning command does, but automated.
-      This command requires the Manage Server permission.
-
-  - name:         deletecommands
-    alts:
-      - "delcmds"
-    enabled:      true
-    description:
-      Toggles whether messages that are a command should be automatically deleted.
-      This command requires the Manage Server permission.
-
-
-  - name:         colorroles
-    enabled:      true
-    description:
-      Toggles the color role feature. This is deactivated by default. Once enabled,
-      members can use the colorme command to get a role with their requested hex color.
-      Roles created with this feature have a SCR prefix in them and are created to be just one place under
-      Sigma's top role with no permission changes. This command requires the Manage Server permission.
-
-  - name:         resetserver
-    enabled:      true
-    usage:        "{pfx}{cmd} --permsonly"
-    description:
-      Permanently deletes all settings and permissions for Sigma on the current server.
-      You can add "--permsonly" or "--settingsonly" as an argument to only delete permissions or settings respectively.
-      This CANNOT be undone. This command requires the user to be the Server Owner.
+- description: Sets the prefix that Sigma should respond to. This will be bound to
+    your server and you can set it to anything you'd like. However, the prefix must
+    be two characters or longer and can not contain spaces, they will be automatically
+    removed. This command requires the Manage Server permission.
+  enabled: true
+  name: prefix
+  usage: '{pfx}{cmd} !!'
+- description: Toggles if Sigma should respond to tables being flipped. This command
+    requires the Manage Server permission.
+  enabled: true
+  name: unflip
+- description: Toggles whether users will automatically receive a warning upon triggering
+    the blacklisted word/extentions filter. Like the issuewarning command does, but
+    automated. This command requires the Manage Server permission.
+  enabled: true
+  name: filterautowarn
+- description: Toggles whether users will automatically receive a warning upon triggering
+    the blacklisted invites filter. Like the issuewarning command does, but automated.
+    This command requires the Manage Server permission.
+  enabled: true
+  name: inviteautowarn
+- alts:
+  - delcmds
+  description: Toggles whether messages that are a command should be automatically
+    deleted. This command requires the Manage Server permission.
+  enabled: true
+  name: deletecommands
+- description: Toggles the color role feature. This is deactivated by default. Once
+    enabled, members can use the colorme command to get a role with their requested
+    hex color. Roles created with this feature have a SCR prefix in them and are created
+    to be just one place under Sigma's top role with no permission changes. This command
+    requires the Manage Server permission.
+  enabled: true
+  name: colorroles
+- description: Permanently deletes all settings and permissions for Sigma on the current
+    server. You can add "--permsonly" or "--settingsonly" as an argument to only delete
+    permissions or settings respectively. This CANNOT be undone. This command requires
+    the user to be the Server Owner.
+  enabled: true
+  name: resetserver
+  usage: '{pfx}{cmd} --permsonly'
+enabled: true
+name: Preference Settings

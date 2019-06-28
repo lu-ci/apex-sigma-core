@@ -1,29 +1,21 @@
-name:             Comic Commands
-
-category:         fun
-
-enabled:          true
-
+category: fun
 commands:
-  - name:         cyanideandhappiness
-    alts:
-      - "cnh"
-    enabled:      true
-    description:
-      Outputs an image of a random Cyanide and Happiness comic.
-      Explosm makes awesome comics and animations.
-
-  - name:         randomcomicgenerator
-    alts:
-      - "rcg"
-    enabled:      true
-    description:
-      Uses the Cyanide and Happiness random comic generator for buttloads of fun.
-      Personal favorite comic command.
-
-  - name:         xkcd
-    enabled:      true
-    description:
-      If you like humorous things and know a bit of technology,
-      you will lose a lot of time reading these.
-      XKCD comics are perfect for procrastination and time wasting.
+- alts:
+  - cnh
+  description: Outputs an image of a random Cyanide and Happiness comic. Explosm makes
+    awesome comics and animations.
+  enabled: true
+  name: cyanideandhappiness
+- alts:
+  - rcg
+  description: Uses the Cyanide and Happiness random comic generator for buttloads
+    of fun. Personal favorite comic command.
+  enabled: true
+  name: randomcomicgenerator
+- description: If you like humorous things and know a bit of technology, you will
+    lose a lot of time reading these. XKCD comics are perfect for procrastination
+    and time wasting.
+  enabled: true
+  name: xkcd
+enabled: true
+name: Comic Commands

@@ -1,69 +1,60 @@
-name:             Message Moderation
-
-category:         moderation
-
-enabled:          true
-
+category: moderation
 commands:
-  - name:         purge
-    alts:
-      - "prune"
-    enabled:      true
-    usage:        "{pfx}{cmd} X @person"
-    requirements:
-      - "manage_messages"
-    description:
-      Deletes any messages posted by the mentioned user within the last X messages.
-      If a user is not provided, it will prune the last X messages regardless of poster.
-      If a number is not provided it will prune all messages posted by the mentioned user within the last 100 messages.
-      If neither number nor user is provided, it will prune Sigma's messages within the last 100 messages.
-      If you add "attachments" to the command arguments it will only purge messages that have attachments.
-      If you add "emotes" to the command arguments it will only purge messages that are just emotes.
-      If you add "content:something you want gone" to the command arguments it will only delete messages
-      that have the specified content after "content:" in them, which can be a word or a sentence.
-      Due to content catching everything after the ":" in it, it's suggested to be the last argument in the command.
-      This command requires the Manage Messages permission.
-
-  - name:         removereaction
-    alts:
-      - "removeemote"
-      - "rememote"
-    enabled:      true
-    usage:        "{pfx}{cmd} 1234567890 lcHello"
-    requirements:
-      - "manage_messages"
-    description:
-      Removes the given emote from the specified message.
-      Specify the message by its ID. If the emote is custom, use its name, otherwise use the actual emote.
-      This command requires the Manage Messages permission.
-
-  - name:         textmute
-    alts:
-      - "tmute"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Was too spicy!"
-    requirements:
-      - "manage_messages"
-    description:
-      Disallows the user from typing. Well technically, it will make Sigma auto delete any message they send.
-      You can add a reason after the user mention if desired. Users with the Those with the Administrator
-      permission are not affected. You can specify a duration by adding "--time=HH:MM:SS" as the last argument.
-      The user will be automatically unmuted after the duration elapses.
-      This command requires the Manage Messages permission.
-
-  - name:         textunmute
-    alts:
-      - "tunmute"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    requirements:
-      - "manage_messages"
-    description:
-      Removes the mentioned person from the list of muted users,
-      making Sigma no longer delete their messages.
-      This command requires the Manage Messages permission.
-
+- alts:
+  - prune
+  description: Deletes any messages posted by the mentioned user within the last X
+    messages. If a user is not provided, it will prune the last X messages regardless
+    of poster. If a number is not provided it will prune all messages posted by the
+    mentioned user within the last 100 messages. If neither number nor user is provided,
+    it will prune Sigma's messages within the last 100 messages. If you add "attachments"
+    to the command arguments it will only purge messages that have attachments. If
+    you add "emotes" to the command arguments it will only purge messages that are
+    just emotes. If you add "content:something you want gone" to the command arguments
+    it will only delete messages that have the specified content after "content:"
+    in them, which can be a word or a sentence. Due to content catching everything
+    after the ":" in it, it's suggested to be the last argument in the command. This
+    command requires the Manage Messages permission.
+  enabled: true
+  name: purge
+  requirements:
+  - manage_messages
+  usage: '{pfx}{cmd} X @person'
+- alts:
+  - removeemote
+  - rememote
+  description: Removes the given emote from the specified message. Specify the message
+    by its ID. If the emote is custom, use its name, otherwise use the actual emote.
+    This command requires the Manage Messages permission.
+  enabled: true
+  name: removereaction
+  requirements:
+  - manage_messages
+  usage: '{pfx}{cmd} 1234567890 lcHello'
+- alts:
+  - tmute
+  description: Disallows the user from typing. Well technically, it will make Sigma
+    auto delete any message they send. You can add a reason after the user mention
+    if desired. Users with the Those with the Administrator permission are not affected.
+    You can specify a duration by adding "--time=HH:MM:SS" as the last argument. The
+    user will be automatically unmuted after the duration elapses. This command requires
+    the Manage Messages permission.
+  enabled: true
+  name: textmute
+  requirements:
+  - manage_messages
+  usage: '{pfx}{cmd} @person Was too spicy!'
+- alts:
+  - tunmute
+  description: Removes the mentioned person from the list of muted users, making Sigma
+    no longer delete their messages. This command requires the Manage Messages permission.
+  enabled: true
+  name: textunmute
+  requirements:
+  - manage_messages
+  usage: '{pfx}{cmd} @person'
+enabled: true
 events:
-  - name:         mute_checker
-    type:         message
-    enabled:      true
+- enabled: true
+  name: mute_checker
+  type: message
+name: Message Moderation

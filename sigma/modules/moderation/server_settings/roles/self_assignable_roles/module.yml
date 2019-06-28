@@ -1,88 +1,71 @@
-name:             SelfRole Controls
-
-category:         roles
-
-enabled:          true
-
+category: roles
 commands:
-  - name:         addselfrole
-    alts:
-      - "addrank"
-      - "asr"
-    enabled:      true
-    usage:        "{pfx}{cmd} Cheese Lover"
-    requirements:
-      - "manage_roles"
-    description:
-      Sets a role as self assignable.
-      Roles that are self assignable can be manually assign by anyone.
-      To assign a self assignbale role to yourself, use the togglerole command.
-      This command requires the Manage Roles permission.
-
-  - name:         delselfrole
-    alts:
-      - "delrank"
-      - "rsr"
-      - "dsr"
-    enabled:      true
-    usage:        "{pfx}{cmd} Meat Lover"
-    requirements:
-      - "manage_roles"
-    description:
-      This command requires the Manage Roles permission.
-
-  - name:         toggleselfrole
-    alts:
-      - "tsr"
-    enabled:      true
-    usage:        "{pfx}{cmd} Meat Lover"
-    requirements:
-      - "manage_roles"
-    description:
-      The addselfrole and delselfrole in one.
-      It toggles the self-assignability of a role.
-      This command requires the Manage Roles permission.
-
-  - name:         listselfroles
-    alts:
-      - "listranks"
-      - "listroles"
-      - "ranks"
-      - "roles"
-      - "lsrl"
-    enabled:      true
-    description:
-      Lists all self assignable roles on the server.
-
-  - name:         togglerole
-    alts:
-      - "togglerank"
-      - "rank"
-      - "trl"
-    enabled:      true
-    usage:        "{pfx}{cmd} Overlord"
-    requirements:
-      - "manage_roles"
-    description:
-      Toggles a self assignable role.
-      If you don't have the role, it will be given to you.
-      If you do have the role, it will be removed from you.
-
-  - name:         colorme
-    alts:
-      - "colourme"
-      - "clrme"
-      - "cme"
-    enabled:      true
-    usage:        "{pfx}{cmd} #1abc9c"
-    requirements:
-      - "manage_roles"
-    description:
-      If the current guild has color roles enabled, you can assign one to yourself with this command.
-      For more information about how this works, use the help command on "colorroles".
-      Any other color roles made via this command will be removed from you prior to adding the new one.
-
+- alts:
+  - addrank
+  - asr
+  description: Sets a role as self assignable. Roles that are self assignable can
+    be manually assign by anyone. To assign a self assignbale role to yourself, use
+    the togglerole command. This command requires the Manage Roles permission.
+  enabled: true
+  name: addselfrole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} Cheese Lover'
+- alts:
+  - delrank
+  - rsr
+  - dsr
+  description: This command requires the Manage Roles permission.
+  enabled: true
+  name: delselfrole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} Meat Lover'
+- alts:
+  - tsr
+  description: The addselfrole and delselfrole in one. It toggles the self-assignability
+    of a role. This command requires the Manage Roles permission.
+  enabled: true
+  name: toggleselfrole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} Meat Lover'
+- alts:
+  - listranks
+  - listroles
+  - ranks
+  - roles
+  - lsrl
+  description: Lists all self assignable roles on the server.
+  enabled: true
+  name: listselfroles
+- alts:
+  - togglerank
+  - rank
+  - trl
+  description: Toggles a self assignable role. If you don't have the role, it will
+    be given to you. If you do have the role, it will be removed from you.
+  enabled: true
+  name: togglerole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} Overlord'
+- alts:
+  - colourme
+  - clrme
+  - cme
+  description: If the current guild has color roles enabled, you can assign one to
+    yourself with this command. For more information about how this works, use the
+    help command on "colorroles". Any other color roles made via this command will
+    be removed from you prior to adding the new one.
+  enabled: true
+  name: colorme
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} #1abc9c'
+enabled: true
 events:
-  - name:         scr_cleaner_clock
-    type:         ready
-    enabled:      true
+- enabled: true
+  name: scr_cleaner_clock
+  type: ready
+name: SelfRole Controls

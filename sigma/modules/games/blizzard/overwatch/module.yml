@@ -1,16 +1,13 @@
-name:             Overwatch
-
-category:         overwatch
-
-enabled:          true
-
+category: overwatch
 commands:
-  - name:         overwatch
-    alts:
-      - "owstats"
-      - "ow"
-    enabled:      true
-    usage:        "{pfx}{cmd} EU Aurora#22978"
-    description:
-      Outputs the Overwatch statistics for the specified player from the specified region.
-      Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978.
+- alts:
+  - owstats
+  - ow
+  description: Outputs the Overwatch statistics for the specified player from the
+    specified region. Do note that the battletag is case sensitive, Aurora#22978 is
+    not the same as aurora#22978.
+  enabled: true
+  name: overwatch
+  usage: '{pfx}{cmd} EU Aurora#22978'
+enabled: true
+name: Overwatch

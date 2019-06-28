@@ -1,54 +1,62 @@
-name:             DM Greeting Settings
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         greetdm
-    alts:
-      - "greetpm"
-    enabled:      true
-    description:
-      Toggles if Sigma should greet users via a DM when they enter the server.
-      This can be enabled in addition to server-bound greetings.
-      This command requires the Manage Server permission.
+- alts:
+  - greetpm
+  description: Toggles if Sigma should greet users via a DM when they enter the server.
+    This can be enabled in addition to server-bound greetings. This command requires
+    the Manage Server permission.
+  enabled: true
+  name: greetdm
+- alts:
+  - greetdmmsg
+  description: 'This sets the message shown in the DM when a member joins. Greet messages
+    can have special dynamic arguments in them.
 
-  - name:         greetdmmessage
-    alts:
-      - "greetdmmsg"
-    enabled:      true
-    usage:        "{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!"
-    description:  |
-      This sets the message shown in the DM when a member joins. Greet messages can have special dynamic arguments in them.
-      {user_name}     - Joining user's name.
-      {user_disc}     - "#xxxx" in the user's name.
-      {user_nick}     - Message author's nickname.
-      {user_mention}  - Tag the leaving user.
-      {user_id}       - Joining user's ID.
-      {server_name}   - Server name.
-      {server_id}     - Server ID.
-      {owner_name}    - Server owner's name.
-      {owner_disc}    - "#xxxx" in the server owner's name.
-      {owner_nick}    - Server owner's nickname.
-      {owner_mention} - Tag the server owner.
-      {owner_id}      - Server owner's ID.
-      This command requires the Manage Server permission.
+    {user_name}     - Joining user''s name.
 
-  - name:         greetdmembed
-    alts:
-      - "greetdmemb"
-    enabled:      true
-    usage:        "{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png"
-    description:
-      Toggles whether DM greet messages are an embed or not. Also customizes the embed that is used.
-      You can change the embed color, set the thumbnail, and set the image. To do so, specify the
-      field and the value separated by a colon (see usage example). The accepted fields are color,
-      thumbnail, and image. Color accepts only HEX codes, while the other two accept only direct
-      image URLs. Provide no arguments to toggle this feature on or off.
-      This command requires the Manage Server permission.
+    {user_disc}     - "#xxxx" in the user''s name.
 
+    {user_nick}     - Message author''s nickname.
+
+    {user_mention}  - Tag the leaving user.
+
+    {user_id}       - Joining user''s ID.
+
+    {server_name}   - Server name.
+
+    {server_id}     - Server ID.
+
+    {owner_name}    - Server owner''s name.
+
+    {owner_disc}    - "#xxxx" in the server owner''s name.
+
+    {owner_nick}    - Server owner''s nickname.
+
+    {owner_mention} - Tag the server owner.
+
+    {owner_id}      - Server owner''s ID.
+
+    This command requires the Manage Server permission.
+
+    '
+  enabled: true
+  name: greetdmmessage
+  usage: '{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!'
+- alts:
+  - greetdmemb
+  description: Toggles whether DM greet messages are an embed or not. Also customizes
+    the embed that is used. You can change the embed color, set the thumbnail, and
+    set the image. To do so, specify the field and the value separated by a colon
+    (see usage example). The accepted fields are color, thumbnail, and image. Color
+    accepts only HEX codes, while the other two accept only direct image URLs. Provide
+    no arguments to toggle this feature on or off. This command requires the Manage
+    Server permission.
+  enabled: true
+  name: greetdmembed
+  usage: '{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png'
+enabled: true
 events:
-  - name:         greetdm_sender
-    type:         member_join
-    enabled:      true
+- enabled: true
+  name: greetdm_sender
+  type: member_join
+name: DM Greeting Settings

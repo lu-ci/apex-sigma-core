@@ -1,119 +1,106 @@
-name:             Not Safe For Work
-
-category:         nsfw
-
-enabled:          true
-
+category: nsfw
 commands:
-  - name:         boobs
-    alts:
-      - "tits"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    description:
-      Outputs a random NSFW image focusing on the breasts of the model.
+- alts:
+  - tits
+  description: Outputs a random NSFW image focusing on the breasts of the model.
+  enabled: true
+  name: boobs
+  permissions:
+    nsfw: true
+- alts:
+  - ass
+  description: Outputs a random NSFW image focusing on the butt of the model.
+  enabled: true
+  name: butts
+  permissions:
+    nsfw: true
+- description: Searches E621 for the specified tag. If no tag is given, the keyword
+    "nude" will be used. Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: e621
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} knot'
+- alts:
+  - gelb
+  description: Searches Gelbooru for the specified tag. If no tag is given, the keyword
+    "nude" will be used Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: gelbooru
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} ovum'
+- alts:
+  - xb
+  description: Searches Xbooru for the specified tag. If no tag is given, the keyword
+    "nude" will be used. Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: xbooru
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} ovum'
+- description: 'Returns a Key Visual Arts VN CG.
 
-  - name:         butts
-    alts:
-      - "ass"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    description:
-      Outputs a random NSFW image focusing on the butt of the model.
+    It picks a random VN and a random CG from that VN.
 
-  - name:         e621
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} knot"
-    description:
-      Searches E621 for the specified tag.
-      If no tag is given, the keyword "nude" will be used.
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    You can specify the VN you want the CG to be from.
 
-  - name:         gelbooru
-    alts:
-      - "gelb"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} ovum"
-    description:
-      Searches Gelbooru for the specified tag.
-      If no tag is given, the keyword "nude" will be used
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    "kud"    - Kud Wafter
 
-  - name:         xbooru
-    alts:
-      - "xb"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} ovum"
-    description:
-      Searches Xbooru for the specified tag.
-      If no tag is given, the keyword "nude" will be used.
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    "air"    - Air
 
-  - name:         keyvis
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} kud"
-    description:  |
-      Returns a Key Visual Arts VN CG.
-      It picks a random VN and a random CG from that VN.
-      You can specify the VN you want the CG to be from.
-      "kud"    - Kud Wafter
-      "air"    - Air
-      "kanon"  - Kanon
-      "little" - Little Busters
-      "clan"   - Clannad
-      "plan"   - Planetarian
-      "rewr"   - Rewrite
-      "harv"   - Rewrite Harvest Festa
-      This command is NSFW due to some CGs being explicit.
+    "kanon"  - Kanon
 
-  - name:         konachan
-    alts:
-      - "kchan"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} thighhighs"
-    description:
-      Searches Konachan for the specified tag.
-      If no tag is given, the keyword "nude" will be used.
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    "little" - Little Busters
 
-  - name:         rule34
-    alts:
-      - "r34"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} switch"
-    description:
-      Searches Rule34 for the specified tag.
-      If no tag is given, the keyword "nude" will be used
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    "clan"   - Clannad
 
-  - name:         yandere
-    alts:
-      - "yre"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} naked_apron"
-    description:
-      Searches yandere for the specified tag.
-      If no tag is given, the keyword "nude" will be used.
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+    "plan"   - Planetarian
+
+    "rewr"   - Rewrite
+
+    "harv"   - Rewrite Harvest Festa
+
+    This command is NSFW due to some CGs being explicit.
+
+    '
+  enabled: true
+  name: keyvis
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} kud'
+- alts:
+  - kchan
+  description: Searches Konachan for the specified tag. If no tag is given, the keyword
+    "nude" will be used. Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: konachan
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} thighhighs'
+- alts:
+  - r34
+  description: Searches Rule34 for the specified tag. If no tag is given, the keyword
+    "nude" will be used Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: rule34
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} switch'
+- alts:
+  - yre
+  description: Searches yandere for the specified tag. If no tag is given, the keyword
+    "nude" will be used. Separate different tags with a space and replace spaces within
+    a single tag with underscores "_".
+  enabled: true
+  name: yandere
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} naked_apron'
+enabled: true
+name: Not Safe For Work

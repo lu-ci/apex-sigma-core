@@ -1,84 +1,68 @@
-name:             Azur Lane Commands
-
-category:         azur_lane
-
-enabled:          true
-
+category: azur_lane
 commands:
-  - name:         azurlaneship
-    alts:
-      - "alship"
-      - "azurelaneship"
-    enabled:      true
-    usage:        "{pfx}{cmd} Laffey"
-    description:
-      Shows information about an Azur Lane ship.
-      Such as stats, rarity, skills, etc.
-      You can add "--no-image" to the end of the command
-      to prevent the addition of the ship's default image.
-      You can also add "--retrofit" to show the ship's retrofit stats,
-      and "--awaken" to see Lv. 100 and 120 stats instead of Base and Lv. 100.
-
-  - name:         azurlaneimpersonate
-    alts:
-      - "azurlanemimic"
-      - "alimpersonate"
-      - "almimic"
-    enabled:      true
-    usage:        "{pfx}{cmd} Helena"
-    description:
-      Makes a markov chain generated sentence from
-      the ship's quotes. If no ship is specified all will be used.
-
-  - name:         azurlaneskins
-    alts:
-      - "azurelaneskins"
-      - "alskins"
-    enabled:      true
-    usage:        "{pfx}{cmd} Cygnet"
-    description:
-      Lists all the skins that the given ship has.
-      The skins can be viewed with the "azurlaneskin" command.
-
-  - name:         azurlaneskin
-    alts:
-      - "azurelaneskin"
-      - "alskin"
-    enabled:      true
-    usage:        "{pfx}{cmd} Ning Hai; Summer Hunger"
-    description:
-      Shows the given ship skin.
-      You can get a list of skins that a ship has with the "azurlaneskins" command.
-
-  - name:         azurlaneskills
-    alts:
-      - "azurelaneskills"
-      - "alskills"
-    enabled:      true
-    usage:        "{pfx}{cmd} Avrora"
-    description:
-      Shows the ship's skills, what type they are and what they do.
-
-  - name:         azurlaneacquisition
-    alts:
-      - "azurelaneacquisition"
-      - "azurelaneacq"
-      - "azurlaneacq"
-      - "azurelanedrops"
-      - "azurlanedrops"
-      - "azurelanedrop"
-      - "azurlanedrop"
-      - "azurelanebuild"
-      - "azurlanebuild"
-      - "alacq"
-      - "aldrops"
-      - "aldrop"
-    enabled:      true
-    usage:        "{pfx}{cmd} Hardy"
-    description:
-      Shows how you can get the given ship.
-
+- alts:
+  - alship
+  - azurelaneship
+  description: Shows information about an Azur Lane ship. Such as stats, rarity, skills,
+    etc. You can add "--no-image" to the end of the command to prevent the addition
+    of the ship's default image. You can also add "--retrofit" to show the ship's
+    retrofit stats, and "--awaken" to see Lv. 100 and 120 stats instead of Base and
+    Lv. 100.
+  enabled: true
+  name: azurlaneship
+  usage: '{pfx}{cmd} Laffey'
+- alts:
+  - azurlanemimic
+  - alimpersonate
+  - almimic
+  description: Makes a markov chain generated sentence from the ship's quotes. If
+    no ship is specified all will be used.
+  enabled: true
+  name: azurlaneimpersonate
+  usage: '{pfx}{cmd} Helena'
+- alts:
+  - azurelaneskins
+  - alskins
+  description: Lists all the skins that the given ship has. The skins can be viewed
+    with the "azurlaneskin" command.
+  enabled: true
+  name: azurlaneskins
+  usage: '{pfx}{cmd} Cygnet'
+- alts:
+  - azurelaneskin
+  - alskin
+  description: Shows the given ship skin. You can get a list of skins that a ship
+    has with the "azurlaneskins" command.
+  enabled: true
+  name: azurlaneskin
+  usage: '{pfx}{cmd} Ning Hai; Summer Hunger'
+- alts:
+  - azurelaneskills
+  - alskills
+  description: Shows the ship's skills, what type they are and what they do.
+  enabled: true
+  name: azurlaneskills
+  usage: '{pfx}{cmd} Avrora'
+- alts:
+  - azurelaneacquisition
+  - azurelaneacq
+  - azurlaneacq
+  - azurelanedrops
+  - azurlanedrops
+  - azurelanedrop
+  - azurlanedrop
+  - azurelanebuild
+  - azurlanebuild
+  - alacq
+  - aldrops
+  - aldrop
+  description: Shows how you can get the given ship.
+  enabled: true
+  name: azurlaneacquisition
+  usage: '{pfx}{cmd} Hardy'
+enabled: true
 events:
-  - name:         dbinit_azur_lane
-    type:         dbinit
-    enabled:      true
+- enabled: true
+  name: dbinit_azur_lane
+  type: dbinit
+name: Azur Lane Commands

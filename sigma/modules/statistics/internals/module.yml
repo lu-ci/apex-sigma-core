@@ -1,68 +1,55 @@
-name:             Internal Statistics
-
-category:         statistics
-
-enabled:          true
-
+category: statistics
 commands:
-  - name:         wallet
-    alts:
-      - "currency"
-      - "money"
-      - "kud"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows how much of Sigma's internal currency you currently have,
-      as well as how much you've earned on the current server and in total.
-      Kud is earned by being an active member of the community.
-      Yes, this is meant to be vague.
-
-  - name:         experience
-    alts:
-      - "activity"
-      - "level"
-      - "exp"
-      - "xp"
-    enabled:      false
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows how much of Sigma's internal experience you've obtained.
-      Experience is earned by being an active member of the community.
-      Yes, this is meant to be vague.
-
-  - name:         resources
-    alts:
-      - "reslist"
-      - "res"
-    enabled:      true
-    description:
-      Shows all the available resources and how many you have of each.
-
-  - name:         resourcestatistics
-    alts:
-      - "resourcestats"
-      - "resstats"
-    enabled:      true
-    usage:        "{pfx}{cmd} currency @person --expense"
-    description:
-      Shows statistical data for the given resource type.
-      You can use the bot's currency name instead of "currency", like "kud" for example.
-      Resources also include "experience" and "cookies".
-      The command will show where you got that resource.
-      From which user, which server, which channel and with which function.
-      Only "earned" resources are tracked however, meaning that there's no data on gambling.
-      You can also add "--expense" to the end of the command to see where you spent that resource
-      instead of showing where you got it as well as target a user with the command to see their stats.
-      You can see all available resources with the "resourcelist" command.
-
-  - name:         commandstatistics
-    alts:
-      - "cmdstatistics"
-      - "commandstats"
-      - "cmdstats"
-    enabled:      true
-    usage:        "{pfx}{cmd} shootfoot"
-    description:
-      Shows a paginated table showing how many times each command was used.
-      You can view a specific command by adding its name as an argument.
+- alts:
+  - currency
+  - money
+  - kud
+  description: Shows how much of Sigma's internal currency you currently have, as
+    well as how much you've earned on the current server and in total. Kud is earned
+    by being an active member of the community. Yes, this is meant to be vague.
+  enabled: true
+  name: wallet
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - activity
+  - level
+  - exp
+  - xp
+  description: Shows how much of Sigma's internal experience you've obtained. Experience
+    is earned by being an active member of the community. Yes, this is meant to be
+    vague.
+  enabled: false
+  name: experience
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - reslist
+  - res
+  description: Shows all the available resources and how many you have of each.
+  enabled: true
+  name: resources
+- alts:
+  - resourcestats
+  - resstats
+  description: Shows statistical data for the given resource type. You can use the
+    bot's currency name instead of "currency", like "kud" for example. Resources also
+    include "experience" and "cookies". The command will show where you got that resource.
+    From which user, which server, which channel and with which function. Only "earned"
+    resources are tracked however, meaning that there's no data on gambling. You can
+    also add "--expense" to the end of the command to see where you spent that resource
+    instead of showing where you got it as well as target a user with the command
+    to see their stats. You can see all available resources with the "resourcelist"
+    command.
+  enabled: true
+  name: resourcestatistics
+  usage: '{pfx}{cmd} currency @person --expense'
+- alts:
+  - cmdstatistics
+  - commandstats
+  - cmdstats
+  description: Shows a paginated table showing how many times each command was used.
+    You can view a specific command by adding its name as an argument.
+  enabled: true
+  name: commandstatistics
+  usage: '{pfx}{cmd} shootfoot'
+enabled: true
+name: Internal Statistics

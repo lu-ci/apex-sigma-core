@@ -1,25 +1,19 @@
-name:             Girls Frontline
-
-category:         girls_frontline
-
-enabled:          true
-
+category: girls_frontline
 commands:
-  - name:         gftdollproduction
-    alts:
-      - "gftdprod"
-      - "gftdp"
-    enabled:      true
-    usage:        "{pfx}{cmd} 3:58"
-    description:
-      Shows which dolls drop from the given time and their rarity.
-
-  - name:         gftacticaldoll
-    alts:
-      - "gftdoll"
-      - "gftd"
-    enabled:      true
-    usage:        "{pfx}{cmd} "
-    description:
-      Shows information for the selected T-Doll. Such as rarity,
-      type, statistics, production origin, and the like.
+- alts:
+  - gftdprod
+  - gftdp
+  description: Shows which dolls drop from the given time and their rarity.
+  enabled: true
+  name: gftdollproduction
+  usage: '{pfx}{cmd} 3:58'
+- alts:
+  - gftdoll
+  - gftd
+  description: Shows information for the selected T-Doll. Such as rarity, type, statistics,
+    production origin, and the like.
+  enabled: true
+  name: gftacticaldoll
+  usage: '{pfx}{cmd} '
+enabled: true
+name: Girls Frontline

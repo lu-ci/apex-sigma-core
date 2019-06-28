@@ -1,10 +1,7 @@
-name:             Experience Awarding
-
-category:         administration
-
-enabled:          false
-
+category: administration
+enabled: false
 events:
-  - name:         experience_activity
-    type:         message
-    enabled:      true
+- enabled: true
+  name: experience_activity
+  type: message
+name: Experience Awarding

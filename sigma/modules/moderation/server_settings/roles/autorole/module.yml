@@ -1,98 +1,79 @@
-name:             Autorole Controls
-
-category:         roles
-
-enabled:          true
-
+category: roles
 commands:
-  - name:         autorole
-    alts:
-      - "autorank"
-    enabled:      true
-    usage:        "{pfx}{cmd} Newcomer"
-    requirements:
-      - "manage_roles"
-    description:
-      Sets which role should be given to members upon joing the server.
-      The role must be below Sigma's highest role.
-      If you want to disable the autorole, input "disable" as the role name.
-      This command requires the Manage Server permission.
-
-  - name:         autoroletimeout
-    alts:
-      - "arltimeout"
-      - "arlt"
-    enabled:      true
-    usage:        "{pfx}{cmd} 600"
-    description:
-      Sets the number of seconds Sigma should wait before assigning the set auto-role.
-      To disable the timeout, input 0 as the timeout.
-      This command requires the Manage Server permission.
-
-  - name:         bindinvite
-    alts:
-      - "bindinvs"
-      - "binvite"
-      - "binv"
-    enabled:      true
-    usage:        "{pfx}{cmd} aEUCHwX Cheese Lovers"
-    requirements:
-      - "manage_guild"
-      - "manage_roles"
-      - "create_instant_invite"
-    description:
-      Binds an invite to a role.
-      When a member joins the server using that invite,
-      the specified role will be given to them.
-      This command requires the Create Instant Invites permission.
-
-  - name:         syncinvites
-    alts:
-      - "syncinvs"
-      - "sinvs"
-    enabled:      true
-    requirements:
-      - "manage_guild"
-    description:
-      Forces an update of the invite cache for your server.
-      For use if you have suspicions that the bound role counters are out of sync.
-
-  - name:         boundinvites
-    alts:
-      - "boundinvs"
-      - "binvites"
-      - "binvs"
-    enabled:      true
-    description:
-      Lists all invites that are bound and what they are bound to.
-      This command requires the Create Instant Invites permission.
-
-  - name:         unbindinvite
-    alts:
-      - "unbinvite"
-      - "unbindinv"
-      - "unbinv"
-    enabled:      true
-    usage:        "{pfx}{cmd} aEUCHwX"
-    requirements:
-      - "manage_guild"
-      - "manage_roles"
-      - "create_instant_invite"
-    description:
-      Unbinds a previously bound invite from its bound role.
-      If the invite with that ID no longer exists on your server, add ":f" to the end to force remove it.
-      Please note that when you force the removal of an invite that it is case sensitive.
-      This command requires the Create Instant Invites permission.
-
+- alts:
+  - autorank
+  description: Sets which role should be given to members upon joing the server. The
+    role must be below Sigma's highest role. If you want to disable the autorole,
+    input "disable" as the role name. This command requires the Manage Server permission.
+  enabled: true
+  name: autorole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} Newcomer'
+- alts:
+  - arltimeout
+  - arlt
+  description: Sets the number of seconds Sigma should wait before assigning the set
+    auto-role. To disable the timeout, input 0 as the timeout. This command requires
+    the Manage Server permission.
+  enabled: true
+  name: autoroletimeout
+  usage: '{pfx}{cmd} 600'
+- alts:
+  - bindinvs
+  - binvite
+  - binv
+  description: Binds an invite to a role. When a member joins the server using that
+    invite, the specified role will be given to them. This command requires the Create
+    Instant Invites permission.
+  enabled: true
+  name: bindinvite
+  requirements:
+  - manage_guild
+  - manage_roles
+  - create_instant_invite
+  usage: '{pfx}{cmd} aEUCHwX Cheese Lovers'
+- alts:
+  - syncinvs
+  - sinvs
+  description: Forces an update of the invite cache for your server. For use if you
+    have suspicions that the bound role counters are out of sync.
+  enabled: true
+  name: syncinvites
+  requirements:
+  - manage_guild
+- alts:
+  - boundinvs
+  - binvites
+  - binvs
+  description: Lists all invites that are bound and what they are bound to. This command
+    requires the Create Instant Invites permission.
+  enabled: true
+  name: boundinvites
+- alts:
+  - unbinvite
+  - unbindinv
+  - unbinv
+  description: Unbinds a previously bound invite from its bound role. If the invite
+    with that ID no longer exists on your server, add ":f" to the end to force remove
+    it. Please note that when you force the removal of an invite that it is case sensitive.
+    This command requires the Create Instant Invites permission.
+  enabled: true
+  name: unbindinvite
+  requirements:
+  - manage_guild
+  - manage_roles
+  - create_instant_invite
+  usage: '{pfx}{cmd} aEUCHwX'
+enabled: true
 events:
-  - name:         autorole_control
-    type:         member_join
-    enabled:      true
-
-  - name:         bound_role_cacher
-    type:         ready
-    enabled:      true
-
-  - name:         bound_role_control
-    type:         member_join
-    enabled:      true
+- enabled: true
+  name: autorole_control
+  type: member_join
+- enabled: true
+  name: bound_role_cacher
+  type: ready
+- enabled: true
+  name: bound_role_control
+  type: member_join
+name: Autorole Controls

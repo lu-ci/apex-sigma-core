@@ -1,26 +1,20 @@
-name:             Inventory Item Control
-
-category:         development
-
-enabled:          true
-
+category: development
 commands:
-  - name:         generateitem
-    alts:
-      - "genitem"
-    enabled:      true
-    permissions:
-      owner:      true
-    usage:        "{pfx}{cmd} @person Blue Delta"
-    description:
-      Creates and gives the specified item to the mentioned user.
-
-  - name:         destroyitem
-    alts:
-      - "desitem"
-    enabled:      true
-    permissions:
-      owner:      true
-    usage:        "{pfx}{cmd} abcdef1234567890"
-    description:
-      Destroys the item with the specified ID.
+- alts:
+  - genitem
+  description: Creates and gives the specified item to the mentioned user.
+  enabled: true
+  name: generateitem
+  permissions:
+    owner: true
+  usage: '{pfx}{cmd} @person Blue Delta'
+- alts:
+  - desitem
+  description: Destroys the item with the specified ID.
+  enabled: true
+  name: destroyitem
+  permissions:
+    owner: true
+  usage: '{pfx}{cmd} abcdef1234567890'
+enabled: true
+name: Inventory Item Control

@@ -1,42 +1,32 @@
-name:             Warmachines
-
-category:         gachapon
-
-enabled:          false
-
+category: gachapon
 commands:
-  - name:         warmachinenew
-    alts:
-      - "wmnew"
-      - "wmn"
-    enabled:      true
-    description:
-      Makes a new Warmachine.
-
-  - name:         warmachineinspect
-    alts:
-      - "wminspect"
-      - "wmins"
-    enabled:      true
-    description:
-      Shows the details of your warmachine, its stats, and battle wins and losses.
-
-  - name:         warmachinelist
-    alts:
-      - "warmachines"
-      - "wmlist"
-      - "wml"
-    enabled:      true
-    usage:        "{pfx}{cmd} 2 @person"
-    description:
-      Lists all machines owned by the target person, or yourself.
-      The list is paginated with 5 machines on each page.
-
-  - name:         warmachinename
-    alts:
-      - "wmname"
-      - "wmnam"
-    enabled:      true
-    description:
-      Renames one of your warmachines.
-
+- alts:
+  - wmnew
+  - wmn
+  description: Makes a new Warmachine.
+  enabled: true
+  name: warmachinenew
+- alts:
+  - wminspect
+  - wmins
+  description: Shows the details of your warmachine, its stats, and battle wins and
+    losses.
+  enabled: true
+  name: warmachineinspect
+- alts:
+  - warmachines
+  - wmlist
+  - wml
+  description: Lists all machines owned by the target person, or yourself. The list
+    is paginated with 5 machines on each page.
+  enabled: true
+  name: warmachinelist
+  usage: '{pfx}{cmd} 2 @person'
+- alts:
+  - wmname
+  - wmnam
+  description: Renames one of your warmachines.
+  enabled: true
+  name: warmachinename
+enabled: false
+name: Warmachines

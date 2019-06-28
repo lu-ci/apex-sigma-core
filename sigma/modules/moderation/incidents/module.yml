@@ -1,62 +1,49 @@
-name:             Incident Detectors
-
-category:         settings
-
-enabled:          true
-
+category: settings
 commands:
-  - name:         listincidents
-    alts:
-      - "incidents"
-      - "incs"
-    enabled:      true
-    usage:        "{pfx}{cmd} variant kick"
-    description:
-      Lists all incidents on the server. You can filter the reasults by adding "moderator", "target", or "variant"
-      as an argument. For moderator and target, specify the person by mentioning them. For variant, specify the type
-      of incident. The accepted types are ban, unban, kick, warn, unwarn, textmute, untextmute, hardmute, and unhardmute.
-      This command requires the Manage Messages permission.
-
-  - name:         viewincident
-    alts:
-      - "incident"
-      - "inc"
-    enabled:      true
-    usage:        "{pfx}{cmd} id e27e2e59"
-    description:
-      Shows detailed information on the specified incident. Specify the incident by its ID or order.
-      The order is the chronological order that it was created in.
-      Specify whether it's an ID or order by adding "id" or "order" as an argument.
-      This command requires the Manage Messages permission.
-
-  - name:         editincident
-    alts:
-      - "editinc"
-    enabled:      true
-    usage:        "{pfx}{cmd} e27e2e59 Extra spicy!"
-    description:
-      Edits an incident's reason. Reasons have a limit of 1000 characters.
-      Specify the incident by its ID.
-      This command requires the Manage Messages permission.
-
-  - name:         exportincidents
-    alts:
-      - "exportincs"
-    enabled:      true
-    description:
-      Exports all instances on server to a text file and DM's it to you.
-      This requires that allow direct messages from server members.
-      This command requires the Manage Messages permission.
-
+- alts:
+  - incidents
+  - incs
+  description: Lists all incidents on the server. You can filter the reasults by adding
+    "moderator", "target", or "variant" as an argument. For moderator and target,
+    specify the person by mentioning them. For variant, specify the type of incident.
+    The accepted types are ban, unban, kick, warn, unwarn, textmute, untextmute, hardmute,
+    and unhardmute. This command requires the Manage Messages permission.
+  enabled: true
+  name: listincidents
+  usage: '{pfx}{cmd} variant kick'
+- alts:
+  - incident
+  - inc
+  description: Shows detailed information on the specified incident. Specify the incident
+    by its ID or order. The order is the chronological order that it was created in.
+    Specify whether it's an ID or order by adding "id" or "order" as an argument.
+    This command requires the Manage Messages permission.
+  enabled: true
+  name: viewincident
+  usage: '{pfx}{cmd} id e27e2e59'
+- alts:
+  - editinc
+  description: Edits an incident's reason. Reasons have a limit of 1000 characters.
+    Specify the incident by its ID. This command requires the Manage Messages permission.
+  enabled: true
+  name: editincident
+  usage: '{pfx}{cmd} e27e2e59 Extra spicy!'
+- alts:
+  - exportincs
+  description: Exports all instances on server to a text file and DM's it to you.
+    This requires that allow direct messages from server members. This command requires
+    the Manage Messages permission.
+  enabled: true
+  name: exportincidents
+enabled: true
 events:
-  - name:         kick_incident_scanner
-    type:         member_remove
-    enabled:      true
-
-  - name:         ban_incident_scanner
-    type:         member_ban
-    enabled:      true
-
-  - name:         unban_incident_scanner
-    type:         member_unban
-    enabled:      true
+- enabled: true
+  name: kick_incident_scanner
+  type: member_remove
+- enabled: true
+  name: ban_incident_scanner
+  type: member_ban
+- enabled: true
+  name: unban_incident_scanner
+  type: member_unban
+name: Incident Detectors

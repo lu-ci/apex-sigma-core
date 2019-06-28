@@ -1,18 +1,12 @@
-name:             YouTube Search Module
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         youtube
-    alts:
-      - "yt"
-    enabled:      true
-    usage:        "{pfx}{cmd} Game Grumps"
-    description:
-      A simple YouTube search.
-      Outputs the resulting video's information and URL.
-      You can add "--text" at the end of your search to make it a
-      normal URL to the video instead of an embed with information.
-
+- alts:
+  - yt
+  description: A simple YouTube search. Outputs the resulting video's information
+    and URL. You can add "--text" at the end of your search to make it a normal URL
+    to the video instead of an embed with information.
+  enabled: true
+  name: youtube
+  usage: '{pfx}{cmd} Game Grumps'
+enabled: true
+name: YouTube Search Module

@@ -1,44 +1,34 @@
-name:             Role Controls
-
-category:         roles
-
-enabled:          true
-
+category: roles
 commands:
-  - name:         giverole
-    alts:
-      - "giverank"
-      - "grole"
-      - "grank"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Grandma"
-    requirements:
-      - "manage_roles"
-    description:
-      Gives the specified role to the mentioned user.
-      The role must be below Sigma's highest role.
-      This command requires the Manage Roles permission.
-
-  - name:         removerole
-    alts:
-      - "removerank"
-      - "rrole"
-      - "rrank"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person Wangly"
-    requirements:
-      - "manage_roles"
-    description:
-      Removes the specified role from the mentioned user.
-      The role must be below Sigma's highest role.
-      This command requires the Manage Roles permission.
-
-  - name:    pruneroles
-    alts:
-      - "proles"
-    enabled:      true
-    requirements:
-      - "manage_roles"
-    description:
-      Removes all empty roles from the server that are below Sigma.
-      This command requires the Manage Roles permission.
+- alts:
+  - giverank
+  - grole
+  - grank
+  description: Gives the specified role to the mentioned user. The role must be below
+    Sigma's highest role. This command requires the Manage Roles permission.
+  enabled: true
+  name: giverole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} @person Grandma'
+- alts:
+  - removerank
+  - rrole
+  - rrank
+  description: Removes the specified role from the mentioned user. The role must be
+    below Sigma's highest role. This command requires the Manage Roles permission.
+  enabled: true
+  name: removerole
+  requirements:
+  - manage_roles
+  usage: '{pfx}{cmd} @person Wangly'
+- alts:
+  - proles
+  description: Removes all empty roles from the server that are below Sigma. This
+    command requires the Manage Roles permission.
+  enabled: true
+  name: pruneroles
+  requirements:
+  - manage_roles
+enabled: true
+name: Role Controls

@@ -1,10 +1,7 @@
-name:             Playing Status Rotation
-
-category:         development
-
-enabled:          true
-
+category: development
+enabled: true
 events:
-  - name:         status_rotation
-    type:         ready
-    enabled:      true
+- enabled: true
+  name: status_rotation
+  type: ready
+name: Playing Status Rotation

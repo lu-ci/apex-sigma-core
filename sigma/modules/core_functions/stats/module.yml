@@ -1,10 +1,7 @@
-name:             Event Stats
-
-category:         development
-
-enabled:          true
-
+category: development
+enabled: true
 events:
-  - name:         population_clockwork
-    type:         ready
-    enabled:      true
+- enabled: true
+  name: population_clockwork
+  type: ready
+name: Event Stats

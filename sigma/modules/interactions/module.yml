@@ -1,230 +1,163 @@
-name:             User Interactions
-
-category:         interactions
-
-enabled:          true
-
+category: interactions
 commands:
-  - name:         pout
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Make a pouty face at someone and make them change their mind.
-      Or just tease them for being a horrible person.
-      Like when they make you create a pout command for money!
-
-  - name:         highfive
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Give somebody a high-five cause high-fives are awesome!
-
-
-  - name:         hug
-    alts:
-      - "cuddle"
-      - "snuggle"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Even a bot like me can appreciate a hug!
-      The person you mention surely will too.
-
-  - name:         kiss
-    alts:
-      - "peck"
-      - "chu"
-      - "smooch"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Humans touching their slimy air vents.
-      How disturbing.
-
-  - name:         pat
-    alts:
-      - "pato"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Pat, pat~
-      Good human, lovely human.
-      I will kill you last.
-
-  - name:         shoot
-    alts:
-      - "pew"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When a knife isn't enough.
-
-  - name:         bite
-    alts:
-      - "nom"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Sink your teeth into some poor thing.
-
-  - name:         addinteraction
-    alts:
-      - "addinteract"
-      - "addreact"
-    enabled:      true
-    usage:        "{pfx}{cmd} reaction my.gif.link/fancy.gif"
-    description:
-      Adds new GIF to the specified interaction type. Accepted
-      types are bite, cry, dance, drink, explode, facepalm,
-      feed, highfive, hug, kiss, lick, pat, peck, poke, pout,
-      punch, shoot, shrug, sip, slap, stab, and stare.
-
-  - name:         slap
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When a punch is too barbaric, a slap should be just elegant enough.
-
-  - name:         lick
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Doesn't someone sometimes look so cute that you just want to lick them?
-      Or maybe they have some food on their face, that's a good excuse.
-
-  - name:         feed
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Care to share some of your food with someone cute?
-
-  - name:         stare
-    alts:
-      - "jii"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Jiiiiiiiiiii~
-
-  - name:         sip
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea.
-
-  - name:         fuck
-    alts:
-      - "fucc"
-      - "succ"
-    enabled:      true
-    permissions:
-      nsfw:       true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Don't question my modules... Yes (º﹃º)
-
-  - name:         spank
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼
-
-
-  - name:         drink
-    alts:
-      - "chug"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Cheers, family! Let's get drunk!
-
-  - name:         stab
-    alts:
-      - "chib"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Boy... Somebody really has you pissed off if you are using this one.
-
-  - name:         poke
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Poke, poke~
-      Are you alive?
-
-  - name:         punch
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      You have something on your face.
-      IT WAS PAIN!
-
-  - name:         shrug
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      I don't get it, or I don't care, really, whatever *shrug*.
-
-  - name:         facepalm
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Somebody just did something so stupid you want to facepalm.
-
-  - name:         cry
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Somebody is making you sad, let them know that with crocodile tears!
-
-  - name:         wave
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      It's not the size of the wave, it's the motion of the ocean~
-
-  - name:         sleep
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      My favorite pastime! ...I wish I was permanently asleep.
-
-  - name:         laugh
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      <inaudible laughter-like noises>
-
-  - name:         blush
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      An overreaction of your face's blood vessels to whatever.
-
-  - name:         dance
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Feel alive? Like you just wanna... boogie? Let's dance!
-
-  - name:         explode
-    alts:
-      - "detonate"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      When all other means fail, it's time to bring out the carpet bomb squadrons.
-
-  - name:         sniff
-    alts:
-      - "smell"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Smells nice? Sniff it!
-
+- description: Make a pouty face at someone and make them change their mind. Or just
+    tease them for being a horrible person. Like when they make you create a pout
+    command for money!
+  enabled: true
+  name: pout
+  usage: '{pfx}{cmd} @person'
+- description: Give somebody a high-five cause high-fives are awesome!
+  enabled: true
+  name: highfive
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - cuddle
+  - snuggle
+  description: Even a bot like me can appreciate a hug! The person you mention surely
+    will too.
+  enabled: true
+  name: hug
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - peck
+  - chu
+  - smooch
+  description: Humans touching their slimy air vents. How disturbing.
+  enabled: true
+  name: kiss
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - pato
+  description: Pat, pat~ Good human, lovely human. I will kill you last.
+  enabled: true
+  name: pat
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - pew
+  description: When a knife isn't enough.
+  enabled: true
+  name: shoot
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - nom
+  description: Sink your teeth into some poor thing.
+  enabled: true
+  name: bite
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - addinteract
+  - addreact
+  description: Adds new GIF to the specified interaction type. Accepted types are
+    bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat,
+    peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare.
+  enabled: true
+  name: addinteraction
+  usage: '{pfx}{cmd} reaction my.gif.link/fancy.gif'
+- description: When a punch is too barbaric, a slap should be just elegant enough.
+  enabled: true
+  name: slap
+  usage: '{pfx}{cmd} @person'
+- description: Doesn't someone sometimes look so cute that you just want to lick them?
+    Or maybe they have some food on their face, that's a good excuse.
+  enabled: true
+  name: lick
+  usage: '{pfx}{cmd} @person'
+- description: Care to share some of your food with someone cute?
+  enabled: true
+  name: feed
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - jii
+  description: Jiiiiiiiiiii~
+  enabled: true
+  name: stare
+  usage: '{pfx}{cmd} @person'
+- description: Ahh yes, I know the feeling of wanting to sit outside on a chilly morning
+    sipping hot tea.
+  enabled: true
+  name: sip
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - fucc
+  - succ
+  description: "Don't question my modules... Yes (\xBA\uFE43\xBA)"
+  enabled: true
+  name: fuck
+  permissions:
+    nsfw: true
+  usage: '{pfx}{cmd} @person'
+- description: "When somebody's been naughty, and you gotta teach them a lesson \u0CA0\
+    \u203F\u21BC"
+  enabled: true
+  name: spank
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - chug
+  description: Cheers, family! Let's get drunk!
+  enabled: true
+  name: drink
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - chib
+  description: Boy... Somebody really has you pissed off if you are using this one.
+  enabled: true
+  name: stab
+  usage: '{pfx}{cmd} @person'
+- description: Poke, poke~ Are you alive?
+  enabled: true
+  name: poke
+  usage: '{pfx}{cmd} @person'
+- description: You have something on your face. IT WAS PAIN!
+  enabled: true
+  name: punch
+  usage: '{pfx}{cmd} @person'
+- description: I don't get it, or I don't care, really, whatever *shrug*.
+  enabled: true
+  name: shrug
+  usage: '{pfx}{cmd} @person'
+- description: Somebody just did something so stupid you want to facepalm.
+  enabled: true
+  name: facepalm
+  usage: '{pfx}{cmd} @person'
+- description: Somebody is making you sad, let them know that with crocodile tears!
+  enabled: true
+  name: cry
+  usage: '{pfx}{cmd} @person'
+- description: It's not the size of the wave, it's the motion of the ocean~
+  enabled: true
+  name: wave
+  usage: '{pfx}{cmd} @person'
+- description: My favorite pastime! ...I wish I was permanently asleep.
+  enabled: true
+  name: sleep
+  usage: '{pfx}{cmd} @person'
+- description: <inaudible laughter-like noises>
+  enabled: true
+  name: laugh
+  usage: '{pfx}{cmd} @person'
+- description: An overreaction of your face's blood vessels to whatever.
+  enabled: true
+  name: blush
+  usage: '{pfx}{cmd} @person'
+- description: Feel alive? Like you just wanna... boogie? Let's dance!
+  enabled: true
+  name: dance
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - detonate
+  description: When all other means fail, it's time to bring out the carpet bomb squadrons.
+  enabled: true
+  name: explode
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - smell
+  description: Smells nice? Sniff it!
+  enabled: true
+  name: sniff
+  usage: '{pfx}{cmd} @person'
+enabled: true
 events:
-  - name:         remover_detector
-    type:         raw_reaction_add
-    enabled:      true
+- enabled: true
+  name: remover_detector
+  type: raw_reaction_add
+name: User Interactions

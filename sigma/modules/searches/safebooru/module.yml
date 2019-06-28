@@ -1,17 +1,12 @@
-name:             Safebooru Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         safebooru
-    alts:
-      - "safe"
-    enabled:      true
-    usage:        "{pfx}{cmd} kawaii"
-    description:
-      Returns a random image from the safebooru image repository.
-      If no tag is given, the keyword "cute" will be used.
-      Separate different tags with a space and replace spaces within
-      a single tag with underscores "_".
+- alts:
+  - safe
+  description: Returns a random image from the safebooru image repository. If no tag
+    is given, the keyword "cute" will be used. Separate different tags with a space
+    and replace spaces within a single tag with underscores "_".
+  enabled: true
+  name: safebooru
+  usage: '{pfx}{cmd} kawaii'
+enabled: true
+name: Safebooru Commands

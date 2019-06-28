@@ -1,30 +1,25 @@
-name:             Development Suggestion Control
-
-category:         development
-
-enabled:          true
-
+category: development
 commands:
-  - name:         approvesuggestion
-    alts:
-      - "approvesugg"
-      - "appsugg"
-    enabled:      true
-    permissions:
-      owner:      true
-    usage:        "{pfx}{cmd} 8e39c9bb Some Title; This does a thing!"
-    description:
-      Approves a submitted suggestion and notifies the submitter.
-      If there are GitLab credentials in the command's config, it'll make an issue as well.
-      First the suggestion ID, then the suggestion title and notes separated by a semicolon and space.
-
-  - name:         declinesuggestion
-    alts:
-      - "declinesugg"
-      - "decsugg"
-    enabled:      true
-    permissions:
-      owner:      true
-    usage:        "{pfx}{cmd} 8e39c9bb Some Title; This does a thing!"
-    description:
-      Declines a submitted suggestion and notifies the submitter.
+- alts:
+  - approvesugg
+  - appsugg
+  description: Approves a submitted suggestion and notifies the submitter. If there
+    are GitLab credentials in the command's config, it'll make an issue as well. First
+    the suggestion ID, then the suggestion title and notes separated by a semicolon
+    and space.
+  enabled: true
+  name: approvesuggestion
+  permissions:
+    owner: true
+  usage: '{pfx}{cmd} 8e39c9bb Some Title; This does a thing!'
+- alts:
+  - declinesugg
+  - decsugg
+  description: Declines a submitted suggestion and notifies the submitter.
+  enabled: true
+  name: declinesuggestion
+  permissions:
+    owner: true
+  usage: '{pfx}{cmd} 8e39c9bb Some Title; This does a thing!'
+enabled: true
+name: Development Suggestion Control

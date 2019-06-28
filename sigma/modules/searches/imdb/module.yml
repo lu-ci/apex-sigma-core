@@ -1,16 +1,12 @@
-name:             Movie Commands
-
-category:         searches
-
-enabled:          true
-
+category: searches
 commands:
-  - name:         imdb
-    alts:
-      - "movie"
-    enabled:      true
-    usage:        "{pfx}{cmd} Blade Runner"
-    description:
-      Searches the Internet Movie Database for your input.
-      Gives you the poster, release year, and who stars in the movie,
-      as well as a link to the page of the movie.
+- alts:
+  - movie
+  description: Searches the Internet Movie Database for your input. Gives you the
+    poster, release year, and who stars in the movie, as well as a link to the page
+    of the movie.
+  enabled: true
+  name: imdb
+  usage: '{pfx}{cmd} Blade Runner'
+enabled: true
+name: Movie Commands

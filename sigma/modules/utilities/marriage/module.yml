@@ -1,34 +1,27 @@
-name:             Marriage Commands
-
-category:         utility
-
-enabled:          true
-
+category: utility
 commands:
-  - name:         marry
-    alts:
-      - "propose"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Proposes to the mentioned user.
-
-  - name:         divorce
-    alts:
-      - "reject"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Divorces the mentioned user that you are married with.
-      Divorces cost 15 Kud per hour that you were married.
-
-  - name:         spouses
-    alts:
-      - "wives"
-      - "husbands"
-      - "waifus"
-      - "husbandos"
-    enabled:      true
-    usage:        "{pfx}{cmd} @person"
-    description:
-      Shows the mentioned user's list of spouses, that is, people that they're married to.
+- alts:
+  - propose
+  description: Proposes to the mentioned user.
+  enabled: true
+  name: marry
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - reject
+  description: Divorces the mentioned user that you are married with. Divorces cost
+    15 Kud per hour that you were married.
+  enabled: true
+  name: divorce
+  usage: '{pfx}{cmd} @person'
+- alts:
+  - wives
+  - husbands
+  - waifus
+  - husbandos
+  description: Shows the mentioned user's list of spouses, that is, people that they're
+    married to.
+  enabled: true
+  name: spouses
+  usage: '{pfx}{cmd} @person'
+enabled: true
+name: Marriage Commands
