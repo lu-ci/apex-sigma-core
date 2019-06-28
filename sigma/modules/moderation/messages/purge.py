@@ -118,13 +118,13 @@ async def purge(cmd, pld):
                 if msg.content:
                     for piece in msg.content.split():
                         piece = piece.strip()
-                        # matches non local custom emote
+                        # matches custom emote
                         if re.search(r'<a?:\w+:\d+>', piece):
                             clean = True
-                        # matches global emote or local custom emote
+                        # matches global emote
                         elif re.search(r':\w+:', piece):
                             clean = True
-                        # matches Unicode character
+                        # matches Unicode emote
                         elif len(piece) == 1 and category(piece) == 'So':
                             clean = True
                         else:

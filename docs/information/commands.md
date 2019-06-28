@@ -216,6 +216,7 @@ Commands | Description | Example
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type, and rarity. | `>>filtersell rarity:Legendary`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. You can forage once every 60 seconds, hiking is really tiring. | `>>forage`
+`>>hangman` | Classic hangman. Guess the word in less than six tries. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>hangman`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
 `>>inspect` `>>finditem` | Shows the name, value, and description of the specified item If you have this item in your inventory an Item ID will be in the footer. Also shows how many times you've caught this item. | `>>inspect Nabfischz`
 `>>inventory` `>>backpack` `>>storage` `>>bag` `>>i` | Shows the current inventory of the mentioned user. If no user is mentioned, it will show the author's inventory. The inventory has 64 slots at the start but can be upgraded in the shop. You can also specify the page number you want to see. The inventory is sorted by item rarity and items used in recipes are marked with an asterisk. | `>>inventory 2 @person`
@@ -520,6 +521,8 @@ Commands | Description | Example
 `>>unhardblockwords` `>>unhardblockword` | Removes a hard blocked word allowing people to send messages containing it. To purge the entire word filter, enter --all as the command argument. Words should not be separated by a delimiter. | `>>unhardblockwords boobs`
 `>>viewcollectionjar` `>>viewjar` `>>jar` | Shows the contents of the collection jar. This includes the total, total for the current channel, total from you, and total from you in the current channel. You can also mention someone to view their contributions instead of your own. | `>>viewcollectionjar`
 `>>viewincident` `>>incident` `>>inc` | Shows detailed information on the specified incident. Specify the incident by its ID or order. The order is the chronological order that it was created in. Specify whether it's an ID or order by adding "id" or "order" as an argument. This command requires the Manage Messages permission. | `>>viewincident id e27e2e59`
+`>>whisper` `>>confess` | Submits an anonymous whisper to the server's designated channel. Whispers can be whatever you want. Maybe it's your deepest darkest confession O_O This command can be used in a DM if you wish to do it privately, however, if you use it in a DM, you must include a server ID before your message. | `>>whisper My secret confession!`
+`>>whisperchannel` `>>whisperch` | Designates a channel for whispers. When a new whisper is submitted, it will be posted there. To disable this, write disable after the command instead of a channel. | `>>whisperchannel #channel`
 [Back To Top](#module-index)
 
 ### STATISTICS

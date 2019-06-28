@@ -36,8 +36,7 @@ commands:
   - name:    pruneroles
     alts:
       - "proles"
-    enabled: true
-    usage:   "{pfx}{cmd}"
+    enabled:      true
     requirements:
       - "manage_roles"
     description:

@@ -12,7 +12,6 @@ commands:
     enabled:      true
     permissions:
       owner:      true
-      dmable:     false
     description:
       Award all the leaderboards with appropirate amounts of currency and resets their ranked values.
 

@@ -53,6 +53,5 @@ commands:
       - "ai"
       - "cb"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Toggles the ChatterBot core on and off.

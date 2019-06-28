@@ -10,6 +10,5 @@ commands:
       - "ffxivtimers"
       - "ffxivt"
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Shows the timers for all FFXIV events and resets.

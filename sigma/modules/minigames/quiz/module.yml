@@ -76,6 +76,13 @@ commands:
       You have 30 seconds to guess the word shown.
       The Kud reward is equal to the number of letters in the word.
 
+  - name:         hangman
+    enabled:      true
+    description:
+      Classic hangman. Guess the word in less than six tries.
+      You have 30 seconds to guess the word shown.
+      The Kud reward is equal to the number of letters in the word.
+
 events:
   - name:         dbinit_dictionary
     type:         dbinit

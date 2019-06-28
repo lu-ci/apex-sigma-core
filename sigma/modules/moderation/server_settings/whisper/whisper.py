@@ -16,25 +16,39 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import error, ok
 
 
-async def starboardchannel(cmd, pld):
+async def whisper(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-        target = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
-        if pld.msg.guild.me.permissions_in(target).send_messages:
-            starboard_doc = pld.settings.get('starboard') or {}
-            starboard_doc.update({'channel_id': target.id})
-            await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-            response = ok(f'Starboard Channel set to {target.name}.')
+    if pld.args:
+        if pld.msg.guild:
+            guild_id = pld.msg.guild.id
+        elif pld.args[0].isdigit():
+            guild_id = int(pld.args[0])
         else:
-            response = error('I can\'t write in that channel.')
+            guild_id = None
+        if str(guild_id) == pld.args[0]:
+            pld.args.pop(0)
+        if guild_id:
+            whisper_chn_id = await cmd.db.get_guild_settings(guild_id, 'whisper_channel')
+            if whisper_chn_id:
+                whisper_data = {
+                    'channel_id': whisper_chn_id,
+                    'whisper': ' '.join(pld.args),
+                    'reported': False
+                }
+                await cmd.db[cmd.db.db_nam].Whispers.insert_one(whisper_data)
+                response = ok(f'Whisper submitted.')
+            else:
+                response = error('Whisper channel not set for that guild.')
+        else:
+            response = error('Invalid guild ID.')
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)

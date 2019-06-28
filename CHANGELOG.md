@@ -4,10 +4,14 @@
 
 ### Added
 
+- The `>>hangman` command. It's hangman.
+- The `>>whisper` command for sending anonymous messages to a dedicated server channel.
+- The `>>whisperchannel` command for setting the aforementioned channel.
 - Made the `get_broad_target(pld: CommandPayload)` function to get a target from a payload in a hierarchy order of `mention > id > name or nick`.
 
 ### Changed
 
+- Tweaked some comments in `>>purge` to be more accurate.
 - Cleaned up the changelog a bit. Slightly less spelling and grammatical mistakes.
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
 - Added a unique user safeguard to prevent one user from spamming the reaction.
@@ -20,6 +24,7 @@
 
 ## Removed
 
+- Removed unnecessary `usage` and `dmable`, fields in various `module.yml` files.
 - Removed a duplicate of `clean_word`.
 
 ## 4.54.1095 Chito

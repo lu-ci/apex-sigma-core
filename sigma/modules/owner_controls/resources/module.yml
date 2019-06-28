@@ -13,7 +13,6 @@ commands:
     enabled:      true
     permissions:
       owner:      true
-      dmable:     false
     usage:        "{pfx}{cmd} currency @person 5000"
     description:
       Awards the mentioned user with the specified amount of the specified resource.
@@ -27,7 +26,6 @@ commands:
     enabled:      true
     permissions:
       owner:      true
-      dmable:     false
     usage:        "{pfx}{cmd} metal @person 100"
     description:
       Takes away the specified amount of the specified resource from the mentioned user.
@@ -39,7 +37,6 @@ commands:
     enabled:      true
     permissions:
       owner:      true
-      dmable:     false
     usage:        "{pfx}{cmd} 0123456789"
     description:
       Wipes all the resources that the user with the given ID owns.
@@ -50,7 +47,6 @@ commands:
     enabled:      true
     permissions:
       owner:      true
-      dmable:     false
     usage:        "{pfx}{cmd} 0123456789"
     description:
       Wipes the inventory of the user with the given ID.

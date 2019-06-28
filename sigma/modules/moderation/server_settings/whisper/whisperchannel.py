@@ -16,10 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import denied, ok
 
 
-async def starboardchannel(cmd, pld):
+async def whisperchannel(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
@@ -27,14 +27,19 @@ async def starboardchannel(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-        target = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
-        if pld.msg.guild.me.permissions_in(target).send_messages:
-            starboard_doc = pld.settings.get('starboard') or {}
-            starboard_doc.update({'channel_id': target.id})
-            await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-            response = ok(f'Starboard Channel set to {target.name}.')
+        if pld.msg.channel_mentions:
+            target = pld.msg.channel_mentions[0]
         else:
-            response = error('I can\'t write in that channel.')
+            if pld.args:
+                if pld.args[0].lower() == 'disable':
+                    await cmd.db.set_guild_settings(pld.msg.guild.id, 'whisper_channel', None)
+                    response = ok('Whisper Channel disabled.')
+                    await pld.msg.channel.send(embed=response)
+                return
+            else:
+                target = pld.msg.channel
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'whisper_channel', target.id)
+        response = ok(f'Whisper Channel set to #{target.name}.')
     else:
         response = denied('Access Denied. Manage Server needed.')
     await pld.msg.channel.send(embed=response)

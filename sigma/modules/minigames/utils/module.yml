@@ -7,7 +7,6 @@ enabled:          true
 commands:
   - name:         resetongoing
     enabled:      true
-    usage:        "{pfx}{cmd}"
     description:
       Resets ongoing locks that are put into place when a minigame runs.
       For use in case of errors that prevent the minigame from being unlocked again.
