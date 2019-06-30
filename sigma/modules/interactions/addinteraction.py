@@ -156,7 +156,10 @@ async def addinteraction(cmd, pld):
                     if valid:
                         exists, url_hash = await check_existence(cmd.db, data, interaction_name)
                         if not exists:
-                            imgur_link = await relay_image(cmd, interaction_link)
+                            if 'i.imgur.com' in interaction_link:
+                                imgur_link = interaction_link
+                            else:
+                                imgur_link = await relay_image(cmd, interaction_link)
                             if imgur_link:
                                 inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
                                 if cmd.cfg.log_ch is None:
