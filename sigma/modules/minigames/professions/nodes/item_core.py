@@ -27,13 +27,13 @@ from sigma.modules.minigames.professions.nodes.properties import item_colors, it
 item_core_cache = None
 
 
-async def get_item_core(db: Database):
+async def get_item_core(db):
     """
-
-    :param db:
-    :type db:
+    Grabs an instance of the item core.
+    :param db: The database handler.
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: ItemCore
     """
     global item_core_cache
     if not item_core_cache:
@@ -43,6 +43,8 @@ async def get_item_core(db: Database):
 
 
 class ItemCore(object):
+    __slots__ = ("db", "rarity_names", "item_icons", "item_colors", "all_items")
+
     def __init__(self, db: Database):
         self.db = db
         self.rarity_names = rarity_names
@@ -52,11 +54,11 @@ class ItemCore(object):
 
     def get_item_by_name(self, name):
         """
-
-        :param name:
-        :type name:
+        Returns an item with the given name.
+        :param name: The name to look for.
+        :type name: str
         :return:
-        :rtype:
+        :rtype: SigmaRawItem or SigmaCookedItem
         """
         output = None
         for item in self.all_items:
@@ -67,11 +69,11 @@ class ItemCore(object):
 
     def get_item_by_file_id(self, name):
         """
-
-        :param name:
-        :type name:
+        Returns an item with the given ID.
+        :param name: The ID of the item.
+        :type name: str
         :return:
-        :rtype:
+        :rtype: SigmaRawItem or SigmaCookedItem
         """
         output = None
         for item in self.all_items:
@@ -82,13 +84,13 @@ class ItemCore(object):
 
     def pick_item_in_rarity(self, item_category, rarity):
         """
-
-        :param item_category:
-        :type item_category:
-        :param rarity:
-        :type rarity:
+        Picks a random item within the given rarity.
+        :param item_category: The type of the item.
+        :type item_category: str
+        :param rarity: The rarity to choose from.
+        :type rarity: int
         :return:
-        :rtype:
+        :rtype: SigmaRawItem
         """
         in_rarity = []
         for item in self.all_items:
@@ -116,25 +118,25 @@ class ItemCore(object):
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):
         """
-
-        :param upgrade:
-        :type upgrade:
-        :param rarity_chance:
-        :type rarity_chance:
-        :param rarity_modifier:
-        :type rarity_modifier:
+        Gets the chances to get certain rarities based on the luck enhancement.
+        :param upgrade: The luck level.
+        :type upgrade: int
+        :param rarity_chance: The base rarity chance.
+        :type rarity_chance: float
+        :param rarity_modifier: The base rarity chance modifier.
+        :type rarity_modifier: float
         :return:
-        :rtype:
+        :rtype: float
         """
         return (rarity_chance + ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
 
     def create_roll_range(self, upgrade):
         """
-
-        :param upgrade:
-        :type upgrade:
+        Crates a set of ranges assigned to rarities.
+        :param upgrade: The luck upgrade.
+        :type upgrade: int
         :return:
-        :rtype:
+        :rtype: (int, dict)
         """
         chances = {
             0: 32.00,
@@ -182,13 +184,13 @@ class ItemCore(object):
         top_roll = top_boundary + int(roll_base * self.get_chance(upgrade, top_chance, top_modifier))
         return top_roll, rarities
 
-    async def roll_rarity(self, profile: dict):
+    async def roll_rarity(self, profile):
         """
-
-        :param profile:
-        :type profile:
+        Rolls a random rarity.
+        :param profile: The user's profile data.
+        :type profile: dict
         :return:
-        :rtype:
+        :rtype: int
         """
         upgrade_file = profile.get('upgrades') or {}
         upgrade_level = upgrade_file.get('luck', 0)
@@ -203,15 +205,15 @@ class ItemCore(object):
         return lowest
 
     @staticmethod
-    async def add_item_statistic(db: Database, item: SigmaRawItem, member: discord.Member):
+    async def add_item_statistic(db, item, member):
         """
-
-        :param db:
-        :type db:
-        :param item:
-        :type item:
-        :param member:
-        :type member:
+        Adds stats about the item that was obtained.
+        :param db: The database handler.
+        :type db: sigma.core.mechanics.database.Database
+        :param item: The item that was gotten.
+        :type item: SigmaRawItem or SigmaCookedItem
+        :param member: The user that got the item.
+        :type member: discord.User or discord.Member
         """
         member_stats = await db[db.db_nam].ItemStatistics.find_one({'user_id': member.id})
         if member_stats is None:

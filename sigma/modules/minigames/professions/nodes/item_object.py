@@ -25,6 +25,8 @@ from sigma.modules.minigames.professions.nodes.properties import item_icons, rar
 
 
 class SigmaRawItem(object):
+    __slots__ = ("name", "desc", "rarity", "type", "rarity_name", "icon", "color", "value", "file_id")
+
     def __init__(self, item_data):
         self.name = item_data.get('name')
         self.desc = item_data.get('description')
@@ -38,11 +40,11 @@ class SigmaRawItem(object):
 
     def get_recipe_presence(self, rc):
         """
-
-        :param rc:
-        :type rc:
+        Gets the recipes this items is used in.
+        :param rc: The recipe core.
+        :type rc: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore
         :return:
-        :rtype:
+        :rtype: list[sigma.modules.minigames.professions.nodes.recipe_core.SigmaRecipe]
         """
         used_in = []
         recipe_list = sorted(rc.recipes, key=lambda x: x.name)
@@ -55,13 +57,13 @@ class SigmaRawItem(object):
 
     def make_inspect_embed(self, currency, recipe_core):
         """
-
-        :param currency:
-        :type currency:
-        :param recipe_core:
-        :type recipe_core:
+        Makes a generic embed for when the item is inspected.
+        :param currency: The currency name.
+        :type currency: str
+        :param recipe_core: The recipe core.
+        :type recipe_core: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore
         :return:
-        :rtype:
+        :rtype: discord.Embed
         """
         used_in_recipes = self.get_recipe_presence(recipe_core)
         connector = 'A'
@@ -79,9 +81,9 @@ class SigmaRawItem(object):
 
     def generate_inventory_item(self):
         """
-
+        Generates a dict for the database entry.
         :return:
-        :rtype:
+        :rtype: dict
         """
         token = secrets.token_hex(16)
         data = {
@@ -92,24 +94,26 @@ class SigmaRawItem(object):
 
 
 class SigmaCookedItem(object):
+    __slots__ = ("name", "desc", "rarity", "type", "rarity_name", "icon", "color", "value", "file_id")
+
     def __init__(self, item_data):
-        self.name = item_data['name']
-        self.desc = item_data['description']
-        self.type = item_data['type']
-        self.icon = cook_icons[self.type.lower()]
-        self.color = cook_colors[self.type.lower()]
-        self.value = item_data['value']
-        self.file_id = item_data['file_id']
+        self.name = item_data.get('name')
+        self.desc = item_data.get('description')
+        self.type = item_data.get('type')
+        self.icon = cook_icons.get(self.type.lower())
+        self.color = cook_colors.get(self.type.lower())
+        self.value = 0
+        self.file_id = item_data.get('file_id')
         self.rarity = 11
-        self.rarity_name = rarity_names[self.rarity]
+        self.rarity_name = rarity_names.get(self.rarity)
 
     def get_recipe_presence(self, rc):
         """
-
-        :param rc:
-        :type rc:
+        Gets the recipes this items is used in.
+        :param rc: The recipe core.
+        :type rc: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore
         :return:
-        :rtype:
+        :rtype: list[sigma.modules.minigames.professions.nodes.recipe_core.SigmaRecipe]
         """
         used_in = []
         recipe_list = sorted(rc.recipes, key=lambda x: x.name)
@@ -122,13 +126,13 @@ class SigmaCookedItem(object):
 
     def make_inspect_embed(self, currency, recipe_core):
         """
-
-        :param currency:
-        :type currency:
-        :param recipe_core:
-        :type recipe_core:
+        Makes a generic embed for when the item is inspected.
+        :param currency: The currency name.
+        :type currency: str
+        :param recipe_core: The recipe core.
+        :type recipe_core: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore
         :return:
-        :rtype:
+        :rtype: discord.Embed
         """
         used_in_recipes = self.get_recipe_presence(recipe_core)
         connector = 'A'
@@ -147,9 +151,9 @@ class SigmaCookedItem(object):
     @staticmethod
     def roll_quality():
         """
-
+        Rolls a random quality value when cooking.
         :return:
-        :rtype:
+        :rtype: int
         """
         roll_num = secrets.randbelow(100)
         if roll_num in range(66, 85):
@@ -164,9 +168,9 @@ class SigmaCookedItem(object):
 
     def generate_inventory_item(self):
         """
-
+        Generates a dict for the database entry.
         :return:
-        :rtype:
+        :rtype: dict
         """
         token = secrets.token_hex(16)
         data = {

@@ -25,9 +25,9 @@ recipe_core_cache = None
 
 async def get_recipe_core(db: Database):
     """
-
-    :param db:
-    :type db:
+    Gets an instance of the recipe core.
+    :param db: The database handler.
+    :type db: sigma.core.mechanics.database.Database
     :return:
     :rtype: RecipeCore
     """
@@ -39,21 +39,31 @@ async def get_recipe_core(db: Database):
 
 
 class SigmaRecipe(object):
+    __slots__ = (
+        "recipe_core", "raw_data", "file_id", "name", "value",
+        "type", "icon", "color", "desc", "raw_ingredients", "ingredients"
+    )
+
     def __init__(self, core, item_data):
         self.recipe_core = core
         self.raw_data = item_data
-        self.file_id = self.raw_data['file_id']
-        self.name = self.raw_data['name']
-        self.type = self.raw_data['type']
-        self.icon = cook_icons[self.type.lower()]
-        self.color = cook_colors[self.type.lower()]
-        self.desc = self.raw_data['description']
-        self.raw_ingredients = self.raw_data['ingredients']
+        self.file_id = self.raw_data.get('file_id')
+        self.name = self.raw_data.get('name')
+        self.type = self.raw_data.get('type')
+        self.icon = cook_icons.get(self.type.lower())
+        self.color = cook_colors.get(self.type.lower())
+        self.desc = self.raw_data.get('description')
+        self.raw_ingredients = self.raw_data.get('ingredients')
         self.ingredients = []
         self.load_ingredients()
         self.value = self.get_price()
 
     def get_price(self):
+        """
+        Gets the price based on the ingredients.
+        :return:
+        :rtype: int
+        """
         ingredient_values = []
         ingredient_rarities = []
         for ingredient in self.ingredients:
@@ -65,12 +75,19 @@ class SigmaRecipe(object):
         return combined_price
 
     def load_ingredients(self):
+        """
+        Loads the ingredients of the recipe.
+        :return:
+        :rtype:
+        """
         for ingredient in self.raw_ingredients:
             ingr_item = self.recipe_core.item_core.get_item_by_file_id(ingredient)
             self.ingredients.append(ingr_item)
 
 
 class RecipeCore(object):
+    __slots__ = ("db", "item_core", "recipes")
+
     def __init__(self, db: Database):
         self.db = db
         self.item_core = None
@@ -78,11 +95,11 @@ class RecipeCore(object):
 
     def find_recipe(self, name):
         """
-
-        :param name:
-        :type name:
+        Finds a recipe by the given name.
+        :param name: The name to look for.
+        :type name: str
         :return:
-        :rtype:
+        :rtype: SigmaRecipe
         """
         out = None
         for recipe in self.recipes:
@@ -92,6 +109,11 @@ class RecipeCore(object):
         return out
 
     async def init_items(self):
+        """
+        Initializes all recipes and modifies cooked items with correct values.
+        :return:
+        :rtype:
+        """
         self.item_core = await get_item_core(self.db)
         all_recipes = await self.db[self.db.db_nam].RecipeData.find().to_list(None)
         for item_data in all_recipes:
