@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.55.1104 Taiga
 
 ### Added
 
