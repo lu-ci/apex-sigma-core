@@ -32,7 +32,7 @@ def match_trigger(text, trigger):
     text_pieces = clean_word(text).split()
     trigger_pieces = clean_word(trigger).split()
     matching_trigger = False
-    if len(text_pieces) >= len(trigger_pieces):
+    if len(text_pieces) >= len(trigger_pieces) != 0:
         piece_location = None
         for piece_index, piece_text in enumerate(text_pieces):
             if piece_text == trigger_pieces[0]:
