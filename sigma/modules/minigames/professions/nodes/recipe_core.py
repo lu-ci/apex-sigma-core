@@ -29,7 +29,7 @@ async def get_recipe_core(db: Database):
     :param db:
     :type db:
     :return:
-    :rtype:
+    :rtype: RecipeCore
     """
     global recipe_core_cache
     if not recipe_core_cache:
@@ -48,10 +48,21 @@ class SigmaRecipe(object):
         self.icon = cook_icons[self.type.lower()]
         self.color = cook_colors[self.type.lower()]
         self.desc = self.raw_data['description']
-        self.value = self.raw_data['value']
         self.raw_ingredients = self.raw_data['ingredients']
         self.ingredients = []
         self.load_ingredients()
+        self.value = self.get_price()
+
+    def get_price(self):
+        ingredient_values = []
+        ingredient_rarities = []
+        for ingredient in self.ingredients:
+            ingredient_rarities.append(ingredient.rarity)
+            ingredient_values.append(ingredient.value)
+        combined_price = int(sum(ingredient_values) * (3 * (0.075 * sum(ingredient_rarities))) / 100) * 100
+        if combined_price < 100:
+            combined_price = 100
+        return combined_price
 
     def load_ingredients(self):
         for ingredient in self.raw_ingredients:
@@ -86,3 +97,6 @@ class RecipeCore(object):
         for item_data in all_recipes:
             item_object = SigmaRecipe(self, item_data)
             self.recipes.append(item_object)
+        for item in self.item_core.all_items:
+            if item.type.lower() in ['drink', 'meal', 'dessert']:
+                item.value = self.find_recipe(item.name).value

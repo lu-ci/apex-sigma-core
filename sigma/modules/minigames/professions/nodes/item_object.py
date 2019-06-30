@@ -21,20 +21,20 @@ import secrets
 import discord
 
 from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons, item_colors
-from sigma.modules.minigames.professions.nodes.properties import item_icons, rarity_names
+from sigma.modules.minigames.professions.nodes.properties import item_icons, rarity_names, prices
 
 
 class SigmaRawItem(object):
     def __init__(self, item_data):
-        self.name = item_data['name']
-        self.desc = item_data['description']
-        self.rarity = item_data['rarity']
-        self.type = item_data['type']
-        self.rarity_name = rarity_names[self.rarity]
-        self.icon = item_icons[self.type.lower()][self.rarity]
-        self.color = item_colors[self.type.lower()][self.rarity]
-        self.value = item_data['value']
-        self.file_id = item_data['file_id']
+        self.name = item_data.get('name')
+        self.desc = item_data.get('description')
+        self.rarity = item_data.get('rarity')
+        self.type = item_data.get('type')
+        self.rarity_name = rarity_names.get(self.rarity)
+        self.icon = item_icons.get(self.type.lower()).get(self.rarity)
+        self.color = item_colors.get(self.type.lower()).get(self.rarity)
+        self.value = prices.get(self.rarity)
+        self.file_id = item_data.get('file_id')
 
     def get_recipe_presence(self, rc):
         """

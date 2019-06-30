@@ -11,6 +11,12 @@
 
 ### Changed
 
+- Recipe values are now calculated based on the items they're made from and a bit of math.
+  If you need to know, the formula is
+  ```py
+  int(sum(ingredient_values) * (3 * (0.075 * sum(ingredient_rarities))) / 100) * 100
+  ```
+- Items now have hardcoded values per rarity (this was always the case, but they were in the item YAMLs).
 - Tweaked some comments in `>>purge` to be more accurate.
 - Cleaned up the changelog a bit. Slightly less spelling and grammatical mistakes.
 - Changed the trigger checker function for auto reactors/responders to remove punctuation.
