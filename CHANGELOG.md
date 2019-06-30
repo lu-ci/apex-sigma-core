@@ -11,6 +11,7 @@
 
 ### Changed
 
+- Disable pre-caching when using a redis-centric cache system.
 - Recipe values are now calculated based on the items they're made from and a bit of math.
   If you need to know, the formula is
   ```py
