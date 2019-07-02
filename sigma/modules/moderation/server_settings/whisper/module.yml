@@ -4,14 +4,14 @@ commands:
   - whisperch
   description: Designates a channel for whispers. When a new whisper is submitted,
     it will be posted there. To disable this, write disable after the command instead
-    of a channel.
+    of a channel. This command requires the Manage Server permission.
   enabled: true
   name: whisperchannel
   usage: '{pfx}{cmd} #channel'
 - alts:
   - confess
   description: Submits an anonymous whisper to the server's designated channel. Whispers
-    can be whatever you want. Maybe it's your deepest darkest confession O_O This
+    can be whatever you want. Maybe it's your deepest darkest confession O_O. This
     command can be used in a DM if you wish to do it privately, however, if you use
     it in a DM, you must include a server ID before your message.
   enabled: true

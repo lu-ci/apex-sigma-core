@@ -38,13 +38,17 @@ async def whisper(cmd, pld):
         if guild_id:
             whisper_chn_id = await cmd.db.get_guild_settings(guild_id, 'whisper_channel')
             if whisper_chn_id:
-                whisper_data = {
-                    'channel_id': whisper_chn_id,
-                    'whisper': ' '.join(pld.args),
-                    'reported': False
-                }
-                await cmd.db[cmd.db.db_nam].Whispers.insert_one(whisper_data)
-                response = ok(f'Whisper submitted.')
+                whisper_message = ' '.join(pld.args)
+                if whisper_message:
+                    whisper_data = {
+                        'channel_id': whisper_chn_id,
+                        'whisper': ' '.join(pld.args),
+                        'reported': False
+                    }
+                    await cmd.db[cmd.db.db_nam].Whispers.insert_one(whisper_data)
+                    response = ok(f'Whisper submitted.')
+                else:
+                    response = error('Missing message to send.')
             else:
                 response = error('Whisper channel not set for that guild.')
         else:

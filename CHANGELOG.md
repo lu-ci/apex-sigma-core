@@ -1,5 +1,12 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Added a message content check to `>>whisper` for use in DMs.
+- Fixed command descriptions in the Whisper Settings module.
+
 ## 4.55.1104 Taiga
 
 ### Added
