@@ -4,6 +4,10 @@
 
 ### Changed
 
+- Fixed an unawaited coroutine in `>>randomemote`.
+- Fixed a caching issue in `>>emote`.
+- Refactored a check in `>>emote` and `>>randomemote`.
+- Int'd a potential float in `>>wfpricecheck`. 
 - Added a message content check to `>>whisper` for use in DMs.
 - Fixed command descriptions in the Whisper Settings module.
 

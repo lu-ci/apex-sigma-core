@@ -34,8 +34,8 @@ async def randomemote(cmd, pld):
     emotes, nsfw = pld.msg.guild.emojis, False
     if pld.args:
         if pld.args[-1].lower() == '--global':
-            emotes, nsfw = get_emote_cache(cmd), True
-    if any([not nsfw, pld.msg.channel.is_nsfw()]):
+            emotes, nsfw = await get_emote_cache(cmd), True
+    if not nsfw or pld.msg.channel.is_nsfw():
         if emotes:
             emote = secrets.choice(emotes)
             response = discord.Embed().set_image(url=emote.url)

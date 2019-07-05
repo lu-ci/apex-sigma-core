@@ -34,9 +34,10 @@ async def get_emote_cache(cmd):
     """
     fill = False
     emote_cache = await cmd.db.cache.get_cache('emote_cache')
-    if emote_cache:
-        if arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
-            fill = True
+    if not emote_cache:
+        fill = True
+    elif arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
+        fill = True
     if fill:
         all_emotes = cmd.bot.emojis
         await cmd.db.cache.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
@@ -55,9 +56,9 @@ def get_emote(emoji):
     """
     lookup, eid = emoji, None
     if ':' in emoji:
-        # matches non local custom emote
+        # matches custom emote
         server_match = re.search(r'<a?:(\w+):(\d+)>', emoji)
-        # matches global emote or local custom emote
+        # matches global emote
         custom_match = re.search(r':(\w+):', emoji)
         if server_match:
             lookup, eid = server_match.group(1), server_match.group(2)
@@ -100,7 +101,7 @@ async def emote(cmd, pld):
                 emote_choice = emote_priority
             else:
                 emote_choice = discord.utils.find(lambda x: x.name.lower() == lookup, all_emotes)
-        if any([not nsfw, pld.msg.channel.is_nsfw()]):
+        if not nsfw or pld.msg.channel.is_nsfw():
             if emote_choice:
                 response = discord.Embed().set_image(url=emote_choice.url)
             else:

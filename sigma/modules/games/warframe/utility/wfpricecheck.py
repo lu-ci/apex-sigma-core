@@ -89,7 +89,7 @@ async def wfpricecheck(_cmd, pld):
                         seller_lines = []
                         for seller in sellers:
                             seller_line = f'Name: **{seller["user"]["ingame_name"]}**'
-                            seller_line += f' | Price: **{seller["platinum"]}**p'
+                            seller_line += f' | Price: **{int(seller["platinum"])}**p'
                             seller_lines.append(seller_line)
                         seller_text = '\n'.join(seller_lines)
                     else:
