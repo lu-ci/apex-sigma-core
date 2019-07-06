@@ -3,9 +3,9 @@ commands:
 - alts:
   - addres
   description: 'Adds an auto-responder to the server. Sigma will automatically reply
-    with the set message to any sentence that conaints the specified trigger in it
+    with the set message to any sentence that contains the specified trigger in it
     as a standalone word. The trigger can be a word or phrase, separate the trigger
-    from the response wuth a semicolon. Responders can have special dynamic arguments
+    from the response with a semicolon. Responders can have special dynamic arguments
     in them.
 
     {author_name}     - Message author name.
