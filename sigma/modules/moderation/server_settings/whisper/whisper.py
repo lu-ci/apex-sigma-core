@@ -42,7 +42,7 @@ async def whisper(cmd, pld):
                 if whisper_message:
                     whisper_data = {
                         'channel_id': whisper_chn_id,
-                        'whisper': ' '.join(pld.args),
+                        'whisper': whisper_message,
                         'reported': False
                     }
                     await cmd.db[cmd.db.db_nam].Whispers.insert_one(whisper_data)
