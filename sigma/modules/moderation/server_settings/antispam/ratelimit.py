@@ -28,7 +28,7 @@ async def ratelimit(cmd, pld):
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         try:
-            split = pld.args[0].split('/')
+            split = pld.args[0].split(':')
             amount, timespan = abs(int(split[0])), abs(int(split[1]))
         except (IndexError, ValueError):
             amount = timespan = None

@@ -4,6 +4,12 @@
 
 ### Changed
 
+- Swapped delimiter in `>>ratelimit` from `/` to `:` to match the description. 
+
+## 4.55.1110 Taiga
+
+### Changed
+
 - Fixed some command description typos.
 - Fixed an unawaited coroutine in `>>randomemote`.
 - Fixed a caching issue in `>>emote`.
