@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Fixed `user_avatar` checking `user.avatar_url` instead of `user.avatar`.
 - Swapped delimiter in `>>ratelimit` from `/` to `:` to match the description. 
 
 ## 4.55.1110 Taiga
