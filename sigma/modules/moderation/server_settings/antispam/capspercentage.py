@@ -33,8 +33,8 @@ async def capspercentage(cmd, pld):
                 limit = abs(int(pld.args[0]))
             except ValueError:
                 limit = None
-        limit = 100 if limit > 100 else limit
         if limit is not None:
+            limit = 100 if limit > 100 else limit
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'caps_percentage', limit)
             response = ok(f'Capital letter percentage set to {limit}%.')
         else:
