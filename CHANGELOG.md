@@ -1,6 +1,10 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.5.1112 Taiga
+
+### Added
+
+- The `>>givevirginity` command was added... I have no excuse other than "I was really bored".
 
 ### Changed
 
