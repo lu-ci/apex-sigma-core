@@ -1,7 +1,7 @@
 category: custom
 enabled: true
 events:
-- enabled: true
-  name: custom_command
-  type: message
+  - enabled: true
+    name: custom_command
+    type: message
 name: Custom Command Executor

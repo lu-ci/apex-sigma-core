@@ -1,200 +1,200 @@
 category: settings
 commands:
-- alts:
-  - blockword
-  description: Adds all the words you list to the blocked words filter. If any of
-    the words in the filter are sent, the message will be deleted and the author will
-    be notified. Words should not be separated by a delimiter. Those with the Administrator
-    permission are not affected.
-  enabled: true
-  name: blockwords
-  usage: '{pfx}{cmd} crap ass tits'
-- alts:
-  - blockextension
-  - blockexts
-  - blockext
-  description: Adds all the extensions you list to the extension filter. If any of
-    the extensions in the filter are sent, the message will be deleted and the author
-    will be notified. Extensions should not be separated by a delimiter. Those with
-    the Administrator permission are not affected.
-  enabled: true
-  name: blockextensions
-  usage: '{pfx}{cmd} .png .jpg'
-- alts:
-  - hardblockword
-  description: Works like "blockwords" but very intolerant. For example if you hardblock
-    the word "ass" it will delete stuff like "assassin". It looks for any instance
-    of the contents in the message, not indivitial segments. If any of the words in
-    the filter are exist within a message, whether as a standalone word or within
-    another word, the message will be deleted and the author will be notified. Extensions
-    should not be separated by a delimiter. Those with the Administrator permission
-    are not affected.
-  enabled: true
-  name: hardblockwords
-  usage: '{pfx}{cmd} crap ass tits'
-- alts:
-  - blockargument
-  - blockargs
-  - blockarg
-  description: Disallows commands to be used with the given arguments. If a command
-    contains a blocked argument, it's execution is prevented, with only a reaction
-    added to the message indicating it being blocked. Those with the Administrator
-    permission are not affected.
-  enabled: true
-  name: blockarguments
-  usage: '{pfx}{cmd} loli vore'
-- alts:
-  - filterinvites
-  description: Toggles if invite links should be automatically removed. If any invite
-    links are sent, the message will be deleted and the author will be notified. Those
-    with the Administrator permission are not affected.
-  enabled: true
-  name: blockinvites
-- alts:
-  - blockname
-  description: Adds all the names you list to the name filter. If any of the names
-    in the filter are in a user's name when they join the server, the user will be
-    automatically banned. This is very intolerant. For example if you block the name
-    "ass" it will ban anyone who joins with words like "assassin" in their name. Names
-    should not be separated by a delimiter. A user's name is only checked upon them
-    joining the server.
-  enabled: true
-  name: blocknames
-  usage: '{pfx}{cmd} discord.gg twitch.tv'
-- description: Toggles if blocked names are enforced. Anyone who joins the server
-    with a blocked name in thier name will be automatically banned. This is very intolerant.
-    For example if you block the name "ass" it will ban anyone who joins with words
-    like "assassin" in their name.
-  enabled: true
-  name: namefilterban
-- alts:
-  - forceascii
-  description: Toggles if only ASCII characters are allowed in names. The bot will
-    check member's names every 60s for non ASCII characters and rename them if found.
-    To change the default temporary name, use the asciitempname command.
-  enabled: true
-  name: asciionlynames
-- alts:
-  - asciitemp
-  description: Changes the default temporary name for those who the temporary ASCII
-    name was enforced on.
-  enabled: true
-  name: asciitempname
-  usage: '{pfx}{cmd} <ChangeMePleaseI''mLonely>'
-- alts:
-  - unblockword
-  description: Removes a blocked word allowing people to send messages containing
-    it. To purge the entire word filter, enter --all as the command argument. Words
-    should not be separated by a delimiter.
-  enabled: true
-  name: unblockwords
-  usage: '{pfx}{cmd} boobs'
-- alts:
-  - unblockextension
-  - unblockexts
-  - unblockext
-  description: Removes a blocked extension allowing people to send files containing
-    it. To purge the entire extension filter, enter --all as the command argument.
-    Extensions should not be separated by a delimiter.
-  enabled: true
-  name: unblockextensions
-  usage: '{pfx}{cmd} boobs'
-- alts:
-  - unhardblockword
-  description: Removes a hard blocked word allowing people to send messages containing
-    it. To purge the entire word filter, enter --all as the command argument. Words
-    should not be separated by a delimiter.
-  enabled: true
-  name: unhardblockwords
-  usage: '{pfx}{cmd} boobs'
-- alts:
-  - unblockargument
-  - unblockargs
-  - unblockarg
-  description: Removes arguments from the blocked list, allowing commands to be executed
-    with them again.
-  enabled: true
-  name: unblockarguments
-  usage: '{pfx}{cmd} something idunno'
-- alts:
-  - unblockname
-  description: Removes a blocked name allowing people who join to have it in their
-    name. To purge the entire name filter, enter "--all" as the command argument.
-    Names should not be separated by a delimiter.
-  enabled: true
-  name: unblocknames
-  usage: '{pfx}{cmd} discord.gg twitch.tv'
-- description: Lists all blocked words on the server.
-  enabled: true
-  name: blockedwords
-- description: Lists all hard-blocked words on the server.
-  enabled: true
-  name: hardblockedwords
-- alts:
-  - blockedargs
-  description: Lists all blocked arguments on the server.
-  enabled: true
-  name: blockedarguments
-- alts:
-  - blockedexts
-  description: Lists all blocked extensions on the server.
-  enabled: true
-  name: blockedextensions
-- description: Lists all blocked names on the server.
-  enabled: true
-  name: blockednames
-- alts:
-  - fignore
-  description: Adds an override for the for specified filter. The accepted types are
-    channels, users, and roles. The accepted filters are arguments, extensions, words,
-    and invites. You can specify multiple targets at once. If you set roles as the
-    type, separate the specified roles with a semi-colon and a space "; ". This command
-    requires the Manage Server permission.
-  enabled: true
-  name: filterignore
-  usage: '{pfx}{cmd} roles words Mods; Admins'
-- alts:
-  - funignore
-  description: Remvoes an override for the for specified filter. The accepted types
-    are channels, users, and roles. The accepted filters are arguments, extensions,
-    words, and invites. You can specify multiple targets at once. If you set roles
-    as the type, separate the specified roles with a semi-colon and a space "; ".
-    This command requires the Manage Server permission.
-  enabled: true
-  name: filterunignore
-  usage: '{pfx}{cmd} roles words Mods; Admins'
-- alts:
-  - foverrides
-  - fovrs
-  description: Lists all overrides for the specified filter. The accepted filters
-    are asciinames, arguments, extensions, words, and invites.
-  enabled: true
-  name: filteroverrides
-  usage: '{pfx}{cmd} words'
+  - alts:
+      - blockword
+    description: Adds all the words you list to the blocked words filter. If any of
+      the words in the filter are sent, the message will be deleted and the author will
+      be notified. Words should not be separated by a delimiter. Those with the Administrator
+      permission are not affected.
+    enabled: true
+    name: blockwords
+    usage: '{pfx}{cmd} crap ass tits'
+  - alts:
+      - blockextension
+      - blockexts
+      - blockext
+    description: Adds all the extensions you list to the extension filter. If any of
+      the extensions in the filter are sent, the message will be deleted and the author
+      will be notified. Extensions should not be separated by a delimiter. Those with
+      the Administrator permission are not affected.
+    enabled: true
+    name: blockextensions
+    usage: '{pfx}{cmd} .png .jpg'
+  - alts:
+      - hardblockword
+    description: Works like "blockwords" but very intolerant. For example if you hardblock
+      the word "ass" it will delete stuff like "assassin". It looks for any instance
+      of the contents in the message, not indivitial segments. If any of the words in
+      the filter are exist within a message, whether as a standalone word or within
+      another word, the message will be deleted and the author will be notified. Extensions
+      should not be separated by a delimiter. Those with the Administrator permission
+      are not affected.
+    enabled: true
+    name: hardblockwords
+    usage: '{pfx}{cmd} crap ass tits'
+  - alts:
+      - blockargument
+      - blockargs
+      - blockarg
+    description: Disallows commands to be used with the given arguments. If a command
+      contains a blocked argument, it's execution is prevented, with only a reaction
+      added to the message indicating it being blocked. Those with the Administrator
+      permission are not affected.
+    enabled: true
+    name: blockarguments
+    usage: '{pfx}{cmd} loli vore'
+  - alts:
+      - filterinvites
+    description: Toggles if invite links should be automatically removed. If any invite
+      links are sent, the message will be deleted and the author will be notified. Those
+      with the Administrator permission are not affected.
+    enabled: true
+    name: blockinvites
+  - alts:
+      - blockname
+    description: Adds all the names you list to the name filter. If any of the names
+      in the filter are in a user's name when they join the server, the user will be
+      automatically banned. This is very intolerant. For example if you block the name
+      "ass" it will ban anyone who joins with words like "assassin" in their name. Names
+      should not be separated by a delimiter. A user's name is only checked upon them
+      joining the server.
+    enabled: true
+    name: blocknames
+    usage: '{pfx}{cmd} discord.gg twitch.tv'
+  - description: Toggles if blocked names are enforced. Anyone who joins the server
+      with a blocked name in thier name will be automatically banned. This is very intolerant.
+      For example if you block the name "ass" it will ban anyone who joins with words
+      like "assassin" in their name.
+    enabled: true
+    name: namefilterban
+  - alts:
+      - forceascii
+    description: Toggles if only ASCII characters are allowed in names. The bot will
+      check member's names every 60s for non ASCII characters and rename them if found.
+      To change the default temporary name, use the asciitempname command.
+    enabled: true
+    name: asciionlynames
+  - alts:
+      - asciitemp
+    description: Changes the default temporary name for those who the temporary ASCII
+      name was enforced on.
+    enabled: true
+    name: asciitempname
+    usage: '{pfx}{cmd} <ChangeMePleaseI''mLonely>'
+  - alts:
+      - unblockword
+    description: Removes a blocked word allowing people to send messages containing
+      it. To purge the entire word filter, enter --all as the command argument. Words
+      should not be separated by a delimiter.
+    enabled: true
+    name: unblockwords
+    usage: '{pfx}{cmd} boobs'
+  - alts:
+      - unblockextension
+      - unblockexts
+      - unblockext
+    description: Removes a blocked extension allowing people to send files containing
+      it. To purge the entire extension filter, enter --all as the command argument.
+      Extensions should not be separated by a delimiter.
+    enabled: true
+    name: unblockextensions
+    usage: '{pfx}{cmd} boobs'
+  - alts:
+      - unhardblockword
+    description: Removes a hard blocked word allowing people to send messages containing
+      it. To purge the entire word filter, enter --all as the command argument. Words
+      should not be separated by a delimiter.
+    enabled: true
+    name: unhardblockwords
+    usage: '{pfx}{cmd} boobs'
+  - alts:
+      - unblockargument
+      - unblockargs
+      - unblockarg
+    description: Removes arguments from the blocked list, allowing commands to be executed
+      with them again.
+    enabled: true
+    name: unblockarguments
+    usage: '{pfx}{cmd} something idunno'
+  - alts:
+      - unblockname
+    description: Removes a blocked name allowing people who join to have it in their
+      name. To purge the entire name filter, enter "--all" as the command argument.
+      Names should not be separated by a delimiter.
+    enabled: true
+    name: unblocknames
+    usage: '{pfx}{cmd} discord.gg twitch.tv'
+  - description: Lists all blocked words on the server.
+    enabled: true
+    name: blockedwords
+  - description: Lists all hard-blocked words on the server.
+    enabled: true
+    name: hardblockedwords
+  - alts:
+      - blockedargs
+    description: Lists all blocked arguments on the server.
+    enabled: true
+    name: blockedarguments
+  - alts:
+      - blockedexts
+    description: Lists all blocked extensions on the server.
+    enabled: true
+    name: blockedextensions
+  - description: Lists all blocked names on the server.
+    enabled: true
+    name: blockednames
+  - alts:
+      - fignore
+    description: Adds an override for the for specified filter. The accepted types are
+      channels, users, and roles. The accepted filters are arguments, extensions, words,
+      and invites. You can specify multiple targets at once. If you set roles as the
+      type, separate the specified roles with a semi-colon and a space "; ". This command
+      requires the Manage Server permission.
+    enabled: true
+    name: filterignore
+    usage: '{pfx}{cmd} roles words Mods; Admins'
+  - alts:
+      - funignore
+    description: Remvoes an override for the for specified filter. The accepted types
+      are channels, users, and roles. The accepted filters are arguments, extensions,
+      words, and invites. You can specify multiple targets at once. If you set roles
+      as the type, separate the specified roles with a semi-colon and a space "; ".
+      This command requires the Manage Server permission.
+    enabled: true
+    name: filterunignore
+    usage: '{pfx}{cmd} roles words Mods; Admins'
+  - alts:
+      - foverrides
+      - fovrs
+    description: Lists all overrides for the specified filter. The accepted filters
+      are asciinames, arguments, extensions, words, and invites.
+    enabled: true
+    name: filteroverrides
+    usage: '{pfx}{cmd} words'
 enabled: true
 events:
-- enabled: true
-  name: send_word_blocker
-  type: message
-- enabled: true
-  name: edit_word_blocker
-  type: message_edit
-- enabled: true
-  name: send_invite_blocker
-  type: message
-- enabled: true
-  name: extension_blocker
-  type: message
-- enabled: true
-  name: edit_invite_blocker
-  type: message_edit
-- enabled: true
-  name: edit_name_check
-  type: member_update
-- enabled: true
-  name: join_name_check
-  type: member_join
-- enabled: true
-  name: join_name_ban
-  type: member_join
+  - enabled: true
+    name: send_word_blocker
+    type: message
+  - enabled: true
+    name: edit_word_blocker
+    type: message_edit
+  - enabled: true
+    name: send_invite_blocker
+    type: message
+  - enabled: true
+    name: extension_blocker
+    type: message
+  - enabled: true
+    name: edit_invite_blocker
+    type: message_edit
+  - enabled: true
+    name: edit_name_check
+    type: member_update
+  - enabled: true
+    name: join_name_check
+    type: member_join
+  - enabled: true
+    name: join_name_ban
+    type: member_join
 name: Filter Settings

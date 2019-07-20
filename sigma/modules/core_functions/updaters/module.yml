@@ -1,13 +1,13 @@
 category: development
 enabled: true
 events:
-- enabled: true
-  name: donor_updater
-  type: ready
-- enabled: true
-  name: command_updater
-  type: ready
-- enabled: true
-  name: version_updater
-  type: ready
+  - enabled: true
+    name: donor_updater
+    type: ready
+  - enabled: true
+    name: command_updater
+    type: ready
+  - enabled: true
+    name: version_updater
+    type: ready
 name: Core Information Updater Clockworks

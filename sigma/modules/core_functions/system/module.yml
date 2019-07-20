@@ -1,16 +1,16 @@
 category: development
 enabled: true
 events:
-- enabled: true
-  name: version_check
-  type: ready
-- enabled: true
-  name: join_move_log
-  type: guild_join
-- enabled: true
-  name: disclaimer_sender
-  type: guild_join
-- enabled: true
-  name: leave_move_log
-  type: guild_remove
+  - enabled: true
+    name: version_check
+    type: ready
+  - enabled: true
+    name: join_move_log
+    type: guild_join
+  - enabled: true
+    name: disclaimer_sender
+    type: guild_join
+  - enabled: true
+    name: leave_move_log
+    type: guild_remove
 name: System Event Modules

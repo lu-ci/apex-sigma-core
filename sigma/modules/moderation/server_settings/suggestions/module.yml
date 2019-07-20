@@ -1,21 +1,21 @@
 category: settings
 commands:
-- alts:
-  - serversugg
-  - suggest
-  - sugg
-  description: Submits a suggestions to the set server suggestion channel. Not to
-    be confused with the bot suggestion command, "botsuggest".
-  enabled: true
-  name: serversuggestion
-  usage: '{pfx}{cmd} New server ideas!'
-- alts:
-  - suggch
-  description: Designates a channel for server suggestions. When a new suggestion
-    is made, the details will be posted there. To disable this, write disable after
-    the command instead of a channel. This command requires the Manage Server permission.
-  enabled: true
-  name: suggestionchannel
-  usage: '{pfx}{cmd} #server-suggestions'
+  - alts:
+      - serversugg
+      - suggest
+      - sugg
+    description: Submits a suggestions to the set server suggestion channel. Not to
+      be confused with the bot suggestion command, "botsuggest".
+    enabled: true
+    name: serversuggestion
+    usage: '{pfx}{cmd} New server ideas!'
+  - alts:
+      - suggch
+    description: Designates a channel for server suggestions. When a new suggestion
+      is made, the details will be posted there. To disable this, write disable after
+      the command instead of a channel. This command requires the Manage Server permission.
+    enabled: true
+    name: suggestionchannel
+    usage: '{pfx}{cmd} #server-suggestions'
 enabled: true
 name: Server Suggestion Settings

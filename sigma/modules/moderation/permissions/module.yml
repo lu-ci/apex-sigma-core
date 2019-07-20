@@ -1,63 +1,63 @@
 category: permissions
 commands:
-- alts:
-  - enb
-  description: Enables a previosuly disabled command/module. Use the syntax {c|m}:{name}
-    to specify if it's a command or a module, and its name. You can use a command's
-    alias instead of its full name if desired. This command requires the Manage Server
-    permission.
-  enabled: true
-  name: enable
-  usage: '{pfx}{cmd} m:minigames'
-- alts:
-  - dsb
-  description: Enables or disables a command/module. Use the syntax {c|m}:{name} to
-    specify if it's a command or a module, and its name. You can use a command's alias
-    instead of its full name if desired. This command requires the Manage Server permission.
-  enabled: true
-  name: disable
-  usage: '{pfx}{cmd} m:fun'
-- alts:
-  - dsbd
-  description: Shows a list of commands or modules that are disabled on the server.
-    Commands/modules that are disabled, but overridden in any way, will have an asterisk.
-    The list is paginated, each page has up to 50 items. You can specify the page
-    number you want to see.
-  enabled: true
-  name: disabled
-  usage: '{pfx}{cmd} commands'
-- alts:
-  - perm
-  - prm
-  description: Adds an override for the for specified command/module. Use the syntax
-    {type} {c|m}:{name} to specify if it's a command or a module, and its name. The
-    accepted types are channels, users, and roles. You can specify multiple targets
-    at once. If you set roles as the type, separate the specified roles with a semi-colon
-    and a space "; ". This command requires the Manage Server permission.
-  enabled: true
-  name: permit
-  usage: '{pfx}{cmd} channels m:minigames #channel1 #channel2'
-- alts:
-  - uperm
-  - uprm
-  description: Removes a previosuly added override for the for specified command/module.
-    Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and
-    its name. The accepted types are channels, users, and roles. You can specify multiple
-    targets at once. If you set roles as the type, separate the specified roles with
-    a semi-colon and a space "; ". This command requires the Manage Server permission.
-  enabled: true
-  name: unpermit
-  usage: '{pfx}{cmd} channels m:minigames Gamblers; Warlards'
-- alts:
-  - permed
-  - prmd
-  description: Lists all overrides of the specified type for the specified command
-    or module. Use the syntax {type} {c|m}:{name} to specify if it's a command or
-    a module, and its name. The accepted types are channels, users, and roles. You
-    can use a command's alias instead of its full name if desired. The list is paginated,
-    each page has up to 50 items.
-  enabled: true
-  name: permitted
-  usage: '{pfx}{cmd} channels m:minigames'
+  - alts:
+      - enb
+    description: Enables a previosuly disabled command/module. Use the syntax {c|m}:{name}
+      to specify if it's a command or a module, and its name. You can use a command's
+      alias instead of its full name if desired. This command requires the Manage Server
+      permission.
+    enabled: true
+    name: enable
+    usage: '{pfx}{cmd} m:minigames'
+  - alts:
+      - dsb
+    description: Enables or disables a command/module. Use the syntax {c|m}:{name} to
+      specify if it's a command or a module, and its name. You can use a command's alias
+      instead of its full name if desired. This command requires the Manage Server permission.
+    enabled: true
+    name: disable
+    usage: '{pfx}{cmd} m:fun'
+  - alts:
+      - dsbd
+    description: Shows a list of commands or modules that are disabled on the server.
+      Commands/modules that are disabled, but overridden in any way, will have an asterisk.
+      The list is paginated, each page has up to 50 items. You can specify the page
+      number you want to see.
+    enabled: true
+    name: disabled
+    usage: '{pfx}{cmd} commands'
+  - alts:
+      - perm
+      - prm
+    description: Adds an override for the for specified command/module. Use the syntax
+      {type} {c|m}:{name} to specify if it's a command or a module, and its name. The
+      accepted types are channels, users, and roles. You can specify multiple targets
+      at once. If you set roles as the type, separate the specified roles with a semi-colon
+      and a space "; ". This command requires the Manage Server permission.
+    enabled: true
+    name: permit
+    usage: '{pfx}{cmd} channels m:minigames #channel1 #channel2'
+  - alts:
+      - uperm
+      - uprm
+    description: Removes a previosuly added override for the for specified command/module.
+      Use the syntax {type} {c|m}:{name} to specify if it's a command or a module, and
+      its name. The accepted types are channels, users, and roles. You can specify multiple
+      targets at once. If you set roles as the type, separate the specified roles with
+      a semi-colon and a space "; ". This command requires the Manage Server permission.
+    enabled: true
+    name: unpermit
+    usage: '{pfx}{cmd} channels m:minigames Gamblers; Warlards'
+  - alts:
+      - permed
+      - prmd
+    description: Lists all overrides of the specified type for the specified command
+      or module. Use the syntax {type} {c|m}:{name} to specify if it's a command or
+      a module, and its name. The accepted types are channels, users, and roles. You
+      can use a command's alias instead of its full name if desired. The list is paginated,
+      each page has up to 50 items.
+    enabled: true
+    name: permitted
+    usage: '{pfx}{cmd} channels m:minigames'
 enabled: true
 name: Permission Control

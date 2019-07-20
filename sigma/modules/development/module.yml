@@ -1,43 +1,43 @@
 category: development
 commands:
-- alts:
-  - eval
-  - exec
-  - code
-  - python
-  - py
-  description: Executes raw python code. This should be used with caution. You should
-    never use this unless you are certain of what you are doing.
-  enabled: true
-  name: evaluate
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} print(''Hello'')'
-- alts:
-  - sh
-  description: Executes a shell command. Extreme warning! This executes commands in
-    the Operating System's Shell. Command Prompt on Windows and Bash on Linux. It
-    will execute things on the same level of authority as the program is ran by. Meaning,
-    don't do something stupid and wipe your damn root.
-  enabled: true
-  name: sysexec
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} echo ''Hello'''
-- description: For testing purposes, obviously. Used as a placeholder for testing
-    functions.
-  enabled: true
-  name: test
-  permissions:
-    owner: true
+  - alts:
+      - eval
+      - exec
+      - code
+      - python
+      - py
+    description: Executes raw python code. This should be used with caution. You should
+      never use this unless you are certain of what you are doing.
+    enabled: true
+    name: evaluate
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} print(''Hello'')'
+  - alts:
+      - sh
+    description: Executes a shell command. Extreme warning! This executes commands in
+      the Operating System's Shell. Command Prompt on Windows and Bash on Linux. It
+      will execute things on the same level of authority as the program is ran by. Meaning,
+      don't do something stupid and wipe your damn root.
+    enabled: true
+    name: sysexec
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} echo ''Hello'''
+  - description: For testing purposes, obviously. Used as a placeholder for testing
+      functions.
+    enabled: true
+    name: test
+    permissions:
+      owner: true
 enabled: true
 events:
-- enabled: true
-  name: version_file_updater
-  type: ready
-- enabled: true
-  name: command_md
-  type: ready
+  - enabled: true
+    name: version_file_updater
+    type: ready
+  - enabled: true
+    name: command_md
+    type: ready
 name: Development

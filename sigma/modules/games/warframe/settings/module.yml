@@ -1,62 +1,62 @@
 category: warframe
 commands:
-- alts:
-  - wfacolc
-  description: Designates a channel for Warframe acolyte notifications. When an acolute
-    is found it will be posted there. To disable this, write disable after the command
-    instead of a channel.
-  enabled: true
-  name: wfacolytechannel
-  usage: '{pfx}{cmd} #wf-acolytes'
-- alts:
-  - wfic
-  description: Designates a channel for Warframe invasions. When a new invasion shows
-    up the news will be posted there. To disable this, write disable after the command
-    instead of a channel.
-  enabled: true
-  name: wfinvasionchannel
-  usage: '{pfx}{cmd} #wf-invasions'
-- alts:
-  - wfnc
-  description: Designates a channel for Warframe news. When Digital Extremes posts
-    a news for Warframe it will be posted there. To disable this, write disable after
-    the command instead of a channel.
-  enabled: true
-  name: wfnewschannel
-  usage: '{pfx}{cmd} #wf-news'
-- alts:
-  - wffc
-  description: Designates a channel for Warframe void fissures. When a new void fissure
-    shows up the news will be posted there. To disable this, write disable after the
-    command instead of a channel.
-  enabled: true
-  name: wffissurechannel
-  usage: '{pfx}{cmd} #wf-fissures'
-- alts:
-  - wfsc
-  description: Designates a channel for Warframe sorties. When a new sortie shows
-    up the details will be posted there. To disable this, write disable after the
-    command instead of a channel.
-  enabled: true
-  name: wfsortiechannel
-  usage: '{pfx}{cmd} #wf-sorties'
-- alts:
-  - wfpoec
-  description: Designates a channel for Warframe plains of eidolon day-night cycle.
-    When day shifts to night, and vice versa, a notification is sent to that channel.
-    To disable this, write disable after the command instead of a channel.
-  enabled: true
-  name: wfplainschannel
-  usage: '{pfx}{cmd} #wf-daylight'
-- alts:
-  - wftagrole
-  - wfnotify
-  - wfbind
-  description: Binds a certain keyword to a role. When this keyword appears in any
-    Warframe post, all roles bound to its triggers will be mentioned. Enter "disable"
-    instead of a role name to remove the tag binding.
-  enabled: true
-  name: wftag
-  usage: '{pfx}{cmd} aura Aura Squad'
+  - alts:
+      - wfacolc
+    description: Designates a channel for Warframe acolyte notifications. When an acolute
+      is found it will be posted there. To disable this, write disable after the command
+      instead of a channel.
+    enabled: true
+    name: wfacolytechannel
+    usage: '{pfx}{cmd} #wf-acolytes'
+  - alts:
+      - wfic
+    description: Designates a channel for Warframe invasions. When a new invasion shows
+      up the news will be posted there. To disable this, write disable after the command
+      instead of a channel.
+    enabled: true
+    name: wfinvasionchannel
+    usage: '{pfx}{cmd} #wf-invasions'
+  - alts:
+      - wfnc
+    description: Designates a channel for Warframe news. When Digital Extremes posts
+      a news for Warframe it will be posted there. To disable this, write disable after
+      the command instead of a channel.
+    enabled: true
+    name: wfnewschannel
+    usage: '{pfx}{cmd} #wf-news'
+  - alts:
+      - wffc
+    description: Designates a channel for Warframe void fissures. When a new void fissure
+      shows up the news will be posted there. To disable this, write disable after the
+      command instead of a channel.
+    enabled: true
+    name: wffissurechannel
+    usage: '{pfx}{cmd} #wf-fissures'
+  - alts:
+      - wfsc
+    description: Designates a channel for Warframe sorties. When a new sortie shows
+      up the details will be posted there. To disable this, write disable after the
+      command instead of a channel.
+    enabled: true
+    name: wfsortiechannel
+    usage: '{pfx}{cmd} #wf-sorties'
+  - alts:
+      - wfpoec
+    description: Designates a channel for Warframe plains of eidolon day-night cycle.
+      When day shifts to night, and vice versa, a notification is sent to that channel.
+      To disable this, write disable after the command instead of a channel.
+    enabled: true
+    name: wfplainschannel
+    usage: '{pfx}{cmd} #wf-daylight'
+  - alts:
+      - wftagrole
+      - wfnotify
+      - wfbind
+    description: Binds a certain keyword to a role. When this keyword appears in any
+      Warframe post, all roles bound to its triggers will be mentioned. Enter "disable"
+      instead of a role name to remove the tag binding.
+    enabled: true
+    name: wftag
+    usage: '{pfx}{cmd} aura Aura Squad'
 enabled: false
 name: Warframe Settings

@@ -1,37 +1,37 @@
 category: settings
 commands:
-- alts:
-  - logchannel
-  - logch
-  description: Designates a channel where server events will be logged in. You can
-    set each log type to a different channel by specifying the log type after the
-    channel mention. It can also accept a list of log types separated by a semicolon
-    and space "; ". To disable all logging channels, ented "disable" as the channel
-    argument. To disable channels for specific log types, input the log type after
-    "disable". Disabling also acceptes a list of log types in the aforementioned format.
-    Accepted log types are antispam, bans, deletions, edits, filters, kicks, modules,
-    movement, mutes, purges, incidents, and warnings.
-  enabled: true
-  name: loggingchannel
-  usage: '{pfx}{cmd} #logging'
-- description: Toggles logging of multiple log types at once. You can enter "all"
-    to turn on all logs, or "none" to disable all logs. It also accepts a list of
-    log types separated by a semicolon and space "; ". The accepted log types are
-    antispam, bans, deletions, edits, filters, kicks, movement, mutes, purges, incidents,
-    and warnings. The log types in the list will be toggled when entered. If they
-    were active, they will be deactivated, and vice versa.
-  enabled: true
-  name: log
-  usage: '{pfx}{cmd} kicks; bans; movement;'
-- description: Toggles logging of commands in the specified module being used.
-  enabled: true
-  name: logmodule
-  usage: '{pfx}{cmd} moderation'
-- alts:
-  - logs
-  description: Displays log settings. This includes the log channel and whether or
-    not it is enabled for each log type.
-  enabled: true
-  name: logsettings
+  - alts:
+      - logchannel
+      - logch
+    description: Designates a channel where server events will be logged in. You can
+      set each log type to a different channel by specifying the log type after the
+      channel mention. It can also accept a list of log types separated by a semicolon
+      and space "; ". To disable all logging channels, ented "disable" as the channel
+      argument. To disable channels for specific log types, input the log type after
+      "disable". Disabling also acceptes a list of log types in the aforementioned format.
+      Accepted log types are antispam, bans, deletions, edits, filters, kicks, modules,
+      movement, mutes, purges, incidents, and warnings.
+    enabled: true
+    name: loggingchannel
+    usage: '{pfx}{cmd} #logging'
+  - description: Toggles logging of multiple log types at once. You can enter "all"
+      to turn on all logs, or "none" to disable all logs. It also accepts a list of
+      log types separated by a semicolon and space "; ". The accepted log types are
+      antispam, bans, deletions, edits, filters, kicks, movement, mutes, purges, incidents,
+      and warnings. The log types in the list will be toggled when entered. If they
+      were active, they will be deactivated, and vice versa.
+    enabled: true
+    name: log
+    usage: '{pfx}{cmd} kicks; bans; movement;'
+  - description: Toggles logging of commands in the specified module being used.
+    enabled: true
+    name: logmodule
+    usage: '{pfx}{cmd} moderation'
+  - alts:
+      - logs
+    description: Displays log settings. This includes the log channel and whether or
+      not it is enabled for each log type.
+    enabled: true
+    name: logsettings
 enabled: true
 name: Logging Toggles

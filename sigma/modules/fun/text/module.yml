@@ -1,54 +1,54 @@
 category: fun
 commands:
-- alts:
-  - reverse
-  description: Reverses the text that you input into the command.
-  enabled: true
-  name: reversetext
-  usage: '{pfx}{cmd} hello'
-- description: All words escape me on what this command does, just use it.
-  enabled: true
-  name: dab
-- alts:
-  - scramb
-  description: It randomly scrambles all the text you give the command. By default,
-    it scrambles words individually. If you want to scramble the text as a whole,
-    add "--full" as the last argument.
-  enabled: true
-  name: scramble
-  usage: '{pfx}{cmd} I like spaghetti!'
-- description: All words escape me on what this command does, just use it.
-  enabled: true
-  name: dab
-- alts:
-  - leet
-  - l33t
-  description: Turns the specified statement into l33t text. You can specify which
-    level of leet you want your text to be converted to, as shown in the usage example.
-    The accepted levels are basic, advanced, and ultimate.
-  enabled: true
-  name: leetspeak
-  usage: '{pfx}{cmd} owned level:ultimate'
-- alts:
-  - mixnames
-  - mn
-  description: Mixes the names of all the targets.
-  enabled: true
-  name: combinenames
-  usage: '{pfx}{cmd} @person1 @person2 @person3...'
-- alts:
-  - randquestion
-  - randomq
-  - rq
-  description: The bot will ask you a random question, that's all...
-  enabled: true
-  name: randomquestion
-- alts:
-  - randomtodo
-  - randomact
-  - bored
-  description: Provides a random thing for you to do...
-  enabled: true
-  name: randomactivity
+  - alts:
+      - reverse
+    description: Reverses the text that you input into the command.
+    enabled: true
+    name: reversetext
+    usage: '{pfx}{cmd} hello'
+  - description: All words escape me on what this command does, just use it.
+    enabled: true
+    name: dab
+  - alts:
+      - scramb
+    description: It randomly scrambles all the text you give the command. By default,
+      it scrambles words individually. If you want to scramble the text as a whole,
+      add "--full" as the last argument.
+    enabled: true
+    name: scramble
+    usage: '{pfx}{cmd} I like spaghetti!'
+  - description: All words escape me on what this command does, just use it.
+    enabled: true
+    name: dab
+  - alts:
+      - leet
+      - l33t
+    description: Turns the specified statement into l33t text. You can specify which
+      level of leet you want your text to be converted to, as shown in the usage example.
+      The accepted levels are basic, advanced, and ultimate.
+    enabled: true
+    name: leetspeak
+    usage: '{pfx}{cmd} owned level:ultimate'
+  - alts:
+      - mixnames
+      - mn
+    description: Mixes the names of all the targets.
+    enabled: true
+    name: combinenames
+    usage: '{pfx}{cmd} @person1 @person2 @person3...'
+  - alts:
+      - randquestion
+      - randomq
+      - rq
+    description: The bot will ask you a random question, that's all...
+    enabled: true
+    name: randomquestion
+  - alts:
+      - randomtodo
+      - randomact
+      - bored
+    description: Provides a random thing for you to do...
+    enabled: true
+    name: randomactivity
 enabled: true
 name: Fun Text Commands

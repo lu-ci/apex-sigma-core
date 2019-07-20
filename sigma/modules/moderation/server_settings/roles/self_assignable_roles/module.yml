@@ -1,71 +1,71 @@
 category: roles
 commands:
-- alts:
-  - addrank
-  - asr
-  description: Sets a role as self assignable. Roles that are self assignable can
-    be manually assign by anyone. To assign a self assignbale role to yourself, use
-    the togglerole command. This command requires the Manage Roles permission.
-  enabled: true
-  name: addselfrole
-  requirements:
-  - manage_roles
-  usage: '{pfx}{cmd} Cheese Lover'
-- alts:
-  - delrank
-  - rsr
-  - dsr
-  description: This command requires the Manage Roles permission.
-  enabled: true
-  name: delselfrole
-  requirements:
-  - manage_roles
-  usage: '{pfx}{cmd} Meat Lover'
-- alts:
-  - tsr
-  description: The addselfrole and delselfrole in one. It toggles the self-assignability
-    of a role. This command requires the Manage Roles permission.
-  enabled: true
-  name: toggleselfrole
-  requirements:
-  - manage_roles
-  usage: '{pfx}{cmd} Meat Lover'
-- alts:
-  - listranks
-  - listroles
-  - ranks
-  - roles
-  - lsrl
-  description: Lists all self assignable roles on the server.
-  enabled: true
-  name: listselfroles
-- alts:
-  - togglerank
-  - rank
-  - trl
-  description: Toggles a self assignable role. If you don't have the role, it will
-    be given to you. If you do have the role, it will be removed from you.
-  enabled: true
-  name: togglerole
-  requirements:
-  - manage_roles
-  usage: '{pfx}{cmd} Overlord'
-- alts:
-  - colourme
-  - clrme
-  - cme
-  description: If the current guild has color roles enabled, you can assign one to
-    yourself with this command. For more information about how this works, use the
-    help command on "colorroles". Any other color roles made via this command will
-    be removed from you prior to adding the new one.
-  enabled: true
-  name: colorme
-  requirements:
-  - manage_roles
-  usage: '{pfx}{cmd} #1abc9c'
+  - alts:
+      - addrank
+      - asr
+    description: Sets a role as self assignable. Roles that are self assignable can
+      be manually assign by anyone. To assign a self assignbale role to yourself, use
+      the togglerole command. This command requires the Manage Roles permission.
+    enabled: true
+    name: addselfrole
+    requirements:
+      - manage_roles
+    usage: '{pfx}{cmd} Cheese Lover'
+  - alts:
+      - delrank
+      - rsr
+      - dsr
+    description: This command requires the Manage Roles permission.
+    enabled: true
+    name: delselfrole
+    requirements:
+      - manage_roles
+    usage: '{pfx}{cmd} Meat Lover'
+  - alts:
+      - tsr
+    description: The addselfrole and delselfrole in one. It toggles the self-assignability
+      of a role. This command requires the Manage Roles permission.
+    enabled: true
+    name: toggleselfrole
+    requirements:
+      - manage_roles
+    usage: '{pfx}{cmd} Meat Lover'
+  - alts:
+      - listranks
+      - listroles
+      - ranks
+      - roles
+      - lsrl
+    description: Lists all self assignable roles on the server.
+    enabled: true
+    name: listselfroles
+  - alts:
+      - togglerank
+      - rank
+      - trl
+    description: Toggles a self assignable role. If you don't have the role, it will
+      be given to you. If you do have the role, it will be removed from you.
+    enabled: true
+    name: togglerole
+    requirements:
+      - manage_roles
+    usage: '{pfx}{cmd} Overlord'
+  - alts:
+      - colourme
+      - clrme
+      - cme
+    description: If the current guild has color roles enabled, you can assign one to
+      yourself with this command. For more information about how this works, use the
+      help command on "colorroles". Any other color roles made via this command will
+      be removed from you prior to adding the new one.
+    enabled: true
+    name: colorme
+    requirements:
+      - manage_roles
+    usage: '{pfx}{cmd} #1abc9c'
 enabled: true
 events:
-- enabled: true
-  name: scr_cleaner_clock
-  type: ready
+  - enabled: true
+    name: scr_cleaner_clock
+    type: ready
 name: SelfRole Controls

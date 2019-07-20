@@ -1,22 +1,22 @@
 category: searches
 commands:
-- alts:
-  - animu
-  - kitsuanime
-  description: Searches Kitsu.io for the specified anime. The outputed results will
-    be information like the number of episodes, user rating, air time, plot summary,
-    and poster image.
-  enabled: true
-  name: anime
-  usage: '{pfx}{cmd} Plastic Memories'
-- alts:
-  - mango
-  - kitsumanga
-  description: Searches Kitsu.io for the specified manga. The outputed results will
-    be information like the number of chapters, user rating, plot summary, and poster
-    image.
-  enabled: true
-  name: manga
-  usage: '{pfx}{cmd} A Silent Voice'
+  - alts:
+      - animu
+      - kitsuanime
+    description: Searches Kitsu.io for the specified anime. The outputed results will
+      be information like the number of episodes, user rating, air time, plot summary,
+      and poster image.
+    enabled: true
+    name: anime
+    usage: '{pfx}{cmd} Plastic Memories'
+  - alts:
+      - mango
+      - kitsumanga
+    description: Searches Kitsu.io for the specified manga. The outputed results will
+      be information like the number of chapters, user rating, plot summary, and poster
+      image.
+    enabled: true
+    name: manga
+    usage: '{pfx}{cmd} A Silent Voice'
 enabled: true
 name: Kitsu.io Commands

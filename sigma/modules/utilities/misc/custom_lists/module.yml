@@ -1,64 +1,64 @@
 category: miscellaneous
 commands:
-- alts:
-  - ml
-  description: Creates a custom list. The list is public by default, but can be made
-    private (only viewable and editable by you) by adding "private" as an argument,
-    or locked, so anyone can view it but only you can add to it, by adding "locked"
-    as an argument.
-  enabled: true
-  name: makelist
-  usage: '{pfx}{cmd} private'
-- alts:
-  - dellist
-  - dl
-  description: Permanently deletes a list. You must be the list creator to delete
-    it.
-  enabled: true
-  name: deletelist
-  usage: '{pfx}{cmd} 38fe'
-- alts:
-  - ls
-  description: Marks the specified list as private, locked, or public. Private means
-    no one but the creator can view it. Locked means no one but the creator can add
-    to it. Public means anyone can view it or add to it. Specify the mode by adding
-    it as the argument.
-  enabled: true
-  name: listsettings
-  usage: '{pfx}{cmd} 38fe private'
-- alts:
-  - al
-  description: Adds the inputted line to the specified list.
-  enabled: true
-  name: addline
-  usage: '{pfx}{cmd} 38fe Lists are awesome!'
-- alts:
-  - delline
-  - rl
-  description: Deletes a line from the specified list. Specify the line to delete
-    by number. Line numbers are not tied to specific lines. Deleting line 1 will result
-    in line 2 becoming the new line 1.
-  enabled: true
-  name: removeline
-  usage: '{pfx}{cmd} 3'
-- alts:
-  - vls
-  description: Shows all of the custom lists on the server.
-  enabled: true
-  name: viewlists
-- alts:
-  - vl
-  description: Shows the specified custom list. You can only view a list if you are
-    the creator or the list is marked as public.
-  enabled: true
-  name: viewlist
-  usage: '{pfx}{cmd} 38fe'
-- alts:
-  - rnl
-  description: Changes the name of the specified list. Only the creator of the list
-    can change its name.
-  enabled: true
-  name: renamelist
-  usage: '{pfx}{cmd} 38fe Fancy List Name'
+  - alts:
+      - ml
+    description: Creates a custom list. The list is public by default, but can be made
+      private (only viewable and editable by you) by adding "private" as an argument,
+      or locked, so anyone can view it but only you can add to it, by adding "locked"
+      as an argument.
+    enabled: true
+    name: makelist
+    usage: '{pfx}{cmd} private'
+  - alts:
+      - dellist
+      - dl
+    description: Permanently deletes a list. You must be the list creator to delete
+      it.
+    enabled: true
+    name: deletelist
+    usage: '{pfx}{cmd} 38fe'
+  - alts:
+      - ls
+    description: Marks the specified list as private, locked, or public. Private means
+      no one but the creator can view it. Locked means no one but the creator can add
+      to it. Public means anyone can view it or add to it. Specify the mode by adding
+      it as the argument.
+    enabled: true
+    name: listsettings
+    usage: '{pfx}{cmd} 38fe private'
+  - alts:
+      - al
+    description: Adds the inputted line to the specified list.
+    enabled: true
+    name: addline
+    usage: '{pfx}{cmd} 38fe Lists are awesome!'
+  - alts:
+      - delline
+      - rl
+    description: Deletes a line from the specified list. Specify the line to delete
+      by number. Line numbers are not tied to specific lines. Deleting line 1 will result
+      in line 2 becoming the new line 1.
+    enabled: true
+    name: removeline
+    usage: '{pfx}{cmd} 3'
+  - alts:
+      - vls
+    description: Shows all of the custom lists on the server.
+    enabled: true
+    name: viewlists
+  - alts:
+      - vl
+    description: Shows the specified custom list. You can only view a list if you are
+      the creator or the list is marked as public.
+    enabled: true
+    name: viewlist
+    usage: '{pfx}{cmd} 38fe'
+  - alts:
+      - rnl
+    description: Changes the name of the specified list. Only the creator of the list
+      can change its name.
+    enabled: true
+    name: renamelist
+    usage: '{pfx}{cmd} 38fe Fancy List Name'
 enabled: true
 name: Custom List Utilities

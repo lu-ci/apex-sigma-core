@@ -1,42 +1,42 @@
 category: moderation
 commands:
-- alts:
-  - activatewarn
-  - actwarn
-  description: Reactivates the mentioned user's warning. Warns are marked as inactive
-    when removed. Both the user mention and the warning ID are needed for the command.
-    The specified warning must be marked inactive before it can be reactivated. Only
-    the server owner can use this command.
-  enabled: true
-  name: activatewarning
-  usage: '{pfx}{cmd} @person 1abc'
-- alts:
-  - inacwarnings
-  - inacwarns
-  description: Lists all inactive warnings issued to the mentioned user. The list
-    is compact and shows only each warning's ID, issuer, and issue date. The list
-    is paginated, each page has up to 5 warnings. You can also specify the page number
-    you want to see as the last argument. Only the server owner can use this command.
-  enabled: true
-  name: listinactivewarnings
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - viewinacwarning
-  - inacwarning
-  description: Shows detailed information for the mentioned user's warning. Both the
-    user mention and the warning ID are needed for the command. The specified warning
-    must be marked as inactive. Only the server owner can use this command.
-  enabled: true
-  name: viewinactivewarning
-  usage: '{pfx}{cmd} @person 1abc'
-- alts:
-  - delinacwarning
-  - delinacwarn
-  description: Permanently deletes the mentioned user's warning. Both the user mention
-    and the warning ID are needed for the command. The specified warning must be marked
-    as inactive. This cannot be undone. Only the server owner can use this command.
-  enabled: true
-  name: removeinactivewarning
-  usage: '{pfx}{cmd} @person 1abc'
+  - alts:
+      - activatewarn
+      - actwarn
+    description: Reactivates the mentioned user's warning. Warns are marked as inactive
+      when removed. Both the user mention and the warning ID are needed for the command.
+      The specified warning must be marked inactive before it can be reactivated. Only
+      the server owner can use this command.
+    enabled: true
+    name: activatewarning
+    usage: '{pfx}{cmd} @person 1abc'
+  - alts:
+      - inacwarnings
+      - inacwarns
+    description: Lists all inactive warnings issued to the mentioned user. The list
+      is compact and shows only each warning's ID, issuer, and issue date. The list
+      is paginated, each page has up to 5 warnings. You can also specify the page number
+      you want to see as the last argument. Only the server owner can use this command.
+    enabled: true
+    name: listinactivewarnings
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - viewinacwarning
+      - inacwarning
+    description: Shows detailed information for the mentioned user's warning. Both the
+      user mention and the warning ID are needed for the command. The specified warning
+      must be marked as inactive. Only the server owner can use this command.
+    enabled: true
+    name: viewinactivewarning
+    usage: '{pfx}{cmd} @person 1abc'
+  - alts:
+      - delinacwarning
+      - delinacwarn
+    description: Permanently deletes the mentioned user's warning. Both the user mention
+      and the warning ID are needed for the command. The specified warning must be marked
+      as inactive. This cannot be undone. Only the server owner can use this command.
+    enabled: true
+    name: removeinactivewarning
+    usage: '{pfx}{cmd} @person 1abc'
 enabled: true
 name: Server Owner Warning Commands

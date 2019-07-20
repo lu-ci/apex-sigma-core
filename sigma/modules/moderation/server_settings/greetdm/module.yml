@@ -1,15 +1,15 @@
 category: settings
 commands:
-- alts:
-  - greetpm
-  description: Toggles if Sigma should greet users via a DM when they enter the server.
-    This can be enabled in addition to server-bound greetings. This command requires
-    the Manage Server permission.
-  enabled: true
-  name: greetdm
-- alts:
-  - greetdmmsg
-  description: 'This sets the message shown in the DM when a member joins. Greet messages
+  - alts:
+      - greetpm
+    description: Toggles if Sigma should greet users via a DM when they enter the server.
+      This can be enabled in addition to server-bound greetings. This command requires
+      the Manage Server permission.
+    enabled: true
+    name: greetdm
+  - alts:
+      - greetdmmsg
+    description: 'This sets the message shown in the DM when a member joins. Greet messages
     can have special dynamic arguments in them.
 
     {user_name}     - Joining user''s name.
@@ -39,24 +39,24 @@ commands:
     This command requires the Manage Server permission.
 
     '
-  enabled: true
-  name: greetdmmessage
-  usage: '{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!'
-- alts:
-  - greetdmemb
-  description: Toggles whether DM greet messages are an embed or not. Also customizes
-    the embed that is used. You can change the embed color, set the thumbnail, and
-    set the image. To do so, specify the field and the value separated by a colon
-    (see usage example). The accepted fields are color, thumbnail, and image. Color
-    accepts only HEX codes, while the other two accept only direct image URLs. Provide
-    no arguments to toggle this feature on or off. This command requires the Manage
-    Server permission.
-  enabled: true
-  name: greetdmembed
-  usage: '{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png'
+    enabled: true
+    name: greetdmmessage
+    usage: '{pfx}{cmd} Hello {user_mention}, welcome to {server_name}!'
+  - alts:
+      - greetdmemb
+    description: Toggles whether DM greet messages are an embed or not. Also customizes
+      the embed that is used. You can change the embed color, set the thumbnail, and
+      set the image. To do so, specify the field and the value separated by a colon
+      (see usage example). The accepted fields are color, thumbnail, and image. Color
+      accepts only HEX codes, while the other two accept only direct image URLs. Provide
+      no arguments to toggle this feature on or off. This command requires the Manage
+      Server permission.
+    enabled: true
+    name: greetdmembed
+    usage: '{pfx}{cmd} color:1abc9c image:my.image.link/fancy.png'
 enabled: true
 events:
-- enabled: true
-  name: greetdm_sender
-  type: member_join
+  - enabled: true
+    name: greetdm_sender
+    type: member_join
 name: DM Greeting Settings

@@ -1,12 +1,12 @@
 category: searches
 commands:
-- alts:
-  - frec
-  - food
-  description: Searches for a dish, or dishes that use specified ingredients, and
-    outputs one that might be a good match for your search query.
-  enabled: true
-  name: foodrecipe
-  usage: '{pfx}{cmd} Chicken in Curry Sauce'
+  - alts:
+      - frec
+      - food
+    description: Searches for a dish, or dishes that use specified ingredients, and
+      outputs one that might be a good match for your search query.
+    enabled: true
+    name: foodrecipe
+    usage: '{pfx}{cmd} Chicken in Curry Sauce'
 enabled: true
 name: Food Commands

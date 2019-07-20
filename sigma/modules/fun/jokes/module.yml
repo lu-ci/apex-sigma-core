@@ -1,56 +1,56 @@
 category: fun
 commands:
-- description: This command outputs a random Chuck Norris joke. We use Chuck jokes
-    because Bruce Lee is no joke, obviously.
-  enabled: true
-  name: chucknorris
-- description: This command outputs a random quote from Ron Swanson. Everyone's favorite
-    character from Parks and Recreation.
-  enabled: true
-  name: ronswanson
-- description: The only thing better than a joke is a joke written in CSS. And while
-    that is sarcasm to a certain degree, these really are fun. Embrace your inner
-    web designer and read some CSS jokes.
-  enabled: true
-  name: csshumor
-- description: If you do not know what a pun is... Oh you poor innocent soul. This
-    command will produce a lovely little pun for you. Enjoy the cringe!
-  enabled: true
-  name: pun
-- description: This will provide a joke that might be something your father would
-    say. You know they are bad, but you will love them anyway, cause you're a good
-    kid.
-  enabled: true
-  name: dadjoke
-- description: Outputs a joke. It is not really special or anything... Sometimes they
-    are funny, most of the times they are not.
-  enabled: true
-  name: joke
-- alts:
-  - yomama
-  - yomoma
-  - ym
-  description: Want to insult some poor fool's mother but don't have the right comeback?
-    This command will provide the perfect yo momma joke for the task.
-  enabled: false
-  name: yomomma
-- alts:
-  - realdevelopers
-  - realdevs
-  - rp
-  - rd
-  description: Tells you what real programmers do.
-  enabled: true
-  name: realprogrammers
+  - description: This command outputs a random Chuck Norris joke. We use Chuck jokes
+      because Bruce Lee is no joke, obviously.
+    enabled: true
+    name: chucknorris
+  - description: This command outputs a random quote from Ron Swanson. Everyone's favorite
+      character from Parks and Recreation.
+    enabled: true
+    name: ronswanson
+  - description: The only thing better than a joke is a joke written in CSS. And while
+      that is sarcasm to a certain degree, these really are fun. Embrace your inner
+      web designer and read some CSS jokes.
+    enabled: true
+    name: csshumor
+  - description: If you do not know what a pun is... Oh you poor innocent soul. This
+      command will produce a lovely little pun for you. Enjoy the cringe!
+    enabled: true
+    name: pun
+  - description: This will provide a joke that might be something your father would
+      say. You know they are bad, but you will love them anyway, cause you're a good
+      kid.
+    enabled: true
+    name: dadjoke
+  - description: Outputs a joke. It is not really special or anything... Sometimes they
+      are funny, most of the times they are not.
+    enabled: true
+    name: joke
+  - alts:
+      - yomama
+      - yomoma
+      - ym
+    description: Want to insult some poor fool's mother but don't have the right comeback?
+      This command will provide the perfect yo momma joke for the task.
+    enabled: false
+    name: yomomma
+  - alts:
+      - realdevelopers
+      - realdevs
+      - rp
+      - rd
+    description: Tells you what real programmers do.
+    enabled: true
+    name: realprogrammers
 enabled: true
 events:
-- enabled: true
-  name: dbinit_dadjoke
-  type: dbinit
-- enabled: true
-  name: dbinit_realdevs
-  type: dbinit
-- enabled: true
-  name: dbinit_jokes
-  type: dbinit
+  - enabled: true
+    name: dbinit_dadjoke
+    type: dbinit
+  - enabled: true
+    name: dbinit_realdevs
+    type: dbinit
+  - enabled: true
+    name: dbinit_jokes
+    type: dbinit
 name: Joke Commands

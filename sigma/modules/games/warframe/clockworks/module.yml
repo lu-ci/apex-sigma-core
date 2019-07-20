@@ -1,22 +1,22 @@
 category: warframe
 enabled: false
 events:
-- enabled: true
-  name: fissure_clockwork
-  type: ready
-- enabled: true
-  name: invasion_clockwork
-  type: ready
-- enabled: true
-  name: news_clockwork
-  type: ready
-- enabled: false
-  name: acolyte_clockwork
-  type: ready
-- enabled: true
-  name: sortie_clockwork
-  type: ready
-- enabled: true
-  name: plains_clockwork
-  type: ready
+  - enabled: true
+    name: fissure_clockwork
+    type: ready
+  - enabled: true
+    name: invasion_clockwork
+    type: ready
+  - enabled: true
+    name: news_clockwork
+    type: ready
+  - enabled: false
+    name: acolyte_clockwork
+    type: ready
+  - enabled: true
+    name: sortie_clockwork
+    type: ready
+  - enabled: true
+    name: plains_clockwork
+    type: ready
 name: Warframe Clockworks

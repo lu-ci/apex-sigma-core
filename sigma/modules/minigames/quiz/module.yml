@@ -1,70 +1,70 @@
 category: minigames
 commands:
-- alts:
-  - vncg
-  description: A minigame where you guess the name of the visual novel character shown.
-    You can add "hint" in the command to make it show the character's scrambled name.
-    The Kud reward is equal to the number of characters in the shortest part of the
-    character's name. If the hint is used, the Kud reward is split in half.
-  enabled: true
-  name: vnchargame
-- alts:
-  - triv
-  - t
-  description: A trivia minigame. You are given a question and have to input the number
-    of your answer. Guess correctly and you win 10-50 Kud (base), depending on the
-    difficulty. You have 20 seconds to answer the question. Consecutive correct answers
-    give you a streak and the streak increases the Kud gained for each correct answers.
-    Timing out or giving an incorrect answer resets the streak. You can choose the
-    category and difficulty of the question like in the usage example, but choosing
-    either will disable the streak.
-  enabled: true
-  name: trivia
-- alts:
-  - anichargame
-  - anicg
-  description: A minigame where you guess the name of the anime character shown. You
-    can add "hint" in the command to make it show the character's scrambled name.
-    The Kud reward is equal to the number of characters in the shortest part of the
-    character's name. If the hint is used, the Kud reward is split in half.
-  enabled: true
-  name: animechargame
-  usage: '{pfx}{cmd} hint'
-- alts:
-  - mangochargame
-  - mancg
-  description: A minigame where you guess the name of the manga character shown. You
-    can add "hint" in the command to make it show the character's scrambled name.
-    The Kud reward is equal to the number of characters in the shortest part of the
-    character's name. If the hint is used, the Kud reward is split in half.
-  enabled: true
-  name: mangachargame
-  usage: '{pfx}{cmd} hint'
-- alts:
-  - mg
-  description: A mathematics minigame. You are given a problem to solve. Numbers are
-    rounded to 2 decimals. You can also specify how hard you want the problem to be
-    on a scale of 1 to 9. The default difficulty is 3. The time and Kud reward scale
-    with the difficulty and number of hard operators.
-  enabled: true
-  name: mathgame
-  usage: '{pfx}{cmd} 4'
-- alts:
-  - unscramble
-  - usg
-  description: A minigame where you guess the scrambled word. You have 30 seconds
-    to guess the word shown. The Kud reward is equal to the number of letters in the
-    word.
-  enabled: true
-  name: unscramblegame
-- description: Classic hangman. Guess the word in less than six tries. You have 30
-    seconds to guess the word shown. The Kud reward is equal to the number of letters
-    in the word.
-  enabled: true
-  name: hangman
+  - alts:
+      - vncg
+    description: A minigame where you guess the name of the visual novel character shown.
+      You can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters in the shortest part of the
+      character's name. If the hint is used, the Kud reward is split in half.
+    enabled: true
+    name: vnchargame
+  - alts:
+      - triv
+      - t
+    description: A trivia minigame. You are given a question and have to input the number
+      of your answer. Guess correctly and you win 10-50 Kud (base), depending on the
+      difficulty. You have 20 seconds to answer the question. Consecutive correct answers
+      give you a streak and the streak increases the Kud gained for each correct answers.
+      Timing out or giving an incorrect answer resets the streak. You can choose the
+      category and difficulty of the question like in the usage example, but choosing
+      either will disable the streak.
+    enabled: true
+    name: trivia
+  - alts:
+      - anichargame
+      - anicg
+    description: A minigame where you guess the name of the anime character shown. You
+      can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters in the shortest part of the
+      character's name. If the hint is used, the Kud reward is split in half.
+    enabled: true
+    name: animechargame
+    usage: '{pfx}{cmd} hint'
+  - alts:
+      - mangochargame
+      - mancg
+    description: A minigame where you guess the name of the manga character shown. You
+      can add "hint" in the command to make it show the character's scrambled name.
+      The Kud reward is equal to the number of characters in the shortest part of the
+      character's name. If the hint is used, the Kud reward is split in half.
+    enabled: true
+    name: mangachargame
+    usage: '{pfx}{cmd} hint'
+  - alts:
+      - mg
+    description: A mathematics minigame. You are given a problem to solve. Numbers are
+      rounded to 2 decimals. You can also specify how hard you want the problem to be
+      on a scale of 1 to 9. The default difficulty is 3. The time and Kud reward scale
+      with the difficulty and number of hard operators.
+    enabled: true
+    name: mathgame
+    usage: '{pfx}{cmd} 4'
+  - alts:
+      - unscramble
+      - usg
+    description: A minigame where you guess the scrambled word. You have 30 seconds
+      to guess the word shown. The Kud reward is equal to the number of letters in the
+      word.
+    enabled: true
+    name: unscramblegame
+  - description: Classic hangman. Guess the word in less than six tries. You have 30
+      seconds to guess the word shown. The Kud reward is equal to the number of letters
+      in the word.
+    enabled: true
+    name: hangman
 enabled: true
 events:
-- enabled: true
-  name: dbinit_dictionary
-  type: dbinit
+  - enabled: true
+    name: dbinit_dictionary
+    type: dbinit
 name: Quiz

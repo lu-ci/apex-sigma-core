@@ -1,59 +1,59 @@
 category: help
 commands:
-- alts:
-  - h
-  description: Provides the link to Sigma's website and support server. To view information
-    on a specific command, add that command's name as an argument.
-  enabled: true
-  name: help
-  permissions:
-    dmable: true
-  usage: '{pfx}{cmd} fish'
-- alts:
-  - modules
-  - cmds
-  - mdls
-  description: Lists all of Sigma's available modules. To view the commands within
-    a specific module, add the module's name as an argument.
-  enabled: true
-  name: commands
-  permissions:
-    dmable: true
-  usage: '{pfx}{cmd} minigames'
-- alts:
-  - inv
-  description: Provides Sigma's invitation link to add her to your server.
-  enabled: true
-  name: invite
-  permissions:
-    dmable: true
-- description: Shows donation information for Sigma.
-  enabled: true
-  name: donate
-  permissions:
-    dmable: true
-- alts:
-  - license
-  description: Shows the license of the Apex Sigma project.
-  enabled: true
-  name: showlicense
-  permissions:
-    dmable: true
-- alts:
-  - repo
-  - project
-  description: Shows the link to the project's repository page. You can add "--text"
-    to the command to show just the link as pure text.
-  enabled: true
-  name: repository
-  permissions:
-    dmable: true
+  - alts:
+      - h
+    description: Provides the link to Sigma's website and support server. To view information
+      on a specific command, add that command's name as an argument.
+    enabled: true
+    name: help
+    permissions:
+      dmable: true
+    usage: '{pfx}{cmd} fish'
+  - alts:
+      - modules
+      - cmds
+      - mdls
+    description: Lists all of Sigma's available modules. To view the commands within
+      a specific module, add the module's name as an argument.
+    enabled: true
+    name: commands
+    permissions:
+      dmable: true
+    usage: '{pfx}{cmd} minigames'
+  - alts:
+      - inv
+    description: Provides Sigma's invitation link to add her to your server.
+    enabled: true
+    name: invite
+    permissions:
+      dmable: true
+  - description: Shows donation information for Sigma.
+    enabled: true
+    name: donate
+    permissions:
+      dmable: true
+  - alts:
+      - license
+    description: Shows the license of the Apex Sigma project.
+    enabled: true
+    name: showlicense
+    permissions:
+      dmable: true
+  - alts:
+      - repo
+      - project
+    description: Shows the link to the project's repository page. You can add "--text"
+      to the command to show just the link as pure text.
+    enabled: true
+    name: repository
+    permissions:
+      dmable: true
 enabled: true
 events:
-- enabled: true
-  name: dm_detection
-  type: message
-- enabled: true
-  name: integrity_check
-  type: boot
+  - enabled: true
+    name: dm_detection
+    type: message
+  - enabled: true
+    name: integrity_check
+    type: boot
 name: Help and Information

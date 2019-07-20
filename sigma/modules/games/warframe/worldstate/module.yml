@@ -1,86 +1,86 @@
 category: warframe
 commands:
-- alts:
-  - wfsortie
-  - wfs
-  description: Shows the ongoing Sortie missions in Warframe.
-  enabled: true
-  name: wfsorties
-- alts:
-  - wffissure
-  - wff
-  description: Shows the current fissure locations in Warframe. As well as their tiers,
-    locations and mission types.
-  enabled: true
-  name: wffissures
-- alts:
-  - wfinvasion
-  - wfi
-  description: Shows the current ongoing invasions in Warframe. As well as their factions,
-    locations and rewards.
-  enabled: true
-  name: wfinvasions
-- alts:
-  - wfn
-  description: Shows the current ative news in Warframe.
-  enabled: true
-  name: wfnews
-- alts:
-  - wfacol
-  description: Shows data on the Stalker's acolytes. Their names, locations and health.
-  enabled: true
-  name: wfacolytes
-- alts:
-  - wfpoe
-  description: Shows the current time on the Plains of Eidolon in Warframe. As well
-    as the next day/night cycle rotations.
-  enabled: true
-  name: wfplainsofeidolon
-  usage: '{pfx}{cmd} exact'
-- alts:
-  - wfsale
-  description: Shows items that are currently on sale in Warframe's market. This list
-    shows only items that have reduced prices by default. If you want it to list all
-    promoted items regardless of reduction add "all" to the end of the command as
-    in the example. The item list is also paginated.
-  enabled: true
-  name: wfsales
-  usage: '{pfx}{cmd} 2 all'
-- alts:
-  - wfbarokiteer
-  - wfbaro
-  - baro
-  - wfvt
-  description: Shows the items that Baro Ki'Teer is currently selling as well as the
-    statistics such as total number of items, total amount of ducats and credits needed
-    and where he's located.
-  enabled: true
-  name: wfvoidtrader
-- alts:
-  - wfchallenges
-  - wfnw
-  description: Shows the current Nightwave challenges in Warframe.
-  enabled: true
-  name: wfnightwave
-- alts:
-  - wfdeal
-  - wfdarvo
-  - darvo
-  - wfdd
-  description: Shows the current daily deal by Darvo.
-  enabled: true
-  name: wfdailydeal
-- alts:
-  - wfinvasionprogress
-  - wfprogress
-  description: Shows the current faction progress for invasions in Warframe.
-  enabled: true
-  name: wffactionprogress
-- alts:
-  - wftemp
-  - wfov
-  description: Shows the current temperature in Orb Vallis in Warframe.
-  enabled: true
-  name: wforbvallis
+  - alts:
+      - wfsortie
+      - wfs
+    description: Shows the ongoing Sortie missions in Warframe.
+    enabled: true
+    name: wfsorties
+  - alts:
+      - wffissure
+      - wff
+    description: Shows the current fissure locations in Warframe. As well as their tiers,
+      locations and mission types.
+    enabled: true
+    name: wffissures
+  - alts:
+      - wfinvasion
+      - wfi
+    description: Shows the current ongoing invasions in Warframe. As well as their factions,
+      locations and rewards.
+    enabled: true
+    name: wfinvasions
+  - alts:
+      - wfn
+    description: Shows the current ative news in Warframe.
+    enabled: true
+    name: wfnews
+  - alts:
+      - wfacol
+    description: Shows data on the Stalker's acolytes. Their names, locations and health.
+    enabled: true
+    name: wfacolytes
+  - alts:
+      - wfpoe
+    description: Shows the current time on the Plains of Eidolon in Warframe. As well
+      as the next day/night cycle rotations.
+    enabled: true
+    name: wfplainsofeidolon
+    usage: '{pfx}{cmd} exact'
+  - alts:
+      - wfsale
+    description: Shows items that are currently on sale in Warframe's market. This list
+      shows only items that have reduced prices by default. If you want it to list all
+      promoted items regardless of reduction add "all" to the end of the command as
+      in the example. The item list is also paginated.
+    enabled: true
+    name: wfsales
+    usage: '{pfx}{cmd} 2 all'
+  - alts:
+      - wfbarokiteer
+      - wfbaro
+      - baro
+      - wfvt
+    description: Shows the items that Baro Ki'Teer is currently selling as well as the
+      statistics such as total number of items, total amount of ducats and credits needed
+      and where he's located.
+    enabled: true
+    name: wfvoidtrader
+  - alts:
+      - wfchallenges
+      - wfnw
+    description: Shows the current Nightwave challenges in Warframe.
+    enabled: true
+    name: wfnightwave
+  - alts:
+      - wfdeal
+      - wfdarvo
+      - darvo
+      - wfdd
+    description: Shows the current daily deal by Darvo.
+    enabled: true
+    name: wfdailydeal
+  - alts:
+      - wfinvasionprogress
+      - wfprogress
+    description: Shows the current faction progress for invasions in Warframe.
+    enabled: true
+    name: wffactionprogress
+  - alts:
+      - wftemp
+      - wfov
+    description: Shows the current temperature in Orb Vallis in Warframe.
+    enabled: true
+    name: wforbvallis
 enabled: true
 name: Warframe World Information

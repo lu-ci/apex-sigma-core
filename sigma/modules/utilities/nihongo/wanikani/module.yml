@@ -1,19 +1,19 @@
 category: nihongo
 commands:
-- alts:
-  - wk
-  description: Shows the mentioned user's WaniKani statistics. If no person is mentioned,
-    it will show the author's stats. This requires the target to have a WaniKani API
-    key stored with the wanikanisave command.
-  enabled: true
-  name: wanikani
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - wksave
-  description: Saves your WaniKani API key in the database so the wanikani command
-    can be used.
-  enabled: true
-  name: wanikanisave
-  usage: '{pfx}{cmd} 123456798'
+  - alts:
+      - wk
+    description: Shows the mentioned user's WaniKani statistics. If no person is mentioned,
+      it will show the author's stats. This requires the target to have a WaniKani API
+      key stored with the wanikanisave command.
+    enabled: true
+    name: wanikani
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - wksave
+    description: Saves your WaniKani API key in the database so the wanikani command
+      can be used.
+    enabled: true
+    name: wanikanisave
+    usage: '{pfx}{cmd} 123456798'
 enabled: true
 name: WaniKani Commands

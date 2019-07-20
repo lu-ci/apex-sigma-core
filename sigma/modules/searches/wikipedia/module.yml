@@ -1,11 +1,11 @@
 category: searches
 commands:
-- alts:
-  - wiki
-  description: Returns the summary of the specified wikipedia page. If a search is
-    too general, an error will be returned.
-  enabled: true
-  name: wikipedia
-  usage: '{pfx}{cmd} Thread (Computing)'
+  - alts:
+      - wiki
+    description: Returns the summary of the specified wikipedia page. If a search is
+      too general, an error will be returned.
+    enabled: true
+    name: wikipedia
+    usage: '{pfx}{cmd} Thread (Computing)'
 enabled: true
 name: Wikipedia Commands

@@ -1,12 +1,12 @@
 category: searches
 commands:
-- alts:
-  - maps
-  - map
-  description: Searches Google Maps for the specified location. If specific details
-    aren't found about the location, it will return in a broad search.
-  enabled: true
-  name: mapsearch
-  usage: '{pfx}{cmd} Belgrade'
+  - alts:
+      - maps
+      - map
+    description: Searches Google Maps for the specified location. If specific details
+      aren't found about the location, it will return in a broad search.
+    enabled: true
+    name: mapsearch
+    usage: '{pfx}{cmd} Belgrade'
 enabled: true
 name: Geography Commands

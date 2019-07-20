@@ -1,88 +1,88 @@
 category: utility
 commands:
-- alts:
-  - userinfo
-  - uinfo
-  description: Shows information and data on the mentioned user. If no user is mentioned,
-    it will show data for the author.
-  enabled: true
-  name: userinformation
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - channelinfo
-  - chinfo
-  - cinfo
-  description: Shows information and data on the mentioned channel. If no channel
-    is mentioned, it will show data for the curent channel.
-  enabled: true
-  name: channelinformation
-  usage: '{pfx}{cmd} #channel'
-- alts:
-  - serverinfo
-  - sinfo
-  description: Shows information and data on the server.
-  enabled: true
-  name: serverinformation
-- alts:
-  - roleinfo
-  - rinfo
-  description: Shows information and data on the specified role. Roles mentions do
-    not work here, lookup is done via role name.
-  enabled: true
-  name: roleinformation
-- alts:
-  - perms
-  description: Shows which permissions a user has and which they do not. If no user
-    is mentioned, it will target the message author.
-  enabled: true
-  name: permissions
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - roleswithpermissions
-  - roleswithperms
-  - roleswithperm
-  - rlwperms
-  - rlwperm
-  description: Lists all roles with the given permissions. You can list multiple permissions
-    to look for roles that contain all of them. You can also reverse the search by
-    adding "--negative" to the command. This will return roles that have that permissions
-    denied.
-  enabled: true
-  name: roleswithpermission
-  usage: '{pfx}{cmd} Manage Messages; Administrator'
-- description: Shows a list of Sigma's owners. Users in this list have access to the
-    administration module.
-  enabled: true
-  name: owners
-- description: Shows the status of Sigma's host machine. Processor information, memory,
-    storage, network, etc.
-  enabled: true
-  name: status
-- description: Shows the latency of every shard the bot is on.
-  enabled: true
-  name: ping
-- alts:
-  - stats
-  description: Shows Sigma's current statistics. Population, message and command counts,
-    and rates since startup.
-  enabled: true
-  name: statistics
-- alts:
-  - botinfo
-  - info
-  description: Shows information about the bot, version, codename, authors, etc.
-  enabled: true
-  name: botinformation
-- alts:
-  - serverstats
-  - sstats
-  description: Shows the current server's statistics. Population, message and command
-    counts, and rates in the last 24 hours.
-  enabled: true
-  name: serverstatistics
+  - alts:
+      - userinfo
+      - uinfo
+    description: Shows information and data on the mentioned user. If no user is mentioned,
+      it will show data for the author.
+    enabled: true
+    name: userinformation
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - channelinfo
+      - chinfo
+      - cinfo
+    description: Shows information and data on the mentioned channel. If no channel
+      is mentioned, it will show data for the curent channel.
+    enabled: true
+    name: channelinformation
+    usage: '{pfx}{cmd} #channel'
+  - alts:
+      - serverinfo
+      - sinfo
+    description: Shows information and data on the server.
+    enabled: true
+    name: serverinformation
+  - alts:
+      - roleinfo
+      - rinfo
+    description: Shows information and data on the specified role. Roles mentions do
+      not work here, lookup is done via role name.
+    enabled: true
+    name: roleinformation
+  - alts:
+      - perms
+    description: Shows which permissions a user has and which they do not. If no user
+      is mentioned, it will target the message author.
+    enabled: true
+    name: permissions
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - roleswithpermissions
+      - roleswithperms
+      - roleswithperm
+      - rlwperms
+      - rlwperm
+    description: Lists all roles with the given permissions. You can list multiple permissions
+      to look for roles that contain all of them. You can also reverse the search by
+      adding "--negative" to the command. This will return roles that have that permissions
+      denied.
+    enabled: true
+    name: roleswithpermission
+    usage: '{pfx}{cmd} Manage Messages; Administrator'
+  - description: Shows a list of Sigma's owners. Users in this list have access to the
+      administration module.
+    enabled: true
+    name: owners
+  - description: Shows the status of Sigma's host machine. Processor information, memory,
+      storage, network, etc.
+    enabled: true
+    name: status
+  - description: Shows the latency of every shard the bot is on.
+    enabled: true
+    name: ping
+  - alts:
+      - stats
+    description: Shows Sigma's current statistics. Population, message and command counts,
+      and rates since startup.
+    enabled: true
+    name: statistics
+  - alts:
+      - botinfo
+      - info
+    description: Shows information about the bot, version, codename, authors, etc.
+    enabled: true
+    name: botinformation
+  - alts:
+      - serverstats
+      - sstats
+    description: Shows the current server's statistics. Population, message and command
+      counts, and rates in the last 24 hours.
+    enabled: true
+    name: serverstatistics
 enabled: true
 events:
-- enabled: true
-  name: guild_watcher
-  type: message
+  - enabled: true
+    name: guild_watcher
+    type: message
 name: Information Utilities

@@ -1,8 +1,8 @@
 category: settings
 commands:
-- alts:
-  - addres
-  description: 'Adds an auto-responder to the server. Sigma will automatically reply
+  - alts:
+      - addres
+    description: 'Adds an auto-responder to the server. Sigma will automatically reply
     with the set message to any sentence that contains the specified trigger in it
     as a standalone word. The trigger can be a word or phrase, separate the trigger
     from the response with a semicolon. Responders can have special dynamic arguments
@@ -37,31 +37,31 @@ commands:
     This command requires the Manage Server permission.
 
     '
-  enabled: true
-  name: addresponder
-  usage: '{pfx}{cmd} how are you; I am well!'
-- alts:
-  - deleteresponder
-  - remres
-  - delres
-  description: Removes a custom responder trigger from the server. This command requires
-    the Manage Server permission.
-  enabled: true
-  name: removeresponder
-  usage: '{pfx}{cmd} hi'
-- alts:
-  - resps
-  description: Shows a list of the server's custom responder triggers. The list is
-    separated into pages of 10 items each. You can specify the page number you want
-    to see.
-  enabled: true
-  name: responders
-  usage: '{pfx}{cmd} 4'
-- alts:
-  - ai
-  - cb
-  description: Toggles the ChatterBot core on and off.
-  enabled: true
-  name: chatterbot
+    enabled: true
+    name: addresponder
+    usage: '{pfx}{cmd} how are you; I am well!'
+  - alts:
+      - deleteresponder
+      - remres
+      - delres
+    description: Removes a custom responder trigger from the server. This command requires
+      the Manage Server permission.
+    enabled: true
+    name: removeresponder
+    usage: '{pfx}{cmd} hi'
+  - alts:
+      - resps
+    description: Shows a list of the server's custom responder triggers. The list is
+      separated into pages of 10 items each. You can specify the page number you want
+      to see.
+    enabled: true
+    name: responders
+    usage: '{pfx}{cmd} 4'
+  - alts:
+      - ai
+      - cb
+    description: Toggles the ChatterBot core on and off.
+    enabled: true
+    name: chatterbot
 enabled: true
 name: Custom Responder Controls

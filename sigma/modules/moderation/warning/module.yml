@@ -1,41 +1,41 @@
 category: moderation
 commands:
-- alts:
-  - warn
-  description: Issues a warning to a user with the specified reason. The warning reason
-    is not required. When the user is warned they will be sent a direct message about
-    it. Each warning has a unique ID that you can user to view with the viewwarning
-    command. This command requires the Manage Messages permission.
-  enabled: true
-  name: issuewarning
-  usage: '{pfx}{cmd} @person Took too long in the bathroom.'
-- alts:
-  - warnings
-  - warns
-  description: Lists all active warnings issued to the mentioned user. The list is
-    compact and shows only each warning's ID, issuer, and issue date. The list is
-    paginated, each page has up to 5 warnings. You can also specify the page number
-    you want to see as the last argument. If you have the Manage Messages permissions
-    you can view anyone's warnings, otherwise you can only view your own warnings.
-  enabled: true
-  name: listwarnings
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - warninginfo
-  - warning
-  description: Shows detailed information for the specified user's warning. Both the
-    user mention and the warning ID are needed for the command. This command requires
-    the Manage Messages permission.
-  enabled: true
-  name: viewwarning
-  usage: '{pfx}{cmd} @person 1abc'
-- alts:
-  - unwarn
-  description: Marks the specified user's warning as inactve. Inactive warnings won't
-    appear on a user's list of warnings. Both the user mention and the warning ID
-    are needed for the command. This command requires the Manage Messages permission.
-  enabled: true
-  name: removewarning
-  usage: '{pfx}{cmd} @person 1abc'
+  - alts:
+      - warn
+    description: Issues a warning to a user with the specified reason. The warning reason
+      is not required. When the user is warned they will be sent a direct message about
+      it. Each warning has a unique ID that you can user to view with the viewwarning
+      command. This command requires the Manage Messages permission.
+    enabled: true
+    name: issuewarning
+    usage: '{pfx}{cmd} @person Took too long in the bathroom.'
+  - alts:
+      - warnings
+      - warns
+    description: Lists all active warnings issued to the mentioned user. The list is
+      compact and shows only each warning's ID, issuer, and issue date. The list is
+      paginated, each page has up to 5 warnings. You can also specify the page number
+      you want to see as the last argument. If you have the Manage Messages permissions
+      you can view anyone's warnings, otherwise you can only view your own warnings.
+    enabled: true
+    name: listwarnings
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - warninginfo
+      - warning
+    description: Shows detailed information for the specified user's warning. Both the
+      user mention and the warning ID are needed for the command. This command requires
+      the Manage Messages permission.
+    enabled: true
+    name: viewwarning
+    usage: '{pfx}{cmd} @person 1abc'
+  - alts:
+      - unwarn
+    description: Marks the specified user's warning as inactve. Inactive warnings won't
+      appear on a user's list of warnings. Both the user mention and the warning ID
+      are needed for the command. This command requires the Manage Messages permission.
+    enabled: true
+    name: removewarning
+    usage: '{pfx}{cmd} @person 1abc'
 enabled: true
 name: Warning Commands

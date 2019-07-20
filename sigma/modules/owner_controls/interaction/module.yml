@@ -1,21 +1,21 @@
 category: development
 commands:
-- description: Sends a message to a user, channel or server. The first argument needs
-    to be the destination parameter. The destination parameter consists of the destination
-    type and ID. The types are U for User and C for Channel. The type and ID are separated
-    by a colon, or two dots put more simply.
-  enabled: true
-  name: send
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} u:0123456789 We are watching...'
-- description: Makes Sigma leave a Discord server.
-  enabled: true
-  name: eject
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
+  - description: Sends a message to a user, channel or server. The first argument needs
+      to be the destination parameter. The destination parameter consists of the destination
+      type and ID. The types are U for User and C for Channel. The type and ID are separated
+      by a colon, or two dots put more simply.
+    enabled: true
+    name: send
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} u:0123456789 We are watching...'
+  - description: Makes Sigma leave a Discord server.
+    enabled: true
+    name: eject
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
 enabled: true
 name: Admin Interaction Control

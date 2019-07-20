@@ -1,54 +1,54 @@
 category: development
 commands:
-- alts:
-  - blackusr
-  description: Marks a user as blacklisted, disallowing them to use any command.
-  enabled: true
-  name: blacklistuser
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
-- alts:
-  - blacklistguild
-  - blacksrv
-  - blackguild
-  description: Marks a server as blacklisted. This disallows any user on that server
-    from using commands.
-  enabled: true
-  name: blacklistserver
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
-- alts:
-  - blackmodule
-  - blackmdl
-  description: Disallows a person from using a specific module category.
-  enabled: true
-  name: blacklistmodule
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789 minigames'
-- alts:
-  - blackcommand
-  - blackcmd
-  description: Disallows a person from using a specific command.
-  enabled: true
-  name: blacklistcommand
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789 pun'
-- alts:
-  - sabusr
-  description: Sabotages a user making them have extreme bad luck in various modules.
-  enabled: true
-  name: sabotageuser
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
+  - alts:
+      - blackusr
+    description: Marks a user as blacklisted, disallowing them to use any command.
+    enabled: true
+    name: blacklistuser
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
+  - alts:
+      - blacklistguild
+      - blacksrv
+      - blackguild
+    description: Marks a server as blacklisted. This disallows any user on that server
+      from using commands.
+    enabled: true
+    name: blacklistserver
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
+  - alts:
+      - blackmodule
+      - blackmdl
+    description: Disallows a person from using a specific module category.
+    enabled: true
+    name: blacklistmodule
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789 minigames'
+  - alts:
+      - blackcommand
+      - blackcmd
+    description: Disallows a person from using a specific command.
+    enabled: true
+    name: blacklistcommand
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789 pun'
+  - alts:
+      - sabusr
+    description: Sabotages a user making them have extreme bad luck in various modules.
+    enabled: true
+    name: sabotageuser
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
 enabled: true
 name: Blacklist Control

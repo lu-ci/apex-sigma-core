@@ -1,13 +1,13 @@
 category: searches
 commands:
-- alts:
-  - cryptocur
-  - crypcur
-  - ecoin
-  description: Shows the statistics for the specified crypto currency. Stats include
-    the current market cap, price, supply, volume, and change.
-  enabled: true
-  name: cryptocurrency
-  usage: '{pfx}{cmd} ethereum'
+  - alts:
+      - cryptocur
+      - crypcur
+      - ecoin
+    description: Shows the statistics for the specified crypto currency. Stats include
+      the current market cap, price, supply, volume, and change.
+    enabled: true
+    name: cryptocurrency
+    usage: '{pfx}{cmd} ethereum'
 enabled: true
 name: Financial Searches

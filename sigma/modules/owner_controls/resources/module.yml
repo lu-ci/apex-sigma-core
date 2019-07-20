@@ -1,44 +1,44 @@
 category: development
 commands:
-- alts:
-  - generateres
-  - genres
-  - genr
-  description: Awards the mentioned user with the specified amount of the specified
-    resource. The resource type goes first and then the user mention, and then the
-    amount as shown in the example.
-  enabled: true
-  name: generateresource
-  permissions:
-    owner: true
-  usage: '{pfx}{cmd} currency @person 5000'
-- alts:
-  - destroyres
-  - desres
-  - desr
-  description: Takes away the specified amount of the specified resource from the
-    mentioned user. The resource type goes first and then the user mention, and then
-    the amount as shown in the example.
-  enabled: true
-  name: destroyresource
-  permissions:
-    owner: true
-  usage: '{pfx}{cmd} metal @person 100'
-- alts:
-  - wiperes
-  description: Wipes all the resources that the user with the given ID owns.
-  enabled: true
-  name: wiperesources
-  permissions:
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
-- alts:
-  - wipeinv
-  description: Wipes the inventory of the user with the given ID.
-  enabled: true
-  name: wipeinventory
-  permissions:
-    owner: true
-  usage: '{pfx}{cmd} 0123456789'
+  - alts:
+      - generateres
+      - genres
+      - genr
+    description: Awards the mentioned user with the specified amount of the specified
+      resource. The resource type goes first and then the user mention, and then the
+      amount as shown in the example.
+    enabled: true
+    name: generateresource
+    permissions:
+      owner: true
+    usage: '{pfx}{cmd} currency @person 5000'
+  - alts:
+      - destroyres
+      - desres
+      - desr
+    description: Takes away the specified amount of the specified resource from the
+      mentioned user. The resource type goes first and then the user mention, and then
+      the amount as shown in the example.
+    enabled: true
+    name: destroyresource
+    permissions:
+      owner: true
+    usage: '{pfx}{cmd} metal @person 100'
+  - alts:
+      - wiperes
+    description: Wipes all the resources that the user with the given ID owns.
+    enabled: true
+    name: wiperesources
+    permissions:
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
+  - alts:
+      - wipeinv
+    description: Wipes the inventory of the user with the given ID.
+    enabled: true
+    name: wipeinventory
+    permissions:
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
 enabled: true
 name: Resource Control

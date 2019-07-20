@@ -1,12 +1,12 @@
 category: searches
 commands:
-- alts:
-  - music
-  - findsong
-  description: Searches Deezer for infomation on the specified song. The output will
-    include a song preview link.
-  enabled: true
-  name: deezer
-  usage: '{pfx}{cmd} Highway to Hell'
+  - alts:
+      - music
+      - findsong
+    description: Searches Deezer for infomation on the specified song. The output will
+      include a song preview link.
+    enabled: true
+    name: deezer
+    usage: '{pfx}{cmd} Highway to Hell'
 enabled: true
 name: Deezer Commands

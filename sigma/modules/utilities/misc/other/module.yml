@@ -1,75 +1,75 @@
 category: miscellaneous
 commands:
-- description: Randomly chooses one item from a list. Separate list items with a semicolon
-    and space.
-  enabled: true
-  name: choose
-  usage: '{pfx}{cmd} Sleep; Eat; Code; Lewd Stuff'
-- description: Randomly chooses items from a list. Specify the number of items chosen
-    via the first argument. Separate list items with a semicolon and space.
-  enabled: true
-  name: choosemany
-  usage: '{pfx}{cmd} 2 Sleep; Eat; Code; Lewd Stuff'
-- description: Creates a poll with the items from the inputted list. Separate list
-    items with a semicolon and a space.
-  enabled: true
-  name: poll
-  requirements:
-  - add_reactions
-  usage: '{pfx}{cmd} Want to eat?; Yes; No; Hand me the cheese!'
-- alts:
-  - http
-  description: Shows information about a HTTP response status code. Add "cat" or "dog"
-    as the last argument for an added bonus.
-  enabled: true
-  name: httpstatus
-  usage: '{pfx}{cmd} 404'
-- alts:
-  - tempvc
-  - room
-  description: "Makes a temporary voice channel that you can fully manage. Once everyone\
+  - description: Randomly chooses one item from a list. Separate list items with a semicolon
+      and space.
+    enabled: true
+    name: choose
+    usage: '{pfx}{cmd} Sleep; Eat; Code; Lewd Stuff'
+  - description: Randomly chooses items from a list. Specify the number of items chosen
+      via the first argument. Separate list items with a semicolon and space.
+    enabled: true
+    name: choosemany
+    usage: '{pfx}{cmd} 2 Sleep; Eat; Code; Lewd Stuff'
+  - description: Creates a poll with the items from the inputted list. Separate list
+      items with a semicolon and a space.
+    enabled: true
+    name: poll
+    requirements:
+      - add_reactions
+    usage: '{pfx}{cmd} Want to eat?; Yes; No; Hand me the cheese!'
+  - alts:
+      - http
+    description: Shows information about a HTTP response status code. Add "cat" or "dog"
+      as the last argument for an added bonus.
+    enabled: true
+    name: httpstatus
+    usage: '{pfx}{cmd} 404'
+  - alts:
+      - tempvc
+      - room
+    description: "Makes a temporary voice channel that you can fully manage. Once everyone\
     \ leaves the channel (not including bots) it's destroyed. The temp voice channels\
     \ are checked by their prefix ([\u03A3]), if this is edited out, the channel will\
     \ not be destroyed when emptied."
-  enabled: true
-  name: temproom
-  requirements:
-  - manage_channels
-  - manage_roles
-  usage: '{pfx}{cmd} Orgy For One'
-- alts:
-  - lovecalc
-  description: Shows the love between two mentioned users. If only one user is mentioned,
-    it will show the love between the mentioned user and the author.
-  enabled: true
-  name: lovecalculator
-  usage: '{pfx}{cmd} @person1 @person2'
-- alts:
-  - edgecalc
-  description: Calculates how edgy the targeted person is. If no user is tagged, the
-    target will be the one who uses the command.
-  enabled: true
-  name: edgecalculator
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - ranin
-  description: Outputs a random number between two inputted numbers.
-  enabled: true
-  name: randombetween
-  usage: '{pfx}{cmd} 59 974'
-- description: Quotes a message from its given ID. The message must have text content
-    or an attachment. The quote author header is clickable and will lead to the message.
-    Note that if you use Discord PTB or Canary you must add "--ptb" or "--canary"
-    for the link to the message to work properly. Embeds cannot be quoted.
-  enabled: true
-  name: quote
-  usage: '{pfx}{cmd} 381449702589202432'
+    enabled: true
+    name: temproom
+    requirements:
+      - manage_channels
+      - manage_roles
+    usage: '{pfx}{cmd} Orgy For One'
+  - alts:
+      - lovecalc
+    description: Shows the love between two mentioned users. If only one user is mentioned,
+      it will show the love between the mentioned user and the author.
+    enabled: true
+    name: lovecalculator
+    usage: '{pfx}{cmd} @person1 @person2'
+  - alts:
+      - edgecalc
+    description: Calculates how edgy the targeted person is. If no user is tagged, the
+      target will be the one who uses the command.
+    enabled: true
+    name: edgecalculator
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - ranin
+    description: Outputs a random number between two inputted numbers.
+    enabled: true
+    name: randombetween
+    usage: '{pfx}{cmd} 59 974'
+  - description: Quotes a message from its given ID. The message must have text content
+      or an attachment. The quote author header is clickable and will lead to the message.
+      Note that if you use Discord PTB or Canary you must add "--ptb" or "--canary"
+      for the link to the message to work properly. Embeds cannot be quoted.
+    enabled: true
+    name: quote
+    usage: '{pfx}{cmd} 381449702589202432'
 enabled: true
 events:
-- enabled: true
-  name: temproom_checker
-  type: voice_state_update
-- enabled: true
-  name: dbinit_httpstatus
-  type: dbinit
+  - enabled: true
+    name: temproom_checker
+    type: voice_state_update
+  - enabled: true
+    name: dbinit_httpstatus
+    type: dbinit
 name: Other Misc Utilities

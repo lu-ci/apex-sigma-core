@@ -1,16 +1,16 @@
 category: development
 enabled: true
 events:
-- enabled: true
-  name: error_reporter
-  type: ready
-- enabled: true
-  name: interaction_reporter
-  type: ready
-- enabled: true
-  name: movement_reporter
-  type: ready
-- enabled: true
-  name: suggestion_reporter
-  type: ready
+  - enabled: true
+    name: error_reporter
+    type: ready
+  - enabled: true
+    name: interaction_reporter
+    type: ready
+  - enabled: true
+    name: movement_reporter
+    type: ready
+  - enabled: true
+    name: suggestion_reporter
+    type: ready
 name: Reporter Clockworks

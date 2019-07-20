@@ -1,53 +1,53 @@
 category: miscellaneous
 commands:
-- alts:
-  - giveaway
-  description: Starts a raffle with a given timer and title. Entering the raffle works
-    by reacting to Sigma's embed message with an automatically given reaction. When
-    the timer runs out a message will appear in the channel the raffle was made in
-    and the creator of the raffle and the winner will be tagged.
-  enabled: true
-  name: raffle
-  requirements:
-  - add_reactions
-  usage: '{pfx}{cmd} 48:30:59 50,000 Kud'
-- alts:
-  - redraw
-  description: Redraws a raffle in case that's ever needed. This command is only usable
-    by the author of the raffle. To redraw a raffle use the raffle's ID that can be
-    found in its footer. This command has no response aside from a reaction to your
-    message. A raffle needs to be marked as ended before it can be redrawn. green
-    check mark - redraw successful magnifying glass - raffle not found no entry sign    -
-    you aren't the raffle creator exclamation mark - no arguments given
-  enabled: true
-  name: redrawraffle
-  requirements:
-  - add_reactions
-  usage: '{pfx}{cmd} 1abc9c'
-- alts:
-  - endraf
-  description: Prematurely ends a raffle. This command is only usable by the author
-    of the raffle. To end a raffle use the raffle's ID that can be found in its footer.
-    This command has no response aside from a reaction to your message. green check
-    mark - redraw successful magnifying glass - raffle not found no entry sign    -
-    you aren't the raffle creator exclamation mark - no arguments given
-  enabled: true
-  name: endraffle
-  requirements:
-  - add_reactions
-  usage: '{pfx}{cmd} 1abc9c'
-- alts:
-  - listraf
-  - lraf
-  description: Lists all your ongoing raffles and their information, such as when
-    they end and in what channel.
-  enabled: true
-  name: listraffles
-  requirements:
-  - add_reactions
+  - alts:
+      - giveaway
+    description: Starts a raffle with a given timer and title. Entering the raffle works
+      by reacting to Sigma's embed message with an automatically given reaction. When
+      the timer runs out a message will appear in the channel the raffle was made in
+      and the creator of the raffle and the winner will be tagged.
+    enabled: true
+    name: raffle
+    requirements:
+      - add_reactions
+    usage: '{pfx}{cmd} 48:30:59 50,000 Kud'
+  - alts:
+      - redraw
+    description: Redraws a raffle in case that's ever needed. This command is only usable
+      by the author of the raffle. To redraw a raffle use the raffle's ID that can be
+      found in its footer. This command has no response aside from a reaction to your
+      message. A raffle needs to be marked as ended before it can be redrawn. green
+      check mark - redraw successful magnifying glass - raffle not found no entry sign    -
+      you aren't the raffle creator exclamation mark - no arguments given
+    enabled: true
+    name: redrawraffle
+    requirements:
+      - add_reactions
+    usage: '{pfx}{cmd} 1abc9c'
+  - alts:
+      - endraf
+    description: Prematurely ends a raffle. This command is only usable by the author
+      of the raffle. To end a raffle use the raffle's ID that can be found in its footer.
+      This command has no response aside from a reaction to your message. green check
+      mark - redraw successful magnifying glass - raffle not found no entry sign    -
+      you aren't the raffle creator exclamation mark - no arguments given
+    enabled: true
+    name: endraffle
+    requirements:
+      - add_reactions
+    usage: '{pfx}{cmd} 1abc9c'
+  - alts:
+      - listraf
+      - lraf
+    description: Lists all your ongoing raffles and their information, such as when
+      they end and in what channel.
+    enabled: true
+    name: listraffles
+    requirements:
+      - add_reactions
 enabled: true
 events:
-- enabled: true
-  name: raffle_clockwork
-  type: ready
+  - enabled: true
+    name: raffle_clockwork
+    type: ready
 name: Raffle Utilities

@@ -1,8 +1,8 @@
 category: minigames
 commands:
-- description: Resets ongoing locks that are put into place when a minigame runs.
-    For use in case of errors that prevent the minigame from being unlocked again.
-  enabled: true
-  name: resetongoing
+  - description: Resets ongoing locks that are put into place when a minigame runs.
+      For use in case of errors that prevent the minigame from being unlocked again.
+    enabled: true
+    name: resetongoing
 enabled: true
 name: Racing Minigame

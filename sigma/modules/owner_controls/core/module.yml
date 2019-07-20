@@ -1,62 +1,62 @@
 category: development
 commands:
-- description: Reloads all of the modules in Sigma. This includes both commands and
-    events.
-  enabled: true
-  name: reload
-  permissions:
-    dmable: true
-    owner: true
-- alts:
-  - fdu
-  description: Forces all static content data in the databse to be updated from the
-    repository's static file storage.
-  enabled: true
-  name: forcedataupdate
-  permissions:
-    dmable: true
-    owner: true
-- description: Forces Sigma to disconnect from Discord and shut down all processes.
-  enabled: true
-  name: shutdown
-  permissions:
-    dmable: true
-    owner: true
-- description: Gets an error's details using the specified token.
-  enabled: true
-  name: geterror
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 9a2e9a374ac90294f225782f362e2ab1'
-- alts:
-  - removeinteract
-  - delinteract
-  description: Remove an interaction with the specified ID.
-  enabled: true
-  name: removeinteraction
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 1ba2e263'
-- alts:
-  - setcd
-  description: Sets a global cooldown on a command. The cooldown is user-bound and
-    specified in seconds.
-  enabled: true
-  name: setcooldown
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} roll 50'
-- alts:
-  - getinteract
-  description: Retrieves the source image for the interaction with the specified ID.
-  enabled: true
-  name: getinteraction
-  permissions:
-    dmable: true
-    owner: true
-  usage: '{pfx}{cmd} 4242ea69'
+  - description: Reloads all of the modules in Sigma. This includes both commands and
+      events.
+    enabled: true
+    name: reload
+    permissions:
+      dmable: true
+      owner: true
+  - alts:
+      - fdu
+    description: Forces all static content data in the databse to be updated from the
+      repository's static file storage.
+    enabled: true
+    name: forcedataupdate
+    permissions:
+      dmable: true
+      owner: true
+  - description: Forces Sigma to disconnect from Discord and shut down all processes.
+    enabled: true
+    name: shutdown
+    permissions:
+      dmable: true
+      owner: true
+  - description: Gets an error's details using the specified token.
+    enabled: true
+    name: geterror
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 9a2e9a374ac90294f225782f362e2ab1'
+  - alts:
+      - removeinteract
+      - delinteract
+    description: Remove an interaction with the specified ID.
+    enabled: true
+    name: removeinteraction
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 1ba2e263'
+  - alts:
+      - setcd
+    description: Sets a global cooldown on a command. The cooldown is user-bound and
+      specified in seconds.
+    enabled: true
+    name: setcooldown
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} roll 50'
+  - alts:
+      - getinteract
+    description: Retrieves the source image for the interaction with the specified ID.
+    enabled: true
+    name: getinteraction
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 4242ea69'
 enabled: true
 name: Admin Core Control

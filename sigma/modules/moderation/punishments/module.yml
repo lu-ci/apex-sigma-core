@@ -1,99 +1,99 @@
 category: moderation
 commands:
-- description: Kicks a user from the server. The user can only be mentioned by a mention
-    tag. This is to preserve compatibility with logging and audit logs. This command
-    requires the Kick permission.
-  enabled: true
-  name: kick
-  requirements:
-  - kick_members
-  usage: '{pfx}{cmd} @person Couldn''t handle the spice.'
-- alts:
-  - mkick
-  description: Kicks all the mentioned users from the server. Users can only be mentioned
-    by a mention tag. This is to preserve compatibility with logging and audit logs.
-    If you don't have the permissions to kick someone, the reason will be returned
-    and no one will be kicked. This command requires the Kick permission.
-  enabled: true
-  name: masskick
-  requirements:
-  - kick_members
-  usage: '{pfx}{cmd} @person1 @person2 @person3 Couldn''t handle the spice.'
-- alts:
-  - vkick
-  description: Kicks a user from voice chat. It completely disconnects the mentioned
-    user by creating a new voice channel, moving them to it, then deleting that voice
-    channel. This command requires the Kick permission.
-  enabled: true
-  name: voicekick
-  requirements:
-  - kick_members
-  - manage_channels
-  usage: '{pfx}{cmd} @person'
-- description: Bans a user from the server. This will also remove all messages from
-    that user in the last 24h. The user can only be specified via a mention tag. This
-    is to preserve compatibility with logging and audit logs. You can specify a duration
-    by adding "--time=HH:MM:SS" as the last argument. The user will be automatically
-    unbanned after the duration elapses. This command requires the Ban permission.
-  enabled: true
-  name: ban
-  requirements:
-  - ban_members
-  usage: '{pfx}{cmd} @person Way, WAY too spicy for us...'
-- alts:
-  - mban
-  description: Bans all the mentioned users from the server. Users can only be mentioned
-    by a mention tag. This is to preserve compatibility with logging and audit logs.
-    If you don't have the permissions to kick someone, the reason will be returned
-    and no one will be banned. This command requires the Ban permission.
-  enabled: true
-  name: massban
-  requirements:
-  - ban_members
-  usage: '{pfx}{cmd} @person1 @person2 @person3 Way, WAY too spicy for us...'
-- alts:
-  - sb
-  description: Soft-Ban a user from the server. This bans the user and then immediately
-    unbans them. Useful if you want to purge all messages from that user in the last
-    24h. The user can only be mentioned by a mention tag. This is to preserve compatibility
-    with logging and audit logs. This command requires the Ban permission.
-  enabled: true
-  name: softban
-  requirements:
-  - ban_members
-  usage: '{pfx}{cmd} @person Some spice needed de-spicing.'
-- description: Unbans a banned user matching specified username. This command requires
-    the Ban permission.
-  enabled: true
-  name: unban
-  requirements:
-  - ban_members
-  usage: '{pfx}{cmd} Chicken Shluggets'
-- alts:
-  - hmute
-  description: Hard-mutes the mentioned user. Users who are hard-muted are disallowed
-    from typing to any channel. There is no message deletion, this is a permission
-    based mute. Due to adding a user override to every editable channel, this can
-    spam audit logs. You can specify a duration by adding "--time=HH:MM:SS" as the
-    last argument. The user will be automatically unbanned after the duration elapses.
-    This command requires the Manage Channels permission.
-  enabled: true
-  name: hardmute
-  requirements:
-  - manage_channels
-  usage: '{pfx}{cmd} @person For talking about the fight club.'
-- alts:
-  - hunmute
-  description: Unmutes a hard-muted person, allowing them to send messages again.
-    This command requires the Manage Channels permission.
-  enabled: true
-  name: hardunmute
-  requirements:
-  - manage_channels
-  usage: '{pfx}{cmd} @person'
+  - description: Kicks a user from the server. The user can only be mentioned by a mention
+      tag. This is to preserve compatibility with logging and audit logs. This command
+      requires the Kick permission.
+    enabled: true
+    name: kick
+    requirements:
+      - kick_members
+    usage: '{pfx}{cmd} @person Couldn''t handle the spice.'
+  - alts:
+      - mkick
+    description: Kicks all the mentioned users from the server. Users can only be mentioned
+      by a mention tag. This is to preserve compatibility with logging and audit logs.
+      If you don't have the permissions to kick someone, the reason will be returned
+      and no one will be kicked. This command requires the Kick permission.
+    enabled: true
+    name: masskick
+    requirements:
+      - kick_members
+    usage: '{pfx}{cmd} @person1 @person2 @person3 Couldn''t handle the spice.'
+  - alts:
+      - vkick
+    description: Kicks a user from voice chat. It completely disconnects the mentioned
+      user by creating a new voice channel, moving them to it, then deleting that voice
+      channel. This command requires the Kick permission.
+    enabled: true
+    name: voicekick
+    requirements:
+      - kick_members
+      - manage_channels
+    usage: '{pfx}{cmd} @person'
+  - description: Bans a user from the server. This will also remove all messages from
+      that user in the last 24h. The user can only be specified via a mention tag. This
+      is to preserve compatibility with logging and audit logs. You can specify a duration
+      by adding "--time=HH:MM:SS" as the last argument. The user will be automatically
+      unbanned after the duration elapses. This command requires the Ban permission.
+    enabled: true
+    name: ban
+    requirements:
+      - ban_members
+    usage: '{pfx}{cmd} @person Way, WAY too spicy for us...'
+  - alts:
+      - mban
+    description: Bans all the mentioned users from the server. Users can only be mentioned
+      by a mention tag. This is to preserve compatibility with logging and audit logs.
+      If you don't have the permissions to kick someone, the reason will be returned
+      and no one will be banned. This command requires the Ban permission.
+    enabled: true
+    name: massban
+    requirements:
+      - ban_members
+    usage: '{pfx}{cmd} @person1 @person2 @person3 Way, WAY too spicy for us...'
+  - alts:
+      - sb
+    description: Soft-Ban a user from the server. This bans the user and then immediately
+      unbans them. Useful if you want to purge all messages from that user in the last
+      24h. The user can only be mentioned by a mention tag. This is to preserve compatibility
+      with logging and audit logs. This command requires the Ban permission.
+    enabled: true
+    name: softban
+    requirements:
+      - ban_members
+    usage: '{pfx}{cmd} @person Some spice needed de-spicing.'
+  - description: Unbans a banned user matching specified username. This command requires
+      the Ban permission.
+    enabled: true
+    name: unban
+    requirements:
+      - ban_members
+    usage: '{pfx}{cmd} Chicken Shluggets'
+  - alts:
+      - hmute
+    description: Hard-mutes the mentioned user. Users who are hard-muted are disallowed
+      from typing to any channel. There is no message deletion, this is a permission
+      based mute. Due to adding a user override to every editable channel, this can
+      spam audit logs. You can specify a duration by adding "--time=HH:MM:SS" as the
+      last argument. The user will be automatically unbanned after the duration elapses.
+      This command requires the Manage Channels permission.
+    enabled: true
+    name: hardmute
+    requirements:
+      - manage_channels
+    usage: '{pfx}{cmd} @person For talking about the fight club.'
+  - alts:
+      - hunmute
+    description: Unmutes a hard-muted person, allowing them to send messages again.
+      This command requires the Manage Channels permission.
+    enabled: true
+    name: hardunmute
+    requirements:
+      - manage_channels
+    usage: '{pfx}{cmd} @person'
 enabled: true
 events:
-- enabled: true
-  name: un_punisher
-  type: ready
+  - enabled: true
+    name: un_punisher
+    type: ready
 name: Moderator Punishments

@@ -1,7 +1,7 @@
 category: administration
 enabled: false
 events:
-- enabled: true
-  name: experience_activity
-  type: message
+  - enabled: true
+    name: experience_activity
+    type: message
 name: Experience Awarding

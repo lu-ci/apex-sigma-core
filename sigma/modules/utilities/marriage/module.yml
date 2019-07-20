@@ -1,27 +1,31 @@
 category: utility
 commands:
-- alts:
-  - propose
-  description: Proposes to the mentioned user.
-  enabled: true
-  name: marry
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - reject
-  description: Divorces the mentioned user that you are married with. Divorces cost
-    15 Kud per hour that you were married.
-  enabled: true
-  name: divorce
-  usage: '{pfx}{cmd} @person'
-- alts:
-  - wives
-  - husbands
-  - waifus
-  - husbandos
-  description: Shows the mentioned user's list of spouses, that is, people that they're
-    married to.
-  enabled: true
-  name: spouses
-  usage: '{pfx}{cmd} @person'
+  - alts:
+      - propose
+    description: Proposes to the mentioned user.
+    enabled: true
+    name: marry
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - reject
+    description: Divorces the mentioned user that you are married with. Divorces cost
+      15 Kud per hour that you were married.
+    enabled: true
+    name: divorce
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - wives
+      - husbands
+      - waifus
+      - husbandos
+    description: Shows the mentioned user's list of spouses, that is, people that they're
+      married to.
+    enabled: true
+    name: spouses
+    usage: '{pfx}{cmd} @person'
+  - description: Give your virginity to someone or exchange it for theirs.
+    enabled: true
+    name: givevirginity
+    usage: '{pfx}{cmd} @person'
 enabled: true
 name: Marriage Commands

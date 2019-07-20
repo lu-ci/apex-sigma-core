@@ -1,68 +1,68 @@
 category: music
 commands:
-- alts:
-  - add
-  description: Queues up a song to play from YouTube. Either from a direct URL or
-    text search. Playlists are supported but take a long time to process.
-  enabled: true
-  name: queue
-  usage: '{pfx}{cmd} Kaskade Disarm You Illenium Remix'
-- alts:
-  - start
-  description: Starts playing the music queue.
-  enabled: true
-  name: play
-- description: Pauses the music player.
-  enabled: true
-  name: pause
-- description: Resumes the music player.
-  enabled: true
-  name: resume
-- alts:
-  - stop
-  description: Stops the music, disconnects Sigma from the current voice channel,
-    and purges the music queue.
-  enabled: true
-  name: disconnect
-- alts:
-  - move
-  description: If Sigma isn't connected to any channel, she will connect to yours.
-    If it is connected, it will move to you.
-  enabled: true
-  name: summon
-- description: Toggles if the current queue should be repeated. Whenever a song is
-    played, it's re-added to the end of the queue.
-  enabled: true
-  name: repeat
-- alts:
-  - remove
-  description: Removes a song from the queue. Minimum number is 1 and the maximum
-    is however many items the queue has.
-  enabled: true
-  name: unqueue
-  usage: '{pfx}{cmd} 5'
-- alts:
-  - next
-  description: Skips the currently playing song.
-  enabled: true
-  name: skip
-- alts:
-  - currentsong
-  - playing
-  - np
-  description: Shows information on the currently playing song.
-  enabled: true
-  name: nowplaying
-- description: Randomizes the current song queue.
-  enabled: true
-  name: shuffle
-- alts:
-  - lyr
-  description: Searches for the lyrics of the specified song. Requires both the song
-    and artist, separated by a dash "-". If no arguments are given, it will try to
-    get the currently playing song's lyrics.
-  enabled: true
-  name: lyrics
-  usage: '{pfx}{cmd} Imagine Dragons - Radioactive'
+  - alts:
+      - add
+    description: Queues up a song to play from YouTube. Either from a direct URL or
+      text search. Playlists are supported but take a long time to process.
+    enabled: true
+    name: queue
+    usage: '{pfx}{cmd} Kaskade Disarm You Illenium Remix'
+  - alts:
+      - start
+    description: Starts playing the music queue.
+    enabled: true
+    name: play
+  - description: Pauses the music player.
+    enabled: true
+    name: pause
+  - description: Resumes the music player.
+    enabled: true
+    name: resume
+  - alts:
+      - stop
+    description: Stops the music, disconnects Sigma from the current voice channel,
+      and purges the music queue.
+    enabled: true
+    name: disconnect
+  - alts:
+      - move
+    description: If Sigma isn't connected to any channel, she will connect to yours.
+      If it is connected, it will move to you.
+    enabled: true
+    name: summon
+  - description: Toggles if the current queue should be repeated. Whenever a song is
+      played, it's re-added to the end of the queue.
+    enabled: true
+    name: repeat
+  - alts:
+      - remove
+    description: Removes a song from the queue. Minimum number is 1 and the maximum
+      is however many items the queue has.
+    enabled: true
+    name: unqueue
+    usage: '{pfx}{cmd} 5'
+  - alts:
+      - next
+    description: Skips the currently playing song.
+    enabled: true
+    name: skip
+  - alts:
+      - currentsong
+      - playing
+      - np
+    description: Shows information on the currently playing song.
+    enabled: true
+    name: nowplaying
+  - description: Randomizes the current song queue.
+    enabled: true
+    name: shuffle
+  - alts:
+      - lyr
+    description: Searches for the lyrics of the specified song. Requires both the song
+      and artist, separated by a dash "-". If no arguments are given, it will try to
+      get the currently playing song's lyrics.
+    enabled: true
+    name: lyrics
+    usage: '{pfx}{cmd} Imagine Dragons - Radioactive'
 enabled: true
 name: Music
