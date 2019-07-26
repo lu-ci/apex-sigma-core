@@ -1,6 +1,12 @@
 # Apex Sigma Changelog
 
-## 4.5.1112 Taiga
+## 4.56.1134 Taiga
+
+### Changed
+
+- The `>>dictionary` command has been repaired and reworked.
+
+## 4.55.1112 Taiga
 
 ### Added
 

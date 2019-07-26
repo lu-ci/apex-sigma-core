@@ -16,14 +16,78 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json
-
 import aiohttp
 import discord
+import lxml.html as lx
 
 from sigma.core.utilities.generic_responses import error, not_found
 
-oxford_icon = 'https://i.imgur.com/lrinjBC.png'
+lexico_icon = 'https://www.lexico.com/apple-touch-icon.png'
+
+
+def scrape_gramb(section):
+    """
+    Scrapes a GRAMB section for definition data.
+    :param section: The section to parse.
+    :type section: lxml.html.objectify.Element
+    :return:
+    :rtype: dict
+    """
+    gramb_type = section[0][0].text
+    trgs = section.cssselect('.trg')
+    parsed_trgs = []
+    ti = 0
+    for trg in trgs:
+        if len(trg):
+            context = trg.cssselect('.ind')[0].text.strip()
+            subsenses = []
+            subs = trg.cssselect('.subSense')
+            si = 0
+            for sub in subs:
+                sub_context = sub.cssselect('.ind')[0].text.strip()
+                sub_data = {
+                    'index': si + 1,
+                    'context': sub_context
+                }
+                subsenses.append(sub_data)
+                si += 1
+            trg_data = {
+                'index': ti + 1,
+                'context': context,
+                'subsenses': subsenses
+            }
+            parsed_trgs.append(trg_data)
+            ti += 1
+
+    data = {
+        'type': gramb_type.title(),
+        'trgs': parsed_trgs
+    }
+    return data
+
+
+def scrape_lexico(page):
+    """
+    Scrapes the given page for contents.
+    :param page: The HTML contents of the page.
+    :type page: str
+    :return:
+    :rtype: dict
+    """
+    root = lx.fromstring(page)
+    try:
+        word = root.cssselect('.hwg .hw')[0].text
+        sections = root.cssselect('.gramb')
+        audio_link = root.cssselect('.headwordAudio')
+        audio_link = audio_link[0][0].attrib.get('src') if len(audio_link) else None
+        data = {
+            'word': word.title(),
+            'audio': audio_link,
+            'grambs': [scrape_gramb(s) for s in sections if s.attrib.get('class') == 'gramb' and s.tag == 'section']
+        }
+    except IndexError:
+        data = None
+    return data
 
 
 async def dictionary(cmd, pld):
@@ -33,82 +97,28 @@ async def dictionary(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if cmd.cfg.app_id is not None and cmd.cfg.app_key is not None:
-        headers = {
-            'Accept': 'application/json',
-            'app_id': cmd.cfg.app_id,
-            'app_key': cmd.cfg.app_key
-        }
-        if pld.args:
-            query = '_'.join(pld.args).lower()
-            oxford_url = f'https://en.oxforddictionaries.com/definition/{query}'
-            api_url = f'https://od-api.oxforddictionaries.com/api/v1/entries/en/{query}'
-            async with aiohttp.ClientSession() as session:
-                async with session.get(api_url, headers=headers) as data_response:
-                    data = await data_response.read()
-                    try:
-                        data = json.loads(data)
-                    except json.JSONDecodeError:
-                        data = {'results': []}
-            if data.get('results'):
-                data = data.get('results')[0]
-                lex = data.get('lexicalEntries')
-                if lex:
-                    lex = lex[0]
-                    cat = lex.get('lexicalCategory')
-                    term = lex.get('text')
-                    ent = lex.get('entries')[0]
-                    etyms = ent.get('etymologies')
-                    feats = ent.get('grammaticalFeatures')
-                    feat_block = []
-                    if feats:
-                        for feat in feats:
-                            feat_text = feat.get('text')
-                            feat_type = feat.get('type')
-                            feat_line = f'{feat_text} {feat_type}'
-                            feat_block.append(feat_line)
-                    senses = ent.get('senses')
-                    definition_block = []
-                    example_block = []
-                    reference_block = []
-                    if senses:
-                        for sense in senses:
-                            definitions = sense.get('definitions')
-                            references = sense.get('crossReferenceMarkers')
-                            if definitions:
-                                definition_block += definitions
-                                examples = sense.get('examples')
-                                if examples:
-                                    for example in examples:
-                                        example = example.get('text')
-                                        if example:
-                                            example_block.append(example)
-                            if references:
-                                for reference in references:
-                                    if '(' in reference:
-                                        reference = reference.split('(')[0]
-                                    reference_block.append(reference)
-                    term = term.replace("_", " ").upper()
-                    response = discord.Embed(color=0x00bef2)
-                    response.set_author(name=f'Oxford Dictionary: {term}', icon_url=oxford_icon, url=oxford_url)
-                    if etyms:
-                        response.add_field(name='Etymologies', value='\n'.join(etyms), inline=False)
-                    if definition_block:
-                        response.add_field(name='Definitions', value='\n'.join(definition_block), inline=False)
-                    if example_block:
-                        response.add_field(name='Examples', value=', '.join(example_block), inline=False)
-                    if reference_block:
-                        response.add_field(name='References', value=', '.join(reference_block), inline=False)
-                    if response.fields:
-                        response.set_footer(text=f'Category: {cat} | Features: {", ".join(feat_block)}')
-                    else:
-                        response = not_found('No lexical data found.')
-                else:
-                    response = not_found('No lexical data found.')
-            else:
-                response = not_found('No results.')
+    if pld.args:
+        query = '_'.join(pld.args).lower()
+        lexico_url = f'https://www.lexico.com/en/definition/{query}'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(lexico_url) as data_response:
+                data = await data_response.text()
+                data = scrape_lexico(data)
+        if data:
+            response = discord.Embed(color=0x50b46c)
+            response.set_author(name=f'Lexico Dictionary: {data.get("word")}', icon_url=lexico_icon, url=lexico_url)
+            for gramb in data.get('grambs'):
+                gramb_lines = []
+                for trg in gramb.get('trgs'):
+                    gramb_lines.append(f'**{trg.get("index")}.** {trg.get("context")}')
+                    for sub in trg.get("subsenses"):
+                        gramb_lines.append(f'-> **{trg.get("index")}.{sub.get("index")}.** {sub.get("context")}')
+                gramb_text = '\n'.join(gramb_lines)
+                response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
+            if data.get('audio'):
+                response.description = f'Whack Pronounciation Audio: [Here]({data.get("audio")})'
         else:
-            response = error('Nothing inputted.')
+            response = not_found('No results.')
     else:
-        response = error('The API Key is missing.')
+        response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)
