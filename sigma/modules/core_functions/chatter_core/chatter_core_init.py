@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import datetime
 import os
 
 import aiml
@@ -65,7 +66,7 @@ def train(ev, core, init=False):
     if version.beta:
         full_version += ' Beta'
     chatter_core.setBotPredicate('version', full_version)
-    birthday_date = arrow.get('2016-08-16', format='YYYY-MM-DD')
+    birthday_date = arrow.get(datetime.date(2016, 8, 16))
     age = (arrow.utcnow() - birthday_date).days // 365.25
     chatter_core.setBotPredicate('age', str(int(age)))
     chatter_core.setBotPredicate('birthday', birthday_date.format('MMMM DD'))

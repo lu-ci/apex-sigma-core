@@ -7,6 +7,7 @@
 - Fixed a hardcoded word in the  `>>dictionary` command.
 - The chatter core responder has been given a hard capped response time of two minutes.
 - The chatter core responder also got its message content cleaner fixed.
+- Fixed an invalid keyword argument in `chatter_core_init.py`. See the arrow changelog.
 - Added proper spacing between copyright text and imports that have also been formatted.
 - Changed a few copyrights from being commented to multi line strings.
 
