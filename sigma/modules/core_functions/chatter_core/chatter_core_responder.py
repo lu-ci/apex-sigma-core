@@ -18,11 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from sigma.core.mechanics.payload import MessagePayload
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
 
-def set_session_info(pld: MessagePayload):
+def set_session_info(pld):
     """
     Sets basic session information depending on the user.
     :param pld: The message payload of the interaction.
@@ -46,10 +45,8 @@ async def chatter_core_responder(ev, pld):
         start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')
         start_two = pld.msg.content.startswith(f'<@!{ev.bot.user.id}>')
         if start_one or start_two:
-            clean_msg = ' '.join(pld.msg.content.split()[1:])
+            clean_msg = pld.msg.clean_content.replace('@', '').partition(' ')[2]
             if clean_msg:
-                for mention in pld.msg.mentions:
-                    clean_msg.replace(mention.mention, mention.display_name)
                 active = pld.settings.get('chatterbot')
                 if active:
                     async with pld.msg.channel.typing():
@@ -57,6 +54,6 @@ async def chatter_core_responder(ev, pld):
                             train(ev, chatter_core)
                         set_session_info(pld)
                         response_text = chatter_core.respond(clean_msg, pld.msg.author.id)
-                        sleep_time = len(response_text) * 0.185
+                        sleep_time = min(len(response_text) * 0.185, 120)
                         await asyncio.sleep(sleep_time)
                         await pld.msg.channel.send(f'{pld.msg.author.mention} {response_text}')
