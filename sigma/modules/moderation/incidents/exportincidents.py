@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.generic_responses import denied, error
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']

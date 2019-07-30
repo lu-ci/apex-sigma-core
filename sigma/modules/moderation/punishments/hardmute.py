@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar, get_broad_target
+from sigma.core.utilities.data_processing import convert_to_seconds, get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok
 from sigma.core.utilities.permission_processing import hierarchy_permit

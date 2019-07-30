@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.data_processing import user_avatar, get_broad_target
+from sigma.core.utilities.data_processing import get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit

@@ -1,10 +1,22 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Fixed a hardcoded word in the  `>>dictionary` command.
+- The chatter core responder has been given a hard capped response time of two minutes.
+- The chatter core responder also got its message content cleaner fixed.
+- Added proper spacing between copyright text and imports that have also been formatted.
+- Changed a copyright from being commented into a multi line string.
+
 ## 4.56.1134 Taiga
 
 ### Changed
 
 - The `>>dictionary` command has been repaired and reworked.
+- The chatter core responder has been given a hard capped response time of two minutes.
+- The chatter core responder also got its message content cleaner fixed.   
 
 ## 4.55.1112 Taiga
 

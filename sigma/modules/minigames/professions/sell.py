@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 
 async def sell(cmd, pld):

@@ -22,7 +22,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.generic_responses import error
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 
 async def mathgame(cmd, pld):

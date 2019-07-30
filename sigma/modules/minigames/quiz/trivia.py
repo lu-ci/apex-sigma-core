@@ -27,7 +27,7 @@ import ftfy
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 awards = {
     'easy': 10,

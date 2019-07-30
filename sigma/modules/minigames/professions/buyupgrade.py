@@ -24,7 +24,7 @@ from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 
 def get_price_mod(base_price, upgrade_level):
