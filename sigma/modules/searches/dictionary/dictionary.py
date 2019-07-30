@@ -90,10 +90,10 @@ def scrape_lexico(page):
     return data
 
 
-async def dictionary(cmd, pld):
+async def dictionary(_cmd, pld):
     """
-    :param cmd: The command object referenced in the command.
-    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
@@ -116,7 +116,7 @@ async def dictionary(cmd, pld):
                 gramb_text = '\n'.join(gramb_lines)
                 response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
             if data.get('audio'):
-                response.description = f'Whack Pronounciation Audio: [Here]({data.get("audio")})'
+                response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'
         else:
             response = not_found('No results.')
     else:
