@@ -8,7 +8,7 @@
 - The chatter core responder has been given a hard capped response time of two minutes.
 - The chatter core responder also got its message content cleaner fixed.
 - Added proper spacing between copyright text and imports that have also been formatted.
-- Changed a copyright from being commented into a multi line string.
+- Changed a few copyrights from being commented to multi line strings.
 
 ## 4.56.1134 Taiga
 
