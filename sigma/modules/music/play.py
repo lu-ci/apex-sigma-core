@@ -40,11 +40,7 @@ def player_listening(voice_client):
             if not member.voice.self_deaf:
                 if not member.voice.deaf:
                     user_count += 1
-    if user_count:
-        active = True
-    else:
-        active = False
-    return active
+    return bool(user_count)
 
 
 def player_active(voice_client):
@@ -55,6 +51,7 @@ def player_active(voice_client):
     :return:
     :rtype:
     """
+    active = False
     if voice_client:
         listening = player_listening(voice_client)
         if listening:
@@ -62,12 +59,6 @@ def player_active(voice_client):
             paused = voice_client.is_paused()
             if playing or paused:
                 active = True
-            else:
-                active = False
-        else:
-            active = False
-    else:
-        active = False
     return active
 
 
