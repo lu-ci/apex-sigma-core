@@ -22,8 +22,15 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.music import QueueItem
+from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, not_found
+
+
+def shorten(text, max_len, appendage):
+    if len(text) > max_len:
+        text = text[:max_len] + appendage
+    return text
 
 
 async def queue(cmd, pld):
@@ -33,7 +40,11 @@ async def queue(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.args:
+    page_num = False
+    if len(pld.args) == 1:
+        if pld.args[0].isdigit():
+            page_num = int(pld.args[0])
+    if pld.args and not page_num:
         if pld.msg.author.voice:
             same_bound = True
             if pld.msg.guild.voice_client:
@@ -118,35 +129,32 @@ async def queue(cmd, pld):
     else:
         music_queue = cmd.bot.music.get_queue(pld.msg.guild.id)
         if not music_queue.empty():
-            music_queue = await cmd.bot.music.listify_queue(music_queue)
-            stats_desc = f'There are **{len(music_queue)}** songs in the queue.'
+            music_list_all = await cmd.bot.music.listify_queue(music_queue)
+            stats_desc = f'There are **{len(music_list_all)}** songs in the queue.'
             if pld.msg.guild.id in cmd.bot.music.currents:
                 curr = cmd.bot.music.currents[pld.msg.guild.id]
                 stats_desc += f'\nCurrently playing: [{curr.title}]({curr.url})'
             list_desc_list = []
             boop_headers = ['#', 'Title', 'Requester', 'Duration']
             order_num = 0
-            for item in music_queue[:5]:
+            page = page_num if page_num else 1
+            music_list, page = PaginatorCore.paginate(music_list_all, page, 5)
+            for item in music_list:
                 order_num += 1
                 duration = str(datetime.timedelta(seconds=item.duration))
                 title = item.title
                 if ' - ' in title:
-                    title = ' - '.join(title.split('-')[1:])
-                    while title.startswith(' '):
-                        title = title[1:]
-                if len(title) > 20:
-                    title = title[:20] + '...'
-                req = item.requester.name
-                if len(req) > 9:
-                    req = req[:6] + '...'
+                    title = ' - '.join(title.split('-')[1:]).strip()
+                title = shorten(title, 20, '...')
+                req = shorten(item.requester.name, 9, '...')
                 list_desc_list.append([order_num, title, req, duration])
             list_desc = boop(list_desc_list, boop_headers)
-            list_title = f'List of {len(music_queue[:5])} Upcoming Queued Items'
+            list_title = f'Queued Items on Page {page}'
             response = discord.Embed(color=0x3B88C3)
             guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
             response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
-            response.add_field(name='Current Music Queue', value=stats_desc)
-            response.add_field(name=list_title, value=f'```bat\n{list_desc}\n```')
+            response.add_field(name='Current Music Queue', value=stats_desc, inline=False)
+            response.add_field(name=list_title, value=f'```bat\n{list_desc}\n```', inline=False)
         else:
             response = discord.Embed(color=0x3B88C3, title='🎵 The queue is empty.')
         await pld.msg.channel.send(embed=response)

@@ -3,7 +3,9 @@ commands:
   - alts:
       - add
     description: Queues up a song to play from YouTube. Either from a direct URL or
-      text search. Playlists are supported but take a long time to process.
+      text search. Playlists are supported but take a long time to process. If no query is provided,
+      the current queue will be showed instead. The list is paginated, each page has up to 5 items.
+      You can specify the page number you want to see.
     enabled: true
     name: queue
     usage: '{pfx}{cmd} Kaskade Disarm You Illenium Remix'

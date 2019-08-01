@@ -326,7 +326,7 @@ Commands | Description | Example
 `>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information on the currently playing song. | `>>nowplaying`
 `>>pause` | Pauses the music player. | `>>pause`
 `>>play` `>>start` | Starts playing the music queue. | `>>play`
-`>>queue` `>>add` | Queues up a song to play from YouTube. Either from a direct URL or text search. Playlists are supported but take a long time to process. | `>>queue Kaskade Disarm You Illenium Remix`
+`>>queue` `>>add` | Queues up a song to play from YouTube. Either from a direct URL or text search. Playlists are supported but take a long time to process. If no query is provided, the current queue will be showed instead. The list is paginated, each page has up to 5 items. You can specify the page number you want to see. | `>>queue Kaskade Disarm You Illenium Remix`
 `>>repeat` | Toggles if the current queue should be repeated. Whenever a song is played, it's re-added to the end of the queue. | `>>repeat`
 `>>resume` | Resumes the music player. | `>>resume`
 `>>shuffle` | Randomizes the current song queue. | `>>shuffle`

@@ -4,7 +4,10 @@
 
 ### Changed
 
-- Fixed a hardcoded word in the  `>>dictionary` command.
+- Paginated the `>>queue` command. View past the first page with `>>queue <page>`.
+- Simplified some functions in the `>>play` command file.
+- Changed the audio codec in `music.py` to opus instead of mp3.
+- Fixed a hardcoded word in the `>>dictionary` command.
 - The chatter core responder has been given a hard capped response time of two minutes.
 - The chatter core responder also got its message content cleaner fixed.
 - Fixed an invalid keyword argument in `chatter_core_init.py`. See the arrow changelog.
