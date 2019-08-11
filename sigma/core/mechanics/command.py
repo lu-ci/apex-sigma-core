@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import os
 import secrets
+from concurrent.futures import CancelledError
 
 import aiohttp
 import arrow
@@ -291,6 +292,8 @@ class SigmaCommand(object):
                                         try:
                                             await getattr(self.command, self.name)(self, payload)
                                             executed = True
+                                        except CancelledError:
+                                            pass
                                         except aiohttp.ClientOSError as err:
                                             last_error = err
                                             client_os_broken_tries += 1
