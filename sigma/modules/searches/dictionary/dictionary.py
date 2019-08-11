@@ -60,7 +60,7 @@ def scrape_gramb(section):
             ti += 1
 
     data = {
-        'type': gramb_type.title(),
+        'type': gramb_type.title() if gramb_type else 'Unknown Type',
         'trgs': parsed_trgs
     }
     return data
@@ -113,7 +113,7 @@ async def dictionary(_cmd, pld):
                     gramb_lines.append(f'**{trg.get("index")}.** {trg.get("context")}')
                     for sub in trg.get("subsenses"):
                         gramb_lines.append(f'-> **{trg.get("index")}.{sub.get("index")}.** {sub.get("context")}')
-                gramb_text = '\n'.join(gramb_lines)
+                gramb_text = '\n'.join(gramb_lines[:10])
                 response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
             if data.get('audio'):
                 response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'

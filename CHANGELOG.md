@@ -1,9 +1,10 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.57.1144 Taiga
 
 ### Changed
 
+- Added a small `>>dictionary` safeguard for GRAMB type attribute errors.
 - Added a small `>>jisho` safeguard for the field title value.
 - The `concurrent.futures._base.CancelledError` exception will now be ignored since it happens when Sigma's forcefully stopped and has no valuable information.
 - Fixed the `--global` argument for the `>>randomemote` command.
