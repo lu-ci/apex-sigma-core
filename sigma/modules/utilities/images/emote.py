@@ -39,7 +39,7 @@ async def get_emote_cache(cmd):
     elif arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
         fill = True
     if fill:
-        all_emotes = cmd.bot.emojis
+        all_emotes = list(cmd.bot.emojis)
         await cmd.db.cache.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
     else:
         all_emotes = emote_cache.get('emotes')
