@@ -115,7 +115,7 @@ async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
     jisho_icon = 'https://i.imgur.com/X1fCJLV.png'
     response = discord.Embed(color=0xF9F9F9)
     response.set_author(name='Jisho.org', url=search_url, icon_url=jisho_icon)
-    response.add_field(name=f'{starter}', value=output)
+    response.add_field(name=f'{starter if starter else jisho_q}', value=output)
     if other_forms:
         footer_text = f'Other forms: {other_forms[:-1]}'
         if request['is_common']:

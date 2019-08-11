@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Added a small `>>jisho` safeguard for the field title value.
 - The `concurrent.futures._base.CancelledError` exception will now be ignored since it happens when Sigma's forcefully stopped and has no valuable information.
 - Fixed the `--global` argument for the `>>randomemote` command.
 - Paginated the `>>queue` command. View past the first page with `>>queue <page>`.
