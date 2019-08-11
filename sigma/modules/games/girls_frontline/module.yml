@@ -15,5 +15,5 @@ commands:
     enabled: true
     name: gftacticaldoll
     usage: '{pfx}{cmd} '
-enabled: true
+enabled: false
 name: Girls Frontline

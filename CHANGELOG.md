@@ -15,6 +15,10 @@
 - Added proper spacing between copyright text and imports that have also been formatted.
 - Changed a few copyrights from being commented to multi line strings.
 
+### Removed
+
+- Not really removed... The Girls Frontline module has been disabled for now while a rework is pending.
+
 ## 4.56.1134 Taiga
 
 ### Changed
