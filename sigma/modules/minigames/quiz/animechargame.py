@@ -126,7 +126,7 @@ async def animechargame(cmd, pld):
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
                 reward_mult = streaks.get(pld.msg.channel.id) or 0
-                kud_reward = int(kud_reward * (1 + (reward_mult * 0.35)))
+                kud_reward = int(kud_reward * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
                 await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency

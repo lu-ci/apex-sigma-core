@@ -151,7 +151,7 @@ async def trivia(cmd, pld):
             incorrect_answers = data['incorrect_answers']
             difficulty = data['difficulty']
             reward_mult = streaks.get(pld.msg.author.id) or 0 if not cat_chosen else 0
-            kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 3.25) / (1 + (0.03 * reward_mult))))
+            kud_reward = int((awards.get(difficulty) or '10') * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
             choice_list = [correct_answer] + incorrect_answers
             choice_list = shuffle_questions(choice_list)
             choice_number = 0

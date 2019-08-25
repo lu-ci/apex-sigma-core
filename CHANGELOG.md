@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.57.1145 Taiga
+
+### Changed
+
+- The formula used for scaling quiz-type minigames has been altered.
+Because I got asked this earlier, taking trivia for reference, there is no maximum amount of Kud you can get from the minigame.
+However, there is an effective one due to the nature of a reverse exponential formula.
+The effective limits for trivia's **Easy/Medium/Hard/Average** would be **760/1520/3795/2025 Kud**, in that order.
+
+
 ## 4.57.1144 Taiga
 
 ### Changed

@@ -5,7 +5,6 @@
 - [DEVELOPMENT](#development)
 - [FINAL FANTASY](#final-fantasy)
 - [FUN](#fun)
-- [GIRLS FRONTLINE](#girls-frontline)
 - [HELP](#help)
 - [INTERACTIONS](#interactions)
 - [MATHEMATICS](#mathematics)
@@ -126,13 +125,6 @@ Commands | Description | Example
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
-[Back To Top](#module-index)
-
-### GIRLS FRONTLINE
-Commands | Description | Example
-----------|-------------|--------
-`>>gftacticaldoll` `>>gftdoll` `>>gftd` | Shows information for the selected T-Doll. Such as rarity, type, statistics, production origin, and the like. | `>>gftacticaldoll `
-`>>gftdollproduction` `>>gftdprod` `>>gftdp` | Shows which dolls drop from the given time and their rarity. | `>>gftdollproduction 3:58`
 [Back To Top](#module-index)
 
 ### HELP
