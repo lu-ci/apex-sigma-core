@@ -48,8 +48,9 @@ commands:
       - addinteract
       - addreact
     description: Adds new GIF to the specified interaction type. Accepted types are
-      bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat,
-      peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare.
+      pout, highfive, hug, kiss, pat, shoot, bite, slap, lick, feed, stare, sip, fuck,
+      spank, drink, stab, poke, punch, shrug, facepalm, cry, wave, sleep, laugh, blush,
+      dance, explode, sniff and tackle.
     enabled: true
     name: addinteraction
     usage: '{pfx}{cmd} reaction my.gif.link/fancy.gif'
@@ -93,6 +94,7 @@ commands:
     usage: '{pfx}{cmd} @person'
   - alts:
       - chug
+      - cheers
     description: Cheers, family! Let's get drunk!
     enabled: true
     name: drink
@@ -127,7 +129,9 @@ commands:
     enabled: true
     name: wave
     usage: '{pfx}{cmd} @person'
-  - description: My favorite pastime! ...I wish I was permanently asleep.
+  - alts:
+      - nap
+    description: My favorite pastime! ...I wish I was permanently asleep.
     enabled: true
     name: sleep
     usage: '{pfx}{cmd} @person'
@@ -154,6 +158,12 @@ commands:
     description: Smells nice? Sniff it!
     enabled: true
     name: sniff
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - smell
+    description: Smells nice? Sniff it!
+    enabled: true
+    name: tackle
     usage: '{pfx}{cmd} @person'
 enabled: true
 events:

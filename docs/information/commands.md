@@ -146,7 +146,7 @@ Commands | Description | Example
 `>>blush` | An overreaction of your face's blood vessels to whatever. | `>>blush @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
 `>>dance` | Feel alive? Like you just wanna... boogie? Let's dance! | `>>dance @person`
-`>>drink` `>>chug` | Cheers, family! Let's get drunk! | `>>drink @person`
+`>>drink` `>>chug` `>>cheers` | Cheers, family! Let's get drunk! | `>>drink @person`
 `>>explode` `>>detonate` | When all other means fail, it's time to bring out the carpet bomb squadrons. | `>>explode @person`
 `>>facepalm` | Somebody just did something so stupid you want to facepalm. | `>>facepalm @person`
 `>>feed` | Care to share some of your food with someone cute? | `>>feed @person`
@@ -164,11 +164,12 @@ Commands | Description | Example
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
 `>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
-`>>sleep` | My favorite pastime! ...I wish I was permanently asleep. | `>>sleep @person`
+`>>sleep` `>>nap` | My favorite pastime! ...I wish I was permanently asleep. | `>>sleep @person`
 `>>sniff` `>>smell` | Smells nice? Sniff it! | `>>sniff @person`
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
 `>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
+`>>tackle` `>>smell` | Smells nice? Sniff it! | `>>tackle @person`
 `>>wave` | It's not the size of the wave, it's the motion of the ocean~ | `>>wave @person`
 [Back To Top](#module-index)
 

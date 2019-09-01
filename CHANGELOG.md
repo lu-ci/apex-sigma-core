@@ -1,5 +1,16 @@
 # Apex Sigma Changelog
 
+## 4.57.1146 Taiga
+
+### Added
+
+- The `>>tackle` interaction is now a thing. Holding a dev hostage to make it is not ok...
+
+### Change
+
+- Sleep now has a `nap` alias.
+- Drink now has a `cheers` alias.
+
 ## 4.57.1145 Taiga
 
 ### Changed
@@ -8,7 +19,6 @@
 Because I got asked this earlier, taking trivia for reference, there is no maximum amount of Kud you can get from the minigame.
 However, there is an effective one due to the nature of a reverse exponential formula.
 The effective limits for trivia's **Easy/Medium/Hard/Average** would be **760/1520/3795/2025 Kud**, in that order.
-
 
 ## 4.57.1144 Taiga
 
