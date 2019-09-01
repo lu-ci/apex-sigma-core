@@ -159,9 +159,7 @@ commands:
     enabled: true
     name: sniff
     usage: '{pfx}{cmd} @person'
-  - alts:
-      - smell
-    description: Smells nice? Sniff it!
+  - description: The reason is not important, just run at them full speed.
     enabled: true
     name: tackle
     usage: '{pfx}{cmd} @person'

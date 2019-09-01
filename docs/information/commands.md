@@ -141,7 +141,7 @@ Commands | Description | Example
 ### INTERACTIONS
 Commands | Description | Example
 ----------|-------------|--------
-`>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are bite, cry, dance, drink, explode, facepalm, feed, highfive, hug, kiss, lick, pat, peck, poke, pout, punch, shoot, shrug, sip, slap, stab, and stare. | `>>addinteraction reaction my.gif.link/fancy.gif`
+`>>addinteraction` `>>addinteract` `>>addreact` | Adds new GIF to the specified interaction type. Accepted types are pout, highfive, hug, kiss, pat, shoot, bite, slap, lick, feed, stare, sip, fuck, spank, drink, stab, poke, punch, shrug, facepalm, cry, wave, sleep, laugh, blush, dance, explode, sniff and tackle. | `>>addinteraction reaction my.gif.link/fancy.gif`
 `>>bite` `>>nom` | Sink your teeth into some poor thing. | `>>bite @person`
 `>>blush` | An overreaction of your face's blood vessels to whatever. | `>>blush @person`
 `>>cry` | Somebody is making you sad, let them know that with crocodile tears! | `>>cry @person`
@@ -169,7 +169,7 @@ Commands | Description | Example
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
 `>>stab` `>>chib` | Boy... Somebody really has you pissed off if you are using this one. | `>>stab @person`
 `>>stare` `>>jii` | Jiiiiiiiiiii~ | `>>stare @person`
-`>>tackle` `>>smell` | Smells nice? Sniff it! | `>>tackle @person`
+`>>tackle` | The reason is not important, just run at them full speed. | `>>tackle @person`
 `>>wave` | It's not the size of the wave, it's the motion of the ocean~ | `>>wave @person`
 [Back To Top](#module-index)
 
