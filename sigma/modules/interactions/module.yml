@@ -54,7 +54,9 @@ commands:
     enabled: true
     name: addinteraction
     usage: '{pfx}{cmd} reaction my.gif.link/fancy.gif'
-  - description: When a punch is too barbaric, a slap should be just elegant enough.
+  - alts:
+      - "smack"
+    description: When a punch is too barbaric, a slap should be just elegant enough.
     enabled: true
     name: slap
     usage: '{pfx}{cmd} @person'
@@ -109,7 +111,9 @@ commands:
     enabled: true
     name: poke
     usage: '{pfx}{cmd} @person'
-  - description: You have something on your face. IT WAS PAIN!
+  - alts:
+      - "hit"
+    description: You have something on your face. IT WAS PAIN!
     enabled: true
     name: punch
     usage: '{pfx}{cmd} @person'

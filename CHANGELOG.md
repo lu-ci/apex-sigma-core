@@ -1,12 +1,19 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Slap now has a `smack` alias.
+- Punch now has a `hit` alias.
+
 ## 4.57.1146 Taiga
 
 ### Added
 
 - The `>>tackle` interaction is now a thing. Holding a dev hostage to make it is not ok...
 
-### Change
+### Changed
 
 - Sleep now has a `nap` alias.
 - Drink now has a `cheers` alias.

@@ -159,11 +159,11 @@ Commands | Description | Example
 `>>pat` `>>pato` | Pat, pat~ Good human, lovely human. I will kill you last. | `>>pat @person`
 `>>poke` | Poke, poke~ Are you alive? | `>>poke @person`
 `>>pout` | Make a pouty face at someone and make them change their mind. Or just tease them for being a horrible person. Like when they make you create a pout command for money! | `>>pout @person`
-`>>punch` | You have something on your face. IT WAS PAIN! | `>>punch @person`
+`>>punch` `>>hit` | You have something on your face. IT WAS PAIN! | `>>punch @person`
 `>>shoot` `>>pew` | When a knife isn't enough. | `>>shoot @person`
 `>>shrug` | I don't get it, or I don't care, really, whatever *shrug*. | `>>shrug @person`
 `>>sip` | Ahh yes, I know the feeling of wanting to sit outside on a chilly morning sipping hot tea. | `>>sip @person`
-`>>slap` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
+`>>slap` `>>smack` | When a punch is too barbaric, a slap should be just elegant enough. | `>>slap @person`
 `>>sleep` `>>nap` | My favorite pastime! ...I wish I was permanently asleep. | `>>sleep @person`
 `>>sniff` `>>smell` | Smells nice? Sniff it! | `>>sniff @person`
 `>>spank` | When somebody's been naughty, and you gotta teach them a lesson ಠ‿↼ | `>>spank @person`
