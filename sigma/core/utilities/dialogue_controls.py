@@ -104,7 +104,7 @@ async def int_dialogue(bot, msg, question, start, end):
     end = 9 if end > 9 else end
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
     confirmation = await msg.channel.send(embed=question)
-    [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end)]
+    [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end + 1)]
 
     def check_emote(reac, usr):
         """
