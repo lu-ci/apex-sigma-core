@@ -114,7 +114,7 @@ async def cycler(ev):
                                     win_title = f'{winner.name} won {titl.lower()}{ender}'
                                     win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                     await channel.send(win_text, embed=win_embed)
-                                    ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
+                                    ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("id")} in {cid}.')
             except Exception as e:
                 ev.log.error(e)
                 pass

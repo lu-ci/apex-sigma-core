@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.60.1201 Maka
 
 ### Changed
 

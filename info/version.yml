@@ -1,7 +1,7 @@
 beta: false
-build_date: 1569525131
-codename: Taiga
+build_date: 1569525606
+codename: Maka
 version:
   major: 4
-  minor: 59
-  patch: 1187
+  minor: 60
+  patch: 1201
