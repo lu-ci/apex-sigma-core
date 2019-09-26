@@ -21,8 +21,8 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar, get_image_colors
+from sigma.core.utilities.generic_responses import error, denied
 
 raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
@@ -37,7 +37,6 @@ async def raffle(cmd, pld):
     """
     if len(pld.args) >= 2:
         time_input = pld.args[0]
-        raffle_title = ' '.join(pld.args[1:])
         try:
             time_sec = convert_to_seconds(time_input)
             start_stamp = arrow.utcnow().float_timestamp
@@ -48,30 +47,65 @@ async def raffle(cmd, pld):
             else:
                 end_hum = arrow.get(end_stamp).humanize()
             rafid = secrets.token_hex(3)
-            reaction_icon = secrets.choice(raffle_icons)
-            icon_color = icon_colors.get(reaction_icon)
+            reaction_name = reaction_icon = pld.settings.get('raffle_icon')
+            icon_color = None
+            if reaction_icon:
+                gld = pld.msg.guild
+                guild_icon = str(gld.icon_url) if gld.icon_url else discord.Embed.Empty
+                custom_emote = reaction_icon.startswith('<:') and reaction_icon.endswith('>')
+                if custom_emote:
+                    emote_name = reaction_icon.split(':')[1]
+                    matching_emote = None
+                    for emote in pld.msg.guild.emojis:
+                        if emote.name == emote_name:
+                            matching_emote = emote
+                    if not matching_emote:
+                        reaction_icon = None
+                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'raffle_icon', None)
+                    else:
+                        reaction_icon = matching_emote
+                        icon_color = await get_image_colors(matching_emote.url)
+                else:
+                    icon_color = await get_image_colors(guild_icon)
+            if not reaction_icon:
+                reaction_name = reaction_icon = secrets.choice(raffle_icons)
+                icon_color = icon_colors.get(reaction_icon)
             resp_title = f'{pld.msg.author.display_name} started a raffle!'
-            starter = discord.Embed(color=icon_color, timestamp=end_dt)
-            starter.set_author(name=resp_title, icon_url=user_avatar(pld.msg.author))
-            starter.description = f'Prize: **{raffle_title}**'
-            starter.description += f'\nReact with a {reaction_icon} to enter the raffle.'
-            starter.set_footer(text=f'[{rafid}] Raffle ends {end_hum}.')
-            starter_message = await pld.msg.channel.send(embed=starter)
-            await starter_message.add_reaction(reaction_icon)
-            raffle_data = {
-                'author': pld.msg.author.id,
-                'channel': pld.msg.channel.id,
-                'title': raffle_title,
-                'start': start_stamp,
-                'end': end_stamp,
-                'icon': reaction_icon,
-                'color': icon_color,
-                'message': starter_message.id,
-                'active': True,
-                'id': rafid
-            }
-            await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
-            response = None
+            target_ch = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
+            external = pld.msg.channel.id != target_ch.id
+            if external:
+                allowed = pld.msg.author.permissions_in(target_ch).send_messages
+                if allowed:
+                    for ai, arg in enumerate(pld.args):
+                        if arg == target_ch.mention:
+                            pld.args.pop(ai)
+            else:
+                allowed = True
+            if allowed:
+                raffle_title = ' '.join(pld.args[1:])
+                starter = discord.Embed(color=icon_color, timestamp=end_dt)
+                starter.set_author(name=resp_title, icon_url=user_avatar(pld.msg.author))
+                starter.description = f'Prize: **{raffle_title}**'
+                starter.description += f'\nReact with a {reaction_icon} to enter the raffle.'
+                starter.set_footer(text=f'[{rafid}] Raffle ends {end_hum}.')
+                starter_message = await target_ch.send(embed=starter)
+                await starter_message.add_reaction(reaction_icon)
+                raffle_data = {
+                    'author': pld.msg.author.id,
+                    'channel': target_ch.id,
+                    'title': raffle_title,
+                    'start': start_stamp,
+                    'end': end_stamp,
+                    'icon': reaction_name,
+                    'color': icon_color,
+                    'message': starter_message.id,
+                    'active': True,
+                    'id': rafid
+                }
+                await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
+                response = None
+            else:
+                response = denied(f'You can\'t send messages to #{target_ch.name}.')
         except (LookupError, ValueError):
             response = error('Please use the format HH:MM:SS.')
     else:

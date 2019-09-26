@@ -45,6 +45,17 @@ commands:
     name: listraffles
     requirements:
       - add_reactions
+  - alts:
+      - "raffleemote"
+      - "raffleemoji"
+    description: Sets a custom raffle icon. Custom emotes support, of course.
+      It needs to be from the current server though.
+      Enter "disable" to disable the custom raffle emote.
+    enabled: true
+    name: raffleicon
+    requirements:
+      - add_reactions
+    usage: '{pfx}{cmd} <:waitwhat:596577409768226816>'
 enabled: true
 events:
   - enabled: true

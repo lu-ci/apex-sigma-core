@@ -24,6 +24,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.utilities.misc.raffle.raffleicon import get_matching_emote
 
 raffle_loop_running = False
 
@@ -78,26 +79,43 @@ async def cycler(ev):
                             await raffle_coll.update_one(raffle, {'$set': {'active': False}})
                             message = await channel.fetch_message(mid)
                             if message:
+                                custom_emote = icon.startswith('<:') and icon.endswith('>')
+                                if custom_emote:
+                                    emote = get_matching_emote(message.guild, icon)
+                                    if emote:
+                                        icon = emote.name
                                 contestants = []
                                 reactions = message.reactions
                                 for reaction in reactions:
-                                    if reaction.emoji == icon:
-                                        async for user in reaction.users():
-                                            if not user.bot:
-                                                contestants.append(user)
-                                        break
+                                    rem_nam = str(reaction.emoji)
+                                    custom_rem = rem_nam.startswith('<:') and rem_nam.endswith('>')
+                                    if custom_rem:
+                                        rem_emote = get_matching_emote(message.guild, rem_nam)
+                                        if rem_emote:
+                                            rem = rem_emote.name
+                                        else:
+                                            rem = None
+                                    else:
+                                        rem = reaction.emoji
+                                    if rem:
+                                        if rem == icon:
+                                            async for user in reaction.users():
+                                                if not user.bot:
+                                                    contestants.append(user)
+                                            break
                                 if contestants:
                                     contestants = extra_shuffle(contestants)
                                     winner = secrets.choice(contestants)
                                     amen = f'<@{aid}>'
                                     wmen = f'<@{winner.id}>'
                                     ender = '' if titl[-1] in string.punctuation else '!'
-                                    win_text = f'{icon} Hey {amen}, {wmen} won your raffle!'
+                                    win_text = f'{raffle.get("icon")} Hey {amen}, {wmen} won your raffle!'
                                     win_embed = discord.Embed(color=colr)
                                     win_title = f'{winner.name} won {titl.lower()}{ender}'
                                     win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                     await channel.send(win_text, embed=win_embed)
-                                    ev.log.info(f'{winner.d}won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
-            except Exception:
+                                    ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
+            except Exception as e:
+                ev.log.error(e)
                 pass
         await asyncio.sleep(1)
