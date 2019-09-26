@@ -21,7 +21,12 @@ import re
 import arrow
 import discord
 
+from sigma.core.mechanics.caching import MemoryCacher
+from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.generic_responses import error, not_found
+
+
+emote_cache_handler = MemoryCacher(CacheConfig({}))
 
 
 async def get_emote_cache(cmd):
@@ -33,14 +38,14 @@ async def get_emote_cache(cmd):
     :rtype: list
     """
     fill = False
-    emote_cache = await cmd.db.cache.get_cache('emote_cache')
+    emote_cache = await emote_cache_handler.get_cache('emote_cache')
     if not emote_cache:
         fill = True
     elif arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
         fill = True
     if fill:
         all_emotes = list(cmd.bot.emojis)
-        await cmd.db.cache.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
+        await emote_cache_handler.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
     else:
         all_emotes = emote_cache.get('emotes')
     return all_emotes
