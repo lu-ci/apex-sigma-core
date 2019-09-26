@@ -63,7 +63,7 @@ async def spouses(cmd, pld):
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('spouses', [])
-    splist = list(sorted(splist, key=lambda x: x.get('time'), reverse=True))
+    splist = list(sorted(splist, key=lambda x: x.get('time')))
     spcount = len(splist)
     page = pld.args[0] if pld.args else 1
     splist, page = PaginatorCore.paginate(splist, page, 5)
