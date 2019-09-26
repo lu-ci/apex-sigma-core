@@ -24,6 +24,35 @@ from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
 
 
+def humanize_time(ats):
+    """
+    Humanizes an arrow time more precisely.
+    :param ats: The arrow time object.
+    :type ats: arrow.Arrow
+    :return:
+    :rtype: str
+    """
+    years = ats.humanize(granularity='year')
+    year_pieces = years.split(' ')
+    year_int = int(year_pieces[0]) if year_pieces[0] is not 'a' else 1
+    year_ender = 's' if year_int is not 1 else ''
+    months = ats.humanize(granularity='month')
+    month_pieces = months.split(' ')
+    months_int = int(month_pieces[0]) if month_pieces is not 'a' else 1
+    months_diff = months_int - (year_int * 12)
+    month_ender = 's' if months_diff is not 1 else ''
+    if years:
+        if months_diff:
+            out = f'{year_int} year{year_ender} and {months_diff} month{month_ender}'
+        else:
+            out = f'{year_int} year{year_ender}'
+    elif months:
+        out = f'{months_diff} month{month_ender}'
+    else:
+        out = ats.humanize().replace('a ', '1 ').replace(' ago', '')
+    return out
+
+
 async def spouses(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -34,6 +63,7 @@ async def spouses(cmd, pld):
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('spouses', [])
+    splist = list(sorted(splist, key=lambda x: x.get('time'), reverse=True))
     spcount = len(splist)
     page = pld.args[0] if pld.args else 1
     splist, page = PaginatorCore.paginate(splist, page, 5)
@@ -48,7 +78,7 @@ async def spouses(cmd, pld):
             sp_spouses = sp_profile.get('spouses') or []
             sp_spouse_ids = [s.get('user_id') for s in sp_spouses]
             if target.id in sp_spouse_ids:
-                spdata.append([spmemb, arrow.get(sp.get('time')).humanize().title()])
+                spdata.append([spmemb, humanize_time(arrow.get(sp.get('time')))])
         spbody = boop(spdata, ['Name', 'Since'])
         upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
         limit = 10 + (upgrades.get('harem') or 0)

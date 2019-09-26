@@ -4,6 +4,8 @@
 
 ### Changed
 
+- The `spouses` command now sorts the users properly. This was only an issue when someone with database access started fucking with the data (me).
+- The `spouses` command now displays a more accurate time since you got married to a user.
 - The `divorce` command got a facelift. You are now presented with a dialogue and options on how to proceed with the divorce. You can ask for a mutual one which will have no cost or force the divorce costing you based on the time you spent married (and display the value). The final option is withdrawing the divorce proposal. Using the divorce command with an ID instead of a mention will not give you an option for a mutual divorce but will still display the dialogue and the cost of forcing the divorce.
 - Slap now has a `smack` alias.
 - Punch now has a `hit` alias.
