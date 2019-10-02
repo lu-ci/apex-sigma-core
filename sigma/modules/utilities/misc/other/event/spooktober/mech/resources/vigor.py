@@ -119,7 +119,7 @@ class VigorController(abc.ABC):
         if vigor.current == 100:
             return base
         else:
-            return self.basic_exponential(base, vigor.current, 0.0075, True)
+            return self.basic_exponential(base, 100 - vigor.current, 0.0075, False)
 
     @staticmethod
     def roll_chance(chance):
@@ -150,4 +150,4 @@ class VigorController(abc.ABC):
         if vigor.current == 100:
             return base
         else:
-            return self.basic_exponential(base, vigor.current, 0.0133)
+            return self.basic_exponential(base, 100 - vigor.current, 0.0133)
