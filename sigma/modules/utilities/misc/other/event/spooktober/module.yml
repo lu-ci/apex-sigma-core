@@ -1,0 +1,10 @@
+category: event
+commands:
+  - alts:
+      - "hp"
+    description: Shows how much vigor you have left and how it affects you in the event.
+    enabled: true
+    name: vigor
+    usage: '{pfx}{cmd} @target'
+enabled: true
+name: Event Module

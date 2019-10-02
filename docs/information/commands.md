@@ -3,6 +3,7 @@
 ## Module Index
 - [AZUR LANE](#azur-lane)
 - [DEVELOPMENT](#development)
+- [EVENT](#event)
 - [FINAL FANTASY](#final-fantasy)
 - [FUN](#fun)
 - [HELP](#help)
@@ -75,6 +76,12 @@ Commands | Description | Example
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
 `>>wipeinventory` `>>wipeinv` | Wipes the inventory of the user with the given ID. (Bot Owner Only) | `>>wipeinventory 0123456789`
 `>>wiperesources` `>>wiperes` | Wipes all the resources that the user with the given ID owns. (Bot Owner Only) | `>>wiperesources 0123456789`
+[Back To Top](#module-index)
+
+### EVENT
+Commands | Description | Example
+----------|-------------|--------
+`>>vigor` `>>hp` | Shows how much vigor you have left and how it affects you in the event. | `>>vigor @target`
 [Back To Top](#module-index)
 
 ### FINAL FANTASY
