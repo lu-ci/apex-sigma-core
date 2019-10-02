@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import abc
+from io import BytesIO
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -93,5 +94,11 @@ class ImageCompositor(abc.ABC):
         else:
             self.canvas.paste(pasty, where, pasty)
 
-    def save(self):
-        self.canvas.save('test.png', format='PNG')
+    def to_bytes(self):
+        io = BytesIO()
+        self.canvas.save(io, format="PNG")
+        io.seek(0)
+        return io
+
+    def save(self, out=None):
+        self.canvas.save(out if out else 'test.png', format='PNG')
