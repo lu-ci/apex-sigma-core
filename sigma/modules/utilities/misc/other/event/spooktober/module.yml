@@ -10,8 +10,17 @@ commands:
       - "jar"
       - "candy"
     description: Shows a user's jar of sweets.
+      Sweets can be earned by trick-or-treating,
+      stealing them from another player,
+      or getting Spectral and Ethereal fish, plants or animals.
     enabled: true
     name: sweets
     usage: '{pfx}{cmd} @target'
+  - alts:
+      - "tot"
+    description: Go looking for sweets!
+    enabled: true
+    name: trickortreat
+    usage: '{pfx}{cmd}'
 enabled: true
 name: Event Module

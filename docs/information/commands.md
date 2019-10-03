@@ -81,7 +81,8 @@ Commands | Description | Example
 ### EVENT
 Commands | Description | Example
 ----------|-------------|--------
-`>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. | `>>sweets @target`
+`>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. Sweets can be earned by trick-or-treating, stealing them from another player, or getting Spectral and Ethereal fish, plants or animals. | `>>sweets @target`
+`>>trickortreat` `>>tot` | Go looking for sweets! | `>>trickortreat`
 `>>vigor` `>>hp` | Shows how much vigor you have left and how it affects you in the event. | `>>vigor @target`
 [Back To Top](#module-index)
 

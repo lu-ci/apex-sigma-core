@@ -20,24 +20,29 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.sweets import SweetsController
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor import get_vigor_controller
 
 TOT_RESPONSES = {
-    0: [
-        'The local dentist gave you a mean look as he shut the door in your face.',
-        'Karen dropped something heavy in your bag! Oh no, it\'s an essential oil.',
-        'Stoners open the door but are interrupted as police raid their home.',
-        'The kind old man gives you a creepy feeling, it\'s best if you left.',
-        'Nobody is answering the door even though you can hear footsteps.'
-    ],
-    1: [
-        'The sweet old lady dropped a piece of candy in your bag, nice!'
-    ]
+    0: 'Nobody answered the door.',
+    1: 'You got a piece of candy!',
+    2: 'You got a large lollipop!',
+    3: 'You got a king sized candy bar!'
 }
 
-TOT_COLORS = {}
+TOT_COLORS = {
+    0: 0xbdddf4,
+    1: 0xdd2e44,
+    2: 0xffcc4d,
+    3: 0xc1694f
+}
 
-TOT_ICONS = {}
+TOT_ICONS = {
+    0: '💨',
+    1: '🍬',
+    2: '🍭',
+    3: '🍫'
+}
 
 
 async def trickortreat(cmd, pld):
@@ -47,14 +52,22 @@ async def trickortreat(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    vc = get_vigor_controller(cmd.db)
-    chance = await vc.get_chances(pld.msg.author.id, 95)
-    success = vc.roll_chance(chance)
-    bonus = 2 if vc.roll_chance(2.75) else 1 if vc.roll_chance(12.5) else 0
-    sweets = 1 + bonus if success else 0
-    tot_text = secrets.choice(TOT_RESPONSES.get(sweets))
-    tot_icon = TOT_ICONS.get(sweets)
-    tot_color = TOT_COLORS.get(sweets)
-    tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{sweets} Sweets)**'
-    response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
+        vc = get_vigor_controller(cmd.db)
+        cooldown = await vc.get_cooldown(pld.msg.author.id, 300)
+        await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
+        chance = await vc.get_chances(pld.msg.author.id, 95)
+        success = vc.roll_chance(chance)
+        bonus = 2 if vc.roll_chance(2.75) else 1 if vc.roll_chance(12.5) else 0
+        sweets = 1 + bonus if success else 0
+        tot_text = TOT_RESPONSES.get(sweets)
+        tot_icon = TOT_ICONS.get(sweets)
+        tot_color = TOT_COLORS.get(sweets)
+        actual_sweets = sweets
+        await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name)
+        tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{actual_sweets} Sweets)**'
+        response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
+    else:
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
+        response = discord.Embed(color=0x696969, title=f'🕙 You can look for candy again in {timeout} seconds.')
     await pld.msg.channel.send(embed=response)
