@@ -25,11 +25,18 @@ from PIL import Image, ImageDraw, ImageFont
 class ImageCompositor(abc.ABC):
     __slots__ = ('canvas', 'font')
 
-    def __init__(self):
-        self.canvas = Image.new("RGBA", (666, 420), (0, 0, 0, 0))
-        self.font = 'exo2-regular.ttf'
+    def __init__(self, width, height):
+        """
+        Shorthand image compositing controller.
+        :param width: The width of the canvas.
+        :type width: int
+        :param height: The height of the canvas.
+        :type height: int
+        """
+        self.canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        self.font = 'Exo2-Regular.ttf'
 
-    def write(self, text, size, coordinates):
+    def write(self, text, size, coordinates, color=(0, 0, 0)):
         """
         Writes some text on the image.
         :param text: The text to write.
@@ -38,12 +45,35 @@ class ImageCompositor(abc.ABC):
         :type size: int
         :param coordinates: The coordinates where to write the text.
         :type coordinates: tuple(int, int)
+        :param color: The RGB color of the text, defaults to black.
+        :type color: tuple(int, int, int)
         :return:
         :rtype:
         """
         font = ImageFont.truetype(self.font, size)
         draw = ImageDraw.Draw(self.canvas)
-        draw.text(coordinates, text, font=font)
+        draw.text(coordinates, text, font=font, fill=color)
+
+    def text_image(self, text, size, color=(0, 0, 0)):
+        """
+        Makes a pastable PIL Image from text.
+        :param text: The text to write.
+        :type text: str
+        :param size: The font size.
+        :type size: int
+        :param color: The RGB color of the text, defaults to black.
+        :type color: tuple(int, int, int)
+        :return:
+        :rtype: PIL.Image.Image
+        """
+        base = Image.new('RGBA', (size * 2 * len(text), size * 2), (0, 0, 0, 0))
+        font = ImageFont.truetype(self.font, size)
+        draw = ImageDraw.Draw(base)
+        tw, th = draw.textsize(text, font=font)
+        true_base = Image.new('RGBA', (tw, th))
+        true_draw = ImageDraw.Draw(true_base)
+        true_draw.text((0, 0), text, font=font, fill=color)
+        return true_base
 
     @staticmethod
     def resize(image, width=None, height=None):

@@ -6,5 +6,12 @@ commands:
     enabled: true
     name: vigor
     usage: '{pfx}{cmd} @target'
+  - alts:
+      - "jar"
+      - "candy"
+    description: Shows a user's jar of sweets.
+    enabled: true
+    name: sweets
+    usage: '{pfx}{cmd} @target'
 enabled: true
 name: Event Module

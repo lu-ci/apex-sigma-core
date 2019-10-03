@@ -81,6 +81,7 @@ Commands | Description | Example
 ### EVENT
 Commands | Description | Example
 ----------|-------------|--------
+`>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. | `>>sweets @target`
 `>>vigor` `>>hp` | Shows how much vigor you have left and how it affects you in the event. | `>>vigor @target`
 [Back To Top](#module-index)
 
