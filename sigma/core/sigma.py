@@ -220,16 +220,19 @@ class ApexSigma(client_class):
         :param cached: Should the user be cached/obtained from the cache.
         :return:
         """
+        cacheable = False
+        cache_key = f'get_usr_{uid}'
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
-            cache_key = f'get_usr_{uid}'
+            cacheable = True
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_user(uid)
-                if not out:
-                    out = await self.fetch_user(uid)
-                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
+        if not out:
+            out = await self.fetch_user(uid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
         return out
 
     async def get_channel(self, cid, cached=False):
@@ -242,16 +245,21 @@ class ApexSigma(client_class):
         :param cached: Should the channel be cached/obtained from the cache.
         :return:
         """
+        cacheable = False
+        cache_key = f'get_chn_{cid}'
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
-            cache_key = f'get_chn_{cid}'
+            cacheable = True
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
                 if not out:
                     out = await self.fetch_channel(cid)
-                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
+        if not out:
+            out = await self.fetch_channel(cid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
         return out
 
     async def get_guild(self, gid, cached=False):
@@ -265,16 +273,21 @@ class ApexSigma(client_class):
         :return:
         :rtype:
         """
+        cacheable = False
+        cache_key = f'get_gld_{gid}'
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
-            cache_key = f'get_gld_{gid}'
+            cacheable = True
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_guild(gid)
                 if not out:
                     out = await self.fetch_guild(gid)
-                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_guild(gid)
+        if not out:
+            out = await self.fetch_channel(gid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
         return out
 
     def run(self):
