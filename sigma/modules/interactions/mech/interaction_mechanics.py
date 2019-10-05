@@ -169,10 +169,12 @@ async def make_footer(cmd, item):
     """
     uid = item.get('user_id')
     user = await cmd.bot.get_user(uid)
-    username = user.name if user else 'Unknown User' or item.get('user_name')
+    username_fallback = item.get('user_name') or 'Unknown User'
+    username = user.name if user else username_fallback
     sid = item.get('server_id')
     srv = cmd.bot.get_guild(sid)
-    servername = srv.name if srv else 'Unknown Server' or item.get('server_name')
+    servername_fallback = item.get('server_name') or 'Unknown Server'
+    servername = srv.name if srv else servername_fallback
     await update_data(cmd.db, item, user, srv)
     react_id = item.get('interaction_id')
     footer = f'[{react_id}] | Submitted by {username} from {servername}.'
