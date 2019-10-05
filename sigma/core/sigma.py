@@ -29,6 +29,7 @@ from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.executor import ExecutionClockwork
+from sigma.core.mechanics.fetch import get_fetch_helper
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.modman import ModuleManager
@@ -230,7 +231,8 @@ class ApexSigma(client_class):
         else:
             out = super().get_user(uid)
         if not out:
-            out = await self.fetch_user(uid)
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_user(uid)
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -252,12 +254,11 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
-                if not out:
-                    out = await self.fetch_channel(cid)
         else:
             out = super().get_channel(cid)
         if not out:
-            out = await self.fetch_channel(cid)
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_channel(cid)
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -280,12 +281,11 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_guild(gid)
-                if not out:
-                    out = await self.fetch_guild(gid)
         else:
             out = super().get_guild(gid)
         if not out:
-            out = await self.fetch_channel(gid)
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_guild(gid)
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out

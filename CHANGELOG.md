@@ -1,5 +1,22 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- Added the FetchHelper class. It has it's own memory cacher to not spam the REST endpoint. Adds the ability to safely retrieve data about objects that are not in the general cache or obtainable from `get_<object>()` functions.
+- Added detailed command statistics tracking for use in the upcoming profile rework. Such as your most used commands, arguments, most active guilds and channels, etc.
+- The `trickortreat` command that gives you sweets if successfull. Includes chances for bonus candy.
+- The `sweets` command and Sweets resource for the spooktober event (with fancy image generating!).
+- The `vigor` command and Vigor resource for the Spooktober event. Vigor affects your event cooldowns and chances.
+
+### Changed
+
+- Overriden getter functions will use the FetchHelper to try to get invisible data.
+- Added a catch-all exception for the dominant color processing handler.
+- Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.
+- Finding items of a **Spectral** or **Ethereal** rarity awards you sweets.
+
 ## 4.60.1201 Maka
 
 ### Changed
