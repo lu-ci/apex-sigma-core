@@ -28,7 +28,6 @@ from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
-from sigma.core.mechanics.details import DetailHandler
 from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
@@ -226,15 +225,11 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_user(uid)
-                await self.cache.set_cache(cache_key, out)
+                if not out:
+                    out = await self.fetch_user(uid)
+                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
-        dh = DetailHandler(self.db)
-        if out:
-            await dh.set_user(out)
-        else:
-            out = await dh.get_user(uid)
-        self.log.info(out)
         return out
 
     async def get_channel(self, cid, cached=False):
@@ -252,7 +247,9 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
-                await self.cache.set_cache(cache_key, out)
+                if not out:
+                    out = await self.fetch_channel(cid)
+                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
         return out
@@ -273,7 +270,9 @@ class ApexSigma(client_class):
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_guild(gid)
-                await self.cache.set_cache(cache_key, out)
+                if not out:
+                    out = await self.fetch_guild(gid)
+                    await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_guild(gid)
         return out
