@@ -322,6 +322,7 @@ async def get_image_colors(img_url):
         img_url = str(img_url)
         cached_color = await color_cache_coll.find_one({'url': img_url})
         if not cached_color:
+            # noinspection PyBroadException
             try:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(img_url) as img_session:
