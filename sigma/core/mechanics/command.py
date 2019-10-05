@@ -34,6 +34,7 @@ from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.payload import CommandEventPayload
 from sigma.core.mechanics.permissions import GlobalCommandPermissions, ServerCommandPermissions, check_filter_perms
 from sigma.core.mechanics.requirements import CommandRequirements
+from sigma.core.mechanics.statistics import CommandStatistic
 from sigma.core.utilities.stats_processing import add_cmd_stat
 
 
@@ -251,6 +252,12 @@ class SigmaCommand(object):
         except (discord.Forbidden, discord.NotFound):
             pass
 
+    async def add_detailed_stats(self, pld, exec_timestamp):
+        cmd_stat = CommandStatistic(self.db, self, pld)
+        cmd_stat.exec_timestamp = exec_timestamp
+        cmd_stat.exec_time = exec_timestamp - arrow.get(pld.msg.created_at).float_timestamp
+        await cmd_stat.save()
+
     async def execute(self, payload):
         """
         Runs necessary checks and executes the command function.
@@ -278,7 +285,8 @@ class SigmaCommand(object):
                 if not await self.bot.cool_down.on_cooldown(f'{self.name}_core', payload.msg.author):
                     await self.update_cooldown(payload.msg.author)
                     perms, guild_perms = await self.check_permissions(payload)
-                    self.log_command_usage(payload.msg, payload.args, arrow.utcnow().float_timestamp)
+                    exec_timestamp = arrow.utcnow().float_timestamp
+                    self.log_command_usage(payload.msg, payload.args, exec_timestamp)
                     self.cd.set_cooling(payload.msg)
                     if perms.permitted:
                         if guild_perms.permitted:
@@ -290,6 +298,7 @@ class SigmaCommand(object):
                                     client_os_broken_tries = 0
                                     while client_os_broken_tries < 3 and not executed:
                                         try:
+                                            await self.add_detailed_stats(payload, exec_timestamp)
                                             await getattr(self.command, self.name)(self, payload)
                                             executed = True
                                         except CancelledError:

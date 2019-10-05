@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
+import arrow
+
 
 class StatisticsStorage(object):
     """
@@ -71,3 +73,61 @@ class StatisticsStorage(object):
             await self.db[database][collection].update_one(update_target, update_data)
             self.count = 0
             await asyncio.sleep(60)
+
+
+class CommandStatistic(object):
+
+    __slots__ = ('db', 'cmd', 'pld', 'coll', 'exec_time', 'exec_timestamp')
+
+    def __init__(self, db, cmd, pld):
+        """
+        :param db: The database client.
+        :type db: sigma.core.mechanics.database.Database
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        :param pld: The command payload.
+        :type pld: sigma.core.mechanics.payload.CommandPayload
+        """
+        self.db = db
+        self.cmd = cmd
+        self.pld = pld
+        self.coll = self.db[self.db.db_nam].DetailedCommandStats
+        self.exec_time = None
+        self.exec_timestamp = None
+
+    def to_dict(self):
+        return {
+            'command': {
+                'name': self.cmd.name,
+                'category': self.cmd.category,
+                'nsfw': self.cmd.nsfw,
+                'execution': {
+                    'time': self.exec_time,
+                    'timestamp': self.exec_timestamp,
+                    'formatted': arrow.get(self.exec_timestamp).format()
+                }
+            },
+            'message': {
+                'id': self.pld.msg.id,
+                'content': self.pld.msg.content,
+                'arguments': self.pld.args,
+                'created_at': arrow.get(self.pld.msg.created_at).format()
+            },
+            'user': {
+                'id': self.pld.msg.author.id,
+                'name': self.pld.msg.author.name,
+                'discriminator': self.pld.msg.author.discriminator,
+                'display_name': self.pld.msg.author.display_name
+            },
+            'channel': {
+                'id': self.pld.msg.channel.id,
+                'name': self.pld.msg.channel.name
+            },
+            'guild': {
+                'id': self.pld.msg.guild.id,
+                'name': self.pld.msg.guild.name
+            }
+        }
+
+    async def save(self):
+        await self.coll.insert_one(self.to_dict())
