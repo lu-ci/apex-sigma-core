@@ -28,6 +28,7 @@ from sigma.core.mechanics.caching import get_cache
 from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
+from sigma.core.mechanics.details import DetailHandler
 from sigma.core.mechanics.executor import ExecutionClockwork
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
@@ -228,6 +229,12 @@ class ApexSigma(client_class):
                 await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
+        dh = DetailHandler(self.db)
+        if out:
+            await dh.set_user(out)
+        else:
+            out = await dh.get_user(uid)
+        self.log.info(out)
         return out
 
     async def get_channel(self, cid, cached=False):
@@ -248,6 +255,27 @@ class ApexSigma(client_class):
                 await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
+        return out
+
+    async def get_guild(self, gid, cached=False):
+        """
+        Gets a guild from the core client
+        or form teh cache if one exists in the Cacher class.
+        :param gid: The Guild ID of the requested guild.
+        :type gid: int
+        :param cached: Should the channel be cached/obtained from the cache.
+        :type cached: bool
+        :return:
+        :rtype:
+        """
+        if cached and self.cfg.cache.type not in ['mixed', 'redis']:
+            cache_key = f'get_gld_{gid}'
+            out = await self.cache.get_cache(cache_key)
+            if not out:
+                out = super().get_guild(gid)
+                await self.cache.set_cache(cache_key, out)
+        else:
+            out = super().get_guild(gid)
         return out
 
     def run(self):
