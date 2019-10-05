@@ -25,7 +25,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.misc.other.event.spooktober.mech.image.compositor import ImageCompositor
 
 
-async def sweets(cmd, pld):
+async def pumpkin(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
@@ -33,25 +33,16 @@ async def sweets(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    candy = await cmd.db.get_resource(target.id, 'sweets')
-
+    weight_res = await cmd.db.get_resource(target.id, 'weight')
+    weight_val = round(weight_res.current / 1000, 2)
     canv = ImageCompositor(666, 420)
-    bg = ImageCompositor.resize(cmd.resource('img/bg/bg_sweets.png'), width=666, height=420).convert('L')
+    bg = ImageCompositor.resize(cmd.resource('img/bg/bg_pumpkin.png'), width=666, height=420).convert('L')
     canv.stick(bg, (0, 0), cmd.resource('img/bg/bg_mask.png'))
     canv.stick(cmd.resource('img/bg/bg_rim.png'), (0, 0))
 
-    canv.stick(cmd.resource('img/jar/glass.png'), (50, 67))
-    if candy.current:
-        lqdhg = int((candy.current / 1000) * 187) or 1
-        liquid = ImageCompositor.resize(cmd.resource('img/jar/lqd_v2.png'), 218, lqdhg)
-        canv.stick(liquid, (55, 130 + (188 - liquid.height)))
-        canv.stick(cmd.resource('img/jar/body_v3.png'), (50, 67))
-    else:
-        canv.stick(cmd.resource('img/jar/body_v3_empty.png'), (50, 67))
+    canv.stick(cmd.resource('img/pmk/pmk_body_v2.png'), (40, 65))
 
-    canv.write(str(candy.current), 28, ((104 - ((len(str(candy.current)) - 1) * 15)), 250))
-
-    name_img = canv.text_image(target.name, 34, (54, 22, 131))
+    name_img = canv.text_image(target.name, 34, (179, 36, 25))
     disc_img = canv.text_image(f'#{target.discriminator}', 34)
     full_nam = Image.new(
         'RGBA',
@@ -67,6 +58,23 @@ async def sweets(cmd, pld):
     canv.stick(cmd.resource('img/user/name.png'), (378, 247))
     canv.stick(full_nam, (402, 246 + int((42 - full_nam.height) / 2.125)))
 
+    value_img = canv.text_image(str(weight_val), 34, (179, 36, 25))
+    kilog_img = canv.text_image('kg', 34)
+
+    weight = Image.new(
+        'RGBA',
+        (
+            value_img.width + disc_img.width,
+            max([value_img.height, kilog_img.height])
+        ),
+        (0, 0, 0, 0)
+    )
+    weight.paste(value_img, (0, 0))
+    weight.paste(kilog_img, (value_img.width, 0))
+    weight = ImageCompositor.resize(weight, width=120)
+
+    canv.stick(weight, (128, 70 + (30 - weight.height)))
+
     async with aiohttp.ClientSession() as session:
         async with session.get(str(target.avatar_url_as(format='png', size=128))) as data:
             avatar_raw = await data.read()
@@ -76,9 +84,9 @@ async def sweets(cmd, pld):
     canv.stick(avatar_img, (431, 137), cmd.resource('img/user/av_mask.png'))
     canv.stick(cmd.resource('img/user/av_rim.png'), (431, 137))
 
-    response = discord.Embed(color=0x361683)
-    response.set_author(name=f'{target.display_name}\'s Jar of Sweets', icon_url=user_avatar(target))
-    file_name = f'sweets_{pld.msg.id}.png'
+    response = discord.Embed(color=0xbf181d)
+    response.set_author(name=f'{target.display_name}\'s Pumpkin', icon_url=user_avatar(target))
+    file_name = f'pumpkin_{pld.msg.id}.png'
     file = discord.File(canv.to_bytes(), file_name)
     response.set_image(url=f'attachment://{file_name}')
     await pld.msg.channel.send(embed=response, file=file)

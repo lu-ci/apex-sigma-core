@@ -4,11 +4,12 @@
 
 ### Added
 
+- The `pumpkin` command and Weight resource for the spooktober event. The resource is in milligrams, the displayed value is in kilograms. This one also has fancy visuals!
 - Added the FetchHelper class. It has it's own memory cacher to not spam the REST endpoint. Adds the ability to safely retrieve data about objects that are not in the general cache or obtainable from `get_<object>()` functions.
 - Added detailed command statistics tracking for use in the upcoming profile rework. Such as your most used commands, arguments, most active guilds and channels, etc.
 - The `trickortreat` command that gives you sweets if successfull. Includes chances for bonus candy.
 - The `sweets` command and Sweets resource for the spooktober event (with fancy image generating!).
-- The `vigor` command and Vigor resource for the Spooktober event. Vigor affects your event cooldowns and chances.
+- The `vigor` command and Vigor resource for the spooktober event. Vigor affects your event cooldowns and chances.
 
 ### Changed
 

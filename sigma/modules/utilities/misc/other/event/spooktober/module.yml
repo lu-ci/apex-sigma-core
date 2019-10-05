@@ -22,5 +22,12 @@ commands:
     enabled: true
     name: trickortreat
     usage: '{pfx}{cmd}'
+  - alts:
+      - "jackolantern"
+    description: Shows how big a user's pumpkin is, in kilos!
+      You can grow it further with the grow command.
+    enabled: true
+    name: pumpkin
+    usage: '{pfx}{cmd} @target'
 enabled: true
 name: Event Module
