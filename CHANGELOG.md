@@ -16,7 +16,6 @@
 
 ### Changed
 
-- The sweets notifier now, aside from displaying a candy icon on the message that triggers it, also displays the amount of sweets that message/command got them.
 - Overriden getter functions will use the FetchHelper to try to get invisible data.
 - Added a catch-all exception for the dominant color processing handler.
 - Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.
