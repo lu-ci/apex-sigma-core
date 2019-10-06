@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import abc
 
 from sigma.core.utilities.dialogue_controls import int_reacts
+from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
+from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_enchantment_controller
 
 
 class SweetsController(abc.ABC):
@@ -65,6 +67,14 @@ class SweetsController(abc.ABC):
         if sweets.current < cap:
             if sweets.current + value > cap:
                 value = cap - sweets.current
+            curse_ctrl = get_curse_controller(db)
+            enchantment_ctrl = get_enchantment_controller(db)
+            if await curse_ctrl.is_cursed(msg.author.id):
+                value = value // 2
+            else:
+                enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
+                if enchantment_level:
+                    value += value + (2 ** enchantment_level)
             if value:
                 await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
                 if notify:
