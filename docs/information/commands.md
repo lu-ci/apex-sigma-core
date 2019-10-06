@@ -81,6 +81,7 @@ Commands | Description | Example
 ### EVENT
 Commands | Description | Example
 ----------|-------------|--------
+`>>enchant` `>>boost` `>>candyslap` | Enchants your target user. Enchantments modify the value of candy received. Up to 2 enchantments can be active at a time and cost 20 Sweets. Cursed users can't be enchanted and any active enchantments will be lost if the user gets cursed. They last 2 hours. | `>>enchant @target`
 `>>pumpkin` `>>jackolantern` | Shows how big a user's pumpkin is, in kilos! You can grow it further with the grow command. | `>>pumpkin @target`
 `>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. Sweets can be earned by trick-or-treating, stealing them from another player, or getting Spectral and Ethereal fish, plants or animals. | `>>sweets @target`
 `>>trickortreat` `>>tot` | Go looking for sweets! | `>>trickortreat`

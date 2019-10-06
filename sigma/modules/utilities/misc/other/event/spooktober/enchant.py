@@ -51,6 +51,8 @@ async def enchant(cmd, pld):
                                 if success:
                                     text = f'💠 You have enchanted {target.display_name} for 2 hours.'
                                     response = discord.Embed(color=0x55acee, title=text)
+                                    await encc.add_enchanter(pld.msg.author.id, target.id)
+                                    await cmd.db.del_resource(pld.msg.author.id, 'sweets', price, cmd.name, pld.msg)
                                 else:
                                     if timeout:
                                         response_text = f'🕙 You didn\'t respond in time.'
@@ -79,7 +81,7 @@ async def enchant(cmd, pld):
             else:
                 response = error('You can\'t enchant yourself.')
         else:
-            response = error('You can\'t enchant bots, the candy dust just makes them sneeze.')
+            response = error('No, the candy dust just makes bots sneeze.')
     else:
         response = error('No target given.')
     await pld.msg.channel.send(embed=response)
