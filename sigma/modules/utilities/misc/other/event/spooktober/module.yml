@@ -29,5 +29,16 @@ commands:
     enabled: true
     name: pumpkin
     usage: '{pfx}{cmd} @target'
+  - alts:
+      - "boost"
+      - "candyslap"
+    description: Enchants your target user.
+      Enchantments modify the value of candy received.
+      Up to 2 enchantments can be active at a time and cost 20 Sweets.
+      Cursed users can't be enchanted and any active enchantments will be lost
+      if the user gets cursed. They last 2 hours.
+    enabled: true
+    name: enchant
+    usage: '{pfx}{cmd} @target'
 enabled: true
 name: Event Module

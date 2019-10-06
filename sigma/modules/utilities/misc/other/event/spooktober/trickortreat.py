@@ -64,8 +64,8 @@ async def trickortreat(cmd, pld):
         tot_icon = TOT_ICONS.get(sweets)
         tot_color = TOT_COLORS.get(sweets)
         actual_sweets = sweets
-        await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name)
-        tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{actual_sweets} Sweets)**'
+        added_sweets = await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name, False)
+        tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{added_sweets} Sweets)**'
         response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
