@@ -30,7 +30,7 @@ async def passive_sweets(ev, pld):
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.content:
-        if not pld.msg.content.startswith(ev.bot.cfg.pref.prefix):
+        if not pld.msg.content.startswith(ev.db.get_prefix(pld.settings)):
             if pld.msg.guild:
                 humans = len([m for m in pld.msg.guild.members if not m.bot])
                 if humans >= 5:
