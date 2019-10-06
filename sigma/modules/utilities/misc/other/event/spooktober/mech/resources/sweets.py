@@ -31,7 +31,7 @@ class SweetsController(abc.ABC):
         :param msg: The message to react to.
         :type msg: discord.Message
         :param value: The message to react to.
-        :type value: discord.Message
+        :type value: int
         :return:
         :rtype:
         """
@@ -65,7 +65,8 @@ class SweetsController(abc.ABC):
         if sweets.current < cap:
             if sweets.current + value > cap:
                 value = cap - sweets.current
-            await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
-            if notify:
-                await SweetsController.notify(msg, value)
+            if value:
+                await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
+                if notify:
+                    await SweetsController.notify(msg, value)
         return value

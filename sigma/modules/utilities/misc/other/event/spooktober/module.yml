@@ -40,5 +40,9 @@ commands:
     enabled: true
     name: enchant
     usage: '{pfx}{cmd} @target'
+events:
+  - enabled: true
+    name: passive_sweets
+    type: message
 enabled: true
 name: Event Module

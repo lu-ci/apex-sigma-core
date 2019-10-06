@@ -4,7 +4,7 @@
 
 ### Added
 
-- The sweets notifier now, aside from displaying a candy icon on the message that triggers it, also displays the amount of sweets that message/command got them.
+- A passive sweets adding mechanism has been added to messages. If the message and the guild meet criteria, a piece of candy will be given to the user. There's also a low chance for 6 to be added instead.
 - The `enchant` command has been added with the ability to enchant a user. Enchanted users get higher amounts of candy during the event. Up to two users can enchant a user at a time and enchantments last for **2 hours**. Getting cursed wipes any active enchantments, so be careful.
 - The curse mechanic was added. Atempting to do something bad during the event, such as stealing sweets, has a chance to get you cursed which has various negative effects such as reducing Vigor, which in turn has it's own negative effects.
 - The `pumpkin` command and Weight resource for the spooktober event. The resource is in milligrams, the displayed value is in kilograms. This one also has fancy visuals!
@@ -16,6 +16,7 @@
 
 ### Changed
 
+- The sweets notifier now, aside from displaying a candy icon on the message that triggers it, also displays the amount of sweets that message/command got them.
 - Overriden getter functions will use the FetchHelper to try to get invisible data.
 - Added a catch-all exception for the dominant color processing handler.
 - Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.
