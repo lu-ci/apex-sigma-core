@@ -4,6 +4,9 @@
 
 ### Added
 
+- The sweets notifier now, aside from displaying a candy icon on the message that triggers it, also displays the amount of sweets that message/command got them.
+- The `enchant` command has been added with the ability to enchant a user. Enchanted users get higher amounts of candy during the event. Up to two users can enchant a user at a time and enchantments last for **2 hours**. Getting cursed wipes any active enchantments, so be careful.
+- The curse mechanic was added. Atempting to do something bad during the event, such as stealing sweets, has a chance to get you cursed which has various negative effects such as reducing Vigor, which in turn has it's own negative effects.
 - The `pumpkin` command and Weight resource for the spooktober event. The resource is in milligrams, the displayed value is in kilograms. This one also has fancy visuals!
 - Added the FetchHelper class. It has it's own memory cacher to not spam the REST endpoint. Adds the ability to safely retrieve data about objects that are not in the general cache or obtainable from `get_<object>()` functions.
 - Added detailed command statistics tracking for use in the upcoming profile rework. Such as your most used commands, arguments, most active guilds and channels, etc.

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.dialogue_controls import bool_dialogue
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, denied
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_enchantment_controller
 
@@ -36,7 +36,7 @@ async def enchant(cmd, pld):
         if not target.bot:
             if target.id != pld.msg.author.id:
                 candy = await cmd.db.get_resource(pld.msg.author.id, 'sweets')
-                if candy >= price:
+                if candy.current >= price:
                     curc = get_curse_controller(cmd.db)
                     cursed = await curc.is_cursed(target.id)
                     if not cursed:
@@ -62,13 +62,11 @@ async def enchant(cmd, pld):
                                         response_text = f'❌ Enchantment canceled.'
                                         response = discord.Embed(color=0xBE1931, title=response_text)
                             else:
-                                text = f'☠ You already enchanted {target.display_name}.'
-                                response = discord.Embed(color=0x361683, title=text)
+                                response = denied(f'You already enchanted {target.display_name}.')
                                 ench_timer = await encc.author_enchantment_expires(pld.msg.author.id, target.id, True)
                                 response.set_footer(text=f'Your enchantment expires in {ench_timer}.')
                         else:
-                            text = f'☠ {target.display_name} already has two enchantments.'
-                            response = discord.Embed(color=0x361683, title=text)
+                            response = denied(f'{target.display_name} already has two enchantments.')
                             ench_timer = await encc.shortest_enchantment_expires(target.id, True)
                             response.set_footer(text=f'The shortest enchantment expires in {ench_timer}.')
                     else:

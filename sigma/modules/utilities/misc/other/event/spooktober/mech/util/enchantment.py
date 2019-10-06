@@ -59,7 +59,7 @@ class EnchantmentController(object):
 
     def __init__(self, db):
         self.db = db
-        self.coll = self.db[self.db].Enchantments
+        self.coll = self.db[self.db.db_nam].Enchantments
         self.time_limit = 7200
         """
         :param db: The database client. 
@@ -76,7 +76,7 @@ class EnchantmentController(object):
         """
         doc = await self.coll.find_one({'user_id': uid}) or {}
         enchanters = doc.get('enchanters') or {}
-        now = arrow.utcnow().get('timestamp')
+        now = arrow.utcnow().timestamp
         for enchanter in enchanters.keys():
             timestamp = enchanters.get(enchanter)
             if now > timestamp + self.time_limit:
@@ -136,7 +136,7 @@ class EnchantmentController(object):
         enchantments = await self.get_enchanters(uid)
         shortest = sorted(list(enchantments.keys()), key=lambda x: enchantments.get(x))[0]
         stamp = enchantments.get(shortest)
-        stamp = now - (stamp + self.time_limit)
+        stamp = (stamp + self.time_limit) - now
         stamp = 1 if stamp < 1 else stamp
         if formatted:
             stamp = datetime.timedelta(seconds=stamp)
@@ -157,7 +157,7 @@ class EnchantmentController(object):
         now = arrow.utcnow().timestamp
         enchantments = await self.get_enchanters(uid)
         stamp = enchantments.get(str(aid))
-        stamp = now - (stamp + self.time_limit)
+        stamp = (stamp + self.time_limit) - now
         stamp = 1 if stamp < 1 else stamp
         if formatted:
             stamp = datetime.timedelta(seconds=stamp)
@@ -174,7 +174,7 @@ class EnchantmentController(object):
         :rtype: bool
         """
         enchanters = await self.get_enchanters(uid)
-        return aid not in enchanters
+        return str(aid) not in enchanters
 
     async def get_enchantment(self, uid):
         """
@@ -245,7 +245,7 @@ class CurseController(object):
         now = arrow.utcnow().timestamp
         curse = await self.get_curse(uid)
         stamp = curse.get('timestaamp') or 0
-        diff = now - (stamp + self.time_limit)
+        diff = (stamp + self.time_limit) - now
         diff = 1 if diff < 1 else diff
         if formatted:
             diff = datetime.timedelta(seconds=diff)
