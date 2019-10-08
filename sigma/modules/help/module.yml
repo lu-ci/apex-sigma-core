@@ -23,6 +23,8 @@ commands:
   - alts:
       - inv
     description: Provides Sigma's invitation link to add her to your server.
+      If you can't click/tap embed title URLs, add the word "text" to the command
+      to get the invite in a plain text format.
     enabled: true
     name: invite
     permissions:
