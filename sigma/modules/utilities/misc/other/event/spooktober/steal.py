@@ -34,7 +34,8 @@ async def steal(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else None
-    target = None if pld.msg.author.id == target.id else target
+    if target:
+        target = None if pld.msg.author.id == target.id else target
     if target:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             currency = cmd.bot.cfg.pref.currency
