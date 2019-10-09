@@ -20,6 +20,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.sweets import SweetsController
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor import get_vigor_controller
 
@@ -76,4 +77,6 @@ async def steal(cmd, pld):
             else:
                 response_text = f'❌ You chickened out.'
                 response = discord.Embed(color=0xBE1931, title=response_text)
+    else:
+        response = error('No target given.')
     await pld.msg.channel.send(embed=response)
