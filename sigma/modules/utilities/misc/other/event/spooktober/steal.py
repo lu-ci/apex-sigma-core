@@ -39,7 +39,7 @@ async def steal(cmd, pld):
         chance = round(await vc.get_chances(pld.msg.author.id, 75), 2)
         question_text = f'❔ You have a {chance}% chance of success, continue?'
         question_embed = discord.Embed(color=0xf9f9f9, title=question_text)
-        question_embed.set_footer(text=f'If you fail, you\'ll love some vigor, sweets and {currency}.')
+        question_embed.set_footer(text=f'If you fail, you\'ll lose some vigor, sweets and {currency}.')
         accepted, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
         if accepted:
             success = vc.roll_chance(chance)
