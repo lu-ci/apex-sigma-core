@@ -83,6 +83,6 @@ async def heal(cmd, pld):
         if pld.msg.author.id == target.id:
             response_text = '🚑 You\'re in perfect health, my services aren\'t needed.'
         else:
-            response_text = f'🚑 {target.display_name} is in perfect health, they\'ve went home.'
+            response_text = f'🚑 {target.display_name} is in perfect health, they went home.'
         response = discord.Embed(color=0xf9f9f9, title=response_text)
     await pld.msg.channel.send(embed=response)
