@@ -52,6 +52,17 @@ commands:
     enabled: true
     name: steal
     usage: '{pfx}{cmd} @target'
+  - alts:
+      - "fertilize"
+    description: Makes your pumpkin grow.
+      The default value it uses is 10
+      but you can input any amount of sweets you want to use.
+      You'll be prompted if you agree. The amount of weight the pumpkin
+      gains is a positive exponential. The more sweets you give it in a bulk
+      the more weight it gains. So stock up on sweets and dump it all on it at once.
+    enabled: true
+    name: grow
+    usage: '{pfx}{cmd} 667'
 events:
   - enabled: true
     name: passive_sweets

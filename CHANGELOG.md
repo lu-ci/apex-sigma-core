@@ -4,6 +4,7 @@
 
 ### Added
 
+- The `grow` command was added that lets you grow your pumpkin. The more sweets you spend at once, the more it grows. The formula determining the gained weight is a positive exponential curve.
 - Added the `steal` command that has consequences if you fail. It's used for stealing sweets. Failure means getting cursed, losing lots of vigor, and losing some Kud.
 - A passive sweets adding mechanism has been added to messages. If the message and the guild meet criteria, a piece of candy will be given to the user. There's also a low chance for 6 to be added instead.
 - The `enchant` command has been added with the ability to enchant a user. Enchanted users get higher amounts of candy during the event. Up to two users can enchant a user at a time and enchantments last for **2 hours**. Getting cursed wipes any active enchantments, so be careful.
