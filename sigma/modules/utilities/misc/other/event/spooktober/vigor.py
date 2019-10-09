@@ -45,7 +45,7 @@ async def vigor(cmd, pld):
     referer = 'you' if self else 'them'
     curse_ref = 'You' if self else 'They'
     tt_chance = await vc.get_chances(target.id, 95)
-    tt_cd = await vc.get_cooldown(target.id, 300)
+    tt_cd = await vc.get_cooldown(target.id, 90)
     bar_len = (vg.current * 2) // 10
     empty_len = 20 - bar_len
     bar_text = f'[{"▣" * bar_len}{"▢" * empty_len}] {vg.current}%'
