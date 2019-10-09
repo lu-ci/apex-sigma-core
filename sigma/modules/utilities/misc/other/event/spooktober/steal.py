@@ -39,7 +39,7 @@ async def steal(cmd, pld):
         chance = round(await vc.get_chances(pld.msg.author.id, 75), 2)
         question_text = f'❔ You have a {chance}% chance of success, continue?'
         question_embed = discord.Embed(color=0xf9f9f9, title=question_text)
-        question_embed.set_footer(text=f'If you fail, you\'ll lose some vigor, sweets and {currency}.')
+        question_embed.set_footer(text=f'If you fail, you\'ll lose some vigor and {currency}.')
         accepted, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
         if accepted:
             success = vc.roll_chance(chance)
@@ -50,16 +50,24 @@ async def steal(cmd, pld):
                 stolen_amount = await SweetsController.add_sweets(cmd.db, pld.msg, stolen_amount, cmd.name, False)
                 await cmd.db.del_resource(target.id, 'sweets', stolen_amount, cmd.name, pld.msg)
                 vigor_loss = secrets.randbelow(3) + 3
+                vigor_loss = vigor_loss if vigor.current >= vigor_loss else vigor.current
                 await cmd.db.del_resource(pld.msg.author.id, 'vigor', vigor_loss, cmd.name, pld.msg)
                 response_text = f'🗡 You pull a knife on {target.display_name}!'
                 response = discord.Embed(color=0x67757f, title=response_text)
                 response.description = f'They shakingly give you **{stolen_amount} sweets**.'
                 response.description += f' You lose **{vigor_loss} vigor** for being a horrible person.'
             else:
-                # Add some candy to target.
-                # Del some candy from author.
-                # Lose 5-15 vigor.
-                pass
+                vigor_loss = secrets.randbelow(10) + 5
+                vigor_loss = vigor_loss if vigor.current >= vigor_loss else vigor.current
+                await cmd.db.del_resource(pld.msg.author.id, 'vigor', vigor_loss, cmd.name, pld.msg)
+                curr = await cmd.db.get_resource(pld.msg.author.id, 'currency')
+                curr_loss = secrets.randbelow(8000) + 2000
+                curr_loss = curr_loss if curr.current >= curr_loss else curr.current
+                response_text = '🚔 You screwed up and got detained!'
+                response = discord.Embed(color=0xdd2e44, title=response_text)
+                response.description = 'Some nearby officers pinned you to the cold, hard ground.'
+                response.description += f' You lost **{vigor_loss} vigor** and had to pay'
+                response.description += f' **{curr_loss} {currency}** for assault charges and fines.'
         else:
             if timeout:
                 response_text = f'🕙 You thought about it too much.'
