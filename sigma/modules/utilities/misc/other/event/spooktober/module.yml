@@ -63,6 +63,22 @@ commands:
     enabled: true
     name: grow
     usage: '{pfx}{cmd} 667'
+  - alts:
+      - "topcandy"
+    description: Shows which users gained the most sweets in the event.
+      You can also enter the word "local" to see who gained the most candy
+      on the current server.
+    enabled: true
+    name: topsweets
+    usage: '{pfx}{cmd}'
+  - alts:
+      - "topjol"
+      - "topweight"
+      - "topgrowth"
+    description: Shows which users have the largest and heaviest pumpkins.
+    enabled: true
+    name: toppumpkin
+    usage: '{pfx}{cmd}'
 events:
   - enabled: true
     name: passive_sweets
