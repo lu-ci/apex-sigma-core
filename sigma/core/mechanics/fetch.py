@@ -59,6 +59,7 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.User
         """
+        return None
         result = await self.cache.get_cache(uid)
         if result is None:
             result = await self.bot.fetch_user(uid)
@@ -76,6 +77,7 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.TextChannel
         """
+        return None
         result = await self.cache.get_cache(cid)
         if result is None:
             result = await self.bot.fetch_channel(cid)
@@ -93,6 +95,7 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.Guild
         """
+        return None
         result = await self.cache.get_cache(gid)
         if result is None:
             result = await self.bot.fetch_guild(gid)
