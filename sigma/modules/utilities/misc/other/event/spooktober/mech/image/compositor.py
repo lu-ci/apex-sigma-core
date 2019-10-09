@@ -34,7 +34,7 @@ class ImageCompositor(abc.ABC):
         :type height: int
         """
         self.canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        self.font = 'Exo2-Regular.ttf'
+        self.font = 'exo2-regular.ttf'
 
     def write(self, text, size, coordinates, color=(0, 0, 0)):
         """
@@ -50,6 +50,7 @@ class ImageCompositor(abc.ABC):
         :return:
         :rtype:
         """
+        print(self.font)
         font = ImageFont.truetype(self.font, size)
         draw = ImageDraw.Draw(self.canvas)
         draw.text(coordinates, text, font=font, fill=color)
