@@ -84,7 +84,10 @@ async def emote_role_toggle(ev, pld):
                     user = guild.get_member(uid)
                     if user:
                         if not user.bot:
-                            message = await channel.fetch_message(mid)
+                            try:
+                                message = await channel.fetch_message(mid)
+                            except (discord.NotFound, discord.Forbidden):
+                                message = None
                             if message:
                                 smid = str(mid)
                                 if smid in guild_togglers:

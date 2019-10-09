@@ -40,10 +40,13 @@ def match_trigger(text, trigger):
                 break
         if piece_location is not None:
             missmatch = False
-            for trigger_index, trigger_piece in enumerate(trigger_pieces):
-                if text_pieces[piece_location + trigger_index] != trigger_piece:
-                    missmatch = True
-                    break
+            try:
+                for trigger_index, trigger_piece in enumerate(trigger_pieces):
+                    if text_pieces[piece_location + trigger_index] != trigger_piece:
+                        missmatch = True
+                        break
+            except IndexError:
+                missmatch = True
             if not missmatch:
                 matching_trigger = True
     return matching_trigger
