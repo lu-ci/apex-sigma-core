@@ -42,6 +42,7 @@ async def daily(cmd, pld):
         random_part = secrets.randbelow(100)
         multi = 10 if streak > 10 else streak
         amount = int(500 + random_part + (100 * (multi * 1.6))) if multi != 1 else 500 + random_part
+        amount += streak
         daily_data = {'user_id': pld.msg.author.id, 'stamp': now_stamp, 'streak': streak}
         await cmd.db.add_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
         await cmd.db[cmd.db.db_nam].DailyCache.update_one({'user_id': pld.msg.author.id}, {'$set': daily_data})

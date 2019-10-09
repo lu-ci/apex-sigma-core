@@ -16,6 +16,8 @@
 
 ### Changed
 
+- The `daily` command now gives **+1 {Currency}** for each consecutive day.
+- Replaced the `.replace()` directives in FFXIV Timers with `.shift()` due to deprecation of the former method causing errors.
 - Overriden getter functions will use the FetchHelper to try to get invisible data.
 - Added a catch-all exception for the dominant color processing handler.
 - Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.

@@ -15,6 +15,8 @@ services:
     image: "registry.gitlab.com/lu-ci/sigma/apex-sigma:develop"
     build:
       context: .
+    deploy:
+      replicas: 1
     volumes:
       - type:      bind
         source:    "./config"
