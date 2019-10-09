@@ -35,7 +35,7 @@ async def sweets(cmd, pld):
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     candy = await cmd.db.get_resource(target.id, 'sweets')
 
-    canv = ImageCompositor(666, 420)
+    canv = ImageCompositor(cmd.resource('font/exo2-regular.ttf'), 666, 420)
     bg = ImageCompositor.resize(cmd.resource('img/bg/bg_sweets.png'), width=666, height=420).convert('L')
     canv.stick(bg, (0, 0), cmd.resource('img/bg/bg_mask.png'))
     canv.stick(cmd.resource('img/bg/bg_rim.png'), (0, 0))

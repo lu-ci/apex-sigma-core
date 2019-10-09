@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageFont
 class ImageCompositor(abc.ABC):
     __slots__ = ('canvas', 'font')
 
-    def __init__(self, width, height):
+    def __init__(self, font, width, height):
         """
         Shorthand image compositing controller.
         :param width: The width of the canvas.
@@ -34,7 +34,7 @@ class ImageCompositor(abc.ABC):
         :type height: int
         """
         self.canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        self.font = 'exo2-regular.ttf'
+        self.font = font
 
     def write(self, text, size, coordinates, color=(0, 0, 0)):
         """
@@ -50,7 +50,6 @@ class ImageCompositor(abc.ABC):
         :return:
         :rtype:
         """
-        print(self.font)
         font = ImageFont.truetype(self.font, size)
         draw = ImageDraw.Draw(self.canvas)
         draw.text(coordinates, text, font=font, fill=color)
