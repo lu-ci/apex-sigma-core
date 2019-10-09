@@ -15,10 +15,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import secrets
 
 import discord
 
 from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.sweets import SweetsController
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor import get_vigor_controller
 
 
@@ -37,15 +39,22 @@ async def steal(cmd, pld):
         chance = round(await vc.get_chances(pld.msg.author.id, 75), 2)
         question_text = f'❔ You have a {chance}% chance of success, continue?'
         question_embed = discord.Embed(color=0xf9f9f9, title=question_text)
-        question_embed.set_footer(text=f'If you fail, you\'ll love some vigor, candy and {currency}.')
+        question_embed.set_footer(text=f'If you fail, you\'ll love some vigor, sweets and {currency}.')
         accepted, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
         if accepted:
             success = vc.roll_chance(chance)
             if success:
-                # Add some candy to author.
-                # Del some candy from target.
-                # Lose 3-5 vigor.
-                pass
+                target_candy = await cmd.db.get_resource(target.id, 'sweets')
+                stolen_amount = secrets.randbelow(20) + 5
+                stolen_amount = target_candy.current if stolen_amount > target_candy.current else stolen_amount
+                stolen_amount = await SweetsController.add_sweets(cmd.db, pld.msg, stolen_amount, cmd.name, False)
+                await cmd.db.del_resource(target.id, 'sweets', stolen_amount, cmd.name, pld.msg)
+                vigor_loss = secrets.randbelow(3) + 3
+                await cmd.db.del_resource(pld.msg.author.id, 'vigor', vigor_loss, cmd.name, pld.msg)
+                response_text = f'🗡 You pull a knife on {target.display_name}!'
+                response = discord.Embed(color=0x67757f, title=response_text)
+                response.description = f'They shakingly give you **{stolen_amount} sweets**.'
+                response.description += f' You lose **{vigor_loss} vigor** for being a horrible person.'
             else:
                 # Add some candy to target.
                 # Del some candy from author.
