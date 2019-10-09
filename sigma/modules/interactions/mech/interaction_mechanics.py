@@ -172,7 +172,7 @@ async def make_footer(cmd, item):
     username_fallback = item.get('user_name') or 'Unknown User'
     username = user.name if user else username_fallback
     sid = item.get('server_id')
-    srv = cmd.bot.get_guild(sid)
+    srv = await cmd.bot.get_guild(sid)
     servername_fallback = item.get('server_name') or 'Unknown Server'
     servername = srv.name if srv else servername_fallback
     await update_data(cmd.db, item, user, srv)
