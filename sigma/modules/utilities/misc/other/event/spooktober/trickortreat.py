@@ -56,7 +56,7 @@ async def trickortreat(cmd, pld):
         vc = get_vigor_controller(cmd.db)
         vigor = await vc.get_vigor(pld.msg.author.id)
         if vigor.current:
-            cooldown = await vc.get_cooldown(pld.msg.author.id, 300)
+            cooldown = await vc.get_cooldown(pld.msg.author.id, 90)
             await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
             chance = await vc.get_chances(pld.msg.author.id, 95)
             success = vc.roll_chance(chance)
