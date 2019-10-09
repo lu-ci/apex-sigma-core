@@ -120,12 +120,12 @@ class CommandStatistic(object):
                 'display_name': self.pld.msg.author.display_name
             },
             'channel': {
-                'id': self.pld.msg.channel.id,
-                'name': self.pld.msg.channel.name
+                'id': self.pld.msg.channel.id if self.pld.msg.guild else None,
+                'name': self.pld.msg.channel.name if self.pld.msg.guild else None
             },
             'guild': {
-                'id': self.pld.msg.guild.id,
-                'name': self.pld.msg.guild.name
+                'id': self.pld.msg.guild.id if self.pld.msg.guild else None,
+                'name': self.pld.msg.guild.name if self.pld.msg.guild else None
             }
         }
 
