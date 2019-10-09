@@ -71,7 +71,7 @@ async def untmute(ev, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = ev.bot.get_guild(gid)
+        guild = await ev.bot.get_guild(gid)
         mutes = await ev.db.get_guild_settings(guild.id, 'muted_users') or []
         if uid in mutes:
             ev.log.info(f'Un-muting {uid} from {gid}.')
@@ -100,7 +100,7 @@ async def unhmute(ev, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = ev.bot.get_guild(gid)
+        guild = await ev.bot.get_guild(gid)
         if guild:
             target = guild.get_member(uid)
             if target:
