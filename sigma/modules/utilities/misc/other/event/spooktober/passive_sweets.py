@@ -32,13 +32,16 @@ async def passive_sweets(ev, pld):
     if pld.msg.content:
         if pld.msg.guild:
             if not pld.msg.content.startswith(ev.db.get_prefix(pld.settings)):
-                cd_key = f'{ev.name}_{pld.msg.guild.id}'
-                trigger_roll = secrets.randbelow(666)
-                if trigger_roll < 10:
-                    if not await ev.bot.cool_down.on_cooldown(cd_key, pld.msg.author):
-                        vc = get_vigor_controller(ev.db)
-                        cooldown = await vc.get_cooldown(pld.msg.author.id, 60)
-                        await ev.bot.cool_down.set_cooldown(cd_key, pld.msg.author, cooldown)
-                        bonus = secrets.randbelow(666) == 0
-                        value = 6 if bonus else 1
-                        await SweetsController.add_sweets(ev.db, pld.msg, value, ev.name)
+                perms = await ev.db[ev.db.db_nam].Permissions.find_one({'server_id': pld.msg.guild.id}) or {}
+                disabled_modules = perms.get('disabled_modules', [])
+                if ev.category not in disabled_modules:
+                    cd_key = f'{ev.name}_{pld.msg.guild.id}'
+                    trigger_roll = secrets.randbelow(666)
+                    if trigger_roll < 10:
+                        if not await ev.bot.cool_down.on_cooldown(cd_key, pld.msg.author):
+                            vc = get_vigor_controller(ev.db)
+                            cooldown = await vc.get_cooldown(pld.msg.author.id, 60)
+                            await ev.bot.cool_down.set_cooldown(cd_key, pld.msg.author, cooldown)
+                            bonus = secrets.randbelow(666) == 0
+                            value = 6 if bonus else 1
+                            await SweetsController.add_sweets(ev.db, pld.msg, value, ev.name)
