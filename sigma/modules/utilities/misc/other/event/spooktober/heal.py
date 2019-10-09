@@ -55,7 +55,7 @@ async def heal(cmd, pld):
         if regen is None:
             regen = 100
         regen = regen if missing >= regen else missing
-        price = int(regen * 0.666777666)
+        price = int(regen * 0.666777666) or 1
         question_text = f'❔ Use **{price} sweets** to heal **{regen} vigor**?'
         question_embed = discord.Embed(color=0xf9f9f9, title=question_text)
         accepted, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
