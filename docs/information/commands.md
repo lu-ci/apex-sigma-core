@@ -144,7 +144,7 @@ Commands | Description | Example
 `>>commands` `>>modules` `>>cmds` `>>mdls` | Lists all of Sigma's available modules. To view the commands within a specific module, add the module's name as an argument. | `>>commands minigames`
 `>>donate` | Shows donation information for Sigma. | `>>donate`
 `>>help` `>>h` | Provides the link to Sigma's website and support server. To view information on a specific command, add that command's name as an argument. | `>>help fish`
-`>>invite` `>>inv` | Provides Sigma's invitation link to add her to your server. | `>>invite`
+`>>invite` `>>inv` | Provides Sigma's invitation link to add her to your server. If you can't click/tap embed title URLs, add the word "text" to the command to get the invite in a plain text format. | `>>invite`
 `>>repository` `>>repo` `>>project` | Shows the link to the project's repository page. You can add "--text" to the command to show just the link as pure text. | `>>repository`
 `>>showlicense` `>>license` | Shows the license of the Apex Sigma project. | `>>showlicense`
 [Back To Top](#module-index)

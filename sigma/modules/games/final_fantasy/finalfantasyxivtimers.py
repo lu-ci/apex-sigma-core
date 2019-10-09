@@ -56,7 +56,7 @@ def next_daily():
     now = arrow.utcnow()
     ttd = arrow.get(arrow.utcnow().format(f'YYYY-MM-DD 15:00:ssZZ'))
     while now > ttd:
-        ttd = ttd.replace(days=1)
+        ttd = ttd.shift(days=1)
     return ttd
 
 
@@ -70,7 +70,7 @@ def next_weekly():
     now = arrow.utcnow()
     ttw = arrow.get(starting_point)
     while now > ttw:
-        ttw = ttw.replace(days=7)
+        ttw = ttw.shift(days=7)
     return ttw
 
 
