@@ -54,19 +54,24 @@ async def trickortreat(cmd, pld):
     """
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
         vc = get_vigor_controller(cmd.db)
-        cooldown = await vc.get_cooldown(pld.msg.author.id, 300)
-        await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
-        chance = await vc.get_chances(pld.msg.author.id, 95)
-        success = vc.roll_chance(chance)
-        bonus = 2 if vc.roll_chance(2.75) else 1 if vc.roll_chance(12.5) else 0
-        sweets = 1 + bonus if success else 0
-        tot_text = TOT_RESPONSES.get(sweets)
-        tot_icon = TOT_ICONS.get(sweets)
-        tot_color = TOT_COLORS.get(sweets)
-        actual_sweets = sweets
-        added_sweets = await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name, False)
-        tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{added_sweets} Sweets)**'
-        response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
+        vigor = await vc.get_vigor(pld.msg.author.id)
+        if vigor.current:
+            cooldown = await vc.get_cooldown(pld.msg.author.id, 300)
+            await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
+            chance = await vc.get_chances(pld.msg.author.id, 95)
+            success = vc.roll_chance(chance)
+            bonus = 2 if vc.roll_chance(2.75) else 1 if vc.roll_chance(12.5) else 0
+            sweets = 1 + bonus if success else 0
+            tot_text = TOT_RESPONSES.get(sweets)
+            tot_icon = TOT_ICONS.get(sweets)
+            tot_color = TOT_COLORS.get(sweets)
+            actual_sweets = sweets
+            await cmd.db.del_resource(pld.msg.author.id, 'vigor', 1, cmd.name, pld.msg)
+            added_sweets = await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name, False)
+            tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{added_sweets} Sweets)**'
+            response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
+        else:
+            response = discord.Embed(color=0x77b255, title='🤢 You\'re too tired, you need vigor.')
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can look for candy again in {timeout} seconds.')

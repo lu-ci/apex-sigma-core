@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added the `steal` command that has consequences if you fail. It's used for stealing sweets. Failure means getting cursed, losing lots of vigor, and losing some Kud.
 - A passive sweets adding mechanism has been added to messages. If the message and the guild meet criteria, a piece of candy will be given to the user. There's also a low chance for 6 to be added instead.
 - The `enchant` command has been added with the ability to enchant a user. Enchanted users get higher amounts of candy during the event. Up to two users can enchant a user at a time and enchantments last for **2 hours**. Getting cursed wipes any active enchantments, so be careful.
 - The curse mechanic was added. Atempting to do something bad during the event, such as stealing sweets, has a chance to get you cursed which has various negative effects such as reducing Vigor, which in turn has it's own negative effects.
