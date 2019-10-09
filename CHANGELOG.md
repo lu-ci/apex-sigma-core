@@ -4,6 +4,7 @@
 
 ### Added
 
+- The `heal` command has been added for the event. You can heal all your missing vigor, or a specified amount. You can also heal others.
 - Event leaderboard commands, which are `>>topsweets` and `>>toppumpkin` have been added.
 - The `grow` command was added that lets you grow your pumpkin. The more sweets you spend at once, the more it grows. The formula determining the gained weight is a positive exponential curve.
 - Added the `steal` command that has consequences if you fail. It's used for stealing sweets. Failure means getting cursed, losing lots of vigor, and losing some Kud.

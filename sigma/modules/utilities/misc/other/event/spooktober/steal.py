@@ -38,7 +38,7 @@ async def steal(cmd, pld):
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             currency = cmd.bot.cfg.pref.currency
             vc = get_vigor_controller(cmd.db)
-            if await vc.get_vigor(pld.msg.author):
+            if await vc.get_vigor(pld.msg.author.id):
                 cooldown = await vc.get_cooldown(pld.msg.author.id, 150)
                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
                 vigor = await vc.get_vigor(pld.msg.author.id)
@@ -49,7 +49,7 @@ async def steal(cmd, pld):
                 accepted, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
                 if accepted:
                     success = vc.roll_chance(chance)
-                    if success and False:
+                    if success:
                         target_candy = await cmd.db.get_resource(target.id, 'sweets')
                         if target_candy.current:
                             tcc = target_candy.current
