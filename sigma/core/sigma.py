@@ -232,7 +232,10 @@ class ApexSigma(client_class):
             out = super().get_user(uid)
         if not out:
             fh = get_fetch_helper(self)
-            out = await fh.fetch_user(uid)
+            try:
+                out = await fh.fetch_user(uid)
+            except Exception:
+                out = None
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -258,7 +261,10 @@ class ApexSigma(client_class):
             out = super().get_channel(cid)
         if not out:
             fh = get_fetch_helper(self)
-            out = await fh.fetch_channel(cid)
+            try:
+                out = await fh.fetch_channel(cid)
+            except Exception:
+                out = None
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -285,7 +291,10 @@ class ApexSigma(client_class):
             out = super().get_guild(gid)
         if not out:
             fh = get_fetch_helper(self)
-            out = await fh.fetch_guild(gid)
+            try:
+                out = await fh.fetch_guild(gid)
+            except Exception:
+                out = None
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
