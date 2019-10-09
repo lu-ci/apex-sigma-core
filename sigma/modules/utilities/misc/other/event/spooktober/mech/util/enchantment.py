@@ -209,8 +209,7 @@ class CurseController(object):
         :rtype: dict
         """
         doc = await self.coll.find_one({'user_id': uid}) or {}
-        curse = doc.get('curse') or {}
-        return curse
+        return doc
 
     async def is_cursed(self, uid):
         """
@@ -223,7 +222,7 @@ class CurseController(object):
         curse = await self.get_curse(uid)
         if curse.get('active'):
             now = arrow.utcnow().timestamp
-            timestamp = arrow.get(curse.get(curse.get('timestamp')))
+            timestamp = curse.get('timestamp')
             if now > timestamp + self.time_limit:
                 cursed = False
             else:
@@ -244,7 +243,7 @@ class CurseController(object):
         """
         now = arrow.utcnow().timestamp
         curse = await self.get_curse(uid)
-        stamp = curse.get('timestaamp') or 0
+        stamp = curse.get('timestamp') or 0
         diff = (stamp + self.time_limit) - now
         diff = 1 if diff < 1 else diff
         if formatted:

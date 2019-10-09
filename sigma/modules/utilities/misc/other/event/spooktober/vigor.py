@@ -52,7 +52,7 @@ async def vigor(cmd, pld):
     response.description = f'{starter} **{vg.current}** vigor.'
     if cursed:
         curse_timer = await curse_ctrl.get_cursed_time(target.id, True)
-        response.description += f'\n{curse_ref} are cursed for {curse_timer}.'
+        response.description += f'\n{curse_ref} are cursed for **{curse_timer}**.'
     response.description += f'\nThat gives {referer} **{tt_chance}%** trick-or-treating luck.'
     response.description += f'\nAnd a **{tt_cd}s** trick-or-treating cooldown.'
     response.description += f'\n```css\n{bar_text}\n```'

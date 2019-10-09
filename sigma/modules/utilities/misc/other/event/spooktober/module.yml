@@ -40,6 +40,18 @@ commands:
     enabled: true
     name: enchant
     usage: '{pfx}{cmd} @target'
+  - alts:
+      - "yoink"
+      - "mug"
+      - "stickup"
+      - "rob"
+    description: Steal another user's sweets.
+      Be careful, because failing to do so has consequences.
+      You'll lose vigor, Kud, and even get cursed.
+      Does your sweet tooth outweigh those risks?
+    enabled: true
+    name: steal
+    usage: '{pfx}{cmd} @target'
 events:
   - enabled: true
     name: passive_sweets
