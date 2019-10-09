@@ -1,0 +1,98 @@
+category: event
+commands:
+  - alts:
+      - "hp"
+    description: Shows how much vigor you have left and how it affects you in the event.
+    enabled: true
+    name: vigor
+    usage: '{pfx}{cmd} @target'
+  - alts:
+      - "jar"
+      - "candy"
+    description: Shows a user's jar of sweets.
+      Sweets can be earned by trick-or-treating,
+      stealing them from another player,
+      or getting Spectral and Ethereal fish, plants or animals.
+    enabled: true
+    name: sweets
+    usage: '{pfx}{cmd} @target'
+  - alts:
+      - "tot"
+    description: Go looking for sweets!
+    enabled: true
+    name: trickortreat
+    usage: '{pfx}{cmd}'
+  - alts:
+      - "jackolantern"
+    description: Shows how big a user's pumpkin is, in kilos!
+      You can grow it further with the grow command.
+    enabled: true
+    name: pumpkin
+    usage: '{pfx}{cmd} @target'
+  - alts:
+      - "boost"
+      - "candyslap"
+    description: Enchants your target user.
+      Enchantments modify the value of candy received.
+      Up to 2 enchantments can be active at a time and cost 20 Sweets.
+      Cursed users can't be enchanted and any active enchantments will be lost
+      if the user gets cursed. They last 2 hours.
+    enabled: true
+    name: enchant
+    usage: '{pfx}{cmd} @target'
+  - alts:
+      - "yoink"
+      - "mug"
+      - "stickup"
+      - "rob"
+    description: Steal another user's sweets.
+      Be careful, because failing to do so has consequences.
+      You'll lose vigor, Kud, and even get cursed.
+      Does your sweet tooth outweigh those risks?
+    enabled: true
+    name: steal
+    usage: '{pfx}{cmd} @target'
+  - alts:
+      - "fertilize"
+    description: Makes your pumpkin grow.
+      The default value it uses is 10
+      but you can input any amount of sweets you want to use.
+      You'll be prompted if you agree. The amount of weight the pumpkin
+      gains is a positive exponential. The more sweets you give it in a bulk
+      the more weight it gains. So stock up on sweets and dump it all on it at once.
+    enabled: true
+    name: grow
+    usage: '{pfx}{cmd} 667'
+  - alts:
+      - "topcandy"
+    description: Shows which users gained the most sweets in the event.
+      You can also enter the word "local" to see who gained the most candy
+      on the current server.
+    enabled: true
+    name: topsweets
+    usage: '{pfx}{cmd}'
+  - alts:
+      - "topjol"
+      - "topweight"
+      - "topgrowth"
+    description: Shows which users have the largest and heaviest pumpkins.
+    enabled: true
+    name: toppumpkin
+    usage: '{pfx}{cmd}'
+  - alts:
+      - "regen"
+      - "medic"
+    description: Heals your vigor.
+      You can also heal someone else if you tag them.
+      You don't need to heal ALL of what you're missing.
+      You can enter a number anywhere in the command message
+      to specify how much you want to heal back.
+    enabled: true
+    name: heal
+    usage: '{pfx}{cmd} @person'
+events:
+  - enabled: true
+    name: passive_sweets
+    type: message
+enabled: true
+name: Event Module

@@ -3,6 +3,7 @@
 ## Module Index
 - [AZUR LANE](#azur-lane)
 - [DEVELOPMENT](#development)
+- [EVENT](#event)
 - [FINAL FANTASY](#final-fantasy)
 - [FUN](#fun)
 - [HELP](#help)
@@ -77,6 +78,21 @@ Commands | Description | Example
 `>>wiperesources` `>>wiperes` | Wipes all the resources that the user with the given ID owns. (Bot Owner Only) | `>>wiperesources 0123456789`
 [Back To Top](#module-index)
 
+### EVENT
+Commands | Description | Example
+----------|-------------|--------
+`>>enchant` `>>boost` `>>candyslap` | Enchants your target user. Enchantments modify the value of candy received. Up to 2 enchantments can be active at a time and cost 20 Sweets. Cursed users can't be enchanted and any active enchantments will be lost if the user gets cursed. They last 2 hours. | `>>enchant @target`
+`>>grow` `>>fertilize` | Makes your pumpkin grow. The default value it uses is 10 but you can input any amount of sweets you want to use. You'll be prompted if you agree. The amount of weight the pumpkin gains is a positive exponential. The more sweets you give it in a bulk the more weight it gains. So stock up on sweets and dump it all on it at once. | `>>grow 667`
+`>>heal` `>>regen` `>>medic` | Heals your vigor. You can also heal someone else if you tag them. You don't need to heal ALL of what you're missing. You can enter a number anywhere in the command message to specify how much you want to heal back. | `>>heal @person`
+`>>pumpkin` `>>jackolantern` | Shows how big a user's pumpkin is, in kilos! You can grow it further with the grow command. | `>>pumpkin @target`
+`>>steal` `>>yoink` `>>mug` `>>stickup` `>>rob` | Steal another user's sweets. Be careful, because failing to do so has consequences. You'll lose vigor, Kud, and even get cursed. Does your sweet tooth outweigh those risks? | `>>steal @target`
+`>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. Sweets can be earned by trick-or-treating, stealing them from another player, or getting Spectral and Ethereal fish, plants or animals. | `>>sweets @target`
+`>>toppumpkin` `>>topjol` `>>topweight` `>>topgrowth` | Shows which users have the largest and heaviest pumpkins. | `>>toppumpkin`
+`>>topsweets` `>>topcandy` | Shows which users gained the most sweets in the event. You can also enter the word "local" to see who gained the most candy on the current server. | `>>topsweets`
+`>>trickortreat` `>>tot` | Go looking for sweets! | `>>trickortreat`
+`>>vigor` `>>hp` | Shows how much vigor you have left and how it affects you in the event. | `>>vigor @target`
+[Back To Top](#module-index)
+
 ### FINAL FANTASY
 Commands | Description | Example
 ----------|-------------|--------
@@ -133,7 +149,7 @@ Commands | Description | Example
 `>>commands` `>>modules` `>>cmds` `>>mdls` | Lists all of Sigma's available modules. To view the commands within a specific module, add the module's name as an argument. | `>>commands minigames`
 `>>donate` | Shows donation information for Sigma. | `>>donate`
 `>>help` `>>h` | Provides the link to Sigma's website and support server. To view information on a specific command, add that command's name as an argument. | `>>help fish`
-`>>invite` `>>inv` | Provides Sigma's invitation link to add her to your server. | `>>invite`
+`>>invite` `>>inv` | Provides Sigma's invitation link to add her to your server. If you can't click/tap embed title URLs, add the word "text" to the command to get the invite in a plain text format. | `>>invite`
 `>>repository` `>>repo` `>>project` | Shows the link to the project's repository page. You can add "--text" to the command to show just the link as pure text. | `>>repository`
 `>>showlicense` `>>license` | Shows the license of the Apex Sigma project. | `>>showlicense`
 [Back To Top](#module-index)

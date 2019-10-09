@@ -1,5 +1,32 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- The `heal` command has been added for the event. You can heal all your missing vigor, or a specified amount. You can also heal others.
+- Event leaderboard commands, which are `>>topsweets` and `>>toppumpkin` have been added.
+- The `grow` command was added that lets you grow your pumpkin. The more sweets you spend at once, the more it grows. The formula determining the gained weight is a positive exponential curve.
+- Added the `steal` command that has consequences if you fail. It's used for stealing sweets. Failure means getting cursed, losing lots of vigor, and losing some Kud.
+- A passive sweets adding mechanism has been added to messages. If the message and the guild meet criteria, a piece of candy will be given to the user. There's also a low chance for 6 to be added instead.
+- The `enchant` command has been added with the ability to enchant a user. Enchanted users get higher amounts of candy during the event. Up to two users can enchant a user at a time and enchantments last for **2 hours**. Getting cursed wipes any active enchantments, so be careful.
+- The curse mechanic was added. Atempting to do something bad during the event, such as stealing sweets, has a chance to get you cursed which has various negative effects such as reducing Vigor, which in turn has it's own negative effects.
+- The `pumpkin` command and Weight resource for the spooktober event. The resource is in milligrams, the displayed value is in kilograms. This one also has fancy visuals!
+- Added the FetchHelper class. It has it's own memory cacher to not spam the REST endpoint. Adds the ability to safely retrieve data about objects that are not in the general cache or obtainable from `get_<object>()` functions.
+- Added detailed command statistics tracking for use in the upcoming profile rework. Such as your most used commands, arguments, most active guilds and channels, etc.
+- The `trickortreat` command that gives you sweets if successfull. Includes chances for bonus candy.
+- The `sweets` command and Sweets resource for the spooktober event (with fancy image generating!).
+- The `vigor` command and Vigor resource for the spooktober event. Vigor affects your event cooldowns and chances.
+
+### Changed
+
+- The `daily` command now gives **+1 {Currency}** for each consecutive day.
+- Replaced the `.replace()` directives in FFXIV Timers with `.shift()` due to deprecation of the former method causing errors.
+- Overriden getter functions will use the FetchHelper to try to get invisible data.
+- Added a catch-all exception for the dominant color processing handler.
+- Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.
+- Finding items of a **Spectral** or **Ethereal** rarity awards you sweets.
+
 ## 4.60.1201 Maka
 
 ### Changed

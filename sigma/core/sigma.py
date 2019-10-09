@@ -29,6 +29,7 @@ from sigma.core.mechanics.config import Configuration
 from sigma.core.mechanics.cooldown import CooldownControl
 from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.executor import ExecutionClockwork
+from sigma.core.mechanics.fetch import get_fetch_helper
 from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.modman import ModuleManager
@@ -220,14 +221,20 @@ class ApexSigma(client_class):
         :param cached: Should the user be cached/obtained from the cache.
         :return:
         """
+        cacheable = False
+        cache_key = f'get_usr_{uid}'
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
-            cache_key = f'get_usr_{uid}'
+            cacheable = True
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_user(uid)
-                await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_user(uid)
+        if not out:
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_user(uid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
         return out
 
     async def get_channel(self, cid, cached=False):
@@ -240,14 +247,47 @@ class ApexSigma(client_class):
         :param cached: Should the channel be cached/obtained from the cache.
         :return:
         """
+        cacheable = False
+        cache_key = f'get_chn_{cid}'
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
-            cache_key = f'get_chn_{cid}'
+            cacheable = True
             out = await self.cache.get_cache(cache_key)
             if not out:
                 out = super().get_channel(cid)
-                await self.cache.set_cache(cache_key, out)
         else:
             out = super().get_channel(cid)
+        if not out:
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_channel(cid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
+        return out
+
+    async def get_guild(self, gid, cached=False):
+        """
+        Gets a guild from the core client
+        or form teh cache if one exists in the Cacher class.
+        :param gid: The Guild ID of the requested guild.
+        :type gid: int
+        :param cached: Should the channel be cached/obtained from the cache.
+        :type cached: bool
+        :return:
+        :rtype:
+        """
+        cacheable = False
+        cache_key = f'get_gld_{gid}'
+        if cached and self.cfg.cache.type not in ['mixed', 'redis']:
+            cacheable = True
+            out = await self.cache.get_cache(cache_key)
+            if not out:
+                out = super().get_guild(gid)
+        else:
+            out = super().get_guild(gid)
+        if not out:
+            fh = get_fetch_helper(self)
+            out = await fh.fetch_guild(gid)
+        if out and cacheable:
+            await self.cache.set_cache(cache_key, out)
         return out
 
     def run(self):
