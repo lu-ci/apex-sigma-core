@@ -38,6 +38,8 @@ async def grow(cmd, pld):
             price = 10
     else:
         price = 10
+    if not price:
+        price = 1
     candy = await cmd.db.get_resource(pld.msg.author.id, 'sweets')
     if candy.current >= price:
         curse_ctrl = get_curse_controller(cmd.db)
