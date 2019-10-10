@@ -38,10 +38,12 @@ async def passive_sweets(ev, pld):
                     cd_key = f'{ev.name}_{pld.msg.guild.id}'
                     trigger_roll = secrets.randbelow(666)
                     if trigger_roll < 10:
-                        if not await ev.bot.cool_down.on_cooldown(cd_key, pld.msg.author):
-                            vc = get_vigor_controller(ev.db)
-                            cooldown = await vc.get_cooldown(pld.msg.author.id, 60)
-                            await ev.bot.cool_down.set_cooldown(cd_key, pld.msg.author, cooldown)
-                            bonus = secrets.randbelow(666) == 0
-                            value = 6 if bonus else 1
-                            await SweetsController.add_sweets(ev.db, pld.msg, value, ev.name)
+                        human_count = len([usr for usr in pld.msg.guild.members if not usr.bot])
+                        if human_count >= 5:
+                            if not await ev.bot.cool_down.on_cooldown(cd_key, pld.msg.author):
+                                vc = get_vigor_controller(ev.db)
+                                cooldown = await vc.get_cooldown(pld.msg.author.id, 60)
+                                await ev.bot.cool_down.set_cooldown(cd_key, pld.msg.author, cooldown)
+                                bonus = secrets.randbelow(666) == 0
+                                value = 6 if bonus else 1
+                                await SweetsController.add_sweets(ev.db, pld.msg, value, ev.name)
