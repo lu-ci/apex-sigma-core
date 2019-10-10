@@ -49,7 +49,7 @@ commands:
       Be careful, because failing to do so has consequences.
       You'll lose vigor, Kud, and even get cursed.
       Does your sweet tooth outweigh those risks?
-    enabled: true
+    enabled: false
     name: steal
     usage: '{pfx}{cmd} @target'
   - alts:
