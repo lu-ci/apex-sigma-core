@@ -77,7 +77,7 @@ class EnchantmentController(object):
         doc = await self.coll.find_one({'user_id': uid}) or {}
         enchanters = doc.get('enchanters') or {}
         now = arrow.utcnow().timestamp
-        for enchanter in enchanters.keys():
+        for enchanter in enchanters.copy():
             timestamp = enchanters.get(enchanter)
             if now > timestamp + self.time_limit:
                 del enchanters[enchanter]

@@ -2,6 +2,12 @@
 
 ## 4.66.1323 Yuria
 
+### Changed
+
+- Fixed a `RuntimeError` in `enchantment.py`.
+
+## 4.66.1323 Yuria
+
 ### Added
 
 - The `heal` command has been added for the event. You can heal all your missing vigor, or a specified amount. You can also heal others.
@@ -22,7 +28,7 @@
 
 - The `daily` command now gives **+1 {Currency}** for each consecutive day.
 - Replaced the `.replace()` directives in FFXIV Timers with `.shift()` due to deprecation of the former method causing errors.
-- Overriden getter functions will use the FetchHelper to try to get invisible data.
+- Overridden getter functions will use the FetchHelper to try to get invisible data.
 - Added a catch-all exception for the dominant color processing handler.
 - Fixed the interaction origin showing "Unknown User/Server" even when there is data where the interaction came from.
 - Finding items of a **Spectral** or **Ethereal** rarity awards you sweets.
