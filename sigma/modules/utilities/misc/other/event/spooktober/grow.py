@@ -24,6 +24,9 @@ from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor im
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
 
 
+ONGOING_GROWTHS = []
+
+
 async def grow(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -31,6 +34,9 @@ async def grow(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    if pld.msg.author.id in ONGOING_GROWTHS:
+        return
+    ONGOING_GROWTHS.append(pld.msg.author.id)
     if pld.args:
         try:
             price = abs(int(pld.args[0]))
@@ -71,4 +77,6 @@ async def grow(cmd, pld):
     else:
         response = discord.Embed(color=0x66757f, title=f'🕸 You don\'t have {price} sweets, you have {candy.current}.')
         response.set_footer(text='The default amount is 10, but you can input how many you want to spend.')
+    if pld.msg.author.id in ONGOING_GROWTHS:
+        ONGOING_GROWTHS.remove(pld.msg.author.id)
     await pld.msg.channel.send(embed=response)

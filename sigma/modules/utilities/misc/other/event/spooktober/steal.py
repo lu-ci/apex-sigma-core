@@ -26,6 +26,9 @@ from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor im
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
 
 
+ONGOING_STEALS = []
+
+
 async def steal(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -33,6 +36,9 @@ async def steal(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    if pld.msg.author.id in ONGOING_STEALS:
+        return
+    ONGOING_STEALS.append(pld.msg.author.id)
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target:
         target = None if pld.msg.author.id == target.id else target
@@ -105,4 +111,6 @@ async def steal(cmd, pld):
             response = discord.Embed(color=0x696969, title=f'🕙 You can do *that* again in {timeout} seconds.')
     else:
         response = error('No target given.')
+    if pld.msg.author.id in ONGOING_STEALS:
+        ONGOING_STEALS.remove(pld.msg.author.id)
     await pld.msg.channel.send(embed=response)

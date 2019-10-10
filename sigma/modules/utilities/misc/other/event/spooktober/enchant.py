@@ -23,6 +23,9 @@ from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment i
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_enchantment_controller
 
 
+ONGOING_BOOSTS = []
+
+
 async def enchant(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -30,6 +33,9 @@ async def enchant(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    if pld.msg.author.id in ONGOING_BOOSTS:
+        return
+    ONGOING_BOOSTS.append(pld.msg.author.id)
     price = 5
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target:
@@ -82,4 +88,6 @@ async def enchant(cmd, pld):
             response = error('No, the candy dust just makes bots sneeze.')
     else:
         response = error('No target given.')
+    if pld.msg.author.id in ONGOING_BOOSTS:
+        ONGOING_BOOSTS.remove(pld.msg.author.id)
     await pld.msg.channel.send(embed=response)
