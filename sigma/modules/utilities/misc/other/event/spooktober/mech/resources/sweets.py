@@ -67,8 +67,6 @@ class SweetsController(abc.ABC):
         cap = 1000
         sweets = await db.get_resource(msg.author.id, 'sweets')
         if sweets.current < cap:
-            if sweets.current + value > cap:
-                value = cap - sweets.current
             curse_ctrl = get_curse_controller(db)
             enchantment_ctrl = get_enchantment_controller(db)
             if await curse_ctrl.is_cursed(msg.author.id):
@@ -78,6 +76,8 @@ class SweetsController(abc.ABC):
                     enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
                     if enchantment_level:
                         value += value + (2 ** enchantment_level)
+            if sweets.current + value > cap:
+                value = cap - sweets.current
             if value:
                 await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
                 if notify:
