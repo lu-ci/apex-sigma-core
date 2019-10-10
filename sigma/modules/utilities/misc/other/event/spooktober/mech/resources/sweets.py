@@ -46,7 +46,7 @@ class SweetsController(abc.ABC):
             pass
 
     @staticmethod
-    async def add_sweets(db, msg, value, trigger, notify=True):
+    async def add_sweets(db, msg, value, trigger, notify=True, stolen=False):
         """
         Adds a sweet resource if the user has space.
         :param db: The database client.
@@ -59,6 +59,8 @@ class SweetsController(abc.ABC):
         :type trigger: str
         :param notify: Should the source message be reacted to with icons.
         :type notify: bool
+        :param stolen: Should the candy be scaled, no if stolen.
+        :type stolen: bool
         :return:
         :rtype:
         """
@@ -72,9 +74,10 @@ class SweetsController(abc.ABC):
             if await curse_ctrl.is_cursed(msg.author.id):
                 value = value // 2
             else:
-                enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
-                if enchantment_level:
-                    value += value + (2 ** enchantment_level)
+                if not stolen:
+                    enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
+                    if enchantment_level:
+                        value += value + (2 ** enchantment_level)
             if value:
                 await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
                 if notify:

@@ -58,7 +58,7 @@ async def steal(cmd, pld):
                             stolen_amount = secrets.randbelow(20) + 5
                             stolen_amount = tcc if stolen_amount > tcc else stolen_amount
                             stolen_amount = await SweetsController.add_sweets(
-                                cmd.db, pld.msg, stolen_amount, cmd.name, False
+                                cmd.db, pld.msg, stolen_amount, cmd.name, False, True
                             )
                             await cmd.db.del_resource(target.id, 'sweets', stolen_amount, cmd.name, pld.msg)
                             vigor_loss = secrets.randbelow(3) + 3
