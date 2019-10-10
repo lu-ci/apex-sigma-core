@@ -78,6 +78,8 @@ class SweetsController(abc.ABC):
                         value += value + (2 ** enchantment_level)
             if sweets.current + value > cap:
                 value = cap - sweets.current
+                if value < 0:
+                    value = 0
             if value:
                 await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
                 if notify:
