@@ -41,7 +41,7 @@ async def sweets(cmd, pld):
     canv.stick(cmd.resource('img/bg/bg_rim.png'), (0, 0))
 
     canv.stick(cmd.resource('img/jar/glass.png'), (50, 67))
-    if candy.current:
+    if candy.current > 0:
         lqdhg = int((candy.current / 1000) * 187) or 1
         liquid = ImageCompositor.resize(cmd.resource('img/jar/lqd_v2.png'), 218, lqdhg)
         canv.stick(liquid, (55, 130 + (188 - liquid.height)))
