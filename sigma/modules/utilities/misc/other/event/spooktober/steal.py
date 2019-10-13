@@ -21,12 +21,10 @@ import discord
 
 from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.utilities.misc.other.event.spooktober.enchant import EVENT_ONGOING
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.sweets import SweetsController
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor import get_vigor_controller
 from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
-
-
-ONGOING_STEALS = []
 
 
 async def steal(cmd, pld):
@@ -36,9 +34,9 @@ async def steal(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.id in ONGOING_STEALS:
+    if pld.msg.author.id in EVENT_ONGOING:
         return
-    ONGOING_STEALS.append(pld.msg.author.id)
+    EVENT_ONGOING.append(pld.msg.author.id)
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target:
         target = None if pld.msg.author.id == target.id else target
@@ -113,6 +111,6 @@ async def steal(cmd, pld):
             response = discord.Embed(color=0x696969, title=f'🕙 You can do *that* again in {timeout} seconds.')
     else:
         response = error('No target given.')
-    if pld.msg.author.id in ONGOING_STEALS:
-        ONGOING_STEALS.remove(pld.msg.author.id)
+    if pld.msg.author.id in EVENT_ONGOING:
+        EVENT_ONGOING.remove(pld.msg.author.id)
     await pld.msg.channel.send(embed=response)
