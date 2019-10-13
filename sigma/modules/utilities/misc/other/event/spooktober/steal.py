@@ -59,6 +59,8 @@ async def steal(cmd, pld):
                     success = vc.roll_chance(chance)
                     if success:
                         target_candy = await cmd.db.get_resource(target.id, 'sweets')
+                        if target_candy.current < 0:
+                            target_candy.current = 0
                         if target_candy.current:
                             tcc = target_candy.current
                             stolen_amount = secrets.randbelow(20) + 5
