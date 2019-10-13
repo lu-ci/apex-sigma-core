@@ -98,6 +98,9 @@ class VigorController(abc.ABC):
         has_vigor = await self.has_vigor_doc(user_id)
         if has_vigor:
             vigor = await self.db.get_resource(user_id, 'vigor')
+            if vigor.current > 100:
+                vigor.current = 100
+                await self.db.update_resource(user_id, 'vigor', vigor)
         else:
             vigor = SigmaResource({})
             vigor.add_value(100, 'init', None, False)
