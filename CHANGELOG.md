@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added 
+
+- The `tempcategory` command has been added. This sets the category used for temporary channels.
+
+### Changed
+
+- Fixed typos.
+
 ## 4.66.1323 Yuria
 
 ### Changed

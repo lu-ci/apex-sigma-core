@@ -18,20 +18,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import ok, error
 
 
-async def get_category(cmd: SigmaCommand, guild: discord.Guild):
+async def get_category(cmd, guild):
     """
-
-    :param cmd:
-    :type cmd:
-    :param guild:
-    :type guild:
+    Gets the temporary voice channel category for the server.
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param guild: The guild that triggered the event.
+    :type guild: discord.Guild
     :return:
-    :rtype:
+    :rtype: discord.CategoryChannel
     """
+    custom_cat_id = await cmd.db.get_guild_settings(guild.id, 'temp_channel_category')
+    custom_cat = guild.get_channel(custom_cat_id)
+    if custom_cat:
+        return custom_cat
     temp_cat = None
     cat_count = len(guild.categories)
     for category in guild.categories:
@@ -56,7 +59,10 @@ async def temproom(cmd, pld):
     room_name = f'[Σ] {room_name}'
     reason = f'Temporary voice channel by {pld.msg.author.name}#{pld.msg.author.discriminator}.'
     temp_vc_cat = await get_category(cmd, pld.msg.guild)
-    tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
-    await tmp_vc.set_permissions(pld.msg.author, manage_channels=True)
-    response = ok(f'{room_name} created.')
+    if pld.msg.guild.me.permissions_in(temp_vc_cat).manage_channels:
+        tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
+        await tmp_vc.set_permissions(pld.msg.author, manage_channels=True)
+        response = ok(f'{room_name} created.')
+    else:
+        response = error('I can\'t create channels in that category.')
     await pld.msg.channel.send(embed=response)

@@ -100,8 +100,8 @@ commands:
       - combine
       - cmbch
       - mix
-    description: Like the impersonate command. This one however targets two uers and
-      uses their chains to generated a mixed response.
+    description: Like the impersonate command. This one however targets two users and
+      uses their chains to generate a mixed response.
     enabled: true
     name: combinechains
     usage: '{pfx}{cmd} @person_one @person_two'

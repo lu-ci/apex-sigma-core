@@ -27,16 +27,27 @@ commands:
   - alts:
       - tempvc
       - room
-    description: "Makes a temporary voice channel that you can fully manage. Once everyone\
-    \ leaves the channel (not including bots) it's destroyed. The temp voice channels\
-    \ are checked by their prefix ([\u03A3]), if this is edited out, the channel will\
-    \ not be destroyed when emptied."
+    description: Makes a temporary voice channel that you can fully manage. Once everyone
+      leaves the channel (not including bots) it's destroyed. The temp voice channels
+      are checked by their prefix ([\u03A3]), if this is edited out, the channel will
+      not be destroyed when emptied.
     enabled: true
     name: temproom
     requirements:
       - manage_channels
       - manage_roles
     usage: '{pfx}{cmd} Orgy For One'
+  - alts:
+      - tempctg
+    description: Sets the category for temporary voice channels. You can specify the
+      category by either its name or ID. To disable this and use the default category,
+      write disable after the command instead of a channel.
+    enabled: true
+    name: tempcategory
+    requirements:
+      - manage_channels
+      - manage_roles
+    usage: '{pfx}{cmd} General Category'
   - alts:
       - lovecalc
     description: Shows the love between two mentioned users. If only one user is mentioned,

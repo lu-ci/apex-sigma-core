@@ -36,6 +36,11 @@ async def temproom_checker(_ev, pld):
                 await asyncio.sleep(.25)
                 category = b.channel.category
                 if category:
+                    custom_cat_id = pld.settings.get('temp_channel_category')
+                    custom_cat = category.guild.get_channel(custom_cat_id)
+                    if custom_cat:
+                        if category.id == custom_cat.id:
+                            return
                     if category.name.startswith('[Σ]'):
                         if len(category.channels) == 0:
                             await category.delete(reason='Temporary VC Category Emptied')
