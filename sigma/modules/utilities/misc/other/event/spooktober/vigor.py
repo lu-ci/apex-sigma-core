@@ -19,7 +19,8 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.vigor import get_vigor_controller
-from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller
+from sigma.modules.utilities.misc.other.event.spooktober.mech.util.enchantment import get_curse_controller, \
+    get_enchantment_controller
 
 
 async def vigor(cmd, pld):
@@ -49,11 +50,18 @@ async def vigor(cmd, pld):
     bar_len = (vg.current * 2) // 10
     empty_len = 20 - bar_len
     bar_text = f'[{"▣" * bar_len}{"▢" * empty_len}] {vg.current}%'
-    response.description = f'{starter} **{vg.current}** vigor.'
+    response.description = f'❤ {starter} **{vg.current}** vigor.'
     if cursed:
         curse_timer = await curse_ctrl.get_cursed_time(target.id, True)
-        response.description += f'\n{curse_ref} are cursed for **{curse_timer}**.'
-    response.description += f'\nThat gives {referer} **{tt_chance}%** trick-or-treating luck.'
-    response.description += f'\nAnd a **{tt_cd}s** trick-or-treating cooldown.'
+        response.description += f'\n☠ {curse_ref} are cursed for **{curse_timer}**.'
+        response.description += f'\n🕳 All sweets gained are halved due to the curse.'
+    ec = get_enchantment_controller(cmd.db)
+    ench_level = await ec.get_enchantment(target.id)
+    if ench_level:
+        ench_expiration = await ec.shortest_enchantment_expires(target.id, True)
+        response.description += f'\n💠 {starter} a **level {ench_level}** enchantment.'
+        response.description += f'\n⏲ The shortest enchantment expires in **{ench_expiration}**.'
+    response.description += f'\n🍬 That gives {referer} **{tt_chance}%** trick-or-treating luck.'
+    response.description += f'\n🕦 And a **{tt_cd}s** trick-or-treating cooldown.'
     response.description += f'\n```css\n{bar_text}\n```'
     await pld.msg.channel.send(embed=response)

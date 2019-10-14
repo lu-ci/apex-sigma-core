@@ -77,9 +77,9 @@ class EnchantmentController(object):
         doc = await self.coll.find_one({'user_id': uid}) or {}
         enchanters = doc.get('enchanters') or {}
         now = arrow.utcnow().timestamp
-        for enchanter in list(enchanters.copy().keys())[:2]:
+        for eix, enchanter in enumerate(list(enchanters.copy().keys())):
             timestamp = enchanters.get(enchanter)
-            if now > timestamp + self.time_limit:
+            if (now > timestamp + self.time_limit) or eix > 1:
                 del enchanters[enchanter]
         return enchanters
 
@@ -95,9 +95,10 @@ class EnchantmentController(object):
         """
         now = arrow.utcnow().timestamp
         enchanters = await self.get_enchanters(uid)
-        enchanters.update({str(aid): now})
-        data = {'user_id': uid, 'enchanters': enchanters}
-        await self.coll.update_one({'user_id': uid}, {'$set': data}, upsert=True)
+        if len(enchanters.keys()) < 2:
+            enchanters.update({str(aid): now})
+            data = {'user_id': uid, 'enchanters': enchanters}
+            await self.coll.update_one({'user_id': uid}, {'$set': data}, upsert=True)
 
     async def wipe_enchanters(self, uid):
         """

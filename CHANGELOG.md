@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.67.1344
 
 ### Added 
 
@@ -8,6 +8,8 @@
 
 ### Changed
 
+- Vigor command display icons and more data, such as enchantments.
+- Enchantment enchanter counting fixes.
 - Fixed typos.
 
 ## 4.66.1323 Yuria
