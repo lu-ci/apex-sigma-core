@@ -262,6 +262,7 @@ Commands | Description | Example
 `>>deletelist` `>>dellist` `>>dl` | Permanently deletes a list. You must be the list creator to delete it. | `>>deletelist 38fe`
 `>>echo` `>>say` | Makes Sigma repeat what you entered, simple enough. | `>>echo Beep, bop-boop!`
 `>>edgecalculator` `>>edgecalc` | Calculates how edgy the targeted person is. If no user is tagged, the target will be the one who uses the command. | `>>edgecalculator @person`
+`>>editline` `>>el` | Edits a line from the specified list. Specify the line to edit by number. | `>>editline 38fe 3 This line will replace line three.`
 `>>embedecho` `>>esay` `>>eecho` | Just like echo, but the message is an embed object that has you as the author, your color, and the time it was executed. | `>>embedecho Beep, bop-boop!`
 `>>endraffle` `>>endraf` | Prematurely ends a raffle. This command is only usable by the author of the raffle. To end a raffle use the raffle's ID that can be found in its footer. This command has no response aside from a reaction to your message. green check mark - redraw successful magnifying glass - raffle not found no entry sign    - you aren't the raffle creator exclamation mark - no arguments given | `>>endraffle 1abc9c`
 `>>httpstatus` `>>http` | Shows information about a HTTP response status code. Add "cat" or "dog" as the last argument for an added bonus. | `>>httpstatus 404`
@@ -298,7 +299,7 @@ Commands | Description | Example
 `>>shadowpollwipe` `>>spwipe` | Completely resets the specified shadow poll's statistics. Deleting all the data about who voted for what option. | `>>shadowpollwipe 1bca22`
 `>>tempcategory` `>>tempctg` | Sets the category for temporary voice channels. You can specify the category by either its name or ID. To disable this and use the default category, write disable after the command instead of a channel. | `>>tempcategory General Category`
 `>>temproom` `>>tempvc` `>>room` | Makes a temporary voice channel that you can fully manage. Once everyone leaves the channel (not including bots) it's destroyed. The temp voice channels are checked by their prefix ([\u03A3]), if this is edited out, the channel will not be destroyed when emptied. | `>>temproom Orgy For One`
-`>>viewlist` `>>vl` | Shows the specified custom list. You can only view a list if you are the creator or the list is marked as public. | `>>viewlist 38fe`
+`>>viewlist` `>>vl` | Shows the specified custom list. | `>>viewlist 38fe`
 `>>viewlists` `>>vls` | Shows all of the custom lists on the server. | `>>viewlists`
 [Back To Top](#module-index)
 

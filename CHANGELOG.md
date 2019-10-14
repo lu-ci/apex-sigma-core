@@ -1,5 +1,17 @@
 # Apex Sigma Changelog
 
+
+## 4.67.1348
+
+### Added
+
+- The `editline` command has been added for editing existing lines in custom lists.
+
+### Changed
+
+- Enabled the use of `removeline` for anyone on public lists.
+- Minor refactors for various custom list commands. 
+
 ## 4.67.1344
 
 ### Added 
