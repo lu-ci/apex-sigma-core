@@ -11,6 +11,7 @@
 
 - Enabled the use of `removeline` for anyone on public lists.
 - Minor refactors for various custom list commands. 
+- Added more creator permissions for temporary voice channels. 
 
 ## 4.67.1344
 
