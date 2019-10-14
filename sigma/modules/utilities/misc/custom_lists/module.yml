@@ -48,8 +48,7 @@ commands:
     name: viewlists
   - alts:
       - vl
-    description: Shows the specified custom list. You can only view a list if you are
-      the creator or the list is marked as public.
+    description: Shows the specified custom list.
     enabled: true
     name: viewlist
     usage: '{pfx}{cmd} 38fe'
@@ -60,5 +59,12 @@ commands:
     enabled: true
     name: renamelist
     usage: '{pfx}{cmd} 38fe Fancy List Name'
+  - alts:
+      - el
+    description: Edits a line from the specified list. Specify the line to edit
+      by number.
+    enabled: true
+    name: editline
+    usage: '{pfx}{cmd} 38fe 3 This line will replace line three.'
 enabled: true
 name: Custom List Utilities
