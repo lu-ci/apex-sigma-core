@@ -36,8 +36,8 @@ async def deletelist(cmd, pld):
             author_id = list_file.get('user_id')
             if author_id == pld.msg.author.id:
                 await list_coll.delete_one(lookup_data)
-                response = discord.Embed(color=0xFFCC4D,
-                                         title=f'🔥 List `{list_file.get("list_id")}` has been deleted.')
+                title = f'🔥 List `{list_file.get("list_id")}` has been deleted.'
+                response = discord.Embed(color=0xFFCC4D, title=title)
             else:
                 response = denied('You didn\'t make this list.')
         else:
