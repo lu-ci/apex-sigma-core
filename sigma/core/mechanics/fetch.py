@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import arrow
+import discord
 
 from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
@@ -80,7 +81,7 @@ class FetchHelper(object):
         :type oid: int
         :rtype: None or dict
         """
-        cache_key = f'{variant}_object_{oid}'
+        cache_key = f'document_{variant}_{oid}'
         data = self.cache.get_cache(cache_key)
         if data is None:
             coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
@@ -99,7 +100,8 @@ class FetchHelper(object):
         """
         oid = data["id"]
         cache_keys = [
-            f'{variant}_object_{oid}',
+            f'object_{variant}_{oid}',
+            f'document_{variant}_{oid}',
             f'existence_{variant}_{oid}',
             f'existence_{variant}_{oid}_stamp'
         ]
@@ -154,6 +156,50 @@ class FetchHelper(object):
             "id": str(usr.id),
             "avatar": usr.avatar,
             "bot": usr.bot
+        }
+        return data
+
+    @staticmethod
+    def make_overwrite_data(prms):
+        """
+        Makes a data dict for storage for a permission overwrite.
+        :param prms: The permissions to process.
+        :type prms: dict
+        :return:
+        """
+        data = []
+        for entry in prms:
+            prm = prms[entry]
+            allow, deny = prm.pair()
+            edat = {
+                "deny": deny.value,
+                "id": str(entry.id),
+                "type": 'role' if isinstance(entry, discord.Role) else 'member'
+            }
+            data.append(edat)
+        return data
+
+    @staticmethod
+    def make_channel_data(chn):
+        """
+        Makes a data dict for storage for a channel.
+        :param chn: The channel to store.
+        :type chn: discord.TextChannel
+        :rtype: dict
+        """
+        data = {
+            "guild_id": str(chn.guild.id),
+            "name": chn.name,
+            "permission_overwrites": FetchHelper.make_overwrite_data(chn.overwrites),
+            "last_pin_timestamp": "2019-07-08T19:12:37.790000+00:00",  # Warning: Unimportant dummy data.
+            "topic": chn.topic,
+            "parent_id": str(chn.category_id) if chn.category_id else None,
+            "nsfw": chn.is_nsfw(),
+            "position": chn.position,
+            "rate_limit_per_user": chn.slowmode_delay,
+            "last_message_id": chn.last_message_id,
+            "type": chn.type,  # TODO: Fix enum storage.
+            "id": str(chn.id)
         }
         return data
 
