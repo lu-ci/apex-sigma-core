@@ -68,7 +68,7 @@ class FetchHelper(object):
         timestamp = await self.cache.get_cache(stamp_key) or 0
         if exists is None or now > timestamp + timeout:
             coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
-            exists = bool(await coll.count_documents({'id': oid}))
+            exists = bool(await coll.count_documents({'id': str(oid)}))
             await self.cache.set_cache(key, exists)
         return exists
 
@@ -82,7 +82,7 @@ class FetchHelper(object):
         :rtype: None or dict
         """
         cache_key = f'document_{variant}_{oid}'
-        data = self.cache.get_cache(cache_key)
+        data = await self.cache.get_cache(cache_key)
         if data is None:
             coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
             data = await coll.find_one({'id': oid})
@@ -106,11 +106,16 @@ class FetchHelper(object):
             f'existence_{variant}_{oid}_stamp'
         ]
         doc = await self.get_object_doc(variant, oid)
+        if doc:
+            del doc['_id']
         if doc != data:
             coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
-            await coll.update_one({'id': oid}, data, upsert=True)
+            await coll.update_one({'id': oid}, {'$set': data}, upsert=True)
             for cache_key in cache_keys:
                 await self.cache.del_cache(cache_key)
+            return True
+        else:
+            return False
 
     async def fetch_user(self, uid):
         """
@@ -238,7 +243,7 @@ class FetchHelper(object):
             "hoist": rol.hoist,
             "name": rol.name,
             "mentionable": rol.mentionable,
-            "color": rol.color,
+            "color": rol.color.value,
             "position": rol.position,
             "id": str(rol.id),
             "managed": rol.managed,

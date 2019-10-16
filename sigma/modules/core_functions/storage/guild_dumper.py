@@ -23,8 +23,12 @@ async def guild_dumper(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
+    count = 0
     fh = get_fetch_helper(ev.bot)
     for guild in ev.bot.guilds:
-        if not fh.object_exists('guild', guild.id):
-            data = fh.make_guild_data(guild)
-            await fh.save_object_doc('guild', data)
+        data = fh.make_guild_data(guild)
+        modified = await fh.save_object_doc('guild', data)
+        if modified:
+            count += 1
+    if count:
+        ev.log.info(f'Inserted or updated {count} guilds.')
