@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from sigma.modules.core_functions.storage.common import object_exists
+from sigma.core.mechanics.fetch import get_fetch_helper
 
 
 async def guild_dumper(ev):
@@ -23,6 +23,8 @@ async def guild_dumper(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
+    fh = get_fetch_helper(ev.bot)
     for guild in ev.bot.guilds:
-        if not object_exists(ev.db, 'guild', guild.id):
-
+        if not fh.object_exists('guild', guild.id):
+            data = fh.make_guild_data(guild)
+            await fh.save_object_doc('guild', data)

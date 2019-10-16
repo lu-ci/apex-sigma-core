@@ -15,6 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import arrow
+
 from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
 
@@ -48,6 +50,27 @@ class FetchHelper(object):
         self.db = self.bot.db
         self.cache = MemoryCacher(CacheConfig({}))
 
+    async def object_exists(self, variant, oid):
+        """
+        Checks if an object with the given ID exists in the object storage.
+        :param variant: The type of object to grab.
+        :type variant: str
+        :param oid: The ID of the object.
+        :type oid: int
+        :rtype: bool
+        """
+        timeout = 60
+        key = f'existence_{variant}_{oid}'
+        stamp_key = f'existence_{variant}_{oid}_stamp'
+        exists = await self.cache.get_cache(key)
+        now = arrow.utcnow().timestamp
+        timestamp = await self.cache.get_cache(stamp_key) or 0
+        if exists is None or now > timestamp + timeout:
+            coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
+            exists = bool(await coll.count_documents({'id': oid}))
+            await self.cache.set_cache(key, exists)
+        return exists
+
     async def get_object_doc(self, variant, oid):
         """
         Grabs an object from the database or cache instance.
@@ -55,9 +78,37 @@ class FetchHelper(object):
         :type variant: str
         :param oid: The ID of the object.
         :type oid: int
-        :return: None or dict
+        :rtype: None or dict
         """
-        coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
+        cache_key = f'{variant}_object_{oid}'
+        data = self.cache.get_cache(cache_key)
+        if data is None:
+            coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
+            data = await coll.find_one({'id': oid})
+            await self.cache.set_cache(cache_key, data)
+        return data
+
+    async def save_object_doc(self, variant, data):
+        """
+        Checks if an object with the given ID exists in the object storage.
+        :param variant: The type of object to grab.
+        :type variant: str
+        :param data: The object storage data
+        :type data: dict
+        :rtype: bool
+        """
+        oid = data["id"]
+        cache_keys = [
+            f'{variant}_object_{oid}',
+            f'existence_{variant}_{oid}',
+            f'existence_{variant}_{oid}_stamp'
+        ]
+        doc = await self.get_object_doc(variant, oid)
+        if doc != data:
+            coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
+            await coll.update_one({'id': oid}, data, upsert=True)
+            for cache_key in cache_keys:
+                await self.cache.del_cache(cache_key)
 
     async def fetch_user(self, uid):
         """
@@ -95,7 +146,7 @@ class FetchHelper(object):
         Makes a data dict for storage for a user.
         :param usr: The user to store.
         :type usr: discord.Member or discord.User
-        :return: dict
+        :rtype: dict
         """
         data = {
             "username": usr.name,
@@ -112,7 +163,7 @@ class FetchHelper(object):
         Makes a data dict for storage for a role.
         :param rol: The role to store.
         :type rol: discord.Role
-        :return: dict
+        :rtype: dict
         """
         data = {
             "hoist": rol.hoist,
@@ -132,7 +183,7 @@ class FetchHelper(object):
         Makes a data dict for storage for a custom emoji.
         :param emj: The emoji to store.
         :type emj: discord.Emoji
-        :return:
+        :rtype: dict
         """
         data = {
             "available": emj.available,
@@ -151,7 +202,7 @@ class FetchHelper(object):
         Makes a data dict for storage for a guild.
         :param gld: The guild to store.
         :type gld: discord.Guild
-        :return: dict
+        :rtype: dict
         """
         data = {
             "mfa_level": gld.mfa_level,
