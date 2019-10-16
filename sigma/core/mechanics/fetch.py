@@ -143,6 +143,15 @@ class FetchHelper(object):
         return None
 
     @staticmethod
+    def enum_to_val(enm):
+        """
+        Converts an enumerable to an integer.
+        :param enm: The enumerable to convert
+        :rtype: int
+        """
+        return enm.value if 'value' in dir(enm) else enm
+
+    @staticmethod
     def make_user_data(usr):
         """
         Makes a data dict for storage for a user.
@@ -198,7 +207,7 @@ class FetchHelper(object):
             "position": chn.position,
             "rate_limit_per_user": chn.slowmode_delay,
             "last_message_id": chn.last_message_id,
-            "type": chn.type,  # TODO: Fix enum storage.
+            "type": FetchHelper.enum_to_val(chn.type),
             "id": str(chn.id)
         }
         return data
@@ -257,20 +266,20 @@ class FetchHelper(object):
             "icon": gld.icon,
             "afk_timeout": gld.afk_timeout,
             "system_channel_id": str(gld.system_channel.id) if gld.system_channel else None,
-            "default_message_notifications": gld.default_notifications,  # TODO: Fix enum storage.
+            "default_message_notifications": FetchHelper.enum_to_val(gld.default_notifications),
             "widget_enabled": 0,  # Warning: UNUSED. Treating as if always zero.
             "afk_channel_id": str(gld.afk_channel.id) if gld.afk_channel else None,
             "premium_subscription_count": gld.premium_subscription_count,
-            "explicit_content_filter": gld.explicit_content_filter,  # TODO: Fix enum storage.
+            "explicit_content_filter": FetchHelper.enum_to_val(gld.explicit_content_filter),
             "max_presences": gld.max_presences,
             "id": str(gld.id),
             "features": gld.features,
             "preferred_locale": "en-US",
-            "verification_level": gld.verification_level,  # TODO: Fix enum storage.
+            "verification_level": FetchHelper.enum_to_val(gld.verification_level),
             "name": gld.name,
             "roles": [FetchHelper.make_role_data(role) for role in gld.roles],
             "widget_channel_id": None,  # Warning: UNUSED. Treating as if always disabled.
-            "region": gld.region,  # TODO: Fix enum storage.
+            "region": FetchHelper.enum_to_val(gld.region),
             "embed_channel_id": None,  # Warning: UNUSED. Treating as if always None.
             "system_channel_flags": gld.system_channel_flags.value,
             "banner": gld.banner,
