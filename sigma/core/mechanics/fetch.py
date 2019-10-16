@@ -90,6 +90,23 @@ class FetchHelper(object):
         return None
 
     @staticmethod
+    def make_user_data(usr):
+        """
+        Makes a data dict for storage for a user.
+        :param usr: The user to store.
+        :type usr: discord.Member or discord.User
+        :return: dict
+        """
+        data = {
+            "username": usr.name,
+            "discriminator": usr.discriminator,
+            "id": str(usr.id),
+            "avatar": usr.avatar,
+            "bot": usr.bot
+        }
+        return data
+
+    @staticmethod
     def make_role_data(rol):
         """
         Makes a data dict for storage for a role.
