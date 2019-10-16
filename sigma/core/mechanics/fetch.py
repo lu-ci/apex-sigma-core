@@ -120,7 +120,11 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.User
         """
-        return None
+        result = None
+        data = await self.get_object_doc('user', uid)
+        if data:
+            result = discord.User(state=self.bot._connection, data=data)
+        return result
 
     async def fetch_channel(self, cid):
         """
@@ -130,7 +134,13 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.TextChannel
         """
-        return None
+        result = None
+        data = await self.get_object_doc('channel', cid)
+        if data:
+            gdat = await self.get_object_doc('guild', data['guild_id'])
+            if gdat:
+                result = discord.TextChannel(state=self.bot._connection, guild=gdat, data=data)
+        return result
 
     async def fetch_guild(self, gid):
         """
@@ -140,7 +150,11 @@ class FetchHelper(object):
         :return:
         :rtype: None or discord.Guild
         """
-        return None
+        result = None
+        data = await self.get_object_doc('guild', gid)
+        if data:
+            result = discord.Guild(state=self.bot._connection, data=data)
+        return result
 
     @staticmethod
     def enum_to_val(enm):
