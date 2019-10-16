@@ -57,7 +57,7 @@ def get_resource_level(amount: int, leveler: float):
     :return:
     :rtype:
     """
-    return int(amount / leveler)
+    return int(amount / leveler) if amount >= 0 else 0
 
 
 def get_resource_title(amount: int, leveler: float, prefixes: list, suffixes: list):
