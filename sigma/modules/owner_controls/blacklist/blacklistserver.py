@@ -34,7 +34,7 @@ async def blacklistserver(cmd, pld):
         except ValueError:
             target_id = None
         if target_id:
-            target = cmd.bot.get_guild(target_id)
+            target = await cmd.bot.get_guild(target_id)
             if target:
                 target_id = target.id
                 target_name = target.name
