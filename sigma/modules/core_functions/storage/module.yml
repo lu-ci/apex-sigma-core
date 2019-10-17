@@ -16,4 +16,10 @@ events:
   - enabled: true
     name: user_updater
     type: member_update
+  - enabled: true
+    name: guild_joiner
+    type: guild_join
+  - enabled: true
+    name: user_joiner
+    type: member_join
 name: Fetcher Data Generators
