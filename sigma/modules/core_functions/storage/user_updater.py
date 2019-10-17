@@ -18,6 +18,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from sigma.core.mechanics.fetch import get_fetch_helper
 
 
+def has_changed(before, after):
+    """
+    Checks basic details before trying
+     to generate a document or touch the database
+    :param before: The user's previous state.
+    :type before: discord.Member
+    :param after: The user's current state.
+    :type after: discord.Member
+    :return:
+    :rtype: bool
+    """
+    if before.name == after.name:
+        if before.discriminator == after.discriminator:
+            if before.avatar == after.avatar:
+                return False
+    return True
+
+
 async def user_updater(ev, pld):
     """
     :param ev: The event object referenced in the event.
@@ -26,6 +44,7 @@ async def user_updater(ev, pld):
     :type pld: sigma.core.mechanics.payload.MemberUpdatePayload
     """
     variant = 'user'
-    fh = get_fetch_helper(ev.bot)
-    data = fh.make_user_data(pld.after)
-    await fh.save_object_doc(variant, data)
+    if has_changed(pld.before, pld.after):
+        fh = get_fetch_helper(ev.bot)
+        data = fh.make_user_data(pld.after)
+        await fh.save_object_doc(variant, data)
