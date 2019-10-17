@@ -39,7 +39,7 @@ def get_fetch_helper(bot):
 
 
 class FetchHelper(object):
-    __slots__ = ('bot', 'db', 'cache')
+    __slots__ = ('bot', 'db', 'state', 'cache')
 
     def __init__(self, bot):
         """
@@ -49,6 +49,8 @@ class FetchHelper(object):
         """
         self.bot = bot
         self.db = self.bot.db
+        # noinspection PyProtectedMember
+        self.state = self.bot._connection
         self.cache = MemoryCacher(CacheConfig({}))
 
     async def object_exists(self, variant, oid):
@@ -128,7 +130,7 @@ class FetchHelper(object):
         result = None
         data = await self.get_object_doc('user', uid)
         if data:
-            result = discord.User(state=self.bot._connection, data=data)
+            result = discord.User(state=self.state, data=data)
         return result
 
     async def fetch_channel(self, cid):
@@ -144,7 +146,7 @@ class FetchHelper(object):
         if data:
             gdat = await self.get_object_doc('guild', data['guild_id'])
             if gdat:
-                result = discord.TextChannel(state=self.bot._connection, guild=gdat, data=data)
+                result = discord.TextChannel(state=self.state, guild=gdat, data=data)
         return result
 
     async def fetch_guild(self, gid):
@@ -158,7 +160,7 @@ class FetchHelper(object):
         result = None
         data = await self.get_object_doc('guild', gid)
         if data:
-            result = discord.Guild(state=self.bot._connection, data=data)
+            result = discord.Guild(state=self.state, data=data)
         return result
 
     @staticmethod
