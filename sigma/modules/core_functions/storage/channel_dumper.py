@@ -15,18 +15,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import discord
+
 from sigma.core.mechanics.fetch import get_fetch_helper, SaveResponse
 
 
-async def guild_dumper(ev):
+async def channel_dumper(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    variant = 'guild'
+    variant = 'channel'
     responses = []
     fh = get_fetch_helper(ev.bot)
-    for guild in ev.bot.guilds:
-        data = fh.make_guild_data(guild)
-        responses.append(await fh.save_object_doc(variant, data))
+    for channel in ev.bot.get_all_channels():
+        if isinstance(channel, discord.TextChannel):
+            data = fh.make_channel_data(channel)
+            responses.append(await fh.save_object_doc(variant, data))
     ev.log.info(SaveResponse.describe(responses, variant))

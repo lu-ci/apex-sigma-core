@@ -38,6 +38,32 @@ def get_fetch_helper(bot):
     return FETCH_HELPER_CACHE
 
 
+class SaveResponse(enumerate):
+    skipped = 0
+    updated = 1
+    inserted = 2
+
+    @staticmethod
+    def describe(responses, variant):
+        """
+        Describes a list of save responses.
+        :param responses: The list of responses.
+        :type responses:  list
+        :param variant: The object variant.
+        :type variant: str
+        :return: str
+        """
+        skp_count = upd_count = ins_count = 0
+        for response in responses:
+            if response == SaveResponse.skipped:
+                skp_count += 1
+            elif response == SaveResponse.updated:
+                upd_count += 1
+            elif response == SaveResponse.inserted:
+                ins_count += 1
+        return f'Inserted {ins_count}, updated {upd_count}, and skipped {skp_count} {variant}s.'
+
+
 class FetchHelper(object):
     __slots__ = ('bot', 'db', 'state', 'cache')
 
@@ -98,26 +124,29 @@ class FetchHelper(object):
         :type variant: str
         :param data: The object storage data
         :type data: dict
-        :rtype: bool
+        :rtype: int
         """
         oid = data["id"]
         cache_keys = [
-            f'object_{variant}_{oid}',
             f'document_{variant}_{oid}',
             f'existence_{variant}_{oid}',
             f'existence_{variant}_{oid}_stamp'
         ]
         doc = await self.get_object_doc(variant, oid)
         if doc:
-            del doc['_id']
+            if '_id' in doc:
+                del doc['_id']
+            response = SaveResponse.updated
+        else:
+            response = SaveResponse.inserted
         if doc != data:
             coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
             await coll.update_one({'id': oid}, {'$set': data}, upsert=True)
             for cache_key in cache_keys:
                 await self.cache.del_cache(cache_key)
-            return True
         else:
-            return False
+            response = SaveResponse.skipped
+        return response
 
     async def fetch_user(self, uid):
         """

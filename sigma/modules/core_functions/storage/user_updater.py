@@ -15,18 +15,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from sigma.core.mechanics.fetch import get_fetch_helper, SaveResponse
+from sigma.core.mechanics.fetch import get_fetch_helper
 
 
-async def guild_dumper(ev):
+async def user_updater(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
+    :param pld: The event payload data to process.
+    :type pld: sigma.core.mechanics.payload.MemberUpdatePayload
     """
-    variant = 'guild'
-    responses = []
+    variant = 'user'
     fh = get_fetch_helper(ev.bot)
-    for guild in ev.bot.guilds:
-        data = fh.make_guild_data(guild)
-        responses.append(await fh.save_object_doc(variant, data))
-    ev.log.info(SaveResponse.describe(responses, variant))
+    data = fh.make_user_data(pld.after)
+    await fh.save_object_doc(variant, data)

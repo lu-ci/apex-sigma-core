@@ -18,15 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from sigma.core.mechanics.fetch import get_fetch_helper, SaveResponse
 
 
-async def guild_dumper(ev):
+async def user_dumper(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    variant = 'guild'
+    variant = 'user'
     responses = []
     fh = get_fetch_helper(ev.bot)
-    for guild in ev.bot.guilds:
-        data = fh.make_guild_data(guild)
+    for user in ev.bot.get_all_members():
+        data = fh.make_user_data(user)
         responses.append(await fh.save_object_doc(variant, data))
     ev.log.info(SaveResponse.describe(responses, variant))
