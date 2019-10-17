@@ -33,7 +33,7 @@ async def oserverinformation(cmd, pld):
     if pld.args:
         lookup = ' '.join(pld.args)
         try:
-            gld = cmd.bot.get_guild(int(lookup))
+            gld = await cmd.bot.get_guild(int(lookup))
         except ValueError:
             gld = discord.utils.find(lambda u: u.name.lower() == lookup.lower(), cmd.bot.guilds)
         if gld:
