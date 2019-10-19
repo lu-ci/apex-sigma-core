@@ -42,7 +42,7 @@ async def enchanters(cmd, pld):
         for enc in encs:
             enc_usr = await cmd.bot.get_user(int(enc))
             enc_nam = enc_usr.name if enc_usr else enc
-            time_diff = encs.get(enc) - arrow.utcnow().timestamp
+            time_diff = encs.get(enc) + encore.time_limit - arrow.utcnow().timestamp
             time_text = datetime.timedelta(seconds=time_diff)
             enchanter_block_lines.append(f'**{time_text}** from {enc_nam}')
         enchanter_block_lines = list(sorted(enchanter_block_lines))
