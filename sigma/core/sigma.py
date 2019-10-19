@@ -223,6 +223,7 @@ class ApexSigma(client_class):
         """
         cacheable = False
         cache_key = f'get_usr_{uid}'
+        fh = get_fetch_helper(self)
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
             cacheable = True
             out = await self.cache.get_cache(cache_key)
@@ -231,11 +232,12 @@ class ApexSigma(client_class):
         else:
             out = super().get_user(uid)
         if not out:
-            fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_user(uid)
             except Exception:
                 out = None
+        if out:
+            await fh.save_object_doc('user', fh.make_user_data(out))
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -252,6 +254,7 @@ class ApexSigma(client_class):
         """
         cacheable = False
         cache_key = f'get_chn_{cid}'
+        fh = get_fetch_helper(self)
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
             cacheable = True
             out = await self.cache.get_cache(cache_key)
@@ -260,11 +263,12 @@ class ApexSigma(client_class):
         else:
             out = super().get_channel(cid)
         if not out:
-            fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_channel(cid)
             except Exception:
                 out = None
+        if out:
+            await fh.save_object_doc('channel', fh.make_channel_data(out))
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
@@ -282,6 +286,7 @@ class ApexSigma(client_class):
         """
         cacheable = False
         cache_key = f'get_gld_{gid}'
+        fh = get_fetch_helper(self)
         if cached and self.cfg.cache.type not in ['mixed', 'redis']:
             cacheable = True
             out = await self.cache.get_cache(cache_key)
@@ -290,11 +295,12 @@ class ApexSigma(client_class):
         else:
             out = super().get_guild(gid)
         if not out:
-            fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_guild(gid)
             except Exception:
                 out = None
+        if out:
+            await fh.save_object_doc('guild', fh.make_guild_data(out))
         if out and cacheable:
             await self.cache.set_cache(cache_key, out)
         return out
