@@ -45,5 +45,5 @@ async def passive_sweets(ev, pld):
                                 cooldown = await vc.get_cooldown(pld.msg.author.id, 60)
                                 await ev.bot.cool_down.set_cooldown(cd_key, pld.msg.author, cooldown)
                                 bonus = secrets.randbelow(666) == 0
-                                value = 6 if bonus else 1
+                                value = 66 if bonus else ((secrets.randbelow(6) + 1) * 3)
                                 await SweetsController.add_sweets(ev.db, pld.msg, value, ev.name)

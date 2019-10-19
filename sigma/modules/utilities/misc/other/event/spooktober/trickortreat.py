@@ -65,10 +65,11 @@ async def trickortreat(cmd, pld):
             tot_text = TOT_RESPONSES.get(sweets)
             tot_icon = TOT_ICONS.get(sweets)
             tot_color = TOT_COLORS.get(sweets)
-            actual_sweets = sweets
+            actual_sweets = int(sweets * 6.66)
             await cmd.db.del_resource(pld.msg.author.id, 'vigor', 1, cmd.name, pld.msg)
             added_sweets = await SweetsController.add_sweets(cmd.db, pld.msg, actual_sweets, cmd.name, False)
-            tot_status = 'No sweets this time...' if sweets == 0 else f'**(+{added_sweets} Sweets)**'
+
+            tot_status = 'No sweets this time...' if added_sweets == 0 else f'**(+{added_sweets} Sweets)**'
             response = discord.Embed(color=tot_color, title=f'{tot_icon} {tot_text} {tot_status}')
         else:
             response = discord.Embed(color=0x77b255, title='🤢 You\'re too tired, you need vigor.')

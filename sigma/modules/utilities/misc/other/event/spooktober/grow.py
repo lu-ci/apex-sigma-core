@@ -46,12 +46,13 @@ async def grow(cmd, pld):
         price = 1
     candy = await cmd.db.get_resource(pld.msg.author.id, 'sweets')
     if candy.current >= price:
+        multiplier = 66.6
         curse_ctrl = get_curse_controller(cmd.db)
         cursed = await curse_ctrl.is_cursed(pld.msg.author.id)
         if price > 10:
-            gain = int(VigorController.basic_exponential(price, price, 0.00775, True, True) * 6.66)
+            gain = int(VigorController.basic_exponential(price, price, 0.00775, True, True) * multiplier)
         else:
-            gain = int(price * 6.66)
+            gain = int(price * multiplier)
         if cursed:
             gain = gain // 2
         if not gain:

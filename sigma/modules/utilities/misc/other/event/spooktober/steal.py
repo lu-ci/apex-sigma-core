@@ -48,7 +48,7 @@ async def steal(cmd, pld):
                 cooldown = await vc.get_cooldown(pld.msg.author.id, 150)
                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
                 vigor = await vc.get_vigor(pld.msg.author.id)
-                chance = round(await vc.get_chances(pld.msg.author.id, 75), 2)
+                chance = round(await vc.get_chances(pld.msg.author.id, 45), 2)
                 question_text = f'❔ You have a {chance}% chance of success, continue?'
                 question_embed = discord.Embed(color=0xf9f9f9, title=question_text)
                 question_embed.set_footer(text=f'If you fail, you\'ll lose some vigor and {currency}, and get cursed.')
@@ -67,7 +67,7 @@ async def steal(cmd, pld):
                                 cmd.db, pld.msg, stolen_amount, cmd.name, False, True
                             )
                             await cmd.db.del_resource(target.id, 'sweets', stolen_amount, cmd.name, pld.msg)
-                            vigor_loss = secrets.randbelow(3) + 3
+                            vigor_loss = secrets.randbelow(10) + 5
                             vigor_loss = vigor_loss if vigor.current >= vigor_loss else vigor.current
                             await cmd.db.del_resource(pld.msg.author.id, 'vigor', vigor_loss, cmd.name, pld.msg)
                             response_text = f'🗡 You pull a knife on {target.display_name}!'
@@ -82,11 +82,11 @@ async def steal(cmd, pld):
                             response.description += f'`{pfx}sweets @{target.name}#{target.discriminator}`.'
                             response.description += f' You didn\'t gain or lose anything, except time.'
                     else:
-                        vigor_loss = secrets.randbelow(10) + 5
+                        vigor_loss = secrets.randbelow(25) + 5
                         vigor_loss = vigor_loss if vigor.current >= vigor_loss else vigor.current
                         await cmd.db.del_resource(pld.msg.author.id, 'vigor', vigor_loss, cmd.name, pld.msg)
                         curr = await cmd.db.get_resource(pld.msg.author.id, 'currency')
-                        curr_loss = secrets.randbelow(8000) + 2000
+                        curr_loss = secrets.randbelow(80000) + 20000
                         curr_loss = curr_loss if curr.current >= curr_loss else curr.current
                         cctrl = get_curse_controller(cmd.db)
                         await cctrl.set_cursed(pld.msg.author.id)

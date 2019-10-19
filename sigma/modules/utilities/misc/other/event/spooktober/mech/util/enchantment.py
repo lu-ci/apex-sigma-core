@@ -61,7 +61,7 @@ class EnchantmentController(object):
         self.db = db
         self.coll = self.db[self.db.db_nam].Enchantments
         self.limit = 5
-        self.time_limit = 3600
+        self.time_limit = 3996
         """
         :param db: The database client. 
         :type db: sigma.core.mechanics.database.Database

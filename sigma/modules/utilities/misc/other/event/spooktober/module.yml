@@ -36,7 +36,7 @@ commands:
       Enchantments modify the value of candy received.
       Up to 5 enchantments can be active at a time and they cost Sweets.
       Cursed users can't be enchanted and any active enchantments will be lost
-      if the user gets cursed. They last 2 hours.
+      if the user gets cursed. They last 66.6 minutes.
     enabled: true
     name: enchant
     usage: '{pfx}{cmd} @target'
