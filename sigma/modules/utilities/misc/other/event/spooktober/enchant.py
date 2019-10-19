@@ -72,7 +72,7 @@ async def enchant(cmd, pld):
                                 ench_timer = await encc.author_enchantment_expires(pld.msg.author.id, target.id, True)
                                 response.set_footer(text=f'Your enchantment expires in {ench_timer}.')
                         else:
-                            response = denied(f'{target.display_name} already has two enchantments.')
+                            response = denied(f'{target.display_name} has too many enchantments.')
                             ench_timer = await encc.shortest_enchantment_expires(target.id, True)
                             response.set_footer(text=f'The shortest enchantment expires in {ench_timer}.')
                     else:

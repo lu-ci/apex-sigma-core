@@ -34,7 +34,7 @@ async def pumpkin(cmd, pld):
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     weight_res = await cmd.db.get_resource(target.id, 'weight')
-    weight_val = round(weight_res.current / 1000, 2)
+    weight_val = round(weight_res.ranked / 1000, 2)
     canv = ImageCompositor(cmd.resource('font/exo2-regular.ttf'), 666, 420)
     bg = ImageCompositor.resize(cmd.resource('img/bg/bg_pumpkin.png'), width=666, height=420).convert('L')
     canv.stick(bg, (0, 0), cmd.resource('img/bg/bg_mask.png'))

@@ -33,7 +33,7 @@ async def topsweets(cmd, pld):
     gu = cmd.bot.get_user
     value_name = 'Sweets'
     resource = 'sweets'
-    sort_key = 'total'
+    sort_key = 'ranked'
     lb_category = 'Total'
     if pld.args:
         if pld.args[0].lower() == 'current':

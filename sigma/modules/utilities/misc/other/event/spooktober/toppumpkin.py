@@ -33,7 +33,7 @@ async def toppumpkin(cmd, pld):
     gu = cmd.bot.get_user
     value_name = 'Pumpkin'
     resource = 'weight'
-    sort_key = 'current'
+    sort_key = 'ranked'
     lb_category = 'Largest'
     now = arrow.utcnow().timestamp
     leader_docs = await cmd.db.cache.get_cache(f'{resource}_{sort_key}')
