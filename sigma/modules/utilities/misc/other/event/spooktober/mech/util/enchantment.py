@@ -55,12 +55,13 @@ def get_curse_controller(db):
 
 
 class EnchantmentController(object):
-    __slots__ = ('db', 'coll', 'time_limit')
+    __slots__ = ('db', 'coll', 'limit', 'time_limit')
 
     def __init__(self, db):
         self.db = db
         self.coll = self.db[self.db.db_nam].Enchantments
-        self.time_limit = 7200
+        self.limit = 5
+        self.time_limit = 3600
         """
         :param db: The database client. 
         :type db: sigma.core.mechanics.database.Database
@@ -79,7 +80,7 @@ class EnchantmentController(object):
         now = arrow.utcnow().timestamp
         for eix, enchanter in enumerate(list(enchanters.copy().keys())):
             timestamp = enchanters.get(enchanter)
-            if (now > timestamp + self.time_limit) or eix > 1:
+            if (now > timestamp + self.time_limit) or eix >= self.limit:
                 del enchanters[enchanter]
         return enchanters
 
@@ -95,7 +96,7 @@ class EnchantmentController(object):
         """
         now = arrow.utcnow().timestamp
         enchanters = await self.get_enchanters(uid)
-        if len(enchanters.keys()) < 2:
+        if len(enchanters.keys()) < self.limit:
             enchanters.update({str(aid): now})
             data = {'user_id': uid, 'enchanters': enchanters}
             await self.coll.update_one({'user_id': uid}, {'$set': data}, upsert=True)
@@ -119,9 +120,8 @@ class EnchantmentController(object):
         :return:
         :rtype: bool
         """
-        level_limit = 2
         level = await self.get_enchantment(uid)
-        return level < level_limit
+        return level < self.limit
 
     async def shortest_enchantment_expires(self, uid, formatted=False):
         """
