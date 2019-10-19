@@ -53,9 +53,10 @@ async def awardleaderboards(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
+        collections = await cmd.db[cmd.db.db_nam].list_collection_names()
         coll_title = pld.args[0].title()
         coll_title = 'Currency' if coll_title == cmd.bot.cfg.pref.currency.title() else coll_title
-        if coll_title in ['Cookies', 'Currency']:
+        if f'{coll_title}Resource' in collections:
             init_resp = discord.Embed(color=0xf9f9f9, title='💴 Awarding leaderboards....')
             init_msg = await pld.msg.channel.send(embed=init_resp)
             await reset_resource(cmd.db, cmd.log, coll_title)
