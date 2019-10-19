@@ -1,5 +1,5 @@
 category: development
-enabled: false
+enabled: true
 events:
   - enabled: true
     name: guild_dumper

@@ -65,7 +65,7 @@ class SaveResponse(enumerate):
 
 
 class FetchHelper(object):
-    __slots__ = ('bot', 'db', 'state', 'cache')
+    __slots__ = ('bot', 'state', 'cache')
 
     def __init__(self, bot):
         """
@@ -74,32 +74,9 @@ class FetchHelper(object):
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
-        self.db = self.bot.db
         # noinspection PyProtectedMember
         self.state = self.bot._connection
-        self.cache = MemoryCacher(CacheConfig({}))
-
-    async def object_exists(self, variant, oid):
-        """
-        Checks if an object with the given ID exists in the object storage.
-        :param variant: The type of object to grab.
-        :type variant: str
-        :param oid: The ID of the object.
-        :type oid: int
-        :rtype: bool
-        """
-        # timeout = 60
-        # key = f'existence_{variant}_{oid}'
-        # stamp_key = f'existence_{variant}_{oid}_stamp'
-        # exists = await self.cache.get_cache(key)
-        # now = arrow.utcnow().timestamp
-        # timestamp = await self.cache.get_cache(stamp_key) or 0
-        # if exists is None or now > timestamp + timeout:
-        #     coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
-        #     exists = bool(await coll.count_documents({'id': str(oid)}))
-        #     await self.cache.set_cache(key, exists)
-        # return exists
-        return False
+        self.cache = self.bot.cache
 
     async def get_object_doc(self, variant, oid):
         """
@@ -110,14 +87,9 @@ class FetchHelper(object):
         :type oid: int
         :rtype: None or dict
         """
-        # cache_key = f'document_{variant}_{oid}'
-        # data = await self.cache.get_cache(cache_key)
-        # if data is None:
-        #     coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
-        #     data = await coll.find_one({'id': oid})
-        #     await self.cache.set_cache(cache_key, data)
-        # return data
-        return None
+        cache_key = f'document_{variant}_{oid}'
+        data = await self.cache.get_cache(cache_key)
+        return data
 
     async def save_object_doc(self, variant, data):
         """
@@ -128,28 +100,20 @@ class FetchHelper(object):
         :type data: dict
         :rtype: int
         """
-        # oid = data["id"]
-        # cache_keys = [
-        #     f'document_{variant}_{oid}',
-        #     f'existence_{variant}_{oid}',
-        #     f'existence_{variant}_{oid}_stamp'
-        # ]
-        # doc = await self.get_object_doc(variant, oid)
-        # if doc:
-        #     if '_id' in doc:
-        #         del doc['_id']
-        #     response = SaveResponse.updated
-        # else:
-        #     response = SaveResponse.inserted
-        # if doc != data:
-        #     coll = self.db[self.db.db_nam][f'{variant.title()}Objects']
-        #     await coll.update_one({'id': oid}, {'$set': data}, upsert=True)
-        #     for cache_key in cache_keys:
-        #         await self.cache.del_cache(cache_key)
-        # else:
-        #     response = SaveResponse.skipped
-        # return response
-        return SaveResponse.skipped
+        oid = data["id"]
+        cache_key = f'document_{variant}_{oid}'
+        doc = await self.get_object_doc(variant, oid)
+        if doc:
+            if '_id' in doc:
+                del doc['_id']
+            response = SaveResponse.updated
+        else:
+            response = SaveResponse.inserted
+        if doc != data:
+            await self.cache.set_cache(cache_key, data)
+        else:
+            response = SaveResponse.skipped
+        return response
 
     async def fetch_user(self, uid):
         """
