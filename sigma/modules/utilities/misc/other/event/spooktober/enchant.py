@@ -36,7 +36,7 @@ async def enchant(cmd, pld):
     if pld.msg.author.id in EVENT_ONGOING:
         return
     EVENT_ONGOING.append(pld.msg.author.id)
-    price = 5
+    price = 20
     target = pld.msg.mentions[0] if pld.msg.mentions else None
     if target:
         if not target.bot:
