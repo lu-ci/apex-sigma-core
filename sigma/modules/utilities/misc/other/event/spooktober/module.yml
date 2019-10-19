@@ -41,6 +41,13 @@ commands:
     name: enchant
     usage: '{pfx}{cmd} @target'
   - alts:
+      - "boosters"
+    description: Shows the users that enchanted you
+      and how long their enchantments will be active for.
+    enabled: true
+    name: enchanters
+    usage: '{pfx}{cmd} @target'
+  - alts:
       - "yoink"
       - "mug"
       - "stickup"

@@ -88,6 +88,8 @@ async def steal(cmd, pld):
                         curr = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                         curr_loss = secrets.randbelow(80000) + 20000
                         curr_loss = curr_loss if curr.current >= curr_loss else curr.current
+                        curr_loss = 0 if curr_loss < 0 else curr_loss
+                        await cmd.db.del_resource(pld.msg.author.id, 'currency', curr_loss, cmd.name, pld.msg)
                         cctrl = get_curse_controller(cmd.db)
                         await cctrl.set_cursed(pld.msg.author.id)
                         response_text = '🚔 You screwed up and got detained!'

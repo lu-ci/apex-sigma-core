@@ -55,7 +55,7 @@ async def enchant(cmd, pld):
                                 question = discord.Embed(color=0xf9f9f9, title=question_text)
                                 success, timeout = await bool_dialogue(cmd.bot, pld.msg, question)
                                 if success:
-                                    text = f'💠 You have enchanted {target.display_name} for 2 hours.'
+                                    text = f'💠 You have enchanted {target.display_name} for 66.6 minutes.'
                                     response = discord.Embed(color=0x55acee, title=text)
                                     await encc.add_enchanter(pld.msg.author.id, target.id)
                                     await cmd.db.del_resource(pld.msg.author.id, 'sweets', price, cmd.name, pld.msg)

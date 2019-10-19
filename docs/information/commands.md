@@ -81,7 +81,8 @@ Commands | Description | Example
 ### EVENT
 Commands | Description | Example
 ----------|-------------|--------
-`>>enchant` `>>boost` `>>candyslap` | Enchants your target user. Enchantments modify the value of candy received. Up to 2 enchantments can be active at a time and cost 5 Sweets. Cursed users can't be enchanted and any active enchantments will be lost if the user gets cursed. They last 2 hours. | `>>enchant @target`
+`>>enchant` `>>boost` `>>candyslap` | Enchants your target user. Enchantments modify the value of candy received. Up to 5 enchantments can be active at a time and they cost Sweets. Cursed users can't be enchanted and any active enchantments will be lost if the user gets cursed. They last 66.6 minutes. | `>>enchant @target`
+`>>enchanters` `>>boosters` | Shows the users that enchanted you and how long their enchantments will be active for. | `>>enchanters @target`
 `>>grow` `>>fertilize` | Makes your pumpkin grow. The default value it uses is 10 but you can input any amount of sweets you want to use. You'll be prompted if you agree. The amount of weight the pumpkin gains is a positive exponential. The more sweets you give it in a bulk the more weight it gains. So stock up on sweets and dump it all on it at once. | `>>grow 667`
 `>>heal` `>>regen` `>>medic` | Heals your vigor. You can also heal someone else if you tag them. You don't need to heal ALL of what you're missing. You can enter a number anywhere in the command message to specify how much you want to heal back. | `>>heal @person`
 `>>pumpkin` `>>jackolantern` | Shows how big a user's pumpkin is, in kilos! You can grow it further with the grow command. | `>>pumpkin @target`

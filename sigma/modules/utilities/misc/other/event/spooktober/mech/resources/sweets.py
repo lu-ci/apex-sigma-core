@@ -64,24 +64,25 @@ class SweetsController(abc.ABC):
         :return:
         :rtype:
         """
-        cap = 1000
-        sweets = await db.get_resource(msg.author.id, 'sweets')
-        if sweets.current < cap:
-            curse_ctrl = get_curse_controller(db)
-            enchantment_ctrl = get_enchantment_controller(db)
-            if await curse_ctrl.is_cursed(msg.author.id):
-                value = value // 6.66
-            else:
-                if not stolen:
-                    enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
-                    if enchantment_level:
-                        value += value + ((2 ** enchantment_level) + int(enchantment_level * 6.66))
-            if sweets.current + value > cap:
-                value = cap - sweets.current
-                if value < 0:
-                    value = 0
-            if value:
-                await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
-                if notify:
-                    await SweetsController.notify(msg, value)
+        if value:
+            cap = 1000
+            sweets = await db.get_resource(msg.author.id, 'sweets')
+            if sweets.current < cap:
+                curse_ctrl = get_curse_controller(db)
+                enchantment_ctrl = get_enchantment_controller(db)
+                if await curse_ctrl.is_cursed(msg.author.id):
+                    value = value // 6.66
+                else:
+                    if not stolen:
+                        enchantment_level = await enchantment_ctrl.get_enchantment(msg.author.id)
+                        if enchantment_level:
+                            value += value + ((2 ** enchantment_level) + int(enchantment_level * 1.666))
+                if sweets.current + value > cap:
+                    value = cap - sweets.current
+                    if value < 0:
+                        value = 0
+                if value:
+                    await db.add_resource(msg.author.id, 'sweets', value, trigger, msg, True)
+                    if notify:
+                        await SweetsController.notify(msg, value)
         return value
