@@ -46,7 +46,11 @@ async def scr_clockwork(ev):
                 coll = ev.db[ev.db.db_nam].ServerSettings
                 colored_guild_docs = await coll.find({'color_roles': True}).to_list(None)
                 guild_ids = [gdoc.get('server_id') for gdoc in colored_guild_docs]
-                guilds = [await ev.bot.get_guild(gid) for gid in guild_ids if await ev.bot.get_guild(gid)]
+                guilds = []
+                for gid in guild_ids:
+                    guild = await ev.bot.get_guild(gid, fetched=False)
+                    if guild:
+                        guilds.append(guild)
                 for guild in guilds:
                     scr_roles = [rl for rl in guild.roles if rl.name.startswith('SCR-')]
                     for scrr in scr_roles:

@@ -211,7 +211,7 @@ class ApexSigma(client_class):
             ready = False
         return ready
 
-    async def get_user(self, uid, cached=False):
+    async def get_user(self, uid, cached=False, fetched=True):
         """
         Gets a user from the core client
         or from the cache if one exists in the Cacher class.
@@ -219,6 +219,8 @@ class ApexSigma(client_class):
         :type cached: bool
         :param uid: The User ID of the requested user.
         :param cached: Should the user be cached/obtained from the cache.
+        :param fetched: Should the guild fetched.
+        :type fetched: bool
         :return:
         """
         cacheable = False
@@ -230,7 +232,7 @@ class ApexSigma(client_class):
                 out = super().get_user(uid)
         else:
             out = super().get_user(uid)
-        if not out:
+        if not out and fetched:
             fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_user(uid)
@@ -240,7 +242,7 @@ class ApexSigma(client_class):
             await self.cache.set_cache(cache_key, out)
         return out
 
-    async def get_channel(self, cid, cached=False):
+    async def get_channel(self, cid, cached=False, fetched=True):
         """
         Gets a channel from the core client
         or from the cache if one exists in the Cacher class.
@@ -248,6 +250,8 @@ class ApexSigma(client_class):
         :type cached: bool
         :param cid: The Channel ID of the requested channel.
         :param cached: Should the channel be cached/obtained from the cache.
+        :param fetched: Should the guild fetched.
+        :type fetched: bool
         :return:
         """
         cacheable = False
@@ -259,7 +263,7 @@ class ApexSigma(client_class):
                 out = super().get_channel(cid)
         else:
             out = super().get_channel(cid)
-        if not out:
+        if not out and fetched:
             fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_channel(cid)
@@ -269,15 +273,17 @@ class ApexSigma(client_class):
             await self.cache.set_cache(cache_key, out)
         return out
 
-    async def get_guild(self, gid, cached=False):
+    async def get_guild(self, gid, cached=False, fetched=True):
         """
         Gets a guild from the core client
         or form teh cache if one exists in the Cacher class.
         :param gid: The Guild ID of the requested guild.
         :type gid: int
-        :param cached: Should the channel be cached/obtained from the cache.
+        :param cached: Should the guild be cached/obtained from the cache.
         :type cached: bool
         :return:
+        :param fetched: Should the guild fetched.
+        :type fetched: bool
         :rtype:
         """
         cacheable = False
@@ -289,7 +295,7 @@ class ApexSigma(client_class):
                 out = super().get_guild(gid)
         else:
             out = super().get_guild(gid)
-        if not out:
+        if not out and fetched:
             fh = get_fetch_helper(self)
             try:
                 out = await fh.fetch_guild(gid)

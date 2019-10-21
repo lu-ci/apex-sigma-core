@@ -28,7 +28,7 @@ async def eject(cmd, pld):
     """
     if pld.args:
         try:
-            target = cmd.bot.get_guild(int(''.join(pld.args)))
+            target = await cmd.bot.get_guild(int(''.join(pld.args)))
             if target:
                 await target.leave()
                 response = ok(f'Ejected from {target.name}.')

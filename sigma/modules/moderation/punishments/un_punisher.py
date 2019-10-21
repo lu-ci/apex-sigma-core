@@ -46,7 +46,7 @@ async def unban(ev, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = ev.bot.get_guild(gid)
+        guild = await ev.bot.get_guild(gid)
         if guild:
             banlist = await guild.bans()
             target = discord.utils.find(lambda u: u.user.id == uid, banlist)
@@ -100,7 +100,7 @@ async def unhmute(ev, doc: dict):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = await ev.bot.get_guild(gid)
+        guild = await ev.bot.get_guild(gid, fetched=False)
         if guild:
             target = guild.get_member(uid)
             if target:
