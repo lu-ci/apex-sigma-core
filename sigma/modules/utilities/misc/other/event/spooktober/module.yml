@@ -87,6 +87,13 @@ commands:
     name: toppumpkin
     usage: '{pfx}{cmd}'
   - alts:
+      - "toppp"
+    description: Shows which guilds have the top pumpkin patches.
+      The pumpkin patch value is an average by the amount of people that participated.
+    enabled: true
+    name: toppatches
+    usage: '{pfx}{cmd}'
+  - alts:
       - "regen"
       - "medic"
     description: Heals your vigor.

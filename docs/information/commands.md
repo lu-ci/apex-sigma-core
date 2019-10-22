@@ -88,6 +88,7 @@ Commands | Description | Example
 `>>pumpkin` `>>jackolantern` | Shows how big a user's pumpkin is, in kilos! You can grow it further with the grow command. | `>>pumpkin @target`
 `>>steal` `>>yoink` `>>mug` `>>stickup` `>>rob` | Steal another user's sweets. Be careful, because failing to do so has consequences. You'll lose vigor, Kud, and even get cursed. Does your sweet tooth outweigh those risks? | `>>steal @target`
 `>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. Sweets can be earned by trick-or-treating, stealing them from another player, or getting Spectral and Ethereal fish, plants or animals. | `>>sweets @target`
+`>>toppatches` `>>toppp` | Shows which guilds have the top pumpkin patches. The pumpkin patch value is an average by the amount of people that participated. | `>>toppatches`
 `>>toppumpkin` `>>topjol` `>>topweight` `>>topgrowth` | Shows which users have the largest and heaviest pumpkins. | `>>toppumpkin`
 `>>topsweets` `>>topcandy` | Shows which users gained the most sweets in the event. You can also enter the word "local" to see who gained the most candy on the current server. | `>>topsweets`
 `>>trickortreat` `>>tot` | Go looking for sweets! | `>>trickortreat`

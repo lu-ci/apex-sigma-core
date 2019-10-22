@@ -52,6 +52,7 @@ async def topsweets(cmd, pld):
         leader_docs = await get_leader_docs(cmd.db, all_docs, sort_key)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
         await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)
+        leader_timer = now
     table_data = [
         [
             pos + 1 if not doc[0] == pld.msg.author.id else f'{pos + 1} <',
