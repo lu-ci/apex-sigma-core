@@ -61,7 +61,8 @@ async def temproom(cmd, pld):
     temp_vc_cat = await get_category(cmd, pld.msg.guild)
     if pld.msg.guild.me.permissions_in(temp_vc_cat).manage_channels:
         tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
-        await tmp_vc.set_permissions(pld.msg.author, manage_channels=True, manage_roles=True, connect=True, speak=True)
+        perms = {'manage_channels': True, 'manage_roles': True, 'read_messages': True, 'connect': True, 'speak': True}
+        await tmp_vc.set_permissions(pld.msg.author, **perms)
         response = ok(f'{room_name} created.')
     else:
         response = error('I can\'t create channels in that category.')
