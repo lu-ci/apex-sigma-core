@@ -167,7 +167,7 @@ commands:
       - foverrides
       - fovrs
     description: Lists all overrides for the specified filter. The accepted filters
-      are asciinames, arguments, extensions, words, and invites.
+      are arguments, extensions, words, and invites.
     enabled: true
     name: filteroverrides
     usage: '{pfx}{cmd} words'
