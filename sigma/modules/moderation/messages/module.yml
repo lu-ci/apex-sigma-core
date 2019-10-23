@@ -2,17 +2,15 @@ category: moderation
 commands:
   - alts:
       - prune
-    description: Deletes any messages posted by the mentioned user within the last X
-      messages. If a user is not provided, it will prune the last X messages regardless
-      of poster. If a number is not provided it will prune all messages posted by the
-      mentioned user within the last 100 messages. If neither number nor user is provided,
-      it will prune Sigma's messages within the last 100 messages. If you add "attachments"
-      to the command arguments it will only purge messages that have attachments. If
-      you add "emotes" to the command arguments it will only purge messages that are
-      just emotes. If you add "content:something you want gone" to the command arguments
-      it will only delete messages that have the specified content after "content:"
-      in them, which can be a word or a sentence. Due to content catching everything
-      after the ":" in it, it's suggested to be the last argument in the command. This
+    description: Deletes messages matching the given filters. There is a hard
+      cap of 100 messages per purge. Mentioning a user will only delete their
+      messages. Providing a limit will only delete within the last X messages.
+      Omitting the user and limit will only delete Sigma's messages. There are
+      several arguments avaiable to filter what's deleted. "attachments" only
+      delete messages with attachments. "emotes" only delete messages that are
+      emotes. "untilpin" stop deleting when a pin is reached. "content:thing to
+      delete" only delete messages including "thing to delete". Due to this included
+      everything after the ":", it's recommended this be the last argument. This
       command requires the Manage Messages permission.
     enabled: true
     name: purge

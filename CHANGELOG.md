@@ -1,7 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.68.1378 Yuria
 
-## 4.67.1348
+### Changed
+
+- Added a missing channel permission in the `temproom` command.
+- Channel permissions in the `temproom` command are now a set of kwargs.  
+- The description of the `purge` command is now more concise and up to date.
+- The description of the `filteroverrides` command no longer includes `asciinames`.
+
+## 4.67.1348 Yuria
 
 ### Added
 
@@ -13,7 +21,7 @@
 - Minor refactors for various custom list commands. 
 - Added more creator permissions for temporary voice channels. 
 
-## 4.67.1344
+## 4.67.1344 Yuria
 
 ### Added 
 
