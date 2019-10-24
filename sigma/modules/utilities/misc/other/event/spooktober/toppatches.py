@@ -42,16 +42,14 @@ async def toppatches(cmd, pld):
         guild_counts = {}
         all_weights = await cmd.db[cmd.db.db_nam].WeightResource.find({}).to_list(None)
         for weight in all_weights:
-            uid = weight.get('user_id')
-            if not await cmd.db.is_sabotaged(uid):
-                resource = SigmaResource(weight)
-                for guild_key in resource.origins.guilds.keys():
-                    guild_total = guild_sums.get(guild_key, 0)
-                    guild_count = guild_counts.get(guild_key, 0)
-                    guild_total += resource.origins.guilds.get(guild_key)
-                    guild_count += 1
-                    guild_sums.update({guild_key: guild_total})
-                    guild_counts.update({guild_key: guild_count})
+            resource = SigmaResource(weight)
+            for guild_key in resource.origins.guilds.keys():
+                guild_total = guild_sums.get(guild_key, 0)
+                guild_count = guild_counts.get(guild_key, 0)
+                guild_total += resource.origins.guilds.get(guild_key)
+                guild_count += 1
+                guild_sums.update({guild_key: guild_total})
+                guild_counts.update({guild_key: guild_count})
         guild_sum_list = []
         for gsk in guild_sums.keys():
             guild_sum_list.append({
