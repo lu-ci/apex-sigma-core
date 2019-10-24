@@ -64,5 +64,5 @@ async def topsweets(cmd, pld):
     curr_icon = '🍬'
     response = f'{curr_icon} **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
+    response += f'\nLeaderboard last updated **{arrow.get(leader_timer).humanize()}**.'
     await pld.msg.channel.send(response)

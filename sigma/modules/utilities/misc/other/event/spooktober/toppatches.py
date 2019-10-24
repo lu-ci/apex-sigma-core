@@ -35,6 +35,8 @@ async def toppatches(cmd, pld):
     now = arrow.utcnow().timestamp
     guild_sum_list = await cmd.db.cache.get_cache(f'guild_pumpkin_patch')
     leader_timer = await cmd.db.cache.get_cache(f'guild_pumpkin_patch_stamp') or now
+    guild_ids = []
+    member_ids = []
     if not guild_sum_list or leader_timer + 180 < now:
         ongoing_response = discord.Embed(color=0x3b88c3, title='🔄 Getting pumpkins might take a little while...')
         ongoing_msg = await pld.msg.channel.send(embed=ongoing_response)
@@ -43,7 +45,11 @@ async def toppatches(cmd, pld):
         all_weights = await cmd.db[cmd.db.db_nam].WeightResource.find({}).to_list(None)
         for weight in all_weights:
             resource = SigmaResource(weight)
+            if weight.get('id') not in member_ids:
+                member_ids.append(weight.get('id'))
             for guild_key in resource.origins.guilds.keys():
+                if guild_key not in guild_ids:
+                    guild_ids.append(guild_key)
                 guild_total = guild_sums.get(guild_key, 0)
                 guild_count = guild_counts.get(guild_key, 0)
                 guild_total += resource.origins.guilds.get(guild_key)
@@ -71,11 +77,14 @@ async def toppatches(cmd, pld):
             clean_name(guild.name if guild else str(gsi.get('id')), 'Unknown')[:18],
             f'{round(gsi.get("avg") / 1000, 2)}kg'
         ])
+    total_guilds = len(member_ids)
+    total_members = len(guild_ids)
     table_body = boop(table_data, table_heads)
     curr_icon = '🎃'
     response = f'{curr_icon} **Guild Pumpkin Patch Leaderboard**'
+    response += f'\nA total of **{total_members} users** participated in **{total_guilds} servers**.'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
+    response += f'\nLeaderboard last updated **{arrow.get(leader_timer).humanize()}**.'
     if ongoing_msg:
         try:
             await ongoing_msg.delete()

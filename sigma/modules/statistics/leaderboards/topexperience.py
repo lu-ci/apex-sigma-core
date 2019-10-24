@@ -65,5 +65,5 @@ async def topexperience(cmd, pld):
     table_body = boop(table_data, ['#', 'User Name', value_name])
     response = f'🔰 **{lb_category} {value_name} Leaderboard**'
     response += f'\n```hs\n{table_body}\n```'
-    response += f'\nLeaderboard last updated {arrow.get(leader_timer).humanize()}.'
+    response += f'\nLeaderboard last updated **{arrow.get(leader_timer).humanize()}**.'
     await pld.msg.channel.send(response)
