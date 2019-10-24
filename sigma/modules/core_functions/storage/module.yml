@@ -5,12 +5,6 @@ events:
     name: guild_dumper
     type: ready
   - enabled: true
-    name: user_dumper
-    type: ready
-  - enabled: true
-    name: channel_dumper
-    type: ready
-  - enabled: true
     name: guild_updater
     type: guild_update
   - enabled: true
