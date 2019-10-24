@@ -49,7 +49,7 @@ async def toppumpkin(cmd, pld):
     table_data = [
         [
             pos + 1 if not doc[0] == pld.msg.author.id else f'{pos + 1} <',
-            clean_name((await gu(doc[0])).name if await gu(doc[0]) else doc[0], 'Unknown')[:12],
+            clean_name((await gu(doc[0])).name if await gu(doc[0]) else doc[0], 'Unknown')[:18],
             f'{str(round(doc[1] / 1000, 2))}kg'
         ] for pos, doc in enumerate(leader_docs)
     ]

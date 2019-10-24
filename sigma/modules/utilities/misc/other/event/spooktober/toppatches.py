@@ -22,7 +22,6 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.resources import SigmaResource
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
-from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
 async def toppatches(cmd, pld):
@@ -43,14 +42,16 @@ async def toppatches(cmd, pld):
         guild_counts = {}
         all_weights = await cmd.db[cmd.db.db_nam].WeightResource.find({}).to_list(None)
         for weight in all_weights:
-            resource = SigmaResource(weight)
-            for guild_key in resource.origins.guilds.keys():
-                guild_total = guild_sums.get(guild_key, 0)
-                guild_count = guild_counts.get(guild_key, 0)
-                guild_total += resource.origins.guilds.get(guild_key)
-                guild_count += 1
-                guild_sums.update({guild_key: guild_total})
-                guild_counts.update({guild_key: guild_count})
+            uid = weight.get('user_id')
+            if not await cmd.db.is_sabotaged(uid):
+                resource = SigmaResource(weight)
+                for guild_key in resource.origins.guilds.keys():
+                    guild_total = guild_sums.get(guild_key, 0)
+                    guild_count = guild_counts.get(guild_key, 0)
+                    guild_total += resource.origins.guilds.get(guild_key)
+                    guild_count += 1
+                    guild_sums.update({guild_key: guild_total})
+                    guild_counts.update({guild_key: guild_count})
         guild_sum_list = []
         for gsk in guild_sums.keys():
             guild_sum_list.append({
@@ -69,7 +70,7 @@ async def toppatches(cmd, pld):
         guild = await cmd.bot.get_guild(gsi.get('id'))
         table_data.append([
             str(gsx + 1),
-            guild.name if guild else str(gsi.get('id')),
+            clean_name(guild.name if guild else str(gsi.get('id')), 'Unknown')[:18],
             f'{round(gsi.get("avg") / 1000, 2)}kg'
         ])
     table_body = boop(table_data, table_heads)
