@@ -208,7 +208,12 @@ class Database(motor.AsyncIOMotorClient):
         :return:
         :rtype: bool
         """
-        return bool(await self.get_profile(user_id, 'sabotaged'))
+        sabbed = bool(await self.get_profile(user_id, 'sabotaged'))
+        if not sabbed:
+            coll = self.db[self.db_nam].BlacklistedUsers
+            lookup = {'user_id': user_id, 'total': True}
+            sabbed = bool(await coll.count_documents(lookup))
+        return sabbed
 
     # Resource Handling
 
