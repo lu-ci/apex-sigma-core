@@ -112,7 +112,7 @@ class ExecutionClockwork(object):
             if event_name in self.bot.modules.events:
                 if pld:
                     await pld.init()
-                # self.get_stats_storage(event_name).add_stat()
+                self.get_stats_storage(event_name).add_stat()
                 for event in self.bot.modules.events[event_name]:
                     task = event, pld
                     await self.ev_queue.put(task)
