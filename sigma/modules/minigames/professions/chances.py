@@ -39,8 +39,9 @@ async def chances(cmd, pld):
     upgrade_level = None
     if pld.args:
         if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
-            if pld.args[-1].isdigit:
-                upgrade_level = int(pld.args[-1])
+            if len(pld.args) > 1:
+                if pld.args[-1].isdigit:
+                    upgrade_level = int(pld.args[-1])
     if upgrade_level is None:
         upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
         upgrade_level = upgrade_file.get('luck') or 0
