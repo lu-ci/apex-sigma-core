@@ -43,7 +43,7 @@ def create_logger(name, *, to_title=False, level=None, shard=None):
     :param level: The logging level.
     :type level: int
     :param shard: The logging shard identifier.
-    :type shard: int or str
+    :type shard: int
     :return:
     :rtype: sigma.core.mechanics.logger.Logger
     """

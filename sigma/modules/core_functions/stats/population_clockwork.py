@@ -28,15 +28,13 @@ async def population_clockwork(ev):
     """
     global pop_loop_running
     collection = 'GeneralStats'
-    shards = ev.bot.cfg.dsc.shards if ev.bot.cfg.dsc.shards else [None]
-    for shard in shards:
-        lookup = {'name': 'population', 'shard': shard}
-        search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
-        if not search:
-            await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
-        if not pop_loop_running and not ev.bot.cfg.pref.dev_mode:
-            pop_loop_running = True
-            ev.bot.loop.create_task(update_population_stats_node(ev))
+    lookup = {'name': 'population', 'shard': ev.bot.cfg.dsc.shard}
+    search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
+    if not search:
+        await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
+    if not pop_loop_running and not ev.bot.cfg.pref.dev_mode:
+        pop_loop_running = True
+        ev.bot.loop.create_task(update_population_stats_node(ev))
 
 
 def get_all_roles(guilds):
@@ -61,22 +59,20 @@ async def update_population_stats_node(ev):
     """
     while True:
         if ev.bot.is_ready():
-            shards = ev.bot.cfg.dsc.shards if ev.bot.cfg.dsc.shards else [None]
-            for shard in shards:
-                collection = 'GeneralStats'
-                database = ev.bot.cfg.db.database
-                server_count = len(ev.bot.guilds)
-                member_count = len(ev.bot.users)
-                channel_count = len(list(ev.bot.get_all_channels()))
-                role_count = len(get_all_roles(ev.bot.guilds))
-                popdata = {
-                    'guild_count': server_count,
-                    'channel_count': channel_count,
-                    'member_count': member_count,
-                    'role_count': role_count,
-                    'shard': shard
-                }
-                update_target = {"name": 'population', "shard": shard}
-                update_data = {"$set": popdata}
-                await ev.db[database][collection].update_one(update_target, update_data)
+            collection = 'GeneralStats'
+            database = ev.bot.cfg.db.database
+            server_count = len(ev.bot.guilds)
+            member_count = len(ev.bot.users)
+            channel_count = len(list(ev.bot.get_all_channels()))
+            role_count = len(get_all_roles(ev.bot.guilds))
+            popdata = {
+                'guild_count': server_count,
+                'channel_count': channel_count,
+                'member_count': member_count,
+                'role_count': role_count,
+                'shard': ev.bot.cfg.dsc.shard
+            }
+            update_target = {"name": 'population', "shard": ev.bot.cfg.dsc.shard}
+            update_data = {"$set": popdata}
+            await ev.db[database][collection].update_one(update_target, update_data)
         await asyncio.sleep(60)

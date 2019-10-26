@@ -29,7 +29,7 @@ async def statistics(cmd, pld):
     """
     sigma_image = 'https://i.imgur.com/mGyqMe1.png'
     if cmd.bot.shard_ids and cmd.bot.shard_count:
-        sigma_title = f'Apex Sigma: Shard {", ".join(cmd.bot.cfg.dsc.shards)} Statistics'
+        sigma_title = f'Apex Sigma: Shard #{pld.msg.guild.shard_id} Statistics'
     else:
         sigma_title = 'Apex Sigma: Statistics'
     support_url = 'https://discordapp.com/invite/aEUCHwX'

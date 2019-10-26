@@ -63,7 +63,7 @@ class DiscordConfig(object):
     """
 
     __slots__ = (
-        "raw", "token", "owners", "bot", "shards", "shard_count", "max_messages"
+        "raw", "token", "owners", "bot", "shard", "shard_count", "max_messages"
     )
 
     def __init__(self, client_cfg_data):
@@ -77,10 +77,10 @@ class DiscordConfig(object):
         self.bot = self.raw.get('bot', True)
         self.max_messages = self.raw.get('max_messages')
         try:
-            self.shards = [int(shid.strip()) for shid in os.environ['SIGMA_SHARD'].split(',')]
+            self.shard = int(os.environ['SIGMA_SHARD'])
             self.shard_count = int(os.environ['SIGMA_SHARD_COUNT'])
         except (ValueError, KeyError):
-            self.shards = []
+            self.shard = None
             self.shard_count = None
 
 

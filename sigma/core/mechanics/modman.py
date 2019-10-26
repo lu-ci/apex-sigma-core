@@ -47,7 +47,7 @@ class ModuleManager(object):
         """
         self.bot = bot
         self.init = init
-        self.log = create_logger('Module Manager', shard='.'.join(self.bot.cfg.dsc.shards))
+        self.log = create_logger('Module Manager', shard=self.bot.cfg.dsc.shard)
         self.alts = {}
         self.commands = {}
         self.events = {}
