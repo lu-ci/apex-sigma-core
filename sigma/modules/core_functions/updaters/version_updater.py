@@ -28,7 +28,7 @@ async def version_updater(ev):
     """
     global version_clock_running
     if not version_clock_running:
-        if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+        if 0 in ev.bot.cfg.dsc.shards:
             ev.bot.loop.create_task(version_updater_clockwork(ev))
         version_clock_running = True
 

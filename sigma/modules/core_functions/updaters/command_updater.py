@@ -30,7 +30,7 @@ async def command_updater(ev):
     """
     global command_clock_running
     if not command_clock_running:
-        if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+        if 0 in ev.bot.cfg.dsc.shards:
             ev.bot.loop.create_task(command_updater_clockwork(ev))
         command_clock_running = True
 

@@ -81,7 +81,7 @@ class ApexSigma(client_class):
         self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = ExecutionClockwork(self)
         self.shard_count = self.cfg.dsc.shard_count
-        self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
+        self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards else None
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -132,7 +132,7 @@ class ApexSigma(client_class):
         Initializes the core client Logger.
         :return:
         """
-        self.log = create_logger('Sigma', shard=init_cfg.dsc.shard)
+        self.log = create_logger('Sigma', shard='.'.join(init_cfg.dsc.shards))
         self.log.info('Logger Created')
 
     def init_config(self):
