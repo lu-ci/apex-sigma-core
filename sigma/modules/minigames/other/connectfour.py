@@ -175,7 +175,7 @@ async def connectfour(cmd, pld):
         if winner:
             if bot:
                 if winner == getattr(board, player):
-                    color, icon, resp = 0x3B88C3, '💎', 'You wnn'
+                    color, icon, resp = 0x3B88C3, '💎', 'You win'
                 else:
                     color, icon, resp = 0x292929, '💣', 'You lose'
             else:
