@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.68.1382 Yuria
+
+### Added
+
+- The `slotstats` command shows payout rates for the slot machine with the given bet amount.
+
+### Changed
+
+- Tweaked string stripping in the `addreactor` command.
+
 ## 4.68.1378 Yuria
 
 ### Changed

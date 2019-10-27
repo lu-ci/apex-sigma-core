@@ -28,13 +28,13 @@ async def addreactor(cmd, pld):
     """
     if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
         if len(pld.args) >= 2:
-            trigger = ' '.join(pld.args[:-1]).lower()
+            trigger = ' '.join(pld.args[:-1]).lower().strip()
             if len(trigger) <= 200:
                 if '.' not in trigger:
-                    reaction = pld.args[-1].replace('<', '').replace('>', '')
+                    reaction = pld.args[-1].strip('<> ')
                     auto_reactions = pld.settings.get('reactor_triggers', {})
                     res_text = 'updated' if trigger in auto_reactions else 'added'
-                    auto_reactions.update({trigger.strip(): reaction.strip()})
+                    auto_reactions.update({trigger: reaction})
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'reactor_triggers', auto_reactions)
                     response = ok(f'{trigger} has been {res_text}')
                 else:

@@ -17,5 +17,9 @@ commands:
     enabled: true
     name: roulette
     usage: '{pfx}{cmd} 150 color:red'
+  - description: Shows payout rates for the slot machine for the specified bet. This does not cost anything.
+    enabled: true
+    name: slotstats
+    usage: '{pfx}{cmd} 13000'
 enabled: true
 name: Gambling Minigames
