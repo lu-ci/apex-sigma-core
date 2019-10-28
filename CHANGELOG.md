@@ -1,5 +1,12 @@
 # Apex Sigma Changelog
 
+## 4.68.1383 Yuria
+
+### Changed
+
+- Added an `--ids` argument to the `spouses` command.
+- Removed old proposal lines from the `divorce` command.
+
 ## 4.68.1382 Yuria
 
 ### Added

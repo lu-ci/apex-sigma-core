@@ -75,11 +75,12 @@ async def spouses(cmd, pld):
     splist, page = PaginatorCore.paginate(splist, page, 5)
     starter = 'You are' if target.id == pld.msg.author.id else f'{target.name} is'
     mid = 'have' if target.id == pld.msg.author.id else 'has'
+    ids_only = pld.args[-1].lower() == '--ids' if pld.args else False
     if splist:
         spdata = []
         for sp in splist:
             spmemb = await cmd.bot.get_user(sp.get('user_id'))
-            spmemb = spmemb.name if spmemb else sp.get('user_id')
+            spmemb = (spmemb.name if spmemb else sp.get('user_id')) if not ids_only else sp.get('user_id')
             sp_profile = await cmd.db[cmd.db.db_nam].Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('spouses') or []
             sp_spouse_ids = [s.get('user_id') for s in sp_spouses]
@@ -95,7 +96,7 @@ async def spouses(cmd, pld):
         response.add_field(name='Spouse List', value=f'```hs\n{spbody}\n```')
     else:
         if page == 1:
-            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married, nor {mid} proposed, to anyone.')
+            response = discord.Embed(color=0xe75a70, title=f'💔 {starter} not married to anyone.')
         else:
             response = discord.Embed(color=0xe75a70, title=f'💔 {starter.split()[0]} {mid} nobody on page {page}.')
     await pld.msg.channel.send(embed=response)
