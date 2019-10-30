@@ -44,14 +44,17 @@ async def translation(_cmd, pld):
                 to_lang = 'en'
             translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
             trans_output = translator.translate(sentence)
-            if 'is an invalid' not in trans_output.lower():
+            if 'is an invalid' in trans_output.lower():
+                lang_iso = trans_output.split()[0].strip("'")
+                response = error(f'{lang_iso} is an invalid language code.')
+                response.description = f'[Click for a list of language ISO codes]({wiki_url})'
+            # 'excedeed' is misspelled intentionally
+            elif 'length limit excedeed' in trans_output.lower():
+                response = error('Maximum query limit is 500 characters.')
+            else:
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
                 response = discord.Embed(color=0x3B88C3, title=title)
                 response.description = trans_output
-            else:
-                lang_iso = trans_output.split()[0].replace("'", "")
-                response = error(f'{lang_iso} is an invalid language code.')
-                response.description = f'[Click for a list of language ISO codes]({wiki_url})'
         else:
             response = error('Missing language or sentence.')
     else:

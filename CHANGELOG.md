@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.68.1392 Yuria
+
+### Added
+
+- Flag emote auto translating. If enabled, reacting to a message with two flags will translate it.
+
+### Changed
+
+- Added a query limit safeguard to the `translation` command.
+
 ## 4.68.1383 Yuria
 
 ### Changed

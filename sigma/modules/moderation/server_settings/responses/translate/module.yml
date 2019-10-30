@@ -1,0 +1,15 @@
+category: settings
+commands:
+  - alts:
+      - flagtrans
+    description: Toggles flag translating on or off. When enabled, reacting to a message with two flags will trigger
+      Sigma to send a translation of it from the first flag language to the second flag language. Flag languages are
+      determined by that country's official language.
+    enabled: true
+    name: flagtranslate
+enabled: true
+events:
+  - enabled: true
+    name: flag_translating
+    type: raw_reaction_add
+name: Flag Translating Controls
