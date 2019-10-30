@@ -53,6 +53,9 @@ async def flag_translating(ev, pld):
             enabled = pld.settings.get('flag_translate')
             if enabled:
                 if emoji.name in flag_emotes:
+                    user = guild.get_member(uid)
+                    if not user or not user.permissions_in(channel).send_messages:
+                        return
                     data = await message_cache.get_cache(mid)
                     if not data:
                         data = {'fr_lang': flag_emotes[emoji.name]}
@@ -60,9 +63,6 @@ async def flag_translating(ev, pld):
                     elif not data.get('executed'):
                         msg = await channel.fetch_message(mid)
                         if msg:
-                            user = guild.get_member(uid)
-                            if not user or not user.permissions_in(channel).send_messages:
-                                return
                             if not guild.me.permissions_in(channel).send_messages:
                                 try:
                                     await msg.add_reaction('📝')
