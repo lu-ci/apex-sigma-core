@@ -103,7 +103,7 @@ async def divorce(cmd, pld):
                                     can_proceed = True
                                 else:
                                     can_proceed = False
-                                    fault = 'rejected the proposal'
+                                    fault = 'rejected the divorce'
                             else:
                                 can_proceed = False
                                 fault = 'took too long to answer'
