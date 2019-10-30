@@ -6,7 +6,7 @@ commands:
     enabled: true
     name: marry
     usage: '{pfx}{cmd} @person'
-    description: Divorces the mentioned user that you are married with. Divorces cost
+  - description: Divorces the mentioned user that you are married with. Divorces cost
       15 Kud per hour that you were married. You can specify the user's ID rather than
       a mention if they're not present on your server.
     enabled: true
