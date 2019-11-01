@@ -25,18 +25,19 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
 from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
+nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
-def generate_response(avatar, current: discord.Member, rows: list):
+
+def generate_response(avatar, current, rows):
     """
-
     :param avatar:
-    :type avatar:
+    :type avatar: str
     :param current:
-    :type current:
+    :type current: discord.Member
     :param rows:
-    :type rows:
+    :type rows: list[list[str]]
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     board_out = "\n".join([' '.join(row) for row in rows])
     board_resp = discord.Embed(color=0x2156be, description=board_out)
@@ -45,26 +46,51 @@ def generate_response(avatar, current: discord.Member, rows: list):
     return board_resp
 
 
-async def send_board_msg(message: discord.Message, board_msg: discord.Message, board_resp: discord.Embed):
+async def send_board_msg(message, board_msg, board_resp):
     """
-
     :param message:
-    :type message:
+    :type message: discord.Message
     :param board_msg:
-    :type board_msg:
+    :type board_msg: discord.Message
     :param board_resp:
-    :type board_resp:
+    :type board_resp: discord.Embed
     :return:
-    :rtype:
+    :rtype: discord.Message
     """
+    replaced = False
     if board_msg:
         try:
             await board_msg.edit(embed=board_resp)
         except discord.NotFound:
             board_msg = await message.channel.send(embed=board_resp)
+            replaced = True
     else:
         board_msg = await message.channel.send(embed=board_resp)
+        replaced = True
+    if replaced:
+        [await board_msg.add_reaction(num) for num in nums]
     return board_msg
+
+
+async def check_emotes(bot, msg):
+    """
+    Ensures only the correct reactions are present on the message.
+    :param bot: The core client class.
+    :type bot: sigma.core.sigma.ApexSigma
+    :param msg: The message to process.
+    :type msg: discord.Message
+    """
+    bid = bot.user.id
+    present_emotes = []
+    for reaction in msg.reactions:
+        if reaction.emoji in nums:
+            present_emotes.append(reaction.emoji)
+        async for emote_author in reaction.users():
+            if emote_author.id != bid:
+                await msg.remove_reaction(reaction.emoji, emote_author)
+    for num in nums:
+        if num not in present_emotes:
+            await msg.add_reaction(num)
 
 
 async def connectfour(cmd, pld):
@@ -78,8 +104,7 @@ async def connectfour(cmd, pld):
         set_ongoing(cmd.name, pld.msg.channel.id)
         competitor, curr_turn = None, pld.msg.author
         color = pld.args[0][0].lower() if pld.args else None
-        player = 'b' if color == 'b' else 'r'
-        bot = 'r' if color == 'b' else 'b'
+        player, bot = ('b', 'r') if color == 'b' else ('r', 'b')
         if pld.msg.mentions:
             if pld.msg.mentions[0].id != pld.msg.author.id and not pld.msg.mentions[0].bot:
                 competitor = bot
@@ -94,76 +119,51 @@ async def connectfour(cmd, pld):
         user_av = user_avatar(pld.msg.author)
         board_resp = generate_response(user_av, pld.msg.author, board.make)
         board_msg = await pld.msg.channel.send(embed=board_resp)
+        [await board_msg.add_reaction(num) for num in nums]
 
-        def check_answer(msg):
+        def check_emote(reac, usr):
             """
-
-            :param msg:
-            :type msg:
+            Checks for a valid message reaction.
+            :param reac: The reaction to validate.
+            :type reac: discord.Reaction
+            :param usr: The user who reacted to the message.
+            :type usr: discord.Member
             :return:
-            :rtype:
+            :rtype: bool
             """
-            if curr_turn.id != msg.author.id:
-                return
-            if pld.msg.channel.id != msg.channel.id:
-                return
-
-            choice = msg.content
-            if choice.lower() == 'cancel':
-                valid = True
-            elif choice.isdigit():
-                if 0 < int(choice) <= 7:
-                    if not board.column_full(int(choice) - 1):
-                        valid = True
-                    else:
-                        valid = False
-                else:
-                    valid = False
-            else:
-                valid = False
-            return valid
+            same_author = usr.id == pld.msg.author.id
+            same_message = reac.message.id == board_msg.id
+            valid_reaction = str(reac.emoji) in nums
+            return same_author and same_message and valid_reaction
 
         finished, winner, win = False, None, False
         last_bot_move = 3
         while not finished:
             try:
-                answer = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-                if answer:
-                    if answer.content.lower() != 'cancel':
-                        try:
-                            await answer.delete()
-                        except (discord.NotFound, discord.Forbidden):
-                            pass
-                        column = int(answer.content) - 1
-                        piece = player if curr_turn.id == pld.msg.author.id else competitor
-                        if bot:
-                            next_player = cmd.bot.user
-                        else:
-                            next_player = pld.msg.author if curr_turn != pld.msg.author else pld.msg.mentions[0]
-                        board_resp = generate_response(user_av, next_player, board.edit(column, piece))
+                ae, au = await cmd.bot.wait_for('reaction_add', check=check_emote, timeout=30)
+                await check_emotes(cmd.bot, ae.message)
+                piece = player if curr_turn.id == pld.msg.author.id else competitor
+                opponent = pld.msg.guild.me if bot else pld.msg.mentions[0]
+                next_player = pld.msg.author if curr_turn != pld.msg.author else opponent
+                board_resp = generate_response(user_av, next_player, board.edit(nums.index(str(ae.emoji)), piece))
+                board_msg = await send_board_msg(pld.msg, board_msg, board_resp)
+                full, winner, win = board.winner
+                finished = win or full
+                if not finished:
+                    if not competitor:
+                        # Bot takes turn
+                        await asyncio.sleep(2)
+                        last_bot_move = bot_choice = board.bot_move(last_bot_move)
+                        board_resp = generate_response(user_av, pld.msg.author, board.edit(bot_choice, bot))
                         board_msg = await send_board_msg(pld.msg, board_msg, board_resp)
                         full, winner, win = board.winner
                         finished = win or full
-                        if not finished:
-                            if not competitor:
-                                # Bot takes turn
-                                await asyncio.sleep(2)
-                                last_bot_move = bot_choice = board.bot_move(last_bot_move)
-                                board_resp = generate_response(user_av, cmd.bot.user, board.edit(bot_choice, bot))
-                                board_msg = await send_board_msg(pld.msg, board_msg, board_resp)
-                                full, winner, win = board.winner
-                                finished = win or full
-                            else:
-                                if curr_turn == pld.msg.author:
-                                    curr_turn = pld.msg.mentions[0]
-                                else:
-                                    curr_turn = pld.msg.author
                     else:
-                        cancel_embed = discord.Embed(color=0xFFCC4D, title='🔥 Game canceled!')
-                        await pld.msg.channel.send(embed=cancel_embed)
-                        if is_ongoing(cmd.name, pld.msg.channel.id):
-                            del_ongoing(cmd.name, pld.msg.channel.id)
-                        return
+                        if curr_turn == pld.msg.author:
+                            curr_turn = pld.msg.mentions[0]
+                        else:
+                            curr_turn = pld.msg.author
+
             except asyncio.TimeoutError:
                 timeout_title = f'🕙 Time\'s up {curr_turn.display_name}!'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)

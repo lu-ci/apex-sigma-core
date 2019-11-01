@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.68.1394 Yuria
+
+### Changed
+
+- Adapted the `connectfour` command to use emote controls rather than message controls.
+
 ## 4.68.1392 Yuria
 
 ### Added
