@@ -48,7 +48,10 @@ async def flag_translating(ev, pld):
     emoji = payload.emoji
     channel = await ev.bot.get_channel(cid)
     if hasattr(channel, 'guild'):
-        guild = channel.guild
+        try:
+            guild = channel.guild
+        except AttributeError:
+            guild = None
         if guild:
             enabled = pld.settings.get('flag_translate')
             if enabled:

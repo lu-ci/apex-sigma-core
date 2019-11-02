@@ -74,7 +74,10 @@ async def emote_role_toggle(ev, pld):
     emoji = payload.emoji
     channel = await ev.bot.get_channel(cid)
     if hasattr(channel, 'guild'):
-        guild = channel.guild
+        try:
+            guild = channel.guild
+        except AttributeError:
+            guild = None
         if guild:
             guild_togglers = await ev.db.get_guild_settings(guild.id, 'emote_role_togglers') or {}
             if guild_togglers:
