@@ -33,16 +33,17 @@ async def awardpumpkinpatch(cmd, pld):
     all_weights = await cmd.db[cmd.db.db_nam].WeightResource.find({}).to_list(None)
     for weight in all_weights:
         resource = SigmaResource(weight)
-        for guild_key in resource.origins.guilds.keys():
-            guild_part = guild_participants.get(guild_key, [])
-            guild_part.append({'id': resource.raw.get('user_id'), 'val': resource.origins.guilds.get(guild_key)})
-            guild_total = guild_sums.get(guild_key, 0)
-            guild_count = guild_counts.get(guild_key, 0)
-            guild_total += resource.origins.guilds.get(guild_key)
-            guild_count += 1
-            guild_sums.update({guild_key: guild_total})
-            guild_counts.update({guild_key: guild_count})
-            guild_participants.update({guild_key: guild_part})
+        if not await cmd.db.is_sabotaged(resource.raw.get('user_id')):
+            for guild_key in resource.origins.guilds.keys():
+                guild_part = guild_participants.get(guild_key, [])
+                guild_part.append({'id': resource.raw.get('user_id'), 'val': resource.origins.guilds.get(guild_key)})
+                guild_total = guild_sums.get(guild_key, 0)
+                guild_count = guild_counts.get(guild_key, 0)
+                guild_total += resource.origins.guilds.get(guild_key)
+                guild_count += 1
+                guild_sums.update({guild_key: guild_total})
+                guild_counts.update({guild_key: guild_count})
+                guild_participants.update({guild_key: guild_part})
     guild_sum_list = []
     for gsk in guild_sums.keys():
         guild_sum_list.append({
