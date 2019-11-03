@@ -1,5 +1,37 @@
 # Apex Sigma Changelog
 
+## 4.68.1395 Yuria
+
+### Changed
+
+- Added safe guard against muting Sigma with `textmute` which caused an error.
+- Added an try clause in `massmove` for users no longer in a voice channel.
+- Added a missing requirement to `connectfour`'s module.yml file.
+- Fixed errors in `cryptocurrency` and rounded long floats.
+
+## 4.68.1394 Yuria
+
+### Changed
+
+- Adapted the `connectfour` command to use emote controls rather than message controls.
+
+## 4.68.1392 Yuria
+
+### Added
+
+- Flag emote auto translating. If enabled, reacting to a message with two flags will translate it.
+
+### Changed
+
+- Added a query limit safeguard to the `translation` command.
+
+## 4.68.1383 Yuria
+
+### Changed
+
+- Added an `--ids` argument to the `spouses` command.
+- Removed old proposal lines from the `divorce` command.
+
 ## 4.68.1382 Yuria
 
 ### Added

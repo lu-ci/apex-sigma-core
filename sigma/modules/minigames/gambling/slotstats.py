@@ -54,7 +54,7 @@ async def slotstats(cmd, pld):
     for symbol in reversed(symbols[10:]):
         thr_comb = get_payout(symbol, bet, True)
         two_comb = get_payout(symbol, bet, False)
-        payouts_one += f'{symbol} - {two_comb}/**{thr_comb}**\n'
+        payouts_two += f'{symbol} - {two_comb}/**{thr_comb}**\n'
     response.add_field(name='Matches (double/triple)', value=payouts_one)
     response.add_field(name='Cont.', value=payouts_two)
     response.set_footer(text=f'Payouts for a bet of {bet} {currency}.')

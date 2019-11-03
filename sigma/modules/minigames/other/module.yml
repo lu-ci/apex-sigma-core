@@ -54,10 +54,12 @@ commands:
   - alts:
       - cfour
     description: Starts a connect four game with whomever you mention. If you don't
-      mention anyone, it starts a game with the bot. You move by replying with 1-7 to
+      mention anyone, it starts a game with the bot. You move by reacting with 1-7 to
       specify which column you want.
     enabled: true
     name: connectfour
+    requirements:
+      - add_reactions
     usage: '{pfx}{cmd} @person'
 enabled: true
 name: Other Minigames

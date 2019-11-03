@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
+import discord
+
 
 async def temproom_checker(_ev, pld):
     """
@@ -30,17 +32,20 @@ async def temproom_checker(_ev, pld):
     if b:
         if b.channel:
             if b.channel.name.startswith('[Σ]'):
-                members = len([m for m in b.channel.members if not m.bot])
-                if not members:
-                    await b.channel.delete(reason='Temporary Voice Channel Emptied')
-                await asyncio.sleep(.25)
-                category = b.channel.category
-                if category:
-                    custom_cat_id = pld.settings.get('temp_channel_category')
-                    custom_cat = category.guild.get_channel(custom_cat_id)
-                    if custom_cat:
-                        if category.id == custom_cat.id:
-                            return
-                    if category.name.startswith('[Σ]'):
-                        if len(category.channels) == 0:
-                            await category.delete(reason='Temporary VC Category Emptied')
+                try:
+                    members = len([m for m in b.channel.members if not m.bot])
+                    if not members:
+                        await b.channel.delete(reason='Temporary Voice Channel Emptied')
+                    await asyncio.sleep(.25)
+                    category = b.channel.category
+                    if category:
+                        custom_cat_id = pld.settings.get('temp_channel_category')
+                        custom_cat = category.guild.get_channel(custom_cat_id)
+                        if custom_cat:
+                            if category.id == custom_cat.id:
+                                return
+                        if category.name.startswith('[Σ]'):
+                            if len(category.channels) == 0:
+                                await category.delete(reason='Temporary VC Category Emptied')
+                except (discord.NotFound, discord.Forbidden):
+                    pass

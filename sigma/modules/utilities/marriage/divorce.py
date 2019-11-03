@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import copy
 
 import arrow
@@ -24,22 +25,17 @@ from sigma.core.utilities.dialogue_controls import int_dialogue, bool_dialogue
 from sigma.core.utilities.generic_responses import error
 
 
-async def send_divorce(author: discord.Member, target: discord.Member, is_divorce):
+async def send_divorce(author: discord.Member, target: discord.Member):
     """
 
     :param author:
     :type author:
     :param target:
     :type target:
-    :param is_divorce:
-    :type is_divorce:
     """
-    if is_divorce:
-        splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
-    else:
-        splitup = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has canceled the proposal...')
+    divorce_embed = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
     try:
-        await target.send(embed=splitup)
+        await target.send(embed=divorce_embed)
     except discord.Forbidden:
         pass
 
@@ -107,7 +103,7 @@ async def divorce(cmd, pld):
                                     can_proceed = True
                                 else:
                                     can_proceed = False
-                                    fault = 'rejected the proposal'
+                                    fault = 'rejected the divorce'
                             else:
                                 can_proceed = False
                                 fault = 'took too long to answer'
@@ -136,7 +132,7 @@ async def divorce(cmd, pld):
                                     div_title = f'💔 You have divorced {target.name}...'
                                 response = discord.Embed(color=0xe75a70, title=div_title)
                                 if not is_id:
-                                    await send_divorce(pld.msg.author, target, True)
+                                    await send_divorce(pld.msg.author, target)
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', div_cost, cmd.name, pld.msg)
                             else:
                                 response = error(f'You don\'t have {div_cost} {currency} to get a divorce.')
