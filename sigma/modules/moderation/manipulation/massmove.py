@@ -59,7 +59,10 @@ async def massmove(_cmd, pld):
                     if me.permissions_in(vc_one).mute_members and me.permissions_in(vc_two).mute_members:
                         membs_one = [vcm for vcm in vc_one.members if not vcm.bot]
                         for member in membs_one:
-                            await member.move_to(vc_two)
+                            try:
+                                await member.move_to(vc_two)
+                            except discord.HTTPException:
+                                pass
                         response = ok(f'Moved {len(membs_one)} members to {vc_two.name}.')
                     else:
                         response = error('I\'m not permitted to move members.')
