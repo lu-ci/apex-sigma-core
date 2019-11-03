@@ -3,7 +3,6 @@
 ## Module Index
 - [AZUR LANE](#azur-lane)
 - [DEVELOPMENT](#development)
-- [EVENT](#event)
 - [FINAL FANTASY](#final-fantasy)
 - [FUN](#fun)
 - [HELP](#help)
@@ -42,6 +41,7 @@ Commands | Description | Example
 `>>addstatus` | Adds a status message to Sigma's database for automatic status rotation. (Bot Owner Only) | `>>addstatus with tentacles`
 `>>approvesuggestion` `>>approvesugg` `>>appsugg` | Approves a submitted suggestion and notifies the submitter. If there are GitLab credentials in the command's config, it'll make an issue as well. First the suggestion ID, then the suggestion title and notes separated by a semicolon and space. (Bot Owner Only) | `>>approvesuggestion 8e39c9bb Some Title; This does a thing!`
 `>>awardleaderboards` `>>awardlbs` `>>albs` | Award all the leaderboards with appropirate amounts of currency and resets their ranked values. (Bot Owner Only) | `>>awardleaderboards`
+`>>awardpumpkinpatch` `>>awardpp` | Awards the pumpkin patches for the Spooktober event. (Bot Owner Only) | `>>awardpumpkinpatch`
 `>>blacklistcommand` `>>blackcommand` `>>blackcmd` | Disallows a person from using a specific command. (Bot Owner Only) | `>>blacklistcommand 0123456789 pun`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
@@ -76,23 +76,6 @@ Commands | Description | Example
 `>>usermembership` `>>usrmemb` `>>umemb` | Shows membership information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>usermembership 137951917644054529`
 `>>wipeinventory` `>>wipeinv` | Wipes the inventory of the user with the given ID. (Bot Owner Only) | `>>wipeinventory 0123456789`
 `>>wiperesources` `>>wiperes` | Wipes all the resources that the user with the given ID owns. (Bot Owner Only) | `>>wiperesources 0123456789`
-[Back To Top](#module-index)
-
-### EVENT
-Commands | Description | Example
-----------|-------------|--------
-`>>enchant` `>>boost` `>>candyslap` | Enchants your target user. Enchantments modify the value of candy received. Up to 5 enchantments can be active at a time and they cost Sweets. Cursed users can't be enchanted and any active enchantments will be lost if the user gets cursed. They last 66.6 minutes. | `>>enchant @target`
-`>>enchanters` `>>boosters` | Shows the users that enchanted you and how long their enchantments will be active for. | `>>enchanters @target`
-`>>grow` `>>fertilize` | Makes your pumpkin grow. The default value it uses is 10 but you can input any amount of sweets you want to use. You'll be prompted if you agree. The amount of weight the pumpkin gains is a positive exponential. The more sweets you give it in a bulk the more weight it gains. So stock up on sweets and dump it all on it at once. | `>>grow 667`
-`>>heal` `>>regen` `>>medic` | Heals your vigor. You can also heal someone else if you tag them. You don't need to heal ALL of what you're missing. You can enter a number anywhere in the command message to specify how much you want to heal back. | `>>heal @person`
-`>>pumpkin` `>>jackolantern` | Shows how big a user's pumpkin is, in kilos! You can grow it further with the grow command. | `>>pumpkin @target`
-`>>steal` `>>yoink` `>>mug` `>>stickup` `>>rob` | Steal another user's sweets. Be careful, because failing to do so has consequences. You'll lose vigor, Kud, and even get cursed. Does your sweet tooth outweigh those risks? | `>>steal @target`
-`>>sweets` `>>jar` `>>candy` | Shows a user's jar of sweets. Sweets can be earned by trick-or-treating, stealing them from another player, or getting Spectral and Ethereal fish, plants or animals. | `>>sweets @target`
-`>>toppatches` `>>toppp` | Shows which guilds have the top pumpkin patches. The pumpkin patch value is an average by the amount of people that participated. | `>>toppatches`
-`>>toppumpkin` `>>topjol` `>>topweight` `>>topgrowth` | Shows which users have the largest and heaviest pumpkins. | `>>toppumpkin`
-`>>topsweets` `>>topcandy` | Shows which users gained the most sweets in the event. You can also enter the word "local" to see who gained the most candy on the current server. | `>>topsweets`
-`>>trickortreat` `>>tot` | Go looking for sweets! | `>>trickortreat`
-`>>vigor` `>>hp` | Shows how much vigor you have left and how it affects you in the event. | `>>vigor @target`
 [Back To Top](#module-index)
 
 ### FINAL FANTASY

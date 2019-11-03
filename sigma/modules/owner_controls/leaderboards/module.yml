@@ -9,6 +9,13 @@ commands:
     name: awardleaderboards
     permissions:
       owner: true
+  - alts:
+      - awardpp
+    description: Awards the pumpkin patches for the Spooktober event.
+    enabled: true
+    name: awardpumpkinpatch
+    permissions:
+      owner: true
 enabled: true
 events:
   - enabled: true

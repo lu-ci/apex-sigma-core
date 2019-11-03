@@ -108,5 +108,5 @@ events:
   - enabled: true
     name: passive_sweets
     type: message
-enabled: true
+enabled: false
 name: Event Module
