@@ -58,6 +58,8 @@ commands:
       specify which column you want.
     enabled: true
     name: connectfour
+    requirements:
+      - add_reactions
     usage: '{pfx}{cmd} @person'
 enabled: true
 name: Other Minigames
