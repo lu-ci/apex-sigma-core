@@ -8,6 +8,7 @@
 - Added an try clause in `massmove` for users no longer in a voice channel.
 - Added a missing requirement to `connectfour`'s module.yml file.
 - Fixed errors in `cryptocurrency` and rounded long floats.
+- Add guard clauses to certain events to prevent an `AttributeError`.
 
 ## 4.68.1394 Yuria
 

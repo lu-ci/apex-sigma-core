@@ -112,11 +112,10 @@ async def starboard_watcher(ev, pld):
     mid = payload.message_id
     emoji = payload.emoji
     channel = await ev.bot.get_channel(cid)
+    if isinstance(channel, discord.DMChannel):
+        return
     if hasattr(channel, 'guild'):
-        try:
-            guild = channel.guild
-        except AttributeError:
-            guild = None
+        guild = channel.guild
         if guild:
             starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
             if starboard_doc.get('state'):
