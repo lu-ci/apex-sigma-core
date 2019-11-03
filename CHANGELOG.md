@@ -1,5 +1,14 @@
 # Apex Sigma Changelog
 
+## 4.68.1395 Yuria
+
+### Changed
+
+- Added safe guard against muting Sigma with `textmute` which caused an error.
+- Added an try clause in `massmove` for users no longer in a voice channel.
+- Added a missing requirement to `connectfour`'s module.yml file.
+- Fixed errors in `cryptocurrency` and rounded long floats.
+
 ## 4.68.1394 Yuria
 
 ### Changed

@@ -58,15 +58,15 @@ async def cryptocurrency(_cmd, pld):
             info_text = f'Name: **{curr_data["name"]}**'
             info_text += f'\nSymbol: **{curr_data["symbol"]}**'
             info_text += f'\nRanking: **#{curr_data["rank"]}**'
-            price_text = f'Price BTC: **{curr_data["price_btc"]}**'
-            price_text += f'\nPrice USD: **{curr_data["price_usd"]}**'
-            price_text += f'\nPrice EUR: **{curr_data["price_eur"]}**'
+            price_text = f'Price BTC: **{round(float(curr_data["price_btc"]), 2)}**'
+            price_text += f'\nPrice USD: **{round(float(curr_data["price_usd"]), 2)}**'
+            price_text += f'\nPrice EUR: **{round(float(curr_data["price_eur"]), 2)}**'
             change_text = f'Last Hour: **{curr_data["percent_change_1h"]}%**'
             change_text += f'\nLast Day: **{curr_data["percent_change_24h"]}%**'
             change_text += f'\nLast Week: **{curr_data["percent_change_7d"]}%**'
             img_color = await get_image_colors(curr_img)
-            humantime = arrow.get(curr_data['last_updated']).humanize()
-            response = discord.Embed(color=img_color, timestamp=arrow.get(curr_data['last_updated']).datetime)
+            humantime = arrow.get(int(curr_data['last_updated'])).humanize()
+            response = discord.Embed(color=img_color, timestamp=arrow.get(int(curr_data['last_updated'])).datetime)
             response.set_author(name=curr_data['name'], icon_url=curr_img, url=curr_page_url)
             response.add_field(name='Information', value=info_text)
             response.add_field(name='Price Data', value=price_text)
