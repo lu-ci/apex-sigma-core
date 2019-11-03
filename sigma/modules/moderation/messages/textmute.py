@@ -94,6 +94,8 @@ async def textmute(cmd, pld):
             target = pld.msg.mentions[0]
             if author.id == target.id:
                 response = error('Can\'t mute yourself.')
+            elif cmd.bot.user.id == target.id:
+                response = error('I can\'t mute myself.')
             else:
                 above_hier = hierarchy_permit(author, target)
                 if not above_hier:
