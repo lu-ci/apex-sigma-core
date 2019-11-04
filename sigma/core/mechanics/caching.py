@@ -198,7 +198,6 @@ class RedisCacher(Cacher):
         :return:
         """
         self.conn = await aioredis.create_redis(f'redis://{self.cfg.host}:{self.cfg.port}')
-        await self.conn.flushall()
 
     async def get_cache(self, key):
         """
