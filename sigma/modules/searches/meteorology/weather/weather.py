@@ -93,7 +93,7 @@ async def weather(cmd, pld):
         if pld.args:
             search, unit = get_unit_and_search(pld.args)
             if search:
-                geo_parser = Nominatim()
+                geo_parser = Nominatim(user_agent=f'Apex Sigma Derivate {cmd.bot.user.id}')
                 try:
                     location = geo_parser.geocode(search)
                 except Exception as e:
