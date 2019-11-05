@@ -40,11 +40,12 @@ async def get_recipe_core(db: Database):
 
 class SigmaRecipe(object):
     __slots__ = (
-        "recipe_core", "raw_data", "file_id", "name", "value",
+        "recipe_core", "raw_data", "file_id", "name", "value", "incomplete",
         "type", "icon", "color", "desc", "raw_ingredients", "ingredients"
     )
 
     def __init__(self, core, item_data):
+        self.incomplete = False
         self.recipe_core = core
         self.raw_data = item_data
         self.file_id = self.raw_data.get('file_id')
@@ -68,7 +69,15 @@ class SigmaRecipe(object):
         ingredient_rarities = []
         for ingredient in self.ingredients:
             ingredient_rarities.append(ingredient.rarity)
-            ingredient_values.append(ingredient.value)
+            if ingredient.rarity == 11:
+                recipe_item = self.recipe_core.find_recipe(ingredient.name)
+                if recipe_item:
+                    self.incomplete = False
+                    ingredient_values.append(recipe_item.value)
+                else:
+                    self.incomplete = True
+            else:
+                ingredient_values.append(ingredient.value)
         combined_price = int(sum(ingredient_values) * (3 * (0.075 * sum(ingredient_rarities))) / 100) * 100
         if combined_price < 100:
             combined_price = 100
@@ -119,6 +128,10 @@ class RecipeCore(object):
         for item_data in all_recipes:
             item_object = SigmaRecipe(self, item_data)
             self.recipes.append(item_object)
+        while any([ri.incomplete for ri in self.recipes]):
+            for recipe_item in self.recipes:
+                if recipe_item.incomplete:
+                    recipe_item.value = recipe_item.get_price()
         for item in self.item_core.all_items:
             if item.type.lower() in ['drink', 'meal', 'dessert']:
                 item.value = self.find_recipe(item.name).value
