@@ -210,6 +210,7 @@ Commands | Description | Example
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type, and rarity. | `>>filtersell rarity:Legendary`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. You can forage once every 60 seconds, hiking is really tiring. | `>>forage`
+`>>gamblingstats` `>>gambstats` | Shows total gains and losses from gambling minigames for the specified user. You can view the global gains and losses by adding "--global" as an argument. | `>>gamblingstats @user`
 `>>hangman` | Classic hangman. Guess the word in less than six tries. You have 30 seconds to guess the word shown. The Kud reward is equal to the number of letters in the word. | `>>hangman`
 `>>hunt` | Go into the wilderness and hunt for game. You can hunt once every 60 seconds, everyone needs rest. | `>>hunt`
 `>>inspect` `>>finditem` | Shows the name, value, and description of the specified item If you have this item in your inventory an Item ID will be in the footer. Also shows how many times you've caught this item. | `>>inspect Nabfischz`

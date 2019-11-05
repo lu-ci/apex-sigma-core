@@ -97,7 +97,7 @@ async def weather(cmd, pld):
                 try:
                     location = geo_parser.geocode(search)
                 except Exception as e:
-                    response = discord.Embed(color=0xBE1931, title=f'Geocoder {str(e).lower()}.')
+                    response = error(f'Geocoder {str(e).lower()}.')
                 else:
                     if location:
                         lat = location.latitude

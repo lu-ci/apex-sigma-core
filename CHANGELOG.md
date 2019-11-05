@@ -1,5 +1,16 @@
 # Apex Sigma Changelog
 
+## 4.71.1421 Yuria
+
+### Added
+
+- Added the `gamblingstats` command to show currency gains, losses, and net changes for gambling minigames.
+
+### Changed
+
+- Refactored the `bash` command to make more sense.
+- Switched an embed response in the `weather` command to use a generic response embed.
+
 ## 4.68.1395 Yuria
 
 ### Changed
