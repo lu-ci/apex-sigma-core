@@ -25,6 +25,21 @@ from sigma.core.utilities.generic_responses import error
 cache = []
 
 
+async def fill_cache():
+    async with aiohttp.ClientSession() as session:
+        async with session.get('http://qdb.us/random') as page:
+            page = await page.text()
+    quotes = html.fromstring(page).cssselect('body center table tr td.q')
+    for quote in quotes:
+        qid = quote.find_class('ql')[0].text_content()[1:]
+        score = quote.get_element_by_id(f'qs[{qid}]').text_content()
+        score += quote.get_element_by_id(f'qvc[{qid}]').text_content()
+        text = quote.get_element_by_id(f'qt{qid}').text_content()
+        if len(text) > 2037:
+            continue
+        cache.append({'id': qid, 'score': score, 'text': text})
+
+
 async def bash(_cmd, pld):
     """
     :param _cmd: The command object referenced in the command.
@@ -33,24 +48,13 @@ async def bash(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not cache:
-        async with aiohttp.ClientSession() as session:
-            async with session.get('http://qdb.us/random') as page:
-                page = await page.text()
-        quotes = html.fromstring(page).cssselect('body center table tr td.q')
-        for quote in quotes:
-            qid = quote.find_class('ql')[0].text_content()[1:]
-            score = quote.get_element_by_id(f'qs[{qid}]').text_content()
-            score += quote.get_element_by_id(f'qvc[{qid}]').text_content()
-            text = quote.get_element_by_id(f'qt{qid}').text_content()
-            cache.append({'id': qid, 'score': score, 'text': text})
+        await fill_cache()
     if cache:
         quote = cache.pop()
-        while len(quote['text']) > 2037:
-            quote = cache.pop()
         text = quote['text']
         highlight = 'xml' if text.strip()[0] == '<' else 'http'
         response = Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
         response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://qdb.us/{quote['id']}")
     else:
-        response = error('The list of quotes is empty and couldn\'t be refilled, try again later...')
+        response = error('Unable to retrieve a quote.')
     await pld.msg.channel.send(embed=response)
