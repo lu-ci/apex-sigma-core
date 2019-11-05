@@ -79,7 +79,7 @@ async def leave_move_log(ev, pld):
             bot_count += 1
         else:
             user_count += 1
-    log_lines = f'Guild: {pld.guild.name}[{pld.guild.id}] | '
+    log_lines = f'Guild: {pld.guild.name} [{pld.guild.id}] | '
     log_lines += f'Owner: {owner.name} [{owner.id}] | '
     log_lines += f'Members: {user_count} | Bots: {bot_count}'
     ev.log.info(log_lines)
