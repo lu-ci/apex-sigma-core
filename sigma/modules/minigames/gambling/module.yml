@@ -21,5 +21,12 @@ commands:
     enabled: true
     name: slotstats
     usage: '{pfx}{cmd} 13000'
+  - alts:
+      - gambstats
+    description: Shows total gains and losses from gambling minigames for the specified user.
+      You can view the global gains and losses by adding "--global" as an argument.
+    enabled: true
+    name: gamblingstats
+    usage: '{pfx}{cmd} @user'
 enabled: true
 name: Gambling Minigames
