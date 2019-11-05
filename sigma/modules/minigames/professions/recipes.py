@@ -26,23 +26,20 @@ from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-async def check_requirements(cmd, message, recipe):
+async def check_requirements(inv, recipe):
     """
-
-    :param cmd:
-    :type cmd:
-    :param message:
-    :type message:
-    :param recipe:
-    :type recipe:
+    Returns how many requirements are satisfied based on the user's inventory.
+    :param inv: The user's inventory.
+    :type inv: list
+    :param recipe: The recipe to process.
+    :type recipe: sigma.modules.minigames.professions.nodes.recipe_core.SigmaRecipe
     :return:
-    :rtype:
+    :rtype: int
     """
     req_satisfied = 0
     for ingredient in recipe.ingredients:
-        user_inv = await cmd.db.get_inventory(message.author.id)
         in_inventory = False
-        for item in user_inv:
+        for item in inv:
             if item['item_file_id'] == ingredient.file_id:
                 in_inventory = True
                 break
@@ -103,8 +100,9 @@ async def recipes(cmd, pld):
     recipe_list = sorted(recipe_core.recipes, key=lambda x: x.name)
     recipe_list = sorted(recipe_list, key=lambda x: x.value, reverse=True)
     target_recipes = []
+    user_inv = await cmd.db.get_inventory(pld.msg.author.id)
     for recipe in recipe_list:
-        req_satisfied = await check_requirements(cmd, pld.msg, recipe)
+        req_satisfied = await check_requirements(user_inv, recipe)
         req_needed = len(recipe.ingredients)
         req_reqs = f'{req_satisfied}/{req_needed}'
         if recipe.type.lower() == recipe_type or recipe_type is None:
