@@ -48,6 +48,26 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
     return is_ingr
 
 
+def deduplicate(items):
+    """
+    Removes duplicate items from a list.
+    :param items: List of items to check.
+    :type items: list
+    :return:
+    :rtype: list
+    """
+    new_items = []
+    for item in items:
+        exists = False
+        for ni in new_items:
+            if item.file_id == ni.file_id:
+                exists = True
+                break
+        if not exists:
+            new_items.append(item)
+    return new_items
+
+
 async def allitems(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -69,6 +89,7 @@ async def allitems(cmd, pld):
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
+    item_o_list = deduplicate(item_o_list)
     if special:
         page = pld.args[1] if len(pld.args) > 1 else 1
     else:
