@@ -53,15 +53,15 @@ async def gamblingstats(cmd, pld):
         for pool in pools:
             if 'origins' in pool:
                 ori = pool['origins']['functions']
-                slot_gain += int(ori.get('slots', 0))
-                roul_gain += int(ori.get('roulette', 0))
+                slot_gain += ori.get('slots', 0)
+                roul_gain += ori.get('roulette', 0)
             if 'expenses' in pool:
                 exp = pool['expenses']['functions']
-                slot_loss += int(exp.get('slots', 0))
-                roul_loss += int(exp.get('roulette', 0))
+                slot_loss += exp.get('slots', 0)
+                roul_loss += exp.get('roulette', 0)
     results = {
-        'Slots Gains': slot_gain, 'Roulette Gains': roul_gain,
-        'Slots Losses': slot_loss, 'Roulette Losses': roul_loss
+        'Slots Gains': int(slot_gain), 'Roulette Gains': int(roul_gain),
+        'Slots Losses': int(slot_loss), 'Roulette Losses': int(roul_loss)
     }
     if any(list(results.values())):
         response = discord.Embed(color=0xbe1931, title=f'🎰 Gambling Gains and Losses')
