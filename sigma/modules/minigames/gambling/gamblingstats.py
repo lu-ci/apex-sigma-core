@@ -67,16 +67,16 @@ async def gamblingstats(cmd, pld):
         response = discord.Embed(color=0xbe1931, title=f'🎰 Gambling Gains and Losses')
         gain_value = None
         if slot_gain or roul_gain:
-            gain_value = f'Slots Gains: **{slot_gain}**\n'
-            gain_value += f'Roulette Gains: **{roul_gain}**\n'
-            gain_value += f'Total Gains: **{slot_gain + roul_gain}**'
+            gain_value = f'Slots: **{slot_gain}**\n'
+            gain_value += f'Roulette: **{roul_gain}**\n'
+            gain_value += f'Total: **{slot_gain + roul_gain}**'
         gain_name = 'Gains' if globally else f'Gains for {target.display_name}'
         response.add_field(name=gain_name, value=gain_value if gain_value else 'No gains yet...')
         loss_value = None
         if slot_loss or roul_loss:
-            loss_value = f'Slots Losses: **{slot_loss}**\n'
-            loss_value += f'Roulette Losses: **{roul_loss}**\n'
-            loss_value += f'Total Losses: **{slot_loss + roul_loss}**'
+            loss_value = f'Slots: **{slot_loss}**\n'
+            loss_value += f'Roulette: **{roul_loss}**\n'
+            loss_value += f'Total: **{slot_loss + roul_loss}**'
         loss_name = 'Losses' if globally else f'Losses for {target.display_name}'
         response.add_field(name=loss_name, value=loss_value if loss_value else 'No losses yet...')
         if (slot_gain or roul_gain) and (slot_loss or roul_loss):
