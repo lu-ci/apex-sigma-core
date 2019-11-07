@@ -110,6 +110,7 @@ async def weather(cmd, pld):
                         curr = data['currently']
                         icon = curr['icon']
                         forecast = data['daily']['summary']
+                        unit = data['flags']['units'] if unit == 'auto' else unit
                         dis, deg = get_dis_and_deg(unit, forecast)
                         forecast_title = f'{icons[icon]["icon"]} {curr["summary"]}'
                         response = discord.Embed(color=icons[icon]['color'], title=forecast_title)
