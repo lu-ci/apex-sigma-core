@@ -25,7 +25,6 @@ from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.generic_responses import error, not_found
 
-
 emote_cache_handler = MemoryCacher(CacheConfig({}))
 
 

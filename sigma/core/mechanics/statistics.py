@@ -76,7 +76,6 @@ class StatisticsStorage(object):
 
 
 class CommandStatistic(object):
-
     __slots__ = ('db', 'cmd', 'pld', 'coll', 'exec_time', 'exec_timestamp')
 
     def __init__(self, db, cmd, pld):

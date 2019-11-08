@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import lxml.html as lx
 
-
 STAT_LOCATIONS = {
     'health': [0, 0, 0, 1, 0, 2],
     'ammo': [0, 0, 0, 1, 1],
@@ -95,7 +94,6 @@ def get_pt_value(pt, lookup):
 
 
 class TDoll(object):
-
     __slots__ = ('raw', 'id', 'url', 'name', 'origin', 'stats')
 
     def __init__(self, data=None):
@@ -161,7 +159,6 @@ class TDoll(object):
 
 
 class TDollName(object):
-
     __slots__ = ('raw', 'short', 'full')
 
     def __init__(self, data=None):
@@ -190,7 +187,6 @@ class TDollName(object):
 
 
 class TDollOrigin(object):
-
     __slots__ = ('raw', 'country', 'manufacturer')
 
     def __init__(self, data=None):
@@ -216,7 +212,6 @@ class TDollOrigin(object):
 
 
 class TDollStats(object):
-
     __slots__ = (
         'raw', 'health', 'ammo', 'ration',
         'damage', 'evasion', 'accuracy', 'rate_of_fire',
@@ -224,7 +219,7 @@ class TDollStats(object):
         'armor_penetration'
     )
 
-    def __init__(self, data = None):
+    def __init__(self, data=None):
         self.raw = data if data is not None else {}
         for slot in self.__slots__[1:]:
             setattr(self, slot, self.raw.get(slot, 0))

@@ -34,4 +34,3 @@ async def tackle(cmd, pld):
     response.set_image(url=interaction['url'])
     response.set_footer(text=await make_footer(cmd, interaction))
     await pld.msg.channel.send(embed=response)
-
