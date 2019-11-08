@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Changed
+
+- The shop now has emote reaction controls instead of text input.
+
 ## 4.71.1421 Yuria
 
 ### Added

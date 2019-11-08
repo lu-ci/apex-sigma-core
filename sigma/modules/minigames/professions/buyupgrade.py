@@ -16,12 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import asyncio
-
 import discord
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.payload import CommandPayload
+from sigma.core.utilities.dialogue_controls import int_dialogue
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
@@ -29,26 +28,26 @@ from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoin
 
 def get_price_mod(base_price, upgrade_level):
     """
-
-    :param base_price:
-    :type base_price:
-    :param upgrade_level:
-    :type upgrade_level:
+    Gets the level-based price modifier of an upgrade.
+    :param base_price: The base price of the upgrade.
+    :type base_price: int
+    :param upgrade_level: The wanted level of the upgrade.
+    :type upgrade_level:int
     :return:
-    :rtype:
+    :rtype: int
     """
     return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
 
 
 def get_price(base_price, upgrade_level):
     """
-
-    :param base_price:
-    :type base_price:
-    :param upgrade_level:
-    :type upgrade_level:
+    Gets the total price of an upgrade based on its level.
+    :param base_price: The base price of the upgrade.
+    :type base_price: int
+    :param upgrade_level: The wanted level of the upgrade.
+    :type upgrade_level: int
     :return:
-    :rtype:
+    :rtype: int
     """
     if upgrade_level == 0:
         upgrade_price = base_price
@@ -136,64 +135,27 @@ async def slow_buy(cmd, pld):
         upgrade_list_embed = discord.Embed(color=0xF9F9F9, title='🛍 Profession Upgrade Shop')
         upgrade_list_embed.description = upgrade_text
         upgrade_list_embed.set_footer(text='Please input the number of the upgrade you want.')
-        shop_listing = await pld.msg.channel.send(embed=upgrade_list_embed)
-
-        def check_answer(msg):
-            """
-
-            :param msg:
-            :type msg:
-            :return:
-            :rtype:
-            """
-            if pld.msg.author.id == msg.author.id:
-                if msg.content.lower() == 'cancel':
-                    correct = True
-                else:
-                    try:
-                        an_num = int(msg.content)
-                        if 0 < an_num <= len(upgrade_list):
-                            correct = True
-                        else:
-                            correct = False
-                    except ValueError:
-                        correct = False
+        upgrade_number, timeout = await int_dialogue(cmd.bot, pld.msg, upgrade_list_embed, 1, len(upgrade_list))
+        if not timeout:
+            upgrade = upgrade_list[upgrade_number - 1]
+            current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
+            current_kud = current_kud.current
+            upgrade_id = upgrade['id']
+            upgrade_level = upgrade_file.get(upgrade_id, 0)
+            base_price = upgrade['cost']
+            upgrade_price = get_price(base_price, upgrade_level)
+            if current_kud >= upgrade_price:
+                new_upgrade_level = upgrade_level + 1
+                upgrade_file.update({upgrade_id: new_upgrade_level})
+                await cmd.db.set_profile(pld.msg.author.id, 'upgrades', upgrade_file)
+                await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
+                response = ok(f'Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.')
             else:
-                correct = False
-            return correct
-
-        try:
-            answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-            if answer_message.content.lower() != 'cancel':
-                upgrade_number = int(answer_message.content) - 1
-                upgrade = upgrade_list[upgrade_number]
-                current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
-                current_kud = current_kud.current
-                upgrade_id = upgrade['id']
-                upgrade_level = upgrade_file.get(upgrade_id, 0)
-                base_price = upgrade['cost']
-                upgrade_price = get_price(base_price, upgrade_level)
-                if current_kud >= upgrade_price:
-                    new_upgrade_level = upgrade_level + 1
-                    upgrade_file.update({upgrade_id: new_upgrade_level})
-                    await cmd.db.set_profile(pld.msg.author.id, 'upgrades', upgrade_file)
-                    await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-                    response = ok(f'Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.')
-                else:
-                    response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
-            else:
-                response = discord.Embed(color=0xF9F9F9, title='🛍 Shop exited.')
-            try:
-                await shop_listing.delete()
-            except discord.NotFound:
-                pass
-            await pld.msg.channel.send(embed=response)
-        except asyncio.TimeoutError:
-            timeout_title = '🕙 Sorry, you timed out, feel free to open the shop again.'
-            timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-            await pld.msg.channel.send(embed=timeout_embed)
+                response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+        else:
+            response = discord.Embed(color=0x696969, title=f'🕙 Sorry, you timed out.')
         if is_ongoing(cmd.name, pld.msg.author.id):
             del_ongoing(cmd.name, pld.msg.author.id)
     else:
-        ongoing_response = error('You already have a shop open.')
-        await pld.msg.channel.send(embed=ongoing_response)
+        response = error('You already have a shop open.')
+    await pld.msg.channel.send(embed=response)
