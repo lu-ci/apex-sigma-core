@@ -23,7 +23,6 @@ from sigma.core.utilities.dialogue_controls import item_dialogue
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
-from sigma.modules.utilities.misc.other.event.spooktober.mech.resources.sweets import SweetsController
 
 
 async def fish(cmd, pld):
@@ -73,9 +72,6 @@ async def fish(cmd, pld):
                     await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
                     await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
                     await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                    if item.rarity in [6, 7]:
-                        sweets = 1 if item.rarity == 6 else 2
-                        await SweetsController.add_sweets(cmd.db, pld.msg, sweets, cmd.name)
                     response = discord.Embed(color=item.color, title=response_title)
                 else:
                     if timed_out:
