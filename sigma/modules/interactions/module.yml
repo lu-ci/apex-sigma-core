@@ -167,9 +167,13 @@ commands:
     enabled: true
     name: tackle
     usage: '{pfx}{cmd} @person'
+  - description: Hide from responsibility!
+    enabled: true
+    name: hide
+    usage: '{pfx}{cmd} @person'
 enabled: true
 events:
   - enabled: true
-    name: remover_detector
+    name: whitelist_detector
     type: raw_reaction_add
 name: User Interactions
