@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.71.1424 Suzune
 
 ### Changed
 
