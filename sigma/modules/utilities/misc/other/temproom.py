@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import ok, error
+from sigma.core.utilities.generic_responses import error, ok
 
 
 async def get_category(cmd, guild):

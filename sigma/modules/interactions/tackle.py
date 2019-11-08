@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import discord
 
-from sigma.modules.interactions.mech.interaction_mechanics import grab_interaction, get_target, make_footer, get_author
+from sigma.modules.interactions.mech.interaction_mechanics import get_author, get_target, grab_interaction, make_footer
 
 
 async def tackle(cmd, pld):

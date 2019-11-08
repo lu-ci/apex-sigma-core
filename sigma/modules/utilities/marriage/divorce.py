@@ -21,7 +21,7 @@ import copy
 import arrow
 import discord
 
-from sigma.core.utilities.dialogue_controls import int_dialogue, bool_dialogue
+from sigma.core.utilities.dialogue_controls import bool_dialogue, int_dialogue
 from sigma.core.utilities.generic_responses import error
 
 

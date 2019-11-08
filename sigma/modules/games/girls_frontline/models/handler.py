@@ -25,7 +25,6 @@ SITE_BASE = 'https://en.gfwiki.com'
 WIKI_BASE = f'{SITE_BASE}/wiki'
 INDEX_URL = f'{WIKI_BASE}/T-Doll_Index'
 
-
 t_doll_handler_cache = None
 
 
