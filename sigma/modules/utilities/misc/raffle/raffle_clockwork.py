@@ -72,8 +72,8 @@ async def cycler(ev):
                         aid = raffle.get('author')
                         mid = raffle.get('message')
                         icon = raffle.get('icon')
-                        titl = raffle.get('title')
-                        colr = raffle.get('color')
+                        title = raffle.get('title')
+                        color = raffle.get('color')
                         channel = await ev.bot.get_channel(cid)
                         if channel:
                             await raffle_coll.update_one(raffle, {'$set': {'active': False}})
@@ -105,16 +105,18 @@ async def cycler(ev):
                                             break
                                 if contestants:
                                     contestants = extra_shuffle(contestants)
-                                    winner = secrets.choice(contestants)
-                                    amen = f'<@{aid}>'
-                                    wmen = f'<@{winner.id}>'
-                                    ender = '' if titl[-1] in string.punctuation else '!'
-                                    win_text = f'{raffle.get("icon")} Hey {amen}, {wmen} won your raffle!'
-                                    win_embed = discord.Embed(color=colr)
-                                    win_title = f'{winner.name} won {titl.lower()}{ender}'
-                                    win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
-                                    await channel.send(win_text, embed=win_embed)
-                                    ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("id")} in {cid}.')
+                                    draw_count = min(len(contestants), raffle.get('draw_count', 1))
+                                    for _ in range(draw_count):
+                                        winner = contestants.pop(secrets.randbelow(len(contestants)))
+                                        amen = f'<@{aid}>'
+                                        wmen = f'<@{winner.id}>'
+                                        ender = '' if title[-1] in string.punctuation else '!'
+                                        win_text = f'{raffle.get("icon")} Hey {amen}, {wmen} won your raffle!'
+                                        win_embed = discord.Embed(color=color)
+                                        win_title = f'{winner.name} won {title.lower()}{ender}'
+                                        win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
+                                        await channel.send(win_text, embed=win_embed)
+                                        ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
             except Exception as e:
                 ev.log.error(e)
                 pass

@@ -21,8 +21,8 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar, get_image_colors
-from sigma.core.utilities.generic_responses import error, denied
+from sigma.core.utilities.data_processing import convert_to_seconds, get_image_colors, user_avatar
+from sigma.core.utilities.generic_responses import denied, error
 
 raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
@@ -73,6 +73,15 @@ async def raffle(cmd, pld):
             resp_title = f'{pld.msg.author.display_name} started a raffle!'
             target_ch = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
             external = pld.msg.channel.id != target_ch.id
+            draw_count = 1
+            args = [a.lower() for a in pld.args]
+            for arg in args:
+                if arg.startswith('winners:'):
+                    pld.args.pop(args.index(arg))
+                    draw_num = arg.split(':')[-1]
+                    if draw_num.isdigit():
+                        draw_count = int(draw_num)
+                        break
             if external:
                 allowed = pld.msg.author.permissions_in(target_ch).send_messages
                 if allowed:
@@ -98,6 +107,7 @@ async def raffle(cmd, pld):
                     'end': end_stamp,
                     'icon': reaction_name,
                     'color': icon_color,
+                    'draw_count': draw_count,
                     'message': starter_message.id,
                     'active': True,
                     'id': rafid

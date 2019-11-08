@@ -152,6 +152,7 @@ Commands | Description | Example
 `>>facepalm` | Somebody just did something so stupid you want to facepalm. | `>>facepalm @person`
 `>>feed` | Care to share some of your food with someone cute? | `>>feed @person`
 `>>fuck` `>>fucc` `>>succ` | Don't question my modules... Yes (º﹃º) | `>>fuck @person`
+`>>hide` | Hide from responsibility! | `>>hide @person`
 `>>highfive` | Give somebody a high-five cause high-fives are awesome! | `>>highfive @person`
 `>>hug` `>>cuddle` `>>snuggle` | Even a bot like me can appreciate a hug! The person you mention surely will too. | `>>hug @person`
 `>>kiss` `>>peck` `>>chu` `>>smooch` | Humans touching their slimy air vents. How disturbing. | `>>kiss @person`
@@ -260,7 +261,7 @@ Commands | Description | Example
 `>>myreminders` `>>reminders` `>>rms` | Shows a list of the reminders that you have created, the location where they are set to execute in, and when they will be executed. If you add "here" to the end of the command, it will only show reminders made in the current channel. | `>>myreminders here`
 `>>poll` | Creates a poll with the items from the inputted list. Separate list items with a semicolon and a space. | `>>poll Want to eat?; Yes; No; Hand me the cheese!`
 `>>quote` | Quotes a message from its given ID. The message must have text content or an attachment. The quote author header is clickable and will lead to the message. Note that if you use Discord PTB or Canary you must add "--ptb" or "--canary" for the link to the message to work properly. Embeds cannot be quoted. | `>>quote 381449702589202432`
-`>>raffle` `>>giveaway` | Starts a raffle with a given timer and title. Entering the raffle works by reacting to Sigma's embed message with an automatically given reaction. When the timer runs out a message will appear in the channel the raffle was made in and the creator of the raffle and the winner will be tagged. | `>>raffle 48:30:59 50,000 Kud`
+`>>raffle` `>>giveaway` | Starts a raffle with a given timer and title. React to the raffle message with the automatically given reaction to enter. When raffle ends a message will be sent in the same channel tagging bot the creator and the winner. You can make the raffle in another channel by mentioning it. You can specify how many winners there should be by adding "winners:n" as an argument where "n" is the number of winners. There cannot be more winners than entrants and an entrant can only win once. | `>>raffle 48:30:59 50,000 Kud`
 `>>raffleicon` `>>raffleemote` `>>raffleemoji` | Sets a custom raffle icon. Custom emotes support, of course. It needs to be from the current server though. Enter "disable" to disable the custom raffle emote. | `>>raffleicon <:waitwhat:596577409768226816>`
 `>>randombetween` `>>ranin` | Outputs a random number between two inputted numbers. | `>>randombetween 59 974`
 `>>redrawraffle` `>>redraw` | Redraws a raffle in case that's ever needed. This command is only usable by the author of the raffle. To redraw a raffle use the raffle's ID that can be found in its footer. This command has no response aside from a reaction to your message. A raffle needs to be marked as ended before it can be redrawn. green check mark - redraw successful magnifying glass - raffle not found no entry sign    - you aren't the raffle creator exclamation mark - no arguments given | `>>redrawraffle 1abc9c`

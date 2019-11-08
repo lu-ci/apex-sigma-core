@@ -1,5 +1,16 @@
 # Apex Sigma Changelog
 
+## 4.71.1427 Suzune
+
+### Added
+
+- The `raffle` command now accepts a `winners:n` argument where `n` is the number of winners.
+- The `hide` interaction command has been added. That makes... 30? FUCKING 30?!
+
+### Changed
+
+- Refined the `raffle` command description to be less wordy.
+
 ## 4.71.1424 Suzune
 
 ### Changed

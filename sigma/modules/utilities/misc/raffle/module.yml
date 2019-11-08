@@ -2,10 +2,11 @@ category: miscellaneous
 commands:
   - alts:
       - giveaway
-    description: Starts a raffle with a given timer and title. Entering the raffle works
-      by reacting to Sigma's embed message with an automatically given reaction. When
-      the timer runs out a message will appear in the channel the raffle was made in
-      and the creator of the raffle and the winner will be tagged.
+    description: Starts a raffle with a given timer and title. React to the raffle message with the automatically
+      given reaction to enter. When raffle ends a message will be sent in the same channel tagging bot the creator
+      and the winner. You can make the raffle in another channel by mentioning it. You can specify how many winners
+      there should be by adding "winners:n" as an argument where "n" is the number of winners. There cannot be more
+      winners than entrants and an entrant can only win once.
     enabled: true
     name: raffle
     requirements:
