@@ -197,7 +197,7 @@ class RedisCacher(Cacher):
         by the Cacher inheriting child.
         :return:
         """
-        self.conn = await aioredis.create_redis(f'redis://{self.cfg.host}:{self.cfg.port}')
+        self.conn = await aioredis.create_redis(f'redis://{self.cfg.host}:{self.cfg.port}/{self.cfg.db}')
 
     async def get_cache(self, key):
         """

@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- You can now specify an index for the Redis database in the `cache.yml` config file with a value under a `db` key. When missing, the default is **3** (cause the number looks like Sigma).
+
 ## 4.71.1427 Suzune
 
 ### Added

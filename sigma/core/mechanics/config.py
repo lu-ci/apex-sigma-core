@@ -146,7 +146,8 @@ class CacheConfig(object):
     __slots__ = (
         "raw", "type",
         "time", "size",
-        "host", "port"
+        "host", "port",
+        "db"
     )
 
     def __init__(self, cache_cfg_data):
@@ -160,6 +161,7 @@ class CacheConfig(object):
         self.size = self.raw.get('size', 1000000)
         self.host = self.raw.get('host', '127.0.0.1')
         self.port = self.raw.get('port', 6379)
+        self.db = self.raw.get('db', 3)
 
 
 class Configuration(object):
