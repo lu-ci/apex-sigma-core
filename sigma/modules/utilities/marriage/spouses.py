@@ -38,7 +38,7 @@ def humanize_time(ats):
         years_int = 1
     else:
         years_int = int(year_pieces[0])
-    year_ender = 's' if years_int is not 1 else ''
+    year_ender = 's' if years_int != 1 else ''
     months = ats.humanize(granularity='month')
     month_pieces = months.split(' ')
     if month_pieces[0] == 'a':

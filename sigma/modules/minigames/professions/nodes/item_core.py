@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-import discord
-
 from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.professions.nodes.item_object import SigmaCookedItem, SigmaRawItem
 from sigma.modules.minigames.professions.nodes.properties import item_colors, item_icons, rarity_names

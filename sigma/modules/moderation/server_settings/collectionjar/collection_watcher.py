@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import string
 
-import discord
-
 from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar import CollectionJar
 
 

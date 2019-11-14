@@ -90,7 +90,7 @@ async def divorce(cmd, pld):
                 if not timeout:
                     if option is not (3 if not is_id else 2):
                         fault = None
-                        ask_mutual = option is 1 and not is_id
+                        ask_mutual = option == 1 and not is_id
                         if ask_mutual:
                             div_cost = 0
                             hacked_message = copy.copy(pld.msg)

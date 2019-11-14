@@ -21,7 +21,6 @@ import re
 
 import aiohttp
 import arrow
-import discord
 from PIL import Image
 
 color_cache_coll = None
