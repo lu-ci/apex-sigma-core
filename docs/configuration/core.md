@@ -3,7 +3,7 @@
 ## Making The Folders
 
 Inside Sigma's main directory, you should see a folder called `config`.
-Inside said folder there are another two, `core` and `plugins`.
+Inside said folder there are another two, `core` and `modules`.
 If these folders do not exist, feel free to create them.
 The `core` folder contains `.yml` files used to configure Sigma's core functions.
 Only the core configuration files are mandatory for Sigma to work.
@@ -15,6 +15,17 @@ Go to `config/core` and make **three** new files.
 * discord.yml
 * database.yml
 * preferences.yml
+
+Your `config` folder should look like this:
+
+```
+config
+└── core
+    ├── cache.yml
+    ├── database.yml
+    ├── discord.yml
+    └── preferences.yml
+```
 
 ### `discord.yml` Contents
 
@@ -29,7 +40,6 @@ owners:
   This is implemented as Sigma is able to be a self bot.
   If this is `false` all event handling will be disabled and the bot will only respond to itself.
   The value of the `bot` key is **boolean**.
-
 * `token`: Your **Discord Client Token**. Which you can obtain from your applications.
   You can find your applications [Here](https://discordapp.com/developers/applications/me).
   The value of the `token` key is a **string**.
@@ -37,6 +47,10 @@ owners:
   Users with bot owners privileges can control any and all bot functions.
   Be careful who you designated as a bot owner, some functions are dangerous.
   The value of the `owners` key is a **list of integers**.
+* `max_messages`: It sets a limit of how many message objects should be cached.
+  The default is 5000 as set by discord.py, the minimum is 100.
+  If you set it below that, it'll just silently use 100.
+  The value of the `max_messages` key is an **integer**.
 
 ### `database.yml` Contents
 
@@ -47,7 +61,6 @@ host:     '127.0.0.1'
 port:     27017
 username: 'username'
 password: 'password'
-cache_type: 'memory'
 ```
 
 * `database`: The name of the database object in MongoDB for storing your data.
@@ -67,13 +80,6 @@ cache_type: 'memory'
   The value of the `username` key is a **string**.
 * `password`: Same as the `username` key. Used for authorization when needed. If you don't need to authorize, input anything you want, the key is still required.
   The value of the `password` key is a **string**.
-* `cache_type`: This specifies the type of cache that the bot should
-  use for storing temporary data during runtime to increase performance.
-  In most cases for self-hosts this isn't needed due to serving a very
-  tiny amount of servers and users. Consider setting this variable only
-  if you ever cross around 9.000 servers or 450.000 users.
-  The possible types are `none`, `memory`, `ttl`, `lru`, `redis` and `mixed`. If an unknown value is entered it will default to `none`.
-  The value of the `cache_type` key is a **string**.
 
 ### `preferences.yml` Contents
 

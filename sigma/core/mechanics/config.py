@@ -91,7 +91,7 @@ class DatabaseConfig(object):
 
     __slots__ = (
         "raw", "database", "auth", "host", "port",
-        "username", "password", "cache_type"
+        "username", "password"
     )
 
     def __init__(self, db_cfg_data):
@@ -106,7 +106,6 @@ class DatabaseConfig(object):
         self.port = self.raw.get('port', 27017)
         self.username = self.raw.get('username', 'user')
         self.password = self.raw.get('password', 'pass')
-        self.cache_type = self.raw.get('cache_type')
 
 
 class PreferencesConfig(object):
