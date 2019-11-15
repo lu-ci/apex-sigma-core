@@ -60,6 +60,7 @@ commands:
     name: connectfour
     requirements:
       - add_reactions
+      - manage_messages
     usage: '{pfx}{cmd} @person'
 enabled: true
 name: Other Minigames
