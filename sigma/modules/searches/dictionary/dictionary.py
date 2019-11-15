@@ -114,7 +114,8 @@ async def dictionary(_cmd, pld):
                     for sub in trg.get("subsenses"):
                         gramb_lines.append(f'-> **{trg.get("index")}.{sub.get("index")}.** {sub.get("context")}')
                 gramb_text = '\n'.join(gramb_lines[:10])
-                response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
+                if gramb_text:
+                    response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
             if data.get('audio'):
                 response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'
         else:

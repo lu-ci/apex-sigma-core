@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import discord
 
 from sigma.core.utilities.generic_responses import error, ok
 
@@ -60,8 +61,11 @@ async def temproom(cmd, pld):
     if pld.msg.guild.me.permissions_in(temp_vc_cat).manage_channels:
         tmp_vc = await pld.msg.guild.create_voice_channel(room_name, reason=reason, category=temp_vc_cat)
         perms = {'manage_channels': True, 'manage_roles': True, 'read_messages': True, 'connect': True, 'speak': True}
-        await tmp_vc.set_permissions(pld.msg.author, **perms)
         response = ok(f'{room_name} created.')
+        try:
+            await tmp_vc.set_permissions(pld.msg.author, **perms)
+        except discord.Forbidden:
+            response.set_footer(text='Failed to set channel permissions.')
     else:
         response = error('I can\'t create channels in that category.')
     await pld.msg.channel.send(embed=response)
