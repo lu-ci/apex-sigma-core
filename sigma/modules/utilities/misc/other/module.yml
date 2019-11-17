@@ -35,7 +35,6 @@ commands:
     name: temproom
     requirements:
       - manage_channels
-      - manage_roles
     usage: '{pfx}{cmd} Orgy For One'
   - alts:
       - tempctg
