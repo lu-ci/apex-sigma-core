@@ -15,6 +15,7 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
     libxml2-dev \
     libxslt-dev \
     libffi-dev \
+    git \
  && pip install --no-cache-dir virtualenv \
  && virtualenv .venv \
  && . .venv/bin/activate \

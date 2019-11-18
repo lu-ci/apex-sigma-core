@@ -53,7 +53,11 @@ async def givecookie(cmd, pld):
             if pld.args[0].lower() == '@someone':
                 members = pld.msg.guild.members
                 mid = pld.msg.author.id
-                target = secrets.choice([member for member in members if not (member.bot or member.id == mid)])
+                targets = [member for member in members if not (member.bot or member.id == mid)]
+                if targets:
+                    target = secrets.choice(targets)
+                else:
+                    target = None
                 someoned = True
             else:
                 lookup = ' '.join(pld.args)
