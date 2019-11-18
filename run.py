@@ -4,7 +4,6 @@ import errno
 import os
 import subprocess
 import sys
-from multiprocessing import Process, Queue
 
 try:
     from sigma.core.sigma import ApexSigma
@@ -41,7 +40,7 @@ def install_requirements():
         exit(errno.EINVAL)
 
 
-def run(shard_id=None):
+def run():
     """
     The main run call.
     Runs the entire client core.
@@ -51,12 +50,8 @@ def run(shard_id=None):
     ci_token = os.getenv('CI')
     if not ci_token:
         try:
-            try:
-                shard_count = int(os.environ['SIGMA_SHARD_COUNT'])
-            except (KeyError, ValueError):
-                shard_count = 22
-            sigma = ApexSigma(shard_count)
-            sigma.run(shard_id)
+            sigma = ApexSigma()
+            sigma.run()
         except (ImportError, ModuleNotFoundError, NameError):
             modules_missing = True
             install_requirements()
@@ -66,10 +61,4 @@ def run(shard_id=None):
 
 
 if __name__ == '__main__':
-    try:
-        shards = int(os.environ['SIGMA_SHARD_COUNT'])
-    except (KeyError, ValueError):
-        shards = 22
-    for shard in list(range(0, shards)):
-        p = Process(target=run, args=(shard,))
-        p.start()
+    run()

@@ -67,7 +67,7 @@ class ApexSigma(client_class):
         "gateway_start", "gateway_finish"
     )
 
-    def __init__(self, shards=None):
+    def __init__(self):
         super().__init__(status=discord.Status.dnd, activity=discord.Game('booting...'))
         self.ready = False
         # State attributes before initialization.
@@ -80,11 +80,8 @@ class ApexSigma(client_class):
         self.cfg = init_cfg
         self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = ExecutionClockwork(self)
-        if shards:
-            self.shard_count = shards
-        else:
-            self.shard_count = self.cfg.dsc.shard_count
-            self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
+        self.shard_count = self.cfg.dsc.shard_count
+        self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
         # Initialize startup methods and attributes.
         self.create_cache()
         self.init_logger()
@@ -116,11 +113,8 @@ class ApexSigma(client_class):
         :return:
         """
         if os.path.exists('cache'):
-            if os.listdir('cache'):
-                shutil.rmtree('cache')
-                os.makedirs('cache')
-        else:
-            os.makedirs('cache')
+            shutil.rmtree('cache')
+        os.makedirs('cache')
 
     async def init_cacher(self):
         """
@@ -317,15 +311,12 @@ class ApexSigma(client_class):
             await self.cache.set_cache(cache_key, out)
         return out
 
-    def run(self, shard_id=None):
+    def run(self):
         """
         Starts the gateway connection processes.
         :return:
         """
         try:
-            if shard_id:
-                self.shard_ids = [shard_id]
-                self.cfg.dsc.shard = shard_id
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
             if self.cfg.dsc.token is not None:
