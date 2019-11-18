@@ -5,7 +5,7 @@ arrow
 cachetools
 cssselect
 cryptography
-discord.py[voice]
+git+https://github.com/Rapptz/discord.py@master#egg=discord.py[voice]
 ftfy
 geopy
 humanfriendly
