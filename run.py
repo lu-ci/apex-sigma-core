@@ -54,7 +54,7 @@ def run(shard_id=None):
             try:
                 shard_count = int(os.environ['SIGMA_SHARD_COUNT'])
             except (KeyError, ValueError):
-                shard_count = 22
+                shard_count = None
             sigma = ApexSigma(shard_count)
             sigma.run(shard_id)
         except (ImportError, ModuleNotFoundError, NameError):
@@ -69,7 +69,10 @@ if __name__ == '__main__':
     try:
         shards = int(os.environ['SIGMA_SHARD_COUNT'])
     except (KeyError, ValueError):
-        shards = 22
-    for shard in list(range(0, shards)):
-        p = Process(target=run, args=(shard,))
-        p.start()
+        shards = None
+    if shards:
+        for shard in list(range(0, shards)):
+            p = Process(target=run, args=(shard,))
+            p.start()
+    else:
+        run()
