@@ -220,7 +220,10 @@ class RedisCacher(Cacher):
         :param value: The value to assign to the key.
         :return:
         """
-        await self.conn.set(str(key), pickle.dumps(value))
+        try:
+            await self.conn.set(str(key), pickle.dumps(value))
+        except aioredis.ReplyError:
+            self.conn.flushdb()
 
     async def del_cache(self, key):
         """
