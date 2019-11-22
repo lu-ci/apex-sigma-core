@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import not_found, error
 from sigma.modules.nsfw.mech.core import konachan_client
 
 
@@ -30,16 +30,20 @@ async def konachan(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     client = konachan_client(cmd.db.cache)
-    post = await client.randpost(pld.args)
-    if post:
-        post_url = client.post_url + str(post.get('id'))
-        score_text = f'Score: {post.get("score")}'
-        size_text = f'Size: {post.get("width")}x{post.get("height")}'
-        author_text = f'Uploaded By: {post.get("author")}'
-        response = discord.Embed(color=0x473a47)
-        response.set_author(name='Konachan', url=post_url, icon_url=client.icon_url)
-        response.set_image(url=post.get('file_url'))
-        response.set_footer(text=f'{score_text} | {size_text} | {author_text}')
+    tags = client.remove_lines_breaks(pld.args)
+    if not len(tags) > 6:
+        post = await client.randpost(pld.args)
+        if post:
+            post_url = client.post_url + str(post.get('id'))
+            score_text = f'Score: {post.get("score")}'
+            size_text = f'Size: {post.get("width")}x{post.get("height")}'
+            author_text = f'Uploaded By: {post.get("author")}'
+            response = discord.Embed(color=0x473a47)
+            response.set_author(name='Konachan', url=post_url, icon_url=client.icon_url)
+            response.set_image(url=post.get('file_url'))
+            response.set_footer(text=f'{score_text} | {size_text} | {author_text}')
+        else:
+            response = not_found('No results.')
     else:
-        response = not_found('No results.')
+        response = error('You can only search up to 6 tags.')
     await pld.msg.channel.send(embed=response)

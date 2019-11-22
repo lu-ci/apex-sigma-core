@@ -149,6 +149,20 @@ class GalleryClient(object):
         self.headers = client_data.get('headers')
         self.tags = None
 
+    @staticmethod
+    def remove_lines_breaks(tags):
+        """
+        Removes line breaks from a list of tags.
+        :param tags: The list of tags to parse
+        :type tags: list[str]
+        :return:
+        :rtype: list[str]
+        """
+        new_tags = []
+        for tag in tags:
+            new_tags.extend(tag.split('\n'))
+        return new_tags
+
     async def _get_posts(self):
         """
         Fetches posts from the client.
