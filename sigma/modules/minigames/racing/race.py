@@ -59,8 +59,6 @@ async def race(cmd, pld):
                     leader = None
                     race_msg = None
                     skip = False
-                    for participant in race_instance['users']:
-                        values.update({participant['user'].id: 0})
                     while highest < 20:
                         lines = '```\n'
                         for participant in race_instance['users']:
@@ -68,7 +66,7 @@ async def race(cmd, pld):
                                 move = secrets.randbelow(5) + 1
                             else:
                                 move = 0
-                            val = values[participant['user'].id]
+                            val = values.get(participant['user'].id, 0)
                             val += move
                             if val >= 20:
                                 val = 20
