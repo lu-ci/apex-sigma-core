@@ -32,25 +32,18 @@ async def avatar(_cmd, pld):
     """
     gif = False
     static = False
-    auto_color = False
     if pld.args:
         if pld.args[-1].lower() == 'gif':
             gif = True
         elif pld.args[-1].lower() == 'static':
             static = True
-        elif pld.args[-1].lower() == 'color':
-            auto_color = True
     if pld.msg.mentions:
         target = pld.msg.mentions[0]
     else:
         target = pld.msg.author
     ava_url = user_avatar(target, gif, static)
-    if auto_color:
-        color = await get_image_colors(ava_url)
-    else:
-        color = target.color
+    color = await get_image_colors(ava_url)
     response = discord.Embed(color=color)
-    if auto_color:
-        response.description = f'Dominant Color: #{hexify_int(color)}'
+    response.description = f'Dominant Color: #{hexify_int(color)}'
     response.set_image(url=ava_url)
     await pld.msg.channel.send(embed=response)
