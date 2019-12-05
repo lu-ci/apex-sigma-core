@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import string
 
+import discord
+
 from sigma.core.utilities.generic_responses import ok
 
 collector_loop_running = False
@@ -92,10 +94,12 @@ def get_channel(msg):
     :return:
     :rtype:
     """
+    target_chn = msg.channel
     if msg.channel_mentions:
-        target_chn = msg.channel_mentions[0]
-    else:
-        target_chn = msg.channel
+        for tcn in msg.channel_mentions:
+            if isinstance(tcn, discord.TextChannel):
+                target_chn = tcn
+                break
     return target_chn
 
 
