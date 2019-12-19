@@ -47,7 +47,10 @@ async def send_whisper_message(ev, whisper_doc):
     whisper_channel = await ev.bot.get_channel(whisper_chn_id)
     if whisper_channel:
         response = discord.Embed(title='😶 Incoming Whisper', description=whisper_doc.get('whisper'))
-        await whisper_channel.send(embed=response)
+        try:
+            await whisper_channel.send(embed=response)
+        except (discord.Forbidden, discord.NotFound):
+            pass
         await ev.db[ev.db.db_nam].Whispers.update_one(whisper_doc, {'$set': {'reported': True}})
 
 
