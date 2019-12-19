@@ -55,7 +55,7 @@ async def impersonate(cmd, pld):
                             await cmd.db.cache.set_cache(cache_key, chain)
                         sentence_function = functools.partial(chain.make_short_sentence, 500)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    except KeyError:
+                    except (KeyError, ValueError, AttributeError):
                         sentence = None
                 if not sentence:
                     not_enough_data = '😖 I could not think of anything... I need more chain items!'

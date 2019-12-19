@@ -65,23 +65,17 @@ async def combinechains(cmd, pld):
                 if not chain_string:
                     empty_chain = target
                     break
-                cache_key = f'chain_{target.id}'
-                markov_data = await cmd.db.cache.get_cache(cache_key)
-                if not markov_data:
-                    chain_task_one = functools.partial(markovify.Text, chain_string)
-                    markov_data = await cmd.bot.loop.run_in_executor(threads, chain_task_one)
-                    await cmd.db.cache.set_cache(cache_key, markov_data)
-                chain_objects.append(markov_data)
+                chain_objects.append(chain_string)
             combination_id = '_'.join(sorted([str(u.id) for u in pld.msg.mentions]))
             combination_key = f"mixed_chain_{combination_id}"
             failed = False
             combination = await cmd.db.cache.get_cache(combination_key)
             if not combination:
                 try:
-                    combine_task = functools.partial(markovify.combine, chain_objects, [1] * len(chain_objects))
+                    combine_task = functools.partial(markovify.Text, ' '.join(chain_objects))
                     combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
                     await cmd.db.cache.set_cache(combination_key, combination)
-                except (ValueError, KeyError):
+                except (ValueError, KeyError, AttributeError):
                     failed = True
             if not empty_chain:
                 if not failed:
