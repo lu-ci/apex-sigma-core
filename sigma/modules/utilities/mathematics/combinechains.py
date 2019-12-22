@@ -83,7 +83,7 @@ async def combinechains(cmd, pld):
                     try:
                         sentence_function = functools.partial(combination.make_short_sentence, 500)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    except KeyError:
+                    except (ValueError, KeyError, AttributeError):
                         sentence = None
                     if not sentence:
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
