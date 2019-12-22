@@ -18,12 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-import discord
-
-dab_imgs = [
-    'https://i.ytimg.com/vi/6VatNMm6ac4/maxresdefault.jpg',
-    'https://pa1.narvii.com/6724/6683da02ba2ee1ccce786c0f6b78117f666ab04c_hq.gif',
-    'https://pbs.twimg.com/media/DNJj8ucUQAAmw9n.png'
+faces = [
+    ' ( ˙-˙ )', '( ﾟ_ﾟ )', '（・・）', '( ・-・ )', '（・＿・)',
+    '(ʘᗩʘ’)', '◎ܫ◎', '（゜◇゜）', '꒪ꄱ꒪', 'Σ(O_O；)', 'ಠ_ಠ',
+    'ಠ_ಠ', '⋋_⋌', '눈_눈', 'ಠ⌣ಠ', 'ಠ▃ಠ', 'ఠ͟ಠ', 'ಠ_ರೃ', 'ノಠ_ಠノ',
+    '(¬_¬)', '(｀ε´)', '(ಠ⌣ಠ)', '(◣_◢)', '(¬▂¬)', '(┳◇┳)', '(눈_눈)',
+    '(¬､¬)', '（▽д▽）', '(’益’)', '(⋋▂⋌)', '〴⋋_⋌〵', '(◔д◔)',
+    '(◞‸◟；)', '(ಥ_ʖಥ)', '(ʘдʘ╬)', '（♯▼皿▼）', '(｀Д´)', '(#｀皿´)',
+    '(¬_¬)ﾉ', '(╬ಠ益ಠ)', '(ಠ∩ಠ)', '(>д<)', '凸(¬‿¬)', '(⁎˃ᆺ˂)',
+    '凸ಠ益ಠ)凸', '(；¬д¬)', '(-_-｡)', '(º言º)', 'ლಠ益ಠ)ლ', '(≧Д≦)',
+    '(°ㅂ°╬)', '（｀Δ´）！', '(ᗒᗣᗕ)՞', '（#＾ω＾）', '（▼へ▼メ）', '(╬⓪益⓪)'
 ]
 
 
@@ -34,5 +38,8 @@ async def dab(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    dab_img = secrets.choice(dab_imgs)
-    await pld.msg.channel.send(embed=discord.Embed().set_image(url=dab_img))
+    face = secrets.choice(faces)
+    signs = ['.', '...', '!', '!!!']
+    sign = secrets.choice(signs)
+    output = f'`{face}` No{sign}'
+    await pld.msg.channel.send(output)
