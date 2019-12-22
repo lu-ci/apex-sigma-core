@@ -15,7 +15,6 @@
 - [NIHONGO](#nihongo)
 - [NSFW](#nsfw)
 - [OSU](#osu)
-- [OVERWATCH](#overwatch)
 - [PERMISSIONS](#permissions)
 - [ROLES](#roles)
 - [SEARCHES](#searches)
@@ -362,12 +361,6 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>osu` | Generates a signature image with the specified user's stats for osu!. | `>>osu AXAz0r`
-[Back To Top](#module-index)
-
-### OVERWATCH
-Commands | Description | Example
-----------|-------------|--------
-`>>overwatch` `>>owstats` `>>ow` | Outputs the Overwatch statistics for the specified player from the specified region. Do note that the battletag is case sensitive, Aurora#22978 is not the same as aurora#22978. | `>>overwatch EU Aurora#22978`
 [Back To Top](#module-index)
 
 ### PERMISSIONS
