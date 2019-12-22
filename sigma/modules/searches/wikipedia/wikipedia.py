@@ -81,7 +81,6 @@ async def wikipedia(_cmd, pld):
             if exact_result:
                 lookup, wiki_url = exact_result
                 summary_url = f'{api_base}&action=query&prop=extracts&exintro&explaintext&titles={lookup}'
-                print(summary_url)
                 async with aiohttp.ClientSession() as session:
                     async with session.get(summary_url) as qs_session:
                         summ_res_data = await qs_session.read()
