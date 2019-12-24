@@ -27,7 +27,7 @@ async def echo(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        content = f'👄 {" ".join(pld.args)[:1995]}'
+        content = f'👄 {" ".join(pld.args)[:1995]}'.replace("@everyone", "@​everyone")
         content = content.replace('@everyone', 'everyone').replace('@here', 'here')
         await pld.msg.channel.send(content)
     else:
