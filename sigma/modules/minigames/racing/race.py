@@ -25,6 +25,28 @@ from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.racing.nodes.race_storage import colors, make_race, races
 
 
+async def check_resources(db, users, amt):
+    """
+    :param db: The database instance.
+    :type db: sigma.core.mechanics.database.Database
+    :param users: The users to check.
+    :type users: list
+    :param amt: The amount to check
+    :type amt: int
+    :return:
+    :rtype: bool
+    """
+    ok = True
+    if amt:
+        for user in users:
+            res = await db.get_resource(user['user'].id, 'currency')
+            if res.current < amt:
+                print(f'{user["user"].name} has money ({res.current} > {amt})')
+                ok = False
+                break
+    return ok
+
+
 async def race(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -95,14 +117,19 @@ async def race(cmd, pld):
                         else:
                             race_msg = await pld.msg.channel.send(lines)
                         await asyncio.sleep(2)
-                    win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
-                    for user in race_instance['users']:
-                        await cmd.db.del_resource(user['user'].id, 'currency', buyin, cmd.name, pld.msg)
-                    if race_instance['buyin']:
-                        winnings = race_instance["buyin"] * len(race_instance['users'])
-                        await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, pld.msg, False)
-                        win_title = f'{win_title[:-1]} and got {winnings} {currency}!'
-                    response = discord.Embed(color=colors[leader['icon']], title=win_title)
+                    have_buyin = await check_resources(cmd.db, race_instance['users'], buyin)
+                    if have_buyin:
+                        win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
+                        for user in race_instance['users']:
+                            await cmd.db.del_resource(user['user'].id, 'currency', buyin, cmd.name, pld.msg)
+                        if race_instance['buyin']:
+                            winnings = race_instance["buyin"] * len(race_instance['users'])
+                            await cmd.db.add_resource(leader['user'].id, 'currency', winnings, cmd.name, pld.msg, False)
+                            win_title = f'{win_title[:-1]} and got {winnings} {currency}!'
+                        response = discord.Embed(color=colors[leader['icon']], title=win_title)
+                    else:
+                        response = error('Some participants lost their funds in the meantime!')
+                        response.description = f'Someone spent their {currency} before the race finished.'
                 else:
                     response = error('Not enough participants in the race!')
             else:
