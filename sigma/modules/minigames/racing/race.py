@@ -41,7 +41,6 @@ async def check_resources(db, users, amt):
         for user in users:
             res = await db.get_resource(user['user'].id, 'currency')
             if res.current < amt:
-                print(f'{user["user"].name} has money ({res.current} > {amt})')
                 ok = False
                 break
     return ok
