@@ -30,7 +30,7 @@ titles = {
     'm': 'Cacophony of colors...'
 }
 
-titles_glitch = {
+title_glitches = {
     'm': 'Flash ng, exp nd ng, piercing...',
     'y': 'Slipping cogwheels...',
     's': 'It just stops moving...',
@@ -56,7 +56,7 @@ chars = {
     ]
 }
 
-chars_glitch = {
+char_glitches = {
     'm': 'https://i.imgur.com/im1H8jA.png',
     'n': 'https://i.imgur.com/J65D1Di.png',
     'y': 'https://i.imgur.com/0b3fthJ.png',
@@ -112,7 +112,7 @@ async def dokidoki(cmd, pld):
         glitch = not bool(glitch)
     if glitch:
         line_count = 1
-        thumbnail = chars_glitch[char]
+        thumbnail = char_glitches[char]
     else:
         line_count = 3
         thumbnail = secrets.choice(chars[char])
@@ -127,7 +127,7 @@ async def dokidoki(cmd, pld):
         lines.append(output)
     output_final = ' '.join(lines)
     if glitch:
-        title = titles_glitch[char]
+        title = title_glitches[char]
     else:
         title = titles[char]
     response = discord.Embed(color=0xe75a70)
