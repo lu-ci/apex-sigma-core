@@ -9,12 +9,12 @@ commands:
       first, followed by the target.
     enabled: true
     name: givecurrency
-    usage: '{pfx}{cmd} 500 @person'
+    usage: '{pfx}{cmd} @person 500'
   - alts:
       - giveitm
       - givei
-    description: Transfers an item between you and a mentioned person. Unlike currency
-      commands, the target goes first and then the item name.
+    description: Transfers an item between you and a mentioned person. The item name goes
+      first, followed by the target.
     enabled: true
     name: giveitem
     usage: '{pfx}{cmd} @person Karmotree'

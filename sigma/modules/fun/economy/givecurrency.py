@@ -33,7 +33,7 @@ async def givecurrency(cmd, pld):
             if pld.msg.mentions:
                 target = pld.msg.mentions[0]
                 try:
-                    amount = abs(int(pld.args[0]))
+                    amount = abs(int(pld.args[-1]))
                 except ValueError:
                     amount = None
                 if amount:
