@@ -10,10 +10,7 @@ commands:
     enabled: true
     name: givecurrency
     usage: '{pfx}{cmd} @person 500'
-  - alts:
-      - giveitm
-      - givei
-    description: Transfers an item between you and a mentioned person. The item name goes
+  - description: Transfers an item between you and a mentioned person. The item name goes
       first, followed by the target.
     enabled: true
     name: giveitem

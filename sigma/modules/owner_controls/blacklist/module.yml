@@ -1,7 +1,7 @@
 category: development
 commands:
   - alts:
-      - blackusr
+      - blackuser
     description: Marks a user as blacklisted, disallowing them to use any command.
     enabled: true
     name: blacklistuser
@@ -42,7 +42,7 @@ commands:
       owner: true
     usage: '{pfx}{cmd} 0123456789 pun'
   - alts:
-      - sabusr
+      - sabuser
     description: Sabotages a user making them have extreme bad luck in various modules.
     enabled: true
     name: sabotageuser
