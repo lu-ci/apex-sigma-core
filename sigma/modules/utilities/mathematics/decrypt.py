@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import discord
+from discord.utils import escape_mentions
 from cryptography.fernet import InvalidSignature, InvalidToken
 
 from sigma.core.utilities.generic_responses import error
@@ -47,7 +48,7 @@ async def decrypt(cmd, pld):
                 ciphered = None
             if ciphered:
                 if text:
-                    response = ciphered
+                    response = escape_mentions(ciphered)
                 else:
                     response = discord.Embed(color=0xe75a70)
                     response.add_field(name='💟 Token Decrypted', value=ciphered)
