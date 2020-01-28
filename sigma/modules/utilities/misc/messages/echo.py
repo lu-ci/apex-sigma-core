@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from discord.utils import escape_mentions
+
 from sigma.core.utilities.generic_responses import error
 
 
@@ -28,8 +30,7 @@ async def echo(_cmd, pld):
     """
     if pld.args:
         content = f'👄 {" ".join(pld.args)[:1995]}'
-        content = content.replace('@everyone', '@​everyone').replace('@here', '@​here')
-        await pld.msg.channel.send(content)
+        await pld.msg.channel.send(escape_mentions(content))
     else:
         no_args = error('Nothing inputted.')
         await pld.msg.channel.send(embed=no_args)

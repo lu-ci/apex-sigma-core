@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import discord
+from discord.utils import escape_mentions
 
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
@@ -81,5 +82,5 @@ async def custom_command(ev, pld):
                                 await pld.msg.channel.send(embed=response)
                             else:
                                 response = command_message_parser(pld.msg, cmd_text)
-                                await pld.msg.channel.send(response)
+                                await pld.msg.channel.send(escape_mentions(response))
                             log_command_usage(ev.log, pld.msg, cmd)
