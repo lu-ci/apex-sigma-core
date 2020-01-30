@@ -1,6 +1,12 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.72.1455 Suzune
+
+### Removed
+
+- Disabled the `foodrecipe` command because the API has been shutdown. Possible future rework.
+
+## 4.71.1428 Suzune
 
 ### Added
 

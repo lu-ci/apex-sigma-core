@@ -5,7 +5,7 @@ commands:
       - food
     description: Searches for a dish, or dishes that use specified ingredients, and
       outputs one that might be a good match for your search query.
-    enabled: true
+    enabled: false
     name: foodrecipe
     usage: '{pfx}{cmd} Chicken in Curry Sauce'
 enabled: true

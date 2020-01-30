@@ -44,7 +44,7 @@ Commands | Description | Example
 `>>blacklistcommand` `>>blackcommand` `>>blackcmd` | Disallows a person from using a specific command. (Bot Owner Only) | `>>blacklistcommand 0123456789 pun`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
-`>>blacklistuser` `>>blackusr` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
+`>>blacklistuser` `>>blackuser` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
 `>>declinesuggestion` `>>declinesugg` `>>decsugg` | Declines a submitted suggestion and notifies the submitter. (Bot Owner Only) | `>>declinesuggestion 8e39c9bb Some Title; This does a thing!`
 `>>destroyitem` `>>desitem` | Destroys the item with the specified ID. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
 `>>destroyresource` `>>destroyres` `>>desres` `>>desr` | Takes away the specified amount of the specified resource from the mentioned user. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>destroyresource metal @person 100`
@@ -62,7 +62,7 @@ Commands | Description | Example
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
 `>>removeinteraction` `>>removeinteract` `>>delinteract` | Remove an interaction with the specified ID. (Bot Owner Only) | `>>removeinteraction 1ba2e263`
 `>>removestatus` `>>delstatus` | Removes a status with the specified ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
-`>>sabotageuser` `>>sabusr` | Sabotages a user making them have extreme bad luck in various modules. (Bot Owner Only) | `>>sabotageuser 0123456789`
+`>>sabotageuser` `>>sabuser` | Sabotages a user making them have extreme bad luck in various modules. (Bot Owner Only) | `>>sabotageuser 0123456789`
 `>>send` | Sends a message to a user, channel or server. The first argument needs to be the destination parameter. The destination parameter consists of the destination type and ID. The types are U for User and C for Channel. The type and ID are separated by a colon, or two dots put more simply. (Bot Owner Only) | `>>send u:0123456789 We are watching...`
 `>>setavatar` `>>setav` | Sets the avatar of Sigma either to the linked or attached image. The officially supported formats for bot avatars are JPG and PNG images. Note that bots, like all users, have limited profile changes per time period. (Bot Owner Only) | `>>setavatar https://my_fomain.net/my_avatar.png`
 `>>setcooldown` `>>setcd` | Sets a global cooldown on a command. The cooldown is user-bound and specified in seconds. (Bot Owner Only) | `>>setcooldown roll 50`
@@ -103,8 +103,8 @@ Commands | Description | Example
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
-`>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency 500 @person`
-`>>giveitem` `>>giveitm` `>>givei` | Transfers an item between you and a mentioned person. Unlike currency commands, the target goes first and then the item name. | `>>giveitem @person Karmotree`
+`>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency @person 500`
+`>>giveitem` | Transfers an item between you and a mentioned person. The item name goes first, followed by the target. | `>>giveitem @person Karmotree`
 `>>givetovault` `>>givetobank` `>>gtv` `>>gtb` | The vault is a server specific Kud storage system. Members can contribute to the vault with this command. The Kud can then be awarded to users using the award command. | `>>givetovault 500`
 `>>joke` | Outputs a joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>fluffytail` `>>kitsune` `>>kon` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>kitsunemimi`
@@ -418,7 +418,6 @@ Commands | Description | Example
 `>>deezer` `>>music` `>>findsong` | Searches Deezer for infomation on the specified song. The output will include a song preview link. | `>>deezer Highway to Hell`
 `>>describe` `>>desc` | Looks up words that are often used to describe nouns or are often used by the adjective. Specify the mode in the first argument. adjectives, adjective, adj, a: To look up nouns that are often described by an adjective. nouns, noun, n: To look up adjectives that are often used to describe a noun. | `>>describe noun ocean`
 `>>dictionary` `>>dict` `>>definition` `>>define` `>>def` | Searches the Oxford dictionary for the definition of your input. | `>>dictionary cork`
-`>>foodrecipe` `>>frec` `>>food` | Searches for a dish, or dishes that use specified ingredients, and outputs one that might be a good match for your search query. | `>>foodrecipe Chicken in Curry Sauce`
 `>>giphy` `>>gif` | Searches Giphy with the specified tag and returns a random result. The tag can be multiple words. | `>>giphy kittens`
 `>>homophones` `>>homophone` | Looks up words that sound like the specified term. | `>>homophones coarse`
 `>>imdb` `>>movie` | Searches the Internet Movie Database for your input. Gives you the poster, release year, and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
