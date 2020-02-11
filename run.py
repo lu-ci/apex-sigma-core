@@ -9,7 +9,8 @@ try:
     from sigma.core.sigma import ApexSigma
 
     modules_missing = False
-except (ImportError, ModuleNotFoundError):
+except (ImportError, ModuleNotFoundError) as err:
+    print(f"Missing module: {err}")
     modules_missing = True
 
 modules_installed = False
