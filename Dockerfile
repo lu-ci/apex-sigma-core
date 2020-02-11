@@ -8,8 +8,6 @@ RUN addgroup --system --gid "$user_gid" app \
  && adduser --system --ingroup app --uid "$user_uid" app
 
 RUN mkdir -p /app && chown app:app /app
-WORKDIR /app
-USER app
 
 COPY --chown=app:app ./ ./
 
@@ -25,8 +23,12 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
     git \
     ffmpeg \
     bash \
- && pip install --no-cache-dir virtualenv \
- && virtualenv .venv \
+ && pip install --no-cache-dir virtualenv
+
+WORKDIR /app
+USER app
+
+RUN virtualenv .venv \
  && . .venv/bin/activate \
  && python -m pip install -U pip \
  && pip install --no-cache-dir -r requirements.txt \
