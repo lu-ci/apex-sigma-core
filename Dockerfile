@@ -9,7 +9,7 @@ RUN addgroup --system --gid "$user_gid" app \
 
 RUN mkdir -p /app && chown app:app /app
 
-COPY --chown=app:app ./ ./
+COPY --chown=app:app ./ /app
 
 RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list \
  && echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
