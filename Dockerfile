@@ -33,7 +33,7 @@ RUN virtualenv .venv \
  && . .venv/bin/activate \
  && python -m pip install -U pip \
  && pip install --no-cache-dir -r requirements.txt \
- && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate \
+ && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["./run.sh"]
