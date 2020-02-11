@@ -23,7 +23,8 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
     git \
     ffmpeg \
     bash \
- && pip install --no-cache-dir virtualenv
+ && pip install --no-cache-dir virtualenv \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 USER app
@@ -33,7 +34,6 @@ RUN virtualenv .venv \
  && python -m pip install -U pip \
  && pip install --no-cache-dir -r requirements.txt \
  && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate \
- && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["./run.sh"]
