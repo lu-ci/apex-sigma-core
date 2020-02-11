@@ -19,8 +19,8 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
  && pip install --no-cache-dir virtualenv \
  && virtualenv .venv \
  && . .venv/bin/activate \
- && python -m pip install -U pip \
  && pip install --no-cache-dir -r requirements.txt \
+ && virtualenv --relocatable .venv \
  && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate \
  && rm -rf /var/lib/apt/lists/*
 
