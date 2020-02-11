@@ -49,13 +49,13 @@ def run():
     global modules_missing
     ci_token = os.getenv('CI')
     if not ci_token:
-        # try:
-        sigma = ApexSigma()
-        sigma.run()
-        # except (ImportError, ModuleNotFoundError, NameError):
-        #     modules_missing = True
-        #     install_requirements()
-        #     run()
+        try:
+            sigma = ApexSigma()
+            sigma.run()
+        except (ImportError, ModuleNotFoundError, NameError):
+            modules_missing = True
+            install_requirements()
+            run()
     else:
         exit(0)
 
