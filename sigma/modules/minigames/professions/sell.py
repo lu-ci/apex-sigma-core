@@ -87,7 +87,7 @@ async def sell(cmd, pld):
                 count = 0
                 value = 0
                 if item_o:
-                    for x in range(request_count):
+                    for _ in range(request_count):
                         item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
                         if item:
                             value += item_o.value
