@@ -78,17 +78,28 @@ async def sell(cmd, pld):
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
-                item_o = item_core.get_item_by_name(lookup)
+                requestCount = 1
+                if lookup.split()[0].isdigit:
+                    parts = lookup.split(None, 1)
+                    requestCount = int(parts[0])
+                    lookup = parts[1]
+                item_o = item_core.get_item_by_name(lookup)                    
+                count = 0
+                value = 0
                 if item_o:
-                    item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
-                else:
-                    item = None
-                if item:
-                    value = item_o.value
+                    for x in range(requestCount):
+                        item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
+                        if item:
+                            value += item_o.value
+                            count += 1
+                            await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
+                        else
+                            break
+                if count > 0:
                     await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
-                    await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
+                    ender = 's' if count != 1 else ''
                     response = discord.Embed(color=0xc6e4b5)
-                    response.title = f'💶 You sold the {item_o.name} for {value} {currency}.'
+                    response.title = f'💶 You sold {count} {item_o.name}{ender} for {value} {currency}.'
                 else:
                     response = not_found(f'I didn\'t find any {lookup} in your inventory.')
         else:
