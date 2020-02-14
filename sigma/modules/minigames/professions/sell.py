@@ -78,16 +78,16 @@ async def sell(cmd, pld):
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
-                requestCount = 1
+                request_count = 1
                 if lookup.split()[0].isdigit:
                     parts = lookup.split(None, 1)
-                    requestCount = int(parts[0])
+                    request_count = int(parts[0])
                     lookup = parts[1]
                 item_o = item_core.get_item_by_name(lookup)                    
                 count = 0
                 value = 0
                 if item_o:
-                    for x in range(requestCount):
+                    for x in range(request_count):
                         item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
                         if item:
                             value += item_o.value
