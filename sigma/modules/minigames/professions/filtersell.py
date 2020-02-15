@@ -78,7 +78,7 @@ async def filtersell(cmd, pld):
                             count += 1
                             sell_id_list.append(item['item_id'])
                     if sell_id_list:
-                        ender = 's' if count != 1 else ''
+                        ender = 's' if count > 1 else ''
                         currency = cmd.bot.cfg.pref.currency
                         question = f'❔ Are you sure you want to sell {count} item{ender} worth {value} {currency}?'
                         quesbed = discord.Embed(color=0xF9F9F9, title=question)

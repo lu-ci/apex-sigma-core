@@ -38,7 +38,7 @@ def humanize_time(ats):
         years_int = 1
     else:
         years_int = int(year_pieces[0])
-    year_ender = 's' if years_int != 1 else ''
+    year_ender = 's' if years_int > 1 else ''
     months = ats.humanize(granularity='month')
     month_pieces = months.split(' ')
     if month_pieces[0] == 'a':
@@ -46,7 +46,7 @@ def humanize_time(ats):
     else:
         months_int = int(month_pieces[0])
     months_diff = months_int - (years_int * 12)
-    month_ender = 's' if months_diff != 1 else ''
+    month_ender = 's' if months_diff > 1 else ''
     if years:
         if months_diff:
             out = f'{years_int} year{year_ender} and {months_diff} month{month_ender}'

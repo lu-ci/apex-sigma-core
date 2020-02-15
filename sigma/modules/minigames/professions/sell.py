@@ -42,7 +42,7 @@ async def sell(cmd, pld):
         if inv:
             lookup = ' '.join(pld.args)
             if lookup.lower() == 'all':
-                ender = 's' if len(inv) != 1 else ''
+                ender = 's' if len(inv) > 1 else ''
                 worth = sum([item_core.get_item_by_file_id(ient['item_file_id']).value for ient in inv])
                 question = f'❔ Are you sure you want to sell {len(inv)} item{ender} worth {worth} {currency}?'
                 quesbed = discord.Embed(color=0xF9F9F9, title=question)
@@ -74,16 +74,16 @@ async def sell(cmd, pld):
                     else:
                         existing_ids.append(file_id)
                 await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
-                ender = 's' if count != 1 else ''
+                ender = 's' if count > 1 else ''
                 response = discord.Embed(color=0xc6e4b5)
                 response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
                 request_count = 1
-                if lookup.split()[0].isdigit:
+                if lookup.split()[0].isdigit():
                     parts = lookup.split(None, 1)
                     request_count = int(parts[0])
                     lookup = parts[1]
-                item_o = item_core.get_item_by_name(lookup)                    
+                item_o = item_core.get_item_by_name(lookup)
                 count = 0
                 value = 0
                 if item_o:
@@ -97,7 +97,7 @@ async def sell(cmd, pld):
                             break
                 if count > 0:
                     await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
-                    ender = 's' if count != 1 else ''
+                    ender = 's' if count > 1 else ''
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold {count} {item_o.name}{ender} for {value} {currency}.'
                 else:
