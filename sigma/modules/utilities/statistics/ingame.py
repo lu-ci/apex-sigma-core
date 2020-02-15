@@ -39,18 +39,22 @@ def make_games_dict(guild: discord.Guild):
         status = member.status.value
         if status != 'offline':
             online_count += 1
-        if not member.bot:
-            if member.activity:
-                game_name = member.activity.name
-                repl_name = game_name.replace(' ', '')
-                if repl_name != '':
-                    playing_count += 1
-                    if game_name not in games:
-                        games.update({game_name: 1})
-                    else:
-                        curr_count = games[game_name]
-                        new_count = curr_count + 1
-                        games.update({game_name: new_count})
+        if member.bot:
+            continue
+        if not member.activity:
+            continue
+        if not member.activity.name:
+            continue
+        game_name = member.activity.name
+        repl_name = game_name.replace(' ', '')
+        if repl_name != '':
+            playing_count += 1
+            if game_name not in games:
+                games.update({game_name: 1})
+            else:
+                curr_count = games[game_name]
+                new_count = curr_count + 1
+                games.update({game_name: new_count})
     return games, online_count, playing_count
 
 
