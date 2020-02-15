@@ -101,7 +101,7 @@ async def sell(cmd, pld):
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold {count} {item_o.name}{ender} for {value} {currency}.'
                 else:
-                    if lookup.isdigit():
+                    if not lookup.isdigit():
                         response = not_found(f'I didn\'t find any {lookup} in your inventory.')
                     else:
                         response = not_found(f'Sell {lookup} of what?')
