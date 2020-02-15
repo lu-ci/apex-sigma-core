@@ -93,7 +93,7 @@ async def sell(cmd, pld):
                             value += item_o.value
                             count += 1
                             await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
-                        else
+                        else:
                             break
                 if count > 0:
                     await cmd.db.add_resource(pld.msg.author.id, 'currency', value, cmd.name, pld.msg)
