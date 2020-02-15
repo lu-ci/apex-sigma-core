@@ -79,10 +79,10 @@ async def sell(cmd, pld):
                 response.title = f'💶 You sold {count} duplicate{ender} for {value} {currency}.'
             else:
                 request_count = 1
-                if lookup.split()[0].isdigit():
-                    parts = lookup.split(None, 1)
-                    request_count = int(parts[0])
-                    lookup = parts[1]
+                if len(pld.args) > 1:
+                    if pld.args[0].isdigit():
+                        request_count = int(pld.args[0])
+                        lookup = ' '.join(pld.args[1:])
                 item_o = item_core.get_item_by_name(lookup)
                 count = 0
                 value = 0
