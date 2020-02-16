@@ -1,4 +1,4 @@
-﻿"""
+"""
 Apex Sigma: The Database Giant Discord Bot.
 Copyright (C) 2019  Lucia's Cipher
 
@@ -19,29 +19,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.generic_responses import not_found, error
-from sigma.modules.nsfw.mech.core import e621_client
+from sigma.modules.nsfw.mech.core import danbooru_client
 
 
-async def e621(cmd, pld):
+async def danbooru(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    client = e621_client(cmd.db.cache)
+    client = danbooru_client(cmd.db.cache)
     tags = client.remove_lines_breaks(pld.args)
-    if not len(tags) > 6:
+    if not len(tags) > 2:
         post = await client.randpost(pld.args)
         if post:
             post_url = client.post_url + str(post.get('id'))
             footer_text = f'Score: {post.get("score")} | Size: {post.get("width")}x{post.get("height")}'
             response = discord.Embed(color=0x152F56)
-            response.set_author(name='E621', url=post_url, icon_url=client.icon_url)
+            response.set_author(name='Danbooru', url=post_url, icon_url=client.icon_url)
             response.set_image(url=post.get('file_url'))
             response.set_footer(text=footer_text)
         else:
             response = not_found('No results.')
     else:
-        response = error('You can only search up to 6 tags.')
+        response = error('You can only search up to 2 tags.')
     await pld.msg.channel.send(embed=response)

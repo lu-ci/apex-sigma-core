@@ -23,6 +23,24 @@ import aiohttp
 from lxml import html
 
 
+def danbooru_client(cache):
+    """
+    Returns an GalleryClient instance with E621 data.
+    :param cache: The cache configuration class.
+    :type cache: sigma.core.mechanics.caching.Cacher
+    :return:
+    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    """
+    client_data = {
+        'as_json': True,
+        'cache_key': 'danbooru_',
+        'client_url': 'https://danbooru.donmai.us/posts.json?tags=',
+        'post_url': 'https://danbooru.donmai.us/posts/',
+        'icon_url': 'https://i.imgur.com/ytMyEyr.png'
+    }
+    return GalleryClient(client_data, cache)
+
+
 def e621_client(cache):
     """
     Returns an GalleryClient instance with E621 data.
@@ -36,7 +54,7 @@ def e621_client(cache):
         'cache_key': 'e621_',
         'client_url': 'https://e621.net/post/index.json?tags=',
         'post_url': 'https://e621.net/post/show/',
-        'icon_url': 'https://e621.net/favicon.ico',
+        'icon_url': 'https://i.imgur.com/UveWhWm.png',
         'headers': {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'}
     }
     return GalleryClient(client_data, cache)
@@ -55,7 +73,7 @@ def gelbooru_client(cache):
         'cache_key': 'gelbooru_',
         'client_url': 'http://gelbooru.com/index.php?page=dapi&s=post&q=index&tags=',
         'post_url': 'https://gelbooru.com/index.php?page=post&s=view&id=',
-        'icon_url': 'https://gelbooru.com/favicon.png'
+        'icon_url': 'https://i.imgur.com/dr1bUWK.png'
     }
     return GalleryClient(client_data, cache)
 
@@ -73,7 +91,7 @@ def konachan_client(cache):
         'cache_key': 'konachan_',
         'client_url': 'https://konachan.com/post.json?limit=100&tags=',
         'post_url': 'http://konachan.com/post/show/',
-        'icon_url': 'https://i.imgur.com/qc4awFL.png'
+        'icon_url': 'https://i.imgur.com/utGEFiD.png'
     }
     return GalleryClient(client_data, cache)
 
@@ -91,7 +109,7 @@ def rule34_client(cache):
         'cache_key': 'rule34_',
         'client_url': 'https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=',
         'post_url': 'https://rule34.xxx/index.php?page=post&s=view&id=',
-        'icon_url': 'https://i.imgur.com/63GGrmG.png'
+        'icon_url': 'https://i.imgur.com/GrEg8Oz.png'
     }
     return GalleryClient(client_data, cache)
 
@@ -109,7 +127,7 @@ def xbooru_client(cache):
         'cache_key': 'xbooru_',
         'client_url': 'http://xbooru.com/index.php?page=dapi&s=post&q=index&tags=',
         'post_url': 'http://xbooru.com/index.php?page=post&s=view&id=',
-        'icon_url': 'http://xbooru.com/apple-touch-icon-152x152-precomposed.png'
+        'icon_url': 'https://i.imgur.com/mBuaF9Y.png'
     }
     return GalleryClient(client_data, cache)
 
@@ -127,7 +145,7 @@ def yandere_client(cache):
         'cache_key': 'yandere_',
         'client_url': 'https://yande.re/post.json?limit=100&tags=',
         'post_url': 'https://yande.re/post/show/',
-        'icon_url': 'https://i.imgur.com/vgJwau2.png'
+        'icon_url': 'https://i.imgur.com/CxshkK8.png'
     }
     return GalleryClient(client_data, cache)
 

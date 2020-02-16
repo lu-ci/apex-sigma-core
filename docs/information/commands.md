@@ -348,6 +348,7 @@ Commands | Description | Example
 ----------|-------------|--------
 `>>boobs` `>>tits` | Outputs a random NSFW image focusing on the breasts of the model. | `>>boobs`
 `>>butts` `>>ass` | Outputs a random NSFW image focusing on the butt of the model. | `>>butts`
+`>>danbooru` `>>danb` | Searches Danbooru for the specified tag. If no tag is given, the keyword "nude" will be used Separate different tags with a space and replace spaces within a single tag with underscores "_". | `>>danbooru ovum`
 `>>e621` | Searches E621 for the specified tag. If no tag is given, the keyword "nude" will be used. Separate different tags with a space and replace spaces within a single tag with underscores "_". | `>>e621 knot`
 `>>gelbooru` `>>gelb` | Searches Gelbooru for the specified tag. If no tag is given, the keyword "nude" will be used Separate different tags with a space and replace spaces within a single tag with underscores "_". | `>>gelbooru ovum`
 `>>keyvis` | Returns a Key Visual Arts VN CG. It picks a random VN and a random CG from that VN. You can specify the VN you want the CG to be from. "kud"    - Kud Wafter "air"    - Air "kanon"  - Kanon "little" - Little Busters "clan"   - Clannad "plan"   - Planetarian "rewr"   - Rewrite "harv"   - Rewrite Harvest Festa This command is NSFW due to some CGs being explicit.  | `>>keyvis kud`

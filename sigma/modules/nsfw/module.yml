@@ -23,6 +23,16 @@ commands:
       nsfw: true
     usage: '{pfx}{cmd} knot'
   - alts:
+      - danb
+    description: Searches Danbooru for the specified tag. If no tag is given, the keyword
+      "nude" will be used Separate different tags with a space and replace spaces within
+      a single tag with underscores "_".
+    enabled: true
+    name: danbooru
+    permissions:
+      nsfw: true
+    usage: '{pfx}{cmd} ovum'
+  - alts:
       - gelb
     description: Searches Gelbooru for the specified tag. If no tag is given, the keyword
       "nude" will be used Separate different tags with a space and replace spaces within

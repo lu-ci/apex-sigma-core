@@ -1,5 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.72.1457 Suzune
+
+### Added
+
+- The `danbooru` command has been added. Never enough porn.
+
+### Changed
+
+- Replaced favicon urls in the nsfw core with imgur pngs because Discord doesn't support ico files. 
+
 ## 4.72.1455 Suzune
 
 ### Removed
