@@ -53,7 +53,8 @@ commands:
     usage: '{pfx}{cmd} Shade Tea'
   - description: Sells an item from your inventory. Input "all" instead of the item
       name to sell your entire inventory. Input "duplicates" instead of the item name
-      to sell all duplicate items.
+      to sell all duplicate items. Put a number before the item name to sell that many
+      of the item.
     enabled: true
     name: sell
     usage: '{pfx}{cmd} Copula'
