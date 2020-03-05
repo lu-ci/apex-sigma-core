@@ -131,7 +131,7 @@ async def connectfour(cmd, pld):
             :return:
             :rtype: bool
             """
-            same_author = usr.id == pld.msg.author.id
+            same_author = usr.id == curr_turn.id
             same_message = reac.message.id == board_msg.id
             valid_reaction = str(reac.emoji) in nums
             return same_author and same_message and valid_reaction
