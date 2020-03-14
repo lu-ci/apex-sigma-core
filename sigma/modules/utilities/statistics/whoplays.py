@@ -41,6 +41,8 @@ async def whoplays(_cmd, pld):
         x, y = 0, 0
         for member in pld.msg.guild.members:
             if member.activity:
+                if isinstance(member.activity, discord.CustomActivity):
+                    continue
                 x += 1
                 if member.activity.name.lower() == game_title.lower():
                     if not game_name:
