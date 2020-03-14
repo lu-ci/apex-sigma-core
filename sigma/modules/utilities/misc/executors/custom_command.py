@@ -82,5 +82,5 @@ async def custom_command(ev, pld):
                                 await pld.msg.channel.send(embed=response)
                             else:
                                 response = command_message_parser(pld.msg, cmd_text)
-                                await pld.msg.channel.send(escape_mentions(response))
+                                await pld.msg.channel.send(escape_mentions(response, True))
                             log_command_usage(ev.log, pld.msg, cmd)
