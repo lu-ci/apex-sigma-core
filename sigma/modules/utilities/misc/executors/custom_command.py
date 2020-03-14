@@ -16,11 +16,31 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import re
+
 import discord
-from discord.utils import escape_mentions
 
 from sigma.core.mechanics.permissions import ServerCommandPermissions
 from sigma.core.utilities.data_processing import command_message_parser
+
+
+def escape_mentions(text, guild):
+    """
+
+    :param text:
+    :param guild:
+    :return:
+    """
+    if guild is not None:
+        role_ids = re.findall(r'<@&([0-9]+)>', text)
+        for role_id in role_ids:
+            role = guild.get_role(int(role_id))
+            role_name = f'@\u200b{role.name}' if role else '@\u200bunknown'
+            text = text.replace(f'<@&{role_id}>', role_name)
+
+    text = text.replace('@everyone', '@\u200beveryone')
+    text = text.replace('@here', '@\u200bhere')
+    return text
 
 
 def log_command_usage(log, message, command):
@@ -82,5 +102,5 @@ async def custom_command(ev, pld):
                                 await pld.msg.channel.send(embed=response)
                             else:
                                 response = command_message_parser(pld.msg, cmd_text)
-                                await pld.msg.channel.send(escape_mentions(response, True))
+                                await pld.msg.channel.send(escape_mentions(response, pld.msg.guild))
                             log_command_usage(ev.log, pld.msg, cmd)
