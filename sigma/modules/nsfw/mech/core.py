@@ -54,8 +54,7 @@ def e621_client(cache):
         'cache_key': 'e621_',
         'client_url': 'https://e621.net/post/index.json?tags=',
         'post_url': 'https://e621.net/post/show/',
-        'icon_url': 'https://i.imgur.com/UveWhWm.png',
-        'headers': {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'}
+        'icon_url': 'https://i.imgur.com/UveWhWm.png'
     }
     return GalleryClient(client_data, cache)
 
