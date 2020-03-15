@@ -40,13 +40,14 @@ async def whoplays(_cmd, pld):
         gamer_list = []
         x, y = 0, 0
         for member in pld.msg.guild.members:
-            if member.activity:
-                if isinstance(member.activity, discord.CustomActivity):
+            activity = member.activities[-1] if member.activities else None
+            if activity:
+                if isinstance(activity, discord.CustomActivity):
                     continue
                 x += 1
-                if member.activity.name.lower() == game_title.lower():
+                if activity.name.lower() == game_title.lower():
                     if not game_name:
-                        game_name = member.activity.name
+                        game_name = activity.name
                     gamer_list.append(member.name)
                     y += 1
         title = f'{y}/{x} people are playing {game_name}'
