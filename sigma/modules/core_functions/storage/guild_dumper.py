@@ -23,10 +23,11 @@ async def guild_dumper(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    variant = 'guild'
-    responses = []
-    fh = get_fetch_helper(ev.bot)
-    for guild in ev.bot.guilds:
-        data = fh.make_guild_data(guild)
-        responses.append(await fh.save_object_doc(variant, data))
-    ev.log.info(SaveResponse.describe(responses, variant))
+    if ev.bot.cfg.dsc.shard is None:
+        variant = 'guild'
+        responses = []
+        fh = get_fetch_helper(ev.bot)
+        for guild in ev.bot.guilds:
+            data = fh.make_guild_data(guild)
+            responses.append(await fh.save_object_doc(variant, data))
+        ev.log.info(SaveResponse.describe(responses, variant))
