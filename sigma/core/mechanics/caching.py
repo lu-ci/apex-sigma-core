@@ -189,6 +189,7 @@ class RedisCacher(Cacher):
         :param cfg: The CacheConfig object for getting the configuration parameters.
         """
         super().__init__(cfg)
+        self.time = cfg.time
         self.conn = None
 
     async def init(self):
@@ -222,6 +223,7 @@ class RedisCacher(Cacher):
         """
         try:
             await self.conn.set(str(key), pickle.dumps(value))
+            await self.conn.expire(str(key), self.time)
         except aioredis.ReplyError:
             self.conn.flushdb()
 
