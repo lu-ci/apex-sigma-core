@@ -1,5 +1,12 @@
 # Apex Sigma Changelog
 
+## 4.73.1465 Suzune
+
+## Changed
+
+- Added a global user-agent header to the NSFW core.
+- Tweaked the NSFW core and e621 command to support the new endpoint.
+
 ## 4.72.1457 Suzune
 
 ### Added

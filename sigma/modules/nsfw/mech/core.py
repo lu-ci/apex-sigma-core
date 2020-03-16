@@ -23,11 +23,13 @@ import aiohttp
 from lxml import html
 
 
-def danbooru_client(cache):
+def danbooru_client(cache, client_id):
     """
     Returns an GalleryClient instance with E621 data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -38,32 +40,36 @@ def danbooru_client(cache):
         'post_url': 'https://danbooru.donmai.us/posts/',
         'icon_url': 'https://i.imgur.com/ytMyEyr.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def e621_client(cache):
+def e621_client(cache, client_id):
     """
     Returns an GalleryClient instance with E621 data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
         'as_json': True,
         'cache_key': 'e621_',
-        'client_url': 'https://e621.net/post/index.json?tags=',
+        'client_url': 'https://e621.net/posts.json?tags=',
         'post_url': 'https://e621.net/post/show/',
         'icon_url': 'https://i.imgur.com/UveWhWm.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def gelbooru_client(cache):
+def gelbooru_client(cache, client_id):
     """
     Returns an GalleryClient instance with Gelbooru data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -74,14 +80,16 @@ def gelbooru_client(cache):
         'post_url': 'https://gelbooru.com/index.php?page=post&s=view&id=',
         'icon_url': 'https://i.imgur.com/dr1bUWK.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def konachan_client(cache):
+def konachan_client(cache, client_id):
     """
     Returns an GalleryClient instance with Konachan data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -92,14 +100,16 @@ def konachan_client(cache):
         'post_url': 'http://konachan.com/post/show/',
         'icon_url': 'https://i.imgur.com/utGEFiD.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def rule34_client(cache):
+def rule34_client(cache, client_id):
     """
     Returns an GalleryClient instance with Rule 34 data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -110,14 +120,16 @@ def rule34_client(cache):
         'post_url': 'https://rule34.xxx/index.php?page=post&s=view&id=',
         'icon_url': 'https://i.imgur.com/GrEg8Oz.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def xbooru_client(cache):
+def xbooru_client(cache, client_id):
     """
     Returns an GalleryClient instance with Xbooru data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -128,14 +140,16 @@ def xbooru_client(cache):
         'post_url': 'http://xbooru.com/index.php?page=post&s=view&id=',
         'icon_url': 'https://i.imgur.com/mBuaF9Y.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
-def yandere_client(cache):
+def yandere_client(cache, client_id):
     """
     Returns an GalleryClient instance with Yande.re data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
+    :param client_id: The core client user ID.
+    :type client_id: int
     :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
@@ -146,11 +160,11 @@ def yandere_client(cache):
         'post_url': 'https://yande.re/post/show/',
         'icon_url': 'https://i.imgur.com/CxshkK8.png'
     }
-    return GalleryClient(client_data, cache)
+    return GalleryClient(client_data, cache, client_id)
 
 
 class GalleryClient(object):
-    def __init__(self, client_data, cache):
+    def __init__(self, client_data, cache, client_id):
         """
         :param client_data: The gallery client's data.
         :type client_data: dict
@@ -163,7 +177,7 @@ class GalleryClient(object):
         self.client_url = client_data.get('client_url')
         self.post_url = client_data.get('post_url')
         self.icon_url = client_data.get('icon_url')
-        self.headers = client_data.get('headers')
+        self.headers = {'User-Agent': f'Apex Sigma Derivate {client_id}'}
         self.tags = None
 
     @staticmethod
@@ -207,7 +221,11 @@ class GalleryClient(object):
         :rtype: list[dict]
         """
         if self.as_json:
-            posts = [ps for ps in posts if ps.get('file_url')]
+            if self.cache_key.startswith('e621_'):
+                posts = posts.get('posts')
+                posts = [ps for ps in posts if ps.get('file').get('url')]
+            else:
+                posts = [ps for ps in posts if ps.get('file_url')]
         else:
             posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
         return posts

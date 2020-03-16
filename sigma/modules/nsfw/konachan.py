@@ -29,19 +29,18 @@ async def konachan(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    client = konachan_client(cmd.db.cache)
+    client = konachan_client(cmd.db.cache, cmd.bot.user.id)
     tags = client.remove_lines_breaks(pld.args)
     if not len(tags) > 6:
         post = await client.randpost(pld.args)
         if post:
             post_url = client.post_url + str(post.get('id'))
-            score_text = f'Score: {post.get("score")}'
-            size_text = f'Size: {post.get("width")}x{post.get("height")}'
-            author_text = f'Uploaded By: {post.get("author")}'
+            footer_text = f'Score: {post.get("score")} | Size: {post.get("width")}x{post.get("height")}'
+            footer_text += f' | Uploaded By: {post.get("author")}'
             response = discord.Embed(color=0x473a47)
             response.set_author(name='Konachan', url=post_url, icon_url=client.icon_url)
             response.set_image(url=post.get('file_url'))
-            response.set_footer(text=f'{score_text} | {size_text} | {author_text}')
+            response.set_footer(text=footer_text)
         else:
             response = not_found('No results.')
     else:
