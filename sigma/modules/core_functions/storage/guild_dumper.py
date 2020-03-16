@@ -23,7 +23,7 @@ async def guild_dumper(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    if ev.bot.cfg.dsc.shard is None:
+    if ev.bot.cfg.dsc.shard is not None:
         variant = 'guild'
         responses = []
         fh = get_fetch_helper(ev.bot)
