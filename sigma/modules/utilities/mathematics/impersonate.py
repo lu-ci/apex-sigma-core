@@ -48,7 +48,11 @@ async def impersonate(cmd, pld):
                 chain_function = functools.partial(markovify.Text, total_string)
                 with ThreadPoolExecutor() as threads:
                     try:
-                        chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
+                        cache_key = f'chain_{target.id}'
+                        chain = await cmd.db.cache.get_cache(cache_key)
+                        if not chain:
+                            chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
+                            await cmd.db.cache.set_cache(cache_key, chain)
                         sentence_function = functools.partial(chain.make_short_sentence, 500)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (KeyError, ValueError, AttributeError):
