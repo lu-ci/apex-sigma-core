@@ -9,7 +9,7 @@ commands:
       several arguments avaiable to filter what's deleted. "attachments" only
       delete messages with attachments. "emotes" only delete messages that are
       emotes. "untilpin" stop deleting when a pin is reached. "content:thing to
-      delete" only delete messages including "thing to delete". Due to this included
+      delete" only delete messages including "thing to delete". Due to this including
       everything after the ":", it's recommended this be the last argument. This
       command requires the Manage Messages permission.
     enabled: true
