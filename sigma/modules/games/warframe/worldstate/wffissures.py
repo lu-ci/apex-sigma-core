@@ -27,15 +27,14 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 
-def sort_fissures(fissures: list):
+def sort_fissures(fissures):
     """
-
     :param fissures:
-    :type fissures:
+    :type fissures: list[dict]
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
-    lith, meso, neo, axi = [], [], [], []
+    lith, meso, neo, axi, requiem = [], [], [], [], []
     for fissure in fissures:
         if fissure['tier'] == 'Lith':
             lith.append(fissure)
@@ -45,7 +44,9 @@ def sort_fissures(fissures: list):
             neo.append(fissure)
         if fissure['tier'] == 'Axi':
             axi.append(fissure)
-    return lith + meso + neo + axi
+        if fissure['tier'] == 'Requiem':
+            requiem.append(fissure)
+    return lith + meso + neo + axi + requiem
 
 
 async def wffissures(_cmd, pld):
