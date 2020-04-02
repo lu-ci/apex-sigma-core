@@ -74,28 +74,31 @@ async def collectchain(cmd, pld):
     target_chn = get_channel(pld.msg)
     starter = 'You are' if pld.msg.author.id == target_usr.id else f'{target_usr.name} is'
     ender = 'your' if pld.msg.author.id == target_usr.id else 'their'
-    blocked = await is_blocked(cmd.db, target_usr, pld.msg.author)
-    blinded = await is_blinded(cmd.db, target_chn, pld.msg.author)
-    if not blocked and not blinded:
-        if not await check_queued(cmd.db, target_usr.id, pld.msg.author.id):
-            if not target_usr.bot:
-                cltr_itm = {'author_id': pld.msg.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
-                await add_to_queue(cmd.db, cltr_itm)
-                qsize = await get_queue_size(cmd.db)
-                title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
-                response = discord.Embed(color=0x66CC66)
-                response.set_author(name=title, icon_url=user_avatar(target_usr))
-            else:
-                if target_usr.id == cmd.bot.user.id:
-                    response = error('My chains are not interesting, trust me.')
+    if pld.msg.guild.me.permissions_in(target_chn).read_messages:
+        blocked = await is_blocked(cmd.db, target_usr, pld.msg.author)
+        blinded = await is_blinded(cmd.db, target_chn, pld.msg.author)
+        if not blocked and not blinded:
+            if not await check_queued(cmd.db, target_usr.id, pld.msg.author.id):
+                if not target_usr.bot:
+                    cltr_itm = {'author_id': pld.msg.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
+                    await add_to_queue(cmd.db, cltr_itm)
+                    qsize = await get_queue_size(cmd.db)
+                    title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
+                    response = discord.Embed(color=0x66CC66)
+                    response.set_author(name=title, icon_url=user_avatar(target_usr))
                 else:
-                    response = error('I refuse to collect a chain for a bot.')
+                    if target_usr.id == cmd.bot.user.id:
+                        response = error('My chains are not interesting, trust me.')
+                    else:
+                        response = error('I refuse to collect a chain for a bot.')
+            else:
+                mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
+                response = error(f'{starter} already in the queue or {mid} pending entry.')
         else:
-            mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
-            response = error(f'{starter} already in the queue or {mid} pending entry.')
+            if blocked:
+                response = error(f'Only {target_usr.name} can collect their own chain.')
+            else:
+                response = error(f'Chains for #{target_chn.name} have been disabled.')
     else:
-        if blocked:
-            response = error(f'Only {target_usr.name} can collect their own chain.')
-        else:
-            response = error(f'Chains for #{target_chn.name} have been disabled')
+        response = error(f'I can\'t read messages in #{target_chn.name}.')
     await pld.msg.channel.send(embed=response)
