@@ -34,8 +34,8 @@ async def urbandictionary(cmd, pld):
     if cmd.cfg.api_key:
         if pld.args:
             ud_input = ' '.join(pld.args).lower()
-            url = "https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + ud_input
-            headers = {'X-Mashape-Key': cmd.cfg.api_key, 'Accept': 'text/plain'}
+            url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=" + ud_input
+            headers = {'X-RapidAPI-Key': cmd.cfg.api_key, 'Accept': 'text/plain'}
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=headers) as data_response:
                     data = await data_response.read()

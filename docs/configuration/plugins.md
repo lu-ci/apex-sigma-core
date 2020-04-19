@@ -174,21 +174,21 @@ You can generate a *Generic Access Token* once there.
 
 ## Urban Dictionary
 
-This command uses the Urban Dictionary API that needs to be consumed on Mashape.
-Mashape is basically a market of various APIs, and the UD API is one of them.
+This command uses the Urban Dictionary API that needs to be consumed on RapidAPI.
+RapidAPI is basically a market of various APIs, and the UD API is one of them.
 It's required for UD command to function.
 
 **Configuration file contents**:
 
 ```yml
-api_key: 'your_mashape_key'
+api_key: 'your_rapidapi_key'
 ```
 
 The `api_key` key value is a **String**.
 
 > The file for storing this configuration is `urbandictionary.yml`.
 The urban dictionary API can be seen and consumed
-[here](https://market.mashape.com/community/urban-dictionary).
+[here](https://rapidapi.com/community/api/urban-dictionary).
 
 ## Weather
 
