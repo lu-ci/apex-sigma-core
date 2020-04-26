@@ -20,8 +20,9 @@ import asyncio
 import string
 
 import discord
+import markovify
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import ok, error
 
 collector_loop_running = False
 current_user_collecting = None
@@ -216,13 +217,53 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
-    response = ok(f'Added {cltd} entries to your chain, {len(cltn)} entries total.')
+    response = ok(f'Parsed {cltd} entries for your chain, {len(cltn)} corpus size.')
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
     try:
         await tgt_usr.send(embed=response)
     except Exception:
         pass
+    if ath.id != tgt_usr.id:
+        req_resp = ok(f'Parsed {cltd} entries for {tgt_usr.name}\'s chain, {len(cltn)} corpus size.')
+        req_resp.set_footer(text=footer, icon_url=guild_icon)
+        # noinspection PyBroadException
+        try:
+            await ath.send(embed=req_resp)
+        except Exception:
+            pass
+
+
+async def notify_failure(ath, tgt_usr, tgt_chn):
+    """
+
+    :param ath:
+    :type ath:
+    :param tgt_usr:
+    :type tgt_usr:
+    :param tgt_chn:
+    :type tgt_chn:
+    """
+    desc = "This usually happens if there isn't enough data."
+    desc += " Try targetting a channel where you talk frequently or have sent a lot of messages recently."
+    req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
+    footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
+    guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
+    response = error(f'Failed to parse entries for your chain.')
+    response.set_footer(text=footer, icon_url=guild_icon)
+    # noinspection PyBroadException
+    try:
+        await tgt_usr.send(embed=response)
+    except Exception:
+        pass
+    if ath.id != tgt_usr.id:
+        req_resp = error(f'Failed to parse entries for {tgt_usr.name}\'s chain.')
+        req_resp.set_footer(text=footer, icon_url=guild_icon)
+        # noinspection PyBroadException
+        try:
+            await ath.send(embed=req_resp)
+        except Exception:
+            pass
 
 
 async def collector_clockwork(ev):
@@ -252,9 +293,11 @@ async def cycler(ev):
                 if cl_usr and cl_chn:
                     await ev.db[ev.db.db_nam].CollectorQueue.delete_one(cltr_item)
                     current_user_collecting = cl_usr.id
-                    collected = 0
                     collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
-                    collection = collection.get('chain') if collection else []
+                    collection = collection.get('chain') if collection else None
+                    collection = collection if isinstance(collection, dict) else None
+                    chain = markovify.Text.from_dict(collection) if collection is not None else None
+                    messages = []
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
                     # noinspection PyBroadException
                     try:
@@ -263,18 +306,23 @@ async def cycler(ev):
                             if log.author.id == cl_usr.id and len(log.content) > 8:
                                 if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
                                     cnt = cleanse_content(log, cnt)
-                                    if cnt not in collection:
-                                        collection.append(cnt)
-                                        collected += 1
-                                        if collected >= 5000:
+                                    if cnt not in messages and cnt and len(cnt) > 1:
+                                        messages.append(cnt)
+                                        if len(messages) >= 5000:
                                             break
-                    except Exception:
+                    except Exception as e:
+                        print(e)
                         pass
-                    insert_data = {'user_id': cl_usr.id, 'chain': collection}
-                    await ev.db[ev.db.db_nam].MarkovChains.delete_one({'user_id': cl_usr.id})
-                    await ev.db[ev.db.db_nam].MarkovChains.insert_one(insert_data)
-                    await ev.db.cache.del_cache(f'chain_{cl_usr.id}')
-                    await notify_target(cl_ath, cl_usr, cl_chn, collected, collection)
-                    current_user_collecting = None
-                    ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')
+                    try:
+                        new_chain = markovify.Text(f'{". ".join(messages)}.')
+                        combined = markovify.combine([chain, new_chain]) if chain else new_chain
+                        insert_data = {'user_id': cl_usr.id, 'chain': combined.to_dict()}
+                        await ev.db[ev.db.db_nam].MarkovChains.delete_one({'user_id': cl_usr.id})
+                        await ev.db[ev.db.db_nam].MarkovChains.insert_one(insert_data)
+                        await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
+                        current_user_collecting = None
+                        ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')
+                    except Exception as e:
+                        await notify_failure(cl_ath, cl_usr, cl_chn)
+                        ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}.")
         await asyncio.sleep(1)

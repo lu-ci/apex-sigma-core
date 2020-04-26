@@ -27,15 +27,25 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 
 
-def combine_names(users: list):
+def shuffle(items):
+    new = []
+    copy = [i for i in items]
+    while len(copy) > 0:
+        new.append(copy.pop(secrets.randbelow(len(copy))))
+    return new
+
+
+def combine_names(users, randomize):
     """
 
-    :param users:
-    :type users:
+    :type users: list
+    :type randomize: bool
     :return:
     :rtype:
     """
     pieces = []
+    if randomize:
+        users = shuffle(users)
     total_length = sum([len(u.name) for u in users])
     usable_length = total_length // len(users)
     needed_length = usable_length // len(users)
@@ -54,33 +64,31 @@ async def combinechains(cmd, pld):
     """
     if len(pld.msg.mentions) >= 2:
         empty_chain = None
-        chain_objects = []
+        chains = []
+        chain_dicts = []
         with ThreadPoolExecutor() as threads:
             for target in pld.msg.mentions:
                 target_chain = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
                 if not target_chain:
                     empty_chain = target
                     break
-                chain_string = ' '.join(target_chain.get('chain'))
-                if not chain_string:
-                    empty_chain = target
-                    break
-                chain_objects.append(chain_string)
+                chain_dicts.append(target_chain.get("chain"))
             combination_id = '_'.join(sorted([str(u.id) for u in pld.msg.mentions]))
             combination_key = f"mixed_chain_{combination_id}"
             failed = False
-            combination = await cmd.db.cache.get_cache(combination_key)
-            if not combination:
+            for chain_dict in chain_dicts:
                 try:
-                    combine_task = functools.partial(markovify.Text, ' '.join(chain_objects))
-                    combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                    await cmd.db.cache.set_cache(combination_key, combination)
+                    chain_task = functools.partial(markovify.Text.from_dict, chain_dict)
+                    chain = await cmd.bot.loop.run_in_executor(threads, chain_task)
+                    chains.append(chain)
                 except (ValueError, KeyError, AttributeError):
                     failed = True
             if not empty_chain:
                 if not failed:
                     await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
                     try:
+                        combine_task = functools.partial(markovify.combine, chains)
+                        combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
                         sentence_function = functools.partial(combination.make_short_sentence, 500)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (ValueError, KeyError, AttributeError):
@@ -89,7 +97,7 @@ async def combinechains(cmd, pld):
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
                         response = discord.Embed(color=0xBE1931, title=not_enough_data)
                     else:
-                        combined_name = combine_names(pld.msg.mentions)
+                        combined_name = combine_names(pld.msg.mentions, True)
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)

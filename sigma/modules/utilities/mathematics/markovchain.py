@@ -31,10 +31,9 @@ async def markovchain(cmd, pld):
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     collection = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
     if collection:
-        chain = collection.get('chain')
-        starter = 'You have' if target.id == pld.msg.author.id else f'{target.name} has'
-        ender = 'your' if target.id == pld.msg.author.id else 'their'
-        response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} {len(chain)} items in {ender} chain.')
+        chain = collection.get('chain', {}).get('parsed_sentences', [])
+        starter = 'Your' if target.id == pld.msg.author.id else f'{target.name}\'s'
+        response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} chain corpus size is {len(chain)}.')
     else:
         starter = 'You don\'t have' if target.id == pld.msg.author.id else f'{target.name} doesn\'t have'
         response = not_found(f'{starter} a collected chain.')

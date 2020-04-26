@@ -41,18 +41,14 @@ async def impersonate(cmd, pld):
     else:
         target = pld.msg.author
     if target:
-        chain_data = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
-        if chain_data:
-            if chain_data['chain']:
-                total_string = ' '.join(chain_data['chain'])
-                chain_function = functools.partial(markovify.Text, total_string)
+        chain_doc = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
+        if chain_doc:
+            chain_data = chain_doc.get('chain')
+            if chain_data:
+                chain_function = functools.partial(markovify.Text.from_dict, chain_data)
                 with ThreadPoolExecutor() as threads:
                     try:
-                        cache_key = f'chain_{target.id}'
-                        chain = await cmd.db.cache.get_cache(cache_key)
-                        if not chain:
-                            chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                            await cmd.db.cache.set_cache(cache_key, chain)
+                        chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
                         sentence_function = functools.partial(chain.make_short_sentence, 500)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (KeyError, ValueError, AttributeError):
