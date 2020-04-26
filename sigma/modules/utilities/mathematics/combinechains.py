@@ -25,6 +25,7 @@ import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
 
 
 def shuffle(items):
@@ -72,9 +73,7 @@ async def combinechains(cmd, pld):
                 if not target_chain:
                     empty_chain = target
                     break
-                chain_dicts.append(target_chain.get("chain"))
-            combination_id = '_'.join(sorted([str(u.id) for u in pld.msg.mentions]))
-            combination_key = f"mixed_chain_{combination_id}"
+                chain_dicts.append(deserialize(target_chain.get("chain")))
             failed = False
             for chain_dict in chain_dicts:
                 try:

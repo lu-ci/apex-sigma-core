@@ -17,6 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import asyncio
+import gzip
+import io
+import json
 import string
 
 import discord
@@ -266,6 +269,26 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
             pass
 
 
+def serialize(item):
+    """
+    :type item: dict
+    :rtype: str
+    """
+    as_str = json.dumps(item)
+    as_comp = gzip.compress(as_str.encode('utf-8'))
+    return as_comp
+
+
+def deserialize(item):
+    """
+    :type item: io.BytesIO
+    :rtype: dict
+    """
+    as_decomp = gzip.decompress(item)
+    as_str = json.loads(as_decomp.decode('utf-8'))
+    return as_str
+
+
 async def collector_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
@@ -295,8 +318,7 @@ async def cycler(ev):
                     current_user_collecting = cl_usr.id
                     collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
                     collection = collection.get('chain') if collection else None
-                    collection = collection if isinstance(collection, dict) else None
-                    chain = markovify.Text.from_dict(collection) if collection is not None else None
+                    chain = markovify.Text.from_dict(deserialize(collection)) if collection is not None else None
                     messages = []
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
                     # noinspection PyBroadException
@@ -316,7 +338,7 @@ async def cycler(ev):
                     try:
                         new_chain = markovify.Text(f'{". ".join(messages)}.')
                         combined = markovify.combine([chain, new_chain]) if chain else new_chain
-                        insert_data = {'user_id': cl_usr.id, 'chain': combined.to_dict()}
+                        insert_data = {'user_id': cl_usr.id, 'chain': serialize(combined.to_dict())}
                         await ev.db[ev.db.db_nam].MarkovChains.delete_one({'user_id': cl_usr.id})
                         await ev.db[ev.db.db_nam].MarkovChains.insert_one(insert_data)
                         await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)

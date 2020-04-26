@@ -24,6 +24,7 @@ import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
 
 
 async def impersonate(cmd, pld):
@@ -45,7 +46,7 @@ async def impersonate(cmd, pld):
         if chain_doc:
             chain_data = chain_doc.get('chain')
             if chain_data:
-                chain_function = functools.partial(markovify.Text.from_dict, chain_data)
+                chain_function = functools.partial(markovify.Text.from_dict, deserialize(chain_data))
                 with ThreadPoolExecutor() as threads:
                     try:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
