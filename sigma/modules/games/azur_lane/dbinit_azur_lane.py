@@ -72,9 +72,9 @@ async def basic_index_fill(ev):
             index_html = await index_req.text()
     index_root = lx.fromstring(index_html)
     normal, planned, collab = index_root.cssselect('.wikitable')[:-1]
-    await basic_index_save(ev, normal, 'standard')
-    await basic_index_save(ev, planned, 'Planned', 'Plan', 'planned')
-    await basic_index_save(ev, collab, 'Collab', 'Collab', 'collab')
+    await basic_index_save(ev, normal[0], 'standard')
+    await basic_index_save(ev, planned[0], 'Planned', 'Plan', 'planned')
+    await basic_index_save(ev, collab[0], 'Collab', 'Collab', 'collab')
     ev.log.info('Updated basic ship data successfully.')
 
 

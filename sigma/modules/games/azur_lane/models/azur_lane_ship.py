@@ -115,16 +115,27 @@ class ShipStats(object):
         """
         table = tabber[1][0]
         stat_coords = {
-            'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5], 'speed': [0, 7],
-            'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5], 'luck': [1, 7],
-            'anti_air': [2, 1], 'aviation': [2, 3], 'oil_consumption': [2, 5], 'accuracy': [2, 7],
-            'anti_submarine': [3, 1]
-
+           'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5], 'luck': [0, 7],
+           'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5], 'speed': [1, 7],
+           'anti_air': [2, 1], 'aviation': [2, 3], 'oil_consumption': [2, 5], 'accuracy': [2, 7],
+           'anti_submarine': [3, 1]
+        }
+        stat_coords_alt = {
+            'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5],
+            'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5],
+            'anti_air': [2, 1], 'aviation': [2, 3], 'oil_consumption': [2, 5],
+            'luck': [3, 1], 'speed': [3, 3], 'accuracy': [3, 5],
+            'anti_submarine': [4, 1]
         }
         for stat_coord_key in stat_coords:
             stat_coord_row, stat_coord_col = stat_coords.get(stat_coord_key)
-            stat_val = table[stat_coord_row][stat_coord_col].text
-            stat_val = 0 if not stat_val else stat_val.strip()
+            try:
+                stat_val = table[stat_coord_row][stat_coord_col].text
+                stat_val = 0 if not stat_val else stat_val.strip()
+            except IndexError:
+                stat_coord_row, stat_coord_col = stat_coords_alt.get(stat_coord_key)
+                stat_val = table[stat_coord_row][stat_coord_col].text
+                stat_val = 0 if not stat_val else stat_val.strip()
             try:
                 stat_val = int(stat_val.strip())
             except ValueError:
@@ -268,7 +279,10 @@ class ShipSkin(object):
         :rtype:
         """
         self.name = tabber.attrib.get('title')
-        self.url = tabber[1][0][0].attrib.get('src')
+        try:
+            self.url = tabber[1][0][0].attrib.get('src')
+        except IndexError:
+            self.url = tabber[0].attrib.get('src')
         self.url = self.url.replace('/thumb', '').replace('/W/', '/w/')
         self.url = '/'.join(self.url.split('/')[:-1])
         self.url = f'https://azurlane.koumakan.jp{self.url}'
@@ -339,7 +353,7 @@ class ShipImages(object):
             skin_item = ShipSkin()
             skin_item.from_tabber(skin_element)
             self.skins.append(skin_item)
-            if skin_item.name == 'Default':
+            if skin_item.name == 'Default' or len(skin_element) == 1:
                 self.main = skin_item
         try:
             self.chibi = page.cssselect('#talkingchibi')[0][0].attrib.get('src')
@@ -702,7 +716,7 @@ class AzurLaneShip(object):
         self.url = self.raw.get('url')
         self.name = self.raw.get('name')
         self.rarity = self.raw.get('rarity')
-        self.rarity_color = rarity_colors.get(self.rarity.lower()) or 0xf9f9f9
+        self.rarity_color = (rarity_colors.get(self.rarity.lower()) or 0xf9f9f9) if self.rarity else 0xf9f9f9
         self.type = self.raw.get('type')
         self.subtype = self.raw.get('subtype')
         self.faction = self.raw.get('faction')
