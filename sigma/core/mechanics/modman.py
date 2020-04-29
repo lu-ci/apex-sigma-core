@@ -209,4 +209,10 @@ class ModuleManager(object):
                     with open(file_path, encoding='utf-8') as module_file:
                         module_data = yaml.safe_load(module_file)
                         if module_data.get('enabled'):
+                            if self.bot.cfg.pref.text_only:
+                                if module_data.get('category') == 'music':
+                                    continue
+                            if self.bot.cfg.pref.music_only:
+                                if module_data.get('category') not in ['music', 'help']:
+                                    continue
                             self.load_module(root, module_data)

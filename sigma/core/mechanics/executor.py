@@ -74,15 +74,10 @@ class ExecutionClockwork(object):
                 cmd = self.bot.modules.alts.get(cmd) if cmd in self.bot.modules.alts else cmd
                 command = self.bot.modules.commands.get(cmd)
                 if command:
-                    if self.bot.cfg.pref.text_only and command.category == 'music':
-                        return
-                    elif self.bot.cfg.pref.music_only and command.category != 'music':
-                        return
-                    else:
-                        cmd_pld = CommandPayload(self.bot, pld.msg, args)
-                        cmd_pld.settings = pld.settings
-                        task = command, cmd_pld
-                        await self.cmd_queue.put(task)
+                    cmd_pld = CommandPayload(self.bot, pld.msg, args)
+                    cmd_pld.settings = pld.settings
+                    task = command, cmd_pld
+                    await self.cmd_queue.put(task)
 
     def get_stats_storage(self, event):
         """

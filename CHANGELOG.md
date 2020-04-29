@@ -1,8 +1,15 @@
 # Apex Sigma Changelog
 
+## 4.77.1555 Suzune
+
+### Changed
+
+- Tweaked the module loader to ignore unnecessary modules if `text_only` or `music_only` are enabled.
+- Tweaked the module loader to load the `help` module if `music_only` is enabled.
+
 ## 4.73.1465 Suzune
 
-## Changed
+### Changed
 
 - Added a global user-agent header to the NSFW core.
 - Tweaked the NSFW core and e621 command to support the new endpoint.
