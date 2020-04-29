@@ -21,6 +21,12 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
+from sigma.core.mechanics.caching import MemoryCacher
+from sigma.core.mechanics.config import CacheConfig
+
+
+antispam_cache = MemoryCacher(CacheConfig({}))
+
 
 async def rate_limited(db, msg, amt, tsp):
     """
@@ -38,12 +44,12 @@ async def rate_limited(db, msg, amt, tsp):
     """
     limit_key = f'{msg.guild.id}_{msg.author.id}'
     cache_key = f'rate_limit_{limit_key}'
-    limit_items = await db.cache.get_cache(cache_key) or []
+    limit_items = await antispam_cache.get_cache(cache_key) or []
     limit_items.append(msg.created_at.timestamp())
     for lit in limit_items:
         if lit < limit_items[-1] - tsp:
             limit_items.remove(lit)
-    await db.cache.set_cache(cache_key, limit_items)
+    await antispam_cache.set_cache(cache_key, limit_items)
     return len(limit_items) > amt
 
 
