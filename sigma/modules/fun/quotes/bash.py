@@ -20,10 +20,15 @@ import aiohttp
 import discord
 from lxml import html
 
+from sigma.core.utilities.generic_responses import error
+
 cache = []
 
 
 async def fill_cache():
+    """
+    Fills the quote cache.
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get('http://bash.org/?random1') as page:
             page = await page.text()
@@ -44,6 +49,12 @@ async def fill_cache():
 
 
 async def bash(_cmd, pld):
+    """
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
     if not cache:
         await fill_cache()
     if cache:
@@ -55,5 +66,5 @@ async def bash(_cmd, pld):
         response = discord.Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
         response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://bash.org/?{quote['id']}")
     else:
-        response = discord.Embed(color=0xBE1931, title='❗ Could not get a quote.')
+        response = error('Unable to retrieve a quote.')
     await pld.msg.channel.send(embed=response)
