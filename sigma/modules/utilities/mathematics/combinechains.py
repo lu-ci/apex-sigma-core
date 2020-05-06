@@ -36,7 +36,7 @@ def shuffle(items):
     return new
 
 
-def combine_names(users, randomize):
+def combine_names(users, randomize=False):
     """
 
     :type users: list
