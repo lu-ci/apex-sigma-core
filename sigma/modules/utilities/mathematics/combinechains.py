@@ -36,7 +36,7 @@ def shuffle(items):
     return new
 
 
-def combine_names(users):
+def combine_names(users, randomize):
     """
 
     :type users: list
@@ -45,7 +45,8 @@ def combine_names(users):
     :rtype:
     """
     pieces = []
-    users = shuffle(users)
+    if randomize:
+        users = shuffle(users)
     total_length = sum([len(u.name) for u in users])
     usable_length = total_length // len(users)
     needed_length = usable_length // len(users)
@@ -95,7 +96,7 @@ async def combinechains(cmd, pld):
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
                         response = discord.Embed(color=0xBE1931, title=not_enough_data)
                     else:
-                        combined_name = combine_names(pld.msg.mentions)
+                        combined_name = combine_names(pld.msg.mentions, True)
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)

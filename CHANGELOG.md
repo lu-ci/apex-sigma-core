@@ -1,12 +1,5 @@
 # Apex Sigma Changelog
 
-## 4.77.1558 Suzune
-
-### Changed
-
-- Switched back to the old bash.org URL for the `bash` command.
-- Tweaked the `combine_names` function and fixed its references.
-
 ## 4.77.1555 Suzune
 
 ### Changed
