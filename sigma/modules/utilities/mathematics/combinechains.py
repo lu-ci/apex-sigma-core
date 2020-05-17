@@ -40,7 +40,6 @@ def combine_names(users):
     """
 
     :type users: list
-    :type randomize: bool
     :return:
     :rtype:
     """
