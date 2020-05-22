@@ -98,6 +98,6 @@ async def status_clockwork(ev):
                             else:
                                 status_type = discord.Status.online
                         await ev.bot.change_presence(activity=activity, status=status_type)
-                    except Exception:
+                    except SyntaxError:
                         pass
         await asyncio.sleep(60)
