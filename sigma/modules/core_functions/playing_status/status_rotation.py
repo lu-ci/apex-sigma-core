@@ -75,8 +75,8 @@ async def status_clockwork(ev):
                     [status_cache.append(status_file.get('text')) for status_file in status_files]
                 if status_cache:
                     stream = await streamer_check()
-                    stream = stream.get('stream', {})
                     if stream:
+                        stream = stream.get('stream', {})
                         channel = stream.get('channel', {})
                         activity = discord.Streaming(
                             name=channel.get('status'),
