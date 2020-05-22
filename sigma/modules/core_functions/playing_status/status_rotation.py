@@ -17,8 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import asyncio
+import json
+import os
 import secrets
 
+import aiohttp
+import arrow
 import discord
 
 status_cache = []
@@ -37,6 +41,27 @@ async def status_rotation(ev):
         ev.bot.loop.create_task(status_clockwork(ev))
 
 
+async def streamer_check():
+    """
+    :return:
+    :rtype: dict or None
+    """
+    dat = None
+    chn = os.environ['SIGMA_STREAMER']
+    cid = os.environ['SIGMA_TWITCH_CLIENT']
+    if chn and cid:
+        url = f"https://api.twitch.tv/kraken/streams/{chn}"
+        headers = {
+            'Accept': 'application/vnd.twitchtv.v5+json',
+            'Client-ID': cid
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, headers=headers) as data:
+                data = await data.read()
+                dat = json.loads(data)
+    return dat
+
+
 async def status_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
@@ -49,8 +74,18 @@ async def status_clockwork(ev):
                     status_files = await ev.db[ev.db.db_nam].StatusFiles.find().to_list(None)
                     [status_cache.append(status_file.get('text')) for status_file in status_files]
                 if status_cache:
-                    status = status_cache.pop(secrets.randbelow(len(status_cache)))
-                    activity = discord.Activity(name=status, type=discord.ActivityType.playing)
+                    stream = await streamer_check()
+                    if stream:
+                        stream = stream.get('stream', {})
+                        channel = stream.get('channel', {})
+                        activity = discord.Streaming(
+                            name=channel.get('status'),
+                            url=channel.get('url'),
+                            game=stream.get('game')
+                        )
+                    else:
+                        status = status_cache.pop(secrets.randbelow(len(status_cache)))
+                        activity = discord.Activity(name=status, type=discord.ActivityType.playing)
                     # noinspection PyBroadException
                     try:
                         if ev.bot.cfg.pref.dev_mode:
@@ -63,6 +98,6 @@ async def status_clockwork(ev):
                             else:
                                 status_type = discord.Status.online
                         await ev.bot.change_presence(activity=activity, status=status_type)
-                    except Exception:
+                    except SyntaxError:
                         pass
         await asyncio.sleep(60)
