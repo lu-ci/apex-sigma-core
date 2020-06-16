@@ -31,6 +31,7 @@ commands:
     usage: '{pfx}{cmd} 9a2e9a374ac90294f225782f362e2ab1'
   - alts:
       - removeinteract
+      - delinteraction
       - delinteract
     description: Remove an interaction with the specified ID.
     enabled: true
