@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.77.1559 Suzune
+
+### Changed
+
+- Tweaked `givecookie` to show the authors display name if `delete_commands` is enabled.
+
 ## 4.77.1558 Suzune
 
 ### Changed

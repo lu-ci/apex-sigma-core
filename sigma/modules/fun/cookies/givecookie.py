@@ -83,10 +83,12 @@ async def givecookie(cmd, pld):
                                 cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
                                 await cmd.db.add_resource(target.id, 'cookies', 1, cmd.name, pld.msg, True)
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
+                                del_cmd_msg = pld.settings.get('delete_commands')
+                                starter = pld.msg.author.display_name if del_cmd_msg else 'You'
                                 if someoned:
-                                    title = f'🍪 You threw a cookie and it landed in {target.display_name}\'s mouth.'
+                                    title = f'🍪 {starter} threw a cookie and it landed in {target.display_name}\'s mouth.'
                                 else:
-                                    title = f'🍪 You gave a cookie to {target.display_name}.'
+                                    title = f'🍪 {starter} gave a cookie to {target.display_name}.'
                                 response = discord.Embed(color=0xd99e82, title=title)
                             else:
                                 timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
