@@ -2,9 +2,14 @@
 
 ## 4.77.1559 Suzune
 
+### Added
+
+- Added alias for `removeinteraction`
+
 ### Changed
 
 - Tweaked `givecookie` to show the authors display name if `delete_commands` is enabled.
+- Added a 'no issue' mode for `approvesuggestion` to approve suggestions without creating an issue on GitLab.
 
 ## 4.77.1558 Suzune
 
