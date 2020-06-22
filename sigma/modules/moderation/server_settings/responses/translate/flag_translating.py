@@ -19,12 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 from translate import Translator
 
-from sigma.core.mechanics.caching import MemoryCacher
+from sigma.core.mechanics.caching import TTLCacher
 from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.moderation.server_settings.responses.translate.flag_emotes import flag_emotes
 
-message_cache = MemoryCacher(CacheConfig({}))
+message_cache = TTLCacher(CacheConfig({}))
 
 
 async def send_translation(channel, message, translation, fr_lang, to_lang):

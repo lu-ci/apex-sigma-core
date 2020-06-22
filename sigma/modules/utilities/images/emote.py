@@ -21,11 +21,11 @@ import re
 import arrow
 import discord
 
-from sigma.core.mechanics.caching import MemoryCacher
+from sigma.core.mechanics.caching import TTLCacher
 from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.generic_responses import error, not_found
 
-emote_cache_handler = MemoryCacher(CacheConfig({}))
+emote_cache_handler = TTLCacher(CacheConfig({}))
 
 
 async def get_emote_cache(cmd):
