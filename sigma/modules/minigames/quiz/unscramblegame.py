@@ -33,7 +33,7 @@ async def unscramblegame(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    cache_key = f'unscramble_word_cache'
+    cache_key = 'unscramble_word_cache'
     word_cache = await cmd.db.cache.get_cache(cache_key) or {}
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)

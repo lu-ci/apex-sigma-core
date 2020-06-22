@@ -74,12 +74,12 @@ async def givevirginity(cmd, pld):
                     av.virgin = False
                     av.first = target.id
                     tv.virginities.append(pld.msg.author.id)
-                    congrats_title = f'🎉 Congrats, you are no longer a child!'
+                    congrats_title = '🎉 Congrats, you are no longer a child!'
                     if tv.virgin:
                         tv.virgin = False
                         tv.first = pld.msg.author.id
                         av.virginities.append(target.id)
-                        congrats_title = f'🎉 Congrats, you are no longer children!'
+                        congrats_title = '🎉 Congrats, you are no longer children!'
                     await cmd.db.set_profile(pld.msg.author.id, 'virginity', av.to_dict())
                     await cmd.db.set_profile(target.id, 'virginity', tv.to_dict())
                     response = discord.Embed(color=0x66CC66, title=congrats_title)

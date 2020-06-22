@@ -67,12 +67,12 @@ async def raffleicon(cmd, pld):
                         invalid = True
                 if not invalid:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'raffle_icon', raffle_icon)
-                    response = ok(f'Raffle icon set.')
+                    response = ok('Raffle icon set.')
                 else:
                     response = error('Given emote was invalid.')
             else:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'raffle_icon', None)
-                response = ok(f'Raffle icon disabled.')
+                response = ok('Raffle icon disabled.')
         else:
             response = error('No emote given.')
     else:

@@ -78,7 +78,7 @@ async def fish(cmd, pld):
                         response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'
                         response = discord.Embed(color=0x696969, title=response_title)
                     else:
-                        response_title = f'❌ Oh no... You pulled too hard and the line broke...'
+                        response_title = '❌ Oh no... You pulled too hard and the line broke...'
                         response = discord.Embed(color=0xBE1931, title=response_title)
         else:
             response = error('Your inventory is full.')

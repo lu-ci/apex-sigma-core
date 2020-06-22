@@ -54,7 +54,7 @@ def next_daily():
     :rtype: arrow.Arrow
     """
     now = arrow.utcnow()
-    ttd = arrow.get(arrow.utcnow().format(f'YYYY-MM-DD 15:00:ssZZ'))
+    ttd = arrow.get(arrow.utcnow().format('YYYY-MM-DD 15:00:ssZZ'))
     while now > ttd:
         ttd = ttd.shift(days=1)
     return ttd

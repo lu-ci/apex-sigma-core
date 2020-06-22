@@ -39,7 +39,7 @@ async def choosemany(_cmd, pld):
                 for _ in range(limit):
                     choice = choices.pop(secrets.randbelow(len(choices)))
                     results.append(choice)
-                response = discord.Embed(color=0x1ABC9C, title=f'🤔 I choose...')
+                response = discord.Embed(color=0x1ABC9C, title='🤔 I choose...')
                 results = list(map(lambda x: x if len(x) < 25 else x[:25] + '...', results))
                 response.description = '\n'.join(results)
             else:

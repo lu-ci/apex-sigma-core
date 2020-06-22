@@ -43,5 +43,5 @@ async def experience(cmd, pld):
     response.add_field(name=guild_title, value=f"```py\nXP: {guild_exp}\nLevel: {local_level}\n```")
     response.add_field(name=global_title, value=f"```py\nXP: {exp.ranked}\nLevel: {ranked_level}\n```")
     response.add_field(name=total_title, value=f"```py\nXP: {exp.total}\nLevel: {total_level}\n```")
-    response.set_footer(text=f'🔰 Experience is earned by being an active guild member.')
+    response.set_footer(text='🔰 Experience is earned by being an active guild member.')
     await pld.msg.channel.send(embed=response)

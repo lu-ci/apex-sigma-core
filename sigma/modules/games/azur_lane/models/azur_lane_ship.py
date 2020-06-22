@@ -115,10 +115,10 @@ class ShipStats(object):
         """
         table = tabber[1][0]
         stat_coords = {
-           'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5], 'luck': [0, 7],
-           'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5], 'speed': [1, 7],
-           'anti_air': [2, 1], 'aviation': [2, 3], 'oil_consumption': [2, 5], 'accuracy': [2, 7],
-           'anti_submarine': [3, 1]
+            'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5], 'luck': [0, 7],
+            'firepower': [1, 1], 'torpedo': [1, 3], 'evasion': [1, 5], 'speed': [1, 7],
+            'anti_air': [2, 1], 'aviation': [2, 3], 'oil_consumption': [2, 5], 'accuracy': [2, 7],
+            'anti_submarine': [3, 1]
         }
         stat_coords_alt = {
             'health': [0, 1], 'armor': [0, 3], 'reload': [0, 5],

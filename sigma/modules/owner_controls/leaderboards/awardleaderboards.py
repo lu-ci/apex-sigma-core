@@ -61,7 +61,7 @@ async def awardleaderboards(cmd, pld):
             init_msg = await pld.msg.channel.send(embed=init_resp)
             await reset_resource(cmd.db, cmd.log, coll_title)
             await init_msg.delete()
-            response = ok(f'All leaderboards awarded.')
+            response = ok('All leaderboards awarded.')
         else:
             response = error('Invalid collection.')
     else:

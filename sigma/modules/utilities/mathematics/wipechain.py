@@ -30,7 +30,7 @@ async def wipechain(cmd, pld):
     exist_check = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': uid})
     if exist_check:
         await cmd.db[cmd.db.db_nam].MarkovChains.delete_one({'user_id': uid})
-        response = ok(f'Your chain has been permanently deleted.')
+        response = ok('Your chain has been permanently deleted.')
     else:
         response = error('You don\'t have a Markov Chain.')
     await pld.msg.channel.send(embed=response)

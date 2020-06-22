@@ -52,7 +52,7 @@ async def vnchargame(cmd, pld):
             else:
                 hint = False
             vn_url_list = []
-            vn_top_list_url = f'https://vndb.org/v/all?q=;fil=tagspoil-0;rfil=;o=d;s=pop;p=1'
+            vn_top_list_url = 'https://vndb.org/v/all?q=;fil=tagspoil-0;rfil=;o=d;s=pop;p=1'
             async with aiohttp.ClientSession() as session:
                 async with session.get(vn_top_list_url) as vn_top_list_session:
                     vn_top_list_html = await vn_top_list_session.text()

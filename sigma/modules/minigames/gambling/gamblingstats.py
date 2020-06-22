@@ -64,7 +64,7 @@ async def gamblingstats(cmd, pld):
         'Slots Losses': int(slot_loss), 'Roulette Losses': int(roul_loss)
     }
     if any(list(results.values())):
-        response = discord.Embed(color=0xbe1931, title=f'🎰 Gambling Gains and Losses')
+        response = discord.Embed(color=0xbe1931, title='🎰 Gambling Gains and Losses')
         gain_value = None
         if slot_gain or roul_gain:
             gain_value = f'Slots: **{slot_gain}**\n'

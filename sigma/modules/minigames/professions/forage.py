@@ -78,7 +78,7 @@ async def forage(cmd, pld):
                         response_title = f'🕙 You forgot where the {item.rarity_name} {item.type.lower()} is...'
                         response = discord.Embed(color=0x696969, title=response_title)
                     else:
-                        response_title = f'❌ Oh no... You dug too hard and hurt the plant...'
+                        response_title = '❌ Oh no... You dug too hard and hurt the plant...'
                         response = discord.Embed(color=0xBE1931, title=response_title)
         else:
             response = error('Your inventory is full.')

@@ -75,7 +75,7 @@ async def azurlaneimpersonate(cmd, pld):
             if lookup:
                 response.set_author(name=f'{ship.faction} {ship.name}', icon_url=ship.images.small, url=ship.url)
             else:
-                response.set_author(name=f'Azur Lane', icon_url=al_icon, url=al_wiki)
+                response.set_author(name='Azur Lane', icon_url=al_icon, url=al_wiki)
             response.description = ' '.join(sentences)
     else:
         response = not_found('Ship not found.')

@@ -46,7 +46,7 @@ async def logsettings(cmd, pld):
         headers = ['Type', 'Channel', 'State']
         output = boop(settings, column_names=headers)
         response = discord.Embed(color=0xC1694F)
-        enabled_count = len([l for l in settings if l[2] == 'Enabled'])
+        enabled_count = len([opt for opt in settings if opt[2] == 'Enabled'])
         details = f'```py\n{enabled_count} out of {len(log_keys)} logs enabled.\n```'
         response.add_field(name='📋 Log settings', value=details, inline=False)
         response.add_field(name='📄 Details', value=f'```\n{output}\n```', inline=False)

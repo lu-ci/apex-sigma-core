@@ -33,7 +33,7 @@ def generate_response(gallows):
     :return:
     :rtype: discord.Embed
     """
-    hangman_resp = discord.Embed(color=0x3B88C3, title=f'🔣 Hangman')
+    hangman_resp = discord.Embed(color=0x3B88C3, title='🔣 Hangman')
     hangman_resp.add_field(name='Gallows', value=f'```\n{gallows.make_gallows_man()}\n```', inline=False)
     used_letters = ', '.join(sorted(gallows.wrong_letters)) if gallows.wrong_letters else 'Nothing Yet.'
     hangman_resp.add_field(name='Used Letters', value=used_letters, inline=False)
@@ -69,7 +69,7 @@ async def hangman(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    cache_key = f'hangman_word_cache'
+    cache_key = 'hangman_word_cache'
     word_cache = await cmd.db.cache.get_cache(cache_key) or {}
     if not word_cache:
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)

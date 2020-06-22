@@ -76,7 +76,7 @@ async def hunt(cmd, pld):
                         response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'
                         response = discord.Embed(color=0x696969, title=response_title)
                     else:
-                        response_title = f'❌ Oh no... The feisty little thing slipped out of your grasp...'
+                        response_title = '❌ Oh no... The feisty little thing slipped out of your grasp...'
                         response = discord.Embed(color=0xBE1931, title=response_title)
         else:
             response = error('Your inventory is full.')

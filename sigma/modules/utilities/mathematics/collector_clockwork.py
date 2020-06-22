@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import gzip
-import io
 import json
 import string
 
@@ -252,7 +251,7 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
-    response = error(f'Failed to parse entries for your chain.')
+    response = error('Failed to parse entries for your chain.')
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
     try:

@@ -53,7 +53,7 @@ def train(ev, core, init=False):
     :type init: bool
     """
     cb_log(ev, init, 'Learning generic AIML interactions...')
-    core.learn(os.sep.join([ev.resource(f'aiml_files'), '*.aiml']))
+    core.learn(os.sep.join([ev.resource('aiml_files'), '*.aiml']))
     cb_log(ev, init, 'Learning properties unique to the client...')
     with open(ev.resource('properties.yml')) as prop_file:
         prop_data = yaml.safe_load(prop_file)

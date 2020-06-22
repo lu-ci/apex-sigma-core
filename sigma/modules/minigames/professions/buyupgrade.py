@@ -153,7 +153,7 @@ async def slow_buy(cmd, pld):
             else:
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
         else:
-            response = discord.Embed(color=0x696969, title=f'🕙 Sorry, you timed out.')
+            response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
         if is_ongoing(cmd.name, pld.msg.author.id):
             del_ongoing(cmd.name, pld.msg.author.id)
     else:
