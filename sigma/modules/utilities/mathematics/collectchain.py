@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import arrow
 import discord
 
 from sigma.core.mechanics.database import Database
@@ -80,7 +80,12 @@ async def collectchain(cmd, pld):
         if not blocked and not blinded:
             if not await check_queued(cmd.db, target_usr.id, pld.msg.author.id):
                 if not target_usr.bot:
-                    cltr_itm = {'author_id': pld.msg.author.id, 'user_id': target_usr.id, 'channel_id': target_chn.id}
+                    cltr_itm = {
+                        'author_id': pld.msg.author.id,
+                        'user_id': target_usr.id,
+                        'channel_id': target_chn.id,
+                        'stamp': arrow.utcnow().timestamp
+                    }
                     await add_to_queue(cmd.db, cltr_itm)
                     qsize = await get_queue_size(cmd.db)
                     title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'

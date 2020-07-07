@@ -21,6 +21,7 @@ import gzip
 import json
 import string
 
+import arrow
 import discord
 import markovify
 
@@ -305,15 +306,18 @@ async def cycler(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global current_user_collecting
+    coll = ev.db[ev.db.db_nam].CollectorQueue
     while True:
         if ev.bot.is_ready():
-            cltr_items = await ev.db[ev.db.db_nam].CollectorQueue.find({}).to_list(None)
+            now = arrow.utcnow().timestamp
+            await coll.delete_many({'stamp': {'$lt': now - 3600}})
+            cltr_items = await coll.find({}).to_list(None)
             for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
                 cl_ath = await ev.bot.get_user(cltr_item.get('author_id'))
                 if cl_usr and cl_chn:
-                    await ev.db[ev.db.db_nam].CollectorQueue.delete_one(cltr_item)
+                    await coll.delete_one(cltr_item)
                     current_user_collecting = cl_usr.id
                     collection = await ev.db[ev.db.db_nam].MarkovChains.find_one({'user_id': cl_usr.id})
                     collection = collection.get('chain') if collection else None
@@ -329,8 +333,6 @@ async def cycler(ev):
                                     cnt = cleanse_content(log, cnt)
                                     if cnt not in messages and cnt and len(cnt) > 1:
                                         messages.append(cnt)
-                                        if len(messages) >= 5000:
-                                            break
                     except Exception as e:
                         print(e)
                         pass
