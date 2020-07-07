@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import error, ok, not_found
 
 
 async def send(cmd, pld):
@@ -40,9 +40,15 @@ async def send(cmd, pld):
         text = ' '.join(pld.args[1:])
         if mode == 'u':
             target = await cmd.bot.get_user(identifier)
+            if not target:
+                await pld.msg.channel.send(embed=not_found('User not found.'))
+                return
             title_end = f'{target.name}#{target.discriminator}'
         elif mode == 'c':
             target = await cmd.bot.get_channel(identifier)
+            if not target:
+                await pld.msg.channel.send(embed=not_found('Channel not found.'))
+                return
             title_end = f'#{target.name} on {target.guild.name}'
         else:
             await pld.msg.channel.send(embed=error_response)

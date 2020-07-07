@@ -119,9 +119,11 @@ async def approvesuggestion(cmd, pld):
         suggestion = await cmd.db[cmd.db.db_nam].Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             await react_to_suggestion(cmd.bot, suggestion, '✅', False)
-            gl_issue_url = gl_desc = None
-            if cmd.cfg.token and cmd.cfg.project:
-                gl_desc = make_gl_suggestion(token, description, suggestion)
+            make_issue = False if title.lower().startswith('noissue') else True
+            title = title if make_issue else title.partition(' ')[2]
+            gl_desc = make_gl_suggestion(token, description, suggestion)
+            gl_issue_url = None
+            if cmd.cfg.token and cmd.cfg.project and make_issue:
                 gl_issue_url = await submit_gl_issue(cmd.cfg.token, cmd.cfg.project, title, gl_desc)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:

@@ -38,7 +38,6 @@ class ModuleConfig(dict):
         self.cmd = cmd
         try:
             self.data = getattr(self.cmd.command, 'defaults')
-            print(self.data)
         except AttributeError:
             self.data = {}
         super().__init__(self.data)

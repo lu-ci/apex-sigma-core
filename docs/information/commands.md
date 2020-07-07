@@ -60,7 +60,7 @@ Commands | Description | Example
 `>>oserverinformation` `>>oserverinfo` `>>osinfo` | Shows information and data on the specified server. The lookup is by either name or guild ID. (Bot Owner Only) | `>>oserverinformation Lucia's Cipher`
 `>>ouserinformation` `>>ouserinfo` `>>ouinfo` | Shows information and data on the specified user. The lookup is by either Name#Discriminator or by user ID. (Bot Owner Only) | `>>ouserinformation AXAz0r#0001`
 `>>reload` | Reloads all of the modules in Sigma. This includes both commands and events. (Bot Owner Only) | `>>reload`
-`>>removeinteraction` `>>removeinteract` `>>delinteract` | Remove an interaction with the specified ID. (Bot Owner Only) | `>>removeinteraction 1ba2e263`
+`>>removeinteraction` `>>removeinteract` `>>delinteraction` `>>delinteract` | Remove an interaction with the specified ID. (Bot Owner Only) | `>>removeinteraction 1ba2e263`
 `>>removestatus` `>>delstatus` | Removes a status with the specified ID from Sigma's status database. (Bot Owner Only) | `>>removestatus 1d9cae144f`
 `>>sabotageuser` `>>sabuser` | Sabotages a user making them have extreme bad luck in various modules. (Bot Owner Only) | `>>sabotageuser 0123456789`
 `>>send` | Sends a message to a user, channel or server. The first argument needs to be the destination parameter. The destination parameter consists of the destination type and ID. The types are U for User and C for Channel. The type and ID are separated by a colon, or two dots put more simply. (Bot Owner Only) | `>>send u:0123456789 We are watching...`
