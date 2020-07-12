@@ -31,7 +31,9 @@ def get_average(dislikes, likes):
     :type likes: int
     :rtype: float
     """
-    total = (likes or 0) + (dislikes or 0)
+    dislikes = dislikes or 0
+    likes = likes or 0
+    total = likes + dislikes
     try:
         bad = (dislikes / total) * 5
     except ZeroDivisionError:
