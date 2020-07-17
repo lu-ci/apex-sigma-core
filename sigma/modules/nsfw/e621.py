@@ -31,7 +31,7 @@ async def e621(cmd, pld):
     """
     client = e621_client(cmd.db.cache, cmd.bot.user.id)
     tags = client.remove_lines_breaks(pld.args)
-    if not len(tags) > 6:
+    if not len(tags) > 2:
         post = await client.randpost(pld.args)
         if post:
             file = post.get('file')
@@ -44,5 +44,5 @@ async def e621(cmd, pld):
         else:
             response = not_found('No results.')
     else:
-        response = error('You can only search up to 6 tags.')
+        response = error('You can only search up to 2 tags.')
     await pld.msg.channel.send(embed=response)
