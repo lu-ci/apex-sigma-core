@@ -65,7 +65,14 @@ async def chatter_core_responder(ev, pld):
             clean_msg = pld.msg.clean_content.replace('@', '').partition(' ')[2]
             if clean_msg:
                 active = pld.settings.get('chatterbot')
-                if active:
+                if clean_msg.lower() == 'reset prefix':
+                    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+                        await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
+                        response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
+                    else:
+                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                    await pld.msg.channel.send(response)
+                elif active:
                     async with pld.msg.channel.typing():
                         if not chatter_core.numCategories():
                             train(ev, chatter_core)
@@ -74,10 +81,3 @@ async def chatter_core_responder(ev, pld):
                         sleep_time = min(len(response_text.split(' ')) * 0.733, 10)
                         await asyncio.sleep(sleep_time)
                         await pld.msg.channel.send(f'{pld.msg.author.mention} {response_text}')
-                if clean_msg.lower() == 'reset prefix':
-                    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
-                        await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
-                        response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
-                    else:
-                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
-                    await pld.msg.channel.send(response)
