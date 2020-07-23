@@ -34,6 +34,23 @@ def set_session_info(pld):
     chatter_core.setBotPredicate('name', pld.msg.guild.me.name)
 
 
+def clean_response(text):
+    """
+    :type text: str
+    :rtype: str
+    """
+    new = text
+    puncts = ['.', '!', '?', '...']
+    while '  ' in new:
+        new = new.replace('  ', ' ')
+    new.replace(' , ', ', ')
+    for punct in puncts:
+        bad_punct = f' {punct}'
+        if bad_punct in new:
+            new = new.replace(bad_punct, punct)
+    return new
+
+
 async def chatter_core_responder(ev, pld):
     """
     :param ev: The event object referenced in the event.
@@ -53,7 +70,14 @@ async def chatter_core_responder(ev, pld):
                         if not chatter_core.numCategories():
                             train(ev, chatter_core)
                         set_session_info(pld)
-                        response_text = chatter_core.respond(clean_msg, pld.msg.author.id)
-                        sleep_time = min(len(response_text) * 0.185, 120)
+                        response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
+                        sleep_time = min(len(response_text.split(' ')) * 0.733, 10)
                         await asyncio.sleep(sleep_time)
                         await pld.msg.channel.send(f'{pld.msg.author.mention} {response_text}')
+                if clean_msg.lower() == 'reset prefix':
+                    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+                        await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
+                        response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
+                    else:
+                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                    await pld.msg.channel.send(response)
