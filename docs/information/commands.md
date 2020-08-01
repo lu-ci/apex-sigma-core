@@ -204,7 +204,7 @@ Commands | Description | Example
 `>>chances` | Shows a table with your item chance statistics. | `>>chances @person`
 `>>coinflip` `>>cf` | Flips a coin. Nothing complex. You can try guessing the results by typing either Heads or Tails. | `>>coinflip Heads`
 `>>connectfour` `>>cfour` | Starts a connect four game with whomever you mention. If you don't mention anyone, it starts a game with the bot. You move by reacting with 1-7 to specify which column you want. | `>>connectfour @person`
-`>>cook` `>>make` | Uses a recipe to create an item from raw resources that you've gathered. You can see all available recipes with the recipes command. | `>>cook Shade Tea`
+`>>cook` `>>craft` `>>make` | Uses a recipe to create an item from raw resources that you've gathered. You can see all available recipes with the recipes command. | `>>cook Shade Tea`
 `>>drawcard` `>>draw` | Draws the specified number of cards. The number of cards to draw can't be above 10. The decks are persistent, so if you don't have enough cards left you'll need to make a new deck with the "newdeck" command. | `>>drawcard 3`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
 `>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type, and rarity. | `>>filtersell rarity:Legendary`

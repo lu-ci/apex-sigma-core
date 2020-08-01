@@ -33,6 +33,7 @@ commands:
     name: recipes
     usage: '{pfx}{cmd} --meals --craftable'
   - alts:
+      - craft
       - make
     description: Uses a recipe to create an item from raw resources that you've gathered.
       You can see all available recipes with the recipes command.
