@@ -15,6 +15,7 @@ commands:
     usage: '{pfx}{cmd} 2 @person'
   - alts:
       - finditem
+      - fi
     description: Shows the name, value, and description of the specified item If you
       have this item in your inventory an Item ID will be in the footer. Also shows
       how many times you've caught this item.

@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.78.1569 Kazuki
+
+### Added
+
+- Added alias for `inspect`
+
 ## 4.77.1559 Suzune
 
 ### Added
