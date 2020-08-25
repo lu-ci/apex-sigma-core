@@ -75,8 +75,8 @@ async def allitems(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    item_core = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
+    item_core = await get_item_core(cmd.db)
     item_o_list = item_core.all_items
     special = False
     if pld.args:

@@ -29,8 +29,8 @@ async def inspect(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    item_core = await get_item_core(cmd.db)
     recipe_core = await get_recipe_core(cmd.db)
+    item_core = await get_item_core(cmd.db)
     if pld.args:
         lookup = ' '.join(pld.args)
         item = item_core.get_item_by_name(lookup)

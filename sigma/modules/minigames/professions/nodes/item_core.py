@@ -37,6 +37,7 @@ async def get_item_core(db):
     if not item_core_cache:
         item_core_cache = ItemCore(db)
         await item_core_cache.init_items()
+    await item_core_cache.validate()
     return item_core_cache
 
 
@@ -112,6 +113,16 @@ class ItemCore(object):
                 item_object = None
             if item_object:
                 self.all_items.append(item_object)
+
+    async def validate(self):
+        invalid = False
+        for item in self.all_items:
+            if item.rarity > 0:
+                if item.value == 0:
+                    invalid = True
+                    break
+        if invalid:
+            await self.init_items()
 
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):
