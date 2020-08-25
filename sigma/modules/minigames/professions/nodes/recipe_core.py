@@ -35,6 +35,7 @@ async def get_recipe_core(db: Database):
     if not recipe_core_cache:
         recipe_core_cache = RecipeCore(db)
         await recipe_core_cache.init_items()
+    await recipe_core_cache.validate()
     return recipe_core_cache
 
 
@@ -139,3 +140,12 @@ class RecipeCore(object):
         for item in self.item_core.all_items:
             if item.type.lower() in ['drink', 'meal', 'dessert']:
                 item.value = self.find_recipe(item.name).value
+
+    async def validate(self):
+        invalid = False
+        for recipe in self.recipes:
+            if recipe.get_price() == 0:
+                invalid = True
+                break
+        if invalid:
+            await self.init_items()
