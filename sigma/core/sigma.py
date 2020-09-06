@@ -139,6 +139,11 @@ class ApexSigma(client_class):
         self.log.info('Loading Configuration...')
         self.log.info(f'Running as a Bot: {self.cfg.dsc.bot}')
         self.log.info(f'Default Bot Prefix: {self.cfg.pref.prefix}')
+        if self.cfg.dsc.shard_count is not None and self.cfg.dsc.shards is not None:
+            shards = ";".join([str(shard) for shard in self.cfg.dsc.shards])
+            self.log.info(f'Instance handling shards {shards}/{self.cfg.dsc.shard_count}')
+        else:
+            self.log.info(f'Instance handling all available shards.')
         self.log.info('Core Configuration Data Loaded')
 
     async def init_database(self):
