@@ -28,7 +28,7 @@ async def population_clockwork(ev):
     """
     global pop_loop_running
     collection = 'GeneralStats'
-    lookup = {'name': 'population', 'shard': ev.bot.cfg.dsc.shard}
+    lookup = {'name': 'population', 'shards': ev.bot.cfg.dsc.shards}
     search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
     if not search:
         await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
@@ -70,9 +70,9 @@ async def update_population_stats_node(ev):
                 'channel_count': channel_count,
                 'member_count': member_count,
                 'role_count': role_count,
-                'shard': ev.bot.cfg.dsc.shard
+                'shards': ev.bot.cfg.dsc.shards
             }
-            update_target = {"name": 'population', "shard": ev.bot.cfg.dsc.shard}
+            update_target = {"name": 'population', "shards": ev.bot.cfg.dsc.shards}
             update_data = {"$set": popdata}
             await ev.db[database][collection].update_one(update_target, update_data)
         await asyncio.sleep(60)

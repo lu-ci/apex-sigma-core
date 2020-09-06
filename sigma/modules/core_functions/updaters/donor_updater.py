@@ -28,7 +28,7 @@ async def donor_updater(ev):
     """
     global donor_clock_running
     if not donor_clock_running:
-        if ev.bot.cfg.dsc.shard is None or ev.bot.cfg.dsc.shard == 0:
+        if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
             ev.bot.loop.create_task(donor_updater_clockwork(ev))
         donor_clock_running = True
 

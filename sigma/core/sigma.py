@@ -71,32 +71,26 @@ class ApexSigma(client_class):
         super().__init__(status=discord.Status.dnd, activity=discord.Game('booting...'))
         self.ready = False
         # State attributes before initialization.
-        self.db = None
-        self.log = None
-        self.cache = None
-        self.music = None
-        self.modules = None
-        self.cool_down = None
+        self.log = self.init_logger()
         self.cfg = init_cfg
         self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = ExecutionClockwork(self)
         self.shard_count = self.cfg.dsc.shard_count
-        self.shard_ids = [self.cfg.dsc.shard] if self.cfg.dsc.shard is not None else None
+        self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards is not None else None
         # Initialize startup methods and attributes.
         self.create_cache()
-        self.init_logger()
         self.log.info('---------------------------------')
         self.init_config()
         self.log.info('---------------------------------')
-        self.loop.run_until_complete(self.init_cacher())
-        self.loop.run_until_complete(self.init_database())
+        self.cache = self.loop.run_until_complete(self.init_cacher())
+        self.db = self.loop.run_until_complete(self.init_database())
         self.log.info('---------------------------------')
-        self.init_cool_down()
+        self.cool_down = self.init_cool_down()
         self.log.info('---------------------------------')
-        self.init_music()
+        self.music = self.init_music()
         self.log.info('---------------------------------')
         self.info = Information()
-        self.init_modules(init=True)
+        self.modules = self.init_modules(init=True)
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
@@ -122,18 +116,20 @@ class ApexSigma(client_class):
         :return:
         """
         try:
-            self.cache = await get_cache(self.cfg.cache)
+            return await get_cache(self.cfg.cache)
         except OSError:
             self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
             exit(errno.ETIMEDOUT)
 
-    def init_logger(self):
+    @staticmethod
+    def init_logger():
         """
         Initializes the core client Logger.
         :return:
         """
-        self.log = create_logger('Sigma', shard=init_cfg.dsc.shard)
-        self.log.info('Logger Created')
+        logger = create_logger('Sigma', shards=init_cfg.dsc.shards)
+        logger.info('Logger Created')
+        return logger
 
     def init_config(self):
         """
@@ -152,14 +148,14 @@ class ApexSigma(client_class):
         :return:
         """
         self.log.info('Connecting to Database...')
-        self.db = Database(self, self.cfg.db)
+        db = Database(self, self.cfg.db)
         try:
-            await self.db[self.db.db_nam].collection.find_one({})
+            await db[db.db_nam].collection.find_one({})
             if self.cfg.cache.type not in ['redis', 'mixed']:
-                await self.db.precache_settings()
-                await self.db.precache_profiles()
-                await self.db.precache_resources()
-            set_color_cache_coll(self.db[self.db.db_nam].ColorCache)
+                await db.precache_settings()
+                await db.precache_profiles()
+                await db.precache_resources()
+            set_color_cache_coll(db[db.db_nam].ColorCache)
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)
@@ -167,6 +163,7 @@ class ApexSigma(client_class):
             self.log.error('Database Access Operation Failed!')
             exit(errno.EACCES)
         self.log.info('Successfully Connected to Database')
+        return db
 
     def init_cool_down(self):
         """
@@ -174,9 +171,10 @@ class ApexSigma(client_class):
         :return:
         """
         self.log.info('Loading Cool-down Controls...')
-        self.cool_down = CooldownControl(self)
-        self.loop.run_until_complete(self.cool_down.clean_cooldowns())
+        cool_down = CooldownControl(self)
+        self.loop.run_until_complete(cool_down.clean_cooldowns())
         self.log.info('Cool-down Controls Successfully Enabled')
+        return cool_down
 
     def init_music(self):
         """
@@ -184,8 +182,9 @@ class ApexSigma(client_class):
         :return:
         """
         self.log.info('Loading Music Controller...')
-        self.music = MusicCore(self)
+        music = MusicCore(self)
         self.log.info('Music Controller Initialized and Ready')
+        return music
 
     def init_modules(self, init=False):
         """
@@ -196,7 +195,8 @@ class ApexSigma(client_class):
         """
         if init:
             self.log.info('Loading Sigma Modules')
-        self.modules = ModuleManager(self, init)
+        modules = ModuleManager(self, init)
+        return modules
 
     def is_ready(self):
         """
@@ -234,6 +234,7 @@ class ApexSigma(client_class):
         else:
             out = super().get_user(uid)
         if not out and fetched:
+            # noinspection PyBroadException
             try:
                 out = await fh.fetch_user(uid)
             except Exception:
@@ -267,6 +268,7 @@ class ApexSigma(client_class):
         else:
             out = super().get_channel(cid)
         if not out and fetched:
+            # noinspection PyBroadException
             try:
                 out = await fh.fetch_channel(cid)
             except Exception:
@@ -301,6 +303,7 @@ class ApexSigma(client_class):
         else:
             out = super().get_guild(gid)
         if not out and fetched:
+            # noinspection PyBroadException
             try:
                 out = await fh.fetch_guild(gid)
             except Exception:

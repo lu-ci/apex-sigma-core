@@ -33,7 +33,7 @@ except ModuleNotFoundError:
     sys.stderr.write("Systemd journal not available, using stdout\n")
 
 
-def create_logger(name, *, to_title=False, level=None, shard=None):
+def create_logger(name, *, to_title=False, level=None, shards=None):
     """
     Adds a new logger instance.
     :param name: The logger name.
@@ -42,8 +42,8 @@ def create_logger(name, *, to_title=False, level=None, shard=None):
     :type to_title: bool
     :param level: The logging level.
     :type level: int
-    :param shard: The logging shard identifier.
-    :type shard: int
+    :param shards: The logging shard identifier.
+    :type shards: list
     :return:
     :rtype: sigma.core.mechanics.logger.Logger
     """
@@ -51,7 +51,7 @@ def create_logger(name, *, to_title=False, level=None, shard=None):
         logname = titleize(name)
     else:
         logname = name
-    return Logger.create(logname, level=level, shard=shard)
+    return Logger.create(logname, level=level, shards=shards)
 
 
 def titleize(string):
@@ -178,15 +178,15 @@ class Logger(object):
         return self._logger.exception(message)
 
     @classmethod
-    def create(cls, name, *, level=None, shard=None):
+    def create(cls, name, *, level=None, shards=None):
         """
         Creates a new logger class instance.
         :param name: The name of the logger.
         :type name: str
         :param level: The logger level.
         :type level: int
-        :param shard: The logging shard identifier.
-        :type shard: int
+        :param shards: The logging shard identifier.
+        :type shards: list
         :return:
         :rtype: sigma.core.mechanics.logger.Logger
         """
@@ -199,7 +199,7 @@ class Logger(object):
         else:
             cls.add_stdout_handler(logger)
 
-        cls.add_file_handler(logger, shard)
+        cls.add_file_handler(logger, shards)
         logger.created = True
         return logger
 
@@ -238,10 +238,10 @@ class Logger(object):
         logger.add_handler(handler)
 
     @staticmethod
-    def add_file_handler(logger, shard=None):
+    def add_file_handler(logger, shards=None):
         """
         Adds a regular file handler for the logging.
-        :param shard:
+        :param shards:
         :param logger:
         :return:
         """
@@ -249,8 +249,8 @@ class Logger(object):
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
         now = arrow.utcnow()
-        if shard is not None:
-            format_name = f'sigma.{shard}.{now.format("YYYY-MM-DD")}.log'
+        if shards is not None:
+            format_name = f'sigma.{"-".join([str(shard) for shard in shards])}.{now.format("YYYY-MM-DD")}.log'
         else:
             format_name = f'sigma.{now.format("YYYY-MM-DD")}.log'
         filename = os.path.join(log_dir, format_name)

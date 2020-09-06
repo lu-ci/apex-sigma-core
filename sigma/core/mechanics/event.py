@@ -54,7 +54,7 @@ class SigmaEvent(object):
         self.name = self.event_info.get('name')
         self.category = self.module_info.get('category')
         self.subcategory = self.module_info.get('subcategory')
-        self.log = create_logger(self.name.upper(), shard=self.bot.cfg.dsc.shard)
+        self.log = create_logger(self.name.upper(), shards=self.bot.cfg.dsc.shards)
 
     def get_exception(self):
         """
