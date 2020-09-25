@@ -207,7 +207,7 @@ class RedisCacher(Cacher):
         :param key: The hashmap/dict key value.
         :return:
         """
-        data = await self.conn.get(str(key))
+        data = await self.conn.get(str(key).replace('_', ':'))
         if data:
             data = pickle.loads(data)
         return data
@@ -222,8 +222,8 @@ class RedisCacher(Cacher):
         :return:
         """
         try:
-            await self.conn.set(str(key), pickle.dumps(value))
-            await self.conn.expire(str(key), self.time)
+            await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
+            await self.conn.expire(str(key).replace('_', ':'), self.time)
         except aioredis.ReplyError:
             self.conn.flushdb()
 
@@ -234,8 +234,8 @@ class RedisCacher(Cacher):
         :param key: The hashmap/dict key value.
         :return:
         """
-        if await self.conn.exists(str(key)):
-            await self.conn.delete(str(key))
+        if await self.conn.exists(str(key).replace('_', ':')):
+            await self.conn.delete(str(key).replace('_', ':'))
 
 
 class MixedCacher(RedisCacher):
