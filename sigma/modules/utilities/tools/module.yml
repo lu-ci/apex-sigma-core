@@ -76,5 +76,11 @@ commands:
     enabled: true
     name: imgur
     usage: '{pfx}{cmd} [imgfile.png]'
+  - description: Wipes every little bit of your data in the database.
+      Everything, absolutely everything. This can not be reversed.
+      Resources, inventory, profile data, EVERYTHING.
+    enabled: true
+    name: completewipe
+    usage: '{pfx}{cmd}'
 enabled: true
 name: Utility Tools
