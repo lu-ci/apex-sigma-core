@@ -75,7 +75,7 @@ async def hangman(cmd, pld):
         dict_docs = await cmd.db[cmd.db.db_nam].DictionaryData.find({}).to_list(None)
         for ddoc in dict_docs:
             word = ddoc.get('word')
-            if len(word) > 3 and len(word.split(' ')) == 1:
+            if len(word) > 3 and len(word.split(' ')) == 1 and '-' not in word:
                 word_cache.update({word: ddoc.get('description')})
         await cmd.db.cache.set_cache(cache_key, word_cache)
     if not is_ongoing(cmd.name, pld.msg.channel.id):
@@ -101,7 +101,7 @@ async def hangman(cmd, pld):
             if pld.msg.author.id != msg.author.id:
                 return
             if len(msg.content) == 1:
-                if msg.content.isalpha() or msg.content == '-':
+                if msg.content.isalpha():
                     correct = True
                 else:
                     correct = False

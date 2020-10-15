@@ -4,7 +4,7 @@
 
 ## Changed
 
-- Fixed `hangman` to accept hyphens as a possible character.
+- Removed hyphenated words as a possibility for `hangman`.
 
 ## 4.78.1569 Kazuki
 
