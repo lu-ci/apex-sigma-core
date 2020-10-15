@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.78.1577 Kazuki
+
+## Changed
+
+- Fixed `hangman` to accept hyphens as a possible character.
+
 ## 4.78.1569 Kazuki
 
 ### Added

@@ -101,7 +101,7 @@ async def hangman(cmd, pld):
             if pld.msg.author.id != msg.author.id:
                 return
             if len(msg.content) == 1:
-                if msg.content.isalpha():
+                if msg.content.isalpha() or msg.content == '-':
                     correct = True
                 else:
                     correct = False
