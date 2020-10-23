@@ -5,8 +5,8 @@ commands:
     description: Starts a raffle with a given timer and title. React to the raffle message with the automatically
       given reaction to enter. When raffle ends a message will be sent in the same channel tagging bot the creator
       and the winner. You can make the raffle in another channel by mentioning it. You can specify how many winners
-      there should be by adding "winners:n" as an argument where "n" is the number of winners. There cannot be more
-      winners than entrants and an entrant can only win once.
+      there should be by adding "winners:n" as the second argument where "n" is the number of winners. There cannot
+      be more winners than entrants and an entrant can only win once.
     enabled: true
     name: raffle
     requirements:
@@ -15,11 +15,17 @@ commands:
   - alts:
       - redraw
     description: Redraws a raffle in case that's ever needed. This command is only usable
-      by the author of the raffle. To redraw a raffle use the raffle's ID that can be
-      found in its footer. This command has no response aside from a reaction to your
-      message. A raffle needs to be marked as ended before it can be redrawn. green
-      check mark - redraw successful magnifying glass - raffle not found no entry sign    -
-      you aren't the raffle creator exclamation mark - no arguments given
+      of the raffle. To end a raffle use the raffle's ID that can be found in its footer.
+      This command has no response aside from a reaction to your message.
+
+
+      Green check mark - redraw successful
+
+      Magnifying glass - raffle not found
+
+      Exclamation mark - no arguments given
+
+      No entry sign    - you aren't the raffle creator
     enabled: true
     name: redrawraffle
     requirements:
@@ -29,9 +35,16 @@ commands:
       - endraf
     description: Prematurely ends a raffle. This command is only usable by the author
       of the raffle. To end a raffle use the raffle's ID that can be found in its footer.
-      This command has no response aside from a reaction to your message. green check
-      mark - redraw successful magnifying glass - raffle not found no entry sign    -
-      you aren't the raffle creator exclamation mark - no arguments given
+      This command has no response aside from a reaction to your message.
+
+
+      Green check mark - ended successful
+
+      Magnifying glass - raffle not found
+
+      Exclamation mark - no arguments given
+
+      No entry sign    - you aren't the raffle creator
     enabled: true
     name: endraffle
     requirements:
