@@ -51,13 +51,26 @@ def parse_radical_data(kanji_data, kanji_page):
     :param kanji_page:
     :type kanji_page:
     """
+    # Expected HTML structure
+    # <div class="connections">
+    #     <strong>Radical: </strong>
+    #     {radical} ({classification})
+    #     <br>
+    #     <strong>Parts:</strong>
+    #     <a href="/kanji/details/{kanji}">{kanji}</a>
+    #     <br>
+    #     <strong>Variants:</strong>
+    #     <a href="/kanji/details/{kanji}">{kanji}</a>
+    #     <br>
+    # </div>
+
+    data_type = None
     for element in kanji_page.cssselect('.connections')[0]:
         if element.tag == 'strong':
             data_type = element.text.strip()[:-1].lower()
             if data_type == 'radical':
                 kanji_data['meta'][data_type] = (element.tail.strip()[0])
         elif element.tag == 'a':
-            data_type = element.text.strip().lower()
             if data_type == 'parts':
                 kanji_data['meta'][data_type].append(element.text)
             elif data_type == 'variants':

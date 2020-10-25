@@ -6,6 +6,7 @@
 
 - Removed hyphenated words as a possibility for `hangman`.
 - Added the number of winners to raffle embeds when there is more than one winner.
+- Fixed `kanji` parsing of parts and variants
 
 ## 4.78.1569 Kazuki
 
