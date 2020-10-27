@@ -5,7 +5,7 @@ arrow==0.16.0
 cachetools==4.1.1
 cssselect==1.1.0
 cryptography==3.1.1
-discord.py[voice]~=1.4.1
+discord.py[voice]~=1.5.1
 ftfy==5.8
 geopy==2.0.0
 humanfriendly==8.2
