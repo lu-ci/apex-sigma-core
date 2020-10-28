@@ -38,27 +38,33 @@ async def whoplays(_cmd, pld):
             page = False
         game_name = None
         gamer_list = []
-        x, y = 0, 0
+        playing, total = 0, 0
         for member in pld.msg.guild.members:
-            activity = member.activities[-1] if member.activities else None
-            if activity:
-                if isinstance(activity, discord.CustomActivity):
-                    continue
-                x += 1
-                if activity.name.lower() == game_title.lower():
-                    if not game_name:
-                        game_name = activity.name
-                    gamer_list.append(member.name)
-                    y += 1
-        title = f'{y}/{x} people are playing {game_name}'
+            if not member.activities:
+                continue
+            activity = member.activities[-1]
+            is_custom = isinstance(activity, discord.CustomActivity)
+            is_spotify = isinstance(activity, discord.Spotify)
+            if is_custom or is_spotify:
+                continue
+            total += 1
+            if activity.name.lower() == game_title.lower():
+                if not game_name:
+                    game_name = activity.name
+                member_name = member.name
+                for escapable in '*_~`':
+                    member_name = member_name.replace(escapable, f'\\{escapable}')
+                gamer_list.append(member_name)
+                playing += 1
+        title = f'{playing}/{total} people are playing {game_name}'
         if gamer_list:
             total_gamers = len(gamer_list)
             page = pld.args[0] if page else 1
             gamer_list, page = PaginatorCore.paginate(sorted(gamer_list), page, 20)
-            gamers = '\n- ' + '\n- '.join(gamer_list)
+            gamers = '- ' + '\n- '.join(gamer_list)
             response = discord.Embed(color=0x1ABC9C)
             response.add_field(name=title, value=gamers)
-            response.set_footer(text=f'[Page {page}] Showing {len(gamer_list)} user out of {total_gamers}.')
+            response.set_footer(text=f'[Page {page}] Showing {len(gamer_list)} out of {total_gamers} users.')
         else:
             response = not_found(f'No users are currently playing {game_title}.')
     else:
