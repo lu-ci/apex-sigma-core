@@ -7,6 +7,7 @@ commands:
     usage: '{pfx}{cmd} @person'
   - alts:
       - gibcookie
+      - gc
     description: Gives a cookie to a person. Remember to give them only to nice people.
       You can give only one cookie every hour and can't give them to yourself or to
       bots. If you put '@someone' as the person, the cookie will be given to a random

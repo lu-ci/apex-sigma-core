@@ -2,6 +2,10 @@
 
 ## 4.78.1577 Kazuki
 
+## Added
+
+- Added `gc` as an alias for `givecookie`.
+
 ## Changed
 
 - Removed hyphenated words as a possibility for `hangman`.
