@@ -102,7 +102,7 @@ Commands | Description | Example
 `>>dogfact` `>>doggofact` | Outputs a random fact about man's best friend. | `>>dogfact`
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
-`>>givecookie` `>>gibcookie` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
+`>>givecookie` `>>gibcookie` `>>gc` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
 `>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency @person 500`
 `>>giveitem` | Transfers an item between you and a mentioned person. The item name goes first, followed by the target. | `>>giveitem @person Karmotree`
 `>>givetovault` `>>givetobank` `>>gtv` `>>gtb` | The vault is a server specific Kud storage system. Members can contribute to the vault with this command. The Kud can then be awarded to users using the award command. | `>>givetovault 500`

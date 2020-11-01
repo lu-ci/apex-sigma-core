@@ -36,6 +36,7 @@ async def get_recipe_core(db: Database):
         recipe_core_cache = RecipeCore(db)
         await recipe_core_cache.init_items()
     await recipe_core_cache.validate()
+    recipe_core_cache.deduplicate()
     return recipe_core_cache
 
 
@@ -149,3 +150,20 @@ class RecipeCore(object):
                 break
         if invalid:
             await self.init_items()
+        self.deduplicate()
+
+    def deduplicate(self):
+        for (ax, a) in enumerate(self.recipes):
+            to_remove = None
+            for (bx, b) in enumerate(self.recipes):
+                same_id = a.file_id == b.file_id
+                filled_id = a.file_id is not None and b.file_id is not None
+                diff_item = ax != bx
+                if same_id and filled_id and diff_item:
+                    if a.value == 0:
+                        to_remove = a
+                    else:
+                        to_remove = b
+                    break
+            if to_remove is not None:
+                self.recipes.remove(to_remove)

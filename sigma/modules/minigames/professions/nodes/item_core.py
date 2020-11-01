@@ -38,6 +38,7 @@ async def get_item_core(db):
         item_core_cache = ItemCore(db)
         await item_core_cache.init_items()
     await item_core_cache.validate()
+    item_core_cache.deduplicate()
     return item_core_cache
 
 
@@ -123,6 +124,23 @@ class ItemCore(object):
                     break
         if invalid:
             await self.init_items()
+        self.deduplicate()
+
+    def deduplicate(self):
+        for (ax, a) in enumerate(self.all_items):
+            to_remove = None
+            for (bx, b) in enumerate(self.all_items):
+                same_id = a.file_id == b.file_id
+                filled_id = a.file_id is not None and b.file_id is not None
+                diff_item = ax != bx
+                if same_id and filled_id and diff_item:
+                    if a.value == 0:
+                        to_remove = a
+                    else:
+                        to_remove = b
+                    break
+            if to_remove is not None:
+                self.all_items.remove(to_remove)
 
     @staticmethod
     def get_chance(upgrade, rarity_chance, rarity_modifier):

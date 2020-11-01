@@ -52,6 +52,7 @@ def train(ev, core, init=False):
     :param init: If the training is initializing or runtime.
     :type init: bool
     """
+    return
     cb_log(ev, init, 'Learning generic AIML interactions...')
     core.learn(os.sep.join([ev.resource('aiml_files'), '*.aiml']))
     cb_log(ev, init, 'Learning properties unique to the client...')
