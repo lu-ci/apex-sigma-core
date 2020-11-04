@@ -52,7 +52,6 @@ async def urbandictionary(cmd, pld):
                         json_failed = True
             if not json_failed:
                 if data.get('list'):
-                    entries = filter(lambda x: 'description' in x, data.get('list', [{}]))
                     entries = sorted(entries, key=lambda x: x.get("thumbs_up", 0), reverse=True)
                     if random:
                         entry = secrets.choice(list(entries))
