@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import json
+import secrets
 
 import aiohttp
 import discord
@@ -34,6 +35,10 @@ async def urbandictionary(cmd, pld):
     if cmd.cfg.api_key:
         if pld.args:
             ud_input = ' '.join(pld.args).lower()
+            random = False
+            if len(pld.args) > 1 and pld.args[-1].lower() == '--random':
+                ud_input = ud_input.rpartition(' ')[0]
+                random = True
             url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=" + ud_input
             headers = {'X-RapidAPI-Key': cmd.cfg.api_key, 'Accept': 'text/plain'}
             async with aiohttp.ClientSession() as session:
@@ -47,7 +52,12 @@ async def urbandictionary(cmd, pld):
                         json_failed = True
             if not json_failed:
                 if data.get('list'):
-                    entry = data.get('list', [{}])[0]
+                    entries = filter(lambda x: 'description' in x, data.get('list', [{}]))
+                    entries = sorted(entries, key=lambda x: x.get("thumbs_up", 0), reverse=True)
+                    if random:
+                        entry = secrets.choice(list(entries))
+                    else:
+                        entry = list(entries)[0]
                     definition = entry.get('definition', 'Nothing...')
                     if len(definition) > 1000:
                         definition = definition[:1000] + '...'
@@ -70,7 +80,7 @@ async def urbandictionary(cmd, pld):
                 else:
                     response = not_found('Unable to find exact results.')
             else:
-                response = error('Failed to parse UD\'s response!')
+                response = error('Failed to parse UD\'s response.')
         else:
             response = error('Nothing inputted.')
     else:

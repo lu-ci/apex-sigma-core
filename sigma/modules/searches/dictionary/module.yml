@@ -5,7 +5,8 @@ commands:
       - urban
       - ud
     description: Looks up the definition for a word or term in the Urban Dictionary.
-      It is strongly suggested to take these with a grain of salt.
+      It is strongly suggested to take these with a grain of salt. The top rated definition
+      is shown by default, but you can show a random definition by adding '--random' as the last argument.
     enabled: true
     name: urbandictionary
     usage: '{pfx}{cmd} dictionary'
