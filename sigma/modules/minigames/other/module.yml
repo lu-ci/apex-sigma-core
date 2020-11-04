@@ -55,12 +55,11 @@ commands:
       - cfour
     description: Starts a connect four game with whomever you mention. If you don't
       mention anyone, it starts a game with the bot. You move by reacting with 1-7 to
-      specify which column you want.
+      specify which column you want. You have roughly 2 minutes per turn to react.
     enabled: true
     name: connectfour
     requirements:
       - add_reactions
-      - manage_messages
     usage: '{pfx}{cmd} @person'
 enabled: true
 name: Other Minigames

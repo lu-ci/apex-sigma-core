@@ -1,0 +1,10 @@
+category: connect_four
+enabled: true
+events:
+  - enabled: true
+    name: connect_four_mechanics
+    type: raw_reaction_add
+  - enabled: true
+    name: connect_four_clockwork
+    type: ready
+name: Connect Four

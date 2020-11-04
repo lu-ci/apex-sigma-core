@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.79.1595 Kazuki
+
+### Changed
+
+- Tweaked `urbandictionary` to display the top rated definition.
+- Added a `--random` option to `urbandictionary` to display a random definition instead.
+- Refactored `connectfour` to use the `raw_reaction_add` event to avoid an internal cache expiring.
+
 ## 4.78.1577 Kazuki
 
 ## Added

@@ -19,7 +19,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import secrets
 
 
+class ConnectFourGame(object):
+    """
+    Very basic container for connect four games.
+    """
+    def __init__(self, data):
+        self.raw = data
+        self.board = self.raw.get('board')
+        self.p_one = self.raw.get('p_one')
+        self.p_two = self.raw.get('p_two')
+        self.po_piece = self.raw.get('po_piece')
+        self.pt_piece = self.raw.get('pt_piece')
+        self.current_turn = self.raw.get('current_turn')
+        self.last_bot_move = self.raw.get('last_bot_move')
+        self.is_bot = self.raw.get('is_bot')
+        self.expiry = self.raw.get('expiry')
+        self.channel_id = self.raw.get('channel_id')
+
+
 class ConnectFourBoard(object):
+    """
+    Container for the connect four board.
+    Handles making and editing of the board,
+    as well as checking for winners.
+    """
     def __init__(self):
         self.rows = []
         self.r = '🔴'
@@ -29,22 +52,20 @@ class ConnectFourBoard(object):
     @property
     def make(self):
         """
-
         :return:
-        :rtype:
+        :rtype: list[list[str]]
         """
         [self.rows.append([self.e for _ in range(7)]) for _ in range(6)]
         return self.rows
 
-    def edit(self, column: int, player: str):
+    def edit(self, column, player):
         """
-
         :param column:
-        :type column:
+        :type column: int
         :param player:
-        :type player:
+        :type player: str
         :return:
-        :rtype:
+        :rtype: list[list[str]]
         """
         piece = getattr(self, player)
         for i, cell in reversed(list(enumerate(self.column(column)))):
@@ -53,50 +74,45 @@ class ConnectFourBoard(object):
                 break
         return self.rows
 
-    def column(self, column: int):
+    def column(self, column):
         """
-
         :param column:
-        :type column:
+        :type column: int
         :return:
-        :rtype:
+        :rtype: list[str]
         """
         return [row[column] for row in self.rows]
 
     @property
     def columns(self):
         """
-
         :return:
-        :rtype:
+        :rtype: list[list[str]]
         """
         return [self.column(i) for i, r in enumerate(self.rows)]
 
-    def column_full(self, column: int):
+    def column_full(self, column):
         """
-
         :param column:
-        :type column:
+        :type column: int
         :return:
-        :rtype:
+        :rtype: bool
         """
         return self.rows[0][column] != self.e
 
     @property
     def full(self):
         """
-
         :return:
-        :rtype:
+        :rtype: bool
         """
         return all([self.rows[0][i] != self.e for i in range(len(self.rows))])
 
     @property
     def winner(self):
         """
-
         :return:
-        :rtype:
+        :rtype: (bool, str or None, bool)
         """
         full = self.full
         for row in self.rows:
@@ -112,13 +128,12 @@ class ConnectFourBoard(object):
         winner, win = self.second_check()
         return full, winner, win
 
-    def first_check(self, chunks: list):
+    def first_check(self, chunks):
         """
-
         :param chunks:
-        :type chunks:
+        :type chunks: list[list[str]]
         :return:
-        :rtype:
+        :rtype: (str or None, bool)
         """
         winner, win = None, False
         for chunk in chunks:
@@ -129,9 +144,8 @@ class ConnectFourBoard(object):
 
     def second_check(self):
         """
-
         :return:
-        :rtype:
+        :rtype: (str or None, bool)
         """
         for chunk in self.chunks(self.rows):
             if all(x == chunk[0] != self.e for x in chunk):
@@ -143,16 +157,19 @@ class ConnectFourBoard(object):
         return None, False
 
     @staticmethod
-    def chunks(rows: list):
+    def chunks(rows):
         """
-
         :param rows:
-        :type rows:
+        :type rows: list[list[str]]
         :return:
-        :rtype:
+        :rtype: list[list[str]]
         """
         # Gets all diagonal winning positions in one direction
-        bases = [[(3, 0), (2, 1), (1, 2), (0, 3)], [(4, 0), (3, 1), (2, 2), (1, 3)], [(5, 0), (4, 1), (3, 2), (2, 3)]]
+        bases = [
+            [(3, 0), (2, 1), (1, 2), (0, 3)],
+            [(4, 0), (3, 1), (2, 2), (1, 3)],
+            [(5, 0), (4, 1), (3, 2), (2, 3)]
+        ]
         chunks = []
         for chunk in bases:
             for _ in range(4):
@@ -161,13 +178,12 @@ class ConnectFourBoard(object):
         rows = [[rows[x][y] for x, y in chunk] for chunk in chunks]
         return rows
 
-    def bot_move(self, last: int):
+    def bot_move(self, last):
         """
-
         :param last:
-        :type last:
+        :type last: int
         :return:
-        :rtype:
+        :rtype: int
         """
         choice, bad_col = None, True
         while bad_col:
