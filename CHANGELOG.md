@@ -7,6 +7,7 @@
 - Tweaked `urbandictionary` to display the top rated definition.
 - Added a `--random` option to `urbandictionary` to display a random definition instead.
 - Refactored `connectfour` to use the `raw_reaction_add` event to avoid an internal cache expiring.
+= Fixed `anmechargame` and `mangachargame`... Hopefully.
 
 ## 4.78.1577 Kazuki
 

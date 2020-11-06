@@ -67,23 +67,28 @@ async def animechargame(cmd, pld):
                 async with session.get(f'{ani_url}/characters') as ani_page_session:
                     ani_page_html = await ani_page_session.text()
             ani_page_data = html.fromstring(ani_page_html)
-            cover_object = ani_page_data.cssselect('.ac')[0]
-            anime_cover = cover_object.attrib['src']
+            cover_object = ani_page_data.cssselect('.borderClass a')[0][0]
+            anime_cover = cover_object.attrib['data-src']
             anime_title = cover_object.attrib['alt'].strip()
-            character_object_list = ani_page_data.cssselect('.borderClass')
+            character_object_list = ani_page_data.cssselect('.js-scrollfix-bottom-rel')[0]
             character_list = []
-            for char_obj in character_object_list:
-                if 'href' in char_obj[0].attrib:
-                    if char_obj[1].text_content().strip() == 'Main':
+            for char_obj_full in character_object_list[5:]:
+                char_obj_full = char_obj_full.cssselect('td.borderClass.bgColor2')
+                if len(char_obj_full) != 3:
+                    continue
+                char_obj = char_obj_full[0].cssselect('.fw-n')[0]
+                cover_obj = char_obj_full[1].cssselect('.spaceit_pad small')[0]
+                if 'href' in char_obj.attrib:
+                    if cover_obj.text_content().strip() == 'Main':
                         character_list.append(char_obj)
             char_choice = secrets.choice(character_list)
-            char_url = char_choice[0].attrib['href']
+            char_url = char_choice.attrib['href']
             async with aiohttp.ClientSession() as session:
                 async with session.get(char_url) as char_page_session:
                     char_page_html = await char_page_session.text()
             char_page_data = html.fromstring(char_page_html)
             char_img_obj = char_page_data.cssselect('.borderClass')[0][0][0][0]
-            char_img = char_img_obj.attrib['src']
+            char_img = char_img_obj.attrib['data-src']
             char_name = ' '.join(char_img_obj.attrib['alt'].strip().split(', '))
             await working_response.delete()
             question_embed = discord.Embed(color=0x1d439b)
