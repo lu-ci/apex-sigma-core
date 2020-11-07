@@ -21,10 +21,11 @@ import json
 
 import aiohttp
 import discord
+from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import error, not_found
 
-osu_logo = 'http://w.ppy.sh/c/c9/Logo.png'
+osu_logo = 'https://i.imgur.com/hHAY7PM.png'
 
 
 def make_url_hash(url):
@@ -56,16 +57,15 @@ async def find_user_data(db, profile_url):
         async with aiohttp.ClientSession() as session:
             async with session.get(profile_url) as data:
                 page = await data.text()
-        lines = [x.strip() for x in page.split('\n')]
-        lines.reverse()
+        osu_page_html = html.fromstring(page)
+        osu_json_elem = osu_page_html.cssselect('#json-user')
         user_data = {}
-        for line in lines:
-            if line.startswith('{"id":'):
-                try:
-                    user_data = json.loads(line)
-                    break
-                except json.JSONDecodeError:
-                    pass
+        if osu_json_elem:
+            try:
+                osu_json_str = osu_json_elem[0].text_content().strip()
+                user_data = json.loads(osu_json_str)
+            except (json.JSONDecodeError, IndexError, AttributeError):
+                pass
         await db.cache.set_cache(cache_key, user_data)
     else:
         user_data = data_cache
@@ -91,7 +91,7 @@ async def osu(cmd, pld):
             response.set_image(url=sig_url)
             response.set_author(name=f'{username}\'s osu! Profile', url=profile_url, icon_url=osu_logo)
         else:
-            response = error('Unable to retrieve profile.')
+            response = not_found('Profile not found.')
     else:
         response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)
