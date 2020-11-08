@@ -96,7 +96,7 @@ async def raffle(cmd, pld):
                 starter.set_author(name=resp_title, icon_url=user_avatar(pld.msg.author))
                 starter.description = f'Prize: **{raffle_title}**'
                 if draw_count > 1:
-                    starter.description += f'Winners: **{draw_count}**'
+                    starter.description += f'\nWinners: **{draw_count}**'
                 starter.description += f'\nReact with a {reaction_icon} to enter the raffle.'
                 starter.set_footer(text=f'[{rafid}] Raffle ends {end_hum}.')
                 starter_message = await target_ch.send(embed=starter)
