@@ -46,6 +46,9 @@ async def inspect(cmd, pld):
                 owned_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
                 footer = f'You Found: {stat_count} | Total Found: {item_total}'
+                if item.rarity == 11:
+                    pfx = cmd.db.get_prefix(pld.settings)
+                    footer += f' | Try {pfx}recipe {item.name}'
                 if owned_item:
                     inv = await cmd.db.get_inventory(pld.msg.author.id)
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
