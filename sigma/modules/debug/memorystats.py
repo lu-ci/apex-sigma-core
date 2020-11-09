@@ -67,7 +67,7 @@ async def memorystats(cmd, pld):
     race_size = humanfriendly.format_size(asizeof.asizeof(races), binary=True)
     cd_scaling = humanfriendly.format_size(asizeof.asizeof(cmd.bot.cool_down.scaling), binary=True)
     spc_time = round(arrow.utcnow().float_timestamp - start, 3)
-    chatter_status = f"(Last Updated: {'Now' if new_chatter else f'{start - chatter_stamp}s ago'})"
+    chatter_status = f"(Last Updated: {'Now' if new_chatter else f'{round(start - chatter_stamp, 3)}s ago'})"
     response.add_field(
         name='Specific',
         value=f"Chatter: {chatter}\n{chatter_status}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
