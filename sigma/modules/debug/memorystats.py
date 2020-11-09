@@ -19,6 +19,7 @@ import functools
 from concurrent.futures.thread import ThreadPoolExecutor
 
 import arrow
+import discord
 import humanfriendly
 from pympler import asizeof
 
@@ -35,6 +36,8 @@ async def memorystats(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    begin = info('Collecting memory information, this can take a long time...')
+    begin_msg = await pld.msg.channel.send(embed=begin)
     start = arrow.utcnow().float_timestamp
     response = info("Memory Statistics")
     og_keys, og_ids, og_size = ongoing_stats()
@@ -66,4 +69,9 @@ async def memorystats(cmd, pld):
         name='Specific',
         value=f"Chatter: {chatter}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
     )
+    # noinspection PyBroadException
+    try:
+        await begin_msg.delete()
+    except Exception:
+        pass
     await pld.msg.channel.send(embed=response)
