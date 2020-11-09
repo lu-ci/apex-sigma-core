@@ -32,7 +32,11 @@ async def status_rotation(ev):
     """
     global status_loop_running
     if not status_loop_running:
-        await ev.bot.change_presence(activity=None, status=discord.Status.online)
+        # noinspection PyBroadException
+        try:
+            await ev.bot.change_presence(activity=None, status=discord.Status.online)
+        except Exception:
+            ev.log.warn('Initial presence clearing failed.')
         status_loop_running = True
         ev.bot.loop.create_task(status_clockwork(ev))
 
