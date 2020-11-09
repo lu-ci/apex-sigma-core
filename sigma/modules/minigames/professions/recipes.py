@@ -23,6 +23,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.generic_responses import not_found
+from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
@@ -48,13 +49,13 @@ async def check_requirements(inv, recipe):
     return req_satisfied
 
 
-def choose_recipe(recipe_core, recipe_type: str or None):
+def choose_recipe(recipe_core, recipe_type):
     """
-
-    :param recipe_core:
-    :type recipe_core:
-    :param recipe_type:
-    :type recipe_type:
+    Gets the icon and color based on the recipe type.
+    :param recipe_core: An instance of the recipe core.
+    :type recipe_core: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore.
+    :param recipe_type: The type of recipe.
+    :type recipe_type: str or None
     :return:
     :rtype:
     """
@@ -70,13 +71,13 @@ def choose_recipe(recipe_core, recipe_type: str or None):
     return recipe_icon, recipe_color
 
 
-def get_filter(args: list):
+def get_filter(args):
     """
-
-    :param args:
-    :type args:
+    Gets the filter based on the command arguments.
+    :param args: The list of command arguments.
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: bool, str
     """
     craftable, recipe_type = False, None
     if args:
@@ -105,18 +106,20 @@ async def recipes(cmd, pld):
         req_satisfied = await check_requirements(user_inv, recipe)
         req_needed = len(recipe.ingredients)
         req_reqs = f'{req_satisfied}/{req_needed}'
+        in_rec = '*' if is_ingredient(recipe_core.recipes, recipe) else ''
         if recipe.type.lower() == recipe_type or recipe_type is None:
+
             if craftable:
                 if req_satisfied == req_needed:
-                    target_recipes.append([recipe.name, recipe.type, recipe.value, req_reqs])
+                    target_recipes.append([recipe.type, f'{recipe.name}{in_rec}', recipe.value, req_reqs])
             else:
-                target_recipes.append([recipe.name, recipe.type, recipe.value, req_reqs])
+                target_recipes.append([recipe.type, f'{recipe.name}{in_rec}', recipe.value, req_reqs])
     page = pld.args[0] if pld.args else 1
     sales_data, page = PaginatorCore.paginate(target_recipes, page)
     start_range, end_range = (page - 1) * 10, page * 10
     recipe_icon, recipe_color = choose_recipe(recipe_core, recipe_type)
     if sales_data:
-        recipe_boop_head = ['Name', 'Type', 'Value', 'Ingr.']
+        recipe_boop_head = ['Type', 'Name', 'Value', 'Ingr.']
         recipe_table = boop(sales_data, recipe_boop_head)
         response = discord.Embed(color=recipe_color)
         stats_text = f'Showing recipes: {start_range}-{end_range}.'
