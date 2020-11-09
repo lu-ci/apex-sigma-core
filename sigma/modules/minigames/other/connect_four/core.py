@@ -28,7 +28,7 @@ class ConnectFourGame(object):
         'raw', 'board', 'p_one', 'p_two', 'po_piece',
         'pt_piece', 'current_turn', 'last_bot_move',
         'is_bot', 'expiry', 'channel_id'
-     )
+    )
 
     def __init__(self, data):
         self.raw = data

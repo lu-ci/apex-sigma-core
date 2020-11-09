@@ -23,7 +23,6 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
