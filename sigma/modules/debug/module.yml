@@ -1,0 +1,10 @@
+category: debugging
+commands:
+  - alts:
+      - memstats
+    description: Shows various memory consumption stats.
+    enabled: true
+    name: memorystats
+    usage: '{pfx}{cmd}'
+enabled: true
+name: Debugging

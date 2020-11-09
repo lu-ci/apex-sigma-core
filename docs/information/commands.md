@@ -2,6 +2,7 @@
 
 ## Module Index
 - [AZUR LANE](#azur-lane)
+- [DEBUGGING](#debugging)
 - [DEVELOPMENT](#development)
 - [FINAL FANTASY](#final-fantasy)
 - [FUN](#fun)
@@ -32,6 +33,12 @@ Commands | Description | Example
 `>>azurlaneskills` `>>azurelaneskills` `>>alskills` | Shows the ship's skills, what type they are and what they do. | `>>azurlaneskills Avrora`
 `>>azurlaneskin` `>>azurelaneskin` `>>alskin` | Shows the given ship skin. You can get a list of skins that a ship has with the "azurlaneskins" command. | `>>azurlaneskin Ning Hai; Summer Hunger`
 `>>azurlaneskins` `>>azurelaneskins` `>>alskins` | Lists all the skins that the given ship has. The skins can be viewed with the "azurlaneskin" command. | `>>azurlaneskins Cygnet`
+[Back To Top](#module-index)
+
+### DEBUGGING
+Commands | Description | Example
+----------|-------------|--------
+`>>memorystats` `>>memstats` | Shows various memory consumption stats. | `>>memorystats`
 [Back To Top](#module-index)
 
 ### DEVELOPMENT

@@ -21,6 +21,8 @@ import pickle
 
 import aioredis
 import cachetools
+import humanfriendly
+from pympler import asizeof
 
 
 async def get_cache(cfg):
@@ -96,6 +98,32 @@ class Cacher(abc.ABC):
         """
         pass
 
+    async def stats(self):
+        """
+        Returns statistics for the cache type.
+        Since this is very cache-type dependent it's a dict
+        of titles/descriptors and their values.
+        :rtype: dict|None
+        """
+        pass
+
+    async def format_stats(self):
+        """
+        Makes a nicely formatted block of text of the stats.
+        :return:
+        :rtype:
+        """
+        stats = await self.stats()
+        out = "The NULL cacher is used, or something is broken..."
+        if stats:
+            lines = []
+            for key in stats.keys():
+                title = key.replace('_', ' ').title()
+                value = str(stats.get(key, 'Unknown'))
+                lines.append(f"{title}: {value}")
+            out = "\n".join(lines)
+        return out
+
 
 class MemoryCacher(Cacher):
     """
@@ -141,6 +169,13 @@ class MemoryCacher(Cacher):
         if key in self.cache.keys():
             self.cache.pop(key)
 
+    async def stats(self):
+        return {
+            'type': 'Memory',
+            'keys': len(self.cache.keys()),
+            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
+        }
+
 
 class LRUCacher(MemoryCacher):
     """
@@ -157,6 +192,14 @@ class LRUCacher(MemoryCacher):
         """
         super().__init__(cfg)
         self.cache = cachetools.LRUCache(self.cfg.size)
+
+    async def stats(self):
+        return {
+            'type': 'LRU',
+            'max': self.cache.maxsize,
+            'keys': self.cache.currsize,
+            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
+        }
 
 
 class TTLCacher(LRUCacher):
@@ -175,6 +218,15 @@ class TTLCacher(LRUCacher):
         super().__init__(cfg)
         self.cache = cachetools.TTLCache(self.cfg.size, self.cfg.time)
 
+    async def stats(self):
+        return {
+            'type': 'TTL',
+            'time': self.cache.ttl,
+            'max': self.cache.maxsize,
+            'keys': self.cache.currsize,
+            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
+        }
+
 
 class RedisCacher(Cacher):
     """
@@ -191,6 +243,7 @@ class RedisCacher(Cacher):
         super().__init__(cfg)
         self.time = cfg.time
         self.conn = None
+        self.addr = f'redis://{self.cfg.host}:{self.cfg.port}/{self.cfg.db}'
 
     async def init(self):
         """
@@ -198,7 +251,7 @@ class RedisCacher(Cacher):
         by the Cacher inheriting child.
         :return:
         """
-        self.conn = await aioredis.create_redis(f'redis://{self.cfg.host}:{self.cfg.port}/{self.cfg.db}')
+        self.conn = await aioredis.create_redis(self.addr)
 
     async def get_cache(self, key):
         """
@@ -236,6 +289,16 @@ class RedisCacher(Cacher):
         """
         if await self.conn.exists(str(key).replace('_', ':')):
             await self.conn.delete(str(key).replace('_', ':'))
+
+    async def stats(self):
+        info = self.conn.info('memory')['memory']
+        return {
+            'type': 'Redis',
+            'addr': self.addr,
+            'time': self.cfg.time,
+            'size': info['used_memory_human'],
+            'peak': info['used_memory_peak_human']
+        }
 
 
 class MixedCacher(RedisCacher):
@@ -293,3 +356,16 @@ class MixedCacher(RedisCacher):
         """
         await self.ttl.del_cache(key)
         await super().del_cache(key)
+
+    async def stats(self):
+        info = self.conn.info('memory')['memory']
+        return {
+            'type': 'Mixed (Redis + TTL)',
+            'addr': self.addr,
+            'time': self.ttl.cache.ttl,
+            'max': self.ttl.cache.maxsize,
+            'keys': self.ttl.cache.currsize,
+            'ttl_size': humanfriendly.format_size(asizeof.asizeof(self.ttl.cache), binary=True),
+            'redis_size': info['used_memory_human'],
+            'peak': info['used_memory_peak_human']
+        }
