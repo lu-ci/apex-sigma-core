@@ -36,7 +36,7 @@ async def statistics(cmd, pld):
     role_count = 0
     for guild in cmd.bot.guilds:
         role_count += len(guild.roles)
-    time_dif = arrow.utcnow().timestamp - cmd.bot.start_time.timestamp
+    time_dif = arrow.utcnow().int_timestamp - cmd.bot.start_time.int_timestamp
     command_rate = str(cmd.bot.command_count / time_dif)[:5]
     message_rate = str(cmd.bot.message_count / time_dif)[:5]
     pop_text = f'Servers: **{len(cmd.bot.guilds)}**'

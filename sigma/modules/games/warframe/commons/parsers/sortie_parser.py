@@ -38,7 +38,7 @@ async def get_sortie_data(db):
     event_id = sorties['id']
     db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
     if not db_check:
-        now = arrow.utcnow().timestamp
+        now = arrow.utcnow().int_timestamp
         await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
         return sorties, ['sortie']
 
@@ -59,7 +59,7 @@ def generate_sortie_embed(data):
         sortie_desc += f'\nLocation: {sortie["location"]}'
         sortie_desc += f'\nModifier: {sortie["modifier"]}'
         response.add_field(name=f'Mission {i + 1}', value=sortie_desc, inline=False)
-    offset = data['end'] - arrow.utcnow().timestamp
+    offset = data['end'] - arrow.utcnow().int_timestamp
     expiry = str(datetime.timedelta(seconds=offset))
     response.set_footer(text=f'Resets in {expiry}')
     return response

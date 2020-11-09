@@ -70,8 +70,8 @@ async def marry(cmd, pld):
                         accepted, timeout = await bool_dialogue(cmd.bot, fake_msg, proposal)
                         if accepted:
                             sync_spouses(a_spouses, target.id), sync_spouses(t_spouses, pld.msg.author.id)
-                            a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().timestamp})
-                            t_spouses.append({'user_id': pld.msg.author.id, 'time': arrow.utcnow().timestamp})
+                            a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().int_timestamp})
+                            t_spouses.append({'user_id': pld.msg.author.id, 'time': arrow.utcnow().int_timestamp})
                             await cmd.db.set_profile(pld.msg.author.id, 'spouses', a_spouses)
                             await cmd.db.set_profile(fake_msg.author.id, 'spouses', t_spouses)
                             congrats_title = f'🎉 Congrats to {author.name} and {target.name}!'

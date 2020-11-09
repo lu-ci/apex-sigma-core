@@ -62,7 +62,7 @@ async def wffissures(_cmd, pld):
         for fissure in sort_fissures(fissures):
             fissure_desc = f'Location: {fissure["location"]} - {fissure["missionType"]}'
             fissure_desc += f'\nFaction: {fissure["faction"]}'
-            offset = fissure['end'] - arrow.utcnow().timestamp
+            offset = fissure['end'] - arrow.utcnow().int_timestamp
             expiry = str(datetime.timedelta(seconds=offset))
             fissure_desc += f'\nDisappears In: {expiry}'
             response.add_field(name=f'{fissure["tier"]} Void Fissure', value=fissure_desc, inline=False)

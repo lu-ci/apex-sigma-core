@@ -133,7 +133,7 @@ async def un_punisher_clock(ev):
     hmutecoll = ev.db[ev.db.db_nam].HardmuteClockworkDocs
     while True:
         if ev.bot.is_ready:
-            now = arrow.utcnow().timestamp
+            now = arrow.utcnow().int_timestamp
             lookup = {'time': {'$lt': now}}
             banned_list = await bancoll.find(lookup).to_list(None)
             for banned in banned_list:

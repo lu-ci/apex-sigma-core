@@ -31,7 +31,7 @@ async def version_file_updater(ev):
         with open('info/version.yml', 'r') as version_file:
             current_version_data = yaml.safe_load(version_file)
         beta = current_version_data['beta']
-        build_date = arrow.utcnow().timestamp
+        build_date = arrow.utcnow().int_timestamp
         patch = current_version_data['version']['patch'] + 1
         minor = patch // 20
         major = current_version_data['version']['major']

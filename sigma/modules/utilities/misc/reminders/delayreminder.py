@@ -41,7 +41,7 @@ async def delayreminder(cmd, pld):
                     upper_limit = 7776000
                     in_seconds = convert_to_seconds(time_req)
                     execution_stamp = reminder.get('execution_stamp') + in_seconds
-                    expires_in = execution_stamp - arrow.utcnow().timestamp
+                    expires_in = execution_stamp - arrow.utcnow().int_timestamp
                     if expires_in <= upper_limit:
                         timestamp = arrow.get(execution_stamp).datetime
                         if execution_stamp < 60:

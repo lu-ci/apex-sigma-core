@@ -50,7 +50,7 @@ async def connect_four_cycler(ev):
                 games = cf_cache.cache.items()
                 for mid, game in games:
                     expiry = game.expiry
-                    now = arrow.utcnow().timestamp
+                    now = arrow.utcnow().int_timestamp
                     if now > expiry:
                         channel = await ev.bot.get_channel(game.channel_id)
                         if channel:

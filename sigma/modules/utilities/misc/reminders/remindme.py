@@ -51,7 +51,7 @@ async def remindme(cmd, pld):
                             text_message = ' '.join(pld.args[1:])
                     else:
                         text_message = 'No reminder message set.'
-                    execution_stamp = arrow.utcnow().timestamp + in_seconds
+                    execution_stamp = arrow.utcnow().int_timestamp + in_seconds
                     timestamp = arrow.get(execution_stamp).datetime
                     if in_seconds < 60:
                         time_diff = f'In {in_seconds} seconds'
@@ -61,7 +61,7 @@ async def remindme(cmd, pld):
                     reminder_data = {
                         'reminder_id': reminder_id,
                         'user_id': pld.msg.author.id,
-                        'creation_stamp': arrow.utcnow().timestamp,
+                        'creation_stamp': arrow.utcnow().int_timestamp,
                         'execution_stamp': execution_stamp,
                         'channel_id': pld.msg.channel.id,
                         'server_id': pld.msg.guild.id,

@@ -78,7 +78,7 @@ async def clean_wf_cache(db: Database):
     :param db:
     :type db:
     """
-    cutoff = arrow.utcnow().timestamp - 2592000
+    cutoff = arrow.utcnow().int_timestamp - 2592000
     await db[db.db_nam].WarframeCache.delete_many({'created': {'$lt': cutoff}})
 
 

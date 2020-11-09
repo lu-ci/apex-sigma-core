@@ -172,8 +172,8 @@ def get_time_difference(member, leave=False):
     else:
         creation_time = member.created_at
     creation_time = arrow.get(creation_time)
-    creation_timestamp = creation_time.timestamp
-    current_timestamp = arrow.utcnow().timestamp
+    creation_timestamp = creation_time.int_timestamp
+    current_timestamp = arrow.utcnow().int_timestamp
     if current_timestamp - creation_timestamp < 600:
         new_acc = True
     else:

@@ -36,7 +36,7 @@ async def afk(cmd, pld):
         afk_reason = 'No reason stated.'
     in_data = {
         'user_id': pld.msg.author.id,
-        'timestamp': arrow.utcnow().timestamp,
+        'timestamp': arrow.utcnow().int_timestamp,
         'reason': afk_reason
     }
     if afk_data:

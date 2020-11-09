@@ -39,7 +39,7 @@ async def wforbvallis(_cmd, pld):
     if time:
         temp, temp_in = ('warm', 'Cold') if time['isWarm'] else ('cold', 'Warm')
         color, icon = temps[temp].values()
-        offset = arrow.get(time['expiry']).timestamp - arrow.utcnow().timestamp
+        offset = arrow.get(time['expiry']).int_timestamp - arrow.utcnow().int_timestamp
         in_time = str(datetime.timedelta(seconds=offset)).partition(':')[2]
         text_desc = f'Next {temp_in} Cycle: **{in_time}**'
         response = discord.Embed(color=color)

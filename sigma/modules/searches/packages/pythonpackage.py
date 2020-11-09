@@ -45,7 +45,7 @@ async def pythonpackage(_cmd, pld):
             cdat = package_data.get('info')
             vers = package_data.get('releases')
             versions = filter(lambda v: v[1], vers.items())
-            versions = sorted(versions, key=lambda x: arrow.get(x[1][0].get('upload_time')).timestamp)
+            versions = sorted(versions, key=lambda x: arrow.get(x[1][0].get('upload_time')).int_timestamp)
             if versions:
                 created_at = arrow.get(versions[0][1][0].get('upload_time'))
                 updated_at = arrow.get(versions[-1][1][0].get('upload_time'))

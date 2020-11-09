@@ -73,7 +73,7 @@ async def divorce(cmd, pld):
                 current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
                 current_kud = current_kud.current
                 marry_stamp = discord.utils.find(lambda s: s.get('user_id') == tid, a_spouses).get('time')
-                time_diff = arrow.utcnow().timestamp - marry_stamp
+                time_diff = arrow.utcnow().int_timestamp - marry_stamp
                 div_cost = int(time_diff * 0.004)
                 currency = cmd.bot.cfg.pref.currency
                 if is_id:

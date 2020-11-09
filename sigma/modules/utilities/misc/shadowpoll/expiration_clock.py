@@ -43,7 +43,7 @@ async def cycler(ev):
     poll_coll = ev.db[ev.db.db_nam].ShadowPolls
     while True:
         if ev.bot.is_ready():
-            now = arrow.utcnow().timestamp
+            now = arrow.utcnow().int_timestamp
             poll_files = await poll_coll.find({'settings.expires': {'$lt': now}, 'settings.active': True}).to_list(None)
             for poll_file in poll_files:
                 poll_id = poll_file.get('id')

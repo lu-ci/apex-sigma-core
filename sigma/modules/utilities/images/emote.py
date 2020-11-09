@@ -40,11 +40,11 @@ async def get_emote_cache(cmd):
     emote_cache = await emote_cache_handler.get_cache('emote_cache')
     if not emote_cache:
         fill = True
-    elif arrow.utcnow().timestamp > emote_cache.get('stamp') + 300:
+    elif arrow.utcnow().int_timestamp > emote_cache.get('stamp') + 300:
         fill = True
     if fill:
         all_emotes = list(cmd.bot.emojis)
-        await emote_cache_handler.set_cache('emote_cache', {'stamp': arrow.utcnow().timestamp, 'emotes': all_emotes})
+        await emote_cache_handler.set_cache('emote_cache', {'stamp': arrow.utcnow().int_timestamp, 'emotes': all_emotes})
     else:
         all_emotes = emote_cache.get('emotes')
     return all_emotes

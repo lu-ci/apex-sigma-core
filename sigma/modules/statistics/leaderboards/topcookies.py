@@ -81,7 +81,7 @@ async def topcookies(cmd, pld):
         elif pld.args[0].lower() == 'local':
             sort_key = f'origins.guilds.{pld.msg.guild.id}'
             lb_category = 'Local'
-    now = arrow.utcnow().timestamp
+    now = arrow.utcnow().int_timestamp
     leader_docs = await cmd.db.cache.get_cache(f'{resource}_{sort_key}')
     leader_timer = await cmd.db.cache.get_cache(f'{resource}_{sort_key}_stamp') or now
     if not leader_docs or leader_timer + 180 < now:

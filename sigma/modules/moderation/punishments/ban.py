@@ -62,7 +62,7 @@ async def ban(cmd, pld):
         if target:
             timed = pld.args[-1].startswith('--time=')
             try:
-                now = arrow.utcnow().timestamp
+                now = arrow.utcnow().int_timestamp
                 endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
             except (LookupError, ValueError):
                 err_response = error('Please use the format HH:MM:SS.')

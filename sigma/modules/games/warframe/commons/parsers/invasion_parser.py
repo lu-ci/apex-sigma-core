@@ -51,7 +51,7 @@ async def get_invasion_data(db):
         if not db_check:
             active = invasion['endScore'] > abs(invasion['score'])
             if active:
-                now = arrow.utcnow().timestamp
+                now = arrow.utcnow().int_timestamp
                 await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
                 invasion_out = invasion
                 item_rewards = [invasion_out['rewardsDefender']['items'][0]['name']]

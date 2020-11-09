@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 
 stats = {}
-start_stamp = arrow.utcnow().timestamp
+start_stamp = arrow.utcnow().int_timestamp
 end_stamp = start_stamp + 86400
 
 
@@ -46,7 +46,7 @@ async def guild_watcher(ev, pld):
     """
     global start_stamp, end_stamp
     if pld.msg.guild:
-        now = arrow.utcnow().timestamp
+        now = arrow.utcnow().int_timestamp
         if now > end_stamp:
             stats.clear()
             start_stamp, end_stamp = now, now + 86400

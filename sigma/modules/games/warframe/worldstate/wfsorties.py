@@ -44,7 +44,7 @@ async def wfsorties(_cmd, pld):
             sortie_desc += f'\nLocation: {sortie["location"]}'
             sortie_desc += f'\nModifier: {sortie["modifier"]}'
             response.add_field(name=f'Mission {i + 1}', value=sortie_desc, inline=False)
-        offset = sorties['end'] - arrow.utcnow().timestamp
+        offset = sorties['end'] - arrow.utcnow().int_timestamp
         expiry = str(datetime.timedelta(seconds=offset))
         response.set_footer(text=f'Resets in {expiry}')
     else:

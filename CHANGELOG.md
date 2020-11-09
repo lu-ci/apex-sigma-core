@@ -14,14 +14,15 @@
 - Removed a redundant function and filled in a few docstrings.
 - Fixed `inventory` argument parsing and updated description.
 - Fixed `finalfantasyxivtimers`.
+- Replaced all instances of `arrow.Arrow.timestamp` with `arrow.Arrow.int_timestamp`.
 
 ## 4.78.1577 Kazuki
 
-## Added
+### Added
 
 - Added `gc` as an alias for `givecookie`.
 
-## Changed
+### Changed
 
 - Removed hyphenated words as a possibility for `hangman`.
 - Added the number of winners to raffle embeds when there is more than one winner.

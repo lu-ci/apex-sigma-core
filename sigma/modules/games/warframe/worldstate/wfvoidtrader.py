@@ -72,7 +72,7 @@ async def wfvoidtrader(_cmd, pld):
                 response.set_author(name='No items on this page.', icon_url=baro_icon)
         else:
             start_time = arrow.get(trader['start'])
-            offset = start_time.timestamp - arrow.get().timestamp
+            offset = start_time.int_timestamp - arrow.get().int_timestamp
             if offset < 86400:
                 arrival_time = str(datetime.timedelta(seconds=offset))
             else:

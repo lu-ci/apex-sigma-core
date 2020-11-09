@@ -92,7 +92,7 @@ class CooldownControl(object):
         entry = await self.cds.find_one({'name': cd_name})
         if entry:
             end_stamp = entry.get('end_stamp', 0)
-            now_stamp = arrow.utcnow().timestamp
+            now_stamp = arrow.utcnow().int_timestamp
             if now_stamp > end_stamp:
                 cooldown = False
             else:
@@ -147,7 +147,7 @@ class CooldownControl(object):
                 amount = 0
             cd_name = f'cd_{cmd}_{user.id}'
         entry = await self.cds.find_one({'name': cd_name})
-        end_stamp = arrow.utcnow().timestamp + amount
+        end_stamp = arrow.utcnow().int_timestamp + amount
         if entry:
             await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
         else:
@@ -159,7 +159,7 @@ class CooldownControl(object):
         Purges all cooldown timers from the database that have already expired.
         :return:
         """
-        now = arrow.utcnow().timestamp
+        now = arrow.utcnow().int_timestamp
         await self.cds.delete_many({'end_stamp': {'$lt': now}})
 
     def get_scaled(self, uid, base, multiplier=5):
@@ -176,7 +176,7 @@ class CooldownControl(object):
         last_entry = self.scaling.get(uid, {})
         last_stamp = last_entry.get('stamp', 0)
         last_count = last_entry.get('count', 0)
-        now_stamp = arrow.utcnow().timestamp
+        now_stamp = arrow.utcnow().int_timestamp
         if now_stamp - last_stamp > base * multiplier:
             cooldown = base
             data_entry = {'stamp': now_stamp, 'count': 0}

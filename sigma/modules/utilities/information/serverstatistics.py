@@ -32,7 +32,7 @@ async def serverstatistics(_cmd, pld):
     """
     gld_stats = guild_watcher.stats.get(pld.msg.guild.id, {})
     start_time = arrow.get(guild_watcher.start_stamp)
-    time_dif = arrow.utcnow().timestamp - start_time.timestamp
+    time_dif = arrow.utcnow().int_timestamp - start_time.int_timestamp
     command_rate = str(gld_stats.get("commands", 0) / time_dif)[:5]
     message_rate = str(gld_stats.get("messages", 0) / time_dif)[:5]
     pop_text = f'Channels: **{len(pld.msg.guild.channels)}**'

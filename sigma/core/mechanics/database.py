@@ -338,7 +338,7 @@ class Database(motor.AsyncIOMotorClient):
         :return:
         :rtype:
         """
-        stamp = arrow.utcnow().timestamp
+        stamp = arrow.utcnow().int_timestamp
         item_data.update({'timestamp': stamp})
         inv = await self.get_inventory(user_id)
         inv.append(item_data)

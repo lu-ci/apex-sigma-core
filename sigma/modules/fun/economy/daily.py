@@ -33,7 +33,7 @@ async def daily(cmd, pld):
     if not daily_doc:
         def_data = {'user_id': pld.msg.author.id, 'stamp': 0, 'streak': 0}
         await cmd.db[cmd.db.db_nam].DailyCache.insert_one(def_data)
-    now_stamp = arrow.utcnow().timestamp
+    now_stamp = arrow.utcnow().int_timestamp
     last_daily = daily_doc.get('stamp') or 0
     streak = daily_doc.get('streak') or 0
     streak = (0 if now_stamp > last_daily + 259200 else streak) + 1

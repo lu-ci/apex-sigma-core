@@ -45,7 +45,7 @@ async def reminder_cycler(ev):
     coll = ev.db[ev.db.db_nam].Reminders
     while True:
         if ev.bot.is_ready():
-            current_stamp = arrow.utcnow().timestamp
+            current_stamp = arrow.utcnow().int_timestamp
             reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}}).to_list(None)
             if reminders:
                 for reminder in reminders:

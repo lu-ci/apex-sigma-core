@@ -37,7 +37,7 @@ async def get_news_data(db):
         event_id = news['id']
         db_check = await db[db.db_nam].WarframeCache.find_one({'event_id': event_id})
         if not db_check:
-            now = arrow.utcnow().timestamp
+            now = arrow.utcnow().int_timestamp
             await db[db.db_nam].WarframeCache.insert_one({'event_id': event_id, 'created': now})
             en_trans = news.get('translations', {}).get('en')
             if en_trans:

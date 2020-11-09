@@ -309,7 +309,7 @@ async def cycler(ev):
     coll = ev.db[ev.db.db_nam].CollectorQueue
     while True:
         if ev.bot.is_ready():
-            now = arrow.utcnow().timestamp
+            now = arrow.utcnow().int_timestamp
             await coll.delete_many({'stamp': {'$lt': now - 3600}})
             cltr_items = await coll.find({}).to_list(None)
             for cltr_item in cltr_items:

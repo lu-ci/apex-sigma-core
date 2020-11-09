@@ -86,8 +86,8 @@ def to_delta(arrow_object):
     :return:
     :rtype: str
     """
-    now = arrow.utcnow().timestamp
-    aot = arrow_object.timestamp
+    now = arrow.utcnow().int_timestamp
+    aot = arrow_object.int_timestamp
     out = datetime.timedelta(seconds=abs(now - aot))
     return str(out)
 

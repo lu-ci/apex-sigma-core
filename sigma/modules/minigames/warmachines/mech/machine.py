@@ -223,7 +223,7 @@ class SigmaMachine(object):
         """
         battle_data = {
             'user_id': opponent.owner.id, 'machine_id': opponent.id,
-            'result': result, 'timestamp': arrow.utcnow().timestamp
+            'result': result, 'timestamp': arrow.utcnow().int_timestamp
         }
         self.battles.append(battle_data)
         await self.update()

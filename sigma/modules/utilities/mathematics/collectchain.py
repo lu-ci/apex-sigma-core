@@ -84,7 +84,7 @@ async def collectchain(cmd, pld):
                         'author_id': pld.msg.author.id,
                         'user_id': target_usr.id,
                         'channel_id': target_chn.id,
-                        'stamp': arrow.utcnow().timestamp
+                        'stamp': arrow.utcnow().int_timestamp
                     }
                     await add_to_queue(cmd.db, cltr_itm)
                     qsize = await get_queue_size(cmd.db)

@@ -74,8 +74,8 @@ def get_offsets(challenges):
     """
     offsets = []
     for challenge_list in challenges:
-        expiry = arrow.get(challenge_list[0]['end']).timestamp
-        offset = expiry - arrow.utcnow().timestamp
+        expiry = arrow.get(challenge_list[0]['end']).int_timestamp
+        offset = expiry - arrow.utcnow().int_timestamp
         offsets.append(str(datetime.timedelta(seconds=offset)))
     return offsets
 

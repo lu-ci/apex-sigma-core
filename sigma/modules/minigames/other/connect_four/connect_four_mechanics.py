@@ -55,7 +55,7 @@ async def make_game(message, board, p_one, p_two, color):
         'current_turn': p_one,
         'last_bot_move': 3,
         'is_bot': p_two.bot,
-        'expiry': arrow.utcnow().timestamp + 120,
+        'expiry': arrow.utcnow().int_timestamp + 120,
         'channel_id': message.channel.id
     }
     await cf_cache.set_cache(message.id, ConnectFourGame(data))
@@ -197,6 +197,6 @@ async def connect_four_mechanics(ev, pld):
                                 await cf_cache.del_cache(mid)
                                 if is_ongoing('connectfour', channel.id):
                                     del_ongoing('connectfour', channel.id)
-                game.expiry = arrow.utcnow().timestamp + 120
+                game.expiry = arrow.utcnow().int_timestamp + 120
                 if is_ongoing('cf_ongoing_turn', cid):
                     del_ongoing('cf_ongoing_turn', cid)

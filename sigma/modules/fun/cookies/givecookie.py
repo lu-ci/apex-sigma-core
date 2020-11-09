@@ -93,7 +93,7 @@ async def givecookie(cmd, pld):
                             else:
                                 timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
                                 if timeout_seconds > 60:
-                                    timeout_seconds = arrow.utcnow().timestamp + timeout_seconds
+                                    timeout_seconds = arrow.utcnow().int_timestamp + timeout_seconds
                                     timeout = arrow.get(timeout_seconds).humanize()
                                 else:
                                     timeout = f'in {timeout_seconds} seconds'
@@ -115,7 +115,7 @@ async def givecookie(cmd, pld):
         else:
             timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
             if timeout_seconds > 3600:
-                timeout_seconds = arrow.utcnow().timestamp + timeout_seconds
+                timeout_seconds = arrow.utcnow().int_timestamp + timeout_seconds
                 timeout = arrow.get(timeout_seconds).humanize()
             elif timeout_seconds > 60:
                 tdelta = str(datetime.timedelta(seconds=timeout_seconds)).split(':')[1]
