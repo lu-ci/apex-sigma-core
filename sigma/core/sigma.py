@@ -68,12 +68,10 @@ class ApexSigma(client_class):
     )
 
     def __init__(self):
-        intents = discord.Intents.default()
-        intents.members = True
         super().__init__(
             status=discord.Status.dnd,
             activity=discord.Game('booting...'),
-            intents=intents
+            intents=discord.Intents.all()
         )
         self.ready = False
         # State attributes before initialization.
