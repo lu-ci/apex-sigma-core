@@ -70,10 +70,10 @@ async def vnchargame(cmd, pld):
                     vn_details_page_html = await vn_details_page_session.text()
             vn_details_page = html.fromstring(vn_details_page_html)
             vn_title = vn_details_page.cssselect('.stripe')[0][0][1].text_content().strip()
-            vn_image = vn_details_page.cssselect('.vnimg')[0][0].attrib['src']
+            vn_image = vn_details_page.cssselect('.vnimg')[0][0][0][0].attrib['src']
             character_objects = vn_details_page.cssselect('.chardetails')[:8]
             character = secrets.choice(character_objects)
-            char_img = character[0][0].attrib['src']
+            char_img = character[0][0][0][0].attrib['src']
             char_name = character[1][0][0][0][0].text.strip()
             await working_response.delete()
             question_embed = discord.Embed(color=0x225588)
