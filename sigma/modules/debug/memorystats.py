@@ -52,25 +52,15 @@ async def memorystats(cmd, pld):
         value=f"{cache_stats}\nTime: {cache_time}s"
     )
     chatter = await cmd.db.cache.get_cache('specific_memory')
-    new_chatter = False
     if not chatter:
-        new_chatter = True
-        chatter_stamp = 0
-    else:
-        chatter_stamp = await cmd.db.cache.get_cache('specific_memory_stamp') or 0
-        if chatter_stamp + 300 < start:
-            new_chatter = True
-    if new_chatter:
         chatter = humanfriendly.format_size(asizeof.asizeof(chatter_core), binary=True)
         await cmd.db.cache.set_cache('specific_memory', chatter)
-        await cmd.db.cache.set_cache('specific_memory_stamp', arrow.utcnow().float_timestamp)
     race_size = humanfriendly.format_size(asizeof.asizeof(races), binary=True)
     cd_scaling = humanfriendly.format_size(asizeof.asizeof(cmd.bot.cool_down.scaling), binary=True)
     spc_time = round(arrow.utcnow().float_timestamp - start, 3)
-    chatter_status = f"(Last Updated: {'Now' if new_chatter else f'{round(start - chatter_stamp, 3)}s ago'})"
     response.add_field(
         name='Specific',
-        value=f"Chatter: {chatter}\n{chatter_status}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
+        value=f"Chatter: {chatter}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
     )
     # noinspection PyBroadException
     try:
