@@ -41,9 +41,14 @@ def add_timer_block(response, timer_data):
     name = timer_data.get('name').split('>')[1].split('<')[0]
     now = arrow.utcnow()
     start = arrow.get(timer_data.get('start') / 1000)
-    end = arrow.get(timer_data.get('end') / 1000)
-    diff = to_delta(end) if now > start else to_delta(start)
-    descriptive = f'{start.format("DD. MMM. YYYY")} - {end.format("DD. MMM. YYYY")} (In {diff})'
+    end_stamp = timer_data.get('end')
+    if end_stamp:
+        end = arrow.get(timer_data.get('end') / 1000)
+        diff = to_delta(end) if now > start else to_delta(start)
+        end_text = f'{end.format("DD. MMM. YYYY")} (In {diff})'
+    else:
+        end_text = timer_data.get('endLabel', 'Unspecified')
+    descriptive = f'{start.format("DD. MMM. YYYY")} - {end_text}'
     response.add_field(name=f'{name}', value=descriptive, inline=False)
 
 
@@ -70,7 +75,7 @@ def next_weekly():
     now = arrow.utcnow()
     ttw = arrow.get(starting_point)
     while now > ttw:
-        ttw = ttw.shift(days=7)
+        ttw = ttw.shift(weeks=1)
     return ttw
 
 
@@ -105,7 +110,7 @@ async def finalfantasyxivtimers(_cmd, pld):
     response.description = f'Daily Reset: In {daily_delta}\nWeekly Reset: In {weekly_delta}'
     response.set_footer(text='All dates and times are shown in UTC.')
     if timers:
-        timers = list(sorted(timers, key=lambda t: t.get('end')))
+        timers = list(sorted(timers, key=lambda t: t.get('end', 0)))
         for timer in timers:
             add_timer_block(response, timer)
     await pld.msg.channel.send(embed=response)
