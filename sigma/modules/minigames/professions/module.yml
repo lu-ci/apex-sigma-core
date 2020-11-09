@@ -5,14 +5,14 @@ commands:
       - storage
       - bag
       - i
-    description: Shows the current inventory of the mentioned user. If no user is mentioned,
-      it will show the author's inventory. The inventory has 64 slots at the start but
-      can be upgraded in the shop. You can also specify the page number you want to
-      see. The inventory is sorted by item rarity and items used in recipes are marked
-      with an asterisk.
+    description: Displays your inventory. Mention someone else to view their inventory.
+      You start with 64 slots but can get more by upgrading in the shop. You can specify
+      the page number you want to see, as well as a filter. The filter must be the last
+      argument and can be an item name, type, or rarity. The inventory is sorted by item
+      rarity and items used in recipes are marked with an asterisk.
     enabled: true
     name: inventory
-    usage: '{pfx}{cmd} 2 @person'
+    usage: '{pfx}{cmd} 2 @person plants'
   - alts:
       - finditem
       - fi

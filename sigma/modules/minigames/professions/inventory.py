@@ -23,6 +23,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -47,38 +48,65 @@ def is_ingredient(recipes: list, item: SigmaRawItem):
     return is_ingr
 
 
-def get_filter(args: list):
+def get_page_number(args):
     """
-
-    :param args:
-    :type args:
+    Gets the page number based on the command arguments.
+    :param args: The list of command arguments.
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: int
+    """
+    page = 1
+    if args:
+        if not args[0].startswith('<'):
+            if args[0].isdigit():
+                page = int(args[0])
+        else:
+            if len(args) > 1:
+                if args[1].isdigit():
+                    page = int(args[1])
+    return page or 1
+
+
+def get_filter(args):
+    """
+    Gets the filter based on the command arguments.
+    :param args: The list of command arguments.
+    :type args: list[str]
+    :return:
+    :rtype: str or None
     """
     filter_lookup = None
     if args:
-        if not args[0].startswith('<'):
-            try:
-                int(args[0])
-                first_num = True
-            except ValueError:
-                first_num = False
-            filter_lookup = (' '.join(args[1:]) if first_num else ' '.join(args)).lower()
+        has_number = 0
+        has_mention = 0
+        if args[0].startswith('<'):
+            has_mention = 1
+            if len(args) > 1:
+                if args[1].isdigit():
+                    has_number = 1
+        if args[0].isdigit():
+            has_number = 1
+            if len(args) > 1:
+                if args[1].startswith('<'):
+                    has_mention = 1
+        buffer = has_number + has_mention
+        filter_lookup = ' '.join(args[buffer:]).lower()
     return filter_lookup
 
 
-def item_belongs(filter_string: str, item: SigmaRawItem):
+def item_belongs(filter_string, item):
     """
-
-    :param filter_string:
-    :type filter_string:
-    :param item:
-    :type item:
+    Checks if the item matches the filter.
+    :param filter_string: The filter to compare against.
+    :type filter_string: str
+    :param item: The item to check.
+    :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
     :return:
     :rtype:
     """
     flt = filter_string.lower()
-    return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.desc.lower()
+    return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.type.lower()
 
 
 async def inventory(cmd, pld):
@@ -90,10 +118,7 @@ async def inventory(cmd, pld):
     """
     reci_core = await get_recipe_core(cmd.db)
     item_core = await get_item_core(cmd.db)
-    if pld.msg.mentions:
-        target = pld.msg.mentions[0]
-    else:
-        target = pld.msg.author
+    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
     upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
     storage = upgrade_file.get('storage', 0)
     inv_limit = 64 + (8 * storage)
@@ -109,12 +134,11 @@ async def inventory(cmd, pld):
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
-    page = pld.args[0] if pld.args else 1
-    inv, page = PaginatorCore.paginate(item_o_list, page)
+    inv, page = PaginatorCore.paginate(item_o_list, get_page_number(pld.args))
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
         all_reci = reci_core.recipes
-        headers = ['Type', 'Item', 'Value', 'Rarity']
+        headers = ['Type', 'Name', 'Value', 'Rarity']
         to_format = []
         total_value = 0
         for item_o_item in inv:
@@ -138,6 +162,7 @@ async def inventory(cmd, pld):
         response.add_field(name='📦 Inventory Stats', value=f'```py\n{inv_text}\n```')
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
-        response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
+        title = '🔍 No items matching that filter.' if item_filter else '💸 Totally empty...'
+        response = discord.Embed(color=0xc6e4b5, title=title)
     response.set_author(name=f'{target.name}#{target.discriminator}', icon_url=user_avatar(target))
     await pld.msg.channel.send(embed=response)
