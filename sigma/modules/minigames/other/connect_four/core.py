@@ -23,6 +23,13 @@ class ConnectFourGame(object):
     """
     Very basic container for connect four games.
     """
+
+    __slots__ = (
+        'raw', 'board', 'p_one', 'p_two', 'po_piece',
+        'pt_piece', 'current_turn', 'last_bot_move',
+        'is_bot', 'expiry', 'channel_id'
+     )
+
     def __init__(self, data):
         self.raw = data
         self.board = self.raw.get('board')
@@ -43,6 +50,9 @@ class ConnectFourBoard(object):
     Handles making and editing of the board,
     as well as checking for winners.
     """
+
+    __slots__ = ('rows', 'r', 'b', 'e')
+
     def __init__(self):
         self.rows = []
         self.r = '🔴'
