@@ -132,7 +132,7 @@ async def hangman(cmd, pld):
                 await pld.msg.channel.send(embed=timeout_embed)
 
         if gallows.dead:
-            lose_title = f'💥 Ooh, sorry {author}, it was {gallows.word}'
+            lose_title = f'💥 Ooh, sorry {author}, it was {gallows.word}.'
             final_embed = discord.Embed(color=0xff3300, title=lose_title)
             await pld.msg.channel.send(embed=final_embed)
         elif gallows.victory:

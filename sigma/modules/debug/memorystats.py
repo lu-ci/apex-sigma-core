@@ -15,11 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import functools
-from concurrent.futures.thread import ThreadPoolExecutor
 
 import arrow
-import discord
 import humanfriendly
 from pympler import asizeof
 
@@ -54,20 +51,26 @@ async def memorystats(cmd, pld):
         name='Cacher',
         value=f"{cache_stats}\nTime: {cache_time}s"
     )
-    with ThreadPoolExecutor() as threads:
-        chatter_function = functools.partial(asizeof.asizeof, chatter_core)
-        race_function = functools.partial(asizeof.asizeof, races)
-        cd_function = functools.partial(asizeof.asizeof, cmd.bot.cool_down.scaling)
-        chatter_val = await cmd.bot.loop.run_in_executor(threads, chatter_function)
-        race_val = await cmd.bot.loop.run_in_executor(threads, race_function)
-        cd_val = await cmd.bot.loop.run_in_executor(threads, cd_function)
-    chatter = humanfriendly.format_size(chatter_val, binary=True)
-    race_size = humanfriendly.format_size(race_val, binary=True)
-    cd_scaling = humanfriendly.format_size(cd_val, binary=True)
+    chatter = await cmd.db.cache.get_cache('specific_memory')
+    new_chatter = False
+    if not chatter:
+        new_chatter = True
+        chatter_stamp = 0
+    else:
+        chatter_stamp = await cmd.db.cache.get_cache('specific_memory_stamp') or 0
+        if chatter_stamp + 300 < start:
+            new_chatter = True
+    if new_chatter:
+        chatter = humanfriendly.format_size(asizeof.asizeof(chatter_core), binary=True)
+        await cmd.db.cache.set_cache('specific_memory', chatter)
+        await cmd.db.cache.set_cache('specific_memory_stamp', arrow.utcnow().float_timestamp)
+    race_size = humanfriendly.format_size(asizeof.asizeof(races), binary=True)
+    cd_scaling = humanfriendly.format_size(asizeof.asizeof(cmd.bot.cool_down.scaling), binary=True)
     spc_time = round(arrow.utcnow().float_timestamp - start, 3)
+    chatter_status = f"(Last Updated: {'Now' if new_chatter else f'{start - chatter_stamp}s ago'})"
     response.add_field(
         name='Specific',
-        value=f"Chatter: {chatter}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
+        value=f"Chatter: {chatter}\n{chatter_status}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
     )
     # noinspection PyBroadException
     try:
