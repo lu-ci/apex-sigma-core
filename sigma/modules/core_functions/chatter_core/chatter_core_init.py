@@ -80,5 +80,8 @@ async def chatter_core_init(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     ev.log.info('Training chatter core...')
-    train(ev, chatter_core, True)
+    try:
+        train(ev, chatter_core, True)
+    except AttributeError:
+        ev.log.error('Failed training the chatter core due to time not having a clock...')
     ev.log.info('Chatter core training finished.')
