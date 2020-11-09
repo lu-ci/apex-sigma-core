@@ -30,8 +30,11 @@ async def sanitize_documents(ev):
         popdocs = await ev.db[ev.bot.cfg.db.database]['GeneralStats'].find({}).to_list(None)
         for shard in ev.bot.cfg.dsc.shards:
             for popdoc in popdocs:
-                if shard in popdoc['shards']:
+                if popdoc['shards'] is None:
                     await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(popdoc)
+                else:
+                    if shard in popdoc['shards']:
+                        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(popdoc)
     else:
         await ev.db[ev.bot.cfg.db.database]['GeneralStats'].drop()
 
