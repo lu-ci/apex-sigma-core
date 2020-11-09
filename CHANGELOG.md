@@ -9,6 +9,10 @@
 - Refactored `connectfour` to use the `raw_reaction_add` event to avoid an internal cache expiring.
 - Fixed `anmechargame` and `mangachargame`... Hopefully.
 - Fixed web scraping in the `osu` command.
+- Fixed `vnchargame` command.
+- Added tip text to the embed footer for `inspect`.
+- Removed a redundant function and filled in a few docstrings.
+- Fixed `inventory` argument parsing and updated description.
 
 ## 4.78.1577 Kazuki
 
