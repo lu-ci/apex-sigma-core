@@ -72,7 +72,10 @@ async def status(cmd, pld):
     uptime_set = arrow.utcnow().float_timestamp - cmd.bot.start_time.float_timestamp
     processed = round(cmd.bot.queue.processed / uptime_set, 3)
     os_icon, os_color = get_os_icon()
-    general_text = f'Latency: **{int(cmd.bot.latency * 1000)}ms**'
+    try:
+        general_text = f'Latency: **{int(cmd.bot.latency * 1000)}ms**'
+    except OverflowError:
+        general_text = f'Latency: **∞...**'
     general_text += f'\nPlatform: **{sys.platform.upper()}**'
     general_text += f'\nStarted: **{arrow.get(psutil.boot_time()).humanize()}**'
     cpu_clock = psutil.cpu_freq()
@@ -95,7 +98,8 @@ async def status(cmd, pld):
     response.add_field(name='Memory', value=mem_text)
     if cmd.bot.cfg.dsc.bot:
         shard_latency = get_shard_latency(cmd.bot.latencies, pld.msg.guild.shard_id)
-        verbose_description = f'Shard: #{pld.msg.guild.shard_id} | '
+        shards = [str(shard) for shard in cmd.bot.cfg.dsc.shards]
+        verbose_description = f'Shard: #{pld.msg.guild.shard_id} [{shards}] | '
         verbose_description += f'Latency: {shard_latency}ms | '
         verbose_description += f'Activity: {processed} ev/s'
         response.description = verbose_description

@@ -55,14 +55,14 @@ async def memorystats(cmd, pld):
         name='Cacher',
         value=f"{cache_stats}\nTime: {cache_time}s"
     )
-    guilds = humanfriendly.format_size(asizeof.asizeof(cmd.bot.guilds), binary=True)
-    channels = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_channels()), binary=True)
-    members = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_members()), binary=True)
-    dsc_time = round(arrow.utcnow().float_timestamp - start, 3)
-    response.add_field(
-        name='Discord',
-        value=f"Guilds: {guilds}\nChannels: {channels}\nMembers: {members}\nTime: {dsc_time}s"
-    )
+    # guilds = humanfriendly.format_size(asizeof.asizeof(cmd.bot.guilds), binary=True)
+    # channels = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_channels()), binary=True)
+    # members = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_members()), binary=True)
+    # dsc_time = round(arrow.utcnow().float_timestamp - start, 3)
+    # response.add_field(
+    #     name='Discord',
+    #     value=f"Guilds: {guilds}\nChannels: {channels}\nMembers: {members}\nTime: {dsc_time}s"
+    # )
     chatter = humanfriendly.format_size(asizeof.asizeof(chatter_core), binary=True)
     race_size = humanfriendly.format_size(asizeof.asizeof(races), binary=True)
     cd_scaling = humanfriendly.format_size(asizeof.asizeof(cmd.bot.cool_down.scaling), binary=True)
