@@ -24,28 +24,9 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
+from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
-
-
-def is_ingredient(recipes: list, item: SigmaRawItem):
-    """
-
-    :param recipes:
-    :type recipes:
-    :param item:
-    :type item:
-    :return:
-    :rtype:
-    """
-    is_ingr = False
-    for recipe in recipes:
-        for ingredient in recipe.ingredients:
-            if ingredient.file_id == item.file_id:
-                is_ingr = True
-                break
-    return is_ingr
 
 
 def deduplicate(items):
@@ -98,7 +79,7 @@ async def allitems(cmd, pld):
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
         all_reci = reci_core.recipes
-        headers = ['Type', 'Item', 'Value', 'Rarity']
+        headers = ['Type', 'Name', 'Value', 'Rarity']
         to_format = []
         total_value = 0
         for item_o_item in inv:
