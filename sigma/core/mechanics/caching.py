@@ -291,7 +291,7 @@ class RedisCacher(Cacher):
             await self.conn.delete(str(key).replace('_', ':'))
 
     async def stats(self):
-        info = self.conn.info('memory')['memory']
+        info = (await self.conn.info('memory'))['memory']
         return {
             'type': 'Redis',
             'addr': self.addr,
@@ -358,7 +358,7 @@ class MixedCacher(RedisCacher):
         await super().del_cache(key)
 
     async def stats(self):
-        info = self.conn.info('memory')['memory']
+        info = (await self.conn.info('memory'))['memory']
         return {
             'type': 'Mixed (Redis + TTL)',
             'addr': self.addr,

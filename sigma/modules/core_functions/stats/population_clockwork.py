@@ -21,6 +21,21 @@ import asyncio
 pop_loop_running = False
 
 
+async def sanitize_documents(ev):
+    """
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    """
+    if ev.bot.cfg.dsc.shards is not None:
+        popdocs = await ev.db[ev.bot.cfg.db.database]['GeneralStats'].find({}).to_list(None)
+        for shard in ev.bot.cfg.dsc.shards:
+            for popdoc in popdocs:
+                if shard in popdoc['shards']:
+                    await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(popdoc)
+    else:
+        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].drop()
+
+
 async def population_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
@@ -29,6 +44,7 @@ async def population_clockwork(ev):
     global pop_loop_running
     collection = 'GeneralStats'
     lookup = {'name': 'population', 'shards': ev.bot.cfg.dsc.shards}
+    await sanitize_documents(ev)
     search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
     if not search:
         await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
