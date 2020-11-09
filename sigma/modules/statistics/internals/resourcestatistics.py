@@ -21,59 +21,55 @@ import inspect
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.mechanics.resources import ResourceDict, ResourceOrigins
-from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-def sort_transfers(dictlike: ResourceDict):
+def sort_transfers(dict_like):
     """
-
-    :param dictlike:
-    :type dictlike:
+    :param dict_like:
+    :type dict_like: sigma.core.mechanics.resources.ResourceDict
     :return:
-    :rtype:
+    :rtype: list[int]
     """
     sortable = []
-    for dck in dictlike.keys():
-        sortable.append([dck, dictlike.get(dck)])
+    for dck in dict_like.keys():
+        sortable.append([dck, dict_like.get(dck)])
     sortable = list(sorted(sortable, key=lambda x: x[1], reverse=True))
     sortable = [[s[0], str(s[1])] for s in sortable[:5]]
     return sortable
 
 
-async def describe_transfers(translist: list, getter):
+async def describe_transfers(trans_list, getter):
     """
-
-    :param translist:
-    :type translist:
+    :param trans_list:
+    :type trans_list: list[int[
     :param getter:
-    :type getter:
+    :type getter: ambiguous discord.Client method
     :return:
-    :rtype:
+    :rtype: list
     """
     described = []
-    for transitem in translist:
-        transobject = await getter(int(transitem[0])) if inspect.isawaitable(getter) else getter(int(transitem[0]))
-        transobject = await transobject if inspect.isawaitable(transobject) else transobject
-        if transobject:
-            addition = [transobject.name, transitem[1]]
+    for trans_item in trans_list:
+        trans_object = getter(int(trans_item[0]))
+        if inspect.isawaitable(getter):
+            trans_object = await trans_object
+        if trans_object:
+            addition = [trans_object.name, trans_item[1]]
         else:
-            addition = transitem
+            addition = trans_item
         described.append(addition)
     return described
 
 
-async def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
+async def get_top_transfers(bot, pool):
     """
-
-    :param bot:
-    :type bot:
+    :param bot:The core client class.
+    :type bot: sigma.core.sigma.ApexSigma
     :param pool:
-    :type pool:
+    :type pool: sigma.core.mechanics.resources.ResourceOrigins
     :return:
-    :rtype:
+    :rtype: list[list, list, list, list]
     """
     user_pool = sort_transfers(pool.users)
     user_desc = await describe_transfers(user_pool, bot.get_user)
@@ -85,21 +81,20 @@ async def get_top_transfers(bot: ApexSigma, pool: ResourceOrigins):
     return user_desc, guild_desc, channel_desc, function_desc
 
 
-async def make_response(bot: ApexSigma, pool: ResourceOrigins, target: discord.Member, res_nam: str, expense: bool):
+async def make_response(bot, pool, target, res_nam, expense):
     """
-
-    :param bot:
-    :type bot:
+    :param bot: The core client class.
+    :type bot: sigma.core.sigma.ApexSigma
     :param pool:
-    :type pool:
+    :type pool: sigma.core.mechanics.resources.ResourceOrigins
     :param target:
-    :type target:
+    :type target: discord.Member
     :param res_nam:
-    :type res_nam:
+    :type res_nam: str
     :param expense:
-    :type expense:
+    :type expense: bool
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     user_desc, guild_desc, channel_desc, function_desc = await get_top_transfers(bot, pool)
     descriptor = 'spent' if expense else 'obtained'
