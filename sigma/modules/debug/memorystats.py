@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import arrow
 import humanfriendly
 from pympler import asizeof
 
@@ -31,27 +32,43 @@ async def memorystats(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    start = arrow.utcnow().float_timestamp
     response = info("Memory Statistics")
     commands = len(cmd.bot.modules.commands)
     events = sum([len(cmd.bot.modules.events.get(cat)) for cat in cmd.bot.modules.events.keys()])
     modman_size = humanfriendly.format_size(asizeof.asizeof(cmd.bot.modules), binary=True)
     alts = len(cmd.bot.modules.alts.keys())
+    modman_time = round(arrow.utcnow().float_timestamp - start, 3)
     response.add_field(
         name='Modules',
-        value=f"Commands: {commands}\nEvents: {events}\nAliases: {alts}\nSize: {modman_size}"
+        value=f"Commands: {commands}\nEvents: {events}\nAliases: {alts}\nSize: {modman_size}\nTime: {modman_time}s"
     )
-    ongoing_keys, ongoing_ids, ongoing_size = ongoing_stats()
-    response.add_field(name='Ongoing', value=f"Keys: {ongoing_keys}\nIdentifiers: {ongoing_ids}\nSize: {ongoing_size}")
-    response.add_field(name='Cacher', value=await cmd.db.cache.format_stats())
+    og_keys, og_ids, og_size = ongoing_stats()
+    og_time = round(arrow.utcnow().float_timestamp - start, 3)
+    response.add_field(
+        name='Ongoing',
+        value=f"Keys: {og_keys}\nIdentifiers: {og_ids}\nSize: {og_size}\nTime: {og_time}s"
+    )
+    cache_stats = await cmd.db.cache.format_stats()
+    cache_time = round(arrow.utcnow().float_timestamp - start, 3)
+    response.add_field(
+        name='Cacher',
+        value=f"{cache_stats}\nTime: {cache_time}s"
+    )
     guilds = humanfriendly.format_size(asizeof.asizeof(cmd.bot.guilds), binary=True)
     channels = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_channels()), binary=True)
     members = humanfriendly.format_size(asizeof.asizeof(cmd.bot.get_all_members()), binary=True)
-    response.add_field(name='Discord', value=f"Guilds: {guilds}\nChannels: {channels}\nMembers: {members}")
+    dsc_time = round(arrow.utcnow().float_timestamp - start, 3)
+    response.add_field(
+        name='Discord',
+        value=f"Guilds: {guilds}\nChannels: {channels}\nMembers: {members}\nTime: {dsc_time}s"
+    )
     chatter = humanfriendly.format_size(asizeof.asizeof(chatter_core), binary=True)
     race_size = humanfriendly.format_size(asizeof.asizeof(races), binary=True)
     cd_scaling = humanfriendly.format_size(asizeof.asizeof(cmd.bot.cool_down.scaling), binary=True)
+    spc_time = round(arrow.utcnow().float_timestamp - start, 3)
     response.add_field(
         name='Specific',
-        value=f"Chatter: {chatter}\nRaces: {race_size}\nCD Scaling: {cd_scaling}"
+        value=f"Chatter: {chatter}\nRaces: {race_size}\nCD Scaling: {cd_scaling}\nTime: {spc_time}s"
     )
     await pld.msg.channel.send(embed=response)
