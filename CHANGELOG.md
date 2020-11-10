@@ -15,6 +15,8 @@
 - Fixed `inventory` argument parsing and updated description.
 - Fixed `finalfantasyxivtimers`.
 - Replaced all instances of `arrow.Arrow.timestamp` with `arrow.Arrow.int_timestamp`.
+- Added safeguards to `anmechargame` `mangachargame` and `vnchargame`.
+- Fixed argument parsing in `translation`.
 
 ## 4.78.1577 Kazuki
 

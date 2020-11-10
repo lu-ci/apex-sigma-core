@@ -32,16 +32,19 @@ async def translation(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        if len(pld.args) >= 2:
-            trans_arg = pld.args[0].lower()
-            sentence = ' '.join(pld.args[1:])
-            if '>' in trans_arg:
-                trans_split = trans_arg.split('>')
-                from_lang = trans_split[0]
-                to_lang = trans_split[1]
-            else:
-                from_lang = trans_arg
-                to_lang = 'en'
+        trans_arg = pld.args[0].lower()
+        sentence = ' '.join(pld.args[1:])
+        if '\n' in trans_arg:
+            trans_arg, _, first_arg = trans_arg.partition('\n')
+            sentence = f'{first_arg} {sentence}'
+        if '>' in trans_arg:
+            trans_split = trans_arg.split('>')
+            from_lang = trans_split[0]
+            to_lang = trans_split[1]
+        else:
+            from_lang = trans_arg
+            to_lang = 'en'
+        if sentence:
             translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
             trans_output = translator.translate(sentence)
             if 'is an invalid' in trans_output.lower():
