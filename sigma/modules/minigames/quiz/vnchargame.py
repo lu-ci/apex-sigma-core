@@ -75,7 +75,10 @@ async def vnchargame(cmd, pld):
             character = secrets.choice(character_objects)
             char_img = character[0][0][0][0].attrib['src']
             char_name = character[1][0][0][0][0].text.strip()
-            await working_response.delete()
+            try:
+                await working_response.delete()
+            except discord.NotFound:
+                pass
             question_embed = discord.Embed(color=0x225588)
             question_embed.set_image(url=char_img)
             question_embed.set_footer(text='You have 30 seconds to guess it.')

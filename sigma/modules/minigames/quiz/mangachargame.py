@@ -90,7 +90,10 @@ async def mangachargame(cmd, pld):
             char_img_obj = char_page_data.cssselect('.borderClass')[0][0][0][0]
             char_img = char_img_obj.attrib['data-src']
             char_name = ' '.join(char_img_obj.attrib['alt'].strip().split(', '))
-            await working_response.delete()
+            try:
+                await working_response.delete()
+            except discord.NotFound:
+                pass
             question_embed = discord.Embed(color=0x1d439b)
             question_embed.set_image(url=char_img)
             question_embed.set_footer(text='You have 30 seconds to guess it.')
