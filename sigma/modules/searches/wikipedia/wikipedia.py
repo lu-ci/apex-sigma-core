@@ -27,31 +27,28 @@ api_base = 'https://en.wikipedia.org/w/api.php?format=json'
 wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
 
 
-def shorten_sentences(text: str):
+def shorten_sentences(text):
     """
-
-    :param text:
-    :type text:
+    Transforms a multiline string into a single
+    line string of a specified length.
+    :param text: The text to parse.
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
-    sentences = [f'{s.strip()}.' for s in text.replace('\n', ' ').split('.')]
-    new_sentences = []
-    for sentence in sentences:
-        if len(' '.join(new_sentences)) + len(sentence) < 1900:
-            new_sentences.append(sentence)
-        else:
-            break
-    return f'{" ".join(new_sentences)}...'
+    sentences = text.replace('\n', ' ')
+    if len(sentences) > 1900:
+        sentences = sentences[:1900].rpartition('.')[0] + '...'
+    return sentences
 
 
 def get_exact_results(search_data: list):
     """
-
-    :param search_data:
-    :type search_data:
+    Gets the first exact result from the api response.
+    :param search_data: The api response to parse
+    :type search_data: dict
     :return:
-    :rtype:
+    :rtype: str, str
     """
     exact_result = None
     search, results, descs, urls = search_data
