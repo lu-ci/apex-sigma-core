@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.81.1627 Kazuki
+
+### Added
+
+- `metacritic` command to view scores for games, movies, tv shows, and music albums.
+
 ## 4.79.1595 Kazuki
 
 ### Changed

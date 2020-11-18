@@ -1,0 +1,26 @@
+category: searches
+commands:
+  - alts:
+      - mc
+    description: "Shows MetaCritic scores for games, movies, tv, and music albums.
+      Search fields are separated by forward slashes. You can also search to view
+      a list of results. The 'type' field when searching can be game, movie, tv,
+      or music. The 'season' field for tv and 'artist' field for music are both
+      optional and can be omitted. See the examples below.
+
+
+      Games: game/platform/title (game/ps4/fallout 4)
+
+      Movies: movie/title (movie/pulp fiction)
+
+      TV: tv/title/season (tv/lost/season 1)
+
+      Music: music/album/artist (music/love/the beatles)
+
+      Search: search/type/title (search/game/fallout)
+      "
+    enabled: true
+    name: metacritic
+    usage: '{pfx}{cmd} game/ps4/fallout 4'
+enabled: true
+name: Metacritic Commands
