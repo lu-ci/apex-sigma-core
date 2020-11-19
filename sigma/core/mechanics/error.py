@@ -181,6 +181,12 @@ class SigmaError(object):
             err_text += f' executing, whatever it was, {name} couldn\'t find it and encountered an'
             err_text += ' error. The error has been relayed to the developers. If you feel like'
             err_text += f' dropping by and asking about it, the invite link is in the **{prefix}help** command.'
+        elif isinstance(self.exception, discord.HTTPException):
+            title = '❗ Error: Connection Issue!'
+            err_text = 'This is a general connectivity error which occurs if Discord suddenly drops the connection.'
+            err_text += f' The reasons can vary from a simple hiccup in the pipeline to the gateway being under heavy'
+            err_text += ' load. Regardless, if you notice these ocurring too frequently, you can always'
+            err_text += f' drop by and ask about it, the invite link is in the **{prefix}help** command.'
         else:
             title = '❗ An Unhandled Error Occurred!'
             err_text = 'Something seems to have gone wrong.'
