@@ -34,6 +34,18 @@ commands:
     name: recipes
     usage: '{pfx}{cmd} --meals --craftable'
   - alts:
+      - dailymarket
+      - dailyshop
+    description: The bazaar is a daily market of sorts.
+      It offers items from each profession category (fish, plant, animal)
+      for a fairly high price and changes daily. The items offered are all
+      of Prime rarity or higher, and only 1 item each can be bought until the next reset.
+      The reset time is midnight UTC. The items are random, but forced to be different
+      than the previous day. The bazaar is unique to every user.
+    enabled: true
+    name: bazaar
+    usage: '{pfx}{cmd}'
+  - alts:
       - craft
       - make
     description: Uses a recipe to create an item from raw resources that you've gathered.

@@ -87,6 +87,8 @@ class SigmaRecipe(object):
         combined_price = int(sum(ingredient_values) * (3 * (0.075 * sum(ingredient_rarities))) / 100) * 100
         if combined_price < 100:
             combined_price = 100
+        if combined_price < sum(ingredient_values):
+            combined_price = int(combined_price * 1.35)
         return combined_price
 
     def load_ingredients(self):
