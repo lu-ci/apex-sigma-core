@@ -110,8 +110,9 @@ async def has_purchased(db, uid, variant):
     return count != 0
 
 
-def price_multi():
+def price_multi(item_name):
     """
+    :type item_name: str
     :rtype: float
     """
     now = arrow.utcnow()
@@ -122,7 +123,11 @@ def price_multi():
     multi = modifier / (10 ** divider)
     if multi < 2:
         multi = 2
-    return multi
+    item_sum = sum([ord(ch) for ch in item_name])
+    item_modifier = int(item_sum * 100)
+    item_divider = len(str(item_modifier)) - 1
+    item_multi = item_modifier / (10 ** item_divider)
+    return (multi + item_multi) / 2.5
 
 
 async def bazaar(cmd, pld):
@@ -138,7 +143,6 @@ async def bazaar(cmd, pld):
         doc = await get_active_shop(cmd.db, pld.msg.author.id)
         if not doc:
             doc = await generate_shop(cmd.db, pld.msg.author.id)
-        multi = price_multi()
         currency = cmd.bot.cfg.pref.currency
         lines = []
         keys = ['fish', 'plant', 'animal']
@@ -146,6 +150,7 @@ async def bazaar(cmd, pld):
             available = not await has_purchased(cmd.db, pld.msg.author.id, key)
             item = item_core.get_item_by_file_id(doc.get(key))
             if available:
+                multi = price_multi(item.file_id)
                 price = int(item.value * multi)
                 item_name = f"{item.icon} {item.rarity_name.title()} {item.name}: **{price} {currency}**"
             else:
