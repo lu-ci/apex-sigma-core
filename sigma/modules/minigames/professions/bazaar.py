@@ -166,8 +166,10 @@ async def bazaar(cmd, pld):
             available = not await has_purchased(cmd.db, pld.msg.author.id, key)
             if available:
                 curr = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
+                multi = price_multi(item.file_id)
                 price = int(item.value * multi)
                 if curr >= price:
+                    await cmd.db.del_resource(pld.msg.author.id, 'currency', price, cmd.name, pld.msg)
                     data_for_inv = item.generate_inventory_item()
                     await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
                     await track_purchase(cmd.db, pld.msg.author.id, key, item.file_id, price)
