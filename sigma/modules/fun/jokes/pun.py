@@ -18,9 +18,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import aiohttp
 import discord
-import ftfy
+import lxml.html as lx
 
 from sigma.core.utilities.generic_responses import error
+
+
+def split_content(text):
+    """
+    :param text: The text_content() of the pun block.
+    :type text: str
+    :rtype: str
+    """
+    right = text.split('#')[-1]
+    while right[0].isdigit():
+        right = ''.join(right[1:])
+    if right[-1] not in ['.', '?', '!']:
+        right += '.'
+    return right
 
 
 async def pun(_cmd, pld):
@@ -30,14 +44,15 @@ async def pun(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    pun_url = 'http://www.punoftheday.com/cgi-bin/arandompun.pl'
+    pun_url = 'https://pun.me/random/'
     async with aiohttp.ClientSession() as session:
         async with session.get(pun_url) as data:
             pun_req = await data.text()
-    pun_text = pun_req.split('&quot;')[1]
-    pun_text = ftfy.fix_text(pun_text)
+    root = lx.fromstring(pun_req)
+    pun_li = root.cssselect('.puns.single li')[0]
+    pun_text = split_content(pun_li.text_content())
     if pun_text:
-        response = discord.Embed(color=0xFFDC5D, title='😒 Have A Pun')
+        response = discord.Embed(color=0xFFDC5D, title='😒 Have a pun...')
         response.description = pun_text
     else:
         response = error('Sorry, I failed to find a pun.')
