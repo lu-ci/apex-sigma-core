@@ -46,6 +46,14 @@ commands:
     name: bazaar
     usage: '{pfx}{cmd}'
   - alts:
+      - bazaarstats
+    description: Shows various statistics about your bazaar usage.
+      Total currency spent, markup paid, average markup and multiplier, etc.
+      If no user is targeted, the command will show statistics for the command author.
+    enabled: true
+    name: bazaarstatistics
+    usage: '{pfx}{cmd} @target'
+  - alts:
       - craft
       - make
     description: Uses a recipe to create an item from raw resources that you've gathered.
