@@ -151,7 +151,7 @@ async def roulette(cmd, pld):
                                 footer = f'You lost {bet} {currency}'
                             footer += f' for betting on the {sel}.'
                             response = discord.Embed(color=resp_color, title=spot.desc)
-                            response.set_author(name=pld.msg.author.name, icon_url=user_avatar(pld.msg.author))
+                            response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
                             response.set_footer(text=footer)
                         else:
                             response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
