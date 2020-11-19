@@ -50,6 +50,7 @@ commands:
     description: Shows various statistics about your bazaar usage.
       Total currency spent, markup paid, average markup and multiplier, etc.
       If no user is targeted, the command will show statistics for the command author.
+      Instead of targeting a user, you can type "--total" to see the overall statistics.
     enabled: true
     name: bazaarstatistics
     usage: '{pfx}{cmd} @target'

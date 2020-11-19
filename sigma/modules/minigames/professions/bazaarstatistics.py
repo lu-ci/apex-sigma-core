@@ -35,11 +35,17 @@ async def bazaarstatistics(cmd, pld):
     item_counts = {}
     currency = cmd.bot.cfg.pref.currency
     item_core = await get_item_core(cmd.db)
-    target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    count = await cmd.db[cmd.db.db_nam].BazaarPurchases.count_documents({'user_id': target.id})
+    total = '--total' in pld.args
+    if total:
+        target = None
+        lookup = {}
+    else:
+        target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
+        lookup = {'user_id': target.id}
+    count = await cmd.db[cmd.db.db_nam].BazaarPurchases.count_documents(lookup)
     if count:
         most_expensive = None
-        docs = cmd.db[cmd.db.db_nam].BazaarPurchases.find({'user_id': target.id})
+        docs = cmd.db[cmd.db.db_nam].BazaarPurchases.find(lookup)
         async for doc in docs:
             item = item_core.get_item_by_file_id(doc.get('item'))
             item_count = item_counts.get(item.file_id, 0)
@@ -69,7 +75,11 @@ async def bazaarstatistics(cmd, pld):
         block += f"\nMost Expensive Item: {mex_item.icon} **{mex_item.name}** ({mex_price} {currency})"
         response = discord.Embed(color=0xffac33, title='🪙 Bazaar Statistics')
         response.description = block
-        response.set_author(name=target.display_name, icon_url=user_avatar(target))
+        if not total:
+            response.set_author(name=target.display_name, icon_url=user_avatar(target))
     else:
-        response = error(f"{target.name} has not been to the bazaar.")
+        if total:
+            response = error("Nobody has not been to the bazaar.")
+        else:
+            response = error(f"{target.name} has not been to the bazaar.")
     await pld.msg.channel.send(embed=response)
