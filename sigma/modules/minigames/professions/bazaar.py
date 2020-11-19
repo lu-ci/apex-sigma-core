@@ -115,7 +115,7 @@ def price_multi():
     :rtype: float
     """
     now = arrow.utcnow()
-    now = f"{now.format('M-D-d')}-{now.isoweekday()}"
+    now = now.format('YY-M-D-d')
     pieces = [int(px) * 1.23 for px in now.split('-')]
     modifier = int(sum(pieces) * 100)
     divider = len(str(modifier)) - 1
