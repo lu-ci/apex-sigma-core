@@ -36,7 +36,7 @@ def get_price_mod(base_price, upgrade_level):
     :return:
     :rtype: int
     """
-    return int(base_price * upgrade_level * (1.375 + (0.625 * upgrade_level)))
+    return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
 
 
 def get_price(base_price, upgrade_level):
