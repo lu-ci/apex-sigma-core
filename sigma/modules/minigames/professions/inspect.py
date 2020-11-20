@@ -52,7 +52,7 @@ async def inspect(cmd, pld):
                 if owned_item:
                     inv = await cmd.db.get_inventory(pld.msg.author.id)
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
-                    footer += f' | Owned: {count} | ItemID: {owned_item.get("item_id")}'
+                    footer += f' | Owned: {count} | ID: {owned_item.get("item_id")}'
                     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
                 response.set_footer(text=footer)
             else:
