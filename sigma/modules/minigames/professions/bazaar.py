@@ -35,9 +35,10 @@ async def get_active_shop(db, uid):
     """
     now = arrow.utcnow().format('YYYY-MM-DD')
     doc = await db[db.db_nam].BazaarCache.find_one({'user_id': uid})
-    doc_stamp = doc.get('date')
-    if now != doc_stamp:
-        doc = None
+    if doc:
+        doc_stamp = doc.get('date')
+        if now != doc_stamp:
+            doc = None
     return doc
 
 
