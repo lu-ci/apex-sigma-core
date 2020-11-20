@@ -163,16 +163,15 @@ async def trivia(cmd, pld):
                 choice_lines.append(choice_line)
             choice_text = '\n'.join(choice_lines)
             choice_text = ftfy.fix_text(choice_text)
-            if difficulty == 'easy':
-                starter = 'An'
-            else:
-                starter = 'A'
+            starter = 'An' if difficulty == 'easy' else 'A'
             question_embed = discord.Embed(color=0xF9F9F9, title='❔ Here\'s a question!')
             question_embed.description = f'{starter} {difficulty} one from the {category} category.'
             question_embed.add_field(name='Question', value=question, inline=False)
             question_embed.add_field(name='Choices', value=f'```py\n{choice_text}\n```', inline=False)
-            question_embed.set_footer(text='Input the number of your chosen answer.')
             question_embed.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
+            footer_text = 'Input the number of your chosen answer.'
+            if reward_mult:
+                footer_text += f' | Streak: {int(reward_mult)}'
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):

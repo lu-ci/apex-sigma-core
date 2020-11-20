@@ -68,8 +68,8 @@ async def mangachargame(cmd, pld):
                     ani_page_html = await ani_page_session.text()
             ani_page_data = html.fromstring(ani_page_html)
             cover_object = ani_page_data.cssselect('.borderClass a')[0][0]
-            anime_cover = cover_object.attrib['data-src']
-            anime_title = cover_object.attrib['alt'].strip()
+            manga_cover = cover_object.attrib['data-src']
+            manga_title = cover_object.attrib['alt'].strip()
             character_object_list = ani_page_data.cssselect('.js-scrollfix-bottom-rel')[0]
             character_list = []
             for char_obj_full in character_object_list[5:]:
@@ -90,15 +90,9 @@ async def mangachargame(cmd, pld):
             char_img_obj = char_page_data.cssselect('.borderClass')[0][0][0][0]
             char_img = char_img_obj.attrib['data-src']
             char_name = ' '.join(char_img_obj.attrib['alt'].strip().split(', '))
-            try:
-                await working_response.delete()
-            except discord.NotFound:
-                pass
-            question_embed = discord.Embed(color=0x1d439b)
-            question_embed.set_image(url=char_img)
-            question_embed.set_footer(text='You have 30 seconds to guess it.')
-            question_embed.set_author(name=anime_title, icon_url=anime_cover, url=char_img)
+
             kud_reward = None
+            description = None
             name_split = char_name.split()
             for name_piece in name_split:
                 if kud_reward is None:
@@ -109,7 +103,23 @@ async def mangachargame(cmd, pld):
             if hint:
                 kud_reward = kud_reward // 2
                 scrambled_name = scramble(char_name)
-                question_embed.description = f'Name: {scrambled_name}'
+                description = f'Name: {scrambled_name}'
+            reward_mult = streaks.get(pld.msg.channel.id) or 0
+            kud_reward = int(kud_reward * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
+
+            try:
+                await working_response.delete()
+            except discord.NotFound:
+                pass
+            question_embed = discord.Embed(color=0x1d439b)
+            if description:
+                question_embed.description = description
+            question_embed.set_image(url=char_img)
+            question_embed.set_author(name=manga_title, icon_url=manga_cover, url=char_img)
+            footer_text = 'You have 30 seconds to guess it.'
+            if reward_mult:
+                footer_text += f' | Streak: {int(reward_mult)}'
+            question_embed.set_footer(text=footer_text)
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
@@ -133,8 +143,6 @@ async def mangachargame(cmd, pld):
 
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-                reward_mult = streaks.get(pld.msg.channel.id) or 0
-                kud_reward = int(kud_reward * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
                 await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency
@@ -145,7 +153,7 @@ async def mangachargame(cmd, pld):
             except asyncio.TimeoutError:
                 if pld.msg.channel.id in streaks:
                     streaks.pop(pld.msg.channel.id)
-                timeout_title = f'🕙 Time\'s up! It was {char_name} from {anime_title}...'
+                timeout_title = f'🕙 Time\'s up! It was {char_name} from {manga_title}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
         except (IndexError, KeyError):

@@ -1,5 +1,20 @@
 # Apex Sigma Changelog
 
+## 4.82.1644 Futaba
+
+### Added
+
+- The `bazaar` command; a daily shop for rare items.
+- The `bazaarstats` command; shows item and currency statistics for bazaar usage.  
+
+### Changed
+
+- Added a streak counter to the footer of relevant quiz commands.
+
+### Removed
+
+- ChatterBot has been temporarily disabled to monitor memory usage without it active.
+
 ## 4.81.1627 Kazuki
 
 ### Added

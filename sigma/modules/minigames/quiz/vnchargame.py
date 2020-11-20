@@ -75,15 +75,9 @@ async def vnchargame(cmd, pld):
             character = secrets.choice(character_objects)
             char_img = character[0][0][0][0].attrib['src']
             char_name = character[1][0][0][0][0].text.strip()
-            try:
-                await working_response.delete()
-            except discord.NotFound:
-                pass
-            question_embed = discord.Embed(color=0x225588)
-            question_embed.set_image(url=char_img)
-            question_embed.set_footer(text='You have 30 seconds to guess it.')
-            question_embed.set_author(name=vn_title, icon_url=vn_image, url=char_img)
+
             kud_reward = None
+            description = None
             name_split = char_name.split()
             for name_piece in name_split:
                 if kud_reward is None:
@@ -94,7 +88,23 @@ async def vnchargame(cmd, pld):
             if hint:
                 kud_reward = kud_reward // 2
                 scrambled_name = scramble(char_name)
-                question_embed.description = f'Name: {scrambled_name}'
+                description = f'Name: {scrambled_name}'
+            reward_mult = streaks.get(pld.msg.channel.id) or 0
+            kud_reward = int(kud_reward * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
+
+            try:
+                await working_response.delete()
+            except discord.NotFound:
+                pass
+            question_embed = discord.Embed(color=0x225588)
+            if description:
+                question_embed.description = description
+            question_embed.set_image(url=char_img)
+            question_embed.set_author(name=vn_title, icon_url=vn_image, url=char_img)
+            footer_text = 'You have 30 seconds to guess it.'
+            if reward_mult:
+                footer_text += f' | Streak: {int(reward_mult)}'
+            question_embed.set_footer(text=footer_text)
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
@@ -118,8 +128,6 @@ async def vnchargame(cmd, pld):
 
             try:
                 answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
-                reward_mult = streaks.get(pld.msg.channel.id) or 0
-                kud_reward = int(kud_reward * (1 + (reward_mult * 2.25) / (1.75 + (0.03 * reward_mult))))
                 await cmd.db.add_resource(answer_message.author.id, 'currency', kud_reward, cmd.name, pld.msg)
                 author = answer_message.author.display_name
                 currency = cmd.bot.cfg.pref.currency
