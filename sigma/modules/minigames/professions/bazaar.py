@@ -142,54 +142,60 @@ async def bazaar(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if not is_ongoing(cmd.name, pld.msg.author.id):
-        set_ongoing(cmd.name, pld.msg.author.id)
-        item_core = await get_item_core(cmd.db)
-        doc = await get_active_shop(cmd.db, pld.msg.author.id)
-        if not doc:
-            doc = await generate_shop(cmd.db, pld.msg.author.id)
-        currency = cmd.bot.cfg.pref.currency
-        lines = []
-        keys = ['fish', 'plant', 'animal']
-        for (kx, key) in enumerate(keys):
-            available = not await has_purchased(cmd.db, pld.msg.author.id, key)
-            item = item_core.get_item_by_file_id(doc.get(key))
-            if available:
-                multi = price_multi(item.file_id)
-                price = int(item.value * multi)
-                item_name = f"{item.icon} {item.rarity_name.title()} {item.name}: **{price} {currency}**"
-            else:
-                item_name = f"{item.icon} ~~{item.rarity_name.title()} {item.name}~~"
-            line = f"**{kx + 1}**: {item_name}"
-            lines.append(line)
-        question = discord.Embed(color=0xffac33, title='🪙 The Item Bazaar')
-        question.description = '\n'.join(lines)
-        choice, timeout = await int_dialogue(cmd.bot, pld.msg, question, 1, len(keys))
-        if not timeout:
-            key = keys[choice - 1]
-            item = item_core.get_item_by_file_id(doc.get(key))
-            available = not await has_purchased(cmd.db, pld.msg.author.id, key)
-            if available:
-                curr = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
-                multi = price_multi(item.file_id)
-                price = int(item.value * multi)
-                if curr >= price:
-                    await cmd.db.del_resource(pld.msg.author.id, 'currency', price, cmd.name, pld.msg)
-                    data_for_inv = item.generate_inventory_item()
-                    await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
-                    await track_purchase(cmd.db, pld.msg.author.id, key, item.file_id, price)
-                    await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
-                    await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                    response = ok(f"You have purchased a {item.name} for {price} {currency}.")
+    author_stamp = arrow.get(pld.msg.author.created_at).float_timestamp
+    current_stamp = arrow.utcnow().float_timestamp
+    time_diff = current_stamp - author_stamp
+    if time_diff > 2592000:
+        if not is_ongoing(cmd.name, pld.msg.author.id):
+            set_ongoing(cmd.name, pld.msg.author.id)
+            item_core = await get_item_core(cmd.db)
+            doc = await get_active_shop(cmd.db, pld.msg.author.id)
+            if not doc:
+                doc = await generate_shop(cmd.db, pld.msg.author.id)
+            currency = cmd.bot.cfg.pref.currency
+            lines = []
+            keys = ['fish', 'plant', 'animal']
+            for (kx, key) in enumerate(keys):
+                available = not await has_purchased(cmd.db, pld.msg.author.id, key)
+                item = item_core.get_item_by_file_id(doc.get(key))
+                if available:
+                    multi = price_multi(item.file_id)
+                    price = int(item.value * multi)
+                    item_name = f"{item.icon} {item.rarity_name.title()} {item.name}: **{price} {currency}**"
                 else:
-                    response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+                    item_name = f"{item.icon} ~~{item.rarity_name.title()} {item.name}~~"
+                line = f"**{kx + 1}**: {item_name}"
+                lines.append(line)
+            question = discord.Embed(color=0xffac33, title='🪙 The Item Bazaar')
+            question.description = '\n'.join(lines)
+            choice, timeout = await int_dialogue(cmd.bot, pld.msg, question, 1, len(keys))
+            if not timeout:
+                key = keys[choice - 1]
+                item = item_core.get_item_by_file_id(doc.get(key))
+                available = not await has_purchased(cmd.db, pld.msg.author.id, key)
+                if available:
+                    curr = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
+                    multi = price_multi(item.file_id)
+                    price = int(item.value * multi)
+                    if curr >= price:
+                        await cmd.db.del_resource(pld.msg.author.id, 'currency', price, cmd.name, pld.msg)
+                        data_for_inv = item.generate_inventory_item()
+                        await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
+                        await track_purchase(cmd.db, pld.msg.author.id, key, item.file_id, price)
+                        await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
+                        await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
+                        response = ok(f"You have purchased a {item.name} for {price} {currency}.")
+                    else:
+                        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+                else:
+                    response = error('One per customer please.')
             else:
-                response = error('One per customer please.')
+                response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
+            if is_ongoing(cmd.name, pld.msg.author.id):
+                del_ongoing(cmd.name, pld.msg.author.id)
         else:
-            response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
-        if is_ongoing(cmd.name, pld.msg.author.id):
-            del_ongoing(cmd.name, pld.msg.author.id)
+            response = error('You already have a bazaar open.')
     else:
-        response = error('You already have a bazaar open.')
+        response = error('Sorry, your account is too young to give cookies.')
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)
