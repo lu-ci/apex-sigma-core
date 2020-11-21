@@ -196,6 +196,6 @@ async def bazaar(cmd, pld):
         else:
             response = error('You already have a bazaar open.')
     else:
-        response = error('Sorry, your account is too young to give cookies.')
+        response = error('Sorry, your account is too young to visit the bazaar.')
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)
