@@ -132,7 +132,7 @@ def price_multi(item_name):
     item_modifier = int(item_sum * 100)
     item_divider = len(str(item_modifier)) - 1
     item_multi = item_modifier / (10 ** item_divider)
-    return (multi + item_multi) / 2.5
+    return (multi + item_multi) / 1.66
 
 
 async def bazaar(cmd, pld):
