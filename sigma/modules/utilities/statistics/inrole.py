@@ -55,30 +55,38 @@ async def inrole(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        lookup, state, page = parse_args(pld.args)
-        role_search = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
-        if role_search:
-            members = []
-            for member in pld.msg.guild.members:
-                if role_search in member.roles:
-                    if state:
-                        if member.status.name == state:
+        try:
+            lookup, state, page = parse_args(pld.args)
+        except IndexError:
+            response = error('Bad input. See usage example.')
+            await pld.msg.channel.send(embed=response)
+            return
+        if lookup:
+            role_search = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
+            if role_search:
+                members = []
+                for member in pld.msg.guild.members:
+                    if role_search in member.roles:
+                        if state:
+                            if member.status.name == state:
+                                members.append([member.name, member.top_role.name])
+                        else:
                             members.append([member.name, member.top_role.name])
-                    else:
-                        members.append([member.name, member.top_role.name])
-            if members:
-                count = len(members)
-                members, page = PaginatorCore.paginate(sorted(members), page)
-                response = discord.Embed(color=role_search.color)
-                state = state if state else 'Any'
-                value = f'```py\nShowing 10 of {count} users. Status: {state}. Page {page}\n```'
-                members_table = boop(members, ['Name', 'Top Role'])
-                response.add_field(name='📄 Details', value=value, inline=False)
-                response.add_field(name='👥 Members', value=f'```hs\n{members_table}\n```', inline=False)
+                if members:
+                    count = len(members)
+                    members, page = PaginatorCore.paginate(sorted(members), page)
+                    response = discord.Embed(color=role_search.color)
+                    state = state if state else 'Any'
+                    value = f'```py\nShowing 10 of {count} users. Status: {state}. Page {page}\n```'
+                    members_table = boop(members, ['Name', 'Top Role'])
+                    response.add_field(name='📄 Details', value=value, inline=False)
+                    response.add_field(name='👥 Members', value=f'```hs\n{members_table}\n```', inline=False)
+                else:
+                    response = not_found(f'No users have the {role_search.name} role.')
             else:
-                response = not_found(f'No users have the {role_search.name} role.')
+                response = not_found(f'{lookup} not found.')
         else:
-            response = not_found(f'{lookup} not found.')
+            response = error('Missing role name.')
     else:
         response = error('Nothing inputted.')
     await pld.msg.channel.send(embed=response)
