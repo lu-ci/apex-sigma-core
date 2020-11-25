@@ -24,14 +24,28 @@ reddit_base = 'https://www.reddit.com/r'
 
 
 class RedditPost(object):
-    def __init__(self, data: dict):
+
+    __slots__ = ('raw',)
+
+    def __init__(self, data):
+        """
+        :param data:
+        :type data: dict
+        """
         self.raw = data
         for key in self.raw:
             setattr(self, key, self.raw.get(key))
 
 
 class RedditSub(object):
-    def __init__(self, data: dict):
+
+    __slots__ = ('private', 'banned', 'raw')
+
+    def __init__(self, data):
+        """
+        :param data:
+        :type data: dict
+        """
         self.private = data.get('reason') == 'private'
         self.banned = data.get('reason') == 'banned'
         self.raw = data.get('data', {})
@@ -41,36 +55,47 @@ class RedditSub(object):
 
 
 class RedditClient(object):
-    def __init__(self, bot_client_id: int):
-        self.headers = {'User-Agent': f'Apex Sigma Derivate {bot_client_id}'}
 
-    async def __get_data(self, url: str):
+    __slots__ = ('headers',)
+
+    def __init__(self, user_agent):
+        """
+        :param user_agent: The core client's user agent.
+        :type user_agent: dict
+        """
+        self.headers = user_agent
+
+    async def __get_data(self, url):
+        """
+        :param url:
+        :type url: str
+        :return:
+        :rtype: dict
+        """
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=self.headers) as data_response:
                 data = json.loads(await data_response.read())
         return data
 
-    async def get_subreddit(self, subreddit: str):
+    async def get_subreddit(self, subreddit):
         """
-
         :param subreddit:
-        :type subreddit:
+        :type subreddit: str
         :return:
-        :rtype:
+        :rtype: sigma.modules.searches.reddit.mech.reddit_core.RedditSub
         """
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
         sub_about_data = await self.__get_data(sub_about_url)
         return RedditSub(sub_about_data)
 
-    async def get_posts(self, subreddit: str, listing: str):
+    async def get_posts(self, subreddit, listing):
         """
-
         :param subreddit:
-        :type subreddit:
+        :type subreddit: str
         :param listing:
-        :type listing:
+        :type listing: str
         :return:
-        :rtype:
+        :rtype: list[sigma.modules.searches.reddit.mech.reddit_core.RedditSub]
         """
         sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json'
         sub_listing_data = await self.__get_data(sub_listing_url)
