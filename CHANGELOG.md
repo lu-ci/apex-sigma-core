@@ -1,5 +1,18 @@
 # Apex Sigma Changelog
 
+## 4.82.1651 Futaba
+
+### Changed
+
+- Fixed argument parsing for `inrole`.
+- Added a user agent to `mapsearch` so it actually works.
+- Added a universal user agent for requests.
+- Filled in docstrings for metacritic files.
+
+### Removed
+
+- Removed the `busplus` command.
+
 ## 4.82.1644 Futaba
 
 ### Added

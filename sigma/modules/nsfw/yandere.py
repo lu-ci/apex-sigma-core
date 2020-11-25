@@ -29,7 +29,7 @@ async def yandere(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    client = yandere_client(cmd.db.cache, cmd.bot.user.id)
+    client = yandere_client(cmd.db.cache, cmd.bot.get_agent())
     post = await client.randpost(pld.args)
     if post:
         post_url = client.post_url + str(post.get('id'))

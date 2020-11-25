@@ -24,17 +24,17 @@ from sigma.core.utilities.generic_responses import error
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
 
-async def mapsearch(_cmd, pld):
+async def mapsearch(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
         search = ' '.join(pld.args)
         search_url = '+'.join(pld.args)
-        geo_parser = Nominatim()
+        geo_parser = Nominatim(user_agent=cmd.bot.get_agent(True))
         location = geo_parser.geocode(search)
         if location:
             lat = location.latitude

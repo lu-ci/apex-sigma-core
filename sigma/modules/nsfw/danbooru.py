@@ -29,7 +29,7 @@ async def danbooru(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    client = danbooru_client(cmd.db.cache, cmd.bot.user.id)
+    client = danbooru_client(cmd.db.cache, cmd.bot.get_agent())
     tags = client.remove_lines_breaks(pld.args)
     if not len(tags) > 2:
         post = await client.randpost(pld.args)

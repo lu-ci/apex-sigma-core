@@ -220,6 +220,25 @@ class ApexSigma(client_class):
             ready = False
         return ready
 
+    def get_agent(self, partial=False):
+        """
+        Gets the current user agent for the client.
+        :param partial: If only the agent itself should be returned.
+        :return:
+        :rtype: dict or str
+        """
+        if not self.is_ready():
+            user_agent = 'Apex Sigma Derivate'
+            if not partial:
+                user_agent = {'User-Agent': partial}
+            return user_agent
+        version = self.info.get_version()
+        current = f'{version.major}.{version.minor}.{version.patch} {version.codename}'
+        user_agent = f'Apex Sigma Derivate {self.user.id}/{current}'
+        if not partial:
+            user_agent = {'User-Agent': user_agent}
+        return user_agent
+
     async def get_user(self, uid, cached=False, fetched=True):
         """
         Gets a user from the core client
