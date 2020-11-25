@@ -89,7 +89,7 @@ async def reddit(cmd, pld):
     global reddit_client
     if pld.args:
         if reddit_client is None:
-            reddit_client = RedditClient(cmd.bot.user.id)
+            reddit_client = RedditClient(cmd.bot.get_agent())
         subreddit = pld.args[0]
         argument = pld.args[-1].lower()
         subreddit = await reddit_client.get_subreddit(subreddit)
