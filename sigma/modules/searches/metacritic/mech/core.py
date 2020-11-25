@@ -57,9 +57,22 @@ PLATFORMS = {
 
 
 class MetaCriticGame(object):
+    """
+    The framework for retrieving and parsing MetaCritic game data.
+    """
+
+    __slots__ = (
+        'logo', 'headers', 'base_url',
+        'formed_url', 'data', 'valid_response'
+    )
+
     def __init__(self, cmd):
+        """
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        """
         self.logo = 'https://i.imgur.com/hZIlicx.png'
-        self.headers = {'User-Agent': f'Apex Sigma Derivate {cmd.bot.user.id}'}
+        self.headers = cmd.bot.get_agent()
         self.base_url = 'http://www.metacritic.com'
         self.formed_url = None
         self.data = None
@@ -67,6 +80,12 @@ class MetaCriticGame(object):
 
     @staticmethod
     def get_platform(platform):
+        """
+        Gets the correct platform name, if it exists.
+        :param platform: The platform to check for
+        :type platform: str
+        :return: str
+        """
         match = None
         platform = platform.replace('-', ' ')
         for name, alt in PLATFORMS.items():
@@ -77,6 +96,12 @@ class MetaCriticGame(object):
 
     @staticmethod
     def path_from_args(*args):
+        """
+        Creates a URL path from the given arguments.
+        :param args: The arguments to parse/
+        :type args: list[str]
+        :return: str
+        """
         cleaned_args = []
         for arg in args:
             cleaned_arg = ''
@@ -89,6 +114,10 @@ class MetaCriticGame(object):
         return '/'.join(cleaned_args)
 
     def generate_embed(self):
+        """
+        Generates the command embed.
+        :return: discord.Embed
+        """
         embed = discord.Embed(color=0xffcc34, description=f'Released on {self.extract_release_date()}')
         embed.set_author(name=self.extract_title(), url=self.formed_url, icon_url=self.logo)
         embed.set_thumbnail(url=self.extract_image())
@@ -111,6 +140,12 @@ class MetaCriticGame(object):
         return embed
 
     def set_response_data(self, *args):
+        """
+        Makes the request and sets the response data.
+        :param args: The args to parse into a URL.
+        :type args: list[str]
+        :return:
+        """
         url_path = self.path_from_args(*args)
         self.formed_url = f'{self.base_url}/{url_path}'
         response = requests.get(self.formed_url, headers=self.headers)
@@ -118,18 +153,34 @@ class MetaCriticGame(object):
         self.valid_response = response.status_code == 200
 
     def extract_title(self):
+        """
+        Extracts the title from the response data.
+        :return: str
+        """
         title_obj = self.data.cssselect('.product_title a h1')[0]
         return title_obj.text_content()
 
     def extract_image(self):
+        """
+        Extracts the image from the response data.
+        :return: str
+        """
         image_obj = self.data.cssselect('img.product_image.large_image')[0]
         return image_obj.attrib['src']
 
     def extract_release_date(self):
+        """
+        Extracts the release date from the response data.
+        :return: str
+        """
         release_obj = self.data.cssselect('.release_data .data')[0]
         return release_obj.text_content()
 
     def extract_platforms(self):
+        """
+        Extracts the platforms from the response data.
+        :return: str
+        """
         platforms_obj = self.data.cssselect('.product_platforms .data')
         platforms = []
         if platforms_obj:
@@ -139,6 +190,10 @@ class MetaCriticGame(object):
         return ', '.join(platforms)
 
     def extract_meta_score(self):
+        """
+        Extracts the metascore from the response data.
+        :return: str
+        """
         meta_score_obj = self.data.cssselect('.metascore_w.xlarge')
         if meta_score_obj:
             meta_score = meta_score_obj[0].text_content()
@@ -147,6 +202,10 @@ class MetaCriticGame(object):
         return meta_score
 
     def extract_user_score(self):
+        """
+        Extracts the user score from the response data.
+        :return: str
+        """
         user_score_obj = self.data.cssselect('.metascore_w.user')
         if user_score_obj:
             user_score = user_score_obj[0].text_content()
@@ -155,6 +214,10 @@ class MetaCriticGame(object):
         return user_score
 
     def extract_critic_scores(self):
+        """
+        Extracts the critic review totals from the response data.
+        :return: str
+        """
         score_obj = self.data.cssselect('.score_counts')[0].getchildren()
         pos = score_obj[0].cssselect('.count')[0].text_content()
         mix = score_obj[1].cssselect('.count')[0].text_content()
@@ -162,6 +225,10 @@ class MetaCriticGame(object):
         return pos, mix, neg
 
     def extract_user_scores(self):
+        """
+        Extracts the user review totals from the response data.
+        :return: str
+        """
         score_obj = self.data.cssselect('.score_counts')[1].getchildren()
         pos = score_obj[0].cssselect('.count')[0].text_content()
         mix = score_obj[1].cssselect('.count')[0].text_content()
@@ -170,36 +237,74 @@ class MetaCriticGame(object):
 
 
 class MetaCriticMusic(MetaCriticGame):
+    """
+    The framework for retrieving and parsing MetaCritic music data.
+    """
     def __init__(self, cmd):
+        """
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        """
         super().__init__(cmd)
 
     def extract_title(self):
+        """
+        Extracts the title from the response data.
+        :return: str
+        """
         title_obj = self.data.cssselect('.product_title a h1')[0]
         artist_obj = self.data.cssselect('.band_name')[0]
         return f'{title_obj.text_content()} - {artist_obj.text_content()}'
 
     def extract_release_date(self):
+        """
+        Extracts the release date from the response data.
+        :return: str
+        """
         release_obj = self.data.cssselect('.summary_detail.release .data')[0]
         return release_obj.text_content()
 
 
 class MetaCriticMovie(MetaCriticGame):
+    """
+    The framework for retrieving and parsing MetaCritic movie and tv data.
+    """
     def __init__(self, cmd):
+        """
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        """
         super().__init__(cmd)
 
     def extract_title(self):
+        """
+        Extracts the title from the response data.
+        :return: str
+        """
         title_obj = self.data.cssselect('.product_page_title h1')[0]
         return title_obj.text_content()
 
     def extract_image(self):
+        """
+        Extracts the image from the response data.
+        :return: str
+        """
         image_obj = self.data.cssselect('.summary_img')[0]
         return image_obj.attrib['src']
 
     def extract_release_date(self):
+        """
+        Extracts the release date from the response data.
+        :return: str
+        """
         release_obj = self.data.cssselect('.release_date')[0][1]
         return release_obj.text_content()
 
     def extract_meta_score(self):
+        """
+        Extracts the metascore from the response data.
+        :return: str
+        """
         meta_score_obj = self.data.cssselect('.metascore_w.larger')
         if meta_score_obj:
             meta_score = meta_score_obj[0].text_content()
@@ -208,6 +313,10 @@ class MetaCriticMovie(MetaCriticGame):
         return meta_score
 
     def extract_critic_scores(self):
+        """
+        Extracts the critic review totals from the response data.
+        :return: str
+        """
         score_obj = self.data.cssselect('.distribution')[0]
         pos = score_obj.cssselect('.chart.positive .count.fr')[0].text_content()
         mix = score_obj.cssselect('.chart.mixed .count.fr')[0].text_content()
@@ -215,6 +324,10 @@ class MetaCriticMovie(MetaCriticGame):
         return pos, mix, neg
 
     def extract_user_scores(self):
+        """
+        Extracts the user review totals from the response data.
+        :return: str
+        """
         score_obj = self.data.cssselect('.distribution')[1]
         pos = score_obj.cssselect('.chart.positive .count.fr')[0].text_content()
         mix = score_obj.cssselect('.chart.mixed .count.fr')[0].text_content()
@@ -223,9 +336,22 @@ class MetaCriticMovie(MetaCriticGame):
 
 
 class MetaCriticSearch(object):
+    """
+    The framework for retrieving and parsing MetaCritic search data.
+    """
+
+    __slots__ = (
+        'logo', 'headers', 'base_url', 'formed_url', 'data',
+        'valid_response', 'search_query', 'result_map', 'results_len'
+    )
+
     def __init__(self, cmd):
+        """
+        :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
+        """
         self.logo = 'https://i.imgur.com/hZIlicx.png'
-        self.headers = {'User-Agent': f'Apex Sigma Derivate {cmd.bot.user.id}'}
+        self.headers = cmd.bot.get_agent()
         self.base_url = 'http://www.metacritic.com'
         self.formed_url = None
         self.data = None
@@ -236,6 +362,12 @@ class MetaCriticSearch(object):
 
     @staticmethod
     def path_from_args(*args):
+        """
+        Creates a URL path from the given arguments.
+        :param args: The arguments to parse/
+        :type args: list[str]
+        :return: str
+        """
         cleaned_args = []
         for arg in args:
             arg = arg.replace(' ', '-').replace(':', '').strip()
@@ -244,12 +376,22 @@ class MetaCriticSearch(object):
         return '/'.join(cleaned_args)
 
     def generate_embed(self, category=None):
+        """
+        Generates the command embed.
+        :return: discord.Embed
+        """
         embed = discord.Embed(color=0xffcc34, description=self.extract_results(category))
         embed.set_author(name=f'Results for {self.search_query}', url=self.formed_url, icon_url=self.logo)
         embed.set_footer(text='Reply with a number to select a result.')
         return embed
 
     def set_response_data(self, *args):
+        """
+        Makes the request and sets the response data.
+        :param args: The args to parse into a URL.
+        :type args: list[str]
+        :return:
+        """
         url_path = self.path_from_args(*args)
         self.search_query = url_path.split('/')[2]
         self.formed_url = f'{self.base_url}/{url_path}'
@@ -258,6 +400,10 @@ class MetaCriticSearch(object):
         self.valid_response = response.status_code == 200
 
     def extract_game_data(self, result_obj):
+        """
+        Extracts the game specific details from the response data.
+        :return: str
+        """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()
         url = self.base_url + result_data[-2][0].attrib['href']
@@ -270,6 +416,10 @@ class MetaCriticSearch(object):
         return data, href
 
     def extract_data(self, result_obj):
+        """
+        Extracts the general details from the response data.
+        :return: str
+        """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()
         url = self.base_url + result_data[-2][0].attrib['href']
@@ -280,6 +430,10 @@ class MetaCriticSearch(object):
         return data, href
 
     def extract_results(self, category):
+        """
+        Extracts the search results from the response data.
+        :return: str
+        """
         results_obj = self.data.cssselect('.search_results.module .result')
         results_data = []
         results_href = []

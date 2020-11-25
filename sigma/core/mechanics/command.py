@@ -54,14 +54,14 @@ class SigmaCommand(object):
 
     def __init__(self, bot, command, module_info, command_info):
         """
-        :type bot: sigma.core.sigma.ApexSigma
-        :type command: function
-        :type module_info: dict
-        :type command_info: dict
         :param bot: The core client of the framework.
+        :type bot: sigma.core.sigma.ApexSigma
         :param command: The function to call for execution.
+        :type command: function
         :param module_info: Dictionary data containing module details.
+        :type module_info: dict
         :param command_info: Dictionary data containing command details.
+        :type command_info: dict
         """
         self.bot = bot
         self.db = self.bot.db
