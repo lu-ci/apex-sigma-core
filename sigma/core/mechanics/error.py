@@ -185,7 +185,7 @@ class SigmaError(object):
             title = '❗ Error: Connection Issue!'
             err_text = 'This is a general connectivity error which occurs if Discord suddenly drops the connection.'
             err_text += f' The reasons can vary from a simple hiccup in the pipeline to the gateway being under heavy'
-            err_text += ' load. Regardless, if you notice these ocurring too frequently, you can always'
+            err_text += ' load. Regardless, if you notice these occurring too frequently, you can always'
             err_text += f' drop by and ask about it, the invite link is in the **{prefix}help** command.'
         else:
             title = '❗ An Unhandled Error Occurred!'

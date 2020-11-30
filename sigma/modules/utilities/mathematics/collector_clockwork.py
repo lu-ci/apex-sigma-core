@@ -248,7 +248,7 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
     :type tgt_chn:
     """
     desc = "This usually happens if there isn't enough data."
-    desc += " Try targetting a channel where you talk frequently or have sent a lot of messages recently."
+    desc += " Try targeting a channel where you talk frequently or have sent a lot of messages recently."
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
