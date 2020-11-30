@@ -61,7 +61,7 @@ async def disclaimer_sender(_ev, pld):
     """
     try:
         await pld.guild.owner.send(disclaimer)
-    except discord.Forbidden:
+    except (discord.Forbidden, discord.HTTPException):
         if pld.guild.system_channel:
             try:
                 await pld.guild.system_channel.send(disclaimer)

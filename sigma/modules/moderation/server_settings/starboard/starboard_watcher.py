@@ -112,29 +112,29 @@ async def starboard_watcher(ev, pld):
     mid = payload.message_id
     emoji = payload.emoji
     channel = await ev.bot.get_channel(cid)
-    if isinstance(channel, discord.DMChannel):
-        return
-    if hasattr(channel, 'guild'):
+    try:
         guild = channel.guild
-        if guild:
-            starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
-            if starboard_doc.get('state'):
-                sbc = starboard_doc.get('channel_id')
-                sbe = starboard_doc.get('emote')
-                sbl = starboard_doc.get('limit')
-                if sbc and sbe and sbl:
-                    if channel.id != sbc:
-                        if emoji.name == sbe:
-                            user = guild.get_member(uid)
-                            if user:
-                                if not user.bot:
-                                    try:
-                                        enough = await check_emotes(mid, uid, sbl)
-                                        if enough:
-                                            message = await channel.fetch_message(mid)
-                                            if not message.author.bot:
-                                                response = await generate_embed(message)
-                                                if response:
-                                                    await post_starboard(message, response, sbc)
-                                    except (discord.NotFound, discord.Forbidden):
-                                        pass
+    except AttributeError:
+        guild = None
+    if guild:
+        starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
+        if starboard_doc.get('state'):
+            sbc = starboard_doc.get('channel_id')
+            sbe = starboard_doc.get('emote')
+            sbl = starboard_doc.get('limit')
+            if sbc and sbe and sbl:
+                if channel.id != sbc:
+                    if emoji.name == sbe:
+                        user = guild.get_member(uid)
+                        if user:
+                            if not user.bot:
+                                try:
+                                    enough = await check_emotes(mid, uid, sbl)
+                                    if enough:
+                                        message = await channel.fetch_message(mid)
+                                        if not message.author.bot:
+                                            response = await generate_embed(message)
+                                            if response:
+                                                await post_starboard(message, response, sbc)
+                                except (discord.NotFound, discord.Forbidden):
+                                    pass

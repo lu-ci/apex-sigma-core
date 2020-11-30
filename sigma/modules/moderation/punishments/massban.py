@@ -80,7 +80,7 @@ async def ban_members(cmd: SigmaCommand, pld: CommandPayload, targets: list, rea
         to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
         try:
             await target.send(embed=to_target)
-        except discord.Forbidden:
+        except (discord.Forbidden, discord.HTTPException):
             pass
         await target.ban(reason=f'By {pld.msg.author.name}: {reason}')
         log_embed = generate_log_embed(pld.msg, target, reason)

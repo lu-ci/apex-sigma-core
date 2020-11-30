@@ -45,7 +45,7 @@ async def join_name_ban(_ev, pld):
                     to_target.set_footer(text=f'From: {pld.member.guild.name}.', icon_url=guild_icon)
                     try:
                         await pld.member.send(embed=to_target)
-                    except discord.Forbidden:
+                    except (discord.Forbidden, discord.HTTPException):
                         pass
                     await pld.member.ban(reason=f'Autoban: {reason}.')
                 except Exception:

@@ -36,7 +36,7 @@ async def send_divorce(author: discord.Member, target: discord.Member):
     divorce_embed = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
     try:
         await target.send(embed=divorce_embed)
-    except discord.Forbidden:
+    except (discord.Forbidden, discord.HTTPException):
         pass
 
 

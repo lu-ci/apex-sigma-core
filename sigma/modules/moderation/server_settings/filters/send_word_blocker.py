@@ -66,7 +66,7 @@ async def send_word_blocker(ev, pld):
                             to_author = discord.Embed(color=0xFFCC4D, title=title)
                             try:
                                 await pld.msg.author.send(embed=to_author)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.HTTPException):
                                 pass
                             author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                             title = f'I deleted {author}\'s message for containing "{reason}".'

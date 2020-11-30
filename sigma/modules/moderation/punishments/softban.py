@@ -77,7 +77,7 @@ async def softban(cmd, pld):
                             to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
                             try:
                                 await target.send(embed=to_target)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.HTTPException):
                                 pass
                             await target.ban(reason=f'By {pld.msg.author.name}: {reason} (Soft)')
                             await target.unban()

@@ -139,64 +139,64 @@ async def connect_four_mechanics(ev, pld):
     mid = payload.message_id
     emoji = payload.emoji
     channel = await ev.bot.get_channel(cid)
-    if isinstance(channel, discord.DMChannel):
-        return
-    if hasattr(channel, 'guild'):
+    try:
         guild = channel.guild
-        if guild:
-            game: ConnectFourGame = await cf_cache.get_cache(mid)
-            if game:
-                if is_ongoing('cf_ongoing_turn', cid):
-                    return
-                set_ongoing('cf_ongoing_turn', cid)
-                try:
-                    message = await channel.fetch_message(mid)
-                except (discord.NotFound, discord.Forbidden):
-                    message = None
-                if message:
-                    if ev.event_type == 'raw_reaction_add':
-                        if str(emoji.name) in nums and uid == game.current_turn.id:
-                            user_av = user_avatar(game.p_one)
-                            await check_emotes(ev.bot, message)
-                            piece = game.po_piece if game.current_turn.id == game.p_one.id else game.pt_piece
-                            opponent = message.guild.me if game.is_bot else game.p_two
-                            next_player = game.p_one if game.current_turn != game.p_one else opponent
-                            rows = game.board.edit(nums.index(str(emoji.name)), piece)
-                            board_resp = generate_response(user_av, next_player, rows)
-                            board_msg = await send_board_msg(channel, message, board_resp)
-                            full, winner, win = game.board.winner
-                            finished = win or full
-                            if not finished:
+    except AttributeError:
+        guild = None
+    if guild:
+        game: ConnectFourGame = await cf_cache.get_cache(mid)
+        if game:
+            if is_ongoing('cf_ongoing_turn', cid):
+                return
+            set_ongoing('cf_ongoing_turn', cid)
+            try:
+                message = await channel.fetch_message(mid)
+            except (discord.NotFound, discord.Forbidden):
+                message = None
+            if message:
+                if ev.event_type == 'raw_reaction_add':
+                    if str(emoji.name) in nums and uid == game.current_turn.id:
+                        user_av = user_avatar(game.p_one)
+                        await check_emotes(ev.bot, message)
+                        piece = game.po_piece if game.current_turn.id == game.p_one.id else game.pt_piece
+                        opponent = message.guild.me if game.is_bot else game.p_two
+                        next_player = game.p_one if game.current_turn != game.p_one else opponent
+                        rows = game.board.edit(nums.index(str(emoji.name)), piece)
+                        board_resp = generate_response(user_av, next_player, rows)
+                        board_msg = await send_board_msg(channel, message, board_resp)
+                        full, winner, win = game.board.winner
+                        finished = win or full
+                        if not finished:
+                            if game.is_bot:
+                                # Bot takes turn
+                                await asyncio.sleep(2)
+                                game.last_bot_move = bot_choice = game.board.bot_move(game.last_bot_move)
+                                rows = game.board.edit(bot_choice, game.pt_piece)
+                                board_resp = generate_response(user_av, game.p_one, rows)
+                                await send_board_msg(channel, board_msg, board_resp)
+                                full, winner, win = game.board.winner
+                                finished = win or full
+                            else:
+                                if game.current_turn == game.p_one:
+                                    game.current_turn = game.p_two
+                                else:
+                                    game.current_turn = game.p_one
+                        if finished:
+                            if winner:
                                 if game.is_bot:
-                                    # Bot takes turn
-                                    await asyncio.sleep(2)
-                                    game.last_bot_move = bot_choice = game.board.bot_move(game.last_bot_move)
-                                    rows = game.board.edit(bot_choice, game.pt_piece)
-                                    board_resp = generate_response(user_av, game.p_one, rows)
-                                    await send_board_msg(channel, board_msg, board_resp)
-                                    full, winner, win = game.board.winner
-                                    finished = win or full
-                                else:
-                                    if game.current_turn == game.p_one:
-                                        game.current_turn = game.p_two
+                                    if winner == getattr(game.board, piece):
+                                        color, icon, resp = 0x3B88C3, '💎', 'You win'
                                     else:
-                                        game.current_turn = game.p_one
-                            if finished:
-                                if winner:
-                                    if game.is_bot:
-                                        if winner == getattr(game.board, piece):
-                                            color, icon, resp = 0x3B88C3, '💎', 'You win'
-                                        else:
-                                            color, icon, resp = 0x292929, '💣', 'You lose'
-                                    else:
-                                        color, icon, resp = 0x3B88C3, '💎', f'{game.current_turn.display_name} wins'
+                                        color, icon, resp = 0x292929, '💣', 'You lose'
                                 else:
-                                    color, icon, resp = 0xFFCC4D, '🔥', 'It\'s a draw'
-                                response = discord.Embed(color=color, title=f'{icon} {resp}!')
-                                await channel.send(embed=response)
-                                await cf_cache.del_cache(mid)
-                                if is_ongoing('connectfour', channel.id):
-                                    del_ongoing('connectfour', channel.id)
-                game.expiry = arrow.utcnow().int_timestamp + 120
-                if is_ongoing('cf_ongoing_turn', cid):
-                    del_ongoing('cf_ongoing_turn', cid)
+                                    color, icon, resp = 0x3B88C3, '💎', f'{game.current_turn.display_name} wins'
+                            else:
+                                color, icon, resp = 0xFFCC4D, '🔥', 'It\'s a draw'
+                            response = discord.Embed(color=color, title=f'{icon} {resp}!')
+                            await channel.send(embed=response)
+                            await cf_cache.del_cache(mid)
+                            if is_ongoing('connectfour', channel.id):
+                                del_ongoing('connectfour', channel.id)
+            game.expiry = arrow.utcnow().int_timestamp + 120
+            if is_ongoing('cf_ongoing_turn', cid):
+                del_ongoing('cf_ongoing_turn', cid)

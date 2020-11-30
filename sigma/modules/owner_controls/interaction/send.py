@@ -57,7 +57,7 @@ async def send(cmd, pld):
             try:
                 await target.send(text)
                 response = ok(f'Message sent to {title_end}.')
-            except discord.Forbidden:
+            except (discord.Forbidden, discord.HTTPException):
                 response = error('I can\'t message that user.')
         else:
             response = error('Missing message to send.')

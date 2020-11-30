@@ -54,6 +54,6 @@ async def cycler(ev):
                     response = discord.Embed(color=0xff3333, title=f'⏰ Your poll {poll_file["id"]} has expired.')
                     try:
                         await author.send(embed=response)
-                    except discord.Forbidden:
+                    except (discord.Forbidden, discord.HTTPException):
                         pass
         await asyncio.sleep(1)

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import convert_to_seconds, get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -31,13 +30,13 @@ def generate_log_embed(message, target, reason):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param target:
-    :type target:
+    :type target: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Hard Muted', icon_url=user_avatar(target))
@@ -52,19 +51,19 @@ def generate_log_embed(message, target, reason):
     return log_embed
 
 
-async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+async def make_incident(db, gld, ath, trg, reason):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param ath:
-    :type ath:
+    :type ath: discord.Member
     :param trg:
-    :type trg:
+    :type trg: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     """
     icore = get_incident_core(db)
     inc = icore.generate('hardmute')
@@ -104,7 +103,7 @@ async def hardmute(cmd, pld):
                         if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                             try:
                                 await channel.set_permissions(target, send_messages=False, add_reactions=False)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.NotFound):
                                 pass
                     try:
                         await ongoing_msg.delete()
@@ -123,7 +122,7 @@ async def hardmute(cmd, pld):
                     to_target.set_footer(text=f'On: {pld.msg.guild.name}', icon_url=guild_icon)
                     try:
                         await target.send(embed=to_target)
-                    except discord.Forbidden:
+                    except (discord.Forbidden, discord.HTTPException):
                         pass
                     if endstamp:
                         doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}

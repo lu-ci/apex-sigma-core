@@ -77,7 +77,7 @@ async def kick(cmd, pld):
                             to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
                             try:
                                 await target.send(embed=to_target)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.HTTPException):
                                 pass
                             author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                             await target.kick(reason=f'By {author}: {reason}')

@@ -64,7 +64,7 @@ async def send_invite_blocker(ev, pld):
                             response = discord.Embed(color=0xF9F9F9, title=title)
                             try:
                                 await pld.msg.author.send(embed=response)
-                            except discord.Forbidden:
+                            except (discord.Forbidden, discord.HTTPException):
                                 pass
                             log_embed = discord.Embed(color=0xF9F9F9)
                             author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
