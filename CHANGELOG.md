@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.82.1654 Futaba
+
+### Changed
+
+- Added more exception catches. Never too many...
+- Fixed the `youtube` command when parsing an empty playlist.
+- Switched the `crypocurrency` command to the new API.
+
 ## 4.82.1651 Futaba
 
 ### Changed
