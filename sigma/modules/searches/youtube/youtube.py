@@ -53,28 +53,25 @@ async def youtube(cmd, pld):
     yt_color = 0xcf2227
     text_mode = False
     if pld.args:
-        if pld.args[-1].lower() == '--text':
+        lookup = ' '.join(pld.args)
+        if pld.args[-1].lower() == ' --text':
+            lookup = lookup.rpartition(' ')[0]
             text_mode = True
-        if text_mode:
-            lookup = ' '.join(pld.args[:-1])
-        else:
-            lookup = ' '.join(pld.args)
         extracted_info = await cmd.bot.music.extract_info(lookup)
-        if lookup.startswith('http'):
+        if lookup.startswith('http') and '/playlist?' in lookup:
             playlist_url = True
         else:
             playlist_url = False
         if extracted_info:
+            song_item = extracted_info
             if '_type' in extracted_info:
                 if extracted_info['_type'] == 'playlist':
+                    song_item = None
                     if not playlist_url:
-                        song_item = extracted_info['entries'][0]
-                    else:
-                        song_item = None
-                else:
-                    song_item = extracted_info
-            else:
-                song_item = extracted_info
+                        try:
+                            song_item = extracted_info['entries'][0]
+                        except IndexError:
+                            pass
             if song_item:
                 video_url = f'https://www.youtube.com/watch?v={song_item["id"]}'
                 if text_mode:
@@ -93,7 +90,7 @@ async def youtube(cmd, pld):
                     response.add_field(name='Info', value=info_text)
                     response.add_field(name='Stats', value=stat_text)
             else:
-                response = not_found('Invalid data retrieved.')
+                response = not_found('Invalid data retrieved. Try a different search.')
         else:
             response = not_found('No results.')
     else:
