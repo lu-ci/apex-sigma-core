@@ -7,6 +7,10 @@
 - Added more exception catches. Never too many...
 - Fixed the `youtube` command when parsing an empty playlist.
 - Switched the `crypocurrency` command to the new API.
+- Removed `__slots__` from some reddit related classes, because it broke them.
+- Removed an unnecessary use of `str.join`. Not everything needs to be joined!
+- Added an additional error catch to the `translation` command.
+- Added an exception catch to `antispam_watcher` and `anticaps_watcher`.
 
 ## 4.82.1651 Futaba
 

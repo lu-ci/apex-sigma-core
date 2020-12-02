@@ -63,7 +63,10 @@ async def anticaps_watcher(ev, pld):
                         cap_percent = pld.settings.get('caps_percentage') or 60
                         total, upper, percent = count_chars(pld.msg.content)
                         if upper >= cap_limit and percent >= cap_percent:
-                            await pld.msg.delete()
+                            try:
+                                await pld.msg.delete()
+                            except (discord.NotFound, discord.Forbidden):
+                                pass
                             title = '📢 Anticaps: Removed a message.'
                             user = f'User: {pld.msg.author.id}'
                             channel = f'Channel: {pld.msg.channel.name}'

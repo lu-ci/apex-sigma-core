@@ -24,9 +24,6 @@ reddit_base = 'https://www.reddit.com/r'
 
 
 class RedditPost(object):
-
-    __slots__ = ('raw',)
-
     def __init__(self, data):
         """
         :param data:
@@ -38,9 +35,6 @@ class RedditPost(object):
 
 
 class RedditSub(object):
-
-    __slots__ = ('private', 'banned', 'raw')
-
     def __init__(self, data):
         """
         :param data:

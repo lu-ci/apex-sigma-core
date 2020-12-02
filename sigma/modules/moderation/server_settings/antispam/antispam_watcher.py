@@ -28,11 +28,9 @@ from sigma.core.mechanics.config import CacheConfig
 antispam_cache = TTLCacher(CacheConfig({}))
 
 
-async def rate_limited(db, msg, amt, tsp):
+async def rate_limited(msg, amt, tsp):
     """
     Chceks if the sent message was subject to rate limiting.
-    :param db: The main database handler instance.
-    :type db: sigma.core.mechanics.database.Database
     :param msg: The message that was sent.
     :type msg: discord.Message
     :param amt: Maximum amount to send in the timespan.
@@ -69,8 +67,11 @@ async def antispam_watcher(ev, pld):
                     if antispam:
                         amount = pld.settings.get('rate_limit_amount') or 5
                         timespan = pld.settings.get('rate_limit_timespan') or 5
-                        if await rate_limited(ev.db, pld.msg, amount, timespan):
-                            await pld.msg.delete()
+                        if await rate_limited(pld.msg, amount, timespan):
+                            try:
+                                await pld.msg.delete()
+                            except (discord.NotFound, discord.Forbidden):
+                                pass
                             title = '📢 Antispam: Removed a message.'
                             user = f'User: {pld.msg.author.id}'
                             channel = f'Channel: {pld.msg.channel.name}'

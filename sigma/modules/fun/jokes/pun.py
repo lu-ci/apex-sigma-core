@@ -31,7 +31,7 @@ def split_content(text):
     """
     right = text.split('#')[-1]
     while right[0].isdigit():
-        right = ''.join(right[1:])
+        right = right[1:]
     if right[-1] not in ['.', '?', '!']:
         right += '.'
     return right

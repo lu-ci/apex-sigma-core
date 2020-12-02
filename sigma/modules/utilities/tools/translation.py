@@ -54,6 +54,14 @@ async def translation(_cmd, pld):
             # 'excedeed' is misspelled intentionally
             elif 'length limit excedeed' in trans_output.lower():
                 response = error('Maximum query limit is 500 characters.')
+            elif 'mymemory warning' in trans_output.lower():
+                time_pieces = []
+                for word in trans_output.split(' '):
+                    if word.isdigit():
+                        time_pieces.append(word)
+                time = ':'.join(time_pieces)
+                response = error('Unable to translate more due to rate limits.')
+                response.set_footer(text=f'More translations available in {time}.')
             else:
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
                 response = discord.Embed(color=0x3B88C3, title=title)
