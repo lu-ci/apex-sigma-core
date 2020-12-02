@@ -11,6 +11,7 @@
 - Removed an unnecessary use of `str.join`. Not everything needs to be joined!
 - Added an additional error catch to the `translation` command.
 - Added an exception catch to `antispam_watcher` and `anticaps_watcher`.
+- Fix `visualnovelquote` html parsing.
 
 ## 4.82.1651 Futaba
 
