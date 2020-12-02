@@ -172,6 +172,7 @@ async def trivia(cmd, pld):
             footer_text = 'Input the number of your chosen answer.'
             if reward_mult:
                 footer_text += f' | Streak: {int(reward_mult)}'
+            question_embed.set_footer(text=footer_text)
             await pld.msg.channel.send(embed=question_embed)
 
             def check_answer(msg):
