@@ -73,7 +73,6 @@ async def inspect(cmd, pld):
                 owned_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
                 connector = 'Found'
-                print(item.rarity)
                 if item.rarity == 11:
                     connector = 'Made'
                     recipe = recipe_core.find_recipe(lookup)
