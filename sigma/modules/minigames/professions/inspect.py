@@ -30,12 +30,10 @@ def check_recipe(inv, recipe):
     :param recipe: The recipe to check.
     :type recipe: SigmaRecipe
     :return:
-    :rtype: bool
+    :rtype: str
     """
     ingredients = ''
-    ing_value = 0
     recipe.ingredients.sort(key=lambda x: x.name)
-    req_satisfied = True
     for ingredient in recipe.ingredients:
         in_inventory = False
         for item in inv:
@@ -46,10 +44,8 @@ def check_recipe(inv, recipe):
             in_inventory = '▫'
         else:
             in_inventory = '▪'
-            req_satisfied = False
         ingredients += f'\n{in_inventory} **{ingredient.name}**'
-        ing_value += ingredient.value
-    return ingredients, ing_value, req_satisfied
+    return ingredients
 
 
 async def inspect(cmd, pld):
@@ -76,12 +72,15 @@ async def inspect(cmd, pld):
                 stat_count = all_stats.get(item.file_id) or 0
                 owned_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
+                connector = 'Found'
+                print(item.rarity)
                 if item.rarity == 11:
+                    connector = 'Made'
                     recipe = recipe_core.find_recipe(lookup)
                     ing_icon = recipe.ingredients[0].icon
-                    ingredients, ing_value, req_satisfied = check_recipe(inv, recipe)
+                    ingredients = check_recipe(inv, recipe)
                     response.insert_field_at(1, name=f'{ing_icon} Ingredients', value=ingredients)
-                footer = f'You Found: {stat_count} | Total Found: {total_found}'
+                footer = f'You {connector}: {stat_count} | Total {connector}: {total_found}'
                 if owned_item:
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
                     footer += f' | Owned: {count} | ID: {owned_item.get("item_id")}'

@@ -66,15 +66,11 @@ class SigmaRawItem(object):
         :rtype: discord.Embed
         """
         used_in_recipes = self.get_recipe_presence(recipe_core)
-        item_info = f'Type: **{self.type}**'
+        item_info = f'Type: **{self.rarity_name.title()} {self.type}**'
         item_info += f'\nValue: **{self.value} {currency}**'
         if used_in_recipes:
             recipe_names = [f'**{r.name}**' for r in used_in_recipes]
             item_info += f'\nUsed In: {", ".join(recipe_names)}'
-            recipe = recipe_core.find_recipe(self.name)
-            if recipe:
-                ing_value = sum(ing.value for ing in recipe.ingredients)
-                item_info += f'\nIngredient Value: **{ing_value} {currency}**'
         response = discord.Embed(color=self.color)
         response.add_field(name=f'{self.icon} {self.name}', value=f'{item_info}')
         response.add_field(name='Item Description', value=f'{self.desc}', inline=False)
