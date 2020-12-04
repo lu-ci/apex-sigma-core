@@ -66,14 +66,15 @@ class SigmaRawItem(object):
         :rtype: discord.Embed
         """
         used_in_recipes = self.get_recipe_presence(recipe_core)
-        connector = 'A'
-        if self.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-            connector = 'An'
-        item_info = f'{connector} **{self.rarity_name.title()} {self.type.title()}**'
-        item_info += f'\nIt is valued at **{self.value} {currency}**'
+        item_info = f'Type: **{self.type}**'
+        item_info += f'\nValue: **{self.value} {currency}**'
         if used_in_recipes:
             recipe_names = [f'**{r.name}**' for r in used_in_recipes]
-            item_info += f'\nUsed in: {", ".join(recipe_names)}'
+            item_info += f'\nUsed In: {", ".join(recipe_names)}'
+            recipe = recipe_core.find_recipe(self.name)
+            if recipe:
+                ing_value = sum(ing.value for ing in recipe.ingredients)
+                item_info += f'\nIngredient Value: **{ing_value} {currency}**'
         response = discord.Embed(color=self.color)
         response.add_field(name=f'{self.icon} {self.name}', value=f'{item_info}')
         response.add_field(name='Item Description', value=f'{self.desc}', inline=False)
@@ -135,14 +136,15 @@ class SigmaCookedItem(object):
         :rtype: discord.Embed
         """
         used_in_recipes = self.get_recipe_presence(recipe_core)
-        connector = 'A'
-        if self.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
-            connector = 'An'
-        item_info = f'{connector} **{self.name}** {self.type}'
-        item_info += f'\nIt is valued at **{self.value} {currency}**'
+        item_info = f'Type: **{self.type}**'
+        item_info += f'\nValue: **{self.value} {currency}**'
         if used_in_recipes:
             recipe_names = [f'**{r.name}**' for r in used_in_recipes]
-            item_info += f'\nUsed in: {", ".join(recipe_names)}'
+            item_info += f'\nUsed In: {", ".join(recipe_names)}'
+        recipe = recipe_core.find_recipe(self.name)
+        if recipe:
+            ing_value = sum(ing.value for ing in recipe.ingredients)
+            item_info += f'\nIngredient Value: **{ing_value} {currency}**'
         response = discord.Embed(color=self.color)
         response.add_field(name=f'{self.icon} {self.name}', value=f'{item_info}')
         response.add_field(name='Item Description', value=f'{self.desc}', inline=False)

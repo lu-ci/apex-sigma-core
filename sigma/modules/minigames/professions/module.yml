@@ -15,10 +15,12 @@ commands:
     usage: '{pfx}{cmd} 2 @person plants'
   - alts:
       - finditem
+      - recipe
       - fi
-    description: Shows the name, value, and description of the specified item If you
+    description: Shows the name, value, and description of the specified item. If you
       have this item in your inventory an Item ID will be in the footer. Also shows
-      how many times you've caught this item.
+      how many times you've caught this item. If the item is a recipe, the recipe's
+      details, such as ingredients, will also be shown.
     enabled: true
     name: inspect
     usage: '{pfx}{cmd} Nabfischz'
@@ -66,14 +68,6 @@ commands:
     enabled: true
     name: chances
     usage: '{pfx}{cmd} @person'
-  - alts:
-      - recipe
-      - vrec
-    description: Shows details on the specified recipe, such as the ingredients required,
-      value of the item, and its description.
-    enabled: true
-    name: viewrecipe
-    usage: '{pfx}{cmd} Shade Tea'
   - description: Sells an item from your inventory. Input "all" instead of the item
       name to sell your entire inventory. Input "duplicates" instead of the item name
       to sell all duplicate items. Put a number before the item name to sell that many

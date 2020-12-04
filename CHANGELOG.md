@@ -12,6 +12,11 @@
 - Added an additional error catch to the `translation` command.
 - Added an exception catch to `antispam_watcher` and `anticaps_watcher`.
 - Fix `visualnovelquote` html parsing.
+- Merged `inspect` and `viewrecipe` commands.
+
+### Removed
+
+- Removed the `viewrecipe` command.
 
 ## 4.82.1651 Futaba
 

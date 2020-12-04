@@ -22,6 +22,36 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
+def check_recipe(inv, recipe):
+    """
+    Checks if a user has a recipe's ingredients in their inventory.
+    :param inv: The user's inventory.
+    :type inv: list[dict]
+    :param recipe: The recipe to check.
+    :type recipe: SigmaRecipe
+    :return:
+    :rtype: bool
+    """
+    ingredients = ''
+    ing_value = 0
+    recipe.ingredients.sort(key=lambda x: x.name)
+    req_satisfied = True
+    for ingredient in recipe.ingredients:
+        in_inventory = False
+        for item in inv:
+            if item['item_file_id'] == ingredient.file_id:
+                in_inventory = True
+                break
+        if in_inventory:
+            in_inventory = '▫'
+        else:
+            in_inventory = '▪'
+            req_satisfied = False
+        ingredients += f'\n{in_inventory} **{ingredient.name}**'
+        ing_value += ingredient.value
+    return ingredients, ing_value, req_satisfied
+
+
 async def inspect(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -36,21 +66,23 @@ async def inspect(cmd, pld):
         item = item_core.get_item_by_name(lookup)
         if item:
             if item.rarity != 0:
+                inv = await cmd.db.get_inventory(pld.msg.author.id)
                 stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
                 all_stats = await stat_coll.find_one({'user_id': pld.msg.author.id}) or {}
-                item_total = 0
+                total_found = 0
                 all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)
                 for stat_doc in all_stat_docs:
-                    item_total += stat_doc.get(item.file_id) or 0
+                    total_found += stat_doc.get(item.file_id) or 0
                 stat_count = all_stats.get(item.file_id) or 0
                 owned_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                 response = item.make_inspect_embed(cmd.bot.cfg.pref.currency, recipe_core)
-                footer = f'You Found: {stat_count} | Total Found: {item_total}'
                 if item.rarity == 11:
-                    pfx = cmd.db.get_prefix(pld.settings)
-                    footer += f' | Try {pfx}recipe {item.name}'
+                    recipe = recipe_core.find_recipe(lookup)
+                    ing_icon = recipe.ingredients[0].icon
+                    ingredients, ing_value, req_satisfied = check_recipe(inv, recipe)
+                    response.insert_field_at(1, name=f'{ing_icon} Ingredients', value=ingredients)
+                footer = f'You Found: {stat_count} | Total Found: {total_found}'
                 if owned_item:
-                    inv = await cmd.db.get_inventory(pld.msg.author.id)
                     count = len([i for i in inv if i.get('item_file_id') == item.file_id])
                     footer += f' | Owned: {count} | ID: {owned_item.get("item_id")}'
                     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
