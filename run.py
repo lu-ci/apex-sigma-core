@@ -57,6 +57,8 @@ def run():
             modules_missing = True
             install_requirements()
             run()
+        except KeyboardInterrupt:
+            pass
     else:
         exit(0)
 
