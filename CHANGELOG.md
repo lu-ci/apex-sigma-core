@@ -13,7 +13,7 @@
 - Added an exception catch to `antispam_watcher` and `anticaps_watcher`.
 - Fix `visualnovelquote` html parsing.
 - Merged `inspect` and `viewrecipe` commands.
-- Added `KeyboardInterupt` catch to `run.sh` for development purposes.
+- Added `KeyboardInterupt` catch to `run.py` for development purposes.
 
 ### Removed
 
