@@ -7,13 +7,10 @@ import sys
 
 try:
     from sigma.core.sigma import ApexSigma
-
-    modules_missing = False
 except (ImportError, ModuleNotFoundError) as err:
     print(f"Missing module: {err}")
-    modules_missing = True
 
-modules_installed = False
+requirements_reinstalled = False
 
 if not sys.version_info >= (3, 6):
     print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
@@ -26,18 +23,31 @@ def install_requirements():
     if startup fails due to a missing module.
     :return:
     """
-    global modules_installed
-    if not modules_installed:
-        pip_cmd = ['pip', 'install', '-Ur', 'requirements.txt']
-        print('Missing required modules, trying to install them...')
-        try:
-            subprocess.run(pip_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-            modules_installed = True
-        except (OSError, subprocess.SubprocessError):
-            print('Requirement update failed!')
-            exit(errno.EINVAL)
-    else:
-        print('Trying to install missing requirements did not work, please contact Sigma\'s developers.')
+    global requirements_reinstalled
+    pip_cmd = ['pip', 'install', '-Ur', 'requirements.txt']
+    print('Missing required modules, attempting to install them...')
+    try:
+        subprocess.run(pip_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        requirements_reinstalled = True
+    except (OSError, subprocess.SubprocessError):
+        print('Requirement update failed!')
+        exit(errno.EINVAL)
+
+
+def import_framework():
+    """
+    Attempts to import the ApexSigma class.
+    This is necessary after running `install_requirements`.
+    :return:
+    :rtype: ApexSigma
+    """
+    global requirements_reinstalled
+    try:
+        from sigma.core.sigma import ApexSigma
+        return ApexSigma()
+    except (ImportError, ModuleNotFoundError) as e:
+        print('Installing missing requirements did not resolve the issue, please contact Sigma\'s developers.')
+        print(repr(e))
         exit(errno.EINVAL)
 
 
@@ -47,14 +57,16 @@ def run():
     Runs the entire client core.
     :return:
     """
-    global modules_missing
     ci_token = os.getenv('CI')
     if not ci_token:
         try:
-            sigma = ApexSigma()
+            # if `install_requirements` was run, reimport the framework.
+            if requirements_reinstalled:
+                sigma = import_framework()
+            else:
+                sigma = ApexSigma()
             sigma.run()
         except (ImportError, ModuleNotFoundError, NameError):
-            modules_missing = True
             install_requirements()
             run()
         except KeyboardInterrupt:

@@ -14,6 +14,7 @@
 - Fix `visualnovelquote` html parsing.
 - Merged `inspect` and `viewrecipe` commands.
 - Added `KeyboardInterupt` catch to `run.py` for development purposes.
+- Reimport `ApexSigma` in `run.py` after installing requirements if the original import fails.
 
 ### Removed
 
