@@ -9,7 +9,7 @@ commands:
       owner: true
   - alts:
       - fdu
-    description: Forces all static content data in the databse to be updated from the
+    description: Forces all static content data in the database to be updated from the
       repository's static file storage.
     enabled: true
     name: forcedataupdate
