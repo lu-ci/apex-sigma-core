@@ -41,7 +41,6 @@ def import_framework():
     :return:
     :rtype: ApexSigma
     """
-    global requirements_reinstalled
     try:
         from sigma.core.sigma import ApexSigma
         return ApexSigma()
