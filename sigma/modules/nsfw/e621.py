@@ -30,19 +30,19 @@ async def e621(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     client = e621_client(cmd.db.cache, cmd.bot.get_agent())
-    tags = client.remove_lines_breaks(pld.args)
-    if not len(tags) > 2:
-        post = await client.randpost(pld.args)
-        if post:
-            file = post.get('file')
-            post_url = client.post_url + str(post.get('id'))
-            footer_text = f'Score: {post.get("score").get("up")} | Size: {file.get("width")}x{file.get("height")}'
-            response = discord.Embed(color=0x152F56)
-            response.set_author(name='E621', url=post_url, icon_url=client.icon_url)
-            response.set_image(url=file.get('url'))
-            response.set_footer(text=footer_text)
-        else:
-            response = not_found('No results.')
+    post = await client.randpost(pld.args)
+    if post:
+        file = post.get('file')
+        img_url = file.get('url')
+        if not img_url.startswith('http'):
+            img_url = f"https:{img_url}"
+        post_url = client.post_url + str(post.get('id'))
+        score_text = f'Score: {post.get("score").get("up")}'
+        size_text = f'Size: {file.get("width")}x{file.get("height")}'
+        response = discord.Embed(color=0x152F56)
+        response.set_author(name='E621', url=post_url, icon_url=client.icon_url)
+        response.set_image(url=img_url)
+        response.set_footer(text=f'{score_text} | {size_text}')
     else:
-        response = error('You can only search up to 2 tags.')
+        response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

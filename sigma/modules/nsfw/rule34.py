@@ -34,13 +34,14 @@ async def rule34(cmd, pld):
     if post:
         img_url = post.get('file_url')
         if not img_url.startswith('http'):
-            img_url = f"https:{post.get('file_url')}"
+            img_url = f"https:{img_url}"
         post_url = client.post_url + str(post.get('id'))
-        footer_text = f'Score: {post.get("score")} | Size: {post.get("width")}x{post.get("height")}'
+        score_text = f'Score: {post.get("score")}'
+        size_text = f'Size: {post.get("width")}x{post.get("height")}'
         response = discord.Embed(color=0xaae5a3)
         response.set_author(name='Rule 34', url=post_url, icon_url=client.icon_url)
         response.set_image(url=img_url)
-        response.set_footer(text=footer_text)
+        response.set_footer(text=f'{score_text} | {size_text}')
     else:
         response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

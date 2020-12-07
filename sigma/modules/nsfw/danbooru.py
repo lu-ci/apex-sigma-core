@@ -34,12 +34,16 @@ async def danbooru(cmd, pld):
     if not len(tags) > 2:
         post = await client.randpost(pld.args)
         if post:
+            img_url = post.get('file_url')
+            if not img_url.startswith('http'):
+                img_url = f"https:{img_url}"
             post_url = client.post_url + str(post.get('id'))
-            footer_text = f'Score: {post.get("score")} | Size: {post.get("width")}x{post.get("height")}'
+            score_text = f'Score: {post.get("score")}'
+            size_text = f'Size: {post.get("width")}x{post.get("height")}'
             response = discord.Embed(color=0x152F56)
             response.set_author(name='Danbooru', url=post_url, icon_url=client.icon_url)
-            response.set_image(url=post.get('file_url'))
-            response.set_footer(text=footer_text)
+            response.set_image(url=img_url)
+            response.set_footer(text=f'{score_text} | {size_text}')
         else:
             response = not_found('No results.')
     else:
