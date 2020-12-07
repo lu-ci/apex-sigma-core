@@ -21,6 +21,25 @@ import discord
 from sigma.core.utilities.generic_responses import ok
 
 
+def make_bar(completed, total):
+    """
+    :param completed:
+    :type completed: int
+    :param total:
+    :type total: int
+    :return:
+    :rtype: str
+    """
+    try:
+        fill = int((completed / total) * 10)
+    except ZeroDivisionError:
+        fill = 0
+    empty = 10 - fill
+    percentage = int(completed / total * 100)
+    bar = f'[{fill * "▣"}{empty * "▢"}] {percentage}%'
+    return f'```css\n{bar}\n```'
+
+
 async def forcedataupdate(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -28,13 +47,24 @@ async def forcedataupdate(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    response = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
-    load_status = await pld.msg.channel.send(embed=response)
     db_init_events = cmd.bot.modules.events.get('dbinit')
-    for db_init_event in db_init_events:
+    working_embed = discord.Embed(color=0xF9F9F9, title='⚗ Reinitializing static content...')
+    working_embed.description = make_bar(0, len(db_init_events))
+    working_msg = await pld.msg.channel.send(embed=working_embed)
+    for i, db_init_event in enumerate(db_init_events):
+        # noinspection PyBroadException
         try:
+            working_embed.description = make_bar(i, len(db_init_events))
+            try:
+                await working_msg.edit(embed=working_embed)
+            except discord.NotFound:
+                await pld.msg.channel.send(embed=working_embed)
             await db_init_event.execute(True)
         except Exception:
-            cmd.log.error(f'Failied reinitializing {db_init_event.name} content.')
+            cmd.log.error(f'Failed reinitializing {db_init_event.name} content.')
     response = ok('Database static content reinitialized.')
-    await load_status.edit(embed=response)
+    try:
+        await working_msg.edit(embed=response)
+    except discord.NotFound:
+        await pld.msg.channel.send(embed=response)
+

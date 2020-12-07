@@ -8,6 +8,7 @@
 - Changed `kitsunemimi`, `nekomimi`, and `usagimimi` to utilize the new handler.
 - Refactored the gallery commands to be more uniform.
 - Added an image size (resolution) filter to the `GalleryClient`.
+- Added a progress bar to the `forcedataupdate` command embed.
 
 ## 4.82.1654 Futaba
 
