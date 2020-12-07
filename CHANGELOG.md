@@ -1,5 +1,14 @@
 # Apex Sigma Changelog
 
+## 4.82.1669 Futaba
+
+### Changed
+
+- Added `safebooru` to the `GalleryClient` handler and removed its discrete handler.
+- Changed `kitsunemimi`, `nekomimi`, and `usagimimi` to utilize the new handler.
+- Refactored the gallery commands to be more uniform.
+- Added an image size (resolution) filter to the `GalleryClient`.
+
 ## 4.82.1654 Futaba
 
 ### Changed

@@ -16,39 +16,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import secrets
-
-import aiohttp
 import discord
-from lxml import html
 
 from sigma.core.utilities.generic_responses import not_found
+from sigma.modules.nsfw.mech.core import safebooru_client
 
 
-async def safebooru(_cmd, pld):
+async def safebooru(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    tag = ' '.join(pld.args).replace(' ', '+') if pld.args else 'cute'
-    resource = 'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+' + tag
-    async with aiohttp.ClientSession() as session:
-        async with session.get(resource) as data:
-            data = await data.read()
-    posts = html.fromstring(data)
-    if len(posts):
-        post = secrets.choice(posts).attrib
-        image_url = post['file_url']
-        icon_url = 'https://i.imgur.com/3Vb6LdJ.png'
-        post_url = f'http://safebooru.org/index.php?page=post&s=view&id={post["id"]}'
-        if image_url.startswith('//'):
-            image_url = 'http:' + image_url
-        response = discord.Embed(color=0x8bb2a7)
-        response.set_author(name='Safebooru', icon_url=icon_url, url=post_url)
-        response.set_image(url=image_url)
-        response.set_footer(text=f'Score: {post["score"]} | Size: {post["width"]}x{post["height"]}')
+    client = safebooru_client(cmd.db.cache, cmd.bot.get_agent())
+    post = await client.randpost(pld.args)
+    if post:
+        img_url = post.get('file_url')
+        if not img_url.startswith('http'):
+            img_url = f"https:{img_url}"
+        post_url = client.post_url + str(post.get('id'))
+        score_text = f'Score: {post.get("score")}'
+        size_text = f'Size: {post.get("width")}x{post.get("height")}'
+        response = discord.Embed(color=0xad3d3d)
+        response.set_author(name='Safebooru', url=post_url, icon_url=client.icon_url)
+        response.set_image(url=img_url)
+        response.set_footer(text=f'{score_text} | {size_text}')
     else:
         response = not_found('No results.')
     await pld.msg.channel.send(embed=response)

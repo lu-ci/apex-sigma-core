@@ -50,7 +50,7 @@ Commands | Description | Example
 `>>destroyresource` `>>destroyres` `>>desres` `>>desr` | Takes away the specified amount of the specified resource from the mentioned user. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>destroyresource metal @person 100`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
 `>>evaluate` `>>eval` `>>exec` `>>code` `>>python` `>>py` | Executes raw python code. This should be used with caution. You should never use this unless you are certain of what you are doing. (Bot Owner Only) | `>>evaluate print('Hello')`
-`>>forcedataupdate` `>>fdu` | Forces all static content data in the databse to be updated from the repository's static file storage. (Bot Owner Only) | `>>forcedataupdate`
+`>>forcedataupdate` `>>fdu` | Forces all static content data in the database to be updated from the repository's static file storage. (Bot Owner Only) | `>>forcedataupdate`
 `>>generateitem` `>>genitem` | Creates and gives the specified item to the mentioned user. (Bot Owner Only) | `>>generateitem @person Blue Delta`
 `>>generateresource` `>>generateres` `>>genres` `>>genr` | Awards the mentioned user with the specified amount of the specified resource. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>generateresource currency @person 5000`
 `>>geterror` | Gets an error's details using the specified token. (Bot Owner Only) | `>>geterror 9a2e9a374ac90294f225782f362e2ab1`

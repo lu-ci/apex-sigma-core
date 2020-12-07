@@ -23,9 +23,28 @@ import aiohttp
 from lxml import html
 
 
+def safebooru_client(cache, user_agent):
+    """
+    Returns an GalleryClient instance with Safebooru data.
+    :param cache: The cache configuration class.
+    :type cache: sigma.core.mechanics.caching.Cacher
+    :param user_agent: The core client's user agent.
+    :type user_agent: dict
+    :return:
+    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    """
+    client_data = {
+        'cache_key': 'safebooru_',
+        'client_url': 'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=rating:safe+',
+        'post_url': 'http://safebooru.org/index.php?page=post&s=view&id=',
+        'icon_url': 'https://i.imgur.com/vEJ67ko.png'
+    }
+    return GalleryClient(client_data, cache, user_agent)
+
+
 def danbooru_client(cache, user_agent):
     """
-    Returns an GalleryClient instance with E621 data.
+    Returns an GalleryClient instance with Danbooru data.
     :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
     :param user_agent: The core client's user agent.
@@ -212,9 +231,9 @@ class GalleryClient(object):
                         posts = []
                 else:
                     posts = html.fromstring(data)
-        return self._filter_posts(posts)
+        return self._ensure_source(posts)
 
-    def _filter_posts(self, posts):
+    def _ensure_source(self, posts):
         """
         Filters posts based on if they include a file_url field.
         :param posts: The posts to filter.
@@ -230,13 +249,34 @@ class GalleryClient(object):
                 posts = [ps for ps in posts if ps.get('file_url')]
         else:
             posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
-        return posts
+        return self._ensure_size(posts)
 
-    async def randpost(self, tags):
+    def _ensure_size(self, posts):
+        """
+        Filters posts based on their dimensions.
+        :param posts: The posts to filter
+        :type posts: dict or list[lxml.html.HtmlElement]
+        :return:
+        :rtype: list[dict]
+        """
+        valid_posts = []
+        for post in posts:
+            if self.cache_key.startswith('e621_'):
+                file = post.get('file')
+                width, height = file.get('width'), file.get('height')
+            else:
+                width, height = post.get('width'), post.get('height')
+            if int(width) <= 2000 and int(height) <= 2000:
+                valid_posts.append(post)
+        return valid_posts
+
+    async def randpost(self, tags, return_all=False):
         """
         Fetches a random post from the client.
         :param tags: The tags to search for.
         :type tags: list[str]
+        :param return_all: If all the posts should be returned.
+        :type return_all: bool
         :return:
         :rtype: dict
         """
@@ -247,4 +287,6 @@ class GalleryClient(object):
         if not posts:
             posts = await self._get_posts()
             await self.cache.set_cache(self.cache_key, posts)
+        if return_all:
+            return posts
         return secrets.choice(posts) if posts else None

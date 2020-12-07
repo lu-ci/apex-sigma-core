@@ -20,11 +20,14 @@ import secrets
 
 import discord
 
-from sigma.modules.searches.safebooru.mech.safe_core import generate_embed, grab_post_list
+from sigma.modules.nsfw.mech.core import safebooru_client
 
-links = []
-embed_titles = ['Touch fluffy ears~', '>:3', '乀^｀・´^／',
-                '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
+usagi_icon = 'https://i.imgur.com/DWZLtAk.jpg'
+posts = []
+embed_titles = [
+    'Touch fluffy ears~', '>:3',
+    '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜'
+]
 
 
 async def usagimimi(cmd, pld):
@@ -34,16 +37,29 @@ async def usagimimi(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    global links
-    if not links:
-        name = cmd.bot.user.name
-        filler_message = discord.Embed(color=0xEEEEEE, title=f'🐰 One moment, filling {name} with bunnies...')
-        fill_notify = await pld.msg.channel.send(embed=filler_message)
-        links = await grab_post_list('bunny_ears')
-        filler_done = discord.Embed(color=0xEEEEEE, title=f'🐰 We added {len(links)} bunnies!')
-        await fill_notify.edit(embed=filler_done)
-    rand_pop = secrets.randbelow(len(links))
-    post_choice = links.pop(rand_pop)
-    icon = 'https://i.imgur.com/DWZLtAk.jpg'
-    response = generate_embed(post_choice, embed_titles, 0xEEEEEE, icon=icon)
+    client = safebooru_client(cmd.db.cache, cmd.bot.get_agent())
+    global posts
+    if not posts:
+        wait_text = f'🦊 One moment, filling {cmd.bot.user.name} with bunnies...'
+        wait_embed = discord.Embed(color=0xEEEEEE, title=wait_text)
+        working_msg = await pld.msg.channel.send(embed=wait_embed)
+        posts = await client.randpost(['bunny_ears'], True)
+        working_done = discord.Embed(color=0xEEEEEE, title=f'🦊 We added {len(posts)} bunnies!')
+        try:
+            await working_msg.edit(embed=working_done)
+        except discord.NotFound:
+            pass
+    post = posts.pop(secrets.randbelow(len(posts)))
+    img_url = post.get('file_url')
+    if not img_url.startswith('http'):
+        img_url = f"https:{img_url}"
+    post_url = client.post_url + str(post.get('id'))
+    score_text = f'Score: {post.get("score")}'
+    size_text = f'Size: {post.get("width")}x{post.get("height")}'
+    response = discord.Embed(color=0xad3d3d)
+    response.set_author(name=secrets.choice(titles), url=post_url, icon_url=client.icon_url)
+    response.set_image(url=img_url)
+    response.set_footer(text=f'{score_text} | {size_text}')
     await pld.msg.channel.send(embed=response)
+
+
