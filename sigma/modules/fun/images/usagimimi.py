@@ -24,7 +24,7 @@ from sigma.modules.nsfw.mech.core import safebooru_client
 
 usagi_icon = 'https://i.imgur.com/DWZLtAk.jpg'
 posts = []
-embed_titles = [
+titles = [
     'Touch fluffy ears~', '>:3',
     '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜'
 ]

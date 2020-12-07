@@ -264,6 +264,8 @@ class GalleryClient(object):
             if self.cache_key.startswith('e621_'):
                 file = post.get('file')
                 width, height = file.get('width'), file.get('height')
+            elif self.cache_key.startswith('danbooru_'):
+                width, height = post.get('image_width'), post.get('image_height')
             else:
                 width, height = post.get('width'), post.get('height')
             if int(width) <= 2000 and int(height) <= 2000:
