@@ -62,7 +62,7 @@ commands:
     usage: '{pfx}{cmd} Hardy'
 enabled: true
 events:
-  - enabled: true
+  - enabled: false
     name: dbinit_azur_lane
     type: dbinit
 name: Azur Lane Commands
