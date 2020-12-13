@@ -86,6 +86,7 @@ async def marketbuy(cmd, pld):
                                 await me.save(cmd.db)
                                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {curr}.')
                     else:
+                        await me.save(cmd.db)
                         response = discord.Embed(color=0xbe1931, title='❌ Purchase cancelled.')
                 else:
                     response = not_found('Couldn\'t find any entries for that.')
