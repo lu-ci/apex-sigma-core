@@ -76,6 +76,9 @@ async def marketbuy(cmd, pld):
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', me.price, cmd.name, pld.msg)
                                 profit = int(me.price * (1 - (MARKET_TAX_PERCENT / 100)))
                                 await cmd.db.add_resource(me.uid, 'currency', profit, cmd.name, pld.msg, ranked=False)
+                                await cmd.db.add_resource(
+                                    cmd.bot.user.id, 'currency', me.price - profit, cmd.name, pld.msg, ranked=False
+                                )
                                 data_for_inv = item.generate_inventory_item()
                                 await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
                                 response = ok(f'Purchased the {item.rarity_name} {item.name} for {me.price} {curr}.')
