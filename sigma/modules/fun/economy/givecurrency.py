@@ -32,24 +32,29 @@ async def givecurrency(cmd, pld):
         if len(pld.args) >= 2:
             if pld.msg.mentions:
                 target = pld.msg.mentions[0]
-                try:
-                    amount = abs(int(pld.args[-1]))
-                except ValueError:
-                    amount = None
-                if amount:
-                    if not await cmd.db.is_sabotaged(target.id) and not await cmd.db.is_sabotaged(pld.msg.author.id):
-                        current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
-                        current_kud = current_kud.current
-                        if current_kud >= amount:
-                            await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
-                            await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
-                            response = ok(f'Transferred {amount} to {target.display_name}.')
+                if not target.bot:
+                    try:
+                        amount = abs(int(pld.args[-1]))
+                    except ValueError:
+                        amount = None
+                    if amount:
+                        target_sabotaged = await cmd.db.is_sabotaged(target.id)
+                        author_sabotaged = await cmd.db.is_sabotaged(pld.msg.author.id)
+                        if not target_sabotaged and not author_sabotaged:
+                            current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
+                            current_kud = current_kud.current
+                            if current_kud >= amount:
+                                await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
+                                await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
+                                response = ok(f'Transferred {amount} to {target.display_name}.')
+                            else:
+                                response = discord.Embed(color=0xa7d28b, title='💸 You don\'t have that much.')
                         else:
-                            response = discord.Embed(color=0xa7d28b, title='💸 You don\'t have that much.')
+                            response = error('Transaction declined by Chamomile.')
                     else:
-                        response = error('Transaction declined by Chamomile.')
+                        response = error('Invalid amount.')
                 else:
-                    response = error('Invalid amount.')
+                    response = error('Can\'t give currency to bots.')
             else:
                 response = error('No user targeted.')
         else:

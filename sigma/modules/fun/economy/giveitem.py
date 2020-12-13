@@ -31,33 +31,36 @@ async def giveitem(cmd, pld):
     if len(pld.args) > 1:
         if pld.msg.mentions:
             target = pld.msg.mentions[0]
-            lookup = ' '.join(pld.args[1:])
-            obj_item = item_core.get_item_by_name(lookup)
-            if obj_item:
-                inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, obj_item.file_id)
-                if inv_item:
-                    upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
-                    inv = await cmd.db.get_inventory(target.id)
-                    storage = upgrade_file.get('storage', 0)
-                    inv_limit = 64 + (8 * storage)
-                    author_sab = await cmd.db.is_sabotaged(pld.msg.author.id)
-                    target_sab = await cmd.db.is_sabotaged(target.id)
-                    if len(inv) < inv_limit:
-                        if not author_sab and not target_sab:
-                            await cmd.db.del_from_inventory(pld.msg.author.id, inv_item.get('item_id'))
-                            inv_item.update({'transferred': True})
-                            await cmd.db.add_to_inventory(target.id, inv_item)
-                            await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
-                            response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
-                            response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
+            if not target.bot:
+                lookup = ' '.join(pld.args[1:])
+                obj_item = item_core.get_item_by_name(lookup)
+                if obj_item:
+                    inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, obj_item.file_id)
+                    if inv_item:
+                        upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
+                        inv = await cmd.db.get_inventory(target.id)
+                        storage = upgrade_file.get('storage', 0)
+                        inv_limit = 64 + (8 * storage)
+                        author_sab = await cmd.db.is_sabotaged(pld.msg.author.id)
+                        target_sab = await cmd.db.is_sabotaged(target.id)
+                        if len(inv) < inv_limit:
+                            if not author_sab and not target_sab:
+                                await cmd.db.del_from_inventory(pld.msg.author.id, inv_item.get('item_id'))
+                                inv_item.update({'transferred': True})
+                                await cmd.db.add_to_inventory(target.id, inv_item)
+                                await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
+                                response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
+                                response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
+                            else:
+                                response = error('Transfer declined by Chamomile.')
                         else:
-                            response = error('Transfer declined by Chamomile.')
+                            response = error(f'{target.name}\'s inventory is full.')
                     else:
-                        response = error(f'{target.name}\'s inventory is full.')
+                        response = not_found(f'No {obj_item.name} found in your inventory.')
                 else:
-                    response = not_found(f'No {obj_item.name} found in your inventory.')
+                    response = not_found('No such item exists.')
             else:
-                response = not_found('No such item exists.')
+                response = error('Can\'t give items to bots.')
         else:
             response = error('No user targeted.')
     else:
