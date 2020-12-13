@@ -140,7 +140,7 @@ class SigmaResource(object):
         self.total = self.raw.get('total') or 0
         self.ranked = self.raw.get('ranked') or 0
         self.reserved = self.raw.get('reserved') or 0
-        self.reservation_stamp = self.raw.get('reservation_stamp')
+        self.reservation_stamp = self.raw.get('reservation_stamp') or 0
         self.origins = ResourceOrigins(self.raw.get('origins'))
         self.expenses = ResourceOrigins(self.raw.get('expenses'))
         self.unreserve()
