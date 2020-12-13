@@ -23,10 +23,14 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 
 bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
+
+errbed = error('Failed generating dialogue embed.')
+errbed.description = 'Please make sure I can embed links and add reactions.'
 
 
 async def bool_dialogue(bot, msg, question, tracked=False):
@@ -44,8 +48,13 @@ async def bool_dialogue(bot, msg, question, tracked=False):
     :rtype: (bool, bool)
     """
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
-    confirmation = await msg.channel.send(embed=question)
-    [await confirmation.add_reaction(preac) for preac in bool_reacts]
+    # noinspection PyBroadException
+    try:
+        confirmation = await msg.channel.send(embed=question)
+        [await confirmation.add_reaction(preac) for preac in bool_reacts]
+    except Exception:
+        await msg.channel.send(embed=errbed)
+        return False, False
 
     def check_emote(reac, usr):
         """
@@ -103,8 +112,13 @@ async def int_dialogue(bot, msg, question, start, end):
     start = 0 if start < 0 else start
     end = 9 if end > 9 else end
     question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
-    confirmation = await msg.channel.send(embed=question)
-    [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end + 1)]
+    # noinspection PyBroadException
+    try:
+        confirmation = await msg.channel.send(embed=question)
+        [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end + 1)]
+    except Exception:
+        await msg.channel.send(embed=errbed)
+        return False, False
 
     def check_emote(reac, usr):
         """
