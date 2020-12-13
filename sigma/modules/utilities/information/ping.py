@@ -33,7 +33,10 @@ async def ping(cmd, pld):
     response = discord.Embed(color=await get_image_colors(avatar))
     response.set_author(name=f'{cmd.bot.user.name}\'s Ping', icon_url=avatar)
     for shid, shlt in cmd.bot.latencies:
-        sline = f'Shard {shid}: {int(shlt * 1000)}ms'
+        try:
+            sline = f'Shard {shid}: {int(shlt * 1000)}ms'
+        except OverflowError:
+            sline = f'Shard {shid}: ∞ms'
         if shid == pld.msg.guild.shard_id:
             sline = f'**{sline}**'
         shard_lines.append(sline)

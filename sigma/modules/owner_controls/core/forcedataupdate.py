@@ -67,4 +67,3 @@ async def forcedataupdate(cmd, pld):
         await working_msg.edit(embed=response)
     except discord.NotFound:
         await pld.msg.channel.send(embed=response)
-

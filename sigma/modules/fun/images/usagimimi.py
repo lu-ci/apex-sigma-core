@@ -61,5 +61,3 @@ async def usagimimi(cmd, pld):
     response.set_image(url=img_url)
     response.set_footer(text=f'{score_text} | {size_text}')
     await pld.msg.channel.send(embed=response)
-
-
