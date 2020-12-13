@@ -17,7 +17,7 @@ commands:
       Selling items on the market does not contribute to your ranked Kud.
     enabled: true
     name: marketsell
-    usage: '{pfx}{cmd} Corpse Lily'
+    usage: '{pfx}{cmd} 50000 Corpse Lily'
   - alts:
       - "mlist"
       - "mshow"
