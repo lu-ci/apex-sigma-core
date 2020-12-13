@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import arrow
 
 message_translation = {'users': 'author', 'guilds': 'guild', 'channels': 'channel'}
 
@@ -123,7 +124,10 @@ class SigmaResource(object):
     and creation of resource data and its storage.
     """
 
-    __slots__ = ("raw", "empty", "current", "total", "ranked", "origins", "expenses")
+    __slots__ = (
+        "raw", "empty", "current", "total", "ranked",
+        "reserved", "reservation_stamp", "origins", "expenses"
+    )
 
     def __init__(self, data):
         """
@@ -135,8 +139,11 @@ class SigmaResource(object):
         self.current = self.raw.get('current') or 0
         self.total = self.raw.get('total') or 0
         self.ranked = self.raw.get('ranked') or 0
+        self.reserved = self.raw.get('reserved') or 0
+        self.reservation_stamp = self.raw.get('reservation_stamp')
         self.origins = ResourceOrigins(self.raw.get('origins'))
         self.expenses = ResourceOrigins(self.raw.get('expenses'))
+        self.unreserve()
 
     def to_dict(self):
         """
@@ -145,8 +152,13 @@ class SigmaResource(object):
         :rtype: dict
         """
         return {
-            'current': self.current, 'total': self.total, 'ranked': self.ranked,
-            'origins': self.origins.to_dict(), 'expenses': self.expenses.to_dict()
+            'current': self.current,
+            'total': self.total,
+            'ranked': self.ranked,
+            'reserved': self.reserved,
+            'reservation_stamp': self.reservation_stamp,
+            'origins': self.origins.to_dict(),
+            'expenses': self.expenses.to_dict()
         }
 
     def add_value(self, amount, trigger, origin, ranked):
@@ -187,3 +199,22 @@ class SigmaResource(object):
         self.expenses.add_trigger(trigger, amount)
         if origin:
             self.expenses.add_origin(origin, amount)
+
+    def reserve(self, amount):
+        """
+        :type amount: int
+        """
+        self.current -= amount
+        self.reserved += amount
+        self.reservation_stamp = arrow.utcnow().timestamp
+
+    def consume(self, amount, trigger, origin):
+        self.current += amount
+        self.reserved -= amount
+        self.del_value(amount, trigger, origin)
+
+    def unreserve(self):
+        available = arrow.utcnow().timestamp > (self.reservation_stamp + 600)
+        if available:
+            self.current += self.reserved
+            self.reserved = 0
