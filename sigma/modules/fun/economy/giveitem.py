@@ -51,7 +51,7 @@ async def giveitem(cmd, pld):
                             response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
                             response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
                         else:
-                            response = error('Transfer declined by Lucia\'s Guard.')
+                            response = error('Transfer declined by Chamomile.')
                     else:
                         response = error(f'{target.name}\'s inventory is full.')
                 else:

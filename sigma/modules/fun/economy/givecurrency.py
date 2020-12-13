@@ -47,7 +47,7 @@ async def givecurrency(cmd, pld):
                         else:
                             response = discord.Embed(color=0xa7d28b, title='💸 You don\'t have that much.')
                     else:
-                        response = error('Transaction declined by Lucia\'s Guard.')
+                        response = error('Transaction declined by Chamomile.')
                 else:
                     response = error('Invalid amount.')
             else:
