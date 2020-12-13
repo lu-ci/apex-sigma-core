@@ -94,7 +94,10 @@ async def get_vn(lookup: str):
     vn_data = None
     page_root = await get_details_page(lookup)
     if page_root is not None:
-        vn_data = VisualNovel(page_root)
+        try:
+            vn_data = VisualNovel(page_root)
+        except (KeyError, AttributeError, IndexError):
+            vn_data = None
     return vn_data
 
 
