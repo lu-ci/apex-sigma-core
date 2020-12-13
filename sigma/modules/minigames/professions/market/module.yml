@@ -1,0 +1,32 @@
+category: minigames
+commands:
+  - alts:
+      - "mbuy"
+    description: Purchases an item from the open market.
+      By default, if you use the item name, it will give you the cheapest listing.
+      Otherwise, you can use a market entry token that sellers get when they list an item on the market.
+      You can also use this command to retrieve an item you listed from the market, which is free and ignores taxation.
+    enabled: true
+    name: marketbuy
+    usage: '{pfx}{cmd} Uftate Leaf'
+  - alts:
+      - "msell"
+    description: Lists an item you have to be sold on the open market.
+      When the item is successfully listed, you will get a market entry token.
+      You can share that token with others so they buy your listing directly.
+      Selling items on the market does not contribute to your ranked Kud.
+    enabled: true
+    name: marketsell
+    usage: '{pfx}{cmd} Corpse Lily'
+  - alts:
+      - "mlist"
+      - "mshow"
+      - "marketshow"
+    description: Shows all market listings sorted by latest added.
+      You can also enter the name of an item to show listings for that item.
+      If you look up an item, the entries will be sorted by price instead.
+    enabled: true
+    name: marketlist
+    usage: '{pfx}{cmd}'
+enabled: true
+name: Open Market
