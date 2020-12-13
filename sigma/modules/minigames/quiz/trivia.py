@@ -188,7 +188,11 @@ async def trivia(cmd, pld):
                 if pld.msg.author.id != msg.author.id:
                     return
                 if msg.content.isdigit():
-                    if abs(int(msg.content)) <= len(choice_lines):
+                    try:
+                        int_content = int(msg.content)
+                    except ValueError:
+                        return
+                    if abs(int_content) <= len(choice_lines):
                         return True
                     else:
                         return
