@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.84.1690 Futaba
+
+### Added
+
+- Added the `mbti` command for viewing mbti types, functions, and compatibility between types.
+
 ## 4.82.1669 Futaba
 
 ### Changed

@@ -1,0 +1,12 @@
+category: fun
+commands:
+  - description: Shows details on MBTI types and functions, as well as compatibility
+      between types. To view compatibility between two types, just enter them both as
+      arguments. Valid types are infp, enfp, infj, enfj, intj, entj, intp, entp, isfp,
+      esfp, istp, estp, isfj, esfj, istj, and estj. Valid functions are fe, fi, ne, ni,
+      se, si, te, and ti.
+    enabled: true
+    usage: '{pfx}{cmd} infj entj'
+    name: mbti
+enabled: true
+name: Personality Commands
