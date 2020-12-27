@@ -22,7 +22,7 @@ from sigma.core.utilities.generic_responses import not_found
 from sigma.modules.fun.mbti.mech.storage import mbti_compatibility, mbti_functions, mbti_list, mbti_overview, mbti_types
 
 mbti_img = 'https://i.imgur.com/XzJPkmu.png'
-types_src = 'https://www.typeinmind.com/nife'
+types_src = 'https://www.typeinmind.com/'
 funcs_src = 'https://www.cognitiveprocesses.com/Cognitive-Functions'
 
 
@@ -76,7 +76,8 @@ async def mbti(_cmd, pld):
             mbti_type = mbti_types[lookup]
             title, description = f'👥 {lookup.upper()}', make_paragraph(mbti_type)
             response = discord.Embed(color=0x734d5f, title=title, description=description)
-            response.set_footer(text=f'Sourced from: {types_src}')
+            type_src = types_src + ''.join(mbti_type['stack'].split('-')[:2])
+            response.set_footer(text=f'Sourced from: {type_src}')
         elif lookup in mbti_functions:
             mbti_function = mbti_functions[lookup]
             title, description = f'👥 {lookup.title()}', make_paragraph(mbti_function)
