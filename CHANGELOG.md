@@ -6,6 +6,10 @@
 
 - Added the `mbti` command for viewing mbti types, functions, and compatibility between types.
 
+### Changed
+
+- Added an option to buy multiple levels of an upgrade at once for `buyupgrade`.
+
 ## 4.82.1669 Futaba
 
 ### Changed

@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.dialogue_controls import int_dialogue
+from sigma.core.utilities.dialogue_controls import bool_dialogue, int_dialogue
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
@@ -57,41 +55,49 @@ def get_price(base_price, upgrade_level):
     return upgrade_price
 
 
-async def buyupgrade(cmd, pld):
+async def multi_buy(cmd, pld, choice, level):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
+    :param choice: The chosen upgrade's data.
+    :type choice: dict
+    :param level: The number of upgrade to purchase.
+    :type level: int
     """
-    choice = None
-    if pld.args:
-        try:
-            choice = upgrade_list[abs(int(pld.args[0])) - 1]
-        except (IndexError, ValueError):
-            for upgrade in upgrade_list:
-                qry = pld.args[0].lower()
-                if upgrade.get('id') == qry:
-                    choice = upgrade
-                    break
-                elif qry in upgrade.get('name').lower() and len(qry) >= 3:
-                    choice = upgrade
-                    break
-    if choice:
-        await quick_buy(cmd, pld, choice)
+    currency = cmd.bot.cfg.pref.currency
+    user_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
+    current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
+    current_kud = current_kud.current
+    upgrade_level = user_upgrades.get(choice.get('id'), 0)
+    upgrade_price = 0
+    for i in range(1, level + 1):
+        upgrade_price += get_price(choice.get("cost"), upgrade_level + i)
+    if current_kud >= upgrade_price:
+        question = f'Spend {upgrade_price} {currency} on {level} {choice.get("name")} upgrades?'
+        question_embed = discord.Embed(color=0xF9F9F9, title=question)
+        buy_confirm, timeout = await bool_dialogue(cmd.bot, pld.msg, question_embed)
+        if buy_confirm:
+            user_upgrades.update({choice.get('id'): upgrade_level + level})
+            await cmd.db.set_profile(pld.msg.author.id, 'upgrades', user_upgrades)
+            await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
+            response = ok(f'Upgraded your {choice.get("name")} to Level {upgrade_level + level}.')
+        else:
+            response = discord.Embed(color=0xBE1931, title='❌ Upgrade purchase canceled.')
     else:
-        await slow_buy(cmd, pld)
+        response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
+    await pld.msg.channel.send(embed=response)
 
 
-async def quick_buy(cmd: SigmaCommand, pld: CommandPayload, choice: dict):
+async def quick_buy(cmd, pld, choice):
     """
-
-    :param cmd:
-    :type cmd:
-    :param pld:
-    :type pld:
-    :param choice:
-    :type choice:
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    :param choice: The chosen upgrade's data.
+    :type choice: dict
     """
     currency = cmd.bot.cfg.pref.currency
     user_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
@@ -159,3 +165,37 @@ async def slow_buy(cmd, pld):
     else:
         response = error('You already have a shop open.')
     await pld.msg.channel.send(embed=response)
+
+
+async def buyupgrade(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    choice = None
+    level = None
+    if pld.args:
+        if len(pld.args) == 2:
+            level = pld.args.pop(1)
+            if level.isdigit():
+                level = abs(int(level))
+        try:
+            choice = upgrade_list[abs(int(pld.args[0])) - 1]
+        except (IndexError, ValueError):
+            for upgrade in upgrade_list:
+                qry = pld.args[0].lower()
+                if upgrade.get('id') == qry:
+                    choice = upgrade
+                    break
+                elif qry in upgrade.get('name').lower() and len(qry) >= 3:
+                    choice = upgrade
+                    break
+    if choice:
+        if level and level != 1:
+            await multi_buy(cmd, pld, choice, level)
+        else:
+            await quick_buy(cmd, pld, choice)
+    else:
+        await slow_buy(cmd, pld)
