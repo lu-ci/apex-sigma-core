@@ -34,7 +34,8 @@ async def destroyitem(cmd, pld):
         id_lookup = pld.args[0]
         inv_item = await cmd.db[cmd.db.db_nam].Inventory.find_one({'items.item_id': id_lookup})
         if inv_item:
-            target = await cmd.bot.get_user(inv_item.get('user_id'))
+            target_id = inv_item.get('user_id')
+            target = await cmd.bot.get_user(target_id)
             item_data = None
             for item in inv_item.get('items', []):
                 if item.get('item_id') == id_lookup:
@@ -42,12 +43,13 @@ async def destroyitem(cmd, pld):
                     break
             item_id = item_data.get('item_id')
             item_file_id = item_data.get('item_file_id')
-            await cmd.db.del_from_inventory(target, item_id)
+            await cmd.db.del_from_inventory(target_id, item_id)
             item_o = item_core.get_item_by_file_id(item_file_id)
             connector = 'a'
             if item_o.name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                 connector = 'an'
-            success_text = f'{item_o.icon} I have removed {connector} {item_o.name} from {target.display_name}.'
+            target_name = target.display_name if target else 'Unknown User'
+            success_text = f'{item_o.icon} I have removed {connector} {item_o.name} from {target_name}.'
             response = discord.Embed(color=item_o.color, title=success_text)
         else:
             response = error('No item with that ID was found.')
