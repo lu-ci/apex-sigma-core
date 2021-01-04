@@ -34,7 +34,7 @@ async def blackjack(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-        if not is_ongoing(cmd.name, pld.msg.guild.id):
+        if not is_ongoing(cmd.name, pld.msg.channel.id):
             bet = 10
             if pld.args:
                 if pld.args[0].isdigit():
@@ -84,7 +84,7 @@ async def blackjack(cmd, pld):
                 finished, bust, win = False, False, False
                 while not finished and not bust and not win:
                     try:
-                        ae, au = await cmd.bot.wait_for('reaction_add', timeout=60, check=check_emote)
+                        ae, au = await cmd.bot.wait_for('reaction_add', timeout=6, check=check_emote)
                         # noinspection PyBroadException
                         try:
                             await game_msg.remove_reaction(ae.emoji, au)
@@ -110,6 +110,8 @@ async def blackjack(cmd, pld):
                                 embed.set_footer(text=f'You can only double down on your first turn.')
                                 game_msg = await send_game_msg(pld.msg.channel, game_msg, embed)
                     except asyncio.TimeoutError:
+                        if is_ongoing(cmd.name, pld.msg.channel.id):
+                            del_ongoing(cmd.name, pld.msg.channel.id)
                         await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                         timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}!'
                         timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
@@ -136,8 +138,8 @@ async def blackjack(cmd, pld):
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                     title = f'💣 The dealer won and you lost {bet} {currency}.'
                     response = discord.Embed(color=0x232323, title=title)
-                if is_ongoing(cmd.name, pld.msg.guild.id):
-                    del_ongoing(cmd.name, pld.msg.guild.id)
+                if is_ongoing(cmd.name, pld.msg.channel.id):
+                    del_ongoing(cmd.name, pld.msg.channel.id)
             else:
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
         else:
