@@ -1,5 +1,17 @@
 # Apex Sigma Changelog
 
+## 4.84.1700 Futaba
+
+### Added
+
+- The `blackjack` command has been added. It functions as you'd expect, but there is no multiplayer.
+
+### Changes
+
+- Fixed `destroyitem` command and added a safeguard for sharding.
+- Tweaked dialogue controls to include an ongoing check.
+- Updated `buyupgrade` to include a quantity parameter when quick-buying.
+
 ## 4.84.1690 Futaba
 
 ### Added
