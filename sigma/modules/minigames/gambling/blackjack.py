@@ -84,7 +84,7 @@ async def blackjack(cmd, pld):
                 finished, bust, win = False, False, False
                 while not finished and not bust and not win:
                     try:
-                        ae, au = await cmd.bot.wait_for('reaction_add', timeout=6, check=check_emote)
+                        ae, au = await cmd.bot.wait_for('reaction_add', timeout=60, check=check_emote)
                         # noinspection PyBroadException
                         try:
                             await game_msg.remove_reaction(ae.emoji, au)
