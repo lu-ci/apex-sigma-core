@@ -37,7 +37,7 @@ class BlackJack(object):
     @staticmethod
     def make_deck():
         deck = CARDS * 4
-        decks = deck * 8
+        decks = deck * 6
         shuffled = []
         while decks:
             card = decks.pop(secrets.randbelow(len(decks)))
