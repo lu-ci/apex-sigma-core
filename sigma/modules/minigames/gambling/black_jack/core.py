@@ -30,9 +30,19 @@ class BlackJack(object):
     def __init__(self, message):
         self.author = message.author
         self.channel = message.channel
-        self.deck = CARDS * 4
+        self.deck = self.make_deck()
         self.dealer_hand = self.make_hand()
         self.player_hand = self.make_hand()
+
+    @staticmethod
+    def make_deck():
+        deck = CARDS * 4
+        decks = deck * 8
+        shuffled = []
+        while decks:
+            card = decks.pop(secrets.randbelow(len(decks)))
+            shuffled.append(card)
+        return shuffled
 
     def make_hand(self):
         card_a = self.deck.pop(secrets.randbelow(len(self.deck)))
@@ -42,27 +52,27 @@ class BlackJack(object):
     @staticmethod
     def get_hand_value(hand, dealer=False):
         hand_value = 0
-        sorted_hand = sorted(hand, key=lambda x: x != 'Ace', reverse=True)
-        for card in sorted_hand:
+        non_aces = list(filter(lambda x: x != 'Ace', hand))
+        for card in non_aces:
             if card.isdigit():
                 hand_value += int(card)
-            elif card == 'Ace':
-                if hand_value + 11 > 21:
-                    hand_value += 1
-                else:
-                    if dealer:
-                        if hand_value + 11 == 17:
-                            hand_value += 1
-                        else:
-                            hand_value += 11
-                    else:
-                        hand_value += 11
             else:
                 hand_value += 10
+        aces = list(filter(lambda x: x == 'Ace', hand))
+        while aces:
+            if dealer and hand_value + (11 * len(aces)) == 17:
+                aces.pop(0)
+                hand_value += 1
+            elif hand_value + (11 * len(aces)) > 21:
+                aces.pop(0)
+                hand_value += 1
+            else:
+                hand_value += (11 * len(aces))
+                break
         return hand_value
 
     async def dealer_hit(self, game_msg):
-        while self.get_hand_value(self.dealer_hand) < 17:
+        while self.get_hand_value(self.dealer_hand, True) < 17:
             card = self.deck.pop(secrets.randbelow(len(self.deck)))
             self.dealer_hand.append(card)
         return await send_game_msg(self.channel, game_msg, self.generate_embed(False))
@@ -92,9 +102,9 @@ class BlackJack(object):
         if player_turn:
             dealer_str = f'Face Down, {self.dealer_hand[-1]}'
         else:
-            dealer_str = ", ".join(sorted(self.dealer_hand, reverse=True))
+            dealer_str = ", ".join(self.dealer_hand)
         embed.description = f'**Dealer\'s Hand:** {dealer_str}\n'
-        embed.description += f'**Your Hand:** {", ".join(sorted(self.player_hand, reverse=True))}'
+        embed.description += f'**Your Hand:** {", ".join(self.player_hand)}'
         embed.set_footer(text='Emotes are hit, stand, double down.')
         return embed
 
