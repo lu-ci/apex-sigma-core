@@ -124,14 +124,14 @@ async def blackjack(cmd, pld):
                     title = f'💣 Your hand bust and you lost {bet} {currency}.'
                     response = discord.Embed(color=0x232323, title=title)
                 elif bljk.check_dealer_bust():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
                     title = f'{currency_icon} The dealer bust and you won {bet} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 elif bljk.check_push():
                     title = f'🔵 You pushed and broke even.'
                     response = discord.Embed(color=0x3B88C3, title=title)
                 elif bljk.check_win():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
                     title = f'{currency_icon} You beat the dealer and won {bet} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 else:
