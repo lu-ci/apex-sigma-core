@@ -54,7 +54,7 @@ async def blackjack(cmd, pld):
                         await cmd.db.add_resource(author, 'currency', int(bet * 1.5), cmd.name, pld.msg, False)
                         title = f'🎉 You got a BlackJack and won {bet * 2} {currency}!'
                         bj_embed = discord.Embed(color=0xDE2A42, title=title)
-                        bj_embed.set_footer(text='You won 150% of your original bet.')
+                        bj_embed.set_footer(text='You wont 150% of your original bet.')
                     else:
                         title = f'🔵 Both you and the dealer got a BlackJack.'
                         bj_embed = discord.Embed(color=0x3B88C3, title=title)
@@ -110,6 +110,7 @@ async def blackjack(cmd, pld):
                                 embed.set_footer(text=f'You can only double down on your first turn.')
                                 game_msg = await send_game_msg(pld.msg.channel, game_msg, embed)
                     except asyncio.TimeoutError:
+                        await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                         timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}!'
                         timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                         timeout_embed.set_footer(text=f'You lost {bet} {currency}.')
