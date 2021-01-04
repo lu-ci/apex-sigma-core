@@ -62,7 +62,7 @@ async def blackjack(cmd, pld):
                     await pld.msg.channel.send(embed=bj_embed)
                     return
 
-                game_embed = bljk.generate_embed(True)
+                game_embed = bljk.generate_embed()
                 game_msg = await pld.msg.channel.send(embed=game_embed)
                 [await game_msg.add_reaction(e) for e in GAME_EMOTES]
 

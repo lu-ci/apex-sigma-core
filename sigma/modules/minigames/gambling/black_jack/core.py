@@ -65,7 +65,7 @@ class BlackJack(object):
         while self.get_hand_value(self.dealer_hand) < 17:
             card = self.deck.pop(secrets.randbelow(len(self.deck)))
             self.dealer_hand.append(card)
-        return await send_game_msg(self.channel, game_msg, self.generate_embed())
+        return await send_game_msg(self.channel, game_msg, self.generate_embed(False))
 
     def check_dealer_bust(self):
         return self.get_hand_value(self.dealer_hand) > 21
@@ -86,10 +86,10 @@ class BlackJack(object):
     def check_blackjack(self):
         return self.get_hand_value(self.player_hand) == 21
 
-    def generate_embed(self, start=False):
+    def generate_embed(self, player_turn=True):
         embed = discord.Embed(color=0xDE2A42)
         embed.set_author(name=self.author.name, icon_url=user_avatar(self.author))
-        if start:
+        if player_turn:
             dealer_str = f'Face Down, {self.dealer_hand[-1]}'
         else:
             dealer_str = ", ".join(sorted(self.dealer_hand, reverse=True))
