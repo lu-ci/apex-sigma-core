@@ -28,5 +28,14 @@ commands:
     enabled: true
     name: gamblingstats
     usage: '{pfx}{cmd} @user'
+  - alts:
+      - bj
+    description: Starts a game of BlackJack with the bot. Hit means you receive a card, stand means you end
+      your turn, and double down means you double your bet and end your turn. You can only double down if
+      you haven't hit. Get a higher sum than the dealer without going over 21 to win. Face cards are 10 each,
+      Ace is 11 or 1.
+    enabled: true
+    name: blackjack
+    usage: '{pfx}{cmd} 50'
 enabled: true
 name: Gambling Minigames
