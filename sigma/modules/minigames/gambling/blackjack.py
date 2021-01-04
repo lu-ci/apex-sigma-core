@@ -52,13 +52,15 @@ async def blackjack(cmd, pld):
                 if bljk.check_blackjack():
                     if not bljk.get_hand_value(bljk.dealer_hand) == 21:
                         await cmd.db.add_resource(author, 'currency', int(bet * 1.5), cmd.name, pld.msg, False)
-                        title = f'🎉 You got a BlackJack and won {bet * 2} {currency}!'
+                        title = f'🎉 You got a BlackJack and won {bet * 1.5} {currency}!'
                         bj_embed = discord.Embed(color=0xDE2A42, title=title)
-                        bj_embed.set_footer(text='You wont 150% of your original bet.')
+                        bj_embed.set_footer(text='You won 150% of your original bet.')
                     else:
                         title = f'🔵 Both you and the dealer got a BlackJack.'
                         bj_embed = discord.Embed(color=0x3B88C3, title=title)
                         bj_embed.set_footer(text='You broke even and lost nothing.')
+                    if is_ongoing(cmd.name, pld.msg.channel.id):
+                        del_ongoing(cmd.name, pld.msg.channel.id)
                     await pld.msg.channel.send(embed=bj_embed)
                     return
 
