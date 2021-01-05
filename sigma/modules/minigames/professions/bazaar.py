@@ -170,7 +170,7 @@ async def bazaar(cmd, pld):
             question = discord.Embed(color=0xffac33, title='🪙 The Item Bazaar')
             question.description = '\n'.join(lines)
             choice, timeout = await int_dialogue(cmd.bot, pld.msg, question, 1, len(keys))
-            if not timeout:
+            if choice is not None and not timeout:
                 key = keys[choice - 1]
                 item = item_core.get_item_by_file_id(doc.get(key))
                 available = not await has_purchased(cmd.db, pld.msg.author.id, key)

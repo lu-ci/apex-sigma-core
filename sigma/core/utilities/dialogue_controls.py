@@ -140,7 +140,7 @@ async def int_dialogue(bot, msg, question, start, end):
         except Exception:
             del_ongoing('dialogue', msg.author.id)
             await msg.channel.send(embed=errbed)
-            return False, False
+            return None, False
 
         def check_emote(reac, usr):
             """

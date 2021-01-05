@@ -142,7 +142,7 @@ async def slow_buy(cmd, pld):
         upgrade_list_embed.description = upgrade_text
         upgrade_list_embed.set_footer(text='Please input the number of the upgrade you want.')
         upgrade_number, timeout = await int_dialogue(cmd.bot, pld.msg, upgrade_list_embed, 1, len(upgrade_list))
-        if not timeout:
+        if upgrade_number is not None and not timeout:
             upgrade = upgrade_list[upgrade_number - 1]
             current_kud = await cmd.db.get_resource(pld.msg.author.id, 'currency')
             current_kud = current_kud.current
