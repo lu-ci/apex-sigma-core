@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found, error
+from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.nsfw.mech.core import konachan_client
 
 

@@ -25,7 +25,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
