@@ -110,10 +110,10 @@ async def blackjack(cmd, pld):
                     except asyncio.TimeoutError:
                         if is_ongoing(cmd.name, pld.msg.channel.id):
                             del_ongoing(cmd.name, pld.msg.channel.id)
-                        await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
+                        # await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                         timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}!'
                         timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-                        timeout_embed.set_footer(text=f'You lost {bet} {currency}.')
+                        # timeout_embed.set_footer(text=f'You lost {bet} {currency}.')
                         await pld.msg.channel.send(embed=timeout_embed)
                         return
                 await bljk.dealer_hit(game_msg)
