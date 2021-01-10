@@ -27,6 +27,7 @@ from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoin
 GAME_EMOTES = ['🔵', '🔴', '⏫']
 BJ_RATIO = 6 / 5
 
+
 async def blackjack(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
