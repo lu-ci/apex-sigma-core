@@ -25,7 +25,7 @@ from sigma.modules.minigames.gambling.black_jack.core import BlackJack, send_gam
 from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
 
 GAME_EMOTES = ['🔵', '🔴', '⏫']
-
+BJ_RATIO = 6 / 5
 
 async def blackjack(cmd, pld):
     """
@@ -41,6 +41,8 @@ async def blackjack(cmd, pld):
                 if pld.args[0].isdigit():
                     bet = abs(int(pld.args[0]))
             bet = 100000 if bet > 100000 else bet
+            reward = int(bet * BJ_RATIO)
+            profit = reward - bet
             currency_icon = cmd.bot.cfg.pref.currency_icon
             currency = cmd.bot.cfg.pref.currency
             author = pld.msg.author.id
@@ -54,10 +56,10 @@ async def blackjack(cmd, pld):
                 if bljk.check_blackjack():
                     if is_ongoing(cmd.name, pld.msg.channel.id):
                         del_ongoing(cmd.name, pld.msg.channel.id)
-                    await cmd.db.add_resource(author, 'currency', int(bet * 1.2), cmd.name, pld.msg, False)
-                    title = f'🎉 You got a BlackJack and won {int(bet * 1.2)} {currency}!'
+                    await cmd.db.add_resource(author, 'currency', reward, cmd.name, pld.msg, False)
+                    title = f'🎉 You got a BlackJack and won {reward} {currency}!'
                     bj_embed = discord.Embed(color=0xDE2A42, title=title)
-                    bj_embed.set_footer(text='You won 150% of your original bet.')
+                    bj_embed.set_footer(text=f'You won {100 * BJ_RATIO}% of your original bet.')
                     await pld.msg.channel.send(embed=bj_embed)
                     return
 
@@ -65,39 +67,39 @@ async def blackjack(cmd, pld):
                 game_msg = await pld.msg.channel.send(embed=game_embed)
                 [await game_msg.add_reaction(e) for e in GAME_EMOTES]
 
-                def check_emote(reac, usr):
+                def check_emote(reac):
                     """
                     Checks for a valid message reaction.
                     :param reac: The reaction to validate.
-                    :type reac: discord.Reaction
-                    :param usr: The user who reacted to the message.
-                    :type usr: discord.Member
+                    :type reac: discord.RawReactionActionEvent
                     :return:
                     :rtype: bool
                     """
-                    same_author = usr.id == pld.msg.author.id
-                    same_message = reac.message.id == game_msg.id
+                    same_author = reac.user_id == pld.msg.author.id
+                    same_message = reac.message_id == game_msg.id
                     valid_reaction = str(reac.emoji) in GAME_EMOTES
                     return same_author and same_message and valid_reaction
 
                 finished, bust, win = False, False, False
                 while not finished and not bust and not win:
                     try:
-                        ae, au = await cmd.bot.wait_for('reaction_add', timeout=60, check=check_emote)
+                        ae = await cmd.bot.wait_for('raw_reaction_add', timeout=60, check=check_emote)
                         # noinspection PyBroadException
                         try:
-                            await game_msg.remove_reaction(ae.emoji, au)
+                            await game_msg.remove_reaction(ae.emoji, pld.msg.author)
                         except Exception:
                             pass
-                        if ae.emoji == '🔵':
+                        if str(ae.emoji) == '🔵':
                             game_msg = await bljk.add_card(game_msg)
                             finished = bljk.check_bust()
-                        elif ae.emoji == '🔴':
+                        elif str(ae.emoji) == '🔴':
                             finished = True
-                        elif ae.emoji == '⏫':
+                        elif str(ae.emoji) == '⏫':
                             if len(bljk.player_hand) == 2:
                                 if current_kud >= bet * 2:
                                     bet += bet
+                                    reward = int(bet * BJ_RATIO)
+                                    profit = reward - bet
                                     game_msg = await bljk.add_card(game_msg)
                                     finished = True
                                 else:
@@ -111,10 +113,10 @@ async def blackjack(cmd, pld):
                     except asyncio.TimeoutError:
                         if is_ongoing(cmd.name, pld.msg.channel.id):
                             del_ongoing(cmd.name, pld.msg.channel.id)
-                        # await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
+                        await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                         timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}!'
                         timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
-                        # timeout_embed.set_footer(text=f'You lost {bet} {currency}.')
+                        timeout_embed.set_footer(text=f'You lost {bet} {currency}.')
                         await pld.msg.channel.send(embed=timeout_embed)
                         return
                 await bljk.dealer_hit(game_msg)
@@ -123,15 +125,15 @@ async def blackjack(cmd, pld):
                     title = f'💣 Your hand bust and you lost {bet} {currency}.'
                     response = discord.Embed(color=0x232323, title=title)
                 elif bljk.check_dealer_bust():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
-                    title = f'{currency_icon} The dealer bust and you won {bet} {currency}!'
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', profit, cmd.name, pld.msg, False)
+                    title = f'{currency_icon} The dealer bust and you won {profit} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 elif bljk.check_push():
                     title = f'🔵 You pushed and broke even.'
                     response = discord.Embed(color=0x3B88C3, title=title)
                 elif bljk.check_win():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
-                    title = f'{currency_icon} You beat the dealer and won {bet} {currency}!'
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', profit, cmd.name, pld.msg, False)
+                    title = f'{currency_icon} You beat the dealer and won {profit} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 else:
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
