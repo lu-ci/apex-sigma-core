@@ -41,9 +41,6 @@ async def blackjack(cmd, pld):
             if pld.args:
                 if pld.args[0].isdigit():
                     bet = abs(int(pld.args[0]))
-            bet = 100000 if bet > 100000 else bet
-            reward = int(bet * BJ_RATIO)
-            profit = reward - bet
             currency_icon = cmd.bot.cfg.pref.currency_icon
             currency = cmd.bot.cfg.pref.currency
             author = pld.msg.author.id
@@ -57,8 +54,8 @@ async def blackjack(cmd, pld):
                 if bljk.check_blackjack():
                     if is_ongoing(cmd.name, pld.msg.channel.id):
                         del_ongoing(cmd.name, pld.msg.channel.id)
-                    await cmd.db.add_resource(author, 'currency', reward, cmd.name, pld.msg, False)
-                    title = f'🎉 You got a BlackJack and won {reward} {currency}!'
+                    await cmd.db.add_resource(author, 'currency', bet * BJ_RATIO, cmd.name, pld.msg, False)
+                    title = f'🎉 You got a BlackJack and won {bet * BJ_RATIO} {currency}!'
                     bj_embed = discord.Embed(color=0xDE2A42, title=title)
                     bj_embed.set_footer(text=f'You won {100 * BJ_RATIO}% of your original bet.')
                     await pld.msg.channel.send(embed=bj_embed)
@@ -126,15 +123,15 @@ async def blackjack(cmd, pld):
                     title = f'💣 Your hand bust and you lost {bet} {currency}.'
                     response = discord.Embed(color=0x232323, title=title)
                 elif bljk.check_dealer_bust():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', profit, cmd.name, pld.msg, False)
-                    title = f'{currency_icon} The dealer bust and you won {profit} {currency}!'
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
+                    title = f'{currency_icon} The dealer bust and you won {bet} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 elif bljk.check_push():
                     title = f'🔵 You pushed and broke even.'
                     response = discord.Embed(color=0x3B88C3, title=title)
                 elif bljk.check_win():
-                    await cmd.db.add_resource(pld.msg.author.id, 'currency', profit, cmd.name, pld.msg, False)
-                    title = f'{currency_icon} You beat the dealer and won {profit} {currency}!'
+                    await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
+                    title = f'{currency_icon} You beat the dealer and won {bet} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 else:
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
