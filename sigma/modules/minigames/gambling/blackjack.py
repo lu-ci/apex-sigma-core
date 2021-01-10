@@ -96,8 +96,6 @@ async def blackjack(cmd, pld):
                             if len(bljk.player_hand) == 2:
                                 if current_kud >= bet * 2:
                                     bet += bet
-                                    reward = int(bet * BJ_RATIO)
-                                    profit = reward - bet
                                     game_msg = await bljk.add_card(game_msg)
                                     finished = True
                                 else:
