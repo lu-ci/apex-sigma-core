@@ -40,6 +40,7 @@ async def blackjack(cmd, pld):
             if pld.args:
                 if pld.args[0].isdigit():
                     bet = abs(int(pld.args[0]))
+            bet = 100000 if bet > 100000 else bet
             currency_icon = cmd.bot.cfg.pref.currency_icon
             currency = cmd.bot.cfg.pref.currency
             author = pld.msg.author.id
@@ -53,8 +54,8 @@ async def blackjack(cmd, pld):
                 if bljk.check_blackjack():
                     if is_ongoing(cmd.name, pld.msg.channel.id):
                         del_ongoing(cmd.name, pld.msg.channel.id)
-                    await cmd.db.add_resource(author, 'currency', int(bet * 1.5), cmd.name, pld.msg, False)
-                    title = f'🎉 You got a BlackJack and won {int(bet * 1.5)} {currency}!'
+                    await cmd.db.add_resource(author, 'currency', int(bet * 1.2), cmd.name, pld.msg, False)
+                    title = f'🎉 You got a BlackJack and won {int(bet * 1.2)} {currency}!'
                     bj_embed = discord.Embed(color=0xDE2A42, title=title)
                     bj_embed.set_footer(text='You won 150% of your original bet.')
                     await pld.msg.channel.send(embed=bj_embed)
