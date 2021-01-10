@@ -55,25 +55,34 @@ async def marketsell(cmd, pld):
                         set_ongoing(cmd.name, pld.msg.author.id)
                         inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                         if inv_item:
+                            cost = int(price * 0.005)
                             curr = cmd.bot.cfg.pref.currency
                             profit = int(price * (1 - (MARKET_TAX_PERCENT / 100)))
                             questitle = f'❔ Sell the {item.rarity_name} {item.name} for {price} {curr}?'
                             quesbed = discord.Embed(color=0xf9f9f9, title=questitle)
-                            desc = f'The market has a {MARKET_TAX_PERCENT}% tax so if your item gets sold,'
+                            desc = f'Listing the item costs **{cost}** {curr}.'
+                            desc += f' The market has a {MARKET_TAX_PERCENT}% tax so if your item gets sold,'
                             desc += f' you will get {profit} instead of {price} {curr}.'
-                            desc += ' Retratcing the item is not taxed.'
+                            desc += ' Retracting the item is not taxed.'
                             quesbed.description = desc
                             sell_confirm, _ = await bool_dialogue(cmd.bot, pld.msg, quesbed, False)
                             if sell_confirm:
-                                me = MarketEntry.new(pld.msg.author, item.file_id, price)
-                                await me.save(cmd.db)
-                                await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
-                                pfx = cmd.db.get_prefix(pld.settings)
-                                desc = f'Placed the {item.rarity_name} {item.name} on the market for {price} {curr}.'
-                                desc += f' Your market entry token is `{me.token}`, it can be bought directly using the'
-                                desc += f' `{pfx}marketbuy {me.token}` command.'
-                                response = ok('Market entry created.')
-                                response.description = desc
+                                wallet = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
+                                if wallet >= cost:
+                                    await cmd.db.del_resource(pld.msg.author.id, 'currency', cost, cmd.name, pld.msg)
+                                    me = MarketEntry.new(pld.msg.author, item.file_id, price)
+                                    await me.save(cmd.db)
+                                    await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
+                                    pfx = cmd.db.get_prefix(pld.settings)
+                                    desc = f'Placed the {item.rarity_name} {item.name}'
+                                    desc += f' on the market for {price} {curr}.'
+                                    desc += f' Your market entry token is `{me.token}`,'
+                                    desc += f' it can be bought directly using the'
+                                    desc += f' `{pfx}marketbuy {me.token}` command.'
+                                    response = ok('Market entry created.')
+                                    response.description = desc
+                                else:
+                                    response = error('You\'re not able to pay the listing fee.')
                             else:
                                 response = discord.Embed(color=0xbe1931, title='❌ Sale cancelled.')
                         else:

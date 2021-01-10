@@ -15,6 +15,7 @@ commands:
       When the item is successfully listed, you will get a market entry token.
       You can share that token with others so they buy your listing directly.
       Selling items on the market does not contribute to your ranked Kud.
+      Listing an item costs 0.5% of the price you're listing it for.
     enabled: true
     name: marketsell
     usage: '{pfx}{cmd} 50000 Corpse Lily'
