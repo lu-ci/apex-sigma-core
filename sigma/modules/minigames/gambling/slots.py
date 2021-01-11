@@ -100,7 +100,7 @@ async def slots(cmd, pld):
             else:
                 win = False
                 winnings = 0
-            winnings = winnings * 0.995
+            winnings = int(winnings * 0.995)
             if win:
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'
