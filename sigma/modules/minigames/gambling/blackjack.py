@@ -55,9 +55,9 @@ async def blackjack(cmd, pld):
                     if is_ongoing(cmd.name, pld.msg.channel.id):
                         del_ongoing(cmd.name, pld.msg.channel.id)
                     await cmd.db.add_resource(author, 'currency', bet * BJ_RATIO, cmd.name, pld.msg, False)
-                    title = f'🎉 You got a BlackJack and won {bet * BJ_RATIO} {currency}!'
+                    title = f'🎉 You got a BlackJack and won {int(bet * BJ_RATIO)} {currency}!'
                     bj_embed = discord.Embed(color=0xDE2A42, title=title)
-                    bj_embed.set_footer(text=f'You won {100 * BJ_RATIO}% of your original bet.')
+                    bj_embed.set_footer(text=f'You won {int(100 * BJ_RATIO)}% of your original bet.')
                     await pld.msg.channel.send(embed=bj_embed)
                     return
 
