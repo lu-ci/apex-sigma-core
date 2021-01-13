@@ -18,14 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.modules.minigames.gambling.slots import rarity_rewards, symbols
+from sigma.modules.minigames.gambling.slots import rarity_rewards, symbols, THREE_MOD, TWO_MOD
 
 
 def get_payout(symbol, bet, triple):
     if triple:
-        return int(bet * ((rarity_rewards[symbol] / 6.66666) * 0.95))
+        return int(bet * rarity_rewards[symbol] * THREE_MOD * 0.95)
     else:
-        return int(bet * ((rarity_rewards[symbol] / 6.66666) * 0.45))
+        return int(bet * rarity_rewards[symbol] * TWO_MOD * 0.9)
 
 
 async def slotstats(cmd, pld):

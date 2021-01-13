@@ -23,31 +23,34 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 
 rarity_rewards = {
-    '🍆': 50,
-    '🍒': 55,
-    '⚓': 60,
-    '🏵': 70,
-    '💖': 75,
-    '🏮': 80,
-    '🍥': 85,
-    '💵': 90,
-    '💳': 95,
-    '🎁': 100,
-    '🐬': 105,
-    '🐦': 110,
-    '🌟': 115,
-    '🦊': 120,
-    '🦋': 125,
-    '🐍': 130,
-    '🍬': 135,
-    '💎': 140,
-    '🔰': 145,
-    '⚜': 150
+    '🍆': 0.7,
+    '🍒': 0.725,
+    '⚓': 0.75,
+    '🏵': 0.775,
+    '💖': 0.8,
+    '🏮': 0.825,
+    '🍥': 0.85,
+    '💵': 0.875,
+    '💳': 0.9,
+    '🎁': 0.925,
+    '🐬': 0.95,
+    '🐦': 1,
+    '🌟': 1.025,
+    '🦊': 1.05,
+    '🦋': 1.075,
+    '🐍': 1.1,
+    '🍬': 1.125,
+    '💎': 1.15,
+    '🔰': 1.175,
+    '⚜': 1.2
 }
 
 symbols = []
 for symbol in rarity_rewards:
     symbols.append(symbol)
+
+TWO_MOD = int(len(symbols) / 2)
+THREE_MOD = len(symbols) ** 2
 
 
 async def slots(cmd, pld):
@@ -94,7 +97,7 @@ async def slots(cmd, pld):
             two_comb_three = bool(combination[1] == combination[2])
             if three_comb:
                 win = True
-                winnings = int(bet * ((rarity_rewards[combination[0]] / 6.66666) * 0.95))
+                winnings = int(bet * rarity_rewards[combination[0]] * THREE_MOD * 0.95)
             elif two_comb_one or two_comb_two or two_comb_three:
                 if combination[0] == combination[1]:
                     win_comb = combination[0]
@@ -105,7 +108,7 @@ async def slots(cmd, pld):
                 else:
                     win_comb = None
                 win = True
-                winnings = int(bet * ((rarity_rewards[win_comb] / 6.66666) * 0.45))
+                winnings = int(bet * rarity_rewards[win_comb] * TWO_MOD * 0.9)
             else:
                 win = False
                 winnings = 0
