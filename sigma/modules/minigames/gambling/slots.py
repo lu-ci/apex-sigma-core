@@ -22,31 +22,32 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 
-symbols = [
-    '🍆',
-    '🍒',
-    '⚓',
-    '🏵',
-    '💖',
-    '🏮',
-    '🍥',
-    '💵',
-    '💳',
-    '🎁',
-    '🐬',
-    '🐦',
-    '🌟',
-    '🦊',
-    '🦋',
-    '🐍',
-    '🍬',
-    '💎',
-    '🔰',
-    '⚜'
-]
+rarity_rewards = {
+    '🍆': 50,
+    '🍒': 55,
+    '⚓': 60,
+    '🏵': 70,
+    '💖': 75,
+    '🏮': 80,
+    '🍥': 85,
+    '💵': 90,
+    '💳': 95,
+    '🎁': 100,
+    '🐬': 105,
+    '🐦': 110,
+    '🌟': 115,
+    '🦊': 120,
+    '🦋': 125,
+    '🐍': 130,
+    '🍬': 135,
+    '💎': 140,
+    '🔰': 145,
+    '⚜': 150
+}
 
-TWO_PROFIT = int(len(symbols) / 2)
-THREE_PROFIT = len(symbols) ** 2
+symbols = []
+for symbol in rarity_rewards:
+    symbols.append(symbol)
 
 
 async def slots(cmd, pld):
@@ -93,14 +94,21 @@ async def slots(cmd, pld):
             two_comb_three = bool(combination[1] == combination[2])
             if three_comb:
                 win = True
-                winnings = int(bet * THREE_PROFIT)
+                winnings = int(bet * ((rarity_rewards[combination[0]] / 6.66666) * 0.95))
             elif two_comb_one or two_comb_two or two_comb_three:
+                if combination[0] == combination[1]:
+                    win_comb = combination[0]
+                elif combination[0] == combination[2]:
+                    win_comb = combination[0]
+                elif combination[1] == combination[2]:
+                    win_comb = combination[1]
+                else:
+                    win_comb = None
                 win = True
-                winnings = int(bet * TWO_PROFIT)
+                winnings = int(bet * ((rarity_rewards[win_comb] / 6.66666) * 0.45))
             else:
                 win = False
                 winnings = 0
-            winnings = winnings * 0.995
             if win:
                 color = 0x5dadec
                 title = '💎 Congrats, you won!'

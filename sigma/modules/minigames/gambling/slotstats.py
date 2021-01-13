@@ -18,14 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.modules.minigames.gambling.slots import TWO_PROFIT, THREE_PROFIT
+from sigma.modules.minigames.gambling.slots import rarity_rewards, symbols
 
 
-def get_payout(bet, triple):
+def get_payout(symbol, bet, triple):
     if triple:
-        return int(bet * THREE_PROFIT * 0.995)
+        return int(bet * ((rarity_rewards[symbol] / 6.66666) * 0.95))
     else:
-        return int(bet * TWO_PROFIT * 0.995)
+        return int(bet * ((rarity_rewards[symbol] / 6.66666) * 0.45))
 
 
 async def slotstats(cmd, pld):
@@ -45,7 +45,17 @@ async def slotstats(cmd, pld):
     currency_icon = cmd.bot.cfg.pref.currency_icon
     currency = cmd.bot.cfg.pref.currency
     response = discord.Embed(color=0x5dadec, title=f'{currency_icon} Slot Machine Payout')
-    response.description = f'**2** Matching - **{get_payout(bet, False)}** {currency}'
-    response.description += f'\n**3** Matching - **{get_payout(bet, True)}** {currency}'
+    payouts_one = ''
+    for symbol in reversed(symbols[:10]):
+        thr_comb = get_payout(symbol, bet, True)
+        two_comb = get_payout(symbol, bet, False)
+        payouts_one += f'{symbol} - {two_comb}/**{thr_comb}**\n'
+    payouts_two = ''
+    for symbol in reversed(symbols[10:]):
+        thr_comb = get_payout(symbol, bet, True)
+        two_comb = get_payout(symbol, bet, False)
+        payouts_two += f'{symbol} - {two_comb}/**{thr_comb}**\n'
+    response.add_field(name='Matches (double/triple)', value=payouts_one)
+    response.add_field(name='Cont.', value=payouts_two)
     response.set_footer(text=f'Payouts for a bet of {bet} {currency}.')
     await pld.msg.channel.send(embed=response)
