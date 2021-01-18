@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.generic_responses import not_found
-from sigma.modules.fun.mbti.mech.storage import mbti_compatibility, mbti_functions, mbti_list, mbti_overview, mbti_types
+from sigma.modules.fun.mbti.mech.storage import mbti_chart, mbti_compatibility, mbti_functions, mbti_list, mbti_overview, mbti_types
 
 mbti_img = 'https://i.imgur.com/XzJPkmu.png'
 types_src = 'https://www.typeinmind.com/'
@@ -58,12 +58,20 @@ async def mbti(_cmd, pld):
         if len(pld.args) == 2:
             target = pld.args[1].lower()
             if lookup in mbti_types and target in mbti_types:
-                type_comp_list = mbti_compatibility[lookup]
+                type_comp_list = mbti_chart[lookup]
                 type_comp = type_comp_list[mbti_list.index(target)]
+                type_comp_desc = mbti_compatibility.get(f'{lookup.upper()} x {target.upper()}')
+                if not type_comp_desc:
+                    type_comp_desc = mbti_compatibility.get(f'{target.upper()} x {lookup.upper()}')
+                    lookup, target = target, lookup
                 title = f'👥 Compatibility of {lookup.upper()} and {target.upper()}'
-                description = f'{type_comp} out of 5 compatibility.'
-                response = discord.Embed(color=0x734d5f, title=title, description=description)
-                response.set_footer(text='A more detailed response is being worked on.')
+                response = discord.Embed(color=0x734d5f, title=title)
+                if type_comp_desc:
+                    response.description = make_paragraph(type_comp_desc)
+                    response.set_footer(text=f'{type_comp} out of 5 compatibility.')
+                else:
+                    response.description = f'{type_comp} out of 5 compatibility.'
+                    response.set_footer(text='A more detailed response is being worked on.')
             else:
                 if lookup not in mbti_types and target not in mbti_types:
                     item = 'Types'
