@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.dialogue_controls import bool_dialogue
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import error, not_found, ok, denied
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.market.marketsell import MARKET_TAX_PERCENT
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
@@ -34,6 +34,10 @@ async def marketbuy(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    if await cmd.db.is_sabotaged(pld.msg.author.id):
+        response = denied('Quarantined users can\'t use the market.')
+        await pld.msg.channel.send(embed=response)
+        return
     author_stamp = arrow.get(pld.msg.author.created_at).float_timestamp
     current_stamp = arrow.utcnow().float_timestamp
     time_diff = current_stamp - author_stamp
