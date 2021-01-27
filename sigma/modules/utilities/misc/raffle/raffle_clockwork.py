@@ -24,6 +24,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.utilities.misc.raffle.raffleicon import get_matching_emote
 
 raffle_loop_running = False
@@ -65,9 +66,28 @@ def kud_from_title(text):
     return int(''.join([str(dig) for dig in digits]))
 
 
+async def item_from_title(ev, text):
+    item_core = await get_item_core(ev.db)
+    return item_core.get_item_by_name(' '.join(text.split(' ')[2:]))
+
+
 async def auto_award(ev, winner, raffle):
+    title = raffle.get('title', '')
+    if ev.bot.cfg.pref.currency.lower() in title.lower():
+        await auto_currency(ev, winner, raffle)
+    else:
+        await auto_item(ev, winner, raffle)
+
+
+async def auto_currency(ev, winner, raffle):
     amount = kud_from_title(raffle.get('title', ''))
     await ev.db.add_resource(winner.id, 'currency', amount, ev.name, None, False)
+
+
+async def auto_item(ev, winner, raffle):
+    item = await item_from_title(ev, raffle.get('title', ''))
+    data_for_inv = item.generate_inventory_item()
+    await ev.db.add_to_inventory(winner.id, data_for_inv)
 
 
 async def cycler(ev):
