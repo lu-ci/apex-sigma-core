@@ -54,6 +54,22 @@ def extra_shuffle(some_list):
     return new_list
 
 
+async def kud_from_title(text):
+    digits = []
+    for char in text:
+        try:
+            val = int(char)
+            digits.append(val)
+        except ValueError:
+            pass
+    return digits
+
+
+async def auto_award(ev, winner, raffle):
+    amount = kud_from_title(raffle.get('title', ''))
+    await ev.db.add_resource(winner.id, 'currency', amount, ev.name, None, False)
+
+
 async def cycler(ev):
     """
     :param ev: The event object referenced in the event.
@@ -104,6 +120,10 @@ async def cycler(ev):
                                                     contestants.append(user)
                                             break
                                 if contestants:
+                                    automatic = raffle.get('automatic', False)
+                                    if automatic:
+                                        if not (aid in ev.bot.cfg.dsc.owners or aid == ev.bot.user.id):
+                                            automatic = False
                                     contestants = extra_shuffle(contestants)
                                     draw_count = min(len(contestants), raffle.get('draw_count', 1))
                                     for _ in range(draw_count):
@@ -114,6 +134,9 @@ async def cycler(ev):
                                         win_text = f'{raffle.get("icon")} Hey {amen}, {wmen} won your raffle!'
                                         win_embed = discord.Embed(color=color)
                                         win_title = f'{winner.name} won {title.lower()}{ender}'
+                                        if automatic:
+                                            await auto_award(ev, winner, raffle)
+                                            win_embed.set_footer(text='The reward has been automatically transferred.')
                                         win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                         await channel.send(win_text, embed=win_embed)
                                         ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("ID")} in {cid}.')

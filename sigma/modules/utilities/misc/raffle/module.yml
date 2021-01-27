@@ -73,6 +73,9 @@ commands:
 enabled: true
 events:
   - enabled: true
+    name: auto_raffle
+    type: ready
+  - enabled: true
     name: raffle_clockwork
     type: ready
 name: Raffle Utilities

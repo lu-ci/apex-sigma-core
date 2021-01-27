@@ -75,6 +75,7 @@ async def raffle(cmd, pld):
             external = pld.msg.channel.id != target_ch.id
             draw_count = 1
             args = [a.lower() for a in pld.args]
+            automatic = False
             for arg in args:
                 if arg.startswith('winners:'):
                     pld.args.pop(args.index(arg))
@@ -82,6 +83,10 @@ async def raffle(cmd, pld):
                     if draw_num.isdigit():
                         draw_count = int(draw_num)
                         break
+                if arg.lower() == 'automatic':
+                    pld.args.pop(args.index(arg))
+                    if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
+                        automatic = True
             if external:
                 allowed = pld.msg.author.permissions_in(target_ch).send_messages
                 if allowed:
@@ -102,6 +107,7 @@ async def raffle(cmd, pld):
                 starter_message = await target_ch.send(embed=starter)
                 await starter_message.add_reaction(reaction_icon)
                 raffle_data = {
+                    'automatic': automatic,
                     'author': pld.msg.author.id,
                     'channel': target_ch.id,
                     'title': raffle_title,
