@@ -61,7 +61,7 @@ async def cycler(ev):
                 if auto_docs:
                     latest = auto_docs[0]
                     now = arrow.utcnow().float_timestamp
-                    stamp = latest.get('start_stamp', 0)
+                    stamp = latest.get('start', 0)
                     if now > stamp + cfg.interval:
                         await create(ev, ch)
                 else:
