@@ -54,11 +54,13 @@ async def cycler(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg
-    if cfg.channel and cfg.winners and cfg.reward and cfg.interval and cfg.duration and cfg.item_chance:
+    cfg_args = ['winners', 'reward', 'interval', 'duration', 'item_chance', 'mixed_chance']
+    if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
         while True:
             ch = await ev.bot.get_channel(cfg.channel)
             if ch:
-                auto_docs = await ev.db[ev.db.db_nam].Raffles.find({'automatic': True}).sort('start', -1).to_list(None)
+                lookup = {'automatic': True, 'author': ev.bot.user.id}
+                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).to_list(None)
                 if auto_docs:
                     latest = auto_docs[0]
                     now = arrow.utcnow().float_timestamp
@@ -90,7 +92,14 @@ async def create(ev, ch):
     resp_title = f"Auto-Raffle {rafid} has begun!"
     reaction_name = reaction_icon = secrets.choice(raffle_icons)
     icon_color = icon_colors.get(reaction_icon)
-    if secrets.randbelow(100) < cfg.item_chance:
+    roll = secrets.randbelow(100)
+    if roll < cfg.mixed_chance:
+        raffle_title = f"{thousand_separator(int(cfg.reward * 0.85))} {ev.bot.cfg.pref.currency}"
+        item_core = await get_item_core(ev.db)
+        item = item_core.pick_item_in_rarity(secrets.choice(['fish', 'plant', 'animal']), secrets.randbelow(4) + 5)
+        connector = 'an' if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u'] else 'a'
+        raffle_title += f" + {connector.title()} {item.rarity_name.title()} {item.name}"
+    elif roll < cfg.item_chance:
         item_core = await get_item_core(ev.db)
         item = item_core.pick_item_in_rarity(secrets.choice(['fish', 'plant', 'animal']), secrets.randbelow(4) + 5)
         connector = 'an' if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u'] else 'a'

@@ -73,19 +73,21 @@ async def item_from_title(ev, text):
 
 async def auto_award(ev, winner, raffle):
     title = raffle.get('title', '')
-    if ev.bot.cfg.pref.currency.lower() in title.lower():
-        await auto_currency(ev, winner, raffle)
-    else:
-        await auto_item(ev, winner, raffle)
+    for piece in title.split('+'):
+        piece = piece.strip()
+        if ev.bot.cfg.pref.currency.lower() in piece.lower():
+            await auto_currency(ev, winner, piece)
+        else:
+            await auto_item(ev, winner, piece)
 
 
-async def auto_currency(ev, winner, raffle):
-    amount = kud_from_title(raffle.get('title', ''))
+async def auto_currency(ev, winner, title):
+    amount = kud_from_title(title)
     await ev.db.add_resource(winner.id, 'currency', amount, ev.name, None, False)
 
 
-async def auto_item(ev, winner, raffle):
-    item = await item_from_title(ev, raffle.get('title', ''))
+async def auto_item(ev, winner, title):
+    item = await item_from_title(ev, title)
     data_for_inv = item.generate_inventory_item()
     await ev.db.add_to_inventory(winner.id, data_for_inv)
 
@@ -159,7 +161,7 @@ async def cycler(ev):
                                             win_embed.set_footer(text='The reward has been automatically transferred.')
                                         win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
                                         await channel.send(win_text, embed=win_embed)
-                                        ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("ID")} in {cid}.')
+                                        ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("id")} in {cid}.')
             except Exception as e:
                 ev.log.error(e)
                 pass
