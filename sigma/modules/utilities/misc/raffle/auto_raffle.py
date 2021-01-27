@@ -38,48 +38,43 @@ async def auto_raffle(ev):
         ev.bot.loop.create_task(cycler(ev))
 
 
+def thousand_separator(number):
+    out = []
+    for (ix, dig) in enumerate(reversed(str(number))):
+        out.append(dig)
+        if (ix + 1) % 3 == 0:
+            out.append(',')
+    return ''.join(reversed(out))
+
+
 async def cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg
-    if cfg.channel:
-        if cfg.winners:
-            if cfg.reward:
-                if cfg.interval:
-                    if cfg.duration:
-                        ev.log.info('cfg ok')
-                        while True:
-                            ev.log.info(cfg.channel)
-                            ch = await ev.bot.get_channel(cfg.channel)
-                            ev.log.info(ch)
-                            if ch:
-                                ev.log.info('ch ok')
-                                auto_docs = await ev.db[ev.db.db_nam].Raffles.find({'automatic': True}).sort('start',
-                                                                                                             -1).to_list(
-                                    None)
-                                if auto_docs:
-                                    ev.log.info('yes docs')
-                                    latest = auto_docs[0]
-                                    now = arrow.utcnow().float_timestamp
-                                    stamp = latest.get('start_stamp', 0)
-                                    if now > stamp + cfg.interval:
-                                        await create(ev, ch, len(auto_docs))
-                                else:
-                                    ev.log.info('no docs')
-                                    await create(ev, ch, len(auto_docs))
-                            await asyncio.sleep(60)
+    if cfg.channel and cfg.winners and cfg.reward and cfg.interval and cfg.duration:
+        while True:
+            ch = await ev.bot.get_channel(cfg.channel)
+            if ch:
+                auto_docs = await ev.db[ev.db.db_nam].Raffles.find({'automatic': True}).sort('start', -1).to_list(None)
+                if auto_docs:
+                    latest = auto_docs[0]
+                    now = arrow.utcnow().float_timestamp
+                    stamp = latest.get('start_stamp', 0)
+                    if now > stamp + cfg.interval:
+                        await create(ev, ch)
+                else:
+                    await create(ev, ch)
+            await asyncio.sleep(60)
 
 
-async def create(ev, ch, count):
+async def create(ev, ch):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param ch: The auto-raffle channel.
     :type ch: discord.TextChannel
-    :param count: Number of existing documents.
-    :type count: int
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg
     draw_count = cfg.winners
@@ -91,10 +86,10 @@ async def create(ev, ch, count):
         end_hum = arrow.get(end_stamp).humanize()
     end_dt = arrow.get(end_stamp).datetime
     rafid = secrets.token_hex(3)
-    resp_title = f"Auto-Raffle #{count + 1} has begun!"
+    resp_title = f"Auto-Raffle {rafid} has begun!"
     reaction_name = reaction_icon = secrets.choice(raffle_icons)
     icon_color = icon_colors.get(reaction_icon)
-    raffle_title = f"{cfg.reward} {ev.bot.cfg.pref.currency}"
+    raffle_title = f"{thousand_separator(cfg.reward)} {ev.bot.cfg.pref.currency}"
     starter = discord.Embed(color=icon_color, timestamp=end_dt)
     starter.set_author(name=resp_title, icon_url=(user_avatar(ev.bot.user)))
     starter.description = f"Prize: **{raffle_title}**"

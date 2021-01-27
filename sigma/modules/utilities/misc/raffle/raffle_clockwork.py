@@ -54,7 +54,7 @@ def extra_shuffle(some_list):
     return new_list
 
 
-async def kud_from_title(text):
+def kud_from_title(text):
     digits = []
     for char in text:
         try:
@@ -62,7 +62,7 @@ async def kud_from_title(text):
             digits.append(val)
         except ValueError:
             pass
-    return digits
+    return int(''.join([str(dig) for dig in digits]))
 
 
 async def auto_award(ev, winner, raffle):
