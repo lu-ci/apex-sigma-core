@@ -358,6 +358,9 @@ class ApexSigma(client_class):
         except discord.LoginFailure:
             self.log.error('Invalid Token!')
             exit(errno.EPERM)
+        except discord.PrivilegedIntentsRequired:
+            self.log.error('Missing requested privileged intents!')
+            exit(errno.EPERM)
 
     async def on_connect(self):
         """
