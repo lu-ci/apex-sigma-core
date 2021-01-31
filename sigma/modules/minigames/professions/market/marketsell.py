@@ -74,18 +74,21 @@ async def marketsell(cmd, pld):
                             if dresp.ok:
                                 wallet = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
                                 if wallet >= cost:
-                                    await cmd.db.del_resource(pld.msg.author.id, 'currency', cost, cmd.name, pld.msg)
                                     me = MarketEntry.new(pld.msg.author, item.file_id, price)
-                                    await me.save(cmd.db)
-                                    await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
-                                    pfx = cmd.db.get_prefix(pld.settings)
-                                    desc = f'Placed the {item.rarity_name} {item.name}'
-                                    desc += f' on the market for {price} {curr}.'
-                                    desc += f' Your market entry token is `{me.token}`,'
-                                    desc += f' it can be bought directly using the'
-                                    desc += f' `{pfx}marketbuy {me.token}` command.'
-                                    response = ok('Market entry created.')
-                                    response.description = desc
+                                    try:
+                                        await me.save(cmd.db)
+                                        await cmd.db.del_resource(pld.msg.author.id, 'currency', cost, cmd.name, pld.msg)
+                                        await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
+                                        pfx = cmd.db.get_prefix(pld.settings)
+                                        desc = f'Placed the {item.rarity_name} {item.name}'
+                                        desc += f' on the market for {price} {curr}.'
+                                        desc += f' Your market entry token is `{me.token}`,'
+                                        desc += f' it can be bought directly using the'
+                                        desc += f' `{pfx}marketbuy {me.token}` command.'
+                                        response = ok('Market entry created.')
+                                        response.description = desc
+                                    except OverflowError:
+                                        response = error("Whoa, that number is way too big!")
                                 else:
                                     response = error('You\'re not able to pay the listing fee.')
                             else:

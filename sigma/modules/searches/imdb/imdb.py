@@ -38,7 +38,7 @@ async def imdb(_cmd, pld):
             async with session.get(api_url) as data:
                 search_data = await data.text()
                 search_data = '('.join(search_data.split("(")[1:])[:-1]
-                data = json.loads(search_data, encoding='utf-8')
+                data = json.loads(search_data)
                 data = data.get('d', [None])[0]
         if data:
             imdb_icon = 'https://ia.media-imdb.com/images/G/01/imdb/images/mobile/'

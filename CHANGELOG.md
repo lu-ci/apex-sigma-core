@@ -1,6 +1,6 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.86.1730 Tsumiki
 
 ### Added
 
@@ -10,6 +10,9 @@
 
 ### Changed
 
+- Fix the `marketlist` command in case of items that can't be found.
+- Fix the `marketsell` command overflowing when given ludicrous numbers.
+- Fix the `imdb` command erroring due to the encoding argument.
 - All dialogues can now be cancelled.
 - Dialogues now return `DialogueResponse` for easier marker reading and response generation.
 - [Dockerfile](/Dockerfile) bumped to use Python 3.9.

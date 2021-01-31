@@ -37,14 +37,13 @@ async def marketlist(cmd, pld):
     ic = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
     lookup = get_filter(pld.args)
+    entries = []
     if lookup:
         item = ic.get_item_by_name(lookup)
-        title = f'Cheapest {item.rarity_name} {item.name} listings.'
         if item:
+            title = f'Cheapest {item.rarity_name} {item.name} listings.'
             sort = ('price', -1)
             entries = await MarketEntry.find_all_items(cmd.db, item.file_id, sort=sort)
-        else:
-            entries = None
     else:
         title = 'Most recent listings.'
         sort = ('stamp', -1)
