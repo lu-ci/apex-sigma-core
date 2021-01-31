@@ -22,7 +22,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.other.connect_four.connect_four_mechanics import make_game
 from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
@@ -52,7 +52,7 @@ async def connectfour(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if not is_ongoing(cmd.name, pld.msg.channel.id):
+    if not Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
         color = pld.args[0][0].lower() if pld.args else None
         competitor = pld.msg.guild.me
         if pld.msg.mentions:
@@ -67,7 +67,7 @@ async def connectfour(cmd, pld):
                 await pld.msg.channel.send(embed=self_embed)
                 return
 
-        set_ongoing(cmd.name, pld.msg.channel.id)
+        Ongoing.set_ongoing(cmd.name, pld.msg.channel.id)
         board = ConnectFourBoard()
         user_av = user_avatar(pld.msg.author)
         board_resp = generate_response(user_av, pld.msg.author, board.make)

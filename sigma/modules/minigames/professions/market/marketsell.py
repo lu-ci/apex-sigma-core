@@ -23,7 +23,7 @@ from sigma.core.utilities.dialogue_controls import bool_dialogue
 from sigma.core.utilities.generic_responses import error, not_found, ok, denied
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.utils.ongoing.ongoing import set_ongoing, is_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 MARKET_TAX_PERCENT = 5
 
@@ -55,8 +55,8 @@ async def marketsell(cmd, pld):
                 item_lookup = ' '.join(pld.args[1:])
                 item = ic.get_item_by_name(item_lookup)
                 if item:
-                    if not is_ongoing(cmd.name, pld.msg.author.id):
-                        set_ongoing(cmd.name, pld.msg.author.id)
+                    if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                        Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
                         inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                         if inv_item:
                             cost = int(price * 0.005)
@@ -91,8 +91,8 @@ async def marketsell(cmd, pld):
                                 response = discord.Embed(color=0xbe1931, title='❌ Sale cancelled.')
                         else:
                             response = not_found('You don\'t have this item in your inventory.')
-                        if is_ongoing(cmd.name, pld.msg.author.id):
-                            del_ongoing(cmd.name, pld.msg.author.id)
+                        if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                            Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
                     else:
                         response = error('You already have a market sale open.')
                 else:

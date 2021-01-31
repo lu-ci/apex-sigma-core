@@ -25,7 +25,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import int_dialogue
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 async def get_active_shop(db, uid):
@@ -147,8 +147,8 @@ async def bazaar(cmd, pld):
     current_stamp = arrow.utcnow().float_timestamp
     time_diff = current_stamp - author_stamp
     if time_diff > 2592000:
-        if not is_ongoing(cmd.name, pld.msg.author.id):
-            set_ongoing(cmd.name, pld.msg.author.id)
+        if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+            Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
             item_core = await get_item_core(cmd.db)
             doc = await get_active_shop(cmd.db, pld.msg.author.id)
             if not doc:
@@ -192,8 +192,8 @@ async def bazaar(cmd, pld):
                     response = error('One per customer please.')
             else:
                 response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
-            if is_ongoing(cmd.name, pld.msg.author.id):
-                del_ongoing(cmd.name, pld.msg.author.id)
+            if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
         else:
             response = error('You already have a bazaar open.')
     else:

@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.modules.minigames.other.connect_four.connect_four_mechanics import cf_cache
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 cf_loop_running = False
 
@@ -55,7 +55,7 @@ async def connect_four_cycler(ev):
                         channel = await ev.bot.get_channel(game.channel_id)
                         if channel:
                             wait_cycles = 0
-                            while is_ongoing('cf_ongoing_turn', channel.id) and wait_cycles < 5:
+                            while Ongoing.is_ongoing('cf_ongoing_turn', channel.id) and wait_cycles < 5:
                                 wait_cycles += 1
                                 await asyncio.sleep(1)
                             timeout_title = f'🕙 Time\'s up'
@@ -68,10 +68,10 @@ async def connect_four_cycler(ev):
                                 await channel.send(embed=timeout_embed)
                             except (discord.NotFound, discord.Forbidden):
                                 pass
-                            if is_ongoing('connectfour', channel.id):
-                                del_ongoing('connectfour', channel.id)
-                            if is_ongoing('cf_ongoing_turn', channel.id):
-                                del_ongoing('cf_ongoing_turn', channel.id)
+                            if Ongoing.is_ongoing('connectfour', channel.id):
+                                Ongoing.del_ongoing('connectfour', channel.id)
+                            if Ongoing.is_ongoing('cf_ongoing_turn', channel.id):
+                                Ongoing.del_ongoing('cf_ongoing_turn', channel.id)
                             await cf_cache.del_cache(mid)
             except Exception:
                 pass

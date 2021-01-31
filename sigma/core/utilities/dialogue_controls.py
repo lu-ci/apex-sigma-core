@@ -25,7 +25,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
-from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 bool_reacts = ['✅', '❌']
 int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
@@ -56,16 +56,16 @@ async def bool_dialogue(bot, msg, question, tracked=False):
     :return:
     :rtype: (bool, bool)
     """
-    ongoing = is_ongoing('dialogue', msg.author.id)
+    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
     if not ongoing:
-        set_ongoing('dialogue', msg.author.id)
+        Ongoing.set_ongoing('dialogue', msg.author.id)
         question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
         # noinspection PyBroadException
         try:
             confirmation = await msg.channel.send(embed=question)
             [await confirmation.add_reaction(preac) for preac in bool_reacts]
         except Exception:
-            del_ongoing('dialogue', msg.author.id)
+            Ongoing.del_ongoing('dialogue', msg.author.id)
             await msg.channel.send(embed=errbed)
             return False, False
 
@@ -103,7 +103,7 @@ async def bool_dialogue(bot, msg, question, tracked=False):
             await confirmation.delete()
         except discord.NotFound:
             pass
-        del_ongoing('dialogue', msg.author.id)
+        Ongoing.del_ongoing('dialogue', msg.author.id)
     else:
         await ongoing_error(msg)
         success = False
@@ -127,9 +127,9 @@ async def int_dialogue(bot, msg, question, start, end):
     :return:
     :rtype: (int, bool)
     """
-    ongoing = is_ongoing('dialogue', msg.author.id)
+    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
     if not ongoing:
-        set_ongoing('dialogue', msg.author.id)
+        Ongoing.set_ongoing('dialogue', msg.author.id)
         start = 0 if start < 0 else start
         end = 9 if end > 9 else end
         question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
@@ -138,7 +138,7 @@ async def int_dialogue(bot, msg, question, start, end):
             confirmation = await msg.channel.send(embed=question)
             [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end + 1)]
         except Exception:
-            del_ongoing('dialogue', msg.author.id)
+            Ongoing.del_ongoing('dialogue', msg.author.id)
             await msg.channel.send(embed=errbed)
             return None, False
 
@@ -172,7 +172,7 @@ async def int_dialogue(bot, msg, question, start, end):
             await confirmation.delete()
         except discord.NotFound:
             pass
-        del_ongoing('dialogue', msg.author.id)
+        Ongoing.del_ongoing('dialogue', msg.author.id)
     else:
         await ongoing_error(msg)
         number = None
@@ -194,9 +194,9 @@ async def item_dialogue(bot, msg, icons, item: SigmaRawItem):
     :return:
     :rtype: (bool, bool)
     """
-    ongoing = is_ongoing('dialogue', msg.author.id)
+    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
     if not ongoing:
-        set_ongoing('dialogue', msg.author.id)
+        Ongoing.set_ongoing('dialogue', msg.author.id)
         icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
         icon_list.pop(0)
         possible_proto = [item.icon]
@@ -212,7 +212,7 @@ async def item_dialogue(bot, msg, icons, item: SigmaRawItem):
             confirmation = await msg.channel.send(embed=question)
             [await confirmation.add_reaction(preac) for preac in possible]
         except Exception:
-            del_ongoing('dialogue', msg.author.id)
+            Ongoing.del_ongoing('dialogue', msg.author.id)
             await msg.channel.send(embed=errbed)
             return False, False
 
@@ -251,7 +251,7 @@ async def item_dialogue(bot, msg, icons, item: SigmaRawItem):
             await confirmation.delete()
         except discord.NotFound:
             pass
-        del_ongoing('dialogue', msg.author.id)
+        Ongoing.del_ongoing('dialogue', msg.author.id)
     else:
         await ongoing_error(msg)
         success = False

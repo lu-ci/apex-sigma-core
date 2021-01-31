@@ -21,7 +21,7 @@ import discord
 from sigma.core.utilities.dialogue_controls import bool_dialogue, int_dialogue
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
-from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 def get_price_mod(base_price, upgrade_level):
@@ -123,8 +123,8 @@ async def slow_buy(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     currency = cmd.bot.cfg.pref.currency
-    if not is_ongoing(cmd.name, pld.msg.author.id):
-        set_ongoing(cmd.name, pld.msg.author.id)
+    if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+        Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
         upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
         upgrade_text = ''
         upgrade_index = 0
@@ -160,8 +160,8 @@ async def slow_buy(cmd, pld):
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
         else:
             response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
-        if is_ongoing(cmd.name, pld.msg.author.id):
-            del_ongoing(cmd.name, pld.msg.author.id)
+        if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+            Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
     else:
         response = error('You already have a shop open.')
     await pld.msg.channel.send(embed=response)

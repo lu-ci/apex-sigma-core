@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.quiz.hang_man.core import Gallows
-from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 def generate_response(gallows):
@@ -78,8 +78,8 @@ async def hangman(cmd, pld):
             if len(word) > 3 and len(word.split(' ')) == 1 and '-' not in word:
                 word_cache.update({word: ddoc.get('description')})
         await cmd.db.cache.set_cache(cache_key, word_cache)
-    if not is_ongoing(cmd.name, pld.msg.channel.id):
-        set_ongoing(cmd.name, pld.msg.channel.id)
+    if not Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+        Ongoing.set_ongoing(cmd.name, pld.msg.channel.id)
         words = list(word_cache.keys())
         gallows = Gallows(secrets.choice(words))
         word_description = word_cache.get(gallows.word)
@@ -142,8 +142,8 @@ async def hangman(cmd, pld):
             win_embed = discord.Embed(color=0x77B255, title=win_title)
             await pld.msg.channel.send(embed=win_embed)
 
-        if is_ongoing(cmd.name, pld.msg.channel.id):
-            del_ongoing(cmd.name, pld.msg.channel.id)
+        if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+            Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
     else:
         ongoing_error = error('There is one already ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

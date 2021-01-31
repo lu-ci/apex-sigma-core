@@ -22,7 +22,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.generic_responses import error
-from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 async def mathgame(cmd, pld):
@@ -32,8 +32,8 @@ async def mathgame(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if not is_ongoing(cmd.name, pld.msg.channel.id):
-        set_ongoing(cmd.name, pld.msg.channel.id)
+    if not Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+        Ongoing.set_ongoing(cmd.name, pld.msg.channel.id)
         if pld.args:
             try:
                 diff = int(pld.args[0])
@@ -101,8 +101,8 @@ async def mathgame(cmd, pld):
             timeout_title = f'🕙 Time\'s up! It was {result}...'
             timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
             await pld.msg.channel.send(embed=timeout_embed)
-        if is_ongoing(cmd.name, pld.msg.channel.id):
-            del_ongoing(cmd.name, pld.msg.channel.id)
+        if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+            Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
     else:
         ongoing_error = error('There is already one ongoing.')
         await pld.msg.channel.send(embed=ongoing_error)

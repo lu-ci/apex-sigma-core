@@ -22,7 +22,7 @@ import discord
 
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.minigames.gambling.black_jack.core import BlackJack, send_game_msg, set_blackjack_cd
-from sigma.modules.minigames.utils.ongoing.ongoing import del_ongoing, is_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 GAME_EMOTES = ['🔵', '🔴', '⏫']
 BJ_RATIO = 6 / 5
@@ -36,7 +36,7 @@ async def blackjack(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-        if not is_ongoing(cmd.name, pld.msg.channel.id):
+        if not Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
             bet = 10
             if pld.args:
                 if pld.args[0].isdigit():
@@ -47,13 +47,13 @@ async def blackjack(cmd, pld):
             current_kud = await cmd.db.get_resource(author, 'currency')
             current_kud = current_kud.current
             if current_kud >= bet:
-                set_ongoing(cmd.name, pld.msg.channel.id)
+                Ongoing.set_ongoing(cmd.name, pld.msg.channel.id)
                 await set_blackjack_cd(cmd, pld)
 
                 bljk = BlackJack(pld.msg)
                 if bljk.check_blackjack():
-                    if is_ongoing(cmd.name, pld.msg.channel.id):
-                        del_ongoing(cmd.name, pld.msg.channel.id)
+                    if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+                        Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
                     await cmd.db.add_resource(author, 'currency', bet * BJ_RATIO, cmd.name, pld.msg, False)
                     title = f'🎉 You got a BlackJack and won {int(bet * BJ_RATIO)} {currency}!'
                     bj_embed = discord.Embed(color=0xDE2A42, title=title)
@@ -107,8 +107,8 @@ async def blackjack(cmd, pld):
                                 embed.set_footer(text=f'You can only double down on your first turn.')
                                 game_msg = await send_game_msg(pld.msg.channel, game_msg, embed)
                     except asyncio.TimeoutError:
-                        if is_ongoing(cmd.name, pld.msg.channel.id):
-                            del_ongoing(cmd.name, pld.msg.channel.id)
+                        if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+                            Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
                         await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                         timeout_title = f'🕙 Time\'s up {pld.msg.author.display_name}!'
                         timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
@@ -135,8 +135,8 @@ async def blackjack(cmd, pld):
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg)
                     title = f'💣 The dealer won and you lost {bet} {currency}.'
                     response = discord.Embed(color=0x232323, title=title)
-                if is_ongoing(cmd.name, pld.msg.channel.id):
-                    del_ongoing(cmd.name, pld.msg.channel.id)
+                if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
+                    Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
             else:
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
         else:

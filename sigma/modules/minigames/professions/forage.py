@@ -23,7 +23,7 @@ from sigma.core.utilities.dialogue_controls import item_dialogue
 from sigma.core.utilities.generic_responses import error, warn
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 async def forage(cmd, pld):
@@ -33,9 +33,9 @@ async def forage(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    ongoing = is_ongoing('profession', pld.msg.author.id)
+    ongoing = Ongoing.is_ongoing('profession', pld.msg.author.id)
     if not ongoing:
-        set_ongoing('profession', pld.msg.author.id)
+        Ongoing.set_ongoing('profession', pld.msg.author.id)
         item_core = await get_item_core(cmd.db)
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
@@ -91,7 +91,7 @@ async def forage(cmd, pld):
         else:
             timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
             response = discord.Embed(color=0x696969, title=f'🕙 You are resting for another {timeout} seconds.')
-        del_ongoing('profession', pld.msg.author.id)
+        Ongoing.del_ongoing('profession', pld.msg.author.id)
     else:
         response = warn("Can't do multiple professions at once.")
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))

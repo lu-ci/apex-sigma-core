@@ -22,81 +22,83 @@ from pympler import asizeof
 ongoing_storage = {}
 
 
-def get_ongoing(key):
-    """
-    :param key: The key of the ongoing list.
-    :type key: str
-    :return:
-    :rtype: list
-    """
-    return ongoing_storage.get(key) or []
+class Ongoing(object):
+    @staticmethod
+    def get_ongoing(key):
+        """
+        :param key: The key of the ongoing list.
+        :type key: str
+        :return:
+        :rtype: list
+        """
+        return ongoing_storage.get(key) or []
 
+    @staticmethod
+    def set_ongoing(key, identifier):
+        """
+        :param key: The key of the ongoing list.
+        :type key: str
+        :param identifier: The identifier of the ongoing item.
+        :type identifier: str or int
+        :return:
+        :rtype:
+        """
+        ongoing_list = Ongoing.get_ongoing(key) or []
+        ongoing_list.append(identifier)
+        ongoing_storage.update({key: ongoing_list})
 
-def set_ongoing(key, identifier):
-    """
-    :param key: The key of the ongoing list.
-    :type key: str
-    :param identifier: The identifier of the ongoing item.
-    :type identifier: str or int
-    :return:
-    :rtype:
-    """
-    ongoing_list = get_ongoing(key) or []
-    ongoing_list.append(identifier)
-    ongoing_storage.update({key: ongoing_list})
-
-
-def del_ongoing(key, identifier):
-    """
-    :param key: The key of the ongoing list.
-    :type key: str
-    :param identifier: The identifier of the ongoing item.
-    :type identifier: str or int
-    :return:
-    :rtype:
-    """
-    ongoing_list = get_ongoing(key)
-    if identifier in ongoing_list:
-        ongoing_list.remove(identifier)
-    ongoing_storage.update({key: ongoing_list})
-
-
-def is_ongoing(key, identifier):
-    """
-    :param key: The key of the ongoing list.
-    :type key: str
-    :param identifier: The identifier of the ongoing item.
-    :type identifier: str or int
-    :return:
-    :rtype: bool
-    """
-    return identifier in get_ongoing(key)
-
-
-def reset_ongoing(identifier):
-    """
-    :param identifier: The identifier of the ongoing item.
-    :type identifier: str or int
-    :return:
-    :rtype: bool
-    """
-    for key in ongoing_storage:
-        ongoing_list = get_ongoing(key)
+    @staticmethod
+    def del_ongoing(key, identifier):
+        """
+        :param key: The key of the ongoing list.
+        :type key: str
+        :param identifier: The identifier of the ongoing item.
+        :type identifier: str or int
+        :return:
+        :rtype:
+        """
+        ongoing_list = Ongoing.get_ongoing(key)
         if identifier in ongoing_list:
             ongoing_list.remove(identifier)
         ongoing_storage.update({key: ongoing_list})
 
+    @staticmethod
+    def is_ongoing(key, identifier):
+        """
+        :param key: The key of the ongoing list.
+        :type key: str
+        :param identifier: The identifier of the ongoing item.
+        :type identifier: str or int
+        :return:
+        :rtype: bool
+        """
+        return identifier in Ongoing.get_ongoing(key)
 
-def stats():
-    """
-    :rtype: tuple
-    """
-    identifiers = 0
-    for key in ongoing_storage:
-        ongoing_list = get_ongoing(key)
-        identifiers += len(ongoing_list)
-    return (
-        len(ongoing_storage.keys()),
-        identifiers,
-        humanfriendly.format_size(asizeof.asizeof(ongoing_storage), binary=True)
-    )
+    @staticmethod
+    def reset_ongoing(identifier):
+        """
+        :param identifier: The identifier of the ongoing item.
+        :type identifier: str or int
+        :return:
+        :rtype: bool
+        """
+        for key in ongoing_storage:
+            ongoing_list = Ongoing.get_ongoing(key)
+            if identifier in ongoing_list:
+                ongoing_list.remove(identifier)
+            ongoing_storage.update({key: ongoing_list})
+
+    @staticmethod
+    def stats():
+        """
+        :rtype: tuple
+        """
+        identifiers = 0
+        for key in ongoing_storage:
+            ongoing_list = Ongoing.get_ongoing(key)
+            identifiers += len(ongoing_list)
+        return (
+            len(ongoing_storage.keys()),
+            identifiers,
+            humanfriendly.format_size(asizeof.asizeof(ongoing_storage), binary=True)
+        )

@@ -25,7 +25,7 @@ from sigma.core.mechanics.caching import MemoryCacher
 from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.other.connect_four.core import ConnectFourGame
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, del_ongoing, set_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 cf_cache = MemoryCacher(CacheConfig({}))
 nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
@@ -146,9 +146,9 @@ async def connect_four_mechanics(ev, pld):
     if guild:
         game: ConnectFourGame = await cf_cache.get_cache(mid)
         if game:
-            if is_ongoing('cf_ongoing_turn', cid):
+            if Ongoing.is_ongoing('cf_ongoing_turn', cid):
                 return
-            set_ongoing('cf_ongoing_turn', cid)
+            Ongoing.set_ongoing('cf_ongoing_turn', cid)
             try:
                 message = await channel.fetch_message(mid)
             except (discord.NotFound, discord.Forbidden):
@@ -195,8 +195,8 @@ async def connect_four_mechanics(ev, pld):
                             response = discord.Embed(color=color, title=f'{icon} {resp}!')
                             await channel.send(embed=response)
                             await cf_cache.del_cache(mid)
-                            if is_ongoing('connectfour', channel.id):
-                                del_ongoing('connectfour', channel.id)
+                            if Ongoing.is_ongoing('connectfour', channel.id):
+                                Ongoing.del_ongoing('connectfour', channel.id)
             game.expiry = arrow.utcnow().int_timestamp + 120
-            if is_ongoing('cf_ongoing_turn', cid):
-                del_ongoing('cf_ongoing_turn', cid)
+            if Ongoing.is_ongoing('cf_ongoing_turn', cid):
+                Ongoing.del_ongoing('cf_ongoing_turn', cid)

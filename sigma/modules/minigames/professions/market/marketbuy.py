@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import error, not_found, ok, denied
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.market.marketsell import MARKET_TAX_PERCENT
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.utils.ongoing.ongoing import is_ongoing, set_ongoing, del_ongoing
+from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 async def marketbuy(cmd, pld):
@@ -43,8 +43,8 @@ async def marketbuy(cmd, pld):
     time_diff = current_stamp - author_stamp
     if time_diff > 2592000:
         if pld.args:
-            if not is_ongoing(cmd.name, pld.msg.author.id):
-                set_ongoing(cmd.name, pld.msg.author.id)
+            if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
                 ic = await get_item_core(cmd.db)
                 lookup = ' '.join(pld.args)
                 check_token = len(pld.args) == 1
@@ -95,8 +95,8 @@ async def marketbuy(cmd, pld):
                         response = discord.Embed(color=0xbe1931, title='❌ Purchase cancelled.')
                 else:
                     response = not_found('Couldn\'t find any entries for that.')
-                if is_ongoing(cmd.name, pld.msg.author.id):
-                    del_ongoing(cmd.name, pld.msg.author.id)
+                if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                    Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
             else:
                 response = error('You already have a market purchase open.')
         else:
