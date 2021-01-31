@@ -23,7 +23,7 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jes
     git \
     ffmpeg \
     bash \
- && python -m pip install -U pip
+ && python -m pip install -U pip \
  && pip install --no-cache-dir virtualenv \
  && rm -rf /var/lib/apt/lists/*
 
