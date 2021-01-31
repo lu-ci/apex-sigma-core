@@ -32,6 +32,6 @@ async def invite(cmd, pld):
         await pld.msg.channel.send(invite_text)
     else:
         inv_title = 'Click here to invite me.'
-        sigma_image = 'https://i.imgur.com/mGyqMe1.png'
+        sigma_image = 'https://i.imgur.com/DM8fIy6.png'
         response = discord.Embed(color=0x1B6F5F).set_author(name=inv_title, icon_url=sigma_image, url=invite_url)
         await pld.msg.channel.send(embed=response)

@@ -21,11 +21,11 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import not_found
 
-lucia_image = 'https://i.imgur.com/KVgdtNg.png'
-sigma_title = 'Apex Sigma: The Database Giant'
-patreon_url = 'https://www.patreon.com/ApexSigma'
-paypal_url = 'https://www.paypal.me/AleksaRadovic'
-support_url = 'https://discordapp.com/invite/aEUCHwX'
+LUCIA_IMAGE = 'https://i.imgur.com/KVgdtNg.png'
+SIGMA_TITLE = 'Apex Sigma: The Database Giant'
+PATREON_URL = 'https://www.patreon.com/ApexSigma'
+PAYPAL_URL = 'https://www.paypal.me/AleksaRadovic'
+SUPPORT_URL = 'https://discordapp.com/invite/aEUCHwX'
 
 
 # noinspection PyShadowingBuiltins
@@ -54,13 +54,13 @@ async def help(cmd, pld):
             response = not_found('Command not found.')
     else:
         response = discord.Embed(color=0x1B6F5F)
-        response.set_author(name=sigma_title, icon_url=user_avatar(cmd.bot.user), url=cmd.bot.cfg.pref.website)
+        response.set_author(name=SIGMA_TITLE, icon_url=user_avatar(cmd.bot.user), url=cmd.bot.cfg.pref.website)
         invite_url = f'https://discordapp.com/oauth2/authorize?client_id={cmd.bot.user.id}&scope=bot&permissions=8'
         support_text = f'**Add Me**: [Link]({invite_url})'
         support_text += f' | **Commands**: [Link]({cmd.bot.cfg.pref.website}/commands)'
-        support_text += f' | **Support**: [Link]({support_url})'
-        support_text += f'\nWanna help? **Patreon**: [Link]({patreon_url}) | **PayPal**: [Link]({paypal_url})'
+        support_text += f' | **Support**: [Link]({SUPPORT_URL})'
+        support_text += f'\nWanna help? **Patreon**: [Link]({PATREON_URL}) | **PayPal**: [Link]({PAYPAL_URL})'
         response.add_field(name='Help', value=support_text)
         response.set_thumbnail(url=user_avatar(cmd.bot.user))
-        response.set_footer(text='© by Lucia\'s Cipher. Released under the GPLv3 license.', icon_url=lucia_image)
+        response.set_footer(text='© by Lucia\'s Cipher. Released under the GPLv3 license.', icon_url=LUCIA_IMAGE)
     await pld.msg.channel.send(embed=response)

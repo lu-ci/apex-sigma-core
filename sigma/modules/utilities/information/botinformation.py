@@ -21,8 +21,8 @@ import sys
 import arrow
 import discord
 
-sigma_image = 'https://i.imgur.com/mGyqMe1.png'
-support_url = 'https://discordapp.com/invite/aEUCHwX'
+SIGMA_IMAGE = 'https://i.imgur.com/DM8fIy6.png'
+SUPPORT_URL = 'https://discordapp.com/invite/aEUCHwX'
 
 
 async def botinformation(cmd, pld):
@@ -49,7 +49,7 @@ async def botinformation(cmd, pld):
         else:
             auth_text += f'\n**{author.name}**#{author.discriminator}'
     response = discord.Embed(color=0x1B6F5F, timestamp=arrow.get(version.timestamp).datetime)
-    response.set_author(name=sigma_title, icon_url=sigma_image, url=support_url)
+    response.set_author(name=sigma_title, icon_url=SIGMA_IMAGE, url=SUPPORT_URL)
     response.add_field(name='Authors', value=auth_text)
     response.add_field(name='Environment', value=env_text)
     response.set_footer(text=f'Last updated {arrow.get(version.timestamp).humanize()}')

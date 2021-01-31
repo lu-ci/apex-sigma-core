@@ -18,7 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
+import aiohttp
+import yaml
+
 from sigma.core.mechanics.database import Database
+from sigma.modules.minigames.professions.dbinit_items import ITEM_MANIFEST, RECIPE_MANIFEST
 from sigma.modules.minigames.professions.nodes.item_object import SigmaCookedItem, SigmaRawItem
 from sigma.modules.minigames.professions.nodes.properties import item_colors, item_icons, rarity_names
 
@@ -100,11 +104,31 @@ class ItemCore(object):
         choice = secrets.choice(in_rarity)
         return choice
 
+    async def items_from_db(self):
+        all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
+        all_items += await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        return all_items
+
+    @staticmethod
+    async def items_from_repo():
+        async with aiohttp.ClientSession() as session:
+            async with session.get(ITEM_MANIFEST) as item_data_response:
+                item_data = await item_data_response.read()
+                all_items = yaml.safe_load(item_data)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(RECIPE_MANIFEST) as reci_data_response:
+                reci_data = await reci_data_response.read()
+                all_items += yaml.safe_load(reci_data)
+        return all_items
+
     async def init_items(self):
         raw_item_types = ['fish', 'plant', 'animal']
         cooked_item_types = ['drink', 'meal', 'dessert']
-        all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
-        all_items += await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        # noinspection PyBroadException
+        try:
+            all_items = await self.items_from_repo()
+        except Exception:
+            all_items = await self.items_from_db()
         for item_data in all_items:
             if item_data['type'].lower() in raw_item_types:
                 item_object = SigmaRawItem(item_data)

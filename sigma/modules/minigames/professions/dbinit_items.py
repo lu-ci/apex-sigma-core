@@ -19,6 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
+ITEM_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml"
+RECIPE_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml"
+
 
 async def dbinit_items(ev, force=False):
     """
@@ -40,11 +43,10 @@ async def dbinit_item_data(ev, force=False):
     """
     doc_count = await ev.db[ev.db.db_nam].ItemData.count_documents({})
     if not doc_count or force:
-        file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml'
         ev.log.info('Updating profession item files.')
         await ev.db[ev.db.db_nam].ItemData.drop()
         async with aiohttp.ClientSession() as session:
-            async with session.get(file_url) as data_response:
+            async with session.get(ITEM_MANIFEST) as data_response:
                 data = await data_response.read()
                 data = yaml.safe_load(data)
         await ev.db[ev.db.db_nam].ItemData.insert_many(data)
@@ -60,11 +62,10 @@ async def dbinit_recipe_data(ev, force=False):
     """
     doc_count = await ev.db[ev.db.db_nam].RecipeData.count_documents({})
     if not doc_count or force:
-        file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml'
         ev.log.info('Updating cooking recipe files.')
         await ev.db[ev.db.db_nam].RecipeData.drop()
         async with aiohttp.ClientSession() as session:
-            async with session.get(file_url) as data_response:
+            async with session.get(RECIPE_MANIFEST) as data_response:
                 data = await data_response.read()
                 data = yaml.safe_load(data)
         await ev.db[ev.db.db_nam].RecipeData.insert_many(data)
