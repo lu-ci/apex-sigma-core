@@ -82,7 +82,6 @@ async def raffle(cmd, pld):
                     draw_num = arg.split(':')[-1]
                     if draw_num.isdigit():
                         draw_count = int(draw_num)
-                        break
                 if arg.lower() == 'automatic':
                     pld.args.pop(args.index(arg))
                     if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
