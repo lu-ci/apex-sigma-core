@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.dialogue_controls import item_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error, warn
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
@@ -64,13 +64,9 @@ async def hunt(cmd, pld):
                     connector = 'a'
                     if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                         connector = 'an'
-                    try:
-                        success, timed_out = await item_dialogue(
-                            cmd.bot, pld.msg, item_icons.get(item.type.lower()), item
-                        )
-                    except (discord.NotFound, discord.Forbidden):
-                        success = timed_out = False
-                    if success:
+                    dialogue = DialogueCore(cmd.bot, pld.msg, None)
+                    dresp = await dialogue.item_dialogue(item_icons.get(item.type.lower()), item)
+                    if dresp.ok:
                         response_title = f'{item.icon} You caught {connector} {item.rarity_name} {item.name}!'
                         data_for_inv = item.generate_inventory_item()
                         await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
@@ -78,12 +74,14 @@ async def hunt(cmd, pld):
                         await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
                         response = discord.Embed(color=item.color, title=response_title)
                     else:
-                        if timed_out:
+                        if dresp.timed_out:
                             response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'
                             response = discord.Embed(color=0x696969, title=response_title)
-                        else:
+                        elif dresp.cancelled:
                             response_title = '❌ Oh no... The feisty little thing slipped out of your grasp...'
                             response = discord.Embed(color=0xBE1931, title=response_title)
+                        else:
+                            response = dresp.generic('hunting')
             else:
                 response = error('Your inventory is full.')
         else:

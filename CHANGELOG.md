@@ -1,12 +1,38 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- Created the `DialogueResponse` class.
+- Created the `DialogueCore` class.
+- Created the `Ongoing` class.
+
+### Changed
+
+- All dialogues can now be cancelled.
+- Dialogues now return `DialogueResponse` for easier marker reading and response generation.
+- [Dockerfile](/Dockerfile) bumped to use Python 3.9.
+- Replaced the `aiml` package with `python-aiml`, an updated fork.
+- Recipes and items now use the database entries as a fallback if the manifest fails to load.
+- Recipes and items now read the repository manifest instead of the database.
+- Dialogue functions now use the dialogue core class.
+- Ongoing functions now use the ongoing class.
+- General code inspection foramtting and cleaning.
+- Replaced requests with aiohttp in metacritic.
+
+### Removed
+
+- The Pympler lib and `stats()` methods are no longer needed.
+- The entire `family` module. It was unused and uninteresting without the broken family tree.
+
 ## 4.84.1700 Futaba
 
 ### Added
 
 - The `blackjack` command has been added. It functions as you'd expect, but there is no multiplayer.
 
-### Changes
+### Changed
 
 - Fixed `destroyitem` command and added a safeguard for sharding.
 - Tweaked dialogue controls to include an ongoing check.

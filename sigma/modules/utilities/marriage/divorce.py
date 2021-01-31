@@ -21,7 +21,7 @@ import copy
 import arrow
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue, int_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error
 
 
@@ -80,32 +80,36 @@ async def divorce(cmd, pld):
                     option_message = discord.Embed(color=0xf9f9f9, title='❔ How do you want to do this?')
                     option_message.description = f'\n**1.** Force a divorce. **({div_cost} {currency})**'
                     option_message.description += '\n**2. Cancel.**'
-                    option, timeout = await int_dialogue(cmd.bot, pld.msg, option_message, 1, 2)
+                    start, end = 1, 2
                 else:
                     option_message = discord.Embed(color=0xf9f9f9, title='❔ How do you want to do this?')
                     option_message.description = f'**1.** Ask for a mutual divorce. **(0 {currency})**'
                     option_message.description += f'\n**2.** Force a divorce. **({div_cost} {currency})**'
                     option_message.description += '\n**3. Cancel.**'
-                    option, timeout = await int_dialogue(cmd.bot, pld.msg, option_message, 1, 3)
-                if not timeout:
-                    if option is not (3 if not is_id else 2):
+                    start, end = 1, 3
+                option_dialogue = DialogueCore(cmd.bot, pld.msg, option_message)
+                option_dresp = await option_dialogue.int_dialogue(start, end)
+                if not option_dresp.timed_out:
+                    if option_dresp.value is not (3 if not is_id else 2):
                         fault = None
-                        ask_mutual = option == 1 and not is_id
+                        can_proceed = False
+                        ask_mutual = option_dresp.value == 1 and not is_id
                         if ask_mutual:
                             div_cost = 0
                             hacked_message = copy.copy(pld.msg)
                             hacked_message.author = target
                             question_text = f'❔ {target.name}, do you agree to a mutual divorce?'
                             question = discord.Embed(color=0xf9f9f9, title=question_text)
-                            success, mutual_timeout = await bool_dialogue(cmd.bot, hacked_message, question)
-                            if not mutual_timeout:
-                                if success:
+                            dialogue = DialogueCore(cmd.bot, hacked_message, question)
+                            dresp = await dialogue.bool_dialogue()
+                            if not dresp.timed_out:
+                                if dresp.ok:
                                     can_proceed = True
-                                else:
-                                    can_proceed = False
+                                elif dresp.cancelled:
                                     fault = 'rejected the divorce'
+                                else:
+                                    fault = dresp.generic('mutual divorce')
                             else:
-                                can_proceed = False
                                 fault = 'took too long to answer'
                         else:
                             can_proceed = True
@@ -137,7 +141,10 @@ async def divorce(cmd, pld):
                             else:
                                 response = error(f'You don\'t have {div_cost} {currency} to get a divorce.')
                         else:
-                            response = error(f'Couldn\'t proceed because {target.name} {fault}.')
+                            if isinstance(fault, discord.Embed):
+                                response = fault
+                            else:
+                                response = error(f'Couldn\'t proceed because {target.name} {fault}.')
                     else:
                         response = error('Divorce withdrawn.')
                 else:

@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import humanfriendly
-from pympler import asizeof
 
 ongoing_storage = {}
 
@@ -87,18 +86,3 @@ class Ongoing(object):
             if identifier in ongoing_list:
                 ongoing_list.remove(identifier)
             ongoing_storage.update({key: ongoing_list})
-
-    @staticmethod
-    def stats():
-        """
-        :rtype: tuple
-        """
-        identifiers = 0
-        for key in ongoing_storage:
-            ongoing_list = Ongoing.get_ongoing(key)
-            identifiers += len(ongoing_list)
-        return (
-            len(ongoing_storage.keys()),
-            identifiers,
-            humanfriendly.format_size(asizeof.asizeof(ongoing_storage), binary=True)
-        )

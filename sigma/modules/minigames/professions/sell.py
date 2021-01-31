@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -46,8 +46,9 @@ async def sell(cmd, pld):
                 worth = sum([item_core.get_item_by_file_id(ient['item_file_id']).value for ient in inv])
                 question = f'❔ Are you sure you want to sell {len(inv)} item{ender} worth {worth} {currency}?'
                 quesbed = discord.Embed(color=0xF9F9F9, title=question)
-                sell_confirm, timeout = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
-                if sell_confirm:
+                dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
+                dresp = await dialogue.bool_dialogue()
+                if dresp.ok:
                     value = 0
                     count = 0
                     for invitem in inv.copy():
@@ -59,7 +60,7 @@ async def sell(cmd, pld):
                     response = discord.Embed(color=0xc6e4b5)
                     response.title = f'💶 You sold {count} item{ender} for {value} {currency}.'
                 else:
-                    response = discord.Embed(color=0xBE1931, title='❌ Item sale canceled.')
+                    response = dresp.generic('item sale')
             elif lookup.lower() == 'duplicates':
                 value = 0
                 count = 0

@@ -1,4 +1,3 @@
-python-aiml==0.9.3
 aiohttp<3.7.0
 aioredis==1.3.1
 arrow==0.17.0
@@ -15,7 +14,7 @@ motor==2.3.0
 Pillow==8.1.0
 psutil==5.8.0
 pymongo==3.11.2
-Pympler==0.9
+python-aiml==0.9.3
 pyyaml==5.4.1
 translate==3.5.0
 youtube_dl>=2021.1.3

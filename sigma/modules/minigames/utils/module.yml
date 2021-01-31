@@ -2,6 +2,7 @@ category: minigames
 commands:
   - description: Resets ongoing locks that are put into place when a minigame runs.
       For use in case of errors that prevent the minigame from being unlocked again.
+      Clearing ongoing markers has a 5 minute cooldwon.
     enabled: true
     name: resetongoing
 enabled: true

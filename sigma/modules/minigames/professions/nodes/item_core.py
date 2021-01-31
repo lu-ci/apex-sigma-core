@@ -111,10 +111,11 @@ class ItemCore(object):
 
     @staticmethod
     async def items_from_repo():
+        all_items = []
         async with aiohttp.ClientSession() as session:
             async with session.get(ITEM_MANIFEST) as item_data_response:
                 item_data = await item_data_response.read()
-                all_items = yaml.safe_load(item_data)
+                all_items += yaml.safe_load(item_data)
         async with aiohttp.ClientSession() as session:
             async with session.get(RECIPE_MANIFEST) as reci_data_response:
                 reci_data = await reci_data_response.read()

@@ -15,8 +15,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import aiohttp
+import yaml
 
 from sigma.core.mechanics.database import Database
+from sigma.modules.minigames.professions.dbinit_items import RECIPE_MANIFEST
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons
 
@@ -125,6 +128,18 @@ class RecipeCore(object):
                 break
         return out
 
+    @staticmethod
+    async def recipes_from_repo():
+        all_recipes = []
+        async with aiohttp.ClientSession() as session:
+            async with session.get(RECIPE_MANIFEST) as reci_data_response:
+                reci_data = await reci_data_response.read()
+                all_recipes += yaml.safe_load(reci_data)
+        return all_recipes
+
+    async def recipes_from_db(self):
+        return await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+
     async def init_items(self):
         """
         Initializes all recipes and modifies cooked items with correct values.
@@ -132,7 +147,11 @@ class RecipeCore(object):
         :rtype:
         """
         self.item_core = await get_item_core(self.db)
-        all_recipes = await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        # noinspection PyBroadException
+        try:
+            all_recipes = await self.recipes_from_repo()
+        except Exception:
+            all_recipes = self.recipes_from_db()
         for item_data in all_recipes:
             item_object = SigmaRecipe(self, item_data)
             self.recipes.append(item_object)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import ok
 
 IGNORE_COLLS = [
@@ -35,8 +35,9 @@ async def completewipe(cmd, pld):
     """
     quesbed = discord.Embed(color=0xf9f9f9, title='❔ Are you sure you want to wipe your data?')
     quesbed.description = cmd.desc
-    confirm, timeout = await bool_dialogue(cmd.bot, pld.msg, quesbed, True)
-    if confirm:
+    dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
+    dresp = await dialogue.bool_dialogue()
+    if dresp.ok:
         total = 0
         collections = await cmd.db[cmd.db.db_nam].list_collection_names()
         for collection in collections:
@@ -45,8 +46,5 @@ async def completewipe(cmd, pld):
                 total += results.deleted_count
         response = ok(f'All your data has been wiped. Deleted {total} documents.')
     else:
-        if timeout:
-            response = discord.Embed(color=0xBE1931, title='❌ Wipe timed out and cancelled.')
-        else:
-            response = discord.Embed(color=0xBE1931, title='❌ Wipe cancelled.')
+        response = dresp.generic('data wipe')
     await pld.msg.channel.send(embed=response)

@@ -15,23 +15,29 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import discord
 
 from sigma.core.utilities.generic_responses import ok
 from sigma.modules.minigames.utils.ongoing.ongoing import ongoing_storage
 
 
-async def resetongoing(_cmd, pld):
+async def resetongoing(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    for identifier in [pld.msg.author.id, pld.msg.channel.id, pld.msg.guild.id]:
-        for key in ongoing_storage:
-            ongoing_list = ongoing_storage.get(key) or []
-            if identifier in ongoing_list:
-                ongoing_list.remove(identifier)
-            ongoing_storage.update({key: ongoing_list})
-    response = ok('Ongoing user, channel and guild locks cleared.')
+    if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
+        await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 300)
+        for identifier in [pld.msg.author.id, pld.msg.channel.id, pld.msg.guild.id]:
+            for key in ongoing_storage:
+                ongoing_list = ongoing_storage.get(key) or []
+                if identifier in ongoing_list:
+                    ongoing_list.remove(identifier)
+                ongoing_storage.update({key: ongoing_list})
+        response = ok('Ongoing user, channel and guild locks cleared.')
+    else:
+        timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
+        response = discord.Embed(color=0x696969, title=f'🕙 You can clear ongoing markers again in {timeout} seconds.')
     await pld.msg.channel.send(embed=response)

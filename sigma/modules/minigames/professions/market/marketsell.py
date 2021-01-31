@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error, not_found, ok, denied
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
@@ -69,8 +69,9 @@ async def marketsell(cmd, pld):
                             desc += f' you will get {profit} instead of {price} {curr}.'
                             desc += ' Retracting the item is not taxed.'
                             quesbed.description = desc
-                            sell_confirm, _ = await bool_dialogue(cmd.bot, pld.msg, quesbed, False)
-                            if sell_confirm:
+                            dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
+                            dresp = await dialogue.bool_dialogue()
+                            if dresp.ok:
                                 wallet = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
                                 if wallet >= cost:
                                     await cmd.db.del_resource(pld.msg.author.id, 'currency', cost, cmd.name, pld.msg)
@@ -88,7 +89,7 @@ async def marketsell(cmd, pld):
                                 else:
                                     response = error('You\'re not able to pay the listing fee.')
                             else:
-                                response = discord.Embed(color=0xbe1931, title='❌ Sale cancelled.')
+                                response = dresp.generic('market sale')
                         else:
                             response = not_found('You don\'t have this item in your inventory.')
                         if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):

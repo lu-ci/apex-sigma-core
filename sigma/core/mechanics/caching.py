@@ -22,7 +22,6 @@ import pickle
 import aioredis
 import cachetools
 import humanfriendly
-from pympler import asizeof
 
 
 async def get_cache(cfg):
@@ -192,14 +191,6 @@ class LRUCacher(MemoryCacher):
         """
         super().__init__(cfg)
         self.cache = cachetools.LRUCache(self.cfg.size)
-
-    async def stats(self):
-        return {
-            'type': 'LRU',
-            'max': self.cache.maxsize,
-            'keys': self.cache.currsize,
-            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
-        }
 
 
 class TTLCacher(LRUCacher):

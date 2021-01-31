@@ -19,241 +19,289 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import secrets
 
-import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
-from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
+from sigma.core.utilities.generic_responses import error, ok, warn
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
-bool_reacts = ['✅', '❌']
-int_reacts = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
+TIMEOUT = 60
 
-errbed = error('Failed generating dialogue embed.')
-errbed.description = 'Please make sure I can embed links and add reactions.'
+CANCEL_REACT = '❌'
+CONFIRM_REACT = '✅'
 
-
-async def ongoing_error(msg):
-    # noinspection PyBroadException
-    try:
-        await msg.add_reaction('💬')
-    except Exception:
-        pass
+BOOL_REACTIONS = [CONFIRM_REACT, CANCEL_REACT]
+INT_REACTIONS = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣']
 
 
-async def bool_dialogue(bot, msg, question, tracked=False):
-    """
-    Creates an interactive bool dialogue message for a user to react to.
-    :param bot: The bot instance associated with this message.
-    :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message object to reply to.
-    :type msg: discord.Message
-    :param question: The embed object to display the interactive bool on.
-    :type question: discord.Embed
-    :param tracked: Whether or not this usage is logged.
-    :type tracked: bool
-    :return:
-    :rtype: (bool, bool)
-    """
-    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
-    if not ongoing:
-        Ongoing.set_ongoing('dialogue', msg.author.id)
-        question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
-        # noinspection PyBroadException
-        try:
-            confirmation = await msg.channel.send(embed=question)
-            [await confirmation.add_reaction(preac) for preac in bool_reacts]
-        except Exception:
-            Ongoing.del_ongoing('dialogue', msg.author.id)
-            await msg.channel.send(embed=errbed)
-            return False, False
+class DialogueResponse(object):
+    def __init__(self, core):
+        """
+        :type core: DialogueCore
+        """
+        self.core = core
+        self.ok = False
+        self.cancelled = False
+        self.timed_out = False
+        self.ongoing = False
+        self.error = False
+        self.value = None
 
-        def check_emote(reac, usr):
-            """
-            Checks for a valid message reaction.
-            :param reac: The reaction to validate.
-            :type reac: discord.Reaction
-            :param usr: The user who reacted to the message.
-            :type usr: discord.Member
-            :return:
-            :rtype: bool
-            """
-            same_author = usr.id == msg.author.id
-            same_message = reac.message.id == confirmation.id
-            valid_reaction = str(reac.emoji) in bool_reacts
-            return same_author and same_message and valid_reaction
+    @staticmethod
+    def get_desc(desc):
+        """
+        :type desc: str
+        :rtype: str
+        """
+        pieces = desc.split(' ')
+        if len(pieces) > 1:
+            first = pieces[0].title()
+            other = [piece.lower() for piece in pieces[:1]]
+            desc = ' '.join([first] + other)
+        else:
+            desc = desc.title()
+        return desc
 
-        try:
-            start_stamp = arrow.utcnow().float_timestamp
-            ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
-            end_stamp = arrow.utcnow().float_timestamp
-            if tracked:
-                log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
-                bot.log.info(f'BOOL DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
-            timeout = False
-            if ae.emoji == '✅':
-                success = True
-            else:
-                success = False
-        except asyncio.TimeoutError:
-            success = False
-            timeout = True
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
-        Ongoing.del_ongoing('dialogue', msg.author.id)
-    else:
-        await ongoing_error(msg)
-        success = False
-        timeout = False
-    return success, timeout
+    @staticmethod
+    def generic_ok(desc):
+        desc = DialogueResponse.get_desc(desc)
+        return ok(f'{desc} dialogue confirmed.')
 
+    @staticmethod
+    def generic_cancelled(desc):
+        desc = DialogueResponse.get_desc(desc)
+        return discord.Embed(color=0xbe1931, title=f'❌ {desc} dialogue cancelled.')
 
-async def int_dialogue(bot, msg, question, start, end):
-    """
-    Creates an interactive int dialogue message for a user to react to.
-    :param bot: The bot instance associated with this message.
-    :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message object to reply to.
-    :type msg: discord.Message
-    :param question: The embed object to display the interactive int on.
-    :type question: discord.Embed
-    :param start: The number to start the range at.
-    :type start: int
-    :param end: The number to end the range at.
-    :type end: int
-    :return:
-    :rtype: (int, bool)
-    """
-    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
-    if not ongoing:
-        Ongoing.set_ongoing('dialogue', msg.author.id)
-        start = 0 if start < 0 else start
-        end = 9 if end > 9 else end
-        question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
-        # noinspection PyBroadException
-        try:
-            confirmation = await msg.channel.send(embed=question)
-            [await confirmation.add_reaction(int_reacts[preac]) for preac in range(start, end + 1)]
-        except Exception:
-            Ongoing.del_ongoing('dialogue', msg.author.id)
-            await msg.channel.send(embed=errbed)
-            return None, False
+    @staticmethod
+    def generic_timed_out(desc):
+        desc = DialogueResponse.get_desc(desc)
+        return discord.Embed(color=0x696969, title=f'🕙 {desc} dialogue timed out.')
 
-        def check_emote(reac, usr):
-            """
-            Checks for a valid message reaction.
-            :param reac: The reaction to validate.
-            :type reac: discord.Reaction
-            :param usr: The user who reacted to the message.
-            :type usr: discord.Member
-            :return:
-            :rtype: bool
-            """
-            same_author = usr.id == msg.author.id
-            same_message = reac.message.id == confirmation.id
-            valid_reaction = str(reac.emoji) in int_reacts
-            return same_author and same_message and valid_reaction
+    @staticmethod
+    def generic_ongoing():
+        response = discord.Embed(color=0x2a6797, title='💬 Somewhere, a dialogue is already open for you.')
+        response.description = "If this is incorrect and you experienced an error recently, "
+        response.description += 'please use the **resetongoing** command to clear all your ongoing markers.'
+        response.description += ' Things like getting items, answering questions, confirming are all dialogues.'
+        return response
 
-        try:
-            ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
-            timeout = False
-            number = None
-            for react_index, int_react in enumerate(int_reacts):
-                if int_react == str(ae.emoji):
-                    number = react_index
-                    break
-        except asyncio.TimeoutError:
-            number = None
-            timeout = True
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
-        Ongoing.del_ongoing('dialogue', msg.author.id)
-    else:
-        await ongoing_error(msg)
-        number = None
-        timeout = False
-    return number, timeout
+    @staticmethod
+    def generic_error():
+        respone = error('Failed generating the dialogue embed.')
+        respone.description = 'Please make sure I can embed links and add reactions.'
+        return respone
+
+    @staticmethod
+    def generic_unknown():
+        return warn('This is never supposed to happen, report it to the devs please.')
+
+    def generic(self, desc):
+        if self.ok:
+            return self.generic_ok(desc)
+        elif self.cancelled:
+            return self.generic_cancelled(desc)
+        elif self.timed_out:
+            return self.generic_timed_out(desc)
+        elif self.ongoing:
+            return self.generic_ongoing()
+        elif self.error:
+            return self.generic_error()
+        else:
+            return self.generic_unknown()
 
 
-async def item_dialogue(bot, msg, icons, item: SigmaRawItem):
-    """
-    Creates an interactive item dialogue message for a user to react to.
-    :param bot: The bot instance associated with this message.
-    :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message object to reply to.
-    :type msg: discord.Message
-    :param icons: The icons to display on the message.
-    :type icons: dict
-    :param item: The item to base the item dialogue on.
-    :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
-    :return:
-    :rtype: (bool, bool)
-    """
-    ongoing = Ongoing.is_ongoing('dialogue', msg.author.id)
-    if not ongoing:
-        Ongoing.set_ongoing('dialogue', msg.author.id)
-        icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
-        icon_list.pop(0)
-        possible_proto = [item.icon]
-        while len(possible_proto) < secrets.randbelow(2) + 3:
-            possible_proto.append(icon_list.pop(secrets.randbelow(len(icon_list))))
-        possible = []
-        while possible_proto:
-            possible.append(possible_proto.pop(secrets.randbelow(len(possible_proto))))
-        question = discord.Embed(color=item.color, title=f'{item.icon} Quick! Get the correct {item.type.lower()}!')
-        question.set_author(name=msg.author.display_name, icon_url=user_avatar(msg.author))
-        # noinspection PyBroadException
-        try:
-            confirmation = await msg.channel.send(embed=question)
-            [await confirmation.add_reaction(preac) for preac in possible]
-        except Exception:
-            Ongoing.del_ongoing('dialogue', msg.author.id)
-            await msg.channel.send(embed=errbed)
-            return False, False
+class DialogueCore(object):
+    def __init__(self, bot, msg, question=None):
+        """
+        :type bot: sigma.core.sigma.ApexSigma
+        :type msg: discord.Message
+        :type question: discord.Embed or None
+        """
+        self.bot = bot
+        self.msg = msg
+        self.guild = msg.guild
+        self.channel = msg.channel
+        self.user = msg.author
+        self.question = question
 
-        def check_emote(reac, usr):
-            """
-            Checks for a valid message reaction.
-            :param reac: The reaction to validate.
-            :type reac: discord.Reaction
-            :param usr: The user who reacted to the message.
-            :type usr: discord.Member
-            :return:
-            :rtype: bool
-            """
-            same_author = usr.id == msg.author.id
-            same_message = reac.message.id == confirmation.id
-            valid_reaction = str(reac.emoji) in possible
-            return same_author and same_message and valid_reaction
+    async def bool_dialogue(self):
+        """
+        Creates an interactive bool dialogue message for a user to react to.
+        :return:
+        :rtype: DialogueResponse
+        """
+        response = DialogueResponse(self)
+        ongoing = Ongoing.is_ongoing('dialogue', self.msg.author.id)
+        if not ongoing:
+            Ongoing.set_ongoing('dialogue', self.user.id)
+            self.question.set_author(name=self.user.display_name, icon_url=user_avatar(self.user))
+            # noinspection PyBroadException
+            try:
+                confirmation = await self.channel.send(embed=self.question)
+                [await confirmation.add_reaction(preac) for preac in BOOL_REACTIONS]
+            except Exception:
+                Ongoing.del_ongoing('dialogue', self.user.id)
+                response.error = True
+                return response
 
-        log_usr = f'{msg.author.name}#{msg.author.discriminator} [{msg.author.id}]'
+            def check_emote(reac, usr):
+                """
+                Checks for a valid message reaction.
+                :param reac: The reaction to validate.
+                :type reac: discord.Reaction
+                :param usr: The user who reacted to the message.
+                :type usr: discord.Member
+                :return:
+                :rtype: bool
+                """
+                same_author = usr.id == self.user.id
+                same_message = reac.message.id == confirmation.id
+                valid_reaction = str(reac.emoji) in BOOL_REACTIONS
+                return same_author and same_message and valid_reaction
 
-        try:
-            start_stamp = arrow.utcnow().float_timestamp
-            ae, au = await bot.wait_for('reaction_add', timeout=60, check=check_emote)
-            end_stamp = arrow.utcnow().float_timestamp
-            bot.log.info(f'ITEM DIALOGUE: {log_usr} responded in {round(end_stamp - start_stamp, 5)}s.')
-            timeout = False
-            if ae.emoji == item.icon:
-                success = True
-            else:
-                success = False
-        except asyncio.TimeoutError:
-            success = False
-            timeout = True
-            bot.log.info(f'ITEM DIALOGUE: {log_usr} timed out.')
-        try:
-            await confirmation.delete()
-        except discord.NotFound:
-            pass
-        Ongoing.del_ongoing('dialogue', msg.author.id)
-    else:
-        await ongoing_error(msg)
-        success = False
-        timeout = False
-    return success, timeout
+            try:
+                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
+                if ae.emoji == CONFIRM_REACT:
+                    response.ok = True
+                else:
+                    response.cancelled = True
+            except asyncio.TimeoutError:
+                response.timed_out = True
+            try:
+                await confirmation.delete()
+            except discord.NotFound:
+                pass
+            Ongoing.del_ongoing('dialogue', self.user.id)
+        else:
+            response.ongoing = True
+        return response
+
+    async def int_dialogue(self, start, end):
+        """
+        Creates an interactive int dialogue message for a user to react to.
+        :param start: The number to start the range at.
+        :type start: int
+        :param end: The number to end the range at.
+        :type end: int
+        :return:
+        :rtype: DialogueResponse
+        """
+        response = DialogueResponse(self)
+        ongoing = Ongoing.is_ongoing('dialogue', self.user.id)
+        if not ongoing:
+            Ongoing.set_ongoing('dialogue', self.user.id)
+            start = 0 if start < 0 else start
+            end = 9 if end > 9 else end
+            self.question.set_author(name=self.user.display_name, icon_url=user_avatar(self.user))
+            # noinspection PyBroadException
+            try:
+                confirmation = await self.channel.send(embed=self.question)
+                [await confirmation.add_reaction(INT_REACTIONS[preac]) for preac in range(start, end + 1)]
+                await confirmation.add_reaction(CANCEL_REACT)
+            except Exception:
+                response.error = True
+                Ongoing.del_ongoing('dialogue', self.user.id)
+                return response
+
+            def check_emote(reac, usr):
+                """
+                Checks for a valid message reaction.
+                :param reac: The reaction to validate.
+                :type reac: discord.Reaction
+                :param usr: The user who reacted to the message.
+                :type usr: discord.Member
+                :return:
+                :rtype: bool
+                """
+                same_author = usr.id == self.user.id
+                same_message = reac.message.id == confirmation.id
+                valid_reaction = (str(reac.emoji) in INT_REACTIONS) or str(reac.emoji) == CANCEL_REACT
+                return same_author and same_message and valid_reaction
+
+            try:
+                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
+                if str(ae.emoji) == CANCEL_REACT:
+                    response.cancelled = True
+                else:
+                    response.ok = True
+                    for react_index, int_react in enumerate(INT_REACTIONS):
+                        if int_react == str(ae.emoji):
+                            response.value = react_index
+                            break
+            except asyncio.TimeoutError:
+                response.timed_out = True
+            try:
+                await confirmation.delete()
+            except discord.NotFound:
+                pass
+            Ongoing.del_ongoing('dialogue', self.user.id)
+        else:
+            response.ongoing = True
+        return response
+
+    async def item_dialogue(self, icons, item):
+        """
+        Creates an interactive item dialogue message for a user to react to.
+        :param icons: The icons to display on the message.
+        :type icons: dict
+        :param item: The item to base the item dialogue on.
+        :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
+        :return:
+        :rtype: DialogueResponse
+        """
+        response = DialogueResponse(self)
+        ongoing = Ongoing.is_ongoing('dialogue', self.user.id)
+        if not ongoing:
+            Ongoing.set_ongoing('dialogue', self.user.id)
+            icon_list = [icons.get(ic) for ic in icons if icons.get(ic) != item.icon]
+            icon_list.pop(0)
+            possible_proto = [item.icon]
+            while len(possible_proto) < secrets.randbelow(2) + 3:
+                possible_proto.append(icon_list.pop(secrets.randbelow(len(icon_list))))
+            possible = []
+            while possible_proto:
+                possible.append(possible_proto.pop(secrets.randbelow(len(possible_proto))))
+            possible.append(CANCEL_REACT)
+            title = f'{item.icon} Quick! Get the correct {item.type.lower()}!'
+            self.question = discord.Embed(color=item.color, title=title)
+            self.question.set_author(name=self.user.display_name, icon_url=user_avatar(self.user))
+            # noinspection PyBroadException
+            try:
+                confirmation = await self.channel.send(embed=self.question)
+                [await confirmation.add_reaction(preac) for preac in possible]
+            except Exception:
+                response.error = True
+                Ongoing.del_ongoing('dialogue', self.user.id)
+                return response
+
+            def check_emote(reac, usr):
+                """
+                Checks for a valid message reaction.
+                :param reac: The reaction to validate.
+                :type reac: discord.Reaction
+                :param usr: The user who reacted to the message.
+                :type usr: discord.Member
+                :return:
+                :rtype: bool
+                """
+                same_author = usr.id == self.user.id
+                same_message = reac.message.id == confirmation.id
+                valid_reaction = str(reac.emoji) in possible
+                return same_author and same_message and valid_reaction
+
+            try:
+                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
+                if ae.emoji == item.icon:
+                    response.ok = True
+                elif str(ae.emoji) == CANCEL_REACT:
+                    response.cancelled = True
+            except asyncio.TimeoutError:
+                response.timed_out = True
+            try:
+                await confirmation.delete()
+            except discord.NotFound:
+                pass
+            Ongoing.del_ongoing('dialogue', self.user.id)
+        else:
+            response.ongoing = True
+        return response

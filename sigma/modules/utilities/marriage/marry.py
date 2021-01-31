@@ -21,7 +21,7 @@ import copy
 import arrow
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error
 
 
@@ -67,8 +67,9 @@ async def marry(cmd, pld):
                     married = target.id in a_spouse_ids and pld.msg.author.id in t_spouse_ids
                     if not married:
                         proposal = discord.Embed(color=0xf9f9f9, title=f'💍 {target.name}, do you accept the proposal?')
-                        accepted, timeout = await bool_dialogue(cmd.bot, fake_msg, proposal)
-                        if accepted:
+                        dialogue = DialogueCore(cmd.bot, fake_msg, proposal)
+                        dresp = await dialogue.bool_dialogue()
+                        if dresp.ok:
                             sync_spouses(a_spouses, target.id), sync_spouses(t_spouses, pld.msg.author.id)
                             a_spouses.append({'user_id': target.id, 'time': arrow.utcnow().int_timestamp})
                             t_spouses.append({'user_id': pld.msg.author.id, 'time': arrow.utcnow().int_timestamp})
@@ -77,10 +78,12 @@ async def marry(cmd, pld):
                             congrats_title = f'🎉 Congrats to {author.name} and {target.name}!'
                             response = discord.Embed(color=0x66cc66, title=congrats_title)
                         else:
-                            if timeout:
+                            if dresp.timed_out:
                                 response = discord.Embed(color=0x696969, title=f'🕙 {target.name} didn\'t respond.')
-                            else:
+                            elif dresp.cancelled:
                                 response = discord.Embed(color=0xe75a70, title=f'💔 {target.name} rejected you.')
+                            else:
+                                response = dresp.generic('proposal')
                     else:
                         if author.id in t_spouse_ids:
                             response = error(f'You and {target.name} are already married.')

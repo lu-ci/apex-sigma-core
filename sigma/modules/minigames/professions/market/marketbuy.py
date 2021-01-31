@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error, not_found, ok, denied
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.market.marketsell import MARKET_TAX_PERCENT
@@ -69,8 +69,9 @@ async def marketbuy(cmd, pld):
                     quesbed.description = f'Market entry {me.token} submitted by {me.uname} on {stamp}.'
                     if self_buy:
                         quesbed.set_footer(text="Retracting the item does not pay its price or tax.")
-                    buy_confirm, _ = await bool_dialogue(cmd.bot, pld.msg, quesbed, False)
-                    if buy_confirm:
+                    dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
+                    dresp = await dialogue.bool_dialogue()
+                    if dresp.ok:
                         kud = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
                         if self_buy:
                             data_for_inv = item.generate_inventory_item()
@@ -92,7 +93,7 @@ async def marketbuy(cmd, pld):
                                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {curr}.')
                     else:
                         await me.save(cmd.db)
-                        response = discord.Embed(color=0xbe1931, title='❌ Purchase cancelled.')
+                        response = dresp.generic('market purchase')
                 else:
                     response = not_found('Couldn\'t find any entries for that.')
                 if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):

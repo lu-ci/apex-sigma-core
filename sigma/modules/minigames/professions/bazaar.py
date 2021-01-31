@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.dialogue_controls import int_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -169,9 +169,10 @@ async def bazaar(cmd, pld):
                 lines.append(line)
             question = discord.Embed(color=0xffac33, title='🪙 The Item Bazaar')
             question.description = '\n'.join(lines)
-            choice, timeout = await int_dialogue(cmd.bot, pld.msg, question, 1, len(keys))
-            if choice is not None and not timeout:
-                key = keys[choice - 1]
+            dialogue = DialogueCore(cmd.bot, pld.msg, question)
+            dresp = await dialogue.int_dialogue(1, len(keys))
+            if dresp.ok and dresp.value is not None:
+                key = keys[dresp.value - 1]
                 item = item_core.get_item_by_file_id(doc.get(key))
                 available = not await has_purchased(cmd.db, pld.msg.author.id, key)
                 if available:
@@ -191,7 +192,7 @@ async def bazaar(cmd, pld):
                 else:
                     response = error('One per customer please.')
             else:
-                response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
+                response = dresp.generic('bazaar')
             if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                 Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
         else:

@@ -20,7 +20,7 @@ import copy
 
 import discord
 
-from sigma.core.utilities.dialogue_controls import bool_dialogue
+from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error
 
 
@@ -69,8 +69,9 @@ async def givevirginity(cmd, pld):
                 question = discord.Embed(color=0xF9F9F9, title=f'❔ {question}')
                 fake_msg = copy.copy(pld.msg)
                 fake_msg.author = target
-                success, timeout = await bool_dialogue(cmd.bot, fake_msg, question)
-                if success:
+                dialogue = DialogueCore(cmd.bot, fake_msg, question)
+                dresp = await dialogue.bool_dialogue()
+                if dresp.ok:
                     av.virgin = False
                     av.first = target.id
                     tv.virginities.append(pld.msg.author.id)
@@ -84,10 +85,12 @@ async def givevirginity(cmd, pld):
                     await cmd.db.set_profile(target.id, 'virginity', tv.to_dict())
                     response = discord.Embed(color=0x66CC66, title=congrats_title)
                 else:
-                    if timeout:
+                    if dresp.timed_out:
                         response = discord.Embed(color=0x696969, title=f'🕙 {target.display_name} didn\'t respond.')
-                    else:
+                    elif dresp.cancelled:
                         response = discord.Embed(color=0xBE1931, title=f'❌ {target.display_name} rejected you.')
+                    else:
+                        response = dresp.generic('virginity proposal')
             else:
                 response = error('You are not a virgin.')
         else:
