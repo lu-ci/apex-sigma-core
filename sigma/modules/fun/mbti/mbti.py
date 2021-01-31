@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.generic_responses import not_found
-from sigma.modules.fun.mbti.mech.storage import *
+from sigma.modules.fun.mbti.mech.storage import MBTICore
 
 mbti_img = 'https://i.imgur.com/XzJPkmu.png'
 types_src = 'https://www.typeinmind.com/'
@@ -57,12 +57,12 @@ async def mbti(_cmd, pld):
         lookup = pld.args[0].lower()
         if len(pld.args) == 2:
             target = pld.args[1].lower()
-            if lookup in mbti_types and target in mbti_types:
-                type_comp_list = mbti_chart[lookup]
-                type_comp = type_comp_list[mbti_list.index(target)]
-                type_comp_desc = mbti_compatibility.get(f'{lookup.upper()} x {target.upper()}')
+            if lookup in MBTICore.mbti_types and target in MBTICore.mbti_types:
+                type_comp_list = MBTICore.mbti_chart[lookup]
+                type_comp = type_comp_list[MBTICore.mbti_list.index(target)]
+                type_comp_desc = MBTICore.mbti_compatibility.get(f'{lookup.upper()} x {target.upper()}')
                 if not type_comp_desc:
-                    type_comp_desc = mbti_compatibility.get(f'{target.upper()} x {lookup.upper()}')
+                    type_comp_desc = MBTICore.mbti_compatibility.get(f'{target.upper()} x {lookup.upper()}')
                     lookup, target = target, lookup
                 title = f'👥 Compatibility of {lookup.upper()} and {target.upper()}'
                 response = discord.Embed(color=0x734d5f, title=title)
@@ -73,21 +73,21 @@ async def mbti(_cmd, pld):
                     response.description = f'{type_comp} out of 5 compatibility.'
                     response.set_footer(text='A more detailed response is being worked on.')
             else:
-                if lookup not in mbti_types and target not in mbti_types:
+                if lookup not in MBTICore.mbti_types and target not in MBTICore.mbti_types:
                     item = 'Types'
-                elif lookup not in mbti_types:
+                elif lookup not in MBTICore.mbti_types:
                     item = 'First type'
                 else:
                     item = 'Second type'
                 response = not_found(f'{item} not found.')
-        elif lookup in mbti_types:
-            mbti_type = mbti_types[lookup]
+        elif lookup in MBTICore.mbti_types:
+            mbti_type = MBTICore.mbti_types[lookup]
             title, description = f'👥 {lookup.upper()}', make_paragraph(mbti_type)
             response = discord.Embed(color=0x734d5f, title=title, description=description)
             type_src = types_src + ''.join(mbti_type['stack'].split('-')[:2])
             response.set_footer(text=f'Sourced from: {type_src}')
-        elif lookup in mbti_functions:
-            mbti_function = mbti_functions[lookup]
+        elif lookup in MBTICore.mbti_functions:
+            mbti_function = MBTICore.mbti_functions[lookup]
             title, description = f'👥 {lookup.title()}', make_paragraph(mbti_function)
             response = discord.Embed(color=0x734d5f, title=title, description=description)
             response.set_footer(text=f'Sourced from: {funcs_src}')
@@ -100,6 +100,6 @@ async def mbti(_cmd, pld):
                 item = 'Query'
             response = not_found(f'{item} not found.')
     else:
-        title, description = '👥 Myers-Briggs Type Indicator', make_paragraph(mbti_overview)
+        title, description = '👥 Myers-Briggs Type Indicator', make_paragraph(MBTICore.mbti_overview)
         response = discord.Embed(color=0x734d5f, title=title, description=description)
     await pld.msg.channel.send(embed=response)

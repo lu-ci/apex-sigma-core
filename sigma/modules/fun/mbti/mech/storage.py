@@ -1068,3 +1068,12 @@ mbti_compatibility = {
               'types will likely have to take extra time to hear their partner out in order to arrive at a consensus. '
     }
 }
+
+
+class MBTICore(object):
+    mbti_list = mbti_list
+    mbti_chart = mbti_chart
+    mbti_overview = mbti_overview
+    mbti_types = mbti_types
+    mbti_functions = mbti_functions
+    mbti_compatibility = mbti_compatibility
