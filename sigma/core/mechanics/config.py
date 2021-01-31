@@ -52,7 +52,7 @@ class ModuleConfig(dict):
         :param data: Data to overwrite or set the configs current data.
         :return:
         """
-        self.data = data
+        self.data = data if data is not None else {}
         self.update(self.data)
 
 

@@ -27,7 +27,7 @@ from sigma.core.mechanics.payload import BanPayload
 from sigma.core.sigma import ApexSigma
 
 
-def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogAction, guild: discord.Guild):
+def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogEntry, guild: discord.Guild):
     """
 
     :param bot:

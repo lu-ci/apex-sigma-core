@@ -23,6 +23,7 @@ from lxml import html as lx
 from sigma.core.utilities.generic_responses import error, not_found
 
 tdoll_data = []
+tdoll_root = None
 gf_icon = 'https://en.gfwiki.com/images/c/c9/Logo.png'
 gf_color = 0xffcc4d
 

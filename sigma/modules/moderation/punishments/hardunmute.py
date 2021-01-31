@@ -29,15 +29,10 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 def generate_log_embed(message, target, reason):
     """
-
-    :param message:
-    :type message:
-    :param target:
-    :type target:
-    :param reason:
-    :type reason:
-    :return:
-    :rtype:
+    :type message: discord.Message
+    :type target: discord.Member or discord.User
+    :type reason: str
+    :rtype: discord.Embed
     """
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Hard Un-Muted', icon_url=user_avatar(target))

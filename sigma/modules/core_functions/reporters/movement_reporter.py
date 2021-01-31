@@ -94,6 +94,7 @@ async def send_movement_log_message(bot: ApexSigma, move_data: dict):
     await get_movement_channel(bot)
     if movement_channel:
         response = make_movement_log_embed(move_data)
+        # noinspection PyUnresolvedReferences
         await movement_channel.send(embed=response)
 
 

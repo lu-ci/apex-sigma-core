@@ -15,9 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import aiohttp
 import discord
-import requests
 from lxml import html
 
 ABBR_MAP = {
@@ -139,18 +138,19 @@ class MetaCriticGame(object):
 
         return embed
 
-    def set_response_data(self, *args):
+    async def set_response_data(self, *args):
         """
         Makes the request and sets the response data.
         :param args: The args to parse into a URL.
-        :type args: list[str]
+        :type args: list[str] or str
         :return:
         """
         url_path = self.path_from_args(*args)
         self.formed_url = f'{self.base_url}/{url_path}'
-        response = requests.get(self.formed_url, headers=self.headers)
-        self.data = html.fromstring(response.content)
-        self.valid_response = response.status_code == 200
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.formed_url, headers=self.headers) as response:
+                self.data = html.fromstring(response.content)
+                self.valid_response = response.status == 200
 
     def extract_title(self):
         """
@@ -240,6 +240,7 @@ class MetaCriticMusic(MetaCriticGame):
     """
     The framework for retrieving and parsing MetaCritic music data.
     """
+
     def __init__(self, cmd):
         """
         :param cmd: The command instance.
@@ -269,6 +270,7 @@ class MetaCriticMovie(MetaCriticGame):
     """
     The framework for retrieving and parsing MetaCritic movie and tv data.
     """
+
     def __init__(self, cmd):
         """
         :param cmd: The command instance.
@@ -361,7 +363,7 @@ class MetaCriticSearch(object):
         self.results_len = 0
 
     @staticmethod
-    def path_from_args(*args):
+    def path_from_args(args):
         """
         Creates a URL path from the given arguments.
         :param args: The arguments to parse/
@@ -385,19 +387,20 @@ class MetaCriticSearch(object):
         embed.set_footer(text='Reply with a number to select a result.')
         return embed
 
-    def set_response_data(self, *args):
+    async def set_response_data(self, *args):
         """
         Makes the request and sets the response data.
         :param args: The args to parse into a URL.
-        :type args: list[str]
+        :type args: list[str] or str
         :return:
         """
         url_path = self.path_from_args(*args)
         self.search_query = url_path.split('/')[2]
         self.formed_url = f'{self.base_url}/{url_path}'
-        response = requests.get(self.formed_url, headers=self.headers)
-        self.data = html.fromstring(response.content)
-        self.valid_response = response.status_code == 200
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.formed_url, headers=self.headers) as response:
+                self.data = html.fromstring(response.content)
+                self.valid_response = response.status == 200
 
     def extract_game_data(self, result_obj):
         """

@@ -65,7 +65,9 @@ async def hunt(cmd, pld):
                     if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                         connector = 'an'
                     try:
-                        success, timed_out = await item_dialogue(cmd.bot, pld.msg, item_icons.get(item.type.lower()), item)
+                        success, timed_out = await item_dialogue(
+                            cmd.bot, pld.msg, item_icons.get(item.type.lower()), item
+                        )
                     except (discord.NotFound, discord.Forbidden):
                         success = timed_out = False
                     if success:

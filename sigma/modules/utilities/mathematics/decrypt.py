@@ -17,8 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import discord
+from cryptography.exceptions import InvalidSignature
+from cryptography.fernet import InvalidToken
 from discord.utils import escape_mentions
-from cryptography.fernet import InvalidSignature, InvalidToken
 
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor

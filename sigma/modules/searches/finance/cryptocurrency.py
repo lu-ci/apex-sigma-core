@@ -25,7 +25,6 @@ import discord
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error, not_found
 
-
 api_base = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 
 

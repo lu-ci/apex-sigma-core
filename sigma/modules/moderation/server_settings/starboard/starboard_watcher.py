@@ -70,6 +70,7 @@ async def generate_embed(msg):
     return response
 
 
+# noinspection PyUnresolvedReferences
 async def check_emotes(mid, uid, sbl):
     """
     :param mid:

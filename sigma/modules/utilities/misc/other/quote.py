@@ -22,15 +22,11 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def message_search(lookup: int, message: discord.Message):
+async def message_search(lookup, message):
     """
-
-    :param lookup:
-    :type lookup:
-    :param message:
-    :type message:
-    :return:
-    :rtype:
+    :type lookup: str or int
+    :type message: discord.Message
+    :rtype: discord.Message
     """
     try:
         msg = await message.channel.fetch_message(lookup)

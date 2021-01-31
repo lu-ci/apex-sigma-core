@@ -45,7 +45,7 @@ async def metacritic(cmd, pld):
                 if search_filter in ['game', 'movie', 'tv', 'music', 'all']:
                     if search_filter == 'music':
                         search_filter = 'album'
-                    mc.set_response_data(category, search_filter, title)
+                    await mc.set_response_data(category, search_filter, title)
                     if mc.valid_response:
                         response = mc.generate_embed(search_filter)
                         results_msg = await pld.msg.channel.send(embed=response)
@@ -72,6 +72,7 @@ async def metacritic(cmd, pld):
                             else:
                                 valid = False
                             return valid
+
                         try:
                             answer_message = await cmd.bot.wait_for('message', check=check_answer, timeout=30)
                             result = mc.result_map[answer_message.content]
@@ -92,7 +93,7 @@ async def metacritic(cmd, pld):
                     platform, _, title = title.partition('/')
                     platform = mc.get_platform(platform)
                     if platform:
-                        mc.set_response_data(category, platform, title)
+                        await mc.set_response_data(category, platform, title)
                         if mc.valid_response:
                             response = mc.generate_embed()
                         else:
@@ -101,7 +102,7 @@ async def metacritic(cmd, pld):
                         response = error('Invalid game platform.')
                 elif category == 'movie':
                     mc = MetaCriticMovie(cmd)
-                    mc.set_response_data(category, title)
+                    await mc.set_response_data(category, title)
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:
@@ -111,7 +112,7 @@ async def metacritic(cmd, pld):
                     season = ''
                     if '/' in title:
                         title, _, season = title.partition('/')
-                    mc.set_response_data(category, title, season)
+                    await mc.set_response_data(category, title, season)
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:
@@ -119,7 +120,7 @@ async def metacritic(cmd, pld):
                 else:
                     mc = MetaCriticMusic(cmd)
                     album, _, artist = title.partition('/')
-                    mc.set_response_data(category, album, artist)
+                    await mc.set_response_data(category, album, artist)
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:

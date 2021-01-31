@@ -105,6 +105,7 @@ async def play(cmd, pld):
                             player_made = True
                         except discord.ClientException:
                             player_attempts += 1
+                            # noinspection PyBroadException
                             try:
                                 if pld.msg.guild.voice_client:
                                     await pld.msg.guild.voice_client.disconnect()

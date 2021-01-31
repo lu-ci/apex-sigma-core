@@ -40,6 +40,8 @@ class RedditSub(object):
         :param data:
         :type data: dict
         """
+        self.exists = None
+        self.display_name = None
         self.private = data.get('reason') == 'private'
         self.banned = data.get('reason') == 'banned'
         self.raw = data.get('data', {})
@@ -49,7 +51,6 @@ class RedditSub(object):
 
 
 class RedditClient(object):
-
     __slots__ = ('headers',)
 
     def __init__(self, user_agent):

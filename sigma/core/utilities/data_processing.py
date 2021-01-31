@@ -319,6 +319,7 @@ async def get_image_colors(img_url):
     """
     if img_url:
         img_url = str(img_url)
+        # noinspection PyUnresolvedReferences
         cached_color = await color_cache_coll.find_one({'url': img_url})
         if not cached_color:
             # noinspection PyBroadException
@@ -347,6 +348,7 @@ async def get_image_colors(img_url):
                 dominant = mean[0][1]
             except Exception:
                 dominant = (105, 105, 105)
+            # noinspection PyUnresolvedReferences
             await color_cache_coll.insert_one({'url': img_url, 'color': dominant})
         else:
             dominant = cached_color.get('color')

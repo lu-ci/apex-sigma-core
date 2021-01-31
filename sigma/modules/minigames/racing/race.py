@@ -53,6 +53,7 @@ async def race(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    # noinspection PyBroadException
     try:
         if pld.msg.channel.id not in races:
             if pld.args:

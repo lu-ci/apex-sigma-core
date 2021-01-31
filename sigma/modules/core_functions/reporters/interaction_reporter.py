@@ -20,17 +20,14 @@ import asyncio
 
 import discord
 
-from sigma.core.sigma import ApexSigma
 
 interaction_channel = None
 interaction_reporter_running = False
 
 
-async def get_interaction_channel(bot: ApexSigma):
+async def get_interaction_channel(bot):
     """
-
-    :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     """
     global interaction_channel
     if interaction_channel is None:
@@ -73,19 +70,16 @@ def make_interaction_log_embed(inter_data: dict):
     return response
 
 
-async def send_interaction_log_message(bot: ApexSigma, move_data: dict):
+async def send_interaction_log_message(bot, move_data):
     """
-
-    :param bot:
-    :type bot:
-    :param move_data:
-    :type move_data:
-    :return:
+    :type bot: sigma.core.sigma.ApexSigma
+    :type move_data: dict
     :rtype:
     """
     await get_interaction_channel(bot)
     if interaction_channel:
         response = make_interaction_log_embed(move_data)
+        # noinspection PyUnresolvedReferences
         intr_msg = await interaction_channel.send(embed=response)
         return intr_msg
 

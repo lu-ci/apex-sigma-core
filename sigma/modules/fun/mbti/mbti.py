@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.generic_responses import not_found
-from sigma.modules.fun.mbti.mech.storage import mbti_chart, mbti_compatibility, mbti_functions, mbti_list, mbti_overview, mbti_types
+from sigma.modules.fun.mbti.mech.storage import *
 
 mbti_img = 'https://i.imgur.com/XzJPkmu.png'
 types_src = 'https://www.typeinmind.com/'

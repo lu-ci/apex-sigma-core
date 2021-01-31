@@ -86,6 +86,7 @@ async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
     await get_suggestion_channel(bot)
     if suggestion_channel:
         response = make_suggestion_log_embed(sugg_data)
+        # noinspection PyUnresolvedReferences
         sugg_msg = await suggestion_channel.send(embed=response)
         [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
         return sugg_msg

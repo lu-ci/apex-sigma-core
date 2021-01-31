@@ -29,15 +29,6 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
 async def grab_post(subreddit, argument):
-    """
-
-    :param subreddit:
-    :type subreddit:
-    :param argument:
-    :type argument:
-    :return:
-    :rtype:
-    """
     try:
         subreddit_name = subreddit.display_name
     except AttributeError:
@@ -46,9 +37,11 @@ async def grab_post(subreddit, argument):
     if subreddit_name:
         try:
             if argument in filters:
+                # noinspection PyUnresolvedReferences
                 posts = await reddit_client.get_posts(subreddit_name, argument[-3:])
                 post = posts[0] if argument.startswith('top') else secrets.choice(posts)
             else:
+                # noinspection PyUnresolvedReferences
                 post = secrets.choice(await reddit_client.get_posts(subreddit_name, 'hot'))
         except IndexError:
             post = None
@@ -94,6 +87,7 @@ async def reddit(cmd, pld):
         argument = pld.args[-1].lower()
         subreddit = await reddit_client.get_subreddit(subreddit)
         if not subreddit.private and not subreddit.banned:
+            # noinspection PyTypeChecker
             post = await grab_post(subreddit, argument)
             if subreddit.exists:
                 if post:

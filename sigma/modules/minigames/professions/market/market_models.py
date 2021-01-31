@@ -98,7 +98,7 @@ class MarketEntry(abc.ABC):
         """
         :type db: sigma.core.mechanics.database.Database
         :type item: string
-        :type sort: dict
+        :type sort: dict or tuple
         :rtype: list
         """
         entries = []

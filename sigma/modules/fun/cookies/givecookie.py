@@ -85,10 +85,11 @@ async def givecookie(cmd, pld):
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
                                 del_cmd_msg = pld.settings.get('delete_commands')
                                 starter = pld.msg.author.display_name if del_cmd_msg else 'You'
+                                dname = target.display_name
                                 if someoned:
-                                    title = f'🍪 {starter} threw a cookie and it landed in {target.display_name}\'s mouth.'
+                                    title = f'🍪 {starter} threw a cookie and it landed in {dname}\'s mouth.'
                                 else:
-                                    title = f'🍪 {starter} gave a cookie to {target.display_name}.'
+                                    title = f'🍪 {starter} gave a cookie to {dname}.'
                                 response = discord.Embed(color=0xd99e82, title=title)
                             else:
                                 timeout_seconds = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)

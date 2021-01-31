@@ -238,7 +238,7 @@ class ItemCore(object):
         :param db: The database handler.
         :type db: sigma.core.mechanics.database.Database
         :param item: The item that was gotten.
-        :type item: SigmaRawItem or SigmaCookedItem
+        :type item: SigmaRawItem or SigmaCookedItem or SigmaRecipe
         :param member: The user that got the item.
         :type member: discord.User or discord.Member
         """

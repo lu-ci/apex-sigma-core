@@ -41,6 +41,7 @@ async def summon(_cmd, pld):
                     else:
                         response = error('We are in the same channel.')
                 else:
+                    # noinspection PyBroadException
                     try:
                         await pld.msg.author.voice.channel.connect(reconnect=False)
                         title = f'🚩 Connected to {pld.msg.author.voice.channel.name}.'

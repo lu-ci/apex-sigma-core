@@ -19,17 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 
 from sigma.core.mechanics.error import SigmaError
-from sigma.core.sigma import ApexSigma
 
 error_channel = None
 error_reporter_running = False
 
 
-async def get_error_channel(bot: ApexSigma):
+async def get_error_channel(bot):
     """
-
-    :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     """
     global error_channel
     if bot.cfg.pref.errorlog_channel and error_channel is None:
@@ -50,7 +47,7 @@ async def error_reporter(ev):
         ev.bot.loop.create_task(error_reporter_clockwork(ev))
 
 
-async def send_error_log_message(bot: ApexSigma, error_data):
+async def send_error_log_message(bot, error_data):
     """
 
     :param bot:
@@ -61,8 +58,10 @@ async def send_error_log_message(bot: ApexSigma, error_data):
     await get_error_channel(bot)
     if error_channel and error_data:
         response, trace = SigmaError.make_error_embed(error_data)
+        # noinspection PyUnresolvedReferences
         await error_channel.send(embed=response)
         if trace:
+            # noinspection PyUnresolvedReferences
             await error_channel.send(trace)
 
 

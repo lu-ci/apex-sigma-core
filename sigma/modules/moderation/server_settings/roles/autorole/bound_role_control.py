@@ -19,10 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import get_changed_invite
 
 
-async def bound_role_control(ev, pld):
+async def bound_role_control(_ev, pld):
     """
-    :param ev: The main event instance referenced.
-    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :param _ev: The main event instance referenced.
+    :type _ev: sigma.core.mechanics.event.SigmaEvent
     :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.MemberPayload
     """
