@@ -56,7 +56,7 @@ class DialogueResponse(object):
         pieces = desc.split(' ')
         if len(pieces) > 1:
             first = pieces[0].title()
-            other = [piece.lower() for piece in pieces[:1]]
+            other = [piece.lower() for piece in pieces[1:]]
             desc = ' '.join([first] + other)
         else:
             desc = desc.title()
@@ -294,6 +294,8 @@ class DialogueCore(object):
                 if ae.emoji == item.icon:
                     response.ok = True
                 elif str(ae.emoji) == CANCEL_REACT:
+                    response.cancelled = True
+                else:
                     response.cancelled = True
             except asyncio.TimeoutError:
                 response.timed_out = True
