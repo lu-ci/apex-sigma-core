@@ -60,13 +60,13 @@ async def allitemstats(cmd, pld):
     for item_o_item in item_o_list:
         total_value += item_o_item.value
         if item_o_item.type.lower() in type_dict:
-            type_count = type_dict[item_o_item.type.lower()]
+            type_count = type_dict.get(item_o_item.type.lower())
         else:
             type_count = 0
         type_count += 1
         type_dict.update({item_o_item.type.lower(): type_count})
         if item_o_item.rarity_name in rarity_dict:
-            rare_count = rarity_dict[item_o_item.rarity_name]
+            rare_count = rarity_dict.get(item_o_item.rarity_name)
         else:
             rare_count = 0
         rare_count += 1

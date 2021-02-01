@@ -77,7 +77,9 @@ async def marketsell(cmd, pld):
                                     me = MarketEntry.new(pld.msg.author, item.file_id, price)
                                     try:
                                         await me.save(cmd.db)
-                                        await cmd.db.del_resource(pld.msg.author.id, 'currency', cost, cmd.name, pld.msg)
+                                        await cmd.db.del_resource(
+                                            pld.msg.author.id, 'currency', cost, cmd.name, pld.msg
+                                        )
                                         await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
                                         pfx = cmd.db.get_prefix(pld.settings)
                                         desc = f'Placed the {item.rarity_name} {item.name}'
