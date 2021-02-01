@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-ITEM_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml"
-RECIPE_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml"
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
 async def dbinit_items(ev, force=False):
@@ -32,6 +32,8 @@ async def dbinit_items(ev, force=False):
     """
     await dbinit_item_data(ev, force)
     await dbinit_recipe_data(ev, force)
+    await get_item_core(ev.db)
+    await get_recipe_core(ev.db)
 
 
 async def dbinit_item_data(ev, force=False):

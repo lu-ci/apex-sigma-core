@@ -19,8 +19,7 @@ import aiohttp
 import yaml
 
 from sigma.core.mechanics.database import Database
-from sigma.modules.minigames.professions.dbinit_items import RECIPE_MANIFEST
-from sigma.modules.minigames.professions.nodes.item_core import get_item_core
+from sigma.modules.minigames.professions.nodes.item_core import get_item_core, RECIPE_MANIFEST
 from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons
 
 recipe_core_cache = None
@@ -39,7 +38,7 @@ async def get_recipe_core(db: Database):
         recipe_core_cache = RecipeCore(db)
         await recipe_core_cache.init_items()
     await recipe_core_cache.validate()
-    recipe_core_cache.deduplicate()
+    await recipe_core_cache.deduplicate()
     return recipe_core_cache
 
 
@@ -106,12 +105,13 @@ class SigmaRecipe(object):
 
 
 class RecipeCore(object):
-    __slots__ = ("db", "item_core", "recipes")
+    __slots__ = ("db", "item_core", "recipes", "manifest_recipes")
 
     def __init__(self, db: Database):
         self.db = db
         self.item_core = None
         self.recipes = []
+        self.manifest_recipes = []
 
     def find_recipe(self, name):
         """
@@ -128,14 +128,13 @@ class RecipeCore(object):
                 break
         return out
 
-    @staticmethod
-    async def recipes_from_repo():
-        all_recipes = []
-        async with aiohttp.ClientSession() as session:
-            async with session.get(RECIPE_MANIFEST) as reci_data_response:
-                reci_data = await reci_data_response.read()
-                all_recipes += yaml.safe_load(reci_data)
-        return all_recipes
+    async def recipes_from_repo(self):
+        if not self.manifest_recipes:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(RECIPE_MANIFEST) as reci_data_response:
+                    reci_data = await reci_data_response.read()
+                    self.manifest_recipes += yaml.safe_load(reci_data)
+        return self.manifest_recipes
 
     async def recipes_from_db(self):
         return await self.db[self.db.db_nam].RecipeData.find().to_list(None)
@@ -150,8 +149,10 @@ class RecipeCore(object):
         # noinspection PyBroadException
         try:
             all_recipes = await self.recipes_from_repo()
-        except Exception:
-            all_recipes = self.recipes_from_db()
+        except Exception as e:
+            self.db.bot.log.warn('Recipe core failed to load manifest, falling back to database.')
+            self.db.bot.log.error(e)
+            all_recipes = await self.recipes_from_db()
         for item_data in all_recipes:
             item_object = SigmaRecipe(self, item_data)
             self.recipes.append(item_object)
@@ -161,7 +162,10 @@ class RecipeCore(object):
                     recipe_item.value = recipe_item.get_price()
         for item in self.item_core.all_items:
             if item.type.lower() in ['drink', 'meal', 'dessert']:
-                item.value = self.find_recipe(item.name).value
+                if item.value == 0:
+                    item.value = self.find_recipe(item.name).value
+                    self.item_core.all_items.append(item)
+        await self.item_core.deduplicate()
 
     async def validate(self):
         invalid = False
@@ -171,9 +175,9 @@ class RecipeCore(object):
                 break
         if invalid:
             await self.init_items()
-        self.deduplicate()
+        await self.deduplicate()
 
-    def deduplicate(self):
+    async def deduplicate(self):
         for (ax, a) in enumerate(self.recipes):
             to_remove = None
             for (bx, b) in enumerate(self.recipes):

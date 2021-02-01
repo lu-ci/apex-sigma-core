@@ -22,11 +22,12 @@ import aiohttp
 import yaml
 
 from sigma.core.mechanics.database import Database
-from sigma.modules.minigames.professions.dbinit_items import ITEM_MANIFEST, RECIPE_MANIFEST
 from sigma.modules.minigames.professions.nodes.item_object import SigmaCookedItem, SigmaRawItem
 from sigma.modules.minigames.professions.nodes.properties import item_colors, item_icons, rarity_names
 
 item_core_cache = None
+ITEM_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/item_core_manifest.yml"
+RECIPE_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/items/recipe_core_manifest.yml"
 
 
 async def get_item_core(db):
@@ -42,12 +43,12 @@ async def get_item_core(db):
         item_core_cache = ItemCore(db)
         await item_core_cache.init_items()
     await item_core_cache.validate()
-    item_core_cache.deduplicate()
+    await item_core_cache.deduplicate()
     return item_core_cache
 
 
 class ItemCore(object):
-    __slots__ = ("db", "rarity_names", "item_icons", "item_colors", "all_items")
+    __slots__ = ("db", "rarity_names", "item_icons", "item_colors", "all_items", "manifest_items")
 
     def __init__(self, db: Database):
         self.db = db
@@ -55,6 +56,7 @@ class ItemCore(object):
         self.item_icons = item_icons
         self.item_colors = item_colors
         self.all_items = []
+        self.manifest_items = []
 
     def get_item_by_name(self, name):
         """
@@ -109,18 +111,17 @@ class ItemCore(object):
         all_items += await self.db[self.db.db_nam].RecipeData.find().to_list(None)
         return all_items
 
-    @staticmethod
-    async def items_from_repo():
-        all_items = []
-        async with aiohttp.ClientSession() as session:
-            async with session.get(ITEM_MANIFEST) as item_data_response:
-                item_data = await item_data_response.read()
-                all_items += yaml.safe_load(item_data)
-        async with aiohttp.ClientSession() as session:
-            async with session.get(RECIPE_MANIFEST) as reci_data_response:
-                reci_data = await reci_data_response.read()
-                all_items += yaml.safe_load(reci_data)
-        return all_items
+    async def items_from_repo(self):
+        if not self.manifest_items:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(ITEM_MANIFEST) as item_data_response:
+                    item_data = await item_data_response.read()
+                    self.manifest_items += yaml.safe_load(item_data)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(RECIPE_MANIFEST) as reci_data_response:
+                    reci_data = await reci_data_response.read()
+                    self.manifest_items += yaml.safe_load(reci_data)
+        return self.manifest_items
 
     async def init_items(self):
         raw_item_types = ['fish', 'plant', 'animal']
@@ -128,7 +129,9 @@ class ItemCore(object):
         # noinspection PyBroadException
         try:
             all_items = await self.items_from_repo()
-        except Exception:
+        except Exception as e:
+            self.db.bot.log.warn('Item core failed to load manifest, falling back to database.')
+            self.db.bot.log.error(e)
             all_items = await self.items_from_db()
         for item_data in all_items:
             if item_data['type'].lower() in raw_item_types:
@@ -149,9 +152,9 @@ class ItemCore(object):
                     break
         if invalid:
             await self.init_items()
-        self.deduplicate()
+        await self.deduplicate()
 
-    def deduplicate(self):
+    async def deduplicate(self):
         for (ax, a) in enumerate(self.all_items):
             to_remove = None
             for (bx, b) in enumerate(self.all_items):
