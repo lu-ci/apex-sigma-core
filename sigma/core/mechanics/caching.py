@@ -21,7 +21,6 @@ import pickle
 
 import aioredis
 import cachetools
-import humanfriendly
 
 
 async def get_cache(cfg):
@@ -168,13 +167,6 @@ class MemoryCacher(Cacher):
         if key in self.cache.keys():
             self.cache.pop(key)
 
-    async def stats(self):
-        return {
-            'type': 'Memory',
-            'keys': len(self.cache.keys()),
-            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
-        }
-
 
 class LRUCacher(MemoryCacher):
     """
@@ -208,15 +200,6 @@ class TTLCacher(LRUCacher):
         """
         super().__init__(cfg)
         self.cache = cachetools.TTLCache(self.cfg.size, self.cfg.time)
-
-    async def stats(self):
-        return {
-            'type': 'TTL',
-            'time': self.cache.ttl,
-            'max': self.cache.maxsize,
-            'keys': self.cache.currsize,
-            'size': humanfriendly.format_size(asizeof.asizeof(self.cache), binary=True)
-        }
 
 
 class RedisCacher(Cacher):
@@ -347,16 +330,3 @@ class MixedCacher(RedisCacher):
         """
         await self.ttl.del_cache(key)
         await super().del_cache(key)
-
-    async def stats(self):
-        info = (await self.conn.info('memory'))['memory']
-        return {
-            'type': 'Mixed (Redis + TTL)',
-            'addr': self.addr,
-            'time': self.ttl.cache.ttl,
-            'max': self.ttl.cache.maxsize,
-            'keys': self.ttl.cache.currsize,
-            'ttl_size': humanfriendly.format_size(asizeof.asizeof(self.ttl.cache), binary=True),
-            'redis_size': info['used_memory_human'],
-            'peak': info['used_memory_peak_human']
-        }

@@ -31,7 +31,7 @@ async def command_md(ev):
         for cmd_nam in ev.bot.modules.commands:
             cat = ev.bot.modules.commands[cmd_nam].category
             if cat in categories:
-                cmd_list = categories[cat]
+                cmd_list = categories.get(cat)
             else:
                 cmd_list = []
             cmd_list.append(ev.bot.modules.commands[cmd_nam])
@@ -49,7 +49,7 @@ async def command_md(ev):
             output += f'\n### {key.upper().replace("_", " ")}'
             output += '\nCommands | Description | Example'
             output += '\n----------|-------------|--------'
-            commands_in_cat = categories[key]
+            commands_in_cat = categories.get(key)
             sorted_commands = sorted(commands_in_cat, key=lambda x: x.name)
             for command in sorted_commands:
                 command_names = f'`{prefix}{command.name}`'
