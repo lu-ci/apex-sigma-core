@@ -38,6 +38,7 @@ async def marketlist(cmd, pld):
     reci_core = await get_recipe_core(cmd.db)
     lookup = get_filter(pld.args)
     entries = []
+    title = None
     if lookup:
         item = ic.get_item_by_name(lookup)
         if item:
