@@ -75,7 +75,7 @@ async def status(cmd, pld):
     try:
         general_text = f'Latency: **{int(cmd.bot.latency * 1000)}ms**'
     except OverflowError:
-        general_text = f'Latency: **∞...**'
+        general_text = 'Latency: **∞...**'
     general_text += f'\nPlatform: **{sys.platform.upper()}**'
     general_text += f'\nStarted: **{arrow.get(psutil.boot_time()).humanize()}**'
     cpu_clock = psutil.cpu_freq()

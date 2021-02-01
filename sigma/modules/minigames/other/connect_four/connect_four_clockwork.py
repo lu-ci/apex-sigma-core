@@ -58,7 +58,7 @@ async def connect_four_cycler(ev):
                             while Ongoing.is_ongoing('cf_ongoing_turn', channel.id) and wait_cycles < 5:
                                 wait_cycles += 1
                                 await asyncio.sleep(1)
-                            timeout_title = f'🕙 Time\'s up'
+                            timeout_title = '🕙 Time\'s up'
                             try:
                                 timeout_title += ' ' + game.current_turn.display_name + '!'
                             except AttributeError:

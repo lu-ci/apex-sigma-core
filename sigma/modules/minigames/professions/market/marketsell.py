@@ -85,7 +85,7 @@ async def marketsell(cmd, pld):
                                         desc = f'Placed the {item.rarity_name} {item.name}'
                                         desc += f' on the market for {price} {curr}.'
                                         desc += f' Your market entry token is `{me.token}`,'
-                                        desc += f' it can be bought directly using the'
+                                        desc += ' it can be bought directly using the'
                                         desc += f' `{pfx}marketbuy {me.token}` command.'
                                         response = ok('Market entry created.')
                                         response.description = desc

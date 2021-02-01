@@ -104,7 +104,7 @@ async def blackjack(cmd, pld):
                                     game_msg = await send_game_msg(pld.msg.channel, game_msg, embed)
                             else:
                                 embed = bljk.generate_embed()
-                                embed.set_footer(text=f'You can only double down on your first turn.')
+                                embed.set_footer(text='You can only double down on your first turn.')
                                 game_msg = await send_game_msg(pld.msg.channel, game_msg, embed)
                     except asyncio.TimeoutError:
                         if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
@@ -125,7 +125,7 @@ async def blackjack(cmd, pld):
                     title = f'{currency_icon} The dealer bust and you won {bet} {currency}!'
                     response = discord.Embed(color=0x66cc66, title=title)
                 elif bljk.check_push():
-                    title = f'🔵 You pushed and broke even.'
+                    title = '🔵 You pushed and broke even.'
                     response = discord.Embed(color=0x3B88C3, title=title)
                 elif bljk.check_win():
                     await cmd.db.add_resource(pld.msg.author.id, 'currency', bet, cmd.name, pld.msg, False)
