@@ -21,18 +21,16 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-async def jisho(_cmd: SigmaCommand, pld: CommandPayload):
+async def jisho(_cmd, pld):
     """
 
     :param _cmd:
-    :type _cmd:
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
-    :type pld:
+    :type pld: sigma.core.mechanics.payload.CommandPayload
     :return:
     :rtype:
     """

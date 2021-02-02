@@ -29,17 +29,17 @@ variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 
 identifiers = ['moderator', 'target', 'variant']
 
 
-def make_export_file(guild_name: str, incidents: list, modifier: str):
+def make_export_file(guild_name, incidents, modifier):
     """
 
     :param guild_name:
-    :type guild_name:
+    :type guild_name: str
     :param incidents:
-    :type incidents:
+    :type incidents: list
     :param modifier:
-    :type modifier:
+    :type modifier: str
     :return:
-    :rtype:
+    :rtype: str
     """
     if not os.path.exists('cache'):
         os.makedirs('cache')

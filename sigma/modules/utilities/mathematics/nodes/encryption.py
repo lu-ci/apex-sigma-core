@@ -21,16 +21,14 @@ import hashlib
 
 from cryptography.fernet import Fernet
 
-from sigma.core.mechanics.config import Configuration
 
-
-def get_encryptor(cfg: Configuration):
+def get_encryptor(cfg):
     """
 
     :param cfg:
-    :type cfg:
+    :type cfg: sigma.core.mechanics.config.Configuration
     :return:
-    :rtype:
+    :rtype: cryptography.fernet.Fernet
     """
     cipher = None
     cipher_password = cfg.pref.raw.get('key_to_my_heart')

@@ -24,17 +24,17 @@ from sigma.core.utilities.generic_responses import error, not_found
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 
-def get_overrides(message: discord.Message, overrides: list, target_type: str):
+def get_overrides(message, overrides, target_type):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param overrides:
-    :type overrides:
+    :type overrides: list[int]
     :param target_type:
-    :type target_type:
+    :type target_type: str
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}

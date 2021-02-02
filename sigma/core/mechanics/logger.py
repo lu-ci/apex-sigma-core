@@ -203,13 +203,15 @@ class Logger(object):
         logger.created = True
         return logger
 
-    def add_handler(self, handler: logging.Handler, fmt=None, date_fmt=None):
+    def add_handler(self, handler, fmt=None, date_fmt=None):
         """
         Add a new log handler with format handlers.
         :param handler:
+        :type handler: logging.Handler
         :param fmt:
+        :type fmt: str
         :param date_fmt:
-        :return:
+        :type date_fmt: str
         """
         fmt = fmt or self.default_fmt
         date_fmt = date_fmt or self.default_date_fmt

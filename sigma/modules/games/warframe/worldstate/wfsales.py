@@ -27,13 +27,13 @@ sales_url = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
 warframe_icon = 'https://i.imgur.com/yrY1kWg.png'
 
 
-def get_mode(args: list):
+def get_mode(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: bool, str
     """
     discount_only = True
     if args:
@@ -46,15 +46,15 @@ def get_mode(args: list):
     return discount_only, title
 
 
-def get_items(sales: list, discount_only: bool):
+def get_items(sales, discount_only):
     """
 
     :param sales:
-    :type sales:
+    :type sales: list[dict]
     :param discount_only:
-    :type discount_only:
+    :type discount_only: bool
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
     sale_items = []
     for sale in sales:

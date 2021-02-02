@@ -21,19 +21,19 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 
 
-def make_move_log_data(gld: discord.Guild, join: bool, user_count: int, bot_count: int):
+def make_move_log_data(gld, join, user_count, bot_count):
     """
 
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param join:
-    :type join:
+    :type join: bool
     :param user_count:
-    :type user_count:
+    :type user_count: int
     :param bot_count:
-    :type bot_count:
+    :type bot_count: int
     :return:
-    :rtype:
+    :rtype: dict
     """
     for user in gld.members:
         if user.bot:

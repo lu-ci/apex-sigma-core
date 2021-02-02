@@ -24,17 +24,17 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, ok
 
 
-def make_sugg_embed(msg: discord.Message, args: list, token: str):
+def make_sugg_embed(msg, args, token):
     """
 
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :param args:
-    :type args:
+    :type args: list[str]
     :param token:
-    :type token:
+    :type token: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     guild_icon = str(msg.guild.icon_url) if msg.guild.icon_url else discord.Embed.Empty
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)

@@ -27,15 +27,15 @@ variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 
 identifiers = ['moderator', 'target', 'variant']
 
 
-def parse_incidents(incidents: list, page):
+def parse_incidents(incidents, page):
     """
 
     :param incidents:
-    :type incidents:
+    :type incidents: list
     :param page:
-    :type page:
+    :type page: int
     :return:
-    :rtype:
+    :rtype: str
     """
     incidents = sorted(incidents, key=lambda i: i.order)
     incidents, page = PaginatorCore.paginate(incidents, page, 10)

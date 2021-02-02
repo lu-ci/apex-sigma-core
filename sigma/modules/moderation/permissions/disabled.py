@@ -25,15 +25,15 @@ from sigma.core.utilities.generic_responses import error, not_found
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
-def get_perm_type(cmd: SigmaCommand, perm_type: str):
+def get_perm_type(cmd, perm_type):
     """
 
     :param cmd:
-    :type cmd:
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param perm_type:
-    :type perm_type:
+    :type perm_type: str
     :return:
-    :rtype:
+    :rtype: str, str, str, dict
     """
     if perm_type == 'modules':
         perm_name = 'modules'

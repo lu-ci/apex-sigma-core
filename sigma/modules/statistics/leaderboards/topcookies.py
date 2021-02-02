@@ -22,15 +22,15 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.modules.moderation.server_settings.filters.edit_name_check import clean_name
 
 
-def get_user_value(data: dict, coords: str):
+def get_user_value(data, coords):
     """
 
     :param data:
-    :type data:
+    :type data: dicot
     :param coords:
-    :type coords:
+    :type coords: str
     :return:
-    :rtype:
+    :rtype: int
     """
     user_value = data
     for coord in coords.split('.'):
@@ -42,13 +42,13 @@ async def get_leader_docs(db, all_docs, sort_key):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param all_docs:
-    :type all_docs:
+    :type all_docs: list[dict]
     :param sort_key:
-    :type sort_key:
+    :type sort_key: str
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
     leader_docs = []
     for data_doc in all_docs:

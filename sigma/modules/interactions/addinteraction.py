@@ -22,25 +22,24 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
-def make_interaction_data(message: discord.Message, interaction_name: str, interaction_url: str, url_hash: str):
+def make_interaction_data(message, interaction_name, interaction_url, url_hash):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param interaction_name:
-    :type interaction_name:
+    :type interaction_name: str
     :param interaction_url:
-    :type interaction_url:
+    :type interaction_url: str
     :param url_hash:
-    :type url_hash:
+    :type url_hash: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     return {
         'name': interaction_name.lower(),
@@ -55,13 +54,13 @@ def make_interaction_data(message: discord.Message, interaction_name: str, inter
     }
 
 
-async def validate_gif_url(url: str):
+async def validate_gif_url(url):
     """
 
     :param url:
-    :type url:
+    :type url: str
     :return:
-    :rtype:
+    :rtype: bool, bytes
     """
     valid, data = False, None
     # noinspection PyBroadException
@@ -77,13 +76,13 @@ async def validate_gif_url(url: str):
     return valid, data
 
 
-def get_allowed_interactions(commands: dict):
+def get_allowed_interactions(commands):
     """
 
     :param commands:
-    :type commands:
+    :type commands: dict
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     allowed_interactions = []
     for command in commands:
@@ -94,42 +93,42 @@ def get_allowed_interactions(commands: dict):
     return allowed_interactions
 
 
-async def relay_image(cmd: SigmaCommand, url: str):
+async def relay_image(cmd, url):
     """
 
     :param cmd:
-    :type cmd:
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param url:
-    :type url:
+    :type url: str
     :return:
-    :rtype:
+    :rtype: str
     """
     client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
     return await upload_image(url, client_id)
 
 
-async def check_existence(db: Database, data: bytes, name: str):
+async def check_existence(db, data, name):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param data:
-    :type data:
+    :type data: bytes
     :param name:
-    :type name:
+    :type name: str
     :return:
-    :rtype:
+    :rtype: bool, str
     """
     url_hash = hash_url(data)
     exists = bool(await db[db.db_nam].Interactions.find_one({'hash': url_hash, 'name': name}))
     return exists, url_hash
 
 
-def hash_url(url: bytes):
+def hash_url(url):
     """
 
     :param url:
-    :type url:
+    :type url: bytes
     :return:
     :rtype:
     """

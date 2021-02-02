@@ -48,11 +48,11 @@ async def interaction_reporter(ev):
         ev.bot.loop.create_task(interaction_reporter_clockwork(ev))
 
 
-def make_interaction_log_embed(inter_data: dict):
+def make_interaction_log_embed(inter_data):
     """
 
     :param inter_data:
-    :type inter_data:
+    :type inter_data: dict
     :return:
     :rtype:
     """

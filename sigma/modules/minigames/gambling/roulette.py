@@ -76,13 +76,13 @@ def get_bet(args):
     return bet
 
 
-def get_selector_and_value(args: list):
+def get_selector_and_value(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype:str, str
     """
     selector_split = [a.strip() for a in args[-1].split(':')]
     if len(selector_split) == 2:

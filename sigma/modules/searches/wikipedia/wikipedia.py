@@ -42,11 +42,11 @@ def shorten_sentences(text):
     return sentences
 
 
-def get_exact_results(search_data: list):
+def get_exact_results(search_data):
     """
     Gets the first exact result from the api response.
     :param search_data: The api response to parse
-    :type search_data: dict
+    :type search_data: list
     :return:
     :rtype: str, str
     """

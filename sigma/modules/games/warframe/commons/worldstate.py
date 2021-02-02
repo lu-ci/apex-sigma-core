@@ -28,15 +28,15 @@ class WorldState(object):
     def __init__(self):
         self.raw = {}
 
-    async def init(self, url: str, key: str):
+    async def init(self, url, key):
         """
 
         :param url:
-        :type url:
+        :type url: str
         :param key:
-        :type key:
+        :type key: str
         :return:
-        :rtype:
+        :rtype: sigma.modules.games.warframe.commons.worldstate.WorldState
         """
         try:
             async with aiohttp.ClientSession() as session:
@@ -47,17 +47,17 @@ class WorldState(object):
             pass
         return self
 
-    async def safe_get(self, url: str, key: str, indexed: bool = False):
+    async def safe_get(self, url, key, indexed=False):
         """
 
         :param url:
-        :type url:
+        :type url: str
         :param key:
-        :type key:
+        :type key: str
         :param indexed:
-        :type indexed:
+        :type indexed: bool
         :return:
-        :rtype:
+        :rtype: list
         """
         await self.init(url, key)
         data = self.raw

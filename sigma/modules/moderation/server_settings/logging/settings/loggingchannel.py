@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import denied, error, ok
 
 log_keys = [
@@ -27,17 +26,17 @@ log_keys = [
 accepted_logs = [lk.lower()[4:-8] for lk in log_keys]
 
 
-async def set_log_channels(log_ords: list, gld_id: int, chn, db: Database):
+async def set_log_channels(log_ords, gld_id, chn, db):
     """
 
     :param log_ords:
-    :type log_ords:
+    :type log_ords: list[str]
     :param gld_id:
-    :type gld_id:
+    :type gld_id: int
     :param chn:
-    :type chn:
+    :type chn: discord.Channel
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
     :rtype:
     """

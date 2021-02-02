@@ -29,15 +29,15 @@ from sigma.modules.searches.vndb.models.visual_novel import VisualNovel
 vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 
 
-def get_name_match(results: list, lookup: str):
+def get_name_match(results, lookup):
     """
 
     :param results:
-    :type results:
+    :type results: list
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
-    :rtype:
+    :rtype: str
     """
     match = None
     results = results[1:]
@@ -55,11 +55,11 @@ def get_name_match(results: list, lookup: str):
     return match
 
 
-async def get_details_page(lookup: str):
+async def get_details_page(lookup):
     """
 
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
     :rtype:
     """
@@ -83,11 +83,11 @@ async def get_details_page(lookup: str):
     return search_page_root
 
 
-async def get_vn(lookup: str):
+async def get_vn(lookup):
     """
 
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
     :rtype:
     """

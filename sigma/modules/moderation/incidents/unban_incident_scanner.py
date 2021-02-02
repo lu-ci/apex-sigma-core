@@ -19,18 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import UnbanPayload
 from sigma.modules.moderation.incidents.ban_incident_scanner import get_mod_and_reason
 
 
-async def unban_incident_scanner(ev: SigmaCommand, pld: UnbanPayload):
+async def unban_incident_scanner(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.UnbanPayload
     """
     unban_entry = None
     now = arrow.utcnow().float_timestamp

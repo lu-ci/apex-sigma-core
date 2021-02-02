@@ -44,15 +44,15 @@ def get_os_icon():
     return icon, color
 
 
-def get_shard_latency(latencies: list, shard_id: int):
+def get_shard_latency(latencies, shard_id):
     """
 
     :param latencies:
-    :type latencies:
+    :type latencies: dict
     :param shard_id:
-    :type shard_id:
+    :type shard_id: int
     :return:
-    :rtype:
+    :rtype: int
     """
     shard_latency = None
     for lat_sd, lat_ms in latencies:

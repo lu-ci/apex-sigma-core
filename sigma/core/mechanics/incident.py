@@ -233,13 +233,11 @@ class Incident(object):
         """
         self.moderator = IncidentUser(user)
 
-    def set_target(self, user: discord.Member or discord.User):
+    def set_target(self, user):
         """
         Sets the affected target of the incident event.
         :param user: The target's user object.
         :type user: discord.Member or discord.User
-        :return:
-        :rtype:
         """
         self.target = IncidentUser(user)
 
@@ -248,8 +246,6 @@ class Incident(object):
         Sets the location in which the event was triggered.
         :param location: The location's object.
         :type location: discord.TextChannel or discord.Guild
-        :return:
-        :rtype:
         """
         if isinstance(location, discord.TextChannel):
             self.channel = IncidentLocation(location)
@@ -262,8 +258,6 @@ class Incident(object):
         Sets the reason/description of the incident.
         :param text: The reason text contents.
         :type text: str
-        :return:
-        :rtype:
         """
         self.reason = text
 
@@ -275,8 +269,6 @@ class Incident(object):
         :type user: discord.Member or discord.User
         :param reason: The new reason text contents.
         :type reason: str
-        :return:
-        :rtype:
         """
         previous = self.to_dict()
         del previous['edits']

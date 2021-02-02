@@ -22,17 +22,17 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import denied, info, ok
 
 
-async def make_greet_embed(data: dict, greeting: str, guild: discord.Guild):
+async def make_greet_embed(data, greeting, guild):
     """
 
     :param data:
-    :type data:
+    :type data: disct
     :param greeting:
-    :type greeting:
+    :type greeting: str
     :param guild:
-    :type guild:
+    :type guild: discord.Guild
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     guild_icon = str(guild.icon_url) if guild.icon_url else discord.Embed.Empty
     guild_color = await get_image_colors(guild_icon)

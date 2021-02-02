@@ -39,13 +39,13 @@ def store_image(im):
     return io
 
 
-def get_color_tuple(args: list):
+def get_color_tuple(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: tuple
     """
     color_tuple = None
     if len(args) == 1:

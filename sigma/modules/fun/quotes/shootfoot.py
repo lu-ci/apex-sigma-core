@@ -20,15 +20,14 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import not_found
 
 
-async def get_all_sf(db: Database):
+async def get_all_sf(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
     :rtype:
     """

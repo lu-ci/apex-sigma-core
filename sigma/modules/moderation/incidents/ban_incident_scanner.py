@@ -21,21 +21,18 @@ import re
 import arrow
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.mechanics.payload import BanPayload
-from sigma.core.sigma import ApexSigma
 
 
-def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogEntry, guild: discord.Guild):
+def get_mod_and_reason(bot, ban_entry, guild):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     :param ban_entry:
-    :type ban_entry:
+    :type ban_entry: discord.AuditLogEntry
     :param guild:
-    :type guild:
+    :type guild: discord.Guild
     :return:
     :rtype:
     """
@@ -59,12 +56,12 @@ def get_mod_and_reason(bot: ApexSigma, ban_entry: discord.AuditLogEntry, guild: 
     return mod, reason
 
 
-async def ban_incident_scanner(ev: SigmaCommand, pld: BanPayload):
+async def ban_incident_scanner(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld:
-    :type pld:
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.BanPayload
     """
     ban_entry = None
     now = arrow.utcnow().float_timestamp

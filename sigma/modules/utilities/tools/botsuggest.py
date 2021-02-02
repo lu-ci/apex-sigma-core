@@ -24,17 +24,17 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, ok
 
 
-def make_sugg_data(msg: discord.Message, args: list, token: str):
+def make_sugg_data(msg, args, token):
     """
 
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :param args:
-    :type args:
+    :type args: listr[str]
     :param token:
-    :type token:
+    :type token: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     return {
         'suggestion': {

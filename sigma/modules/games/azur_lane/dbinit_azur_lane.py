@@ -37,8 +37,6 @@ async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
     :type cutter: str
     :param prefix: What to prefix the IDs with.
     :type prefix: str
-    :return:
-    :rtype:
     """
     ev.log.info(f'Updating basic data for {table_type} ships...')
     for row in table[1:]:

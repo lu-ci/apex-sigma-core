@@ -22,17 +22,17 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok,
 from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
 
 
-def get_targets(message: discord.Message, args: list, target_type: str):
+def get_targets(message, args, target_type):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param args:
-    :type args:
+    :type args: list[str]
     :param target_type:
-    :type target_type:
+    :type target_type: str
     :return:
-    :rtype:
+    :rtype: list, bool
     """
     targets, valid = None, False
     if target_type == 'channels':
@@ -56,13 +56,13 @@ def get_targets(message: discord.Message, args: list, target_type: str):
     return targets, valid
 
 
-def get_target_type(target_type: str):
+def get_target_type(target_type):
     """
 
     :param target_type:
-    :type target_type:
+    :type target_type: str
     :return:
-    :rtype:
+    :rtype: str
     """
     if target_type in ['channel', 'channels']:
         target_type = 'channels'

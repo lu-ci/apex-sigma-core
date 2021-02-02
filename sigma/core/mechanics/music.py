@@ -162,7 +162,7 @@ class MusicCore(object):
         information = await self.loop.run_in_executor(self.threads, task)
         return information
 
-    def get_queue(self, guild_id: int):
+    def get_queue(self, guild_id):
         """
         Gets a guild's queue.
         If the guild doesn't have one, it'll be generated.

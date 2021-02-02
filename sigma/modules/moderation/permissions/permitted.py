@@ -25,17 +25,17 @@ from sigma.modules.moderation.permissions.nodes.permission_data import get_all_p
 from sigma.modules.moderation.permissions.permit import get_target_type
 
 
-def get_exceptions(message: discord.Message, exceptions: list, target_type: str):
+def get_exceptions(message, exceptions, target_type):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param exceptions:
-    :type exceptions:
+    :type exceptions: list
     :param target_type:
-    :type target_type:
+    :type target_type: str
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}

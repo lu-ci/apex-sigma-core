@@ -21,17 +21,15 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.sigma import ApexSigma
-
 movement_channel = None
 movement_reporter_running = False
 
 
-async def get_movement_channel(bot: ApexSigma):
+async def get_movement_channel(bot):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     """
     global movement_channel
     move_chn_id = bot.cfg.pref.movelog_channel
@@ -52,13 +50,13 @@ async def movement_reporter(ev):
         ev.bot.loop.create_task(movement_reporter_clockwork(ev))
 
 
-def make_movement_log_embed(data: dict):
+def make_movement_log_embed(data):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     joined = data.get('join')
     gld = data.get('guild', {})
@@ -83,13 +81,13 @@ def make_movement_log_embed(data: dict):
     return response
 
 
-async def send_movement_log_message(bot: ApexSigma, move_data: dict):
+async def send_movement_log_message(bot, move_data):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     :param move_data:
-    :type move_data:
+    :type move_data: dict
     """
     await get_movement_channel(bot)
     if movement_channel:

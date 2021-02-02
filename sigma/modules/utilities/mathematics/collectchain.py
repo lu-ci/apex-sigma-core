@@ -19,24 +19,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 from sigma.modules.utilities.mathematics.collector_clockwork import check_queued, get_channel, get_target
 
 
-async def is_blocked(db: Database, target: discord.Member, author: discord.Member):
+async def is_blocked(db, target, author):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param target:
-    :type target:
+    :type target: discord.Member
     :param author:
-    :type author:
+    :type author: discord.Member
     :return:
-    :rtype:
+    :rtype: bool
     """
     if target.id == author.id:
         blocked = False
@@ -45,17 +44,17 @@ async def is_blocked(db: Database, target: discord.Member, author: discord.Membe
     return blocked
 
 
-async def is_blinded(db: Database, channel: discord.TextChannel, author: discord.Member):
+async def is_blinded(db, channel, author):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param channel:
-    :type channel:
+    :type channel: discord.TextChannel
     :param author:
-    :type author:
+    :type author: discord.Member
     :return:
-    :rtype:
+    :rtype: bool
     """
     if author.permissions_in(channel).manage_channels:
         blinded = False

@@ -24,19 +24,18 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
-from sigma.modules.minigames.professions.nodes.item_object import SigmaRawItem
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 
-def is_ingredient(recipes: list, item: SigmaRawItem):
+def is_ingredient(recipes, item):
     """
 
     :param recipes:
-    :type recipes:
+    :type recipes: list
     :param item:
-    :type item:
+    :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
     :return:
-    :rtype:
+    :rtype: bool
     """
     is_ingr = False
     for recipe in recipes:

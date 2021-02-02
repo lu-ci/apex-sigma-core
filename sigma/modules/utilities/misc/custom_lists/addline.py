@@ -21,15 +21,15 @@ import discord
 from sigma.core.utilities.generic_responses import error
 
 
-def user_auth(message: discord.Message, list_file: dict):
+def user_auth(message, list_file):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param list_file:
-    :type list_file:
+    :type list_file: dict
     :return:
-    :rtype:
+    :rtype: bool
     """
     author_id = list_file.get('user_id')
     if list_file.get('mode') in ['private', 'locked']:

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -47,19 +46,19 @@ def generate_log_embed(message, target, reason):
     return log_embed
 
 
-async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+async def make_incident(db, gld, ath, trg, reason):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param ath:
-    :type ath:
+    :type ath: discord.Member
     :param trg:
-    :type trg:
+    :type trg: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     """
     icore = get_incident_core(db)
     inc = icore.generate('hardunmute')

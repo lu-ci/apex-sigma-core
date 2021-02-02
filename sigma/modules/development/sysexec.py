@@ -19,13 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import subprocess
 
 
-def from_output(output: bytes) -> str:
+def from_output(output):
     """
 
     :param output:
-    :type output:
+    :type output: bytes
     :return:
-    :rtype:
+    :rtype: str
     """
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"
 

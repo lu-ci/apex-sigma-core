@@ -27,15 +27,15 @@ imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
 imgur_url = "https://api.imgur.com/3/image"
 
 
-async def upload_image(image_url: str, client_id: str):
+async def upload_image(image_url, client_id):
     """
 
     :param image_url:
-    :type image_url:
+    :type image_url: str
     :param client_id:
-    :type client_id:
+    :type client_id: str
     :return:
-    :rtype:
+    :rtype: str
     """
     link = None
     data = {'type': 'URL', 'image': image_url}

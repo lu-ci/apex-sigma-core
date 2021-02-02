@@ -21,26 +21,26 @@ import discord
 from sigma.core.utilities.generic_responses import error, not_found
 
 
-def get_perm_names(gld: discord.Guild):
+def get_perm_names(gld):
     """
 
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     return [x[0].replace('_', ' ').title() for x in gld.roles[0].permissions]
 
 
-def check_perm_validity(gld: discord.Guild, requested: list):
+def check_perm_validity(gld, requested):
     """
 
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param requested:
-    :type requested:
+    :type requested: list[str]
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     invalid_perms = []
     for req in requested:

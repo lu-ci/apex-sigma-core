@@ -25,13 +25,13 @@ import discord
 from sigma.core.utilities.generic_responses import error
 
 
-def check_name(m: discord.Member, lookup: str):
+def check_name(m, lookup):
     """
 
     :param m:
-    :type m:
+    :type m: discord.Membed
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
     :rtype:
     """

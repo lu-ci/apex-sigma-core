@@ -25,13 +25,13 @@ from sigma.core.utilities.generic_responses import error, not_found
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
 
-def parse_args(args: list):
+def parse_args(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: str, str, int
     """
     state, page = None, 1
     for _ in range(0, 2):

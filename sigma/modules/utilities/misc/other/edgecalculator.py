@@ -23,13 +23,13 @@ import discord
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 
-def hexify_int(value: int):
+def hexify_int(value):
     """
 
     :param value:
-    :type value:
+    :type value: int
     :return:
-    :rtype:
+    :rtype: str
     """
     hexpiece = hex(value)[2:]
     while len(hexpiece) < 6:
@@ -37,13 +37,13 @@ def hexify_int(value: int):
     return hexpiece
 
 
-def hex_to_rgb(hexval: str):
+def hex_to_rgb(hexval):
     """
 
     :param hexval:
-    :type hexval:
+    :type hexval: str
     :return:
-    :rtype:
+    :rtype: list[int]
     """
     return [int(hexval[:2], 16), int(hexval[2:-2], 16), int(hexval[-2:], 16)]
 

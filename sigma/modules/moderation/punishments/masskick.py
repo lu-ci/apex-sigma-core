@@ -28,15 +28,15 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 from sigma.modules.moderation.punishments.kick import generate_log_embed
 
 
-def get_members(cmd: SigmaCommand, message: discord.Message, targets: list):
+def get_members(cmd, message, targets):
     """
 
     :param cmd:
-    :type cmd:
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param message:
-    :type message:
+    :type message: discord.Command
     :param targets:
-    :type targets:
+    :type targets: list[discord.Member]
     :return:
     :rtype:
     """
@@ -61,17 +61,17 @@ def get_members(cmd: SigmaCommand, message: discord.Message, targets: list):
     return results
 
 
-async def kick_members(cmd: SigmaCommand, pld: CommandPayload, targets: list, reason: str):
+async def kick_members(cmd, pld, targets, reason):
     """
 
     :param cmd:
-    :type cmd:
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
-    :type pld:
+    :type pld: sigma.core.mechanics.payload.CommandPayload
     :param targets:
-    :type targets:
+    :type targets: list[discord/Member]
     :param reason:
-    :type reason:
+    :type reason: str
     """
     for target in targets:
         guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty

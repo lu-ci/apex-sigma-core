@@ -18,14 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core, RECIPE_MANIFEST
 from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons
 
 recipe_core_cache = None
 
 
-async def get_recipe_core(db: Database):
+async def get_recipe_core(db):
     """
     Gets an instance of the recipe core.
     :param db: The database handler.
@@ -107,7 +106,7 @@ class SigmaRecipe(object):
 class RecipeCore(object):
     __slots__ = ("db", "item_core", "recipes", "manifest_recipes")
 
-    def __init__(self, db: Database):
+    def __init__(self, db):
         self.db = db
         self.item_core = None
         self.recipes = []

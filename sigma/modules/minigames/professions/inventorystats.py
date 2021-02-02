@@ -23,13 +23,13 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
-def type_rarity_counter(items: list):
+def type_rarity_counter(items):
     """
 
     :param items:
-    :type items:
+    :type items: list[str]
     :return:
-    :rtype:
+    :rtype: dict
     """
     types = {'animal': {}, 'fish': {}, 'plant': {}}
     for item in items:

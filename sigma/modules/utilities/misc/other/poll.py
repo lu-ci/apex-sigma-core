@@ -20,21 +20,17 @@ import secrets
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error
 
 
-async def poll(_cmd: SigmaCommand, pld: CommandPayload):
+async def poll(_cmd, pld):
     """
 
     :param _cmd:
-    :type _cmd:
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
-    :type pld:
-    :return:
-    :rtype:
+    :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not pld.args:
         out_content = error('Nothing inputted.')

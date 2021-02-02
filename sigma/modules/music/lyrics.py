@@ -26,13 +26,13 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import error
 
 
-async def get_url_body(url: str):
+async def get_url_body(url):
     """
 
     :param url:
-    :type url:
+    :type url: str
     :return:
-    :rtype:
+    :rtype: bytes
     """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
@@ -67,13 +67,13 @@ def parse_parts(lyr, fallback=False):
     return output
 
 
-async def get_lyrics_from_html(lyrics_url: str):
+async def get_lyrics_from_html(lyrics_url):
     """
 
     :param lyrics_url:
-    :type lyrics_url:
+    :type lyrics_url: str
     :return:
-    :rtype:
+    :rtype: str, str, str, str
     """
     lyrics_text = None
     artist = None
@@ -92,13 +92,13 @@ async def get_lyrics_from_html(lyrics_url: str):
     return lyrics_text, artist, song, thumbnail
 
 
-def find_result(resp: dict):
+def find_result(resp):
     """
 
     :param resp:
-    :type resp:
+    :type resp: dict
     :return:
-    :rtype:
+    :rtype: str
     """
     lyr_url = None
     resp = resp or {}

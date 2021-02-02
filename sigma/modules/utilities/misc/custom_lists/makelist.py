@@ -21,13 +21,13 @@ import secrets
 from sigma.core.utilities.generic_responses import ok
 
 
-def settings(lookup: str):
+def settings(lookup):
     """
 
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
-    :rtype:
+    :rtype: str
     """
     mode = None
     if lookup in ['private', 'locked']:

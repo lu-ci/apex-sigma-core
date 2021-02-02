@@ -45,7 +45,7 @@ def denied(content):
     return generate_small_embed('⛔', 0xBE1931, content)
 
 
-def ok(content: str):
+def ok(content):
     """
     Creates a generic success response.
     :param content: The text to use for this response.
@@ -56,7 +56,7 @@ def ok(content: str):
     return generate_small_embed('✅', 0x77B255, content)
 
 
-def info(content: str):
+def info(content):
     """
     Creates a generic information response.
     :param content: The text to use for this response.
@@ -67,7 +67,7 @@ def info(content: str):
     return generate_small_embed('ℹ', 0x3B88C3, content)
 
 
-def warn(content: str):
+def warn(content):
     """
     Creates a generic warning response.
     :param content: The text to use for this response.
@@ -78,7 +78,7 @@ def warn(content: str):
     return generate_small_embed('⚠', 0xFFCC4D, content)
 
 
-def error(content: str):
+def error(content):
     """
     Creates a generic error response.
     :param content: The text to use for this response.
@@ -89,7 +89,7 @@ def error(content: str):
     return generate_small_embed('❗', 0xBE1931, content)
 
 
-def not_found(content: str):
+def not_found(content):
     """
     Creates a generic not-found response.
     :param content: The text to use for this response.

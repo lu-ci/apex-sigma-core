@@ -25,13 +25,13 @@ from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.generic_responses import error, ok
 
 
-def parse_approval(args: list):
+def parse_approval(args):
     """
 
     :param args:
-    :type args:
+    :type args: list
     :return:
-    :rtype:
+    :rtype: str, str, str
     """
     suggestion_token = args[0].lower()
     suggestion_details = ' '.join(args[1:])
@@ -39,17 +39,17 @@ def parse_approval(args: list):
     return suggestion_token, suggestion_title, suggestion_description
 
 
-def make_gl_suggestion(tkn: str, dsc: str, sugg: dict):
+def make_gl_suggestion(tkn, dsc, sugg):
     """
 
     :param tkn:
-    :type tkn:
+    :type tkn: str
     :param dsc:
-    :type dsc:
+    :type dsc: str
     :param sugg:
-    :type sugg:
+    :type sugg: dict
     :return:
-    :rtype:
+    :rtype: str
     """
     sugg_txt = sugg.get("suggestion", {}).get("text")
     sugg_uid = sugg.get("user", {}).get('id')
@@ -57,19 +57,19 @@ def make_gl_suggestion(tkn: str, dsc: str, sugg: dict):
     return f'{dsc}\n\n> {sugg_txt}\n\nSuggestion `{tkn}` by `{sugg_unam} [{sugg_uid}]`.'
 
 
-async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
+async def submit_gl_issue(tkn, prj, ttl, dsc):
     """
 
     :param tkn:
-    :type tkn:
+    :type tkn: str
     :param prj:
-    :type prj:
+    :type prj: str
     :param ttl:
-    :type ttl:
+    :type ttl: str
     :param dsc:
-    :type dsc:
+    :type dsc: str
     :return:
-    :rtype:
+    :rtype: str
     """
     api_url = f'https://gitlab.com/api/v4/projects/{prj}/issues'
     req_body = {'title': ttl, 'description': dsc, 'labels': 'Suggestion'}
@@ -79,17 +79,17 @@ async def submit_gl_issue(tkn: str, prj: str, ttl: str, dsc: str):
     return data.get('web_url')
 
 
-async def react_to_suggestion(bot: ApexSigma, suggestion: dict, reaction: str, delete: bool):
+async def react_to_suggestion(bot, suggestion, reaction, delete):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     :param suggestion:
-    :type suggestion:
+    :type suggestion: dict
     :param reaction:
-    :type reaction:
+    :type reaction: str
     :param delete:
-    :type delete:
+    :type delete: bool
     """
     sugg_cmd = bot.modules.commands.get('botsuggest')
     if sugg_cmd:

@@ -22,15 +22,15 @@ from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 from sigma.modules.utilities.misc.other.quote import message_search
 
 
-async def remove_emote(message: discord.Message, emote: str):
+async def remove_emote(message, emote):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param emote:
-    :type emote:
+    :type emote: str
     :return:
-    :rtype:
+    :rtype: str
     """
     emote_to_remove = None
     for reaction in message.reactions:

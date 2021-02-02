@@ -24,11 +24,11 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
-def make_binding_data(roles: list):
+def make_binding_data(roles):
     """
 
     :param roles:
-    :type roles:
+    :type roles: list[discord.Role]
     :return:
     :rtype:
     """
@@ -40,19 +40,19 @@ def make_binding_data(roles: list):
     return binding_data
 
 
-async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: str, description: bool):
+async def make_binding_message(bind_data, guild, group_id, description):
     """
 
     :param bind_data:
-    :type bind_data:
+    :type bind_data: dict
     :param guild:
-    :type guild:
+    :type guild: discord.Guild
     :param group_id:
-    :type group_id:
+    :type group_id: str
     :param description:
-    :type description:
+    :type description: bool
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     emote_block_lines = []
     for icon_key in bind_data.keys():
@@ -70,13 +70,13 @@ async def make_binding_message(bind_data: dict, guild: discord.Guild, group_id: 
     return toggler
 
 
-async def fill_toggler_emotes(toggler: discord.Message, emotes: list):
+async def fill_toggler_emotes(toggler, emotes):
     """
 
     :param toggler:
-    :type toggler:
+    :type toggler: discord.MEssage
     :param emotes:
-    :type emotes:
+    :type emotes: list[str]
     """
     for emote in emotes:
         await toggler.add_reaction(emote)

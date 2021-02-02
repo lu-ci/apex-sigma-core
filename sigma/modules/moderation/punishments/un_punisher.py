@@ -35,12 +35,12 @@ async def un_punisher(ev):
         ev.bot.loop.create_task(un_punisher_clock(ev))
 
 
-async def unban(ev, doc: dict):
+async def unban(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
-    :type doc:
+    :type doc: dict
     """
     # noinspection PyBroadException
     try:
@@ -60,12 +60,12 @@ async def unban(ev, doc: dict):
         pass
 
 
-async def untmute(ev, doc: dict):
+async def untmute(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
-    :type doc:
+    :type doc: dict
     """
     # noinspection PyBroadException
     try:
@@ -89,12 +89,12 @@ async def untmute(ev, doc: dict):
         pass
 
 
-async def unhmute(ev, doc: dict):
+async def unhmute(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param doc:
-    :type doc:
+    :type doc: dict
     """
     # noinspection PyBroadException
     try:

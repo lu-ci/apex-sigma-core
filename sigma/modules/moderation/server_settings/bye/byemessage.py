@@ -22,15 +22,15 @@ from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.generic_responses import denied, info, ok
 
 
-async def make_bye_embed(data: dict, goodbye: str, guild: discord.Guild):
+async def make_bye_embed(data, goodbye, guild):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :param goodbye:
-    :type goodbye:
+    :type goodbye: str
     :param guild:
-    :type guild:
+    :type guild: discord.Guild
     :return:
     :rtype:
     """

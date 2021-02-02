@@ -24,13 +24,13 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.paginator import PaginatorCore
 
 
-def make_games_dict(guild: discord.Guild):
+def make_games_dict(guild):
     """
 
     :param guild:
-    :type guild:
+    :type guild: discord.Guild
     :return:
-    :rtype:
+    :rtype: dict, int, int
     """
     games = {}
     online_count = 0

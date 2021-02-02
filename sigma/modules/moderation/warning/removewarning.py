@@ -26,17 +26,17 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, not_found, ok
 
 
-def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
+def make_log_embed(author, target, warn_iden):
     """
 
     :param author:
-    :type author:
+    :type author: discord.Member
     :param target:
-    :type target:
+    :type target: discord.Member
     :param warn_iden:
-    :type warn_iden:
+    :type warn_iden: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
@@ -49,17 +49,17 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden):
     return response
 
 
-async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member):
+async def make_incident(db, gld, ath, trg):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param ath:
-    :type ath:
+    :type ath: discord.Member
     :param trg:
-    :type trg:
+    :type trg: discor.Member
     """
     icore = get_incident_core(db)
     inc = icore.generate('unwarn')

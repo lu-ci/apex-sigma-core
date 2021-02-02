@@ -25,13 +25,13 @@ from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error
 
 
-async def send_divorce(author: discord.Member, target: discord.Member):
+async def send_divorce(author, target):
     """
 
     :param author:
-    :type author:
+    :type author: discord.Member
     :param target:
-    :type target:
+    :type target: discord.Member
     """
     divorce_embed = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')
     try:

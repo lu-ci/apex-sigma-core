@@ -25,13 +25,13 @@ from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import error
 
 
-def sync_spouses(spouses: list, user_id: int):
+def sync_spouses(spouses, user_id):
     """
 
     :param spouses:
-    :type spouses:
+    :type spouses: list[dict]
     :param user_id:
-    :type user_id:
+    :type user_id: int
     """
     for spouse in spouses:
         if spouse.get('user_id') == user_id:

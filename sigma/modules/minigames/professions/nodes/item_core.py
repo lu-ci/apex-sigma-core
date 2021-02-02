@@ -21,7 +21,6 @@ import secrets
 import aiohttp
 import yaml
 
-from sigma.core.mechanics.database import Database
 from sigma.modules.minigames.professions.nodes.item_object import SigmaCookedItem, SigmaRawItem
 from sigma.modules.minigames.professions.nodes.properties import item_colors, item_icons, rarity_names
 
@@ -50,7 +49,7 @@ async def get_item_core(db):
 class ItemCore(object):
     __slots__ = ("db", "rarity_names", "item_icons", "item_colors", "all_items", "manifest_items")
 
-    def __init__(self, db: Database):
+    def __init__(self, db):
         self.db = db
         self.rarity_names = rarity_names
         self.item_icons = item_icons

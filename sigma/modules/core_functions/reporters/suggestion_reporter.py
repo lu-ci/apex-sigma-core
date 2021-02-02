@@ -21,17 +21,15 @@ import asyncio
 import arrow
 import discord
 
-from sigma.core.sigma import ApexSigma
-
 suggestion_channel = None
 suggestion_reporter_running = False
 
 
-async def get_suggestion_channel(bot: ApexSigma):
+async def get_suggestion_channel(bot):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     """
     global suggestion_channel
     if suggestion_channel is None:
@@ -52,13 +50,13 @@ async def suggestion_reporter(ev):
         ev.bot.loop.create_task(suggestion_reporter_clockwork(ev))
 
 
-def make_suggestion_log_embed(data: dict):
+def make_suggestion_log_embed(data):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     usr = data.get('user')
     sgg = data.get('suggestion')
@@ -73,15 +71,15 @@ def make_suggestion_log_embed(data: dict):
     return response
 
 
-async def send_suggestion_log_message(bot: ApexSigma, sugg_data: dict):
+async def send_suggestion_log_message(bot, sugg_data):
     """
 
     :param bot:
-    :type bot:
+    :type bot: sigma.core.sigma.ApexSigma
     :param sugg_data:
-    :type sugg_data:
+    :type sugg_data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     await get_suggestion_channel(bot)
     if suggestion_channel:

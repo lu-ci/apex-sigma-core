@@ -19,15 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 
-async def appropriate_roles(member: discord.Member, role: discord.Role, role_groups: dict):
+async def appropriate_roles(member, role, role_groups):
     """
 
     :param member:
-    :type member:
+    :type member: discord.Member
     :param role:
-    :type role:
+    :type role: discord.Role
     :param role_groups:
-    :type role_groups:
+    :type role_groups: dict
     """
     match_group = None
     for role_group in role_groups:
