@@ -94,7 +94,7 @@ class MetaCriticGame(object):
         return match
 
     @staticmethod
-    def path_from_args(*args):
+    def path_from_args(args):
         """
         Creates a URL path from the given arguments.
         :param args: The arguments to parse/
