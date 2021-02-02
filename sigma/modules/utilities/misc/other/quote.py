@@ -24,7 +24,7 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 async def message_search(lookup, message):
     """
-    :type lookup: str or int
+    :type lookup: int
     :type message: discord.Message
     :rtype: discord.Message
     """
@@ -53,7 +53,7 @@ async def quote(_cmd, pld):
     if pld.args:
         lookup = pld.args[0]
         if lookup.isdigit():
-            msg = await message_search(lookup, pld.msg)
+            msg = await message_search(int(lookup), pld.msg)
             if msg:
                 valid = False
                 pref_arg = pld.args[-1].lower()
