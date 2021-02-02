@@ -21,24 +21,39 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.modules.moderation.punishments.auto_punish.auto_punish_mechanics import auto_punish
+
+ACTION_MAP = {
+    'textmute': ('🔇', 0x696969),
+    'hardmute': ('🔇', 0x696969),
+    'kick': ('👢', 0xc1694f),
+    'softban': ('🔨', 0x993300),
+    'ban': ('🔨', 0x993300)
+}
+
+PAST_MAP = {
+    'textmute': 'text-muted',
+    'hardmute': 'hard-muted',
+    'kick': 'kicked',
+    'softban': 'soft-banned',
+    'ban': 'banned'
+}
 
 
-def warning_data(author: discord.Member, target: discord.Member, reason: str):
+def warning_data(author, target, reason):
     """
-
     :param author:
-    :type author:
+    :type author: discord.Member
     :param target:
-    :type target:
+    :type target: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     data = {
         'guild': author.guild.id,
@@ -64,19 +79,18 @@ def warning_data(author: discord.Member, target: discord.Member, reason: str):
     return data
 
 
-def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, reason):
+def make_log_embed(author, target, warn_iden, reason):
     """
-
     :param author:
-    :type author:
+    :type author: discord.Member
     :param target:
-    :type target:
+    :type target: discord.Member
     :param warn_iden:
-    :type warn_iden:
+    :type warn_iden: str
     :param reason:
-    :type reason:
+    :type reason: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     target_avatar = user_avatar(target)
     author_descrp = f'{author.mention}\n{author.name}#{author.discriminator}'
@@ -91,19 +105,19 @@ def make_log_embed(author: discord.Member, target: discord.Member, warn_iden, re
     return response
 
 
-async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+async def make_incident(db, gld, ath, trg, reason):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param ath:
-    :type ath:
+    :type ath: discord.Member
     :param trg:
-    :type trg:
+    :type trg: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     """
     icore = get_incident_core(db)
     inc = icore.generate('warn')
@@ -113,6 +127,26 @@ async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, t
     inc.set_reason(reason)
     await icore.save(inc)
     await icore.report(gld, inc.to_embed('⚠', 0xFFCC4D))
+
+
+async def check_auto_punish(cmd, pld, target):
+    levels = pld.settings.get('auto_punish_levels') or {}
+    if levels:
+        lookup = {'guild': pld.msg.guild.id, 'target.id': target.id, 'warning.active': True}
+        warnings = await cmd.db[cmd.db.db_nam].Warnings.find(lookup).to_list(None)
+        warning_count = str(len(warnings))
+        level_data = levels.get(warning_count)
+        if level_data:
+            action = level_data.get('action')
+            duration = level_data.get('duration')
+            print(duration)
+            await auto_punish(cmd, pld, target, action, duration)
+            icon, color = ACTION_MAP.get(action)
+            title = f'{icon} {target.name} has been {PAST_MAP.get(action)}.'
+            ap_embed = discord.Embed(color=color, title=title)
+            lvl_word = 'warning' if warning_count == 1 else 'warnings'
+            ap_embed.set_footer(text=f'Auto-Punished for accruing {warning_count} {lvl_word}.')
+            await pld.msg.channel.send(embed=ap_embed)
 
 
 async def issuewarning(cmd, pld):
@@ -135,6 +169,7 @@ async def issuewarning(cmd, pld):
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
+                    await check_auto_punish(cmd, pld, target)
                     guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')

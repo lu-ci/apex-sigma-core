@@ -50,6 +50,13 @@ commands:
     requirements:
       - manage_messages
     usage: '{pfx}{cmd} @person'
+  - alts:
+      - listmuted
+      - mustedlist
+    description: Displays a list of currently text-muted and hard-muted users, ass well as when
+      those mutes expire, if timed.
+    enabled: true
+    name: mutedusers
 enabled: true
 events:
   - enabled: true

@@ -1,5 +1,14 @@
 # Apex Sigma Changelog
 
+## 4.86.1740 Tsumiki
+
+### Added
+
+- The `mutedusers` command shows users who are text-muted and hard-muted.
+- The `auto_punish` module will automatically apply a set punishment when a user reaches N warnings.
+- Use `autopunish` to toggle the feature on and off.
+- Use `autopunishlevels` to set the desired levels and punishments, or view the current ones.
+
 ## 4.86.1730 Tsumiki
 
 ### Added
@@ -21,7 +30,7 @@
 - Recipes and items now read the repository manifest instead of the database.
 - Dialogue functions now use the dialogue core class.
 - Ongoing functions now use the ongoing class.
-- General code inspection foramtting and cleaning.
+- General code inspection formatting and cleaning.
 - Replaced requests with aiohttp in metacritic.
 
 ### Removed

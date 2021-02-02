@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -29,15 +28,14 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 def generate_log_embed(message, target, reason):
     """
-
-    :param message:
-    :type message:
+    :param message
+    :type message: discord.Message
     :param target:
-    :type target:
+    :type target: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     log_embed.set_author(name='A Member Has Been Unmuted', icon_url=user_avatar(target))
@@ -52,19 +50,19 @@ def generate_log_embed(message, target, reason):
     return log_embed
 
 
-async def make_incident(db: Database, gld: discord.Guild, ath: discord.Member, trg: discord.Member, reason: str):
+async def make_incident(db, gld, ath, trg, reason):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param gld:
-    :type gld:
+    :type gld: discord.Guild
     :param ath:
-    :type ath:
+    :type ath: discord.Member
     :param trg:
-    :type trg:
+    :type trg: discord.Member
     :param reason:
-    :type reason:
+    :type reason: str
     """
     icore = get_incident_core(db)
     inc = icore.generate('textunmute')
@@ -103,7 +101,7 @@ async def textunmute(cmd, pld):
                     if mute_list is None:
                         mute_list = []
                     if target.id not in mute_list:
-                        response = error(f'{target.display_name} is not text muted.')
+                        response = error(f'{target.display_name} is not text-muted.')
                     else:
                         mute_list.remove(target.id)
                         reason = ' '.join(pld.args[1:]) if pld.args[1:] else None

@@ -1,0 +1,19 @@
+category: moderation
+commands:
+  - alts:
+      - automod
+    description: Toggles the auto punishment feature on or off. This command
+      requires the Manage Server permission.
+    enabled: true
+    name: autopunish
+    usage: '{pfx}{cmd} @person'
+  - alts:
+      - automodlevels
+    description: Sets the desired punishment for a certain number of warnings.
+      Provide no arguments to display the current levels. This command requires
+      the Manage Server permission.
+    enabled: true
+    name: autopunishlevels
+    usage: '{pfx}{cmd} @person'
+enabled: true
+name: Automatic Punishments
