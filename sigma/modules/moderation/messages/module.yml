@@ -52,7 +52,7 @@ commands:
     usage: '{pfx}{cmd} @person'
   - alts:
       - listmuted
-      - mustedlist
+      - mutedlist
     description: Displays a list of currently text-muted and hard-muted users, ass well as when
       those mutes expire, if timed.
     enabled: true

@@ -6,7 +6,6 @@ commands:
       requires the Manage Server permission.
     enabled: true
     name: autopunish
-    usage: '{pfx}{cmd} @person'
   - alts:
       - automodlevels
     description: Sets the desired punishment for a certain number of warnings.
@@ -14,6 +13,6 @@ commands:
       the Manage Server permission.
     enabled: true
     name: autopunishlevels
-    usage: '{pfx}{cmd} @person'
+    usage: '{pfx}{cmd} 1:textmute 12:0:0'
 enabled: true
 name: Automatic Punishments

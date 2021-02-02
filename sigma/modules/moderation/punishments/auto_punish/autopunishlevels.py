@@ -69,9 +69,9 @@ async def autopunishlevels(cmd, pld):
         else:
             if ':' in pld.args[0]:
                 duration = None
-                if len(pld.args) > 1 and pld.args[-1].startswith('--time='):
+                if len(pld.args) > 1:
                     try:
-                        duration = convert_to_seconds(pld.args[-1].split('=')[-1])
+                        duration = convert_to_seconds(pld.args[-1])
                     except (LookupError, ValueError):
                         err_response = error('Please use the format HH:MM:SS.')
                         await pld.msg.channel.send(embed=err_response)
