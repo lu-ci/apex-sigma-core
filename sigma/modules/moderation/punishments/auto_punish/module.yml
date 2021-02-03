@@ -9,8 +9,10 @@ commands:
   - alts:
       - automodlevels
     description: Sets the desired punishment for a certain number of warnings.
-      Provide no arguments to display the current levels. This command requires
-      the Manage Server permission.
+      When a user accrues enough warnings, the punishment will be applied automatically.
+      Multiple levels can be set. You can also set the punishment to be timed by adding
+      the time as the last argument, in the format HH:MM:SS. Provide no arguments to
+      display the current levels. This command requires the Manage Server permission.
     enabled: true
     name: autopunishlevels
     usage: '{pfx}{cmd} 1:textmute 12:0:0'
