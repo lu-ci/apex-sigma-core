@@ -81,7 +81,7 @@ class DialogueResponse(object):
         :rtype: discord.Embed
         """
         desc = DialogueResponse.get_desc(desc)
-        return ok(f'{desc} dialogue confirmed.')
+        return GenericResponse(f'{desc} dialogue confirmed.').ok()
 
     @staticmethod
     def generic_cancelled(desc):
@@ -138,7 +138,7 @@ class DialogueResponse(object):
         :return:
         :rtype: discord.Embed
         """
-        return warn('This is never supposed to happen, report it to the devs please.')
+        return GenericResponse('This is never supposed to happen, report it to the devs please.').warn()
 
     def generic(self, desc):
         """

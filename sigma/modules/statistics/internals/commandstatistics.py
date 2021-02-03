@@ -54,4 +54,5 @@ async def commandstatistics(cmd, pld):
             response = f'📟 **Command Statistics**: Page {page}\n{out_table}'
             await pld.msg.channel.send(response)
     else:
-        await pld.msg.channel.send(embed=not_found('No statistics to show.'))
+        response = GenericResponse('No statistics to show.').not_found()
+        await pld.msg.channel.send(embed=response)

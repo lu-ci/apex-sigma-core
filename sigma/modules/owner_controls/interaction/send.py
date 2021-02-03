@@ -41,13 +41,15 @@ async def send(cmd, pld):
         if mode == 'u':
             target = await cmd.bot.get_user(identifier)
             if not target:
-                await pld.msg.channel.send(embed=not_found('User not found.'))
+                response = GenericResponse('User not found.').not_found()
+                await pld.msg.channel.send(embed=response)
                 return
             title_end = f'{target.name}#{target.discriminator}'
         elif mode == 'c':
             target = await cmd.bot.get_channel(identifier)
             if not target:
-                await pld.msg.channel.send(embed=not_found('Channel not found.'))
+                response = GenericResponse('Channel not found.').not_found()
+                await pld.msg.channel.send(embed=response)
                 return
             title_end = f'#{target.name} on {target.guild.name}'
         else:
