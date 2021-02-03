@@ -131,7 +131,7 @@ class ApexSigma(client_class):
         :rtype: sigma.core.mechanics.logger.Logger
         """
         logger = create_logger('Sigma', shards=init_cfg.dsc.shards)
-        l = logger.info('Logger Created')
+        logger.info('Logger Created')
         return logger
 
     def init_config(self):
