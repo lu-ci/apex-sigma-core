@@ -20,9 +20,7 @@ import hashlib
 import secrets
 
 import aiohttp
-import discord
 
-from sigma.core.mechanics.database import Database
 from sigma.core.utilities.generic_responses import error, ok
 from sigma.modules.utilities.tools.imgur import upload_image
 

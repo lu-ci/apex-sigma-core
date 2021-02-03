@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-import discord
-
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import error, ok
 
