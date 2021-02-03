@@ -25,8 +25,10 @@ from sigma.core.utilities.generic_responses import error
 
 def split_content(text):
     """
+
     :param text: The text_content() of the pun block.
     :type text: str
+    :return:
     :rtype: str
     """
     right = text.split('#')[-1]

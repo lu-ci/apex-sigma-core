@@ -271,7 +271,10 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
 
 def serialize(item):
     """
-    :type item: dict
+
+    :param item:
+    :type item: ict
+    :return:
     :rtype: str
     """
     as_str = json.dumps(item)
@@ -281,7 +284,10 @@ def serialize(item):
 
 def deserialize(item):
     """
+
+    :param item:
     :type item: io.BytesIO
+    :return:
     :rtype: dict
     """
     as_decomp = gzip.decompress(item)

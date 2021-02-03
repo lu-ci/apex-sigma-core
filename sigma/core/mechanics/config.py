@@ -32,8 +32,8 @@ class ModuleConfig(dict):
 
     def __init__(self, cmd):
         """
-        :type cmd: sigma.core.mechanics.command.SigmaCommand
         :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         self.cmd = cmd
         try:
@@ -48,9 +48,8 @@ class ModuleConfig(dict):
     def load(self, data):
         """
         Loads or overwrites the current module config settings.
-        :type data: dict
         :param data: Data to overwrite or set the configs current data.
-        :return:
+        :type data: dict
         """
         self.data = data if data is not None else {}
         self.update(self.data)
@@ -67,8 +66,8 @@ class DiscordConfig(object):
 
     def __init__(self, client_cfg_data):
         """
-        :type client_cfg_data: dict
         :param client_cfg_data: Client configuration data.
+        :type client_cfg_data: dict
         """
         self.raw = client_cfg_data
         self.token = self.raw.get('token')
@@ -95,8 +94,8 @@ class DatabaseConfig(object):
 
     def __init__(self, db_cfg_data):
         """
-        :type db_cfg_data: dict
         :param db_cfg_data: Database configuration data.
+        :type db_cfg_data: dict
         """
         self.raw = db_cfg_data
         self.database = self.raw.get('database', 'sigma')
@@ -120,8 +119,8 @@ class PreferencesConfig(object):
 
     def __init__(self, pref_cfg_data):
         """
-        :type pref_cfg_data: dict
         :param pref_cfg_data: Preference configuration data.
+        :type pref_cfg_data: dict
         """
         self.raw = pref_cfg_data
         self.dev_mode = self.raw.get('dev_mode', False)
@@ -150,8 +149,8 @@ class CacheConfig(object):
 
     def __init__(self, cache_cfg_data):
         """
-        :type cache_cfg_data: dict
         :param cache_cfg_data: Cache configuration data.
+        :type cache_cfg_data: dict
         """
         self.raw = cache_cfg_data
         self.type = self.raw.get('type')

@@ -33,6 +33,7 @@ nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
 async def make_game(message, board, p_one, p_two, color):
     """
+
     :param message:
     :type message: discord.Message
     :param board:
@@ -43,7 +44,6 @@ async def make_game(message, board, p_one, p_two, color):
     :type p_two: discord.Member
     :param color:
     :type color: str
-    :return:
     """
     po_piece, pt_piece = ('b', 'r') if color == 'b' else ('r', 'b')
     data = {
@@ -63,6 +63,7 @@ async def make_game(message, board, p_one, p_two, color):
 
 def generate_response(avatar, current, rows):
     """
+
     :param avatar:
     :type avatar: str
     :param current:
@@ -81,6 +82,7 @@ def generate_response(avatar, current, rows):
 
 async def send_board_msg(channel, board_msg, board_resp):
     """
+
     :param channel:
     :type channel: discord.TextChannel
     :param board_msg:
@@ -107,6 +109,7 @@ async def send_board_msg(channel, board_msg, board_resp):
 
 async def check_emotes(bot, msg):
     """
+
     Ensures only the correct reactions are present on the message.
     :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma

@@ -25,7 +25,8 @@ import arrow
 class MarketEntry(abc.ABC):
     def __init__(self, doc=None):
         """
-        :type doc: dict1
+        :param doc:
+        :type doc: dict
         """
         self.raw = doc if doc else {}
         self.token = self.raw.get('token')
@@ -38,8 +39,12 @@ class MarketEntry(abc.ABC):
     @staticmethod
     def new(user, item, price):
         """
+
+        :param user:
         :type user: discord.User
+        :param item:
         :type item: str
+        :param price:
         :type price: int
         :return:
         :rtype: MarketEntry
@@ -56,6 +61,8 @@ class MarketEntry(abc.ABC):
     @property
     def to_dict(self):
         """
+
+        :return:
         :rtype: dict
         """
         return {
@@ -69,6 +76,8 @@ class MarketEntry(abc.ABC):
 
     async def save(self, db):
         """
+
+        :param db:
         :type db: sigma.core.mechanics.database.Database
         """
         await db[db.db_nam].MarketEntries.insert_one(self.to_dict)
@@ -76,9 +85,14 @@ class MarketEntry(abc.ABC):
     @staticmethod
     async def find(db, item=None, token=None):
         """
+
+        :param db:
         :type db: sigma.core.mechanics.database.Database
+        :param item:
         :type item: string
+        :param token:
         :type token: string
+        :return:
         :rtype: MarketEntry
         """
         doc = None
@@ -96,9 +110,14 @@ class MarketEntry(abc.ABC):
     @staticmethod
     async def find_all_items(db, item, sort=None):
         """
+
+        :param db:
         :type db: sigma.core.mechanics.database.Database
-        :type item: string
+        :param item:
+        :type item: tring
+        :param sort
         :type sort: dict or tuple
+        :return:
         :rtype: list
         """
         entries = []
@@ -114,8 +133,12 @@ class MarketEntry(abc.ABC):
     @staticmethod
     async def find_all(db, sort=None):
         """
+
+        :param db:
         :type db: sigma.core.mechanics.database.Database
+        :param sort:
         :type sort: tuple
+        :return:
         :rtype: list
         """
         entries = []
@@ -130,6 +153,8 @@ class MarketEntry(abc.ABC):
 
     async def delete(self, db):
         """
+
+        :param db:
         :type db: sigma.core.mechanics.database.Database
         """
         await db[db.db_nam].MarketEntries.delete_many(self.to_dict)

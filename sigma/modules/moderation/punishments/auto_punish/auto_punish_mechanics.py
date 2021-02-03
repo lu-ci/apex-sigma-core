@@ -1,3 +1,4 @@
+
 """
 Apex Sigma: The Database Giant Discord Bot.
 Copyright (C) 2019  Lucia's Cipher

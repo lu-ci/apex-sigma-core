@@ -30,8 +30,12 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 async def get_active_shop(db, uid):
     """
+
+    :param db:
     :type db: sigma.core.mechanics.database.Database
+    :param db:
     :type uid: int
+    :return:
     :rtype: dict
     """
     now = arrow.utcnow().format('YYYY-MM-DD')
@@ -45,7 +49,10 @@ async def get_active_shop(db, uid):
 
 async def generate_shop(db, uid):
     """
+
+    :param db:
     :type db: sigma.core.mechanics.database.Database
+    :param uid:
     :type uid: int
     :rtype: dict
     """
@@ -84,10 +91,16 @@ async def generate_shop(db, uid):
 
 async def track_purchase(db, uid, variant, item, price):
     """
+
+    :param db:
     :type db: sigma.core.mechanics.database.Database
+    :param uid:
     :type uid: int
+    :param variant:
     :type variant:  str
+    :param item:
     :type item: str
+    :param price:
     :type price: int
     """
     data = {
@@ -102,9 +115,14 @@ async def track_purchase(db, uid, variant, item, price):
 
 async def has_purchased(db, uid, variant):
     """
+
+    :param db:
     :type db: sigma.core.mechanics.database.Database
+    :param uid"
     :type uid: int
+    :param variant:
     :type variant: str
+    :return:
     :rtype: bool
     """
     data = {
@@ -118,7 +136,10 @@ async def has_purchased(db, uid, variant):
 
 def price_multi(item_name):
     """
+
+    :param item_name:
     :type item_name: str
+    :return:
     :rtype: float
     """
     now = arrow.utcnow()

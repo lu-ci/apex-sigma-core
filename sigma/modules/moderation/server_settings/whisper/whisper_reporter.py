@@ -41,7 +41,6 @@ async def send_whisper_message(ev, whisper_doc):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param whisper_doc: The whisper data to be parsed.
     :type whisper_doc: dict
-    :return:
     """
     whisper_chn_id = whisper_doc.get('channel_id')
     whisper_channel = await ev.bot.get_channel(whisper_chn_id)

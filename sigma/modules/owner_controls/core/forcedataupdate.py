@@ -23,6 +23,7 @@ from sigma.core.utilities.generic_responses import ok
 
 def make_bar(completed, total):
     """
+
     :param completed:
     :type completed: int
     :param total:

@@ -27,6 +27,7 @@ from sigma.core.utilities.generic_responses import error, not_found
 
 def sort_transfers(dict_like):
     """
+
     :param dict_like:
     :type dict_like: sigma.core.mechanics.resources.ResourceDict
     :return:
@@ -42,6 +43,7 @@ def sort_transfers(dict_like):
 
 async def describe_transfers(trans_list, getter):
     """
+
     :param trans_list:
     :type trans_list: list[int]
     :param getter:
@@ -64,6 +66,7 @@ async def describe_transfers(trans_list, getter):
 
 async def get_top_transfers(bot, pool):
     """
+
     :param bot:The core client class.
     :type bot: sigma.core.sigma.ApexSigma
     :param pool:
@@ -83,6 +86,7 @@ async def get_top_transfers(bot, pool):
 
 async def make_response(bot, pool, target, res_nam, expense):
     """
+
     :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma
     :param pool:

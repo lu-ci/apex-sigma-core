@@ -27,6 +27,7 @@ from sigma.modules.minigames.racing.nodes.race_storage import colors, make_race,
 
 async def check_resources(db, users, amt):
     """
+
     :param db: The database instance.
     :type db: sigma.core.mechanics.database.Database
     :param users: The users to check.

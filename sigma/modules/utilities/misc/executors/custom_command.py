@@ -28,8 +28,11 @@ def escape_mentions(text, guild):
     """
 
     :param text:
+    :type text: str
     :param guild:
+    :type guild: discord.Guild
     :return:
+    :rtype: str
     """
     if guild is not None:
         role_ids = re.findall(r'<@&([0-9]+)>', text)
@@ -47,11 +50,11 @@ def log_command_usage(log, message, command):
     """
 
     :param log:
-    :type log:
+    :type log: sigma.core.mechanics.logger.Logger
     :param message:
-    :type message:
+    :type message: discord.Message
     :param command:
-    :type command:
+    :type command: str
     """
     if message.guild:
         cmd_location = f'SRV: {message.guild.name} [{message.guild.id}] | '

@@ -29,6 +29,7 @@ nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
 def generate_response(avatar, current, rows):
     """
+
     :param avatar:
     :type avatar: str
     :param current:

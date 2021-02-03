@@ -21,7 +21,6 @@ def install_requirements():
     """
     Tries to install the pip requirements
     if startup fails due to a missing module.
-    :return:
     """
     global requirements_reinstalled
     pip_cmd = ['pip', 'install', '-Ur', 'requirements.txt']
@@ -54,7 +53,6 @@ def run():
     """
     The main run call.
     Runs the entire client core.
-    :return:
     """
     ci_token = os.getenv('CI')
     if not ci_token:

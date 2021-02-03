@@ -203,6 +203,7 @@ class SigmaResource(object):
 
     def reserve(self, amount):
         """
+        :param amount:
         :type amount: int
         """
         self.current -= amount

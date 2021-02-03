@@ -853,10 +853,9 @@ class AzurLaneShip(object):
 
     async def save(self, db):
         """
+
         :param db: The database handler reference.
         :type db: sigma.core.mechanics.database.Database
-        :return:
-        :rtype:
         """
         al_coll = db[db.db_nam].AzurLaneShips
         exists = bool(await al_coll.find_one({'id': self.id}))

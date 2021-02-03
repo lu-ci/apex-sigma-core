@@ -89,7 +89,6 @@ async def send_response(message, init, response):
     :type init: discord.Message or None
     :param response: The embed object to update the message with.
     :type response: discord.Embed
-    :return:
     """
     await init.edit(embed=response) if init else await message.channel.send(embed=response)
 

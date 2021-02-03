@@ -189,6 +189,7 @@ class FetchHelper(object):
         :param prms: The permissions to process.
         :type prms: dict
         :return:
+        :rtype: list[dict]
         """
         data = []
         for entry in prms:

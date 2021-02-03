@@ -37,6 +37,7 @@ INT_REACTIONS = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣',
 class DialogueResponse(object):
     def __init__(self, core):
         """
+        :param core:
         :type core: DialogueCore
         """
         self.core = core
@@ -50,6 +51,9 @@ class DialogueResponse(object):
     @staticmethod
     def get_desc(desc):
         """
+
+        :param desc:
+        :type desc: str
         :type desc: str
         :rtype: str
         """
@@ -64,38 +68,81 @@ class DialogueResponse(object):
 
     @staticmethod
     def generic_ok(desc):
+        """
+
+        :param desc:
+        :type desc: str
+        :return:
+        :rtype: discord.Embed
+        """
         desc = DialogueResponse.get_desc(desc)
         return ok(f'{desc} dialogue confirmed.')
 
     @staticmethod
     def generic_cancelled(desc):
+        """
+
+        :param desc:
+        :type desc: str
+        :return:
+        :rtype: discord.Embed
+        """
         desc = DialogueResponse.get_desc(desc)
         return discord.Embed(color=0xbe1931, title=f'❌ {desc} dialogue cancelled.')
 
     @staticmethod
     def generic_timed_out(desc):
+        """
+
+        :param desc:
+        :type desc: str
+        :return:
+        :rtype: discord.Embed
+        """
         desc = DialogueResponse.get_desc(desc)
         return discord.Embed(color=0x696969, title=f'🕙 {desc} dialogue timed out.')
 
     @staticmethod
     def generic_ongoing():
+        """
+
+        :return:
+        :rtype: discord.Embed
+        """
         response = discord.Embed(color=0x2a6797, title='💬 Somewhere, a dialogue is already open for you.')
         response.description = "If this is incorrect and you experienced an error recently, "
         response.description += 'please use the **resetongoing** command to clear all your ongoing markers.'
-        response.description += ' Things like getting items, answering questions, confirming are all dialogues.'
+        response.description += ' Things like getting items, answering questions, and confirming are all dialogues.'
         return response
 
     @staticmethod
     def generic_error():
+        """
+
+        :return:
+        :rtype: discord.Embed
+        """
         respone = error('Failed generating the dialogue embed.')
         respone.description = 'Please make sure I can embed links and add reactions.'
         return respone
 
     @staticmethod
     def generic_unknown():
+        """
+
+        :return:
+        :rtype: discord.Embed
+        """
         return warn('This is never supposed to happen, report it to the devs please.')
 
     def generic(self, desc):
+        """
+
+        :param desc:
+        :type desc: str
+        :return:
+        :rtype: discord.Embed
+        """
         if self.ok:
             return self.generic_ok(desc)
         elif self.cancelled:
@@ -113,9 +160,12 @@ class DialogueResponse(object):
 class DialogueCore(object):
     def __init__(self, bot, msg, question=None):
         """
+        :param bot:
         :type bot: sigma.core.sigma.ApexSigma
-        :type msg: discord.Message
-        :type question: discord.Embed or None
+        :param msg:
+        :type msg:discord.Message
+        :param question:
+        :type question:discord.Embed or None
         """
         self.bot = bot
         self.msg = msg

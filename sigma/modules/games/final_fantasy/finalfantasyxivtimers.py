@@ -31,6 +31,7 @@ FFXIV_COLOR = 0x9f2637
 
 def add_timer_block(response, timer_data):
     """
+
     :param response: The embed response to which to append the timer.
     :type response: discord.Embed
     :param timer_data: Descriptive timer data.
@@ -54,6 +55,7 @@ def add_timer_block(response, timer_data):
 
 def next_daily():
     """
+
     Gets the next daily timer.
     :return:
     :rtype: arrow.Arrow
@@ -67,6 +69,7 @@ def next_daily():
 
 def next_weekly():
     """
+
     Gets the next weekly timer.
     :return:
     :rtype: arrow.Arrow
@@ -81,6 +84,7 @@ def next_weekly():
 
 def to_delta(arrow_object):
     """
+
     :param arrow_object: The arrow object to check the difference to.
     :type arrow_object: arrow.Arrow
     :return:

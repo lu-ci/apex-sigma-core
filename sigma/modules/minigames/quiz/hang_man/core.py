@@ -30,6 +30,10 @@ body_parts = {
 
 
 class Gallows(object):
+    """
+    A simple hangman game manager.
+    """
+
     def __init__(self, word):
         """
         :param word:
@@ -45,6 +49,7 @@ class Gallows(object):
     @property
     def victory(self):
         """
+        Checks if the word has been successfully guessed.
         :return:
         :rtype: bool
         """
@@ -53,6 +58,7 @@ class Gallows(object):
     @property
     def dead(self):
         """
+        Checks if the hangman is completely dead.
         :return:
         :rtype: bool
         """
@@ -60,12 +66,13 @@ class Gallows(object):
 
     def use_part(self):
         """
-        :return:
+        Marks a single part of the hangman as used.
         """
         self.used.append(self.unused.pop(secrets.randbelow((len(self.unused)))))
 
     def make_gallows_man(self):
         """
+        Creates the visual representation of the hangman.
         :return:
         :rtype: str
         """
@@ -77,6 +84,7 @@ class Gallows(object):
 
     def make_word_space(self):
         """
+        Creates the visual representation of the word.
         :return:
         :rtype: str
         """

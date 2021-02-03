@@ -23,6 +23,7 @@ class Ongoing(object):
     @staticmethod
     def get_ongoing(key):
         """
+
         :param key: The key of the ongoing list.
         :type key: str
         :return:
@@ -33,12 +34,11 @@ class Ongoing(object):
     @staticmethod
     def set_ongoing(key, identifier):
         """
+
         :param key: The key of the ongoing list.
         :type key: str
         :param identifier: The identifier of the ongoing item.
         :type identifier: str or int
-        :return:
-        :rtype:
         """
         ongoing_list = Ongoing.get_ongoing(key) or []
         ongoing_list.append(identifier)
@@ -47,12 +47,11 @@ class Ongoing(object):
     @staticmethod
     def del_ongoing(key, identifier):
         """
+
         :param key: The key of the ongoing list.
         :type key: str
         :param identifier: The identifier of the ongoing item.
         :type identifier: str or int
-        :return:
-        :rtype:
         """
         ongoing_list = Ongoing.get_ongoing(key)
         if identifier in ongoing_list:
@@ -62,6 +61,7 @@ class Ongoing(object):
     @staticmethod
     def is_ongoing(key, identifier):
         """
+
         :param key: The key of the ongoing list.
         :type key: str
         :param identifier: The identifier of the ongoing item.
@@ -74,6 +74,7 @@ class Ongoing(object):
     @staticmethod
     def reset_ongoing(identifier):
         """
+
         :param identifier: The identifier of the ongoing item.
         :type identifier: str or int
         :return:

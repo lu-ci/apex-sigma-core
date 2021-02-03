@@ -42,6 +42,7 @@ async def get_url_body(url):
 
 def parse_parts(lyr, fallback=False):
     """
+
     :param lyr: The lyrics text content.
     :type lyr: str
     :param fallback: Split by periods instead of new lines.

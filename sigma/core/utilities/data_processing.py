@@ -202,6 +202,7 @@ async def search_youtube(qry):
 
 def rgb_maximum(colors_tuple):
     """
+
     :param colors_tuple: Tuple of RGB color values.
     :type colors_tuple: list[tuple]
     :return:
@@ -234,6 +235,7 @@ def rgb_maximum(colors_tuple):
 
 def group_by_accuracy(sorted_tuple):
     """
+
     :param sorted_tuple: List of sorted RGB color values.
     :type sorted_tuple: list[tuple]
     :return:
@@ -266,6 +268,7 @@ def group_by_accuracy(sorted_tuple):
 
 def get_weighted_mean(grouped_image_color):
     """
+
     :param grouped_image_color: List of colors in RGB groups.
     :type grouped_image_color: list[tuple]
     :return:

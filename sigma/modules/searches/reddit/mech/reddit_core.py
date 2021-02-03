@@ -62,6 +62,7 @@ class RedditClient(object):
 
     async def __get_data(self, url):
         """
+
         :param url:
         :type url: str
         :return:
@@ -74,6 +75,7 @@ class RedditClient(object):
 
     async def get_subreddit(self, subreddit):
         """
+
         :param subreddit:
         :type subreddit: str
         :return:
@@ -85,6 +87,7 @@ class RedditClient(object):
 
     async def get_posts(self, subreddit, listing):
         """
+
         :param subreddit:
         :type subreddit: str
         :param listing:

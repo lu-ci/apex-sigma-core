@@ -89,7 +89,6 @@ class SigmaCommand(object):
     def insert_command_info(self):
         """
         Inserts the command details into the class.
-        :return:
         """
         self.alts = self.command_info.get('alts', [])
         self.usage = self.command_info.get('usage', '{pfx}{cmd}')
@@ -107,7 +106,6 @@ class SigmaCommand(object):
     def load_command_config(self):
         """
         Grabs any details the command should contain such as API keys.
-        :return:
         """
         config_path = f'config/modules/{self.name}.yml'
         if os.path.exists(config_path):
@@ -117,8 +115,10 @@ class SigmaCommand(object):
     def resource(self, res_path):
         """
         The from-root path to the resource files of the command.
+        :param res_path: The relative path to the resource directory.
         :type res_path: str
         :return:
+        :rtype: str
         """
         module_path = self.path
         res_path = f'{module_path}/res/{res_path}'
@@ -130,19 +130,19 @@ class SigmaCommand(object):
         Gets the exception to catch/except based on the mode
         that the bot is running in, dev or not dev.
         :return:
+        :rtype: DummyException or Exception
         """
         return DummyException if self.bot.cfg.pref.dev_mode else Exception
 
     def log_command_usage(self, message, args, extime):
         """
         Adds a log line when a command is used.
-        :type message: discord.Message
-        :type args: list[str]
-        :type extime: int
         :param message: The message that triggered the command.
+        :type message: discord.Message
         :param args: The arguments that were passed in the message.
+        :type args: list[str]
         :param extime: The command execution time.
-        :return:
+        :type extime: int
         """
         crst = arrow.get(message.created_at).float_timestamp
         exdiff = round(extime - crst, 3)
@@ -161,9 +161,8 @@ class SigmaCommand(object):
     async def add_usage_sumarum(self, message):
         """
         Adds a special currency type when a command is executed.
-        :type message: discord.Message
         :param message: The message that triggered the resource addition.
-        :return:
+        :type message: discord.Message
         """
         trigger = f'usage_{self.name}'
         if message.guild and not await self.bot.cool_down.on_cooldown(trigger, message.author):
@@ -176,11 +175,10 @@ class SigmaCommand(object):
     async def respond_with_emote(message, icon):
         """
         Responds to a message with an emote reaction.
-        :type message: discord.Message
-        :type icon: discord.Emoji or str
         :param message: The message to respond to with an emote.
+        :type message: discord.Message
         :param icon: The emote to react with to the message.
-        :return:
+        :type icon: discord.Emoji or str
         """
         try:
             await message.add_reaction(icon)
@@ -190,9 +188,8 @@ class SigmaCommand(object):
     async def update_cooldown(self, author):
         """
         Updates the cooldown timer of the command usage.
-        :type author: discord.User
         :param author: The author of the command.
-        :return:
+        :type author: discord.User
         """
         cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'command': self.name}) or {}
         cooldown = cdfile.get('cooldown')
@@ -203,11 +200,12 @@ class SigmaCommand(object):
     async def check_black_args(settings, args):
         """
         Check the command request for any blacklisted arguments.
-        :type settings: dict
-        :type args list[str]
         :param settings: The guild's settings data.
+        :type settings: dict
         :param args: The arguments passed with the command's message.
+        :type args list[str]
         :return:
+        :rtype: bool
         """
         black_args = settings.get('blocked_args', [])
         trigg_args = [arg for arg in args if arg in black_args]
@@ -216,9 +214,10 @@ class SigmaCommand(object):
     async def check_permissions(self, payload):
         """
         Runs all permission checks and initializers.
-        :type payload: sigma.core.mechanics.payload.CommandPayload
         :param payload: Command paylaod data and details.
+        :type payload: sigma.core.mechanics.payload.CommandPayload
         :return:
+        :rtype: GlobalCommandPermissions, ServerCommandPermissions
         """
         perms = GlobalCommandPermissions(self, payload)
         await perms.check_black_usr()
@@ -232,11 +231,10 @@ class SigmaCommand(object):
     async def send_requirements_error(self, requirements, payload):
         """
         Sends an error that the command requires additional permissions to execute.
-        :type requirements: sigma.core.mechanics.requirements.CommandRequirements
-        :type payload: sigma.core.mechanics.payload.CommandPayload
         :param requirements: The requirements class containing prerequisite permissions.
+        :type requirements: sigma.core.mechanics.requirements.CommandRequirements
         :param payload: The command payload containing execution details.
-        :return:
+        :type payload: sigma.core.mechanics.payload.CommandPayload
         """
         reqs_embed = discord.Embed(color=0xBE1931)
         reqs_error_title = f'❗ {self.bot.user.name} is missing permissions!'
@@ -253,6 +251,13 @@ class SigmaCommand(object):
             pass
 
     async def add_detailed_stats(self, pld, exec_timestamp):
+        """
+        Adds detailed statistics for command usage.
+        :param pld:
+        :type pld: sigma.core.mechanics.payload.CommandPayload
+        :param exec_timestamp:
+        :type exec_timestamp: int
+        """
         cmd_stat = CommandStatistic(self.db, self, pld)
         cmd_stat.exec_timestamp = exec_timestamp
         cmd_stat.exec_time = exec_timestamp - arrow.get(pld.msg.created_at).float_timestamp
@@ -261,9 +266,8 @@ class SigmaCommand(object):
     async def execute(self, payload):
         """
         Runs necessary checks and executes the command function.
-        :type payload: sigma.core.mechanics.payload.CommandPayload
         :param payload: Command payload data and details for execution.
-        :return:
+        :type payload: sigma.core.mechanics.payload.CommandPayload
         """
         if self.bot.ready:
             if payload.msg.guild:

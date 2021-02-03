@@ -28,6 +28,7 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 def generate_response(gallows):
     """
+
     :param gallows:
     :type gallows: sigma.modules.minigames.quiz.hang_man.core.Gallows
     :return:
@@ -43,6 +44,7 @@ def generate_response(gallows):
 
 async def send_hangman_msg(message, hangman_msg, hangman_resp):
     """
+
     :param message:
     :type message: discord.Message
     :param hangman_msg:

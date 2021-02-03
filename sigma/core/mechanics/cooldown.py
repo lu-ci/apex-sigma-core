@@ -32,8 +32,8 @@ class CommandRateLimiter(object):
 
     def __init__(self, cmd):
         """
-        :type cmd: sigma.core.mechanics.command.SigmaCommand
         :param cmd: The command instance.
+        :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         self.cmd = cmd
         self.stamps = {}
@@ -41,9 +41,10 @@ class CommandRateLimiter(object):
     def is_cooling(self, message):
         """
         Check if the command is on cooldown or not.
-        :type message: discord.Message
         :param message: The message that triggered the command.
+        :type message: discord.Message
         :return:
+        :rtype: bool
         """
         timeout = self.cmd.bot.cool_down.get_scaled(message.author.id, 1.25)
         last_stamp = self.stamps.get(message.author.id, 0)
@@ -53,9 +54,8 @@ class CommandRateLimiter(object):
     def set_cooling(self, message):
         """
         Set the command to be on cooldown.
-        :type message: discord.Message
         :param message: The message that triggered the command.
-        :return:
+        :type message: discord.Message
         """
         if message.author.id not in self.cmd.bot.cfg.dsc.owners:
             self.stamps.update({message.author.id: arrow.utcnow().float_timestamp})
@@ -68,8 +68,8 @@ class CooldownControl(object):
 
     def __init__(self, bot):
         """
-        :type bot: sigma.core.sigma.ApexSigma
         :param bot: The main client core.
+        :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
         self.db = self.bot.db
@@ -79,11 +79,12 @@ class CooldownControl(object):
     async def on_cooldown(self, cmd, user):
         """
         Checks if the function for the given user is still on cooldown or not.
-        :type cmd: str
-        :type user: discord.User or str
         :param cmd: The command or function the cooldown is bound to.
+        :type cmd: str
         :param user: The user that the cooldown is bound to.
+        :type user: discord.User or str
         :return:
+        :rtype: bool
         """
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
@@ -104,11 +105,11 @@ class CooldownControl(object):
     async def get_cooldown(self, cmd, user):
         """
         Gets the amount of time remaining for the cooldown to expire.
-        :type cmd: str
-        :type user: discord.User or str
         :param cmd: The command or function the cooldown is bound to.
+        :type cmd: str
         :param user: The user that the cooldown is bound to.
-        :return:
+        :type user: discord.User or str
+        :return: int
         """
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
@@ -132,13 +133,13 @@ class CooldownControl(object):
 
     async def set_cooldown(self, cmd, user, amount):
         """
-        :type cmd: str
-        :type user: discord.User or str
-        :type amount: int
+        Sets the function's appropriate cooldown for the given user.
         :param cmd: The command or function the cooldown is bound to.
+        :type cmd: str
         :param user: The user that the cooldown is bound to.
+        :type user: discord.User or str
         :param amount: The cooldown time in seconds.
-        :return:
+        :type amount: int
         """
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
@@ -157,7 +158,6 @@ class CooldownControl(object):
     async def clean_cooldowns(self):
         """
         Purges all cooldown timers from the database that have already expired.
-        :return:
         """
         now = arrow.utcnow().int_timestamp
         await self.cds.delete_many({'end_stamp': {'$lt': now}})
@@ -165,13 +165,14 @@ class CooldownControl(object):
     def get_scaled(self, uid, base, multiplier=5):
         """
         Scales a cooldown amount based on incrementing usage.
-        :type uid: int
-        :type base: int or float
-        :type multiplier: int or float
         :param uid: User ID of the invoking user.
+        :type uid: int
         :param base: Base cooldown amount to scale.
+        :type base: int or float
         :param multiplier: Maximum capped cooldown multiplier.
+        :type multiplier: int or float
         :return:
+        :rtype: int
         """
         last_entry = self.scaling.get(uid, {})
         last_stamp = last_entry.get('stamp', 0)

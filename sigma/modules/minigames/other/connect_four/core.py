@@ -62,6 +62,7 @@ class ConnectFourBoard(object):
     @property
     def make(self):
         """
+
         :return:
         :rtype: list[list[str]]
         """
@@ -70,6 +71,7 @@ class ConnectFourBoard(object):
 
     def edit(self, column, player):
         """
+
         :param column:
         :type column: int
         :param player:
@@ -86,6 +88,7 @@ class ConnectFourBoard(object):
 
     def column(self, column):
         """
+
         :param column:
         :type column: int
         :return:
@@ -96,6 +99,7 @@ class ConnectFourBoard(object):
     @property
     def columns(self):
         """
+
         :return:
         :rtype: list[list[str]]
         """
@@ -103,6 +107,7 @@ class ConnectFourBoard(object):
 
     def column_full(self, column):
         """
+
         :param column:
         :type column: int
         :return:
@@ -113,6 +118,7 @@ class ConnectFourBoard(object):
     @property
     def full(self):
         """
+
         :return:
         :rtype: bool
         """
@@ -121,6 +127,7 @@ class ConnectFourBoard(object):
     @property
     def winner(self):
         """
+
         :return:
         :rtype: (bool, str or None, bool)
         """
@@ -140,6 +147,7 @@ class ConnectFourBoard(object):
 
     def first_check(self, chunks):
         """
+
         :param chunks:
         :type chunks: list[list[str]]
         :return:
@@ -154,6 +162,7 @@ class ConnectFourBoard(object):
 
     def second_check(self):
         """
+
         :return:
         :rtype: (str or None, bool)
         """
@@ -169,6 +178,7 @@ class ConnectFourBoard(object):
     @staticmethod
     def chunks(rows):
         """
+
         :param rows:
         :type rows: list[list[str]]
         :return:
@@ -190,6 +200,7 @@ class ConnectFourBoard(object):
 
     def bot_move(self, last):
         """
+
         :param last:
         :type last: int
         :return:

@@ -54,8 +54,8 @@ class Cacher(abc.ABC):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         self.cfg = cfg
 
@@ -63,64 +63,34 @@ class Cacher(abc.ABC):
         """
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
-        :return:
         """
         pass
 
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :type key: str or int
         :param key: The hashmap/dict key value.
-        :return:
+        :type key: str or int
         """
         pass
 
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :type key: str or int
-        :type value: object
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :param value: The value to assign to the key.
-        :return:
+        :type value: object
         """
         pass
 
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :type key: str or int
         :param key: The hashmap/dict key value.
-        :return:
+        :type key: str or int
         """
         pass
-
-    async def stats(self):
-        """
-        Returns statistics for the cache type.
-        Since this is very cache-type dependent it's a dict
-        of titles/descriptors and their values.
-        :rtype: dict|None
-        """
-        pass
-
-    async def format_stats(self):
-        """
-        Makes a nicely formatted block of text of the stats.
-        :return:
-        :rtype:
-        """
-        stats = await self.stats()
-        out = "The NULL cacher is used, or something is broken..."
-        if stats:
-            lines = []
-            for key in stats.keys():
-                title = key.replace('_', ' ').title()
-                value = str(stats.get(key, 'Unknown'))
-                lines.append(f"{title}: {value}")
-            out = "\n".join(lines)
-        return out
 
 
 class MemoryCacher(Cacher):
@@ -131,8 +101,8 @@ class MemoryCacher(Cacher):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
         self.cache = {}
@@ -140,29 +110,28 @@ class MemoryCacher(Cacher):
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :type key: str or int
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :return:
+        :rtype: object
         """
         return self.cache.get(key)
 
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :type key: str or int
-        :type value: object
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :param value: The value to assign to the key.
-        :return:
+        :type value: object
         """
         self.cache.update({key: value})
 
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :type key: str or int
         :param key: The hashmap/dict key value.
-        :return:
+        :type key: str or int
         """
         if key in self.cache.keys():
             self.cache.pop(key)
@@ -178,8 +147,8 @@ class LRUCacher(MemoryCacher):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
         self.cache = cachetools.LRUCache(self.cfg.size)
@@ -195,8 +164,8 @@ class TTLCacher(LRUCacher):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
         self.cache = cachetools.TTLCache(self.cfg.size, self.cfg.time)
@@ -211,8 +180,8 @@ class RedisCacher(Cacher):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
         self.time = cfg.time
@@ -223,16 +192,16 @@ class RedisCacher(Cacher):
         """
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
-        :return:
         """
         self.conn = await aioredis.create_redis(self.addr)
 
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :type key: str or int
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :return:
+        :rtype: object
         """
         data = await self.conn.get(str(key).replace('_', ':'))
         if data:
@@ -242,11 +211,10 @@ class RedisCacher(Cacher):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :type key: str or int
-        :type value: object
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :param value: The value to assign to the key.
-        :return:
+        :type value: object
         """
         try:
             await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
@@ -257,22 +225,11 @@ class RedisCacher(Cacher):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :type key: str or int
         :param key: The hashmap/dict key value.
-        :return:
+        :type key: str or int
         """
         if await self.conn.exists(str(key).replace('_', ':')):
             await self.conn.delete(str(key).replace('_', ':'))
-
-    async def stats(self):
-        info = (await self.conn.info('memory'))['memory']
-        return {
-            'type': 'Redis',
-            'addr': self.addr,
-            'time': self.cfg.time,
-            'size': info['used_memory_human'],
-            'peak': info['used_memory_peak_human']
-        }
 
 
 class MixedCacher(RedisCacher):
@@ -283,8 +240,8 @@ class MixedCacher(RedisCacher):
 
     def __init__(self, cfg):
         """
-        :type cfg: sigma.core.mechanics.config.CacheConfig
         :param cfg: The CacheConfig object for getting the configuration parameters.
+        :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
         self.ttl = TTLCacher(cfg)
@@ -293,16 +250,16 @@ class MixedCacher(RedisCacher):
         """
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
-        :return:
         """
         await super().init()
 
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :type key: str or int
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :return:
+        :rtype: object
         """
         cached_data = await self.ttl.get_cache(key)
         if cached_data is None:
@@ -312,11 +269,10 @@ class MixedCacher(RedisCacher):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :type key: str or int
-        :type value: object
         :param key: The hashmap/dict key value.
+        :type key: str or int
         :param value: The value to assign to the key.
-        :return:
+        :type value: object
         """
         await self.ttl.set_cache(key, value)
         await super().set_cache(key, value)
@@ -324,9 +280,8 @@ class MixedCacher(RedisCacher):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :type key: str or int
         :param key: The hashmap/dict key value.
-        :return:
+        :type key: str or int
         """
         await self.ttl.del_cache(key)
         await super().del_cache(key)

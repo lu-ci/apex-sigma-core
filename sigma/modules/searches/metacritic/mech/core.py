@@ -83,7 +83,8 @@ class MetaCriticGame(object):
         Gets the correct platform name, if it exists.
         :param platform: The platform to check for
         :type platform: str
-        :return: str
+        :return:
+        :rtype: str
         """
         match = None
         platform = platform.replace('-', ' ')
@@ -99,7 +100,8 @@ class MetaCriticGame(object):
         Creates a URL path from the given arguments.
         :param args: The arguments to parse/
         :type args: list[str]
-        :return: str
+        :return:
+        :rtype: str
         """
         cleaned_args = []
         for arg in args:
@@ -115,7 +117,8 @@ class MetaCriticGame(object):
     def generate_embed(self):
         """
         Generates the command embed.
-        :return: discord.Embed
+        :return:
+        :rtype: discord.Embed
         """
         embed = discord.Embed(color=0xffcc34, description=f'Released on {self.extract_release_date()}')
         embed.set_author(name=self.extract_title(), url=self.formed_url, icon_url=self.logo)
@@ -143,7 +146,6 @@ class MetaCriticGame(object):
         Makes the request and sets the response data.
         :param args: The args to parse into a URL.
         :type args: list[str] or str
-        :return:
         """
         url_path = self.path_from_args(*args)
         self.formed_url = f'{self.base_url}/{url_path}'
@@ -155,7 +157,8 @@ class MetaCriticGame(object):
     def extract_title(self):
         """
         Extracts the title from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         title_obj = self.data.cssselect('.product_title a h1')[0]
         return title_obj.text_content()
@@ -163,7 +166,8 @@ class MetaCriticGame(object):
     def extract_image(self):
         """
         Extracts the image from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         image_obj = self.data.cssselect('img.product_image.large_image')[0]
         return image_obj.attrib['src']
@@ -171,7 +175,8 @@ class MetaCriticGame(object):
     def extract_release_date(self):
         """
         Extracts the release date from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         release_obj = self.data.cssselect('.release_data .data')[0]
         return release_obj.text_content()
@@ -179,7 +184,8 @@ class MetaCriticGame(object):
     def extract_platforms(self):
         """
         Extracts the platforms from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         platforms_obj = self.data.cssselect('.product_platforms .data')
         platforms = []
@@ -192,7 +198,8 @@ class MetaCriticGame(object):
     def extract_meta_score(self):
         """
         Extracts the metascore from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         meta_score_obj = self.data.cssselect('.metascore_w.xlarge')
         if meta_score_obj:
@@ -204,7 +211,8 @@ class MetaCriticGame(object):
     def extract_user_score(self):
         """
         Extracts the user score from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         user_score_obj = self.data.cssselect('.metascore_w.user')
         if user_score_obj:
@@ -216,7 +224,8 @@ class MetaCriticGame(object):
     def extract_critic_scores(self):
         """
         Extracts the critic review totals from the response data.
-        :return: str
+        :return:
+        :rtype: str, str, str
         """
         score_obj = self.data.cssselect('.score_counts')[0].getchildren()
         pos = score_obj[0].cssselect('.count')[0].text_content()
@@ -227,7 +236,8 @@ class MetaCriticGame(object):
     def extract_user_scores(self):
         """
         Extracts the user review totals from the response data.
-        :return: str
+        :return:
+        :rtype: str, str, str
         """
         score_obj = self.data.cssselect('.score_counts')[1].getchildren()
         pos = score_obj[0].cssselect('.count')[0].text_content()
@@ -251,7 +261,8 @@ class MetaCriticMusic(MetaCriticGame):
     def extract_title(self):
         """
         Extracts the title from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         title_obj = self.data.cssselect('.product_title a h1')[0]
         artist_obj = self.data.cssselect('.band_name')[0]
@@ -260,7 +271,8 @@ class MetaCriticMusic(MetaCriticGame):
     def extract_release_date(self):
         """
         Extracts the release date from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         release_obj = self.data.cssselect('.summary_detail.release .data')[0]
         return release_obj.text_content()
@@ -281,7 +293,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_title(self):
         """
         Extracts the title from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         title_obj = self.data.cssselect('.product_page_title h1')[0]
         return title_obj.text_content()
@@ -289,7 +302,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_image(self):
         """
         Extracts the image from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         image_obj = self.data.cssselect('.summary_img')[0]
         return image_obj.attrib['src']
@@ -297,7 +311,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_release_date(self):
         """
         Extracts the release date from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         release_obj = self.data.cssselect('.release_date')[0][1]
         return release_obj.text_content()
@@ -305,7 +320,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_meta_score(self):
         """
         Extracts the metascore from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         meta_score_obj = self.data.cssselect('.metascore_w.larger')
         if meta_score_obj:
@@ -317,7 +333,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_critic_scores(self):
         """
         Extracts the critic review totals from the response data.
-        :return: str
+        :return:
+        :rtype: str, str, str
         """
         score_obj = self.data.cssselect('.distribution')[0]
         pos = score_obj.cssselect('.chart.positive .count.fr')[0].text_content()
@@ -328,7 +345,8 @@ class MetaCriticMovie(MetaCriticGame):
     def extract_user_scores(self):
         """
         Extracts the user review totals from the response data.
-        :return: str
+        :return:
+        :rtype: str, str, str
         """
         score_obj = self.data.cssselect('.distribution')[1]
         pos = score_obj.cssselect('.chart.positive .count.fr')[0].text_content()
@@ -368,7 +386,8 @@ class MetaCriticSearch(object):
         Creates a URL path from the given arguments.
         :param args: The arguments to parse/
         :type args: list[str]
-        :return: str
+        :return:
+        :rtype: str
         """
         cleaned_args = []
         for arg in args:
@@ -380,7 +399,8 @@ class MetaCriticSearch(object):
     def generate_embed(self, category=None):
         """
         Generates the command embed.
-        :return: discord.Embed
+        :return:
+        :rtype: discord.Embed
         """
         embed = discord.Embed(color=0xffcc34, description=self.extract_results(category))
         embed.set_author(name=f'Results for {self.search_query}', url=self.formed_url, icon_url=self.logo)
@@ -392,7 +412,6 @@ class MetaCriticSearch(object):
         Makes the request and sets the response data.
         :param args: The args to parse into a URL.
         :type args: list[str] or str
-        :return:
         """
         url_path = self.path_from_args(*args)
         self.search_query = url_path.split('/')[2]
@@ -405,7 +424,8 @@ class MetaCriticSearch(object):
     def extract_game_data(self, result_obj):
         """
         Extracts the game specific details from the response data.
-        :return: str
+        :return:
+        :rtype: list[str], str
         """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()
@@ -421,7 +441,8 @@ class MetaCriticSearch(object):
     def extract_data(self, result_obj):
         """
         Extracts the general details from the response data.
-        :return: str
+        :return:
+        :rtype: list[str], str
         """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()
@@ -435,7 +456,8 @@ class MetaCriticSearch(object):
     def extract_results(self, category):
         """
         Extracts the search results from the response data.
-        :return: str
+        :return:
+        :rtype: str
         """
         results_obj = self.data.cssselect('.search_results.module .result')
         results_data = []

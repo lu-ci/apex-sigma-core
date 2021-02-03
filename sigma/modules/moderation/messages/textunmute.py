@@ -28,6 +28,7 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 def generate_log_embed(message, target, reason):
     """
+
     :param message
     :type message: discord.Message
     :param target:

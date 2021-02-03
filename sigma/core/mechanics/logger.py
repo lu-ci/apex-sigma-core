@@ -88,7 +88,6 @@ class Logger(object):
 
     def __init__(self, name, *, level=None):
         """
-
         :param name: The logger name and indentifier.
         :type name: str
         :param level: The logging level.
@@ -223,7 +222,7 @@ class Logger(object):
         """
         Add a log handler that logs to the Systemd journal.
         :param logger:
-        :return:
+        :type logger: sigma.core.mechanics.logger.Logger
         """
         handler = journal.JournaldLogHandler(identifier='sigma')
         log_fmt = '[ {levelname:.1s} | {name:<25.25s} ]: {message:s}'
@@ -234,7 +233,7 @@ class Logger(object):
         """
         Add a log handler that logs to the standard output.
         :param logger:
-        :return:
+        :type logger: sigma.core.mechanics.logger.Logger
         """
         handler = logging.StreamHandler()
         logger.add_handler(handler)
@@ -244,8 +243,9 @@ class Logger(object):
         """
         Adds a regular file handler for the logging.
         :param shards:
+        :type shards: list[int] or None
         :param logger:
-        :return:
+        :type logger: sigma.core.mechanics.logger.Logger
         """
         log_dir = 'log'
         if not os.path.exists(log_dir):

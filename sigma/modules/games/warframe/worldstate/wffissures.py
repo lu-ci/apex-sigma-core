@@ -29,6 +29,7 @@ fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 def sort_fissures(fissures):
     """
+
     :param fissures:
     :type fissures: list[dict]
     :return:

@@ -28,6 +28,7 @@ invite_cache = MemoryCacher(CacheConfig({}))
 
 async def update_invites(guild, invites):
     """
+
     :param guild: The guild that the invites are from.
     :type guild: discord.Guild
     :param invites: The list of invites.
@@ -41,6 +42,7 @@ async def update_invites(guild, invites):
 
 async def get_changed_invite(guild_id, bound_list, invites):
     """
+
     Checks for invite count changes to get the one that triggered.
     :param guild_id: The ID of the guild.
     :type guild_id: int
