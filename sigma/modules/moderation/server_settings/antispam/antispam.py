@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def antispam(cmd, pld):
@@ -30,7 +30,7 @@ async def antispam(cmd, pld):
         current = pld.settings.get('antispam')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'antispam', toggle)
-        response = ok(f'Spam rate limitations {status}.')
+        response = GenericResponse(f'Spam rate limitations {status}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

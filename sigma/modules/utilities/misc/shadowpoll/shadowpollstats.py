@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def count_votes(poll_file):
@@ -98,7 +98,7 @@ async def shadowpollstats(cmd, pld):
             else:
                 response = discord.Embed(color=0xFFCC4D, title='🔒 You can\'t view this poll\'s stats.')
         else:
-            response = not_found('Poll not found.')
+            response = GenericResponse('Poll not found.').not_found()
     else:
-        response = error('Missing poll ID.')
+        response = GenericResponse('Missing poll ID.').error()
     await pld.msg.channel.send(embed=response)

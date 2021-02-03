@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blocknames(cmd, pld):
@@ -37,11 +37,11 @@ async def blocknames(cmd, pld):
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_names', blocked_names)
             if added_names:
                 ender = 's' if len(added_names) > 1 else ''
-                response = ok(f'I have added {len(added_names)} name{ender} to the blacklist.')
+                response = GenericResponse(f'I have added {len(added_names)} name{ender} to the blacklist.').ok()
             else:
-                response = info('No new names were added.')
+                response = GenericResponse('No new names were added.').info()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

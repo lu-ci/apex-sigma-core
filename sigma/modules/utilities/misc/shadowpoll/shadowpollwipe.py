@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shadowpollwipe(cmd, pld):
@@ -34,11 +34,11 @@ async def shadowpollwipe(cmd, pld):
             if author == pld.msg.author.id:
                 poll_file.update({'votes': {}})
                 await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
-                response = ok(f'Poll {poll_id} has been wiped.')
+                response = GenericResponse(f'Poll {poll_id} has been wiped.').ok()
             else:
-                response = error('You didn\'t make this poll.')
+                response = GenericResponse('You didn\'t make this poll.').error()
         else:
-            response = not_found('Poll not found.')
+            response = GenericResponse('Poll not found.').not_found()
     else:
-        response = error('Missing poll ID.')
+        response = GenericResponse('Missing poll ID.').error()
     await pld.msg.channel.send(embed=response)

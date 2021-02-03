@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def get_category(cmd, guild):
@@ -63,7 +63,7 @@ async def temproom(cmd, pld):
         perms = {'manage_channels': True, 'manage_roles': True, 'read_messages': True, 'connect': True, 'speak': True}
         overwrites = {pld.msg.author: discord.PermissionOverwrite(**perms)}
         await pld.msg.guild.create_voice_channel(room_name, reason=reason, overwrites=overwrites, category=temp_vc_cat)
-        response = ok(f'{room_name} created.')
+        response = GenericResponse(f'{room_name} created.').ok()
     else:
-        response = error('I can\'t create channels in that category.')
+        response = GenericResponse('I can\'t create channels in that category.').error()
     await pld.msg.channel.send(embed=response)

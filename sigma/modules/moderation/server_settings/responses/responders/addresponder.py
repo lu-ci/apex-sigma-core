@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def addresponder(cmd, pld):
@@ -38,15 +38,15 @@ async def addresponder(cmd, pld):
                         res_text = 'updated' if trigger in auto_responses else 'added'
                         auto_responses.update({trigger.strip(): resp.strip()})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'responder_triggers', auto_responses)
-                        response = ok(f'{trigger} has been {res_text}')
+                        response = GenericResponse(f'{trigger} has been {res_text}').ok()
                     else:
-                        response = error('The trigger can\'t have a dot in it.')
+                        response = GenericResponse('The trigger can\'t have a dot in it.').error()
                 else:
-                    response = error('The trigger has a limit of 200 characters.')
+                    response = GenericResponse('The trigger has a limit of 200 characters.').error()
             else:
-                response = error('Separate the trigger and response with a semicolon.')
+                response = GenericResponse('Separate the trigger and response with a semicolon.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

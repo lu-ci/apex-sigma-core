@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from discord.utils import escape_mentions
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def echo(_cmd, pld):
@@ -32,5 +32,5 @@ async def echo(_cmd, pld):
         content = f'👄 {" ".join(pld.args)[:1995]}'
         await pld.msg.channel.send(escape_mentions(content))
     else:
-        no_args = error('Nothing inputted.')
+        no_args = GenericResponse('Nothing inputted.').error()
         await pld.msg.channel.send(embed=no_args)

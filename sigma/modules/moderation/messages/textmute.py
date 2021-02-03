@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -84,39 +84,39 @@ async def textmute(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     else:
         if not pld.msg.mentions:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
         else:
             author = pld.msg.author
             target = pld.msg.mentions[0]
             if author.id == target.id:
-                response = error('Can\'t mute yourself.')
+                response = GenericResponse('Can\'t mute yourself.').error()
             elif cmd.bot.user.id == target.id:
-                response = error('I can\'t mute myself.')
+                response = GenericResponse('I can\'t mute myself.').error()
             else:
                 above_hier = hierarchy_permit(author, target)
                 if not above_hier:
-                    response = denied('Can\'t mute someone equal or above you.')
+                    response = GenericResponse('Can\'t mute someone equal or above you.').denied()
                 else:
                     timed = pld.args[-1].startswith('--time=')
                     try:
                         now = arrow.utcnow().int_timestamp
                         endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
                     except (LookupError, ValueError):
-                        err_response = error('Please use the format HH:MM:SS.')
+                        err_response = GenericResponse('Please use the format HH:MM:SS.').error()
                         await pld.msg.channel.send(embed=err_response)
                         return
                     mute_list = pld.settings.get('muted_users')
                     if mute_list is None:
                         mute_list = []
                     if target.id in mute_list:
-                        response = error(f'{target.display_name} is already text-muted.')
+                        response = GenericResponse(f'{target.display_name} is already text-muted.').error()
                     else:
                         mute_list.append(target.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'muted_users', mute_list)
-                        response = ok(f'{target.display_name} has been text-muted.')
+                        response = GenericResponse(f'{target.display_name} has been text-muted.').ok()
                         rarg = pld.args[1:-1] if timed else pld.args[1:] if pld.args[1:] else None
                         reason = ' '.join(rarg) if rarg else None
                         await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)

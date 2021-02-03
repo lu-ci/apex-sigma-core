@@ -22,7 +22,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 import discord
 import markovify
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip, get_ship
 
 al_wiki = 'https://azurlane.koumakan.jp'
@@ -78,5 +78,5 @@ async def azurlaneimpersonate(cmd, pld):
                 response.set_author(name='Azur Lane', icon_url=al_icon, url=al_wiki)
             response.description = ' '.join(sentences)
     else:
-        response = not_found('Ship not found.')
+        response = GenericResponse('Ship not found.').not_found()
     await pld.msg.channel.send(embed=response)

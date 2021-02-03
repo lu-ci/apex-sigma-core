@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def prefix(cmd, pld):
@@ -36,11 +36,11 @@ async def prefix(cmd, pld):
                     new_prefix = None
                     prefix_text = cmd.bot.cfg.pref.prefix
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'prefix', new_prefix)
-                response = ok(f'**{prefix_text}** has been set as the new prefix.')
+                response = GenericResponse(f'**{prefix_text}** has been set as the new prefix.').ok()
             else:
-                response = error('The current prefix and the new one are the same.')
+                response = GenericResponse('The current prefix and the new one are the same.').error()
         else:
-            response = denied('Access Denied. Manage Server needed.')
+            response = GenericResponse('Access Denied. Manage Server needed.').denied()
     else:
-        response = info(f'**{current_prefix}** is the current prefix.')
+        response = GenericResponse(f'**{current_prefix}** is the current prefix.').info()
     await pld.msg.channel.send(embed=response)

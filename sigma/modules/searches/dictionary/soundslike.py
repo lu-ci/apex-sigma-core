@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 icon = 'https://i.imgur.com/GKM6AMT.png'
 
@@ -52,7 +52,7 @@ async def soundslike(_cmd, pld):
             if len(data) > 10:
                 response.set_footer(text='Follow the link in the title to see more.')
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

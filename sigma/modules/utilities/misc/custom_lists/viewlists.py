@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def viewlists(cmd, pld):
@@ -50,5 +50,5 @@ async def viewlists(cmd, pld):
         list_list = '\n'.join(list_lines)
         response.description = list_list
     else:
-        response = not_found('There are no lists on this server.')
+        response = GenericResponse('There are no lists on this server.').not_found()
     await pld.msg.channel.send(embed=response)

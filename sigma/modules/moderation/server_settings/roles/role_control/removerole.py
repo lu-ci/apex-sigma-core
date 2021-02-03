@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def removerole(_cmd, pld):
@@ -42,19 +42,19 @@ async def removerole(_cmd, pld):
                             if user_has_role:
                                 author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                 await target.remove_roles(target_role, reason=f'Role removed by {author}.')
-                                response = ok(f'{target_role.name} has been removed from {target.name}.')
+                                response = GenericResponse(f'{target_role.name} has been removed from {target.name}.').ok()
                             else:
-                                response = error('That user didn\'t have this role.')
+                                response = GenericResponse('That user didn\'t have this role.').error()
                         else:
-                            response = error('This role is above my highest role.')
+                            response = GenericResponse('This role is above my highest role.').error()
                     else:
-                        response = not_found(f'{lookup} not found.')
+                        response = GenericResponse(f'{lookup} not found.').not_found()
                 else:
-                    response = error('No user targeted.')
+                    response = GenericResponse('No user targeted.').error()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

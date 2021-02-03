@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def colorme(_cmd, pld):
@@ -60,13 +60,13 @@ async def colorme(_cmd, pld):
                         if member_role.name.startswith('SCR-'):
                             await pld.msg.author.remove_roles(member_role, reason='Assigning new color role.')
                     await pld.msg.author.add_roles(role_objc, reason='Assigned color role.')
-                    response = ok(f'{role_objc.name} has been added to you, {pld.msg.author.name}.')
+                    response = GenericResponse(f'{role_objc.name} has been added to you, {pld.msg.author.name}.').ok()
                 else:
-                    response = error('Invalid HEX color code.')
+                    response = GenericResponse('Invalid HEX color code.').error()
             else:
-                response = error('No color HEX provided.')
+                response = GenericResponse('No color HEX provided.').error()
         else:
-            response = denied('Color roles are not enabled.')
+            response = GenericResponse('Color roles are not enabled.').denied()
     else:
-        response = error('I can\'t make a color role with my current role position.')
+        response = GenericResponse('I can\'t make a color role with my current role position.').error()
     await pld.msg.channel.send(embed=response)

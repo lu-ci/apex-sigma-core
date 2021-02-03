@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
 
 
@@ -37,5 +37,5 @@ async def markovchain(cmd, pld):
         response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} chain corpus size is {len(chain)}.')
     else:
         starter = 'You don\'t have' if target.id == pld.msg.author.id else f'{target.name} doesn\'t have'
-        response = not_found(f'{starter} a collected chain.')
+        response = GenericResponse(f'{starter} a collected chain.').not_found()
     await pld.msg.channel.send(embed=response)

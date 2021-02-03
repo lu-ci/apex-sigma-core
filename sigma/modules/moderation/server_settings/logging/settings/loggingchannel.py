@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 log_keys = [
     'log_antispam_channel', 'log_bans_channel', 'log_deletions_channel', 'log_edits_channel', 'log_filters_channel',
@@ -72,25 +72,25 @@ async def loggingchannel(cmd, pld):
             if mode == 'disable':
                 results = await set_log_channels(keys, pld.msg.guild.id, None, cmd.db)
                 if all_keys:
-                    response = ok('Logging channel disabled.')
+                    response = GenericResponse('Logging channel disabled.').ok()
                 else:
-                    response = ok('Logging channels disabled.')
+                    response = GenericResponse('Logging channels disabled.').ok()
                     response.description = '\n'.join(results)
             elif pld.msg.channel_mentions:
                 target_chn = pld.msg.channel_mentions[0]
                 if pld.msg.guild.me.permissions_in(target_chn).send_messages:
                     results = await set_log_channels(keys, pld.msg.guild.id, target_chn.id, cmd.db)
                     if all_keys:
-                        response = ok(f'Logging channel set to #{target_chn.name}.')
+                        response = GenericResponse(f'Logging channel set to #{target_chn.name}.').ok()
                     else:
-                        response = ok('Logging channels edited')
+                        response = GenericResponse('Logging channels edited').ok()
                         response.description = '\n'.join(results)
                 else:
-                    response = error('I can\'t write in that channel.')
+                    response = GenericResponse('I can\'t write in that channel.').error()
             else:
-                response = error('No channel targeted.')
+                response = GenericResponse('No channel targeted.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

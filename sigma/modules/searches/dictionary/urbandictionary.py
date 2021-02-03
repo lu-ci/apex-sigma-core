@@ -22,7 +22,7 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def urbandictionary(cmd, pld):
@@ -77,11 +77,11 @@ async def urbandictionary(cmd, pld):
                     if example:
                         response.add_field(name='Usage Example', value=example)
                 else:
-                    response = not_found('Unable to find exact results.')
+                    response = GenericResponse('Unable to find exact results.').not_found()
             else:
-                response = error('Failed to parse UD\'s response.')
+                response = GenericResponse('Failed to parse UD\'s response.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

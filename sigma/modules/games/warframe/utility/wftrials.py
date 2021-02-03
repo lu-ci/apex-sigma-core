@@ -23,7 +23,7 @@ import aiohttp
 import discord
 
 from sigma.core.utilities.data_processing import convert_to_seconds
-from sigma.core.utilities.generic_responses import not_found, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def get_usercaps(username, trials):
@@ -60,7 +60,7 @@ async def wftrials(_cmd, pld):
                 trial_data = await data.read()
                 trial_data = json.loads(trial_data)
         if len(trial_data) == 0:
-            response = not_found(f'User {username} Not Found.')
+            response = GenericResponse(f'User {username} Not Found.').not_found()
         else:
             # noinspection PyBroadException
             try:
@@ -217,5 +217,5 @@ async def wftrials(_cmd, pld):
                 response.add_field(name='Jordas Verdict', value=jv_desc)
                 response.add_field(name='Total Trials', value=total_desc)
             except Exception:
-                response = warn(f'Stats for {username} were found but contained errors.')
+                response = GenericResponse(f'Stats for {username} were found but contained errors.').warn()
         await pld.msg.channel.send(embed=response)

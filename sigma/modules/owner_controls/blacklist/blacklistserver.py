@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blacklistserver(cmd, pld):
@@ -52,7 +52,7 @@ async def blacklistserver(cmd, pld):
             await cmd.db.cache.del_cache(target_id)
             await cmd.db.cache.del_cache(f'{target_id}_checked')
         else:
-            response = error('Invalid guild ID.')
+            response = GenericResponse('Invalid guild ID.').error()
     else:
-        response = error('Missing guild ID.')
+        response = GenericResponse('Missing guild ID.').error()
     await pld.msg.channel.send(embed=response)

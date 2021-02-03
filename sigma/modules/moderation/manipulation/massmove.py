@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def get_vc(guild_vcs, lookup):
@@ -63,15 +63,15 @@ async def massmove(_cmd, pld):
                                 await member.move_to(vc_two)
                             except discord.HTTPException:
                                 pass
-                        response = ok(f'Moved {len(membs_one)} members to {vc_two.name}.')
+                        response = GenericResponse(f'Moved {len(membs_one)} members to {vc_two.name}.').ok()
                     else:
-                        response = error('I\'m not permitted to move members.')
+                        response = GenericResponse('I\'m not permitted to move members.').error()
                 else:
-                    response = error('One or both of the channels weren\'t found.')
+                    response = GenericResponse('One or both of the channels weren\'t found.').error()
             else:
-                response = error('Invalid arguments. See the usage example.')
+                response = GenericResponse('Invalid arguments. See the usage example.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

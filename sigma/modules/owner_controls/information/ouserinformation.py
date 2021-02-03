@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def ouserinformation(cmd, pld):
@@ -54,7 +54,7 @@ async def ouserinformation(cmd, pld):
             response.add_field(name='User Info', value=user_text)
             response.set_footer(text=f'This user is in {len(presence)} guilds.')
         else:
-            response = not_found('User not found.')
+            response = GenericResponse('User not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def roleid(_cmd, pld):
@@ -43,9 +43,9 @@ async def roleid(_cmd, pld):
                 response = role.id
         else:
             embed = True
-            response = not_found(f'{lookup} not found.')
+            response = GenericResponse(f'{lookup} not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     if embed:
         await pld.msg.channel.send(embed=response)
     else:

@@ -20,7 +20,7 @@ import asyncio
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.gambling.black_jack.core import BlackJack, send_game_msg, set_blackjack_cd
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -140,7 +140,7 @@ async def blackjack(cmd, pld):
             else:
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
         else:
-            response = error('There is already one ongoing.')
+            response = GenericResponse('There is already one ongoing.').error()
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can play again in {timeout} seconds.')

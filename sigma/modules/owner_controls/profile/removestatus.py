@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def removestatus(cmd, pld):
@@ -32,9 +32,9 @@ async def removestatus(cmd, pld):
         status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one(status_data)
         if status_exists:
             await cmd.db[cmd.db.db_nam].StatusFiles.delete_one(status_data)
-            response = ok(f'Deleted status `{status_id}`.')
+            response = GenericResponse(f'Deleted status `{status_id}`.').ok()
         else:
-            response = not_found('Status ID not found.')
+            response = GenericResponse('Status ID not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

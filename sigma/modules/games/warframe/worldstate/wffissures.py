@@ -21,7 +21,7 @@ import datetime
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
@@ -70,5 +70,5 @@ async def wffissures(_cmd, pld):
         response.set_footer(text='Timers are not updated live.')
         response.set_thumbnail(url=fissure_icon)
     else:
-        response = error('Could not retrieve Fissure data.')
+        response = GenericResponse('Could not retrieve Fissure data.').error()
     await pld.msg.channel.send(embed=response)

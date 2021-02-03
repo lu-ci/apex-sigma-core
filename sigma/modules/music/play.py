@@ -22,7 +22,7 @@ import datetime
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.stats_processing import add_special_stats
 
 
@@ -94,7 +94,7 @@ async def play(cmd, pld):
                     init_song_embed = discord.Embed(color=0x3B88C3, title=f'🔽 Downloading {item.title}...')
                     init_song_msg = await pld.msg.channel.send(embed=init_song_embed)
                     if not pld.msg.guild.voice_client:
-                        no_client = error('The voice client seems to have broken.')
+                        no_client = GenericResponse('The voice client seems to have broken.').error()
                         await pld.msg.channel.send(embed=no_client)
                         return
                     player_made = False
@@ -114,7 +114,7 @@ async def play(cmd, pld):
                             except Exception:
                                 pass
                     if not player_made:
-                        no_client = error('The voice client seems to be unable to connect.')
+                        no_client = GenericResponse('The voice client seems to be unable to connect.').error()
                         await pld.msg.channel.send(embed=no_client)
                         return
                     else:
@@ -141,9 +141,9 @@ async def play(cmd, pld):
                 if 'donate' in cmd.bot.modules.commands:
                     await cmd.bot.modules.commands['donate'].execute(pld)
             else:
-                response = error('The queue is empty.')
+                response = GenericResponse('The queue is empty.').error()
         else:
-            response = error('Channel miss-match prevented me from playing.')
+            response = GenericResponse('Channel miss-match prevented me from playing.').error()
     else:
-        response = error('You are not in a voice channel.')
+        response = GenericResponse('You are not in a voice channel.').error()
     await pld.msg.channel.send(embed=response)

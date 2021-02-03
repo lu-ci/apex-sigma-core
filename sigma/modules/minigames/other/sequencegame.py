@@ -21,7 +21,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 symbol_groups = (
@@ -70,7 +70,7 @@ async def sequencegame(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
-        ongoing_error = error('There is already one ongoing.')
+        ongoing_error = GenericResponse('There is already one ongoing.').error()
         await pld.msg.channel.send(embed=ongoing_error)
         return
     try:

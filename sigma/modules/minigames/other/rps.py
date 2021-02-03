@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def rps(_cmd, pld):
@@ -49,7 +49,7 @@ async def rps(_cmd, pld):
                 color, icon, resp = 0x3B88C3, '💎', 'You win'
             response = discord.Embed(color=color, title=f'{icon} {my_choice.title()}! {resp}!')
         else:
-            response = error('Invalid sign.')
+            response = GenericResponse('Invalid sign.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

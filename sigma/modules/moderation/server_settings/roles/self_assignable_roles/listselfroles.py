@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import info
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listselfroles(_cmd, pld):
@@ -39,7 +39,7 @@ async def listselfroles(_cmd, pld):
             if role == srv_role.id:
                 role_list.append(srv_role.name)
     if not role_list:
-        response = info('No self assignable roles set.')
+        response = GenericResponse('No self assignable roles set.').info()
     else:
         role_count = len(role_list)
         role_list = sorted(role_list)

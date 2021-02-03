@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def roleinformation(_cmd, pld):
@@ -43,7 +43,7 @@ async def roleinformation(_cmd, pld):
             response = discord.Embed(color=role.color)
             response.add_field(name=f'{role.name} Information', value=desc_text)
         else:
-            response = not_found(f'{lookup} not found.')
+            response = GenericResponse(f'{lookup} not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

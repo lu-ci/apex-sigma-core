@@ -20,7 +20,7 @@ import arrow
 import discord
 from arrow.parser import ParserError
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def currenttime(cmd, pld):
@@ -47,5 +47,5 @@ async def currenttime(cmd, pld):
         time_out = now.format('DD. MMM. YYYY - HH:mm:ss')
         response = discord.Embed(color=0xf9f9f9, title=f'🕥 {time_out}')
     else:
-        response = error('Could not parse that time.')
+        response = GenericResponse('Could not parse that time.').error()
     await pld.msg.channel.send(embed=response)

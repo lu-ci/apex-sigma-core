@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.mechanics.caching import TTLCacher
 from sigma.core.mechanics.config import CacheConfig
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 emote_cache_handler = TTLCacher(CacheConfig({}))
 
@@ -112,10 +112,10 @@ async def emote(cmd, pld):
             if emote_choice:
                 response = discord.Embed().set_image(url=emote_choice.url)
             else:
-                response = not_found('Emote not found.')
+                response = GenericResponse('Emote not found.').not_found()
         else:
-            response = error('Emotes from other servers can be NSFW.')
+            response = GenericResponse('Emotes from other servers can be NSFW.').error()
             response.description = 'Mark this channel as NSFW or move to one that is.'
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -24,7 +24,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.music import QueueItem
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def shorten(text, max_len, appendage):
@@ -107,24 +107,24 @@ async def queue(cmd, pld):
                             final_resp.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                             final_resp.set_footer(text=f'Duration: {duration}')
                         else:
-                            final_resp = not_found('Addition returned a null item.')
+                            final_resp = GenericResponse('Addition returned a null item.').not_found()
                     try:
                         await init_res_msg.edit(embed=final_resp)
                     except discord.NotFound:
                         pass
                 else:
-                    final_resp = not_found('No results.')
+                    final_resp = GenericResponse('No results.').not_found()
                     try:
                         await init_res_msg.edit(embed=final_resp)
                     except discord.NotFound:
                         pass
             else:
                 if not pld.args:
-                    response = error('You are not in my voice channel.')
+                    response = GenericResponse('You are not in my voice channel.').error()
                     await pld.msg.channel.send(embed=response)
         else:
             if not pld.args:
-                response = error('You are not in a voice channel.')
+                response = GenericResponse('You are not in a voice channel.').error()
                 await pld.msg.channel.send(embed=response)
     else:
         music_queue = cmd.bot.music.get_queue(pld.msg.guild.id)

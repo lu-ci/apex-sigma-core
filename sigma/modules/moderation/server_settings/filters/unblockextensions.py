@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unblockextensions(cmd, pld):
@@ -43,11 +43,11 @@ async def unblockextensions(cmd, pld):
                         removed_words.append(word.lower())
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_extensions', blocked_words)
             if removed_words:
-                response = ok(f'I have removed {len(removed_words)} from the extension blacklist.')
+                response = GenericResponse(f'I have removed {len(removed_words)} from the extension blacklist.').ok()
             else:
-                response = info('No extensions were removed.')
+                response = GenericResponse('No extensions were removed.').info()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

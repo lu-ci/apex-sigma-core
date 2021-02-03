@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.server_settings.roles.autorole.bound_role_cacher import update_invites
 
 
@@ -50,5 +50,5 @@ async def syncinvites(cmd, pld):
             noresp = True
     if not noresp:
         inv_count = len(invites)
-        response = ok(f'Synced {inv_count} invites.')
+        response = GenericResponse(f'Synced {inv_count} invites.').ok()
         await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def pruneroles(_cmd, pld):
@@ -30,7 +30,7 @@ async def pruneroles(_cmd, pld):
         top_role = pld.msg.guild.me.top_role.position
         empty_roles = list(filter(lambda r: len(r.members) == 0, pld.msg.guild.roles))
         deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
-        response = ok(f'Removed {len(deleted_roles)} roles from this server.')
+        response = GenericResponse(f'Removed {len(deleted_roles)} roles from this server.').ok()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

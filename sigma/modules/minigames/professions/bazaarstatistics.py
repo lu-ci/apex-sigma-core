@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -80,7 +80,7 @@ async def bazaarstatistics(cmd, pld):
             response.set_author(name=target.display_name, icon_url=user_avatar(target))
     else:
         if total:
-            response = error("Nobody has not been to the bazaar.")
+            response = GenericResponse("Nobody has not been to the bazaar.").error()
         else:
-            response = error(f"{target.name} has not been to the bazaar.")
+            response = GenericResponse(f"{target.name} has not been to the bazaar.").error()
     await pld.msg.channel.send(embed=response)

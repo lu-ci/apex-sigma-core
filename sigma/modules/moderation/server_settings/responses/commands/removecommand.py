@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def removecommand(cmd, pld):
@@ -33,11 +33,11 @@ async def removecommand(cmd, pld):
             if trigger in custom_commands:
                 del custom_commands[trigger]
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
-                response = ok(f'{trigger} has been removed.')
+                response = GenericResponse(f'{trigger} has been removed.').ok()
             else:
-                response = not_found('Command not found.')
+                response = GenericResponse('Command not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

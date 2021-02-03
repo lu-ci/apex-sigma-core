@@ -20,7 +20,7 @@ import secrets
 
 import arrow
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def generate_data(message, poll_args):
@@ -81,9 +81,9 @@ async def shadowpoll(cmd, pld):
         if len(poll_args) >= 3:
             poll_data = generate_data(pld.msg, poll_args)
             await cmd.db[cmd.db.db_nam].ShadowPolls.insert_one(poll_data)
-            response = ok(f'Shadowpoll `{poll_data["id"]}` has been created.')
+            response = GenericResponse(f'Shadowpoll `{poll_data["id"]}` has been created.').ok()
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

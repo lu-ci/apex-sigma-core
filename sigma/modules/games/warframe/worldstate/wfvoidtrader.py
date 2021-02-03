@@ -23,7 +23,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 baro_icon = 'https://i.imgur.com/xY4fAOU.png'
@@ -80,5 +80,5 @@ async def wfvoidtrader(_cmd, pld):
             response = discord.Embed(color=0x006666)
             response.set_author(name=f'Void Trader arrives {arrival_time} on {trader["location"]}.', icon_url=baro_icon)
     else:
-        response = error('Could not retrieve Void Trader data.')
+        response = GenericResponse('Could not retrieve Void Trader data.').error()
     await pld.msg.channel.send(embed=response)

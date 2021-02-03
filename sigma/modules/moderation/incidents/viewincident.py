@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.incidents.visual_storage import icons
 
 identifiers = ['id', 'order']
@@ -45,13 +45,13 @@ async def viewincident(cmd, pld):
                         icon, color = icons.get(incident.variant).values()
                         response = incident.to_embed(icon, color)
                     else:
-                        response = error(f'No incident with that {identifier} found.')
+                        response = GenericResponse(f'No incident with that {identifier} found.').error()
                 else:
-                    response = error('Order must be a number.')
+                    response = GenericResponse('Order must be a number.').error()
             else:
-                response = error('Invalid identifier.')
+                response = GenericResponse('Invalid identifier.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

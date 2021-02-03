@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def make_bye_embed(data, goodbye, guild):
@@ -56,7 +56,7 @@ async def byemessage(cmd, pld):
         if pld.args:
             goodbye_text = ' '.join(pld.args)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_message', goodbye_text)
-            response = ok('New Goodbye Message set.')
+            response = GenericResponse('New Goodbye Message set.').ok()
         else:
             current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:
@@ -65,8 +65,8 @@ async def byemessage(cmd, pld):
             if bye_embed.get('active'):
                 response = await make_bye_embed(bye_embed, current_goodbye, pld.msg.guild)
             else:
-                response = info('Current Goodbye Message')
+                response = GenericResponse('Current Goodbye Message').info()
                 response.description = current_goodbye
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

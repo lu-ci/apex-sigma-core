@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.quiz.mech.utils import scramble as scrfn
 
 
@@ -38,5 +38,5 @@ async def scramble(_cmd, pld):
         response = discord.Embed(color=0x3B88C3, title='🔣 Text Scrambler')
         response.description = scrfn(words, full)
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

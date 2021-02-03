@@ -21,7 +21,7 @@ import datetime
 import discord
 
 from sigma.core.utilities.data_processing import convert_to_seconds
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 actions = ['textmute', 'hardmute', 'kick', 'softban', 'ban', 'remove']
 
@@ -65,7 +65,7 @@ async def autopunishlevels(cmd, pld):
                 response = discord.Embed(color=0x3B88C3, title='🔄 Auto-Punishment Levels')
                 response.description = '\n'.join(level_info)
             else:
-                response = error('No Auto-Punishments set.')
+                response = GenericResponse('No Auto-Punishments set.').error()
         else:
             if ':' in pld.args[0]:
                 duration = None
@@ -73,7 +73,7 @@ async def autopunishlevels(cmd, pld):
                     try:
                         duration = convert_to_seconds(pld.args[-1])
                     except (LookupError, ValueError):
-                        err_response = error('Please use the format HH:MM:SS.')
+                        err_response = GenericResponse('Please use the format HH:MM:SS.').error()
                         await pld.msg.channel.send(embed=err_response)
                         return
                 level, _, action = pld.args[0].partition(':')
@@ -82,23 +82,23 @@ async def autopunishlevels(cmd, pld):
                     if action.lower() == 'remove':
                         if str(level) in settings:
                             settings.pop(str(level))
-                        response = ok(f'Level {level} punishment removed.')
+                        response = GenericResponse(f'Level {level} punishment removed.').ok()
                     else:
                         if duration and action.lower() in ['softban', 'kick']:
-                            err_response = error(f'{action.title()} cannot be timed.')
+                            err_response = GenericResponse(f'{action.title()} cannot be timed.').error()
                             await pld.msg.channel.send(embed=err_response)
                             return
                         settings.update({str(level): {'action': action.lower(), 'duration': duration}})
                         ok_text = f'Level {level} set to {action.lower()}'
                         if duration:
                             ok_text += f' ({parse_time(duration)})'
-                        response = ok(ok_text)
+                        response = GenericResponse(ok_text).ok()
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_punish_levels', settings)
                 else:
                     ender = 'level' if not level.isdigit() else 'punishment'
-                    response = error(f'Invalid {ender}.')
+                    response = GenericResponse(f'Invalid {ender}.').error()
             else:
-                response = error('Separate level and punishment with a colon.')
+                response = GenericResponse('Separate level and punishment with a colon.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

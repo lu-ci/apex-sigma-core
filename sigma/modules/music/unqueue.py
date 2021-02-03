@@ -21,7 +21,7 @@ from asyncio.queues import Queue
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unqueue(cmd, pld):
@@ -57,7 +57,7 @@ async def unqueue(cmd, pld):
                                     for list_item in queue_list:
                                         await new_queue.put(list_item)
                                     cmd.bot.music.queues.update({pld.msg.guild.id: new_queue})
-                                    response = ok(f'Removed {item.title}.')
+                                    response = GenericResponse(f'Removed {item.title}.').ok()
                                     requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                     response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                                 else:
@@ -67,17 +67,17 @@ async def unqueue(cmd, pld):
                                     response = discord.Embed(color=0xBE1931)
                                     response.add_field(name='⛔ Access Denied', value=auth_deny_desc)
                             else:
-                                response = error('Input out of range.')
+                                response = GenericResponse('Input out of range.').error()
                         except ValueError:
-                            response = error('Invalid input. Numbers only.')
+                            response = GenericResponse('Invalid input. Numbers only.').error()
                     else:
-                        response = error('The queue is empty.')
+                        response = GenericResponse('The queue is empty.').error()
                 else:
-                    response = error('I am not connected to any channel.')
+                    response = GenericResponse('I am not connected to any channel.').error()
             else:
-                response = error('You are not in my voice channel.')
+                response = GenericResponse('You are not in my voice channel.').error()
         else:
-            response = error('You are not in a voice channel.')
+            response = GenericResponse('You are not in a voice channel.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

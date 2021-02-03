@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def permissions(_cmd, pld):
@@ -32,7 +32,7 @@ async def permissions(_cmd, pld):
         user_q = pld.msg.mentions[0]
     else:
         user_q = pld.msg.author
-    response = info(f'{user_q.name}\'s Permissions')
+    response = GenericResponse(f'{user_q.name}\'s Permissions').info()
     for permission in user_q.guild_permissions:
         if permission[1]:
             allowed_list.append(permission[0].replace('_', ' ').title())
@@ -44,6 +44,6 @@ async def permissions(_cmd, pld):
         disallowed_list = ['None']
     response.add_field(name='Allowed', value='```yml\n - ' + '\n - '.join(sorted(allowed_list)) + '\n```')
     response.add_field(name='Disallowed', value='```yml\n - ' + '\n - '.join(sorted(disallowed_list)) + '\n```')
-    in_ch = ok('Permission list sent to you.')
+    in_ch = GenericResponse('Permission list sent to you.').ok()
     await pld.msg.author.send(embed=response)
     await pld.msg.channel.send(embed=in_ch)

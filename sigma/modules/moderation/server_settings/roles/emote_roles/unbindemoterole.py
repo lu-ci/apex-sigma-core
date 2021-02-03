@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unbindemoterole(cmd, pld):
@@ -42,15 +42,15 @@ async def unbindemoterole(cmd, pld):
                         bound_roles.remove(guild_role.id)
                         emote_groups.update({group_id: bound_roles})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
-                        response = ok(f'Removed {role_name} from group {group_id}.')
+                        response = GenericResponse(f'Removed {role_name} from group {group_id}.').ok()
                     else:
-                        response = error(f'{role_name} is not bound to {group_id}.')
+                        response = GenericResponse(f'{role_name} is not bound to {group_id}.').error()
                 else:
-                    response = not_found(f'Couldn\'t find the {role_search} role.')
+                    response = GenericResponse(f'Couldn\'t find the {role_search} role.').not_found()
             else:
-                response = not_found(f'Couldn\'t find {group_id} in the group list.')
+                response = GenericResponse(f'Couldn\'t find {group_id} in the group list.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

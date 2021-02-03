@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wftag(cmd, pld):
@@ -36,9 +36,9 @@ async def wftag(cmd, pld):
                     if alert_tag in wf_tags:
                         wf_tags.pop(alert_tag)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_tags', wf_tags)
-                        response = ok('Tag unbound.')
+                        response = GenericResponse('Tag unbound.').ok()
                     else:
-                        response = error(f'Nothing is bound to {alert_tag}.')
+                        response = GenericResponse(f'Nothing is bound to {alert_tag}.').error()
                 else:
                     alert_role = None
                     for role in pld.msg.guild.roles:
@@ -55,13 +55,13 @@ async def wftag(cmd, pld):
                             response_title = f'`{alert_tag.upper()}` has been updated to bind to {alert_role.name}'
                         wf_tags.update({alert_tag: alert_role.id})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_tags', wf_tags)
-                        response = ok(f'{response_title}')
+                        response = GenericResponse(f'{response_title}').ok()
                     else:
-                        response = not_found(f'{alert_role_search} not found.')
+                        response = GenericResponse(f'{alert_role_search} not found.').not_found()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

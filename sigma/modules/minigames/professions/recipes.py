@@ -22,7 +22,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
@@ -127,5 +127,5 @@ async def recipes(cmd, pld):
         response.add_field(name=f'{recipe_icon} Recipe Stats', value=f'```py\n{stats_text}\n```', inline=False)
         response.add_field(name=f'📰 Recipes On Page {page}', value=f'```hs\n{recipe_table}\n```')
     else:
-        response = not_found('No recipes match the given filter.')
+        response = GenericResponse('No recipes match the given filter.').not_found()
     await pld.msg.channel.send(embed=response)

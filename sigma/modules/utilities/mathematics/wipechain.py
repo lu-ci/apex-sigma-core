@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wipechain(cmd, pld):
@@ -30,7 +30,7 @@ async def wipechain(cmd, pld):
     exist_check = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': uid})
     if exist_check:
         await cmd.db[cmd.db.db_nam].MarkovChains.delete_one({'user_id': uid})
-        response = ok('Your chain has been permanently deleted.')
+        response = GenericResponse('Your chain has been permanently deleted.').ok()
     else:
-        response = error('You don\'t have a Markov Chain.')
+        response = GenericResponse('You don\'t have a Markov Chain.').error()
     await pld.msg.channel.send(embed=response)

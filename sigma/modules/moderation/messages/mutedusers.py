@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import denied, info
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.punishments.auto_punish.autopunishlevels import parse_time
 
 
@@ -61,7 +61,7 @@ async def mutedusers(cmd, pld):
                     hard_muted.append(info_txt)
                 response.add_field(name='Hard Muted', value='\n'.join(hard_muted), inline=False)
         else:
-            response = info('No users are currently muted.')
+            response = GenericResponse('No users are currently muted.').info()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

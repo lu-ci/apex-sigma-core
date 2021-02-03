@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import convert_to_seconds, get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -96,7 +96,7 @@ async def hardmute(cmd, pld):
                         now = arrow.utcnow().int_timestamp
                         endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
                     except (LookupError, ValueError):
-                        err_response = error('Please use the format HH:MM:SS.')
+                        err_response = GenericResponse('Please use the format HH:MM:SS.').error()
                         await pld.msg.channel.send(embed=err_response)
                         return
                     for channel in pld.msg.guild.channels:
@@ -114,7 +114,7 @@ async def hardmute(cmd, pld):
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-                    response = ok(f'{target.display_name} has been hard-muted.')
+                    response = GenericResponse(f'{target.display_name} has been hard-muted.').ok()
                     guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
                     to_target_title = '🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)
@@ -128,11 +128,11 @@ async def hardmute(cmd, pld):
                         doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                         await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
-                    response = error('That user is equal or above you.')
+                    response = GenericResponse('That user is equal or above you.').error()
             else:
-                response = error('I can\'t mute a user equal or above me.')
+                response = GenericResponse('I can\'t mute a user equal or above me.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Manage Channels needed.')
+        response = GenericResponse('Access Denied. Manage Channels needed.').denied()
     await pld.msg.channel.send(embed=response)

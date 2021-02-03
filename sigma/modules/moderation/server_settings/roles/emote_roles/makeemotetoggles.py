@@ -21,7 +21,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_binding_data(roles):
@@ -114,13 +114,13 @@ async def makeemotetoggles(cmd, pld):
                     guild_togglers = pld.settings.get('emote_role_togglers') or {}
                     guild_togglers.update({str(toggler_message.id): binding_data})
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_togglers', guild_togglers)
-                    response = ok(f'Toggler {group_id} created in {target_ch.name}.')
+                    response = GenericResponse(f'Toggler {group_id} created in {target_ch.name}.').ok()
                 else:
-                    response = not_found('No groups in the Emote group!')
+                    response = GenericResponse('No groups in the Emote group!').not_found()
             else:
-                response = not_found(f'Group {group_id} not found.')
+                response = GenericResponse(f'Group {group_id} not found.').not_found()
         else:
-            response = error('Missing group ID.')
+            response = GenericResponse('Missing group ID.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

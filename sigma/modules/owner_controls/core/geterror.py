@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.error import SigmaError
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def geterror(cmd, pld):
@@ -34,9 +34,9 @@ async def geterror(cmd, pld):
         if error_file:
             response, trace_text = SigmaError.make_error_embed(error_file)
         else:
-            response = error('No error with that token was found.')
+            response = GenericResponse('No error with that token was found.').error()
     else:
-        response = error('Missing error token.')
+        response = GenericResponse('Missing error token.').error()
     await pld.msg.channel.send(embed=response)
     if trace_text:
         await pld.msg.channel.send(trace_text)

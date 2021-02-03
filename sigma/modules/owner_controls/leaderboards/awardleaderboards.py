@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 
 
@@ -61,9 +61,9 @@ async def awardleaderboards(cmd, pld):
             init_msg = await pld.msg.channel.send(embed=init_resp)
             await reset_resource(cmd.db, cmd.log, coll_title)
             await init_msg.delete()
-            response = ok('All leaderboards awarded.')
+            response = GenericResponse('All leaderboards awarded.').ok()
         else:
-            response = error('Invalid collection.')
+            response = GenericResponse('Invalid collection.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

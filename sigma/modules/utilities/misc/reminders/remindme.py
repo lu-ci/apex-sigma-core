@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import convert_to_seconds, user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def remindme(cmd, pld):
@@ -74,11 +74,11 @@ async def remindme(cmd, pld):
                     response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(pld.msg.author))
                     response.set_footer(text=f'Executes: {time_diff.title()}')
                 else:
-                    response = error('You already have 15 reminders pending.')
+                    response = GenericResponse('You already have 15 reminders pending.').error()
             else:
-                response = error('Reminders have a limit of 90 days.')
+                response = GenericResponse('Reminders have a limit of 90 days.').error()
         except (LookupError, ValueError):
-            response = error('Please use the format HH:MM:SS.')
+            response = GenericResponse('Please use the format HH:MM:SS.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

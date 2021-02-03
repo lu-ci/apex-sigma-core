@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def renamelist(cmd, pld):
@@ -38,15 +38,15 @@ async def renamelist(cmd, pld):
                     if len(new_name) <= 50:
                         list_file.update({'name': new_name})
                         await list_coll.update_one(lookup_data, {'$set': list_file})
-                        response = ok(f'List {list_file.get("list_id")} renamed to {new_name}.')
+                        response = GenericResponse(f'List {list_file.get("list_id")} renamed to {new_name}.').ok()
                     else:
-                        response = error('List names have a limit of 50 characters.')
+                        response = GenericResponse('List names have a limit of 50 characters.').error()
                 else:
-                    response = denied('You didn\'t make this list.')
+                    response = GenericResponse('You didn\'t make this list.').denied()
             else:
-                response = error('Missing or invalid list ID.')
+                response = GenericResponse('Missing or invalid list ID.').error()
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

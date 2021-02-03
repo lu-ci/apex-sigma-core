@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 api_base = 'https://en.wikipedia.org/w/api.php?format=json'
 wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
@@ -93,9 +93,9 @@ async def wikipedia(_cmd, pld):
                 response.set_author(name=summ_title, icon_url=wiki_icon, url=wiki_url)
                 response.description = summ_content
             else:
-                response = error('Search too broad, please be more specific.')
+                response = GenericResponse('Search too broad, please be more specific.').error()
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

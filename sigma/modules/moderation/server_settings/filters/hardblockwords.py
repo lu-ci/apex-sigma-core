@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def hardblockwords(cmd, pld):
@@ -38,11 +38,11 @@ async def hardblockwords(cmd, pld):
                     added_words.append(word.lower())
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'hardblocked_words', blocked_words)
             if added_words:
-                response = ok(f'I have added {len(added_words)} words to the heavy blacklist.')
+                response = GenericResponse(f'I have added {len(added_words)} words to the heavy blacklist.').ok()
             else:
-                response = info('No new words were added.')
+                response = GenericResponse('No new words were added.').info()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

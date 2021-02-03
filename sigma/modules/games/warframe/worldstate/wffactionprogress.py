@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
@@ -38,5 +38,5 @@ async def wffactionprogress(_cmd, pld):
         for faction in faction_projects:
             response.add_field(name=faction['type'], value=f'{int(faction["progress"])}% Complete', inline=False)
     else:
-        response = error('Could not retrieve Faction Projects data.')
+        response = GenericResponse('Could not retrieve Faction Projects data.').error()
     await pld.msg.channel.send(embed=response)

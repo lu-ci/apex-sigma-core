@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def reminderinfo(cmd, pld):
@@ -53,7 +53,7 @@ async def reminderinfo(cmd, pld):
             response.add_field(name='🗒 Reminder Text', value=text_message, inline=False)
             response.set_author(name=auth_title, icon_url=user_avatar(pld.msg.author))
         else:
-            response = not_found(f'Reminder `{rem_id}` not found.')
+            response = GenericResponse(f'Reminder `{rem_id}` not found.').not_found()
     else:
-        response = error('Missing reminder ID.')
+        response = GenericResponse('Missing reminder ID.').error()
     await pld.msg.channel.send(embed=response)

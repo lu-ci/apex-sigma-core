@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def starboardlimit(cmd, pld):
@@ -38,15 +38,15 @@ async def starboardlimit(cmd, pld):
             if new_limit is not None:
                 starboard_doc.update({'limit': int(new_limit)})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-                response = ok(f'Starboard limit set to {new_limit}.')
+                response = GenericResponse(f'Starboard limit set to {new_limit}.').ok()
             else:
-                response = error('Limit must be a number.')
+                response = GenericResponse('Limit must be a number.').error()
         else:
             limit = starboard_doc.get('limit')
             if limit:
                 response = discord.Embed(color=0xFFAC33, title=f'🌟 The current limit is {limit}')
             else:
-                response = error('A limit has not been set.')
+                response = GenericResponse('A limit has not been set.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

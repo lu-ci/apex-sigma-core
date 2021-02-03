@@ -25,7 +25,7 @@ import arrow
 import discord
 import markovify
 
-from sigma.core.utilities.generic_responses import ok, error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 collector_loop_running = False
 current_user_collecting = None
@@ -220,7 +220,7 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
-    response = ok(f'Parsed {cltd} entries for your chain, {len(cltn)} corpus size.')
+    response = GenericResponse(f'Parsed {cltd} entries for your chain, {len(cltn)} corpus size.').ok()
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
     try:
@@ -228,7 +228,7 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     except Exception:
         pass
     if ath.id != tgt_usr.id:
-        req_resp = ok(f'Parsed {cltd} entries for {tgt_usr.name}\'s chain, {len(cltn)} corpus size.')
+        req_resp = GenericResponse(f'Parsed {cltd} entries for {tgt_usr.name}\'s chain, {len(cltn)} corpus size.').ok()
         req_resp.set_footer(text=footer, icon_url=guild_icon)
         # noinspection PyBroadException
         try:
@@ -252,7 +252,7 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
     guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
-    response = error('Failed to parse entries for your chain.')
+    response = GenericResponse('Failed to parse entries for your chain.').error()
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
     try:
@@ -260,7 +260,7 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
     except Exception:
         pass
     if ath.id != tgt_usr.id:
-        req_resp = error(f'Failed to parse entries for {tgt_usr.name}\'s chain.')
+        req_resp = GenericResponse(f'Failed to parse entries for {tgt_usr.name}\'s chain.').error()
         req_resp.set_footer(text=footer, icon_url=guild_icon)
         # noinspection PyBroadException
         try:

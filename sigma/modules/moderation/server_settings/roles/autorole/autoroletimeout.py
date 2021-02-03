@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def autoroletimeout(cmd, pld):
@@ -36,12 +36,12 @@ async def autoroletimeout(cmd, pld):
                 timeout = None
             if timeout is not None:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role_timeout', timeout)
-                response = ok(f'Timeout set to {timeout} seconds.')
+                response = GenericResponse(f'Timeout set to {timeout} seconds.').ok()
             else:
-                response = error('This role is above my highest role.')
+                response = GenericResponse('This role is above my highest role.').error()
         else:
             timeout = pld.settings.get('auto_role_timeout', 0)
             response = discord.Embed(color=0x696969, title=f'🕙 The current timeout is {timeout} seconds.')
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

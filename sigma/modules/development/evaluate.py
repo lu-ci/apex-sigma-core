@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import inspect
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def evaluate(_cmd, pld):
@@ -34,11 +34,11 @@ async def evaluate(_cmd, pld):
             output = eval(execution)
             if inspect.isawaitable(output):
                 output = await output
-            response = ok('Executed')
+            response = GenericResponse('Executed').ok()
             response.description = f'```py\n{output}\n```'
         except Exception as e:
-            response = error('Error')
+            response = GenericResponse('Error').error()
             response.description = f'```py\n{e}\n```'
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

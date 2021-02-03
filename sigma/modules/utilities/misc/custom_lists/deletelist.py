@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def deletelist(cmd, pld):
@@ -39,9 +39,9 @@ async def deletelist(cmd, pld):
                 title = f'🔥 List `{list_file.get("list_id")}` has been deleted.'
                 response = discord.Embed(color=0xFFCC4D, title=title)
             else:
-                response = denied('You didn\'t make this list.')
+                response = GenericResponse('You didn\'t make this list.').denied()
         else:
-            response = not_found('List not found.')
+            response = GenericResponse('List not found.').not_found()
     else:
-        response = error('Missing list ID.')
+        response = GenericResponse('Missing list ID.').error()
     await pld.msg.channel.send(embed=response)

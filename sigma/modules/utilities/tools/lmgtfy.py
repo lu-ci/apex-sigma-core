@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def lmgtfy(_cmd, pld):
@@ -35,5 +35,5 @@ async def lmgtfy(_cmd, pld):
         response = discord.Embed(color=0xF9F9F9)
         response.set_author(name='Click here to go to the results.', icon_url=google_icon, url=query_url)
     else:
-        response = error('No search inputted.')
+        response = GenericResponse('No search inputted.').error()
     await pld.msg.channel.send(embed=response)

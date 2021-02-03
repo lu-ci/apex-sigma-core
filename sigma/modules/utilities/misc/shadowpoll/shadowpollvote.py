@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def check_roles(allowed_roles, all_users, user):
@@ -103,19 +103,19 @@ async def shadowpollvote(cmd, pld):
                                     await pld.msg.delete()
                                 except (discord.NotFound, discord.Forbidden):
                                     pass
-                                response = ok(f'Your choice has been {ender}.')
+                                response = GenericResponse(f'Your choice has been {ender}.').ok()
                             else:
                                 response = discord.Embed(color=0xFFCC4D, title='🔒 Not authorized to vote.')
                         else:
                             response = discord.Embed(color=0xFFCC4D, title='🔒 That poll is not active.')
                     else:
-                        response = error('Choice number out of range.')
+                        response = GenericResponse('Choice number out of range.').error()
                 else:
-                    response = not_found('Poll not found.')
+                    response = GenericResponse('Poll not found.').not_found()
             else:
-                response = error('Not a valid choice number.')
+                response = GenericResponse('Not a valid choice number.').error()
         else:
-            response = error('Missing the choice number.')
+            response = GenericResponse('Missing the choice number.').error()
     else:
-        response = error('Missing poll ID and choice.')
+        response = GenericResponse('Missing poll ID and choice.').error()
     await pld.msg.channel.send(embed=response)

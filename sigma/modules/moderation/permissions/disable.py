@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
@@ -51,17 +51,17 @@ async def disable(cmd, pld):
                             await cmd.db[cmd.db.db_nam].Permissions.update_one(
                                 {'server_id': pld.msg.guild.id}, {'$set': perms})
                             await cmd.db.cache.del_cache(pld.msg.guild.id)
-                            response = ok(f'`{node_name.upper()}` disabled.')
+                            response = GenericResponse(f'`{node_name.upper()}` disabled.').ok()
                         else:
-                            response = warn(f'{mode_name} already disabled.')
+                            response = GenericResponse(f'{mode_name} already disabled.').warn()
                     else:
-                        response = not_found(f'{mode_name} not found.')
+                        response = GenericResponse(f'{mode_name} not found.').not_found()
                 else:
-                    response = error('Unrecognized lookup mode, see usage example.')
+                    response = GenericResponse('Unrecognized lookup mode, see usage example.').error()
             else:
-                response = error('Separate permission type and name with a colon.')
+                response = GenericResponse('Separate permission type and name with a colon.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

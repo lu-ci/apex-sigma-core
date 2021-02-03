@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.images.emote import get_emote_cache
 
 
@@ -40,8 +40,8 @@ async def randomemote(cmd, pld):
             emote = secrets.choice(emotes)
             response = discord.Embed().set_image(url=emote.url)
         else:
-            response = error('This server has no custom emotes.')
+            response = GenericResponse('This server has no custom emotes.').error()
     else:
-        response = error('Emotes from other servers can be NSFW.')
+        response = GenericResponse('Emotes from other servers can be NSFW.').error()
         response.description = 'Mark this channel as NSFW or move to one that is.'
     await pld.msg.channel.send(embed=response)

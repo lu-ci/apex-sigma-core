@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def editincident(cmd, pld):
@@ -37,13 +37,13 @@ async def editincident(cmd, pld):
                 if not len(reason) > 1000:
                     incident.edit(pld.msg.author, reason)
                     await icore.save(incident)
-                    response = ok(f'Incident {incident.id} updated.')
+                    response = GenericResponse(f'Incident {incident.id} updated.').ok()
                 else:
-                    response = error('Reasons have a limit of 1000 characters.')
+                    response = GenericResponse('Reasons have a limit of 1000 characters.').error()
             else:
-                response = error('No incident with that ID was found.')
+                response = GenericResponse('No incident with that ID was found.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import cook_quality
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -70,13 +70,13 @@ async def cook(cmd, pld):
                     head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                     response = discord.Embed(color=recipe.color, title=head_title)
                 else:
-                    response = error('You\'re missing ingredients.')
+                    response = GenericResponse('You\'re missing ingredients.').error()
             else:
-                response = not_found('Recipe not found.')
+                response = GenericResponse('Recipe not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
         Ongoing.del_ongoing('profession', pld.msg.author.id)
     else:
-        response = warn("Please wait while your previous item is done being prepared.")
+        response = GenericResponse("Please wait while your previous item is done being prepared.").warn()
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

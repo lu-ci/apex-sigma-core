@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
@@ -86,10 +86,10 @@ async def inspect(cmd, pld):
                     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
                 response.set_footer(text=footer)
             else:
-                response = error('Sorry but that\'s trash.')
+                response = GenericResponse('Sorry but that\'s trash.').error()
         else:
-            response = not_found('Item not found.')
+            response = GenericResponse('Item not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
         response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

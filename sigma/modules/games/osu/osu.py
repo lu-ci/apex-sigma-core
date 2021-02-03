@@ -23,7 +23,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 osu_logo = 'https://i.imgur.com/hHAY7PM.png'
 
@@ -91,7 +91,7 @@ async def osu(cmd, pld):
             response.set_image(url=sig_url)
             response.set_author(name=f'{username}\'s osu! Profile', url=profile_url, icon_url=osu_logo)
         else:
-            response = not_found('Profile not found.')
+            response = GenericResponse('Profile not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

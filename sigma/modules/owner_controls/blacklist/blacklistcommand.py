@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blacklistcommand(cmd, pld):
@@ -66,11 +66,11 @@ async def blacklistcommand(cmd, pld):
                     await cmd.db.cache.del_cache(target_id)
                     await cmd.db.cache.del_cache(f'{target_id}_checked')
                 else:
-                    response = not_found('Command not found.')
+                    response = GenericResponse('Command not found.').not_found()
             else:
-                response = error('Invalid user ID.')
+                response = GenericResponse('Invalid user ID.').error()
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ import asyncio
 
 import discord
 
-from sigma.core.utilities.generic_responses import info
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def afk_comeback_check(ev, pld):
@@ -36,7 +36,7 @@ async def afk_comeback_check(ev, pld):
             afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': pld.msg.author.id})
             if afk_data:
                 await ev.db.cache.del_cache(f'afk_{pld.msg.author.id}')
-                response = info('I have removed your AFK status.')
+                response = GenericResponse('I have removed your AFK status.').info()
                 removal = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)
                 try:

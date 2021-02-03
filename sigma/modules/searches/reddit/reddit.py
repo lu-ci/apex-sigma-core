@@ -21,7 +21,7 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.searches.reddit.mech.reddit_core import RedditClient
 
 reddit_client = None
@@ -101,14 +101,14 @@ async def reddit(cmd, pld):
                         response.set_footer(text=post_desc)
                         add_post_image(post, response)
                     else:
-                        response = error('NSFW Subreddits and posts are not allowed here.')
+                        response = GenericResponse('NSFW Subreddits and posts are not allowed here.').error()
                 else:
-                    response = error('That subreddit has no posts.')
+                    response = GenericResponse('That subreddit has no posts.').error()
             else:
-                response = error('No such subreddit.')
+                response = GenericResponse('No such subreddit.').error()
         else:
             reason = 'banned' if subreddit.banned else 'private'
-            response = error(f'That subreddit is {reason}.')
+            response = GenericResponse(f'That subreddit is {reason}.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -23,7 +23,7 @@ import aiohttp
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wfplainsofeidolon(_cmd, pld):
@@ -72,5 +72,5 @@ async def wfplainsofeidolon(_cmd, pld):
         response = discord.Embed(color=color)
         response.add_field(name=f'{icon} {state}', value=text_desc)
     else:
-        response = error('Could not retrieve Plains of Eidolon data.')
+        response = GenericResponse('Could not retrieve Plains of Eidolon data.').error()
     await pld.msg.channel.send(embed=response)

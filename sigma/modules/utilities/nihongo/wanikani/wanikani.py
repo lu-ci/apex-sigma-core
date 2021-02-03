@@ -22,7 +22,7 @@ import aiohttp
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wanikani(cmd, pld):
@@ -103,7 +103,7 @@ async def wanikani(cmd, pld):
                                 url=f'https://www.wanikani.com/community/people/{username}', icon_url=avatar)
             response.set_footer(text=f'Serving the Crabigator since {creation_date}')
         except KeyError:
-            response = error('Invalid data was retrieved.')
+            response = GenericResponse('Invalid data was retrieved.').error()
     else:
-        response = error('User has no Key saved.')
+        response = GenericResponse('User has no Key saved.').error()
     await pld.msg.channel.send(embed=response)

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
 
@@ -74,11 +74,11 @@ async def filteroverrides(_cmd, pld):
                             ovr_lines = get_overrides(pld.msg, data[0], data[1])
                             response.add_field(name=data[1].title(), value=', '.join(ovr_lines), inline=False)
                 else:
-                    response = not_found(f'No overrides for `blocked{filter_name}` found.')
+                    response = GenericResponse(f'No overrides for `blocked{filter_name}` found.').not_found()
             else:
-                response = not_found('No overrides found.')
+                response = GenericResponse('No overrides found.').not_found()
         else:
-            response = error('Invalid filter.')
+            response = GenericResponse('Invalid filter.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

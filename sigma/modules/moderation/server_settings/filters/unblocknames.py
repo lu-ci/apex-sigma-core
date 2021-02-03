@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unblocknames(cmd, pld):
@@ -41,11 +41,11 @@ async def unblocknames(cmd, pld):
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'blocked_names', blocked_names)
             if removed_names:
                 ender = 's' if len(removed_names) > 1 else ''
-                response = ok(f'I have removed {len(removed_names)} name{ender} from the blacklist.')
+                response = GenericResponse(f'I have removed {len(removed_names)} name{ender} from the blacklist.').ok()
             else:
-                response = info('No name were removed.')
+                response = GenericResponse('No name were removed.').info()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

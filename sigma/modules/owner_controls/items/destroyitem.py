@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -52,7 +52,7 @@ async def destroyitem(cmd, pld):
             success_text = f'{item_o.icon} I have removed {connector} {item_o.name} from {target_name}.'
             response = discord.Embed(color=item_o.color, title=success_text)
         else:
-            response = error('No item with that ID was found.')
+            response = GenericResponse('No item with that ID was found.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

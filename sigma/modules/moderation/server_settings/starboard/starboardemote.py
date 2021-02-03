@@ -20,7 +20,7 @@ from unicodedata import category
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def starboardemote(cmd, pld):
@@ -37,15 +37,15 @@ async def starboardemote(cmd, pld):
             if category(new_emote) == 'So':
                 starboard_doc.update({'emote': new_emote})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-                response = ok(f'Starboard emote set to {new_emote}')
+                response = GenericResponse(f'Starboard emote set to {new_emote}').ok()
             else:
-                response = error('Emote must be native to Discord.')
+                response = GenericResponse('Emote must be native to Discord.').error()
         else:
             emote = starboard_doc.get('emote')
             if emote:
                 response = discord.Embed(color=0xFFAC33, title=f'🌟 The current emote is {emote}')
             else:
-                response = error('An emote has not been set.')
+                response = GenericResponse('An emote has not been set.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

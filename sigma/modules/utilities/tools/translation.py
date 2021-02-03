@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 import translate
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
 
@@ -49,25 +49,25 @@ async def translation(_cmd, pld):
             trans_output = translator.translate(sentence)
             if 'is an invalid' in trans_output.lower():
                 lang_iso = trans_output.split()[0].strip("'")
-                response = error(f'{lang_iso} is an invalid language code.')
+                response = GenericResponse(f'{lang_iso} is an invalid language code.').error()
                 response.description = f'[Click for a list of language ISO codes]({wiki_url})'
             # 'excedeed' is misspelled intentionally
             elif 'length limit excedeed' in trans_output.lower():
-                response = error('Maximum query limit is 500 characters.')
+                response = GenericResponse('Maximum query limit is 500 characters.').error()
             elif 'mymemory warning' in trans_output.lower():
                 time_pieces = []
                 for word in trans_output.split(' '):
                     if word.isdigit():
                         time_pieces.append(word)
                 time = ':'.join(time_pieces)
-                response = error('Unable to translate more due to rate limits.')
+                response = GenericResponse('Unable to translate more due to rate limits.').error()
                 response.set_footer(text=f'More translations available in {time}.')
             else:
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
                 response = discord.Embed(color=0x3B88C3, title=title)
                 response.description = trans_output
         else:
-            response = error('Missing language or sentence.')
+            response = GenericResponse('Missing language or sentence.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

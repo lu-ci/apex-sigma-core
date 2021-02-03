@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def jisho(_cmd, pld):
@@ -38,7 +38,7 @@ async def jisho(_cmd, pld):
             rq_data = await data.read()
             rq_json = json.loads(rq_data)
     if rq_text.find('503 Service Unavailable') != -1:
-        response = error('Jisho responded with 503 Service Unavailable.')
+        response = GenericResponse('Jisho responded with 503 Service Unavailable.').error()
         await pld.msg.channel.send(embed=response)
         return
     request = rq_json
@@ -46,7 +46,7 @@ async def jisho(_cmd, pld):
     if request['data']:
         request = request['data'][0]
     else:
-        response = not_found(f'Sorry, couldn\'t find anything matching `{jisho_q}`')
+        response = GenericResponse(f'Sorry, couldn\'t find anything matching `{jisho_q}`').not_found()
         await pld.msg.channel.send(embed=response)
         return
     output = ''

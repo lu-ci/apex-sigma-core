@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def generateresource(cmd, pld):
@@ -35,13 +35,13 @@ async def generateresource(cmd, pld):
                     currency = cmd.bot.cfg.pref.currency.lower()
                     res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
                     await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
-                    response = ok(f'Ok, I\'ve given {amount} {res_nam} to {target.display_name}.')
+                    response = GenericResponse(f'Ok, I\'ve given {amount} {res_nam} to {target.display_name}.').ok()
                 except ValueError:
-                    response = error('Invalid amount.')
+                    response = GenericResponse('Invalid amount.').error()
             else:
-                response = error('You can\'t give resources to bots.')
+                response = GenericResponse('You can\'t give resources to bots.').error()
         else:
-            response = error('Resource name, amount and target needed.')
+            response = GenericResponse('Resource name, amount and target needed.').error()
     else:
-        response = error('No user targeted.')
+        response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)

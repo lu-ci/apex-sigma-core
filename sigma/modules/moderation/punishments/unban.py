@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def generate_log_embed(message, target):
@@ -65,11 +65,11 @@ async def unban(cmd, pld):
                 await pld.msg.guild.unban(target, reason=f'By {pld.msg.author.name}#{pld.msg.author.discriminator}.')
                 log_embed = generate_log_embed(pld.msg, target)
                 await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
-                response = ok(f'{target.name} has been unbanned.')
+                response = GenericResponse(f'{target.name} has been unbanned.').ok()
             else:
                 response = discord.Embed(title=f'🔍 {lookup} not found in the ban list.')
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Ban permissions needed.')
+        response = GenericResponse('Access Denied. Ban permissions needed.').denied()
     await pld.msg.channel.send(embed=response)

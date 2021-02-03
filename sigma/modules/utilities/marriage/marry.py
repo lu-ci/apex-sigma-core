@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def sync_spouses(spouses, user_id):
@@ -86,9 +86,9 @@ async def marry(cmd, pld):
                                 response = dresp.generic('proposal')
                     else:
                         if author.id in t_spouse_ids:
-                            response = error(f'You and {target.name} are already married.')
+                            response = GenericResponse(f'You and {target.name} are already married.').error()
                         else:
-                            response = error(f'You already proposed to {target.name}.')
+                            response = GenericResponse(f'You already proposed to {target.name}.').error()
                 else:
                     limited = author if a_limited else target
                     response = discord.Embed(color=0xe75a70, title=f'💔 {limited.name} has too many spouses.')
@@ -97,5 +97,5 @@ async def marry(cmd, pld):
         else:
             response = discord.Embed(color=0xe75a70, title='💔 You love yourself too much.')
     else:
-        response = error('No user targeted.')
+        response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)

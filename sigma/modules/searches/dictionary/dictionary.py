@@ -20,7 +20,7 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 lexico_icon = 'https://www.lexico.com/apple-touch-icon.png'
 
@@ -119,7 +119,7 @@ async def dictionary(_cmd, pld):
             if data.get('audio'):
                 response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

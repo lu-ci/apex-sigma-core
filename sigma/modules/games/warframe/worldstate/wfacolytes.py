@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 from humanfriendly.tables import format_pretty_table
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 stalker_icon = 'https://vignette.wikia.nocookie.net/warframe/images/0/06/9PxL9MAPh4.png'
@@ -50,5 +50,5 @@ async def wfacolytes(_cmd, pld):
         response.set_author(name='Warframe Acolytes Data', icon_url=stalker_icon)
         response.description = f'```hs\n{data_table}\n```'
     else:
-        response = error('No data on the Acolytes.')
+        response = GenericResponse('No data on the Acolytes.').error()
     await pld.msg.channel.send(embed=response)

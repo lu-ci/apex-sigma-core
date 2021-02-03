@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
 imgur_url = "https://api.imgur.com/3/image"
@@ -64,9 +64,9 @@ async def imgur(cmd, pld):
                 response = discord.Embed(color=0x85BF25)
                 response.set_author(name=link, icon_url=imgur_icon, url=link)
             else:
-                response = error('Bad image.')
+                response = GenericResponse('Bad image.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

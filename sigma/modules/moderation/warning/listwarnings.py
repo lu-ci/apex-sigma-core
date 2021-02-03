@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listwarnings(cmd, pld):
@@ -64,5 +64,5 @@ async def listwarnings(cmd, pld):
             start = f'{target.name} doesn\'t' if target.id != pld.msg.author.id else 'You don\'t'
             response = discord.Embed(color=0x55acee, title=f'💠 {start} have any warnings.')
     else:
-        response = error('No user targeted.')
+        response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.server_settings.greet.greetembed import check_field
 
 
@@ -59,11 +59,11 @@ async def byeembed(cmd, pld):
                     res_line = f'{field.title()}: {res}'
                     results.append(res_line)
                 else:
-                    response = error('Separate fields and values with a colon.')
+                    response = GenericResponse('Separate fields and values with a colon.').error()
                     await pld.msg.channel.send(embed=response)
                     return
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_embed', embed_data)
-            response = ok('Bye Embed updated.')
+            response = GenericResponse('Bye Embed updated.').ok()
             response.description = '\n'.join(results)
         else:
             if bye_embed.get('active'):
@@ -72,7 +72,7 @@ async def byeembed(cmd, pld):
                 state, ender = True, 'enabled'
             embed_data.update({'active': state})
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_embed', embed_data)
-            response = ok(f'Bye Embed {ender}.')
+            response = GenericResponse(f'Bye Embed {ender}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def leetspeak(_cmd, pld):
@@ -57,7 +57,7 @@ async def leetspeak(_cmd, pld):
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🔣 {level.title()} L33t Converter', value=text)
         else:
-            response = error('Invalid l33t level.')
+            response = GenericResponse('Invalid l33t level.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

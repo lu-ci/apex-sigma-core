@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
@@ -44,17 +44,17 @@ async def addcommand(cmd, pld):
                             res_text = 'updated' if trigger in custom_commands else 'added'
                             custom_commands.update({trigger: content})
                             await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
-                            response = ok(f'{trigger} has been {res_text}')
+                            response = GenericResponse(f'{trigger} has been {res_text}').ok()
                         else:
-                            response = error('Bad image.')
+                            response = GenericResponse('Bad image.').error()
                     else:
-                        response = error('Can\'t replace an existing core command.')
+                        response = GenericResponse('Can\'t replace an existing core command.').error()
                 else:
-                    response = error('The command can\'t have a dot in it.')
+                    response = GenericResponse('The command can\'t have a dot in it.').error()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

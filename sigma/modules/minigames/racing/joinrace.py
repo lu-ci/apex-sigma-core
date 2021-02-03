@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.racing.nodes.race_storage import add_participant, colors, names, races
 
 
@@ -52,13 +52,13 @@ async def joinrace(cmd, pld):
                         join_title = f'{icon} {pld.msg.author.display_name} joined as {connector} {names[icon]}!'
                         response = discord.Embed(color=colors[icon], title=join_title)
                     else:
-                        response = error('You are already in the race!')
+                        response = GenericResponse('You are already in the race!').error()
                 else:
-                    response = error('Sorry, no more room left!')
+                    response = GenericResponse('Sorry, no more room left!').error()
             else:
-                response = error(f'You don\'t have that much {currency}!')
+                response = GenericResponse(f'You don\'t have that much {currency}!').error()
         else:
-            response = error('We failed to sign you up for the race.')
+            response = GenericResponse('We failed to sign you up for the race.').error()
     else:
-        response = error('There is no race in preparation.')
+        response = GenericResponse('There is no race in preparation.').error()
     await pld.msg.channel.send(embed=response)

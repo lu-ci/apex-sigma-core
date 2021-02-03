@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def settings(lookup):
@@ -54,6 +54,6 @@ async def makelist(cmd, pld):
         'contents': []
     }
     await cmd.db[cmd.db.db_nam].CustomLists.insert_one(list_data)
-    response = ok(f'List `{list_data.get("list_id")}` has been created.')
+    response = GenericResponse(f'List `{list_data.get("list_id")}` has been created.').ok()
     response.set_footer(text=f'You can rename it with {cmd.bot.cfg.pref.prefix}renamelist.')
     await pld.msg.channel.send(embed=response)

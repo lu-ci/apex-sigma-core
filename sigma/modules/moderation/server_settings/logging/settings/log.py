@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 log_keys = [
     'log_antispam', 'log_bans', 'log_deletions', 'log_edits', 'log_filters',
@@ -38,11 +38,11 @@ async def log(cmd, pld):
             if order == 'all':
                 for log_key in log_keys:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, log_key, True)
-                response = ok('All logging enabled.')
+                response = GenericResponse('All logging enabled.').ok()
             elif order == 'none':
                 for log_key in log_keys:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, log_key, False)
-                response = ok('All logging disabled.')
+                response = GenericResponse('All logging disabled.').ok()
             else:
                 log_ords = order.split('; ')
                 results = []
@@ -57,10 +57,10 @@ async def log(cmd, pld):
                         res = 'Invalid'
                     res_line = f'{log_ord.title()}: {res}'
                     results.append(res_line)
-                response = ok('Log types edited.')
+                response = GenericResponse('Log types edited.').ok()
                 response.description = '\n'.join(results)
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

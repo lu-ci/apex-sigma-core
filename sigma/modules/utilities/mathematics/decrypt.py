@@ -21,7 +21,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.fernet import InvalidToken
 from discord.utils import escape_mentions
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
@@ -54,11 +54,11 @@ async def decrypt(cmd, pld):
                     response = discord.Embed(color=0xe75a70)
                     response.add_field(name='💟 Token Decrypted', value=ciphered)
             else:
-                response = error('The token or key are incorrect.')
+                response = GenericResponse('The token or key are incorrect.').error()
         else:
-            response = error('Nothing to decrypt.')
+            response = GenericResponse('Nothing to decrypt.').error()
     else:
-        response = error('You don\'t posses a key.')
+        response = GenericResponse('You don\'t posses a key.').error()
     if text:
         await pld.msg.channel.send(response)
     else:

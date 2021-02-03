@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def removeinteraction(cmd, pld):
@@ -35,7 +35,7 @@ async def removeinteraction(cmd, pld):
             await cmd.db[cmd.db.db_nam].Interactions.delete_one(interaction_item)
             response = discord.Embed(color=0xFFCC4D, title=f'🔥 Reaction `{lookup}` has been removed.')
         else:
-            response = not_found('Reaction not found.')
+            response = GenericResponse('Reaction not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

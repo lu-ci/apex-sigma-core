@@ -21,7 +21,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def liststatuses(cmd, pld):
@@ -45,5 +45,5 @@ async def liststatuses(cmd, pld):
         response.add_field(name='Info', value=f'```py\n{info}\n```')
         response.add_field(name="List", value=f'```\n{status_block}\n```', inline=False)
     else:
-        response = not_found('No statuses found.')
+        response = GenericResponse('No statuses found.').not_found()
     await pld.msg.channel.send(embed=response)

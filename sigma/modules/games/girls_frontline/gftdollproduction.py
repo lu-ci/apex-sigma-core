@@ -20,7 +20,7 @@ import aiohttp
 import discord
 from lxml import html as lx
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 tdoll_data = []
 tdoll_root = None
@@ -100,7 +100,7 @@ async def gftdollproduction(_cmd, pld):
             response.set_author(name='Girls Frontline: T-Doll Production', icon_url=gf_icon)
             response.description = '\n'.join(lines)
         else:
-            response = not_found('Nothing found.')
+            response = GenericResponse('Nothing found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

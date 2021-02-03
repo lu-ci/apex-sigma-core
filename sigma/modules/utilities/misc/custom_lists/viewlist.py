@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def viewlist(cmd, pld):
@@ -58,9 +58,9 @@ async def viewlist(cmd, pld):
                 response.description = empty if list_out == '' else list_out
                 response.set_footer(text=f'[{list_file.get("list_id")}]{icon} Page {page}')
             else:
-                response = denied('This list is private.')
+                response = GenericResponse('This list is private.').denied()
         else:
-            response = not_found('List not found.')
+            response = GenericResponse('List not found.').not_found()
     else:
-        response = error('Missing list ID.')
+        response = GenericResponse('Missing list ID.').error()
     await pld.msg.channel.send(embed=response)

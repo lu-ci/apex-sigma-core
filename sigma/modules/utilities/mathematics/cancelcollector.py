@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import current_user_collecting
 
 
@@ -33,9 +33,9 @@ async def cancelcollector(cmd, pld):
         entry = await collector_coll.find_one({'user_id': pld.msg.author.id})
         if entry:
             await collector_coll.delete_one(entry)
-            response = ok('Ok, I removed you from the queue.')
+            response = GenericResponse('Ok, I removed you from the queue.').ok()
         else:
-            response = error('You are not currently in the queue.')
+            response = GenericResponse('You are not currently in the queue.').error()
     else:
-        response = error('Can\'t cancel a already ongoing collection.')
+        response = GenericResponse('Can\'t cancel a already ongoing collection.').error()
     await pld.msg.channel.send(embed=response)

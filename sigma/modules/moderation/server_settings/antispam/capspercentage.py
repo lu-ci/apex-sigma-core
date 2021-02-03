@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def capspercentage(cmd, pld):
@@ -36,9 +36,9 @@ async def capspercentage(cmd, pld):
         if limit is not None:
             limit = 100 if limit > 100 else limit
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'caps_percentage', limit)
-            response = ok(f'Capital letter percentage set to {limit}%.')
+            response = GenericResponse(f'Capital letter percentage set to {limit}%.').ok()
         else:
-            response = error('Missing or invalid limit given.')
+            response = GenericResponse('Missing or invalid limit given.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

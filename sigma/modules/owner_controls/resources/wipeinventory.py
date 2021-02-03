@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wipeinventory(cmd, pld):
@@ -38,5 +38,5 @@ async def wipeinventory(cmd, pld):
         await cmd.db.update_inventory(target_id, [])
         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target_name}\'s inventory.')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def togglestatus(cmd, pld):
@@ -29,5 +29,5 @@ async def togglestatus(cmd, pld):
     rotation = cmd.bot.cfg.pref.status_rotation
     rotation, state = (False, '**disabled**') if rotation else (True, '**enabled**')
     cmd.bot.cfg.pref.status_rotation = rotation
-    response = ok(f'Status rotation {state}.')
+    response = GenericResponse(f'Status rotation {state}.').ok()
     await pld.msg.channel.send(embed=response)

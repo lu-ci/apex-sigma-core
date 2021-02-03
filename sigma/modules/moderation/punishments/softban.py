@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.utilities.data_processing import get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -84,15 +84,15 @@ async def softban(cmd, pld):
                             log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                         else:
-                            response = denied('Target is above my highest role.')
+                            response = GenericResponse('Target is above my highest role.').denied()
                     else:
-                        response = denied('Can\'t soft-ban someone equal or above you.')
+                        response = GenericResponse('Can\'t soft-ban someone equal or above you.').denied()
                 else:
-                    response = error('You can\'t soft-ban yourself.')
+                    response = GenericResponse('You can\'t soft-ban yourself.').error()
             else:
-                response = error('I can\'t soft-ban myself.')
+                response = GenericResponse('I can\'t soft-ban myself.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Ban permissions needed.')
+        response = GenericResponse('Access Denied. Ban permissions needed.').denied()
     await pld.msg.channel.send(embed=response)

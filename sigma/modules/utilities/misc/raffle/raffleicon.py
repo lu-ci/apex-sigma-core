@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def get_matching_emote(guild, emote):
@@ -68,14 +68,14 @@ async def raffleicon(cmd, pld):
                         invalid = True
                 if not invalid:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'raffle_icon', raffle_icon)
-                    response = ok('Raffle icon set.')
+                    response = GenericResponse('Raffle icon set.').ok()
                 else:
-                    response = error('Given emote was invalid.')
+                    response = GenericResponse('Given emote was invalid.').error()
             else:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'raffle_icon', None)
-                response = ok('Raffle icon disabled.')
+                response = GenericResponse('Raffle icon disabled.').ok()
         else:
-            response = error('No emote given.')
+            response = GenericResponse('No emote given.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def user_auth(message, list_file):
@@ -63,7 +63,7 @@ async def addline(cmd, pld):
                 mode = 'private' if list_file.get('mode') == 'private' else 'locked'
                 response = discord.Embed(color=0xFFAC33, title=f'🔏 This list is {mode}.')
         else:
-            response = error('Missing or invalid list ID.')
+            response = GenericResponse('Missing or invalid list ID.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

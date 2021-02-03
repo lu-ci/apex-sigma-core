@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -49,20 +49,20 @@ async def giveitem(cmd, pld):
                                 inv_item.update({'transferred': True})
                                 await cmd.db.add_to_inventory(target.id, inv_item)
                                 await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
-                                response = ok(f'Transferred {obj_item.name} to {target.display_name}.')
+                                response = GenericResponse(f'Transferred {obj_item.name} to {target.display_name}.').ok()
                                 response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
                             else:
-                                response = error('Transfer declined by Chamomile.')
+                                response = GenericResponse('Transfer declined by Chamomile.').error()
                         else:
-                            response = error(f'{target.name}\'s inventory is full.')
+                            response = GenericResponse(f'{target.name}\'s inventory is full.').error()
                     else:
-                        response = not_found(f'No {obj_item.name} found in your inventory.')
+                        response = GenericResponse(f'No {obj_item.name} found in your inventory.').not_found()
                 else:
-                    response = not_found('No such item exists.')
+                    response = GenericResponse('No such item exists.').not_found()
             else:
-                response = error('Can\'t give items to bots.')
+                response = GenericResponse('Can\'t give items to bots.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

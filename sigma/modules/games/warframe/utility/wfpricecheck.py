@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 api_url = 'https://api.warframe.market/v1/items/'
 items_url = 'https://warframe.market/items/'
@@ -102,13 +102,13 @@ async def wfpricecheck(_cmd, pld):
                     response.set_author(name=f'Warframe Market: {name}', icon_url=plat_img, url=page_url)
                     response.set_thumbnail(url=thumb)
                 else:
-                    response = not_found('Item not found.')
+                    response = GenericResponse('Item not found.').not_found()
             else:
-                response = not_found('Item not found.')
+                response = GenericResponse('Item not found.').not_found()
         else:
-            response = error('Could not retrieve Warframe Market data.')
+            response = GenericResponse('Could not retrieve Warframe Market data.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     try:
         await init_message.edit(embed=response)
     except discord.NotFound:

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import denied, info, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def make_greet_embed(data, greeting, guild):
@@ -56,7 +56,7 @@ async def greetdmmessage(cmd, pld):
         if pld.args:
             greeting_text = ' '.join(pld.args)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_dm_message', greeting_text)
-            response = ok('New DM Greeting Message set.')
+            response = GenericResponse('New DM Greeting Message set.').ok()
         else:
             current_greeting = pld.settings.get('greet_dm_message')
             if not current_greeting:
@@ -65,8 +65,8 @@ async def greetdmmessage(cmd, pld):
             if greet_embed.get('active'):
                 response = await make_greet_embed(greet_embed, current_greeting, pld.msg.guild)
             else:
-                response = info('Current DM Greeting Message')
+                response = GenericResponse('Current DM Greeting Message').info()
                 response.description = current_greeting
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

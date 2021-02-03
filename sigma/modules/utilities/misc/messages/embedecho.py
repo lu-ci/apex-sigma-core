@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def embedecho(_cmd, pld):
@@ -34,5 +34,5 @@ async def embedecho(_cmd, pld):
         response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
         response.description = f'{" ".join(pld.args)[:800]}'
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

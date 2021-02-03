@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.utilities.generic_responses import denied
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.server_settings.logging.settings.log import log_keys
 
 
@@ -51,5 +51,5 @@ async def logsettings(cmd, pld):
         response.add_field(name='📋 Log settings', value=details, inline=False)
         response.add_field(name='📄 Details', value=f'```\n{output}\n```', inline=False)
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

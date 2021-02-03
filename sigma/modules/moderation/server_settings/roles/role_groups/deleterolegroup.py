@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def deleterolegroup(cmd, pld):
@@ -37,9 +37,9 @@ async def deleterolegroup(cmd, pld):
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'role_groups', role_groups)
                 response = discord.Embed(color=0xFFCC4D, title=f'🔥 Role group {group_id} has been deleted.')
             else:
-                response = not_found(f'Group {group_id} not found.')
+                response = GenericResponse(f'Group {group_id} not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

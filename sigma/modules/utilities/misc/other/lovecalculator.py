@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def lovecalculator(_cmd, pld):
@@ -55,7 +55,7 @@ async def lovecalculator(_cmd, pld):
             response.add_field(name='Second Item', value=f'```haskell\n{second_item}\n```')
             response.add_field(name='Value', value=f'```css\n{bar_text}\n```', inline=False)
         else:
-            response = error('No targets given.')
+            response = GenericResponse('No targets given.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

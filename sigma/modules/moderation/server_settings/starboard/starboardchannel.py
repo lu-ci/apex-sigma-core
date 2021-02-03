@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def starboardchannel(cmd, pld):
@@ -32,9 +32,9 @@ async def starboardchannel(cmd, pld):
             starboard_doc = pld.settings.get('starboard') or {}
             starboard_doc.update({'channel_id': target.id})
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)
-            response = ok(f'Starboard Channel set to {target.name}.')
+            response = GenericResponse(f'Starboard Channel set to {target.name}.').ok()
         else:
-            response = error('I can\'t write in that channel.')
+            response = GenericResponse('I can\'t write in that channel.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

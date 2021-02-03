@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def resume(_cmd, pld):
@@ -39,11 +39,11 @@ async def resume(_cmd, pld):
                     pld.msg.guild.voice_client.resume()
                     response = discord.Embed(color=0x3B88C3, title='⏯ Music has been resumed.')
                 else:
-                    response = error('The player is not paused.')
+                    response = GenericResponse('The player is not paused.').error()
             else:
-                response = error('I am not connected to a voice channel.')
+                response = GenericResponse('I am not connected to a voice channel.').error()
         else:
-            response = error('You are not in my voice channel.')
+            response = GenericResponse('You are not in my voice channel.').error()
     else:
-        response = error('You are not in a voice channel.')
+        response = GenericResponse('You are not in a voice channel.').error()
     await pld.msg.channel.send(embed=response)

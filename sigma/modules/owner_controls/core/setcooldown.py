@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def setcooldown(cmd, pld):
@@ -45,13 +45,13 @@ async def setcooldown(cmd, pld):
                         await cd_coll.insert_one(cddata)
                     else:
                         await cd_coll.update_one({'command': command}, {'$set': cddata})
-                    response = ok(f'Command {command} now has a {cooldown}s cooldown.')
+                    response = GenericResponse(f'Command {command} now has a {cooldown}s cooldown.').ok()
                 else:
-                    response = not_found(f'Command `{command}` not found.')
+                    response = GenericResponse(f'Command `{command}` not found.').not_found()
             else:
-                response = error('Missing or invalid cooldown.')
+                response = GenericResponse('Missing or invalid cooldown.').error()
         else:
-            response = error('Missing command to edit.')
+            response = GenericResponse('Missing command to edit.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

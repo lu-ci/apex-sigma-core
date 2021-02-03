@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -103,13 +103,13 @@ async def sell(cmd, pld):
                     response.title = f'💶 You sold {count} {item_o.name}{ender} for {value} {currency}.'
                 else:
                     if not lookup.isdigit():
-                        response = not_found(f'I didn\'t find any {lookup} in your inventory.')
+                        response = GenericResponse(f'I didn\'t find any {lookup} in your inventory.').not_found()
                     else:
-                        response = not_found(f'Sell {lookup} of what?')
+                        response = GenericResponse(f'Sell {lookup} of what?').not_found()
         else:
             response = discord.Embed(color=0xc6e4b5, title='💸 Your inventory is empty...')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
         Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))

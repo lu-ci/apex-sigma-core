@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def addstatus(cmd, pld):
@@ -34,9 +34,9 @@ async def addstatus(cmd, pld):
         if not status_exists:
             status_id = secrets.token_hex(5)
             await cmd.db[cmd.db.db_nam].StatusFiles.insert_one({'text': status_text, 'id': status_id})
-            response = ok(f'Added status `{status_id}`.')
+            response = GenericResponse(f'Added status `{status_id}`.').ok()
         else:
-            response = error('Status already exists.')
+            response = GenericResponse('Status already exists.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

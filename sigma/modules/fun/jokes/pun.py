@@ -20,7 +20,7 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def split_content(text):
@@ -57,5 +57,5 @@ async def pun(_cmd, pld):
         response = discord.Embed(color=0xFFDC5D, title='😒 Have a pun...')
         response.description = pun_text
     else:
-        response = error('Sorry, I failed to find a pun.')
+        response = GenericResponse('Sorry, I failed to find a pun.').error()
     await pld.msg.channel.send(embed=response)

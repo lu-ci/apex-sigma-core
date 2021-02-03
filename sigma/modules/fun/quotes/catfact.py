@@ -22,7 +22,7 @@ from json.decoder import JSONDecodeError
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def catfact(_cmd, pld):
@@ -44,5 +44,5 @@ async def catfact(_cmd, pld):
         response = discord.Embed(color=0xFFDC5D)
         response.add_field(name='🐱 Did you know...', value=fact)
     else:
-        response = error('Sorry, I got invalid data and couldn\'t get a fact.')
+        response = GenericResponse('Sorry, I got invalid data and couldn\'t get a fact.').error()
     await pld.msg.channel.send(embed=response)

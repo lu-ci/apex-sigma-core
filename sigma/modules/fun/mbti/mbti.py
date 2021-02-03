@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.fun.mbti.mech.storage import MBTICore
 
 mbti_img = 'https://i.imgur.com/XzJPkmu.png'
@@ -79,7 +79,7 @@ async def mbti(_cmd, pld):
                     item = 'First type'
                 else:
                     item = 'Second type'
-                response = not_found(f'{item} not found.')
+                response = GenericResponse(f'{item} not found.').not_found()
         elif lookup in MBTICore.mbti_types:
             mbti_type = MBTICore.mbti_types[lookup]
             title, description = f'👥 {lookup.upper()}', make_paragraph(mbti_type)
@@ -98,7 +98,7 @@ async def mbti(_cmd, pld):
                 item = 'Function'
             else:
                 item = 'Query'
-            response = not_found(f'{item} not found.')
+            response = GenericResponse(f'{item} not found.').not_found()
     else:
         title, description = '👥 Myers-Briggs Type Indicator', make_paragraph(MBTICore.mbti_overview)
         response = discord.Embed(color=0x734d5f, title=title, description=description)

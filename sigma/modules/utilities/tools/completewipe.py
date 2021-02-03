@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 IGNORE_COLLS = [
     'Interactions', 'BlacklistedUsers', 'BanClockworkDocs', 'HardmuteClockworkDocs'
@@ -44,7 +44,7 @@ async def completewipe(cmd, pld):
             if collection not in IGNORE_COLLS:
                 results = await cmd.db[cmd.db.db_nam][collection].delete_many({'user_id': pld.msg.author.id})
                 total += results.deleted_count
-        response = ok(f'All your data has been wiped. Deleted {total} documents.')
+        response = GenericResponse(f'All your data has been wiped. Deleted {total} documents.').ok()
     else:
         response = dresp.generic('data wipe')
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.nsfw.mech.visual_novels import key_vn_list
 
 
@@ -41,5 +41,5 @@ async def keyvis(_cmd, pld):
         response = discord.Embed(color=0x744EAA)
         response.set_image(url=image_url)
     else:
-        response = not_found('No results.')
+        response = GenericResponse('No results.').not_found()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def boundinvites(_cmd, pld):
@@ -48,7 +48,7 @@ async def boundinvites(_cmd, pld):
             response = discord.Embed(color=0xF9F9F9, title='⛓ List of Bound Invites')
             response.description = '\n'.join(output_lines)
         else:
-            response = not_found('No invites have been bound.')
+            response = GenericResponse('No invites have been bound.').not_found()
     else:
-        response = denied('Access Denied. Create Instant Invites needed.')
+        response = GenericResponse('Access Denied. Create Instant Invites needed.').denied()
     await pld.msg.channel.send(embed=response)

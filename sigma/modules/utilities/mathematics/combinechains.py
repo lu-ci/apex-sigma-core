@@ -24,7 +24,7 @@ import discord
 import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
 
 
@@ -100,9 +100,9 @@ async def combinechains(cmd, pld):
                         response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
                         response.add_field(name='💭 Hmm... something like...', value=sentence)
                 else:
-                    response = error('Failed to combine the markov chains.')
+                    response = GenericResponse('Failed to combine the markov chains.').error()
             else:
-                response = error(f'{empty_chain.name} does not have a chain.')
+                response = GenericResponse(f'{empty_chain.name} does not have a chain.').error()
     else:
-        response = error('Invalid number of targets.')
+        response = GenericResponse('Invalid number of targets.').error()
     await pld.msg.channel.send(embed=response)

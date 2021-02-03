@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shadowpollview(cmd, pld):
@@ -67,7 +67,7 @@ async def shadowpollview(cmd, pld):
             else:
                 response = discord.Embed(color=0xFFCC4D, title='🔒 That poll is not active.')
         else:
-            response = not_found('Poll not found.')
+            response = GenericResponse('Poll not found.').not_found()
     else:
-        response = error('Missing poll ID.')
+        response = GenericResponse('Missing poll ID.').error()
     await pld.msg.channel.send(embed=response)

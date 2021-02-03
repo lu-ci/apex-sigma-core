@@ -22,7 +22,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, ok, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 TIMEOUT = 60
@@ -127,7 +127,7 @@ class DialogueResponse(object):
         :return:
         :rtype: discord.Embed
         """
-        respone = error('Failed generating the dialogue embed.')
+        respone = GenericResponse('Failed generating the dialogue embed.').error()
         respone.description = 'Please make sure I can embed links and add reactions.'
         return respone
 

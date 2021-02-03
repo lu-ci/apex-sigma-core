@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -83,12 +83,12 @@ async def hunt(cmd, pld):
                         else:
                             response = dresp.generic('hunting')
             else:
-                response = error('Your inventory is full.')
+                response = GenericResponse('Your inventory is full.').error()
         else:
             timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
             response = discord.Embed(color=0x696969, title=f'🕙 You are resting for another {timeout} seconds.')
         Ongoing.del_ongoing('profession', pld.msg.author.id)
     else:
-        response = warn("Can't do multiple professions at once.")
+        response = GenericResponse("Can't do multiple professions at once.").warn()
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

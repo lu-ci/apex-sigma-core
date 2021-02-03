@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def filterautowarn(cmd, pld):
@@ -35,7 +35,7 @@ async def filterautowarn(cmd, pld):
             new_value = True
             ending = 'enabled'
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_auto_warn', new_value)
-        response = ok(f'Automatic filter warnings have been {ending}.')
+        response = GenericResponse(f'Automatic filter warnings have been {ending}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

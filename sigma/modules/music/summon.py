@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def summon(_cmd, pld):
@@ -39,7 +39,7 @@ async def summon(_cmd, pld):
                         title = f'🚩 Moved to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
                     else:
-                        response = error('We are in the same channel.')
+                        response = GenericResponse('We are in the same channel.').error()
                 else:
                     # noinspection PyBroadException
                     try:
@@ -49,11 +49,11 @@ async def summon(_cmd, pld):
                     except Exception:
                         if pld.msg.guild.voice_client:
                             await pld.msg.guild.voice_client.disconnect()
-                        response = error('I timed out while trying to connect.')
+                        response = GenericResponse('I timed out while trying to connect.').error()
             else:
-                response = error(f'I am not allowed to speak in {vc.name}.')
+                response = GenericResponse(f'I am not allowed to speak in {vc.name}.').error()
         else:
-            response = error(f'I am not allowed to connect to {vc.name}.')
+            response = GenericResponse(f'I am not allowed to connect to {vc.name}.').error()
     else:
-        response = error('You are not in a voice channel.')
+        response = GenericResponse('You are not in a voice channel.').error()
     await pld.msg.channel.send(embed=response)

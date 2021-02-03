@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def get_perm_names(gld):
@@ -81,12 +81,12 @@ async def roleswithpermission(_cmd, pld):
                 response = discord.Embed(color=0xF9F9F9, title=f'📃 Found {len(matched_roles)} roles.')
                 response.description = ', '.join([r.name for r in matched_roles])
             else:
-                response = not_found('No roles match that search.')
+                response = GenericResponse('No roles match that search.').not_found()
         else:
             ender = 'is' if len(invalid_perms) == 1 else 'are'
-            response = error('Unrecognized permissions.')
+            response = GenericResponse('Unrecognized permissions.').error()
             response.description = f'I don\'t know what {", ".join(invalid_perms)} {ender}.'
             response.description += f'\nThe available permissions are: {", ".join(get_perm_names(pld.msg.guild))}'
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

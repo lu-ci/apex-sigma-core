@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unbindrole(cmd, pld):
@@ -42,15 +42,15 @@ async def unbindrole(cmd, pld):
                         bound_roles.remove(guild_role.id)
                         role_groups.update({group_id: bound_roles})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'role_groups', role_groups)
-                        response = ok(f'Removed {role_name} from group {group_id}.')
+                        response = GenericResponse(f'Removed {role_name} from group {group_id}.').ok()
                     else:
-                        response = error(f'{role_name} is not bound to {group_id}.')
+                        response = GenericResponse(f'{role_name} is not bound to {group_id}.').error()
                 else:
-                    response = not_found(f'{lookup} not found.')
+                    response = GenericResponse(f'{lookup} not found.').not_found()
             else:
-                response = not_found(f'Group {group_id} not found.')
+                response = GenericResponse(f'Group {group_id} not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

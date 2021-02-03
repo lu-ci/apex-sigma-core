@@ -21,7 +21,7 @@ import re
 import discord
 
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 from sigma.modules.moderation.punishments.kick import generate_log_embed
 
@@ -108,7 +108,7 @@ async def masskick(cmd, pld):
             else:
                 response = discord.Embed(color=0xBE1931, title=results)
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Kick permissions needed.')
+        response = GenericResponse('Access Denied. Kick permissions needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import secrets
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def makerolegroup(cmd, pld):
@@ -33,7 +33,7 @@ async def makerolegroup(cmd, pld):
         group_id = secrets.token_hex(3)
         role_groups.update({group_id: []})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'role_groups', role_groups)
-        response = ok(f'Role group {group_id} has been created.')
+        response = GenericResponse(f'Role group {group_id} has been created.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

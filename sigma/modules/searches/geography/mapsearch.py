@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 from geopy.geocoders import Nominatim
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 map_icon = 'https://i.imgur.com/zFl9UPx.jpg'
 
@@ -47,5 +47,5 @@ async def mapsearch(cmd, pld):
             response = discord.Embed(color=0xdd4e40)
             response.set_author(name=f'Broad Search: {search.title()}', icon_url=map_icon, url=maps_url)
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

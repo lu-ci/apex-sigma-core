@@ -21,7 +21,7 @@ import secrets
 
 import aiohttp
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.tools.imgur import upload_image
 
 
@@ -163,19 +163,19 @@ async def addinteraction(cmd, pld):
                                     inter_data.update({'active': True})
                                 await cmd.db[cmd.db.db_nam].Interactions.insert_one(inter_data)
                                 title = f'Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
-                                response = ok(title)
+                                response = GenericResponse(title).ok()
                             else:
-                                response = error('Bad GIF.')
+                                response = GenericResponse('Bad GIF.').error()
                         else:
-                            response = error('That GIF has already been submitted.')
+                            response = GenericResponse('That GIF has already been submitted.').error()
                     else:
-                        response = error('The submitted link gave a bad response.')
+                        response = GenericResponse('The submitted link gave a bad response.').error()
                 else:
-                    response = error('No such interaction was found.')
+                    response = GenericResponse('No such interaction was found.').error()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

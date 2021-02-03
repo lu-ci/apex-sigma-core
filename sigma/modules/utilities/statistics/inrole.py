@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 accepted_states = ['dnd', 'idle', 'offline', 'online']
 
@@ -58,7 +58,7 @@ async def inrole(_cmd, pld):
         try:
             lookup, state, page = parse_args(pld.args)
         except IndexError:
-            response = error('Bad input. See usage example.')
+            response = GenericResponse('Bad input. See usage example.').error()
             await pld.msg.channel.send(embed=response)
             return
         if lookup:
@@ -82,11 +82,11 @@ async def inrole(_cmd, pld):
                     response.add_field(name='📄 Details', value=value, inline=False)
                     response.add_field(name='👥 Members', value=f'```hs\n{members_table}\n```', inline=False)
                 else:
-                    response = not_found(f'No users have the {role_search.name} role.')
+                    response = GenericResponse(f'No users have the {role_search.name} role.').not_found()
             else:
-                response = not_found(f'{lookup} not found.')
+                response = GenericResponse(f'{lookup} not found.').not_found()
         else:
-            response = error('Missing role name.')
+            response = GenericResponse('Missing role name.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

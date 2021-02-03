@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def removereminder(cmd, pld):
@@ -32,9 +32,9 @@ async def removereminder(cmd, pld):
         reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
         if reminder:
             await cmd.db[cmd.db.db_nam].Reminders.delete_one(lookup_data)
-            response = ok(f'Reminder {rem_id} has been deleted.')
+            response = GenericResponse(f'Reminder {rem_id} has been deleted.').ok()
         else:
-            response = not_found(f'Reminder `{rem_id}` not found.')
+            response = GenericResponse(f'Reminder `{rem_id}` not found.').not_found()
     else:
-        response = error('Missing reminder ID.')
+        response = GenericResponse('Missing reminder ID.').error()
     await pld.msg.channel.send(embed=response)

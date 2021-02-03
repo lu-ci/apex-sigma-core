@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def renamecommand(cmd, pld):
@@ -39,19 +39,19 @@ async def renamecommand(cmd, pld):
                                 custom_commands.update({new_trigger: custom_commands[old_trigger]})
                                 del custom_commands[old_trigger]
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'custom_commands', custom_commands)
-                                response = ok(f'{old_trigger} updated.')
+                                response = GenericResponse(f'{old_trigger} updated.').ok()
                             else:
-                                response = error('The new trigger is already a command.')
+                                response = GenericResponse('The new trigger is already a command.').error()
                         else:
-                            response = not_found('Command not found.')
+                            response = GenericResponse('Command not found.').not_found()
                     else:
-                        response = error('Can\'t replace an existing core command.')
+                        response = GenericResponse('Can\'t replace an existing core command.').error()
                 else:
-                    response = error('The command can\'t have a dot in it.')
+                    response = GenericResponse('The command can\'t have a dot in it.').error()
             else:
-                response = error('Invalid number of arguments.')
+                response = GenericResponse('Invalid number of arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

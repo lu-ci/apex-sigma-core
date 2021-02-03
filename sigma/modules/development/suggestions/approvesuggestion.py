@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def parse_approval(args):
@@ -126,7 +126,7 @@ async def approvesuggestion(cmd, pld):
                 gl_issue_url = await submit_gl_issue(cmd.cfg.token, cmd.cfg.project, title, gl_desc)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user = ok(f'Suggestion {token} approved by {pld.msg.author.display_name}.')
+                to_user = GenericResponse(f'Suggestion {token} approved by {pld.msg.author.display_name}.').ok()
                 if gl_issue_url:
                     to_user_desc = 'Your suggestion was approved, you can view its status and details [here]'
                     to_user_desc += f'({gl_issue_url}). If you need info, the support server is in the help command.'
@@ -135,13 +135,13 @@ async def approvesuggestion(cmd, pld):
                 to_user.description = to_user_desc
                 try:
                     await athr.send(embed=to_user)
-                    response = ok(f'Suggestion {token} approved.')
+                    response = GenericResponse(f'Suggestion {token} approved.').ok()
                 except (discord.Forbidden, discord.NotFound):
-                    response = ok(f'Suggestion {token} approved, but delivery to author failed.')
+                    response = GenericResponse(f'Suggestion {token} approved, but delivery to author failed.').ok()
             else:
-                response = ok(f'Suggestion {token} approved, but the author was not found.')
+                response = GenericResponse(f'Suggestion {token} approved, but the author was not found.').ok()
         else:
-            response = error('No suggestion entry with that ID was found.')
+            response = GenericResponse('No suggestion entry with that ID was found.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

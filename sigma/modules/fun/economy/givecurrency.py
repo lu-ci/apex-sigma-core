@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def givecurrency(cmd, pld):
@@ -46,19 +46,19 @@ async def givecurrency(cmd, pld):
                             if current_kud >= amount:
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
                                 await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
-                                response = ok(f'Transferred {amount} to {target.display_name}.')
+                                response = GenericResponse(f'Transferred {amount} to {target.display_name}.').ok()
                             else:
                                 response = discord.Embed(color=0xa7d28b, title='💸 You don\'t have that much.')
                         else:
-                            response = error('Transaction declined by Chamomile.')
+                            response = GenericResponse('Transaction declined by Chamomile.').error()
                     else:
-                        response = error('Invalid amount.')
+                        response = GenericResponse('Invalid amount.').error()
                 else:
-                    response = error('Can\'t give currency to bots.')
+                    response = GenericResponse('Can\'t give currency to bots.').error()
             else:
-                response = error('No user targeted.')
+                response = GenericResponse('No user targeted.').error()
         else:
-            response = error('Missing arguments.')
+            response = GenericResponse('Missing arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

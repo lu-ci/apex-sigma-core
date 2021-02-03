@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def check_field(field, value):
@@ -81,11 +81,11 @@ async def greetembed(cmd, pld):
                     res_line = f'{field.title()}: {res}'
                     results.append(res_line)
                 else:
-                    response = error('Separate fields and values with a colon.')
+                    response = GenericResponse('Separate fields and values with a colon.').error()
                     await pld.msg.channel.send(embed=response)
                     return
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_embed', embed_data)
-            response = ok('Greeting Embed updated.')
+            response = GenericResponse('Greeting Embed updated.').ok()
             response.description = '\n'.join(results)
         else:
             if greet_embed.get('active'):
@@ -94,7 +94,7 @@ async def greetembed(cmd, pld):
                 state, ender = True, 'enabled'
             embed_data.update({'active': state})
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_embed', embed_data)
-            response = ok(f'Greeting Embed {ender}.')
+            response = GenericResponse(f'Greeting Embed {ender}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

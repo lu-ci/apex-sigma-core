@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
 from sigma.modules.utilities.mathematics.collector_clockwork import check_queued, get_channel, get_target
 
@@ -93,17 +93,17 @@ async def collectchain(cmd, pld):
                     response.set_author(name=title, icon_url=user_avatar(target_usr))
                 else:
                     if target_usr.id == cmd.bot.user.id:
-                        response = error('My chains are not interesting, trust me.')
+                        response = GenericResponse('My chains are not interesting, trust me.').error()
                     else:
-                        response = error('I refuse to collect a chain for a bot.')
+                        response = GenericResponse('I refuse to collect a chain for a bot.').error()
             else:
                 mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
-                response = error(f'{starter} already in the queue or {mid} pending entry.')
+                response = GenericResponse(f'{starter} already in the queue or {mid} pending entry.').error()
         else:
             if blocked:
-                response = error(f'Only {target_usr.name} can collect their own chain.')
+                response = GenericResponse(f'Only {target_usr.name} can collect their own chain.').error()
             else:
-                response = error(f'Chains for #{target_chn.name} have been disabled.')
+                response = GenericResponse(f'Chains for #{target_chn.name} have been disabled.').error()
     else:
-        response = error(f'I can\'t read messages in #{target_chn.name}.')
+        response = GenericResponse(f'I can\'t read messages in #{target_chn.name}.').error()
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_kanji_dict(kanji_page):
@@ -183,9 +183,9 @@ async def kanji(_cmd, pld):
                 response.set_image(url=kanji_dict['stroke order'])
                 response.add_field(name='Readings', value='\n'.join(rds))
             else:
-                response = not_found('No results.')
+                response = GenericResponse('No results.').not_found()
         else:
-            response = error('Could not retrieve Jisho data.')
+            response = GenericResponse('Could not retrieve Jisho data.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

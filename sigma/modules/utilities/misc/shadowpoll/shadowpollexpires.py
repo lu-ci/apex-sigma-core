@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.misc.reminders.remindme import convert_to_seconds
 
 
@@ -48,13 +48,13 @@ async def shadowpollexpires(cmd, pld):
                         title = f'⏰ Poll set to expire {end_human}.'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=end_datet)
                     else:
-                        response = denied('You didn\'t make this poll.')
+                        response = GenericResponse('You didn\'t make this poll.').denied()
                 else:
-                    response = not_found('Poll not found.')
+                    response = GenericResponse('Poll not found.').not_found()
             except (LookupError, ValueError):
-                response = error('Please use the format HH:MM:SS.')
+                response = GenericResponse('Please use the format HH:MM:SS.').error()
         else:
-            response = error('Missing arguments.')
+            response = GenericResponse('Missing arguments.').error()
     else:
-        response = error('Missing poll ID and expiration time.')
+        response = GenericResponse('Missing poll ID and expiration time.').error()
     await pld.msg.channel.send(embed=response)

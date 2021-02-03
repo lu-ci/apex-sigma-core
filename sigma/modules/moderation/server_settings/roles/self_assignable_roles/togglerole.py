@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def togglerole(_cmd, pld):
@@ -43,13 +43,13 @@ async def togglerole(_cmd, pld):
                         response = discord.Embed(color=0x262626, title=title)
                     else:
                         await target.add_roles(target_role, reason='Role self assigned.')
-                        response = ok(f'{target_role.name} has been added to you, {target.display_name}.')
+                        response = GenericResponse(f'{target_role.name} has been added to you, {target.display_name}.').ok()
                 else:
-                    response = warn(f'{target_role.name} is not self assignable.')
+                    response = GenericResponse(f'{target_role.name} is not self assignable.').warn()
             else:
-                response = error('This role is above my highest role.')
+                response = GenericResponse('This role is above my highest role.').error()
         else:
             response = discord.Embed(color=0x696969, title=f' 🔍 {lookup} not found.')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

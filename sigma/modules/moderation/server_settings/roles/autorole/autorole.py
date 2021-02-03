@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def autorole(cmd, pld):
@@ -37,14 +37,14 @@ async def autorole(cmd, pld):
                     role_bellow = bool(target_role.position < pld.msg.guild.me.top_role.position)
                     if role_bellow:
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', target_role.id)
-                        response = ok(f'{target_role.name} is now the autorole.')
+                        response = GenericResponse(f'{target_role.name} is now the autorole.').ok()
                     else:
-                        response = error('This role is above my highest role.')
+                        response = GenericResponse('This role is above my highest role.').error()
                 else:
-                    response = not_found(f'{lookup} not found.')
+                    response = GenericResponse(f'{lookup} not found.').not_found()
             else:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_role', None)
-                response = ok('Autorole has been disabled.')
+                response = GenericResponse('Autorole has been disabled.').ok()
         else:
             curr_role_id = pld.settings.get('auto_role')
             if curr_role_id:
@@ -52,9 +52,9 @@ async def autorole(cmd, pld):
                 if curr_role:
                     response = discord.Embed(color=0xF9F9F9, title=f'📇 The current autorole is **{curr_role}**.')
                 else:
-                    response = error('An autorole is set but was not found.')
+                    response = GenericResponse('An autorole is set but was not found.').error()
             else:
                 response = discord.Embed(color=0xF9F9F9, title='📇 No autorole set.')
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -22,7 +22,7 @@ import aiohttp
 import discord
 import lxml.html as lx
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
@@ -116,14 +116,14 @@ async def wolframalpha(cmd, pld):
                         response.set_author(name='Wolfram Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
                         response.set_footer(text='View the full results by clicking the embed title.')
                     else:
-                        response = error('Results too long to display.')
+                        response = GenericResponse('Results too long to display.').error()
                         response.description = f'You can view them directly [here]({wolfram_url + query}).'
                 else:
-                    response = not_found('No results.')
+                    response = GenericResponse('No results.').not_found()
             else:
-                response = error('Nothing inputted.')
+                response = GenericResponse('Nothing inputted.').error()
         else:
-            response = error('Wolfram can\'t be used during an ongoing math game.')
+            response = GenericResponse('Wolfram can\'t be used during an ongoing math game.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await send_response(pld.msg, init_message, response)

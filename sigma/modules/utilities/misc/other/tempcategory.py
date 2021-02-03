@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def tempcategory(cmd, pld):
@@ -32,7 +32,7 @@ async def tempcategory(cmd, pld):
         if pld.args:
             if pld.args[0].lower() == 'disable':
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'temp_channel_category', None)
-                response = ok('Temp Channel Category disabled.')
+                response = GenericResponse('Temp Channel Category disabled.').ok()
                 await pld.msg.channel.send(embed=response)
                 return
             target = None
@@ -49,13 +49,13 @@ async def tempcategory(cmd, pld):
             if target:
                 if pld.msg.guild.me.permissions_in(target).manage_channels:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'temp_channel_category', target.id)
-                    response = ok(f'Temp Channel Category set to {target.name}')
+                    response = GenericResponse(f'Temp Channel Category set to {target.name}').ok()
                 else:
-                    response = error('I can\'t create channels in that category.')
+                    response = GenericResponse('I can\'t create channels in that category.').error()
             else:
-                response = not_found('Category not found.')
+                response = GenericResponse('Category not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Channels needed.')
+        response = GenericResponse('Access Denied. Manage Channels needed.').denied()
     await pld.msg.channel.send(embed=response)

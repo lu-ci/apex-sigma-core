@@ -20,7 +20,7 @@ import asyncio
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.searches.metacritic.mech.core import MetaCriticGame, MetaCriticMusic
 from sigma.modules.searches.metacritic.mech.core import MetaCriticMovie, MetaCriticSearch
 
@@ -80,11 +80,11 @@ async def metacritic(cmd, pld):
                         except asyncio.TimeoutError:
                             return
                     else:
-                        response = not_found(f'No results for {title}.')
+                        response = GenericResponse(f'No results for {title}.').not_found()
                         await pld.msg.channel.send(embed=response)
                         return
                 else:
-                    response = error('Invalid search filter.')
+                    response = GenericResponse('Invalid search filter.').error()
                     await pld.msg.channel.send(embed=response)
                     return
             if category in ['game', 'movie', 'tv', 'music']:
@@ -97,16 +97,16 @@ async def metacritic(cmd, pld):
                         if mc.valid_response:
                             response = mc.generate_embed()
                         else:
-                            response = not_found('Game not found.')
+                            response = GenericResponse('Game not found.').not_found()
                     else:
-                        response = error('Invalid game platform.')
+                        response = GenericResponse('Invalid game platform.').error()
                 elif category == 'movie':
                     mc = MetaCriticMovie(cmd)
                     await mc.set_response_data(category, title)
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:
-                        response = not_found('Movie not found.')
+                        response = GenericResponse('Movie not found.').not_found()
                 elif category == 'tv':
                     mc = MetaCriticMovie(cmd)
                     season = ''
@@ -116,7 +116,7 @@ async def metacritic(cmd, pld):
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:
-                        response = not_found('TV Show not found.')
+                        response = GenericResponse('TV Show not found.').not_found()
                 else:
                     mc = MetaCriticMusic(cmd)
                     album, _, artist = title.partition('/')
@@ -124,13 +124,13 @@ async def metacritic(cmd, pld):
                     if mc.valid_response:
                         response = mc.generate_embed()
                     else:
-                        response = not_found('Album not found.')
+                        response = GenericResponse('Album not found.').not_found()
             else:
-                response = error('Invalid category.')
+                response = GenericResponse('Invalid category.').error()
         else:
-            response = error('Separate fields with forward slashes.')
+            response = GenericResponse('Separate fields with forward slashes.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     if results_msg:
         try:
             await results_msg.edit(embed=response)

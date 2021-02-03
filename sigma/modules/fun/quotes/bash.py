@@ -20,7 +20,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 cache = []
 
@@ -66,5 +66,5 @@ async def bash(_cmd, pld):
         response = discord.Embed(color=0xf7d7c4, description=f'```{highlight}\n{text}\n```')
         response.set_author(name=f"📜 #{quote['id']} | Score: {quote['score']}", url=f"http://bash.org/?{quote['id']}")
     else:
-        response = error('Unable to retrieve a quote.')
+        response = GenericResponse('Unable to retrieve a quote.').error()
     await pld.msg.channel.send(embed=response)

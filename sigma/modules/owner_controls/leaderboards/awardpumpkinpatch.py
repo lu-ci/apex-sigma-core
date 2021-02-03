@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.resources import SigmaResource
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def awardpumpkinpatch(cmd, pld):
@@ -68,5 +68,5 @@ async def awardpumpkinpatch(cmd, pld):
             award = int(100000 * guild_multi * (user_val / guild_val) * (guild_count / 1.666))
             award_value += award
             await cmd.db.add_resource(int(user_id), 'currency', award, cmd.name, pld.msg, ranked=False)
-    response = ok(f'Awarded {award_count} users a total of {award_value} {cmd.bot.cfg.pref.currency}.')
+    response = GenericResponse(f'Awarded {award_count} users a total of {award_value} {cmd.bot.cfg.pref.currency}.').ok()
     await pld.msg.channel.send(embed=response)

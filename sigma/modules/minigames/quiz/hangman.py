@@ -21,7 +21,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.quiz.hang_man.core import Gallows
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -147,5 +147,5 @@ async def hangman(cmd, pld):
         if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
             Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
     else:
-        ongoing_error = error('There is one already ongoing.')
+        ongoing_error = GenericResponse('There is one already ongoing.').error()
         await pld.msg.channel.send(embed=ongoing_error)

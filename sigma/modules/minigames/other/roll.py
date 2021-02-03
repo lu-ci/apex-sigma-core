@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def roll(_cmd, pld):
@@ -62,11 +62,11 @@ async def roll(_cmd, pld):
                     response = discord.Embed(color=0xea596e)
                     response.add_field(name='🎲 You Rolled', value=roll_out)
                 else:
-                    response = error('The high end must be positive and not a zero.')
+                    response = GenericResponse('The high end must be positive and not a zero.').error()
             else:
-                response = error('Maximum number allowed is 999999999999.')
+                response = GenericResponse('Maximum number allowed is 999999999999.').error()
         else:
-            response = error('Up to 10 dice please.')
+            response = GenericResponse('Up to 10 dice please.').error()
     else:
-        response = error('Invalid data given, please follow the example.')
+        response = GenericResponse('Invalid data given, please follow the example.').error()
     await pld.msg.channel.send(embed=response)

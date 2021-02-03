@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 darvo_icon = 'https://i.imgur.com/bpDzO9W.png'
@@ -45,5 +45,5 @@ async def wfdailydeal(_cmd, pld):
         response.add_field(name="Darvo's Daily Deal", value=item_out)
         response.set_footer(text=f'Sale ends {end_time}', icon_url=darvo_icon)
     else:
-        response = error('Could not retrieve Daily Deal data.')
+        response = GenericResponse('Could not retrieve Daily Deal data.').error()
     await pld.msg.channel.send(embed=response)

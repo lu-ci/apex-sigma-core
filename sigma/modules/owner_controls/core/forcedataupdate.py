@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_bar(completed, total):
@@ -63,7 +63,7 @@ async def forcedataupdate(cmd, pld):
             await db_init_event.execute(True)
         except Exception:
             cmd.log.error(f'Failed reinitializing {db_init_event.name} content.')
-    response = ok('Database static content reinitialized.')
+    response = GenericResponse('Database static content reinitialized.').ok()
     try:
         await working_msg.edit(embed=response)
     except discord.NotFound:

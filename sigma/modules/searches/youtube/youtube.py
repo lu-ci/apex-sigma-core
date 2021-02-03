@@ -20,7 +20,7 @@ import datetime
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def get_average(dislikes, likes):
@@ -91,11 +91,11 @@ async def youtube(cmd, pld):
                     response.add_field(name='Info', value=info_text)
                     response.add_field(name='Stats', value=stat_text)
             else:
-                response = not_found('Invalid data retrieved. Try a different search.')
+                response = GenericResponse('Invalid data retrieved. Try a different search.').not_found()
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     if text_mode:
         await pld.msg.channel.send(response)
     else:

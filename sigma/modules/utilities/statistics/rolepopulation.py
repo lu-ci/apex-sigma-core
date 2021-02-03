@@ -21,7 +21,7 @@ import operator
 import discord
 from humanfriendly.tables import format_pretty_table as boop
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def percentify(small, big):
@@ -56,7 +56,7 @@ async def rolepopulation(_cmd, pld):
             response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
             response.add_field(name=f'{role_search.name} Population', value=f'```py\n{counter}\n```')
         else:
-            response = not_found(f'{rl_qry} not found.')
+            response = GenericResponse(f'{rl_qry} not found.').not_found()
     else:
         role_dict = {}
         for role in pld.msg.guild.roles:

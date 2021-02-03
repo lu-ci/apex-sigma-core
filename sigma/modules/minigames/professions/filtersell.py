@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -92,14 +92,14 @@ async def filtersell(cmd, pld):
                         else:
                             response = dresp.generic(f'item sale by {mode}')
                     else:
-                        response = not_found('No items with the selected criteria were found.')
+                        response = GenericResponse('No items with the selected criteria were found.').not_found()
                 else:
-                    response = error('Invalid arguments.')
+                    response = GenericResponse('Invalid arguments.').error()
             else:
                 response = discord.Embed(color=0xc6e4b5, title='💸 Your inventory is empty...')
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

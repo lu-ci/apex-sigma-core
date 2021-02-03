@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def collectionjar(cmd, pld):
@@ -32,7 +32,7 @@ async def collectionjar(cmd, pld):
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         jar_doc.update({'state': state})
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-        response = ok(f'Collection Jar {ender}.')
+        response = GenericResponse(f'Collection Jar {ender}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

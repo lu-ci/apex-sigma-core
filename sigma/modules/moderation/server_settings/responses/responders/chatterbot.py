@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def chatterbot(cmd, pld):
@@ -30,7 +30,7 @@ async def chatterbot(cmd, pld):
         current = pld.settings.get('chatterbot')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'chatterbot', toggle)
-        response = ok(f'ChatterBot core {status}.')
+        response = GenericResponse(f'ChatterBot core {status}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def byechannel(cmd, pld):
@@ -31,11 +31,11 @@ async def byechannel(cmd, pld):
             target_channel = pld.msg.channel_mentions[0]
             if pld.msg.guild.me.permissions_in(target_channel).send_messages:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'bye_channel', target_channel.id)
-                response = ok(f'Goodbye Channel set to {target_channel.name}.')
+                response = GenericResponse(f'Goodbye Channel set to {target_channel.name}.').ok()
             else:
-                response = error('I can\'t write in that channel.')
+                response = GenericResponse('I can\'t write in that channel.').error()
         else:
-            response = error('No channel targeted.')
+            response = GenericResponse('No channel targeted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blindcollector(cmd, pld):
@@ -33,12 +33,12 @@ async def blindcollector(cmd, pld):
             blockdoc = bool(await cmd.db[cmd.db.db_nam].BlindedChains.find_one(docdata))
             if blockdoc:
                 await cmd.db[cmd.db.db_nam].BlindedChains.delete_one(docdata)
-                response = ok(f'Users can once again collect chains from #{target.name}.')
+                response = GenericResponse(f'Users can once again collect chains from #{target.name}.').ok()
             else:
                 await cmd.db[cmd.db.db_nam].BlindedChains.insert_one(docdata)
-                response = ok(f'Users can no longer collect chains from #{target.name}.')
+                response = GenericResponse(f'Users can no longer collect chains from #{target.name}.').ok()
         else:
-            response = error('No channel given.')
+            response = GenericResponse('No channel given.').error()
     else:
-        response = denied('Access Denied. Manage Channels needed.')
+        response = GenericResponse('Access Denied. Manage Channels needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ from importlib import reload as reimport
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.development.command_md import command_md
 from sigma.modules.development.version_file_updater import version_file_updater
 
@@ -47,7 +47,7 @@ async def reload(cmd, pld):
         for key in cmd.bot.modules.events:
             event_group = cmd.bot.modules.events[key]
             ev_count += len(event_group)
-        load_done_response = ok(f'Loaded {cmd_count} Commands and {ev_count} Events.')
+        load_done_response = GenericResponse(f'Loaded {cmd_count} Commands and {ev_count} Events.').ok()
         await load_status.edit(embed=load_done_response)
         cmd.bot.ready = True
         cmd.log.info(f'Loaded {cmd_count} commands and {ev_count} events.')
@@ -57,9 +57,9 @@ async def reload(cmd, pld):
         if command_name in cmd.bot.modules.alts:
             command_name = cmd.bot.modules.alts[command_name]
         if command_name not in cmd.bot.modules.commands.keys():
-            response = not_found(f'Command `{command_name}` was not found.')
+            response = GenericResponse(f'Command `{command_name}` was not found.').not_found()
         else:
             module_to_reload = cmd.bot.modules.commands[command_name].command
             reimport(module_to_reload)
-            response = ok(f'Command `{command_name}` was reloaded.')
+            response = GenericResponse(f'Command `{command_name}` was reloaded.').ok()
         await pld.msg.channel.send(embed=response)

@@ -22,7 +22,7 @@ import secrets
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def check_name(m, lookup):
@@ -101,15 +101,15 @@ async def givecookie(cmd, pld):
                                 timeout_title = f'🕙 Your cookie will be baked {timeout}.'
                                 response = discord.Embed(color=0x696969, title=timeout_title)
                         else:
-                            response = error('Bots don\'t eat cookies.')
+                            response = GenericResponse('Bots don\'t eat cookies.').error()
                     else:
-                        response = error('Nope, can\'t give cookies to yourself.')
+                        response = GenericResponse('Nope, can\'t give cookies to yourself.').error()
                 else:
-                    response = error('Sorry, your account is too young to give cookies.')
+                    response = GenericResponse('Sorry, your account is too young to give cookies.').error()
             else:
-                response = error(f'It seems that {target.name} is allergic to cookies.')
+                response = GenericResponse(f'It seems that {target.name} is allergic to cookies.').error()
         else:
-            response = error('It seems that your oven is broken.')
+            response = GenericResponse('It seems that your oven is broken.').error()
     else:
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
             response = discord.Embed(color=0xd99e82, title='🍪 Your cookie is ready to be given.')

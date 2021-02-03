@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wanikanisave(cmd, pld):
@@ -44,5 +44,5 @@ async def wanikanisave(cmd, pld):
             await cmd.db[cmd.db.db_nam].WaniKani.insert_one(data)
         response = discord.Embed(color=0x66CC66, title=f'🔑 Your key has been {ender}.')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

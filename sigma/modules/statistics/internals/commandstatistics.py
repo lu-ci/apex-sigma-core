@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def commandstatistics(cmd, pld):

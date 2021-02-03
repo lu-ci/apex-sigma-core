@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
 identifiers = ['moderator', 'target', 'variant']
@@ -82,9 +82,9 @@ async def listincidents(cmd, pld):
                         incident_list, page = parse_incidents(incidents, page)
                         response.add_field(name=f'🗃️ {identifier.title()} incidents', value=incident_list)
                     else:
-                        response = error('Invalid variant.')
+                        response = GenericResponse('Invalid variant.').error()
             else:
-                response = error('Invalid identifier.')
+                response = GenericResponse('Invalid identifier.').error()
         else:
             incidents = await icore.get_all(pld.msg.guild.id)
             response = discord.Embed(color=0x226699)
@@ -92,9 +92,9 @@ async def listincidents(cmd, pld):
             response.add_field(name='🗃️ All incidents', value=incident_list)
         if not incidents and (identifier in identifiers or not identifier):
             if identifier:
-                response = error(f'No incidents found for that {identifier}.')
+                response = GenericResponse(f'No incidents found for that {identifier}.').error()
             else:
-                response = error('This server has no incidents.')
+                response = GenericResponse('This server has no incidents.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

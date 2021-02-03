@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def send(cmd, pld):
@@ -29,7 +29,7 @@ async def send(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        error_response = error('Bad input.')
+        error_response = GenericResponse('Bad input.').error()
         try:
             mode, identifier = pld.args[0].split(':')
             identifier = int(identifier)
@@ -56,11 +56,11 @@ async def send(cmd, pld):
         if text:
             try:
                 await target.send(text)
-                response = ok(f'Message sent to {title_end}.')
+                response = GenericResponse(f'Message sent to {title_end}.').ok()
             except (discord.Forbidden, discord.HTTPException):
-                response = error('I can\'t message that user.')
+                response = GenericResponse('I can\'t message that user.').error()
         else:
-            response = error('Missing message to send.')
+            response = GenericResponse('Missing message to send.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

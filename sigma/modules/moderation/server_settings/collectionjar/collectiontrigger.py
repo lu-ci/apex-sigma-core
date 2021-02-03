@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def collectiontrigger(cmd, pld):
@@ -35,15 +35,15 @@ async def collectiontrigger(cmd, pld):
                 trigger = pld.args[0].lower()
                 jar_doc.update({'trigger': trigger})
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', jar_doc)
-                response = ok(f'Collection Jar trigger set to `{trigger}`.')
+                response = GenericResponse(f'Collection Jar trigger set to `{trigger}`.').ok()
             else:
-                response = error('Trigger can\'t be more than one word.')
+                response = GenericResponse('Trigger can\'t be more than one word.').error()
         else:
             trigger = jar_doc.get('trigger')
             if trigger:
                 response = discord.Embed(color=0xbdddf4, title=f'💬 The current trigger is `{trigger}`.')
             else:
-                response = error('A trigger has not been set.')
+                response = GenericResponse('A trigger has not been set.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

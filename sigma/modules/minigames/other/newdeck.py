@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.other.drawcard import make_new_deck
 
 
@@ -30,5 +30,5 @@ async def newdeck(cmd, pld):
     new_deck = make_new_deck()
     cache_key = f'{cmd.name}_deck_{pld.msg.author.id}'
     await cmd.db.cache.set_cache(cache_key, new_deck)
-    response = ok(f'Your deck has been rebuilt, {pld.msg.author.display_name}.')
+    response = GenericResponse(f'Your deck has been rebuilt, {pld.msg.author.display_name}.').ok()
     await pld.msg.channel.send(embed=response)

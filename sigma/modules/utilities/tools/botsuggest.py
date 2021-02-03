@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import secrets
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_sugg_data(msg, args, token):
@@ -70,11 +70,11 @@ async def botsuggest(cmd, pld):
             if sugg_text.lower() != exmp_text.lower():
                 sugg_token = secrets.token_hex(4)
                 await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
-                response = ok(f'Suggestion {sugg_token} submitted.')
+                response = GenericResponse(f'Suggestion {sugg_token} submitted.').ok()
             else:
-                response = error('Please do not use this command to submit the usage example.')
+                response = GenericResponse('Please do not use this command to submit the usage example.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('Missing suggestion channel configuration.')
+        response = GenericResponse('Missing suggestion channel configuration.').error()
     await pld.msg.channel.send(embed=response)

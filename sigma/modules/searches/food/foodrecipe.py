@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def foodrecipe(cmd, pld):
@@ -41,7 +41,7 @@ async def foodrecipe(cmd, pld):
                     search_data = json.loads(search_data)
             count = search_data['count']
             if count == 0:
-                response = not_found('No results.')
+                response = GenericResponse('No results.').not_found()
             else:
                 info = search_data['recipes'][0]
                 title = info['title']
@@ -54,7 +54,7 @@ async def foodrecipe(cmd, pld):
                 response.add_field(name=title, value='[Recipe Here](' + source_url + ')')
                 response.set_thumbnail(url=image_url)
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

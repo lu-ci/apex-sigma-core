@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def manga(_cmd, pld):
@@ -86,7 +86,7 @@ async def manga(_cmd, pld):
                 response.set_thumbnail(url=poster_image)
             response.set_footer(text='Click the title at the top to see the page of the manga.')
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

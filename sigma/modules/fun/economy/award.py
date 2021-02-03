@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def award(cmd, pld):
@@ -48,15 +48,15 @@ async def award(cmd, pld):
                         await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
                         current_vault -= amount
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
-                        response = ok(f'{amount} {currency} given to {target.display_name} from the Vault.')
+                        response = GenericResponse(f'{amount} {currency} given to {target.display_name} from the Vault.').ok()
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
                 else:
-                    response = error('No user targeted.')
+                    response = GenericResponse('No user targeted.').error()
             else:
-                response = error('Invalid amount.')
+                response = GenericResponse('Invalid amount.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

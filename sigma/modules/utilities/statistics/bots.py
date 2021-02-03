@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def bots(_cmd, pld):
@@ -38,7 +38,7 @@ async def bots(_cmd, pld):
             name = f'{user.name}#{user.discriminator}'
             offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
     if total_bots == 0:
-        response = error('No bots were found on that server.')
+        response = GenericResponse('No bots were found on that server.').error()
     else:
         guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
         icon_color = await get_image_colors(guild_icon)

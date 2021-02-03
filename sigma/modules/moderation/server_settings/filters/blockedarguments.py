@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import info
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blockedarguments(_cmd, pld):
@@ -29,12 +29,12 @@ async def blockedarguments(_cmd, pld):
     """
     blocked_args = pld.settings.get('blocked_args')
     if not blocked_args:
-        response = info('There are no blocked arguments.')
+        response = GenericResponse('There are no blocked arguments.').info()
     else:
         total_count = len(blocked_args)
         blocked_args, page = PaginatorCore.paginate(blocked_args, pld.args[0] if pld.args else 1, 20)
         showing_count = len(blocked_args)
-        response = info(f'Arguments blocked on {pld.msg.guild.name}')
+        response = GenericResponse(f'Arguments blocked on {pld.msg.guild.name}').info()
         response.description = ', '.join(blocked_args)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
     await pld.msg.channel.send(embed=response)

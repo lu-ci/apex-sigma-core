@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listsettings(cmd, pld):
@@ -47,13 +47,13 @@ async def listsettings(cmd, pld):
                 if list_file.get('user_id') == pld.msg.author.id:
                     list_file.update({'mode': mode})
                     await list_coll.update_one(lookup_data, {'$set': list_file})
-                    response = ok(f'List `{list_id}` marked as {mode or "public"}.')
+                    response = GenericResponse(f'List `{list_id}` marked as {mode or "public"}.').ok()
                 else:
-                    response = denied('You didn\'t make this list.')
+                    response = GenericResponse('You didn\'t make this list.').denied()
             else:
-                response = error('Invalid list ID.')
+                response = GenericResponse('Invalid list ID.').error()
         else:
-            response = error('Invalid mode.')
+            response = GenericResponse('Invalid mode.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

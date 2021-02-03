@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unbindinvite(cmd, pld):
@@ -45,13 +45,13 @@ async def unbindinvite(cmd, pld):
                 if inv_id in bindings:
                     bindings.pop(inv_id)
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
-                    response = ok(f'Invite {inv_id} has been unbound.')
+                    response = GenericResponse(f'Invite {inv_id} has been unbound.').ok()
                 else:
-                    response = error(f'Invite {inv_id} not bound.')
+                    response = GenericResponse(f'Invite {inv_id} not bound.').error()
             else:
-                response = error('No invite with that ID was found.')
+                response = GenericResponse('No invite with that ID was found.').error()
         else:
-            response = error('Not enough arguments. Invite and role name needed.')
+            response = GenericResponse('Not enough arguments. Invite and role name needed.').error()
     else:
-        response = denied('Access Denied. Create Instant Invites needed.')
+        response = GenericResponse('Access Denied. Create Instant Invites needed.').denied()
     await pld.msg.channel.send(embed=response)

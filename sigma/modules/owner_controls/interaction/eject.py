@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def eject(cmd, pld):
@@ -31,11 +31,11 @@ async def eject(cmd, pld):
             target = await cmd.bot.get_guild(int(''.join(pld.args)))
             if target:
                 await target.leave()
-                response = ok(f'Ejected from {target.name}.')
+                response = GenericResponse(f'Ejected from {target.name}.').ok()
             else:
-                response = not_found('No guild with that ID was found.')
+                response = GenericResponse('No guild with that ID was found.').not_found()
         except ValueError:
-            response = error('Invalid guild ID.')
+            response = GenericResponse('Invalid guild ID.').error()
     else:
-        response = error('Missing guild ID.')
+        response = GenericResponse('Missing guild ID.').error()
     await pld.msg.channel.send(embed=response)

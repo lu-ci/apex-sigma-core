@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def reactors(_cmd, pld):
@@ -55,7 +55,7 @@ async def reactors(_cmd, pld):
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Trigger List', value=trg_list, inline=False)
         else:
-            response = error('This page is empty.')
+            response = GenericResponse('This page is empty.').error()
     else:
-        response = error('This server has no reaction triggers.')
+        response = GenericResponse('This server has no reaction triggers.').error()
     await pld.msg.channel.send(embed=response)

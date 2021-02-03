@@ -20,7 +20,7 @@ import datetime
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip, get_ship
 
 
@@ -73,7 +73,7 @@ async def azurlaneacquisition(cmd, pld):
                 response.set_footer(text='Bolded nodes indicate that only the boss drops this ship.')
             response.add_field(name='Mission Drop', value=smsn_block, inline=False)
         else:
-            response = not_found('Ship not found.')
+            response = GenericResponse('Ship not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

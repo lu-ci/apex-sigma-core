@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.permissions.nodes.permission_data import get_all_perms
 
 
@@ -84,9 +84,9 @@ async def disabled(cmd, pld):
                 response.description = ', '.join(disabled_list)
                 response.set_footer(text=info)
             else:
-                response = not_found(f'No disabled {perm_name} found.')
+                response = GenericResponse(f'No disabled {perm_name} found.').not_found()
         else:
-            response = error('Invalid permission type.')
+            response = GenericResponse('Invalid permission type.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

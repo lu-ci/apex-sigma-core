@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def whisper(cmd, pld):
@@ -46,13 +46,13 @@ async def whisper(cmd, pld):
                         'reported': False
                     }
                     await cmd.db[cmd.db.db_nam].Whispers.insert_one(whisper_data)
-                    response = ok('Whisper submitted.')
+                    response = GenericResponse('Whisper submitted.').ok()
                 else:
-                    response = error('Missing message to send.')
+                    response = GenericResponse('Missing message to send.').error()
             else:
-                response = error('Whisper channel not set for that guild.')
+                response = GenericResponse('Whisper channel not set for that guild.').error()
         else:
-            response = error('Invalid guild ID.')
+            response = GenericResponse('Invalid guild ID.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

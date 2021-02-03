@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -83,7 +83,7 @@ async def multi_buy(cmd, pld, choice, level):
             user_upgrades.update({choice.get('id'): upgrade_level + level})
             await cmd.db.set_profile(pld.msg.author.id, 'upgrades', user_upgrades)
             await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-            response = ok(f'Upgraded your {choice.get("name")} to Level {upgrade_level + level}.')
+            response = GenericResponse(f'Upgraded your {choice.get("name")} to Level {upgrade_level + level}.').ok()
         else:
             response = dresp.generic('upgrade purchase')
     else:
@@ -110,7 +110,7 @@ async def quick_buy(cmd, pld, choice):
         user_upgrades.update({choice.get('id'): upgrade_level + 1})
         await cmd.db.set_profile(pld.msg.author.id, 'upgrades', user_upgrades)
         await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-        response = ok(f'Upgraded your {choice.get("name")} to Level {upgrade_level + 1}.')
+        response = GenericResponse(f'Upgraded your {choice.get("name")} to Level {upgrade_level + 1}.').ok()
     else:
         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
     await pld.msg.channel.send(embed=response)
@@ -157,7 +157,7 @@ async def slow_buy(cmd, pld):
                 upgrade_file.update({upgrade_id: new_upgrade_level})
                 await cmd.db.set_profile(pld.msg.author.id, 'upgrades', upgrade_file)
                 await cmd.db.del_resource(pld.msg.author.id, 'currency', upgrade_price, cmd.name, pld.msg)
-                response = ok(f'Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.')
+                response = GenericResponse(f'Upgraded your {upgrade["name"]} to Level {new_upgrade_level}.').ok()
             else:
                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
         else:
@@ -165,7 +165,7 @@ async def slow_buy(cmd, pld):
         if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
             Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
     else:
-        response = error('You already have a shop open.')
+        response = GenericResponse('You already have a shop open.').error()
     await pld.msg.channel.send(embed=response)
 
 

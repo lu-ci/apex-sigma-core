@@ -22,7 +22,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def cyanideandhappiness(_cmd, pld):
@@ -55,5 +55,5 @@ async def cyanideandhappiness(_cmd, pld):
         cnh_image = 'https://i.imgur.com/jJl7FoT.jpg'
         response.set_author(name='Cyanide and Happiness', icon_url=cnh_image, url=comic_url)
     else:
-        response = error('Failed to grab a comic, try again.')
+        response = GenericResponse('Failed to grab a comic, try again.').error()
     await pld.msg.channel.send(embed=response)

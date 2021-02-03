@@ -22,7 +22,7 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 giphy_icon = 'https://i.imgur.com/tmDySRu.gif'
 
@@ -51,9 +51,9 @@ async def giphy(cmd, pld):
                 response.set_image(url=gif_url)
                 response.set_footer(icon_url=giphy_icon, text='Powered By GIPHY.')
             else:
-                response = not_found('No results')
+                response = GenericResponse('No results').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

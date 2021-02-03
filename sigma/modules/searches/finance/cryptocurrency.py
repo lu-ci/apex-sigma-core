@@ -23,7 +23,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 api_base = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 
@@ -79,9 +79,9 @@ async def cryptocurrency(cmd, pld):
                 response.add_field(name='Rate Change', value=change_text)
                 response.set_footer(text=f'Last updated {last_updated.humanize()}')
             else:
-                response = not_found(f'{lookup} not found.')
+                response = GenericResponse(f'{lookup} not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

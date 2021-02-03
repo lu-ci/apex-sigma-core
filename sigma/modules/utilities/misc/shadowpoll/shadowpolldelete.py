@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shadowpolldelete(cmd, pld):
@@ -33,11 +33,11 @@ async def shadowpolldelete(cmd, pld):
             author = poll_file['origin']['author']
             if author == pld.msg.author.id:
                 await cmd.db[cmd.db.db_nam].ShadowPolls.delete_one({'id': poll_id})
-                response = ok(f'Poll {poll_id} has been deleted.')
+                response = GenericResponse(f'Poll {poll_id} has been deleted.').ok()
             else:
-                response = denied('You didn\'t make this poll.')
+                response = GenericResponse('You didn\'t make this poll.').denied()
         else:
-            response = not_found('Poll not found.')
+            response = GenericResponse('Poll not found.').not_found()
     else:
-        response = error('Missing poll ID.')
+        response = GenericResponse('Missing poll ID.').error()
     await pld.msg.channel.send(embed=response)

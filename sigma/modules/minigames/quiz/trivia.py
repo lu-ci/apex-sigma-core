@@ -26,7 +26,7 @@ import discord
 import ftfy
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 awards = {
@@ -138,7 +138,7 @@ async def trivia(cmd, pld):
                     except json.JSONDecodeError:
                         if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                             Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
-                        decode_error = error('Could not retrieve a question.')
+                        decode_error = GenericResponse('Could not retrieve a question.').error()
                         await pld.msg.channel.send(embed=decode_error)
                         return
             await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 30)
@@ -231,7 +231,7 @@ async def trivia(cmd, pld):
             if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                 Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
         else:
-            ongoing_error = error('There is already one ongoing.')
+            ongoing_error = GenericResponse('There is already one ongoing.').error()
             await pld.msg.channel.send(embed=ongoing_error)
     except Exception:
         if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):

@@ -21,7 +21,7 @@ from translate import Translator
 
 from sigma.core.mechanics.caching import TTLCacher
 from sigma.core.mechanics.config import CacheConfig
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.server_settings.responses.translate.flag_emotes import flag_emotes
 
 message_cache = TTLCacher(CacheConfig({}))
@@ -79,7 +79,7 @@ async def flag_translating(ev, pld):
                             return
                         # 'excedeed' is misspelled intentionally
                         elif 'length limit excedeed' in translation.lower():
-                            response = error('Maximum query limit is 500 characters.')
+                            response = GenericResponse('Maximum query limit is 500 characters.').error()
                             await channel.send(embed=response)
                         try:
                             await send_translation(channel, msg, translation, fr_lang, to_lang)

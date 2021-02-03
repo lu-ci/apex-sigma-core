@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def numberfact(_cmd, pld):
@@ -53,5 +53,5 @@ async def numberfact(_cmd, pld):
         response = discord.Embed(color=0x3B88C3, title='#⃣  Number Fact')
         response.description = number_response
     else:
-        response = error('The API couldn\'t process that.')
+        response = GenericResponse('The API couldn\'t process that.').error()
     await pld.msg.channel.send(embed=response)

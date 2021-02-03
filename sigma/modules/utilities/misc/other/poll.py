@@ -21,7 +21,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def poll(_cmd, pld):
@@ -33,7 +33,7 @@ async def poll(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not pld.args:
-        out_content = error('Nothing inputted.')
+        out_content = GenericResponse('Nothing inputted.').error()
         await pld.msg.channel.send(embed=out_content)
         return
     all_qry = ' '.join(pld.args)
@@ -45,11 +45,11 @@ async def poll(_cmd, pld):
         choice_qry = choice_qry[:-1]
     poll_choices = choice_qry.split('; ')
     if len(poll_choices) < 2:
-        out_content = error('Not enough arguments.')
+        out_content = GenericResponse('Not enough arguments.').error()
         await pld.msg.channel.send(embed=out_content)
         return
     if len(poll_choices) > 9:
-        out_content = error('Maximum is 9 choices.')
+        out_content = GenericResponse('Maximum is 9 choices.').error()
         await pld.msg.channel.send(embed=out_content)
         return
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()

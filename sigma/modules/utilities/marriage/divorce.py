@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def send_divorce(author, target):
@@ -139,23 +139,23 @@ async def divorce(cmd, pld):
                                     await send_divorce(pld.msg.author, target)
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', div_cost, cmd.name, pld.msg)
                             else:
-                                response = error(f'You don\'t have {div_cost} {currency} to get a divorce.')
+                                response = GenericResponse(f'You don\'t have {div_cost} {currency} to get a divorce.').error()
                         else:
                             if isinstance(fault, discord.Embed):
                                 response = fault
                             else:
-                                response = error(f'Couldn\'t proceed because {target.name} {fault}.')
+                                response = GenericResponse(f'Couldn\'t proceed because {target.name} {fault}.').error()
                     else:
-                        response = error('Divorce withdrawn.')
+                        response = GenericResponse('Divorce withdrawn.').error()
                 else:
                     response = discord.Embed(color=0x696969, title='🕙 Sorry, you timed out.')
             else:
                 if is_id:
-                    response = error(f'You aren\'t married to {target}.')
+                    response = GenericResponse(f'You aren\'t married to {target}.').error()
                 else:
-                    response = error(f'You aren\'t married to {target.name}.')
+                    response = GenericResponse(f'You aren\'t married to {target.name}.').error()
         else:
-            response = error('Can\'t divorce yourself.')
+            response = GenericResponse('Can\'t divorce yourself.').error()
     else:
-        response = error('No user targeted.')
+        response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)

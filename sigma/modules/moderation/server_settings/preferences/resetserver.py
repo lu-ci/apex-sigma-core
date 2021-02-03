@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def resetserver(cmd, pld):
@@ -45,9 +45,9 @@ async def resetserver(cmd, pld):
             title = f'Wiped all server {"permissions" if perms else ""}'
             title += " and " if perms and settings else ""
             title += 'settings' if settings else ''
-            response = ok(f'{title}.')
+            response = GenericResponse(f'{title}.').ok()
         else:
-            response = error('Invalid arguments, see usage example.')
+            response = GenericResponse('Invalid arguments, see usage example.').error()
     else:
-        response = error('Settings can only be reset by the server owner.')
+        response = GenericResponse('Settings can only be reset by the server owner.').error()
     await pld.msg.channel.send(embed=response)

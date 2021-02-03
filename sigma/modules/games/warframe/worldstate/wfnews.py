@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 
@@ -42,5 +42,5 @@ async def wfnews(_cmd, pld):
         output_text = '\n'.join(news_lines)
         response = discord.Embed(color=0x336699, title='Warframe News', description=output_text)
     else:
-        response = error('Could not retrieve News data.')
+        response = GenericResponse('Could not retrieve News data.').error()
     await pld.msg.channel.send(embed=response)

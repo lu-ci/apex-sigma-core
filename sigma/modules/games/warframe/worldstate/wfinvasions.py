@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 invasion_icon = 'https://i.imgur.com/QUPS0ql.png'
@@ -50,5 +50,5 @@ async def wfinvasions(_cmd, pld):
                 invasion_title = f'{invasion["factionDefender"]} vs {invasion["factionAttacker"]} - {percent}%'
                 response.add_field(name=invasion_title, value=f'{invasion_desc}', inline=False)
     else:
-        response = error('Could not retrieve Invasion data.')
+        response = GenericResponse('Could not retrieve Invasion data.').error()
     await pld.msg.channel.send(embed=response)

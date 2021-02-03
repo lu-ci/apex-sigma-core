@@ -21,7 +21,7 @@ import copy
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 class UserVirginity(object):
@@ -92,9 +92,9 @@ async def givevirginity(cmd, pld):
                     else:
                         response = dresp.generic('virginity proposal')
             else:
-                response = error('You are not a virgin.')
+                response = GenericResponse('You are not a virgin.').error()
         else:
-            response = error(f'Now that\'s just sad, {pld.msg.author.display_name}...')
+            response = GenericResponse(f'Now that\'s just sad, {pld.msg.author.display_name}...').error()
     else:
-        response = error('No user mentioned.')
+        response = GenericResponse('No user mentioned.').error()
     await pld.msg.channel.send(embed=response)

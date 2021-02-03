@@ -22,7 +22,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def sort_transfers(dict_like):
@@ -142,7 +142,7 @@ async def resourcestatistics(cmd, pld):
             pool = resource.expenses if expense else resource.origins
             response = await make_response(cmd.bot, pool, target, res_nam, expense)
         else:
-            response = not_found('No resource data found.')
+            response = GenericResponse('No resource data found.').not_found()
     else:
-        response = error('Need at least a resource name.')
+        response = GenericResponse('Need at least a resource name.').error()
     await pld.msg.channel.send(embed=response)

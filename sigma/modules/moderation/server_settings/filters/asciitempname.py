@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def asciitempname(cmd, pld):
@@ -33,9 +33,9 @@ async def asciitempname(cmd, pld):
             if temp_name is None:
                 temp_name = '<ChangeMyName>'
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'ascii_temp_name', new_name)
-            response = ok(f'ASCII temp name changed from `{temp_name}` to `{new_name}`.')
+            response = GenericResponse(f'ASCII temp name changed from `{temp_name}` to `{new_name}`.').ok()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

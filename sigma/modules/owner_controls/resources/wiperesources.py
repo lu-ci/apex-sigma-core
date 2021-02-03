@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.mechanics.resources import SigmaResource
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wiperesources(cmd, pld):
@@ -43,5 +43,5 @@ async def wiperesources(cmd, pld):
             await cmd.db.update_resource(target_id, res, new_res)
         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Ok, I\'ve wiped {target_name}\'s resources.')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

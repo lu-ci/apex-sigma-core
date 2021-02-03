@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip, get_ship
 
 
@@ -43,9 +43,9 @@ async def azurlaneskins(cmd, pld):
                 response.description = skin_names
                 response.set_footer(text=f'You can view a skin with the "{pfx}azurlaneskin" command.')
             else:
-                response = not_found(f'No skin data found for {ship.name}.')
+                response = GenericResponse(f'No skin data found for {ship.name}.').not_found()
         else:
-            response = not_found('Ship not found.')
+            response = GenericResponse('Ship not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

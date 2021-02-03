@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 
@@ -45,11 +45,11 @@ async def generateitem(cmd, pld):
                     success_text = f'{item.icon} I have given {connector} {item.name} to {target.display_name}.'
                     response = discord.Embed(color=item.color, title=success_text)
                 else:
-                    response = not_found(f'{lookup} not found.')
+                    response = GenericResponse(f'{lookup} not found.').not_found()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

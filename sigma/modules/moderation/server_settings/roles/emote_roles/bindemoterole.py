@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def bindemoterole(cmd, pld):
@@ -44,17 +44,17 @@ async def bindemoterole(cmd, pld):
                             bound_roles.append(guild_role.id)
                             emote_groups.update({group_id: bound_roles})
                             await cmd.db.set_guild_settings(pld.msg.guild.id, 'emote_role_groups', emote_groups)
-                            response = ok(f'Added {role_name} to group {group_id}.')
+                            response = GenericResponse(f'Added {role_name} to group {group_id}.').ok()
                         else:
-                            response = error(f'{role_name} is bound to {group_id}.')
+                            response = GenericResponse(f'{role_name} is bound to {group_id}.').error()
                     else:
-                        response = not_found(f'{lookup} not found.')
+                        response = GenericResponse(f'{lookup} not found.').not_found()
                 else:
-                    response = error('Groups are limited to 10 roles.')
+                    response = GenericResponse('Groups are limited to 10 roles.').error()
             else:
-                response = not_found(f'Group {group_id} not found.')
+                response = GenericResponse(f'Group {group_id} not found.').not_found()
         else:
-            response = error('Missing arguments.')
+            response = GenericResponse('Missing arguments.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

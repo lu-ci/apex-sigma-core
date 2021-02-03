@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.development.suggestions.approvesuggestion import react_to_suggestion
 
 
@@ -38,17 +38,17 @@ async def declinesuggestion(cmd, pld):
             await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)
             athr = await cmd.bot.get_user(suggestion.get('user', {}).get('id'))
             if athr:
-                to_user = denied(f'Suggestion {token} declined by {pld.msg.author.display_name}.')
+                to_user = GenericResponse(f'Suggestion {token} declined by {pld.msg.author.display_name}.').denied()
                 to_user.description = reason
                 try:
                     await athr.send(embed=to_user)
-                    response = ok(f'Suggestion {token} declined.')
+                    response = GenericResponse(f'Suggestion {token} declined.').ok()
                 except (discord.Forbidden, discord.NotFound):
-                    response = ok(f'Suggestion {token} declined, but delivery to author failed.')
+                    response = GenericResponse(f'Suggestion {token} declined, but delivery to author failed.').ok()
             else:
-                response = ok(f'Suggestion {token} declined, but the author was not found.')
+                response = GenericResponse(f'Suggestion {token} declined, but the author was not found.').ok()
         else:
-            response = error('No suggestion entry with that ID was found.')
+            response = GenericResponse('No suggestion entry with that ID was found.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

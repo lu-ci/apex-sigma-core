@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import info
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blockedextensions(_cmd, pld):
@@ -29,13 +29,13 @@ async def blockedextensions(_cmd, pld):
     """
     blocked_words = pld.settings.get('blocked_extensions')
     if not blocked_words:
-        response = info('There are no blocked extensions.')
+        response = GenericResponse('There are no blocked extensions.').info()
     else:
         total_count = len(blocked_words)
         blocked_words, page = PaginatorCore.paginate(blocked_words, pld.args[0] if pld.args else 1, 20)
         blocked_words = [f'.{bw}' for bw in blocked_words]
         showing_count = len(blocked_words)
-        response = info(f'Extensions blocked on {pld.msg.guild.name}')
+        response = GenericResponse(f'Extensions blocked on {pld.msg.guild.name}').info()
         response.description = ' '.join(blocked_words)
         response.set_footer(text=f'[Page {page}] Total: {total_count} | Showing: {showing_count}')
     await pld.msg.channel.send(embed=response)

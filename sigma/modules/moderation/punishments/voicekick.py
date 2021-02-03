@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_broad_target
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -50,17 +50,17 @@ async def voicekick(cmd, pld):
                                 remove_title = f'👢 {target.name} has been removed from {tvc.name}.'
                                 response = discord.Embed(color=0xc1694f, title=remove_title)
                             else:
-                                response = error(f'{target.name} is not in a voice channel.')
+                                response = GenericResponse(f'{target.name} is not in a voice channel.').error()
                         else:
-                            response = denied('Target is above my highest role.')
+                            response = GenericResponse('Target is above my highest role.').denied()
                     else:
-                        response = denied('Can\'t kick someone equal or above you.')
+                        response = GenericResponse('Can\'t kick someone equal or above you.').denied()
                 else:
-                    response = error('You can\'t kick yourself.')
+                    response = GenericResponse('You can\'t kick yourself.').error()
             else:
-                response = error('I can\'t kick myself.')
+                response = GenericResponse('I can\'t kick myself.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Kick permissions needed.')
+        response = GenericResponse('Access Denied. Kick permissions needed.').denied()
     await pld.msg.channel.send(embed=response)

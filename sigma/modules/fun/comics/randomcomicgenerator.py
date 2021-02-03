@@ -23,7 +23,7 @@ import discord
 from PIL import Image
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.tools.color import store_image
 
 comic_url = 'http://explosm.net/rcg/view/'
@@ -96,5 +96,5 @@ async def randomcomicgenerator(_cmd, pld):
         response.set_image(url=f'attachment://{pld.msg.id}.png')
         response.set_author(name='Cyanide and Happiness Random Comic Generator', icon_url=cnh_image, url=comic_url)
     except IndexError:
-        response = error('Failed to grab a comic, try again.')
+        response = GenericResponse('Failed to grab a comic, try again.').error()
     await pld.msg.channel.send(file=file, embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def activatewarning(cmd, pld):
@@ -42,13 +42,13 @@ async def activatewarning(cmd, pld):
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': True}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
-                    response = ok(f'Warning {warn_iden} reactivated.')
+                    response = GenericResponse(f'Warning {warn_iden} reactivated.').ok()
                 else:
-                    response = not_found('Inactive warning not found.')
+                    response = GenericResponse('Inactive warning not found.').not_found()
             else:
-                response = error('Both user tag and warning ID are needed.')
+                response = GenericResponse('Both user tag and warning ID are needed.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Server Owner needed.')
+        response = GenericResponse('Access Denied. Server Owner needed.').denied()
     await pld.msg.channel.send(embed=response)

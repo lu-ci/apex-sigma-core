@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def skip(cmd, pld):
@@ -39,17 +39,17 @@ async def skip(cmd, pld):
                     curr = cmd.bot.music.currents.get(pld.msg.guild.id)
                     if curr:
                         pld.msg.guild.voice_client.stop()
-                        response = ok(f'Skipping {curr.title}.')
+                        response = GenericResponse(f'Skipping {curr.title}.').ok()
                         requester = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                         response.set_author(name=requester, icon_url=user_avatar(pld.msg.author))
                     else:
-                        response = error('Nothing currently playing.')
+                        response = GenericResponse('Nothing currently playing.').error()
                 else:
-                    response = error('The queue is empty or this is the last song.')
+                    response = GenericResponse('The queue is empty or this is the last song.').error()
             else:
-                response = error('I am not connected to any channel.')
+                response = GenericResponse('I am not connected to any channel.').error()
         else:
-            response = error('You are not in my voice channel.')
+            response = GenericResponse('You are not in my voice channel.').error()
     else:
-        response = error('You are not in a voice channel.')
+        response = GenericResponse('You are not in a voice channel.').error()
     await pld.msg.channel.send(embed=response)

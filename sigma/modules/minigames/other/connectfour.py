@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.other.connect_four.connect_four_mechanics import make_game
 from sigma.modules.minigames.other.connect_four.core import ConnectFourBoard
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -64,7 +64,7 @@ async def connectfour(cmd, pld):
                 competitor = pld.msg.mentions[0]
             else:
                 ender = 'another bot' if pld.msg.mentions[0].bot else 'yourself'
-                self_embed = error(f'You can\'t play against {ender}.')
+                self_embed = GenericResponse(f'You can\'t play against {ender}.').error()
                 await pld.msg.channel.send(embed=self_embed)
                 return
 
@@ -76,5 +76,5 @@ async def connectfour(cmd, pld):
         [await board_msg.add_reaction(num) for num in nums]
         await make_game(board_msg, board, pld.msg.author, competitor, color)
     else:
-        ongoing_error = error('There is already one ongoing.')
+        ongoing_error = GenericResponse('There is already one ongoing.').error()
         await pld.msg.channel.send(embed=ongoing_error)

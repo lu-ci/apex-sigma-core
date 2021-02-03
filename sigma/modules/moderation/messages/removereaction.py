@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.misc.other.quote import message_search
 
 
@@ -60,17 +60,17 @@ async def removereaction(_cmd, pld):
                     if pld.msg.guild.me.permissions_in(message.channel).manage_messages:
                         removed = await remove_emote(message, emote)
                         if removed:
-                            response = ok('Reaction removed.')
+                            response = GenericResponse('Reaction removed.').ok()
                         else:
-                            response = not_found('Emote not found on that message.')
+                            response = GenericResponse('Emote not found on that message.').not_found()
                     else:
-                        response = error('I can\'t remove reactions in that channel.')
+                        response = GenericResponse('I can\'t remove reactions in that channel.').error()
                 else:
-                    response = not_found('Message not found.')
+                    response = GenericResponse('Message not found.').not_found()
             else:
-                response = error('Invalid message ID.')
+                response = GenericResponse('Invalid message ID.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def greet(cmd, pld):
@@ -31,7 +31,7 @@ async def greet(cmd, pld):
         active = True if active is None else active
         state, ender = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet', state)
-        response = ok(f'Greeting Messages {ender}.')
+        response = GenericResponse(f'Greeting Messages {ender}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

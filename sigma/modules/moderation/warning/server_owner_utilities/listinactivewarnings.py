@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listinactivewarnings(cmd, pld):
@@ -59,7 +59,7 @@ async def listinactivewarnings(cmd, pld):
                 start = f'{target.name} doesn\'t' if target.id != pld.msg.author.id else 'You don\'t'
                 response = discord.Embed(color=0x55acee, title=f'💠 {start} have any inactive warnings.')
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Server Owner needed.')
+        response = GenericResponse('Access Denied. Server Owner needed.').denied()
     await pld.msg.channel.send(embed=response)

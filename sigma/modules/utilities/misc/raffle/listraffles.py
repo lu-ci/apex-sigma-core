@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listraffles(cmd, pld):
@@ -48,5 +48,5 @@ async def listraffles(cmd, pld):
         response.set_author(name=f'{pld.msg.author.name}\'s Raffles', icon_url=user_avatar(pld.msg.author))
         response.description = outlist
     else:
-        response = not_found('You have no pending raffles.')
+        response = GenericResponse('You have no pending raffles.').not_found()
     await pld.msg.channel.send(embed=response)

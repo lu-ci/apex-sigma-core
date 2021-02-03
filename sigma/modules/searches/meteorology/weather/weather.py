@@ -22,7 +22,7 @@ import aiohttp
 import discord
 from geopy.geocoders import Nominatim
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 
@@ -97,7 +97,7 @@ async def weather(cmd, pld):
                 try:
                     location = geo_parser.geocode(search)
                 except Exception as e:
-                    response = error(f'Geocoder {str(e).lower()}.')
+                    response = GenericResponse(f'Geocoder {str(e).lower()}.').error()
                 else:
                     if location:
                         lat = location.latitude
@@ -135,11 +135,11 @@ async def weather(cmd, pld):
                             other_text += '\nVisibility: Unknown'
                         response.add_field(name=other_title, value=other_text)
                     else:
-                        response = not_found('Location not found.')
+                        response = GenericResponse('Location not found.').not_found()
             else:
-                response = error('Missing location.')
+                response = GenericResponse('Missing location.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     await pld.msg.channel.send(embed=response)

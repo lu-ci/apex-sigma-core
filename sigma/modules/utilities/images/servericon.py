@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def servericon(_cmd, pld):
@@ -34,5 +34,5 @@ async def servericon(_cmd, pld):
         response = discord.Embed(color=await get_image_colors(guild_icon))
         response.set_image(url=guild_icon)
     else:
-        response = error('The server has no icon.')
+        response = GenericResponse('The server has no icon.').error()
     await pld.msg.channel.send(embed=response)

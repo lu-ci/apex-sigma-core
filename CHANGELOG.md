@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.86.1752 Tsumiki
+
+### Added
+
+- Created the `GenericResponse` class.
+
 ## 4.86.1740 Tsumiki
 
 ### Added

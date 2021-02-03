@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.mechanics.incident import get_incident_core
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 variants = ['ban', 'unban', 'kick', 'warn', 'unwarn', 'textmute', 'textunmute', 'hardmute', 'hardunmute']
@@ -87,9 +87,9 @@ async def exportincidents(cmd, pld):
                                 incidents = await icore.get_all_by_variant(pld.msg.guild.id, target)
                                 title += f'{target} incidents.'
                             else:
-                                response = error('Invalid variant.')
+                                response = GenericResponse('Invalid variant.').error()
                     else:
-                        response = error('Invalid identifier.')
+                        response = GenericResponse('Invalid identifier.').error()
             else:
                 incidents = await icore.get_all(pld.msg.guild.id)
                 title += 'incidents.'
@@ -105,13 +105,13 @@ async def exportincidents(cmd, pld):
                     file = discord.File(f'cache/{file_name}', file_name)
                 else:
                     if identifier:
-                        response = error(f'No incidents found for that {identifier}.')
+                        response = GenericResponse(f'No incidents found for that {identifier}.').error()
                     else:
-                        response = error('This server has no incidents.')
+                        response = GenericResponse('This server has no incidents.').error()
         else:
-            response = error('There is already one ongoing.')
+            response = GenericResponse('There is already one ongoing.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     if Ongoing.is_ongoing(cmd.name, pld.msg.guild.id):
         Ongoing.del_ongoing(cmd.name, pld.msg.guild.id)
     await pld.msg.channel.send(embed=response)
@@ -119,5 +119,5 @@ async def exportincidents(cmd, pld):
         try:
             await pld.msg.author.send(file=file)
         except (discord.NotFound, discord.Forbidden):
-            denied_response = error('I was unable to DM you, please adjust your settings.')
+            denied_response = GenericResponse('I was unable to DM you, please adjust your settings.').error()
             await pld.msg.channel.send(pld.msg.author.mention, embed=denied_response)

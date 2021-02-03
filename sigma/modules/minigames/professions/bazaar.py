@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -207,18 +207,18 @@ async def bazaar(cmd, pld):
                         await track_purchase(cmd.db, pld.msg.author.id, key, item.file_id, price)
                         await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
                         await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                        response = ok(f"You have purchased a {item.name} for {price} {currency}.")
+                        response = GenericResponse(f"You have purchased a {item.name} for {price} {currency}.").ok()
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
                 else:
-                    response = error('One per customer please.')
+                    response = GenericResponse('One per customer please.').error()
             else:
                 response = dresp.generic('bazaar')
             if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                 Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
         else:
-            response = error('You already have a bazaar open.')
+            response = GenericResponse('You already have a bazaar open.').error()
     else:
-        response = error('Sorry, your account is too young to visit the bazaar.')
+        response = GenericResponse('Sorry, your account is too young to visit the bazaar.').error()
     response.set_author(name=pld.msg.author.display_name, icon_url=user_avatar(pld.msg.author))
     await pld.msg.channel.send(embed=response)

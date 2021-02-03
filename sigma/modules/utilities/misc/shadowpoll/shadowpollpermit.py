@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shadowpollpermit(cmd, pld):
@@ -50,17 +50,17 @@ async def shadowpollpermit(cmd, pld):
                             poll_file['permissions'][perm_type].append(target.id)
                             await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id},
                                                                                {'$set': poll_file})
-                            response = ok(f'{target.name} has been permitted.')
+                            response = GenericResponse(f'{target.name} has been permitted.').ok()
                         else:
-                            response = error(f'{target.name} is already permitted.')
+                            response = GenericResponse(f'{target.name} is already permitted.').error()
                     else:
-                        response = denied('You didn\'t make this poll.')
+                        response = GenericResponse('You didn\'t make this poll.').denied()
                 else:
-                    response = not_found('Poll not found.')
+                    response = GenericResponse('Poll not found.').not_found()
             else:
-                response = error('Target not located.')
+                response = GenericResponse('Target not located.').error()
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Missing poll ID and target.')
+        response = GenericResponse('Missing poll ID and target.').error()
     await pld.msg.channel.send(embed=response)

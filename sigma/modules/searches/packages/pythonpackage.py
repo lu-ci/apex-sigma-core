@@ -21,7 +21,7 @@ import json
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.url_processing import aioget
 
 pypi_io_icon = 'https://i.imgur.com/BSUf5p2.png'
@@ -61,9 +61,9 @@ async def pythonpackage(_cmd, pld):
                 else:
                     response.set_footer(text='Last updated')
             else:
-                response = error('Insufficient data on that package.')
+                response = GenericResponse('Insufficient data on that package.').error()
         else:
-            response = not_found('Package not found.')
+            response = GenericResponse('Package not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

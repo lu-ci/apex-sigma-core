@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.url_processing import aioget
 
 crates_io_icon = 'https://i.imgur.com/Nyw7kSc.png'
@@ -62,10 +62,10 @@ async def crates(_cmd, pld):
         else:
             error_details = errors[0].get('detail')
             if error_details == 'Not Found':
-                response = not_found('Crate not found.')
+                response = GenericResponse('Crate not found.').not_found()
             else:
                 error_list = [err.get('detail') for err in errors]
                 response = errors(f'Crate Error: {". ".join(error_list)}.')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

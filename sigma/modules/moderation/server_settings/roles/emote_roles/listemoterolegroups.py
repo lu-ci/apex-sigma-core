@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def listemoterolegroups(cmd, pld):
@@ -50,5 +50,5 @@ async def listemoterolegroups(cmd, pld):
         response.add_field(name='List of Emote Role Groups', value=f'{rl_out}', inline=False)
         response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
     else:
-        response = not_found(f'{pld.msg.guild.name} has no emote role groups.')
+        response = GenericResponse(f'{pld.msg.guild.name} has no emote role groups.').not_found()
     await pld.msg.channel.send(embed=response)

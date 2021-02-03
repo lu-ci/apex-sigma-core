@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def givetovault(cmd, pld):
@@ -45,13 +45,13 @@ async def givetovault(cmd, pld):
                     await cmd.db.del_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
                     current_vault += amount
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
-                    response = ok(f'You added {amount} {currency} to the Vault.')
+                    response = GenericResponse(f'You added {amount} {currency} to the Vault.').ok()
                 else:
                     response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {currency}.')
             else:
-                response = error('Transaction declined by Chamomile.')
+                response = GenericResponse('Transaction declined by Chamomile.').error()
         else:
-            response = error('Invalid amount.')
+            response = GenericResponse('Invalid amount.').error()
     else:
-        response = error('Amount missing.')
+        response = GenericResponse('Amount missing.').error()
     await pld.msg.channel.send(embed=response)

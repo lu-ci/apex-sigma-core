@@ -23,7 +23,7 @@ import secrets
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def deezer(_cmd, pld):
@@ -62,7 +62,7 @@ async def deezer(_cmd, pld):
             response.set_thumbnail(url=album_image)
             response.set_footer(icon_url=deezer_icon, text=f'Album: {album_title}')
         else:
-            response = not_found('No results.')
+            response = GenericResponse('No results.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

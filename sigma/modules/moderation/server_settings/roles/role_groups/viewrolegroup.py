@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def viewrolegroup(cmd, pld):
@@ -56,9 +56,9 @@ async def viewrolegroup(cmd, pld):
                 response.add_field(name=f'Group {group_id} Summary', value=summary, inline=False)
                 response.add_field(name=f'Roles In Group {group_id}', value=', '.join(role_names))
             else:
-                response = error(f'Group {group_id} is empty.')
+                response = GenericResponse(f'Group {group_id} is empty.').error()
         else:
-            response = not_found(f'Group {group_id} not found.')
+            response = GenericResponse(f'Group {group_id} not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

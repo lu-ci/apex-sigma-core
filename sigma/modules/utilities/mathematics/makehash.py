@@ -20,7 +20,7 @@ import hashlib
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def makehash(_cmd, pld):
@@ -45,7 +45,7 @@ async def makehash(_cmd, pld):
                 response = discord.Embed(color=0xBE1931)
                 response.add_field(name='❗ Unknown Hashing Method', value=f'Available:\n```\n{", ".join(hashes)}\n```')
         else:
-            response = error('Not enough arguments.')
+            response = GenericResponse('Not enough arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

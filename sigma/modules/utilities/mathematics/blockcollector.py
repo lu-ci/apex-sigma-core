@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def blockcollector(cmd, pld):
@@ -31,8 +31,8 @@ async def blockcollector(cmd, pld):
     block_file = await block_coll.find_one(block_data)
     if not block_file:
         await block_coll.insert_one(block_data)
-        response = ok('Other users are no longer able to collect a chain for you.')
+        response = GenericResponse('Other users are no longer able to collect a chain for you.').ok()
     else:
         await block_coll.delete_one(block_data)
-        response = ok('Other users can once again collect a chain for you.')
+        response = GenericResponse('Other users can once again collect a chain for you.').ok()
     await pld.msg.channel.send(embed=response)

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def whoplays(_cmd, pld):
@@ -66,7 +66,7 @@ async def whoplays(_cmd, pld):
             response.add_field(name=title, value=gamers)
             response.set_footer(text=f'[Page {page}] Showing {len(gamer_list)} out of {total_gamers} users.')
         else:
-            response = not_found(f'No users are currently playing {game_title}.')
+            response = GenericResponse(f'No users are currently playing {game_title}.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

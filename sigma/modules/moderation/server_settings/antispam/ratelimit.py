@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def ratelimit(cmd, pld):
@@ -35,9 +35,9 @@ async def ratelimit(cmd, pld):
         if amount and timespan:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_amount', amount)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'rate_limit_timespan', timespan)
-            response = ok(f'Message rate limit set to {amount} per {timespan}s.')
+            response = GenericResponse(f'Message rate limit set to {amount} per {timespan}s.').ok()
         else:
-            response = error('No limit and span or ivalid input.')
+            response = GenericResponse('No limit and span or ivalid input.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

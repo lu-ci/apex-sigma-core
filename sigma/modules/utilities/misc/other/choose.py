@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def choose(_cmd, pld):
@@ -34,5 +34,5 @@ async def choose(_cmd, pld):
         choice = secrets.choice(' '.join(pld.args).split('; '))
         response = discord.Embed(color=0x1ABC9C, title=f'🤔 I choose... {choice}')
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def reversetext(_cmd, pld):
@@ -34,5 +34,5 @@ async def reversetext(_cmd, pld):
         response = discord.Embed(color=0x3B88C3)
         response.add_field(name='↩ Reversed Text', value=''.join(reverse_output)[:800])
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

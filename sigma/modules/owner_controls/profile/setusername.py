@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def setusername(cmd, pld):
@@ -32,9 +32,9 @@ async def setusername(cmd, pld):
         name_input = ' '.join(pld.args)
         try:
             await cmd.bot.user.edit(username=name_input)
-            response = ok(f'Changed username to {name_input}.')
+            response = GenericResponse(f'Changed username to {name_input}.').ok()
         except discord.Forbidden:
-            response = error('I was unable to change my username.')
+            response = GenericResponse('I was unable to change my username.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

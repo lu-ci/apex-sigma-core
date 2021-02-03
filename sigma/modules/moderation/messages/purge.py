@@ -25,7 +25,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
@@ -190,7 +190,7 @@ async def purge(cmd, pld):
                     deleted = await pld.msg.channel.purge(limit=count, check=purge_wide_check)
             except Exception:
                 pass
-            response = ok(f'Deleted {len(deleted)} Messages')
+            response = GenericResponse(f'Deleted {len(deleted)} Messages').ok()
             log_embed = generate_log_embed(pld.msg, target, pld.msg.channel, deleted)
             await log_event(cmd.bot, pld.settings, log_embed, 'log_purges')
             if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
@@ -203,7 +203,7 @@ async def purge(cmd, pld):
                 pass
             return
         else:
-            response = error('There is already one ongoing.')
+            response = GenericResponse('There is already one ongoing.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

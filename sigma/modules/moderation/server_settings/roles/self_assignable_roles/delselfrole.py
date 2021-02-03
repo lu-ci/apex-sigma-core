@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def delselfrole(cmd, pld):
@@ -39,17 +39,17 @@ async def delselfrole(cmd, pld):
                     if selfroles is None:
                         selfroles = []
                     if target_role.id not in selfroles:
-                        response = error('This role is not self assignable.')
+                        response = GenericResponse('This role is not self assignable.').error()
                     else:
                         selfroles.remove(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', selfroles)
-                        response = ok(f'{target_role.name} removed.')
+                        response = GenericResponse(f'{target_role.name} removed.').ok()
                 else:
-                    response = error('This role is above my highest role.')
+                    response = GenericResponse('This role is above my highest role.').error()
             else:
-                response = not_found(f'I can\'t find {lookup} on this server.')
+                response = GenericResponse(f'I can\'t find {lookup} on this server.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

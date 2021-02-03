@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, not_found, ok, denied
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -36,7 +36,7 @@ async def marketsell(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if await cmd.db.is_sabotaged(pld.msg.author.id):
-        response = denied('Quarantined users can\'t use the market.')
+        response = GenericResponse('Quarantined users can\'t use the market.').denied()
         await pld.msg.channel.send(embed=response)
         return
     author_stamp = arrow.get(pld.msg.author.created_at).float_timestamp
@@ -87,27 +87,27 @@ async def marketsell(cmd, pld):
                                         desc += f' Your market entry token is `{me.token}`,'
                                         desc += ' it can be bought directly using the'
                                         desc += f' `{pfx}marketbuy {me.token}` command.'
-                                        response = ok('Market entry created.')
+                                        response = GenericResponse('Market entry created.').ok()
                                         response.description = desc
                                     except OverflowError:
-                                        response = error("Whoa, that number is way too big!")
+                                        response = GenericResponse("Whoa, that number is way too big!").error()
                                 else:
-                                    response = error('You\'re not able to pay the listing fee.')
+                                    response = GenericResponse('You\'re not able to pay the listing fee.').error()
                             else:
                                 response = dresp.generic('market sale')
                         else:
-                            response = not_found('You don\'t have this item in your inventory.')
+                            response = GenericResponse('You don\'t have this item in your inventory.').not_found()
                         if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                             Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
                     else:
-                        response = error('You already have a market sale open.')
+                        response = GenericResponse('You already have a market sale open.').error()
                 else:
-                    response = not_found('Couldn\'t find that item, did you spell the name correctly?')
+                    response = GenericResponse('Couldn\'t find that item, did you spell the name correctly?').not_found()
             else:
-                response = error('Invalid arguments.')
+                response = GenericResponse('Invalid arguments.').error()
                 response.description = 'Place the price first, and the item name after that.'
         else:
-            response = error('Not enough arguments, I need a price and item name.')
+            response = GenericResponse('Not enough arguments, I need a price and item name.').error()
     else:
-        response = error('Sorry, your account is too young to use the market.')
+        response = GenericResponse('Sorry, your account is too young to use the market.').error()
     await pld.msg.channel.send(embed=response)

@@ -21,7 +21,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.racing.nodes.race_storage import colors, make_race, races
 
 
@@ -129,16 +129,16 @@ async def race(cmd, pld):
                             win_title = f'{win_title[:-1]} and got {winnings} {currency}!'
                         response = discord.Embed(color=colors[leader['icon']], title=win_title)
                     else:
-                        response = error('Some participants lost their funds in the meantime!')
+                        response = GenericResponse('Some participants lost their funds in the meantime!').error()
                         response.description = f'Someone spent their {currency} before the race finished.'
                 else:
-                    response = error('Not enough participants in the race!')
+                    response = GenericResponse('Not enough participants in the race!').error()
             else:
-                response = error('Buyin can\'t be longer than 200 digits.')
+                response = GenericResponse('Buyin can\'t be longer than 200 digits.').error()
         else:
-            response = error('There is already one ongoing.')
+            response = GenericResponse('There is already one ongoing.').error()
     except Exception:
-        response = error('Something broke so we are canceling the race.')
+        response = GenericResponse('Something broke so we are canceling the race.').error()
     if pld.msg.channel.id in races:
         del races[pld.msg.channel.id]
     await pld.msg.channel.send(embed=response)

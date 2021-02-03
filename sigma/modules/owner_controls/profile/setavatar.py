@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def setavatar(cmd, pld):
@@ -37,11 +37,11 @@ async def setavatar(cmd, pld):
                     async with session.get(image_url) as image_response:
                         img_data = await image_response.read()
                 await cmd.bot.user.edit(avatar=img_data)
-                response = ok('My avatar has been changed.')
+                response = GenericResponse('My avatar has been changed.').ok()
             except aiohttp.InvalidURL:
-                response = error('Invalid URL.')
+                response = GenericResponse('Invalid URL.').error()
         except discord.Forbidden:
-            response = error('I was unable to change my avatar.')
+            response = GenericResponse('I was unable to change my avatar.').error()
     else:
-        response = error('Give me a link or attach an image, please.')
+        response = GenericResponse('Give me a link or attach an image, please.').error()
     await pld.msg.channel.send(embed=response)

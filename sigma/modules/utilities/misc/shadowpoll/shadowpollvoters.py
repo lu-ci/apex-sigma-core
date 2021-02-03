@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shadowpollvoters(cmd, pld):
@@ -48,11 +48,11 @@ async def shadowpollvoters(cmd, pld):
                         voter_lines.append(voter_line)
                     response.description = '\n'.join(voter_lines)
                 else:
-                    response = error('Nobody voted yet.')
+                    response = GenericResponse('Nobody voted yet.').error()
             else:
-                response = denied('You didn\'t make this poll.')
+                response = GenericResponse('You didn\'t make this poll.').denied()
         else:
-            response = not_found('Poll not found.')
+            response = GenericResponse('Poll not found.').not_found()
     else:
-        response = error('Missing poll ID.')
+        response = GenericResponse('Missing poll ID.').error()
     await pld.msg.channel.send(embed=response)

@@ -21,7 +21,7 @@ import datetime
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 sortie_icon = 'https://i.imgur.com/Okg20Uk.png'
@@ -48,5 +48,5 @@ async def wfsorties(_cmd, pld):
         expiry = str(datetime.timedelta(seconds=offset))
         response.set_footer(text=f'Resets in {expiry}')
     else:
-        response = error('Could not retrieve Sorties data.')
+        response = GenericResponse('Could not retrieve Sorties data.').error()
     await pld.msg.channel.send(embed=response)

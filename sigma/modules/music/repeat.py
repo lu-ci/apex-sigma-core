@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def repeat(cmd, pld):
@@ -38,9 +38,9 @@ async def repeat(cmd, pld):
                     cmd.bot.music.repeaters.append(pld.msg.guild.id)
                     response = discord.Embed(color=0x3B88C3, title='🔁 The queue will now repeat.')
             else:
-                response = error('You are not in my channel.')
+                response = GenericResponse('You are not in my channel.').error()
         else:
-            response = error('You are not in a voice channel.')
+            response = GenericResponse('You are not in a voice channel.').error()
     else:
-        response = error('I am not playing anything.')
+        response = GenericResponse('I am not playing anything.').error()
     await pld.msg.channel.send(embed=response)

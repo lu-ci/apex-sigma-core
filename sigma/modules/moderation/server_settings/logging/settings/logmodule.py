@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def logmodule(cmd, pld):
@@ -38,11 +38,11 @@ async def logmodule(cmd, pld):
                     result = 'enabled'
                     logged_modules.append(module_name)
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'logged_modules', logged_modules)
-                response = ok(f'{module_name.upper()} logging {result}.')
+                response = GenericResponse(f'{module_name.upper()} logging {result}.').ok()
             else:
-                response = not_found('Module not found.')
+                response = GenericResponse('Module not found.').not_found()
         else:
-            response = error('No module given.')
+            response = GenericResponse('No module given.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.azur_lane.models.azur_lane_ship import AzurLaneShip, get_ship
 
 
@@ -42,7 +42,7 @@ async def azurlaneskills(cmd, pld):
             response.set_author(name=f'Azur Lane: {ship.name} Skills', icon_url=ship.images.small, url=ship.url)
             response.description = '\n'.join(skill_lines)
         else:
-            response = not_found('Ship not found.')
+            response = GenericResponse('Ship not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

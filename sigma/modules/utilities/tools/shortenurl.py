@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def shortenurl(cmd, pld):
@@ -57,11 +57,11 @@ async def shortenurl(cmd, pld):
                     response = discord.Embed(color=0x66CC66)
                     response.add_field(name='✅ URL Shortened', value=short_url)
             elif status_code == 500:
-                response = error('Bad URL.')
+                response = GenericResponse('Bad URL.').error()
             else:
-                response = error(f'Error {status_code} - {data["status_txt"]}.')
+                response = GenericResponse(f'Error {status_code} - {data["status_txt"]}.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('No Bit.ly Access Token.')
+        response = GenericResponse('No Bit.ly Access Token.').error()
     await pld.msg.channel.send(text_cont, embed=response)

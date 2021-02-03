@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 LUCIA_IMAGE = 'https://i.imgur.com/KVgdtNg.png'
 SIGMA_TITLE = 'Apex Sigma: The Database Giant'
@@ -51,7 +51,7 @@ async def help(cmd, pld):
             if command.alts:
                 response.add_field(name='Command Aliases', value=f'```\n{", ".join(command.alts)}\n```')
         else:
-            response = not_found('Command not found.')
+            response = GenericResponse('Command not found.').not_found()
     else:
         response = discord.Embed(color=0x1B6F5F)
         response.set_author(name=SIGMA_TITLE, icon_url=user_avatar(cmd.bot.user), url=cmd.bot.cfg.pref.website)

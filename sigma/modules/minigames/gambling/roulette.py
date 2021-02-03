@@ -21,7 +21,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 hor_1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
 hor_2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
@@ -158,13 +158,13 @@ async def roulette(cmd, pld):
                     else:
                         ranges = selector_ranges.get(sel)
                         valids = f'{ranges[0]} - {ranges[-1]}'
-                        response = error(f'Invalid value for {sel}. Accepted are {valids}')
+                        response = GenericResponse(f'Invalid value for {sel}. Accepted are {valids}').error()
                 else:
-                    response = error('Invalid selector, check the command description.')
+                    response = GenericResponse('Invalid selector, check the command description.').error()
             else:
-                response = error('Invalid selector and value syntax.')
+                response = GenericResponse('Invalid selector and value syntax.').error()
         else:
-            response = error('Missing selector.')
+            response = GenericResponse('Missing selector.').error()
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can spin again in {timeout} seconds.')

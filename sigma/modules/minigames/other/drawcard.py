@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 suits = {'♥': 'Hearts', '♠': 'Spades', '♦': 'Diamonds', '♣': 'Clubs'}
 names = {1: 'Ace', 12: 'Jack', 13: 'Queen', 14: 'King'}
@@ -81,5 +81,5 @@ async def drawcard(cmd, pld):
         response.description = '\n'.join(card_lines)
     else:
         prefix = cmd.db.get_prefix(pld.settings)
-        response = error(f'Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.')
+        response = GenericResponse(f'Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.').error()
     await pld.msg.channel.send(embed=response)

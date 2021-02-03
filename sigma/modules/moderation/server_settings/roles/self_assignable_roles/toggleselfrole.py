@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def toggleselfrole(cmd, pld):
@@ -39,17 +39,17 @@ async def toggleselfrole(cmd, pld):
                     if target_role.id in self_roles:
                         self_roles.remove(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', self_roles)
-                        response = ok(f'{target_role.name} removed.')
+                        response = GenericResponse(f'{target_role.name} removed.').ok()
                     else:
                         self_roles.append(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', self_roles)
-                        response = ok(f'{target_role.name} added.')
+                        response = GenericResponse(f'{target_role.name} added.').ok()
                 else:
-                    response = error('This role is above my highest role.')
+                    response = GenericResponse('This role is above my highest role.').error()
             else:
-                response = not_found(f'{lookup} not found.')
+                response = GenericResponse(f'{lookup} not found.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

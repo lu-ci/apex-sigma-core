@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def oserverbots(cmd, pld):
@@ -43,7 +43,7 @@ async def oserverbots(cmd, pld):
                     name = f'{user.name}#{user.discriminator}'
                     offline_bots.append(name) if str(user.status) == 'offline' else online_bots.append(name)
             if total_bots == 0:
-                response = error('No bots were found on that server.')
+                response = GenericResponse('No bots were found on that server.').error()
             else:
                 guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
                 response = discord.Embed(color=await get_image_colors(guild_icon))
@@ -51,7 +51,7 @@ async def oserverbots(cmd, pld):
                 response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))
                 response.add_field(name='Offline', value='\n- ' + '\n- '.join(sorted(offline_bots) or ['None']))
         else:
-            response = not_found('Guild not found.')
+            response = GenericResponse('Guild not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

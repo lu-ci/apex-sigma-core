@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import denied, error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def viewwarning(cmd, pld):
@@ -58,11 +58,11 @@ async def viewwarning(cmd, pld):
                     response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
                     response.set_footer(text=f'[{warn_data.get("warning").get("id")}] user_id: {target.id}')
                 else:
-                    response = not_found(f'{target.name} has no {warn_id} warning.')
+                    response = GenericResponse(f'{target.name} has no {warn_id} warning.').not_found()
             else:
-                response = error('Both user tag and warning ID are needed.')
+                response = GenericResponse('Both user tag and warning ID are needed.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

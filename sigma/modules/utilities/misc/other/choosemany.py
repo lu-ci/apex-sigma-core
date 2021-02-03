@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def choosemany(_cmd, pld):
@@ -43,9 +43,9 @@ async def choosemany(_cmd, pld):
                 results = list(map(lambda x: x if len(x) < 25 else x[:25] + '...', results))
                 response.description = '\n'.join(results)
             else:
-                response = error('Limit must be lower than the number of choices.')
+                response = GenericResponse('Limit must be lower than the number of choices.').error()
         else:
-            response = error('Limit must be a number.')
+            response = GenericResponse('Limit must be a number.').error()
     else:
-        response = error('Invalid number of arguments.')
+        response = GenericResponse('Invalid number of arguments.').error()
     await pld.msg.channel.send(embed=response)

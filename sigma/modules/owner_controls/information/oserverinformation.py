@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def oserverinformation(cmd, pld):
@@ -74,7 +74,7 @@ async def oserverinformation(cmd, pld):
             detail_text += f'\nVerification: **{gld.verification_level.name.upper()}**'
             response.add_field(name='Details', value=detail_text)
         else:
-            response = not_found('Guild not found.')
+            response = GenericResponse('Guild not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

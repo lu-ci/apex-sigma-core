@@ -20,7 +20,7 @@ import aiohttp
 import discord
 from lxml import html as lx
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 tdoll_page_index = {}
 tdoll_pages = {}
@@ -177,7 +177,7 @@ async def gftacticaldoll(_cmd, pld):
             response.add_field(name='Weapon Information', value=get_weapon_info_block(tdoll_data), inline=False)
             response.add_field(name='Weapon Statistics', value=get_weapon_satats_block(tdoll_data), inline=False)
         else:
-            response = not_found('Nothing found.')
+            response = GenericResponse('Nothing found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

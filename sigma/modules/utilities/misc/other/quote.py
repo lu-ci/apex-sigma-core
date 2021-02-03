@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def message_search(lookup, message):
@@ -84,11 +84,11 @@ async def quote(_cmd, pld):
                         attachments.append(details)
                     response.add_field(name='Attachments', value='\n'.join(attachments), inline=False)
                 if not valid:
-                    response = error('That message has no text content.')
+                    response = GenericResponse('That message has no text content.').error()
             else:
-                response = not_found('Message not found.')
+                response = GenericResponse('Message not found.').not_found()
         else:
-            response = error('Invalid message ID.')
+            response = GenericResponse('Invalid message ID.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

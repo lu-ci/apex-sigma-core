@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def wfacolytechannel(cmd, pld):
@@ -33,13 +33,13 @@ async def wfacolytechannel(cmd, pld):
             if pld.args:
                 if pld.args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_acolyte_channel', None)
-                    response = ok('Warframe Acolyte Channel disabled.')
+                    response = GenericResponse('Warframe Acolyte Channel disabled.').ok()
                     await pld.msg.channel.send(embed=response)
                 return
             else:
                 target_channel = pld.msg.channel
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'warframe_acolyte_channel', target_channel.id)
-        response = ok(f'Warframe Acolyte Channel set to #{target_channel.name}')
+        response = GenericResponse(f'Warframe Acolyte Channel set to #{target_channel.name}').ok()
     else:
-        response = denied('Access Denied. Manage Channels needed.')
+        response = GenericResponse('Access Denied. Manage Channels needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok, warn
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.permissions.nodes.permission_data import generate_cmd_data, get_all_perms
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
@@ -78,33 +78,33 @@ async def unpermit(cmd, pld):
 
                                         if len(targets) > 1:
                                             title = f'{len(targets)} {target_type} can no longer use `{node_name}`.'
-                                            response = ok(title)
+                                            response = GenericResponse(title).ok()
                                         else:
                                             pnd = '#' if target_type == 'channels' else ''
-                                            response = ok(f'{pnd}{targets[0].name} can no longer use `{node_name}`.')
+                                            response = GenericResponse(f'{pnd}{targets[0].name} can no longer use `{node_name}`.').ok()
                                     else:
                                         pnd = '#' if target_type == 'channels' else ''
                                         title = f'{pnd}{bad_item.name} didn\'t have an override for `{node_name}`.'
-                                        response = warn(title)
+                                        response = GenericResponse(title).warn()
                                 else:
                                     perm_type = 'Command' if perm_mode == 'c' else 'Module'
-                                    response = not_found(f'{perm_type} not found.')
+                                    response = GenericResponse(f'{perm_type} not found.').not_found()
                             else:
                                 if targets:
-                                    response = not_found(f'{targets} not found.')
+                                    response = GenericResponse(f'{targets} not found.').not_found()
                                 else:
                                     ender = 'specified' if target_type == 'roles' else 'targeted'
-                                    response = not_found(f'No {target_type} {ender}.')
+                                    response = GenericResponse(f'No {target_type} {ender}.').not_found()
                         else:
-                            response = error('Unrecognized lookup mode, see usage example.')
+                            response = GenericResponse('Unrecognized lookup mode, see usage example.').error()
                     else:
-                        response = error('Invalid target type.')
+                        response = GenericResponse('Invalid target type.').error()
                 else:
-                    response = error('Separate permission type and name with a colon.')
+                    response = GenericResponse('Separate permission type and name with a colon.').error()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

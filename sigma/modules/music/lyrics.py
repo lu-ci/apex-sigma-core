@@ -23,7 +23,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def get_url_body(url):
@@ -150,7 +150,7 @@ async def lyrics(cmd, pld):
                 await pld.msg.channel.send(embed=response)
             return
         else:
-            response = error(f'Nothing found for {query}.')
+            response = GenericResponse(f'Nothing found for {query}.').error()
     else:
-        response = error('No song information given, and nothing currently playing.')
+        response = GenericResponse('No song information given, and nothing currently playing.').error()
     await pld.msg.channel.send(embed=response)

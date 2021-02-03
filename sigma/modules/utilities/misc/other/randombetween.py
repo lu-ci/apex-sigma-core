@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def randombetween(_cmd, pld):
@@ -44,11 +44,11 @@ async def randombetween(_cmd, pld):
                     out_num = min_num + ran_num
                     response = discord.Embed(color=0xea596e, title=f'🎲 {out_num}')
                 else:
-                    response = error('The high number is smaller than the minimum.')
+                    response = GenericResponse('The high number is smaller than the minimum.').error()
             else:
-                response = error('Invalid numbers.')
+                response = GenericResponse('Invalid numbers.').error()
         else:
-            response = error('Invalid number of arguments.')
+            response = GenericResponse('Invalid number of arguments.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

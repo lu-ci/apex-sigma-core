@@ -24,7 +24,7 @@ import discord
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.punishments.auto_punish.auto_punish_mechanics import auto_punish
 
 ACTION_MAP = {
@@ -176,7 +176,7 @@ async def issuewarning(cmd, pld):
                     warn_data = warning_data(pld.msg.author, target, reason)
                     warn_iden = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
-                    response = ok(f'Warning {warn_iden} issued to {target.name}.')
+                    response = GenericResponse(f'Warning {warn_iden} issued to {target.name}.').ok()
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
@@ -191,11 +191,11 @@ async def issuewarning(cmd, pld):
                     except Exception:
                         pass
                 else:
-                    response = error('You can\'t warn bots.')
+                    response = GenericResponse('You can\'t warn bots.').error()
             else:
-                response = error('You can\'t warn yourself.')
+                response = GenericResponse('You can\'t warn yourself.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

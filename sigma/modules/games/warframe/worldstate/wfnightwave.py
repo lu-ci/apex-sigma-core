@@ -21,7 +21,7 @@ import datetime
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
@@ -113,5 +113,5 @@ async def wfnightwave(_cmd, pld):
         response.add_field(name=f'Weeklies - {xp[1]}rep - {w_offset}', value='\n'.join(w_descs), inline=False)
         response.add_field(name=f'Weekly Elites - {xp[2]}rep - {wh_offset}', value='\n'.join(wh_descs), inline=False)
     else:
-        response = error('Could not retrieve Nightwave data.')
+        response = GenericResponse('Could not retrieve Nightwave data.').error()
     await pld.msg.channel.send(embed=response)

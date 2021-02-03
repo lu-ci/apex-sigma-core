@@ -23,7 +23,7 @@ import aiohttp
 import discord
 from lxml import html
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.quiz.mech.utils import scramble
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
@@ -157,10 +157,10 @@ async def mangachargame(cmd, pld):
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
         except (IndexError, KeyError):
-            grab_error = error('I failed to grab a character, try again.')
+            grab_error = GenericResponse('I failed to grab a character, try again.').error()
             await pld.msg.channel.send(embed=grab_error)
         if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
             Ongoing.del_ongoing(cmd.name, pld.msg.channel.id)
     else:
-        ongoing_error = error('There is already one ongoing.')
+        ongoing_error = GenericResponse('There is already one ongoing.').error()
         await pld.msg.channel.send(embed=ongoing_error)

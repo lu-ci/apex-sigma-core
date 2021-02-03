@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.misc.custom_lists.addline import user_auth
 
 
@@ -43,14 +43,14 @@ async def removeline(cmd, pld):
                         await list_coll.update_one(lookup_data, {'$set': list_file})
                         response = discord.Embed(color=0xFFCC4D, title=f'🔥 Line {line_num} was deleted.')
                     except IndexError:
-                        response = not_found('Line not found.')
+                        response = GenericResponse('Line not found.').not_found()
                 else:
-                    response = error('Invalid line number.')
+                    response = GenericResponse('Invalid line number.').error()
             else:
                 mode = 'private' if list_file.get('mode') == 'private' else 'locked'
                 response = discord.Embed(color=0xFFAC33, title=f'🔏 This list is {mode}.')
         else:
-            response = error('Missing or invalid list ID.')
+            response = GenericResponse('Missing or invalid list ID.').error()
     else:
-        response = error('Not enough arguments.')
+        response = GenericResponse('Not enough arguments.').error()
     await pld.msg.channel.send(embed=response)

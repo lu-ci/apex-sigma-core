@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def whisperchannel(cmd, pld):
@@ -33,13 +33,13 @@ async def whisperchannel(cmd, pld):
             if pld.args:
                 if pld.args[0].lower() == 'disable':
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'whisper_channel', None)
-                    response = ok('Whisper Channel disabled.')
+                    response = GenericResponse('Whisper Channel disabled.').ok()
                     await pld.msg.channel.send(embed=response)
                 return
             else:
                 target = pld.msg.channel
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'whisper_channel', target.id)
-        response = ok(f'Whisper Channel set to #{target.name}.')
+        response = GenericResponse(f'Whisper Channel set to #{target.name}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

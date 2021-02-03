@@ -21,7 +21,7 @@ import secrets
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_sugg_embed(msg, args, token):
@@ -61,11 +61,11 @@ async def serversuggestion(cmd, pld):
                 sugg_token = secrets.token_hex(4)
                 sugg_msg = await channel.send(embed=make_sugg_embed(pld.msg, pld.args, sugg_token))
                 [await sugg_msg.add_reaction(r) for r in ['⬆', '⬇']]
-                response = ok(f'Suggestion {sugg_token} submitted.')
+                response = GenericResponse(f'Suggestion {sugg_token} submitted.').ok()
             else:
-                response = error('Cannot find suggestion channel.')
+                response = GenericResponse('Cannot find suggestion channel.').error()
         else:
-            response = error('Suggestion channel not set.')
+            response = GenericResponse('Suggestion channel not set.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

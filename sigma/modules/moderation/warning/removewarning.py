@@ -22,7 +22,7 @@ import discord
 from sigma.core.mechanics.incident import get_incident_core
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def make_log_embed(author, target, warn_iden):
@@ -93,15 +93,15 @@ async def removewarning(cmd, pld):
                     warn_iden = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
-                    response = ok(f'Warning {warn_iden} deactivated.')
+                    response = GenericResponse(f'Warning {warn_iden} deactivated.').ok()
                     log_embed = make_log_embed(pld.msg.author, target, warn_iden)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                 else:
-                    response = not_found(f'{target.name} has no {warn_id} warning.')
+                    response = GenericResponse(f'{target.name} has no {warn_id} warning.').not_found()
             else:
-                response = error('Both user tag and warning ID are needed.')
+                response = GenericResponse('Both user tag and warning ID are needed.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Manage Messages needed.')
+        response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     await pld.msg.channel.send(embed=response)

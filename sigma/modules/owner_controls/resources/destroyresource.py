@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def destroyresource(cmd, pld):
@@ -44,13 +44,13 @@ async def destroyresource(cmd, pld):
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
                     else:
-                        response = error(f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.')
+                        response = GenericResponse(f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.').error()
                 except ValueError:
-                    response = error('Invalid amount.')
+                    response = GenericResponse('Invalid amount.').error()
             else:
-                response = error(f'You can\'t take {cmd.bot.cfg.pref.currency} from bots.')
+                response = GenericResponse(f'You can\'t take {cmd.bot.cfg.pref.currency} from bots.').error()
         else:
-            response = error(f'{cmd.bot.cfg.pref.currency} amount and target needed.')
+            response = GenericResponse(f'{cmd.bot.cfg.pref.currency} amount and target needed.').error()
     else:
-        response = error('No user targeted.')
+        response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)

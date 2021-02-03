@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def addselfrole(cmd, pld):
@@ -37,17 +37,17 @@ async def addselfrole(cmd, pld):
                 if role_below:
                     selfroles = pld.settings.get('self_roles', [])
                     if target_role.id in selfroles:
-                        response = error('This role is already self assignable.')
+                        response = GenericResponse('This role is already self assignable.').error()
                     else:
                         selfroles.append(target_role.id)
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'self_roles', selfroles)
-                        response = ok(f'{target_role.name} added.')
+                        response = GenericResponse(f'{target_role.name} added.').ok()
                 else:
-                    response = error('This role is above my highest role.')
+                    response = GenericResponse('This role is above my highest role.').error()
             else:
-                response = not_found(f'I can\'t find {lookup} on this server.')
+                response = GenericResponse(f'I can\'t find {lookup} on this server.').not_found()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Roles needed.')
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

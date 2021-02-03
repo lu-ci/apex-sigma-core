@@ -23,7 +23,7 @@ from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -102,5 +102,5 @@ async def allitems(cmd, pld):
         response.add_field(name='📦 Item Pool Stats', value=f'```py\n{inv_text}\n```')
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
-        response = error('Could not retrieve Item Core data.')
+        response = GenericResponse('Could not retrieve Item Core data.').error()
     await pld.msg.channel.send(embed=response)

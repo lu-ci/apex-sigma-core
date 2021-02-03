@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import discord
 
-from sigma.core.utilities.generic_responses import ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.utils.ongoing.ongoing import ongoing_storage
 
 
@@ -36,7 +36,7 @@ async def resetongoing(cmd, pld):
                 if identifier in ongoing_list:
                     ongoing_list.remove(identifier)
                 ongoing_storage.update({key: ongoing_list})
-        response = ok('Ongoing user, channel and guild locks cleared.')
+        response = GenericResponse('Ongoing user, channel and guild locks cleared.').ok()
     else:
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         response = discord.Embed(color=0x696969, title=f'🕙 You can clear ongoing markers again in {timeout} seconds.')

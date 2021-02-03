@@ -20,7 +20,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
-from sigma.core.utilities.generic_responses import error, not_found, ok, denied
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.market.marketsell import MARKET_TAX_PERCENT
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
@@ -35,7 +35,7 @@ async def marketbuy(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if await cmd.db.is_sabotaged(pld.msg.author.id):
-        response = denied('Quarantined users can\'t use the market.')
+        response = GenericResponse('Quarantined users can\'t use the market.').denied()
         await pld.msg.channel.send(embed=response)
         return
     author_stamp = arrow.get(pld.msg.author.created_at).float_timestamp
@@ -76,7 +76,7 @@ async def marketbuy(cmd, pld):
                         if self_buy:
                             data_for_inv = item.generate_inventory_item()
                             await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
-                            response = ok(f'Retracted the {item.rarity_name} {item.name}.')
+                            response = GenericResponse(f'Retracted the {item.rarity_name} {item.name}.').ok()
                         else:
                             if kud >= me.price:
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', me.price, cmd.name, pld.msg)
@@ -87,7 +87,7 @@ async def marketbuy(cmd, pld):
                                 )
                                 data_for_inv = item.generate_inventory_item()
                                 await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
-                                response = ok(f'Purchased the {item.rarity_name} {item.name} for {me.price} {curr}.')
+                                response = GenericResponse(f'Purchased the {item.rarity_name} {item.name} for {me.price} {curr}.').ok()
                             else:
                                 await me.save(cmd.db)
                                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {curr}.')
@@ -95,13 +95,13 @@ async def marketbuy(cmd, pld):
                         await me.save(cmd.db)
                         response = dresp.generic('market purchase')
                 else:
-                    response = not_found('Couldn\'t find any entries for that.')
+                    response = GenericResponse('Couldn\'t find any entries for that.').not_found()
                 if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                     Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
             else:
-                response = error('You already have a market purchase open.')
+                response = GenericResponse('You already have a market purchase open.').error()
         else:
-            response = error('Not enough arguments, I need a price and item name.')
+            response = GenericResponse('Not enough arguments, I need a price and item name.').error()
     else:
-        response = error('Sorry, your account is too young to use the market.')
+        response = GenericResponse('Sorry, your account is too young to use the market.').error()
     await pld.msg.channel.send(embed=response)

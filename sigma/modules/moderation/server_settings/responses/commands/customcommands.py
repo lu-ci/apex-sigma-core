@@ -20,7 +20,7 @@ import discord
 
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def customcommands(cmd, pld):
@@ -56,7 +56,7 @@ async def customcommands(cmd, pld):
             response.add_field(name='Summary', value=summary, inline=False)
             response.add_field(name='Command List', value=cmd_list, inline=False)
         else:
-            response = error('This page is empty.')
+            response = GenericResponse('This page is empty.').error()
     else:
-        response = error('This server has no custom commands.')
+        response = GenericResponse('This server has no custom commands.').error()
     await pld.msg.channel.send(embed=response)

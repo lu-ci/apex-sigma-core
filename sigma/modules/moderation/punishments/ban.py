@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.utilities.data_processing import convert_to_seconds, get_broad_target, user_avatar
 from sigma.core.utilities.event_logging import log_event
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.permission_processing import hierarchy_permit
 
 
@@ -65,7 +65,7 @@ async def ban(cmd, pld):
                 now = arrow.utcnow().int_timestamp
                 endstamp = now + convert_to_seconds(pld.args[-1].split('=')[-1]) if timed else None
             except (LookupError, ValueError):
-                err_response = error('Please use the format HH:MM:SS.')
+                err_response = GenericResponse('Please use the format HH:MM:SS.').error()
                 await pld.msg.channel.send(embed=err_response)
                 return
             if len(pld.args) >= 2:
@@ -107,15 +107,15 @@ async def ban(cmd, pld):
                                 doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
                                 await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
                         else:
-                            response = denied('Target is above my highest role.')
+                            response = GenericResponse('Target is above my highest role.').denied()
                     else:
-                        response = denied('Can\'t ban someone equal or above you.')
+                        response = GenericResponse('Can\'t ban someone equal or above you.').denied()
                 else:
-                    response = error('You can\'t ban yourself.')
+                    response = GenericResponse('You can\'t ban yourself.').error()
             else:
-                response = error('I can\'t ban myself.')
+                response = GenericResponse('I can\'t ban myself.').error()
         else:
-            response = error('No user targeted.')
+            response = GenericResponse('No user targeted.').error()
     else:
-        response = denied('Access Denied. Ban permissions needed.')
+        response = GenericResponse('Access Denied. Ban permissions needed.').denied()
     await pld.msg.channel.send(embed=response)

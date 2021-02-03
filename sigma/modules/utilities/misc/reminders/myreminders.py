@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.utilities.data_processing import get_image_colors
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def myreminders(cmd, pld):
@@ -66,5 +66,5 @@ async def myreminders(cmd, pld):
         response.add_field(name='Reminder Count', value=reminder_list_title, inline=False)
         response.add_field(name='Reminder List', value=reminder_list, inline=False)
     else:
-        response = not_found('You have no pending reminders.')
+        response = GenericResponse('You have no pending reminders.').not_found()
     await pld.msg.channel.send(embed=response)

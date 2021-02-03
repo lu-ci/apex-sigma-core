@@ -22,7 +22,7 @@ import discord
 from PIL import Image
 
 from sigma.core.utilities.data_processing import rgb_to_hex
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def store_image(im):
@@ -84,7 +84,7 @@ async def color(_cmd, pld):
             response = discord.Embed(color=rgb_to_hex(color_tuple))
             response.set_image(url=f'attachment://{pld.msg.id}.png')
         else:
-            response = error('Invalid input, HEX or RGB sequence, please.')
+            response = GenericResponse('Invalid input, HEX or RGB sequence, please.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(file=file, embed=response)

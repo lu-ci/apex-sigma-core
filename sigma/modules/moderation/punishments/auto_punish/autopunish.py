@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def autopunish(cmd, pld):
@@ -30,7 +30,7 @@ async def autopunish(cmd, pld):
         current = pld.settings.get('auto_punish')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'auto_punish', toggle)
-        response = ok(f'Auto-Punishments {status}.')
+        response = GenericResponse(f'Auto-Punishments {status}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

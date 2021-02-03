@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def setstatus(cmd, pld):
@@ -29,10 +29,10 @@ async def setstatus(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if cmd.bot.cfg.pref.status_rotation:
-        response = error('I can\'t, automatic rotation is enabled.')
+        response = GenericResponse('I can\'t, automatic rotation is enabled.').error()
     else:
         status = ' '.join(pld.args)
         activity = discord.Activity(type=discord.ActivityType.playing, name=status)
         await cmd.bot.change_presence(activity=activity)
-        response = ok(f'New playing status set to {status}.')
+        response = GenericResponse(f'New playing status set to {status}.').ok()
     await pld.msg.channel.send(embed=response)

@@ -22,7 +22,7 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import convert_to_seconds, get_image_colors, user_avatar
-from sigma.core.utilities.generic_responses import denied, error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 raffle_icons = ['⭐', '💎', '🎉', '🎁', '📥']
 icon_colors = {'⭐': 0xffac33, '💎': 0x5dadec, '🎉': 0xdd2e44, '🎁': 0xfdd888, '📥': 0x77b255}
@@ -122,10 +122,10 @@ async def raffle(cmd, pld):
                 await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
                 response = None
             else:
-                response = denied(f'You can\'t send messages to #{target_ch.name}.')
+                response = GenericResponse(f'You can\'t send messages to #{target_ch.name}.').denied()
         except (LookupError, ValueError):
-            response = error('Please use the format HH:MM:SS.')
+            response = GenericResponse('Please use the format HH:MM:SS.').error()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     if response:
         await pld.msg.channel.send(embed=response)

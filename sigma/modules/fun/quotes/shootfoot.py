@@ -20,7 +20,7 @@ import secrets
 
 import discord
 
-from sigma.core.utilities.generic_responses import not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def get_all_sf(db):
@@ -64,5 +64,5 @@ async def shootfoot(cmd, pld):
         response = discord.Embed(color=0xbf6952, title=f'🔫 How to shoot yourself in the foot with {foot_lang}...')
         response.description = joke
     else:
-        response = not_found(f'I don\'t know how to do it in {lang}.')
+        response = GenericResponse(f'I don\'t know how to do it in {lang}.').not_found()
     await pld.msg.channel.send(embed=response)

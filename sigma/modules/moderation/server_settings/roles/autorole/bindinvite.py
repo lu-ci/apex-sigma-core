@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.mechanics.payload import CommandPayload
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def bindinvite(cmd, pld):
@@ -44,15 +44,15 @@ async def bindinvite(cmd, pld):
                         bindings = pld.settings.get('bound_invites', {})
                         bindings.update({target_inv.id: target_role.id})
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
-                        response = ok(f'Invite {target_inv.id} bound to {target_role.name}.')
+                        response = GenericResponse(f'Invite {target_inv.id} bound to {target_role.name}.').ok()
                     else:
-                        response = error('This role is above my highest role.')
+                        response = GenericResponse('This role is above my highest role.').error()
                 else:
-                    response = not_found(f'{role_name} not found.')
+                    response = GenericResponse(f'{role_name} not found.').not_found()
             else:
-                response = error('No invite with that ID was found.')
+                response = GenericResponse('No invite with that ID was found.').error()
         else:
-            response = error('Not enough arguments. Invite and role name needed.')
+            response = GenericResponse('Not enough arguments. Invite and role name needed.').error()
     else:
-        response = denied('Access Denied. Create Instant Invites needed.')
+        response = GenericResponse('Access Denied. Create Instant Invites needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -21,7 +21,7 @@ import datetime
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def nowplaying(cmd, pld):
@@ -41,5 +41,5 @@ async def nowplaying(cmd, pld):
         response.set_author(name=author, icon_url=user_avatar(item.requester), url=item.url)
         response.set_footer(text=f'Duration: {duration} | Tip: The author\'s name is a link.')
     else:
-        response = error('No currently playing song data.')
+        response = GenericResponse('No currently playing song data.').error()
     await pld.msg.channel.send(embed=response)

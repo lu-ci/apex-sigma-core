@@ -22,7 +22,7 @@ import discord
 import lxml.html as lx
 
 from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.url_processing import aioget
 from sigma.modules.searches.vndb.models.visual_novel import VisualNovel
 
@@ -134,9 +134,9 @@ async def visualnoveldatabase(_cmd, pld):
                     random_screen = screen_pool.pop(secrets.randbelow(len(screen_pool)))
                     response.set_image(url=random_screen)
             else:
-                response = error(f'{vn.title} is NSFW but #{pld.msg.channel.name} is not.')
+                response = GenericResponse(f'{vn.title} is NSFW but #{pld.msg.channel.name} is not.').error()
         else:
-            response = not_found('Couldn\'t find a visual novel by that name.')
+            response = GenericResponse('Couldn\'t find a visual novel by that name.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.inventory import get_page_number, get_filter, is_ingredient
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
@@ -73,5 +73,5 @@ async def marketlist(cmd, pld):
         response.add_field(name=f'💶 {title}', value=f'```py\n{inv_text}\n```')
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
-        response = error('I couldn\'t find anything with that name.')
+        response = GenericResponse('I couldn\'t find anything with that name.').error()
     await pld.msg.channel.send(embed=response)

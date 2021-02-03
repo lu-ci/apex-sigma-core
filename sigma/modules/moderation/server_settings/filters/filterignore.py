@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, error, not_found, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.moderation.permissions.permit import get_target_type, get_targets
 
 filter_names = ['arguments', 'extensions', 'words', 'invites']
@@ -48,7 +48,7 @@ async def filterignore(cmd, pld):
                                 if target.id not in override:
                                     override.append(target.id)
                                 else:
-                                    error_response = error(f'{target.name} already has an override for that filter.')
+                                    error_response = GenericResponse(f'{target.name} already has an override for that filter.').error()
                                     break
                             if not error_response:
                                 override_data.update({target_type: override})
@@ -56,28 +56,28 @@ async def filterignore(cmd, pld):
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
                                     starter = f'{len(targets)} {target_type}'
-                                    response = ok(f'{starter} are no longer affected by `blocked{filter_name}`.')
+                                    response = GenericResponse(f'{starter} are no longer affected by `blocked{filter_name}`.').ok()
                                 else:
                                     pnd = '#' if target_type == 'channels' else ''
                                     starter = f'{pnd}{targets[0].name}'
-                                    response = ok(f'{starter} is no longer affected by `blocked{filter_name}`.')
+                                    response = GenericResponse(f'{starter} is no longer affected by `blocked{filter_name}`.').ok()
                             else:
                                 await pld.msg.channel.send(embed=error_response)
                                 return
                         else:
                             if targets:
-                                response = not_found(f'{targets} not found.')
+                                response = GenericResponse(f'{targets} not found.').not_found()
                             else:
                                 ender = 'specified' if target_type == 'roles' else 'targeted'
-                                response = not_found(f'No {target_type} {ender}.')
+                                response = GenericResponse(f'No {target_type} {ender}.').not_found()
                     else:
-                        response = error('Invalid filter.')
+                        response = GenericResponse('Invalid filter.').error()
                 else:
-                    response = error('Invalid target type.')
+                    response = GenericResponse('Invalid target type.').error()
             else:
-                response = error('Not enough arguments.')
+                response = GenericResponse('Not enough arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

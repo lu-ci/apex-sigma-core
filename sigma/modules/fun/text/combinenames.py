@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.combinechains import combine_names
 
 
@@ -33,5 +33,5 @@ async def combinenames(_cmd, pld):
         combined_name = combine_names(pld.msg.mentions)
         response = discord.Embed(color=0x3B88C3, title=f'🔤 I dub thee... {combined_name}!')
     else:
-        response = error('Invalid number of targets.')
+        response = GenericResponse('Invalid number of targets.').error()
     await pld.msg.channel.send(embed=response)

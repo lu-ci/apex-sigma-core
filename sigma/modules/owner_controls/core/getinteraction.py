@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error, not_found
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def getinteraction(cmd, pld):
@@ -36,7 +36,7 @@ async def getinteraction(cmd, pld):
             response.set_image(url=react_item['url'])
             response.set_footer(text=f'Reaction ID: {react_id}')
         else:
-            response = not_found('Reaction not found.')
+            response = GenericResponse('Reaction not found.').not_found()
     else:
-        response = error('Nothing inputted.')
+        response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

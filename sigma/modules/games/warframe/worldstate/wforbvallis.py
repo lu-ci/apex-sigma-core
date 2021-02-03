@@ -21,7 +21,7 @@ import datetime
 import arrow
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
@@ -45,5 +45,5 @@ async def wforbvallis(_cmd, pld):
         response = discord.Embed(color=color)
         response.add_field(name=f'{icon} It\'s Currently {temp.title()}', value=text_desc)
     else:
-        response = error('Could not retrieve Orb Vallis data.')
+        response = GenericResponse('Could not retrieve Orb Vallis data.').error()
     await pld.msg.channel.send(embed=response)

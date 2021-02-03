@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def flagtranslate(cmd, pld):
@@ -30,7 +30,7 @@ async def flagtranslate(cmd, pld):
         current = pld.settings.get('flag_translate')
         toggle, status = (False, 'disabled') if current else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'flag_translate', toggle)
-        response = ok(f'Flag Emote Translating {status}.')
+        response = GenericResponse(f'Flag Emote Translating {status}.').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

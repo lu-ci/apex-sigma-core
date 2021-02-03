@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def sabotageuser(cmd, pld):
@@ -49,9 +49,9 @@ async def sabotageuser(cmd, pld):
                 await cmd.db.set_profile(target_id, 'sabotaged', status)
                 response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target_name} has been {result}.')
             else:
-                response = error('That target is immune.')
+                response = GenericResponse('That target is immune.').error()
         else:
-            response = error('Invalid user ID.')
+            response = GenericResponse('Invalid user ID.').error()
     else:
-        response = error('Missing user ID.')
+        response = GenericResponse('Missing user ID.').error()
     await pld.msg.channel.send(embed=response)

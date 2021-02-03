@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from sigma.core.utilities.generic_responses import denied, ok
+from sigma.core.utilities.generic_responses import GenericResponse
 
 
 async def unflip(cmd, pld):
@@ -38,7 +38,7 @@ async def unflip(cmd, pld):
         else:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'unflip', True)
             ending = 'enabled'
-        response = ok(f'Table unflipping has been {ending}')
+        response = GenericResponse(f'Table unflipping has been {ending}').ok()
     else:
-        response = denied('Access Denied. Manage Server needed.')
+        response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

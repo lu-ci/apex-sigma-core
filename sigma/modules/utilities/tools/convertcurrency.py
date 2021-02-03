@@ -21,7 +21,7 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 
 api_base = 'http://free.currconv.com/api/v7'
 
@@ -59,15 +59,15 @@ async def convertcurrency(cmd, pld):
                         title = f'🏧 {amount} {from_curr} = {out_amount} {to_curr}'
                         end_response = discord.Embed(color=0x3B88C3, title=title)
                     else:
-                        end_response = error('Invalid currency.')
+                        end_response = GenericResponse('Invalid currency.').error()
                     await start_message.edit(embed=end_response)
                 else:
-                    response = error('Invalid amount.')
+                    response = GenericResponse('Invalid amount.').error()
             else:
-                response = error('Bad number of arguments.')
+                response = GenericResponse('Bad number of arguments.').error()
         else:
-            response = error('Nothing inputted.')
+            response = GenericResponse('Nothing inputted.').error()
     else:
-        response = error('The API Key is missing.')
+        response = GenericResponse('The API Key is missing.').error()
     if response:
         await pld.msg.channel.send(embed=response)

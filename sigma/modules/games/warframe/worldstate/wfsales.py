@@ -20,7 +20,7 @@ import discord
 from humanfriendly.tables import format_pretty_table as boop
 
 from sigma.core.mechanics.paginator import PaginatorCore
-from sigma.core.utilities.generic_responses import error
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
 sales_url = 'https://deathsnacks.com/wf/data/flashsales_raw.txt'
@@ -108,5 +108,5 @@ async def wfsales(_cmd, pld):
             response = discord.Embed(color=0x336699)
             response.set_author(name='No items found, try adding the "all" argument.', icon_url=warframe_icon)
     else:
-        response = error('Could not retrieve Sales data.')
+        response = GenericResponse('Could not retrieve Sales data.').error()
     await pld.msg.channel.send(embed=response)
