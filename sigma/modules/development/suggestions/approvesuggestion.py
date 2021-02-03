@@ -21,7 +21,6 @@ import json
 import aiohttp
 import discord
 
-from sigma.core.sigma import ApexSigma
 from sigma.core.utilities.generic_responses import error, ok
 
 

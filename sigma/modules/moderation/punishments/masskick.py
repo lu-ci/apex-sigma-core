@@ -20,8 +20,6 @@ import re
 
 import discord
 
-from sigma.core.mechanics.command import SigmaCommand
-from sigma.core.mechanics.payload import CommandPayload
 from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import denied, error
 from sigma.core.utilities.permission_processing import hierarchy_permit
