@@ -272,7 +272,7 @@ def get_weighted_mean(grouped_image_color):
     :param grouped_image_color: List of colors in RGB groups.
     :type grouped_image_color: list[tuple]
     :return:
-    :rtype:
+    :rtype: tuple
     """
     sigma_count = 0
     sigma_r = 0

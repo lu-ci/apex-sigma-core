@@ -76,8 +76,6 @@ class ResourceOrigins(object):
         :type trigger: str
         :param amount: The amount it caused to change.
         :type amount: int
-        :return:
-        :rtype:
         """
         trigger_count = self.functions.get(trigger, 0)
         trigger_count += amount
@@ -92,8 +90,6 @@ class ResourceOrigins(object):
         :type amount: int
         :param key: The origin type storage key.
         :type key: str
-        :return:
-        :rtype:
         """
         attrib = getattr(self, key)
         origin_id = str(origin.id)
@@ -109,8 +105,6 @@ class ResourceOrigins(object):
         :type origin: discord.Message
         :param amount: The amount that was changed.
         :type amount: int
-        :return:
-        :rtype:
         """
         for m_key in message_translation.keys():
             attrib_name = message_translation.get(m_key)
@@ -173,8 +167,6 @@ class SigmaResource(object):
         :type origin: discord.Message or None
         :param ranked: Does this change reflect on the leaderboards.
         :type ranked: bool
-        :return:
-        :rtype:
         """
         self.current += amount
         self.origins.add_trigger(trigger, amount)
@@ -193,8 +185,6 @@ class SigmaResource(object):
         :type trigger: str
         :param origin: The origin data of the change.
         :type origin: discord.Message
-        :return:
-        :rtype:
         """
         self.current -= amount
         self.expenses.add_trigger(trigger, amount)

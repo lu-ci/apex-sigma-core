@@ -23,11 +23,11 @@ def scramble(text, full=False):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :param full:
-    :type full:
+    :type full: bool
     :return:
-    :rtype:
+    :rtype: str
     """
     separated_text = text.split()
     char_list = list(text.replace(' ', ''))

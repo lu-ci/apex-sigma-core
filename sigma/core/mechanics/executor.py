@@ -62,8 +62,6 @@ class ExecutionClockwork(object):
         Function in charge of getting a command ready for the queue.
         :param pld: The message payload data that triggers the command.
         :type pld: sigma.core.mechanics.payload.MessagePayload
-        :return:
-        :rtype:
         """
         if self.bot.ready:
             await pld.init()
@@ -100,8 +98,6 @@ class ExecutionClockwork(object):
         :type event_name: str
         :param pld: The payload data of the event.
         :type pld: sigma.core.mechanics.payload.SigmaPayload
-        :return:
-        :rtype:
         """
         if self.bot.ready:
             if event_name in self.bot.modules.events:
@@ -115,8 +111,6 @@ class ExecutionClockwork(object):
     async def queue_ev_loop(self):
         """
         Infinite loop that executes queued events.
-        :return:
-        :rtype:
         """
         while True:
             if self.bot.ready:
@@ -129,8 +123,6 @@ class ExecutionClockwork(object):
     async def queue_cmd_loop(self):
         """
         Infinite loop that executes queued commands.
-        :return:
-        :rtype:
         """
         while True:
             if self.bot.ready:

@@ -32,7 +32,7 @@ async def make_bye_embed(data, goodbye, guild):
     :param guild:
     :type guild: discord.Guild
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     guild_icon = str(guild.icon_url) if guild.icon_url else discord.Embed.Empty
     guild_color = await get_image_colors(guild_icon)

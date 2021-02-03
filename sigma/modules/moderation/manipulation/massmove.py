@@ -25,11 +25,11 @@ def get_vc(guild_vcs, lookup):
     """
 
     :param guild_vcs:
-    :type guild_vcs:
+    :type guild_vcs: list[discord.VoiceChannel]
     :param lookup:
-    :type lookup:
+    :type lookup: str
     :return:
-    :rtype:
+    :rtype: discord.VoiceChannel
     """
     if lookup.isdigit():
         vc = discord.utils.find(lambda x: x.id == int(lookup), guild_vcs)

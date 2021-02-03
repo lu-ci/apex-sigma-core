@@ -34,7 +34,7 @@ class CollectionJar(object):
         """
 
         :return:
-        :rtype:
+        :rtype: int
         """
         contributions = 0
         for chn, amount in self.user.items():

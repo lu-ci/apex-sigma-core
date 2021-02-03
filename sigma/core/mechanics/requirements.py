@@ -42,8 +42,6 @@ class CommandRequirements(object):
     def check_requirements(self):
         """
         Starts the checking of all requirements for the given command.
-        :return:
-        :rtype:
         """
         if self.msg.guild:
             for requirement in self.reqs:

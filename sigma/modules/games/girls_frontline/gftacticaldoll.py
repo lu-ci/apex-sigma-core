@@ -67,7 +67,7 @@ def get_profile_info(root):
     :param root:
     :type root:
     :return:
-    :rtype:
+    :rtype: dict
     """
     data = {}
     pbox = root.cssselect('.profiletable')[0]

@@ -28,11 +28,11 @@ def percentify(small, big):
     """
 
     :param small:
-    :type small:
+    :type small: int
     :param big:
-    :type big:
+    :type big: int
     :return:
-    :rtype:
+    :rtype: int
     """
     prc_flt = small / big
     out = int(prc_flt * 100)

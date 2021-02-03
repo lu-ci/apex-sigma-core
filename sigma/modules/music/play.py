@@ -30,9 +30,9 @@ def player_listening(voice_client):
     """
 
     :param voice_client:
-    :type voice_client:
+    :type voice_client: discord.VoiceClient
     :return:
-    :rtype:
+    :rtype: bool
     """
     user_count = 0
     for member in voice_client.channel.members:
@@ -47,9 +47,9 @@ def player_active(voice_client):
     """
 
     :param voice_client:
-    :type voice_client:
+    :type voice_client: discord.VoiceClient
     :return:
-    :rtype:
+    :rtype: bool
     """
     active = False
     if voice_client:

@@ -26,9 +26,9 @@ async def get_channels(ev, marker):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param marker:
-    :type marker:
+    :type marker: str
     :return:
-    :rtype:
+    :rtype: list[discord.TextChannel]
     """
     channel_list = []
     lookup = {marker: {'$exists': True}}

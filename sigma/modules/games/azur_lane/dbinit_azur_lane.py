@@ -30,7 +30,7 @@ async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
     :param ev: The main event reference.
     :type ev: sigma.core.mechanics.even.SigmaEvent
     :param table: The table to iterate over.
-    :type table: lxml.objectify.Element
+    :type table: lxml.html.HtmlElement
     :param table_type: The ship category in the table.
     :type table_type: str
     :param cutter: What to remove from IDs.
@@ -60,8 +60,6 @@ async def basic_index_fill(ev):
     Fills ship data with basic information from the main ship index.
     :param ev: The main event reference.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :return:
-    :rtype:
     """
     ev.log.info('Updating basic Azur Lane ship information...')
     index_url = f'{url_base}/List_of_Ships'
@@ -82,8 +80,6 @@ async def detailed_ship_fill(ev):
     instead of the main index listing basic information.
     :param ev: The main event reference.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :return:
-    :rtype:
     """
     ev.log.info('Updating detailed Azur Lane ship information...')
     headers = {'Cookie': 'stopMobileRedirect=true'}

@@ -27,9 +27,9 @@ def make_kanji_dict(kanji_page):
     """
 
     :param kanji_page:
-    :type kanji_page:
+    :type kanji_page: lxml.html.HtmlElement
     :return:
-    :rtype:
+    :rtype: dict
     """
     stroke_source = kanji_page.cssselect('.stroke_diagram img')[0].attrib.get('src')
     kanji_dict = {
@@ -47,9 +47,9 @@ def parse_radical_data(kanji_data, kanji_page):
     """
 
     :param kanji_data:
-    :type kanji_data:
+    :type kanji_data: dict
     :param kanji_page:
-    :type kanji_page:
+    :type kanji_page: lxml.html.HtmlElement
     """
     # Expected HTML structure
     # <div class="connections">
@@ -81,9 +81,9 @@ def parse_readings_data(kanji_data, kanji_page):
     """
 
     :param kanji_data:
-    :type kanji_data:
+    :type kanji_data: dict
     :param kanji_page:
-    :type kanji_page:
+    :type kanji_page: lxml.html.HtmlElement
     """
     type_cache = ''
     for element in kanji_page.cssselect('.readings .japanese_readings')[0]:
@@ -110,9 +110,9 @@ def parse_meanings_data(kanji_data, kanji_page):
     """
 
     :param kanji_data:
-    :type kanji_data:
+    :type kanji_data: dict
     :param kanji_page:
-    :type kanji_page:
+    :type kanji_page: lxml.html.HtmlElement
     """
     meanings = kanji_page.cssselect('.meanings .english_meanings p')[0]
     kanji_data['meanings'].append(meanings.text[:-1])  # append the first meaning
@@ -127,9 +127,9 @@ def clean_readings_data(kanji_dict):
     """
 
     :param kanji_dict:
-    :type kanji_dict:
+    :type kanji_dict: dict
     :return:
-    :rtype:
+    :rtype: dict
     """
     readings = kanji_dict['readings']
     bad_chars = ['、 ', '、', '\t', ' ']

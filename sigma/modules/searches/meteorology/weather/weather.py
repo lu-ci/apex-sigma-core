@@ -30,9 +30,9 @@ def get_unit_and_search(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: str, str
     """
     if args[-1].startswith('unit'):
         allowed_units = ['auto', 'ca', 'uk2', 'us', 'si']
@@ -56,11 +56,11 @@ def get_dis_and_deg(unit, forecast):
     """
 
     :param unit:
-    :type unit:
+    :type unit: str
     :param forecast:
-    :type forecast:
+    :type forecast: str
     :return:
-    :rtype:
+    :rtype: str, str
     """
     if unit in ['si', 'ca', 'uk2']:
         if unit == 'uk2':

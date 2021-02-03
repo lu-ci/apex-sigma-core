@@ -30,7 +30,7 @@ def get_os_icon():
     """
 
     :return:
-    :rtype:
+    :rtype: str, int
     """
     if sys.platform == 'win32':
         icon = 'https://i.imgur.com/wTMT4yG.png'

@@ -91,11 +91,11 @@ def add_participant(channel_id, user):
     """
 
     :param channel_id:
-    :type channel_id:
+    :type channel_id: int
     :param user:
-    :type user:
+    :type user: discord.Member
     :return:
-    :rtype:
+    :rtype: str
     """
     race = races[channel_id]
     icons = race['icons']

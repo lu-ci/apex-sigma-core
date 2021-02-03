@@ -38,9 +38,9 @@ async def get_invasion_data(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: dict, list[str]
     """
     invasions = await WorldState().invasions
     invasion_out = None
@@ -68,9 +68,9 @@ async def generate_invasion_embed(data):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     timestamp_start = data['start']
     event_datetime = arrow.get(timestamp_start).datetime

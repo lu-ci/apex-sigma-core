@@ -130,7 +130,7 @@ def hash_url(url):
     :param url:
     :type url: bytes
     :return:
-    :rtype:
+    :rtype: str
     """
     crypt = hashlib.new('md5')
     crypt.update(url)

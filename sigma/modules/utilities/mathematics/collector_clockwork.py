@@ -35,13 +35,13 @@ async def check_queued(db, aid, uid):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param aid:
-    :type aid:
+    :type aid: int
     :param uid:
-    :type uid:
+    :type uid: int
     :return:
-    :rtype:
+    :rtype: bool
     """
     target_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
     author_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'author_id': aid}))
@@ -53,9 +53,9 @@ async def add_to_queue(db, collector_item):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param collector_item:
-    :type collector_item:
+    :type collector_item: dict
     """
     await db[db.db_nam].CollectorQueue.insert_one(collector_item)
 
@@ -64,9 +64,9 @@ async def get_queue_size(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: int
     """
     return await db[db.db_nam].CollectorQueue.count_documents({})
 
@@ -75,11 +75,11 @@ def check_for_bot_prefixes(prefix, text):
     """
 
     :param prefix:
-    :type prefix:
+    :type prefix: str
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: bool
     """
     common_pfx = [prefix, '!', '/', '\\', '~', '.', '>', '<', '-', '_', '?']
     prefixed = False
@@ -94,9 +94,9 @@ def get_channel(msg):
     """
 
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :return:
-    :rtype:
+    :rtype: discord.TextChannel
     """
     target_chn = msg.channel
     if msg.channel_mentions:
@@ -111,9 +111,9 @@ def get_target(msg):
     """
 
     :param msg:
-    :type msg:
+    :type msg: discord.Message
     :return:
-    :rtype:
+    :rtype: discord.Member
     """
     if msg.mentions:
         target_usr = msg.mentions[0]
@@ -126,9 +126,9 @@ def check_for_bad_content(text):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: bool
     """
     disallowed = ['```', 'http', '"', ':gw']
     bad = False
@@ -143,9 +143,9 @@ def clean_bad_chars(text):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     disallowed = ['`', '\n', '\\', '\\n']
     for char in disallowed:
@@ -157,11 +157,11 @@ def replace_mentions(log, text):
     """
 
     :param log:
-    :type log:
+    :type log: discord.Message
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     if log.mentions:
         for mention in log.mentions:
@@ -176,9 +176,9 @@ def punctuate_content(text):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     text = text.strip()
     last_char = text[-1]
@@ -191,11 +191,11 @@ def cleanse_content(log, text):
     """
 
     :param log:
-    :type log:
+    :type log: discord.Message
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: str
     """
     text = replace_mentions(log, text)
     text = clean_bad_chars(text)
@@ -207,15 +207,15 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     """
 
     :param ath:
-    :type ath:
+    :type ath: discord.User
     :param tgt_usr:
-    :type tgt_usr:
+    :type tgt_usr: discord.User
     :param tgt_chn:
-    :type tgt_chn:
+    :type tgt_chn: discord.TextChannel
     :param cltd:
-    :type cltd:
+    :type cltd: int
     :param cltn:
-    :type cltn:
+    :type cltn: list[str]
     """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'

@@ -28,9 +28,9 @@ def count_chars(text):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :return:
-    :rtype:
+    :rtype: int, int, int
     """
     upper = 0
     lower = 0

@@ -96,7 +96,7 @@ async def hangman(cmd, pld):
             :param msg: The message to check.
             :type msg: discord.Message
             :return:
-            :rtype:
+            :rtype: bool
             """
             if pld.msg.channel.id != msg.channel.id:
                 return

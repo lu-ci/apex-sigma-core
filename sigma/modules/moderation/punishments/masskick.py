@@ -38,7 +38,7 @@ def get_members(cmd, message, targets):
     :param targets:
     :type targets: list[discord.Member]
     :return:
-    :rtype:
+    :rtype: list[discord.Member] or str
     """
     results = []
     for target in targets:

@@ -75,11 +75,11 @@ def clean(text, author):
     """
 
     :param text:
-    :type text:
+    :type text: str
     :param author:
-    :type author:
+    :type author: discord.Member
     :return:
-    :rtype:
+    :rtype: str
     """
     output = text.replace('{i}', '*')
     output = output.replace('{/i}', '*')

@@ -101,7 +101,7 @@ def item_belongs(filter_string, item):
     :param item: The item to check.
     :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
     :return:
-    :rtype:
+    :rtype: bool
     """
     flt = filter_string.lower()
     return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.type.lower()

@@ -56,7 +56,7 @@ def make_interaction_log_embed(inter_data):
     :param inter_data:
     :type inter_data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     interaction_url = inter_data.get('url')
     interaction_id = inter_data.get('interaction_id')
@@ -79,7 +79,8 @@ async def send_interaction_log_message(bot, move_data):
     :type bot: sigma.core.sigma.ApexSigma
     :param move_data:
     :type move_data: dict
-    :rtype:
+    :return:
+    :rtype: discord.Message
     """
     await get_interaction_channel(bot)
     if interaction_channel:

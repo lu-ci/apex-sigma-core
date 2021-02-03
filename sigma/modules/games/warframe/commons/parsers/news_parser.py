@@ -26,9 +26,9 @@ async def get_news_data(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: dict, list[str]
     """
     news_list = await WorldState().news
     news_out = None
@@ -51,9 +51,9 @@ def generate_news_embed(data):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     event_datetime = arrow.get(data['date']).datetime
     en_trans = data['translations']['en']

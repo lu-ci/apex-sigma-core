@@ -45,9 +45,9 @@ def extra_shuffle(some_list):
     """
 
     :param some_list:
-    :type some_list:
+    :type some_list: list[discord.Member]
     :return:
-    :rtype:
+    :rtype: list[discord.Member]
     """
     new_list = []
     while some_list:

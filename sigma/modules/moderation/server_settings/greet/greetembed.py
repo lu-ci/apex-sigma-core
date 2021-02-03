@@ -25,11 +25,11 @@ def check_field(field, value):
     """
 
     :param field:
-    :type field:
+    :type field: str
     :param value:
-    :type value:
+    :type value: str
     :return:
-    :rtype:
+    :rtype: re.Match
     """
     if field == 'color':
         try:

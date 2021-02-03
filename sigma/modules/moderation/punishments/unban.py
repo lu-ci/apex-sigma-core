@@ -28,11 +28,11 @@ def generate_log_embed(message, target):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param target:
-    :type target:
+    :type target: discord.Member
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name='A User Has Been Unbanned', icon_url=user_avatar(target))

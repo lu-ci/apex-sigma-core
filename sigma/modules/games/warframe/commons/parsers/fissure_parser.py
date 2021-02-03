@@ -34,9 +34,9 @@ async def get_fissure_data(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: dict, list[str]
     """
     fissures = await WorldState().fissures
     fissure_out = None
@@ -59,9 +59,9 @@ def generate_fissure_embed(data):
     """
 
     :param data:
-    :type data:
+    :type data: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     timestamp_start = data['start']
     timestamp_end = data['end']

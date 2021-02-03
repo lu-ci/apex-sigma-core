@@ -78,7 +78,7 @@ def get_mentions(message):
     :param message: The message object.
     :type message: discord.Message
     :return:
-    :rtype:
+    :rtype: list[discord.Member]
     """
     return list(filter(lambda x: x, [message.guild.get_member(i) for i in message.raw_mentions]))
 

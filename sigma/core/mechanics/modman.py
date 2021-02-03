@@ -82,8 +82,6 @@ class ModuleManager(object):
         :type root: str
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         if self.init:
             self.log.info(f'Loading the {module_data.get("name")} Module')
@@ -115,8 +113,6 @@ class ModuleManager(object):
         Loads the category identifier of the module.
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         if module_data.get('category') not in self.categories:
             self.categories.append(module_data.get('category'))
@@ -128,8 +124,6 @@ class ModuleManager(object):
         :type root: str
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         for command_data in module_data.get('commands'):
             if command_data.get('enabled'):
@@ -142,8 +136,6 @@ class ModuleManager(object):
         :type root: str
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         for event_data in module_data.get('events'):
             if event_data.get('enabled'):
@@ -158,8 +150,6 @@ class ModuleManager(object):
         :type command_data: dict
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         command_data.update({'path': os.path.join(root)})
         command_function = self.load_function(root, command_data)
@@ -178,8 +168,6 @@ class ModuleManager(object):
         :type event_data: dict
         :param module_data: Document containing the module's details.
         :type module_data: dict
-        :return:
-        :rtype:
         """
         event_function = self.load_function(root, event_data)
         event_data.update({'path': os.path.join(root)})
@@ -195,8 +183,6 @@ class ModuleManager(object):
         """
         Loads all modules by going through every module yaml
         in the modules directory recursively.
-        :return:
-        :rtype:
         """
         self.alts = {}
         self.commands = {}

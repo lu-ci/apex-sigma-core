@@ -45,8 +45,6 @@ class StatisticsStorage(object):
     def add_stat(self):
         """
         Increments the current statistic by 1.
-        :return:
-        :rtype:
         """
         self.count += 1
 
@@ -54,8 +52,6 @@ class StatisticsStorage(object):
         """
         An infinite loop that dumps the statistics
         in the database every 60 seconds.
-        :return:
-        :rtype:
         """
         while True:
             def_stat_data = {'event': self.name, 'count': 0}

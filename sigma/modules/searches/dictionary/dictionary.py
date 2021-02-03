@@ -29,7 +29,7 @@ def scrape_gramb(section):
     """
     Scrapes a GRAMB section for definition data.
     :param section: The section to parse.
-    :type section: lxml.html.objectify.Element
+    :type section: lxml.html.HtmlElement
     :return:
     :rtype: dict
     """

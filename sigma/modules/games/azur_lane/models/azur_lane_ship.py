@@ -109,9 +109,7 @@ class ShipStats(object):
         """
         Parses a single tabber instance to get stats from.
         :param tabber: A tabbed table element.
-        :type tabber: lxml.html.objectify.Element
-        :return:
-        :rtype:
+        :type tabber: lxml.html.HtmlElement
         """
         table = tabber[1][0]
         stat_coords = {
@@ -274,9 +272,7 @@ class ShipSkin(object):
         """
         Parses a single tabber instance to get the skin.
         :param tabber: A tabbed table element.
-        :type tabber: lxml.html.objectify.Element
-        :return:
-        :rtype:
+        :type tabber: lxml.html.HtmlElement
         """
         self.name = tabber.attrib.get('title')
         try:
@@ -341,9 +337,7 @@ class ShipImages(object):
         """
         Parses the ship's images from an LXML-parsed page.
         :param page: The LXML etree page to parse.
-        :type page: lxml.html.objectify.Etree
-        :return:
-        :rtype:
+        :type page: lxml.html.Etree
         """
         url_base = 'https://azurlane.koumakan.jp'
         self.small = page.cssselect('.image')[0][0].attrib.get('src')
@@ -509,9 +503,7 @@ class ShipConstruction(object):
         """
         Parses a ship's construction info from a table.
         :param table: A table to parse.
-        :type table: lxml.html.objectify.Element
-        :return:
-        :rtype:
+        :type table: lxml.html.HtmlElement
         """
         const_nest = {0: 'light', 1: 'heavy', 2: 'special', 3: 'limited', 4: 'exchange'}
         const_time = table[1][0].text_content().strip()
@@ -598,9 +590,7 @@ class ShipAcquisition(object):
         """
         Parses a ship's acquisition info from a table.
         :param table: A table to parse.
-        :type table: lxml.html.objectify.Element
-        :return:
-        :rtype:
+        :type table: lxml.html.HtmlElement
         """
         self.construction.from_table(table)
         for row_index, row in enumerate(table[1:6]):
@@ -667,9 +657,7 @@ class ShipQuote(object):
         """
         Parses quote data from a table row.
         :param row: A table row.
-        :type row: lxml.html.objectify.Element
-        :return:
-        :rtype:
+        :type row: lxml.html.HtmlElement
         """
         self.file = row[1][0].attrib.get('href') if len(row[1]) else None
         self.event = row[2].text.strip() if row[2].text else None
@@ -757,9 +745,7 @@ class AzurLaneShip(object):
         """
         Parses ship details from a list of tabbed tables.
         :param tabbers: A list of tabbed table elements.
-        :type tabbers: list[lxml.html.objectify.Element]
-        :return:
-        :rtype:
+        :type tabbers: list[lxml.html.HtmlElement]
         """
         sub_coords = {
             'Base Stats': self.stats.normal.base,
@@ -784,9 +770,7 @@ class AzurLaneShip(object):
         """
         Parses a ship's detailed information from table entries.
         :param tables: A list of tables to parse.
-        :type tables: list[lxml.html.objectify.Element]
-        :return:
-        :rtype:
+        :type tables: list[lxml.html.HtmlElement]
         """
         for table in tables:
             table = table[0]

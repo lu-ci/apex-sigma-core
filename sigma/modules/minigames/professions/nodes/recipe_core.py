@@ -94,9 +94,7 @@ class SigmaRecipe(object):
 
     def load_ingredients(self):
         """
-        Loads the ingredients of the recipe.
-        :return:
-        :rtype:
+        Loads all of the ingredients into memory.
         """
         for ingredient in self.raw_ingredients:
             ingr_item = self.recipe_core.item_core.get_item_by_file_id(ingredient)
@@ -107,6 +105,10 @@ class RecipeCore(object):
     __slots__ = ("db", "item_core", "recipes", "manifest_recipes")
 
     def __init__(self, db):
+        """
+        :param db:
+        :type db: sigma.core.mechanics.database.Database
+        """
         self.db = db
         self.item_core = None
         self.recipes = []
@@ -128,6 +130,11 @@ class RecipeCore(object):
         return out
 
     async def recipes_from_repo(self):
+        """
+
+        :return:
+        :rtype: list[dict]
+        """
         if not self.manifest_recipes:
             async with aiohttp.ClientSession() as session:
                 async with session.get(RECIPE_MANIFEST) as reci_data_response:
@@ -136,13 +143,16 @@ class RecipeCore(object):
         return self.manifest_recipes
 
     async def recipes_from_db(self):
+        """
+
+        :return:
+        :rtype: list[dict]
+        """
         return await self.db[self.db.db_nam].RecipeData.find().to_list(None)
 
     async def init_items(self):
         """
         Initializes all recipes and modifies cooked items with correct values.
-        :return:
-        :rtype:
         """
         self.item_core = await get_item_core(self.db)
         # noinspection PyBroadException
@@ -167,6 +177,9 @@ class RecipeCore(object):
         await self.item_core.deduplicate()
 
     async def validate(self):
+        """
+        Verifies that all recipes have their value set properly.
+        """
         invalid = False
         for recipe in self.recipes:
             if recipe.get_price() == 0:
@@ -177,6 +190,9 @@ class RecipeCore(object):
         await self.deduplicate()
 
     async def deduplicate(self):
+        """
+        Removes duplicate recipes.
+        """
         for (ax, a) in enumerate(self.recipes):
             to_remove = None
             for (bx, b) in enumerate(self.recipes):

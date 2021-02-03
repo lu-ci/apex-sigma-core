@@ -47,8 +47,6 @@ class SigmaError(object):
         Processes an error that happened during a command's execution.
         :param pld: The command's payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
-        :return:
-        :rtype:
         """
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
@@ -62,8 +60,6 @@ class SigmaError(object):
         channel where the command broke.
         :param pld: The command's payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
-        :return:
-        :rtype:
         """
         title, err_text = self.get_error_message(pld.settings)
         error_embed = discord.Embed(color=0xBE1931)
@@ -78,8 +74,6 @@ class SigmaError(object):
         """
         Adds a line to the logger with the error information.
         Also adds the error data to the database.
-        :return:
-        :rtype:
         """
         await self.cmd.db[self.cmd.db.db_nam].Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'
@@ -90,9 +84,9 @@ class SigmaError(object):
         Constructs the dict data of the error
         to be stored in the database.
         :param message:
-        :type message:
+        :type message: discord.Message
         :return:
-        :rtype:
+        :rtype: dict
         """
         gld = message.guild
         gnam = message.guild.name if gld else None
@@ -136,7 +130,7 @@ class SigmaError(object):
         :param error_file: Dict data with error details.
         :type error_file: dict
         :return:
-        :rtype: (discord.Embed, str)
+        :rtype: discord.Embed, str
         """
         response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
         cmd_text = f'Command: **{error_file["message"]["command"]}**'
@@ -161,7 +155,7 @@ class SigmaError(object):
         :param settings: The guild's settings.
         :type settings: dict
         :return:
-        :rtype: (str, str)
+        :rtype: str, str
         """
         prefix = self.cmd.db.get_prefix(settings)
         # escapes markdown formatting

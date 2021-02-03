@@ -27,11 +27,11 @@ def generate_data(message, poll_args):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param poll_args:
-    :type poll_args:
+    :type poll_args: list[str]
     :return:
-    :rtype:
+    :rtype: dict
     """
     uid = message.author.id
     if message.channel:

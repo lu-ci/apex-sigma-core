@@ -29,9 +29,9 @@ def store_image(im):
     """
 
     :param im:
-    :type im:
+    :type im: Image
     :return:
-    :rtype:
+    :rtype: io.BytesIO
     """
     io = BytesIO()
     im.save(io, "PNG")

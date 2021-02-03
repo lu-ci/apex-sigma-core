@@ -38,7 +38,7 @@ async def set_log_channels(log_ords, gld_id, chn, db):
     :param db:
     :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     results = []
     for log_ord in log_ords:

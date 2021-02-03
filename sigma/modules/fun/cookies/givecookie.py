@@ -33,7 +33,7 @@ def check_name(m, lookup):
     :param lookup:
     :type lookup: str
     :return:
-    :rtype:
+    :rtype: bool
     """
     return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()
 

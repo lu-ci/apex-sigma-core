@@ -47,7 +47,7 @@ def check_license(text_bytes):
     :param text_bytes: The bytes of the text to check.
     :type text_bytes: bytes
     :return:
-    :rtype:
+    :rtype: bool
     """
     crypt = hashlib.new(METHOD)
     crypt.update(text_bytes)

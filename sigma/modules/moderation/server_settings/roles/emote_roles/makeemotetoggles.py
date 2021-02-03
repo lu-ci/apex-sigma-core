@@ -30,7 +30,7 @@ def make_binding_data(roles):
     :param roles:
     :type roles: list[discord.Role]
     :return:
-    :rtype:
+    :rtype: dict
     """
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
     binding_data = {}

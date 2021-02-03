@@ -32,9 +32,9 @@ def get_rarity(elem):
     """
 
     :param elem:
-    :type elem:
+    :type elem: lxml.html.HtmlElement
     :return:
-    :rtype:
+    :rtype: int
     """
     rarities = {
         5: 'ffcd4a',

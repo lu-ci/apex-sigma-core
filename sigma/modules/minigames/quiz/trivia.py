@@ -69,9 +69,9 @@ def shuffle_questions(question_list):
     """
 
     :param question_list:
-    :type question_list:
+    :type question_list: listr[str]
     :return:
-    :rtype:
+    :rtype: list[str]
     """
     output = []
     while question_list:
@@ -84,11 +84,11 @@ def get_correct_index(question_list, answer):
     """
 
     :param question_list:
-    :type question_list:
+    :type question_list: list[str]
     :param answer:
-    :type answer:
+    :type answer: str
     :return:
-    :rtype:
+    :rtype: int
     """
     index = 0
     for item in question_list:
@@ -179,9 +179,9 @@ async def trivia(cmd, pld):
                 """
 
                 :param msg:
-                :type msg:
+                :type msg: discord.Message
                 :return:
-                :rtype:
+                :rtype: bool
                 """
                 if pld.msg.channel.id != msg.channel.id:
                     return

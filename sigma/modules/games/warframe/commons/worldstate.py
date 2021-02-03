@@ -36,7 +36,7 @@ class WorldState(object):
         :param key:
         :type key: str
         :return:
-        :rtype: sigma.modules.games.warframe.commons.worldstate.WorldState
+        :rtype: WorldState
         """
         try:
             async with aiohttp.ClientSession() as session:
@@ -57,7 +57,7 @@ class WorldState(object):
         :param indexed:
         :type indexed: bool
         :return:
-        :rtype: list
+        :rtype: list[dict] or dict
         """
         await self.init(url, key)
         data = self.raw
@@ -75,7 +75,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(stats_url, 'news')
 
@@ -84,7 +84,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: dict
         """
         return await self.safe_get(tools_url, 'sorties', True)
 
@@ -93,7 +93,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'invasions')
 
@@ -102,7 +102,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'fissures')
 
@@ -111,7 +111,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'bounties')
 
@@ -120,7 +120,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'factionprojects')
 
@@ -129,7 +129,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: dict
         """
         return await self.safe_get(tools_url, 'voidtraders', True)
 
@@ -138,7 +138,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'acolytes')
 
@@ -147,7 +147,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(stats_url, 'flashSales')
 
@@ -156,7 +156,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: dict
         """
         return await self.safe_get(tools_url, 'dailydeals', True)
 
@@ -165,7 +165,7 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: dict
         """
         return await self.safe_get(tools_url, 'challenges', True)
 
@@ -174,6 +174,6 @@ class WorldState(object):
         """
 
         :return:
-        :rtype:
+        :rtype: list[dict]
         """
         return await self.safe_get(stats_url, 'vallisCycle')

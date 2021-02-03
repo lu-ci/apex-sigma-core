@@ -23,9 +23,9 @@ def is_invalid(name):
     """
 
     :param name:
-    :type name:
+    :type name: str
     :return:
-    :rtype:
+    :rtype: bool
     """
     invalid = False
     for char in name:
@@ -39,11 +39,11 @@ def clean_name(name, default):
     """
 
     :param name:
-    :type name:
+    :type name: str
     :param default:
-    :type default:
+    :type default: str
     :return:
-    :rtype:
+    :rtype: str
     """
     end_name = ''
     for char in str(name):

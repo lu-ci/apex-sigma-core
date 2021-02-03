@@ -38,8 +38,6 @@ class SigmaPayload(abc.ABC):
         """
         An asyncronous init method in case the class
         needs to parse something in an asyncronous task loop.
-        :return:
-        :rtype:
         """
         pass
 
@@ -106,8 +104,6 @@ class MessagePayload(SigmaPayload):
         """
         Processes the guild's settings and adds them to the payload
         if the message came from a guild and not a DM.
-        :return:
-        :rtype:
         """
         if self.msg.guild:
             self.settings = await self.bot.db.get_guild_settings(self.msg.guild.id)
@@ -122,8 +118,6 @@ class MessageEditPayload(UpdatePayload):
         """
         Processes the guild's settings and adds them to the payload
         if the message came from a guild and not a DM.
-        :return:
-        :rtype:
         """
         if self.after.guild:
             self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
@@ -189,8 +183,6 @@ class MemberPayload(SigmaPayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         if self.member.guild:
             self.settings = await self.bot.db.get_guild_settings(self.member.guild.id)
@@ -206,8 +198,6 @@ class MemberUpdatePayload(UpdatePayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         if self.after.guild:
             self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
@@ -233,8 +223,6 @@ class GuildPayload(SigmaPayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         self.settings = await self.bot.db.get_guild_settings(self.guild.id)
 
@@ -247,8 +235,6 @@ class GuildUpdatePayload(UpdatePayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         self.settings = await self.bot.db.get_guild_settings(self.after.id)
 
@@ -342,8 +328,6 @@ class ReactionPayload(SigmaPayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         if self.reaction.message.guild:
             self.settings = await self.bot.db.get_guild_settings(self.reaction.message.guild.id)
@@ -370,7 +354,5 @@ class RawReactionPayload(SigmaPayload):
     async def init(self):
         """
         Processes the guild's settings and adds them to the payload.
-        :return:
-        :rtype:
         """
         self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)

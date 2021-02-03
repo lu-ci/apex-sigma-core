@@ -66,8 +66,6 @@ class IncidentUser(object):
         Parses data from a discord user object.
         :param user: The user to parse the data from.
         :type user: discord.Member or discord.User
-        :return:
-        :rtype:
         """
         self.id = user.id
         self.name = user.name
@@ -78,8 +76,6 @@ class IncidentUser(object):
         Parses data from a dict document.
         :param data: The dict to grab the data from.
         :type data: dict
-        :return:
-        :rtype:
         """
         self.id = data.get('id')
         self.name = data.get('name')
@@ -133,8 +129,6 @@ class IncidentLocation(object):
         Parses the location data from an object.
         :param obj: The object from which to get the data from.
         :type obj: discord.TextChannel or discord.Guild
-        :return:
-        :rtype:
         """
         self.id = obj.id
         self.name = obj.name
@@ -148,8 +142,6 @@ class IncidentLocation(object):
         Parses the location data from a dict document.
         :param data: Dict data to parse for the class.
         :type data: dict
-        :return:
-        :rtype:
         """
         self.id = data.get('id')
         self.name = data.get('name')
@@ -228,8 +220,6 @@ class Incident(object):
         Sets the moderator in charge of the generated incident.
         :param user: The moderator's user object.
         :type user: discord.Member or discord.User
-        :return:
-        :rtype:
         """
         self.moderator = IncidentUser(user)
 
@@ -478,8 +468,6 @@ class IncidentCore(object):
         Saves the data from an incident class to the database.
         :param incident: The incident to save.
         :type incident: sigma.core.mechanics.incident.Incident
-        :return:
-        :rtype:
         """
         lookup = {'id': incident.id, 'guild.id': incident.guild.id}
         lookup_doc = await self.coll.find_one(lookup)
@@ -496,8 +484,6 @@ class IncidentCore(object):
         :type guild: discord.Guild
         :param incident_embed: The incident embed to send to the guild's incident channel.
         :type incident_embed: discord.Embed
-        :return:
-        :rtype:
         """
         incident_channel_id = await self.db.get_guild_settings(guild.id, 'log_incidents_channel')
         incident_channel = guild.get_channel(incident_channel_id)

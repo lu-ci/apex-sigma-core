@@ -65,9 +65,9 @@ def get_bet(args):
     """
 
     :param args:
-    :type args:
+    :type args: list[str]
     :return:
-    :rtype:
+    :rtype: int
     """
     try:
         bet = abs(int(args[0]))

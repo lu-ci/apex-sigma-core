@@ -61,7 +61,7 @@ async def get_details_page(lookup):
     :param lookup:
     :type lookup: str
     :return:
-    :rtype:
+    :rtype: lxml.html.HtmlElement
     """
     if lookup == '--random':
         lookup = secrets.randbelow(25261) + 1
@@ -89,7 +89,7 @@ async def get_vn(lookup):
     :param lookup:
     :type lookup: str
     :return:
-    :rtype:
+    :rtype: sigma.modules.searches.vndb.models.visual_novel.VisualNovel or None
     """
     vn_data = None
     page_root = await get_details_page(lookup)

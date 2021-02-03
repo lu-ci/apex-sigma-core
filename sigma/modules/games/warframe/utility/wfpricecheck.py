@@ -35,7 +35,7 @@ async def get_lowest_trader(order_url):
     :param order_url:
     :type order_url:
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
     async with aiohttp.ClientSession() as session:
         async with session.get(order_url) as data:

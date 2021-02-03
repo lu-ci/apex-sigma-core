@@ -61,9 +61,9 @@ def get_profile_table(root):
     """
     Grabs the profile table of the T-Doll.
     :param root: The page root data.
-    :type root: lxml.etree.Element
+    :type root: lxml.html.HtmlElement
     :return:
-    :rtype: lxml.etree.Element
+    :rtype: lxml.html.HtmlElement
     """
     return root.cssselect('.floatright.profiletable')[0][0]
 
@@ -72,7 +72,7 @@ def get_pt_value(pt, lookup):
     """
     Gets a specific value from a profile table.
     :param pt: The profile table to search.
-    :type pt: lxml.etree.Element
+    :type pt: lxml.html.HtmlElement
     :param lookup: The thing to search for.
     :type lookup: str
     :return:
@@ -127,8 +127,6 @@ class TDoll(object):
         Parses the T-Doll's information from the wiki URL.
         :param url: The wiki URL of the T-Doll.
         :type url: str
-        :return:
-        :rtype:
         """
         self.url = url
         doll_html = await self.short_get(url)

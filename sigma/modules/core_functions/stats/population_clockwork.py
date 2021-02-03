@@ -60,9 +60,9 @@ def get_all_roles(guilds):
     """
 
     :param guilds:
-    :type guilds:
+    :type guilds: list[discord.Guild]
     :return:
-    :rtype:
+    :rtype: list[discord.Role]
     """
     roles = []
     for g in guilds:

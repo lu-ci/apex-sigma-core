@@ -58,16 +58,12 @@ class PaginatorInstance(object):
     async def next_page(self):
         """
         Increases the current page by 1.
-        :return:
-        :rtype:
         """
         self.current_page = PaginatorCore.paginate(self.items, self.current_page + 1, self.span)[1]
 
     async def prev_page(self):
         """
         Decreases the current page by 1.
-        :return:
-        :rtype:
         """
         self.current_page = PaginatorCore.paginate(self.items, self.current_page - 1, self.span)[1]
 
@@ -122,8 +118,6 @@ class PaginatorCore(object):
         :type mid: int
         :param paginator: The instance of the paginator.
         :type paginator: sigma.core.mechanics.paginator.PaginatorInstance
-        :return:
-        :rtype:
         """
         self.paginators.update({mid: paginator})
 
@@ -132,8 +126,6 @@ class PaginatorCore(object):
         Deletes an existing paginator instance.
         :param mid: The ID of the paginator message.
         :type mid: int
-        :return:
-        :rtype:
         """
         if mid in self.paginators.keys():
             self.paginators.pop(mid)

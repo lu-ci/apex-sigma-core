@@ -21,9 +21,9 @@ def generate_default_data(message):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :return:
-    :rtype:
+    :rtype: dict
     """
     return {
         'server_id': message.guild.id,
@@ -36,9 +36,9 @@ def generate_cmd_data(cmd_name):
     """
 
     :param cmd_name:
-    :type cmd_name:
+    :type cmd_name: str
     :return:
-    :rtype:
+    :rtype: dict
     """
     return {cmd_name: {'users': [], 'channels': [], 'roles': []}}
 
@@ -47,11 +47,11 @@ async def get_all_perms(db, message):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :param message:
-    :type message:
+    :type message: discord.Message
     :return:
-    :rtype:
+    :rtype: dict
     """
     perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})
     if not perms:

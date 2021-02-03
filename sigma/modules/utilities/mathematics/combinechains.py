@@ -40,9 +40,9 @@ def combine_names(users):
     """
 
     :param users:
-    :type users: list
+    :type users: list[discord.Member]
     :return:
-    :rtype:
+    :rtype: str
     """
     pieces = []
     users = shuffle(users)

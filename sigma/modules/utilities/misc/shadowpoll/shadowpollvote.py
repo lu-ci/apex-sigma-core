@@ -21,30 +21,17 @@ import discord
 from sigma.core.utilities.generic_responses import error, not_found, ok
 
 
-def origin(x, poll_file):
-    """
-
-    :param x:
-    :type x:
-    :param poll_file:
-    :type poll_file:
-    :return:
-    :rtype:
-    """
-    return x.id == poll_file["origin"]["server"]
-
-
 def check_roles(allowed_roles, all_users, user):
     """
 
     :param allowed_roles:
-    :type allowed_roles:
+    :type allowed_roles: list[int]
     :param all_users:
-    :type all_users:
+    :type all_users: list[discord.Member]
     :param user:
-    :type user:
+    :type user: discor.Member
     :return:
-    :rtype:
+    :rtype: bool
     """
     members = []
     for member in all_users:

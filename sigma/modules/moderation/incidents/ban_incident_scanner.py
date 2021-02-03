@@ -34,7 +34,7 @@ def get_mod_and_reason(bot, ban_entry, guild):
     :param guild:
     :type guild: discord.Guild
     :return:
-    :rtype:
+    :rtype: discord.Member, str
     """
     # matches Sigma's Audit reason for bans/kicks
     audit_reason = re.search(r'By (.+)#(\d{4})(: |\.)(.*)', ban_entry.reason or '')

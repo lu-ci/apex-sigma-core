@@ -41,7 +41,7 @@ def make_acolyte_id(ac_name, ac_location):
     :param ac_location:
     :type ac_location:
     :return:
-    :rtype:
+    :rtype: str
     """
     time_sect = arrow.utcnow().format('YYYY-MM-DD-HH')
     hash_string = f'acolyte_{ac_name}_{ac_location}_ {time_sect}'
@@ -54,9 +54,9 @@ async def get_acolyte_data(db):
     """
 
     :param db:
-    :type db:
+    :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: dict, list[str]
     """
     acolytes = await WorldState().acolytes
     acolytes_out = None
@@ -79,9 +79,9 @@ def generate_acolyte_embed(acd):
     """
 
     :param acd:
-    :type acd:
+    :type acd: dict
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     details = f'Health: **{round(acd.get("health") * 100, 2)}%**'
     details += f'\nLocation: **{acd.get("location")}**'

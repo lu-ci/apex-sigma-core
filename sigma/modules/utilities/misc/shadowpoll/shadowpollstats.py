@@ -25,9 +25,9 @@ def count_votes(poll_file):
     """
 
     :param poll_file:
-    :type poll_file:
+    :type poll_file: dict
     :return:
-    :rtype:
+    :rtype: dict
     """
     vote_coll = {}
     for vote in poll_file['votes'].keys():
@@ -45,11 +45,11 @@ def make_bar(points, total):
     """
 
     :param points:
-    :type points:
+    :type points: int
     :param total:
-    :type total:
+    :type total: int
     :return:
-    :rtype:
+    :rtype: str
     """
     try:
         fill = int((points / total) * 10)

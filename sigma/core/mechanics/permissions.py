@@ -69,8 +69,6 @@ class GlobalCommandPermissions(object):
     def check_dmable(self):
         """
         Checks of the command can be used in direct messages.
-        :return:
-        :rtype:
         """
         if not self.message.guild:
             if self.cmd.dmable:
@@ -84,8 +82,6 @@ class GlobalCommandPermissions(object):
         """
         Checks if the command is NSFW
         and if the place it's called is marked as NSFW.
-        :return:
-        :rtype:
         """
         if isinstance(self.message.channel, discord.TextChannel):
             if self.cmd.nsfw:
@@ -136,8 +132,6 @@ class GlobalCommandPermissions(object):
         """
         Checks if a user has been blacklisted from using
         the given command, either fully, module or command.
-        :return:
-        :rtype:
         """
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
@@ -155,8 +149,6 @@ class GlobalCommandPermissions(object):
         """
         Checks if a guild has been blacklisted
         from using the given command.
-        :return:
-        :rtype:
         """
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
@@ -172,8 +164,6 @@ class GlobalCommandPermissions(object):
         """
         Checks if the command is owner-only
         and if the user calling it is an owner.
-        :return:
-        :rtype:
         """
         auth = self.message.author
         owners = self.bot.cfg.dsc.owners
@@ -231,8 +221,6 @@ class GlobalCommandPermissions(object):
         Runs the final check which is
         going through all individual checks.
         If any has been triggered, the execution is intercepted.
-        :return:
-        :rtype:
         """
         checklist = [
             self.dm_denied,

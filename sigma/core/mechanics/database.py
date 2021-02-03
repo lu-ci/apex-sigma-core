@@ -65,8 +65,6 @@ class Database(motor.AsyncIOMotorClient):
         """
         Caches all settings files for all guilds on startup
         to reduce database load during regular functionality.
-        :return:
-        :rtype:
         """
         self.bot.log.info('Pre-Caching all guild settings...')
         all_settings = await self[self.db_cfg.database].ServerSettings.find({}).to_list(None)
@@ -80,8 +78,6 @@ class Database(motor.AsyncIOMotorClient):
         """
         Caches all user profile for all guilds on startup
         to reduce database load during regular functionality.
-        :return:
-        :rtype:
         """
         self.bot.log.info('Pre-Caching all member profiles...')
         all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
@@ -95,8 +91,6 @@ class Database(motor.AsyncIOMotorClient):
         """
         Caches all user resources for all guilds on startup
         to reduce database load during regular functionality.
-        :return:
-        :rtype:
         """
         self.bot.log.info('Pre-Caching all resource data...')
         res_cache_counter = 0
@@ -144,8 +138,6 @@ class Database(motor.AsyncIOMotorClient):
         :type setting_name: str or int
         :param value: The settings value.
         :type value: bool or int or float or str or list or dict
-        :return:
-        :rtype:
         """
         guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id})
         if guild_settings:
@@ -186,8 +178,6 @@ class Database(motor.AsyncIOMotorClient):
         :type entry_name: str
         :param value: The value of the entry.
         :type value: bool or int or float or str or list or dict
-        :return:
-        :rtype:
         """
         user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
         if user_profile:
@@ -226,8 +216,6 @@ class Database(motor.AsyncIOMotorClient):
         :type resource_name: str
         :param resource: The resource abstraction class.
         :type resource: sigma.core.mechanics.resources.SigmaResource
-        :return:
-        :rtype:
         """
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
         coll = self[self.db_nam][f'{resource_name.title()}Resource']
@@ -267,8 +255,6 @@ class Database(motor.AsyncIOMotorClient):
         :type origin: discord.Message or None
         :param ranked: If this change counts towards the leaderboard.
         :type ranked: bool
-        :return:
-        :rtype:
         """
         amount = abs(int(amount))
         resource = await self.get_resource(user_id, name)
@@ -288,8 +274,6 @@ class Database(motor.AsyncIOMotorClient):
         :type trigger: str
         :param origin: The origin of the change.
         :type origin: discord.Message
-        :return:
-        :rtype:
         """
         amount = abs(int(amount))
         resource = await self.get_resource(user_id, name)
@@ -305,8 +289,6 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :param inventory: The list of all their inventory items.
         :type inventory: list[dict]
-        :return:
-        :rtype:
         """
         inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
         data = {'items': inventory}
@@ -335,8 +317,6 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :param item_data: The item entry data.
         :type item_data: dict
-        :return:
-        :rtype:
         """
         stamp = arrow.utcnow().int_timestamp
         item_data.update({'timestamp': stamp})
@@ -351,8 +331,6 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :param item_id: The item's ID.
         :type item_id: str
-        :return:
-        :rtype:
         """
         inv = await self.get_inventory(user_id)
         for item in inv:

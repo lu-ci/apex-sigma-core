@@ -57,7 +57,7 @@ def choose_recipe(recipe_core, recipe_type):
     :param recipe_type: The type of recipe.
     :type recipe_type: str or None
     :return:
-    :rtype:
+    :rtype: str, int
     """
     recipe_icons = {'dessert': ('🍰', 0xf9f9f9), 'meal': ('🍱', 0xdd2e44), 'drink': ('🍶', 0x55acee)}
     if recipe_type:

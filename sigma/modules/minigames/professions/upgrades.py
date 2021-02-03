@@ -25,11 +25,11 @@ def calculate_upgrade(up_id, level):
     """
 
     :param up_id:
-    :type up_id:
+    :type up_id: str
     :param level:
-    :type level:
+    :type level: int
     :return:
-    :rtype:
+    :rtype: dict
     """
     up_table = {
         'stamina': {

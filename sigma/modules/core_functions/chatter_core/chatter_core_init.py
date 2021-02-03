@@ -36,8 +36,6 @@ def cb_log(ev, init, text):
     :type init: boot
     :param text: The text to log.
     :type text: str
-    :return:
-    :rtype:
     """
     if init:
         ev.log.info(text)

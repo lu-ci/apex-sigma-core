@@ -33,15 +33,15 @@ def generate_log_embed(message, target, channel, deleted):
     """
 
     :param message:
-    :type message:
+    :type message: discord.Message
     :param target:
-    :type target:
+    :type target: discord.Member
     :param channel:
-    :type channel:
+    :type channel: discord.TextChannel
     :param deleted:
-    :type deleted:
+    :type deleted: list[discord.Message]
     :return:
-    :rtype:
+    :rtype: discord.Embed
     """
     response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
     response.set_author(name=f'#{channel.name} Has Been Pruned', icon_url=user_avatar(message.author))
@@ -77,7 +77,7 @@ async def purge(cmd, pld):
                 """
 
                 :return:
-                :rtype:
+                :rtype: int, discord.Member
                 """
                 user = cmd.bot.user
                 limit = 100
@@ -110,9 +110,9 @@ async def purge(cmd, pld):
                 """
 
                 :param msg:
-                :type msg:
+                :type msg: discord.Message
                 :return:
-                :rtype:
+                :rtype: bool
                 """
                 clean = False
                 if msg.content:
@@ -136,9 +136,9 @@ async def purge(cmd, pld):
                 """
 
                 :param msg:
-                :type msg:
+                :type msg: discord.Member
                 :return:
-                :rtype:
+                :rtype: bool
                 """
                 clean = False
                 if not msg.pinned:
@@ -159,9 +159,9 @@ async def purge(cmd, pld):
                 """
 
                 :param msg:
-                :type msg:
+                :type msg: discord.Message
                 :return:
-                :rtype:
+                :rtype: bool
                 """
                 clean = False
                 if not msg.pinned:

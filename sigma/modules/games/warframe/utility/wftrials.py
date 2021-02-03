@@ -22,31 +22,19 @@ import json
 import aiohttp
 import discord
 
+from sigma.core.utilities.data_processing import convert_to_seconds
 from sigma.core.utilities.generic_responses import not_found, warn
-
-
-def time_to_seconds(time):
-    """
-
-    :param time:
-    :type time:
-    :return:
-    :rtype:
-    """
-    hrs, mins, secs = time.split(':')
-    output = (int(hrs) * 3600) + (int(mins) * 60) + int(secs)
-    return output
 
 
 def get_usercaps(username, trials):
     """
 
     :param username:
-    :type username:
+    :type username: str
     :param trials:
-    :type trials:
+    :type trials: list[dict]
     :return:
-    :rtype:
+    :rtype: str
     """
     output = username
     for trial in trials:
@@ -111,13 +99,13 @@ async def wftrials(_cmd, pld):
                     if trial['type'] == 'lor':
                         lor_deaths += trial['deaths']
                         lor_kills += trial['kills']
-                        lor_time_total += time_to_seconds(trial['time'])
+                        lor_time_total += convert_to_seconds(trial['time'])
                         if lor_time_short == 0:
-                            lor_time_short = time_to_seconds(trial['time'])
+                            lor_time_short = convert_to_seconds(trial['time'])
                         else:
-                            if lor_time_short > time_to_seconds(trial['time']):
+                            if lor_time_short > convert_to_seconds(trial['time']):
                                 if trial['objective'] == 'VICTORY':
-                                    lor_time_short = time_to_seconds(trial['time'])
+                                    lor_time_short = convert_to_seconds(trial['time'])
                         lor_count += 1
                         if trial['objective'] == 'VICTORY':
                             lor_won += 1
@@ -126,33 +114,33 @@ async def wftrials(_cmd, pld):
                     elif trial['type'] == 'lornm':
                         lornm_deaths += trial['deaths']
                         lornm_kills += trial['kills']
-                        lornm_time_total += time_to_seconds(trial['time'])
+                        lornm_time_total += convert_to_seconds(trial['time'])
                         lornm_count += 1
                         if trial['objective'] == 'VICTORY':
                             lornm_won += 1
                         elif trial['objective'] == 'FAILED':
                             lornm_failed += 1
                         if lornm_time_short == 0:
-                            lornm_time_short = time_to_seconds(trial['time'])
+                            lornm_time_short = convert_to_seconds(trial['time'])
                         else:
-                            if lornm_time_short > time_to_seconds(trial['time']):
+                            if lornm_time_short > convert_to_seconds(trial['time']):
                                 if trial['objective'] == 'VICTORY':
-                                    lornm_time_short = time_to_seconds(trial['time'])
+                                    lornm_time_short = convert_to_seconds(trial['time'])
                     elif trial['type'] == 'jv':
                         jv_deaths += trial['deaths']
                         jv_kills += trial['kills']
-                        jv_time_total += time_to_seconds(trial['time'])
+                        jv_time_total += convert_to_seconds(trial['time'])
                         jv_count += 1
                         if trial['objective'] == 'VICTORY':
                             jv_won += 1
                         elif trial['objective'] == 'FAILED':
                             jv_failed += 1
                         if jv_time_short == 0:
-                            jv_time_short = time_to_seconds(trial['time'])
+                            jv_time_short = convert_to_seconds(trial['time'])
                         else:
-                            if jv_time_short > time_to_seconds(trial['time']):
+                            if jv_time_short > convert_to_seconds(trial['time']):
                                 if trial['objective'] == 'VICTORY':
-                                    jv_time_short = time_to_seconds(trial['time'])
+                                    jv_time_short = convert_to_seconds(trial['time'])
 
                 # Total
                 total_deaths = lor_deaths + lornm_deaths + jv_deaths

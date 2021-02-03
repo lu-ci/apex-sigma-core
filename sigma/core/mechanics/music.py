@@ -93,8 +93,6 @@ class QueueItem(object):
     async def download(self):
         """
         Downloads a queued item.
-        :return:
-        :rtype:
         """
         if self.url:
             out_location = f'cache/{self.token}'
@@ -111,8 +109,6 @@ class QueueItem(object):
         to deliver the item's music data to.
         :param voice_client: The voice client to use for delivery.
         :type voice_client: discord.VoiceClient
-        :return:
-        :rtype:
         """
         await self.download()
         if self.location:

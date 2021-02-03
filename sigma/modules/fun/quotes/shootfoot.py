@@ -29,7 +29,7 @@ async def get_all_sf(db):
     :param db:
     :type db: sigma.core.mechanics.database.Database
     :return:
-    :rtype:
+    :rtype: list[dict]
     """
     joke_docs = await db.cache.get_cache('shoot_foot_docs')
     if joke_docs is None:

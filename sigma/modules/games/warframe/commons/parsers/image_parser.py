@@ -29,9 +29,9 @@ def remove_revision(url):
     """
 
     :param url:
-    :type url:
+    :type url: str
     :return:
-    :rtype:
+    :rtype: str
     """
     if '/revision' in url:
         url = url[:url.index('/revision')]
@@ -42,9 +42,9 @@ def clean_generics(name):
     """
 
     :param name:
-    :type name:
+    :type name: str
     :return:
-    :rtype:
+    :rtype: str
     """
     sections = name.split('_')
     sects_low = [x.lower() for x in sections]
@@ -59,9 +59,9 @@ async def grab_image(name):
     """
 
     :param name:
-    :type name:
+    :type name: str
     :return:
-    :rtype:
+    :rtype: str
     """
     try:
         name = clean_generics(name)

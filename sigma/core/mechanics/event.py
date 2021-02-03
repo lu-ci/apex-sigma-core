@@ -73,8 +73,6 @@ class SigmaEvent(object):
         Adds a line in the logger in case something breaks.
         :param exception: The exception to process.
         :type exception: Exception
-        :return:
-        :rtype:
         """
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
         self.log.error(log_text)
@@ -97,8 +95,6 @@ class SigmaEvent(object):
         The main event executor function.
         :param pld: The event execution payload.
         :type pld: sigma.core.mechanics.payload.SigmaPayload
-        :return:
-        :rtype:
         """
         if self.bot.ready or self.event_type in ['dbinit', 'boot']:
             try:

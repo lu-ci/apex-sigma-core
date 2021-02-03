@@ -120,30 +120,24 @@ class Logger(object):
         Generates an INFO level logging line.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self._logger.info(message)
+        self._logger.info(message)
 
     def debug(self, message):
         """
         Generates an DEBUG level logging line.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self._logger.debug(message)
+        self._logger.debug(message)
 
     def error(self, message):
         """
         Generates an ERROR level logging line.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self._logger.error(message)
+        self._logger.error(message)
 
     def warn(self, message):
         """
@@ -151,30 +145,24 @@ class Logger(object):
         due to the parent method being deprecated.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self.warning(message)
+        self.warning(message)
 
     def warning(self, message):
         """
         Generates an WARNING level logging line.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self._logger.warning(message)
+        self._logger.warning(message)
 
     def exception(self, message):
         """
         Generates an EXCEPTION level logging line.
         :param message: The logged text contents.
         :type message: str
-        :return:
-        :rtype:
         """
-        return self._logger.exception(message)
+        self._logger.exception(message)
 
     @classmethod
     def create(cls, name, *, level=None, shards=None):
