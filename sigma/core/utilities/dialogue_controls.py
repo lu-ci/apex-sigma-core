@@ -35,6 +35,10 @@ INT_REACTIONS = ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣',
 
 
 class DialogueResponse(object):
+    """
+    Handles the creation of dialogue response embeds.
+    """
+
     def __init__(self, core):
         """
         :param core:
@@ -51,7 +55,8 @@ class DialogueResponse(object):
     @staticmethod
     def get_desc(desc):
         """
-
+        Parses text so that only the first character
+        of the string is capitalized.
         :param desc:
         :type desc: str
         :type desc: str
@@ -69,7 +74,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_ok(desc):
         """
-
+        Creates a generic-success dialogue embed
         :param desc:
         :type desc: str
         :return:
@@ -81,7 +86,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_cancelled(desc):
         """
-
+        Creates a generic-cancelled dialogue embed
         :param desc:
         :type desc: str
         :return:
@@ -93,7 +98,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_timed_out(desc):
         """
-
+        Creates a generic-timed-out dialogue embed
         :param desc:
         :type desc: str
         :return:
@@ -105,7 +110,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_ongoing():
         """
-
+        Creates a generic-ongoing dialogue embed
         :return:
         :rtype: discord.Embed
         """
@@ -118,7 +123,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_error():
         """
-
+        Creates a generic-error dialogue embed
         :return:
         :rtype: discord.Embed
         """
@@ -129,7 +134,7 @@ class DialogueResponse(object):
     @staticmethod
     def generic_unknown():
         """
-
+        Creates a unknown-issue dialogue embed.
         :return:
         :rtype: discord.Embed
         """
@@ -137,7 +142,7 @@ class DialogueResponse(object):
 
     def generic(self, desc):
         """
-
+        Returns the flagged generic dialogue embed.
         :param desc:
         :type desc: str
         :return:
@@ -158,6 +163,10 @@ class DialogueResponse(object):
 
 
 class DialogueCore(object):
+    """
+    Handles the creation and processing of dialogue control embeds.
+    """
+
     def __init__(self, bot, msg, question=None):
         """
         :param bot:
