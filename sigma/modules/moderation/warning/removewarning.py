@@ -58,7 +58,7 @@ async def make_incident(db, gld, ath, trg):
     :param ath:
     :type ath: discord.Member
     :param trg:
-    :type trg: discor.Member
+    :type trg: discord.Member
     """
     icore = get_incident_core(db)
     inc = icore.generate('unwarn')

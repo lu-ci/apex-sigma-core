@@ -26,10 +26,9 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 async def poll(_cmd, pld):
     """
-
-    :param _cmd:
+    :param _cmd: The command object referenced in the command.
     :type _cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
+    :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not pld.args:

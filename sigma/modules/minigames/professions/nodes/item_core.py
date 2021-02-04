@@ -50,6 +50,10 @@ class ItemCore(object):
     __slots__ = ("db", "rarity_names", "item_icons", "item_colors", "all_items", "manifest_items")
 
     def __init__(self, db):
+        """
+        :param db:
+        :type db: sigma.core.mechanics.database.Database
+        """
         self.db = db
         self.rarity_names = rarity_names
         self.item_icons = item_icons

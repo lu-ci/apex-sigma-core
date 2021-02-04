@@ -29,6 +29,15 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 
 async def grab_post(subreddit, argument):
+    """
+
+    :param subreddit:
+    :type subreddit:
+    :param argument:
+    :type argument:
+    :return:
+    :rtype:
+    """
     try:
         subreddit_name = subreddit.display_name
     except AttributeError:

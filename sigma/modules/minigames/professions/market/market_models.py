@@ -114,7 +114,7 @@ class MarketEntry(abc.ABC):
         :param db:
         :type db: sigma.core.mechanics.database.Database
         :param item:
-        :type item: tring
+        :type item: string
         :param sort
         :type sort: dict or tuple
         :return:

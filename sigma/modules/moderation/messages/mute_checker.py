@@ -34,7 +34,5 @@ async def mute_checker(ev, pld):
                     if pld.msg.author.id in mute_list:
                         try:
                             await pld.msg.delete()
-                        except discord.Forbidden:
-                            pass
-                        except discord.NotFound:
+                        except (discord.Forbidden, discord.NotFound):
                             pass

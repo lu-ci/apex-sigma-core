@@ -28,6 +28,10 @@ class SigmaRawItem(object):
     __slots__ = ("name", "desc", "rarity", "type", "rarity_name", "icon", "color", "value", "file_id")
 
     def __init__(self, item_data):
+        """
+        :param item_data:
+        :type item_data: dict
+        """
         self.name = item_data.get('name')
         self.desc = item_data.get('description')
         self.rarity = item_data.get('rarity')
@@ -94,6 +98,10 @@ class SigmaCookedItem(object):
     __slots__ = ("name", "desc", "rarity", "type", "rarity_name", "icon", "color", "value", "file_id")
 
     def __init__(self, item_data):
+        """
+        :param item_data:
+        :type item_data: dict
+        """
         self.name = item_data.get('name')
         self.desc = item_data.get('description')
         self.type = item_data.get('type')

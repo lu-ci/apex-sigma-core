@@ -48,6 +48,10 @@ class SigmaRecipe(object):
     )
 
     def __init__(self, core, item_data):
+        """
+        :param item_data:
+        :type item_data: dict
+        """
         self.incomplete = False
         self.recipe_core = core
         self.raw_data = item_data
@@ -94,7 +98,7 @@ class SigmaRecipe(object):
 
     def load_ingredients(self):
         """
-        Loads all of the ingredients into memory.
+        Loads the ingredients of the recipe.
         """
         for ingredient in self.raw_ingredients:
             ingr_item = self.recipe_core.item_core.get_item_by_file_id(ingredient)
