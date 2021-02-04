@@ -25,18 +25,24 @@ stats_url = 'https://api.warframestat.us/pc/'
 
 
 class WorldState(object):
+    """
+    The world state for Warframe fetched from two APIs.
+    """
+
+    __slots__ = ("raw",)
+
     def __init__(self):
         self.raw = {}
 
-    async def init(self, url, key):
+    async def get_state(self, url, key):
         """
-
-        :param url:
+        Fetches data from the Warframe World State.
+        :param url: The World State API.
         :type url: str
-        :param key:
+        :param key: The key to append to the URL.
         :type key: str
         :return:
-        :rtype: WorldState
+        :rtype: sigma.modules.games.warframe.commons.worldstate.WorldState
         """
         try:
             async with aiohttp.ClientSession() as session:
@@ -49,17 +55,17 @@ class WorldState(object):
 
     async def safe_get(self, url, key, indexed=False):
         """
-
-        :param url:
+        Parses the World State API response.
+        :param url: The World State API.
         :type url: str
-        :param key:
+        :param key: The key to append to the URL.
         :type key: str
-        :param indexed:
+        :param indexed: Whether or not you want the first item in the list.
         :type indexed: bool
         :return:
-        :rtype: list[dict] or dict
+        :rtype: list or dict or None
         """
-        await self.init(url, key)
+        await self.get_state(url, key)
         data = self.raw
         if url == tools_url:
             data = data.get(key, {}).get('data', [])
@@ -73,7 +79,7 @@ class WorldState(object):
     @property
     async def news(self):
         """
-
+        Fetches current News from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -82,7 +88,7 @@ class WorldState(object):
     @property
     async def sorties(self):
         """
-
+        Fetches current Sorties from the World State.
         :return:
         :rtype: dict
         """
@@ -91,7 +97,7 @@ class WorldState(object):
     @property
     async def invasions(self):
         """
-
+        Fetches current Invasions from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -100,7 +106,7 @@ class WorldState(object):
     @property
     async def fissures(self):
         """
-
+        Fetches the current Fissures from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -109,7 +115,7 @@ class WorldState(object):
     @property
     async def bounties(self):
         """
-
+        Fetches current Bounties from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -118,7 +124,7 @@ class WorldState(object):
     @property
     async def factionprojects(self):
         """
-
+        Fetches current Faction Projects from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -127,7 +133,7 @@ class WorldState(object):
     @property
     async def voidtraders(self):
         """
-
+        Fetches current Void Traders from the World State.
         :return:
         :rtype: dict
         """
@@ -136,7 +142,7 @@ class WorldState(object):
     @property
     async def acolytes(self):
         """
-
+        Fetches current Acolytes from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -145,7 +151,7 @@ class WorldState(object):
     @property
     async def flashsales(self):
         """
-
+        Fetches current Flash Sales from the World State.
         :return:
         :rtype: list[dict]
         """
@@ -154,7 +160,7 @@ class WorldState(object):
     @property
     async def dailydeals(self):
         """
-
+        Fetches current Daily Deals from the World State.
         :return:
         :rtype: dict
         """
@@ -163,7 +169,7 @@ class WorldState(object):
     @property
     async def nightwave(self):
         """
-
+        Fetches current Nightwave from the World State.
         :return:
         :rtype: dict
         """
@@ -172,8 +178,8 @@ class WorldState(object):
     @property
     async def vallistime(self):
         """
-
+        Fetches current Vallis Time from the World State.
         :return:
-        :rtype: list[dict]
+        :rtype: dict
         """
         return await self.safe_get(stats_url, 'vallisCycle')
