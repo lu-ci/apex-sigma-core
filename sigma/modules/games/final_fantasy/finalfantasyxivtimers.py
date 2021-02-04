@@ -36,8 +36,6 @@ def add_timer_block(response, timer_data):
     :type response: discord.Embed
     :param timer_data: Descriptive timer data.
     :type timer_data: dict
-    :return:
-    :rtype: str
     """
     name = timer_data.get('name').split('>')[1].split('<')[0]
     now = arrow.utcnow()

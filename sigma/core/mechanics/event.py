@@ -37,7 +37,7 @@ class SigmaEvent(object):
         """
         :param bot: The client core class instance.
         :type bot: sigma.core.sigma.ApexSigma
-        :param event: The event function
+        :param event: The event function.
         :type event: function
         :param module_info: Module details.
         :type module_info: dict

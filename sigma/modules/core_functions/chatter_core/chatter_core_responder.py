@@ -39,7 +39,7 @@ def clean_response(text):
 
     :param text:
     :type text: str
-    :return"
+    :return:
     :rtype: str
     """
     new = text

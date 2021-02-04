@@ -28,7 +28,7 @@ import psutil
 
 def get_os_icon():
     """
-
+    Gets the icon and color for the specificed OS.
     :return:
     :rtype: str, int
     """
