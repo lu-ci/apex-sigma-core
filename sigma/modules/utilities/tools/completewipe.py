@@ -37,6 +37,7 @@ async def completewipe(cmd, pld):
     quesbed.description = cmd.desc
     dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
     dresp = await dialogue.bool_dialogue()
+    sabotaged = await cmd.db.is_sabotaged(pld.msg.author.id)
     if dresp.ok:
         total = 0
         collections = await cmd.db[cmd.db.db_nam].list_collection_names()
@@ -44,6 +45,8 @@ async def completewipe(cmd, pld):
             if collection not in IGNORE_COLLS:
                 results = await cmd.db[cmd.db.db_nam][collection].delete_many({'user_id': pld.msg.author.id})
                 total += results.deleted_count
+        if sabotaged:
+            await cmd.db.set_profile(pld.msg.author.id, 'sabotaged', sabotaged)
         response = GenericResponse(f'All your data has been wiped. Deleted {total} documents.').ok()
     else:
         response = dresp.generic('data wipe')

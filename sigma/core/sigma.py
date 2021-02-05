@@ -34,9 +34,10 @@ from sigma.core.mechanics.information import Information
 from sigma.core.mechanics.logger import create_logger
 from sigma.core.mechanics.modman import ModuleManager
 from sigma.core.mechanics.music import MusicCore
-from sigma.core.mechanics.payload import BanPayload, GuildPayload, GuildUpdatePayload, MemberPayload, \
-    MemberUpdatePayload, MessageEditPayload, MessagePayload, RawReactionPayload, ReactionPayload, ShardReadyPayload, \
-    UnbanPayload, VoiceStateUpdatePayload
+from sigma.core.mechanics.payload import BanPayload, GuildPayload, GuildUpdatePayload, MemberPayload
+from sigma.core.mechanics.payload import MemberUpdatePayload, MessageEditPayload, MessagePayload
+from sigma.core.mechanics.payload import RawReactionPayload, ReactionPayload, ShardReadyPayload
+from sigma.core.mechanics.payload import UnbanPayload, VoiceStateUpdatePayload
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
