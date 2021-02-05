@@ -45,7 +45,7 @@ upgrade_list = [
         'id': 'casino',
         'name': 'Casino Investment',
         'cost': 75,
-        'desc': 'Reduces the slot machine cool-down.'
+        'desc': 'Reduces the gambling cool-down.'
     },
     {
         'id': 'harem',
