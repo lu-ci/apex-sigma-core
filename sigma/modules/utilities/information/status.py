@@ -46,11 +46,10 @@ def get_os_icon():
 
 def get_shard_latency(latencies, shard_id):
     """
-
-    :param latencies:
-    :type latencies: dict
-    :param shard_id:
-    :type shard_id: int
+    Gets the latency for the specified shard ID.
+    :param latencies: A list of latencies for each shard.
+    :type latencies: list[tuple]
+    :param shard_id: The shard the guild is on.
     :return:
     :rtype: int
     """

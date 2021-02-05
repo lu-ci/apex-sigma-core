@@ -61,7 +61,7 @@ class Cacher(abc.ABC):
 
     async def init(self):
         """
-        Initializes any potential asyncronous tasks required
+        Initializes any potential asynchronous tasks required
         by the Cacher inheriting child.
         """
         pass
