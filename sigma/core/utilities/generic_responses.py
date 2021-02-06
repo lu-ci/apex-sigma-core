@@ -74,7 +74,7 @@ class GenericResponse(object):
         :return:
         :rtype: discord.Embed
         """
-        return self.generic_embed('', 0xBE1931, f'⛔ {self.desc}')
+        return self.generic_embed(0xBE1931, f'⛔ {self.desc}')
 
     def warn(self):
         """
