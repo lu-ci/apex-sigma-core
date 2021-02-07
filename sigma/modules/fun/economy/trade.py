@@ -210,6 +210,14 @@ async def pay_tax(cmd, pld, uid, tax):
     await cmd.db.del_resource(uid, 'currency', tax, cmd.name, pld.msg)
 
 
+async def final_checks(cmd, pld, target, oin, rin, otax, rtax):
+    missing_offer = len(await missing_items(cmd.db, pld.msg.author.id, oin)) == 0
+    missing_receive = len(await missing_items(cmd.db, target.id, rin)) == 0
+    offer_money = await enough_currency(cmd.db, pld.msg.author.id, rtax)
+    receive_money = await enough_currency(cmd.db, target.id, otax)
+    return missing_offer and missing_receive and offer_money and receive_money
+
+
 async def trade(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -258,13 +266,21 @@ async def trade(cmd, pld):
                             offer_space = await enough_space(cmd.db, pld.msg.author.id, receive_items)
                             receive_space = await enough_space(cmd.db, target.id, offer_items)
                             if offer_space and receive_space:
-                                await pay_tax(cmd, pld, pld.msg.author.id, receive_tax)
-                                await pay_tax(cmd, pld, target.id, offer_tax)
-                                await del_items(cmd.db, pld.msg.author.id, offer_items)
-                                await add_items(cmd.db, target.id, offer_items)
-                                await del_items(cmd.db, target.id, receive_items)
-                                await add_items(cmd.db, pld.msg.author.id, receive_items)
-                                response = GenericResponse('Trade complete.').ok()
+                                final_check = final_checks(
+                                    cmd, pld, target, offer_item_names, receive_item_names, offer_tax, receive_tax
+                                )
+                                if final_check:
+                                    await pay_tax(cmd, pld, pld.msg.author.id, receive_tax)
+                                    await pay_tax(cmd, pld, target.id, offer_tax)
+                                    await del_items(cmd.db, pld.msg.author.id, offer_items)
+                                    await add_items(cmd.db, target.id, offer_items)
+                                    await del_items(cmd.db, target.id, receive_items)
+                                    await add_items(cmd.db, pld.msg.author.id, receive_items)
+                                    response = GenericResponse('Trade complete.').ok()
+                                else:
+                                    response = GenericResponse(
+                                        'Final checks failed, please restart the trade.'
+                                    ).error()
                             else:
                                 response = GenericResponse(
                                     'One or both of you don\'t have enough inventory space.'
