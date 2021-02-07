@@ -7,12 +7,12 @@ commands:
       - gibkud
     description: Transfers Kud between you and a mentioned person. The Kud amount goes
       first, followed by the target.
-    enabled: true
+    enabled: false
     name: givecurrency
     usage: '{pfx}{cmd} @person 500'
   - description: Transfers an item between you and a mentioned person. The item name goes
       first, followed by the target.
-    enabled: true
+    enabled: false
     name: giveitem
     usage: '{pfx}{cmd} @person Karmotree'
   - alts:
@@ -45,5 +45,15 @@ commands:
       Kud can be collected ever 22h, the streak resets 48h after the last one was collected.
     enabled: true
     name: daily
+  - description: Trade items with another user.
+      The syntax for the command is a little specific, so read the example.
+      Start the command by pinging the user you want to trade with,
+      then list items you want to offer (separated by a comma) followed by the word "for",
+      after which you list items you want to receive (separated by a comma).
+      Currency is not tradeable. Both parties must submit at least one item.
+      Trades are taxed based on the rarity of the items received.
+    enabled: true
+    name: trade
+    usage: '{pfx}{cmd} @person Xibello, Floating Yon for Corpse Lily, Copula'
 enabled: true
 name: Economy Commands

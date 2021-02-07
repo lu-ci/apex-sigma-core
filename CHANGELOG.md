@@ -4,10 +4,13 @@
 
 ### Added
 
+- The `trade` command has been added, inspired by Warframe's trade mechanics.
 - Market cleaning functions. Items expire after 7 days. Happens automatically every 60s or every `mlist` call.
 
 ### Changed
 
+- The `giveitem` command has been disabled.
+- The `givecurrency` command has been disabled.
 - Minor formatting, cleaning and docstring fixes.
 - Listing the market triggers the market cleaning function.
 - Selling an item on the market will show the expiration time (in UTC).

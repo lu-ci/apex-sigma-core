@@ -103,8 +103,6 @@ Commands | Description | Example
 `>>famousquote` `>>fquote` | Gives you a random inspirational or deep quote. | `>>famousquote`
 `>>fortune` `>>fortune-mod` | Linux users, and raw UNIX users in general will know the fortune-mod. This command uses their entire database to output one of their quotes. | `>>fortune`
 `>>givecookie` `>>gibcookie` `>>gc` | Gives a cookie to a person. Remember to give them only to nice people. You can give only one cookie every hour and can't give them to yourself or to bots. If you put '@someone' as the person, the cookie will be given to a random member of the server. | `>>givecookie @person`
-`>>givecurrency` `>>givecurr` `>>givekud` `>>gibcurr` `>>gibkud` | Transfers Kud between you and a mentioned person. The Kud amount goes first, followed by the target. | `>>givecurrency @person 500`
-`>>giveitem` | Transfers an item between you and a mentioned person. The item name goes first, followed by the target. | `>>giveitem @person Karmotree`
 `>>givetovault` `>>givetobank` `>>gtv` `>>gtb` | The vault is a server specific Kud storage system. Members can contribute to the vault with this command. The Kud can then be awarded to users using the award command. | `>>givetovault 500`
 `>>joke` | Outputs a joke. It is not really special or anything... Sometimes they are funny, most of the times they are not. | `>>joke`
 `>>kitsunemimi` `>>fluffytail` `>>kitsune` `>>kon` | Displays a random kitsunemimi image. In case you don't know what a kitsunemimi is, it's a foxgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>kitsunemimi`
@@ -122,6 +120,7 @@ Commands | Description | Example
 `>>ronswanson` | This command outputs a random quote from Ron Swanson. Everyone's favorite character from Parks and Recreation. | `>>ronswanson`
 `>>scramble` `>>scramb` | It randomly scrambles all the text you give the command. By default, it scrambles words individually. If you want to scramble the text as a whole, add "--full" as the last argument. | `>>scramble I like spaghetti!`
 `>>shootfoot` `>>sf` | Tells you how to shoot yourself in the foot with the specified programming language. If no language is provided, it will pick a random one. | `>>shootfoot Python`
+`>>trade` | Trade items with another user. The syntax for the command is a little specific, so read the example. Start the command by pinging the user you want to trade with, then list items you want to offer (separated by a comma) followed by the word "for", after which you list items you want to receive (separated by a comma). Currency is not tradeable. Both parties must submit at least one item. Trades are taxed based on the rarity of the items received. | `>>trade @person Xibello, Floating Yon for Corpse Lily, Copula`
 `>>usagimimi` `>>usagi` `>>pyon` | Displays a random usagimimi image. In case you don't know what a usagimimi is, it's a rabbitgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>usagimimi`
 `>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
