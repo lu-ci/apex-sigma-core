@@ -266,7 +266,7 @@ async def trade(cmd, pld):
                             offer_space = await enough_space(cmd.db, pld.msg.author.id, receive_items)
                             receive_space = await enough_space(cmd.db, target.id, offer_items)
                             if offer_space and receive_space:
-                                final_check = final_checks(
+                                final_check = await final_checks(
                                     cmd, pld, target, offer_item_names, receive_item_names, offer_tax, receive_tax
                                 )
                                 if final_check:
