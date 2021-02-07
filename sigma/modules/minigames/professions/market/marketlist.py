@@ -22,6 +22,7 @@ from humanfriendly.tables import format_pretty_table as boop
 from sigma.core.mechanics.paginator import PaginatorCore
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.minigames.professions.inventory import get_page_number, get_filter, is_ingredient
+from sigma.modules.minigames.professions.market.market_expiration import check_expiry
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
@@ -36,6 +37,7 @@ async def marketlist(cmd, pld):
     """
     ic = await get_item_core(cmd.db)
     reci_core = await get_recipe_core(cmd.db)
+    await check_expiry(cmd.db)
     lookup = get_filter(pld.args)
     entries = []
     title = None

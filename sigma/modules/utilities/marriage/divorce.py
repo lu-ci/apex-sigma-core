@@ -139,7 +139,9 @@ async def divorce(cmd, pld):
                                     await send_divorce(pld.msg.author, target)
                                 await cmd.db.del_resource(pld.msg.author.id, 'currency', div_cost, cmd.name, pld.msg)
                             else:
-                                response = GenericResponse(f'You don\'t have {div_cost} {currency} to get a divorce.').error()
+                                response = GenericResponse(
+                                    f'You don\'t have {div_cost} {currency} to get a divorce.'
+                                ).error()
                         else:
                             if isinstance(fault, discord.Embed):
                                 response = fault

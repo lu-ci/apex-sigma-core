@@ -147,6 +147,7 @@ async def connect_four_mechanics(ev, pld):
     except AttributeError:
         guild = None
     if guild:
+        # noinspection PyTypeChecker
         game: ConnectFourGame = await cf_cache.get_cache(mid)
         if game:
             if Ongoing.is_ongoing('cf_ongoing_turn', cid):

@@ -113,7 +113,7 @@ class MemoryCacher(Cacher):
         :param key: The hashmap/dict key value.
         :type key: str or int
         :return:
-        :rtype: object
+        :rtype: mixed
         """
         return self.cache.get(key)
 

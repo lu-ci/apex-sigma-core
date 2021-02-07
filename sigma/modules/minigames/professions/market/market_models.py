@@ -49,7 +49,7 @@ class MarketEntry(abc.ABC):
         :return:
         :rtype: MarketEntry
         """
-        me = MarketEntry(None)
+        me = MarketEntry()
         me.token = secrets.token_hex(4)
         me.stamp = arrow.utcnow().timestamp
         me.uid = user.id

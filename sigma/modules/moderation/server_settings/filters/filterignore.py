@@ -48,7 +48,9 @@ async def filterignore(cmd, pld):
                                 if target.id not in override:
                                     override.append(target.id)
                                 else:
-                                    error_response = GenericResponse(f'{target.name} already has an override for that filter.').error()
+                                    error_response = GenericResponse(
+                                        f'{target.name} already has an override for that filter.'
+                                    ).error()
                                     break
                             if not error_response:
                                 override_data.update({target_type: override})
@@ -56,11 +58,15 @@ async def filterignore(cmd, pld):
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
                                     starter = f'{len(targets)} {target_type}'
-                                    response = GenericResponse(f'{starter} are no longer affected by `blocked{filter_name}`.').ok()
+                                    response = GenericResponse(
+                                        f'{starter} are no longer affected by `blocked{filter_name}`.'
+                                    ).ok()
                                 else:
                                     pnd = '#' if target_type == 'channels' else ''
                                     starter = f'{pnd}{targets[0].name}'
-                                    response = GenericResponse(f'{starter} is no longer affected by `blocked{filter_name}`.').ok()
+                                    response = GenericResponse(
+                                        f'{starter} is no longer affected by `blocked{filter_name}`.'
+                                    ).ok()
                             else:
                                 await pld.msg.channel.send(embed=error_response)
                                 return

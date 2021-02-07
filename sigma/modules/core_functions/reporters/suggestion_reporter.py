@@ -79,7 +79,7 @@ async def send_suggestion_log_message(bot, sugg_data):
     :param sugg_data:
     :type sugg_data: dict
     :return:
-    :rtype: discord.Embed
+    :rtype: discord.Message
     """
     await get_suggestion_channel(bot)
     if suggestion_channel:

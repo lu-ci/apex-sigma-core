@@ -81,5 +81,7 @@ async def drawcard(cmd, pld):
         response.description = '\n'.join(card_lines)
     else:
         prefix = cmd.db.get_prefix(pld.settings)
-        response = GenericResponse(f'Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.').error()
+        response = GenericResponse(
+            f'Your deck only has {len(deck)} cards, please use the {prefix}newdeck command.'
+        ).error()
     await pld.msg.channel.send(embed=response)

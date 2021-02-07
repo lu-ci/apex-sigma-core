@@ -68,5 +68,7 @@ async def awardpumpkinpatch(cmd, pld):
             award = int(100000 * guild_multi * (user_val / guild_val) * (guild_count / 1.666))
             award_value += award
             await cmd.db.add_resource(int(user_id), 'currency', award, cmd.name, pld.msg, ranked=False)
-    response = GenericResponse(f'Awarded {award_count} users a total of {award_value} {cmd.bot.cfg.pref.currency}.').ok()
+    response = GenericResponse(
+        f'Awarded {award_count} users a total of {award_value} {cmd.bot.cfg.pref.currency}.'
+    ).ok()
     await pld.msg.channel.send(embed=response)

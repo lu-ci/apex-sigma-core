@@ -48,7 +48,9 @@ async def filterunignore(cmd, pld):
                                 if target.id in override:
                                     override.remove(target.id)
                                 else:
-                                    error_response = GenericResponse(f'{target.name} didn\'t have an override for that filter.').error()
+                                    error_response = GenericResponse(
+                                        f'{target.name} didn\'t have an override for that filter.'
+                                    ).error()
                                     break
                             if not error_response:
                                 override_data.update({target_type: override})
@@ -56,10 +58,14 @@ async def filterunignore(cmd, pld):
                                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'filter_overrides', overrides)
                                 if len(targets) > 1:
                                     starter = f'{len(targets)} {target_type}'
-                                    response = GenericResponse(f'{starter} are now affected by `blocked{filter_name}`.').ok()
+                                    response = GenericResponse(
+                                        f'{starter} are now affected by `blocked{filter_name}`.'
+                                    ).ok()
                                 else:
                                     pnd = '#' if target_type == 'channels' else ''
-                                    response = GenericResponse(f'{pnd}{targets[0].name} is now affected by `blocked{filter_name}`.').ok()
+                                    response = GenericResponse(
+                                        f'{pnd}{targets[0].name} is now affected by `blocked{filter_name}`.'
+                                    ).ok()
                             else:
                                 await pld.msg.channel.send(embed=error_response)
                                 return

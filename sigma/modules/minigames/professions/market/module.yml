@@ -15,7 +15,9 @@ commands:
       When the item is successfully listed, you will get a market entry token.
       You can share that token with others so they buy your listing directly.
       Selling items on the market does not contribute to your ranked Kud.
-      Listing an item costs 0.5% of the price you're listing it for.
+      Listing an item costs 0.5% of the price (min 10 currency) you're listing it for.
+      Listed items can stay on the market only for 7 days,
+      after which they will be returned to the owner's inventory.
     enabled: true
     name: marketsell
     usage: '{pfx}{cmd} 50000 Corpse Lily'
@@ -30,4 +32,8 @@ commands:
     name: marketlist
     usage: '{pfx}{cmd}'
 enabled: true
+events:
+  - enabled: true
+    name: market_expiration
+    type: ready
 name: Open Market

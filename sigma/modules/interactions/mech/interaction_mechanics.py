@@ -139,7 +139,7 @@ async def update_data(db, data, user, guild):
     :param data: The interaction data document.
     :type data: dict
     :param user: The user that submitted it.
-    :type user: discord.Member
+    :type user: discord.Member or discord.User
     :param guild: The guild that submitted it.
     :type guild: discord.Guild
     """

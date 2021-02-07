@@ -87,7 +87,9 @@ async def marketbuy(cmd, pld):
                                 )
                                 data_for_inv = item.generate_inventory_item()
                                 await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
-                                response = GenericResponse(f'Purchased the {item.rarity_name} {item.name} for {me.price} {curr}.').ok()
+                                response = GenericResponse(
+                                    f'Purchased the {item.rarity_name} {item.name} for {me.price} {curr}.'
+                                ).ok()
                             else:
                                 await me.save(cmd.db)
                                 response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have enough {curr}.')

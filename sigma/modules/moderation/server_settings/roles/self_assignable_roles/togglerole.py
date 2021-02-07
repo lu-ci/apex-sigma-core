@@ -43,7 +43,9 @@ async def togglerole(_cmd, pld):
                         response = discord.Embed(color=0x262626, title=title)
                     else:
                         await target.add_roles(target_role, reason='Role self assigned.')
-                        response = GenericResponse(f'{target_role.name} has been added to you, {target.display_name}.').ok()
+                        response = GenericResponse(
+                            f'{target_role.name} has been added to you, {target.display_name}.'
+                        ).ok()
                 else:
                     response = GenericResponse(f'{target_role.name} is not self assignable.').warn()
             else:

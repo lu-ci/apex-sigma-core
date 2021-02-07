@@ -1,5 +1,18 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Added
+
+- Market cleaning functions. Items expire after 7 days. Happens automatically every 60s or every `mlist` call.
+
+### Changed
+
+- Minor formatting, cleaning and docstring fixes.
+- Listing the market triggers the market cleaning function.
+- Selling an item on the market will show the expiration time (in UTC).
+- Selling something on the market now has a minimum listing price of 10 Currency.
+
 ## 4.86.1752 Tsumiki
 
 ### Added

@@ -42,7 +42,9 @@ async def removerole(_cmd, pld):
                             if user_has_role:
                                 author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                 await target.remove_roles(target_role, reason=f'Role removed by {author}.')
-                                response = GenericResponse(f'{target_role.name} has been removed from {target.name}.').ok()
+                                response = GenericResponse(
+                                    f'{target_role.name} has been removed from {target.name}.'
+                                ).ok()
                             else:
                                 response = GenericResponse('That user didn\'t have this role.').error()
                         else:

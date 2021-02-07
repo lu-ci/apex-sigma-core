@@ -51,7 +51,7 @@ async def get_triggers(db, triggers, pld):
     :param triggers:
     :type triggers: list[str]
     :param pld:
-    :type pld: sigma.core.mechanics.payload.GuildPayload
+    :type pld: sigma.core.mechanics.payload.GuildPayload or discord.TextChannel
     :return:
     :rtype: list[str]
     """

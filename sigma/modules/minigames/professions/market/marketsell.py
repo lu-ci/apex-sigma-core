@@ -21,6 +21,7 @@ import discord
 
 from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.modules.minigames.professions.market.market_expiration import MARKET_LIFETIME
 from sigma.modules.minigames.professions.market.market_models import MarketEntry
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -59,7 +60,11 @@ async def marketsell(cmd, pld):
                         Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
                         inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                         if inv_item:
+                            expiration = arrow.get(
+                                arrow.utcnow().timestamp + MARKET_LIFETIME
+                            ).format('DD. MMM. YYYY HH:mm UTC')
                             cost = int(price * 0.005)
+                            cost = cost if cost else 10
                             curr = cmd.bot.cfg.pref.currency
                             profit = int(price * (1 - (MARKET_TAX_PERCENT / 100)))
                             questitle = f'❔ Sell the {item.rarity_name} {item.name} for {price} {curr}?'
@@ -68,6 +73,7 @@ async def marketsell(cmd, pld):
                             desc += f' The market has a {MARKET_TAX_PERCENT}% tax so if your item gets sold,'
                             desc += f' you will get {profit} instead of {price} {curr}.'
                             desc += ' Retracting the item is not taxed.'
+                            desc += f' The item will be available until {expiration}.'
                             quesbed.description = desc
                             dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
                             dresp = await dialogue.bool_dialogue()
@@ -84,6 +90,7 @@ async def marketsell(cmd, pld):
                                         pfx = cmd.db.get_prefix(pld.settings)
                                         desc = f'Placed the {item.rarity_name} {item.name}'
                                         desc += f' on the market for {price} {curr}.'
+                                        desc += f' The listing expiry is {expiration}.'
                                         desc += f' Your market entry token is `{me.token}`,'
                                         desc += ' it can be bought directly using the'
                                         desc += f' `{pfx}marketbuy {me.token}` command.'
@@ -102,7 +109,9 @@ async def marketsell(cmd, pld):
                     else:
                         response = GenericResponse('You already have a market sale open.').error()
                 else:
-                    response = GenericResponse('Couldn\'t find that item, did you spell the name correctly?').not_found()
+                    response = GenericResponse(
+                        'Couldn\'t find that item, did you spell the name correctly?'
+                    ).not_found()
             else:
                 response = GenericResponse('Invalid arguments.').error()
                 response.description = 'Place the price first, and the item name after that.'

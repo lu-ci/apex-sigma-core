@@ -63,7 +63,7 @@ def user_avatar(user, gif=False, static=False):
     """
     Fetches the avatar of Discord member.
     :param user: The user to fetch the avatar from.
-    :type user: discord.Member
+    :type user: discord.Member or discord.User
     :param gif: Whether or not the returned image should be a GIF.
     :type gif: bool
     :param static: Whether or not the returned image should be static.

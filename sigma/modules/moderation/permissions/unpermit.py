@@ -80,8 +80,9 @@ async def unpermit(cmd, pld):
                                             title = f'{len(targets)} {target_type} can no longer use `{node_name}`.'
                                             response = GenericResponse(title).ok()
                                         else:
-                                            pnd = '#' if target_type == 'channels' else ''
-                                            response = GenericResponse(f'{pnd}{targets[0].name} can no longer use `{node_name}`.').ok()
+                                            response = GenericResponse(
+                                                '{pnd}{targets[0].name} can no longer use `{node_name}`.'
+                                            ).ok()
                                     else:
                                         pnd = '#' if target_type == 'channels' else ''
                                         title = f'{pnd}{bad_item.name} didn\'t have an override for `{node_name}`.'

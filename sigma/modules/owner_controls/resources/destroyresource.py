@@ -44,7 +44,9 @@ async def destroyresource(cmd, pld):
                         title_text += 'has been destroyed.'
                         response = discord.Embed(color=0xFFCC4D, title=title_text)
                     else:
-                        response = GenericResponse(f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.').error()
+                        response = GenericResponse(
+                            f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.'
+                        ).error()
                 except ValueError:
                     response = GenericResponse('Invalid amount.').error()
             else:

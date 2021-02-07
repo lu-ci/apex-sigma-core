@@ -131,10 +131,14 @@ async def permit(cmd, pld):
                                         )
 
                                         if len(targets) > 1:
-                                            response = GenericResponse(f'{len(targets)} {target_type} can now use `{node_name}`.').ok()
+                                            response = GenericResponse(
+                                                f'{len(targets)} {target_type} can now use `{node_name}`.'
+                                            ).ok()
                                         else:
                                             pnd = '#' if target_type == 'channels' else ''
-                                            response = GenericResponse(f'{pnd}{targets[0].name} can now use `{node_name}`.').ok()
+                                            response = GenericResponse(
+                                                f'{pnd}{targets[0].name} can now use `{node_name}`.'
+                                            ).ok()
                                     else:
                                         pnd = '#' if target_type == 'channels' else ''
                                         title = f'{pnd}{bad_item.name} already has an override for `{node_name}`.'

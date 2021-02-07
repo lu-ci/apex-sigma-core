@@ -49,7 +49,9 @@ async def giveitem(cmd, pld):
                                 inv_item.update({'transferred': True})
                                 await cmd.db.add_to_inventory(target.id, inv_item)
                                 await cmd.db.add_resource(target.id, 'items', 1, cmd.name, pld.msg, True)
-                                response = GenericResponse(f'Transferred {obj_item.name} to {target.display_name}.').ok()
+                                response = GenericResponse(
+                                    f'Transferred {obj_item.name} to {target.display_name}.'
+                                ).ok()
                                 response.set_footer(text=f'Item ID: {inv_item.get("item_id")}')
                             else:
                                 response = GenericResponse('Transfer declined by Chamomile.').error()

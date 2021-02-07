@@ -48,7 +48,9 @@ async def award(cmd, pld):
                         await cmd.db.add_resource(target.id, 'currency', amount, cmd.name, pld.msg, False)
                         current_vault -= amount
                         await cmd.db.set_guild_settings(pld.msg.guild.id, 'currency_vault', current_vault)
-                        response = GenericResponse(f'{amount} {currency} given to {target.display_name} from the Vault.').ok()
+                        response = GenericResponse(
+                            f'{amount} {currency} given to {target.display_name} from the Vault.'
+                        ).ok()
                     else:
                         response = discord.Embed(color=0xa7d28b, title=f'💸 Not enough {currency} in the Vault.')
                 else:

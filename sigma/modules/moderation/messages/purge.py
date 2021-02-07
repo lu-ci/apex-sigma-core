@@ -136,7 +136,7 @@ async def purge(cmd, pld):
                 """
 
                 :param msg:
-                :type msg: discord.Member
+                :type msg: discord.Message
                 :return:
                 :rtype: bool
                 """

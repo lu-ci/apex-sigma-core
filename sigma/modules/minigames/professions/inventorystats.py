@@ -27,7 +27,7 @@ def type_rarity_counter(items):
     """
 
     :param items:
-    :type items: list[str]
+    :type items: list[SigmaRawItem or SigmaCookedItem]
     :return:
     :rtype: dict
     """
