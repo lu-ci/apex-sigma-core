@@ -36,22 +36,22 @@ mbti_list = [
 ]
 
 mbti_chart = {
-    'estj': [2, 2, 2, 2, 4, 4, 5, 4, 3, 1, 3, 1, 3, 1, 3, 1],
-    'esfj': [2, 2, 2, 2, 4, 4, 4, 5, 3, 1, 3, 1, 3, 1, 3, 1],
-    'istj': [2, 2, 2, 2, 5, 4, 4, 4, 3, 1, 3, 1, 3, 1, 3, 1],
-    'isfj': [2, 2, 2, 2, 4, 5, 4, 4, 3, 1, 3, 1, 3, 1, 3, 1],
-    'estp': [4, 4, 5, 4, 2, 2, 2, 2, 1, 3, 1, 3, 1, 3, 1, 3],
-    'esfp': [4, 4, 4, 5, 2, 2, 2, 2, 1, 3, 1, 3, 1, 3, 1, 3],
-    'istp': [5, 4, 4, 4, 2, 2, 2, 2, 1, 3, 1, 3, 1, 3, 1, 3],
-    'isfp': [4, 5, 4, 4, 2, 2, 2, 2, 1, 3, 1, 3, 1, 3, 1, 3],
-    'entj': [3, 3, 3, 3, 1, 1, 1, 1, 2, 4, 2, 5, 2, 4, 2, 4],
-    'entp': [1, 1, 1, 1, 3, 3, 3, 3, 4, 2, 5, 2, 4, 2, 4, 2],
-    'intj': [3, 3, 3, 3, 1, 1, 1, 1, 2, 5, 2, 4, 2, 4, 2, 4],
-    'intp': [1, 1, 1, 1, 3, 3, 3, 3, 5, 2, 4, 2, 4, 2, 4, 2],
-    'enfj': [3, 3, 3, 3, 1, 1, 1, 1, 2, 4, 2, 4, 2, 4, 2, 5],
-    'enfp': [1, 1, 1, 1, 3, 3, 3, 3, 4, 2, 4, 2, 4, 2, 5, 2],
-    'infj': [3, 3, 3, 3, 1, 1, 1, 1, 2, 4, 2, 4, 2, 5, 2, 4],
-    'infp': [1, 1, 1, 1, 3, 3, 3, 3, 4, 2, 4, 2, 5, 2, 4, 2],
+    'estj':	[3, 4, 4, 2, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    'esfj':	[4, 5, 4, 3, 4, 2, 4, 4, 4, 3, 2, 2, 3, 2, 3, 3],
+    'istj':	[4, 4, 5, 3, 4, 3, 3, 5, 3, 3, 4, 3, 3, 3, 4, 4],
+    'isfj':	[2, 3, 3, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3],
+    'estp':	[3, 4, 4, 4, 5, 3, 4, 3, 4, 5, 3, 3, 4, 3, 2, 2],
+    'esfp':	[3, 2, 3, 4, 3, 3, 4, 2, 4, 2, 4, 2, 5, 4, 3, 3],
+    'istp':	[2, 4, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 4, 3, 4, 2],
+    'isfp':	[3, 4, 5, 4, 3, 2, 3, 3, 1, 4, 2, 3, 4, 3, 4, 3],
+    'entj':	[3, 4, 3, 3, 4, 4, 3, 1, 4, 4, 4, 5, 2, 3, 3, 3],
+    'entp':	[3, 3, 3, 3, 5, 2, 3, 4, 4, 4, 4, 5, 4, 4, 4, 4],
+    'intj':	[3, 2, 4, 3, 3, 4, 3, 2, 4, 4, 4, 4, 2, 4, 3, 3],
+    'intp':	[3, 2, 3, 3, 3, 2, 4, 3, 5, 5, 4, 4, 4, 3, 3, 4],
+    'enfj':	[3, 3, 3, 3, 4, 5, 4, 4, 2, 4, 2, 4, 4, 5, 4, 5],
+    'enfp':	[3, 2, 3, 3, 3, 4, 3, 3, 3, 4, 4, 3, 5, 5, 4, 5],
+    'infj':	[3, 3, 4, 4, 2, 3, 4, 4, 3, 4, 3, 3, 4, 4, 4, 4],
+    'infp':	[3, 3, 4, 3, 2, 3, 2, 3, 3, 4, 3, 4, 5, 5, 4, 4]
 }
 
 mbti_overview = {
@@ -564,26 +564,26 @@ mbti_functions = {
 mbti_compatibility = {
     'ENTJ x ENTJ': {
         'p1': 'The ENTJ x ENTJ pairing can be a dual for command, with potential for compromise in allowing both to '
-              'lead together. This pairing could be beneficial for the fact that both enjoy spending time with '
-              'people, expressing themselves logically, and following set plans of action.',
+              'lead together. This pairing could be beneficial for the fact that both enjoy spending time with people, '
+              'expressing themselves logically, and following set plans of action.',
         'p2': 'Both individuals will need to make an effort to communicate patiently and thoughtfully toward the '
               'other, while still maintaining logical efficacy in their speech and actions. In conflict, this should '
               'be coupled with working together to find a mutually beneficial solution through considering the '
               'other\'s viewpoints when discussing an issue.',
         'p3': 'ENTJs are likely to trust the other when consistency, drive and enthusiasm are present in '
-              'accomplishing goals and initiative in fostering the relationship. '
+              'accomplishing goals and initiative in fostering the relationship.'
     },
     'ENTJ x ESTJ': {
         'p1': 'While there are commonalities between both the ENTJ and ESTJ with both as Te-dominant, it\'s important '
-              'to note that ENTJ will be primarily looking for an intellectual connection with theorization, '
-              'whereas ESTJ is driven toward concrete facts and statements.',
+              'to note that ENTJ will be primarily looking for an intellectual connection with theorization, whereas '
+              'ESTJ is driven toward concrete facts and statements.',
         'p2': 'At first, the ESTJ may see the ENTJ as unconventional, with vague communication. However, their novel '
               'viewpoint of situations will be a refreshing draw toward the other. The ENTJ is likely to see the ESTJ '
               'as traditional, structured and slight conformist.',
         'p3': 'The natural confidence of both types will be alluring to the other, where the ENTJ considers and '
-              'pursues the "what if?" and ESTJ provides powerful stabilization to the dynamic. However, '
-              'this confidence needs to be taken into consideration in communication, where there is likely to be '
-              'conflict if not honed in. '
+              'pursues the "what if?" and ESTJ provides powerful stabilization to the dynamic. However, this '
+              'confidence needs to be taken into consideration in communication, where there is likely to be conflict '
+              'if not honed in.'
     },
     'ENTJ x ENTP': {
         'p1': 'The relationship between ENTJ and ENTP can be intense. They are both energetic, charismatic and '
@@ -595,18 +595,18 @@ mbti_compatibility = {
               'shared abstract style of communication. While there are these similarities, there is likely for '
               'miscommunication if details are not defined, which should be worked through together.',
         'p3': 'It\'s vital that each acknowledges the appreciation they have for one another, without becoming too '
-              'emotional. More like a well-timed "I enjoyed this conversation with you" as recognition of affection. '
+              'emotional. More like a well-timed "I enjoyed this conversation with you" as recognition of affection.'
     },
     'ENTJ x ESTP': {
         'p1': 'ENTJ and ESTP are both very active types; they both like to take action on many things, albeit through '
               'different methods. ESTPs are likely to be seen by the ENTJ as one that immediately jumps into action '
-              'and start trying things, where the ENTJ prefers to make a plan, find a method, and approach things '
-              'from the best means. ESTP may become irritated by ENTJs method-seeking. ESTPs may see ENTJs as bound '
-              'to rules and protocols, which can be perceived as restrictive.',
+              'and start trying things, where the ENTJ prefers to make a plan, find a method, and approach things from '
+              'the best means. ESTP may become irritated by ENTJs method-seeking. ESTPs may see ENTJs as bound to '
+              'rules and protocols, which can be perceived as restrictive.',
         'p2': 'While both share Se and Ni, potential conflict can arise from ESTP\'s Ti conflicting with ENTJ\'s Te '
               'and arguments can become heated and go-round in circles with Te putting value in facts that might seem '
               'completely irrelevant to the ESTP\'s Ti. This can spur quite a few arguments, as both types are '
-              'particularly competitive when it comes to who is "right." '
+              'particularly competitive when it comes to who is "right."'
     },
     'ENTJ x ENFJ': {
         'p1': 'ENTJ tends to be charismatic, direct and logic in their behavior while ENFJ is more warm, genuine and '
@@ -619,7 +619,7 @@ mbti_compatibility = {
               'directly and actively participates in discussion and shares ideas with them.',
         'p4': 'It\'s important that ENTJs avoid pressuring ENFJs in addressing situations logically and instead '
               'appreciate and encourage their empathetic thinking, while ENFJs should appreciate ENTJs\' logical '
-              'thinking and recognize their positive contributions as a way of healthy motivation. '
+              'thinking and recognize their positive contributions as a way of healthy motivation.'
     },
     'ENTJ x ESFJ': {
         'p1': 'ESFJs tend to value social structure, whereas ENTJs are more likely to value logic. This can cause for '
@@ -635,7 +635,7 @@ mbti_compatibility = {
               'to defensively overemphasize competition or recognition. As resolve, ESFJs should remember that ENTJs '
               'are natural problem solvers and not to automatically take their advice as criticism. ENTJ should work '
               'to become more patient and supportive of the ESFJs efforts to resolve conflict that they may typically '
-              'have difficulty navigating through. '
+              'have difficulty navigating through.'
     },
     'ENTJ x ENFP': {
         'p1': 'ENTJ-ENFP pairing could complement each other well granted they are open to appreciating each other\'s '
@@ -647,53 +647,53 @@ mbti_compatibility = {
               'objectively and ENTJs learning to approach the situation with more sensitivity.',
         'p3': 'This pairing would benefit from finding a creative project that can be worked on together to bond '
               'through teamwork and combining strengths in complementary ways. Another way to build rapport is to '
-              'spend more quiet time together discussing and sharing personal values and perspective. '
+              'spend more quiet time together discussing and sharing personal values and perspective.'
     },
     'ENTJ x ESFP': {
         'p1': 'ENTJ-ESFP pairing has potential to be beneficial were both types to recognize the value each bring to '
               'the dynamic through their differences.',
         'p2': 'ESFPs tend to be enthusiastic, spontaneous and adventurous, whereas ENTJs may have more difficulty '
-              'letting go of planning or control. Balance can be achieved with ESFP helping ENTJ to maintain order '
-              'and fulfill their responsibilities by being reliable and consistent, and ENTJ to understand ESFP tends '
-              'to be more adaptable and responsive to their environment due to their dominant Se function.',
+              'letting go of planning or control. Balance can be achieved with ESFP helping ENTJ to maintain order and '
+              'fulfill their responsibilities by being reliable and consistent, and ENTJ to understand ESFP tends to '
+              'be more adaptable and responsive to their environment due to their dominant Se function.',
         'p3': 'ESFPs can learn from ENTJ to approach situations more objectively and work towards long-term goals, '
               'and ENTJs can learn from ESFP to become more in tune with themselves and develop greater value of '
               'interpersonal relationships.',
         'p4': 'This pairing can become stronger through both taking a greater interest in each other\'s passions or '
               'hobbies. It is encouraged to find an engaging physical/creative activity where both can complement the '
-              'other\'s strengths and bond through teamwork and togetherness. '
+              'other\'s strengths and bond through teamwork and togetherness.'
     },
     'ENTJ x INTJ': {
         'p1': 'ENTJ-INTJ pairing can be mutually beneficial when both reach and acceptable compromise about social '
               'events or activities. ENTJs are action-oriented and more likely to involve themselves in external '
-              'activities, whereas INTJs tend to keep to themselves unless pressured by outside forces. This can '
-              'cause ENTJ to view INTJs as passive and INTJ to perceive ENTJs as controlling.',
+              'activities, whereas INTJs tend to keep to themselves unless pressured by outside forces. This can cause '
+              'ENTJ to view INTJs as passive and INTJ to perceive ENTJs as controlling.',
         'p2': 'Both types can find compromise through ENTJ allowing INTJs their privacy and space without pressure, '
               'and INTJ realizing ENTJs need plenty of outside stimulation and being more willing to participate when '
               'able to.',
-        'p3': 'Each type should support the other in their interests and become more open to each other\'s advice. '
+        'p3': 'Each type should support the other in their interests and become more open to each other\'s advice.'
               'ENTJs can help strengthen the dynamic through taking more time to learn about what fascinates the INTJ '
               'and helping them put ideas into action. INTJs can do the same through taking more of an interest in '
               'ENTJ\'s activities by using your analytical skills to aid them in achieving broader, more long-term '
               'views of their plans and actions.',
         'p4': 'In conflict, it is best to work toward communicating in a calm and reasonable way, taking a short '
               'break to process the situation objectively if things become to emotionally charged. It\'s important to '
-              'not let problems ruminate unresolved for too long as this can forge a divide between you both. '
+              'not let problems ruminate unresolved for too long as this can forge a divide between you both.'
     },
     'ENTJ x ISTJ': {
         'p1': 'ENTJ-ISTJ dynamic has potential to be highly beneficial through combining strengths and working on '
               'improving weaknesses together. ENTJ could learn from ISTJs to become more reflective and careful about '
               'handling important details, and ISTJ could learn from ENTJs to be more focused on long-term goals and '
               'creative problem-solving.',
-        'p2': 'Both types value competency and structure through Te high in each\'s function stack. However, '
-              'ENTJs tend to be more action-oriented, which can be perceived as hasty by the ISTJ. ENTJs should '
-              'understand that ISTJs need more time to process new information, so avoid pressing them to make '
-              'changes too quickly. On the flip side, ISTJs should acknowledge that ENTJs like to solve problems '
-              'creatively and efficiently, so try to be more open-minded to their methods and ideas.',
+        'p2': 'Both types value competency and structure through Te high in each\'s function stack. However, ENTJs '
+              'tend to be more action-oriented, which can be perceived as hasty by the ISTJ. ENTJs should understand '
+              'that ISTJs need more time to process new information, so avoid pressing them to make changes too '
+              'quickly. On the flip side, ISTJs should acknowledge that ENTJs like to solve problems creatively and '
+              'efficiently, so try to be more open-minded to their methods and ideas.',
         'p3': 'In conflict, both ENTJ and ISTJ could benefit from learning to express dissatisfaction and negative '
-              'emotions more constructively by putting themselves in the other\'s shoes to see their point-of-view. '
-              'By changing the perspective of disagreements from that of a "problem" to an opportunity to know each '
-              'other more deeply, both types can build a stronger bond with the other. '
+              'emotions more constructively by putting themselves in the other\'s shoes to see their point-of-view. By '
+              'changing the perspective of disagreements from that of a "problem" to an opportunity to know each other '
+              'more deeply, both types can build a stronger bond with the other.'
     },
     'ENTJ x INTP': {
         'p1': 'ENTJ-INTP pairing can be mutually beneficial through learning from each other\'s strengths and being '
@@ -708,13 +708,13 @@ mbti_compatibility = {
               'are not left unresolved. Both types would benefit from learning to express or handle negative emotions '
               'in a constructive way, which would further enable open communication in this dynamic.',
         'p4': 'Finding a creative or strategic activity that can be enjoyed together would be a healthy way of '
-              'building rapport and trust with one another. '
+              'building rapport and trust with one another.'
     },
     'ENTJ x ISTP': {
         'p1': 'ENTJ-ISTP pairing would benefit from taking into account the others\' preferences in interacting with '
               'their internal and external world. While both types are skilled problem solvers, ISTPs tend to resolve '
-              'situations in a linear and deliberate way, while ENTJs tend to do so in a more conceptual and '
-              'efficient way.',
+              'situations in a linear and deliberate way, while ENTJs tend to do so in a more conceptual and efficient '
+              'way.',
         'p2': 'ISTPs could help strengthen this bond through using their analytical skills to complement the ENTJs '
               'endeavors, with ENTJs being more open to ISTPs advice and practical approach to situations as their '
               'greater affinity to certain details can help fill in what may have been overlooked.',
@@ -723,15 +723,15 @@ mbti_compatibility = {
               'private thoughts and feelings with one another. ISTPs should not withdraw too quickly when conflict '
               'occurs and ENTJs should be mindful not to be too pushy or critical.',
         'p4': 'This pairing would find value in finding a leisurely project or challenge that can be worked on '
-              'together so both can showcase their skills and strengths, helping to build closeness and/or intimacy '
-              'in the process. '
+              'together so both can showcase their skills and strengths, helping to build closeness and/or intimacy in '
+              'the process.'
     },
     'ENTJ x INFJ': {
         'p1': 'ENTJ-INFJ pairing has potential to be mutually beneficial through maintaining a non-judgmental '
               'perspective toward each other\'s differences and learning from the other\'s strengths. ENTJs can teach '
-              'INFJs to be more effective in viewing situations in an objective manner, while INFJs can teach ENTJs '
-              'to be more considerate and patient in understanding people and handling interpersonal relationships '
-              'more effectively.',
+              'INFJs to be more effective in viewing situations in an objective manner, while INFJs can teach ENTJs to '
+              'be more considerate and patient in understanding people and handling interpersonal relationships more '
+              'effectively.',
         'p2': 'INFJs should realize that ENTJs are action-oriented people who value direct communication and '
               'efficiency, so consider being straightforward when it comes to needing time for yourself as well as '
               'finding compromise and resolving conflict in a calm and objective way. ENTJs should acknowledge that '
@@ -740,7 +740,7 @@ mbti_compatibility = {
         'p3': 'This dynamic would benefit from participating in fun, physical activities together, such as hiking or '
               'sports to become more in tune with each\'s Se. It is recommended to keep the competitive nature of '
               'these activities to a minimum so it can be more about quality time spent together and bonding over '
-              'similar interests. '
+              'similar interests.'
     },
     'ENTJ x ISFJ': {
         'p1': 'ENTJ-ISFJ pairing could complement each other well through acceptance of differences and learning from '
@@ -759,7 +759,7 @@ mbti_compatibility = {
               'remember that ENTJs are not always in tune with their feelings and emotions, so allow time for them to '
               'process their thoughts or calm down when conflict becomes too elevated.',
         'p4': 'This pairing would benefit from coming to an acceptable compromise on how to maintain beneficial E/I '
-              'balance in shared activities, so that neither feel neglected nor uncomfortable. '
+              'balance in shared activities, so that neither feel neglected nor uncomfortable.'
     },
     'ENTJ x INFP': {
         'p1': 'ENTJ-INFP pairing could complement each other well through learning from the other\'s strengths and '
@@ -767,34 +767,33 @@ mbti_compatibility = {
               'and treat people more sensitively, while ENTJs could teach INFPs to be more organized and '
               'goal-oriented.',
         'p2': 'INFPs tend to be more spontaneous and individualistic than ENTJs, whereas ENTJs usually need more '
-              'structure and routine. With that, ENTJs would benefit from realizing that INFPs are creative people '
-              'who enjoy exploring novel ideas, and being more open-minded to exploring these ideas with them. INFPs '
+              'structure and routine. With that, ENTJs would benefit from realizing that INFPs are creative people who '
+              'enjoy exploring novel ideas, and being more open-minded to exploring these ideas with them. INFPs '
               'should acknowledge that ENTJs tend to be driven and ambitious, so look to be more supportive and '
               'accepting of their endeavors.',
         'p3': 'In conflict, both types would benefit from learning to express negative emotions in a constructive way '
-              'to best resolve relationship concerns. It\'s important that both ENTJ and INFP maintain open and '
-              'direct communication (while remaining sensitive to the other\'s feelings) with each other to reduce '
-              'the tendency for misunderstandings.',
+              'to best resolve relationship concerns. It\'s important that both ENTJ and INFP maintain open and direct '
+              'communication (while remaining sensitive to the other\'s feelings) with each other to reduce the '
+              'tendency for misunderstandings.',
         'p4': 'ENTJs should realize that INFPs tend to be empathetic people strongly connected to their emotional '
               'life, so be mindful of not judging them as being "oversensitive," and INFPs should acknowledge that '
               'ENTJs are not always well-versed in identifying with and expressing their emotional life, so look to '
-              'approach them in a more calm and objective manner. '
+              'approach them in a more calm and objective manner.'
     },
     'ENTJ x ISFP': {
-        'p1': 'ENTJ-ISFP pairing are known to have "reverse compatibility" in that they share the same functions, '
-              'but in reverse order. This has potential for a beneficial complement of each other, granted both are '
-              'open to accepting help from the other in improving weaknesses.',
+        'p1': 'ENTJ-ISFP pairing are known to have "reverse compatibility" in that they share the same functions, but '
+              'in reverse order. This has potential for a beneficial complement of each other, granted both are open '
+              'to accepting help from the other in improving weaknesses.',
         'p2': 'ENTJs are very future-oriented, so ISFPs can benefit the relationship by working with them in '
-              'achieving their goals and encouraging them to improve their work-life balance. On the other hand, '
-              'ISFPs value creative expression and living life in the moment, so ENTJs could help strengthen this '
-              'dynamic through taking an interest in their passions and encouraging them to develop toward their '
-              'goals.',
-        'p3': 'In conflict, ISFPs should approach ENTJs in a direct and calm manner about how they are feeling, '
-              'while ENTJs should be mindful of their tone and word usage toward ISFPs so as to not come across as '
-              'too harsh or overly critical. It is vital that problems are not left unresolved for too long, '
-              'as this can cause undue withdrawal and possible resentment from both types.',
+              'achieving their goals and encouraging them to improve their work-life balance. On the other hand, ISFPs '
+              'value creative expression and living life in the moment, so ENTJs could help strengthen this dynamic '
+              'through taking an interest in their passions and encouraging them to develop toward their goals.',
+        'p3': 'In conflict, ISFPs should approach ENTJs in a direct and calm manner about how they are feeling, while '
+              'ENTJs should be mindful of their tone and word usage toward ISFPs so as to not come across as too harsh '
+              'or overly critical. It is vital that problems are not left unresolved for too long, as this can cause '
+              'undue withdrawal and possible resentment from both types.',
         'p4': 'This pairing would benefit from finding a physical or creative activity that can be done together to '
-              'bond over teamwork and combine strengths in a complementary way. '
+              'bond over teamwork and combine strengths in a complementary way.'
     },
     'ESTJ x ESTJ': {
         'p1': 'ESTJ-ESTJ pairing is a same-type relationship that has potential for mutual benefit, granted both '
@@ -803,19 +802,18 @@ mbti_compatibility = {
               'manner. With that, mapping out a clear and efficient method for resolving disagreements ahead of time '
               'will serve this pairing well in the long-term.',
         'p2': 'Since ESTJ tend to be very socially active, it\'s important that both individuals remember to take '
-              'time to have alone time, so there is reduced risk over overextending themselves. Both people would '
-              'also benefit from improving their emotional acuity and handling relationship concerns with more '
-              'sensitivity, taking time to cool down and gather one\'s thoughts before engaging in difficult '
-              'discussions.',
+              'time to have alone time, so there is reduced risk over overextending themselves. Both people would also '
+              'benefit from improving their emotional acuity and handling relationship concerns with more sensitivity, '
+              'taking time to cool down and gather one\'s thoughts before engaging in difficult discussions.',
         'p3': 'For both individuals in this dynamic, actions speak louder than words. This means that both should '
               'ensure they are displaying both commitment in their words and actions. This pairing would benefit from '
               'setting mutual goals to strive for together, which will help strengthen trust and reliability toward '
-              'one another. '
+              'one another.'
     },
     'ESTJ x ENTP': {
         'p1': 'ESTJ-ENTP pairing would benefit from becoming more understanding of the other\'s point-of-view. ESTJs '
-              'can teach ENTPs to be more realistic and practical in conceptualizing and carrying out plans, '
-              'while ENTPs can show ESTJs how to expand their perspective and become more flexible and present in the '
+              'can teach ENTPs to be more realistic and practical in conceptualizing and carrying out plans, while '
+              'ENTPs can show ESTJs how to expand their perspective and become more flexible and present in the '
               'moment.',
         'p2': 'While ENTPs are abstract world thinkers and enjoy considering ideas and possibilities, ESTJs may be '
               'hesitant or resistant toward the unknown. This lends itself to the recommendation that ENTPs should '
@@ -826,7 +824,7 @@ mbti_compatibility = {
         'p3': 'Both types would benefit from being more sensitive to the other\'s needs and work toward expressing '
               'negative emotions in a constructive way, as both ESTJ and ENTP can become oversensitive to feeling '
               'incompetent in challenging situations. Being open to admitting weaknesses or mistakes will enable '
-              'greater open communication and understanding between each other. '
+              'greater open communication and understanding between each other.'
     },
     'ESTJ x ESTP': {
         'p1': 'ESTJ-ESTP pairing would benefit from learning to appreciate their differences and utilize them in a '
@@ -840,8 +838,8 @@ mbti_compatibility = {
               'move through them. Both types should work to better handle negative emotions and expression of '
               'dissatisfaction in a way that the other has expressed would be acceptable and understood.',
         'p4': 'This dynamic would benefit from sharing experiences together through exciting activities or hobbies, '
-              'however both should be mindful of setting aside time for personal reflection so focus can ultimately '
-              'be maintained on mutual goals and interests. '
+              'however both should be mindful of setting aside time for personal reflection so focus can ultimately be '
+              'maintained on mutual goals and interests.'
     },
     'ESTJ x ENFJ': {
         'p1': 'ESTJ-ENFJ dynamic is coupled by mutual assertive behaviors and relatively strict expectations of '
@@ -850,12 +848,12 @@ mbti_compatibility = {
         'p2': 'ESTJs should understand that ENFJs are sympathetic individuals that care tremendously about the '
               'interest of others, so be mindful of any feelings of resentment toward their helpful, sociable or '
               'generous tendencies. ENFJs should acknowledge that ESTJs value competency, structure and consistency, '
-              'so they should make an effort to mean what they say and say what they mean. In that, each would '
-              'benefit from learning to express negative emotions in a constructive way, as both types can become '
-              'accusatory when under duress, making it difficult to effectively resolve conflict.',
+              'so they should make an effort to mean what they say and say what they mean. In that, each would benefit '
+              'from learning to express negative emotions in a constructive way, as both types can become accusatory '
+              'when under duress, making it difficult to effectively resolve conflict.',
         'p3': 'Both types tend to be outgoing, becoming overly concerned with the external world. Each should make an '
               'effort to set aside time for personal reflection and prioritization, but also ensure that both are '
-              'exploring new experiences and interests together to foster a greater connection. '
+              'exploring new experiences and interests together to foster a greater connection.'
     },
     'ESTJ x ESFJ': {
         'p1': 'ESTJ-ESFJ pairing has potential for mutual benefit through focusing on common goals and helping each '
@@ -864,49 +862,49 @@ mbti_compatibility = {
               'sensitive toward people and relationships.',
         'p2': 'Since both types tend to be present-oriented, it is important that there are mutual long-term goals '
               'established for progress toward improvement and personal development. This dynamic would benefit from '
-              'experiencing new things and activities given both tend to enjoy the certainty of routine, '
-              'structure and planning.',
+              'experiencing new things and activities given both tend to enjoy the certainty of routine, structure and '
+              'planning.',
         'p3': 'Both types tend to be detail-oriented and methodical when working through objectives, however have '
               'different personal priorities based on past experiences. These differences may lead each to see the '
-              'other as stubborn or nitpicky about having things done a certain way. It is recommended that both '
-              'types look to approach disagreement in a way that maintains focus on compromise, while still '
-              'respecting individual differences in perspective.',
+              'other as stubborn or nitpicky about having things done a certain way. It is recommended that both types '
+              'look to approach disagreement in a way that maintains focus on compromise, while still respecting '
+              'individual differences in perspective.',
         'p4': 'ESTJ and ESFJ tend to be socially active types -- it is important that each set aside time for '
-              'personal activities so as to not become overextended or exhausted. '
+              'personal activities so as to not become overextended or exhausted.'
     },
     'ESTJ x ENFP': {
         'p1': 'ESTJ-ENFP pairing would benefit from each learning from the other\'s strongsuits and supplementing for '
-              'their weaknesses. These two types have the same four main functions, albeit in different order, '
-              'with ENFP leading with Ne and ESTJ leading with Te. ENFPs lean on their dominant Ne function in '
-              'valuing exploration of novel ideas and possibilities, whereas ESTJ hones in on their dominant Te '
-              'function through structure and order.',
-        'p2': 'ENFPs should acknowledge that ESTJs need a lifestyle complemented by structure and routine, '
-              'so it would be beneficial to help in maintaining order and being reliable in responsibilities. ESTJs '
-              'should recognize that ENFPs are more spontaneous, adventurous and consider various possibilities, '
-              'so learning to be more open and flexible toward new ideas and experiences would help bridge the gap '
-              'between each other.',
+              'their weaknesses. These two types have the same four main functions, albeit in different order, with '
+              'ENFP leading with Ne and ESTJ leading with Te. ENFPs lean on their dominant Ne function in valuing '
+              'exploration of novel ideas and possibilities, whereas ESTJ hones in on their dominant Te function '
+              'through structure and order.',
+        'p2': 'ENFPs should acknowledge that ESTJs need a lifestyle complemented by structure and routine, so it '
+              'would be beneficial to help in maintaining order and being reliable in responsibilities. ESTJs should '
+              'recognize that ENFPs are more spontaneous, adventurous and consider various possibilities, so learning '
+              'to be more open and flexible toward new ideas and experiences would help bridge the gap between each '
+              'other.',
         'p3': 'When conflict occurs, ESTJ and ENFP address the situation in very different ways. Both types would '
               'benefit from learning how to express their negative feelings in a way that the other would best '
               'understand to reduce misunderstanding. It is important that ESTJs understand ENFPs tend to be '
               'indecisive and conflict avoidant, whereas ENFPs should acknowledge that ESTJs usually struggle in '
               'situations where emotions run high; working around these sensitivities to find middle ground will help '
-              'both types better resolve conflict together. '
+              'both types better resolve conflict together.'
     },
     'ESTJ x ESFP': {
         'p1': 'ESTJ-ESFP pairing has many differing factors, however both can find middle ground by learning from '
-              'each other\'s strengths. ESFPs can teach ESTJs how to be more relaxed,  understanding and '
-              'accommodating in social situations, whereas ESTJs can teach ESFPs how to be more diligent and '
-              'efficient in setting and pursuing goals.',
+              'each other\'s strengths. ESFPs can teach ESTJs how to be more relaxed, understanding and accommodating '
+              'in social situations, whereas ESTJs can teach ESFPs how to be more diligent and efficient in setting '
+              'and pursuing goals.',
         'p2': 'Both types tend to be more present-oriented, so this dynamic would benefit from collaboration on '
               'long-term goals that can be worked toward together. Though, it is important to acknowledge that each '
               'type focuses on their own respective priorities, with ESTJs placing more value on effectiveness and '
               'efficiency in reaching goals, and ESFPs focus more on personal values to guide their behavior and '
               'actions.',
         'p3': 'ESTJs can help bridge the gap between each other through granting ESFPs the freedom to make decisions '
-              'on their own and learn independently, and ESFPs can do so through helping ESTJs maintain order in '
-              'daily life to keep things run smoothly.',
+              'on their own and learn independently, and ESFPs can do so through helping ESTJs maintain order in daily '
+              'life to keep things run smoothly.',
         'p4': 'This pairing would benefit from finding shared interests that can be enjoyed together, while still '
-              'ensuring both set time aside for self-reflection and independent activities. '
+              'ensuring both set time aside for self-reflection and independent activities.'
     },
     'ESTJ x INTJ': {
         'p1': 'ESTJ-INTJ pairing has potential to be a strong match, with ESTJs remembering that INTJs are '
@@ -917,12 +915,12 @@ mbti_compatibility = {
               'way. With that, both should remember that the other prefers structure in their own way and these '
               'differences should be respected through compromise and finding middle ground in navigating each '
               'other\'s preferences.',
-        'p3': 'During conflict, ESTJs and INTJs tend to find challenge in emotional expression and management, '
-              'so learning how to better handle emotions and being patient with the other as they do so will help '
-              'resolve situations in a more constructive manner.',
+        'p3': 'During conflict, ESTJs and INTJs tend to find challenge in emotional expression and management, so '
+              'learning how to better handle emotions and being patient with the other as they do so will help resolve '
+              'situations in a more constructive manner.',
         'p4': 'This dynamic can grow closer through participating in activities together where collaboration of '
               'skills can occur in a complementary way. It is recommended that both types make effort to recognize '
-              'each other\'s accomplishments and support each other in such pursuits. '
+              'each other\'s accomplishments and support each other in such pursuits.'
     },
     'ESTJ x ISTJ': {
         'p1': 'ESTJ-ISTJ pairing share the same top four functions, which lends itself to similar strengths and '
@@ -930,16 +928,16 @@ mbti_compatibility = {
               'vulnerabilities, and instead learn from the other\'s strengths for personal growth.',
         'p2': 'Each type has Te high in their function stacks, so both tend to place focus on stability and '
               'predictability in daily life, with preference toward well-established methods as indicated through '
-              'shared their Si. Even though ESTJs and ISTJs prefer structure and routine, there may be differing '
-              'views on what the "right" way is. Both types would benefit from maintaining awareness and respect for '
-              'the other\'s boundaries, routines and values, as well as being more open to their counterpart\'s '
+              'shared their Si. Even though ESTJs and ISTJs prefer structure and routine, there may be differing views '
+              'on what the "right" way is. Both types would benefit from maintaining awareness and respect for the '
+              'other\'s boundaries, routines and values, as well as being more open to their counterpart\'s '
               'suggestions for improvement.',
         'p3': 'It is important for ESTJs to acknowledge that ISTJs need more personal time to process information and '
               'pursue their own interests, while ISTJs should be mindful of ESTJs\' action-oriented nature and '
               'consider being more open-minded to joining their activities.',
         'p4': 'By finding a mutually intriguing hobby to participate in together, this pairing can grow closer '
-              'through collaboration and teamwork. Look to find an agreeable compromise on maintaining healthy '
-              'balance in shared interests, while being open to new experiences to maintain excitement in the dynamic. '
+              'through collaboration and teamwork. Look to find an agreeable compromise on maintaining healthy balance '
+              'in shared interests, while being open to new experiences to maintain excitement in the dynamic.'
     },
     'ESTJ x INTP': {
         'p1': 'ESTJ-INTP pairing can certainly benefit through learning from the other\'s strengths; INTPs can teach '
@@ -947,85 +945,85 @@ mbti_compatibility = {
               'action-oriented and organized.',
         'p2': 'Since ESTJs tend to be more sociable and outgoing than INTPs, it is important for them to realize that '
               'INTPs are analytical people that tend to need more time to make decisions or take action. On the other '
-              'hand, INTPs would benefit from acknowledging that ESTJs are action-oriented individuals, '
-              'valuing efficiency and effective actions. This dynamic would benefit from granting each other enough '
-              'space and independence to go about daily life in their own way.',
+              'hand, INTPs would benefit from acknowledging that ESTJs are action-oriented individuals, valuing '
+              'efficiency and effective actions. This dynamic would benefit from granting each other enough space and '
+              'independence to go about daily life in their own way.',
         'p3': 'Both ESTJs and INTPs tend to have difficulty handling emotions and sensitivities, so both should look '
-              'to grow in how they express dissatisfaction or negative feelings constructively. It is recommended '
-              'that both make an effort to communicate more openly with each other and share thoughts and ideas to '
-              'foster a closer bond. '
+              'to grow in how they express dissatisfaction or negative feelings constructively. It is recommended that '
+              'both make an effort to communicate more openly with each other and share thoughts and ideas to foster a '
+              'closer bond.'
     },
     'ESTJ x ISTP': {
         'p1': 'ESTJ-ISTP pairing would benefit from each type being more open to the other\'s advice and learning '
-              'from their strengths. ESTJs can learn to become more relaxed and reflective from ISTPs, while ISTPs '
-              'can learn organization and goal-planning techniques from ESTJs.',
+              'from their strengths. ESTJs can learn to become more relaxed and reflective from ISTPs, while ISTPs can '
+              'learn organization and goal-planning techniques from ESTJs.',
         'p2': 'It is important for ESTJs to keep in mind that ISTPs are independent people, preferring less '
-              'restriction in pursuits, so being more flexible toward their activity would be beneficial. ISTPs '
-              'should recognize that ESTJs value structure and predictability, so work to be consistent and reliable '
-              'in fulfilling responsibilities.',
+              'restriction in pursuits, so being more flexible toward their activity would be beneficial. ISTPs should '
+              'recognize that ESTJs value structure and predictability, so work to be consistent and reliable in '
+              'fulfilling responsibilities.',
         'p3': 'Both ESTJs and ISTPs can feel insecure about processing emotions, which can cause difficulty in '
               'resolving conflict. It is recommended that both types work to become more in touch with their true '
               'needs and feelings, and share their personal thoughts and concerns with the other in a constructive '
               'manner.',
         'p4': 'This dynamic can foster a greater sense of closeness through finding a fun, competitive or adventurous '
-              'activity both can spend time together doing to build trust. '
+              'activity both can spend time together doing to build trust.'
     },
     'ENTP x INFJ': {
         'p1': 'The ENTP-INFJ pair creates a rich and thoughtful companionship, one that will always question the '
               'boundaries of reality. The ENTP is a highly curious type that thrives off of questioning accepted '
-              'norms, and exploring what could happen if things were changed or viewed differently. Meanwhile, '
-              'the INFJ has a deep understanding for why things exist as they do, these observations can carve a path '
-              'for the ENTP and can lead to a conversation for both parties to enjoy.',
+              'norms, and exploring what could happen if things were changed or viewed differently. Meanwhile, the '
+              'INFJ has a deep understanding for why things exist as they do, these observations can carve a path for '
+              'the ENTP and can lead to a conversation for both parties to enjoy.',
         'p2': 'The ENTP can sometimes thrive on intellectual discussion that has no grounded purpose, which an INFJ '
               'needs. INFJs may feel dismayed by discussions or debates/arguments that have no goal in mind. The ENTP '
               'can also sometimes feel the need to argue on behalf of the side they disagree with in order to see the '
-              'whole picture. This can come across as aggressive or again, pointless, to the INFJ that isn\'t '
-              'prepared or aware of what\'s going on. ENTPs are also caring people, so their approach when helping '
-              'someone often includes exploring and understanding all options before moving forward, which can be '
-              'overwhelming to the INFJ.',
+              'whole picture. This can come across as aggressive or again, pointless, to the INFJ that isn\'t prepared '
+              'or aware of what\'s going on. ENTPs are also caring people, so their approach when helping someone '
+              'often includes exploring and understanding all options before moving forward, which can be overwhelming '
+              'to the INFJ.',
         'p3': 'INFJs\' insights are deeply rooted and understood to themself. But due to tertiary Ti, they may have a '
               'difficult time explaining their perspective satisfactorily to the ENTP. ENTPs\' aux-Ti thrives on '
               'understanding, and the INFJ may feel resisted against or unheard if they feel they can\'t properly '
               'express their view. An ENTP may ask a lot of questions to accelerate the process, but may actually '
-              'overwhelm the INFJ. Patience is key for both types in order for this match to thrive and succeed. '
+              'overwhelm the INFJ. Patience is key for both types in order for this match to thrive and succeed.'
     },
     'ESTP x INFJ': {
-        'p1': 'The ESTP-INFJ pairing can be one considered ideal for self-growth. Sharing the same function stack ('
-              'but inverted), both types are incredibly strong in the other\'s weakest points. So with time, '
+        'p1': 'The ESTP-INFJ pairing can be one considered ideal for self-growth. Sharing the same function stack '
+              '(but inverted), both types are incredibly strong in the other\'s weakest points. So with time, '
               'experience with their partner will accelerate the journey to a more well-rounded and fully-realized '
               'self.',
         'p2': 'ESTPs have a reputation for being quite forward and blunt about their feelings and intentions. Their '
               'happy-go-lucky nature is accompanied by a very clear vision of what they want. ESTPs know exactly what '
               'that is, and arent afraid to go out and get it. These characteristics can drive the INFJ to do the '
-              'same. The ESTP will encourage the INFJ to seek out what they want, instead of constantly pondering '
-              'what will happen along with way. Action (or what they deem to be too much too fast) can be a '
-              'pain-point for the INFJ, but the ESTP will work to lower those barriers and push the INFJ towards '
-              'realizing the successes they dream of.',
+              'same. The ESTP will encourage the INFJ to seek out what they want, instead of constantly pondering what '
+              'will happen along with way. Action (or what they deem to be too much too fast) can be a pain-point for '
+              'the INFJ, but the ESTP will work to lower those barriers and push the INFJ towards realizing the '
+              'successes they dream of.',
         'p3': 'Meanwhile, the INFJ\'s contemplative and thoughtful nature will help bring the ESTP back down to earth '
-              'in their own way. ESTPs can have an act now-think later approach due, which the INFJ will often '
-              'criticize. With time, the ESTP will be able to tolerate giving thought to the repercussions and '
-              'consequences of success and failure. These insights will help the ESTP understand how to anticipate '
-              'and combat the roadblocks that may be standing in their way.',
-        'p4': 'The likelihood of success with this pairing rests almost entirely on how mature both types are, '
-              'and how willing they are to accept differences and take criticism. Each type\'s pain-point is the '
-              'other\'s preferred way to live, so the both types must be willing to face their weakness in order to '
-              'grow and prosper. '
+              'in their own way. ESTPs can have an act now-think later approach, which the INFJ will often criticize.'
+              'With time, the ESTP will be able to tolerate giving thought to the repercussions and consequences of '
+              'success and failure. These insights will help the ESTP understand how to anticipate and combat the '
+              'roadblocks that may be standing in their way.',
+        'p4': 'The likelihood of success with this pairing rests almost entirely on how mature both types are, and '
+              'how willing they are to accept differences and take criticism. Each type\'s pain-point is the other\'s '
+              'preferred way to live, so both types must be willing to face their weaknesses in order to grow and '
+              'prosper.'
     },
     'ENFP x INFJ': {
         'p1': 'The ENFP-INFJ pairing is commonly referenced due to their highly-complementary nature. Despite having '
               'distinct differences, this coupling has very high potential due to each ability to cover the other\'s '
               'blindspots. INFJs are deep and contemplative individuals with rich minds, which the ENFP will gain a '
-              'lot of joy from exploring. ENFPs contain a plethora of ideas for the INFJ to consider, which helps '
-              'feed their minds and expand their view of the world in a meaningful way.',
+              'lot of joy from exploring. ENFPs contain a plethora of ideas for the INFJ to consider, which helps feed '
+              'their minds and expand their view of the world in a meaningful way.',
         'p2': 'This pairing is ideal when both types are open to compromise and balance. The INFJ should exercise '
-              'care in properly communicating their boundaries. They can feel compelled to let things slide, '
-              'which can worsen if left unaddressed. The INFJ should also try their best to continue showing genuine '
-              'interest by asking the ENFP questions that give them a way to express themselves. An ENFP will likely '
-              'feel unvalued if they feel they aren\'t allowed to express their ideas.',
+              'care in properly communicating their boundaries. They can feel compelled to let things slide, which can '
+              'worsen if left unaddressed. The INFJ should also try their best to continue showing genuine interest by '
+              'asking the ENFP questions that give them a way to express themselves. An ENFP will likely feel unvalued '
+              'if they feel they aren\'t allowed to express their ideas.',
         'p3': 'The ENFP\'s outgoing and curious nature could combat the INFJ\'s need for routine and comfort if left '
               'unchecked. The ENFP should be considerate when an INFJ decides to speak up, and should be careful not '
               'to make a routine of pushing hard boundaries. The INFJ tends to be quiet and passive, and being unable '
-              'to properly finish a thought may cause them to close up. '
+              'to properly finish a thought may cause them to close up.'
     },
     'INTP x INFJ': {
         'p1': 'INTPs and INFJs share a lot of commonalities that can lead to an overlap in thought. The INTP craves '
@@ -1034,14 +1032,14 @@ mbti_compatibility = {
               'tertiary Ti. Meanwhile, the INFJ benefits from learning how to better-balance their feelings with what '
               'they feel makes sense.',
         'p2': 'A probable source of friction between the types is their relationship to emotions. INFJs are deeply '
-              'emotional people, despite their emotions not always boiling to the surface. More importantly, '
-              'INFJs tend to be much more comfortable weighing other people\'s values and emotions. The INTP can '
-              'consider others\' emotions and values as well, but due to inf-Fe, may have a hard time marrying them '
-              'to their logical framework. The INTP will need to be capable of listening to an INFJ and may find '
-              'themselves providing emotional support more than they would prefer.',
+              'emotional people, despite their emotions not always boiling to the surface. More importantly, INFJs '
+              'tend to be much more comfortable weighing other people\'s values and emotions. The INTP can consider '
+              'others\' emotions and values as well, but due to inf-Fe, may have a hard time marrying them to their '
+              'logical framework. The INTP will need to be capable of listening to an INFJ and may find themselves '
+              'providing emotional support more than they would prefer.',
         'p3': 'Likewise, the INFJ should take the time to listen to the INTP when they present their logic. INTPs are '
               'problem solvers and helpers, and an INTP can feel incredibly shut out or unappreciated if an INFJ '
-              'quickly dismisses their ideas. '
+              'quickly dismisses their ideas.'
     },
     'INFJ x INFJ': {
         'p1': 'The INFJ-INFJ partnership can be incredibly empowering. Not many other pairings will be able to '
@@ -1052,7 +1050,7 @@ mbti_compatibility = {
               'opinions before making a decision, which can slow the process down when neither INFJ has an opinion of '
               'their own. They are also liable to mirroring or adopting the other\'s emotions to a fault due to '
               'aux-Fe. They should be careful with how they handle themselves around one another during times of '
-              'stress. One will almost certainly come to the aid for the other, but often at their own detriment. '
+              'stress. One will almost certainly come to the aid for the other, but often at their own detriment.'
     },
     'INFJ x ISFJ': {
         'p1': 'Both INFJs and ISFJs have a reputation for being intensely caring and giving individuals, so this pair '
@@ -1063,9 +1061,21 @@ mbti_compatibility = {
         'p3': 'Potential areas of tension may arise when trying to understand how the other arrived at the conclusion '
               'they did. INFJ\'s Ni leads them to be innovative forward thinkers, and will try to solve problems '
               'before they arise. The ISFJ may have difficulty understanding why an INFJ is so certain of an outcome '
-              'that hasn\'t happened yet. Meanwhile, the ISFJ tends to use their past Si experiences to organize a '
-              'set of expectations, and their microscopic attention to detail may be overwhelming to the INFJ. Both '
-              'types will likely have to take extra time to hear their partner out in order to arrive at a consensus. '
+              'that hasn\'t happened yet. Meanwhile, the ISFJ tends to use their past Si experiences to organize a set '
+              'of expectations, and their microscopic attention to detail may be overwhelming to the INFJ. Both types '
+              'will likely have to take extra time to hear their partner out in order to arrive at a consensus.'
+    },
+    'INFJ x INFP': {
+        'p1': 'Assuming both types allow the other into their inner worlds, the INFJ-INFP pairing has the potential '
+              'to be an extremely fulfilling relationship.',
+        'p2': 'The success of this pair rests mostly on values and boundaries. Both types must agree on what is '
+              'acceptable and not acceptable. The INFP has strong core Fi values that need to be voiced, and the INFJ '
+              'needs an expectation of how the relationship will be handled moving forward. Likewise, the INFJ should '
+              'make it a routine to regularly communicate their feelings to the INFP. The INFP thrives off of clear '
+              'communication, and the lack thereof may cause them to worry.',
+        'p3': 'Both types need to respect each other\'s time alone. Despite the sparks and mutual intimacy that may '
+              'come from this pairing, both types will need time to themselves to recharge. One type nagging the other '
+              'could be seen as overbearing or overwhelming.'
     }
 }
 
