@@ -968,6 +968,67 @@ mbti_compatibility = {
         'p4': 'This dynamic can foster a greater sense of closeness through finding a fun, competitive or adventurous '
               'activity both can spend time together doing to build trust.'
     },
+    'ESTJ x INFJ': {
+        'p1': 'Sharing no common functions and inverted preferences, INFJs and ESTJs together can cover a wide array '
+              'of perspectives and skill sets. Their approaches are widely different, which can allow for a dynamic '
+              'and thoroughly-arranged lifestyle.',
+        'p2': 'The biggest strength can also be their largest enemy if left unchecked. ESTJs are Te-Si dominant, so '
+              'their lifestyle is dedicated towards what works and shouldn\'t change. ESTJs are very to-the-point '
+              'types, and their communication style often aligns with that approach. INFJs should be prepared for the '
+              'ESTJ\'s blunt communication style, and should work to not take it personally. Meanwhile, the ESTJ '
+              'should keep in mind how their communication style could be taken by their INFJ partner. Likewise, the '
+              'ESTJ should be aware of the INFJ\'s quiet and often compromising nature, and allow the INFJ time to '
+              'effectively communicate their perspective. The INFJ should work to be okay voicing their perspective '
+              'more regularly.',
+        'p3': 'In a relationship setting, both types should be aware of the other\'s relationship to emotions. INFJs '
+              'are feeling-dominant types, with aux-Fe. INFJs are often very aware of how things effect other people, '
+              'and they care very deeply about harmony. INFJs must recognize that the ESTJ has inferior-Fi, but still '
+              'has feelings. In order to ensure peace, the INFJ should be on the lookout for what the ESTJ values and '
+              'cognizant of those values.'
+    },
+    'ESTJ x ISFJ': {
+        'p1': 'ESTJ-ISFJ pairing has the opportunity to be successful, albeit a challenged pursuit due to the vastly '
+              'different communication styles each type has. Each type has Sihigh in their function stack, which makes '
+              'both inherently skilled at handling details; both respect prior experiences, however ISFJs guide their '
+              'behavior through their own internal priorities and commitments that ESTJs may view as misguided or '
+              'selfish. Beyond this, ISFJs\' auxiliary Fe lead them to be "people-pleasers" and they tend not to '
+              'respond well to blunt criticism, whereas ESTJs dominant Te influence their assertive behavior and '
+              'trouble in meeting other\'s emotional needs - ISFJs could see these ESTJ attributes as domineering and '
+              'harsh.',
+        'p2': 'This duo can bridge the gap in their intrinsic dispositions through mutual patience, active listening, '
+              'and discretion in how each indulge in discussing their partner\'s life to others - look to forego '
+              'sharing personal information about each with other people out of respect for their privacy. Beyond '
+              'this, both types have varied social limits, so ISFJs should realize that ESTJs are social and enjoy '
+              'interacting with their external environment and others frequently. ISFJs need privacy and more alone '
+              'time, so ESTJs should work to spend more personal one-on-one time with their counterpart.'
+    },
+    'ESTJ x INFP': {
+        'p1': 'ESTJ-INFP pair is complementary in that both share the same functions but in reverse '
+              'order...ultimately viewing the world in completely different ways. While this can cause some friction, '
+              'it does not imply that this pair is incompatible. In fact, this pairing could very well complement each '
+              'other extremely well through supplementing each other\'s weaknesses via their individual strengths.',
+        'p2': 'ESTJs should be mindful of the fact that INFPs may need a while to open up and talk about what is '
+              'deeply set on their mind; look to be an attentive listener and understanding of INFPs emotions even if '
+              'they are not understood. INFPs can benefit from ESTJs providing a more routine and structured life as '
+              'foundation for order and effective action. Also be aware that ESTJs are not the strongest emotional '
+              'communicators, so be sure to give them time to process their emotions to express them in their own '
+              'way.',
+        'p3': 'ESTJs can help INFPs expand their social circle and experience the world more; INFPs can provide ESTJs '
+              'the courage to open up their mind to new possibilities for personal growth.'
+    },
+    'ESTJ x ISFP': {
+        'p1': 'ESTJ-ISFP dynamic has the potential to complement each other through opposing Te/Fi, however this pair '
+              'will need to be mature enough to find middle ground in emotional communication and understanding. ESTJs '
+              'are often disconnected from their true feelings and emotions due to inferior Fi, while ISFPs are very '
+              'much the opposite in being highly in tune with themselves and their personal needs based on their '
+              'dominant Fi. This pair will need to work together to find openness and be vulnerable with each other to '
+              'find a deeper level of connection.',
+        'p2': 'ESTJs can work to become closer with their ISFP counterpart through respecting their need for personal '
+              'time, exercising active listening and taking genuine interest in what they have to say by asking '
+              'meaningful questions. ISFPs can strengthen their bond with ESTJs through striving to do what is said '
+              'will be done and when it was said it would be completed. Look to frame your perspective, via '
+              'suggestions or arguments, using logical reasoning rather than relying on emotional output.'
+    },
     'ENTP x INFJ': {
         'p1': 'The ENTP-INFJ pair creates a rich and thoughtful companionship, one that will always question the '
               'boundaries of reality. The ENTP is a highly curious type that thrives off of questioning accepted '
@@ -986,6 +1047,18 @@ mbti_compatibility = {
               'understanding, and the INFJ may feel resisted against or unheard if they feel they can\'t properly '
               'express their view. An ENTP may ask a lot of questions to accelerate the process, but may actually '
               'overwhelm the INFJ. Patience is key for both types in order for this match to thrive and succeed.'
+    },
+    'ESTP x ESTP': {
+        'p1': 'ESTP-ESTP pairing make for a very energetic and active couple. Sharing all four type preferences, they '
+              'have common needs and goals. Both are likely to enjoy sports and outdoor activities. Both are '
+              'spontaneous thrill seekers and will enjoy plotting their adventures together. Neither of the two '
+              'partners tends to overcomplicate things, and the relationship feels just right.',
+        'p2': 'Being in a relationship with someone of your own type means to share the same shortcomings as well. In '
+              'this dynamic, neither will likely bother with mundane tasks, such as doing chores or paying bills. Both '
+              'tend to act without thinking of consequences and neither will likely want to stick to a budget.',
+        'p3': 'Even in same type relationships, there typically is a more responsible partner who is left to deal '
+              'with all the unpleasantness alone. This may lead to resentment and disagreements, although ESTPs don\'t '
+              'take things too seriously and likely will not allow minor issues ruin their relationships.'
     },
     'ESTP x INFJ': {
         'p1': 'The ESTP-INFJ pairing can be one considered ideal for self-growth. Sharing the same function stack '
@@ -1009,6 +1082,55 @@ mbti_compatibility = {
               'preferred way to live, so both types must be willing to face their weaknesses in order to grow and '
               'prosper.'
     },
+    'ENFP x ENFP': {
+        'p1': 'The ENFP-ENFP duo is bound to be one filled with curiosity, depth, and new experiences. ENFPs together '
+              'will likely be incredibly flexible in their adventures.',
+        'p2': 'ENFPs together can encourage one another to push one their perception of the world, and will work to '
+              'spark joy into each other\'s lives. ENFPs will also grow more and more aware of what works for their '
+              'partner, and will tailor their ideas to accommodate those boundaries.',
+        'p3': 'The area they will need to exercise a lot of caution over is with regards to each other\'s time, as '
+              'well as when their boundaries conflict. It\'s pretty common for ENFPs to lose fulfillment in their '
+              'relationships if their Fi isn\'t known and respected. In order for both members to keep the fire alive, '
+              'it is important for them to communicate for one another regarding their current emotional state, '
+              'especially if they are feeling exhausted or unfulfilled. And the other must be receptive of those '
+              'emotions. Once one feels they can\'t be honest with the other, the relationship may deteriorate.'
+    },
+    'ENFP x ESFP': {
+        'p1': 'There is a lot of overlap and shared interests between the ENFP and ESFP. Both are fueled by adventure '
+              'and curiosity, and arent particularly fond of feeling anchored down. These types will likely share a '
+              'common interest for "getting" out and making memories.',
+        'p2': 'The key difference that may impact their dynamic is how they perceive the world around them. ENFPs are '
+              'lead Ne, so they view the world more theoretically and abstractly, entertaining many different ideas '
+              'and possibilities. ENFPs love to ponder what the future may hold. ESFPs are lead Se, to their '
+              'perception is less about the future and more focused on the experience itself as it is unfolding in '
+              'front of them.',
+        'p3': 'Due to this key difference, it is very important that the ESFP grows accustomed to entertaining the '
+              'theoretical more often (which may be a struggle due to inferior Ni). They should also respect when the '
+              'ENFP feels they shouldn\'t do something. ENFPs will need to develop more of an appreciation for the '
+              'experiences in front of them. This shouldn\'t be too much of a struggle, but could trigger their '
+              'inferior Si if they begin to feel they\'ve made a bad decision. Both should be open to experiences, but '
+              'with relative moderation.'
+    },
+    'ENFP x INTJ': {
+        'p1': 'ENFPs and INTJs tend to have a strong dynamic that is held together by shared strengths and intriguing '
+              'differences.',
+        'p2': 'ENFPs are lead Ne, which oftentimes meshes very well with the INTJ\'s lead Ni. Lead Ne and Lead Ni can '
+              'serve to bounce off of one another; the ENFP can think of a plethora of ideas and possibilities, to '
+              'which the INTJ\'s Ni can take and develop. Both types have Te and Fi (though one prefers the other).'
+              'This leads to a relative synergy, and there will likely be a shared outlook on the values between the '
+              'partners.',
+        'p3': 'Potential for struggle may come from those slightly different preferences. ENFPs have Fi second and Te '
+              'third, so their values are a bit more personal. They also have a strong connection to their emotions.'
+              'INTJs have Fi third, so while the emotional relationship to their values is still there, its more '
+              'distant. They also have a much stronger eye for what works and most applicable (Te). In turn, they may '
+              'find themselves trusting their personal devotions to a less degree than their ENFP partner. An ENFP\'s '
+              'exuberance and enthusiasm may also be overwhelming.',
+        'p4': 'In short, these types are known for their synergy and shared interests. There is an intimate balance '
+              'that these two may find with each other if they can settle their slightly different perspectives. The '
+              'INTJ should be respectful and appreciative of the ENFP\'s enthusiasm and emotionally-driven lifestyle.'
+              'Meanwhile the ENFP should be careful not to push the INTJ too hard with regards to their emotions. The '
+              'INTJ is a bit more internal and may not appreciate being asked to be overly vulnerable.'
+    },
     'ENFP x INFJ': {
         'p1': 'The ENFP-INFJ pairing is commonly referenced due to their highly-complementary nature. Despite having '
               'distinct differences, this coupling has very high potential due to each ability to cover the other\'s '
@@ -1025,6 +1147,42 @@ mbti_compatibility = {
               'to make a routine of pushing hard boundaries. The INFJ tends to be quiet and passive, and being unable '
               'to properly finish a thought may cause them to close up.'
     },
+    'ESFP x INFJ': {
+        'p1': 'The ESFP-INFJ pairing can prove to be a rich and thoroughly deep relationship if well-balanced. ESFPs '
+              'contain an enthusiasm for Se experiences and adventures that will allow the INFJ to withdraw from their '
+              'minds and experience the world in all its glory. The INFJ can also help ground and focus the ESFP, '
+              'helping them realize the benefits of a more focused lifestyle.',
+        'p2': 'A major trait that the ESFP has that the INFJ will benefit from is an appreciation for activity. INFJs '
+              'can have a habit of developing a routine and not wanting to deviate from it. The ESFP can help ease '
+              'them into the escapism that the world could bring. ESFPs will also help INFJs expand their social '
+              'circle.',
+        'p3': 'INFJs possess valuable insights that ESFPs may find off-putting at first, but will eventually come to '
+              'appreciate and perhaps even seek out. INFJs are people-oriented, and will assist the ESFP in sniffling '
+              'out people and activities that may not be worth their time (if they can convince them of why). INFJs '
+              'can also help the stressed ESFP expose mistakes that may be repeated, and help the ESFP develop a '
+              'course of action to correct them.',
+        'p4': 'This pairing can succeed as long as they can respect each other\'s prefer lifestyle. The Se-dominant '
+              'ESFP doesn\'t like to feel caged in, and while the INFJ can help them develop a more orderly lifestyle, '
+              'they still need to give the ESFP room to explore and live life. Likewise, the ESFP should work to '
+              'appreciate the INFJ\'s need for regularity. An INFJ that is forced into unfamiliar situations will be '
+              'overwhelming, and the INFJ will not enjoy feeling thrusted into new or ever-changing environments.'
+    },
+    'ISTJ x INFJ': {
+        'p1': 'ISTJs and INFJs have the potential to be a compatible pairing due to their mutual desire for normalcy '
+              'and control. Both type prefer to stick to their routine. However, how they arrive at that routine, or '
+              'the reason why they follow them, could be a source of tension.',
+        'p2': 'ISTJs like to adhere to what has worked for them before. Due to Si and Te, this type has a clear '
+              'understanding for what has worked and what they may be comfortable trying. They also have a strong '
+              'attention to detail. This can make them heavily by-the-book and practical people, with little desire to '
+              'change something if it proves effective.',
+        'p3': 'INFJs are very similar, however, their efforts are directed towards anticipating patterns and future '
+              'changes. INFJs seek to be prepared for adversary in order to reduce frustration. They like to feel they '
+              'won\'t be blindsided. This could cause tension with the ISTJ if the INFJ sees a risk for trouble. Also, '
+              'the ISTJ may be resistant to change because their inferior Ne will conflict with the INFJ\'s lead Ni.',
+        'p4': 'With that said, once the INFJ and the ISTJ come to an agreement on how things will be done and what to '
+              'expect moving forward, these types will likely enjoy a calm and slow lifestyle that both may find '
+              'fulfilling.'
+    },
     'INTP x INFJ': {
         'p1': 'INTPs and INFJs share a lot of commonalities that can lead to an overlap in thought. The INTP craves '
               'intellectual conversations with their dominant Ti, and the INFJ can provide perspectives and '
@@ -1040,6 +1198,22 @@ mbti_compatibility = {
         'p3': 'Likewise, the INFJ should take the time to listen to the INTP when they present their logic. INTPs are '
               'problem solvers and helpers, and an INTP can feel incredibly shut out or unappreciated if an INFJ '
               'quickly dismisses their ideas.'
+    },
+    'ISTP x INFJ': {
+        'p1': 'ISTPs and INFJs share all of the same functions, but their respective stacks are very different. And '
+              'thus, their perspectives may see some overlap, but will still be very different.',
+        'p2': 'ISTPs filter their perception of the world through what they feel makes sense, and they seek logical '
+              'consistency in everything they do. ISTPs tend to be very practical people. They will help guide the '
+              'INFJ and steer their intuition in the right direction, providing the Se-insights that the INFJ tends to '
+              'overlook or even avoid. INFJs will need to be aware of this and work to communicate effectively and '
+              'directly back to them. INFJs should also be aware of the ISTP\'s straightforward nature.',
+        'p3': 'INFJs will likely help the ISTP develop emotional awareness while maintaining their precise '
+              'communication skills. ISTPs tend to struggle with how to navigate the emotional values of others '
+              'because it oftentimes conflicts with what they feel makes sense. The INFJ will help the ISTP put those '
+              'conflicting perspectives together.',
+        'p4': 'In short, the ISTP and INFJ are relatively balanced where their partner is not. If they can overcome '
+              'the initial rift in perception and communication, these two can come together to create a very '
+              'well-rounded and strong unity.'
     },
     'INFJ x INFJ': {
         'p1': 'The INFJ-INFJ partnership can be incredibly empowering. Not many other pairings will be able to '
@@ -1076,6 +1250,24 @@ mbti_compatibility = {
         'p3': 'Both types need to respect each other\'s time alone. Despite the sparks and mutual intimacy that may '
               'come from this pairing, both types will need time to themselves to recharge. One type nagging the other '
               'could be seen as overbearing or overwhelming.'
+    },
+    'INFJ x ISFP': {
+        'p1': 'ISFPs and INFJs may find themselves a handful of overlapping views and values. Both have an '
+              'appreciation for beauty and harmony that they may seek to experience or create.',
+        'p2': 'In order for this pairing to succeed INFJs need to realize that ISFPs need to have a clear conscience '
+              'about what they are doing. INFJs should be careful to not push too hard against the ISFP if they '
+              'disagree or do not understand their motivations. INFJs should also work to come out of their shell and '
+              'engage in their partner\'s interests. ISFPs are quite practical and driven people. The INFJ may find '
+              'some of these things superficial, but should work to approach these interests with an open and an open '
+              'heart. Their ISFP may surprise them with something they will enjoy too.',
+        'p3': 'ISFPs should be aware that INFJs have a keen awareness for patterns and what to expect. Their '
+              'livelihood dwells on expectations in preparation for the future. This may cause the INFJ to suggest '
+              'changes in action or criticize what\'s being done. ISFPs should resist taking these criticisms '
+              'personally due to Fi, should understand that the INFJ isn\'t trying to be rude or insulting, but '
+              'helping coerce their partner in a direction they feel will make them happy.',
+        'p4': 'If both types can accomplish these things, the ISFP-INFJ relationship will be filled with an intensely '
+              'loving and easy-going atmosphere. Their shared experiences and intimate connection can create a '
+              'balanced and eventful relationship if kept in-check.'
     }
 }
 
