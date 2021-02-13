@@ -203,24 +203,22 @@ class DialogueCore(object):
                 response.error = True
                 return response
 
-            def check_emote(reac, usr):
+            def check_emote(reac):
                 """
                 Checks for a valid message reaction.
                 :param reac: The reaction to validate.
-                :type reac: discord.Reaction
-                :param usr: The user who reacted to the message.
-                :type usr: discord.Member
+                :type reac: discord.RawReactionActionEvent
                 :return:
                 :rtype: bool
                 """
-                same_author = usr.id == self.user.id
-                same_message = reac.message.id == confirmation.id
+                same_author = reac.user_id == self.msg.author.id
+                same_message = reac.message_id == confirmation.id
                 valid_reaction = str(reac.emoji) in BOOL_REACTIONS
                 return same_author and same_message and valid_reaction
 
             try:
-                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
-                if ae.emoji == CONFIRM_REACT:
+                ae = await self.bot.wait_for('raw_reaction_add', timeout=TIMEOUT, check=check_emote)
+                if str(ae.emoji) == CONFIRM_REACT:
                     response.ok = True
                 else:
                     response.cancelled = True
@@ -262,23 +260,21 @@ class DialogueCore(object):
                 Ongoing.del_ongoing('dialogue', self.user.id)
                 return response
 
-            def check_emote(reac, usr):
+            def check_emote(reac):
                 """
                 Checks for a valid message reaction.
                 :param reac: The reaction to validate.
-                :type reac: discord.Reaction
-                :param usr: The user who reacted to the message.
-                :type usr: discord.Member
+                :type reac: discord.RawReactionActionEvent
                 :return:
                 :rtype: bool
                 """
-                same_author = usr.id == self.user.id
-                same_message = reac.message.id == confirmation.id
+                same_author = reac.user_id == self.msg.author.id
+                same_message = reac.message_id == confirmation.id
                 valid_reaction = (str(reac.emoji) in INT_REACTIONS) or str(reac.emoji) == CANCEL_REACT
                 return same_author and same_message and valid_reaction
 
             try:
-                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
+                ae = await self.bot.wait_for('raw_reaction_add', timeout=TIMEOUT, check=check_emote)
                 if str(ae.emoji) == CANCEL_REACT:
                     response.cancelled = True
                 else:
@@ -333,24 +329,22 @@ class DialogueCore(object):
                 Ongoing.del_ongoing('dialogue', self.user.id)
                 return response
 
-            def check_emote(reac, usr):
+            def check_emote(reac):
                 """
                 Checks for a valid message reaction.
                 :param reac: The reaction to validate.
-                :type reac: discord.Reaction
-                :param usr: The user who reacted to the message.
-                :type usr: discord.Member
+                :type reac: discord.RawReactionActionEvent
                 :return:
                 :rtype: bool
                 """
-                same_author = usr.id == self.user.id
-                same_message = reac.message.id == confirmation.id
+                same_author = reac.user_id == self.msg.author.id
+                same_message = reac.message_id == confirmation.id
                 valid_reaction = str(reac.emoji) in possible
                 return same_author and same_message and valid_reaction
 
             try:
-                ae, au = await self.bot.wait_for('reaction_add', timeout=TIMEOUT, check=check_emote)
-                if ae.emoji == item.icon:
+                ae = await self.bot.wait_for('raw_reaction_add', timeout=TIMEOUT, check=check_emote)
+                if str(ae.emoji) == item.icon:
                     response.ok = True
                 elif str(ae.emoji) == CANCEL_REACT:
                     response.cancelled = True
