@@ -81,7 +81,7 @@ async def unpermit(cmd, pld):
                                             response = GenericResponse(title).ok()
                                         else:
                                             response = GenericResponse(
-                                                f'{pnd}{targets[0].name} can no longer use `{node_name}`.'
+                                                f'{targets[0].name} can no longer use `{node_name}`.'
                                             ).ok()
                                     else:
                                         pnd = '#' if target_type == 'channels' else ''
