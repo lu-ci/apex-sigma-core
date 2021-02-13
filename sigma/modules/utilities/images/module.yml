@@ -29,5 +29,15 @@ commands:
     enabled: true
     name: emote
     usage: '{pfx}{cmd} Monika'
+  - alts:
+      - addemoji
+    description: Adds the desired emote to the server. Specify an emote by reacting to the command
+      message with it. You can specify a name for the emote, otherwise it will use the existing name.
+      This command requires the Manage Emotes permission.
+    enabled: true
+    name: addemote
+    requirements:
+      - manage_emojis
+    usage: '{pfx}{cmd} monkaS'
 enabled: true
 name: Image Utilities
