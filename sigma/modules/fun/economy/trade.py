@@ -288,7 +288,7 @@ async def trade(cmd, pld):
                         else:
                             response = GenericResponse('One or both of you can\'t pay required the tax.').error()
                     else:
-                        response = odresp.generic('trade response')
+                        response = rdresp.generic('trade response')
                 else:
                     response = odresp.generic('trade request')
             else:
