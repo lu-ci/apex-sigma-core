@@ -6,6 +6,7 @@
 
 - The `trade` command has been added, inspired by Warframe's trade mechanics.
 - Market cleaning functions. Items expire after 7 days. Happens automatically every 60s or every `mlist` call.
+- The `addemote` command allows you to easily add an emote to your server.
 
 ### Changed
 
