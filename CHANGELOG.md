@@ -9,10 +9,6 @@
 - Minor f-string fixes, where they were used when no dynamic arguments were present.
 - Chains are now stored in `./chains/<uid>.json.gz`.
 
-### Removed
-
-- The `docs/` folder has been moved to the repository's wiki.
-
 ## 4.88.1769 Tsumiki
 
 ### Added
