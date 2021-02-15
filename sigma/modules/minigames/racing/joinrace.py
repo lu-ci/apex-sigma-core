@@ -45,12 +45,15 @@ async def joinrace(cmd, pld):
                             break
                     if not user_found:
                         icon = add_participant(pld.msg.channel.id, pld.msg.author)
-                        if names[icon][0] in ['a', 'e', 'i', 'o', 'u']:
-                            connector = 'an'
+                        if icon:
+                            if names[icon][0] in ['a', 'e', 'i', 'o', 'u']:
+                                connector = 'an'
+                            else:
+                                connector = 'a'
+                            join_title = f'{icon} {pld.msg.author.display_name} joined as {connector} {names[icon]}!'
+                            response = discord.Embed(color=colors[icon], title=join_title)
                         else:
-                            connector = 'a'
-                        join_title = f'{icon} {pld.msg.author.display_name} joined as {connector} {names[icon]}!'
-                        response = discord.Embed(color=colors[icon], title=join_title)
+                            response = GenericResponse('It seems that race no longer exists.').error()
                     else:
                         response = GenericResponse('You are already in the race!').error()
                 else:

@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Check the race existence before trying to add a participant.
 - Auto-format chang-log.
 - Minor f-string fixes, where they were used when no dynamic arguments were present.
 - Chains are now stored in `./chains/<uid>.json.gz`.

@@ -89,7 +89,6 @@ def make_race(channel_id, buyin):
 
 def add_participant(channel_id, user):
     """
-
     :param channel_id:
     :type channel_id: int
     :param user:
@@ -97,17 +96,20 @@ def add_participant(channel_id, user):
     :return:
     :rtype: str
     """
-    race = races[channel_id]
-    icons = race['icons']
-    users = race['users']
-    usr_icon = secrets.choice(icons)
-    icons.remove(usr_icon)
-    race.update({'icons': icons})
-    participant_data = {
-        'user': user,
-        'icon': usr_icon
-    }
-    users.append(participant_data)
-    race.update({'users': users})
-    races.update({channel_id: race})
-    return usr_icon
+    if channel_id in races:
+        race = races[channel_id]
+        icons = race['icons']
+        users = race['users']
+        usr_icon = secrets.choice(icons)
+        icons.remove(usr_icon)
+        race.update({'icons': icons})
+        participant_data = {
+            'user': user,
+            'icon': usr_icon
+        }
+        users.append(participant_data)
+        race.update({'users': users})
+        races.update({channel_id: race})
+        return usr_icon
+    else:
+        return None
