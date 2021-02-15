@@ -53,7 +53,7 @@ async def reload(cmd, pld):
         cmd.log.info(f'Loaded {cmd_count} commands and {ev_count} events.')
         cmd.log.info('---------------------------------')
     else:
-        command_name = ' '.join(pld.args)
+        command_name = ' '.join(pld.args).lower()
         if command_name in cmd.bot.modules.alts:
             command_name = cmd.bot.modules.alts[command_name]
         if command_name not in cmd.bot.modules.commands.keys():
