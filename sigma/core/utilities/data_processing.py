@@ -29,7 +29,6 @@ color_cache_coll = None
 def set_color_cache_coll(coll):
     """
     Sets the color cache to the given database collection.
-    :param coll: The database collection to set as the cache.
     :type coll: motor.motor_asyncio.AsyncIOMotorCollection
     """
     global color_cache_coll
@@ -39,9 +38,7 @@ def set_color_cache_coll(coll):
 def convert_to_seconds(time_input):
     """
     Converts time with the format H:M:S into seconds.
-    :param time_input: The time to covert into seconds.
     :type time_input: str
-    :return:
     :rtype: int
     """
     indent_list = time_input.split(':')
@@ -62,13 +59,9 @@ def convert_to_seconds(time_input):
 def user_avatar(user, gif=False, static=False):
     """
     Fetches the avatar of Discord member.
-    :param user: The user to fetch the avatar from.
     :type user: discord.Member or discord.User
-    :param gif: Whether or not the returned image should be a GIF.
     :type gif: bool
-    :param static: Whether or not the returned image should be static.
     :type static: bool
-    :return:
     :rtype: str
     """
     if user.avatar_url:
@@ -92,11 +85,8 @@ def user_avatar(user, gif=False, static=False):
 def command_message_parser(message, text):
     """
     Parses variables in the output of custom commands.
-    :param message: The message object to fill in variables.
     :type message: discord.Message
-    :param text: The text output of the custom command.
     :type text: str
-    :return:
     :rtype: str
     """
     gld = message.guild
@@ -128,11 +118,8 @@ def command_message_parser(message, text):
 def movement_message_parser(member, text):
     """
     Parses variables in the output of movement messages.
-    :param member: The member object to fill in variables.
     :type member: discord.Member
-    :param text: The text output of the movement message.
     :type text: str
-    :return:
     :rtype: str
     """
     guild = member.guild
@@ -160,11 +147,8 @@ def movement_message_parser(member, text):
 def get_time_difference(member, leave=False):
     """
     Gets the difference between a member's creation or join date and the current UTC time.
-    :param member: The member object to fetch from.
     :type member: discord.Member
-    :param leave: Whether to fetch the creation date or guild join date.
     :type leave: bool
-    :return:
     :rtype: (bool, str)
     """
     if leave:
@@ -185,9 +169,7 @@ def get_time_difference(member, leave=False):
 async def search_youtube(qry):
     """
     Searches youtube with the given query.
-    :param qry: The query to search for.
     :type qry: str
-    :return:
     :rtype: str
     """
     url_base = "https://www.youtube.com/results?"
@@ -202,10 +184,7 @@ async def search_youtube(qry):
 
 def rgb_maximum(colors_tuple):
     """
-
-    :param colors_tuple: Tuple of RGB color values.
     :type colors_tuple: list[tuple]
-    :return:
     :rtype: dict
     """
     r_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][0])
@@ -235,10 +214,7 @@ def rgb_maximum(colors_tuple):
 
 def group_by_accuracy(sorted_tuple):
     """
-
-    :param sorted_tuple: List of sorted RGB color values.
     :type sorted_tuple: list[tuple]
-    :return:
     :rtype: list[tuple]
     """
     rgb_maximum_json = rgb_maximum(sorted_tuple)
@@ -268,10 +244,7 @@ def group_by_accuracy(sorted_tuple):
 
 def get_weighted_mean(grouped_image_color):
     """
-
-    :param grouped_image_color: List of colors in RGB groups.
     :type grouped_image_color: list[tuple]
-    :return:
     :rtype: tuple
     """
     sigma_count = 0
@@ -296,9 +269,7 @@ def get_weighted_mean(grouped_image_color):
 def rgb_to_hex(rgb_tuple):
     """
     Converts an RGB tuple into a decimal color.
-    :param rgb_tuple: The RGB tuple to convert.
     :type rgb_tuple: tuple
-    :return:
     :rtype: int
     """
     hex_str = ''
@@ -315,9 +286,7 @@ def rgb_to_hex(rgb_tuple):
 async def get_image_colors(img_url):
     """
     Fetches the most dominant color from an image.
-    :param img_url: The image to fetch from.
     :type img_url: str
-    :return:
     :rtype: int
     """
     if img_url:
@@ -366,7 +335,6 @@ def get_broad_target(pld):
     Gets a target from a message by mentions, ID and name, nickname.
     :param pld: The command payload to process.
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :return:
     :rtype: discord.Member or None
     """
     target = None

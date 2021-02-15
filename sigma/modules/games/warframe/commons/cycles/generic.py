@@ -25,9 +25,7 @@ async def get_channels(ev, marker):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param marker:
     :type marker: str
-    :return:
     :rtype: list[discord.TextChannel]
     """
     channel_list = []
@@ -45,14 +43,10 @@ async def get_channels(ev, marker):
 
 async def get_triggers(db, triggers, pld):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param triggers:
     :type triggers: list[str]
     :param pld:
     :type pld: sigma.core.mechanics.payload.GuildPayload or discord.TextChannel
-    :return:
     :rtype: list[str]
     """
     mentions = []
@@ -71,8 +65,6 @@ async def get_triggers(db, triggers, pld):
 
 async def clean_wf_cache(db):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
     """
     cutoff = arrow.utcnow().int_timestamp - 2592000
@@ -83,11 +75,8 @@ async def send_to_channels(ev, response, marker, triggers=None):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param response:
     :type response: discord.Embed
-    :param marker:
     :type marker: str
-    :param triggers:
     :type triggers: list[str]
     """
     channels = await get_channels(ev, marker)

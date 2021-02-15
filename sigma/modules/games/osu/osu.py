@@ -31,9 +31,7 @@ osu_logo = 'https://i.imgur.com/hHAY7PM.png'
 def make_url_hash(url):
     """
     Makes a quick md5 hash of the given URL.
-    :param url: The URL to hash.
     :type url: str
-    :return:
     :rtype: str
     """
     url_hash = hashlib.new('md5')
@@ -44,11 +42,8 @@ def make_url_hash(url):
 async def find_user_data(db, profile_url):
     """
     Scrapes the page to find the user's actual information.
-    :param db: The main database handler reference.
     :type db: sigma.core.mechanics.database.Database
-    :param profile_url: The user's profile URL.
     :type profile_url: str
-    :return:
     :rtype: dict
     """
     cache_key = f'osu_profile_{make_url_hash(profile_url)}'

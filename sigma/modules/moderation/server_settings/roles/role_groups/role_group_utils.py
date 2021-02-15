@@ -21,12 +21,8 @@ import discord
 
 async def appropriate_roles(member, role, role_groups):
     """
-
-    :param member:
     :type member: discord.Member
-    :param role:
     :type role: discord.Role
-    :param role_groups:
     :type role_groups: dict
     """
     match_group = None

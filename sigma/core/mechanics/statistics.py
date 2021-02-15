@@ -31,9 +31,7 @@ class StatisticsStorage(object):
 
     def __init__(self, db, name):
         """
-        :param db: The core database instance.
         :type db: sigma.core.mechanics.database.Database
-        :param name: The name of that statistic.
         :type name: str
         """
         self.db = db
@@ -76,7 +74,6 @@ class CommandStatistic(object):
 
     def __init__(self, db, cmd, pld):
         """
-        :param db: The database client.
         :type db: sigma.core.mechanics.database.Database
         :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand

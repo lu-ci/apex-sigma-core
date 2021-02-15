@@ -37,11 +37,8 @@ class WorldState(object):
     async def get_state(self, url, key):
         """
         Fetches data from the Warframe World State.
-        :param url: The World State API.
         :type url: str
-        :param key: The key to append to the URL.
         :type key: str
-        :return:
         :rtype: sigma.modules.games.warframe.commons.worldstate.WorldState
         """
         try:
@@ -56,13 +53,9 @@ class WorldState(object):
     async def safe_get(self, url, key, indexed=False):
         """
         Parses the World State API response.
-        :param url: The World State API.
         :type url: str
-        :param key: The key to append to the URL.
         :type key: str
-        :param indexed: Whether or not you want the first item in the list.
         :type indexed: bool
-        :return:
         :rtype: list or dict or None
         """
         await self.get_state(url, key)
@@ -80,7 +73,6 @@ class WorldState(object):
     async def news(self):
         """
         Fetches current News from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(stats_url, 'news')
@@ -89,7 +81,6 @@ class WorldState(object):
     async def sorties(self):
         """
         Fetches current Sorties from the World State.
-        :return:
         :rtype: dict
         """
         return await self.safe_get(tools_url, 'sorties', True)
@@ -98,7 +89,6 @@ class WorldState(object):
     async def invasions(self):
         """
         Fetches current Invasions from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'invasions')
@@ -107,7 +97,6 @@ class WorldState(object):
     async def fissures(self):
         """
         Fetches the current Fissures from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'fissures')
@@ -116,7 +105,6 @@ class WorldState(object):
     async def bounties(self):
         """
         Fetches current Bounties from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'bounties')
@@ -125,7 +113,6 @@ class WorldState(object):
     async def factionprojects(self):
         """
         Fetches current Faction Projects from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'factionprojects')
@@ -134,7 +121,6 @@ class WorldState(object):
     async def voidtraders(self):
         """
         Fetches current Void Traders from the World State.
-        :return:
         :rtype: dict
         """
         return await self.safe_get(tools_url, 'voidtraders', True)
@@ -143,7 +129,6 @@ class WorldState(object):
     async def acolytes(self):
         """
         Fetches current Acolytes from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(tools_url, 'acolytes')
@@ -152,7 +137,6 @@ class WorldState(object):
     async def flashsales(self):
         """
         Fetches current Flash Sales from the World State.
-        :return:
         :rtype: list[dict]
         """
         return await self.safe_get(stats_url, 'flashSales')
@@ -161,7 +145,6 @@ class WorldState(object):
     async def dailydeals(self):
         """
         Fetches current Daily Deals from the World State.
-        :return:
         :rtype: dict
         """
         return await self.safe_get(tools_url, 'dailydeals', True)
@@ -170,7 +153,6 @@ class WorldState(object):
     async def nightwave(self):
         """
         Fetches current Nightwave from the World State.
-        :return:
         :rtype: dict
         """
         return await self.safe_get(tools_url, 'challenges', True)
@@ -179,7 +161,6 @@ class WorldState(object):
     async def vallistime(self):
         """
         Fetches current Vallis Time from the World State.
-        :return:
         :rtype: dict
         """
         return await self.safe_get(stats_url, 'vallisCycle')

@@ -23,14 +23,9 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def check_roles(allowed_roles, all_users, user):
     """
-
-    :param allowed_roles:
     :type allowed_roles: list[int]
-    :param all_users:
     :type all_users: list[discord.Member]
-    :param user:
     :type user: discor.Member
-    :return:
     :rtype: bool
     """
     members = []

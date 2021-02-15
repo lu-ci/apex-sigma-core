@@ -23,12 +23,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def check_field(field, value):
     """
-
-    :param field:
     :type field: str
-    :param value:
     :type value: str
-    :return:
     :rtype: re.Match
     """
     if field == 'color':

@@ -54,13 +54,9 @@ class SigmaCommand(object):
 
     def __init__(self, bot, command, module_info, command_info):
         """
-        :param bot: The core client of the framework.
         :type bot: sigma.core.sigma.ApexSigma
-        :param command: The function to call for execution.
         :type command: function
-        :param module_info: Dictionary data containing module details.
         :type module_info: dict
-        :param command_info: Dictionary data containing command details.
         :type command_info: dict
         """
         self.bot = bot
@@ -115,9 +111,7 @@ class SigmaCommand(object):
     def resource(self, res_path):
         """
         The from-root path to the resource files of the command.
-        :param res_path: The relative path to the resource directory.
         :type res_path: str
-        :return:
         :rtype: str
         """
         module_path = self.path
@@ -129,7 +123,6 @@ class SigmaCommand(object):
         """
         Gets the exception to catch/except based on the mode
         that the bot is running in, dev or not dev.
-        :return:
         :rtype: DummyException or Exception
         """
         return DummyException if self.bot.cfg.pref.dev_mode else Exception
@@ -137,11 +130,8 @@ class SigmaCommand(object):
     def log_command_usage(self, message, args, extime):
         """
         Adds a log line when a command is used.
-        :param message: The message that triggered the command.
         :type message: discord.Message
-        :param args: The arguments that were passed in the message.
         :type args: list[str]
-        :param extime: The command execution time.
         :type extime: int
         """
         crst = arrow.get(message.created_at).float_timestamp
@@ -161,7 +151,6 @@ class SigmaCommand(object):
     async def add_usage_sumarum(self, message):
         """
         Adds a special currency type when a command is executed.
-        :param message: The message that triggered the resource addition.
         :type message: discord.Message
         """
         trigger = f'usage_{self.name}'
@@ -175,9 +164,7 @@ class SigmaCommand(object):
     async def respond_with_emote(message, icon):
         """
         Responds to a message with an emote reaction.
-        :param message: The message to respond to with an emote.
         :type message: discord.Message
-        :param icon: The emote to react with to the message.
         :type icon: discord.Emoji or str
         """
         try:
@@ -188,7 +175,6 @@ class SigmaCommand(object):
     async def update_cooldown(self, author):
         """
         Updates the cooldown timer of the command usage.
-        :param author: The author of the command.
         :type author: discord.User
         """
         cdfile = await self.db[self.db.db_nam].CommandCooldowns.find_one({'command': self.name}) or {}
@@ -200,11 +186,8 @@ class SigmaCommand(object):
     async def check_black_args(settings, args):
         """
         Check the command request for any blacklisted arguments.
-        :param settings: The guild's settings data.
         :type settings: dict
-        :param args: The arguments passed with the command's message.
         :type args list[str]
-        :return:
         :rtype: bool
         """
         black_args = settings.get('blocked_args', [])
@@ -214,9 +197,7 @@ class SigmaCommand(object):
     async def check_permissions(self, payload):
         """
         Runs all permission checks and initializers.
-        :param payload: Command paylaod data and details.
         :type payload: sigma.core.mechanics.payload.CommandPayload
-        :return:
         :rtype: GlobalCommandPermissions, ServerCommandPermissions
         """
         perms = GlobalCommandPermissions(self, payload)
@@ -231,9 +212,7 @@ class SigmaCommand(object):
     async def send_requirements_error(self, requirements, payload):
         """
         Sends an error that the command requires additional permissions to execute.
-        :param requirements: The requirements class containing prerequisite permissions.
         :type requirements: sigma.core.mechanics.requirements.CommandRequirements
-        :param payload: The command payload containing execution details.
         :type payload: sigma.core.mechanics.payload.CommandPayload
         """
         reqs_embed = discord.Embed(color=0xBE1931)
@@ -255,7 +234,6 @@ class SigmaCommand(object):
         Adds detailed statistics for command usage.
         :param pld:
         :type pld: sigma.core.mechanics.payload.CommandPayload
-        :param exec_timestamp:
         :type exec_timestamp: int
         """
         cmd_stat = CommandStatistic(self.db, self, pld)
@@ -266,7 +244,6 @@ class SigmaCommand(object):
     async def execute(self, payload):
         """
         Runs necessary checks and executes the command function.
-        :param payload: Command payload data and details for execution.
         :type payload: sigma.core.mechanics.payload.CommandPayload
         """
         if self.bot.ready:

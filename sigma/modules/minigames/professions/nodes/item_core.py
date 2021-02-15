@@ -32,9 +32,7 @@ RECIPE_MANIFEST = "https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/item
 async def get_item_core(db):
     """
     Grabs an instance of the item core.
-    :param db: The database handler.
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: ItemCore
     """
     global item_core_cache
@@ -51,7 +49,6 @@ class ItemCore(object):
 
     def __init__(self, db):
         """
-        :param db:
         :type db: sigma.core.mechanics.database.Database
         """
         self.db = db
@@ -64,9 +61,7 @@ class ItemCore(object):
     def get_item_by_name(self, name):
         """
         Returns an item with the given name.
-        :param name: The name to look for.
         :type name: str
-        :return:
         :rtype: SigmaRawItem or SigmaCookedItem
         """
         output = None
@@ -79,9 +74,7 @@ class ItemCore(object):
     def get_item_by_file_id(self, name):
         """
         Returns an item with the given ID.
-        :param name: The ID of the item.
         :type name: str
-        :return:
         :rtype: SigmaRawItem or SigmaCookedItem
         """
         output = None
@@ -94,11 +87,8 @@ class ItemCore(object):
     def pick_item_in_rarity(self, item_category, rarity):
         """
         Picks a random item within the given rarity.
-        :param item_category: The type of the item.
         :type item_category: str
-        :param rarity: The rarity to choose from.
         :type rarity: int
-        :return:
         :rtype: SigmaRawItem
         """
         in_rarity = []
@@ -177,13 +167,9 @@ class ItemCore(object):
     def get_chance(upgrade, rarity_chance, rarity_modifier):
         """
         Gets the chances to get certain rarities based on the luck enhancement.
-        :param upgrade: The luck level.
         :type upgrade: int
-        :param rarity_chance: The base rarity chance.
         :type rarity_chance: float
-        :param rarity_modifier: The base rarity chance modifier.
         :type rarity_modifier: float
-        :return:
         :rtype: float
         """
         return (rarity_chance + ((upgrade * rarity_modifier) / (1.5 + (0.005 * upgrade)))) / 100
@@ -191,9 +177,7 @@ class ItemCore(object):
     def create_roll_range(self, upgrade):
         """
         Crates a set of ranges assigned to rarities.
-        :param upgrade: The luck upgrade.
         :type upgrade: int
-        :return:
         :rtype: (int, dict)
         """
         chances = {
@@ -245,9 +229,7 @@ class ItemCore(object):
     async def roll_rarity(self, profile):
         """
         Rolls a random rarity.
-        :param profile: The user's profile data.
         :type profile: dict
-        :return:
         :rtype: int
         """
         upgrade_file = profile.get('upgrades') or {}
@@ -266,11 +248,8 @@ class ItemCore(object):
     async def add_item_statistic(db, item, member):
         """
         Adds stats about the item that was obtained.
-        :param db: The database handler.
         :type db: sigma.core.mechanics.database.Database
-        :param item: The item that was gotten.
         :type item: SigmaRawItem or SigmaCookedItem or SigmaRecipe
-        :param member: The user that got the item.
         :type member: discord.User or discord.Member
         """
         member_stats = await db[db.db_nam].ItemStatistics.find_one({'user_id': member.id})

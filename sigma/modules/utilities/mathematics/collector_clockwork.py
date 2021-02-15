@@ -48,7 +48,6 @@ async def check_queued(db, aid, uid):
 async def add_to_queue(db, collector_item):
     """
     :type db: sigma.core.mechanics.database.Database
-    :param collector_item:
     :type collector_item: dict
     """
     await db[db.db_nam].CollectorQueue.insert_one(collector_item)
@@ -225,7 +224,6 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
 
 def serialize(item):
     """
-    :param item:
     :type item: dict
     :rtype: bytes
     """
@@ -236,10 +234,7 @@ def serialize(item):
 
 def deserialize(item):
     """
-
-    :param item:
     :type item: io.BytesIO
-    :return:
     :rtype: dict
     """
     as_decomp = gzip.decompress(item)

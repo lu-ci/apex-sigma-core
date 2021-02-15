@@ -27,12 +27,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def check_name(m, lookup):
     """
-
-    :param m:
     :type m: discord.Membed
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: bool
     """
     return m.name.lower() == lookup.lower() or m.display_name.lower() == lookup.lower()

@@ -53,9 +53,7 @@ async def metacritic(cmd, pld):
                         def check_answer(msg):
                             """
                             Checks if the answer message is valid.
-                            :param msg: The message to check.
                             :type msg: discord.Message
-                            :return:
                             :rtype: bool
                             """
                             same_channel = pld.msg.channel.id == msg.channel.id

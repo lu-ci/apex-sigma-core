@@ -62,8 +62,6 @@ class ConnectFourBoard(object):
     @property
     def make(self):
         """
-
-        :return:
         :rtype: list[list[str]]
         """
         [self.rows.append([self.e for _ in range(7)]) for _ in range(6)]
@@ -71,12 +69,8 @@ class ConnectFourBoard(object):
 
     def edit(self, column, player):
         """
-
-        :param column:
         :type column: int
-        :param player:
         :type player: str
-        :return:
         :rtype: list[list[str]]
         """
         piece = getattr(self, player)
@@ -88,10 +82,7 @@ class ConnectFourBoard(object):
 
     def column(self, column):
         """
-
-        :param column:
         :type column: int
-        :return:
         :rtype: list[str]
         """
         return [row[column] for row in self.rows]
@@ -99,18 +90,13 @@ class ConnectFourBoard(object):
     @property
     def columns(self):
         """
-
-        :return:
         :rtype: list[list[str]]
         """
         return [self.column(i) for i, r in enumerate(self.rows)]
 
     def column_full(self, column):
         """
-
-        :param column:
         :type column: int
-        :return:
         :rtype: bool
         """
         return self.rows[0][column] != self.e
@@ -118,8 +104,6 @@ class ConnectFourBoard(object):
     @property
     def full(self):
         """
-
-        :return:
         :rtype: bool
         """
         return all([self.rows[0][i] != self.e for i in range(len(self.rows))])
@@ -127,8 +111,6 @@ class ConnectFourBoard(object):
     @property
     def winner(self):
         """
-
-        :return:
         :rtype: (bool, str or None, bool)
         """
         full = self.full
@@ -147,10 +129,7 @@ class ConnectFourBoard(object):
 
     def first_check(self, chunks):
         """
-
-        :param chunks:
         :type chunks: list[list[str]]
-        :return:
         :rtype: (str or None, bool)
         """
         winner, win = None, False
@@ -162,8 +141,6 @@ class ConnectFourBoard(object):
 
     def second_check(self):
         """
-
-        :return:
         :rtype: (str or None, bool)
         """
         for chunk in self.chunks(self.rows):
@@ -178,10 +155,7 @@ class ConnectFourBoard(object):
     @staticmethod
     def chunks(rows):
         """
-
-        :param rows:
         :type rows: list[list[str]]
-        :return:
         :rtype: list[list[str]]
         """
         # Gets all diagonal winning positions in one direction
@@ -200,10 +174,7 @@ class ConnectFourBoard(object):
 
     def bot_move(self, last):
         """
-
-        :param last:
         :type last: int
-        :return:
         :rtype: int
         """
         choice, bad_col = None, True

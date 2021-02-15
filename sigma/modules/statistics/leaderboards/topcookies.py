@@ -24,12 +24,8 @@ from sigma.modules.moderation.server_settings.filters.edit_name_check import cle
 
 def get_user_value(data, coords):
     """
-
-    :param data:
     :type data: dicot
-    :param coords:
     :type coords: str
-    :return:
     :rtype: int
     """
     user_value = data
@@ -40,14 +36,9 @@ def get_user_value(data, coords):
 
 async def get_leader_docs(db, all_docs, sort_key):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param all_docs:
     :type all_docs: list[dict]
-    :param sort_key:
     :type sort_key: str
-    :return:
     :rtype: list[dict]
     """
     leader_docs = []

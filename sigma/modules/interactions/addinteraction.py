@@ -27,16 +27,10 @@ from sigma.modules.utilities.tools.imgur import upload_image
 
 def make_interaction_data(message, interaction_name, interaction_url, url_hash):
     """
-
-    :param message:
     :type message: discord.Message
-    :param interaction_name:
     :type interaction_name: str
-    :param interaction_url:
     :type interaction_url: str
-    :param url_hash:
     :type url_hash: str
-    :return:
     :rtype: dict
     """
     return {
@@ -54,10 +48,7 @@ def make_interaction_data(message, interaction_name, interaction_url, url_hash):
 
 async def validate_gif_url(url):
     """
-
-    :param url:
     :type url: str
-    :return:
     :rtype: bool, bytes
     """
     valid, data = False, None
@@ -76,10 +67,7 @@ async def validate_gif_url(url):
 
 def get_allowed_interactions(commands):
     """
-
-    :param commands:
     :type commands: dict
-    :return:
     :rtype: list[str]
     """
     allowed_interactions = []
@@ -93,12 +81,9 @@ def get_allowed_interactions(commands):
 
 async def relay_image(cmd, url):
     """
-
     :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param url:
     :type url: str
-    :return:
     :rtype: str
     """
     client_id = cmd.bot.modules.commands['imgur'].cfg.get('client_id')
@@ -107,14 +92,9 @@ async def relay_image(cmd, url):
 
 async def check_existence(db, data, name):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param data:
     :type data: bytes
-    :param name:
     :type name: str
-    :return:
     :rtype: bool, str
     """
     url_hash = hash_url(data)
@@ -124,10 +104,7 @@ async def check_existence(db, data, name):
 
 def hash_url(url):
     """
-
-    :param url:
     :type url: bytes
-    :return:
     :rtype: str
     """
     crypt = hashlib.new('md5')

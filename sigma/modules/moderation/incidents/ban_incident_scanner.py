@@ -26,14 +26,9 @@ from sigma.core.mechanics.incident import get_incident_core
 
 def get_mod_and_reason(bot, ban_entry, guild):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
-    :param ban_entry:
     :type ban_entry: discord.AuditLogEntry
-    :param guild:
     :type guild: discord.Guild
-    :return:
     :rtype: discord.Member, str
     """
     # matches Sigma's Audit reason for bans/kicks

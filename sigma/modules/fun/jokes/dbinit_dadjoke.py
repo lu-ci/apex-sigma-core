@@ -24,7 +24,6 @@ async def dbinit_dadjoke(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param force: Whether or not to force the initialization.
     :type force: bool
     """
     doc_count = await ev.db[ev.db.db_nam].DadjokeData.count_documents({})

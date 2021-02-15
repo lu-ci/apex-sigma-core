@@ -29,14 +29,9 @@ nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
 def generate_response(avatar, current, rows):
     """
-
-    :param avatar:
     :type avatar: str
-    :param current:
     :type current: discord.Member
-    :param rows:
     :type rows: list[list[str]]
-    :return:
     :rtype: discord.Embed
     """
     board_out = "\n".join([' '.join(row) for row in rows])

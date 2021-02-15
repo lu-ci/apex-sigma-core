@@ -39,10 +39,7 @@ def shuffle(items):
 
 def combine_names(users):
     """
-
-    :param users:
     :type users: list[discord.Member]
-    :return:
     :rtype: str
     """
     pieces = []

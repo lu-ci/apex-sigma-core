@@ -29,7 +29,6 @@ names = {1: 'Ace', 12: 'Jack', 13: 'Queen', 14: 'King'}
 def make_new_deck():
     """
     Makes a deck of cards.
-    :return:
     :rtype: list[tuple]
     """
     card_list = []

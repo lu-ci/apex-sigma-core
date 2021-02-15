@@ -46,14 +46,9 @@ PAST_MAP = {
 
 def warning_data(author, target, reason):
     """
-
-    :param author:
     :type author: discord.Member
-    :param target:
     :type target: discord.Member
-    :param reason:
     :type reason: str
-    :return:
     :rtype: dict
     """
     data = {
@@ -82,16 +77,10 @@ def warning_data(author, target, reason):
 
 def make_log_embed(author, target, warn_iden, reason):
     """
-
-    :param author:
     :type author: discord.Member
-    :param target:
     :type target: discord.Member
-    :param warn_iden:
     :type warn_iden: str
-    :param reason:
     :type reason: str
-    :return:
     :rtype: discord.Embed
     """
     target_avatar = user_avatar(target)
@@ -109,16 +98,10 @@ def make_log_embed(author, target, warn_iden, reason):
 
 async def make_incident(db, gld, ath, trg, reason):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param gld:
     :type gld: discord.Guild
-    :param ath:
     :type ath: discord.Member
-    :param trg:
     :type trg: discord.Member
-    :param reason:
     :type reason: str
     """
     icore = get_incident_core(db)
@@ -133,12 +116,10 @@ async def make_incident(db, gld, ath, trg, reason):
 
 async def check_auto_punish(cmd, pld, target):
     """
-
     :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member or discord.User
     """
     levels = pld.settings.get('auto_punish_levels') or {}

@@ -60,9 +60,7 @@ def process_armor(x):
 def get_profile_table(root):
     """
     Grabs the profile table of the T-Doll.
-    :param root: The page root data.
     :type root: lxml.html.HtmlElement
-    :return:
     :rtype: lxml.html.HtmlElement
     """
     return root.cssselect('.floatright.profiletable')[0][0]
@@ -71,11 +69,8 @@ def get_profile_table(root):
 def get_pt_value(pt, lookup):
     """
     Gets a specific value from a profile table.
-    :param pt: The profile table to search.
     :type pt: lxml.html.HtmlElement
-    :param lookup: The thing to search for.
     :type lookup: str
-    :return:
     :rtype: str
     """
     exceptables = (IndexError, TypeError, AttributeError)
@@ -98,7 +93,6 @@ class TDoll(object):
 
     def __init__(self, data=None):
         """
-        :param data: Raw dict database data.
         :type data: dict
         """
         self.raw = data or {}
@@ -112,9 +106,7 @@ class TDoll(object):
     async def short_get(url):
         """
         Shortcut method for getting a webpage's text.
-        :param url: The URL to parse.
         :type url: str
-        :return:
         :rtype: str
         """
         async with aiohttp.ClientSession() as session:
@@ -125,7 +117,6 @@ class TDoll(object):
     async def from_url(self, url):
         """
         Parses the T-Doll's information from the wiki URL.
-        :param url: The wiki URL of the T-Doll.
         :type url: str
         """
         self.url = url
@@ -144,7 +135,6 @@ class TDoll(object):
     def to_dict(self):
         """
         Converts the data wrapper to a dict.
-        :return:
         :rtype: dict
         """
         return {
@@ -175,7 +165,6 @@ class TDollName(object):
     def to_dict(self):
         """
         Converts the data wrapper to a dict.
-        :return:
         :rtype: dict
         """
         return {
@@ -200,7 +189,6 @@ class TDollOrigin(object):
     def to_dict(self):
         """
         Converts the data wrapper to a dict.
-        :return:
         :rtype: dict
         """
         return {
@@ -242,7 +230,6 @@ class TDollStats(object):
     def to_dict(self):
         """
         Converts the data wrapper to a dict.
-        :return:
         :rtype: dict
         """
         data = {}

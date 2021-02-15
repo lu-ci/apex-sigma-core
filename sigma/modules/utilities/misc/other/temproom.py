@@ -26,9 +26,7 @@ async def get_category(cmd, guild):
     Gets the temporary voice channel category for the server.
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param guild: The guild that triggered the event.
     :type guild: discord.Guild
-    :return:
     :rtype: discord.CategoryChannel
     """
     custom_cat_id = await cmd.db.get_guild_settings(guild.id, 'temp_channel_category')

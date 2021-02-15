@@ -32,8 +32,6 @@ class CollectionJar(object):
     @property
     def user_total(self):
         """
-
-        :return:
         :rtype: int
         """
         contributions = 0

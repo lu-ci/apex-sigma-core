@@ -23,10 +23,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def count_votes(poll_file):
     """
-
-    :param poll_file:
     :type poll_file: dict
-    :return:
     :rtype: dict
     """
     vote_coll = {}
@@ -43,12 +40,8 @@ def count_votes(poll_file):
 
 def make_bar(points, total):
     """
-
-    :param points:
     :type points: int
-    :param total:
     :type total: int
-    :return:
     :rtype: str
     """
     try:

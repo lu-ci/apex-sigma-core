@@ -24,14 +24,9 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 async def make_bye_embed(data, goodbye, guild):
     """
-
-    :param data:
     :type data: dict
-    :param goodbye:
     :type goodbye: str
-    :param guild:
     :type guild: discord.Guild
-    :return:
     :rtype: discord.Embed
     """
     guild_icon = str(guild.icon_url) if guild.icon_url else discord.Embed.Empty

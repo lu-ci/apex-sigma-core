@@ -26,10 +26,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def make_binding_data(roles):
     """
-
-    :param roles:
     :type roles: list[discord.Role]
-    :return:
     :rtype: dict
     """
     icon_list_base = '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🍅 🍆 🌶 🌽 🍠 🍞 🍗 🍟 🍕 🍺 🍷 🍬 🍙'.split()
@@ -42,16 +39,10 @@ def make_binding_data(roles):
 
 async def make_binding_message(bind_data, guild, group_id, description):
     """
-
-    :param bind_data:
     :type bind_data: dict
-    :param guild:
     :type guild: discord.Guild
-    :param group_id:
     :type group_id: str
-    :param description:
     :type description: bool
-    :return:
     :rtype: discord.Embed
     """
     emote_block_lines = []
@@ -72,10 +63,7 @@ async def make_binding_message(bind_data, guild, group_id, description):
 
 async def fill_toggler_emotes(toggler, emotes):
     """
-
-    :param toggler:
     :type toggler: discord.MEssage
-    :param emotes:
     :type emotes: list[str]
     """
     for emote in emotes:

@@ -36,10 +36,7 @@ aura_list = [
 
 async def get_invasion_data(db):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: dict, list[str]
     """
     invasions = await WorldState().invasions
@@ -66,10 +63,7 @@ async def get_invasion_data(db):
 
 async def generate_invasion_embed(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: discord.Embed
     """
     timestamp_start = data['start']

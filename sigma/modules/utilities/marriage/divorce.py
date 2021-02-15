@@ -27,10 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 async def send_divorce(author, target):
     """
-
-    :param author:
     :type author: discord.Member
-    :param target:
     :type target: discord.Member
     """
     divorce_embed = discord.Embed(color=0xe75a70, title=f'💔 {author.name} has divorced you...')

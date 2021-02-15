@@ -28,11 +28,8 @@ class PaginatorInstance(object):
 
     def __init__(self, message, items, span):
         """
-        :param message: The message of the paginator.
         :type message: discord.Message
-        :param items: The list of items for pagination.
         :type items: list
-        :param span: The amount of items to show per page.
         :type span: int
         """
         self.message = message
@@ -44,9 +41,7 @@ class PaginatorInstance(object):
         """
         Grabs the items for the given page
         or all items if they get_all parameter is true.
-        :param get_all: Should all items be obtained.
         :type get_all: bool
-        :return:
         :rtype: list
         """
         if get_all:
@@ -82,13 +77,9 @@ class PaginatorCore(object):
     def paginate(items, pg_num, span=10):
         """
         PAginates a simple list of items.
-        :param items: Items to handle in pages.
         :type items: list
-        :param pg_num: The page number to show.
         :type pg_num: str or int
-        :param span: Amount of items per page.
         :type span: int
-        :return:
         :rtype: (list, int)
         """
         try:
@@ -104,9 +95,7 @@ class PaginatorCore(object):
     def get_paginator(self, mid):
         """
         Gets an existing paginator instance.
-        :param mid: The ID of the paginator message.
         :type mid: int
-        :return:
         :rtype: sigma.core.mechanics.paginator.PaginatorInstance
         """
         return self.paginators.get(mid)
@@ -114,9 +103,7 @@ class PaginatorCore(object):
     def add_paginator(self, mid, paginator):
         """
         Adds a new paginator instance.
-        :param mid: The ID of the paginator message.
         :type mid: int
-        :param paginator: The instance of the paginator.
         :type paginator: sigma.core.mechanics.paginator.PaginatorInstance
         """
         self.paginators.update({mid: paginator})
@@ -124,7 +111,6 @@ class PaginatorCore(object):
     def del_paginator(self, mid):
         """
         Deletes an existing paginator instance.
-        :param mid: The ID of the paginator message.
         :type mid: int
         """
         if mid in self.paginators.keys():

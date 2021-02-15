@@ -26,7 +26,6 @@ class GenericResponse(object):
 
     def __init__(self, desc):
         """
-        :param desc: The text to be used in a generic response.
         :type desc: str
         """
         self.desc = desc
@@ -35,11 +34,8 @@ class GenericResponse(object):
     def generic_embed(color, title):
         """
         Creates a generic response embed.
-        :param color: The color to use for this embed.
         :type color: int
-        :param title: The title to use for this embed.
         :type title: str
-        :return:
         :rtype: discord.Embed
         """
         return discord.Embed(color=color, title=title)
@@ -47,7 +43,6 @@ class GenericResponse(object):
     def ok(self):
         """
         Creates a generic success response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0x77B255, f'✅ {self.desc}')
@@ -55,7 +50,6 @@ class GenericResponse(object):
     def info(self):
         """
         Creates a generic information response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0x3B88C3, f'ℹ {self.desc}')
@@ -63,7 +57,6 @@ class GenericResponse(object):
     def not_found(self):
         """
         Creates a generic not-found response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0x696969, f'🔍 {self.desc}')
@@ -71,7 +64,6 @@ class GenericResponse(object):
     def denied(self):
         """
         Creates a generic denial response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0xBE1931, f'⛔ {self.desc}')
@@ -79,7 +71,6 @@ class GenericResponse(object):
     def warn(self):
         """
         Creates a generic warning response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0xFFCC4D, f'⚠ {self.desc}')
@@ -87,7 +78,6 @@ class GenericResponse(object):
     def error(self):
         """
         Creates a generic error response.
-        :return:
         :rtype: discord.Embed
         """
         return self.generic_embed(0xBE1931, f'❗ {self.desc}')

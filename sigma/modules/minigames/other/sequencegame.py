@@ -38,12 +38,8 @@ first_symbols = [group[0] for group in symbol_groups]
 
 def check_answer(arguments, sequence):
     """
-
-    :param arguments:
     :type arguments: list[str]
-    :param sequence:
     :type sequence: list[str]
-    :return:
     :rtype: bool, list[str]
     """
     filtered_args = [group[0] for char in arguments for group in symbol_groups if char in group]
@@ -84,10 +80,7 @@ async def sequencegame(cmd, pld):
 
         def answer_check(msg):
             """
-
-            :param msg:
             :type msg: discord.Message
-            :return:
             :rtype: bool
             """
             if pld.msg.author.id != msg.author.id:

@@ -21,11 +21,8 @@ def hierarchy_permit(author, target):
     """
     Checks the hierarchy between two users for permission based actions.
     Returns True if the author is above the target or the author is the guild owner.
-    :param author: The author of the hierarchy check.
     :type author: discord.Member
-    :param target: The target of the hierarchy check.
     :type target: discord.Member
-    :return:
     :rtype: bool
     """
     top_author_role = author.top_role.position

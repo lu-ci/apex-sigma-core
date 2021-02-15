@@ -24,10 +24,7 @@ from cryptography.fernet import Fernet
 
 def get_encryptor(cfg):
     """
-
-    :param cfg:
     :type cfg: sigma.core.mechanics.config.Configuration
-    :return:
     :rtype: cryptography.fernet.Fernet
     """
     cipher = None

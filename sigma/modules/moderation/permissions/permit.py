@@ -24,14 +24,9 @@ from sigma.modules.moderation.permissions.nodes.permission_data import generate_
 
 def get_targets(message, args, target_type):
     """
-
-    :param message:
     :type message: discord.Message
-    :param args:
     :type args: list[str]
-    :param target_type:
     :type target_type: str
-    :return:
     :rtype: list, bool
     """
     targets, valid = None, False
@@ -58,10 +53,7 @@ def get_targets(message, args, target_type):
 
 def get_target_type(target_type):
     """
-
-    :param target_type:
     :type target_type: str
-    :return:
     :rtype: str
     """
     if target_type in ['channel', 'channels']:

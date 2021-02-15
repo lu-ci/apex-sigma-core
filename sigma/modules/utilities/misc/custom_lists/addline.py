@@ -23,12 +23,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def user_auth(message, list_file):
     """
-
-    :param message:
     :type message: discord.Message
-    :param list_file:
     :type list_file: dict
-    :return:
     :rtype: bool
     """
     author_id = list_file.get('user_id')

@@ -67,10 +67,7 @@ streaks = {}
 
 def shuffle_questions(question_list):
     """
-
-    :param question_list:
     :type question_list: listr[str]
-    :return:
     :rtype: list[str]
     """
     output = []
@@ -82,12 +79,8 @@ def shuffle_questions(question_list):
 
 def get_correct_index(question_list, answer):
     """
-
-    :param question_list:
     :type question_list: list[str]
-    :param answer:
     :type answer: str
-    :return:
     :rtype: int
     """
     index = 0
@@ -177,10 +170,7 @@ async def trivia(cmd, pld):
 
             def check_answer(msg):
                 """
-
-                :param msg:
                 :type msg: discord.Message
-                :return:
                 :rtype: bool
                 """
                 if pld.msg.channel.id != msg.channel.id:

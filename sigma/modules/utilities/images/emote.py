@@ -33,7 +33,6 @@ async def get_emote_cache(cmd):
     Gets all emotes the client is exposed to.
     :param cmd: The main command instance reference.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :return:
     :rtype: list
     """
     fill = False
@@ -56,9 +55,7 @@ async def get_emote_cache(cmd):
 def get_emote(emoji):
     """
     Gets a specific emote by lookup.
-    :param emoji: The emote to get.
     :type emoji: str or discord.Emoji
-    :return:
     :rtype: (str, int)
     """
     lookup, eid = emoji, None

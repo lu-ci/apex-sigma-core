@@ -38,13 +38,10 @@ async def notify(pld, target, verb, action):
 async def make_incident(db, pld, trg, action):
     """
     Makes and reports an incident for an Auto-Punishment.
-    :param db:
     :type db: sigma.core.mechanics.database.Database
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param trg:
     :type trg: discord.Member
-    :param action:
     :type action: str
     """
     icore = get_incident_core(db)
@@ -66,7 +63,6 @@ async def auto_textmute(cmd, pld, target):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
     """
     mute_list = pld.settings.get('muted_users') or []
@@ -90,7 +86,6 @@ async def auto_hardmute(cmd, pld, target):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
     """
     await notify(pld, target, 'on', 'hard-muted')
@@ -115,7 +110,6 @@ async def auto_kick(cmd, pld, target):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
     """
     await notify(pld, target, 'from', 'kicked')
@@ -135,7 +129,6 @@ async def auto_softban(cmd, pld, target):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
     """
     await notify(pld, target, 'from', 'soft-banned')
@@ -156,7 +149,6 @@ async def auto_ban(cmd, pld, target):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
     """
     await notify(pld, target, 'from', 'banned')
@@ -176,11 +168,8 @@ async def auto_punish(cmd, pld, target, action, duration):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param target:
     :type target: discord.Member
-    :param action:
     :type action: str
-    :param duration:
     :type duration: int or None
     """
     if pld.msg.guild:

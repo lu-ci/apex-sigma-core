@@ -26,10 +26,7 @@ from sigma.core.utilities.event_logging import log_event
 
 def count_chars(text):
     """
-
-    :param text:
     :type text: str
-    :return:
     :rtype: int, int, int
     """
     upper = 0

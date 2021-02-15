@@ -35,13 +35,9 @@ class SigmaEvent(object):
 
     def __init__(self, bot, event, module_info, event_info):
         """
-        :param bot: The client core class instance.
         :type bot: sigma.core.sigma.ApexSigma
-        :param event: The event function.
         :type event: function
-        :param module_info: Module details.
         :type module_info: dict
-        :param event_info: Event details.
         :type event_info: dict
         """
         self.bot = bot
@@ -59,7 +55,6 @@ class SigmaEvent(object):
     def get_exception(self):
         """
         Gets the exception to ignore in case an event breaks.
-        :return:
         :rtype: Exception
         """
         if self.bot.cfg.pref.dev_mode:
@@ -71,7 +66,6 @@ class SigmaEvent(object):
     def log_error(self, exception):
         """
         Adds a line in the logger in case something breaks.
-        :param exception: The exception to process.
         :type exception: Exception
         """
         log_text = f'ERROR: {exception} | TRACE: {exception.with_traceback}'
@@ -80,9 +74,7 @@ class SigmaEvent(object):
     def resource(self, res_path):
         """
         Gets the module resource path.
-        :param res_path: The path to the nested resource.
         :type res_path: str
-        :return:
         :rtype: str
         """
         module_path = self.path

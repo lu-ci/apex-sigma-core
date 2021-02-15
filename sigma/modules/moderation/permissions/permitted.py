@@ -27,14 +27,9 @@ from sigma.modules.moderation.permissions.permit import get_target_type
 
 def get_exceptions(message, exceptions, target_type):
     """
-
-    :param message:
     :type message: discord.Message
-    :param exceptions:
     :type exceptions: list
-    :param target_type:
     :type target_type: str
-    :return:
     :rtype: list[str]
     """
     overridden_items = []

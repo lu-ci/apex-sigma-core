@@ -31,9 +31,7 @@ ce16194f578357b45ebeec92737a4a1fa2
 def get_license(file):
     """
     Gets the license snippet from a Sigma py file.
-    :param file: The path to the file.
     :type file: str
-    :return:
     :rtype: str
     """
     with open(file, 'r', encoding='utf-8') as py_file:
@@ -44,9 +42,7 @@ def get_license(file):
 def check_license(text_bytes):
     """
     Checks the license text if it matches the official hash.
-    :param text_bytes: The bytes of the text to check.
     :type text_bytes: bytes
-    :return:
     :rtype: bool
     """
     crypt = hashlib.new(METHOD)

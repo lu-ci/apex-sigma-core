@@ -22,11 +22,8 @@ from sigma.modules.moderation.server_settings.collectionjar.collection_watcher i
 def match_trigger(text, trigger):
     """
     Compares text content for a trigger's presence.
-    :param text: The text to check.
     :type text: str
-    :param trigger: The trigger to search for.
     :type trigger: str
-    :return:
     :rtype: bool
     """
     text_pieces = clean_word(text).split()

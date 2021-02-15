@@ -26,14 +26,9 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def make_sugg_embed(msg, args, token):
     """
-
-    :param msg:
     :type msg: discord.Message
-    :param args:
     :type args: list[str]
-    :param token:
     :type token: str
-    :return:
     :rtype: discord.Embed
     """
     guild_icon = str(msg.guild.icon_url) if msg.guild.icon_url else discord.Embed.Empty

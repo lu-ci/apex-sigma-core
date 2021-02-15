@@ -33,9 +33,7 @@ api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&podindex=2&inpu
 async def get_url_body(url):
     """
     Asynchronously fetches a URL.
-    :param url: The URL to fetch.
     :type url: str
-    :return:
     :rtype: bytes
     """
     async with aiohttp.ClientSession() as session:
@@ -47,9 +45,7 @@ async def get_url_body(url):
 async def get_results(query_url):
     """
     Parses the XML response from 'query_url'.
-    :param query_url: The URL to fetch a response from.
     :type query_url: str
-    :return:
     :rtype: str
     """
     results = ''
@@ -65,9 +61,7 @@ async def get_results(query_url):
 def make_safe_query(query):
     """
     Creates a URL safe string by escaping reserved characters.
-    :param query: The list of strings to parse.
     :type query: list[str]
-    :return:
     :rtype: str
     """
     safe = r'`~!@$^*()[]{}\|:;"\'<>,.'
@@ -83,11 +77,8 @@ async def send_response(message, init, response):
     """
     Edits the initial command response to display the results.
     Sends a new message if 'init' or if the original isn't found.
-    :param message: The message to edit.
     :type message: discord.Message
-    :param init: Whether or not there is an original message.
     :type init: discord.Message or None
-    :param response: The embed object to update the message with.
     :type response: discord.Embed
     """
     await init.edit(embed=response) if init else await message.channel.send(embed=response)

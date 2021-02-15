@@ -58,10 +58,7 @@ async def population_clockwork(ev):
 
 def get_all_roles(guilds):
     """
-
-    :param guilds:
     :type guilds: list[discord.Guild]
-    :return:
     :rtype: list[discord.Role]
     """
     roles = []

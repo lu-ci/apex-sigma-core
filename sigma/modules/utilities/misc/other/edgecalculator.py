@@ -25,10 +25,7 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 
 def hexify_int(value):
     """
-
-    :param value:
     :type value: int
-    :return:
     :rtype: str
     """
     hexpiece = hex(value)[2:]
@@ -39,10 +36,7 @@ def hexify_int(value):
 
 def hex_to_rgb(hexval):
     """
-
-    :param hexval:
     :type hexval: str
-    :return:
     :rtype: list[int]
     """
     return [int(hexval[:2], 16), int(hexval[2:-2], 16), int(hexval[-2:], 16)]

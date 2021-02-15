@@ -30,12 +30,8 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 async def grab_post(subreddit, argument):
     """
-
-    :param subreddit:
     :type subreddit:
-    :param argument:
     :type argument:
-    :return:
     :rtype:
     """
     try:
@@ -63,10 +59,7 @@ async def grab_post(subreddit, argument):
 
 def add_post_image(post, response):
     """
-
-    :param post:
     :type post:
-    :param response:
     :type response:
     """
     if post.url.split('.')[-1] in ['png', 'jpg', 'jpeg', 'gif']:

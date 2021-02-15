@@ -26,8 +26,6 @@ error_reporter_running = False
 
 async def get_error_channel(bot):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
     """
     global error_channel
@@ -51,10 +49,7 @@ async def error_reporter(ev):
 
 async def send_error_log_message(bot, error_data):
     """
-
-    :param bot:
     :type bot:
-    :param error_data:
     :type error_data:
     """
     await get_error_channel(bot)

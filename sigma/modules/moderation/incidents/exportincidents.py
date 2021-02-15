@@ -31,14 +31,9 @@ identifiers = ['moderator', 'target', 'variant']
 
 def make_export_file(guild_name, incidents, modifier):
     """
-
-    :param guild_name:
     :type guild_name: str
-    :param incidents:
     :type incidents: list
-    :param modifier:
     :type modifier: str
-    :return:
     :rtype: str
     """
     if not os.path.exists('cache'):

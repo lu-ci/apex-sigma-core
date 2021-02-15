@@ -35,12 +35,9 @@ async def command_updater(ev):
 
 async def gen_cmd_cache_data(cmd, mdl_coll):
     """
-
     :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param mdl_coll:
     :type mdl_coll: motor.motor_asyncio.AsyncIOMotorCollection
-    :return:
     :rtype: dict
     """
     mdl_doc = await mdl_coll.find_one({'name': cmd.category})

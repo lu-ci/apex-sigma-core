@@ -28,12 +28,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def get_usercaps(username, trials):
     """
-
-    :param username:
     :type username: str
-    :param trials:
     :type trials: list[dict]
-    :return:
     :rtype: str
     """
     output = username

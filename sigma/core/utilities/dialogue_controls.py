@@ -41,7 +41,6 @@ class DialogueResponse(object):
 
     def __init__(self, core):
         """
-        :param core:
         :type core: DialogueCore
         """
         self.core = core
@@ -57,7 +56,6 @@ class DialogueResponse(object):
         """
         Parses text so that only the first character
         of the string is capitalized.
-        :param desc:
         :type desc: str
         :type desc: str
         :rtype: str
@@ -75,9 +73,7 @@ class DialogueResponse(object):
     def generic_ok(desc):
         """
         Creates a generic-success dialogue embed
-        :param desc:
         :type desc: str
-        :return:
         :rtype: discord.Embed
         """
         desc = DialogueResponse.get_desc(desc)
@@ -87,9 +83,7 @@ class DialogueResponse(object):
     def generic_cancelled(desc):
         """
         Creates a generic-cancelled dialogue embed
-        :param desc:
         :type desc: str
-        :return:
         :rtype: discord.Embed
         """
         desc = DialogueResponse.get_desc(desc)
@@ -99,9 +93,7 @@ class DialogueResponse(object):
     def generic_timed_out(desc):
         """
         Creates a generic-timed-out dialogue embed
-        :param desc:
         :type desc: str
-        :return:
         :rtype: discord.Embed
         """
         desc = DialogueResponse.get_desc(desc)
@@ -111,7 +103,6 @@ class DialogueResponse(object):
     def generic_ongoing():
         """
         Creates a generic-ongoing dialogue embed
-        :return:
         :rtype: discord.Embed
         """
         response = discord.Embed(color=0x2a6797, title='💬 Somewhere, a dialogue is already open for you.')
@@ -124,7 +115,6 @@ class DialogueResponse(object):
     def generic_error():
         """
         Creates a generic-error dialogue embed
-        :return:
         :rtype: discord.Embed
         """
         respone = GenericResponse('Failed generating the dialogue embed.').error()
@@ -135,7 +125,6 @@ class DialogueResponse(object):
     def generic_unknown():
         """
         Creates a unknown-issue dialogue embed.
-        :return:
         :rtype: discord.Embed
         """
         return GenericResponse('This is never supposed to happen, report it to the devs please.').warn()
@@ -143,9 +132,7 @@ class DialogueResponse(object):
     def generic(self, desc):
         """
         Returns the flagged generic dialogue embed.
-        :param desc:
         :type desc: str
-        :return:
         :rtype: discord.Embed
         """
         if self.ok:
@@ -169,11 +156,8 @@ class DialogueCore(object):
 
     def __init__(self, bot, msg, question=None):
         """
-        :param bot:
         :type bot: sigma.core.sigma.ApexSigma
-        :param msg:
         :type msg:discord.Message
-        :param question:
         :type question:discord.Embed or None
         """
         self.bot = bot
@@ -186,7 +170,6 @@ class DialogueCore(object):
     async def bool_dialogue(self):
         """
         Creates an interactive bool dialogue message for a user to react to.
-        :return:
         :rtype: DialogueResponse
         """
         response = DialogueResponse(self)
@@ -206,9 +189,7 @@ class DialogueCore(object):
             def check_emote(reac):
                 """
                 Checks for a valid message reaction.
-                :param reac: The reaction to validate.
                 :type reac: discord.RawReactionActionEvent
-                :return:
                 :rtype: bool
                 """
                 same_author = reac.user_id == self.msg.author.id
@@ -236,11 +217,8 @@ class DialogueCore(object):
     async def int_dialogue(self, start, end):
         """
         Creates an interactive int dialogue message for a user to react to.
-        :param start: The number to start the range at.
         :type start: int
-        :param end: The number to end the range at.
         :type end: int
-        :return:
         :rtype: DialogueResponse
         """
         response = DialogueResponse(self)
@@ -263,9 +241,7 @@ class DialogueCore(object):
             def check_emote(reac):
                 """
                 Checks for a valid message reaction.
-                :param reac: The reaction to validate.
                 :type reac: discord.RawReactionActionEvent
-                :return:
                 :rtype: bool
                 """
                 same_author = reac.user_id == self.msg.author.id
@@ -297,11 +273,8 @@ class DialogueCore(object):
     async def item_dialogue(self, icons, item):
         """
         Creates an interactive item dialogue message for a user to react to.
-        :param icons: The icons to display on the message.
         :type icons: dict
-        :param item: The item to base the item dialogue on.
         :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
-        :return:
         :rtype: DialogueResponse
         """
         response = DialogueResponse(self)
@@ -332,9 +305,7 @@ class DialogueCore(object):
             def check_emote(reac):
                 """
                 Checks for a valid message reaction.
-                :param reac: The reaction to validate.
                 :type reac: discord.RawReactionActionEvent
-                :return:
                 :rtype: bool
                 """
                 same_author = reac.user_id == self.msg.author.id

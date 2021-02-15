@@ -27,10 +27,7 @@ class FailedIconGrab(Exception):
 
 def remove_revision(url):
     """
-
-    :param url:
     :type url: str
-    :return:
     :rtype: str
     """
     if '/revision' in url:
@@ -40,10 +37,7 @@ def remove_revision(url):
 
 def clean_generics(name):
     """
-
-    :param name:
     :type name: str
-    :return:
     :rtype: str
     """
     sections = name.split('_')
@@ -57,10 +51,7 @@ def clean_generics(name):
 
 async def grab_image(name):
     """
-
-    :param name:
     :type name: str
-    :return:
     :rtype: str
     """
     try:

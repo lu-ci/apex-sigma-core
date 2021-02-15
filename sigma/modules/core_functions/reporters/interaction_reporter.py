@@ -27,8 +27,6 @@ interaction_reporter_running = False
 
 async def get_interaction_channel(bot):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
     """
     global interaction_channel
@@ -52,10 +50,7 @@ async def interaction_reporter(ev):
 
 def make_interaction_log_embed(inter_data):
     """
-
-    :param inter_data:
     :type inter_data: dict
-    :return:
     :rtype: discord.Embed
     """
     interaction_url = inter_data.get('url')
@@ -74,12 +69,8 @@ def make_interaction_log_embed(inter_data):
 
 async def send_interaction_log_message(bot, move_data):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
-    :param move_data:
     :type move_data: dict
-    :return:
     :rtype: discord.Message
     """
     await get_interaction_channel(bot)

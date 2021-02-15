@@ -31,16 +31,10 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 def generate_log_embed(message, target, channel, deleted):
     """
-
-    :param message:
     :type message: discord.Message
-    :param target:
     :type target: discord.Member
-    :param channel:
     :type channel: discord.TextChannel
-    :param deleted:
     :type deleted: list[discord.Message]
-    :return:
     :rtype: discord.Embed
     """
     response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
@@ -75,8 +69,6 @@ async def purge(cmd, pld):
 
             async def get_limit_and_target():
                 """
-
-                :return:
                 :rtype: int, discord.Member
                 """
                 user = cmd.bot.user
@@ -108,10 +100,7 @@ async def purge(cmd, pld):
 
             def is_emotes(msg):
                 """
-
-                :param msg:
                 :type msg: discord.Message
-                :return:
                 :rtype: bool
                 """
                 clean = False
@@ -134,10 +123,7 @@ async def purge(cmd, pld):
 
             def purge_target_check(msg):
                 """
-
-                :param msg:
                 :type msg: discord.Message
-                :return:
                 :rtype: bool
                 """
                 clean = False
@@ -157,10 +143,7 @@ async def purge(cmd, pld):
 
             def purge_wide_check(msg):
                 """
-
-                :param msg:
                 :type msg: discord.Message
-                :return:
                 :rtype: bool
                 """
                 clean = False

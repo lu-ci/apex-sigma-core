@@ -24,9 +24,7 @@ FETCH_HELPER_CACHE = None
 def get_fetch_helper(bot):
     """
     Gets a static fetch helper instance.
-    :param bot: The main client instance.
     :type bot: sigma.core.sigma.ApexSigma
-    :return:
     :rtype: FetchHelper
     """
     global FETCH_HELPER_CACHE
@@ -44,11 +42,9 @@ class SaveResponse(enumerate):
     def describe(responses, variant):
         """
         Describes a list of save responses.
-        :param responses: The list of responses.
         :type responses:  list
-        :param variant: The object variant.
         :type variant: str
-        :return: str
+        :rtype: str
         """
         skp_count = upd_count = ins_count = 0
         for response in responses:
@@ -67,7 +63,6 @@ class FetchHelper(object):
     def __init__(self, bot):
         """
         Helps fetch functions by caching some results.
-        :param bot: The bot instance.
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
@@ -78,9 +73,7 @@ class FetchHelper(object):
     async def get_object_doc(self, variant, oid):
         """
         Grabs an object from the database or cache instance.
-        :param variant: The type of object to grab.
         :type variant: str
-        :param oid: The ID of the object.
         :type oid: int
         :rtype: None or dict
         """
@@ -91,9 +84,7 @@ class FetchHelper(object):
     async def save_object_doc(self, variant, data):
         """
         Checks if an object with the given ID exists in the object storage.
-        :param variant: The type of object to grab.
         :type variant: str
-        :param data: The object storage data
         :type data: dict
         :rtype: int
         """
@@ -115,9 +106,7 @@ class FetchHelper(object):
     async def fetch_user(self, uid):
         """
         Fetches and caches a user.
-        :param uid: The user ID.
         :type uid: int
-        :return:
         :rtype: None or discord.User
         """
         result = None
@@ -129,9 +118,7 @@ class FetchHelper(object):
     async def fetch_channel(self, cid):
         """
         Fetches and caches a user.
-        :param cid: The channel ID.
         :type cid: int
-        :return:
         :rtype: None or discord.TextChannel
         """
         result = None
@@ -145,9 +132,7 @@ class FetchHelper(object):
     async def fetch_guild(self, gid):
         """
         Fetches and caches a user.
-        :param gid: The guild ID.
         :type gid: int
-        :return:
         :rtype: None or discord.Guild
         """
         result = None
@@ -160,7 +145,6 @@ class FetchHelper(object):
     def enum_to_val(enm):
         """
         Converts an enumerable to an integer.
-        :param enm: The enumerable to convert
         :rtype: int
         """
         return enm.value if 'value' in dir(enm) else enm
@@ -169,7 +153,6 @@ class FetchHelper(object):
     def make_user_data(usr):
         """
         Makes a data dict for storage for a user.
-        :param usr: The user to store.
         :type usr: discord.Member or discord.User
         :rtype: dict
         """
@@ -186,9 +169,7 @@ class FetchHelper(object):
     def make_overwrite_data(prms):
         """
         Makes a data dict for storage for a permission overwrite.
-        :param prms: The permissions to process.
         :type prms: dict
-        :return:
         :rtype: list[dict]
         """
         data = []
@@ -207,7 +188,6 @@ class FetchHelper(object):
     def make_channel_data(chn):
         """
         Makes a data dict for storage for a channel.
-        :param chn: The channel to store.
         :type chn: discord.TextChannel
         :rtype: dict
         """
@@ -231,7 +211,6 @@ class FetchHelper(object):
     def make_role_data(rol):
         """
         Makes a data dict for storage for a role.
-        :param rol: The role to store.
         :type rol: discord.Role
         :rtype: dict
         """
@@ -251,7 +230,6 @@ class FetchHelper(object):
     def make_emoji_data(emj):
         """
         Makes a data dict for storage for a custom emoji.
-        :param emj: The emoji to store.
         :type emj: discord.Emoji
         :rtype: dict
         """
@@ -270,7 +248,6 @@ class FetchHelper(object):
     def make_guild_data(gld):
         """
         Makes a data dict for storage for a guild.
-        :param gld: The guild to store.
         :type gld: discord.Guild
         :rtype: dict
         """

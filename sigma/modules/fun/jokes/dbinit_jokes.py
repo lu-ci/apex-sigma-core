@@ -23,8 +23,6 @@ import aiohttp
 
 def clean_entries(entries):
     """
-
-    :param entries:
     :type entries:
     """
     to_remove = []
@@ -39,7 +37,6 @@ async def dbinit_jokes(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param force:
     :type force:
     """
     doc_count = await ev.db[ev.db.db_nam].JokeData.count_documents({})

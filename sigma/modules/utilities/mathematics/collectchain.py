@@ -27,14 +27,9 @@ from sigma.modules.utilities.mathematics.collector_clockwork import check_queued
 
 async def is_blocked(db, target, author):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param target:
     :type target: discord.Member
-    :param author:
     :type author: discord.Member
-    :return:
     :rtype: bool
     """
     if target.id == author.id:
@@ -46,14 +41,9 @@ async def is_blocked(db, target, author):
 
 async def is_blinded(db, channel, author):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param channel:
     :type channel: discord.TextChannel
-    :param author:
     :type author: discord.Member
-    :return:
     :rtype: bool
     """
     if author.permissions_in(channel).manage_channels:

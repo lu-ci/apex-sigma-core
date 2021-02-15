@@ -26,12 +26,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def generate_log_embed(message, target):
     """
-
-    :param message:
     :type message: discord.Message
-    :param target:
     :type target: discord.Member
-    :return:
     :rtype: discord.Embed
     """
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)

@@ -27,10 +27,7 @@ accepted_states = ['dnd', 'idle', 'offline', 'online']
 
 def parse_args(args):
     """
-
-    :param args:
     :type args: list[str]
-    :return:
     :rtype: str, str, int
     """
     state, page = None, 1

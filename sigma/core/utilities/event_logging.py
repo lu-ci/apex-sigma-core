@@ -20,13 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 async def log_event(bot, settings, response, event):
     """
     Logs an event in the set logging channel for the event type.
-    :param bot: The bot instance associated with this event.
     :type bot: sigma.core.sigma.ApexSigma
-    :param settings: The guild settings to fetch settings from.
     :type settings: dict
-    :param response: The log message to send.
     :type response: discord.Embed
-    :param event: The name of the event type.
     :type event: str
     """
     log_channel_id, log_event_active = settings.get(f'{event}_channel'), settings.get(event)

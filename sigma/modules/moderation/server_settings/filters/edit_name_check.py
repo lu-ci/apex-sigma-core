@@ -21,10 +21,7 @@ import string
 
 def is_invalid(name):
     """
-
-    :param name:
     :type name: str
-    :return:
     :rtype: bool
     """
     invalid = False
@@ -37,12 +34,8 @@ def is_invalid(name):
 
 def clean_name(name, default):
     """
-
-    :param name:
     :type name: str
-    :param default:
     :type default: str
-    :return:
     :rtype: str
     """
     end_name = ''

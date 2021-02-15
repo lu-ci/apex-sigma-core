@@ -30,9 +30,7 @@ nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 def get_xp_ammounts(challenges):
     """
     Gets a unique set of XP amounts from the given challenges.
-    :param challenges: The challenges to parse.
     :type challenges: dict
-    :return:
     :rtype: list[str]
     """
     xp_amounts = list(set([c['xpAmount'] for c in challenges]))
@@ -43,11 +41,8 @@ def get_xp_ammounts(challenges):
 def get_challenges(challenges, xp_amounts):
     """
     Sorts challenges based on how much rep they give.
-    :param challenges: The challenges to be sorted.
     :type challenges: dict
-    :param xp_amounts: The XP amounts for each difficulty.
     :type xp_amounts: list[str]
-    :return:
     :rtype: (list, list, list)
     """
     dailies, weeklies, weeklies_hard = [], [], []
@@ -67,9 +62,7 @@ def get_challenges(challenges, xp_amounts):
 def get_offsets(challenges):
     """
     Gets the time offsets for challenge expiry in each category.
-    :param challenges: The challenges to be parsed.
     :type challenges: list[list]
-    :return:
     :rtype: list[str]
     """
     offsets = []
@@ -83,9 +76,7 @@ def get_offsets(challenges):
 def get_descriptions(challenges):
     """
     Gets the description for challenges in each category.
-    :param challenges: The challenges to be parsed.
     :type challenges: list[list]
-    :return:
     :rtype: list[list]
     """
     descriptions = []

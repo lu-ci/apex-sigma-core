@@ -27,8 +27,6 @@ suggestion_reporter_running = False
 
 async def get_suggestion_channel(bot):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
     """
     global suggestion_channel
@@ -52,10 +50,7 @@ async def suggestion_reporter(ev):
 
 def make_suggestion_log_embed(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: discord.Embed
     """
     usr = data.get('user')
@@ -73,12 +68,8 @@ def make_suggestion_log_embed(data):
 
 async def send_suggestion_log_message(bot, sugg_data):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
-    :param sugg_data:
     :type sugg_data: dict
-    :return:
     :rtype: discord.Message
     """
     await get_suggestion_channel(bot)

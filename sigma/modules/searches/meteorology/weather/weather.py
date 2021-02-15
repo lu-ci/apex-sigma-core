@@ -28,10 +28,7 @@ from sigma.modules.searches.meteorology.weather.visual_storage import icons
 
 def get_unit_and_search(args):
     """
-
-    :param args:
     :type args: list[str]
-    :return:
     :rtype: str, str
     """
     if args[-1].startswith('unit'):
@@ -54,12 +51,8 @@ def get_unit_and_search(args):
 
 def get_dis_and_deg(unit, forecast):
     """
-
-    :param unit:
     :type unit: str
-    :param forecast:
     :type forecast: str
-    :return:
     :rtype: str, str
     """
     if unit in ['si', 'ca', 'uk2']:

@@ -25,10 +25,7 @@ end_stamp = start_stamp + 86400
 
 def update_stat(guild_id, stat):
     """
-
-    :param guild_id:
     :type guild_id: int
-    :param stat:
     :type stat: str
     """
     gld_stats = stats.get(guild_id, {})

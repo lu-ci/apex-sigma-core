@@ -40,9 +40,7 @@ class ModuleManager(object):
 
     def __init__(self, bot, init):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
-        :param init: Is this the first module manager initialization.
         :type init: bool
         """
         self.bot = bot
@@ -67,9 +65,7 @@ class ModuleManager(object):
     def clean_path(path):
         """
         Cleans the OS path of a module to a python interpretable one.
-        :param path: The path to the module.
         :type path: str
-        :return:
         :rtype: str
         """
         out = path.replace('/', '.').replace('\\', '.')
@@ -78,9 +74,7 @@ class ModuleManager(object):
     def load_module(self, root, module_data):
         """
         Loads a given modules commands, events, and information.
-        :param root: The module origin path.
         :type root: str
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         if self.init:
@@ -96,11 +90,8 @@ class ModuleManager(object):
     def load_function(self, root, data):
         """
         Loads the defining function to execute of the event or command.
-        :param root: The module origin path.
         :type root: str
-        :param data: Document containing the module's details.
         :type data: dict
-        :return:
         :rtype: function
         """
         module_location = self.clean_path(os.path.join(root, data.get("name")))
@@ -111,7 +102,6 @@ class ModuleManager(object):
     def load_category(self, module_data):
         """
         Loads the category identifier of the module.
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         if module_data.get('category') not in self.categories:
@@ -120,9 +110,7 @@ class ModuleManager(object):
     def load_commands(self, root, module_data):
         """
         Loads the commands within the given module.
-        :param root: The module origin path.
         :type root: str
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         for command_data in module_data.get('commands'):
@@ -132,9 +120,7 @@ class ModuleManager(object):
     def load_events(self, root, module_data):
         """
         Loads the events within the given module.
-        :param root: The module origin path.
         :type root: str
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         for event_data in module_data.get('events'):
@@ -144,11 +130,8 @@ class ModuleManager(object):
     def load_command_executable(self, root, command_data, module_data):
         """
         Loads the command's executable and defining function call.
-        :param root: The command origin path.
         :type root: str
-        :param command_data: Document containing the command's details.
         :type command_data: dict
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         command_data.update({'path': os.path.join(root)})
@@ -162,11 +145,8 @@ class ModuleManager(object):
     def load_event_executable(self, root, event_data, module_data):
         """
         Loads the event's executable and defining function call.
-        :param root: The command origin path.
         :type root: str
-        :param event_data: Document containing the event's details.
         :type event_data: dict
-        :param module_data: Document containing the module's details.
         :type module_data: dict
         """
         event_function = self.load_function(root, event_data)

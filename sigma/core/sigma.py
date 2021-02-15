@@ -128,7 +128,6 @@ class ApexSigma(client_class):
     def init_logger():
         """
         Initializes the core client Logger.
-        :return:
         :rtype: sigma.core.mechanics.logger.Logger
         """
         logger = create_logger('Sigma', shards=init_cfg.dsc.shards)
@@ -153,7 +152,6 @@ class ApexSigma(client_class):
         """
         Initializes the database connection to MongoDB.
         Also pre-caches potentially heavy resources from the DB.
-        :return:
         :rtype: sigma.core.mechanics.database.Database
         """
         self.log.info('Connecting to Database...')
@@ -177,7 +175,6 @@ class ApexSigma(client_class):
     def init_cool_down(self):
         """
         Initializes the core client cooldown handler.
-        :return:
         :rtype: sigma.core.mechanics.cooldown.CooldownControl
         """
         self.log.info('Loading Cool-down Controls...')
@@ -189,7 +186,6 @@ class ApexSigma(client_class):
     def init_music(self):
         """
         Initializes the music handling core.
-        :return:
         :rtype: sigma.core.mechanics.music.MusicCore
         """
         self.log.info('Loading Music Controller...')
@@ -200,9 +196,7 @@ class ApexSigma(client_class):
     def init_modules(self, init=False):
         """
         Loads all modules and within them, commands and events.
-        :param init: Should the initialized modules be logged.
         :type init: bool
-        :return:
         :rtype: sigma.core.mechanics.modman.ModuleManager
         """
         if init:
@@ -214,7 +208,6 @@ class ApexSigma(client_class):
         """
         Check if the bot is ready.
         If for whatever reason the check fails, it is treated as False.
-        :return:
         :rtype: bool
         """
         # noinspection PyBroadException
@@ -227,9 +220,7 @@ class ApexSigma(client_class):
     def get_agent(self, partial=False):
         """
         Gets the current user agent for the client.
-        :param partial: If only the agent itself should be returned.
         :type partial: bool
-        :return:
         :rtype: dict or str
         """
         if not self.is_ready():
@@ -248,13 +239,9 @@ class ApexSigma(client_class):
         """
         Gets a user from the core client
         or from the cache if one exists in the Cacher class.
-        :param uid: The User ID of the requested user.
         :type uid: int
-        :param cached: Should the user be cached/obtained from the cache.
         :type cached: bool
-        :param fetched: Should the guild fetched.
         :type fetched: bool
-        :return:
         :rtype: discord.User
         """
         cacheable = False
@@ -283,13 +270,9 @@ class ApexSigma(client_class):
         """
         Gets a channel from the core client
         or from the cache if one exists in the Cacher class.
-        :param cid: The Channel ID of the requested channel.
         :type cid: int
-        :param cached: Should the channel be cached/obtained from the cache.
         :type cached: bool
-        :param fetched: Should the guild fetched.
         :type fetched: bool
-        :return:
         :rtype: discord.TextChannel or discord.CategoryChannel or discord.VoiceChannel
         """
         cacheable = False
@@ -318,14 +301,9 @@ class ApexSigma(client_class):
         """
         Gets a guild from the core client
         or form teh cache if one exists in the Cacher class.
-        :param gid: The Guild ID of the requested guild.
         :type gid: int
-        :param cached: Should the guild be cached/obtained from the cache.
         :type cached: bool
-        :return:
-        :param fetched: Should the guild fetched.
         :type fetched: bool
-        :return:
         :rtype: discord.Guild
         """
         cacheable = False
@@ -378,7 +356,6 @@ class ApexSigma(client_class):
     async def on_shard_ready(self, shard_id):
         """
         Starts events when the client connects to a shard, if the client is sharded.
-        :param shard_id: The ID of the shard that the connection was established
         :type shard_id: int
         """
         self.log.info(f'Connection to Discord Shard #{shard_id} Established')
@@ -424,7 +401,6 @@ class ApexSigma(client_class):
     async def on_message(self, message):
         """
         Starts events whenver a user sends a message.
-        :param message: The message class of the sent message.
         :type message: discord.Message
         """
         self.message_count += 1
@@ -441,9 +417,7 @@ class ApexSigma(client_class):
         This event triggers only if the message is in the core message cache.
         As the gateway only reports edits by their IDs and not content.
         To catch all edits use the raw event trigger function.
-        :param before: The message as it was before the edit.
         :type before: discord.Message
-        :param after: The message as it is after the edit.
         :type after: discord.Message
         """
         if not after.author.bot:
@@ -455,7 +429,6 @@ class ApexSigma(client_class):
         This event triggers only if the message is in the core message cache.
         As the gateway only reports deletions by their IDs and not content.
         To catch all deletions use the raw event trigger function.
-        :param message: The message class of the deleted message.
         :type message: discord.Message
         """
         if not message.author.bot:
@@ -464,7 +437,6 @@ class ApexSigma(client_class):
     async def on_member_join(self, member):
         """
         Starts events when a user joins a guild.
-        :param member: The member that joined.
         :type member: discord.Member
         """
         if not member.bot:
@@ -473,7 +445,6 @@ class ApexSigma(client_class):
     async def on_member_remove(self, member):
         """
         Starts events when a user leaves, or is removed from, a guild.
-        :param member: The member that left.
         :type member: discord.Member
         """
         if not member.bot:
@@ -484,9 +455,7 @@ class ApexSigma(client_class):
         Starts events when a member is updated.
         This can be various things such as avatar changes,
         playing status message changes, online status changes, etc.
-        :param before: The member before the change.
         :type before: discord.Member
-        :param after: The member after the change.
         :type after: discord.Member
         """
         if not before.bot:
@@ -495,9 +464,7 @@ class ApexSigma(client_class):
     async def on_member_ban(self, guild, user):
         """
         Starts events when a member is banned from a guild.
-        :param guild: The guild on which the member was banned.
         :type guild: discord.Guild
-        :param user: The user that was banned.
         :type user: discord.Member or discord.User
         """
         if not user.bot:
@@ -506,9 +473,7 @@ class ApexSigma(client_class):
     async def on_member_unban(self, guild, user):
         """
         Starts events when a user is removed from a guild's ban list.
-        :param guild: The guild from which the user was unbanned.
         :type guild: discord.Guild
-        :param user: The user that was unbanned.
         :type user: discord.User
         """
         if not user.bot:
@@ -517,7 +482,6 @@ class ApexSigma(client_class):
     async def on_guild_join(self, guild):
         """
         Starts events when this client joins a guild.
-        :param guild: The guild that the client joined.
         :type guild: discord.Guild
         """
         self.loop.create_task(self.queue.event_runner('guild_join', GuildPayload(self, guild)))
@@ -525,7 +489,6 @@ class ApexSigma(client_class):
     async def on_guild_remove(self, guild):
         """
         Starts events when this client leaves, or is removed from, a guild.
-        :param guild: The guild that the client left.
         :type guild: discord.Guild
         """
         self.loop.create_task(self.queue.event_runner('guild_remove', GuildPayload(self, guild)))
@@ -533,9 +496,7 @@ class ApexSigma(client_class):
     async def on_guild_update(self, before, after):
         """
         Starts events when a guild, or a guild settings entry, is updated/changed.
-        :param before: The guild as it was before the change.
         :type before: discord.Guild
-        :param after: The guild as it is after the change.
         :type after: discord.Guild
         """
         self.loop.create_task(self.queue.event_runner('guild_update', GuildUpdatePayload(self, before, after)))
@@ -544,11 +505,8 @@ class ApexSigma(client_class):
         """
         Starts events when a user changes their voice state.
         Such as connecting, disconnecting and moving between channels.
-        :param member: The member that changed their voice state.
         :type member: discord.Member
-        :param before: The member as they were before the change.
         :type before: discord.VoiceState
-        :param after: The member as they are after the change.
         :type after: discord.VoiceState
         """
         if not member.bot:
@@ -559,9 +517,7 @@ class ApexSigma(client_class):
         """
         Starts events when a user adds an emote reaction to a message.
         This event is triggered only if the message that had a reaction removed is cached.
-        :param reaction: The reaction that was added to the message.
         :type reaction: discord.Reaction
-        :param user: The user that added the reaction.
         :type user: discord.User
         """
         if not user.bot:
@@ -574,9 +530,7 @@ class ApexSigma(client_class):
         """
         Starts events when a user removes an emote reaction from a message.
         This event is triggered only if the message that had a reaction removed is cached.
-        :param reaction: The reaction that was removed from the message.
         :type reaction: discord.Reaction
-        :param user: The user that removed the reaction.
         :type user: discord.User
         """
         if not user.bot:
@@ -586,7 +540,6 @@ class ApexSigma(client_class):
     async def on_raw_reaction_add(self, payload):
         """
         Starts events when a user adds an emote reaction to a message regardless of it being cached.
-        :param payload: The raw reaction addition event payload.
         :type payload: discord.RawReactionActionEvent
         """
         if payload.user_id != payload.channel_id:
@@ -598,7 +551,6 @@ class ApexSigma(client_class):
     async def on_raw_reaction_remove(self, payload):
         """
         Starts events when a user removes an emote reaction from a message regardless of it being cached.
-        :param payload: The raw reaction removal event payload.
         :type payload: discord.RawReactionActionEvent
         """
         if payload.user_id != payload.channel_id:

@@ -73,10 +73,7 @@ files = {
 
 def clean(text, author):
     """
-
-    :param text:
     :type text: str
-    :param author:
     :type author: discord.Member
     :return:
     :rtype: str

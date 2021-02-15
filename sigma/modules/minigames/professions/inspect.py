@@ -25,11 +25,8 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 def check_recipe(inv, recipe):
     """
     Checks if a user has a recipe's ingredients in their inventory.
-    :param inv: The user's inventory.
     :type inv: list[dict]
-    :param recipe: The recipe to check.
     :type recipe: SigmaRecipe
-    :return:
     :rtype: str
     """
     ingredients = ''

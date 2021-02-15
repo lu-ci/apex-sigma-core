@@ -27,9 +27,7 @@ recipe_core_cache = None
 async def get_recipe_core(db):
     """
     Gets an instance of the recipe core.
-    :param db: The database handler.
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: RecipeCore
     """
     global recipe_core_cache
@@ -49,7 +47,6 @@ class SigmaRecipe(object):
 
     def __init__(self, core, item_data):
         """
-        :param item_data:
         :type item_data: dict
         """
         self.incomplete = False
@@ -69,7 +66,6 @@ class SigmaRecipe(object):
     def get_price(self):
         """
         Gets the price based on the ingredients.
-        :return:
         :rtype: int
         """
         ingredient_values = []
@@ -110,7 +106,6 @@ class RecipeCore(object):
 
     def __init__(self, db):
         """
-        :param db:
         :type db: sigma.core.mechanics.database.Database
         """
         self.db = db
@@ -121,9 +116,7 @@ class RecipeCore(object):
     def find_recipe(self, name):
         """
         Finds a recipe by the given name.
-        :param name: The name to look for.
         :type name: str
-        :return:
         :rtype: SigmaRecipe
         """
         out = None
@@ -135,8 +128,6 @@ class RecipeCore(object):
 
     async def recipes_from_repo(self):
         """
-
-        :return:
         :rtype: list[dict]
         """
         if not self.manifest_recipes:
@@ -148,8 +139,6 @@ class RecipeCore(object):
 
     async def recipes_from_db(self):
         """
-
-        :return:
         :rtype: list[dict]
         """
         return await self.db[self.db.db_nam].RecipeData.find().to_list(None)

@@ -30,9 +30,7 @@ class Database(motor.AsyncIOMotorClient):
 
     def __init__(self, bot, db_cfg):
         """
-        :param bot: The main client core reference.
         :type bot: sigma.core.sigma.ApexSigma
-        :param db_cfg: The database configuration class.
         :type db_cfg: sigma.core.mechanics.config.DatabaseConfig
         """
         self.bot = bot
@@ -49,9 +47,7 @@ class Database(motor.AsyncIOMotorClient):
     def get_prefix(self, settings):
         """
         Gets the prefix from a command payload.
-        :param settings: The payload settings of the guild.
         :type settings: dict
-        :return:
         :rtype: str
         """
         prefix = self.bot.cfg.pref.prefix
@@ -113,11 +109,8 @@ class Database(motor.AsyncIOMotorClient):
         """
         Gets the settings document for a specified Guild ID
         or a specific setting value for a given settings key.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param setting_name: Requested settings value key.
         :type setting_name: str
-        :return:
         :rtype: bool or int or float or str or list or dict
         """
         guild_settings = await self.cache.get_cache(f'settings_{guild_id}')
@@ -132,11 +125,8 @@ class Database(motor.AsyncIOMotorClient):
     async def set_guild_settings(self, guild_id, setting_name, value):
         """
         Sets a settings entry for the given Guild ID.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param setting_name: The settings value key.
         :type setting_name: str or int
-        :param value: The settings value.
         :type value: bool or int or float or str or list or dict
         """
         guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id})
@@ -156,11 +146,8 @@ class Database(motor.AsyncIOMotorClient):
     async def get_profile(self, user_id, entry_name=None):
         """
         Gets the profile document for the given User ID.
-        :param user_id: The User ID.
         :type user_id: int
-        :param entry_name: The key for the profile value entry.
         :type entry_name: str
-        :return:
         :rtype: bool or int or float or str or list or dict
         """
         user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
@@ -172,11 +159,8 @@ class Database(motor.AsyncIOMotorClient):
     async def set_profile(self, user_id, entry_name, value):
         """
         Sets a user's profile value for the given key.
-        :param user_id: The User ID.
         :type user_id: int
-        :param entry_name: The key for the profile value.
         :type entry_name: str
-        :param value: The value of the entry.
         :type value: bool or int or float or str or list or dict
         """
         user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
@@ -193,9 +177,7 @@ class Database(motor.AsyncIOMotorClient):
     async def is_sabotaged(self, user_id):
         """
         Returns if the user is sabotaged/quarantined or not.
-        :param user_id: The User ID.
         :type user_id: int
-        :return:
         :rtype: bool
         """
         sabbed = bool(await self.get_profile(user_id, 'sabotaged'))
@@ -210,11 +192,8 @@ class Database(motor.AsyncIOMotorClient):
     async def update_resource(self, user_id, resource_name, resource):
         """
         Updates a user's resource document in the database.
-        :param user_id: The User ID.
         :type user_id: int
-        :param resource_name: The name of the resource.
         :type resource_name: str
-        :param resource: The resource abstraction class.
         :type resource: sigma.core.mechanics.resources.SigmaResource
         """
         resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
@@ -229,11 +208,8 @@ class Database(motor.AsyncIOMotorClient):
     async def get_resource(self, user_id, resource_name):
         """
         Returns a resource class for the given user id and resource name.
-        :param user_id: The User ID.
         :type user_id: int
-        :param resource_name: The name of the resource.
         :type resource_name: str
-        :return:
         :rtype: sigma.core.mechanics.resources.SigmaResource
         """
         data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
@@ -243,17 +219,11 @@ class Database(motor.AsyncIOMotorClient):
     async def add_resource(self, user_id, name, amount, trigger, origin=None, ranked=True):
         """
         Increases a user's resource by type.
-        :param user_id: The User ID.
         :type user_id: int
-        :param name: The name of the resource.
         :type name: str
-        :param amount: Amount to modify the value by.
         :type amount: int
-        :param trigger: The function that caused the change.
         :type trigger: str
-        :param origin: The origin of the change.
         :type origin: discord.Message or None
-        :param ranked: If this change counts towards the leaderboard.
         :type ranked: bool
         """
         amount = abs(int(amount))
@@ -264,15 +234,10 @@ class Database(motor.AsyncIOMotorClient):
     async def del_resource(self, user_id, name, amount, trigger, origin=None):
         """
         Decreases a user's resource by type.
-        :param user_id: The User ID.
         :type user_id: int
-        :param name: The name of the resource.
         :type name: str
-        :param amount: Amount to modify the value by.
         :type amount: int
-        :param trigger: The function that caused the change.
         :type trigger: str
-        :param origin: The origin of the change.
         :type origin: discord.Message
         """
         amount = abs(int(amount))
@@ -285,9 +250,7 @@ class Database(motor.AsyncIOMotorClient):
     async def update_inventory(self, user_id, inventory):
         """
         Updates the user's inventory database document.
-        :param user_id: The User ID.
         :type user_id: int
-        :param inventory: The list of all their inventory items.
         :type inventory: list[dict]
         """
         inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
@@ -301,9 +264,7 @@ class Database(motor.AsyncIOMotorClient):
     async def get_inventory(self, user_id):
         """
         Gets a usre's inventory item list.
-        :param user_id: The User ID.
         :type user_id: int
-        :return:
         :rtype: list[dict]
         """
         inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
@@ -313,9 +274,7 @@ class Database(motor.AsyncIOMotorClient):
     async def add_to_inventory(self, user_id, item_data):
         """
         Adds a new entry to a user's inventory.
-        :param user_id: The User ID.
         :type user_id: int
-        :param item_data: The item entry data.
         :type item_data: dict
         """
         stamp = arrow.utcnow().int_timestamp
@@ -327,9 +286,7 @@ class Database(motor.AsyncIOMotorClient):
     async def del_from_inventory(self, user_id, item_id):
         """
         Removes an item from the user's inventory.
-        :param user_id: The User ID.
         :type user_id: int
-        :param item_id: The item's ID.
         :type item_id: str
         """
         inv = await self.get_inventory(user_id)
@@ -341,11 +298,8 @@ class Database(motor.AsyncIOMotorClient):
     async def get_inventory_item(self, user_id, item_file_id):
         """
         Get one specific item from the user's inventory.
-        :param user_id: The User ID.
         :type user_id: int
-        :param item_file_id: The item's ID.
         :type item_file_id: str
-        :return:
         :rtype: dict
         """
         inv = await self.get_inventory(user_id)

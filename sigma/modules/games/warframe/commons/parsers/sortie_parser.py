@@ -28,10 +28,7 @@ sortie_icon = 'https://i.imgur.com/Okg20Uk.png'
 
 async def get_sortie_data(db):
     """
-
-    :param db:
     :type db:sigma.core.mechanics.database.Database
-    :return:
     :rtype: dict, list[str]
     """
     sorties = await WorldState().sorties
@@ -45,10 +42,7 @@ async def get_sortie_data(db):
 
 def generate_sortie_embed(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: discord.Embed
     """
     expiry_dt = arrow.get(data['end']).datetime

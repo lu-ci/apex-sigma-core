@@ -27,9 +27,7 @@ from sigma.core.utilities.data_processing import user_avatar
 def humanize_time(ats):
     """
     Humanizes an arrow time more precisely.
-    :param ats: The arrow time object.
     :type ats: arrow.Arrow
-    :return:
     :rtype: str
     """
     years = ats.humanize(granularity='year')

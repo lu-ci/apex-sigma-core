@@ -23,12 +23,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def get_vc(guild_vcs, lookup):
     """
-
-    :param guild_vcs:
     :type guild_vcs: list[discord.VoiceChannel]
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: discord.VoiceChannel
     """
     if lookup.isdigit():

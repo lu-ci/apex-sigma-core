@@ -24,11 +24,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def get_matching_emote(guild, emote):
     """
     Gets a matching emote from the given guild.
-    :param guild: The guild to search.
     :type guild: discord.Guild
-    :param emote: The full emote string to look for.
     :type emote: str
-    :return:
     :rtype: discord.Emoji
     """
     emote_name = emote.split(':')[1]

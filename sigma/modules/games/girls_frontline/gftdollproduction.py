@@ -30,10 +30,7 @@ gf_color = 0xffcc4d
 
 def get_rarity(elem):
     """
-
-    :param elem:
     :type elem: lxml.html.HtmlElement
-    :return:
     :rtype: int
     """
     rarities = {
@@ -52,8 +49,6 @@ def get_rarity(elem):
 
 def make_doll_data(row):
     """
-
-    :param row:
     :type row:
     """
     prod_time = ':'.join(row[0].text.split(':')[:-1]).strip()

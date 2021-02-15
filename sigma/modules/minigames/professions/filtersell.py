@@ -26,12 +26,8 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 async def sell_item_ids(db, user, items):
     """
-
-    :param db:
     :type db:
-    :param user:
     :type user:
-    :param items:
     :type items:
     """
     inv = await db.get_inventory(user.id)

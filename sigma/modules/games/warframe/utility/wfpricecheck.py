@@ -31,10 +31,7 @@ plat_img = 'http://i.imgur.com/wa6J9bz.png'
 
 async def get_lowest_trader(order_url):
     """
-
-    :param order_url:
     :type order_url:
-    :return:
     :rtype: list[dict]
     """
     async with aiohttp.ClientSession() as session:

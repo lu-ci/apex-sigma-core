@@ -36,10 +36,7 @@ def set_session_info(pld):
 
 def clean_response(text):
     """
-
-    :param text:
     :type text: str
-    :return:
     :rtype: str
     """
     new = text

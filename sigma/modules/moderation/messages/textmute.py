@@ -28,14 +28,9 @@ from sigma.core.utilities.permission_processing import hierarchy_permit
 
 def generate_log_embed(message, target, reason):
     """
-
-    :param message:
     :type message: discord.Message
-    :param target:
     :type target: discord.Member
-    :param reason:
     :type reason: str
-    :return:
     :rtype: discord.Embed
     """
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
@@ -53,16 +48,10 @@ def generate_log_embed(message, target, reason):
 
 async def make_incident(db, gld, ath, trg, reason):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param gld:
     :type gld: discord.Guild
-    :param ath:
     :type ath: discord.Member
-    :param trg:
     :type trg: discord.Member
-    :param reason:
     :type reason: str
     """
     icore = get_incident_core(db)

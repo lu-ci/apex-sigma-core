@@ -24,7 +24,6 @@ async def dbinit_timezones(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param force:
     :type force:
     """
     doc_count = await ev.db[ev.db.db_nam].TimezoneData.count_documents({})

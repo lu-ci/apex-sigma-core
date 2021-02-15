@@ -63,10 +63,7 @@ spots = [RouletteSpot(num) for num in range(0, 37)]
 
 def get_bet(args):
     """
-
-    :param args:
     :type args: list[str]
-    :return:
     :rtype: int
     """
     try:
@@ -78,10 +75,7 @@ def get_bet(args):
 
 def get_selector_and_value(args):
     """
-
-    :param args:
     :type args: list[str]
-    :return:
     :rtype:str, str
     """
     selector_split = [a.strip() for a in args[-1].split(':')]

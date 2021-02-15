@@ -26,10 +26,7 @@ from sigma.core.mechanics.paginator import PaginatorCore
 
 def make_games_dict(guild):
     """
-
-    :param guild:
     :type guild: discord.Guild
-    :return:
     :rtype: dict, int, int
     """
     games = {}

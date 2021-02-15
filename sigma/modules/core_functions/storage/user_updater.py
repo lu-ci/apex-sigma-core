@@ -23,11 +23,8 @@ def has_changed(before, after):
     """
     Checks basic details before trying
      to generate a document or touch the database
-    :param before: The user's previous state.
     :type before: discord.Member
-    :param after: The user's current state.
     :type after: discord.Member
-    :return:
     :rtype: bool
     """
     if before.name == after.name:

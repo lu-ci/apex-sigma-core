@@ -25,10 +25,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def get_average(dislikes, likes):
     """
-
-    :param dislikes: The amount of dislikes the video has.
     :type dislikes: int
-    :param likes: The amount of likes the video has.
     :type likes: int
     :rtype: float
     """

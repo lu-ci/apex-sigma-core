@@ -25,11 +25,8 @@ from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
 async def reset_resource(db, log, res):
     """
     Resets the leaderboards for the specified resource.
-    :param db: The main database instance.
     :type db: sigma.core.mechanics.database.Database
-    :param log: A command or event logger instance.
     :type log: sigma.core.mechanics.logger.Logger
-    :param res: The name of the resource titleized.
     :type res: str
     """
     coll = db[db.db_nam][f'{res}Resource']

@@ -76,7 +76,6 @@ async def create(ev, ch):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param ch: The auto-raffle channel.
     :type ch: discord.TextChannel
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg

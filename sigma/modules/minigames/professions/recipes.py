@@ -30,11 +30,8 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 async def check_requirements(inv, recipe):
     """
     Returns how many requirements are satisfied based on the user's inventory.
-    :param inv: The user's inventory.
     :type inv: list
-    :param recipe: The recipe to process.
     :type recipe: sigma.modules.minigames.professions.nodes.recipe_core.SigmaRecipe
-    :return:
     :rtype: int
     """
     req_satisfied = 0
@@ -52,11 +49,8 @@ async def check_requirements(inv, recipe):
 def choose_recipe(recipe_core, recipe_type):
     """
     Gets the icon and color based on the recipe type.
-    :param recipe_core: An instance of the recipe core.
     :type recipe_core: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore.
-    :param recipe_type: The type of recipe.
     :type recipe_type: str or None
-    :return:
     :rtype: str, int
     """
     recipe_icons = {'dessert': ('🍰', 0xf9f9f9), 'meal': ('🍱', 0xdd2e44), 'drink': ('🍶', 0x55acee)}
@@ -74,9 +68,7 @@ def choose_recipe(recipe_core, recipe_type):
 def get_filter(args):
     """
     Gets the filter based on the command arguments.
-    :param args: The list of command arguments.
     :type args: list[str]
-    :return:
     :rtype: bool, str
     """
     craftable, recipe_type = False, None

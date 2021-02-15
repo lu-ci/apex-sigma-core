@@ -55,9 +55,7 @@ async def unscramblegame(cmd, pld):
         def check_answer(msg):
             """
             Checks if the answer message is correct.
-            :param msg: The message to check.
             :type msg: discord.Message
-            :return:
             :rtype: bool
             """
             if pld.msg.channel.id == msg.channel.id:

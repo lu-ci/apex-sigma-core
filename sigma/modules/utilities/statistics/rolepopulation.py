@@ -26,12 +26,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def percentify(small, big):
     """
-
-    :param small:
     :type small: int
-    :param big:
     :type big: int
-    :return:
     :rtype: int
     """
     prc_flt = small / big

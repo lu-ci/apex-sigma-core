@@ -23,10 +23,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def settings(lookup):
     """
-
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: str
     """
     mode = None

@@ -33,11 +33,8 @@ class ResourceDict(dict):
     def get(self, key, default=None):
         """
         Gets a value by the given key.
-        :param key: The index key of the value.
         :type key: str or int
-        :param default: Optional default value to return if the key doesn't exist.
         :type default: str or int
-        :return:
         :rtype: str or int
         """
         return super().get(str(key), default or 0)
@@ -52,7 +49,6 @@ class ResourceOrigins(object):
 
     def __init__(self, data):
         """
-        :param data: Resource origin data document.
         :type data: dict
         """
         self.raw = data or {}
@@ -64,7 +60,6 @@ class ResourceOrigins(object):
     def to_dict(self):
         """
         Converts the data in this class to a dictionary document.
-        :return:
         :rtype: dict
         """
         return {'users': self.users, 'guilds': self.guilds, 'channels': self.channels, 'functions': self.functions}
@@ -72,9 +67,7 @@ class ResourceOrigins(object):
     def add_trigger(self, trigger, amount):
         """
         Adds trigger information of what caused a resource change.
-        :param trigger: The name of the trigger.
         :type trigger: str
-        :param amount: The amount it caused to change.
         :type amount: int
         """
         trigger_count = self.functions.get(trigger, 0)
@@ -84,11 +77,8 @@ class ResourceOrigins(object):
     def set_attribute(self, origin, amount, key):
         """
         Sets the origin attributes of the change in the resouce.
-        :param origin: The origin of the change.
         :type origin: discord.Message
-        :param amount: The amount that was changed.
         :type amount: int
-        :param key: The origin type storage key.
         :type key: str
         """
         attrib = getattr(self, key)
@@ -101,9 +91,7 @@ class ResourceOrigins(object):
     def add_origin(self, origin, amount):
         """
         Adds origin data for the resource change.
-        :param origin: The message containing origin data.
         :type origin: discord.Message
-        :param amount: The amount that was changed.
         :type amount: int
         """
         for m_key in message_translation.keys():
@@ -126,7 +114,6 @@ class SigmaResource(object):
 
     def __init__(self, data):
         """
-        :param data: Resource data document.
         :type data: dict
         """
         self.raw = data or {}
@@ -143,7 +130,6 @@ class SigmaResource(object):
     def to_dict(self):
         """
         Converts the data in this class to a dictionary document.
-        :return:
         :rtype: dict
         """
         return {
@@ -159,13 +145,9 @@ class SigmaResource(object):
     def add_value(self, amount, trigger, origin, ranked):
         """
         Increases the value of a resource.
-        :param amount: The amount to add to the resource.
         :type amount: int
-        :param trigger: The triggering function for the change.
         :type trigger: str
-        :param origin: The origin data of the change.
         :type origin: discord.Message or None
-        :param ranked: Does this change reflect on the leaderboards.
         :type ranked: bool
         """
         self.current += amount
@@ -179,11 +161,8 @@ class SigmaResource(object):
     def del_value(self, amount, trigger, origin):
         """
         Decreases the value of a resource.
-        :param amount: The amount to remove from the resource.
         :type amount: int
-        :param trigger: The triggering function for the change.
         :type trigger: str
-        :param origin: The origin data of the change.
         :type origin: discord.Message
         """
         self.current -= amount
@@ -193,7 +172,6 @@ class SigmaResource(object):
 
     def reserve(self, amount):
         """
-        :param amount:
         :type amount: int
         """
         self.current -= amount

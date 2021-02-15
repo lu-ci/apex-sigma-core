@@ -28,9 +28,7 @@ lexico_icon = 'https://www.lexico.com/apple-touch-icon.png'
 def scrape_gramb(section):
     """
     Scrapes a GRAMB section for definition data.
-    :param section: The section to parse.
     :type section: lxml.html.HtmlElement
-    :return:
     :rtype: dict
     """
     gramb_type = section[0][0].text
@@ -69,9 +67,7 @@ def scrape_gramb(section):
 def scrape_lexico(page):
     """
     Scrapes the given page for contents.
-    :param page: The HTML contents of the page.
     :type page: str
-    :return:
     :rtype: dict
     """
     root = lx.fromstring(page)

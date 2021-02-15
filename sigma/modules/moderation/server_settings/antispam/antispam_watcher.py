@@ -31,13 +31,9 @@ antispam_cache = TTLCacher(CacheConfig({}))
 async def rate_limited(msg, amt, tsp):
     """
     Chceks if the sent message was subject to rate limiting.
-    :param msg: The message that was sent.
     :type msg: discord.Message
-    :param amt: Maximum amount to send in the timespan.
     :type amt: int
-    :param tsp: The timespan in which the messages are subjecto limitations.
     :type tsp: int
-    :return:
     :rtype: bool
     """
     limit_key = f'{msg.guild.id}_{msg.author.id}'

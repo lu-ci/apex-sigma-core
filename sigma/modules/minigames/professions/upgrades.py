@@ -23,12 +23,8 @@ from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_lis
 
 def calculate_upgrade(up_id, level):
     """
-
-    :param up_id:
     :type up_id: str
-    :param level:
     :type level: int
-    :return:
     :rtype: dict
     """
     up_table = {

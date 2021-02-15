@@ -27,11 +27,8 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 def get_price_mod(base_price, upgrade_level):
     """
     Gets the level-based price modifier of an upgrade.
-    :param base_price: The base price of the upgrade.
     :type base_price: int
-    :param upgrade_level: The wanted level of the upgrade.
     :type upgrade_level:int
-    :return:
     :rtype: int
     """
     return int(base_price * upgrade_level * (1.10 + (0.075 * upgrade_level)))
@@ -40,11 +37,8 @@ def get_price_mod(base_price, upgrade_level):
 def get_price(base_price, upgrade_level):
     """
     Gets the total price of an upgrade based on its level.
-    :param base_price: The base price of the upgrade.
     :type base_price: int
-    :param upgrade_level: The wanted level of the upgrade.
     :type upgrade_level: int
-    :return:
     :rtype: int
     """
     if upgrade_level == 0:
@@ -61,9 +55,7 @@ async def multi_buy(cmd, pld, choice, level):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param choice: The chosen upgrade's data.
     :type choice: dict
-    :param level: The number of upgrade to purchase.
     :type level: int
     """
     currency = cmd.bot.cfg.pref.currency
@@ -97,7 +89,6 @@ async def quick_buy(cmd, pld, choice):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param choice: The chosen upgrade's data.
     :type choice: dict
     """
     currency = cmd.bot.cfg.pref.currency

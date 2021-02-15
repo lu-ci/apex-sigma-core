@@ -32,9 +32,7 @@ def cb_log(ev, init, text):
     Logs a chatterbot core initialization line.
     :param ev: The event object references in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param init: If the training is initializing or runtime.
     :type init: boot
-    :param text: The text to log.
     :type text: str
     """
     if init:
@@ -45,9 +43,7 @@ def train(ev, core, init=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param core: The chatterbot core class.
     :type core: aiml.Kernel
-    :param init: If the training is initializing or runtime.
     :type init: bool
     """
     cb_log(ev, init, 'Learning generic AIML interactions...')

@@ -27,10 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def sync_spouses(spouses, user_id):
     """
-
-    :param spouses:
     :type spouses: list[dict]
-    :param user_id:
     :type user_id: int
     """
     for spouse in spouses:

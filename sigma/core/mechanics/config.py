@@ -48,7 +48,6 @@ class ModuleConfig(dict):
     def load(self, data):
         """
         Loads or overwrites the current module config settings.
-        :param data: Data to overwrite or set the configs current data.
         :type data: dict
         """
         self.data = data if data is not None else {}
@@ -66,7 +65,6 @@ class DiscordConfig(object):
 
     def __init__(self, client_cfg_data):
         """
-        :param client_cfg_data: Client configuration data.
         :type client_cfg_data: dict
         """
         self.raw = client_cfg_data
@@ -94,7 +92,6 @@ class DatabaseConfig(object):
 
     def __init__(self, db_cfg_data):
         """
-        :param db_cfg_data: Database configuration data.
         :type db_cfg_data: dict
         """
         self.raw = db_cfg_data
@@ -119,7 +116,6 @@ class PreferencesConfig(object):
 
     def __init__(self, pref_cfg_data):
         """
-        :param pref_cfg_data: Preference configuration data.
         :type pref_cfg_data: dict
         """
         self.raw = pref_cfg_data
@@ -149,7 +145,6 @@ class CacheConfig(object):
 
     def __init__(self, cache_cfg_data):
         """
-        :param cache_cfg_data: Cache configuration data.
         :type cache_cfg_data: dict
         """
         self.raw = cache_cfg_data

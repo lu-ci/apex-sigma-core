@@ -27,10 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def store_image(im):
     """
-
-    :param im:
     :type im: Image
-    :return:
     :rtype: io.BytesIO
     """
     io = BytesIO()
@@ -41,10 +38,7 @@ def store_image(im):
 
 def get_color_tuple(args):
     """
-
-    :param args:
     :type args: list[str]
-    :return:
     :rtype: tuple
     """
     color_tuple = None

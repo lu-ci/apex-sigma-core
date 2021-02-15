@@ -31,7 +31,6 @@ class ExecutionClockwork(object):
 
     def __init__(self, bot):
         """
-        :param bot: The main client core class instance.
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
@@ -46,11 +45,8 @@ class ExecutionClockwork(object):
     async def get_cmd_and_args(pfx, args):
         """
         Gets the command name and arguments from a message.
-        :param pfx: The command prefix.
         :type pfx: str
-        :param args: All arguments in the message content.
         :type args: list[str]
-        :return:
         :rtype: (str, list[str])
         """
         args = list(filter(lambda a: a != '', args))
@@ -80,9 +76,7 @@ class ExecutionClockwork(object):
     def get_stats_storage(self, event):
         """
         Gets the statistics handler for the given event.
-        :param event: The name of the event.
         :type event: str
-        :return:
         :rtype: sigma.core.mechanics.statistics.StatisticsStorage
         """
         stats_handler = self.stats.get(event)
@@ -94,7 +88,6 @@ class ExecutionClockwork(object):
     async def event_runner(self, event_name, pld=None):
         """
         Function in charge of getting events ready for the queue.
-        :param event_name: The name of the event.
         :type event_name: str
         :param pld: The payload data of the event.
         :type pld: sigma.core.mechanics.payload.SigmaPayload

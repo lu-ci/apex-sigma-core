@@ -31,9 +31,7 @@ def shorten_sentences(text):
     """
     Transforms a multiline string into a single
     line string of a specified length.
-    :param text: The text to parse.
     :type text: str
-    :return:
     :rtype: str
     """
     sentences = text.replace('\n', ' ')
@@ -45,9 +43,7 @@ def shorten_sentences(text):
 def get_exact_results(search_data):
     """
     Gets the first exact result from the api response.
-    :param search_data: The api response to parse
     :type search_data: list
-    :return:
     :rtype: str, str
     """
     exact_result = None

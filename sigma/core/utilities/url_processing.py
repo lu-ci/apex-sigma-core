@@ -24,11 +24,8 @@ import aiohttp
 async def aioget(url, as_json=False):
     """
     Asynchronously fetches a URL.
-    :param url: The URL to fetch.
     :type url: str
-    :param as_json: Whether or not to parse the response into JSON.
     :type as_json: bool
-    :return:
     :rtype: str or dict
     """
     async with aiohttp.ClientSession() as aio_client:

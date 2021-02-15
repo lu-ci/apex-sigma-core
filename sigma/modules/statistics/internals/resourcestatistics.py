@@ -27,10 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def sort_transfers(dict_like):
     """
-
-    :param dict_like:
     :type dict_like: sigma.core.mechanics.resources.ResourceDict
-    :return:
     :rtype: list[int]
     """
     sortable = []
@@ -43,12 +40,8 @@ def sort_transfers(dict_like):
 
 async def describe_transfers(trans_list, getter):
     """
-
-    :param trans_list:
     :type trans_list: list[int]
-    :param getter:
     :type getter: ambiguous discord.Client method
-    :return:
     :rtype: list
     """
     described = []
@@ -66,12 +59,8 @@ async def describe_transfers(trans_list, getter):
 
 async def get_top_transfers(bot, pool):
     """
-
-    :param bot:The core client class.
     :type bot: sigma.core.sigma.ApexSigma
-    :param pool:
     :type pool: sigma.core.mechanics.resources.ResourceOrigins
-    :return:
     :rtype: list[list, list, list, list]
     """
     user_pool = sort_transfers(pool.users)
@@ -86,18 +75,11 @@ async def get_top_transfers(bot, pool):
 
 async def make_response(bot, pool, target, res_nam, expense):
     """
-
-    :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma
-    :param pool:
     :type pool: sigma.core.mechanics.resources.ResourceOrigins
-    :param target:
     :type target: discord.Member
-    :param res_nam:
     :type res_nam: str
-    :param expense:
     :type expense: bool
-    :return:
     :rtype: discord.Embed
     """
     user_desc, guild_desc, channel_desc, function_desc = await get_top_transfers(bot, pool)

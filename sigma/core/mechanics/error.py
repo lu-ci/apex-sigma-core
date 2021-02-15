@@ -33,7 +33,6 @@ class SigmaError(object):
         """
         :param cmd: The command instance generating the error.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
-        :param exc: The exception to process.
         :type exc: Exception
         """
         self.args = []
@@ -83,9 +82,7 @@ class SigmaError(object):
         """
         Constructs the dict data of the error
         to be stored in the database.
-        :param message:
         :type message: discord.Message
-        :return:
         :rtype: dict
         """
         gld = message.guild
@@ -127,9 +124,7 @@ class SigmaError(object):
         """
         Constructs the embed with the error's details
         to report back to the owner's error log channel.
-        :param error_file: Dict data with error details.
         :type error_file: dict
-        :return:
         :rtype: discord.Embed, str
         """
         response = discord.Embed(color=0xBE1931, title=f'🚨 Error: `{error_file["token"]}`')
@@ -152,9 +147,7 @@ class SigmaError(object):
         """
         Generates a message to show to the users
         that were affected by the command breaking.
-        :param settings: The guild's settings.
         :type settings: dict
-        :return:
         :rtype: str, str
         """
         prefix = self.cmd.db.get_prefix(settings)

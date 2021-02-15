@@ -28,16 +28,10 @@ accepted_logs = [lk.lower()[4:-8] for lk in log_keys]
 
 async def set_log_channels(log_ords, gld_id, chn, db):
     """
-
-    :param log_ords:
     :type log_ords: list[str]
-    :param gld_id:
     :type gld_id: int
-    :param chn:
     :type chn: discord.Channel
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: list[str]
     """
     results = []

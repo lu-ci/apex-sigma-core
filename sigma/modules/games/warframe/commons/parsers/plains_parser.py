@@ -25,10 +25,7 @@ import discord
 
 async def get_plains_data(db):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: dict, list[str]
     """
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
@@ -63,10 +60,7 @@ async def get_plains_data(db):
 
 def generate_plains_embed(poedat):
     """
-
-    :param poedat:
     :type poedat: dict
-    :return:
     :rtype: discord.Embed
     """
     if poedat.get('day'):

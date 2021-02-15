@@ -72,10 +72,7 @@ participant_icons = ['🐶', '🐱', '🐭', '🐰', '🐙', '🐠', '🦊', '�
 
 def make_race(channel_id, buyin):
     """
-
-    :param channel_id:
     :type channel_id:
-    :param buyin:
     :type buyin:
     """
     icon_copy = copy.deepcopy(participant_icons)
@@ -89,11 +86,8 @@ def make_race(channel_id, buyin):
 
 def add_participant(channel_id, user):
     """
-    :param channel_id:
     :type channel_id: int
-    :param user:
     :type user: discord.Member
-    :return:
     :rtype: str
     """
     if channel_id in races:

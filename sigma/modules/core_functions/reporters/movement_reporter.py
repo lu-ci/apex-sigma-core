@@ -27,8 +27,6 @@ movement_reporter_running = False
 
 async def get_movement_channel(bot):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
     """
     global movement_channel
@@ -52,10 +50,7 @@ async def movement_reporter(ev):
 
 def make_movement_log_embed(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: discord.Embed
     """
     joined = data.get('join')
@@ -83,10 +78,7 @@ def make_movement_log_embed(data):
 
 async def send_movement_log_message(bot, move_data):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
-    :param move_data:
     :type move_data: dict
     """
     await get_movement_channel(bot)

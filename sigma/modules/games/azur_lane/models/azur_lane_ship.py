@@ -69,7 +69,6 @@ class ShipStats(object):
 
     def __init__(self, data=None):
         """
-        :param data: Ship statistics data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -91,7 +90,6 @@ class ShipStats(object):
     def average(self):
         """
         Returns the average value of all ship stats.
-        :return:
         :rtype: float
         """
         stat_attrs = [
@@ -108,7 +106,6 @@ class ShipStats(object):
     def from_tabber(self, tabber):
         """
         Parses a single tabber instance to get stats from.
-        :param tabber: A tabbed table element.
         :type tabber: lxml.html.HtmlElement
         """
         table = tabber[1][0]
@@ -143,7 +140,6 @@ class ShipStats(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -171,7 +167,6 @@ class ShipStatsByRetrofit(object):
 
     def __init__(self, data=None):
         """
-        :param data: Ship statistics data by retrofit mode.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -181,7 +176,6 @@ class ShipStatsByRetrofit(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -198,7 +192,6 @@ class ShipStatsByLevel(object):
 
     def __init__(self, data=None):
         """
-        :param data: Ship statistics data by level.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -209,9 +202,7 @@ class ShipStatsByLevel(object):
     def describe(self, awoken=False):
         """
         Returns a text block meant for embed information.
-        :param awoken: Is the function describing a retrofit.
         :type awoken: bool
-        :return:
         :rtype: str
         """
         out_proto = [
@@ -243,7 +234,6 @@ class ShipStatsByLevel(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -261,7 +251,6 @@ class ShipSkin(object):
 
     def __init__(self, data=None):
         """
-        :param data: Ship skin data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -271,7 +260,6 @@ class ShipSkin(object):
     def from_tabber(self, tabber):
         """
         Parses a single tabber instance to get the skin.
-        :param tabber: A tabbed table element.
         :type tabber: lxml.html.HtmlElement
         """
         self.name = tabber.attrib.get('title')
@@ -286,7 +274,6 @@ class ShipSkin(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -304,7 +291,6 @@ class ShipImages(object):
 
     def __init__(self, data=None):
         """
-        :param data: Ship image data and lists.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -316,9 +302,7 @@ class ShipImages(object):
     def get_skin(self, lookup):
         """
         Gets a skin based on the lookup query.
-        :param lookup: What to search for.
         :type lookup: str
-        :return:
         :rtype: sigma.modules.games.azur_lane.models.azur_lane_ship.ShipSkin
         """
         out = None
@@ -336,7 +320,6 @@ class ShipImages(object):
     def from_etree(self, page):
         """
         Parses the ship's images from an LXML-parsed page.
-        :param page: The LXML etree page to parse.
         :type page: lxml.html.Etree
         """
         url_base = 'https://azurlane.koumakan.jp'
@@ -359,7 +342,6 @@ class ShipImages(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -378,7 +360,6 @@ class ShipLimitBreakContainer(object):
 
     def __init__(self, data=None, is_skills=False):
         """
-        :param data: The limit break data to contain.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -395,7 +376,6 @@ class ShipLimitBreakContainer(object):
     def to_list(self):
         """
         Turns the data in this class into a list.
-        :return:
         :rtype: list[ShipSkill]
         """
         return [skill for skill in [self.first, self.second, self.third] if skill.type is not None]
@@ -403,7 +383,6 @@ class ShipLimitBreakContainer(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         if not self.is_skills:
@@ -429,7 +408,6 @@ class ShipEquipment(object):
 
     def __init__(self, data=None):
         """
-        :param data: The ship equipment data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -440,7 +418,6 @@ class ShipEquipment(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -458,7 +435,6 @@ class ShipSkill(object):
 
     def __init__(self, data=None):
         """
-        :param data: The ship skill data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -469,7 +445,6 @@ class ShipSkill(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -487,7 +462,6 @@ class ShipConstruction(object):
 
     def __init__(self, data=None):
         """
-        :param data: The ship construction data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -502,7 +476,6 @@ class ShipConstruction(object):
     def from_table(self, table):
         """
         Parses a ship's construction info from a table.
-        :param table: A table to parse.
         :type table: lxml.html.HtmlElement
         """
         const_nest = {0: 'light', 1: 'heavy', 2: 'special', 3: 'limited', 4: 'exchange'}
@@ -525,7 +498,6 @@ class ShipConstruction(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -547,7 +519,6 @@ class ShipDropMission(object):
 
     def __init__(self, data=None):
         """
-        :param data: Data on where the ship can drop.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -559,7 +530,6 @@ class ShipDropMission(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -578,7 +548,6 @@ class ShipAcquisition(object):
 
     def __init__(self, data=None):
         """
-        :param data: The ship acquisition data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -589,7 +558,6 @@ class ShipAcquisition(object):
     def from_table(self, table):
         """
         Parses a ship's acquisition info from a table.
-        :param table: A table to parse.
         :type table: lxml.html.HtmlElement
         """
         self.construction.from_table(table)
@@ -625,7 +593,6 @@ class ShipAcquisition(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -643,7 +610,6 @@ class ShipQuote(object):
 
     def __init__(self, data=None):
         """
-        :param data: The ship acquisition data.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -656,7 +622,6 @@ class ShipQuote(object):
     def from_row(self, row):
         """
         Parses quote data from a table row.
-        :param row: A table row.
         :type row: lxml.html.HtmlElement
         """
         self.file = row[1][0].attrib.get('href') if len(row[1]) else None
@@ -671,7 +636,6 @@ class ShipQuote(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -696,7 +660,6 @@ class AzurLaneShip(object):
 
     def __init__(self, data=None):
         """
-        :param data: The entire ship's data document.
         :type data: dict
         """
         self.raw = data if data is not None else {}
@@ -721,7 +684,6 @@ class AzurLaneShip(object):
     def to_dict(self):
         """
         Turns the data in this class into a dictionary.
-        :return:
         :rtype: dict
         """
         return {
@@ -744,7 +706,6 @@ class AzurLaneShip(object):
     def from_tabbers(self, tabbers):
         """
         Parses ship details from a list of tabbed tables.
-        :param tabbers: A list of tabbed table elements.
         :type tabbers: list[lxml.html.HtmlElement]
         """
         sub_coords = {
@@ -769,7 +730,6 @@ class AzurLaneShip(object):
     def from_tables(self, tables):
         """
         Parses a ship's detailed information from table entries.
-        :param tables: A list of tables to parse.
         :type tables: list[lxml.html.HtmlElement]
         """
         for table in tables:
@@ -837,8 +797,6 @@ class AzurLaneShip(object):
 
     async def save(self, db):
         """
-
-        :param db: The database handler reference.
         :type db: sigma.core.mechanics.database.Database
         """
         al_coll = db[db.db_nam].AzurLaneShips
@@ -852,11 +810,8 @@ class AzurLaneShip(object):
 async def get_ship(db, lookup):
     """
     Gets a ship from the given lookup criteria.
-    :param db: The database handler reference.
     :type db: sigma.core.mechanics.database.Database
-    :param lookup: What to search for.
     :type lookup: str
-    :return:
     :rtype: dict
     """
     ship = await db[db.db_nam].AzurLaneShips.find_one({'id': lookup})

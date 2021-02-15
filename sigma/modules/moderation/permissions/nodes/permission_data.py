@@ -19,10 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 def generate_default_data(message):
     """
-
-    :param message:
     :type message: discord.Message
-    :return:
     :rtype: dict
     """
     return {
@@ -34,10 +31,7 @@ def generate_default_data(message):
 
 def generate_cmd_data(cmd_name):
     """
-
-    :param cmd_name:
     :type cmd_name: str
-    :return:
     :rtype: dict
     """
     return {cmd_name: {'users': [], 'channels': [], 'roles': []}}
@@ -45,12 +39,8 @@ def generate_cmd_data(cmd_name):
 
 async def get_all_perms(db, message):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param message:
     :type message: discord.Message
-    :return:
     :rtype: dict
     """
     perms = await db[db.db_nam].Permissions.find_one({'server_id': message.guild.id})

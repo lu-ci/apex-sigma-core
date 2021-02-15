@@ -25,10 +25,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def make_kanji_dict(kanji_page):
     """
-
-    :param kanji_page:
     :type kanji_page: lxml.html.HtmlElement
-    :return:
     :rtype: dict
     """
     stroke_source = kanji_page.cssselect('.stroke_diagram img')[0].attrib.get('src')
@@ -45,10 +42,7 @@ def make_kanji_dict(kanji_page):
 
 def parse_radical_data(kanji_data, kanji_page):
     """
-
-    :param kanji_data:
     :type kanji_data: dict
-    :param kanji_page:
     :type kanji_page: lxml.html.HtmlElement
     """
     # Expected HTML structure
@@ -79,10 +73,7 @@ def parse_radical_data(kanji_data, kanji_page):
 
 def parse_readings_data(kanji_data, kanji_page):
     """
-
-    :param kanji_data:
     :type kanji_data: dict
-    :param kanji_page:
     :type kanji_page: lxml.html.HtmlElement
     """
     type_cache = ''
@@ -108,10 +99,7 @@ def parse_readings_data(kanji_data, kanji_page):
 
 def parse_meanings_data(kanji_data, kanji_page):
     """
-
-    :param kanji_data:
     :type kanji_data: dict
-    :param kanji_page:
     :type kanji_page: lxml.html.HtmlElement
     """
     meanings = kanji_page.cssselect('.meanings .english_meanings p')[0]
@@ -125,10 +113,7 @@ def parse_meanings_data(kanji_data, kanji_page):
 
 def clean_readings_data(kanji_dict):
     """
-
-    :param kanji_dict:
     :type kanji_dict: dict
-    :return:
     :rtype: dict
     """
     readings = kanji_dict['readings']

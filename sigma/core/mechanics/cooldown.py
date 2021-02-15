@@ -41,9 +41,7 @@ class CommandRateLimiter(object):
     def is_cooling(self, message):
         """
         Check if the command is on cooldown or not.
-        :param message: The message that triggered the command.
         :type message: discord.Message
-        :return:
         :rtype: bool
         """
         timeout = self.cmd.bot.cool_down.get_scaled(message.author.id, 1.25)
@@ -54,7 +52,6 @@ class CommandRateLimiter(object):
     def set_cooling(self, message):
         """
         Set the command to be on cooldown.
-        :param message: The message that triggered the command.
         :type message: discord.Message
         """
         if message.author.id not in self.cmd.bot.cfg.dsc.owners:
@@ -68,7 +65,6 @@ class CooldownControl(object):
 
     def __init__(self, bot):
         """
-        :param bot: The main client core.
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
@@ -81,9 +77,7 @@ class CooldownControl(object):
         Checks if the function for the given user is still on cooldown or not.
         :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
-        :param user: The user that the cooldown is bound to.
         :type user: discord.User or str
-        :return:
         :rtype: bool
         """
         if isinstance(user, str):
@@ -107,9 +101,8 @@ class CooldownControl(object):
         Gets the amount of time remaining for the cooldown to expire.
         :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
-        :param user: The user that the cooldown is bound to.
         :type user: discord.User or str
-        :return: int
+        :rtype: int
         """
         if isinstance(user, str):
             cd_name = f'cd_{cmd}_{user}'
@@ -136,9 +129,7 @@ class CooldownControl(object):
         Sets the function's appropriate cooldown for the given user.
         :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
-        :param user: The user that the cooldown is bound to.
         :type user: discord.User or str
-        :param amount: The cooldown time in seconds.
         :type amount: int
         """
         if isinstance(user, str):
@@ -165,13 +156,9 @@ class CooldownControl(object):
     def get_scaled(self, uid, base, multiplier=5):
         """
         Scales a cooldown amount based on incrementing usage.
-        :param uid: User ID of the invoking user.
         :type uid: int
-        :param base: Base cooldown amount to scale.
         :type base: int or float
-        :param multiplier: Maximum capped cooldown multiplier.
         :type multiplier: int or float
-        :return:
         :rtype: int
         """
         last_entry = self.scaling.get(uid, {})

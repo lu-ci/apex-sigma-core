@@ -22,11 +22,8 @@ import discord
 def user_has_role(role, user_roles):
     """
     Checks if a user has a specific role.
-    :param role: The role to check.
     :type role: discord.Role
-    :param user_roles: A list of the user's roles.
     :type user_roles: list[discord.Role]
-    :return:
     :rtype: bool
     """
     has = False
@@ -40,11 +37,8 @@ def user_has_role(role, user_roles):
 async def check_emotes(bot, msg, togglers):
     """
     Ensures only the correct reactions are present on the message.
-    :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message to process.
     :type msg: discord.Message
-    :param togglers: A dict of emote:role_id pairs.
     :type togglers: dict
     """
     bid = bot.user.id

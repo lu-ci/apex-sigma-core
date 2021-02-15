@@ -28,9 +28,7 @@ def get_incident_core(db):
     """
     Grabs a cached incident core
     so it isn't initialized every time it's needed.
-    :param db: The core database instance.
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: sigma.core.mechanics.incident.IncidentCore
     """
     global incident_core_cache
@@ -48,7 +46,6 @@ class IncidentUser(object):
 
     def __init__(self, entity=None):
         """
-        :param entity: User data storage.
         :type entity: dict or discord.Member or discord.User
         """
         self.entity = entity
@@ -64,7 +61,6 @@ class IncidentUser(object):
     def from_user(self, user):
         """
         Parses data from a discord user object.
-        :param user: The user to parse the data from.
         :type user: discord.Member or discord.User
         """
         self.id = user.id
@@ -74,7 +70,6 @@ class IncidentUser(object):
     def from_dict(self, data):
         """
         Parses data from a dict document.
-        :param data: The dict to grab the data from.
         :type data: dict
         """
         self.id = data.get('id')
@@ -84,9 +79,7 @@ class IncidentUser(object):
     def to_text(self, in_embed=True):
         """
         Mames a text block of the user's information.
-        :param in_embed: Is this in an embed message response or log line.
         :type in_embed: bool
-        :return:
         :rtype: str
         """
         if in_embed:
@@ -98,7 +91,6 @@ class IncidentUser(object):
     def to_dict(self):
         """
         Converts all data to a dict document.
-        :return:
         :rtype: dict
         """
         return {'id': self.id, 'name': self.name, 'discriminator': self.discriminator}
@@ -111,7 +103,6 @@ class IncidentLocation(object):
 
     def __init__(self, entity=None):
         """
-        :param entity: The entity to get the location data from.
         :type entity: dict or discord.TextChannel or discord.Guild
         """
         self.entity = entity
@@ -127,7 +118,6 @@ class IncidentLocation(object):
     def from_obj(self, obj):
         """
         Parses the location data from an object.
-        :param obj: The object from which to get the data from.
         :type obj: discord.TextChannel or discord.Guild
         """
         self.id = obj.id
@@ -140,7 +130,6 @@ class IncidentLocation(object):
     def from_dict(self, data):
         """
         Parses the location data from a dict document.
-        :param data: Dict data to parse for the class.
         :type data: dict
         """
         self.id = data.get('id')
@@ -149,9 +138,7 @@ class IncidentLocation(object):
     def to_text(self, in_embed=True):
         """
         Mames a text block of the location information.
-        :param in_embed: Is this in an embed message response or log line.
         :type in_embed: bool
-        :return:
         :rtype: str
         """
         name_piece = f'#{self.name}' if self.variant == 'channel' else self.name
@@ -166,7 +153,6 @@ class IncidentLocation(object):
     def to_dict(self):
         """
         Converts all data to a dict document.
-        :return:
         :rtype: dict
         """
         return {'id': self.id, 'name': self.name}
@@ -180,7 +166,6 @@ class Incident(object):
 
     def __init__(self, data=None):
         """
-        :param data: The incident data to parse into the class.
         :type data: dict
         """
         self.data = data if data is not None else {}
@@ -199,9 +184,7 @@ class Incident(object):
     def last_edited(self, formatted=False):
         """
         Gets the last edited timestamp.
-        :param formatted: Should the timestamp be formatted into a human readable format.
         :type formatted: bool
-        :return:
         :rtype: int or float or str
         """
         last_edit_stamp = None
@@ -218,7 +201,6 @@ class Incident(object):
     def set_moderator(self, user):
         """
         Sets the moderator in charge of the generated incident.
-        :param user: The moderator's user object.
         :type user: discord.Member or discord.User
         """
         self.moderator = IncidentUser(user)
@@ -226,7 +208,6 @@ class Incident(object):
     def set_target(self, user):
         """
         Sets the affected target of the incident event.
-        :param user: The target's user object.
         :type user: discord.Member or discord.User
         """
         self.target = IncidentUser(user)
@@ -234,7 +215,6 @@ class Incident(object):
     def set_location(self, location):
         """
         Sets the location in which the event was triggered.
-        :param location: The location's object.
         :type location: discord.TextChannel or discord.Guild
         """
         if isinstance(location, discord.TextChannel):
@@ -246,7 +226,6 @@ class Incident(object):
     def set_reason(self, text):
         """
         Sets the reason/description of the incident.
-        :param text: The reason text contents.
         :type text: str
         """
         self.reason = text
@@ -255,9 +234,7 @@ class Incident(object):
         """
         Edits the incident reason/description
         and stores the user who edited it.
-        :param user: The user that edited the description.
         :type user: discord.Member or discord.User
-        :param reason: The new reason text contents.
         :type reason: str
         """
         previous = self.to_dict()
@@ -270,7 +247,6 @@ class Incident(object):
     def to_dict(self):
         """
         Converts the incident data class to a dictionary document.
-        :return:
         :rtype: dict
         """
         return {
@@ -284,7 +260,6 @@ class Incident(object):
     def to_text(self):
         """
         Describes the incident in a textual form.
-        :return:
         :rtype: str
         """
         if all(self.data.get('moderator').values()):
@@ -310,11 +285,8 @@ class Incident(object):
     def to_embed(self, icon, color):
         """
         Describes the incident in a discord embed.
-        :param icon: The icon to use for the incident.
         :type icon: str
-        :param color: The color to use for the incident embed strip.
         :type color: int
-        :return:
         :rtype: discord.Embed
         """
         incident_title = f'{self.variant.title()} incident recorded.'
@@ -341,13 +313,9 @@ class IncidentCore(object):
         """
         Gets a single incident from a guild's document
         storage based on the incident identifier key and value.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param identifier: The lookup identifier key.
         :type identifier: str
-        :param value: The value of the lookup identifier.
         :type value: str or int
-        :return:
         :rtype: sigma.core.mechanics.incident.Incident
         """
         incident = None
@@ -360,11 +328,8 @@ class IncidentCore(object):
     async def get_by_token(self, guild_id, token):
         """
         Gets an incident document by the unique incident token.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param token: The unique indicent token.
         :type token: str
-        :return:
         :rtype: sigma.core.mechanics.incident.Incident
         """
         return await self.get(guild_id, 'id', token)
@@ -373,11 +338,8 @@ class IncidentCore(object):
         """
         Gets an incident document by the incrementing order
         that the incident document was generated with.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param order: The sequential index of the generated index.
         :type order: int
-        :return:
         :rtype: sigma.core.mechanics.incident.Incident
         """
         return await self.get(guild_id, 'order', order)
@@ -385,13 +347,9 @@ class IncidentCore(object):
     async def get_all(self, guild_id, identifier=None, identifier_id=None):
         """
         Gets all incidents with the given criteria.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param identifier: The identifier lookup key.
         :type identifier: int or str
-        :param identifier_id: The identifier lookup value.
         :type identifier_id: int or str
-        :return:
         :rtype: list[sigma.core.mechanics.incident.Incident]
         """
         incidents = []
@@ -405,11 +363,8 @@ class IncidentCore(object):
     async def get_all_by_variant(self, guild_id, variant):
         """
         Gets a list of all incidents by incident variant.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param variant: The incident variant identifier.
         :type variant: str
-        :return:
         :rtype: list[sigma.core.mechanics.incident.Incident]
         """
         return await self.get_all(guild_id, 'variant', variant)
@@ -417,11 +372,8 @@ class IncidentCore(object):
     async def get_all_by_mod(self, guild_id, mod_id):
         """
         Gets a list of all incidents by the incident's moderator.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param mod_id: The moderator's User ID.
         :type mod_id: int
-        :return:
         :rtype: list[sigma.core.mechanics.incident.Incident]
         """
         return await self.get_all(guild_id, 'moderator.id', mod_id)
@@ -429,11 +381,8 @@ class IncidentCore(object):
     async def get_all_by_target(self, guild_id, target_id):
         """
         Gets a list of all incidents by the incident's target user.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :param target_id: The target's User ID.
         :type target_id: int
-        :return:
         :rtype: list[sigma.core.mechanics.incident.Incident]
         """
         return await self.get_all(guild_id, 'target.id', target_id)
@@ -441,9 +390,7 @@ class IncidentCore(object):
     async def count_incidents(self, guild_id):
         """
         Counts all incidents for the given guild.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :return:
         :rtype: int
         """
         return await self.coll.count_documents({'guild.id': guild_id})
@@ -452,9 +399,7 @@ class IncidentCore(object):
     def generate(variant):
         """
         Generates an incident class with basic data.
-        :param variant: The incident's variant/type.
         :type variant: str
-        :return:
         :rtype: sigma.core.mechanics.incident.Incident
         """
         return Incident({
@@ -466,7 +411,6 @@ class IncidentCore(object):
     async def save(self, incident):
         """
         Saves the data from an incident class to the database.
-        :param incident: The incident to save.
         :type incident: sigma.core.mechanics.incident.Incident
         """
         lookup = {'id': incident.id, 'guild.id': incident.guild.id}
@@ -480,9 +424,7 @@ class IncidentCore(object):
     async def report(self, guild, incident_embed):
         """
         Reports the incident's contents to the guild's incident channel.
-        :param guild: The guild that the incident happened in.
         :type guild: discord.Guild
-        :param incident_embed: The incident embed to send to the guild's incident channel.
         :type incident_embed: discord.Embed
         """
         incident_channel_id = await self.db.get_guild_settings(guild.id, 'log_incidents_channel')

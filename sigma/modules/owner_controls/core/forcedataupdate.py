@@ -23,12 +23,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def make_bar(completed, total):
     """
-
-    :param completed:
     :type completed: int
-    :param total:
     :type total: int
-    :return:
     :rtype: str
     """
     try:

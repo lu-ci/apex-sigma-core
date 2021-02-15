@@ -29,9 +29,7 @@ funcs_src = 'https://www.cognitiveprocesses.com/Cognitive-Functions'
 def make_paragraph(items):
     """
     Creates a paragraph from a dict.
-    :param items: The dict to process.
     :type items: dict
-    :return:
     :rtype: str
     """
     pieces = []

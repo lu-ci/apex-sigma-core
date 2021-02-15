@@ -28,7 +28,6 @@ class CommandRequirements(object):
         """
         :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
-        :param message: The message that triggered the command.
         :type message: discord.Message
         """
         self.cmd = cmd

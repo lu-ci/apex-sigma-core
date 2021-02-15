@@ -21,12 +21,8 @@ import secrets
 
 def scramble(text, full=False):
     """
-
-    :param text:
     :type text: str
-    :param full:
     :type full: bool
-    :return:
     :rtype: str
     """
     separated_text = text.split()

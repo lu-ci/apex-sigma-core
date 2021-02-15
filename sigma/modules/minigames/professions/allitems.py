@@ -32,9 +32,7 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 def deduplicate(items):
     """
     Removes duplicate items from a list.
-    :param items: List of items to check.
     :type items: list
-    :return:
     :rtype: list
     """
     new_items = []

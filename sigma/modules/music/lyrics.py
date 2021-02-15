@@ -28,10 +28,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 async def get_url_body(url):
     """
-
-    :param url:
     :type url: str
-    :return:
     :rtype: bytes
     """
     async with aiohttp.ClientSession() as session:
@@ -42,12 +39,8 @@ async def get_url_body(url):
 
 def parse_parts(lyr, fallback=False):
     """
-
-    :param lyr: The lyrics text content.
     :type lyr: str
-    :param fallback: Split by periods instead of new lines.
     :type fallback: bool
-    :return:
     :rtype: list[str]
     """
     pieces = []
@@ -70,10 +63,7 @@ def parse_parts(lyr, fallback=False):
 
 async def get_lyrics_from_html(lyrics_url):
     """
-
-    :param lyrics_url:
     :type lyrics_url: str
-    :return:
     :rtype: str, str, str, str
     """
     lyrics_text = None
@@ -95,10 +85,7 @@ async def get_lyrics_from_html(lyrics_url):
 
 def find_result(resp):
     """
-
-    :param resp:
     :type resp: dict
-    :return:
     :rtype: str
     """
     lyr_url = None

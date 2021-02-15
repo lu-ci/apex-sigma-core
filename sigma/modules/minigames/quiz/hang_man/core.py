@@ -36,7 +36,6 @@ class Gallows(object):
 
     def __init__(self, word):
         """
-        :param word:
         :type word: str
         """
         self.unused = list(body_parts.copy().keys())
@@ -50,7 +49,6 @@ class Gallows(object):
     def victory(self):
         """
         Checks if the word has been successfully guessed.
-        :return:
         :rtype: bool
         """
         return not set(self.word) - set(self.right_letters)
@@ -59,7 +57,6 @@ class Gallows(object):
     def dead(self):
         """
         Checks if the hangman is completely dead.
-        :return:
         :rtype: bool
         """
         return not self.unused
@@ -73,7 +70,6 @@ class Gallows(object):
     def make_gallows_man(self):
         """
         Creates the visual representation of the hangman.
-        :return:
         :rtype: str
         """
         parts = []
@@ -85,7 +81,6 @@ class Gallows(object):
     def make_word_space(self):
         """
         Creates the visual representation of the word.
-        :return:
         :rtype: str
         """
         word_space = []

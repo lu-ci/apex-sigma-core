@@ -38,7 +38,6 @@ class GlobalCommandPermissions(object):
 
     def __init__(self, command, pld):
         """
-        :param command: The command instance.
         :type command: sigma.core.mechanics.command.SigmaCommand
         :param pld: The message payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
@@ -98,9 +97,7 @@ class GlobalCommandPermissions(object):
         """
         Checks if a user has been blacklisted
         from using the given module specifically.
-        :param black_user_file: Users' blacklist data.
         :type black_user_file: dict
-        :return:
         :rtype: bool
         """
         black_modules = black_user_file.get('modules', {})
@@ -115,9 +112,7 @@ class GlobalCommandPermissions(object):
         """
         Checks if a user has been blacklisted
         from using the given command specifically.
-        :param black_user_file: Users' blacklist data.
         :type black_user_file: dict
-        :return:
         :rtype: bool
         """
         black_commands = black_user_file.get('commands', {})
@@ -179,7 +174,6 @@ class GlobalCommandPermissions(object):
         """
         Generates embed reponses for some more
         common permission denials.
-        :return:
         :rtype: discord.Embed
         """
         prefix = self.db.get_prefix(self.settings)
@@ -281,9 +275,7 @@ class ServerCommandPermissions(object):
 
     def __init__(self, command, message):
         """
-        :param command: The command or event instance.
         :type command: sigma.core.mechanics.command.SigmaCommand or sigma.core.mechanics.event.SigmaEvent
-        :param message: The message that triggered the command.
         :type message: discord.Message
         """
         self.cmd = command
@@ -296,9 +288,7 @@ class ServerCommandPermissions(object):
     def check_mdl_overwrites(self, perms):
         """
         Checks if a module has overrides when it's disabled.
-        :param perms: The guild's permission document.
         :type perms: dict
-        :return:
         :rtype: bool
         """
         mdl_overwritten = False
@@ -321,9 +311,7 @@ class ServerCommandPermissions(object):
     def check_cmd_overwrites(self, perms):
         """
         Checks if a command has overrides when it's disabled.
-        :param perms: The guild's permission document.
         :type perms: dict
-        :return:
         :rtype: bool
         """
         cmd_overwritten = False
@@ -347,15 +335,10 @@ class ServerCommandPermissions(object):
         """
         Cross-references permission of both modules and commands
         to determine if the function should be executed or not.
-        :param mdl_o: Is the module overridden.
         :type mdl_o: bool
-        :param cmd_o: Is the command overridden.
         :type cmd_o: bool
-        :param mdl_d: Is the module disabled.
         :type mdl_d: bool
-        :param cmd_d: Is the command disabled.
         :type cmd_d: bool
-        :return:
         :rtype: bool
         """
         if mdl_d or cmd_d:
@@ -373,7 +356,6 @@ class ServerCommandPermissions(object):
     async def check_perms(self):
         """
         The main permission checking method that calls the others.
-        :return:
         :rtype: bool
         """
         if self.msg.guild:
@@ -406,13 +388,9 @@ def check_filter_perms(msg, settings, filter_name):
     """
     Checks permissions for filtering functions.
     This is to avoid filtering administrators and overridden rules.
-    :param msg: The message to process.
     :type msg: discord.Message
-    :param settings: The guild's settings document,
     :type settings: dict
-    :param filter_name: The name of the filter to check.
     :type filter_name: str
-    :return:
     :rtype: bool
     """
     permitted = False

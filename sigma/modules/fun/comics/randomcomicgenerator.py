@@ -33,9 +33,7 @@ cnh_image = 'https://i.imgur.com/jJl7FoT.jpg'
 async def open_images(urls):
     """
     Opens image URLs as BytesIO objects.
-    :param urls: The URLs of the images to open.
     :type urls: list[str]
-    :return:
     :rtype: list[io.BytesIO]
     """
     images = []
@@ -50,9 +48,7 @@ async def open_images(urls):
 async def join_images(urls):
     """
     Joins three images in a vertical manner.
-    :param urls: The URLs of the images to join.
     :type urls:  list[str]
-    :return:
     :rtype: io.BytesIO
     """
     images = list(map(Image.open, await open_images(urls)))

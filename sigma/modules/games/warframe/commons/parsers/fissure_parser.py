@@ -32,10 +32,7 @@ relic_images = {
 
 async def get_fissure_data(db):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :return:
     :rtype: dict, list[str]
     """
     fissures = await WorldState().fissures
@@ -57,10 +54,7 @@ async def get_fissure_data(db):
 
 def generate_fissure_embed(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: discord.Embed
     """
     timestamp_start = data['start']

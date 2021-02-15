@@ -33,16 +33,10 @@ nums = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣']
 
 async def make_game(message, board, p_one, p_two, color):
     """
-
-    :param message:
     :type message: discord.Message
-    :param board:
     :type board: sigma.modules.minigames.other.connect_four.core.ConnectFourBoard
-    :param p_one:
     :type p_one: discord.Member
-    :param p_two:
     :type p_two: discord.Member
-    :param color:
     :type color: str
     """
     po_piece, pt_piece = ('b', 'r') if color == 'b' else ('r', 'b')
@@ -63,14 +57,9 @@ async def make_game(message, board, p_one, p_two, color):
 
 def generate_response(avatar, current, rows):
     """
-
-    :param avatar:
     :type avatar: str
-    :param current:
     :type current: discord.Member
-    :param rows:
     :type rows: list[list[str]]
-    :return:
     :rtype: discord.Embed
     """
     board_out = "\n".join([' '.join(row) for row in rows])
@@ -82,14 +71,9 @@ def generate_response(avatar, current, rows):
 
 async def send_board_msg(channel, board_msg, board_resp):
     """
-
-    :param channel:
     :type channel: discord.TextChannel
-    :param board_msg:
     :type board_msg: discord.Message
-    :param board_resp:
     :type board_resp: discord.Embed
-    :return:
     :rtype: discord.Message
     """
     replaced = False
@@ -111,9 +95,7 @@ async def check_emotes(bot, msg):
     """
 
     Ensures only the correct reactions are present on the message.
-    :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message to process.
     :type msg: discord.Message
     """
     bid = bot.user.id

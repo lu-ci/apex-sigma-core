@@ -29,12 +29,8 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 
 def is_ingredient(recipes, item):
     """
-
-    :param recipes:
     :type recipes: list
-    :param item:
     :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
-    :return:
     :rtype: bool
     """
     is_ingr = False
@@ -49,9 +45,7 @@ def is_ingredient(recipes, item):
 def get_page_number(args):
     """
     Gets the page number based on the command arguments.
-    :param args: The list of command arguments.
     :type args: list[str]
-    :return:
     :rtype: int
     """
     page = 1
@@ -69,9 +63,7 @@ def get_page_number(args):
 def get_filter(args):
     """
     Gets the filter based on the command arguments.
-    :param args: The list of command arguments.
     :type args: list[str]
-    :return:
     :rtype: str or None
     """
     filter_lookup = None
@@ -96,11 +88,8 @@ def get_filter(args):
 def item_belongs(filter_string, item):
     """
     Checks if the item matches the filter.
-    :param filter_string: The filter to compare against.
     :type filter_string: str
-    :param item: The item to check.
     :type item: sigma.modules.minigames.professions.nodes.item_object.SigmaRawItem
-    :return:
     :rtype: bool
     """
     flt = filter_string.lower()

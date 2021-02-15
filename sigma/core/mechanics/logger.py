@@ -36,15 +36,10 @@ except ModuleNotFoundError:
 def create_logger(name, *, to_title=False, level=None, shards=None):
     """
     Adds a new logger instance.
-    :param name: The logger name.
     :type name: str
-    :param to_title: Should the logger name be titleized.
     :type to_title: bool
-    :param level: The logging level.
     :type level: int
-    :param shards: The logging shard identifier.
     :type shards: list
-    :return:
     :rtype: sigma.core.mechanics.logger.Logger
     """
     if to_title:
@@ -57,9 +52,7 @@ def create_logger(name, *, to_title=False, level=None, shards=None):
 def titleize(string):
     """
     Convert a string from :ModuleName: to :Module Name:.
-    :param string: The string to titleize.
     :type string: str
-    :return:
     :rtype: str
     """
     new_string = ""
@@ -88,9 +81,7 @@ class Logger(object):
 
     def __init__(self, name, *, level=None):
         """
-        :param name: The logger name and indentifier.
         :type name: str
-        :param level: The logging level.
         :type level: int
         """
         self.default_fmt = '[ {levelname:^8s} | {asctime:s} | {name:<25.25s} ] {message:s}'
@@ -104,11 +95,8 @@ class Logger(object):
     def get(cls, name, *, level=None):
         """
         Get a logger with :name: or create a new one.
-        :param name: The name of the logger.
         :type name: str
-        :param level: The logging level.
         :type level: int
-        :return:
         :rtype: sigma.core.mechanics.logger.Logger
         """
         if name not in cls.loggers.keys():
@@ -118,7 +106,6 @@ class Logger(object):
     def info(self, message):
         """
         Generates an INFO level logging line.
-        :param message: The logged text contents.
         :type message: str
         """
         self._logger.info(message)
@@ -126,7 +113,6 @@ class Logger(object):
     def debug(self, message):
         """
         Generates an DEBUG level logging line.
-        :param message: The logged text contents.
         :type message: str
         """
         self._logger.debug(message)
@@ -134,7 +120,6 @@ class Logger(object):
     def error(self, message):
         """
         Generates an ERROR level logging line.
-        :param message: The logged text contents.
         :type message: str
         """
         self._logger.error(message)
@@ -143,7 +128,6 @@ class Logger(object):
         """
         This just calls the warning method
         due to the parent method being deprecated.
-        :param message: The logged text contents.
         :type message: str
         """
         self.warning(message)
@@ -151,7 +135,6 @@ class Logger(object):
     def warning(self, message):
         """
         Generates an WARNING level logging line.
-        :param message: The logged text contents.
         :type message: str
         """
         self._logger.warning(message)
@@ -159,7 +142,6 @@ class Logger(object):
     def exception(self, message):
         """
         Generates an EXCEPTION level logging line.
-        :param message: The logged text contents.
         :type message: str
         """
         self._logger.exception(message)
@@ -168,13 +150,9 @@ class Logger(object):
     def create(cls, name, *, level=None, shards=None):
         """
         Creates a new logger class instance.
-        :param name: The name of the logger.
         :type name: str
-        :param level: The logger level.
         :type level: int
-        :param shards: The logging shard identifier.
         :type shards: list
-        :return:
         :rtype: sigma.core.mechanics.logger.Logger
         """
         logger = cls.get(name, level=level)
@@ -193,11 +171,8 @@ class Logger(object):
     def add_handler(self, handler, fmt=None, date_fmt=None):
         """
         Add a new log handler with format handlers.
-        :param handler:
         :type handler: logging.Handler
-        :param fmt:
         :type fmt: str
-        :param date_fmt:
         :type date_fmt: str
         """
         fmt = fmt or self.default_fmt
@@ -209,7 +184,6 @@ class Logger(object):
     def add_journal_handler(logger):
         """
         Add a log handler that logs to the Systemd journal.
-        :param logger:
         :type logger: sigma.core.mechanics.logger.Logger
         """
         handler = journal.JournaldLogHandler(identifier='sigma')
@@ -220,7 +194,6 @@ class Logger(object):
     def add_stdout_handler(logger):
         """
         Add a log handler that logs to the standard output.
-        :param logger:
         :type logger: sigma.core.mechanics.logger.Logger
         """
         handler = logging.StreamHandler()
@@ -230,9 +203,7 @@ class Logger(object):
     def add_file_handler(logger, shards=None):
         """
         Adds a regular file handler for the logging.
-        :param shards:
         :type shards: list[int] or None
-        :param logger:
         :type logger: sigma.core.mechanics.logger.Logger
         """
         log_dir = 'log'

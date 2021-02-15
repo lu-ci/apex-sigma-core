@@ -27,14 +27,9 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def make_log_embed(author, target, warn_iden):
     """
-
-    :param author:
     :type author: discord.Member
-    :param target:
     :type target: discord.Member
-    :param warn_iden:
     :type warn_iden: str
-    :return:
     :rtype: discord.Embed
     """
     target_avatar = user_avatar(target)
@@ -50,14 +45,9 @@ def make_log_embed(author, target, warn_iden):
 
 async def make_incident(db, gld, ath, trg):
     """
-
-    :param db:
     :type db: sigma.core.mechanics.database.Database
-    :param gld:
     :type gld: discord.Guild
-    :param ath:
     :type ath: discord.Member
-    :param trg:
     :type trg: discord.Member
     """
     icore = get_incident_core(db)

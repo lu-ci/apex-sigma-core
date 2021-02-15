@@ -22,12 +22,8 @@ from sigma.modules.utilities.misc.other.quote import message_search
 
 async def remove_emote(message, emote):
     """
-
-    :param message:
     :type message: discord.Message
-    :param emote:
     :type emote: str
-    :return:
     :rtype: str
     """
     emote_to_remove = None

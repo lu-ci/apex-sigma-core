@@ -24,9 +24,7 @@ from sigma.modules.moderation.server_settings.collectionjar.viewcollectionjar im
 def clean_word(text):
     """
     Removes punctuation from a string.
-    :param text: The string to clean.
     :type text: str
-    :return:
     :rtype: str
     """
     output = ''
@@ -40,9 +38,7 @@ async def add_to_jar(ev, message, jar):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param message:
     :type message: discord.Message
-    :param jar:
     """
     jar = CollectionJar(jar, message, message.author)
     jar.channels.update({str(message.channel.id): jar.channel + 1})

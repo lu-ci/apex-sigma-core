@@ -63,10 +63,7 @@ async def fill_tdoll_data():
 
 def get_profile_info(root):
     """
-
-    :param root:
     :type root:
-    :return:
     :rtype: dict
     """
     data = {}
@@ -82,10 +79,7 @@ def get_profile_info(root):
 
 async def get_tdoll_data(url):
     """
-
-    :param url:
     :type url: str
-    :return:
     :rtype: dict
     """
     tdoll_data = tdoll_pages.get(url)
@@ -110,10 +104,7 @@ async def get_tdoll_data(url):
 
 def get_weapon_info_block(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: str
     """
     out = f'**Full Name**: {data.get("full_name", "Unknown")}'
@@ -124,10 +115,7 @@ def get_weapon_info_block(data):
 
 def get_tdoll_stats(root):
     """
-
-    :param root:
     :type root:
-    :return:
     :rtype: dict
     """
     sr = root.cssselect('.stattabcontainer')[0][0][0]
@@ -143,10 +131,7 @@ def get_tdoll_stats(root):
 
 def get_weapon_satats_block(data):
     """
-
-    :param data:
     :type data: dict
-    :return:
     :rtype: str
     """
     stats = data.get('stats')

@@ -26,12 +26,8 @@ from sigma.core.utilities.data_processing import command_message_parser
 
 def escape_mentions(text, guild):
     """
-
-    :param text:
     :type text: str
-    :param guild:
     :type guild: discord.Guild
-    :return:
     :rtype: str
     """
     if guild is not None:
@@ -48,12 +44,8 @@ def escape_mentions(text, guild):
 
 def log_command_usage(log, message, command):
     """
-
-    :param log:
     :type log: sigma.core.mechanics.logger.Logger
-    :param message:
     :type message: discord.Message
-    :param command:
     :type command: str
     """
     if message.guild:

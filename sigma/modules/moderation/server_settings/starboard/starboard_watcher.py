@@ -28,12 +28,8 @@ star_cache = None
 
 async def post_starboard(msg, response, sbc):
     """
-
-    :param msg:
     :type msg: discord.Message
-    :param response:
     :type response: discord.Embed
-    :param sbc:
     :type sbc: int
     """
     channel = msg.guild.get_channel(sbc)
@@ -47,10 +43,7 @@ async def post_starboard(msg, response, sbc):
 
 async def generate_embed(msg):
     """
-
-    :param msg:
     :type msg: discord.Message
-    :return:
     :rtype: discord.Embed
     """
     avatar = user_avatar(msg.author)
@@ -74,14 +67,9 @@ async def generate_embed(msg):
 # noinspection PyUnresolvedReferences
 async def check_emotes(mid, uid, sbl):
     """
-
-    :param mid:
     :type mid: int
-    :param uid:
     type uid: int
-    :param sbl:
     :type sbl: int
-    :return:
     :rtype: bool
     """
     trigger = False

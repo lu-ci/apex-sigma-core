@@ -117,13 +117,9 @@ class BlackJack(object):
 async def send_game_msg(channel, game_msg, game_resp):
     """
     Edits the game message or resends if it an edit is not possible.
-    :param channel: The channel the message is in.
     :type channel: discord.TextChannel
-    :param game_msg: The message to edit.
     :type game_msg: discord.Message
-    :param game_resp: The embed to change to.
     :type game_resp: discord.Embed
-    :return:
     :rtype: discord.Message
     """
     replaced = False
@@ -144,9 +140,7 @@ async def send_game_msg(channel, game_msg, game_resp):
 async def check_emotes(bot, msg):
     """
     Ensures only the correct reactions are present on the message.
-    :param bot: The core client class.
     :type bot: sigma.core.sigma.ApexSigma
-    :param msg: The message to process.
     :type msg: discord.Message
     """
     bid = bot.user.id

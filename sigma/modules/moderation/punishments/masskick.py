@@ -28,14 +28,10 @@ from sigma.modules.moderation.punishments.kick import generate_log_embed
 
 def get_members(cmd, message, targets):
     """
-
     :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param message:
     :type message: discord.Command
-    :param targets:
     :type targets: list[discord.Member]
-    :return:
     :rtype: list[discord.Member] or str
     """
     results = []
@@ -61,14 +57,11 @@ def get_members(cmd, message, targets):
 
 async def kick_members(cmd, pld, targets, reason):
     """
-
     :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
-    :param targets:
     :type targets: list[discord/Member]
-    :param reason:
     :type reason: str
     """
     for target in targets:

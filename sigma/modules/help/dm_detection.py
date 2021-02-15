@@ -36,9 +36,7 @@ async def has_invite(ev, arguments):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param arguments:
     :type arguments: list[str]
-    :return:
     :rtype: bool
     """
     invite_found = False

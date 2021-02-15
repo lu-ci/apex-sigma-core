@@ -26,14 +26,9 @@ filter_names = ['arguments', 'extensions', 'words', 'invites']
 
 def get_overrides(message, overrides, target_type):
     """
-
-    :param message:
     :type message: discord.Message
-    :param overrides:
     :type overrides: list[int]
-    :param target_type:
     :type target_type: str
-    :return:
     :rtype: list[str]
     """
     overridden_items = []

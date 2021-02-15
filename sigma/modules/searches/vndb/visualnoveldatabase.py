@@ -31,12 +31,8 @@ vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 
 def get_name_match(results, lookup):
     """
-
-    :param results:
     :type results: list
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: str
     """
     match = None
@@ -57,10 +53,7 @@ def get_name_match(results, lookup):
 
 async def get_details_page(lookup):
     """
-
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: lxml.html.HtmlElement
     """
     if lookup == '--random':
@@ -85,10 +78,7 @@ async def get_details_page(lookup):
 
 async def get_vn(lookup):
     """
-
-    :param lookup:
     :type lookup: str
-    :return:
     :rtype: sigma.modules.searches.vndb.models.visual_novel.VisualNovel or None
     """
     vn_data = None

@@ -21,10 +21,7 @@ import subprocess
 
 def from_output(output):
     """
-
-    :param output:
     :type output: bytes
-    :return:
     :rtype: str
     """
     return "" if len(output) <= 1 else f"```\n{output.decode('utf-8')}\n```"

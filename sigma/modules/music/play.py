@@ -28,10 +28,7 @@ from sigma.core.utilities.stats_processing import add_special_stats
 
 def player_listening(voice_client):
     """
-
-    :param voice_client:
     :type voice_client: discord.VoiceClient
-    :return:
     :rtype: bool
     """
     user_count = 0
@@ -45,10 +42,7 @@ def player_listening(voice_client):
 
 def player_active(voice_client):
     """
-
-    :param voice_client:
     :type voice_client: discord.VoiceClient
-    :return:
     :rtype: bool
     """
     active = False

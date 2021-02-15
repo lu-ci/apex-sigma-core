@@ -28,7 +28,6 @@ class SigmaPayload(abc.ABC):
 
     def __init__(self, bot):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
@@ -53,11 +52,8 @@ class UpdatePayload(SigmaPayload):
 
     def __init__(self, bot, before, after):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
-        :param before: An object as it was before a change.
         :type before: discord.Message or discord.Member or discord.Guild or discord.VoiceState
-        :param after: An object as it is after a change.
         :type after: discord.Message or discord.Member or discord.Guild or discord.VoiceState
         """
         super().__init__(bot)
@@ -74,9 +70,7 @@ class ShardReadyPayload(SigmaPayload):
 
     def __init__(self, bot, shard):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
-        :param shard: The Shard ID.
         :type shard: int
         """
         super().__init__(bot)
@@ -92,9 +86,7 @@ class MessagePayload(SigmaPayload):
 
     def __init__(self, bot, msg):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
-        :param msg: The event message class.
         :type msg: discord.Message
         """
         super().__init__(bot)
@@ -132,11 +124,8 @@ class CommandPayload(MessagePayload):
 
     def __init__(self, bot, msg, args):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param msg: The message that triggered the command.
         :type msg: discord.Message
-        :param args: The arguments passed in the command.
         :type args: list[str]
         """
         super().__init__(bot, msg)
@@ -152,7 +141,6 @@ class CommandEventPayload(CommandPayload):
 
     def __init__(self, bot, cmd, pld):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
         :param cmd: The command that was executed.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
@@ -172,9 +160,7 @@ class MemberPayload(SigmaPayload):
 
     def __init__(self, bot, member):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param member: The member that triggered the event.
         :type member: discord.Member
         """
         super().__init__(bot)
@@ -212,9 +198,7 @@ class GuildPayload(SigmaPayload):
 
     def __init__(self, bot, guild):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param guild: The guild that triggered the event.
         :type guild: discord.Guild
         """
         super().__init__(bot)
@@ -248,13 +232,9 @@ class VoiceStateUpdatePayload(UpdatePayload):
 
     def __init__(self, bot, member, before, after):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param member: The member that had their state changed.
         :type member: discord.Member
-        :param before: The member's previous voice state.
         :type before: discord.VoiceState
-        :param after: The member's voice state after the change.
         :type after: discord.VoiceState
         """
         super().__init__(bot, before, after)
@@ -274,11 +254,8 @@ class BanPayload(GuildPayload):
 
     def __init__(self, bot, guild, user):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param guild: The guild a user was banned from.
         :type guild: discord.Guild
-        :param user: The user that was banned.
         :type user: discord.Member or discord.User
         """
         super().__init__(bot, guild)
@@ -294,11 +271,8 @@ class UnbanPayload(GuildPayload):
 
     def __init__(self, bot, guild, user):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param guild: The guild the user was unbanned from.
         :type guild: discord.Guild
-        :param user: The user that was unbanned.
         :type user: discord.User
         """
         super().__init__(bot, guild)
@@ -314,11 +288,8 @@ class ReactionPayload(SigmaPayload):
 
     def __init__(self, bot, reaction, user):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param reaction: The reaction that was added.
         :type reaction: discord.Reaction
-        :param user: The user that added the reaction.
         :type user: discord.User
         """
         super().__init__(bot)
@@ -343,9 +314,7 @@ class RawReactionPayload(SigmaPayload):
 
     def __init__(self, bot, raw):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.Apexsigma
-        :param raw: The raw reaction wrapper class.
         :type raw: discord.RawReactionActionEvent
         """
         super().__init__(bot)

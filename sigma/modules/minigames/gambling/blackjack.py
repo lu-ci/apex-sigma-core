@@ -68,9 +68,7 @@ async def blackjack(cmd, pld):
                 def check_emote(reac):
                     """
                     Checks for a valid message reaction.
-                    :param reac: The reaction to validate.
                     :type reac: discord.RawReactionActionEvent
-                    :return:
                     :rtype: bool
                     """
                     same_author = reac.user_id == pld.msg.author.id

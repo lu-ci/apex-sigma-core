@@ -25,10 +25,7 @@ from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 
 def type_rarity_counter(items):
     """
-
-    :param items:
     :type items: listr[str]
-    :return:
     :rtype: dict
     """
     types = {'animal': {}, 'fish': {}, 'plant': {}}

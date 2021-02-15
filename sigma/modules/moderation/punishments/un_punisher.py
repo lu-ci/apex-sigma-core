@@ -39,7 +39,6 @@ async def unban(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param doc:
     :type doc: dict
     """
     # noinspection PyBroadException
@@ -64,7 +63,6 @@ async def untmute(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param doc:
     :type doc: dict
     """
     # noinspection PyBroadException
@@ -93,7 +91,6 @@ async def unhmute(ev, doc):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param doc:
     :type doc: dict
     """
     # noinspection PyBroadException

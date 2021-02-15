@@ -28,7 +28,6 @@ class Information(object):
     def get_version():
         """
         Grabs the version information class.
-        :return:
         :rtype: sigma.core.mechanics.information.Version
         """
         return Version()
@@ -37,7 +36,6 @@ class Information(object):
     def get_authors():
         """
         Grabs the author information class.
-        :return:
         :rtype: sigma.core.mechanics.information.Authors
         """
         return Authors()
@@ -46,7 +44,6 @@ class Information(object):
     def get_donors():
         """
         Grabs the donor information class.
-        :return:
         :rtype: sigma.core.mechanics.information.Donors
         """
         return Donors()
@@ -81,7 +78,6 @@ class Author(object):
 
     def __init__(self, author):
         """
-        :param author: The author information data.
         :type author: dict
         """
         self.name = author.get('name', 'Unknown')
@@ -116,7 +112,6 @@ class Donor(object):
     def __init__(self, donor):
         """
         Donor information containing wrapper class.
-        :param donor: The donor information data.
         :type donor: dict
         """
         self.name = donor.get('name', 'Unknown')

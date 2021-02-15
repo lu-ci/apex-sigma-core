@@ -29,13 +29,9 @@ async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
     Saves a generic iterable HTML table object into AL ship items.
     :param ev: The main event reference.
     :type ev: sigma.core.mechanics.even.SigmaEvent
-    :param table: The table to iterate over.
     :type table: lxml.html.HtmlElement
-    :param table_type: The ship category in the table.
     :type table_type: str
-    :param cutter: What to remove from IDs.
     :type cutter: str
-    :param prefix: What to prefix the IDs with.
     :type prefix: str
     """
     ev.log.info(f'Updating basic data for {table_type} ships...')
@@ -107,7 +103,6 @@ async def dbinit_azur_lane(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param force: Should the files be forcefully updated.
     :type force: bool
     """
     al_coll = ev.db[ev.db.db_nam].AzurLaneShips

@@ -35,10 +35,7 @@ curr_suffixes = [
 
 def get_title_indexes(level):
     """
-
-    :param level:
     :type level: int
-    :return:
     :rtype: int, int
     """
     slevel = str(level)
@@ -49,12 +46,8 @@ def get_title_indexes(level):
 
 def get_resource_level(amount, leveler):
     """
-
-    :param amount:
     :type amount: int
-    :param leveler:
     :type leveler: float
-    :return:
     :rtype: int
     """
     return int(amount / leveler) if amount >= 0 else 0
@@ -62,16 +55,10 @@ def get_resource_level(amount, leveler):
 
 def get_resource_title(amount, leveler, prefixes, suffixes):
     """
-
-    :param amount:
     :type amount: int
-    :param leveler:
     :type leveler: float
-    :param prefixes:
     :type prefixes: list[str]
-    :param suffixes:
     :type suffixes: list[str]
-    :return:
     :rtype: str
     """
     level = get_resource_level(amount, leveler)

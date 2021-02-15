@@ -56,9 +56,7 @@ class QueueItem(object):
 
     def __init__(self, requester, item_info):
         """
-        :param requester: The user that queued the item.
         :type requester: discord.Member
-        :param item_info: Document containing the queued item's details.
         :type item_info: dict
         """
         self.requester = requester
@@ -81,7 +79,6 @@ class QueueItem(object):
         """
         Generates a token identifier for
         a queued item for cache storage.
-        :return:
         :rtype: str
         """
         name = 'yt_' + self.video_id
@@ -107,7 +104,6 @@ class QueueItem(object):
         """
         Creates a player instance for a voice client
         to deliver the item's music data to.
-        :param voice_client: The voice client to use for delivery.
         :type voice_client: discord.VoiceClient
         """
         await self.download()
@@ -132,7 +128,6 @@ class MusicCore(object):
 
     def __init__(self, bot):
         """
-        :param bot: The core client class.
         :type bot: sigma.core.sigma.ApexSigma
         """
         self.bot = bot
@@ -149,9 +144,7 @@ class MusicCore(object):
         """
         Grabs the information of a downloadable URL
         or one that's parse-able by YTDL.
-        :param url: The URL to try and parse.
         :type url: str
-        :return:
         :rtype: dict
         """
         task = functools.partial(self.ytdl.extract_info, url, False)
@@ -162,9 +155,7 @@ class MusicCore(object):
         """
         Gets a guild's queue.
         If the guild doesn't have one, it'll be generated.
-        :param guild_id: The Guild ID.
         :type guild_id: int
-        :return:
         :rtype: asyncio.Queue
         """
         queue = self.queues.get(guild_id, Queue())
@@ -176,9 +167,7 @@ class MusicCore(object):
         """
         Due to the asyncronous nature of the queue
         this is for making a standard list out of a queue item.
-        :param queue: An asyncronous queue storage.
         :type queue: asyncio.Queue
-        :return:
         :rtype: list[sigma.core.mechanics.music.Queue
         """
         item_list = []

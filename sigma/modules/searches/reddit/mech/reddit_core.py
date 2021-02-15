@@ -26,7 +26,6 @@ reddit_base = 'https://www.reddit.com/r'
 class RedditPost(object):
     def __init__(self, data):
         """
-        :param data:
         :type data: dict
         """
         self.raw = data
@@ -37,7 +36,6 @@ class RedditPost(object):
 class RedditSub(object):
     def __init__(self, data):
         """
-        :param data:
         :type data: dict
         """
         self.exists = None
@@ -55,17 +53,13 @@ class RedditClient(object):
 
     def __init__(self, user_agent):
         """
-        :param user_agent: The core client's user agent.
         :type user_agent: dict
         """
         self.headers = user_agent
 
     async def __get_data(self, url):
         """
-
-        :param url:
         :type url: str
-        :return:
         :rtype: dict
         """
         async with aiohttp.ClientSession() as session:
@@ -75,10 +69,7 @@ class RedditClient(object):
 
     async def get_subreddit(self, subreddit):
         """
-
-        :param subreddit:
         :type subreddit: str
-        :return:
         :rtype: sigma.modules.searches.reddit.mech.reddit_core.RedditSub
         """
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
@@ -87,12 +78,8 @@ class RedditClient(object):
 
     async def get_posts(self, subreddit, listing):
         """
-
-        :param subreddit:
         :type subreddit: str
-        :param listing:
         :type listing: str
-        :return:
         :rtype: list[sigma.modules.searches.reddit.mech.reddit_core.RedditSub]
         """
         sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json'

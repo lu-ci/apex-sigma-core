@@ -26,7 +26,6 @@ import cachetools
 async def get_cache(cfg):
     """
     Gets a cache appropriate for the given CacheConfig.
-    :param cfg: The CacheConfig object for getting the configuration parameters.
     :type cfg: sigma.core.mechanics.config.CacheConfig
     """
     caches = {
@@ -54,7 +53,6 @@ class Cacher(abc.ABC):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         self.cfg = cfg
@@ -69,7 +67,6 @@ class Cacher(abc.ABC):
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
         """
         pass
@@ -77,9 +74,7 @@ class Cacher(abc.ABC):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :param value: The value to assign to the key.
         :type value: object
         """
         pass
@@ -87,7 +82,6 @@ class Cacher(abc.ABC):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :param key: The hashmap/dict key value.
         :type key: str or int
         """
         pass
@@ -101,7 +95,6 @@ class MemoryCacher(Cacher):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
@@ -110,9 +103,7 @@ class MemoryCacher(Cacher):
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :return:
         :rtype: mixed
         """
         return self.cache.get(key)
@@ -120,9 +111,7 @@ class MemoryCacher(Cacher):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :param value: The value to assign to the key.
         :type value: object
         """
         self.cache.update({key: value})
@@ -130,7 +119,6 @@ class MemoryCacher(Cacher):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :param key: The hashmap/dict key value.
         :type key: str or int
         """
         if key in self.cache.keys():
@@ -147,7 +135,6 @@ class LRUCacher(MemoryCacher):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
@@ -164,7 +151,6 @@ class TTLCacher(LRUCacher):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
@@ -180,7 +166,6 @@ class RedisCacher(Cacher):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
@@ -198,9 +183,7 @@ class RedisCacher(Cacher):
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :return:
         :rtype: object
         """
         data = await self.conn.get(str(key).replace('_', ':'))
@@ -211,9 +194,7 @@ class RedisCacher(Cacher):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :param value: The value to assign to the key.
         :type value: object
         """
         try:
@@ -225,7 +206,6 @@ class RedisCacher(Cacher):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :param key: The hashmap/dict key value.
         :type key: str or int
         """
         if await self.conn.exists(str(key).replace('_', ':')):
@@ -240,7 +220,6 @@ class MixedCacher(RedisCacher):
 
     def __init__(self, cfg):
         """
-        :param cfg: The CacheConfig object for getting the configuration parameters.
         :type cfg: sigma.core.mechanics.config.CacheConfig
         """
         super().__init__(cfg)
@@ -256,9 +235,7 @@ class MixedCacher(RedisCacher):
     async def get_cache(self, key):
         """
         Gets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :return:
         :rtype: object
         """
         cached_data = await self.ttl.get_cache(key)
@@ -269,9 +246,7 @@ class MixedCacher(RedisCacher):
     async def set_cache(self, key, value):
         """
         Sets a cached object value.
-        :param key: The hashmap/dict key value.
         :type key: str or int
-        :param value: The value to assign to the key.
         :type value: object
         """
         await self.ttl.set_cache(key, value)
@@ -280,7 +255,6 @@ class MixedCacher(RedisCacher):
     async def del_cache(self, key):
         """
         Deletes a cache entry by the given key.
-        :param key: The hashmap/dict key value.
         :type key: str or int
         """
         await self.ttl.del_cache(key)

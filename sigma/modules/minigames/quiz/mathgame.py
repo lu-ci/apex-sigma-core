@@ -70,10 +70,7 @@ async def mathgame(cmd, pld):
 
         def check_answer(msg):
             """
-
-            :param msg:
             :type msg: discord.Message
-            :return:
             :rtype: bool
             """
             if pld.msg.channel.id == msg.channel.id:

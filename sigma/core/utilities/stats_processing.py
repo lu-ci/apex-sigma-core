@@ -40,9 +40,7 @@ async def add_cmd_stat(cmd):
 async def add_special_stats(db, stat_name):
     """
     Increments the usage count for this statistic by one.
-    :param db: The core database instance.
     :type db: sigma.core.mechanics.database.Database
-    :param stat_name: The name of the statistic to track.
     :type stat_name: str
     """
     global stats_handler

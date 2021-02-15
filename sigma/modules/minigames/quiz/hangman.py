@@ -28,10 +28,7 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 def generate_response(gallows):
     """
-
-    :param gallows:
     :type gallows: sigma.modules.minigames.quiz.hang_man.core.Gallows
-    :return:
     :rtype: discord.Embed
     """
     hangman_resp = discord.Embed(color=0x3B88C3, title='🔣 Hangman')
@@ -44,14 +41,9 @@ def generate_response(gallows):
 
 async def send_hangman_msg(message, hangman_msg, hangman_resp):
     """
-
-    :param message:
     :type message: discord.Message
-    :param hangman_msg:
     :type hangman_msg: discord.Message
-    :param hangman_resp:
     :type hangman_resp: discord.Embed
-    :return:
     :rtype: discord.Message
     """
     if hangman_msg:
@@ -93,9 +85,7 @@ async def hangman(cmd, pld):
         def check_answer(msg):
             """
             Checks if the answer message is correct.
-            :param msg: The message to check.
             :type msg: discord.Message
-            :return:
             :rtype: bool
             """
             if pld.msg.channel.id != msg.channel.id:

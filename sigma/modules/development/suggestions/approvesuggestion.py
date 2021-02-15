@@ -26,10 +26,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def parse_approval(args):
     """
-
-    :param args:
     :type args: list
-    :return:
     :rtype: str, str, str
     """
     suggestion_token = args[0].lower()
@@ -40,14 +37,9 @@ def parse_approval(args):
 
 def make_gl_suggestion(tkn, dsc, sugg):
     """
-
-    :param tkn:
     :type tkn: str
-    :param dsc:
     :type dsc: str
-    :param sugg:
     :type sugg: dict
-    :return:
     :rtype: str
     """
     sugg_txt = sugg.get("suggestion", {}).get("text")
@@ -58,16 +50,10 @@ def make_gl_suggestion(tkn, dsc, sugg):
 
 async def submit_gl_issue(tkn, prj, ttl, dsc):
     """
-
-    :param tkn:
     :type tkn: str
-    :param prj:
     :type prj: str
-    :param ttl:
     :type ttl: str
-    :param dsc:
     :type dsc: str
-    :return:
     :rtype: str
     """
     api_url = f'https://gitlab.com/api/v4/projects/{prj}/issues'
@@ -80,14 +66,9 @@ async def submit_gl_issue(tkn, prj, ttl, dsc):
 
 async def react_to_suggestion(bot, suggestion, reaction, delete):
     """
-
-    :param bot:
     :type bot: sigma.core.sigma.ApexSigma
-    :param suggestion:
     :type suggestion: dict
-    :param reaction:
     :type reaction: str
-    :param delete:
     :type delete: bool
     """
     sugg_cmd = bot.modules.commands.get('botsuggest')

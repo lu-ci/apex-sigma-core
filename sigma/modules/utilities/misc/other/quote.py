@@ -24,12 +24,8 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 async def message_search(lookup, message):
     """
-
-    :param lookup:
     :type lookup: int
-    :param message:
     :type message: discord.Message
-    :return:
     :rtype: discord.Message
     """
     try:

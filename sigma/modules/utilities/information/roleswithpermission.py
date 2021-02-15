@@ -23,10 +23,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def get_perm_names(gld):
     """
-
-    :param gld:
     :type gld: discord.Guild
-    :return:
     :rtype: list[str]
     """
     return [x[0].replace('_', ' ').title() for x in gld.roles[0].permissions]
@@ -34,12 +31,8 @@ def get_perm_names(gld):
 
 def check_perm_validity(gld, requested):
     """
-
-    :param gld:
     :type gld: discord.Guild
-    :param requested:
     :type requested: list[str]
-    :return:
     :rtype: list[str]
     """
     invalid_perms = []

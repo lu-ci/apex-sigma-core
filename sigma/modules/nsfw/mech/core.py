@@ -26,11 +26,8 @@ from lxml import html
 def safebooru_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Safebooru data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -45,11 +42,8 @@ def safebooru_client(cache, user_agent):
 def danbooru_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Danbooru data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -65,11 +59,8 @@ def danbooru_client(cache, user_agent):
 def e621_client(cache, user_agent):
     """
     Returns an GalleryClient instance with E621 data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -85,11 +76,8 @@ def e621_client(cache, user_agent):
 def gelbooru_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Gelbooru data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -105,11 +93,8 @@ def gelbooru_client(cache, user_agent):
 def konachan_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Konachan data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -125,11 +110,8 @@ def konachan_client(cache, user_agent):
 def rule34_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Rule 34 data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -145,11 +127,8 @@ def rule34_client(cache, user_agent):
 def xbooru_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Xbooru data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -165,11 +144,8 @@ def xbooru_client(cache, user_agent):
 def yandere_client(cache, user_agent):
     """
     Returns an GalleryClient instance with Yande.re data.
-    :param cache: The cache configuration class.
     :type cache: sigma.core.mechanics.caching.Cacher
-    :param user_agent: The core client's user agent.
     :type user_agent: dict
-    :return:
     :rtype: sigma.modules.nsfw.mech.core.GalleryClient
     """
     client_data = {
@@ -185,11 +161,8 @@ def yandere_client(cache, user_agent):
 class GalleryClient(object):
     def __init__(self, client_data, cache, user_agent):
         """
-        :param client_data: The gallery client's data.
         :type client_data: dict
-        :param cache: The cache configuration class.
         :type cache: sigma.core.mechanics.caching.Cacher
-        :param user_agent: The core client's user agent.
         :type user_agent: dict
         """
         self.cache = cache
@@ -205,9 +178,7 @@ class GalleryClient(object):
     def remove_lines_breaks(tags):
         """
         Removes line breaks from a list of tags.
-        :param tags: The list of tags to parse
         :type tags: list[str]
-        :return:
         :rtype: list[str]
         """
         new_tags = []
@@ -218,7 +189,6 @@ class GalleryClient(object):
     async def _get_posts(self):
         """
         Fetches posts from the client.
-        :return:
         :rtype: list[dict]
         """
         async with aiohttp.ClientSession() as aio_client:
@@ -236,9 +206,7 @@ class GalleryClient(object):
     def _ensure_source(self, posts):
         """
         Filters posts based on if they include a file_url field.
-        :param posts: The posts to filter.
         :type posts: dict or list[lxml.html.HtmlElement]
-        :return:
         :rtype: list[dict]
         """
         if self.as_json:
@@ -254,9 +222,7 @@ class GalleryClient(object):
     def _ensure_size(self, posts):
         """
         Filters posts based on their dimensions.
-        :param posts: The posts to filter
         :type posts: dict or list[lxml.html.HtmlElement]
-        :return:
         :rtype: list[dict]
         """
         valid_posts = []
@@ -275,11 +241,8 @@ class GalleryClient(object):
     async def randpost(self, tags, return_all=False):
         """
         Fetches a random post from the client.
-        :param tags: The tags to search for.
         :type tags: list[str]
-        :param return_all: If all the posts should be returned.
         :type return_all: bool
-        :return:
         :rtype: dict
         """
         sorted_tags = sorted([tag.lower() for tag in tags])

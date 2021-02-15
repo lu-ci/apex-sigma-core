@@ -29,12 +29,8 @@ identifiers = ['moderator', 'target', 'variant']
 
 def parse_incidents(incidents, page):
     """
-
-    :param incidents:
     :type incidents: list
-    :param page:
     :type page: int
-    :return:
     :rtype: str
     """
     incidents = sorted(incidents, key=lambda i: i.order)
