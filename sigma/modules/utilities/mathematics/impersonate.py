@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import functools
+import os
 from concurrent.futures import ThreadPoolExecutor
 
 import discord
@@ -24,7 +25,7 @@ import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
+from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
 async def impersonate(cmd, pld):
@@ -42,9 +43,8 @@ async def impersonate(cmd, pld):
     else:
         target = pld.msg.author
     if target:
-        chain_doc = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
-        if chain_doc:
-            chain_data = chain_doc.get('chain')
+        if os.path.exists(f'chains/{target.id}.json.gz'):
+            chain_data = load(target.id)
             if chain_data:
                 chain_function = functools.partial(markovify.Text.from_dict, deserialize(chain_data))
                 with ThreadPoolExecutor() as threads:

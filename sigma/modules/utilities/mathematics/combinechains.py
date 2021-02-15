@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import functools
+import os
 import secrets
 from concurrent.futures import ThreadPoolExecutor
 
@@ -25,7 +26,7 @@ import markovify
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
+from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
 def shuffle(items):
@@ -68,11 +69,11 @@ async def combinechains(cmd, pld):
         chain_dicts = []
         with ThreadPoolExecutor() as threads:
             for target in pld.msg.mentions:
-                target_chain = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
+                target_chain = load(target.id) if os.path.exists(f'chains/{target.id}.json.gz') else None
                 if not target_chain:
                     empty_chain = target
                     break
-                chain_dicts.append(deserialize(target_chain.get("chain")))
+                chain_dicts.append(deserialize(target_chain))
             failed = False
             for chain_dict in chain_dicts:
                 try:

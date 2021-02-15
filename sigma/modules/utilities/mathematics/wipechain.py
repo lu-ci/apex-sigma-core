@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import os
 
 from sigma.core.utilities.generic_responses import GenericResponse
 
@@ -27,9 +28,9 @@ async def wipechain(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     uid = pld.msg.author.id
-    exist_check = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': uid})
-    if exist_check:
-        await cmd.db[cmd.db.db_nam].MarkovChains.delete_one({'user_id': uid})
+    fpath = f'chains/{uid}.json.gz'
+    if os.path.exists(fpath):
+        os.remove(fpath)
         response = GenericResponse('Your chain has been permanently deleted.').ok()
     else:
         response = GenericResponse('You don\'t have a Markov Chain.').error()

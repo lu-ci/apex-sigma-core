@@ -119,6 +119,9 @@ ENV/
 /log/*
 !/log/.gitkeep
 
+# Chains
+/chains
+
 # Vagrant
 /.vagrant
 /*.log

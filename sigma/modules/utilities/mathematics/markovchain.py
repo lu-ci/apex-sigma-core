@@ -15,11 +15,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import os
 
 import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import deserialize
+from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
 async def markovchain(cmd, pld):
@@ -30,9 +31,9 @@ async def markovchain(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    collection = await cmd.db[cmd.db.db_nam].MarkovChains.find_one({'user_id': target.id})
+    collection = load(target.id) if os.path.exists(f'chains/{target.id}.json.gz') else None
     if collection:
-        chain = deserialize(collection.get('chain', '{}')).get('parsed_sentences', [])
+        chain = deserialize(collection).get('parsed_sentences', [])
         starter = 'Your' if target.id == pld.msg.author.id else f'{target.name}\'s'
         response = discord.Embed(color=0xF9F9F9, title=f'⛓ {starter} chain corpus size is {len(chain)}.')
     else:

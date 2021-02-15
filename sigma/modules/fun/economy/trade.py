@@ -109,7 +109,7 @@ async def question_embed(cmd, oitems, ritems, ovalue, rvalue, otax, rtax):
     """
     rc = await get_recipe_core(cmd.db)
     curr = cmd.bot.cfg.pref.currency
-    question = f'❔ Do you want to proceed with this trade?'
+    question = '❔ Do you want to proceed with this trade?'
     quesbed = discord.Embed(color=0xf9f9f9, title=question)
     offer_item_names = []
     for oitem in oitems:
