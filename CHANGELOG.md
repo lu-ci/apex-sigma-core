@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## [Unreleased]
+
+### Removed
+
+- The `docs/` folder has been moved to the repository's wiki.
+
 ## 4.88.1769 Tsumiki
 
 ### Added
