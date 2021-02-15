@@ -82,6 +82,7 @@ async def combinechains(cmd, pld):
                     chains.append(chain)
                 except (ValueError, KeyError, AttributeError):
                     failed = True
+                    break
             if not empty_chain:
                 if not failed:
                     await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
