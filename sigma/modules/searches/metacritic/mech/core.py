@@ -141,11 +141,11 @@ class MetaCriticGame(object):
         Makes the request and sets the response data.
         :type args: list[str] or str
         """
-        url_path = self.path_from_args(*args)
+        url_path = self.path_from_args(args)
         self.formed_url = f'{self.base_url}/{url_path}'
         async with aiohttp.ClientSession() as session:
             async with session.get(self.formed_url, headers=self.headers) as response:
-                self.data = html.fromstring(response.content)
+                self.data = html.fromstring(await response.read())
                 self.valid_response = response.status == 200
 
     def extract_title(self):
@@ -387,12 +387,12 @@ class MetaCriticSearch(object):
         Makes the request and sets the response data.
         :type args: list[str] or str
         """
-        url_path = self.path_from_args(*args)
+        url_path = self.path_from_args(args)
         self.search_query = url_path.split('/')[2]
         self.formed_url = f'{self.base_url}/{url_path}'
         async with aiohttp.ClientSession() as session:
             async with session.get(self.formed_url, headers=self.headers) as response:
-                self.data = html.fromstring(response.content)
+                self.data = html.fromstring(await response.read())
                 self.valid_response = response.status == 200
 
     def extract_game_data(self, result_obj):
