@@ -86,9 +86,7 @@ def scrape_lexico(page):
             'audio': audio_link,
             'grambs': [scrape_gramb(s) for s in sections if s.attrib.get('class') == 'gramb' and s.tag == 'section']
         }
-    except IndexError as e:
-        import traceback
-        print(traceback.format_exc())
+    except IndexError:
         data = None
     return data
 
