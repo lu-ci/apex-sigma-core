@@ -34,28 +34,33 @@ def scrape_gramb(section):
     gramb_type = section[0][0].text
     trgs = section.cssselect('.trg')
     parsed_trgs = []
-    ti = 0
-    for trg in trgs:
+    for ti, trg in enumerate(trgs):
         if len(trg):
-            context = trg.cssselect('.ind')[0].text.strip()
+            context = trg.cssselect('.ind')
+            if not context:
+                continue
+            context = context[0].text.strip()
+            subs = trg.cssselect('.subSense .ind')
+            cross_ref = trg.cssselect('.crossReference')
+            if cross_ref:
+                cross_ref = cross_ref[0].text + cross_ref[0][0].text.strip()
+                subs.append(cross_ref)
+
             subsenses = []
-            subs = trg.cssselect('.subSense')
-            si = 0
-            for sub in subs:
-                sub_context = sub.cssselect('.ind')[0].text.strip()
+            for si, sub in enumerate(subs):
+                if not isinstance(sub, str):
+                    sub = sub.text.strip()
                 sub_data = {
                     'index': si + 1,
-                    'context': sub_context
+                    'context': sub
                 }
                 subsenses.append(sub_data)
-                si += 1
             trg_data = {
                 'index': ti + 1,
                 'context': context,
                 'subsenses': subsenses
             }
             parsed_trgs.append(trg_data)
-            ti += 1
 
     data = {
         'type': gramb_type.title() if gramb_type else 'Unknown Type',
@@ -74,14 +79,16 @@ def scrape_lexico(page):
     try:
         word = root.cssselect('.hwg .hw')[0].text
         sections = root.cssselect('.gramb')
-        audio_link = root.cssselect('.headwordAudio')
-        audio_link = audio_link[0][0].attrib.get('src') if len(audio_link) else None
+        audio_link = root.cssselect('.pronunciations .speaker audio')[0]
+        audio_link = audio_link.attrib.get('src') if len(audio_link) else None
         data = {
             'word': word.title(),
             'audio': audio_link,
             'grambs': [scrape_gramb(s) for s in sections if s.attrib.get('class') == 'gramb' and s.tag == 'section']
         }
-    except IndexError:
+    except IndexError as e:
+        import traceback
+        print(traceback.format_exc())
         data = None
     return data
 
