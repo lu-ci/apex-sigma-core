@@ -79,8 +79,8 @@ def scrape_lexico(page):
     try:
         word = root.cssselect('.hwg .hw')[0].text
         sections = root.cssselect('.gramb')
-        audio_link = root.cssselect('.pronunciations .speaker audio')[0]
-        audio_link = audio_link.attrib.get('src') or None
+        audio_link = root.cssselect('.pronunciations .speaker audio')
+        audio_link = audio_link[0].attrib.get('src') if audio_link else None
         data = {
             'word': word.title(),
             'audio': audio_link,
