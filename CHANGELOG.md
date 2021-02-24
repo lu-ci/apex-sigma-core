@@ -1,9 +1,10 @@
 # Apex Sigma Changelog
 
-## 4.88.1778 Tsumiki
+## 4.88.1779 Tsumiki
 
 ### Changed
 
+- Re-enable `award` and `vault`, `gtv` will remain disabled.
 - Disabled the `award`, `givetovault` and `vault` commands.
 - Check the race existence before trying to add a participant.
 - Auto-format chang-log.

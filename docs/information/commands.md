@@ -86,6 +86,7 @@ Commands | Description | Example
 ### FUN
 Commands | Description | Example
 ----------|-------------|--------
+`>>award` `>>pay` | Awards the specified amount of Kud from the vault to a mentioned person. The Kud amount goes first, followed by the target. Anybody can contribute to the vault with the givetovault command, but only users with the Manage Server permission can award Kud from the vault. | `>>award 500 @person`
 `>>bash` `>>qdb` | If you are old enough to know what IRC is or remember what it looked like, then you will appreciate the quotes that the bash command produces. Personal favorite quote command. | `>>bash`
 `>>cat` | Outputs a random cat image. Furry felines like it when their owners observe them. | `>>cat`
 `>>catfact` `>>kittyfact` | Outputs a random fact about your lovely furry assh~ eerrrr... I mean, companion! | `>>catfact`
@@ -120,6 +121,7 @@ Commands | Description | Example
 `>>shootfoot` `>>sf` | Tells you how to shoot yourself in the foot with the specified programming language. If no language is provided, it will pick a random one. | `>>shootfoot Python`
 `>>trade` | Trade items with another user. The syntax for the command is a little specific, so read the example. Start the command by pinging the user you want to trade with, then list items you want to offer (separated by a comma) followed by the word "for", after which you list items you want to receive (separated by a comma). Currency is not tradeable. Both parties must submit at least one item. Trades are taxed based on the rarity of the items received. | `>>trade @person Xibello, Floating Yon for Corpse Lily, Copula`
 `>>usagimimi` `>>usagi` `>>pyon` | Displays a random usagimimi image. In case you don't know what a usagimimi is, it's a rabbitgirl. All images are sourced from Safebooru, but be warned that some can be very borderline. | `>>usagimimi`
+`>>vault` `>>bank` | Shows the current amount of Kud in the guild's vault. | `>>vault`
 `>>visualnovelquote` `>>vnquote` `>>vnq` | Outputs a random quote from a random VN. Displays its source as well, of course. If the source visual novel of the quote is NSFW, the image will be hidden and the footer will state that. | `>>visualnovelquote`
 `>>xkcd` | If you like humorous things and know a bit of technology, you will lose a lot of time reading these. XKCD comics are perfect for procrastination and time wasting. | `>>xkcd`
 [Back To Top](#module-index)
