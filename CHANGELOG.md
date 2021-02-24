@@ -1,9 +1,10 @@
 # Apex Sigma Changelog
 
-## [Unreleased]
+## 4.88.1778 Tsumiki
 
 ### Changed
 
+- Disabled the `award`, `givetovault` and `vault` commands.
 - Check the race existence before trying to add a participant.
 - Auto-format chang-log.
 - Minor f-string fixes, where they were used when no dynamic arguments were present.
