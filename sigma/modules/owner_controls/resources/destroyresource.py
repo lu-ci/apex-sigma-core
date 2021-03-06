@@ -36,17 +36,20 @@ async def destroyresource(cmd, pld):
                     amount = abs(int(pld.args[-1]))
                     currency = cmd.bot.cfg.pref.currency.lower()
                     res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
-                    target_amount = await cmd.db.get_resource(target.id, res_nam)
-                    target_amount = target_amount.current
-                    if amount <= target_amount:
-                        await cmd.db.del_resource(target.id, res_nam, amount, cmd.name, pld.msg)
-                        title_text = f'🔥 Ok, {amount} of {target.display_name}\'s {res_nam} '
-                        title_text += 'has been destroyed.'
-                        response = discord.Embed(color=0xFFCC4D, title=title_text)
+                    valid_res = f'{res_nam.title()}Resource' in await cmd.db[cmd.db.db_nam].list_collection_names()
+                    if valid_res:
+                        await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
+                        target_amount = await cmd.db.get_resource(target.id, res_nam)
+                        target_amount = target_amount.current
+                        if amount <= target_amount:
+                            await cmd.db.del_resource(target.id, res_nam, amount, cmd.name, pld.msg)
+                            title = f'🔥 Ok, {amount} of {target.display_name}\'s {res_nam} has been destroyed.'
+                            response = discord.Embed(color=0xFFCC4D, title=title)
+                        else:
+                            title = f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.'
+                            response = GenericResponse(title).error()
                     else:
-                        response = GenericResponse(
-                            f'{target.display_name} does\'t have that much {cmd.bot.cfg.pref.currency}.'
-                        ).error()
+                        response = GenericResponse(f'No resource named {res_nam}.').error()
                 except ValueError:
                     response = GenericResponse('Invalid amount.').error()
             else:

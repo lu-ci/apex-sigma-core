@@ -34,8 +34,12 @@ async def generateresource(cmd, pld):
                     amount = abs(int(pld.args[-1]))
                     currency = cmd.bot.cfg.pref.currency.lower()
                     res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
-                    await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
-                    response = GenericResponse(f'Ok, I\'ve given {amount} {res_nam} to {target.display_name}.').ok()
+                    valid_res = f'{res_nam.title()}Resource' in await cmd.db[cmd.db.db_nam].list_collection_names()
+                    if valid_res:
+                        await cmd.db.add_resource(target.id, res_nam, amount, cmd.name, pld.msg, False)
+                        response = GenericResponse(f'Ok, I\'ve given {amount} {res_nam} to {target.display_name}.').ok()
+                    else:
+                        response = GenericResponse(f'No resource named {res_nam}.').error()
                 except ValueError:
                     response = GenericResponse('Invalid amount.').error()
             else:
