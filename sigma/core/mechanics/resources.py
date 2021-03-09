@@ -176,7 +176,7 @@ class SigmaResource(object):
         """
         self.current -= amount
         self.reserved += amount
-        self.reservation_stamp = arrow.utcnow().timestamp
+        self.reservation_stamp = arrow.utcnow().int_timestamp
 
     def consume(self, amount, trigger, origin):
         self.current += amount
@@ -184,7 +184,7 @@ class SigmaResource(object):
         self.del_value(amount, trigger, origin)
 
     def unreserve(self):
-        available = arrow.utcnow().timestamp > (self.reservation_stamp + 600)
+        available = arrow.utcnow().int_timestamp > (self.reservation_stamp + 600)
         if available:
             self.current += self.reserved
             self.reserved = 0
