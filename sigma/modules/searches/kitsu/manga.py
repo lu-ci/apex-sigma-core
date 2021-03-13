@@ -57,7 +57,7 @@ async def manga(_cmd, pld):
                     data = data.get('data')
             attr = data.get('attributes')
             slug = attr.get('slug')
-            synopsis = attr.get('synopsis')
+            synopsis = attr.get('synopsis') or 'No Synopsis Available'
             en_title = attr.get('titles').get('en') or attr.get('titles').get('en_jp')
             jp_title = attr.get('titles').get('ja_jp') or attr.get('titles').get('en_jp')
             rating = attr.get('averageRating')
