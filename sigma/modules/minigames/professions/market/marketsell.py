@@ -61,7 +61,7 @@ async def marketsell(cmd, pld):
                         inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
                         if inv_item:
                             expiration = arrow.get(
-                                arrow.utcnow().timestamp + MARKET_LIFETIME
+                                arrow.utcnow().timestamp() + MARKET_LIFETIME
                             ).format('DD. MMM. YYYY HH:mm UTC')
                             cost = int(price * 0.005)
                             cost = cost if cost else 10

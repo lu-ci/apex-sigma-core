@@ -42,7 +42,7 @@ async def check_expiry(db):
     """
     :type db: sigma.core.mechanics.database.Database
     """
-    now = arrow.utcnow().timestamp
+    now = arrow.utcnow().timestamp()
     ic = await get_item_core(db)
     async for ed in db[db.db_nam].MarketEntries.find({'stamp': {'$lt': now - MARKET_LIFETIME}}):
         entry = MarketEntry(ed)
