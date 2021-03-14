@@ -45,7 +45,7 @@ class MarketEntry(abc.ABC):
         """
         me = MarketEntry()
         me.token = secrets.token_hex(4)
-        me.stamp = arrow.utcnow().timestamp()
+        me.stamp = arrow.utcnow().int_timestamp
         me.uid = user.id
         me.uname = user.name
         me.item = item
