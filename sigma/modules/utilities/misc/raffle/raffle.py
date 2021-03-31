@@ -82,10 +82,12 @@ async def raffle(cmd, pld):
                     draw_num = arg.split(':')[-1]
                     if draw_num.isdigit():
                         draw_count = int(draw_num)
-                if arg.lower() == 'automatic':
+                    args = [a.lower() for a in pld.args]
+                elif arg.lower() == 'automatic':
                     pld.args.pop(args.index(arg))
                     if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
                         automatic = True
+                    args = [a.lower() for a in pld.args]
             if external:
                 allowed = pld.msg.author.permissions_in(target_ch).send_messages
                 if allowed:
@@ -123,8 +125,9 @@ async def raffle(cmd, pld):
                 response = None
             else:
                 response = GenericResponse(f'You can\'t send messages to #{target_ch.name}.').denied()
-        except (LookupError, ValueError):
+        except (LookupError, ValueError) as err:
             response = GenericResponse('Please use the format HH:MM:SS.').error()
+            response.description = str(err)
     else:
         response = GenericResponse('Nothing inputted.').error()
     if response:
