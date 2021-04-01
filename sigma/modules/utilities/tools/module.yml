@@ -68,9 +68,7 @@ commands:
     enabled: true
     name: lmgtfy
     usage: '{pfx}{cmd} Sexy Sneks'
-  - alts:
-      - img
-    description: Anonymously uploads the specified attachment or URL to imgur and returns
+  - description: Anonymously uploads the specified attachment or URL to imgur and returns
       a direct link to it. Attachment must be an image (GIFs are images). URL must be
       a direct link to an image.
     enabled: true

@@ -49,7 +49,7 @@ async def giphy(cmd, pld):
                 gif_url = f'https://media.giphy.com/media/{gif_id}/giphy.gif'
                 response = discord.Embed(color=0x262626)
                 response.set_image(url=gif_url)
-                response.set_footer(icon_url=giphy_icon, text='Powered By GIPHY.')
+                response.set_footer(icon_url=giphy_icon, text='Powered by GIPHY')
             else:
                 response = GenericResponse('No results').not_found()
         else:
