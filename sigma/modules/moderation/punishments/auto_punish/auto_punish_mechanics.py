@@ -184,6 +184,6 @@ async def auto_punish(cmd, pld, target, action, duration):
         action_func = action_funcs.get(action)
         await action_func(cmd, pld, target)
         if duration:
-            endstamp = arrow.get(arrow.utcnow().int_timestamp + duration).timestamp
+            endstamp = arrow.get(arrow.utcnow().int_timestamp + duration).int_timestamp
             doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
             await cmd.db[cmd.db.db_nam][f'{action.title()}ClockworkDocs'].insert_one(doc_data)
