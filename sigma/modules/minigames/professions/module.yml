@@ -76,6 +76,20 @@ commands:
     name: sell
     usage: '{pfx}{cmd} Copula'
   - alts:
+      - shop
+    description: Opens Sigma's profession upgrade shop. You can quickly buy an upgrade
+      by putting its name or its position in the shop as an argument. If you do so, you
+      can also specify how many of that upgrade you wish to puchase by adding the quantity
+      as a number after the upgrade parameter.
+    enabled: true
+    name: buyupgrade
+    usage: '{pfx}{cmd} luck 10'
+  - description: Shows your current upgrade levels. You can view another user's upgrades
+      by mentioning them.
+    enabled: true
+    name: upgrades
+    usage: '{pfx}{cmd} @person'
+  - alts:
       - fsell
     description: Sells all items that have a certain attribute. The accepted attributes
       are name, type, and rarity.
