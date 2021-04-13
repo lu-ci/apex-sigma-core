@@ -163,10 +163,8 @@ async def set_blackjack_cd(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
     base_cooldown = 60
-    stamina = upgrade_file.get('casino', 0)
-    cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
+    cooldown = int(base_cooldown - ((base_cooldown / 100) * ((0 * 0.5) / (1.25 + (0.01 * 0)))))
     if cooldown < 12:
         cooldown = 12
     await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)

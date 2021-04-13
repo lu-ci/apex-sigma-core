@@ -81,12 +81,12 @@ commands:
       by putting its name or its position in the shop as an argument. If you do so, you
       can also specify how many of that upgrade you wish to puchase by adding the quantity
       as a number after the upgrade parameter.
-    enabled: true
+    enabled: false
     name: buyupgrade
     usage: '{pfx}{cmd} luck 10'
   - description: Shows your current upgrade levels. You can view another user's upgrades
       by mentioning them.
-    enabled: true
+    enabled: false
     name: upgrades
     usage: '{pfx}{cmd} @person'
   - alts:

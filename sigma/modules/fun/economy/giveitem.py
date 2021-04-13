@@ -37,10 +37,8 @@ async def giveitem(cmd, pld):
                 if obj_item:
                     inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, obj_item.file_id)
                     if inv_item:
-                        upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
                         inv = await cmd.db.get_inventory(target.id)
-                        storage = upgrade_file.get('storage', 0)
-                        inv_limit = 64 + (8 * storage)
+                        inv_limit = 128
                         author_sab = await cmd.db.is_sabotaged(pld.msg.author.id)
                         target_sab = await cmd.db.is_sabotaged(target.id)
                         if len(inv) < inv_limit:

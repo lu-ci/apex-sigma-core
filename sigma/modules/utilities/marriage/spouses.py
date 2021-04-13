@@ -85,8 +85,7 @@ async def spouses(cmd, pld):
             if target.id in sp_spouse_ids:
                 spdata.append([spmemb, humanize_time(arrow.get(sp.get('time')))])
         spbody = boop(spdata, ['Name', 'Since'])
-        upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
-        limit = 10 + (upgrades.get('harem') or 0)
+        limit = 10
         stats = f'[Page {page}] {target.name}\'s harem has {spcount}/{limit} people in it.'
         response = discord.Embed(color=0xf9f9f9)
         response.set_author(name=f'{starter} married to...', icon_url=user_avatar(target))

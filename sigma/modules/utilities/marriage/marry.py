@@ -50,10 +50,8 @@ async def marry(cmd, pld):
             if not target.bot:
                 fake_msg = copy.copy(pld.msg)
                 fake_msg.author = target
-                author_upgrades = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
-                target_upgrades = await cmd.db.get_profile(target.id, 'upgrades') or {}
-                author_limit = 10 + (author_upgrades.get('harem') or 0)
-                target_limit = 10 + (target_upgrades.get('harem') or 0)
+                author_limit = 10
+                target_limit = 10
                 a_spouses = await cmd.bot.db.get_profile(pld.msg.author.id, 'spouses') or []
                 a_spouse_ids = [s.get('user_id') for s in a_spouses]
                 t_spouses = await cmd.db.get_profile(target.id, 'spouses') or []

@@ -72,11 +72,8 @@ async def givecookie(cmd, pld):
                     if pld.msg.author.id != target.id:
                         if not target.bot:
                             if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-                                upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
                                 base_cooldown = 3600
-                                stamina = upgrade_file.get('oven') or 0
-                                stamina_mod = stamina / (1.25 + (0.01 * stamina))
-                                cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
+                                cooldown = int(base_cooldown - ((base_cooldown / 100) * 0))
                                 await cmd.db.add_resource(target.id, 'cookies', 1, cmd.name, pld.msg, True)
                                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
                                 del_cmd_msg = pld.settings.get('delete_commands')

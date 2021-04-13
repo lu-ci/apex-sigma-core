@@ -13,4 +13,7 @@ events:
   - enabled: true
     name: leave_move_log
     type: guild_remove
+  - enabled: false
+    name: upgrade_refund
+    type: dbinit
 name: System Event Modules

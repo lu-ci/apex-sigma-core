@@ -38,14 +38,11 @@ async def fish(cmd, pld):
         Ongoing.set_ongoing('profession', pld.msg.author.id)
         item_core = await get_item_core(cmd.db)
         if not await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
-            upgrade_file = await cmd.bot.db.get_profile(pld.msg.author.id, 'upgrades') or {}
             inv = await cmd.db.get_inventory(pld.msg.author.id)
-            storage = upgrade_file.get('storage', 0)
-            inv_limit = 64 + (8 * storage)
+            inv_limit = 128
             if len(inv) < inv_limit:
                 base_cooldown = 60
-                stamina = upgrade_file.get('stamina', 0)
-                cooldown = int(base_cooldown - ((base_cooldown / 100) * ((stamina * 0.5) / (1.25 + (0.01 * stamina)))))
+                cooldown = int(base_cooldown - ((base_cooldown / 100) * ((0 * 0.5) / (1.25 + (0.01 * 0)))))
                 cooldown = 5 if cooldown < 5 else cooldown
                 await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, cooldown)
                 rarity = await item_core.roll_rarity(await cmd.bot.db.get_profile(pld.msg.author.id))

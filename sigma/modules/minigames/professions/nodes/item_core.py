@@ -232,9 +232,7 @@ class ItemCore(object):
         :type profile: dict
         :rtype: int
         """
-        upgrade_file = profile.get('upgrades') or {}
-        upgrade_level = upgrade_file.get('luck', 0)
-        top_roll, rarities = self.create_roll_range(upgrade_level)
+        top_roll, rarities = self.create_roll_range(0)
         roll = secrets.randbelow(top_roll)
         lowest = 0
         for rarity in rarities:

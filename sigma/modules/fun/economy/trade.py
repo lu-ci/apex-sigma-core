@@ -171,10 +171,8 @@ async def bad_args(cmd, pld):
 
 
 async def enough_space(db, uid, items):
-    upgrade_file = await db.get_profile(uid, 'upgrades') or {}
     inv = await db.get_inventory(uid)
-    storage = upgrade_file.get('storage', 0)
-    inv_limit = 64 + (8 * storage)
+    inv_limit = 128
     return len(inv) + len(items) <= inv_limit
 
 

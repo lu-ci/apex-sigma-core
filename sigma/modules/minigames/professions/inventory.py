@@ -106,9 +106,7 @@ async def inventory(cmd, pld):
     reci_core = await get_recipe_core(cmd.db)
     item_core = await get_item_core(cmd.db)
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
-    storage = upgrade_file.get('storage', 0)
-    inv_limit = 64 + (8 * storage)
+    inv_limit = 128
     inv = await cmd.db.get_inventory(target.id)
     total_inv = len(inv)
     item_o_list = []

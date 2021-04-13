@@ -36,15 +36,12 @@ async def chances(cmd, pld):
         target = pld.msg.mentions[0]
     else:
         target = pld.msg.author
-    upgrade_level = None
+    upgrade_level = 0
     if pld.args:
         if pld.msg.author.id in cmd.bot.cfg.dsc.owners:
             if len(pld.args) > 1:
                 if pld.args[-1].isdigit:
                     upgrade_level = int(pld.args[-1])
-    if upgrade_level is None:
-        upgrade_file = await cmd.db.get_profile(target.id, 'upgrades') or {}
-        upgrade_level = upgrade_file.get('luck') or 0
     top_roll, rarities = item_core.create_roll_range(upgrade_level)
     out_lines = []
     table_head = ['Rarity', 'Chance']

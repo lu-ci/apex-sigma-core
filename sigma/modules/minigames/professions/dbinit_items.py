@@ -27,7 +27,7 @@ async def dbinit_items(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :type force:
+    :type force: bool
     """
     await dbinit_item_data(ev, force)
     await dbinit_recipe_data(ev, force)
@@ -39,7 +39,7 @@ async def dbinit_item_data(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :type force:
+    :type force: bool
     """
     doc_count = await ev.db[ev.db.db_nam].ItemData.count_documents({})
     if not doc_count or force:
@@ -57,7 +57,7 @@ async def dbinit_recipe_data(ev, force=False):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :type force:
+    :type force: bool
     """
     doc_count = await ev.db[ev.db.db_nam].RecipeData.count_documents({})
     if not doc_count or force:
