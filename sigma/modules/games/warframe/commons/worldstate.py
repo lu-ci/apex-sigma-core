@@ -99,7 +99,7 @@ class WorldState(object):
         Fetches the current Fissures from the World State.
         :rtype: list[dict]
         """
-        return await self.safe_get(tools_url, 'fissures')
+        return await self.safe_get(stats_url, 'fissures')
 
     @property
     async def bounties(self):
