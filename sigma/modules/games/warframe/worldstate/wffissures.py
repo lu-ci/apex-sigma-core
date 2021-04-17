@@ -57,13 +57,21 @@ async def wffissures(_cmd, pld):
     fissures = await WorldState().fissures
     if fissures:
         response = discord.Embed(color=0x66ccff, title='Currently Ongoing Fissures')
+        void_storms = []
         for fissure in sort_fissures(fissures):
-            fissure_desc = f'Location: {fissure["location"]} - {fissure["missionType"]}'
-            fissure_desc += f'\nFaction: {fissure["faction"]}'
-            offset = fissure['end'] - arrow.utcnow().int_timestamp
+            fissure_desc = f'Location: {fissure["nodeKey"]} - {fissure["missionType"]}'
+            fissure_desc += f'\nFaction: {fissure["enemy"]}'
+            offset = arrow.get(fissure['expiry']).int_timestamp - arrow.utcnow().int_timestamp
             expiry = str(datetime.timedelta(seconds=offset))
             fissure_desc += f'\nDisappears In: {expiry}'
-            response.add_field(name=f'{fissure["tier"]} Void Fissure', value=fissure_desc, inline=False)
+            name = f'{fissure["tier"]} Void Fissure'
+            if fissure['isStorm']:
+                name += ' (Void Storm)'
+                void_storms.append((name, fissure_desc))
+            else:
+                response.add_field(name=name, value=fissure_desc, inline=False)
+        for name, desc in void_storms:
+            response.add_field(name=name, value=desc, inline=False)
         response.set_footer(text='Timers are not updated live.')
         response.set_thumbnail(url=fissure_icon)
     else:
