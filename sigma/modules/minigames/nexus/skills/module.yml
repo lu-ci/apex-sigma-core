@@ -1,0 +1,10 @@
+category: minigames
+commands:
+  - alts:
+      - skill
+    description: It shows skill information for the target user.
+    enabled: true
+    name: skills
+    usage: '{pfx}{cmd} @person'
+enabled: true
+name: Skill Commands

@@ -21,6 +21,7 @@ import discord
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.dialogue_controls import DialogueCore
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.modules.minigames.nexus.skills.core import SkillCore
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.properties import item_icons
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
@@ -72,6 +73,7 @@ async def fish(cmd, pld):
                         await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
                         await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
                         response = discord.Embed(color=item.color, title=response_title)
+                        await SkillCore.instance().trigger(cmd.db, pld.msg, 'fishing', item.rarity)
                     else:
                         if dresp.timed_out:
                             response_title = f'🕙 Oh no... The {item.rarity_name} {item.type.lower()} escaped...'

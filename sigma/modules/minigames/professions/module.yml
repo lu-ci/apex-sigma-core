@@ -142,4 +142,7 @@ events:
   - enabled: true
     name: dbinit_items
     type: dbinit
+  - enabled: true
+    name: profession_skills
+    type: dbinit
 name: Profession Minigames

@@ -75,5 +75,8 @@ async def marketlist(cmd, pld):
         response.add_field(name=f'💶 {title}', value=f'```py\n{inv_text}\n```')
         response.add_field(name=f'📋 Items Currently On Page {page}', value=f'```hs\n{output}\n```', inline=False)
     else:
-        response = GenericResponse('I couldn\'t find anything with that name.').error()
+        if lookup:
+            response = GenericResponse('I couldn\'t find anything with that name.').error()
+        else:
+            response = GenericResponse('The market seems to be empty right now.').error()
     await pld.msg.channel.send(embed=response)
