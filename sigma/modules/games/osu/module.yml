@@ -1,8 +1,10 @@
 category: osu
 commands:
   - description: Generates a signature image with the specified user's stats for osu!.
+      You can specify the mode by adding it as the last argument, starting with a double hyphen '--'.
+      For example, add '--mania' as the last argument to view stats for the mania mode.
     enabled: true
     name: osu
-    usage: '{pfx}{cmd} AXAz0r'
+    usage: '{pfx}{cmd} AXAz0r --mania'
 enabled: true
 name: Osu Commands
