@@ -26,6 +26,7 @@ from lxml import html
 from sigma.core.utilities.generic_responses import GenericResponse
 
 osu_logo = 'https://i.imgur.com/hHAY7PM.png'
+osu_modes = {'taiko': 1, 'catch': 2, 'mania': 3}
 
 
 def make_url_hash(url):
@@ -67,6 +68,15 @@ async def find_user_data(db, profile_url):
     return user_data
 
 
+def get_name_and_mode(args):
+    mode = 0
+    if args[-1].startswith('--'):
+        mode = osu_modes.get(args.pop()[2:].lower(), 0)
+    name = '%20'.join(args)
+    return name, mode
+    
+
+
 async def osu(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -75,13 +85,13 @@ async def osu(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        osu_input = '%20'.join(pld.args)
+        osu_input, osu_mode = get_name_and_mode(pld.args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'
         user_data = await find_user_data(cmd.db, profile_url)
         username = user_data.get('username')
         if username:
             user_color = str(pld.msg.author.color)[1:]
-            sig_url = f'https://lemmmy.pw/osusig/sig.php?colour=hex{user_color}&uname={osu_input}'
+            sig_url = f'https://lemmmy.pw/osusig/sig.php?colour=hex{user_color}&uname={osu_input}&mode={osu_mode}'
             response = discord.Embed(color=pld.msg.author.color)
             response.set_image(url=sig_url)
             response.set_author(name=f'{username}\'s osu! Profile', url=profile_url, icon_url=osu_logo)
