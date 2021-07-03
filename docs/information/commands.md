@@ -367,7 +367,7 @@ Commands | Description | Example
 ### OSU
 Commands | Description | Example
 ----------|-------------|--------
-`>>osu` | Generates a signature image with the specified user's stats for osu!. | `>>osu AXAz0r`
+`>>osu` | Generates a signature image with the specified user's stats for osu!. You can specify the mode by adding it as the last argument, starting with a double hyphen '--'. For example, add '--mania' as the last argument to view stats for the mania mode. | `>>osu AXAz0r --mania`
 [Back To Top](#module-index)
 
 ### PERMISSIONS
