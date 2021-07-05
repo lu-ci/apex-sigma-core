@@ -65,6 +65,8 @@ async def translation(_cmd, pld):
             else:
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
                 response = discord.Embed(color=0x3B88C3, title=title)
+                for o, n in [('&lt;-', '<@'), ('&lt;!', '<@'), ('&lt;#', '<#'), ('&lt;&', '<@&'), ('&gt;', '>')]:
+                    trans_output = trans_output.replace(o, n)
                 response.description = trans_output
         else:
             response = GenericResponse('Missing language or sentence.').error()
