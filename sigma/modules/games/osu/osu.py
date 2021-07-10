@@ -76,7 +76,6 @@ def get_name_and_mode(args):
     return name, mode
     
 
-
 async def osu(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
