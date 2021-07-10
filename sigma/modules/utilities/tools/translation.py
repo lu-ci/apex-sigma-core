@@ -22,6 +22,14 @@ import translate
 from sigma.core.utilities.generic_responses import GenericResponse
 
 wiki_url = 'https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'
+repl_map = {
+    '&lt;-': '<@',
+    '&lt;!': '<@',
+    '&lt;@!': '<@',
+    '&lt;#': '<#',
+    '&lt;&': '<@&',
+    '&gt;': '>'
+}
 
 
 async def translation(_cmd, pld):
@@ -65,7 +73,7 @@ async def translation(_cmd, pld):
             else:
                 title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
                 response = discord.Embed(color=0x3B88C3, title=title)
-                for o, n in [('&lt;-', '<@'), ('&lt;!', '<@'), ('&lt;#', '<#'), ('&lt;&', '<@&'), ('&gt;', '>')]:
+                for o, n in repl_map.items():
                     trans_output = trans_output.replace(o, n)
                 response.description = trans_output
         else:
