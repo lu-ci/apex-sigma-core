@@ -18,7 +18,7 @@ commands:
   - alts:
       - bank
     description: Shows the current amount of Kud in the guild's vault.
-    enabled: true
+    enabled: false
     name: vault
   - alts:
       - givetobank
@@ -36,7 +36,7 @@ commands:
       The Kud amount goes first, followed by the target. Anybody can contribute to the
       vault with the givetovault command, but only users with the Manage Server permission
       can award Kud from the vault.
-    enabled: true
+    enabled: false
     name: award
     usage: '{pfx}{cmd} 500 @person'
   - description: Gives an amount of Kud to you with a 22 hour cooldown. The amount is
