@@ -74,7 +74,7 @@ def get_name_and_mode(args):
         mode = osu_modes.get(args.pop()[2:].lower(), 0)
     name = '%20'.join(args)
     return name, mode
-    
+
 
 async def osu(cmd, pld):
     """
