@@ -45,4 +45,4 @@ async def raw_edit_logger(ev, pld):
         log_embed.add_field(name='📰 Info', value=f'Message: {pld.raw.message_id}\n{channel_info}')
         log_embed.add_field(name='✏️ After', value=pld.raw.data.get('content'), inline=False)
         log_embed.set_footer(text='Uncached (raw) events have limited information.')
-        await log_event(ev.bot, pld.settings, log_embed, 'log_deletions')
+        await log_event(ev.bot, pld.settings, log_embed, 'log_edits')
