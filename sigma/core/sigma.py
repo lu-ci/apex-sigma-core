@@ -36,8 +36,9 @@ from sigma.core.mechanics.modman import ModuleManager
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.payload import BanPayload, GuildPayload, GuildUpdatePayload, MemberPayload
 from sigma.core.mechanics.payload import MemberUpdatePayload, MessageEditPayload, MessagePayload
-from sigma.core.mechanics.payload import RawReactionPayload, ReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.payload import UnbanPayload, VoiceStateUpdatePayload
+from sigma.core.mechanics.payload import ReactionPayload, ShardReadyPayload
+from sigma.core.mechanics.payload import RawReactionPayload, RawMessageDeletePayload, RawMessageEditPayload
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
@@ -555,3 +556,19 @@ class ApexSigma(client_class):
         """
         if payload.user_id != payload.channel_id:
             self.loop.create_task(self.queue.event_runner('raw_reaction_remove', RawReactionPayload(self, payload)))
+
+    async def on_raw_message_delete(self, payload):
+        """
+        Starts events when a user removes a message regardless of it being cached.
+        :type payload: discord.RawMessageDeleteEvent
+        """
+        if payload.guild_id and payload.cached_message is None:
+            self.loop.create_task(self.queue.event_runner('raw_message_delete', RawMessageDeletePayload(self, payload)))
+
+    async def on_raw_message_edit(self, payload):
+        """
+        Starts events when a user edits a message regardless of it being cached.
+        :type payload: discord.RawMessageUpdateEvent
+        """
+        if payload.guild_id and payload.cached_message is None and not payload.data.get('author', {}).get('bot'):
+            self.loop.create_task(self.queue.event_runner('raw_message_edit', RawMessageEditPayload(self, payload)))

@@ -23,20 +23,17 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
 
 
-async def edit_logger(ev, pld):
+async def raw_delete_logger(ev, pld):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :param pld: The event payload data to process.
-    :type pld: sigma.core.mechanics.payload.MessageEditPayload
+    :type pld: sigma.core.mechanics.payload.RawMessageDeletePayload
     """
-    before, after = pld.before, pld.after
-    if after.guild:
-        if before.content and after.content and (before.content != after.content):
-            log_title = f'{after.author.name}#{after.author.discriminator} edited their message.'
-            log_embed = discord.Embed(color=0x262626, timestamp=arrow.utcnow().datetime)
-            log_embed.set_author(name=log_title, icon_url=user_avatar(after.author))
-            log_embed.add_field(name='🖍️ Before', value=before.content, inline=False)
-            log_embed.add_field(name='✏️ After', value=after.content, inline=False)
-            log_embed.set_footer(text=f'Message {after.id} in #{after.channel.name}')
-            await log_event(ev.bot, pld.settings, log_embed, 'log_edits')
+    log_title = 'An uncached message was deleted.'
+    channel_info = f'Channel: <#{pld.raw.channel_id}> [{pld.raw.channel_id}]'
+    log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
+    log_embed.set_author(name=log_title, icon_url=user_avatar(ev.bot.user))
+    log_embed.add_field(name='🗑 Info', value=f'Message: {pld.raw.message_id}\n{channel_info}')
+    log_embed.set_footer(text='Uncached (raw) events have limited information.')
+    await log_event(ev.bot, pld.settings, log_embed, 'log_deletions')

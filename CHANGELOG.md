@@ -1,5 +1,21 @@
 # Apex Sigma Changelog
 
+## 4.90.1804 Fubuki
+
+### Added
+
+- Raw edit and deletion event handling, and their payloads have been added.
+- Deleting and editing uncached messages is now logged with whatever data we could pull.
+
+### Changed
+
+- Warframe fissures have been updated.
+- Osu! got an option to display stats for different modes.
+- Some Docker image fixes have been added due to Jessie missing repo keys.
+- Discord object mentions have been fixed for `translate`.
+
+### Changed
+
 ## 4.88.1779 Tsumiki
 
 ### Changed

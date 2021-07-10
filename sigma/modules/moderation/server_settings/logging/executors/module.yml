@@ -16,4 +16,10 @@ events:
   - enabled: true
     name: leave_logger
     type: member_remove
+  - enabled: true
+    name: raw_delete_logger
+    type: raw_message_delete
+  - enabled: true
+    name: raw_edit_logger
+    type: raw_message_edit
 name: Logging Executors

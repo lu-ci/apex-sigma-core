@@ -325,3 +325,48 @@ class RawReactionPayload(SigmaPayload):
         Processes the guild's settings and adds them to the payload.
         """
         self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)
+
+
+class RawMessageDeletePayload(SigmaPayload):
+    """
+    Payload generated when a message is deleted
+    regardless of it being cached or not.
+    """
+
+    __slots__ = ("raw",)
+
+    def __init__(self, bot, raw):
+        """
+        :type bot: sigma.core.sigma.Apexsigma
+        :type raw: discord.RawMessageDeleteEvent
+        """
+        super().__init__(bot)
+        self.raw = raw
+
+    async def init(self):
+        """
+        Processes the guild's settings and adds them to the payload.
+        """
+        self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)
+
+
+class RawMessageEditPayload(SigmaPayload):
+    """
+    Payload generated when a message is edited
+    regardless of it being cached or not.
+    """
+    __slots__ = ("raw",)
+
+    def __init__(self, bot, raw):
+        """
+        :type bot: sigma.core.sigma.Apexsigma
+        :type raw: discord.RawMessageUpdateEvent
+        """
+        super().__init__(bot)
+        self.raw = raw
+
+    async def init(self):
+        """
+        Processes the guild's settings and adds them to the payload.
+        """
+        self.settings = await self.bot.db.get_guild_settings(self.raw.guild_id)
