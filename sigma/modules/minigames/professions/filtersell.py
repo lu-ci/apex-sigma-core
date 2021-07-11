@@ -47,6 +47,11 @@ async def filtersell(cmd, pld):
     """
     item_core = await get_item_core(cmd.db)
     if pld.args:
+        duplicates = False
+        if len(pld.args) > 1:
+            if pld.args[-1].lower() == '--duplicates':
+                duplicates = True
+                pld.args.pop()
         full_qry = ' '.join(pld.args)
         arguments = full_qry.split(':')
         if len(arguments) >= 2:
@@ -66,13 +71,17 @@ async def filtersell(cmd, pld):
                     attribute = None
                 if attribute:
                     sell_id_list = []
+                    existing_ids = []
                     for item in inv:
                         item_ob_id = item_core.get_item_by_file_id(item['item_file_id'])
                         item_attribute = getattr(item_ob_id, attribute)
                         if item_attribute.lower() == lookup.lower():
-                            value += item_ob_id.value
-                            count += 1
-                            sell_id_list.append(item['item_id'])
+                            if item['item_file_id'] in existing_ids or not duplicates:
+                                value += item_ob_id.value
+                                count += 1
+                                sell_id_list.append(item['item_id'])
+                            else:
+                                existing_ids.append(item['item_file_id'])
                     if sell_id_list:
                         ender = 's' if count > 1 else ''
                         currency = cmd.bot.cfg.pref.currency

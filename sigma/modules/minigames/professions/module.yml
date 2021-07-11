@@ -92,7 +92,8 @@ commands:
   - alts:
       - fsell
     description: Sells all items that have a certain attribute. The accepted attributes
-      are name, type, and rarity.
+      are name, type, and rarity. You can add '--duplicates' as the last argument to only
+      sell duplicate items with the specified attribute.
     enabled: true
     name: filtersell
     usage: '{pfx}{cmd} rarity:Legendary'

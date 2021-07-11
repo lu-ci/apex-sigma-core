@@ -209,7 +209,7 @@ Commands | Description | Example
 `>>cook` `>>craft` `>>make` | Uses a recipe to create an item from raw resources that you've gathered. You can see all available recipes with the recipes command. | `>>cook Shade Tea`
 `>>drawcard` `>>draw` | Draws the specified number of cards. The number of cards to draw can't be above 10. The decks are persistent, so if you don't have enough cards left you'll need to make a new deck with the "newdeck" command. | `>>drawcard 3`
 `>>eightball` `>>8ball` | The 8Ball has answers to ALL your questions. Come one, come all, and ask the mighty allknowing 8Ball! Provide a question at the end of the command and await the miraculous answer! | `>>eightball Will I ever be pretty?`
-`>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type, and rarity. | `>>filtersell rarity:Legendary`
+`>>filtersell` `>>fsell` | Sells all items that have a certain attribute. The accepted attributes are name, type, and rarity. You can add '--duplicates' as the last argument to only sell duplicate items with the specified attribute. | `>>filtersell rarity:Legendary`
 `>>fish` | Cast a lure and try to catch some fish. You can fish once every 60 seconds, better not scare the fish away. | `>>fish`
 `>>forage` | Go hiking and search nature for all the delicious bounties it has. Look for plants that you might want to use for cooking in the future. You can forage once every 60 seconds, hiking is really tiring. | `>>forage`
 `>>gamblingstats` `>>gambstats` | Shows total gains and losses from gambling minigames for the specified user. You can view the global gains and losses by adding "--global" as an argument. | `>>gamblingstats @user`
