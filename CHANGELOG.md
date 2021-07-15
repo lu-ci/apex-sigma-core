@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.90.1805 Fubuki
+
+### Changed
+
+- Added an optional duplicates flag to `filtersell`.
+
 ## 4.90.1804 Fubuki
 
 ### Added
