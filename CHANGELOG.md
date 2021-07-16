@@ -5,6 +5,7 @@
 ### Changed
 
 - Added an optional duplicates flag to `filtersell`.
+- Corrected the usage example for `declinesuggestion`.
 
 ## 4.90.1804 Fubuki
 

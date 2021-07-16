@@ -20,6 +20,6 @@ commands:
     name: declinesuggestion
     permissions:
       owner: true
-    usage: '{pfx}{cmd} 8e39c9bb Some Title; This does a thing!'
+    usage: '{pfx}{cmd} 8e39c9bb Too lazy...'
 enabled: true
 name: Development Suggestion Control
