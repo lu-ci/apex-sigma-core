@@ -45,7 +45,7 @@ Commands | Description | Example
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackuser` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
-`>>declinesuggestion` `>>declinesugg` `>>decsugg` | Declines a submitted suggestion and notifies the submitter. (Bot Owner Only) | `>>declinesuggestion 8e39c9bb Some Title; This does a thing!`
+`>>declinesuggestion` `>>declinesugg` `>>decsugg` | Declines a submitted suggestion and notifies the submitter. (Bot Owner Only) | `>>declinesuggestion 8e39c9bb Too lazy...`
 `>>destroyitem` `>>desitem` | Destroys the item with the specified ID. (Bot Owner Only) | `>>destroyitem abcdef1234567890`
 `>>destroyresource` `>>destroyres` `>>desres` `>>desr` | Takes away the specified amount of the specified resource from the mentioned user. The resource type goes first and then the user mention, and then the amount as shown in the example. (Bot Owner Only) | `>>destroyresource metal @person 100`
 `>>eject` | Makes Sigma leave a Discord server. (Bot Owner Only) | `>>eject 0123456789`
@@ -328,7 +328,6 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>disconnect` `>>stop` | Stops the music, disconnects Sigma from the current voice channel, and purges the music queue. | `>>disconnect`
-`>>lyrics` `>>lyr` | Searches for the lyrics of the specified song. Requires both the song and artist, separated by a dash "-". If no arguments are given, it will try to get the currently playing song's lyrics. | `>>lyrics Imagine Dragons - Radioactive`
 `>>nowplaying` `>>currentsong` `>>playing` `>>np` | Shows information on the currently playing song. | `>>nowplaying`
 `>>pause` | Pauses the music player. | `>>pause`
 `>>play` `>>start` | Starts playing the music queue. | `>>play`
@@ -428,6 +427,7 @@ Commands | Description | Example
 `>>giphy` `>>gif` | Searches Giphy with the specified tag and returns a random result. The tag can be multiple words. | `>>giphy kittens`
 `>>homophones` `>>homophone` | Looks up words that sound like the specified term. | `>>homophones coarse`
 `>>imdb` `>>movie` | Searches the Internet Movie Database for your input. Gives you the poster, release year, and who stars in the movie, as well as a link to the page of the movie. | `>>imdb Blade Runner`
+`>>lyrics` `>>lyr` | Searches for the lyrics of the specified song. Requires both the song and artist, separated by a dash "-". If no arguments are given, it will try to get the currently playing song's lyrics. | `>>lyrics Imagine Dragons - Radioactive`
 `>>manga` `>>mango` `>>kitsumanga` | Searches Kitsu.io for the specified manga. The outputed results will be information like the number of chapters, user rating, plot summary, and poster image. | `>>manga A Silent Voice`
 `>>mapsearch` `>>maps` `>>map` | Searches Google Maps for the specified location. If specific details aren't found about the location, it will return in a broad search. | `>>mapsearch Belgrade`
 `>>metacritic` `>>mc` | Shows MetaCritic scores for games, movies, tv, and music albums. Search fields are separated by forward slashes. You can also search to view a list of results. The 'type' field when searching can be game, movie, tv, or music. The 'season' field for tv and 'artist' field for music are both optional and can be omitted. See the examples below.  Games: game/platform/title (game/ps4/fallout 4) Movies: movie/title (movie/pulp fiction) TV: tv/title/season (tv/lost/season 1) Music: music/album/artist (music/love/the beatles) Search: search/type/title (search/game/fallout)  | `>>metacritic game/ps4/fallout 4`

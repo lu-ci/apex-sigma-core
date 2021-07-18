@@ -47,14 +47,14 @@ def parse_parts(lyr, fallback=False):
     lines = lyr.split('.' if fallback else '\n')
     chunk = []
     for line in lines:
-        if sum(len(c) for c in chunk) + len(line) >= 1024:
+        if sum(len(c) for c in chunk) + len(line) + (1 + len(chunk)) >= 1024:
             pieces.append("\n".join(chunk))
             chunk = [line]
         else:
             chunk.append(line)
     if chunk:
         pieces.append("\n".join(chunk))
-    if any([len(lpiece) > 1024 for lpiece in pieces]) and not fallback:
+    if any([len(piece) > 1024 for piece in pieces]) and not fallback:
         output = parse_parts('\n'.join(pieces), True)
     else:
         output = pieces
@@ -73,13 +73,23 @@ async def get_lyrics_from_html(lyrics_url):
     if lyrics_url:
         lyric_page_html = await get_url_body(lyrics_url)
         if lyric_page_html:
-            lyrics_page = lx.fromstring(lyric_page_html)
-            lyric_section = lyrics_page.cssselect('.lyrics')
-            if lyric_section:
-                lyrics_text = lyric_section[0][1].text_content()
-                thumbnail = lyrics_page.cssselect('.cover_art-image')[0].attrib.get('src')
-                artist = lyrics_page.cssselect('.header_with_cover_art-primary_info-primary_artist')[0].text
-                song = lyrics_page.cssselect('.header_with_cover_art-primary_info-title')[0].text
+            try:
+                lyrics_page = lx.fromstring(lyric_page_html)
+                lyric_section = lyrics_page.cssselect('[class*=Lyrics__Root]')
+                if not lyric_section:
+                    lyric_section = lyrics_page.cssselect('[class=lyrics]')
+                if lyric_section:
+                    lyric_section = lyric_section[0]
+                    for br in lyric_section.xpath('*//br'):
+                        br.tail = '\n' + br.tail if br.tail else '\n'
+                    lyric_footer = lyric_section.cssselect('[class^=Lyrics__Footer]')[0]
+                    lyric_section.remove(lyric_footer)
+                    lyrics_text = lyric_section.text_content()
+                    thumbnail = lyrics_page.cssselect('[class^=PrimaryAlbum__CoverArt]')[0][0][0][0].attrib.get('src')
+                    artist = lyrics_page.cssselect('[class*=SongHeader__Artist]')[0].text
+                    song = lyrics_page.cssselect('[class^=SongHeader__Title]')[0].text
+            except (AttributeError, IndexError):
+                pass
     return lyrics_text, artist, song, thumbnail
 
 
@@ -106,9 +116,10 @@ async def lyrics(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    text_only = cmd.bot.cfg.pref.text_only
     if pld.args:
         query = ' '.join(pld.args)
-    elif cmd.bot.music.currents.get(pld.msg.guild.id):
+    elif not text_only and cmd.bot.music.currents.get(pld.msg.guild.id):
         query = cmd.bot.music.currents.get(pld.msg.guild.id).title
     else:
         query = None
@@ -139,5 +150,8 @@ async def lyrics(cmd, pld):
         else:
             response = GenericResponse(f'Nothing found for {query}.').error()
     else:
-        response = GenericResponse('No song information given, and nothing currently playing.').error()
+        if not text_only:
+            response = GenericResponse('No song information given, and nothing currently playing.').error()
+        else:
+            response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)
