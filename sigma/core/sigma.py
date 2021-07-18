@@ -570,5 +570,5 @@ class ApexSigma(client_class):
         Starts events when a user edits a message regardless of it being cached.
         :type payload: discord.RawMessageUpdateEvent
         """
-        if payload.guild_id and payload.cached_message is None and not payload.data.get('author', {}).get('bot'):
+        if payload.cached_message is None and payload.guild_id and not payload.data.get('author', {}).get('bot'):
             self.loop.create_task(self.queue.event_runner('raw_message_edit', RawMessageEditPayload(self, payload)))
