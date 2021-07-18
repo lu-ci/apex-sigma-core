@@ -1,5 +1,11 @@
 # Apex Sigma Changelog
 
+## 4.90.1813 Fubuki
+
+### Changed
+
+- Moved the `lyrics` command to the `searches` category, since music is no longer active.
+
 ## 4.90.1805 Fubuki
 
 ### Changed
