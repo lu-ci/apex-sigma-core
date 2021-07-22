@@ -89,10 +89,11 @@ commands:
   - alts:
       - mimic
     description: Tries to impersonate the mentioned user if a chain file for them exists.
-      The more items in your chain you have, the better the output. Having a low number
-      of items, or having items that aren't good enough, might result in Sigma not being
-      able to generate anything. The optimal amount is 5000 items. You can check how
-      many items you have with the chain command.
+      A larger chain will yield a better output. Having a small chain, or chain items that
+      aren't good enough, might result in no output being generated. The optimal chain size
+      is above 5000. You can view your chain size via the chain command. You can specify
+      either a character limit, or a starting state of one to two words (not both). Your chain
+      must contain the starting words in order for an output to be generated with them.
     enabled: true
     name: impersonate
     usage: '{pfx}{cmd} @person'

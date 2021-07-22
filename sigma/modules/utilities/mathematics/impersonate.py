@@ -28,6 +28,26 @@ from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
+def get_target_and_args(pld):
+    if pld.msg.mentions:
+        target = pld.msg.mentions[0]
+        for arg in pld.args:
+            if str(target.id) in arg:
+                pld.args.pop(pld.args.index(arg))
+                break
+    else:
+        target = pld.msg.author
+
+    limit = 500
+    beginning = None
+    if pld.args:
+        if pld.args[0].isdigit():
+            limit = int(pld.args.pop(0))
+        else:
+            beginning = ' '.join(pld.args[:2])
+    return target, limit, beginning
+
+
 async def impersonate(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -35,13 +55,7 @@ async def impersonate(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.args:
-        if pld.msg.mentions:
-            target = pld.msg.mentions[0]
-        else:
-            target = discord.utils.find(lambda x: x.name.lower() == ' '.join(pld.args).lower(), pld.msg.guild.members)
-    else:
-        target = pld.msg.author
+    target, limit, beginning = get_target_and_args(pld)
     if target:
         if os.path.exists(f'chains/{target.id}.json.gz'):
             chain_data = load(target.id)
@@ -50,7 +64,13 @@ async def impersonate(cmd, pld):
                 with ThreadPoolExecutor() as threads:
                     try:
                         chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                        sentence_function = functools.partial(chain.make_short_sentence, 500)
+                        if beginning:
+                            sentence_func = chain.make_sentence_with_start
+                            sentence_args = [beginning, False]
+                        else:
+                            sentence_func = chain.make_short_sentence
+                            sentence_args = [limit]
+                        sentence_function = functools.partial(sentence_func, *sentence_args, tries=20)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (KeyError, ValueError, AttributeError):
                         sentence = None
