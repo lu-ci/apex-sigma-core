@@ -82,7 +82,7 @@ class RedditClient(object):
         :type listing: str
         :rtype: list[sigma.modules.searches.reddit.mech.reddit_core.RedditSub]
         """
-        sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json'
+        sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json?t=week'
         sub_listing_data = await self.__get_data(sub_listing_url)
         sub_listing_list = sub_listing_data.get('data', {}).get('children', [])
         posts = [RedditPost(post.get('data')) for post in sub_listing_list]
