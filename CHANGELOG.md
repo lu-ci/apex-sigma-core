@@ -1,5 +1,13 @@
 # Apex Sigma Changelog
 
+## 4.91.1820 Fubuki
+
+### Changed
+
+- Added a character limit argument to `impersonate`.
+- Added a beginning state argument to `impersonate`.
+- Extended the results of `reddit` to posts made within the last week.
+
 ## 4.90.1813 Fubuki
 
 ### Changed
