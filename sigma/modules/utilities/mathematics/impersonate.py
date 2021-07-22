@@ -74,6 +74,14 @@ async def impersonate(cmd, pld):
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (KeyError, ValueError, AttributeError):
                         sentence = None
+                    except markovify.text.ParamError:
+                        if not beginning:
+                            sentence = None
+                        else:
+                            ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                            response = GenericResponse(f'Your chain does not contain that {ender}').error()
+                            await pld.msg.channel.send(embed=response)
+                            return
                 if not sentence:
                     not_enough_data = '😖 I could not think of anything... I need more chain items!'
                     response = discord.Embed(color=0xBE1931, title=not_enough_data)
