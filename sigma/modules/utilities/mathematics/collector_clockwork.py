@@ -194,6 +194,32 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
             pass
 
 
+async def notify_empty(ath, tgt_usr, tgt_chn):
+    """
+    :type ath: discord.User
+    :type tgt_usr: discord.User
+    :type tgt_chn: discord.TextChannel
+    """
+    req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
+    footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
+    guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
+    response = GenericResponse(f'{req_usr.title()} did not have a chain and no new entries were found.').not_found()
+    response.set_footer(text=footer, icon_url=guild_icon)
+    # noinspection PyBroadException
+    try:
+        await tgt_usr.send(embed=response)
+    except Exception:
+        pass
+    if ath.id != tgt_usr.id:
+        req_resp = GenericResponse(f'{tgt_usr.name} did not have a chain and no new entries were found.').not_found()
+        req_resp.set_footer(text=footer, icon_url=guild_icon)
+        # noinspection PyBroadException
+        try:
+            await ath.send(embed=req_resp)
+        except Exception:
+            pass
+
+
 async def notify_failure(ath, tgt_usr, tgt_chn):
     """
     :type ath: discord.Member or discord.User
@@ -220,6 +246,22 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
             await ath.send(embed=req_resp)
         except Exception:
             pass
+
+
+async def set_coll_cache(ev, user_id, channel_id, coll_cache, last_msg):
+    """
+    :type ev: sigma.core.mechanics.evens.SigmaEvent
+    :type user_id: int
+    :type channel_id: int
+    :type coll_cache: dict
+    :type last_msg: float
+    """
+    if coll_cache:
+        coll_cache.update({str(channel_id): last_msg})
+        lookup, cache_data = {'user_id': user_id}, {'$set': coll_cache}
+        await ev.db[ev.db.db_nam].CollectorCache.update_one(lookup, cache_data)
+    else:
+        await ev.db[ev.db.db_nam].CollectorCache.insert_one({'user_id': user_id, str(channel_id): last_msg})
 
 
 def serialize(item):
@@ -292,7 +334,7 @@ async def cycler(ev):
     while True:
         if ev.bot.is_ready():
             now = arrow.utcnow().int_timestamp
-            await coll.delete_many({'stamp': {'$lt': now - 3600}})
+            await coll.delete_many({'stamp': {'$lt': now - 7200}})
             cltr_items = await coll.find({}).to_list(None)
             for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
@@ -303,25 +345,40 @@ async def cycler(ev):
                     await coll.delete_one(cltr_item)
                     current_user_collecting = cl_usr.id
                     collection = load(cl_usr.id)
+                    coll_cache = await ev.db[ev.db.db_nam].CollectorCache.find_one({'user_id': cl_usr.id}) or {}
+                    last_msg = coll_cache.get(str(cl_chn.id))
+                    if last_msg:
+                        last_msg = arrow.get(last_msg).naive
                     chain = markovify.Text.from_dict(deserialize(collection)) if collection is not None else None
-                    messages = []
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
+                    new_last_msg = None
+                    messages = []
                     # noinspection PyBroadException
                     try:
-                        async for log in cl_chn.history(limit=100_000):
+                        async for log in cl_chn.history(limit=100_000, after=last_msg):
+                            if not new_last_msg:
+                                new_last_msg = log.created_at.timestamp()
                             cnt = log.content
                             if log.author.id == cl_usr.id and len(log.content) > 8:
                                 if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
                                     cnt = cleanse_content(log, cnt)
                                     if cnt not in messages and cnt and len(cnt) > 1:
                                         messages.append(cnt)
+                        if new_last_msg:
+                            await set_coll_cache(ev, cl_usr.id, cl_chn.id, coll_cache, new_last_msg)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]: {e}')
                     try:
                         new_chain = markovify.Text(f'{". ".join(messages)}.')
-                        combined = markovify.combine([chain, new_chain]) if chain else new_chain
-                        save(cl_usr.id, serialize(combined.to_dict()))
-                        await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
+                        if new_chain.rejoined_text == '.':
+                            combined = chain if chain else None
+                        else:
+                            combined = markovify.combine([chain, new_chain]) if chain else new_chain
+                        if combined:
+                            # save(cl_usr.id, serialize(combined.to_dict()))
+                            await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
+                        else:
+                            await notify_empty(cl_ath, cl_usr, cl_chn)
                         ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')
                     except Exception as e:
                         await notify_failure(cl_ath, cl_usr, cl_chn)

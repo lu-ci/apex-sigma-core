@@ -7,6 +7,7 @@
 - Added a character limit argument to `impersonate`.
 - Added a beginning state argument to `impersonate`.
 - Extended the results of `reddit` to posts made within the last week.
+- Added a last-message-processed cache to `collector_clockwork` to avoid collecting duplicates.
 
 ## 4.90.1813 Fubuki
 
