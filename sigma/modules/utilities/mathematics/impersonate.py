@@ -28,15 +28,19 @@ from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
-def get_target_and_args(pld):
-    if pld.msg.mentions:
-        target = pld.msg.mentions[0]
+def parse_args(pld, multi=False):
+    """
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    :type multi: bool
+    :rtype: tuple[list[discord.Member] or discord.Member, int, str]
+    """
+    targets = pld.msg.mentions or [pld.msg.author]
+    for target in targets:
         for arg in pld.args:
             if str(target.id) in arg:
                 pld.args.pop(pld.args.index(arg))
-                break
-    else:
-        target = pld.msg.author
+    if not multi:
+        targets = targets[0]
 
     limit = 500
     beginning = None
@@ -45,7 +49,17 @@ def get_target_and_args(pld):
             limit = int(pld.args.pop(0))
         else:
             beginning = ' '.join(pld.args[:2])
-    return target, limit, beginning
+    return targets, limit, beginning
+
+
+def ensure_length(text, length=2048):
+    """
+    :type text: str
+    :type length: int
+    """
+    if len(text) > length:
+        text = text[:length].rpartition(' ')[2]
+    return text
 
 
 async def impersonate(cmd, pld):
@@ -55,7 +69,7 @@ async def impersonate(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    target, limit, beginning = get_target_and_args(pld)
+    target, limit, beginning = parse_args(pld)
     if target:
         if os.path.exists(f'chains/{target.id}.json.gz'):
             chain_data = load(target.id)
@@ -79,7 +93,9 @@ async def impersonate(cmd, pld):
                             sentence = None
                         else:
                             ender = 'word' if len(beginning.split()) == 1 else 'phrase'
-                            response = GenericResponse(f'Your chain does not contain that {ender}').error()
+                            error_title = f'😖 I could not think of anything with that {ender}.'
+                            response = discord.Embed(color=0xBE1931, title=error_title)
+                            response.set_footer(text='Your chain must ')
                             await pld.msg.channel.send(embed=response)
                             return
                 if not sentence:
@@ -88,7 +104,7 @@ async def impersonate(cmd, pld):
                 else:
                     response = discord.Embed(color=0xbdddf4)
                     response.set_author(name=target.name, icon_url=user_avatar(target))
-                    response.add_field(name='💭 Hmm... something like...', value=sentence)
+                    response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
             else:
                 response = GenericResponse(f'{target.name}\'s chain has no data.').error()
         else:

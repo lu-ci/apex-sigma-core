@@ -27,6 +27,7 @@ import markovify
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
+from sigma.modules.utilities.mathematics.impersonate import ensure_length, parse_args
 
 
 def shuffle(items):
@@ -64,8 +65,9 @@ async def combinechains(cmd, pld):
         empty_chain = None
         chains = []
         chain_dicts = []
+        targets, limit, beginning = parse_args(pld, True)
         with ThreadPoolExecutor() as threads:
-            for target in pld.msg.mentions:
+            for target in targets:
                 target_chain = load(target.id) if os.path.exists(f'chains/{target.id}.json.gz') else None
                 if not target_chain:
                     empty_chain = target
@@ -86,18 +88,33 @@ async def combinechains(cmd, pld):
                     try:
                         combine_task = functools.partial(markovify.combine, chains)
                         combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                        sentence_function = functools.partial(combination.make_short_sentence, 500)
+                        if beginning:
+                            sentence_func = combination.make_sentence_with_start
+                            sentence_args = [beginning, False]
+                        else:
+                            sentence_func = combination.make_short_sentence
+                            sentence_args = [limit]
+                        sentence_function = functools.partial(sentence_func, *sentence_args, tries=20)
                         sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
                     except (ValueError, KeyError, AttributeError):
                         sentence = None
+                    except markovify.text.ParamError:
+                        if not beginning:
+                            sentence = None
+                        else:
+                            ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                            error_title = f'😖 I could not think of anything with that {ender}.'
+                            response = discord.Embed(color=0xBE1931, title=error_title)
+                            await pld.msg.channel.send(embed=response)
+                            return
                     if not sentence:
                         not_enough_data = '😖 I could not think of anything... I need more chain items!'
                         response = discord.Embed(color=0xBE1931, title=not_enough_data)
                     else:
-                        combined_name = combine_names(pld.msg.mentions)
+                        combined_name = combine_names(targets)
                         response = discord.Embed(color=0xbdddf4)
-                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(pld.msg.mentions)))
-                        response.add_field(name='💭 Hmm... something like...', value=sentence)
+                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(targets)))
+                        response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
                 else:
                     response = GenericResponse('Failed to combine the markov chains.').error()
             else:
