@@ -96,7 +96,6 @@ async def impersonate(cmd, pld):
                             ender = 'word' if len(beginning.split()) == 1 else 'phrase'
                             error_title = f'😖 I could not think of anything with that {ender}.'
                             response = discord.Embed(color=0xBE1931, title=error_title)
-                            response.set_footer(text='Your chain must ')
                             await pld.msg.channel.send(embed=response)
                             return
                 if not sentence:

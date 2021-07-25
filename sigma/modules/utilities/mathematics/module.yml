@@ -93,7 +93,7 @@ commands:
       aren't good enough, might result in no output being generated. The optimal chain size
       is above 5000. You can view your chain size via the chain command. You can specify
       either a character limit, or a starting state of one to two words (not both). At least
-      one item in your chain must begin with the specified starting state for this to work.
+      one item in your chain must contain the specified starting state for this to work.
       One word starting states are more likely to work than two word starting states.
     enabled: true
     name: impersonate
@@ -105,7 +105,7 @@ commands:
     description: Like the impersonate command. This one however targets all mentioned users and
       uses their combined chains to generate a response. You can specify either a character limit,
       or a starting state of one to two words (not both). At least one item in the combined chain
-      must begin with the specified starting state for this to work. One word starting states are
+      must contain the specified starting state for this to work. One word starting states are
       more likely to work than two word starting states.
     enabled: true
     name: combinechains
