@@ -107,7 +107,9 @@ commands:
     enabled: true
     name: stab
     usage: '{pfx}{cmd} @person'
-  - description: Poke, poke~ Are you alive?
+  - alts:
+      - boop
+    description: Poke, poke~ Are you alive?
     enabled: true
     name: poke
     usage: '{pfx}{cmd} @person'
