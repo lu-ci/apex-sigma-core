@@ -10,7 +10,7 @@ From downloading Sigma herself to being able to edit configuration files.
 
 | Requirement | Ver. | Rec. | Guides |
 --------------|------|------|---------
-|Git*| \* | >= 2.30 | [Linux](/setup/linux/package) - [Windows](/setup/windows/git) |
+|Git*| \* | >= 2.30 | [Linux](setup/linux/package) - [Windows](setup/windows/git) |
 |UTF-8 Editor| \* | VSCode | - |
 |Beer/Coffee/Tea*| \* | Lots | [Beer](https://www.wikihow.com/Drink-Beer) - [Coffee](https://www.wikihow.com/Start-Drinking-Coffee) - [Tea](https://www.wikihow.com/Drink-Tea) |
 
@@ -20,10 +20,10 @@ What Sigma needs in order to run in any amount.
 
 | Requirement | Ver. | Rec. | Guides |
 --------------|------|------|---------
-|Python| >= 3.6 | >= 3.9 | [Linux](/setup/linux/python) - [Windows](/setup/windows/python) |
-|MongoDB| >= 4.0 | >= 4.4 | [Linux](/setup/linux/mongo) - [Windows](/setup/windows/mongo) |
-|FFMPEG*| \* | >= 2021.\*.\* | [Linux](/setup/linux/package) - [Windows](/setup/windows/ffmpeg) |
-|MSVC Build Tools | \* | \* | [Windows](/setup/windows/msvc)
+|Python| >= 3.6 | >= 3.9 | [Linux](setup/linux/python) - [Windows](setup/windows/python) |
+|MongoDB| >= 4.0 | >= 4.4 | [Linux](setup/linux/mongo) - [Windows](setup/windows/mongo) |
+|FFMPEG*| \* | >= 2021.\*.\* | [Linux](setup/linux/package) - [Windows](setup/windows/ffmpeg) |
+|MSVC Build Tools | \* | \* | [Windows](setup/windows/msvc)
 
 Done with all that? Then let's start the easy but tedious parts.
 You are expected to have knowledge on how to use a terminal/command line.

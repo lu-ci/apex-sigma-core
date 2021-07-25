@@ -14,10 +14,10 @@ Whoever's online will help you, start to finish.
 
 ## Items
 
-- [Requirements](/requirements)
-- [Downloading & Updating](/downloading)
-- [Configuration](/config)
-- [Setup & Running](/setup)
-- [Development](/development)
-- [Docker](/docker)
-- [Frequently Asked Questions](/faq)
+- [Requirements](requirements)
+- [Downloading & Updating](downloading)
+- [Configuration](config)
+- [Setup & Running](setup)
+- [Development](development)
+- [Docker](docker)
+- [Frequently Asked Questions](faq)

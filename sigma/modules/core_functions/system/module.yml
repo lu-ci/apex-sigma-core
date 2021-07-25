@@ -13,4 +13,7 @@ events:
   - enabled: true
     name: leave_move_log
     type: guild_remove
+  - enabled: true
+    name: override_switch
+    type: message
 name: System Event Modules

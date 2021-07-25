@@ -1,4 +1,4 @@
 # Configuration
 
-- [Core](/config/core)
-- [Modules](/config/modules)
+- [Core](core)
+- [Modules](modules)
