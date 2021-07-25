@@ -1,3 +1,3 @@
-# Core Development
+# Core
 
 Don't.

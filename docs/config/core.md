@@ -1,1 +1,1 @@
-# Core Configuration
+# Core

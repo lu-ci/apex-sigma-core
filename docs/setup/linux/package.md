@@ -1,4 +1,4 @@
-# Linux Package Setup
+# Package Setup
 
 This is a general setup guide for things that don't really need setting up.
 More precisely, it's for things that are available as WYSIWYG packages.

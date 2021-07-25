@@ -1,0 +1,20 @@
+site_name: "Apex Sigma: The Database Giant"
+theme:
+  name: "material"
+  logo: "https://luciascipher.com/img/project_sigma_icon_square.png"
+  favicon: "https://luciascipher.com/img/project_sigma_icon_square.png"
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+      media: "(prefers-color-scheme: light)"
+      primary: blue grey
+      accent: teal
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      media: "(prefers-color-scheme: dark)"
+      primary: blue grey
+      accent: teal
