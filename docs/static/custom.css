@@ -1,0 +1,19 @@
+.wy-side-nav-search {
+  background-color: #1b6f5f;
+}
+
+a {
+  color: #1b6f5f;
+}
+
+a:hover {
+  color: #1b6f5f
+}
+
+.wy-menu-vertical header, .wy-menu-vertical p.caption {
+  color: #1b6f5f;
+}
+
+.rst-versions a {
+  color: #1b6f5f;
+}

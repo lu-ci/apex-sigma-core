@@ -25,8 +25,8 @@ async def command_md(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     if ev.bot.cfg.pref.dev_mode:
-        if not os.path.exists('docs/information'):
-            os.makedirs('docs/information')
+        if not os.path.exists('docs'):
+            os.makedirs('docs')
         categories = {}
         for cmd_nam in ev.bot.modules.commands:
             cat = ev.bot.modules.commands[cmd_nam].category
@@ -61,6 +61,6 @@ async def command_md(ev):
                 command_usage = f'{prefix}{usage}'
                 output += f'\n{command_names} | {command_desc} | `{command_usage}`'
             output += '\n[Back To Top](#module-index)'
-        with open('docs/information/commands.md', 'w', encoding='utf-8') as commands_md_file:
+        with open('docs/commands.md', 'w', encoding='utf-8') as commands_md_file:
             commands_md_file.write(output)
         ev.log.info('Updated Command List.')

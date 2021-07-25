@@ -1,8 +1,8 @@
 # Apex Sigma: The Database Giant
 
 <div align="center">
-  <a href="https://lucia.moe/">
-    <img src="https://i.imgur.com/TRSdGni.png" alt="Sigma Banner">
+  <a href="https://luciascipher.com/">
+    <img src="https://i.imgur.com/O5832Le.png" alt="Sigma Banner">
   </a>
 </div>
 

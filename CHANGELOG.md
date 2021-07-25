@@ -1,5 +1,12 @@
 # Apex Sigma Changelog
 
+## [WIP]
+
+### Changed
+
+- Change command list MD file location.
+- Replace documentation files with new, reworked content.
+
 ## 4.91.1820 Fubuki
 
 ### Changed
