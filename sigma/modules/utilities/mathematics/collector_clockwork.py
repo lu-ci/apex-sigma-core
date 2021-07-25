@@ -375,7 +375,7 @@ async def cycler(ev):
                         else:
                             combined = markovify.combine([chain, new_chain]) if chain else new_chain
                         if combined:
-                            # save(cl_usr.id, serialize(combined.to_dict()))
+                            save(cl_usr.id, serialize(combined.to_dict()))
                             await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
                         else:
                             await notify_empty(cl_ath, cl_usr, cl_chn)
