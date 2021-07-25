@@ -31,6 +31,10 @@ from sigma.modules.utilities.mathematics.impersonate import ensure_length, parse
 
 
 def shuffle(items):
+    """
+    :type items: list[discord.Member]
+    :rtype: list[discord.Member]
+    """
     new = []
     copy = [i for i in items]
     while len(copy) > 0:

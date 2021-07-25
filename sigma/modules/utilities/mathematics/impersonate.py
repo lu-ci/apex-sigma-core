@@ -56,6 +56,7 @@ def ensure_length(text, length=2048):
     """
     :type text: str
     :type length: int
+    :rtype: str
     """
     if len(text) > length:
         text = text[:length].rpartition(' ')[2]
