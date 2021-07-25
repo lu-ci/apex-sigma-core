@@ -31,6 +31,7 @@ async def wipechain(cmd, pld):
     fpath = f'chains/{uid}.json.gz'
     if os.path.exists(fpath):
         os.remove(fpath)
+        await cmd.db[cmd.db.db_nam].CollectorCache.delete_one({'user_id': uid})
         response = GenericResponse('Your chain has been permanently deleted.').ok()
     else:
         response = GenericResponse('You don\'t have a Markov Chain.').error()
