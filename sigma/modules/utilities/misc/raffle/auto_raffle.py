@@ -22,7 +22,9 @@ import arrow
 import discord
 
 from sigma.core.utilities.data_processing import user_avatar
+from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
+from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 from sigma.modules.utilities.misc.raffle.raffle import raffle_icons, icon_colors
 
 auto_raffle_loop_running = False
@@ -54,7 +56,7 @@ async def cycler(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg
-    cfg_args = ['winners', 'reward', 'interval', 'duration', 'item_chance', 'mixed_chance']
+    cfg_args = ['winners', 'reward', 'interval', 'duration']
     if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
         while True:
             ch = await ev.bot.get_channel(cfg.channel)
@@ -91,20 +93,17 @@ async def create(ev, ch):
     resp_title = f"Auto-Raffle {rafid} has begun!"
     reaction_name = reaction_icon = secrets.choice(raffle_icons)
     icon_color = icon_colors.get(reaction_icon)
-    roll = secrets.randbelow(100)
-    if roll < cfg.mixed_chance:
-        raffle_title = f"{thousand_separator(int(cfg.reward * 0.85))} {ev.bot.cfg.pref.currency}"
-        item_core = await get_item_core(ev.db)
-        item = item_core.pick_item_in_rarity(secrets.choice(['fish', 'plant', 'animal']), secrets.randbelow(4) + 5)
-        connector = 'an' if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u'] else 'a'
-        raffle_title += f" + {connector.title()} {item.rarity_name.title()} {item.name}"
-    elif roll < cfg.item_chance:
-        item_core = await get_item_core(ev.db)
-        item = item_core.pick_item_in_rarity(secrets.choice(['fish', 'plant', 'animal']), secrets.randbelow(4) + 5)
-        connector = 'an' if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u'] else 'a'
-        raffle_title = f"{connector.title()} {item.rarity_name.title()} {item.name}"
-    else:
-        raffle_title = f"{thousand_separator(cfg.reward)} {ev.bot.cfg.pref.currency}"
+    reward_mod = secrets.randbelow(int(cfg.reward * 0.5))
+    raffle_title = f"{thousand_separator(int(cfg.reward + reward_mod))} {ev.bot.cfg.pref.currency}"
+    item_core = await get_item_core(ev.db)
+    recipe_core = await get_recipe_core(ev.db)
+    recipe_items = []
+    for item in item_core.all_items:
+        if 4 <= item.rarity <= 9 and is_ingredient(recipe_core.recipes, item):
+            recipe_items.append(item)
+    item = secrets.choice(recipe_items)
+    connector = 'an' if item.rarity_name[0].lower() in ['a', 'e', 'i', 'o', 'u'] else 'a'
+    raffle_title += f" + {connector.title()} {item.rarity_name.title()} {item.name}"
     starter = discord.Embed(color=icon_color, timestamp=end_dt)
     starter.set_author(name=resp_title, icon_url=(user_avatar(ev.bot.user)))
     starter.description = f"Prize: **{raffle_title}**"
