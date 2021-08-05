@@ -6,6 +6,7 @@
 
 - Change command list MD file location.
 - Replace documentation files with new, reworked content.
+- Buff raffle currency rewards and guarantee recipe items.
 
 ## 4.91.1820 Fubuki
 

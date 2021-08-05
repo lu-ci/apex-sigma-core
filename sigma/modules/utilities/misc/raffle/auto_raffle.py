@@ -56,7 +56,7 @@ async def cycler(ev):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     cfg = ev.bot.modules.commands.get('raffle').cfg
-    cfg_args = ['winners', 'reward', 'interval', 'duration']
+    cfg_args = ['winners', 'reward', 'interval', 'duration', 'channel']
     if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
         while True:
             ch = await ev.bot.get_channel(cfg.channel)
