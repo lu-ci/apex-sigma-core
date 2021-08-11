@@ -58,7 +58,7 @@ async def decrypt(cmd, pld):
         else:
             response = GenericResponse('Nothing to decrypt.').error()
     else:
-        response = GenericResponse('You don\'t posses a key.').error()
+        response = GenericResponse('You don\'t possess a key.').error()
     if text:
         await pld.msg.channel.send(response)
     else:
