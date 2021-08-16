@@ -62,7 +62,7 @@ async def cycler(ev):
             ch = await ev.bot.get_channel(cfg.channel)
             if ch:
                 lookup = {'automatic': True, 'author': ev.bot.user.id}
-                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).to_list(None)
+                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).limit(1).to_list(None)
                 if auto_docs:
                     latest = auto_docs[0]
                     now = arrow.utcnow().float_timestamp
