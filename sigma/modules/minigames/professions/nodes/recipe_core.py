@@ -61,7 +61,10 @@ class SigmaRecipe(object):
         self.raw_ingredients = self.raw_data.get('ingredients')
         self.ingredients = []
         self.load_ingredients()
-        self.value = self.get_price()
+        try:
+            self.value = self.get_price()
+        except Exception:
+            self.value = 0
 
     def get_price(self):
         """
