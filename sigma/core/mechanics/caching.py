@@ -178,7 +178,7 @@ class RedisCacher(Cacher):
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
         """
-        self.conn = await aioredis.create_redis(self.addr)
+        self.conn = await aioredis.Redis(host=self.cfg.host, port=self.cfg.port, db=self.cfg.db)
 
     async def get_cache(self, key):
         """
@@ -200,7 +200,7 @@ class RedisCacher(Cacher):
         try:
             await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except aioredis.ReplyError:
+        except aioredis.RedisError:
             self.conn.flushdb()
 
     async def del_cache(self, key):
