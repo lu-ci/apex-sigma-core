@@ -60,10 +60,8 @@ async def cycler(ev):
     if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
         twt = twitchio.Client(cfg.get('token'))
         while True:
-            ev.log.info('Running partner monitor.')
             live_constant = False
             for partner_name in shuffle(cfg.get('partners')):
-                ev.log.info(f'Checking {partner_name}...')
                 channels = await twt.search_channels(partner_name)
                 channel = None
                 for result in channels:
@@ -72,17 +70,13 @@ async def cycler(ev):
                         break
                 if channel:
                     if channel.live:
-                        ev.log.info(f'{channel.name} is live.')
                         live_constant = True
-                        games = await twt.fetch_games([int(channel.game_id)])
-                        game = games[0]
                         # noinspection PyBroadException
                         try:
-                            ev.log.info('Setting new presence!')
+                            ev.log.info(f'Hosting {channel.name} as a partner stream.')
                             await ev.bot.change_presence(activity=discord.Streaming(
                                 platform='twitch',
                                 name=f'a friend: {channel.name}',
-                                game=game.name,
                                 url=f'https://www.twitch.tv/{channel.name}',
                                 twitch_name=channel.name
                             ))
