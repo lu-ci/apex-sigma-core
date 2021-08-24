@@ -1,0 +1,12 @@
+category: searches
+commands:
+  - description: Gives basic information about the given Twitch channel and some stats, if available.
+    enabled: true
+    name: twitch
+    usage: '{pfx}{cmd} axaz0r'
+enabled: true
+events:
+  - enabled: true
+    name: partner_monitor
+    type: ready
+name: Twitch Commands

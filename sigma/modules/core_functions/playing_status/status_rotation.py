@@ -21,6 +21,8 @@ import secrets
 
 import discord
 
+from sigma.modules.searches.twitch.partner_monitor import is_live
+
 status_cache = []
 status_loop_running = False
 
@@ -48,7 +50,7 @@ async def status_clockwork(ev):
     """
     while True:
         if ev.bot.is_ready():
-            if ev.bot.cfg.pref.status_rotation:
+            if ev.bot.cfg.pref.status_rotation and not is_live():
                 if not status_cache:
                     status_files = await ev.db[ev.db.db_nam].StatusFiles.find().to_list(None)
                     [status_cache.append(status_file.get('text')) for status_file in status_files]

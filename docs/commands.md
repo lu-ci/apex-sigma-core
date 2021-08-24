@@ -438,6 +438,7 @@ Commands | Description | Example
 `>>soundslike` `>>soundlike` | Looks up words that sound similar to the specified term. | `>>soundslike elefint`
 `>>spelledlike` `>>spelllike` `>>spellike` `>>spellcheck` | Looks up words that are spelled similarly to the specified term. Supports the following wildcards: ? - one character * - one or many characters  | `>>spelledlike coneticut`
 `>>synonyms` `>>synonym` `>>syn` | Looks up words that have exactly or nearly the same meaning as the specified term. | `>>synonyms ocean`
+`>>twitch` | Gives basic information about the given Twitch channel and some stats, if available. | `>>twitch axaz0r`
 `>>unsplash` `>>image` `>>img` | Searches Unsplash with the specified query and returns a random result. The tag can be multiple words. | `>>unsplash puppies`
 `>>urbandictionary` `>>urbandict` `>>urban` `>>ud` | Looks up the definition for a word or term in the Urban Dictionary. It is strongly suggested to take these with a grain of salt. The top rated definition is shown by default, but you can show a random definition by adding '--random' as the last argument. | `>>urbandictionary dictionary`
 `>>visualnoveldatabase` `>>vndb` `>>vn` | Returns information about the given Visual Novel search. You can specify an ID instead of a name to get the exact result. You can also enter "--random" to get a random visual novel. Novels that are NSFW will not appear in channels that are not marked as such. | `>>visualnoveldatabase Imojoku`

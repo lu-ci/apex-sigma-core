@@ -1,5 +1,5 @@
 aiohttp<3.8.0
-aioredis==1.3.1
+aioredis==2.0.0
 arrow==1.1.1
 cachetools==4.2.2
 cryptography==3.4.7
@@ -10,11 +10,12 @@ geopy==2.2.0
 humanfriendly==9.2
 lxml==4.6.3
 markovify==0.9.3
-motor==2.5.0
+motor==2.5.1
 Pillow==8.3.1
 psutil==5.8.0
 pymongo==3.12.0
 python-aiml==0.9.3
 pyyaml==5.4.1
 translate==3.6.1
+twitchio==2.0.5
 youtube_dl>=2021.6.6
