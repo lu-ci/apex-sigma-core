@@ -81,6 +81,6 @@ async def cycler(ev):
                                 twitch_name=channel.name
                             ))
                             break
-                        except SyntaxError:
+                        except Exception:
                             pass
             await asyncio.sleep(300)
