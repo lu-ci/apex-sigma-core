@@ -197,11 +197,10 @@ class RedisCacher(Cacher):
         :type key: str or int
         :type value: object
         """
-        # noinspection PyBroadException
         try:
             await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except Exception:
+        except aioredis.RedisError:
             self.conn.flushdb()
 
     async def del_cache(self, key):
