@@ -70,11 +70,10 @@ class ApexSigma(client_class):
     )
 
     def __init__(self):
-        intents = discord.Intents.all()
         super().__init__(
             status=discord.Status.dnd,
             activity=discord.Game('booting...'),
-            intents=intents
+            intents=discord.Intents.all()
         )
         self.ready = False
         # State attributes before initialization.
@@ -452,16 +451,16 @@ class ApexSigma(client_class):
         if not member.bot:
             self.loop.create_task(self.queue.event_runner('member_remove', MemberPayload(self, member)))
 
-    # async def on_member_update(self, before, after):
-    #     """
-    #     Starts events when a member is updated.
-    #     This can be various things such as avatar changes,
-    #     playing status message changes, online status changes, etc.
-    #     :type before: discord.Member
-    #     :type after: discord.Member
-    #     """
-    #     if not before.bot:
-    #         self.loop.create_task(self.queue.event_runner('member_update', MemberUpdatePayload(self, before, after)))
+    async def on_member_update(self, before, after):
+        """
+        Starts events when a member is updated.
+        This can be various things such as avatar changes,
+        playing status message changes, online status changes, etc.
+        :type before: discord.Member
+        :type after: discord.Member
+        """
+        if not before.bot:
+            self.loop.create_task(self.queue.event_runner('member_update', MemberUpdatePayload(self, before, after)))
 
     async def on_member_ban(self, guild, user):
         """
