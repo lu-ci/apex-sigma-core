@@ -82,7 +82,7 @@ class ExecutionClockwork(object):
         stats_handler = self.stats.get(event)
         if not stats_handler:
             stats_handler = StatisticsStorage(self.bot.db, event)
-            self.stats.update({event: stats_handler})
+            # self.stats.update({event: stats_handler})
         return stats_handler
 
     async def event_runner(self, event_name, pld=None):
@@ -96,7 +96,7 @@ class ExecutionClockwork(object):
             if event_name in self.bot.modules.events:
                 if pld:
                     await pld.init()
-                self.get_stats_storage(event_name).add_stat()
+                # self.get_stats_storage(event_name).add_stat()
                 for event in self.bot.modules.events[event_name]:
                     task = event, pld
                     await self.ev_queue.put(task)
