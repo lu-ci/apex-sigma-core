@@ -52,6 +52,12 @@ async def addemote(cmd, pld):
 
             try:
                 ae, _au = await cmd.bot.wait_for('reaction_add', timeout=30, check=check_emote)
+                working_embed = discord.Embed(title='⬇️ Downloading file...', color=0x3B88C3)
+                try:
+                    await react_msg.edit(embed=working_embed)
+                except discord.NotFound:
+                    await pld.msg.channel.send(embed=working_embed)
+
                 react_msg = await pld.msg.channel.fetch_message(react_msg.id)
                 emote_to_add = None
                 for reaction in react_msg.reactions:
@@ -64,10 +70,14 @@ async def addemote(cmd, pld):
                     else:
                         # noinspection PyUnresolvedReferences
                         name = emote_to_add.name
+
                     # noinspection PyUnresolvedReferences
                     image = await get_emote_image(str(emote_to_add.url))
-                    emote = await pld.msg.guild.create_custom_emoji(name=name, image=image)
-                    response = GenericResponse(f'Added emote {emote.name}.').ok()
+                    try:
+                        emote = await pld.msg.guild.create_custom_emoji(name=name, image=image)
+                        response = GenericResponse(f'Added emote {emote.name}.').ok()
+                    except discord.errors.HTTPException:
+                        response = GenericResponse('File size cannot exceed 256kb.').error()
                 else:
                     response = GenericResponse('Must be a custom emote.').error()
             except asyncio.TimeoutError:

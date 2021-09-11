@@ -33,6 +33,7 @@ commands:
       - addemoji
     description: Adds the desired emote to the server. Specify an emote by reacting to the command
       message with it. You can specify a name for the emote, otherwise it will use the existing name.
+      Sometimes the retrieved emote file is larger than discord will accept, and thus cannot be added.
       This command requires the Manage Emotes permission.
     enabled: true
     name: addemote
