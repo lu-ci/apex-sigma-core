@@ -75,7 +75,7 @@ async def flag_translating(ev, pld):
                         translator = Translator(to_lang=to_lang, from_lang=fr_lang)
                         translation = translator.translate(msg.content)
                         if 'is an invalid' in translation.lower():
-                            await msg.add_reaction('❗')
+                            await msg.add_reaction('🚩')
                             return
                         # 'excedeed' is misspelled intentionally
                         elif 'length limit excedeed' in translation.lower():
