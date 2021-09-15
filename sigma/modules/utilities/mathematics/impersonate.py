@@ -17,9 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import functools
+import json
 import os
 from concurrent.futures import ThreadPoolExecutor
 
+import aiohttp
 import discord
 import markovify
 
@@ -63,7 +65,7 @@ def ensure_length(text, length=2048):
     return text
 
 
-async def impersonate(cmd, pld):
+async def impersonate_local(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
@@ -116,3 +118,56 @@ async def impersonate(cmd, pld):
     else:
         response = GenericResponse('No user targeted.').error()
     await pld.msg.channel.send(embed=response)
+
+
+async def impersonate_server(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    server = cmd.cfg.get("server")
+    target, _, beginning = parse_args(pld)
+    uri = f'{server}/single/{target.id}?seed={beginning}' if beginning else f'{server}/single/{target.id}'
+    if target:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(uri) as resp:
+                if resp.status == 200:
+                    data = json.loads(await resp.read())
+                    sentence = data.get('sentence')
+                    if sentence:
+                        response = discord.Embed(color=0xbdddf4)
+                        response.set_author(name=target.name, icon_url=user_avatar(target))
+                        response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
+                        response.set_footer(text=f'Response generated in {round(data.get("time"), 5)}s.')
+                    else:
+                        ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                        error_title = f'😖 I could not think of anything with that {ender}.'
+                        response = discord.Embed(color=0xBE1931, title=error_title)
+                elif resp.status == 404:
+                    response = discord.Embed(color=0x696969)
+                    prefix = cmd.db.get_prefix(pld.settings)
+                    title = f'🔍 Chain Data Not Found For {target.name}'
+                    value = f'You can make one with `{prefix}collectchain @{target.name} #channel`!'
+                    response.add_field(name=title, value=value)
+                else:
+                    response = GenericResponse("An unknown error ocurred, please try again...").error()
+                    response.description = f'Message: {await resp.text()}'
+    else:
+        response = GenericResponse('No user targeted.').error()
+    await pld.msg.channel.send(embed=response)
+
+
+async def impersonate(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    server = cmd.cfg.get("server")
+    if server:
+        await impersonate_server(cmd, pld)
+    else:
+        await impersonate_local(cmd, pld)

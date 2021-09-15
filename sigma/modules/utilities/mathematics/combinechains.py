@@ -17,10 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import functools
+import json
 import os
 import secrets
 from concurrent.futures import ThreadPoolExecutor
 
+import aiohttp
 import discord
 import markovify
 
@@ -58,7 +60,51 @@ def combine_names(users):
     return ''.join(pieces)
 
 
-async def combinechains(cmd, pld):
+async def combinechains_server(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    cfg = cmd.bot.modules.commands.get('impersonate').cfg
+    server = cfg.get("server")
+    targets, _, beginning = parse_args(pld, True)
+    if targets:
+        target_ids = [str(target.id) for target in targets]
+        normal = f'{server}/combined/{",".join(target_ids)}'
+        seeded = f'{normal}?seed={beginning}'
+        uri = seeded if beginning else normal
+        async with aiohttp.ClientSession() as session:
+            async with session.get(uri) as resp:
+                if resp.status == 200:
+                    data = json.loads(await resp.read())
+                    sentence = data.get('sentence')
+                    if sentence:
+                        combined_name = combine_names(targets)
+                        response = discord.Embed(color=0xbdddf4)
+                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(targets)))
+                        response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
+                        response.set_footer(text=f'Response generated in {round(data.get("time"), 5)}s.')
+                    else:
+                        ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                        error_title = f'😖 I could not think of anything with that {ender}.'
+                        response = discord.Embed(color=0xBE1931, title=error_title)
+                elif resp.status == 404:
+                    response = discord.Embed(color=0x696969)
+                    prefix = cmd.db.get_prefix(pld.settings)
+                    title = f'🔍 One or more tagged users do not have chains.'
+                    value = f'You can make one with `{prefix}collectchain @target #channel`!'
+                    response.add_field(name=title, value=value)
+                else:
+                    response = GenericResponse("An unknown error ocurred, please try again...").error()
+                    response.description = f'Message: {await resp.text()}'
+    else:
+        response = GenericResponse('No user targeted.').error()
+    await pld.msg.channel.send(embed=response)
+
+
+async def combinechains_local(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
@@ -126,3 +172,18 @@ async def combinechains(cmd, pld):
     else:
         response = GenericResponse('Invalid number of targets.').error()
     await pld.msg.channel.send(embed=response)
+
+
+async def combinechains(cmd, pld):
+    """
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param pld: The payload with execution data and details.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    """
+    cfg = cmd.bot.modules.commands.get('impersonate').cfg
+    server = cfg.get("server")
+    if server:
+        await combinechains_server(cmd, pld)
+    else:
+        await combinechains_local(cmd, pld)
