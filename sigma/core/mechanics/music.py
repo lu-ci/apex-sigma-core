@@ -17,11 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import asyncio
-import functools
 import hashlib
 import os
 from asyncio.queues import Queue
-from concurrent.futures import ThreadPoolExecutor
 
 import discord
 import youtube_dl
@@ -49,16 +47,18 @@ class QueueItem(object):
     """
 
     __slots__ = (
-        "requester", "item_info", "url", "video_id", "uploader",
+        "bot", "requester", "item_info", "url", "video_id", "uploader",
         "title", "thumbnail", "duration", "downloaded", "loop",
         "threads", "ytdl_params", "ytdl", "token", "location"
     )
 
-    def __init__(self, requester, item_info):
+    def __init__(self, bot, requester, item_info):
         """
+        :type bot: sigma.core.sigma.ApexSigma
         :type requester: discord.Member
         :type item_info: dict
         """
+        self.bot = bot
         self.requester = requester
         self.item_info = item_info
         self.url = self.item_info.get('webpage_url')
@@ -69,7 +69,6 @@ class QueueItem(object):
         self.duration = int(self.item_info.get('duration', 0))
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
-        self.threads = ThreadPoolExecutor()
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
         self.token = self.tokenize()
@@ -87,16 +86,26 @@ class QueueItem(object):
         final = crypt.hexdigest()
         return final
 
+    # async def download(self):
+    #     """
+    #     Downloads a queued item.
+    #     """
+    #     if self.url:
+    #         out_location = f'cache/{self.token}'
+    #         if not os.path.exists(out_location):
+    #             self.ytdl.params.update({'outtmpl': out_location})
+    #             task = functools.partial(self.ytdl.extract_info, self.url)
+    #             await self.loop.run_in_executor(self.threads, task)
+    #             self.downloaded = True
+    #         self.location = out_location
+
     async def download(self):
-        """
-        Downloads a queued item.
-        """
         if self.url:
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
                 self.ytdl.params.update({'outtmpl': out_location})
-                task = functools.partial(self.ytdl.extract_info, self.url)
-                await self.loop.run_in_executor(self.threads, task)
+                self.ytdl.extract_info(self.url)
+                await self.bot.threader.execute(self.ytdl.extract_info, (self.url,))
                 self.downloaded = True
             self.location = out_location
 
@@ -111,7 +120,7 @@ class QueueItem(object):
             audio_source = discord.FFmpegPCMAudio(self.location)
             if voice_client:
                 if not voice_client.is_playing():
-                    voice_client.play(audio_source)
+                    await self.bot.threader.execute(voice_client.play, (audio_source,))
 
 
 class MusicCore(object):
@@ -121,7 +130,7 @@ class MusicCore(object):
     """
 
     __slots__ = (
-        "bot", "db", "loop", "threads", "queues",
+        "bot", "db", "loop", "queues",
         "currents", "repeaters", "ytdl_params",
         "ytdl"
     )
@@ -133,7 +142,6 @@ class MusicCore(object):
         self.bot = bot
         self.db = bot.db
         self.loop = asyncio.get_event_loop()
-        self.threads = ThreadPoolExecutor()
         self.queues = {}
         self.currents = {}
         self.repeaters = []
@@ -147,9 +155,7 @@ class MusicCore(object):
         :type url: str
         :rtype: dict
         """
-        task = functools.partial(self.ytdl.extract_info, url, False)
-        information = await self.loop.run_in_executor(self.threads, task)
-        return information
+        return await self.bot.threader.execute(self.ytdl.extract_info, (url, False,))
 
     def get_queue(self, guild_id):
         """

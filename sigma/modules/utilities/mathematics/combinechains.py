@@ -16,11 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import functools
 import json
 import os
 import secrets
-from concurrent.futures import ThreadPoolExecutor
 
 import aiohttp
 import discord
@@ -116,59 +114,57 @@ async def combinechains_local(cmd, pld):
         chains = []
         chain_dicts = []
         targets, limit, beginning = parse_args(pld, True)
-        with ThreadPoolExecutor() as threads:
-            for target in targets:
-                target_chain = load(target.id) if os.path.exists(f'chains/{target.id}.json.gz') else None
-                if not target_chain:
-                    empty_chain = target
-                    break
-                chain_dicts.append(deserialize(target_chain))
+        for target in targets:
+            target_chain = None
+            if os.path.exists(f'chains/{target.id}.json.gz'):
+                target_chain = await cmd.bot.threader.execute(load, (target.id,))
+            if not target_chain:
+                empty_chain = target
+                break
+            chain_dicts.append(await cmd.bot.threader.execute(deserialize, (target_chain, )))
+        if not empty_chain:
             failed = False
             for chain_dict in chain_dicts:
                 try:
-                    chain_task = functools.partial(markovify.Text.from_dict, chain_dict)
-                    chain = await cmd.bot.loop.run_in_executor(threads, chain_task)
+                    chain = await cmd.bot.threader.execute(markovify.Text.from_dict, (chain_dict,))
                     chains.append(chain)
                 except (ValueError, KeyError, AttributeError):
                     failed = True
                     break
-            if not empty_chain:
-                if not failed:
-                    await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
-                    try:
-                        combine_task = functools.partial(markovify.combine, chains)
-                        combination = await cmd.bot.loop.run_in_executor(threads, combine_task)
-                        if beginning:
-                            sentence_func = combination.make_sentence_with_start
-                            sentence_args = [beginning, False]
-                        else:
-                            sentence_func = combination.make_short_sentence
-                            sentence_args = [limit]
-                        sentence_function = functools.partial(sentence_func, *sentence_args, tries=20)
-                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    except (ValueError, KeyError, AttributeError):
-                        sentence = None
-                    except markovify.text.ParamError:
-                        if not beginning:
-                            sentence = None
-                        else:
-                            ender = 'word' if len(beginning.split()) == 1 else 'phrase'
-                            error_title = f'😖 I could not think of anything with that {ender}.'
-                            response = discord.Embed(color=0xBE1931, title=error_title)
-                            await pld.msg.channel.send(embed=response)
-                            return
-                    if not sentence:
-                        not_enough_data = '😖 I could not think of anything... I need more chain items!'
-                        response = discord.Embed(color=0xBE1931, title=not_enough_data)
+            if not failed:
+                await cmd.bot.cool_down.set_cooldown(cmd.name, pld.msg.author, 20)
+                try:
+                    combination = await cmd.bot.threader.execute(markovify.combine, (chains,))
+                    if beginning:
+                        sentence_func = combination.make_sentence_with_start
+                        sentence_args = (beginning, False,)
                     else:
-                        combined_name = combine_names(targets)
-                        response = discord.Embed(color=0xbdddf4)
-                        response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(targets)))
-                        response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
+                        sentence_func = combination.make_short_sentence
+                        sentence_args = (limit,)
+                    sentence = await cmd.bot.threader.execute(sentence_func, sentence_args)
+                except (ValueError, KeyError, AttributeError):
+                    sentence = None
+                except markovify.text.ParamError:
+                    if not beginning:
+                        sentence = None
+                    else:
+                        ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                        error_title = f'😖 I could not think of anything with that {ender}.'
+                        response = discord.Embed(color=0xBE1931, title=error_title)
+                        await pld.msg.channel.send(embed=response)
+                        return
+                if not sentence:
+                    not_enough_data = '😖 I could not think of anything... I need more chain items!'
+                    response = discord.Embed(color=0xBE1931, title=not_enough_data)
                 else:
-                    response = GenericResponse('Failed to combine the markov chains.').error()
+                    combined_name = combine_names(targets)
+                    response = discord.Embed(color=0xbdddf4)
+                    response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(targets)))
+                    response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
             else:
-                response = GenericResponse(f'{empty_chain.name} does not have a chain.').error()
+                response = GenericResponse('Failed to combine the markov chains.').error()
+        else:
+            response = GenericResponse(f'{empty_chain.name} does not have a chain.').error()
     else:
         response = GenericResponse('Invalid number of targets.').error()
     await pld.msg.channel.send(embed=response)

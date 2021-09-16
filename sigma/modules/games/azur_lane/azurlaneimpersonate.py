@@ -16,9 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import functools
-from concurrent.futures.thread import ThreadPoolExecutor
-
 import discord
 import markovify
 
@@ -55,18 +52,15 @@ async def azurlaneimpersonate(cmd, pld):
                     if quote.en:
                         quotes.append(quote.en)
         long_quote = ' '.join(quotes)
-        chain_function = functools.partial(markovify.Text, long_quote)
         sentences = []
-        with ThreadPoolExecutor() as threads:
-            try:
-                chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                sentence_function = functools.partial(chain.make_sentence, tries=500)
-                for _ in range(sentence_num):
-                    sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    if sentence:
-                        sentences.append(sentence)
-            except KeyError:
-                sentences = []
+        try:
+            chain = await cmd.bot.threader.execute(markovify.Text, (long_quote,))
+            for _ in range(sentence_num):
+                sentence = await cmd.bot.threader.execute(chain.makesentence)
+                if sentence:
+                    sentences.append(sentence)
+        except KeyError:
+            sentences = []
         if not sentences:
             not_enough_data = '😖 I could not think of anything...'
             response = discord.Embed(color=0xBE1931, title=not_enough_data)

@@ -88,14 +88,14 @@ async def queue(cmd, pld):
                         entries = extracted_info['entries']
                         for song_entry in entries:
                             if song_entry:
-                                queue_item = QueueItem(pld.msg.author, song_entry)
+                                queue_item = QueueItem(pld.bot, pld.msg.author, song_entry)
                                 queue_container = cmd.bot.music.get_queue(pld.msg.guild.id)
                                 await queue_container.put(queue_item)
                         final_resp = discord.Embed(color=0xFFCC66,
                                                    title=f'💽 Added {len(entries)} songs from {pl_title}.')
                     else:
                         if song_item:
-                            queue_item = QueueItem(pld.msg.author, song_item)
+                            queue_item = QueueItem(pld.bot, pld.msg.author, song_item)
                             queue_container = cmd.bot.music.get_queue(pld.msg.guild.id)
                             await queue_container.put(queue_item)
                             duration = str(datetime.timedelta(seconds=int(song_item.get('duration', 0))))

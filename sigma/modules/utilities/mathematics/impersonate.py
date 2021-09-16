@@ -16,10 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import functools
 import json
 import os
-from concurrent.futures import ThreadPoolExecutor
 
 import aiohttp
 import discord
@@ -75,31 +73,29 @@ async def impersonate_local(cmd, pld):
     target, limit, beginning = parse_args(pld)
     if target:
         if os.path.exists(f'chains/{target.id}.json.gz'):
-            chain_data = load(target.id)
+            chain_data = await cmd.bot.threader.execute(load, (target.id,))
             if chain_data:
-                chain_function = functools.partial(markovify.Text.from_dict, deserialize(chain_data))
-                with ThreadPoolExecutor() as threads:
-                    try:
-                        chain = await cmd.bot.loop.run_in_executor(threads, chain_function)
-                        if beginning:
-                            sentence_func = chain.make_sentence_with_start
-                            sentence_args = [beginning, False]
-                        else:
-                            sentence_func = chain.make_short_sentence
-                            sentence_args = [limit]
-                        sentence_function = functools.partial(sentence_func, *sentence_args, tries=20)
-                        sentence = await cmd.bot.loop.run_in_executor(threads, sentence_function)
-                    except (KeyError, ValueError, AttributeError):
+                chain_json = await cmd.bot.threader.execute(deserialize, (chain_data, ))
+                chain = await cmd.bot.threader.execute(markovify.Text.from_dict, (chain_json,))
+                try:
+                    if beginning:
+                        sentence_func = chain.make_sentence_with_start
+                        sentence_args = (beginning, False,)
+                    else:
+                        sentence_func = chain.make_short_sentence
+                        sentence_args = (limit,)
+                    sentence = await cmd.bot.threader.execute(sentence_func, sentence_args)
+                except (KeyError, ValueError, AttributeError):
+                    sentence = None
+                except markovify.text.ParamError:
+                    if not beginning:
                         sentence = None
-                    except markovify.text.ParamError:
-                        if not beginning:
-                            sentence = None
-                        else:
-                            ender = 'word' if len(beginning.split()) == 1 else 'phrase'
-                            error_title = f'😖 I could not think of anything with that {ender}.'
-                            response = discord.Embed(color=0xBE1931, title=error_title)
-                            await pld.msg.channel.send(embed=response)
-                            return
+                    else:
+                        ender = 'word' if len(beginning.split()) == 1 else 'phrase'
+                        error_title = f'😖 I could not think of anything with that {ender}.'
+                        response = discord.Embed(color=0xBE1931, title=error_title)
+                        await pld.msg.channel.send(embed=response)
+                        return
                 if not sentence:
                     not_enough_data = '😖 I could not think of anything... I need more chain items!'
                     response = discord.Embed(color=0xBE1931, title=not_enough_data)

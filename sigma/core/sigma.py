@@ -39,6 +39,7 @@ from sigma.core.mechanics.payload import MemberUpdatePayload, MessageEditPayload
 from sigma.core.mechanics.payload import UnbanPayload, VoiceStateUpdatePayload
 from sigma.core.mechanics.payload import ReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.payload import RawReactionPayload, RawMessageDeletePayload, RawMessageEditPayload
+from sigma.core.mechanics.threader import ThreaderCore
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
 # I love spaghetti!
@@ -94,6 +95,8 @@ class ApexSigma(client_class):
         self.cool_down = self.init_cool_down()
         self.log.info('---------------------------------')
         self.music = self.init_music()
+        self.threader = ThreaderCore(self.loop)
+        self.loop.create_task(self.threader.run())
         self.log.info('---------------------------------')
         self.info = Information()
         self.modules = self.init_modules(init=True)
