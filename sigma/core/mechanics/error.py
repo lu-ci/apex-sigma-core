@@ -49,7 +49,7 @@ class SigmaError(object):
         """
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
-        await self.cmd.respond_with_emote(pld.msg, '❗')
+        await self.cmd.respond_with_emote(pld.msg, '🐛')
         await self.send_error_message(pld)
         await self.log_error()
 
