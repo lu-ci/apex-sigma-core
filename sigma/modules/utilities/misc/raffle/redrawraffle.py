@@ -37,5 +37,5 @@ async def redrawraffle(cmd, pld):
         else:
             reaction = '🔍'
     else:
-        reaction = '❔'
+        reaction = '❗'
     await pld.msg.add_reaction(reaction)

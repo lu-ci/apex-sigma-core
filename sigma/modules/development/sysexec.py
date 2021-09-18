@@ -42,7 +42,7 @@ async def sysexec(cmd, pld):
             response = from_output(process.stdout)
         except (OSError, subprocess.SubprocessError) as e:
             cmd.log.error(e)
-            await pld.msg.add_reaction('❌')
+            await pld.msg.add_reaction('❗')
     else:
         response = 'No input.'
     if response:
