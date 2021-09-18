@@ -49,6 +49,9 @@ class SigmaError(object):
         """
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
+        cmd_info = f"CMD: {self.cmd.name} | ARGS: {' '.join(pld.args)} | CNT: {pld.msg.content}"
+        ath_info = f"SRV: {pld.msg.guild.id} | CHN: {pld.msg.channel.id} | USR: {pld.msg.author.id}"
+        self.cmd.log.error(f"ERRTRACK | {cmd_info} | {ath_info}")
         await self.cmd.respond_with_emote(pld.msg, '❗')
         await self.send_error_message(pld)
         await self.log_error()
