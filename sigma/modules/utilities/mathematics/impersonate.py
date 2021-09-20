@@ -52,7 +52,7 @@ def parse_args(pld, multi=False):
     return targets, limit, beginning
 
 
-def ensure_length(text, length=950):
+def ensure_length(text, length=512):
     """
     :type text: str
     :type length: int
