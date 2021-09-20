@@ -88,29 +88,33 @@ async def reddit(cmd, pld):
         subreddit = pld.args[0]
         argument = pld.args[-1].lower()
         subreddit = await reddit_client.get_subreddit(subreddit)
-        if not subreddit.private and not subreddit.banned:
-            # noinspection PyTypeChecker
-            post = await grab_post(subreddit, argument)
-            if subreddit.exists:
-                if post:
-                    if not post.over_18 or pld.msg.channel.is_nsfw():
-                        post_desc = f'Author: {post.author if post.author else "Anonymous"}'
-                        post_desc += f' | Karma Score: {post.score}'
-                        author = f'https://www.reddit.com{post.permalink}'
-                        response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
-                        response.set_author(name=f'r/{subreddit.display_name}', url=author, icon_url=reddit_icon)
-                        response.description = post.title
-                        response.set_footer(text=post_desc)
-                        add_post_image(post, response)
+        if subreddit:
+            if not subreddit.private and not subreddit.banned:
+                # noinspection PyTypeChecker
+                post = await grab_post(subreddit, argument)
+                if subreddit.exists:
+                    if post:
+                        if not post.over_18 or pld.msg.channel.is_nsfw():
+                            post_desc = f'Author: {post.author if post.author else "Anonymous"}'
+                            post_desc += f' | Karma Score: {post.score}'
+                            author = f'https://www.reddit.com{post.permalink}'
+                            response = discord.Embed(color=0xcee3f8, timestamp=arrow.get(post.created_utc).datetime)
+                            response.set_author(name=f'r/{subreddit.display_name}', url=author, icon_url=reddit_icon)
+                            response.description = post.title
+                            response.set_footer(text=post_desc)
+                            add_post_image(post, response)
+                        else:
+                            response = GenericResponse('NSFW Subreddits and posts are not allowed here.').error()
                     else:
-                        response = GenericResponse('NSFW Subreddits and posts are not allowed here.').error()
+                        response = GenericResponse('That subreddit has no posts.').error()
                 else:
-                    response = GenericResponse('That subreddit has no posts.').error()
+                    response = GenericResponse('No such subreddit.').error()
             else:
-                response = GenericResponse('No such subreddit.').error()
+                reason = 'banned' if subreddit.banned else 'private'
+                response = GenericResponse(f'That subreddit is {reason}.').error()
         else:
-            reason = 'banned' if subreddit.banned else 'private'
-            response = GenericResponse(f'That subreddit is {reason}.').error()
+            response = GenericResponse('Failed to retrieve subreddit.').error()
+            response.set_footer(text='This is most likely due to a rate limit')
     else:
         response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

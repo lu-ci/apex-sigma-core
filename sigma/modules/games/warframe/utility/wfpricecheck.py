@@ -71,7 +71,7 @@ async def wfpricecheck(_cmd, pld):
                 page_data = await data.read()
                 try:
                     data = json.loads(page_data)
-                except json.decoder.JSONDecodeError:
+                except json.JSONDecodeError:
                     data = None
         if data:
             if not data.get('error'):

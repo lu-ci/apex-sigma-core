@@ -64,7 +64,10 @@ class RedditClient(object):
         """
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=self.headers) as data_response:
-                data = json.loads(await data_response.read())
+                try:
+                    data = json.loads(await data_response.read())
+                except json.JSONDecodeError:
+                    data = {}
         return data
 
     async def get_subreddit(self, subreddit):
@@ -74,7 +77,7 @@ class RedditClient(object):
         """
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
         sub_about_data = await self.__get_data(sub_about_url)
-        return RedditSub(sub_about_data)
+        return RedditSub(sub_about_data) if sub_about_data else None
 
     async def get_posts(self, subreddit, listing):
         """

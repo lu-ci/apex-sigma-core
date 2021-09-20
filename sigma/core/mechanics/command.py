@@ -132,7 +132,7 @@ class SigmaCommand(object):
         Adds a log line when a command is used.
         :type message: discord.Message
         :type args: list[str]
-        :type extime: int
+        :type extime: float
         """
         crst = arrow.get(message.created_at).float_timestamp
         exdiff = round(extime - crst, 3)
@@ -234,7 +234,7 @@ class SigmaCommand(object):
         Adds detailed statistics for command usage.
         :param pld:
         :type pld: sigma.core.mechanics.payload.CommandPayload
-        :type exec_timestamp: int
+        :type exec_timestamp: float
         """
         cmd_stat = CommandStatistic(self.db, self, pld)
         cmd_stat.exec_timestamp = exec_timestamp

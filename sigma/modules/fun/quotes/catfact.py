@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import json
-from json.decoder import JSONDecodeError
 
 import aiohttp
 import discord
@@ -38,7 +37,7 @@ async def catfact(_cmd, pld):
             data = await data.read()
             try:
                 fact = json.loads(data).get('fact')
-            except JSONDecodeError:
+            except json.JSONDecodeError:
                 fact = None
     if fact:
         response = discord.Embed(color=0xFFDC5D)

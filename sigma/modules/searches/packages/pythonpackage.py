@@ -39,7 +39,7 @@ async def pythonpackage(_cmd, pld):
         package_url = f'https://pypi.org/pypi/{lookup}/json'
         try:
             package_data = await aioget(package_url, True)
-        except json.decoder.JSONDecodeError:
+        except json.JSONDecodeError:
             package_data = None
         if package_data:
             cdat = package_data.get('info')
