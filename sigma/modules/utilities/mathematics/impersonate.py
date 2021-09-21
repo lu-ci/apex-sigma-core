@@ -136,7 +136,7 @@ async def impersonate_server(cmd, pld):
                         time = round(data.get("time"), 5)
                         sntcs = data.get("sentences")
                         cells = data.get("cells")
-                        footer = f'Response generated in {time}s out of {sntcs} sentences made out of {cells} cells.'
+                        footer = f'Response generated in {time}s from {sntcs} sentences made out of {cells} cells.'
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=target.name, icon_url=user_avatar(target))
                         response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
