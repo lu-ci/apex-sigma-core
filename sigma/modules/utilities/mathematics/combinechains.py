@@ -79,11 +79,15 @@ async def combinechains_server(cmd, pld):
                     data = json.loads(await resp.read())
                     sentence = data.get('sentence')
                     if sentence:
+                        time = round(data.get("time"), 5)
+                        sntcs = data.get("sentences")
+                        cells = data.get("cells")
+                        footer = f'Response generated in {time}s out of {sntcs} sentences made out of {cells} cells.'
                         combined_name = combine_names(targets)
                         response = discord.Embed(color=0xbdddf4)
                         response.set_author(name=combined_name, icon_url=user_avatar(secrets.choice(targets)))
                         response.add_field(name='💭 Hmm... something like...', value=ensure_length(sentence))
-                        response.set_footer(text=f'Response generated in {round(data.get("time"), 5)}s.')
+                        response.set_footer(text=footer)
                     else:
                         ender = 'word' if len(beginning.split()) == 1 else 'phrase'
                         error_title = f'😖 I could not think of anything with that {ender}.'
