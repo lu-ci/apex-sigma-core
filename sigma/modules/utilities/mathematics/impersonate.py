@@ -59,7 +59,7 @@ def ensure_length(text, length=512):
     :rtype: str
     """
     if len(text) > length:
-        text = text[:length].rpartition(' ')[2]
+        text = f'{text[:length]}...'
     return text
 
 
