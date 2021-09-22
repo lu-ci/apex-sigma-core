@@ -131,7 +131,7 @@ async def impersonate_server(cmd, pld):
             async with session.get(uri) as resp:
                 if resp.status == 200:
                     data = json.loads(await resp.read())
-                    sentence = data.get('sentence')
+                    sentence = data.get('sentence', "").strip()
                     if sentence:
                         time = round(data.get("time"), 5)
                         sntcs = data.get("sentences")
