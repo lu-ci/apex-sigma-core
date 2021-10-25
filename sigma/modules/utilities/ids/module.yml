@@ -3,7 +3,7 @@ commands:
   - alts:
       - uid
     description: Shows the User ID of the mentioned user. If no user is mentioned, it
-      will show the author's ID. If you don't want the message to be an embed, add "text"
+      will show the author's ID. If you don't want the message to be an embed, add "--text"
       at the end.
     enabled: true
     name: userid
@@ -13,7 +13,7 @@ commands:
       - cid
     description: Shows the User ID of the mentioned channel. If no channel is mentioned,
       it will show the ID of the channel the command is used in. If you don't want the
-      message to be an embed, add "text" at the end.
+      message to be an embed, add "--text" at the end.
     enabled: true
     name: channelid
     usage: '{pfx}{cmd} #channel'
@@ -23,7 +23,7 @@ commands:
       - sid
       - gid
     description: Shows the Server ID of the server the command is used in. If you don't
-      want the message to be an embed, add "text" at the end.
+      want the message to be an embed, add "--text" at the end.
     enabled: true
     name: serverid
   - alts:
@@ -31,7 +31,7 @@ commands:
       - rid
     description: Shows the Role ID of the specified role. Unlike the other ID commands,
       a role specification is required. Roles mentions do not work here, lookup is done
-      via role name. If you don't want the message to be an embed, add "text" at the
+      via role name. If you don't want the message to be an embed, add "--text" at the
       end.
     enabled: true
     name: roleid
