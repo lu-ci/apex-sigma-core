@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 from lxml import html
 
+from sigma.core.utilities.generic_responses import GenericResponse
+
 
 async def csshumor(_cmd, pld):
     """
@@ -32,6 +34,11 @@ async def csshumor(_cmd, pld):
         async with session.get(url) as data:
             data = await data.text()
     root = html.fromstring(data)
-    codeblock = root.cssselect('.crayon-code')[0]
-    codeblock_content = codeblock.text_content()
-    await pld.msg.channel.send(f'```css\n{codeblock_content}\n```')
+    blocks = root.cssselect('.crayon-code')
+    if blocks:
+        codeblock = blocks[0]
+        codeblock_content = codeblock.text_content()
+        await pld.msg.channel.send(f'```css\n{codeblock_content}\n```')
+    else:
+        resp = GenericResponse('The CSS Humor site seems to be having issues...').error()
+        await pld.msg.channel.send(embed=resp)
