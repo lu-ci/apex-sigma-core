@@ -23,23 +23,6 @@ import discord
 from sigma.core.utilities.generic_responses import GenericResponse
 
 
-def get_average(dislikes, likes):
-    """
-    :type dislikes: int
-    :type likes: int
-    :rtype: float
-    """
-    dislikes = dislikes or 0
-    likes = likes or 0
-    total = likes + dislikes
-    try:
-        bad = (dislikes / total) * 5
-    except ZeroDivisionError:
-        bad = 0
-    average = 5 - bad
-    return round(average, 2)
-
-
 async def youtube(cmd, pld):
     """
     :param cmd: The command object referenced in the command.
@@ -78,13 +61,12 @@ async def youtube(cmd, pld):
                     info_text = f'Video URL: [Link]({video_url})'
                     info_text += f'\nUploader: [{song_item["uploader"]}]({song_item["uploader_url"]})'
                     stat_text = f'Views: {song_item["view_count"]}'
-                    stat_text += f'\nLikes: {song_item["like_count"]}/{song_item["dislike_count"]}'
+                    stat_text += f'\nLikes: {song_item["like_count"]}'
                     duration = str(datetime.timedelta(seconds=int(song_item['duration'])))
-                    rating = get_average(song_item['dislike_count'], song_item['like_count'])
                     response = discord.Embed(color=yt_color)
                     response.set_author(name=song_item['title'], icon_url=yt_icon, url=video_url)
                     response.set_thumbnail(url=song_item['thumbnail'])
-                    response.set_footer(text=f'Video duration: {duration} | Rating: {rating}/5')
+                    response.set_footer(text=f'Video duration: {duration}')
                     response.add_field(name='Info', value=info_text)
                     response.add_field(name='Stats', value=stat_text)
             else:
