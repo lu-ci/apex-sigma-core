@@ -74,20 +74,24 @@ class SigmaRecipe(object):
         ingredient_values = []
         ingredient_rarities = []
         for ingredient in self.ingredients:
-            ingredient_rarities.append(ingredient.rarity)
-            if ingredient.rarity == 11:
-                recipe_item = self.recipe_core.find_recipe(ingredient.name)
-                if recipe_item:
-                    if not recipe_item.value:
+            if ingredient:
+                ingredient_rarities.append(ingredient.rarity)
+                if ingredient.rarity == 11:
+                    recipe_item = self.recipe_core.find_recipe(ingredient.name)
+                    if recipe_item:
+                        if not recipe_item.value:
+                            self.incomplete = True
+                            return
+                        self.incomplete = False
+                        ingredient_values.append(recipe_item.value)
+                    else:
                         self.incomplete = True
                         return
-                    self.incomplete = False
-                    ingredient_values.append(recipe_item.value)
                 else:
-                    self.incomplete = True
-                    return
+                    ingredient_values.append(ingredient.value)
             else:
-                ingredient_values.append(ingredient.value)
+                self.incomplete = True
+                return
         combined_price = int(sum(ingredient_values) * (3 * (0.075 * sum(ingredient_rarities))) / 100) * 100
         if combined_price < 100:
             combined_price = 100
