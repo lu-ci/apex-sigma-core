@@ -56,9 +56,7 @@ async def marketsell(cmd, pld):
                 item_lookup = ' '.join(pld.args[1:])
                 item = ic.get_item_by_name(item_lookup)
                 if item:
-                    power = item.rarity // 2.33
-                    min_proto = int((10 * (10 ** power) / (0.666 * power)))
-                    min_price = min(int(item.value * 0.75), min_proto)
+                    min_price = int(10 * (10 ** (item.rarity // 2.33)))
                     if price >= min_price:
                         if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
                             Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
