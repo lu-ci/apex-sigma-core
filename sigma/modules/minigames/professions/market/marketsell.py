@@ -56,58 +56,64 @@ async def marketsell(cmd, pld):
                 item_lookup = ' '.join(pld.args[1:])
                 item = ic.get_item_by_name(item_lookup)
                 if item:
-                    if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
-                        Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
-                        inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
-                        if inv_item:
-                            expiration = arrow.get(
-                                arrow.utcnow().int_timestamp + MARKET_LIFETIME
-                            ).format('DD. MMM. YYYY HH:mm UTC')
-                            cost = int(price * 0.005)
-                            cost = cost if cost else 10
-                            curr = cmd.bot.cfg.pref.currency
-                            profit = int(price * (1 - (MARKET_TAX_PERCENT / 100)))
-                            questitle = f'❔ Sell the {item.rarity_name} {item.name} for {price} {curr}?'
-                            quesbed = discord.Embed(color=0xf9f9f9, title=questitle)
-                            desc = f'Listing the item costs **{cost}** {curr}.'
-                            desc += f' The market has a {MARKET_TAX_PERCENT}% tax so if your item gets sold,'
-                            desc += f' you will get {profit} instead of {price} {curr}.'
-                            desc += ' Retracting the item is not taxed.'
-                            desc += f' The item will be available until {expiration}.'
-                            quesbed.description = desc
-                            dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
-                            dresp = await dialogue.bool_dialogue()
-                            if dresp.ok:
-                                wallet = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
-                                if wallet >= cost:
-                                    me = MarketEntry.new(pld.msg.author, item.file_id, price)
-                                    try:
-                                        await me.save(cmd.db)
-                                        await cmd.db.del_resource(
-                                            pld.msg.author.id, 'currency', cost, cmd.name, pld.msg
-                                        )
-                                        await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
-                                        pfx = cmd.db.get_prefix(pld.settings)
-                                        desc = f'Placed the {item.rarity_name} {item.name}'
-                                        desc += f' on the market for {price} {curr}.'
-                                        desc += f' The listing expiry is {expiration}.'
-                                        desc += f' Your market entry token is `{me.token}`,'
-                                        desc += ' it can be bought directly using the'
-                                        desc += f' `{pfx}marketbuy {me.token}` command.'
-                                        response = GenericResponse('Market entry created.').ok()
-                                        response.description = desc
-                                    except OverflowError:
-                                        response = GenericResponse("Whoa, that number is way too big!").error()
+                    min_price = int(10 * (10 ** (item.rarity // 2.33)))
+                    if price >= min_price:
+                        if not Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                            Ongoing.set_ongoing(cmd.name, pld.msg.author.id)
+                            inv_item = await cmd.db.get_inventory_item(pld.msg.author.id, item.file_id)
+                            if inv_item:
+                                expiration = arrow.get(
+                                    arrow.utcnow().int_timestamp + MARKET_LIFETIME
+                                ).format('DD. MMM. YYYY HH:mm UTC')
+                                cost = int(price * 0.005)
+                                cost = cost if cost else 10
+                                curr = cmd.bot.cfg.pref.currency
+                                profit = int(price * (1 - (MARKET_TAX_PERCENT / 100)))
+                                questitle = f'❔ Sell the {item.rarity_name} {item.name} for {price} {curr}?'
+                                quesbed = discord.Embed(color=0xf9f9f9, title=questitle)
+                                desc = f'Listing the item costs **{cost}** {curr}.'
+                                desc += f' The market has a {MARKET_TAX_PERCENT}% tax so if your item gets sold,'
+                                desc += f' you will get {profit} instead of {price} {curr}.'
+                                desc += ' Retracting the item is not taxed.'
+                                desc += f' The item will be available until {expiration}.'
+                                quesbed.description = desc
+                                dialogue = DialogueCore(cmd.bot, pld.msg, quesbed)
+                                dresp = await dialogue.bool_dialogue()
+                                if dresp.ok:
+                                    wallet = (await cmd.db.get_resource(pld.msg.author.id, 'currency')).current
+                                    if wallet >= cost:
+                                        me = MarketEntry.new(pld.msg.author, item.file_id, price)
+                                        try:
+                                            await me.save(cmd.db)
+                                            await cmd.db.del_resource(
+                                                pld.msg.author.id, 'currency', cost, cmd.name, pld.msg
+                                            )
+                                            await cmd.db.del_from_inventory(pld.msg.author.id, inv_item['item_id'])
+                                            pfx = cmd.db.get_prefix(pld.settings)
+                                            desc = f'Placed the {item.rarity_name} {item.name}'
+                                            desc += f' on the market for {price} {curr}.'
+                                            desc += f' The listing expiry is {expiration}.'
+                                            desc += f' Your market entry token is `{me.token}`,'
+                                            desc += ' it can be bought directly using the'
+                                            desc += f' `{pfx}marketbuy {me.token}` command.'
+                                            response = GenericResponse('Market entry created.').ok()
+                                            response.description = desc
+                                        except OverflowError:
+                                            response = GenericResponse("Whoa, that number is way too big!").error()
+                                    else:
+                                        response = GenericResponse('You\'re not able to pay the listing fee.').error()
                                 else:
-                                    response = GenericResponse('You\'re not able to pay the listing fee.').error()
+                                    response = dresp.generic('market sale')
                             else:
-                                response = dresp.generic('market sale')
+                                response = GenericResponse('You don\'t have this item in your inventory.').not_found()
+                            if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
+                                Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
                         else:
-                            response = GenericResponse('You don\'t have this item in your inventory.').not_found()
-                        if Ongoing.is_ongoing(cmd.name, pld.msg.author.id):
-                            Ongoing.del_ongoing(cmd.name, pld.msg.author.id)
+                            response = GenericResponse('You already have a market sale open.').error()
                     else:
-                        response = GenericResponse('You already have a market sale open.').error()
+                        curr = cmd.bot.cfg.pref.currency
+                        msg = f'{item.rarity_name.title()} items have a minimum price of {min_price} {curr}.'
+                        response = GenericResponse(msg).error()
                 else:
                     response = GenericResponse(
                         'Couldn\'t find that item, did you spell the name correctly?'
