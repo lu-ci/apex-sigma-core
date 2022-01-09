@@ -1,34 +1,13 @@
 category: statistics
 commands:
   - alts:
-      - toprep
+      - top
     description: Shows the top 20 users who have the most cookies. A filter can be added,
       either global or total, sorting it by the amount they globaly have right now,
       which is the default, or the total amount of cookies that they have collected
       over time regardless of resets.
     enabled: true
-    name: topcookies
-    usage: '{pfx}{cmd} global'
-  - alts:
-      - topkud
-    description: Shows the top 20 users who have the most currency. A filter can be
-      added, either global, local or total, sorting it by the amount they globaly have
-      right now, which is the default, sorted by the amount that users have earned on
-      this guild, or the total amount of currency that they have collected over time
-      regardless of resets.
-    enabled: true
-    name: topcurrency
-    usage: '{pfx}{cmd} local'
-  - alts:
-      - topexp
-      - topxp
-    description: Shows the top 20 users who have the most experience. A filter can be
-      added, either global, local or total, sorting it by the amount they globaly have
-      right now, which is the default, sorted by the amount that users have earned on
-      this guild, or the total amount of experience that they have collected over time
-      regardless of resets.
-    enabled: false
-    name: topexperience
-    usage: '{pfx}{cmd} total'
+    name: leaderboard
+    usage: '{pfx}{cmd} kud local'
 enabled: true
 name: Leaderboard Commands
