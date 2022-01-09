@@ -2,12 +2,12 @@ category: statistics
 commands:
   - alts:
       - top
-    description: Shows the top 20 users who have the most cookies. A filter can be added,
-      either global or total, sorting it by the amount they globaly have right now,
-      which is the default, or the total amount of cookies that they have collected
+    description: Shows the top 20 users who have the most of a specified resource.
+      A filter can be added, either global or total, sorting it by the amount they globaly have right now,
+      which is the default, or the total amount of the given resource that they have collected
       over time regardless of resets.
     enabled: true
     name: leaderboard
-    usage: '{pfx}{cmd} kud local'
+    usage: '{pfx}{cmd} kud total'
 enabled: true
 name: Leaderboard Commands
