@@ -67,6 +67,7 @@ async def cook(cmd, pld):
                     if quality[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                         connector = 'an'
                     await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
+                    await cmd.db.add_resource(pld.msg.author.id, recipe.type.lower(), 1, cmd.name, pld.msg, True)
                     head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                     response = discord.Embed(color=recipe.color, title=head_title)
                 else:

@@ -20,25 +20,43 @@ import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.statistics.leaderboards.topcookies import get_leader_docs
+from humanfriendly.tables import format_pretty_table as boop
 
 
-async def reset_resource(db, log, res):
+async def notify_system(db, res, table_data):
+    table = boop(table_data, ['PLC', 'USR', 'VAL'])
+    data = {
+        'reported': False,
+        'title': f'📊 {res.title()} Resource Leaderboard Awarded',
+        'color': 0xf9f9f9,
+        'content': f'```hs\n{table}\n```'
+    }
+    await db[db.db_nam].SystemMessages.insert_one(data)
+
+
+async def reset_resource(db, log, res, notify=False):
     """
     Resets the leaderboards for the specified resource.
     :type db: sigma.core.mechanics.database.Database
     :type log: sigma.core.mechanics.logger.Logger
     :type res: str
+    :type notify: bool
     """
     coll = db[db.db_nam][f'{res}Resource']
     search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
     all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
-    leader_docs = list(reversed(await get_leader_docs(db, all_docs, 'ranked')))
+    leader_docs = await get_leader_docs(db, all_docs, 'ranked')
+    table_data = []
     for ld_index, ld_entry in enumerate(leader_docs):
         ld_position = ld_index + 1
-        ld_award = ld_position * 100000
+        ld_award = (20 - ld_index) * 100000
         await db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', None, False)
         value = f'{ld_entry[1]} {res}'
-        log.info(f'PLC: {20 - ld_index} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
+        name = f'{res.upper()} LEADERBOARD'
+        log.info(f'{name} | PLC: {ld_position} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
+        table_data.append([ld_position, ld_entry[0], value])
+    if notify and len(table_data) != 0:
+        await notify_system(db, res, table_data)
     await coll.update_many({}, {'$set': {'ranked': 0}})
 
 

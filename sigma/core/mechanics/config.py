@@ -110,8 +110,8 @@ class PreferencesConfig(object):
 
     __slots__ = (
         "raw", "dev_mode", "status_rotation", "prefix",
-        "currency", "currency_icon", "website", "text_only",
-        "music_only", "movelog_channel", "errorlog_channel"
+        "currency", "currency_icon", "website", "text_only", "music_only",
+        "syslog_channel", "movelog_channel", "errorlog_channel"
     )
 
     def __init__(self, pref_cfg_data):
@@ -127,6 +127,7 @@ class PreferencesConfig(object):
         self.website = self.raw.get('website', 'https://luciascipher.com/sigma')
         self.text_only = self.raw.get('text_only', False)
         self.music_only = self.raw.get('music_only', False)
+        self.syslog_channel = self.raw.get('syslog_channel')
         self.movelog_channel = self.raw.get('movelog_channel')
         self.errorlog_channel = self.raw.get('errorlog_channel')
 
