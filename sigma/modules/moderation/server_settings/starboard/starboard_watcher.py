@@ -16,6 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from io import BytesIO
+
+import aiohttp
 import arrow
 import discord
 
@@ -26,9 +29,11 @@ from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 star_cache = None
 
 
-async def post_starboard(msg, response, sbc):
+async def post_starboard(msg, file, content, response, sbc):
     """
     :type msg: discord.Message
+    :type file: discord.File
+    :type content: str
     :type response: discord.Embed
     :type sbc: int
     """
@@ -36,7 +41,7 @@ async def post_starboard(msg, response, sbc):
     if channel:
         # noinspection PyBroadException
         try:
-            await channel.send(embed=response)
+            await channel.send(file=file, content=content, embed=response)
         except Exception:
             pass
 
@@ -44,7 +49,7 @@ async def post_starboard(msg, response, sbc):
 async def generate_embed(msg):
     """
     :type msg: discord.Message
-    :rtype: discord.Embed
+    :rtype: discord.File, str, discord.Embed
     """
     avatar = user_avatar(msg.author)
     user_color = await get_image_colors(avatar)
@@ -52,26 +57,40 @@ async def generate_embed(msg):
     response.set_author(name=msg.author.name, icon_url=avatar)
     response.set_footer(text=f'#{msg.channel.name}')
     response.description = msg.content
-    attachments = False
+
+    att, file, content = None, None, None
     if msg.attachments:
-        enders = ['png', 'jpg', 'gif', 'webp']
-        ender = msg.attachments[0].filename.lower().split('.')[-1]
-        if ender.split('?')[0] in enders:
-            attachments = True
+        img_exts = ['png', 'jpg', 'gif', 'webp']
+        vid_exts = ['webm', 'mp4']
+        file_ext = msg.attachments[0].filename.lower().split('.')[-1]
+
+        if file_ext in img_exts:
+            att = True
             response.set_image(url=msg.attachments[0].url)
-    if not msg.content and not attachments:
-        return None
-    return response
+
+        elif file_ext in vid_exts:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(msg.attachments[0].url) as resp:
+                    data = await resp.read()
+
+            response = None
+            file = discord.File(BytesIO(data), f'{msg.id}.{file_ext}')
+            content = f'**{msg.author.name}** in {msg.channel.mention}'
+
+    if not any([msg.content, att, file]):
+        return None, None
+    return file, content, response,
 
 
 # noinspection PyUnresolvedReferences
 async def check_emotes(mid, uid, sbl):
     """
     :type mid: int
-    type uid: int
+    :type uid: int
     :type sbl: int
     :rtype: bool
     """
+
     trigger = False
     executed = await star_cache.get_cache(f'exec_{mid}')
     if not executed:
@@ -124,8 +143,8 @@ async def starboard_watcher(ev, pld):
                                     if enough:
                                         message = await channel.fetch_message(mid)
                                         if not message.author.bot:
-                                            response = await generate_embed(message)
-                                            if response:
-                                                await post_starboard(message, response, sbc)
+                                            file, content, embed = await generate_embed(message)
+                                            if file or embed:
+                                                await post_starboard(message, file, content, embed, sbc)
                                 except (discord.NotFound, discord.Forbidden):
                                     pass

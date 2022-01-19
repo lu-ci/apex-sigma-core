@@ -545,7 +545,7 @@ Commands | Description | Example
 `>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server and shows their status. | `>>bots`
 `>>botsuggest` `>>botsugg` `>>bsugg` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>botsuggest Add some new stuff!!!`
-`>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>channelid #channel`
+`>>channelid` `>>chid` `>>cid` | Shows the User ID of the mentioned channel. If no channel is mentioned, it will show the ID of the channel the command is used in. If you don't want the message to be an embed, add "--text" at the end. | `>>channelid #channel`
 `>>channelinformation` `>>channelinfo` `>>chinfo` `>>cinfo` | Shows information and data on the mentioned channel. If no channel is mentioned, it will show data for the curent channel. | `>>channelinformation #channel`
 `>>color` `>>colour` `>>clr` | Shows the specified color. It accepts either a HEX code or an RGB array. | `>>color #1abc9c`
 `>>completewipe` | Wipes every little bit of your data in the database. Everything, absolutely everything. This can not be reversed. Resources, inventory, profile data, EVERYTHING. | `>>completewipe`
@@ -563,12 +563,12 @@ Commands | Description | Example
 `>>permissions` `>>perms` | Shows which permissions a user has and which they do not. If no user is mentioned, it will target the message author. | `>>permissions @person`
 `>>ping` | Shows the latency of every shard the bot is on. | `>>ping`
 `>>randomcolor` `>>randomcolour` `>>rclr` | Shows you a random color block along with its HEX code. | `>>randomcolor`
-`>>roleid` `>>rankid` `>>rid` | Shows the Role ID of the specified role. Unlike the other ID commands, a role specification is required. Roles mentions do not work here, lookup is done via role name. If you don't want the message to be an embed, add "text" at the end. | `>>roleid Warlards`
+`>>roleid` `>>rankid` `>>rid` | Shows the Role ID of the specified role. Unlike the other ID commands, a role specification is required. Roles mentions do not work here, lookup is done via role name. If you don't want the message to be an embed, add "--text" at the end. | `>>roleid Warlards`
 `>>roleinformation` `>>roleinfo` `>>rinfo` | Shows information and data on the specified role. Roles mentions do not work here, lookup is done via role name. | `>>roleinformation`
 `>>rolepopulation` `>>rolepop` | Shows the population of the specified role. If no arguments are provided, it will show the top 15 roles by population. | `>>rolepopulation Warlard`
 `>>roleswithpermission` `>>roleswithpermissions` `>>roleswithperms` `>>roleswithperm` `>>rlwperms` `>>rlwperm` | Lists all roles with the given permissions. You can list multiple permissions to look for roles that contain all of them. You can also reverse the search by adding "--negative" to the command. This will return roles that have that permissions denied. | `>>roleswithpermission Manage Messages; Administrator`
 `>>servericon` `>>srvicon` `>>icon` | Shows the server's icon image. | `>>servericon`
-`>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. If you don't want the message to be an embed, add "text" at the end. | `>>serverid`
+`>>serverid` `>>guildid` `>>srvid` `>>sid` `>>gid` | Shows the Server ID of the server the command is used in. If you don't want the message to be an embed, add "--text" at the end. | `>>serverid`
 `>>serverinformation` `>>serverinfo` `>>sinfo` | Shows information and data on the server. | `>>serverinformation`
 `>>serverstatistics` `>>serverstats` `>>sstats` | Shows the current server's statistics. Population, message and command counts, and rates in the last 24 hours. | `>>serverstatistics`
 `>>shortenurl` `>>shorten` `>>bitly` | Shortens a URL for you using BitLy. All URLs returned via Sigma are without ads, merely shortened using the service. | `>>shortenurl https://i.redd.it/ngwebbf5nwfz.jpg`
@@ -576,7 +576,7 @@ Commands | Description | Example
 `>>statistics` `>>stats` | Shows Sigma's current statistics. Population, message and command counts, and rates since startup. | `>>statistics`
 `>>status` | Shows the status of Sigma's host machine. Processor information, memory, storage, network, etc. | `>>status`
 `>>translation` `>>translate` `>>trans` | Translates a language from and to the specified ones. If a conversion input is not stated, the first argument will be considered the input language and the output will be in english. The language codes used abide by the ISO 639-1 format. For the whole list, you can go to the following wikipedia article https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes | `>>translation EN>JA Hello there!`
-`>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the message to be an embed, add "text" at the end. | `>>userid @person`
+`>>userid` `>>uid` | Shows the User ID of the mentioned user. If no user is mentioned, it will show the author's ID. If you don't want the message to be an embed, add "--text" at the end. | `>>userid @person`
 `>>userinformation` `>>userinfo` `>>uinfo` | Shows information and data on the mentioned user. If no user is mentioned, it will show data for the author. | `>>userinformation @person`
 `>>whoplays` | Generates a list of users playing the specified game. The list is paginated, each page has up to 20 items. You can specify the page number you want to see. Due to some game names ending with a number, the page indicator goes before the game name. | `>>whoplays Overwatch`
 [Back To Top](#module-index)
