@@ -8,7 +8,7 @@ discord.py[voice]==1.7.3
 ftfy==6.0.3
 geopy==2.2.0
 humanfriendly==9.2
-lxml==4.6.3
+lxml==4.6.5
 markovify==0.9.3
 motor==2.5.1
 Pillow==9.0.0
