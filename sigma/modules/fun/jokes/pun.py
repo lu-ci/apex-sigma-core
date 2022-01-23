@@ -44,15 +44,22 @@ async def pun(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     pun_url = 'https://pun.me/random/'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(pun_url) as data:
-            pun_req = await data.text()
-    root = lx.fromstring(pun_req)
-    pun_li = root.cssselect('.puns.single li')[0]
-    pun_text = split_content(pun_li.text_content())
-    if pun_text:
-        response = discord.Embed(color=0xFFDC5D, title='😒 Have a pun...')
-        response.description = pun_text
+    # noinspection PyBroadException
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(pun_url) as data:
+                pun_req = await data.text()
+    except Exception:
+        pun_req = None
+    if pun_req:
+        root = lx.fromstring(pun_req)
+        pun_li = root.cssselect('.puns.single li')[0]
+        pun_text = split_content(pun_li.text_content())
+        if pun_text:
+            response = discord.Embed(color=0xFFDC5D, title='😒 Have a pun...')
+            response.description = pun_text
+        else:
+            response = GenericResponse('Sorry, I failed to find a pun.').error()
     else:
-        response = GenericResponse('Sorry, I failed to find a pun.').error()
+        response = GenericResponse('Sorry, I failed to connect to the pun server.').error()
     await pld.msg.channel.send(embed=response)
