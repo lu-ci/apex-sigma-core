@@ -71,13 +71,13 @@ async def leaderboard(cmd, pld):
         sort_key = 'ranked'
         lb_category = 'This Month\'s'
         if pld.args:
-            if pld.args[0].lower() == 'total':
+            if 'total' in pld.args:
                 sort_key = 'total'
                 lb_category = 'Total'
-            elif pld.args[0].lower() == 'current':
+            elif 'current' in pld.args:
                 sort_key = 'current'
                 lb_category = 'Current'
-            elif pld.args[0].lower() == 'local':
+            elif 'local' in pld.args:
                 sort_key = f'origins.guilds.{pld.msg.guild.id}'
                 lb_category = pld.msg.guild.name
         now = arrow.utcnow().int_timestamp
