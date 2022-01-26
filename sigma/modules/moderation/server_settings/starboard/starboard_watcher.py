@@ -46,6 +46,34 @@ async def post_starboard(msg, file, content, response, sbc):
             pass
 
 
+def check_file(url):
+    valid = False
+    video = False
+
+    img_exts = ['png', 'jpg', 'gif', 'webp']
+    vid_exts = ['webm', 'mp4']
+    file_ext = url.lower().split('.')[-1]
+
+    if file_ext in img_exts:
+        valid = True
+    elif file_ext in vid_exts:
+        valid = True
+        video = True
+
+    return valid, video
+
+
+async def get_video(msg, url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            data = await resp.read()
+
+    file_ext = url.lower().split('.')[-1]
+    file = discord.File(BytesIO(data), f'{msg.id}.{file_ext}')
+    content = f'**{msg.author.name}** in {msg.channel.mention}'
+    return file, content
+
+
 async def generate_embed(msg):
     """
     :type msg: discord.Message
@@ -56,30 +84,36 @@ async def generate_embed(msg):
     response = discord.Embed(color=user_color, timestamp=arrow.utcnow().datetime)
     response.set_author(name=msg.author.name, icon_url=avatar)
     response.set_footer(text=f'#{msg.channel.name}')
-    response.description = msg.content
 
     att, file, content = None, None, None
     if msg.attachments:
-        img_exts = ['png', 'jpg', 'gif', 'webp']
-        vid_exts = ['webm', 'mp4']
-        file_ext = msg.attachments[0].filename.lower().split('.')[-1]
+        valid, video = check_file(msg.attachments[0].url)
+        if valid:
+            if not video:
+                att = True
+                response.set_image(url=msg.attachments[0].url)
+            else:
+                response = None
+                file, content = await get_video(msg, msg.attachments[0].url)
 
-        if file_ext in img_exts:
-            att = True
-            response.set_image(url=msg.attachments[0].url)
+    elif msg.content:
+        for arg in msg.content.split():
+            if arg.startswith('https'):
+                valid, video = check_file(arg)
+                if valid:
+                    if not video:
+                        att = True
+                        response.set_image(url=arg)
+                    else:
+                        response = None
+                        file, content = await get_video(msg, arg)
+                    break
+        else:
+            response.description = msg.content
 
-        elif file_ext in vid_exts:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(msg.attachments[0].url) as resp:
-                    data = await resp.read()
-
-            response = None
-            file = discord.File(BytesIO(data), f'{msg.id}.{file_ext}')
-            content = f'**{msg.author.name}** in {msg.channel.mention}'
-
-    if not any([msg.content, att, file]):
-        return None, None
-    return file, content, response,
+    if not any([att, file, msg.content]):
+        return
+    return file, content, response
 
 
 # noinspection PyUnresolvedReferences
