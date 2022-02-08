@@ -11,9 +11,9 @@ humanfriendly==10.0
 lxml==4.7.1
 markovify==0.9.3
 motor==2.5.1
-Pillow==9.0.1
+pillow==9.0.1
 psutil==5.9.0
-pymongo==4.0.1
+pymongo<4.0
 python-aiml==0.9.3
 pyyaml==6.0
 translate==3.6.1
