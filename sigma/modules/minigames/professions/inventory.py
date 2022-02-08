@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import collections
 from operator import attrgetter
 
 import discord
@@ -124,18 +124,20 @@ async def inventory(cmd, pld):
     inv, page = PaginatorCore.paginate(item_o_list, get_page_number(pld.args))
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
+        inv = collections.Counter(inv)
         all_reci = reci_core.recipes
-        headers = ['Type', 'Name', 'Value', 'Rarity']
+        headers = ['Type', 'Name', 'Value', 'Rarity', 'Qnt']
         to_format = []
         total_value = 0
-        for item_o_item in inv:
+        for item_o_item, qnt in inv.items():
             in_rec = '*' if is_ingredient(all_reci, item_o_item) else ''
             to_format.append(
                 [
                     item_o_item.type,
                     f'{item_o_item.name}{in_rec}',
                     f'{item_o_item.value}',
-                    f'{item_o_item.rarity_name.title()}'
+                    f'{item_o_item.rarity_name.title()}',
+                    qnt
                 ]
             )
         for item_o_item in item_o_list:
