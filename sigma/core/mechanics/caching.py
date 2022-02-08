@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import abc
 import pickle
+import secrets
 
 import aioredis
 import cachetools
@@ -85,6 +86,12 @@ class Cacher(abc.ABC):
         :type key: str or int
         """
         pass
+
+    async def test(self):
+        """
+        Tests the database connection.
+        """
+        return True
 
 
 class MemoryCacher(Cacher):
@@ -178,7 +185,7 @@ class RedisCacher(Cacher):
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
         """
-        self.conn = await aioredis.create_redis(self.addr)
+        self.conn = await aioredis.Redis(host=self.cfg.host, port=self.cfg.port, db=self.cfg.db)
 
     async def get_cache(self, key):
         """
@@ -200,7 +207,7 @@ class RedisCacher(Cacher):
         try:
             await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except aioredis.ReplyError:
+        except aioredis.exceptions.RedisError:
             self.conn.flushdb()
 
     async def del_cache(self, key):
@@ -210,6 +217,16 @@ class RedisCacher(Cacher):
         """
         if await self.conn.exists(str(key).replace('_', ':')):
             await self.conn.delete(str(key).replace('_', ':'))
+
+    async def test(self):
+        """
+        Tests the database connection.
+        """
+        key = f'test:{secrets.token_hex(4)}'
+        val = secrets.token_hex(16)
+        await self.set_cache(key, val)
+        res = await self.get_cache(key)
+        return res == val
 
 
 class MixedCacher(RedisCacher):

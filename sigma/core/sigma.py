@@ -123,9 +123,16 @@ class ApexSigma(client_class):
         Initializes the core client Cacher.
         """
         try:
-            return await get_cache(self.cfg.cache)
-        except OSError:
+            cache = await get_cache(self.cfg.cache)
+            res = await cache.test()
+            if not res:
+                self.log.error('Cache test failed, set value key missmatch.')
+                exit(errno.EINVAL)
+            else:
+                return cache
+        except Exception as err:
             self.log.error('Cacher failed to initialize, if you are using Redis, make sure the server is running!')
+            self.log.error(str(err))
             exit(errno.ETIMEDOUT)
 
     @staticmethod
