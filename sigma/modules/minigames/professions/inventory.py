@@ -121,15 +121,15 @@ async def inventory(cmd, pld):
     item_o_list = sorted(item_o_list, key=attrgetter('value'), reverse=True)
     item_o_list = sorted(item_o_list, key=attrgetter('name'), reverse=False)
     item_o_list = sorted(item_o_list, key=attrgetter('rarity'), reverse=True)
-    inv, page = PaginatorCore.paginate(item_o_list, get_page_number(pld.args))
+    item_o_list = collections.Counter(item_o_list)
+    inv, page = PaginatorCore.paginate(list(item_o_list.items()), get_page_number(pld.args))
     start_range, end_range = (page - 1) * 10, page * 10
     if inv:
-        inv = collections.Counter(inv)
         all_reci = reci_core.recipes
         headers = ['Type', 'Name', 'Value', 'Rarity', 'Qnt']
         to_format = []
         total_value = 0
-        for item_o_item, qnt in inv.items():
+        for item_o_item, qnt in inv:
             in_rec = '*' if is_ingredient(all_reci, item_o_item) else ''
             to_format.append(
                 [
