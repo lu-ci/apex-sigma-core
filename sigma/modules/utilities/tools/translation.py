@@ -47,27 +47,34 @@ async def translation(_cmd, pld):
             from_lang = trans_arg
             to_lang = 'en'
         if sentence:
-            translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
-            trans_output = translator.translate(sentence)
-            if 'is an invalid' in trans_output.lower():
-                lang_iso = trans_output.split()[0].strip("'")
-                response = GenericResponse(f'{lang_iso} is an invalid language code.').error()
-                response.description = f'[Click for a list of language ISO codes]({wiki_url})'
-            # 'excedeed' is misspelled intentionally
-            elif 'length limit excedeed' in trans_output.lower():
-                response = GenericResponse('Maximum query limit is 500 characters.').error()
-            elif 'mymemory warning' in trans_output.lower():
-                time_pieces = []
-                for word in trans_output.split(' '):
-                    if word.isdigit():
-                        time_pieces.append(word)
-                time = ':'.join(time_pieces)
-                response = GenericResponse('Unable to translate more due to rate limits.').error()
-                response.set_footer(text=f'More translations available in {time}.')
+            # noinspection PyBroadException
+            try:
+                translator = translate.Translator(to_lang=to_lang, from_lang=from_lang)
+                trans_output = translator.translate(sentence)
+            except Exception:
+                trans_output = None
+            if trans_output:
+                if 'is an invalid' in trans_output.lower():
+                    lang_iso = trans_output.split()[0].strip("'")
+                    response = GenericResponse(f'{lang_iso} is an invalid language code.').error()
+                    response.description = f'[Click for a list of language ISO codes]({wiki_url})'
+                # 'excedeed' is misspelled intentionally
+                elif 'length limit excedeed' in trans_output.lower():
+                    response = GenericResponse('Maximum query limit is 500 characters.').error()
+                elif 'mymemory warning' in trans_output.lower():
+                    time_pieces = []
+                    for word in trans_output.split(' '):
+                        if word.isdigit():
+                            time_pieces.append(word)
+                    time = ':'.join(time_pieces)
+                    response = GenericResponse('Unable to translate more due to rate limits.').error()
+                    response.set_footer(text=f'More translations available in {time}.')
+                else:
+                    title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
+                    response = discord.Embed(color=0x3B88C3, title=title)
+                    response.description = html.unescape(trans_output).replace('<@! ', '<@!')
             else:
-                title = f'🔠 Translated from {from_lang.upper()} to {to_lang.upper()}'
-                response = discord.Embed(color=0x3B88C3, title=title)
-                response.description = html.unescape(trans_output).replace('<@! ', '<@!')
+                response = GenericResponse('Failed to translate due to a library error.').error()
         else:
             response = GenericResponse('Missing language or sentence.').error()
     else:
