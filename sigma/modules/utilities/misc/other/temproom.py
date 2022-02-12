@@ -60,8 +60,16 @@ async def temproom(cmd, pld):
     if pld.msg.guild.me.permissions_in(temp_vc_cat).manage_channels:
         perms = {'manage_channels': True, 'manage_roles': True, 'read_messages': True, 'connect': True, 'speak': True}
         overwrites = {pld.msg.author: discord.PermissionOverwrite(**perms)}
-        await pld.msg.guild.create_voice_channel(room_name, reason=reason, overwrites=overwrites, category=temp_vc_cat)
-        response = GenericResponse(f'{room_name} created.').ok()
+        try:
+            await pld.msg.guild.create_voice_channel(
+                room_name,
+                reason=reason,
+                overwrites=overwrites,
+                category=temp_vc_cat
+            )
+            response = GenericResponse(f'{room_name} created.').ok()
+        except discord.Forbidden:
+            response = GenericResponse(f'Failed to create a room due to missing permissions.').error()
     else:
         response = GenericResponse('I can\'t create channels in that category.').error()
     await pld.msg.channel.send(embed=response)
