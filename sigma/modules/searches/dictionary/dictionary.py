@@ -23,7 +23,6 @@ import lxml.html as lx
 from sigma.core.utilities.generic_responses import GenericResponse
 
 LEXICO_ICON = 'https://www.lexico.com/apple-touch-icon.png'
-AIO_HTTP_CONNECTOR = aiohttp.TCPConnector(verify_ssl=False)
 
 
 def scrape_gramb(section):
@@ -102,7 +101,8 @@ async def dictionary(_cmd, pld):
     if pld.args:
         query = '_'.join(pld.args).lower()
         lexico_url = f'https://www.lexico.com/en/definition/{query}'
-        async with aiohttp.ClientSession(connector=AIO_HTTP_CONNECTOR) as session:
+        connector = aiohttp.TCPConnector(verify_ssl=False)
+        async with aiohttp.ClientSession(connector=connector) as session:
             async with session.get(lexico_url) as data_response:
                 data = await data_response.text()
                 data = scrape_lexico(data)
