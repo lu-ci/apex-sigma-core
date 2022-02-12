@@ -35,7 +35,7 @@ async def youtube(cmd, pld):
     text_mode = False
     if pld.args:
         lookup = ' '.join(pld.args)
-        if pld.args[-1].lower() == ' --text':
+        if pld.args[-1].lower() == '--text':
             lookup = lookup.rpartition(' ')[0]
             text_mode = True
         extracted_info = await cmd.bot.music.extract_info(lookup)
