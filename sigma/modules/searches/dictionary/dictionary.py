@@ -104,24 +104,31 @@ async def dictionary(_cmd, pld):
         connector = aiohttp.TCPConnector(verify_ssl=False)
         async with aiohttp.ClientSession(connector=connector) as session:
             async with session.get(lexico_url) as data_response:
-                data = await data_response.text()
-                data = scrape_lexico(data)
-        if data:
-            response = discord.Embed(color=0x50b46c)
-            response.set_author(name=f'Lexico Dictionary: {data.get("word")}', icon_url=LEXICO_ICON, url=lexico_url)
-            for gramb in data.get('grambs'):
-                gramb_lines = []
-                for trg in gramb.get('trgs'):
-                    gramb_lines.append(f'**{trg.get("index")}.** {trg.get("context")}')
-                    for sub in trg.get("subsenses"):
-                        gramb_lines.append(f'-> **{trg.get("index")}.{sub.get("index")}.** {sub.get("context")}')
-                gramb_text = '\n'.join(gramb_lines[:10])
-                if gramb_text:
-                    response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
-            if data.get('audio'):
-                response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'
+                body = await data_response.text()
+        if body:
+            data = scrape_lexico(body)
+            if data:
+                response = discord.Embed(color=0x50b46c)
+                response.set_author(name=f'Lexico Dictionary: {data.get("word")}', icon_url=LEXICO_ICON, url=lexico_url)
+                for gramb in data.get('grambs'):
+                    gramb_lines = []
+                    for trg in gramb.get('trgs'):
+                        gramb_lines.append(f'**{trg.get("index")}.** {trg.get("context")}')
+                        for sub in trg.get("subsenses"):
+                            gramb_lines.append(f'-> **{trg.get("index")}.{sub.get("index")}.** {sub.get("context")}')
+                    gramb_text = '\n'.join(gramb_lines[:10])
+                    if gramb_text:
+                        response.add_field(name=gramb.get("type"), value=gramb_text, inline=False)
+                if data.get('audio'):
+                    response.description = f'{data.get("word")} Pronunciation Audio: [Here]({data.get("audio")})'
+            else:
+                response = GenericResponse('No results.').not_found()
         else:
-            response = GenericResponse('No results.').not_found()
+            response = GenericResponse('The request returned an empty body.').error()
+            response.description = 'This usually means there are no results, or something went wrong.'
+            response.description += ' Another option is that your word is not correctly written.'
+            response.description += ' Like writing "yoyo" instead of "yo-yo", Lexico is strict like that.'
+            response.description += f' [Here]({lexico_url}) is a link to your query, it might help.'
     else:
         response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)
