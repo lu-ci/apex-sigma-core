@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import aiohttp
 import discord
 from lxml import html
@@ -96,7 +97,7 @@ class MetaCriticGame(object):
     def path_from_args(args):
         """
         Creates a URL path from the given arguments.
-        :type args: list[str]
+        :type args: *list[str]
         :rtype: str
         """
         cleaned_args = []
@@ -123,15 +124,21 @@ class MetaCriticGame(object):
             embed.set_footer(text=f'Also on: {self.extract_platforms()}')
 
         meta_score = self.extract_meta_score()
-        c_pos, c_mix, c_neg = self.extract_critic_scores()
-        critic_text = f'Overall: {meta_score}\nPositive: {c_pos}\n'
-        critic_text += f'Mixed: {c_mix}\nNegative: {c_neg}'
+        if meta_score != 'None':
+            c_pos, c_mix, c_neg = self.extract_critic_scores()
+            critic_text = f'Overall: {meta_score}\nPositive: {c_pos}\n'
+            critic_text += f'Mixed: {c_mix}\nNegative: {c_neg}'
+        else:
+            critic_text = 'No critic reviews'
         embed.add_field(name='Metascore', value=critic_text)
 
         user_score = self.extract_user_score()
-        u_pos, u_mix, u_neg = self.extract_user_scores()
-        user_text = f'Overall: {user_score}\nPositive: {u_pos}\n'
-        user_text += f'Mixed: {u_mix}\nNegative: {u_neg}'
+        if user_score != 'None':
+            u_pos, u_mix, u_neg = self.extract_user_scores()
+            user_text = f'Overall: {user_score}\nPositive: {u_pos}\n'
+            user_text += f'Mixed: {u_mix}\nNegative: {u_neg}'
+        else:
+            user_text = 'No user reviews'
         embed.add_field(name='User Score', value=user_text)
 
         return embed
@@ -362,7 +369,7 @@ class MetaCriticSearch(object):
     def path_from_args(args):
         """
         Creates a URL path from the given arguments.
-        :type args: list[str]
+        :type args: *list[str]
         :rtype: str
         """
         cleaned_args = []
