@@ -62,7 +62,11 @@ async def cycler(ev):
         while True:
             live_constant = False
             for partner_name in shuffle(cfg.get('partners')):
-                channels = await twt.search_channels(partner_name)
+                # noinspection PyBroadException
+                try:
+                    channels = await twt.search_channels(partner_name)
+                except Exception:
+                    channels = []
                 channel = None
                 for result in channels:
                     if result.name.lower() == partner_name.lower():
