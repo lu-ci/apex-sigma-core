@@ -11,12 +11,7 @@ RUN mkdir -p /app && chown app:app /app
 
 COPY --chown=app:app ./ /app
 
-RUN apt-get update && apt-get install -y gnupg \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553 7638D0442B90D010 CBF8D6FD518E17E1 \
- && echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list \
- && echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
- && sed -i '/deb http:\/\/\(deb\|httpredir\).debian.org\/debian jessie.* main/d' /etc/apt/sources.list \
- && apt-get -o Acquire::Check-Valid-Until=false update \
+RUN apt-get update \
  && apt-get install -y \
     build-essential \
     libxml2-dev \
