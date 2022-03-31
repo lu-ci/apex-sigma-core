@@ -52,6 +52,8 @@ async def leaderboard_clockwork(ev):
                         ev.log.info('Resetting monthly leaderboards...')
                         await ev.db[ev.db.db_nam].LeaderboardClockworkCache.insert_one(lookup)
                         for res in ['Fish', 'Plant', 'Animal', 'Dessert', 'Drink', 'Meal']:
-                            await reset_resource(ev.db, ev.log, res, True)
+                            await reset_resource(ev.db, ev.log, res, True, True)
+                        for res in ['Cookies', 'Currency']:
+                            await reset_resource(ev.db, ev.log, res, False, False)
                         ev.log.info('Finished resetting monthly leaderboards.')
             await asyncio.sleep(60)

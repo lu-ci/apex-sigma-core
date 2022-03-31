@@ -35,13 +35,14 @@ async def notify_system(db, res, table_data):
     await db[db.db_nam].SystemMessages.insert_one(data)
 
 
-async def reset_resource(db, log, res, notify=False):
+async def reset_resource(db, log, res, notify=False, reward=False):
     """
     Resets the leaderboards for the specified resource.
     :type db: sigma.core.mechanics.database.Database
     :type log: sigma.core.mechanics.logger.Logger
     :type res: str
     :type notify: bool
+    :type reward: bool
     """
     coll = db[db.db_nam][f'{res}Resource']
     search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
@@ -51,11 +52,12 @@ async def reset_resource(db, log, res, notify=False):
     for ld_index, ld_entry in enumerate(leader_docs):
         ld_position = ld_index + 1
         ld_award = (20 - ld_index) * 100000
-        await db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', None, False)
-        value = f'{ld_entry[1]} {res}'
-        name = f'{res.upper()} LEADERBOARD'
-        log.info(f'{name} | PLC: {ld_position} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
-        table_data.append([ld_position, ld_entry[0], value])
+        if reward:
+            await db.add_resource(ld_entry[0], 'currency', ld_award, 'leaderboard', None, False)
+            value = f'{ld_entry[1]} {res}'
+            name = f'{res.upper()} LEADERBOARD'
+            log.info(f'{name} | PLC: {ld_position} | AMT: {ld_award} | USR: {ld_entry[0]} | VAL: {value}')
+            table_data.append([ld_position, ld_entry[0], value])
     if notify and len(table_data) != 0:
         await notify_system(db, res, table_data)
     await coll.update_many({}, {'$set': {'ranked': 0}})
