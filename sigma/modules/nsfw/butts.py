@@ -23,26 +23,32 @@ import aiohttp
 import discord
 
 
-async def butts(_cmd, pld):
+async def butts(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    api_url = 'http://api.obutts.ru/butts/'
-    api_url += str(secrets.randbelow(5990) + 1)
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as data:
-            data = await data.read()
-            data = json.loads(data)
-            data = data[0]
-    image_url = 'http://media.obutts.ru/' + data['preview']
-    model = data['model'] if data['model'] else 'Unknown'
-    rank = data['rank']
-    butts_icon = 'https://i.imgur.com/zjndjaj.png'
-    response = discord.Embed(color=0xF9F9F9)
-    response.set_author(name='Open Butts', icon_url=butts_icon)
-    response.set_image(url=image_url)
-    response.set_footer(text=f'Ranking: {rank} | Model: {model}')
-    await pld.msg.channel.send(embed=response)
+    # api_url = 'http://api.obutts.ru/butts/'
+    # api_url += str(secrets.randbelow(5990) + 1)
+    # async with aiohttp.ClientSession() as session:
+    #     async with session.get(api_url) as data:
+    #         data = await data.read()
+    #         data = json.loads(data)
+    #         data = data[0]
+    # image_url = 'http://media.obutts.ru/' + data['preview']
+    # model = data['model'] if data['model'] else 'Unknown'
+    # rank = data['rank']
+    # butts_icon = 'https://i.imgur.com/zjndjaj.png'
+    # response = discord.Embed(color=0xF9F9F9)
+    # response.set_author(name='Open Butts', icon_url=butts_icon)
+    # response.set_image(url=image_url)
+    # response.set_footer(text=f'Ranking: {rank} | Model: {model}')
+    # await pld.msg.channel.send(embed=response)
+    command = 'reddit'
+    subreddits = ['anal', 'ass', 'asstastic', 'cutelittlebutts', 'pawg', 'womenbendingover']
+    argument = subreddits[secrets.randbelow(len(subreddits))]
+    instance = cmd.bot.modules.commands[command]
+    pld.args = [argument]
+    await getattr(instance.command, instance.name)(instance, pld)

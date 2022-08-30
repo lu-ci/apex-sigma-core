@@ -23,26 +23,32 @@ import aiohttp
 import discord
 
 
-async def boobs(_cmd, pld):
+async def boobs(cmd, pld):
     """
-    :param _cmd: The command object referenced in the command.
-    :type _cmd: sigma.core.mechanics.command.SigmaCommand
+    :param cmd: The command object referenced in the command.
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    api_url = 'http://api.oboobs.ru/boobs/'
-    api_url += str(secrets.randbelow(12243) + 1)
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as data:
-            data = await data.read()
-            data = json.loads(data)
-            data = data[0]
-    image_url = 'http://media.oboobs.ru/' + data['preview']
-    model = data['model'] if data['model'] else 'Unknown'
-    rank = data['rank']
-    boobs_icon = 'http://fc01.deviantart.net/fs71/f/2013/002/d/9/_boobs_icon_base__by_laurypinky972-d5q83aw.png'
-    response = discord.Embed(color=0xF9F9F9)
-    response.set_author(name='Open Boobs', icon_url=boobs_icon)
-    response.set_image(url=image_url)
-    response.set_footer(text=f'Ranking: {rank} | Model: {model}')
-    await pld.msg.channel.send(embed=response)
+    # api_url = 'http://api.oboobs.ru/boobs/'
+    # api_url += str(secrets.randbelow(12243) + 1)
+    # async with aiohttp.ClientSession() as session:
+    #     async with session.get(api_url) as data:
+    #         data = await data.read()
+    #         data = json.loads(data)
+    #         data = data[0]
+    # image_url = 'http://media.oboobs.ru/' + data['preview']
+    # model = data['model'] if data['model'] else 'Unknown'
+    # rank = data['rank']
+    # boobs_icon = 'http://fc01.deviantart.net/fs71/f/2013/002/d/9/_boobs_icon_base__by_laurypinky972-d5q83aw.png'
+    # response = discord.Embed(color=0xF9F9F9)
+    # response.set_author(name='Open Boobs', icon_url=boobs_icon)
+    # response.set_image(url=image_url)
+    # response.set_footer(text=f'Ranking: {rank} | Model: {model}')
+    # await pld.msg.channel.send(embed=response)
+    command = 'reddit'
+    subreddits = ['amazingtits', 'boobs', 'burstingout', 'bustyasians', 'bustypetite', 'hugeboobs', 'stacked']
+    argument = subreddits[secrets.randbelow(len(subreddits))]
+    instance = cmd.bot.modules.commands[command]
+    pld.args = [argument]
+    await getattr(instance.command, instance.name)(instance, pld)
