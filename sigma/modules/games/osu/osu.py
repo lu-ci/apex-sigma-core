@@ -21,6 +21,7 @@ import json
 
 import aiohttp
 import discord
+import ftfy
 from lxml import html
 
 from sigma.core.utilities.generic_responses import GenericResponse
@@ -54,13 +55,14 @@ async def find_user_data(db, profile_url):
             async with session.get(profile_url) as data:
                 page = await data.text()
         osu_page_html = html.fromstring(page)
-        osu_json_elem = osu_page_html.cssselect('#json-user')
+        osu_json_elem = osu_page_html.cssselect('.user_show div')
         user_data = {}
         if osu_json_elem:
             try:
-                osu_json_str = osu_json_elem[0].text_content().strip()
-                user_data = json.loads(osu_json_str)
-            except (json.JSONDecodeError, IndexError, AttributeError):
+                inner_data = osu_json_elem[0].attrib.get('data-initial-data')
+                fixed_data = ftfy.fix_text(inner_data)
+                user_data = json.loads(fixed_data)
+            except (json.JSONDecodeError, IndexError, AttributeError, TypeError):
                 pass
         await db.cache.set_cache(cache_key, user_data)
     else:
@@ -87,7 +89,7 @@ async def osu(cmd, pld):
         osu_input, osu_mode = get_name_and_mode(pld.args)
         profile_url = f'https://osu.ppy.sh/users/{osu_input.lower()}'
         user_data = await find_user_data(cmd.db, profile_url)
-        username = user_data.get('username')
+        username = user_data.get('user').get('username')
         if username:
             user_color = str(pld.msg.author.color)[1:]
             sig_url = f'https://lemmmy.pw/osusig/sig.php?colour=hex{user_color}&uname={osu_input}&mode={osu_mode}'
