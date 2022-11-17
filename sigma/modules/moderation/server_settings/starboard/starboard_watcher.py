@@ -51,8 +51,8 @@ def check_file(url):
     video = False
 
     img_exts = ['png', 'jpg', 'gif', 'webp']
-    vid_exts = ['webm', 'mp4']
-    file_ext = url.lower().split('.')[-1]
+    vid_exts = ['webm', 'mp4', 'mov']
+    file_ext = url.lower().split('.')[-1].split('?')[0]
 
     if file_ext in img_exts:
         valid = True
@@ -71,7 +71,15 @@ async def get_video(msg, url):
     file_ext = url.lower().split('.')[-1]
     file = discord.File(BytesIO(data), f'{msg.id}.{file_ext}')
     content = f'**{msg.author.name}** in {msg.channel.mention}'
+    if msg.content:
+        content += f'\n{msg.content}'
     return file, content
+
+
+def clean_content(content, arg):
+    index = content.index(arg)
+    cont = content[:index] + content[index + len(arg):]
+    return ' '.join(cont.split())
 
 
 async def generate_embed(msg):
@@ -91,6 +99,7 @@ async def generate_embed(msg):
         if valid:
             if not video:
                 att = True
+                response.description = msg.content
                 response.set_image(url=msg.attachments[0].url)
             else:
                 response = None
@@ -101,6 +110,7 @@ async def generate_embed(msg):
             if arg.startswith('https'):
                 valid, video = check_file(arg)
                 if valid:
+                    msg.content = clean_content(msg.content, arg)
                     if not video:
                         att = True
                         response.set_image(url=arg)
