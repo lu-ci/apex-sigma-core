@@ -106,7 +106,7 @@ async def weather(cmd, pld):
                         unit = data['flags']['units'] if unit == 'auto' else unit
                         dis, deg = get_dis_and_deg(unit, forecast)
                         forecast_title = f'{icons[icon]["icon"]} {curr["summary"]}'
-                        response = discord.Embed(color=icons[icon]['color'], title=forecast_title)
+                        response = discord.Embed(color=icons[icon]['color'], title=forecast_title[:256])
                         response.description = f'Location: {location}'
                         response.add_field(name='📄 Forecast', value=forecast, inline=False)
                         info_title = '🌡 Temperature'
