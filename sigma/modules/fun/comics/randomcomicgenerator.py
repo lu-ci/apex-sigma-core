@@ -21,7 +21,6 @@ from io import BytesIO
 import aiohttp
 import discord
 from PIL import Image
-from lxml import html
 
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.tools.color import store_image
