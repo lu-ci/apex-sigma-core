@@ -42,12 +42,13 @@ async def cyanideandhappiness(_cmd, pld):
             async with session.get(comic_url) as data:
                 page = await data.text()
         root = html.fromstring(page)
-        comic_element = root.cssselect('#main-comic')
+        comic_element = root.cssselect('[class^=MainComic__ComicImage]')
         try:
-            comic_img_url = comic_element[0].attrib.get('src')
+            comic_img_url = comic_element[0][0][0].attrib.get('src')
             if comic_img_url.startswith('//'):
                 comic_img_url = 'https:' + comic_img_url
-        except IndexError:
+        except IndexError as e:
+            print(e)
             tries += 1
     if comic_img_url:
         response = discord.Embed(color=0xFF6600)

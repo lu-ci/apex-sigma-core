@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import json
 from io import BytesIO
 
 import aiohttp
@@ -26,7 +26,7 @@ from lxml import html
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.tools.color import store_image
 
-comic_url = 'http://explosm.net/rcg/view/'
+comic_api = 'https://explosm.net/api/get-random-panels'
 cnh_image = 'https://i.imgur.com/jJl7FoT.jpg'
 
 
@@ -77,20 +77,22 @@ async def randomcomicgenerator(_cmd, pld):
     file = None
     # noinspection PyTypeChecker
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:
-        async with session.get(comic_url) as data:
-            page = await data.text()
-    root = html.fromstring(page)
-    comic_element = root.cssselect('.rcg-panels')
-    try:
-        urls = [img.attrib.get('src') for img in comic_element[0]]
-        for i, url in enumerate(urls):
-            if url.startswith('//'):
-                urls[i] = 'https:' + url
-        comic = await join_images(urls)
-        file = discord.File(comic, f'{pld.msg.id}.png')
-        response = discord.Embed(color=0xFF6600)
-        response.set_image(url=f'attachment://{pld.msg.id}.png')
-        response.set_author(name='Cyanide and Happiness Random Comic Generator', icon_url=cnh_image, url=comic_url)
-    except IndexError:
-        response = GenericResponse('Failed to grab a comic, try again.').error()
+        async with session.get(comic_api) as data:
+            try:
+                data = json.loads(await data.text())
+            except json.JSONDecodeError:
+                response = GenericResponse('Failed to grab a comic, try again.').error()
+                return
+    slug = ''
+    urls = []
+    for panel in data.get('panels'):
+        slug += panel.get('slug')
+        filename = panel.get('filename')
+        urls.append(f'https://rcg-cdn.explosm.net/panels/{filename}')
+    comic_url = f'https://explosm.net/rcg/{slug}'
+    comic = await join_images(urls)
+    file = discord.File(comic, f'{pld.msg.id}.png')
+    response = discord.Embed(color=0xFF6600)
+    response.set_image(url=f'attachment://{pld.msg.id}.png')
+    response.set_author(name='Cyanide and Happiness Random Comic Generator', icon_url=cnh_image, url=comic_url)
     await pld.msg.channel.send(file=file, embed=response)
