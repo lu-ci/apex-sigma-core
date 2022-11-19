@@ -73,7 +73,6 @@ async def randomcomicgenerator(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    file = None
     # noinspection PyTypeChecker
     async with aiohttp.ClientSession(cookies={'explosm': 'nui4hbhpq55tr4ouqknb060jr4'}) as session:
         async with session.get(comic_api) as data:
@@ -81,6 +80,7 @@ async def randomcomicgenerator(_cmd, pld):
                 data = json.loads(await data.text())
             except json.JSONDecodeError:
                 response = GenericResponse('Failed to grab a comic, try again.').error()
+                await pld.msg.channel.send(embed=response)
                 return
     slug = ''
     urls = []
