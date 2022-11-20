@@ -71,7 +71,7 @@ async def textunmute(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if not pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if not pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         response = GenericResponse('Access Denied. Manage Messages needed.').denied()
     else:
         if not pld.msg.mentions:
@@ -79,7 +79,7 @@ async def textunmute(cmd, pld):
         else:
             author = pld.msg.author
             target = pld.msg.mentions[0]
-            is_admin = author.permissions_in(pld.msg.channel).administrator
+            is_admin = pld.msg.channel.permissions_for(author).administrator
             if author.id == target.id and not is_admin:
                 response = GenericResponse('Can\'t unmute yourself.').error()
             else:

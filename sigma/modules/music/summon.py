@@ -21,7 +21,7 @@ import discord
 from sigma.core.utilities.generic_responses import GenericResponse
 
 
-async def summon(cmd, pld):
+async def summon(_cmd, pld):
     """
     :param _cmd: The command object referenced in the command.
     :type _cmd: sigma.core.mechanics.command.SigmaCommand
@@ -31,8 +31,8 @@ async def summon(cmd, pld):
     if pld.msg.author.voice:
         me = pld.msg.guild.me
         vc = pld.msg.author.voice.channel
-        if me.permissions_in(vc).connect:
-            if me.permissions_in(vc).speak:
+        if vc.permissions_for(me).connect:
+            if vc.permissions_for(me).speak:
                 if pld.msg.guild.voice_client:
                     if pld.msg.author.voice.channel.id != pld.msg.guild.voice_client.channel.id:
                         await pld.msg.guild.voice_client.move_to(pld.msg.author.voice.channel)
@@ -48,9 +48,8 @@ async def summon(cmd, pld):
                         response = discord.Embed(color=0xdd2e44, title=title)
                     except Exception as e:
                         if pld.msg.guild.voice_client:
-                            await pld.msg.guild.voice_client.disconnect()
+                            await pld.msg.guild.voice_client.disconnect(force=False)
                         response = GenericResponse('I timed out while trying to connect.').error()
-                        cmd.log.error(e)
             else:
                 response = GenericResponse(f'I am not allowed to speak in {vc.name}.').error()
         else:

@@ -360,7 +360,7 @@ class ServerCommandPermissions(object):
         """
         if self.msg.guild:
             author = self.msg.author
-            is_guild_admin = author.permissions_in(self.msg.channel).administrator
+            is_guild_admin = self.msg.channel.permissions_for(author).administrator
             if not is_guild_admin and author.id not in self.bot.cfg.dsc.owners:
                 # Crunderwood was here...
                 perms = await self.perm_coll.find_one({'server_id': self.msg.guild.id})

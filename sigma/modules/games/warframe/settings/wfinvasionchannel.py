@@ -26,7 +26,7 @@ async def wfinvasionchannel(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_channels:
         if pld.msg.channel_mentions:
             target_channel = pld.msg.channel_mentions[0]
         else:

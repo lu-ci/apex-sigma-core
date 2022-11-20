@@ -27,7 +27,7 @@ async def editincident(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         icore = get_incident_core(cmd.db)
         if len(pld.args) >= 2:
             lookup = pld.args[0]

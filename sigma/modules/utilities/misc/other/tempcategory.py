@@ -28,7 +28,7 @@ async def tempcategory(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_channels:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_channels:
         if pld.args:
             if pld.args[0].lower() == 'disable':
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'temp_channel_category', None)
@@ -47,7 +47,7 @@ async def tempcategory(cmd, pld):
             else:
                 target = discord.utils.find(lambda c: c.name.lower() == lookup, pld.msg.guild.categories)
             if target:
-                if pld.msg.guild.me.permissions_in(target).manage_channels:
+                if target.permissions_for(pld.msg.guild.me).manage_channels:
                     await cmd.db.set_guild_settings(pld.msg.guild.id, 'temp_channel_category', target.id)
                     response = GenericResponse(f'Temp Channel Category set to {target.name}').ok()
                 else:

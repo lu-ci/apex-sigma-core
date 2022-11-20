@@ -57,7 +57,7 @@ async def temproom(cmd, pld):
     room_name = f'[Σ] {room_name}'
     reason = f'Temporary voice channel by {pld.msg.author.name}#{pld.msg.author.discriminator}.'
     temp_vc_cat = await get_category(cmd, pld.msg.guild)
-    if pld.msg.guild.me.permissions_in(temp_vc_cat).manage_channels:
+    if temp_vc_cat.permissions_for(pld.msg.guild.me).manage_channels:
         perms = {'manage_channels': True, 'manage_roles': True, 'read_messages': True, 'connect': True, 'speak': True}
         overwrites = {pld.msg.author: discord.PermissionOverwrite(**perms)}
         try:

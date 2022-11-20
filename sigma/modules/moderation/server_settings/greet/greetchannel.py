@@ -26,10 +26,10 @@ async def greetchannel(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         if pld.msg.channel_mentions:
             target_channel = pld.msg.channel_mentions[0]
-            if pld.msg.guild.me.permissions_in(target_channel).send_messages:
+            if target_channel.permissions_for(pld.msg.guild.me).send_messages:
                 await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_channel', target_channel.id)
                 response = GenericResponse(f'Greeting Channel set to {target_channel.name}.').ok()
             else:

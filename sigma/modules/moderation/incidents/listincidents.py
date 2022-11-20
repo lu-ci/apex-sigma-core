@@ -50,7 +50,7 @@ async def listincidents(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         icore = get_incident_core(cmd.db)
         identifier, incidents = None, None
         page = pld.args[-1] if len(pld.args) in [1, 3] else 1

@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import errno
 import os
 import shutil
+from logging import ERROR
 
 import arrow
 import discord
@@ -36,9 +37,9 @@ from sigma.core.mechanics.modman import ModuleManager
 from sigma.core.mechanics.music import MusicCore
 from sigma.core.mechanics.payload import BanPayload, GuildPayload, GuildUpdatePayload, MemberPayload
 from sigma.core.mechanics.payload import MemberUpdatePayload, MessageEditPayload, MessagePayload
-from sigma.core.mechanics.payload import UnbanPayload, VoiceStateUpdatePayload
-from sigma.core.mechanics.payload import ReactionPayload, ShardReadyPayload
 from sigma.core.mechanics.payload import RawReactionPayload, RawMessageDeletePayload, RawMessageEditPayload
+from sigma.core.mechanics.payload import ReactionPayload, ShardReadyPayload
+from sigma.core.mechanics.payload import UnbanPayload, VoiceStateUpdatePayload
 from sigma.core.mechanics.threader import ThreaderCore
 from sigma.core.utilities.data_processing import set_color_cache_coll
 
@@ -81,35 +82,64 @@ class ApexSigma(client_class):
         self.log = self.init_logger()
         self.cfg = init_cfg
         self._connection.max_messages = self.cfg.dsc.max_messages
-        self.queue = ExecutionClockwork(self)
+        self.queue = None
         self.shard_count = self.cfg.dsc.shard_count
         self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards is not None else None
         # Initialize startup methods and attributes.
-        self.create_cache()
-        self.log.info('---------------------------------')
+        self.create_cache_dir()
         self.init_config()
-        self.log.info('---------------------------------')
-        self.cache = self.loop.run_until_complete(self.init_cacher())
-        self.db = self.loop.run_until_complete(self.init_database())
-        self.log.info('---------------------------------')
-        self.cool_down = self.init_cool_down()
-        self.log.info('---------------------------------')
-        self.music = self.init_music()
-        self.threader = ThreaderCore(self.loop)
-        self.loop.create_task(self.threader.run())
-        self.log.info('---------------------------------')
+        self.cache = None
+        self.db = None
+        self.cool_down = None
+        self.music = MusicCore(self)
+        self.threader = ThreaderCore()
         self.info = Information()
-        self.modules = self.init_modules(init=True)
+        self.modules = None
         self.start_time = arrow.utcnow()
         self.message_count = 0
         self.command_count = 0
         self.gateway_start = 0
         self.gateway_finish = 0
-        self.loop.run_until_complete(self.on_boot())
-        self.log.info('---------------------------------')
+
+    async def init_executor_hook(self):
+        self.queue = ExecutionClockwork(self)
+        await self.queue.init()
+
+    async def init_cache_hook(self):
+        self.cache = await self.init_cacher()
+
+    async def init_database_hook(self):
+        self.db = await self.init_database()
+
+    async def init_threader_hook(self):
+        await self.threader.init(self.loop)
+        self.loop.create_task(self.threader.run())
+
+    async def init_cool_down_hook(self):
+        """
+        Initializes the core client cooldown handler.
+        :rtype: sigma.core.mechanics.cooldown.CooldownControl
+        """
+        self.log.info('Loading Cool-down Controls...')
+        self.cool_down = CooldownControl(self)
+        await self.cool_down.clean_cooldowns()
+        self.log.info('Cool-down Controls Successfully Enabled')
+
+    async def init_boot_events_hook(self):
+        await self.on_boot()
+
+    async def setup_hook(self) -> None:
+        await self.init_cache_hook()
+        await self.init_database_hook()
+        await self.init_cool_down_hook()
+        await self.init_executor_hook()
+        await self.init_threader_hook()
+        await self.init_music_hook()
+        self.modules = self.init_modules(init=True)
+        await self.init_boot_events_hook()
 
     @staticmethod
-    def create_cache():
+    def create_cache_dir():
         """
         Initializes the static cache folder.
         Mostly, if not only, used for music file caching.
@@ -176,26 +206,14 @@ class ApexSigma(client_class):
         self.log.info('Successfully Connected to Database')
         return db
 
-    def init_cool_down(self):
-        """
-        Initializes the core client cooldown handler.
-        :rtype: sigma.core.mechanics.cooldown.CooldownControl
-        """
-        self.log.info('Loading Cool-down Controls...')
-        cool_down = CooldownControl(self)
-        self.loop.run_until_complete(cool_down.clean_cooldowns())
-        self.log.info('Cool-down Controls Successfully Enabled')
-        return cool_down
-
-    def init_music(self):
+    async def init_music_hook(self):
         """
         Initializes the music handling core.
         :rtype: sigma.core.mechanics.music.MusicCore
         """
         self.log.info('Loading Music Controller...')
-        music = MusicCore(self)
+        await self.music.init(self.loop)
         self.log.info('Music Controller Initialized and Ready')
-        return music
 
     def init_modules(self, init=False):
         """
@@ -332,7 +350,7 @@ class ApexSigma(client_class):
             await self.cache.set_cache(cache_key, out)
         return out
 
-    def run(self):
+    def run(self, **kwargs):
         """
         Starts the gateway connection processes.
         """
@@ -340,7 +358,7 @@ class ApexSigma(client_class):
             self.log.info('Connecting to Discord Gateway...')
             self.gateway_start = arrow.utcnow().float_timestamp
             if self.cfg.dsc.token is not None:
-                super().run(self.cfg.dsc.token, bot=self.cfg.dsc.bot)
+                super().run(self.cfg.dsc.token, log_handler=None, log_level=ERROR)
             else:
                 self.log.error('You need to configure the Discord bot token before starting.')
                 exit(errno.EPERM)

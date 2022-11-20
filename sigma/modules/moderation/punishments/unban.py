@@ -48,7 +48,7 @@ async def unban(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+    if pld.msg.channel.permissions_for(pld.msg.author).ban_members:
         if pld.args:
             lookup = ' '.join(pld.args)
             target = None

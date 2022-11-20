@@ -26,9 +26,9 @@ async def starboardchannel(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         target = pld.msg.channel_mentions[0] if pld.msg.channel_mentions else pld.msg.channel
-        if pld.msg.guild.me.permissions_in(target).send_messages:
+        if target.permissions_for(pld.msg.guild.me).send_messages:
             starboard_doc = pld.settings.get('starboard') or {}
             starboard_doc.update({'channel_id': target.id})
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'starboard', starboard_doc)

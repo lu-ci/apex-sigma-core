@@ -28,7 +28,7 @@ async def prefix(cmd, pld):
     """
     current_prefix = cmd.db.get_prefix(pld.settings)
     if pld.args:
-        if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+        if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
             new_prefix = ''.join(pld.args)
             if new_prefix != current_prefix:
                 prefix_text = new_prefix

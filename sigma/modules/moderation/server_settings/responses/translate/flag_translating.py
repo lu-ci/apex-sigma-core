@@ -56,7 +56,7 @@ async def flag_translating(ev, pld):
         if enabled:
             if emoji.name in flag_emotes:
                 user = guild.get_member(uid)
-                if not user or not user.permissions_in(channel).send_messages:
+                if not user or not channel.permissions_for(user).send_messages:
                     return
                 data = await message_cache.get_cache(mid)
                 if not data:
@@ -65,7 +65,7 @@ async def flag_translating(ev, pld):
                 elif not data.get('executed'):
                     msg = await channel.fetch_message(mid)
                     if msg:
-                        if not guild.me.permissions_in(channel).send_messages:
+                        if not channel.permissions_for(guild.me).send_messages:
                             try:
                                 await msg.add_reaction('📝')
                             except (discord.NotFound, discord.Forbidden):

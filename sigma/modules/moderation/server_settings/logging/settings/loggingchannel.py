@@ -54,7 +54,7 @@ async def loggingchannel(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         if pld.args:
             mode, order = pld.args[0].lower(), ' '.join(pld.args[1:]).lower()
             if order:
@@ -72,7 +72,7 @@ async def loggingchannel(cmd, pld):
                     response.description = '\n'.join(results)
             elif pld.msg.channel_mentions:
                 target_chn = pld.msg.channel_mentions[0]
-                if pld.msg.guild.me.permissions_in(target_chn).send_messages:
+                if target_chn.permissions_for(pld.msg.guild.me).send_messages:
                     results = await set_log_channels(keys, pld.msg.guild.id, target_chn.id, cmd.db)
                     if all_keys:
                         response = GenericResponse(f'Logging channel set to #{target_chn.name}.').ok()

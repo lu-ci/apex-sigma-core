@@ -44,7 +44,7 @@ class CommandRequirements(object):
         """
         if self.msg.guild:
             for requirement in self.reqs:
-                req_status = getattr(self.msg.guild.me.permissions_in(self.chn), requirement)
+                req_status = getattr(self.chn.permissions_for(self.msg.guild.me), requirement)
                 if not req_status:
                     self.missing_list.append(requirement)
                     self.reqs_met = False

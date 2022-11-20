@@ -6,8 +6,8 @@ import psutil
 
 
 class ThreaderCore(object):
-    def __init__(self, loop):
-        self.loop = loop
+    def __init__(self):
+        self.loop = None
         self.queue = asyncio.Queue(psutil.cpu_count())
         self.flags = {}
         self.results = {}
@@ -44,6 +44,9 @@ class ThreaderCore(object):
         result = target(*args)
         self.flags.update({flag: True})
         self.results.update({flag: result})
+
+    async def init(self, loop):
+        self.loop = loop
 
     async def run(self):
         while True:

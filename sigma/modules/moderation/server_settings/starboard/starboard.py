@@ -26,7 +26,7 @@ async def starboard(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         starboard_doc = pld.settings.get('starboard') or {}
         active = starboard_doc.get('state')
         state, ender = (False, 'disabled') if active else (True, 'enabled')

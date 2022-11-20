@@ -43,7 +43,7 @@ async def userinformation(cmd, pld):
     user_text += f'\nCreated: **{creation_time}**'
     response.add_field(name='User Info', value=user_text)
     member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
-    is_moderator = target.permissions_in(pld.msg.channel).manage_guild
+    is_moderator = pld.msg.channel.permissions_for(target).manage_guild
     member_text = f'Name: **{target.display_name}**'
     member_text += f'\nColor: **{str(target.color).upper()}**'
     member_text += f'\nTop Role: **{target.top_role.name}**'

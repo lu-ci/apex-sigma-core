@@ -26,7 +26,7 @@ async def namefilterban(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         active = pld.settings.get('name_filter_ban')
         ascii_names, state = (False, 'disabled') if active else (True, 'enabled')
         await cmd.db.set_guild_settings(pld.msg.guild.id, 'name_filter_ban', ascii_names)

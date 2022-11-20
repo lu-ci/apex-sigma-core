@@ -30,7 +30,7 @@ async def mutedusers(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         now = arrow.utcnow().int_timestamp
         hm_lookup = {'server_id': pld.msg.guild.id, 'time': {'$gt': now}}
         hard_mute_list = await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.find(hm_lookup).to_list(None)

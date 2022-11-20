@@ -46,7 +46,7 @@ async def is_blinded(db, channel, author):
     :type author: discord.Member
     :rtype: bool
     """
-    if author.permissions_in(channel).manage_channels:
+    if channel.permissions_for(author).manage_channels:
         blinded = False
     else:
         blinded = bool(await db[db.db_nam].BlindedChains.find_one({'channel_id': channel.id}))
@@ -64,7 +64,7 @@ async def collectchain(cmd, pld):
     target_chn = get_channel(pld.msg)
     starter = 'You are' if pld.msg.author.id == target_usr.id else f'{target_usr.name} is'
     ender = 'your' if pld.msg.author.id == target_usr.id else 'their'
-    if pld.msg.guild.me.permissions_in(target_chn).read_messages:
+    if target_chn.permissions_for(pld.msg.guild.me).read_messages:
         blocked = await is_blocked(cmd.db, target_usr, pld.msg.author)
         blinded = await is_blinded(cmd.db, target_chn, pld.msg.author)
         if not blocked and not blinded:

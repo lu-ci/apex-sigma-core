@@ -52,7 +52,7 @@ async def massmove(_cmd, pld):
                 vc_two = get_vc(guild_vcs, lookup_two)
                 if vc_one and vc_two:
                     me = pld.msg.guild.me
-                    if me.permissions_in(vc_one).mute_members and me.permissions_in(vc_two).mute_members:
+                    if vc_one.permissions_for(me).mute_members and vc_two.permissions_for(me).mute_members:
                         membs_one = [vcm for vcm in vc_one.members if not vcm.bot]
                         for member in membs_one:
                             try:

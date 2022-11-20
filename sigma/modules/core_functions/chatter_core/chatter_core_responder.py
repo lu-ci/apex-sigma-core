@@ -66,7 +66,7 @@ async def chatter_core_responder(ev, pld):
             if clean_msg:
                 active = pld.settings.get('chatterbot')
                 if clean_msg.lower() == 'reset prefix':
-                    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
                         await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
                         response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
                     else:

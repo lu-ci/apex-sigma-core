@@ -102,7 +102,7 @@ async def play(cmd, pld):
                             # noinspection PyBroadException
                             try:
                                 if pld.msg.guild.voice_client:
-                                    await pld.msg.guild.voice_client.disconnect()
+                                    await pld.msg.guild.voice_client.disconnect(force=False)
                                 cmn_cmd = cmd.bot.modules.commands['summon']
                                 await getattr(cmn_cmd.command, cmn_cmd.name)(cmn_cmd, pld)
                             except Exception:
@@ -129,7 +129,7 @@ async def play(cmd, pld):
                             await asyncio.sleep(2)
                 response = discord.Embed(color=0x3B88C3, title='🎵 Queue complete.')
                 if pld.msg.guild.voice_client:
-                    await pld.msg.guild.voice_client.disconnect()
+                    await pld.msg.guild.voice_client.disconnect(force=False)
                     if pld.msg.guild.id in cmd.bot.music.queues:
                         del cmd.bot.music.queues[pld.msg.guild.id]
                 if 'donate' in cmd.bot.modules.commands:

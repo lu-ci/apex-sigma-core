@@ -39,7 +39,7 @@ def get_members(cmd, message, targets):
         if cmd.bot.user.id != target.id:
             if message.author.id != target.id:
                 above_hier = hierarchy_permit(message.author, target)
-                is_admin = message.author.permissions_in(message.channel).administrator
+                is_admin = message.channel.permissions_for(message.author).administrator
                 if above_hier or is_admin:
                     above_me = hierarchy_permit(message.guild.me, target)
                     if above_me:
@@ -85,7 +85,7 @@ async def massban(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+    if pld.msg.channel.permissions_for(pld.msg.author).ban_members:
         if pld.msg.mentions:
             results = get_members(cmd, pld.msg, pld.msg.mentions)
             if isinstance(results, list):

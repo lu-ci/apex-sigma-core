@@ -52,7 +52,7 @@ async def ban(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).ban_members:
+    if pld.msg.channel.permissions_for(pld.msg.author).ban_members:
         target = get_broad_target(pld)
         if target:
             timed = pld.args[-1].startswith('--time=')
@@ -77,7 +77,7 @@ async def ban(cmd, pld):
             if cmd.bot.user.id != target.id:
                 if pld.msg.author.id != target.id:
                     above_hier = hierarchy_permit(pld.msg.author, target)
-                    is_admin = pld.msg.author.permissions_in(pld.msg.channel).administrator
+                    is_admin = pld.msg.channel.permissions_for(pld.msg.author).administrator
                     if above_hier or is_admin:
                         above_me = hierarchy_permit(pld.msg.guild.me, target)
                         if above_me:

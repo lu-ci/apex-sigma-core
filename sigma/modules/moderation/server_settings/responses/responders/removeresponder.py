@@ -26,7 +26,7 @@ async def removeresponder(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         if pld.args:
             trigger = ' '.join(pld.args).lower()
             auto_responses = pld.settings.get('responder_triggers') or {}

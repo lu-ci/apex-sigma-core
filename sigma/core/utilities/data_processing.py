@@ -64,21 +64,21 @@ def user_avatar(user, gif=False, static=False):
     :type static: bool
     :rtype: str
     """
-    if user.avatar_url:
-        output = user.avatar_url
+    if user.display_avatar.url:
+        output = user.display_avatar.url
     else:
-        output = user.default_avatar_url
+        output = user.default_avatar.url
     output = str(output)
     if gif:
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
-        if user.avatar_url:
-            if str(user.avatar).startswith('a_') and not static:
+        if user.display_avatar.url:
+            if user.avatar.is_animated() and not static:
                 output = f"{'.'.join(output.split('.')[:-1])}.gif"
             else:
                 output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
         else:
-            output = str(user.default_avatar_url)
+            output = str(user.default_avatar.url)
     return output
 
 

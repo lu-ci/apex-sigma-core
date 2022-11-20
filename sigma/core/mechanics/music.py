@@ -105,7 +105,6 @@ class QueueItem(object):
             if not os.path.exists(out_location):
                 self.ytdl.params.update({'outtmpl': out_location})
                 self.ytdl.extract_info(self.url)
-                await self.bot.threader.execute(self.ytdl.extract_info, (self.url,))
                 self.downloaded = True
             self.location = out_location
 
@@ -117,10 +116,10 @@ class QueueItem(object):
         """
         await self.download()
         if self.location:
-            audio_source = discord.FFmpegPCMAudio(self.location)
+            audio_source = discord.FFmpegOpusAudio(self.location)
             if voice_client:
                 if not voice_client.is_playing():
-                    await self.bot.threader.execute(voice_client.play, (audio_source,))
+                    voice_client.play(audio_source)
 
 
 class MusicCore(object):
@@ -141,12 +140,15 @@ class MusicCore(object):
         """
         self.bot = bot
         self.db = bot.db
-        self.loop = asyncio.get_event_loop()
+        self.loop = None
         self.queues = {}
         self.currents = {}
         self.repeaters = []
         self.ytdl_params = ytdl_params
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+
+    async def init(self, loop):
+        self.loop = loop
 
     async def extract_info(self, url):
         """
@@ -155,7 +157,7 @@ class MusicCore(object):
         :type url: str
         :rtype: dict
         """
-        return await self.bot.threader.execute(self.ytdl.extract_info, (url, False,))
+        return self.ytdl.extract_info(url, False)
 
     def get_queue(self, guild_id):
         """

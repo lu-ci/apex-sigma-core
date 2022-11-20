@@ -29,7 +29,7 @@ async def mute_checker(ev, pld):
     if pld.msg.guild:
         if isinstance(pld.msg.author, discord.Member):
             if pld.msg.author.id not in ev.bot.cfg.dsc.owners:
-                if not pld.msg.author.permissions_in(pld.msg.channel).administrator:
+                if not pld.msg.channel.permissions_for(pld.msg.author).administrator:
                     mute_list = pld.settings.get('muted_users') or []
                     if pld.msg.author.id in mute_list:
                         try:

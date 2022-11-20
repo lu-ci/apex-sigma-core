@@ -47,13 +47,13 @@ async def removereaction(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         if len(pld.args) == 2:
             mid, emote = pld.args
             if mid.isdigit():
                 message = await message_search(mid, pld.msg)
                 if message:
-                    if pld.msg.guild.me.permissions_in(message.channel).manage_messages:
+                    if message.channel.permissions_for(pld.msg.guild.me).manage_messages:
                         removed = await remove_emote(message, emote)
                         if removed:
                             response = GenericResponse('Reaction removed.').ok()

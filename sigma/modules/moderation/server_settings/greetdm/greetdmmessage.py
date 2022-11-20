@@ -47,7 +47,7 @@ async def greetdmmessage(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         if pld.args:
             greeting_text = ' '.join(pld.args)
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'greet_dm_message', greeting_text)

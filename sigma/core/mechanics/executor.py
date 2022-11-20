@@ -36,10 +36,12 @@ class ExecutionClockwork(object):
         self.bot = bot
         self.ev_queue = asyncio.Queue()
         self.cmd_queue = asyncio.Queue()
-        self.bot.loop.create_task(self.queue_ev_loop())
-        self.bot.loop.create_task(self.queue_cmd_loop())
         self.processed = 0
         self.stats = {}
+
+    async def init(self):
+        self.bot.loop.create_task(self.queue_ev_loop())
+        self.bot.loop.create_task(self.queue_cmd_loop())
 
     @staticmethod
     async def get_cmd_and_args(pfx, args):

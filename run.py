@@ -5,6 +5,8 @@ import os
 import subprocess
 import sys
 
+MIN_PY_VERSION = (3, 10)
+
 try:
     from sigma.core.sigma import ApexSigma
 except (ImportError, ModuleNotFoundError) as err:
@@ -12,8 +14,8 @@ except (ImportError, ModuleNotFoundError) as err:
 
 requirements_reinstalled = False
 
-if not sys.version_info >= (3, 6):
-    print('Fatal Error: Wrong Python Version! Sigma supports Python 3.6+!')
+if not sys.version_info >= MIN_PY_VERSION:
+    print('Fatal Error: Wrong Python Version! Sigma supports Python {}+!'.format('.'.join(map(str, MIN_PY_VERSION))))
     exit(errno.EINVAL)
 
 

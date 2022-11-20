@@ -26,7 +26,7 @@ async def unflip(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         flip_settings = pld.settings.get('unflip')
         if flip_settings is None:
             unflip_set = False

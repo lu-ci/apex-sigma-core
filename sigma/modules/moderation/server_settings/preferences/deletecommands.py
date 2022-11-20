@@ -26,7 +26,7 @@ async def deletecommands(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_guild:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
         curr_settings = pld.settings.get('delete_commands')
         if curr_settings is None:
             curr_settings = False

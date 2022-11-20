@@ -54,7 +54,7 @@ async def purge(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         if not Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
             Ongoing.set_ongoing(cmd.name, pld.msg.channel.id)
             pld.args = [a.lower() for a in pld.args]

@@ -89,7 +89,7 @@ async def raffle(cmd, pld):
                         automatic = True
                     args = [a.lower() for a in pld.args]
             if external:
-                allowed = pld.msg.author.permissions_in(target_ch).send_messages
+                allowed = target_ch.permissions_for(pld.msg.author).send_messages
                 if allowed:
                     for ai, arg in enumerate(pld.args):
                         if arg == target_ch.mention:

@@ -57,7 +57,7 @@ async def exportincidents(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     file = None
-    if pld.msg.author.permissions_in(pld.msg.channel).manage_messages:
+    if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         if not Ongoing.is_ongoing(cmd.name, pld.msg.guild.id):
             Ongoing.set_ongoing(cmd.name, pld.msg.guild.id)
             icore = get_incident_core(cmd.db)
