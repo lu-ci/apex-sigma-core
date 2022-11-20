@@ -176,7 +176,7 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
-    guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
+    guild_icon = str(tgt_chn.guild.icon.url) if tgt_chn.guild.icon.url else 'https://i.imgur.com/xpDpHqz.png'
     response = GenericResponse(f'Parsed {cltd} entries for your chain, {len(cltn)} corpus size.').ok()
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
@@ -202,7 +202,7 @@ async def notify_empty(ath, tgt_usr, tgt_chn):
     """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
-    guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
+    guild_icon = str(tgt_chn.guild.icon.url) if tgt_chn.guild.icon.url else 'https://i.imgur.com/xpDpHqz.png'
     response = GenericResponse(f'{req_usr.title()} did not have a chain and no new entries were found.').not_found()
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException
@@ -230,7 +230,7 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
     desc += " Try targeting a channel where you talk frequently or have sent a lot of messages recently."
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
-    guild_icon = str(tgt_chn.guild.icon_url) if tgt_chn.guild.icon_url else 'https://i.imgur.com/xpDpHqz.png'
+    guild_icon = str(tgt_chn.guild.icon.url) if tgt_chn.guild.icon.url else 'https://i.imgur.com/xpDpHqz.png'
     response = GenericResponse('Failed to parse entries for your chain.').error()
     response.set_footer(text=footer, icon_url=guild_icon)
     # noinspection PyBroadException

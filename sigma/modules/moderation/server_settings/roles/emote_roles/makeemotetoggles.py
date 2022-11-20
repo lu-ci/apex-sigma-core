@@ -52,7 +52,7 @@ async def make_binding_message(bind_data, guild, group_id, description):
         emote_block_lines.append(binding_line)
     emote_block = ' '.join(emote_block_lines)
     toggler_description = 'Press the emote icon under this message corresponding to the role that you want to toggle.'
-    guild_icon = str(guild.icon_url) if guild.icon_url else discord.Embed.Empty
+    guild_icon = str(guild.icon.url) if guild.icon.url else discord.Embed.Empty
     toggler = discord.Embed(color=await get_image_colors(guild_icon))
     toggler.set_author(name=f'Group {group_id} Emote Role Toggles', icon_url=guild_icon)
     if description:

@@ -38,7 +38,7 @@ def make_move_log_data(gld, join, user_count, bot_count):
             'id': gld.id,
             'name': gld.name,
             'created_at': gld.created_at,
-            'icon': str(gld.icon_url) if gld.icon_url else None
+            'icon': str(gld.icon.url) if gld.icon.url else None
         },
         'owner': {
             'id': gld.owner.id,

@@ -42,7 +42,7 @@ async def rolepopulation(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
     if pld.args:
         rl_qry = ' '.join(pld.args)
         role_search = discord.utils.find(lambda x: x.name.lower() == rl_qry.lower(), pld.msg.guild.roles)

@@ -25,7 +25,7 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def notify(pld, target, verb, action):
-    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else discord.Embed.Empty
+    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
     to_target = discord.Embed(color=0x696969)
     to_target.add_field(name=f'🔨 You have been {action}.', value='Reason: Accruing too many warnings.')
     to_target.set_footer(text=f'{verb.title()}: {pld.msg.guild.name}.', icon_url=guild_icon)

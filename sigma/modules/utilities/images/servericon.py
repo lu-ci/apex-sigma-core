@@ -29,7 +29,7 @@ async def servericon(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    guild_icon = str(pld.msg.guild.icon_url) if pld.msg.guild.icon_url else None
+    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
     if guild_icon:
         response = discord.Embed(color=await get_image_colors(guild_icon))
         response.set_image(url=guild_icon)
