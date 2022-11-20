@@ -20,8 +20,8 @@ import abc
 import pickle
 
 import cachetools
-import redis.exceptions
 import redis.asyncio as redis
+import redis.exceptions
 
 
 async def get_cache(cfg):
@@ -199,10 +199,11 @@ class RedisCacher(Cacher):
         :type value: object
         """
         try:
-            await self.conn.set(str(key).replace('_', ':'), pickle.dumps(value))
+            pickled = pickle.dumps(value)
+            await self.conn.set(str(key).replace('_', ':'), pickled)
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except redis.exceptions.RedisError:
-            self.conn.flushdb()
+        except TypeError:
+            pass
 
     async def del_cache(self, key):
         """
