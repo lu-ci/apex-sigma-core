@@ -20,6 +20,7 @@ import importlib
 import os
 
 import yaml
+from discord.app_commands import Command
 
 from sigma.core.mechanics.command import SigmaCommand
 from sigma.core.mechanics.event import SigmaEvent
@@ -152,12 +153,16 @@ class ModuleManager(object):
         event_function = self.load_function(root, event_data)
         event_data.update({'path': os.path.join(root)})
         event = SigmaEvent(self.bot, event_function, module_data, event_data)
-        if event.event_type in self.events:
-            event_list = self.events.get(event.event_type)
+        if event.event_type == 'slash':
+            command = Command(name=event.name, description=event.description, callback=event.execute)
+            self.bot.tree.add_command(command)
         else:
-            event_list = []
-        event_list.append(event)
-        self.events.update({event.event_type: event_list})
+            if event.event_type in self.events:
+                event_list = self.events.get(event.event_type)
+            else:
+                event_list = []
+            event_list.append(event)
+            self.events.update({event.event_type: event_list})
 
     def load_all_modules(self):
         """

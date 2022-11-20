@@ -29,7 +29,7 @@ class SigmaEvent(object):
 
     __slots__ = (
         "bot", "db", "event", "module_info",
-        "event_info", "path", "event_type", "name",
+        "event_info", "path", "event_type", "name", "description",
         "category", "subcategory", "log"
     )
 
@@ -48,6 +48,7 @@ class SigmaEvent(object):
         self.path = self.event_info.get('path')
         self.event_type = self.event_info.get('type')
         self.name = self.event_info.get('name')
+        self.description = self.event_info.get('description')
         self.category = self.module_info.get('category')
         self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shards=self.bot.cfg.dsc.shards)

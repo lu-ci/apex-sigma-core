@@ -23,6 +23,7 @@ from logging import ERROR
 
 import arrow
 import discord
+from discord.app_commands import CommandTree
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from sigma.core.mechanics.caching import get_cache
@@ -81,6 +82,7 @@ class ApexSigma(client_class):
         # State attributes before initialization.
         self.log = self.init_logger()
         self.cfg = init_cfg
+        self.tree = CommandTree(self)
         self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = None
         self.shard_count = self.cfg.dsc.shard_count
@@ -398,6 +400,8 @@ class ApexSigma(client_class):
         self.log.info('---------------------------------')
         self.log.info('Launching On-Ready Modules...')
         self.loop.create_task(self.queue.event_runner('ready'))
+        self.log.info('Syncronizing slash commands...')
+        await self.tree.sync()
         self.log.info('All On-Ready Module Loops Created')
         self.log.info('---------------------------------')
 
