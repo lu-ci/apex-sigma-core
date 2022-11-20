@@ -61,7 +61,6 @@ async def youtube(cmd, pld):
                     info_text = f'Video URL: [Link]({video_url})'
                     info_text += f'\nUploader: [{song_item["uploader"]}]({song_item["uploader_url"]})'
                     stat_text = f'Views: {song_item["view_count"]}'
-                    stat_text += f'\nLikes: {song_item["like_count"]}'
                     duration = str(datetime.timedelta(seconds=int(song_item['duration'])))
                     response = discord.Embed(color=yt_color)
                     response.set_author(name=song_item['title'], icon_url=yt_icon, url=video_url)
