@@ -198,11 +198,12 @@ class RedisCacher(Cacher):
         :type key: str or int
         :type value: object
         """
+        # noinspection PyBroadException
         try:
             pickled = pickle.dumps(value)
             await self.conn.set(str(key).replace('_', ':'), pickled)
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except (TypeError, AttributeError):
+        except Exception:
             pass
 
     async def del_cache(self, key):
