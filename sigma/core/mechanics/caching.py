@@ -201,7 +201,7 @@ class RedisCacher(Cacher):
             pickled = pickle.dumps(value)
             await self.conn.set(str(key).replace('_', ':'), pickled)
             await self.conn.expire(str(key).replace('_', ':'), self.time)
-        except TypeError:
+        except (TypeError, AttributeError):
             pass
 
     async def del_cache(self, key):
