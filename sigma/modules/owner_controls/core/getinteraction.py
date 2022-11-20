@@ -32,7 +32,7 @@ async def getinteraction(cmd, pld):
         react_id = pld.args[0].lower()
         react_item = await cmd.db[cmd.db.db_nam].Interactions.find_one({'interaction_id': react_id})
         if react_item:
-            response = discord.Embed(color=0x5dadec, title=f'Click For Source', url=react_item.get("url"))
+            response = discord.Embed(color=0x5dadec, title='Click For Source', url=react_item.get("url"))
             response.set_image(url=react_item.get('url'))
             response.set_footer(text=f'Reaction ID: {react_id}')
         else:

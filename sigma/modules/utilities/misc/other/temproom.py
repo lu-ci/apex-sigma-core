@@ -69,7 +69,7 @@ async def temproom(cmd, pld):
             )
             response = GenericResponse(f'{room_name} created.').ok()
         except discord.Forbidden:
-            response = GenericResponse(f'Failed to create a room due to missing permissions.').error()
+            response = GenericResponse('Failed to create a room due to missing permissions.').error()
     else:
         response = GenericResponse('I can\'t create channels in that category.').error()
     await pld.msg.channel.send(embed=response)

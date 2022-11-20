@@ -95,7 +95,7 @@ async def combinechains_server(cmd, pld):
                 elif resp.status == 404:
                     response = discord.Embed(color=0x696969)
                     prefix = cmd.db.get_prefix(pld.settings)
-                    title = f'🔍 One or more tagged users do not have chains.'
+                    title = '🔍 One or more tagged users do not have chains.'
                     value = f'You can make one with `{prefix}collectchain @target #channel`!'
                     response.add_field(name=title, value=value)
                 else:

@@ -46,7 +46,7 @@ async def summon(_cmd, pld):
                         await pld.msg.author.voice.channel.connect(reconnect=False)
                         title = f'🚩 Connected to {pld.msg.author.voice.channel.name}.'
                         response = discord.Embed(color=0xdd2e44, title=title)
-                    except Exception as e:
+                    except Exception:
                         if pld.msg.guild.voice_client:
                             await pld.msg.guild.voice_client.disconnect(force=False)
                         response = GenericResponse('I timed out while trying to connect.').error()
