@@ -20,6 +20,7 @@ import abc
 import pickle
 
 import cachetools
+# noinspection PyUnresolvedReferences
 from redis.asyncio.client import Redis
 
 
