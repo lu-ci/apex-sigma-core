@@ -77,9 +77,11 @@ async def get_video(msg, url):
 
 
 def clean_content(content, arg):
-    s = content.split()
-    s.pop(s.index(arg))
-    return ' '.join(s)
+    ix = content.index(arg)
+    iy = ix + len(arg)
+    sx = content[:ix].rstrip()
+    sy = content[iy:].rstrip()
+    return ' '.join([sx, sy])
 
 
 async def generate_embed(msg):
