@@ -30,18 +30,15 @@ async def avatar(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    gif = False
     static = False
     if pld.args:
-        if pld.args[-1].lower() == 'gif':
-            gif = True
-        elif pld.args[-1].lower() == 'static':
+        if pld.args[-1].lower() == 'static':
             static = True
     if pld.msg.mentions:
         target = pld.msg.mentions[0]
     else:
         target = pld.msg.author
-    ava_url = user_avatar(target, gif, static)
+    ava_url = user_avatar(target, static)
     color = await get_image_colors(ava_url)
     response = discord.Embed(color=color)
     response.description = f'Dominant Color: #{hexify_int(color)}'
