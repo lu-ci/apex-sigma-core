@@ -86,25 +86,16 @@ class QueueItem(object):
         final = crypt.hexdigest()
         return final
 
-    # async def download(self):
-    #     """
-    #     Downloads a queued item.
-    #     """
-    #     if self.url:
-    #         out_location = f'cache/{self.token}'
-    #         if not os.path.exists(out_location):
-    #             self.ytdl.params.update({'outtmpl': out_location})
-    #             task = functools.partial(self.ytdl.extract_info, self.url)
-    #             await self.loop.run_in_executor(self.threads, task)
-    #             self.downloaded = True
-    #         self.location = out_location
-
     async def download(self):
+        """
+        Downloads a queued item
+        """
         if self.url:
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
                 self.ytdl.params.update({'outtmpl': out_location})
                 self.ytdl.extract_info(self.url)
+                await self.bot.threader.execute(self.ytdl.extract_info, (self.url,))
                 self.downloaded = True
             self.location = out_location
 
@@ -120,6 +111,7 @@ class QueueItem(object):
             if voice_client:
                 if not voice_client.is_playing():
                     voice_client.play(audio_source)
+                    await self.bot.threader.execute(voice_client.play, (audio_source,))
 
 
 class MusicCore(object):
