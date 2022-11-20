@@ -1,6 +1,6 @@
 # |-------<[ Build ]>-------|
 
-FROM python:3.9-alpine AS build
+FROM python:3.10-alpine AS build
 
 RUN mkdir -p /build
 WORKDIR /build
