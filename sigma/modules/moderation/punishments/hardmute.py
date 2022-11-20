@@ -104,7 +104,7 @@ async def hardmute(cmd, pld):
                     log_embed = generate_log_embed(pld.msg, target, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
                     response = GenericResponse(f'{target.display_name} has been hard-muted.').ok()
-                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
+                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
                     to_target_title = '🔇 You have been hard-muted.'
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name=to_target_title, value=f'Reason: {reason}')

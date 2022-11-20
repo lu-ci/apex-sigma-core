@@ -39,7 +39,7 @@ async def join_name_ban(_ev, pld):
                 # noinspection PyBroadException
                 try:
                     reason = f'Had "{bad_name}" in their name'
-                    guild_icon = str(pld.member.guild.icon.url) if pld.member.guild.icon.url else discord.Embed.Empty
+                    guild_icon = str(pld.member.guild.icon.url) if pld.member.guild.icon.url else None
                     to_target = discord.Embed(color=0x696969)
                     to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
                     to_target.set_footer(text=f'From: {pld.member.guild.name}.', icon_url=guild_icon)

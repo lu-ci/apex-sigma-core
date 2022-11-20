@@ -40,7 +40,7 @@ async def bots(_cmd, pld):
     if total_bots == 0:
         response = GenericResponse('No bots were found on that server.').error()
     else:
-        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
+        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
         icon_color = await get_image_colors(guild_icon)
         response = discord.Embed(color=icon_color)
         response.set_author(name=f'Bots on {pld.msg.guild.name}', icon_url=guild_icon)

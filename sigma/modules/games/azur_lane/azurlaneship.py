@@ -60,7 +60,7 @@ async def azurlaneship(cmd, pld):
                 footer_text = f'{ship.faction_short} {ship.name} of the {ship.faction}.'
             else:
                 footer_text = f'{ship.name} of the {ship.faction}.'
-            response.set_footer(text=footer_text, icon_url=ship.faction_icon or discord.Embed.Empty)
+            response.set_footer(text=footer_text, icon_url=ship.faction_icon or None)
         else:
             response = GenericResponse('Ship not found.').not_found()
     else:

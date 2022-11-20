@@ -66,7 +66,7 @@ async def softban(cmd, pld):
                             response = discord.Embed(color=0x696969, title='🔩 The user has been soft-banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
-                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
+                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
                             to_target = discord.Embed(color=0x696969)
                             to_target.add_field(name='🔩 You have been soft-banned.', value=f'Reason: {reason}')
                             to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)

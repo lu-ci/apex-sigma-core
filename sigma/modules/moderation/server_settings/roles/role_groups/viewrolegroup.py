@@ -50,7 +50,7 @@ async def viewrolegroup(cmd, pld):
                 summary = f'There are {len(role_names)} roles in {group_id}.'
                 summary += f'\nThose roles have a total population of {populace} members.'
                 author_title = f'Role Group {group_id} Information'
-                guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
+                guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
                 response = discord.Embed(color=await get_image_colors(guild_icon))
                 response.set_author(name=author_title, icon_url=guild_icon)
                 response.add_field(name=f'Group {group_id} Summary', value=summary, inline=False)

@@ -151,7 +151,7 @@ async def queue(cmd, pld):
             list_desc = boop(list_desc_list, boop_headers)
             list_title = f'Queued Items on Page {page}'
             response = discord.Embed(color=0x3B88C3)
-            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else discord.Embed.Empty
+            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
             response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
             response.add_field(name='Current Music Queue', value=stats_desc, inline=False)
             response.add_field(name=list_title, value=f'```bat\n{list_desc}\n```', inline=False)
