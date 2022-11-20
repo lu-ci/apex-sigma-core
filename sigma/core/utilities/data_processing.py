@@ -73,7 +73,7 @@ def user_avatar(user, gif=False, static=False):
         output = f"{'.'.join(output.split('.')[:-1])}.gif"
     else:
         if user.display_avatar.url:
-            if user.avatar.is_animated() and not static:
+            if user.avatar and user.avatar.is_animated() and not static:
                 output = f"{'.'.join(output.split('.')[:-1])}.gif"
             else:
                 output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
