@@ -20,7 +20,6 @@ import abc
 import pickle
 
 import cachetools
-import redis.exceptions
 from redis.asyncio.client import Redis
 
 
