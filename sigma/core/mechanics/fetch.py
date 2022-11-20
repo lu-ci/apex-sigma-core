@@ -271,7 +271,6 @@ class FetchHelper(object):
             "name": gld.name,
             "roles": [FetchHelper.make_role_data(role) for role in gld.roles],
             "widget_channel_id": None,  # Warning: UNUSED. Treating as if always disabled.
-            "region": FetchHelper.enum_to_val(gld.region),
             "embed_channel_id": None,  # Warning: UNUSED. Treating as if always None.
             "system_channel_flags": gld.system_channel_flags.value,
             "banner": gld.banner,

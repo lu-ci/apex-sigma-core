@@ -67,7 +67,6 @@ async def serverinformation(_cmd, pld):
         detail_text += '\nAFK Timeout: **None**'
     detail_text += f'\nEmojis: **{len(gld.emojis)}**'
     detail_text += f'\nLarge: **{gld.large}**'
-    detail_text += f'\nRegion: **{str(gld.region).upper()}**'
     detail_text += f'\nShard: **{gld.shard_id}**'
     detail_text += f'\nVerification: **{gld.verification_level.name.upper()}**'
     response.add_field(name='Details', value=detail_text)
