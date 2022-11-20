@@ -179,7 +179,7 @@ class RedisCacher(Cacher):
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
         """
-        self.conn = await redis.from_url(self.addr)
+        self.conn = redis.from_url(self.addr)
 
     async def get_cache(self, key):
         """
