@@ -20,8 +20,8 @@ import abc
 import pickle
 
 import cachetools
-import redis.asyncio as redis
 import redis.exceptions
+from redis.asyncio.client import Redis
 
 
 async def get_cache(cfg):
@@ -179,7 +179,7 @@ class RedisCacher(Cacher):
         Initializes any potential asyncronous tasks required
         by the Cacher inheriting child.
         """
-        self.conn = redis.from_url(self.addr)
+        self.conn = Redis.from_url(self.addr)
 
     async def get_cache(self, key):
         """
