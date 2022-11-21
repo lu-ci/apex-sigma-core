@@ -56,18 +56,20 @@ def convert_to_seconds(time_input):
     return output
 
 
-def user_avatar(user, static=False):
+def user_avatar(user, static=False, display=False):
     """
     Fetches the avatar of Discord member.
     :type user: discord.Member
     :type static: bool
+    :type display: bool
     :rtype: str
     """
-    if user.avatar:
-        if static and user.avatar.is_animated():
-            output = user.avatar.with_format('png')
+    avatar = user.display_avatar if display else user.avatar
+    if avatar:
+        if static and avatar.is_animated():
+            output = avatar.with_format('png')
         else:
-            output = user.avatar
+            output = avatar
     else:
         output = user.default_avatar
     return str(output.with_size(1024))

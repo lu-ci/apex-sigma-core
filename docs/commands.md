@@ -538,7 +538,7 @@ Commands | Description | Example
 Commands | Description | Example
 ----------|-------------|--------
 `>>addemote` `>>addemoji` | Adds the desired emote to the server. Specify an emote by reacting to the command message with it. You can specify a name for the emote, otherwise it will use the existing name. Sometimes the retrieved emote file is larger than discord will accept, and thus cannot be added. This command requires the Manage Emotes permission. | `>>addemote monkaS`
-`>>avatar` `>>av` `>>pfp` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "gif" to the end of the command to indicate that it's a gif. Or you can add "auto" to show the predominant color of the image. You can also add "static" to the end to make it return the full sized static version of your avatar. | `>>avatar @person`
+`>>avatar` `>>av` `>>pfp` | Shows the mentioned user's avatar. If no user is mentioned, it shows the author's avatar. You can add "static" as an argument to force a PNG format. You can add "display" as an argument to show the server-bound avatar, if it exists. | `>>avatar @person`
 `>>botinformation` `>>botinfo` `>>info` | Shows information about the bot, version, codename, authors, etc. | `>>botinformation`
 `>>bots` | Lists the bots on the server and shows their status. | `>>bots`
 `>>botsuggest` `>>botsugg` `>>bsugg` | Submits a suggestions to the owners of the bot to do stuff. Development and change wise. | `>>botsuggest Add some new stuff!!!`

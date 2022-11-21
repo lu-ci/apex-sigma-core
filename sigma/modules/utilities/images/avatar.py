@@ -18,8 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 from sigma.modules.utilities.misc.other.edgecalculator import hexify_int
 
 
@@ -31,14 +30,18 @@ async def avatar(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     static = False
-    if pld.args:
-        if pld.args[-1].lower() == 'static':
-            static = True
+    display = False
+    if pld.args and pld.args[-1].lower() == 'static':
+        pld.args.pop(-1)
+        static = True
+    if pld.args and pld.args[-1].lower() == 'display':
+        pld.args.pop(-1)
+        display = True
     if pld.msg.mentions:
         target = pld.msg.mentions[0]
     else:
         target = pld.msg.author
-    ava_url = user_avatar(target, static)
+    ava_url = user_avatar(target, static, display)
     color = await get_image_colors(ava_url)
     response = discord.Embed(color=color)
     response.description = f'Dominant Color: #{hexify_int(color)}'
