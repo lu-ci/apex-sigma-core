@@ -53,6 +53,10 @@ def extra_shuffle(some_list):
 
 
 def kud_from_title(text):
+    """
+    :type text: str
+    :rtype: int
+    """
     digits = []
     for char in text:
         try:
@@ -64,11 +68,20 @@ def kud_from_title(text):
 
 
 async def item_from_title(ev, text):
+    """
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :type text: str
+    """
     item_core = await get_item_core(ev.db)
     return item_core.get_item_by_name(' '.join(text.split(' ')[2:]))
 
 
 async def auto_award(ev, winner, raffle):
+    """
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :type winner: discord.Member
+    :type raffle: dict
+    """
     title = raffle.get('title', '')
     for piece in title.split('+'):
         piece = piece.strip()
@@ -79,11 +92,21 @@ async def auto_award(ev, winner, raffle):
 
 
 async def auto_currency(ev, winner, title):
+    """
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :type winner: discord.Member
+    :type title: str
+    """
     amount = kud_from_title(title)
     await ev.db.add_resource(winner.id, 'currency', amount, ev.name, None, False)
 
 
 async def auto_item(ev, winner, title):
+    """
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :type winner: discord.Member
+    :type title: str
+    """
     item = await item_from_title(ev, title)
     data_for_inv = item.generate_inventory_item()
     await ev.db.add_to_inventory(winner.id, data_for_inv)
@@ -156,7 +179,7 @@ async def cycler(ev):
                                         if automatic:
                                             await auto_award(ev, winner, raffle)
                                             win_embed.set_footer(text='The reward has been automatically transferred.')
-                                        win_embed.set_author(name=win_title, icon_url=user_avatar(winner))
+                                        win_embed.set_author(name=win_title[:256], icon_url=user_avatar(winner))
                                         await channel.send(win_text, embed=win_embed)
                                         ev.log.info(f'{winner} won {aid}\'s raffle {raffle.get("id")} in {cid}.')
             except Exception as e:
