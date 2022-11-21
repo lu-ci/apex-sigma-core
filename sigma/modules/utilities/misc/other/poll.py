@@ -65,4 +65,4 @@ async def poll(_cmd, pld):
     out_content.set_footer(text=f'[{secrets.token_hex(3)}] React with your vote below!')
     poll_message = await pld.msg.channel.send(embed=out_content)
     for emoji in emoji_list:
-        await poll_message.add_reaction(emoji=emoji)
+        await poll_message.add_reaction(emoji)
