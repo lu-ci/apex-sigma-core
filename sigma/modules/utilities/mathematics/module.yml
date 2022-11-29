@@ -5,6 +5,7 @@ commands:
     description: Makes a request for Wolfram Alpha to process. This can be a lot of
       things, the most popular being complex math operations. The results are displayed
       in "pods" and the most relevant pod is shown, along with a link to the full results.
+      Add "--full" as the last argument to display all of the pods.
     enabled: true
     name: wolframalpha
     usage: '{pfx}{cmd} 69+42'

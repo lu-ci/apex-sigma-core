@@ -15,47 +15,40 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import string
 from urllib.parse import quote as escape
 
 import aiohttp
 import discord
-import lxml.html as lx
 
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.core.utilities.url_processing import aioget
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 wolfram_icon = 'https://i.imgur.com/sGKq1A6.png'
 wolfram_url = 'http://www.wolframalpha.com/input/?i='
-api_url = 'http://api.wolframalpha.com/v2/query?format=plaintext&podindex=2&input='
+api_url = 'http://api.wolframalpha.com/v2/query?output=JSON&format=image,plaintext&input='
 
 
-async def get_url_body(url):
-    """
-    Asynchronously fetches a URL.
-    :type url: str
-    :rtype: bytes
-    """
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as data:
-            data = await data.read()
-    return data
+class WolframResult(object):
+    def __init__(self, data):
+        self.pods = [Pod(p) for p in data.get('pods')]
+        self.primary_pod = list(filter(lambda x: x.is_primary, self.pods))[0]
+        self.success = data.get('success') and bool(self.primary_pod)
 
 
-async def get_results(query_url):
-    """
-    Parses the XML response from 'query_url'.
-    :type query_url: str
-    :rtype: str
-    """
-    results = ''
-    query_page_xml = await get_url_body(query_url)
-    if query_page_xml:
-        query_page = lx.fromstring(query_page_xml)
-        pod_data = query_page.cssselect('queryresult > pod[title] > subpod > plaintext')
-        if pod_data:
-            results += '\n\n'.join([elem.text_content().strip() for elem in pod_data if elem.text_content().strip()])
-    return results
+class Pod(object):
+    def __init__(self, data):
+        self.title = data.get('title', '').strip()
+        self.image = data.get('img', {}).get('src') or None
+        self.subpods = [SubPod(p) for p in data.get('subpods')]
+        self.is_primary = data.get('primary')
+
+
+class SubPod(object):
+    def __init__(self, data):
+        self.text = data.get('plaintext', '').strip()
+        self.image = data.get('img', {}).get('src') or None
 
 
 def make_safe_query(query):
@@ -95,20 +88,37 @@ async def wolframalpha(cmd, pld):
     if cmd.cfg.app_id:
         if not Ongoing.is_ongoing('mathgame', pld.msg.channel.id):
             if pld.args:
+                full_results = False
+                if len(pld.args) and pld.args[-1].lower() == '--full':
+                    pld.args.pop(-1)
+                    full_results = True
                 query = make_safe_query(pld.args)
                 url = f'{api_url}{query}&appid={cmd.cfg.app_id}'
                 init_response = discord.Embed(color=0xff7e00)
                 init_response.set_author(name='Processing request...', icon_url=wolfram_icon)
                 init_message = await pld.msg.channel.send(embed=init_response)
-                results = await get_results(url)
-                if results:
-                    if len(results) <= 2000:
-                        response = discord.Embed(color=0xff7e00, description=f'```\n{results}\n```')
-                        response.set_author(name='Wolfram Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
-                        response.set_footer(text='View the full results by clicking the embed title.')
-                    else:
+                results = await aioget(url, as_json=True)
+                results = WolframResult(results.get('queryresult'))
+                if results.success:
+                    try:
+                        response = discord.Embed(color=0xff7e00)
+                        response.set_author(name='Wolfram|Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
+                        if full_results:
+                            for i, pod in enumerate(results.pods):
+                                value = '\n'.join([f'```\n{s.text}\n```' for s in pod.subpods if s.text])
+                                if value:
+                                    response.add_field(name=f'{i + 1}. {pod.title}', value=value, inline=False)
+                            response.set_footer(text='View the results online by clicking the embed title.')
+                        else:
+                            response.description = f'```\n{results.primary_pod.subpods[0].text}\n```'
+                            response.set_footer(text='View the full results by clicking the embed title.')
+                            await send_response(pld.msg, init_message, response)
+                            return
+                    except discord.HTTPException:
                         response = GenericResponse('Results too long to display.').error()
                         response.description = f'You can view them directly [here]({wolfram_url + query}).'
+                        await send_response(pld.msg, init_message, response)
+                        return
                 else:
                     response = GenericResponse('No results.').not_found()
             else:

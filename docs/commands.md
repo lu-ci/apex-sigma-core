@@ -190,7 +190,7 @@ Commands | Description | Example
 `>>markovchain` `>>chain` | Shows how many items you have have in their chain. You can view another user's chain count by mentioning them. | `>>markovchain @person`
 `>>timeconvert` `>>tconv` | Converts the specified time in the specified time zone to the specified time zone. | `>>timeconvert 18:57 UTC>PST`
 `>>wipechain` `>>clearchain` | Wipes your entire Markov chain, if you have one. This cannot be undone. | `>>wipechain`
-`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, the most popular being complex math operations. The results are displayed in "pods" and the most relevant pod is shown, along with a link to the full results. | `>>wolframalpha 69+42`
+`>>wolframalpha` `>>wa` | Makes a request for Wolfram Alpha to process. This can be a lot of things, the most popular being complex math operations. The results are displayed in "pods" and the most relevant pod is shown, along with a link to the full results. Add "--full" as the last argument to display all of the pods. | `>>wolframalpha 69+42`
 [Back To Top](#module-index)
 
 ### MINIGAMES
