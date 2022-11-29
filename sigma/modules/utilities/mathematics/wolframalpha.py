@@ -15,10 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import string
 from urllib.parse import quote as escape
 
-import aiohttp
 import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
@@ -40,7 +38,6 @@ class WolframResult(object):
 class Pod(object):
     def __init__(self, data):
         self.title = data.get('title', '').strip()
-        self.image = data.get('img', {}).get('src') or None
         self.subpods = [SubPod(p) for p in data.get('subpods')]
         self.is_primary = data.get('primary')
 
@@ -105,13 +102,28 @@ async def wolframalpha(cmd, pld):
                         response.set_author(name='Wolfram|Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
                         if full_results:
                             for i, pod in enumerate(results.pods):
-                                value = '\n'.join([f'```\n{s.text}\n```' for s in pod.subpods if s.text])
-                                if value:
-                                    response.add_field(name=f'{i + 1}. {pod.title}', value=value, inline=False)
+                                values = []
+                                image_set = False
+                                for subpod in pod.subpods:
+                                    if subpod.text:
+                                        values.append(f'```\n{subpod.text}\n```')
+                                    elif subpod.image:
+                                        if not image_set:
+                                            values.append('(See embedded image)')
+                                            response.set_image(url=subpod.image)
+                                            image_set = True
+                                        else:
+                                            values.append(f'[Click to view image]({subpod.image})')
+                                if values := '\n'.join(values):
+                                    response.add_field(name=f'{i + 1}. {pod.title}', value=values, inline=False)
                             response.set_footer(text='View the results online by clicking the embed title.')
                         else:
-                            response.description = f'```\n{results.primary_pod.subpods[0].text}\n```'
-                            response.set_footer(text='View the full results by clicking the embed title.')
+                            subpod = results.primary_pod.subpods[0]
+                            if subpod.image:
+                                response.set_image(url=subpod.image)
+                            else:
+                                response.description = f'```\n{subpod.text}\n```'
+                            response.set_footer(text='Add "--full" to the end to see the full result.')
                             await send_response(pld.msg, init_message, response)
                             return
                     except discord.HTTPException:
