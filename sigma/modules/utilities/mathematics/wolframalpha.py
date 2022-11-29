@@ -101,9 +101,9 @@ async def wolframalpha(cmd, pld):
                         response = discord.Embed(color=0xff7e00)
                         response.set_author(name='Wolfram|Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
                         if full_results:
+                            image_set = False
                             for i, pod in enumerate(results.pods):
                                 values = []
-                                image_set = False
                                 for subpod in pod.subpods:
                                     if subpod.text:
                                         values.append(f'```\n{subpod.text}\n```')
