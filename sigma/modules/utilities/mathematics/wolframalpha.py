@@ -119,10 +119,10 @@ async def wolframalpha(cmd, pld):
                             response.set_footer(text='View the results online by clicking the embed title.')
                         else:
                             subpod = results.primary_pod.subpods[0]
-                            if subpod.image:
-                                response.set_image(url=subpod.image)
-                            else:
+                            if subpod.text:
                                 response.description = f'```\n{subpod.text}\n```'
+                            else:
+                                response.set_image(url=subpod.image)
                             response.set_footer(text='Add "--full" to the end to see the full result.')
                             await send_response(pld.msg, init_message, response)
                             return
