@@ -94,7 +94,6 @@ class QueueItem(object):
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
                 self.ytdl.params.update({'outtmpl': out_location})
-                self.ytdl.extract_info(self.url)
                 await self.bot.threader.execute(self.ytdl.extract_info, (self.url,))
                 self.downloaded = True
             self.location = out_location
