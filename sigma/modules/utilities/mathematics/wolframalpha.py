@@ -30,7 +30,7 @@ api_url = 'http://api.wolframalpha.com/v2/query?output=JSON&format=image,plainte
 
 class WolframResult(object):
     def __init__(self, data):
-        self.pods = [Pod(p) for p in data.get('pods')]
+        self.pods = [Pod(p) for p in data.get('pods', [])]
         self.primary_pod = list(filter(lambda x: x.is_primary, self.pods))[0]
         self.success = data.get('success') and bool(self.primary_pod)
 
@@ -114,7 +114,8 @@ async def wolframalpha(cmd, pld):
                                             image_set = True
                                         else:
                                             values.append(f'[Click to view image]({subpod.image})')
-                                if values := '\n'.join(values):
+                                if values:
+                                    values = '\n'.join(values)
                                     response.add_field(name=f'{i + 1}. {pod.title}', value=values, inline=False)
                             response.set_footer(text='View the results online by clicking the embed title.')
                         else:
