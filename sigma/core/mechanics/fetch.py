@@ -178,7 +178,6 @@ class FetchHelper(object):
             "guild_id": str(chn.guild.id),
             "name": chn.name,
             "last_pin_timestamp": "2019-07-08T19:12:37.790000+00:00",  # Warning: Unimportant dummy data.
-            "topic": chn.topic,
             "parent_id": str(chn.category_id) if chn.category_id else None,
             "nsfw": chn.is_nsfw(),
             "position": chn.position,
