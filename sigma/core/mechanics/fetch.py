@@ -180,9 +180,6 @@ class FetchHelper(object):
             "last_pin_timestamp": "2019-07-08T19:12:37.790000+00:00",  # Warning: Unimportant dummy data.
             "parent_id": str(chn.category_id) if chn.category_id else None,
             "nsfw": chn.is_nsfw(),
-            "position": chn.position,
-            "rate_limit_per_user": chn.slowmode_delay,
-            "last_message_id": chn.last_message_id,
             "type": FetchHelper.enum_to_val(chn.type),
             "id": str(chn.id)
         }
