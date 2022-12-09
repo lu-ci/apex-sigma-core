@@ -126,7 +126,9 @@ class FetchHelper(object):
         if data:
             gdat = await self.get_object_doc('guild', data['guild_id'])
             if gdat:
-                result = discord.TextChannel(state=self.state, guild=gdat, data=data)
+                gdat = await self.fetch_guild(gdat['id'])
+                if gdat:
+                    result = discord.TextChannel(state=self.state, guild=gdat, data=data)
         return result
 
     async def fetch_guild(self, gid):
@@ -166,25 +168,6 @@ class FetchHelper(object):
         return data
 
     @staticmethod
-    def make_overwrite_data(prms):
-        """
-        Makes a data dict for storage for a permission overwrite.
-        :type prms: dict
-        :rtype: list[dict]
-        """
-        data = []
-        for entry in prms:
-            prm = prms[entry]
-            allow, deny = prm.pair()
-            edat = {
-                "deny": deny.value,
-                "id": str(entry.id),
-                "type": 'role' if isinstance(entry, discord.Role) else 'member'
-            }
-            data.append(edat)
-        return data
-
-    @staticmethod
     def make_channel_data(chn):
         """
         Makes a data dict for storage for a channel.
@@ -194,7 +177,6 @@ class FetchHelper(object):
         data = {
             "guild_id": str(chn.guild.id),
             "name": chn.name,
-            "permission_overwrites": FetchHelper.make_overwrite_data(chn.overwrites),
             "last_pin_timestamp": "2019-07-08T19:12:37.790000+00:00",  # Warning: Unimportant dummy data.
             "topic": chn.topic,
             "parent_id": str(chn.category_id) if chn.category_id else None,
@@ -258,16 +240,13 @@ class FetchHelper(object):
             "icon": gld.icon,
             "afk_timeout": gld.afk_timeout,
             "system_channel_id": str(gld.system_channel.id) if gld.system_channel else None,
-            "default_message_notifications": FetchHelper.enum_to_val(gld.default_notifications),
             "widget_enabled": 0,  # Warning: UNUSED. Treating as if always zero.
             "afk_channel_id": str(gld.afk_channel.id) if gld.afk_channel else None,
             "premium_subscription_count": gld.premium_subscription_count,
-            "explicit_content_filter": FetchHelper.enum_to_val(gld.explicit_content_filter),
             "max_presences": gld.max_presences,
             "id": str(gld.id),
             "features": gld.features,
             "preferred_locale": "en-US",
-            "verification_level": FetchHelper.enum_to_val(gld.verification_level),
             "name": gld.name,
             "roles": [FetchHelper.make_role_data(role) for role in gld.roles],
             "widget_channel_id": None,  # Warning: UNUSED. Treating as if always disabled.
