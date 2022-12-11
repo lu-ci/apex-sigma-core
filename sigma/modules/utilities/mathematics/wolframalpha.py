@@ -31,7 +31,7 @@ api_url = 'http://api.wolframalpha.com/v2/query?output=JSON&format=image,plainte
 class WolframResult(object):
     def __init__(self, data):
         self.pods = [Pod(p) for p in data.get('pods', [])]
-        self.primary_pod = list(filter(lambda x: x.is_primary, self.pods))[0]
+        self.primary_pod = list(filter(lambda x: x.is_primary, self.pods))[0] if self.pods else []
         self.success = data.get('success') and bool(self.primary_pod)
 
 
