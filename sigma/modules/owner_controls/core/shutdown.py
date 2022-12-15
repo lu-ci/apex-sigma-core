@@ -29,6 +29,5 @@ async def shutdown(cmd, pld):
     status = discord.Embed(color=0x808080, title=f'☠ {cmd.bot.user.name} Shutting Down.')
     await pld.msg.channel.send(embed=status)
     cmd.log.info(f'Terminated by {pld.msg.author.name}#{pld.msg.author.discriminator}')
-    await cmd.bot.logout()
     await cmd.bot.close()
     exit()
