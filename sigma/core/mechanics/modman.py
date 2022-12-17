@@ -53,7 +53,7 @@ class ModuleManager(object):
         self.categories = []
         if self.init:
             self.log.info('Loading Commands')
-        self.load_all_modules()
+        self.load_all_modules(init)
         if self.init:
             self.log.info(f'Loaded {len(self.commands)} Commands')
             for evkey in self.events:
@@ -72,11 +72,12 @@ class ModuleManager(object):
         out = path.replace('/', '.').replace('\\', '.')
         return out
 
-    def load_module(self, root, module_data):
+    def load_module(self, root, module_data, init=False):
         """
         Loads a given modules commands, events, and information.
         :type root: str
         :type module_data: dict
+        :type init: bool
         """
         if self.init:
             self.log.info(f'Loading the {module_data.get("name")} Module')
@@ -86,7 +87,7 @@ class ModuleManager(object):
         if self.bot.cfg.dsc.bot:
             if not self.bot.cfg.pref.music_only:
                 if 'events' in module_data:
-                    self.load_events(root, module_data)
+                    self.load_events(root, module_data, init)
 
     def load_function(self, root, data):
         """
@@ -118,15 +119,16 @@ class ModuleManager(object):
             if command_data.get('enabled'):
                 self.load_command_executable(root, command_data, module_data)
 
-    def load_events(self, root, module_data):
+    def load_events(self, root, module_data, init=False):
         """
         Loads the events within the given module.
         :type root: str
         :type module_data: dict
+        :type init: bool
         """
         for event_data in module_data.get('events'):
             if event_data.get('enabled'):
-                self.load_event_executable(root, event_data, module_data)
+                self.load_event_executable(root, event_data, module_data, init)
 
     def load_command_executable(self, root, command_data, module_data):
         """
@@ -143,17 +145,18 @@ class ModuleManager(object):
                 self.alts.update({alt: cmd.name})
         self.commands.update({command_data.get('name'): cmd})
 
-    def load_event_executable(self, root, event_data, module_data):
+    def load_event_executable(self, root, event_data, module_data, init=False):
         """
         Loads the event's executable and defining function call.
         :type root: str
         :type event_data: dict
         :type module_data: dict
+        :type init: bool
         """
         event_function = self.load_function(root, event_data)
         event_data.update({'path': os.path.join(root)})
         event = SigmaEvent(self.bot, event_function, module_data, event_data)
-        if event.event_type == 'slash':
+        if event.event_type == 'slash' and not init:
             command = Command(name=event.name, description=event.description, callback=event.execute)
             self.bot.tree.add_command(command)
         else:
@@ -164,7 +167,7 @@ class ModuleManager(object):
             event_list.append(event)
             self.events.update({event.event_type: event_list})
 
-    def load_all_modules(self):
+    def load_all_modules(self, init=False):
         """
         Loads all modules by going through every module yaml
         in the modules directory recursively.
@@ -186,4 +189,4 @@ class ModuleManager(object):
                             if self.bot.cfg.pref.music_only:
                                 if module_data.get('category') not in ['music', 'help']:
                                     continue
-                            self.load_module(root, module_data)
+                            self.load_module(root, module_data, init)
