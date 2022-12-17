@@ -352,21 +352,21 @@ async def cycler(ev):
                         last_msg = arrow.get(last_msg).naive
                     chain = markovify.Text.from_dict(deserialize(collection)) if collection is not None else None
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
-                    new_last_msg = None
+                    # new_last_msg = None
                     messages = []
                     # noinspection PyBroadException
                     try:
                         async for log in cl_chn.history(limit=100_000, after=last_msg):
-                            if not new_last_msg:
-                                new_last_msg = log.created_at.timestamp()
+                            # if not new_last_msg:
+                                # new_last_msg = log.created_at.timestamp()
                             cnt = log.content
                             if log.author.id == cl_usr.id and len(log.content) > 8:
                                 if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
                                     cnt = cleanse_content(log, cnt)
                                     if cnt not in messages and cnt and len(cnt) > 1:
                                         messages.append(cnt)
-                        if new_last_msg:
-                            await set_coll_cache(ev, cl_usr.id, cl_chn.id, coll_cache, new_last_msg)
+                        # if new_last_msg:
+                        #     await set_coll_cache(ev, cl_usr.id, cl_chn.id, coll_cache, new_last_msg)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {usr_info}: {e}')
                     try:
