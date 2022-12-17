@@ -29,6 +29,7 @@ import markovify
 
 from sigma.core.utilities.generic_responses import GenericResponse
 
+collector_limit = 100_000
 collector_loop_running = False
 current_doc_collecting: Optional[dict] = None
 current_cancel_request = False
@@ -403,7 +404,7 @@ async def cycler(ev):
                     messages = []
                     # noinspection PyBroadException
                     try:
-                        async for log in cl_chn.history(limit=100_000, after=last_msg):
+                        async for log in cl_chn.history(limit=collector_limit, after=last_msg):
                             if current_cancel_request:
                                 cancelled = True
                                 break

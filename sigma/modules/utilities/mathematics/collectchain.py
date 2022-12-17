@@ -21,7 +21,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size
+from sigma.modules.utilities.mathematics.collector_clockwork import add_to_queue, get_queue_size, collector_limit
 from sigma.modules.utilities.mathematics.collector_clockwork import check_queued, get_channel, get_target
 
 
@@ -79,8 +79,14 @@ async def collectchain(cmd, pld):
                     }
                     await add_to_queue(cmd.db, cltr_itm)
                     qsize = await get_queue_size(cmd.db)
+                    now = arrow.utcnow().int_timestamp
+                    max_time = (collector_limit / 100) * qsize
+                    max_finish = arrow.get(now + max_time)
                     title = f'{starter} #{qsize} in the queue and will be notified when {ender} chain is done.'
+                    description = 'Due to Discord limitations, walking back through messages can take a long time.'
+                    description += f' The maximum time until {ender} chain is done should be {max_finish.humanize()}.'
                     response = discord.Embed(color=0x66CC66)
+                    response.description = description
                     response.set_author(name=title, icon_url=user_avatar(target_usr))
                 else:
                     if target_usr.id == cmd.bot.user.id:
