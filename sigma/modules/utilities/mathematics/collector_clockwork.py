@@ -31,6 +31,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 collector_loop_running = False
 current_doc_collecting: Optional[dict] = None
+current_cancel_request = False
 
 
 async def check_queued(db, aid, uid):
@@ -258,6 +259,32 @@ async def notify_failure(ath, tgt_usr, tgt_chn):
             pass
 
 
+async def notify_cancel(ath, tgt_usr, tgt_chn):
+    """
+    :type ath: discord.Member or discord.User
+    :type tgt_usr: discord.Member or discord.User
+    :type tgt_chn: discord.TextChannel
+    """
+    req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
+    footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'
+    guild_icon = str(tgt_chn.guild.icon.url) if tgt_chn.guild.icon.url else 'https://i.imgur.com/xpDpHqz.png'
+    response = GenericResponse('Cancelled parsing entries for your chain.').error()
+    response.set_footer(text=footer, icon_url=guild_icon)
+    # noinspection PyBroadException
+    try:
+        await tgt_usr.send(embed=response)
+    except Exception:
+        pass
+    if ath.id != tgt_usr.id:
+        req_resp = GenericResponse(f'Cancelled parsing entries for {tgt_usr.name}\'s chain.').error()
+        req_resp.set_footer(text=footer, icon_url=guild_icon)
+        # noinspection PyBroadException
+        try:
+            await ath.send(embed=req_resp)
+        except Exception:
+            pass
+
+
 async def set_coll_cache(ev, user_id, channel_id, coll_cache, last_msg):
     """
     :type ev: sigma.core.mechanics.evens.SigmaEvent
@@ -334,12 +361,22 @@ async def collector_clockwork(ev):
         ev.bot.loop.create_task(cycler(ev))
 
 
+def get_current():
+    return current_doc_collecting
+
+
+def cancel_current():
+    global current_cancel_request
+    current_cancel_request = True
+
+
 async def cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global current_doc_collecting
+    global current_cancel_request
     coll = ev.db[ev.db.db_nam].CollectorQueue
     while True:
         if ev.bot.is_ready():
@@ -351,10 +388,11 @@ async def cycler(ev):
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
                 cl_ath = await ev.bot.get_user(cltr_item.get('author_id'))
                 if cl_usr and cl_chn:
+                    cancelled = False
                     usr_info = f'{cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]'
                     ev.log.info(f'Collecting a chain for {usr_info}...')
-                    await coll.delete_one(cltr_item)
                     current_doc_collecting = cltr_item
+                    await coll.delete_one(cltr_item)
                     collection = load(cl_usr.id)
                     coll_cache = await ev.db[ev.db.db_nam].CollectorCache.find_one({'user_id': cl_usr.id}) or {}
                     last_msg = coll_cache.get(str(cl_chn.id))
@@ -366,6 +404,9 @@ async def cycler(ev):
                     # noinspection PyBroadException
                     try:
                         async for log in cl_chn.history(limit=100_000, after=last_msg):
+                            if current_cancel_request:
+                                cancelled = True
+                                break
                             cnt = log.content
                             if log.author.id == cl_usr.id and len(log.content) > 8:
                                 if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
@@ -374,24 +415,31 @@ async def cycler(ev):
                                         messages.append(cnt)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {usr_info}: {e}')
-                    try:
-                        new_chain = markovify.Text(f'{". ".join(messages)}.')
-                        if new_chain.rejoined_text == '.':
-                            combined = chain if chain else None
-                        else:
-                            combined = markovify.combine([chain, new_chain]) if chain else new_chain
-                        if combined:
-                            save(cl_usr.id, serialize(combined.to_dict()))
-                            await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
-                            stats = f'{len(messages)} / {len(combined.parsed_sentences)}'
-                            ev.log.info(f'Collected a chain for {usr_info} ({stats}).')
-                        else:
-                            await notify_empty(cl_ath, cl_usr, cl_chn)
-                            ev.log.warn(f'Collected an empty chain for {usr_info}.')
-                    except Exception as e:
-                        await notify_failure(cl_ath, cl_usr, cl_chn)
-                        ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}")
+                    if not cancelled:
+                        try:
+                            new_chain = markovify.Text(f'{". ".join(messages)}.')
+                            if new_chain.rejoined_text == '.':
+                                combined = chain if chain else None
+                            else:
+                                combined = markovify.combine([chain, new_chain]) if chain else new_chain
+                            if combined:
+                                save(cl_usr.id, serialize(combined.to_dict()))
+                                await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
+                                stats = f'{len(messages)} / {len(combined.parsed_sentences)}'
+                                ev.log.info(f'Collected a chain for {usr_info} ({stats}).')
+                            else:
+                                await notify_empty(cl_ath, cl_usr, cl_chn)
+                                ev.log.warn(f'Collected an empty chain for {usr_info}.')
+                        except Exception as e:
+                            current_doc_collecting = None
+                            current_cancel_request = False
+                            await notify_failure(cl_ath, cl_usr, cl_chn)
+                            ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}")
+                    else:
+                        await notify_cancel(cl_ath, cl_usr, cl_chn)
+                        ev.log.info(f'Collection cancelled for {usr_info}.')
                     current_doc_collecting = None
+                    current_cancel_request = False
                 else:
                     uid = cltr_item.get('user_id')
                     cid = cltr_item.get('channel_id')

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import current_doc_collecting
+from sigma.modules.utilities.mathematics.collector_clockwork import get_current, cancel_current
 
 
 async def cancelcollector(cmd, pld):
@@ -27,10 +27,15 @@ async def cancelcollector(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    current = get_current()
     collector_coll = cmd.db[cmd.db.db_nam].CollectorQueue
-    current_target = current_doc_collecting.get('user_id')
-    current_author = current_doc_collecting.get('author_id')
-    if pld.msg.author.id not in [current_target, current_author]:
+    if current:
+        current_target = current.get('user_id')
+        current_author = current.get('author_id')
+        current_running = (current_target or current_author) is not None
+    else:
+        current_running = False
+    if not current_running:
         target_entry = await collector_coll.find_one({'user_id': pld.msg.author.id})
         author_entry = await collector_coll.find_one({'author_id': pld.msg.author.id})
         entry = target_entry or author_entry
@@ -40,5 +45,6 @@ async def cancelcollector(cmd, pld):
         else:
             response = GenericResponse('You are not currently in the queue.').error()
     else:
-        response = GenericResponse('Can\'t cancel an already ongoing collection.').error()
+        cancel_current()
+        response = GenericResponse('Cancelling your ongoing collection.').error()
     await pld.msg.channel.send(embed=response)
