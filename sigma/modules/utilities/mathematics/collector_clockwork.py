@@ -383,7 +383,8 @@ async def cycler(ev):
                         if combined:
                             save(cl_usr.id, serialize(combined.to_dict()))
                             await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
-                            ev.log.info(f'Collected a chain for {usr_info} ({messages}/{combined.parsed_sentences}).')
+                            stats = f'{len(messages)} / {len(combined.parsed_sentences)}'
+                            ev.log.info(f'Collected a chain for {usr_info} ({stats}).')
                         else:
                             await notify_empty(cl_ath, cl_usr, cl_chn)
                             ev.log.warn(f'Collected an empty chain for {usr_info}.')
