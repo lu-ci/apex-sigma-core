@@ -334,7 +334,7 @@ async def cycler(ev):
     while True:
         if ev.bot.is_ready():
             now = arrow.utcnow().int_timestamp
-            await coll.delete_many({'stamp': {'$lt': now - 7200}})
+            await coll.delete_many({'stamp': {'$lt': now - (60 * 60 * 24)}})
             cltr_items = await coll.find({}).to_list(None)
             for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
