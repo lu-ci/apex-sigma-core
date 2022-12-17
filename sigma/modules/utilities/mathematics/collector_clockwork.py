@@ -341,7 +341,8 @@ async def cycler(ev):
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
                 cl_ath = await ev.bot.get_user(cltr_item.get('author_id'))
                 if cl_usr and cl_chn:
-                    ev.log.info(f'Collecting a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]...')
+                    usr_info = f'{cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]'
+                    ev.log.info(f'Collecting a chain for {usr_info}...')
                     await coll.delete_one(cltr_item)
                     current_user_collecting = cl_usr.id
                     collection = load(cl_usr.id)
@@ -367,7 +368,7 @@ async def cycler(ev):
                         if new_last_msg:
                             await set_coll_cache(ev, cl_usr.id, cl_chn.id, coll_cache, new_last_msg)
                     except Exception as e:
-                        ev.log.warn(f'Collection issue for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]: {e}')
+                        ev.log.warn(f'Collection issue for {usr_info}: {e}')
                     try:
                         new_chain = markovify.Text(f'{". ".join(messages)}.')
                         if new_chain.rejoined_text == '.':
@@ -377,11 +378,17 @@ async def cycler(ev):
                         if combined:
                             save(cl_usr.id, serialize(combined.to_dict()))
                             await notify_target(cl_ath, cl_usr, cl_chn, len(messages), combined.parsed_sentences)
+                            ev.log.info(f'Collected a chain for {usr_info} ({messages}/{combined.parsed_sentences}).')
                         else:
                             await notify_empty(cl_ath, cl_usr, cl_chn)
-                        ev.log.info(f'Collected a chain for {cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]')
+                            ev.log.warn(f'Collected an empty chain for {usr_info}.')
                     except Exception as e:
                         await notify_failure(cl_ath, cl_usr, cl_chn)
-                        ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}.")
+                        ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}")
                     current_user_collecting = None
+                else:
+                    uid = cltr_item.get('user_id')
+                    cid = cltr_item.get('channel_id')
+                    aid = cltr_item.get('author_id')
+                    ev.log.warn(f'Couldn\'t find user {uid} or channel {cid} requested by {aid}.')
         await asyncio.sleep(1)
