@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import current_user_collecting
+from sigma.modules.utilities.mathematics.collector_clockwork import current_doc_collecting
 
 
 async def cancelcollector(cmd, pld):
@@ -28,7 +28,7 @@ async def cancelcollector(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     collector_coll = cmd.db[cmd.db.db_nam].CollectorQueue
-    current = current_user_collecting
+    current = current_doc_collecting.get('user_id')
     if pld.msg.author.id != current:
         entry = await collector_coll.find_one({'user_id': pld.msg.author.id})
         if entry:

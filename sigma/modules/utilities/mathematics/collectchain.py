@@ -68,7 +68,8 @@ async def collectchain(cmd, pld):
         blocked = await is_blocked(cmd.db, target_usr, pld.msg.author)
         blinded = await is_blinded(cmd.db, target_chn, pld.msg.author)
         if not blocked and not blinded:
-            if not await check_queued(cmd.db, target_usr.id, pld.msg.author.id):
+            queue_check = await check_queued(cmd.db, target_usr.id, pld.msg.author.id)
+            if not queue_check.get('queued'):
                 if not target_usr.bot:
                     cltr_itm = {
                         'author_id': pld.msg.author.id,
@@ -88,7 +89,23 @@ async def collectchain(cmd, pld):
                         response = GenericResponse('I refuse to collect a chain for a bot.').error()
             else:
                 mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
+                if queue_check.get('target'):
+                    description = f'A collection has already been requested for you.'
+                elif queue_check.get('author'):
+                    description = f'You have already requested a collection for someone.'
+                else:
+                    description = f'Your chain is currently being collected, please wait for it to finish.'
+                document = queue_check.get('document')
+                now = arrow.utcnow().int_timestamp
+                timestamp = document.get('stamp')
+                difference = now - timestamp
+                if difference < 60:
+                    description += f' It was requested **{difference} seconds** ago.'
+                else:
+                    elapsed = arrow.get(timestamp).humanize()
+                    description += f' It was requested **{elapsed}**.'
                 response = GenericResponse(f'{starter} already in the queue or {mid} pending entry.').error()
+                response.description = description
         else:
             if blocked:
                 response = GenericResponse(f'Only {target_usr.name} can collect their own chain.').error()

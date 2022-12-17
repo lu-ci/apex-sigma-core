@@ -21,6 +21,7 @@ import gzip
 import json
 import os
 import string
+from typing import Optional
 
 import arrow
 import discord
@@ -29,7 +30,7 @@ import markovify
 from sigma.core.utilities.generic_responses import GenericResponse
 
 collector_loop_running = False
-current_user_collecting = None
+current_doc_collecting: Optional[dict] = None
 
 
 async def check_queued(db, aid, uid):
@@ -37,12 +38,21 @@ async def check_queued(db, aid, uid):
     :type db: sigma.core.mechanics.database.Database
     :type aid: int
     :type uid: int
-    :rtype: bool
+    :rtype: dict
     """
-    target_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'user_id': uid}))
-    author_in_queue = bool(await db[db.db_nam].CollectorQueue.find_one({'author_id': aid}))
-    in_current = current_user_collecting == uid
-    return target_in_queue or author_in_queue or in_current
+    target_doc = await db[db.db_nam].CollectorQueue.find_one({'user_id': uid})
+    author_doc = await db[db.db_nam].CollectorQueue.find_one({'author_id': aid})
+    target_in_queue = bool(target_doc)
+    author_in_queue = bool(author_doc)
+    in_current = current_doc_collecting.get('user_id') == uid if current_doc_collecting is not None else False
+    result = {
+        'queued': target_in_queue or author_in_queue or in_current,
+        'target': target_in_queue,
+        'author': author_in_queue,
+        'document': current_doc_collecting if in_current else (target_doc or author_doc),
+        'current': in_current
+    }
+    return result
 
 
 async def add_to_queue(db, collector_item):
@@ -329,7 +339,7 @@ async def cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global current_user_collecting
+    global current_doc_collecting
     coll = ev.db[ev.db.db_nam].CollectorQueue
     while True:
         if ev.bot.is_ready():
@@ -344,7 +354,7 @@ async def cycler(ev):
                     usr_info = f'{cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]'
                     ev.log.info(f'Collecting a chain for {usr_info}...')
                     await coll.delete_one(cltr_item)
-                    current_user_collecting = cl_usr.id
+                    current_doc_collecting = cltr_item
                     collection = load(cl_usr.id)
                     coll_cache = await ev.db[ev.db.db_nam].CollectorCache.find_one({'user_id': cl_usr.id}) or {}
                     last_msg = coll_cache.get(str(cl_chn.id))
@@ -352,21 +362,16 @@ async def cycler(ev):
                         last_msg = arrow.get(last_msg).naive
                     chain = markovify.Text.from_dict(deserialize(collection)) if collection is not None else None
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
-                    # new_last_msg = None
                     messages = []
                     # noinspection PyBroadException
                     try:
                         async for log in cl_chn.history(limit=100_000, after=last_msg):
-                            # if not new_last_msg:
-                                # new_last_msg = log.created_at.timestamp()
                             cnt = log.content
                             if log.author.id == cl_usr.id and len(log.content) > 8:
                                 if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
                                     cnt = cleanse_content(log, cnt)
                                     if cnt not in messages and cnt and len(cnt) > 1:
                                         messages.append(cnt)
-                        # if new_last_msg:
-                        #     await set_coll_cache(ev, cl_usr.id, cl_chn.id, coll_cache, new_last_msg)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {usr_info}: {e}')
                     try:
@@ -385,7 +390,7 @@ async def cycler(ev):
                     except Exception as e:
                         await notify_failure(cl_ath, cl_usr, cl_chn)
                         ev.log.error(f"Markov generation failure for {cl_usr.id}: {e}")
-                    current_user_collecting = None
+                    current_doc_collecting = None
                 else:
                     uid = cltr_item.get('user_id')
                     cid = cltr_item.get('channel_id')
