@@ -441,9 +441,9 @@ async def cycler(ev):
                         ev.log.info(f'Collection cancelled for {usr_info}.')
                     current_doc_collecting = None
                     current_cancel_request = False
-                else:
-                    uid = cltr_item.get('user_id')
-                    cid = cltr_item.get('channel_id')
-                    aid = cltr_item.get('author_id')
-                    ev.log.warn(f'Couldn\'t find user {uid} or channel {cid} requested by {aid}.')
+                # else:
+                #     uid = cltr_item.get('user_id')
+                #     cid = cltr_item.get('channel_id')
+                #     aid = cltr_item.get('author_id')
+                #     ev.log.warn(f'Couldn\'t find user {uid} or channel {cid} requested by {aid}.')
         await asyncio.sleep(1)
