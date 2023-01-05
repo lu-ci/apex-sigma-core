@@ -28,7 +28,7 @@ async def table_unflipper(ev, pld):
     :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
-    if '(╯°□°）╯︵ ┻━┻'.replace(' ', '') in pld.msg.content.replace(' ', ''):
+    if '(╯°□°)╯︵ ┻━┻'.replace(' ', '') in pld.msg.content.replace(' ', ''):
         if pld.msg.guild:
             unflip = bool(pld.settings.get('unflip'))
         else:
