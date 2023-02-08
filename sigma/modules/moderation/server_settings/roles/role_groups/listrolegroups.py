@@ -48,7 +48,7 @@ async def listrolegroups(cmd, pld):
         response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
         response.add_field(name='Role Group Summary', value=summary, inline=False)
         response.add_field(name='List of Role Groups', value=f'{rl_out}', inline=False)
-        response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}verg command.')
+        response.set_footer(text=f'You can see all roles in a group using the {cmd.bot.cfg.pref.prefix}vrg command.')
     else:
         response = GenericResponse(f'{pld.msg.guild.name} has no role groups.').not_found()
     await pld.msg.channel.send(embed=response)
