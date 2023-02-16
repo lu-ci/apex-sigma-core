@@ -82,7 +82,7 @@ class GlobalCommandPermissions(object):
         Checks if the command is NSFW
         and if the place it's called is marked as NSFW.
         """
-        if type(self.message.channel) in [discord.TextChannel, discord.Thread, discord.VoiceChannel]:
+        if hasattr(self.message.channel, 'is_nsfw'):
             if self.cmd.nsfw:
                 if self.message.channel.is_nsfw():
                     self.nsfw_denied = False
