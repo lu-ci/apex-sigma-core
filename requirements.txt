@@ -19,3 +19,4 @@ redis==4.5.1
 translate==3.6.1
 twitchio==2.5.0
 youtube_dl>=2021.12.17
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
