@@ -5,7 +5,7 @@ commands:
     description: Searches for the lyrics of the specified song. Requires both the song
       and artist, separated by a dash "-". If no arguments are given, it will try to
       get the currently playing song's lyrics.
-    enabled: false
+    enabled: true
     name: lyrics
     usage: '{pfx}{cmd} Imagine Dragons - Radioactive'
 enabled: true

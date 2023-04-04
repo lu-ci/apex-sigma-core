@@ -131,21 +131,22 @@ async def lyrics(cmd, pld):
         lyrics_data, artist, song, image = await get_lyrics_from_html(lyrics_url)
         if lyrics_data:
             chunks = parse_parts(lyrics_data)
-            chunk_counter = 0
-            for chunk in chunks[:5]:
-                chunk_counter += 1
-                chunk_title = f'🔖 Lyrics for {song} by {artist}'
-                response = discord.Embed(color=await get_image_colors(image), title=chunk_title)
-                response.description = chunk
-                response.set_thumbnail(url=image)
-                if len(chunks) != 1:
-                    response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
-                await pld.msg.channel.send(embed=response)
             if len(chunks) > 5:
                 end_title = 'Lyrics too long to display in their entirety.'
                 end_desc = f'View the full list of lyrics [here]({lyrics_url}).'
                 response = discord.Embed(color=await get_image_colors(image), title=end_title, description=end_desc)
                 await pld.msg.channel.send(embed=response)
+            else:
+                chunk_counter = 0
+                for chunk in chunks[:5]:
+                    chunk_counter += 1
+                    chunk_title = f'🔖 Lyrics for {song} by {artist}'
+                    response = discord.Embed(color=await get_image_colors(image), title=chunk_title)
+                    response.description = chunk
+                    response.set_thumbnail(url=image)
+                    if len(chunks) != 1:
+                        response.set_footer(text=f'Page: {chunk_counter}/{len(chunks)}')
+                    await pld.msg.channel.send(embed=response)
             return
         else:
             response = GenericResponse(f'Nothing found for {query}.').error()
