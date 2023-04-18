@@ -39,40 +39,48 @@ def get_unit_and_search(args):
             if unit in unit_trans:
                 unit = unit_trans[unit]
             if unit not in allowed_units:
-                unit = 'auto'
+                unit = 'metric'
         else:
-            unit = 'auto'
+            unit = 'metric'
         search = ' '.join(args[:-1])
     else:
         search = ' '.join(args)
-        unit = 'auto'
+        unit = 'metric'
     return search, unit
 
 
-def get_dis_and_deg(unit, forecast):
+def get_dis_and_deg(unit):
     """
     :type unit: str
-    :type forecast: str
     :rtype: str, str
     """
-    if unit in ['si', 'ca', 'uk2']:
-        if unit == 'uk2':
-            deg = '°C'
-            dis = 'M'
-        else:
-            deg = '°C'
-            dis = 'KM'
-    elif unit == 'auto':
-        if '°C' in forecast:
-            deg = '°C'
-            dis = 'KM'
-        else:
-            deg = '°F'
-            dis = 'M'
-    else:
+    if unit == 'imperial':
+        dis = 'm'
         deg = '°F'
-        dis = 'M'
+    else:
+        dis = 'm'
+        deg = '°C'
     return dis, deg
+
+
+def get_bearing(deg: int) -> str:
+    directions = [
+        ['E',[0, 22.5]],
+        ['NE', [22.5, 67.5]],
+        ['N', [67.5, 112.5]],
+        ['NW', [112.5, 157.5]],
+        ['W', [157.5, 202.5]],
+        ['SW', [202.5, 247.5]],
+        ['S', [247.5, 292.5]],
+        ['SE', [292.5, 337.5]],
+        ['E', [337.5, 360]]
+    ]
+    bearing = 'E'
+    for direction in directions:
+        bearing = direction[0]
+        if direction[1][0] <= deg < direction[1][1]:
+            break
+    return bearing
 
 
 async def weather(cmd, pld):
@@ -82,53 +90,38 @@ async def weather(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if cmd.cfg.secret_key:
+    if cmd.cfg.api_key:
         if pld.args:
             search, unit = get_unit_and_search(pld.args)
             if search:
-                geo_parser = Nominatim(user_agent=f'Apex Sigma Derivate {cmd.bot.user.id}')
-                try:
-                    location = geo_parser.geocode(search)
-                except Exception as e:
-                    response = GenericResponse(f'Geocoder {str(e).lower()}.').error()
+                api_base = 'https://api.openweathermap.org/data/2.5/weather'
+                req_url = f'{api_base}?appid={cmd.cfg.api_key}&q={search}&units={unit}'
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(req_url) as data:
+                        search_data = await data.read()
+                        data = json.loads(search_data)
+                if data['cod'] == 200:
+                    location = f'{data["name"]}, {data["sys"]["country"]}'
+                    icon = data['weather'][0]['description']
+                    unit = 'metric' if unit == 'auto' else unit
+                    dis, deg = get_dis_and_deg(unit)
+                    forecast_title = f'{icons[icon]["icon"]} {data["weather"][0]["main"]}'
+                    response = discord.Embed(color=icons[icon]['color'], title=forecast_title[:256])
+                    response.description = f'Location: {location}'
+                    info_title = '🌡 Temperature'
+                    info_text = f'Current: {round(data["main"]["temp"], 2)}{deg}'
+                    info_text += f'\nFeels Like: {round(data["main"]["feels_like"], 2)}{deg}'
+                    response.add_field(name=info_title, value=info_text)
+                    wind_title = '💨 Wind'
+                    wind_text = f'Speed: {round(data["wind"]["speed"], 2)} {dis}/s'
+                    wind_text += f'\nBearing: {data["wind"]["deg"]}° ({get_bearing(data["wind"]["deg"])})'
+                    response.add_field(name=wind_title, value=wind_text)
+                    other_title = '📉 Other'
+                    other_text = f'Humidity: {round(data["main"]["humidity"], 2)}%'
+                    other_text += f'\nPressure: {round(data["main"]["pressure"], 2)}mbar'
+                    response.add_field(name=other_title, value=other_text)
                 else:
-                    if location:
-                        lat = location.latitude
-                        lon = location.longitude
-                        req_url = f'https://api.darksky.net/forecast/{cmd.cfg.secret_key}/{lat},{lon}?units={unit}'
-                        async with aiohttp.ClientSession() as session:
-                            async with session.get(req_url) as data:
-                                search_data = await data.read()
-                                data = json.loads(search_data)
-                        curr = data['currently']
-                        icon = curr['icon']
-                        forecast = data['daily']['summary']
-                        unit = data['flags']['units'] if unit == 'auto' else unit
-                        dis, deg = get_dis_and_deg(unit, forecast)
-                        forecast_title = f'{icons[icon]["icon"]} {curr["summary"]}'
-                        response = discord.Embed(color=icons[icon]['color'], title=forecast_title[:256])
-                        response.description = f'Location: {location}'
-                        response.add_field(name='📄 Forecast', value=forecast, inline=False)
-                        info_title = '🌡 Temperature'
-                        info_text = f'Current: {round(curr["temperature"], 2)}{deg}'
-                        info_text += f'\nFeels Like: {round(curr["apparentTemperature"], 2)}{deg}'
-                        info_text += f'\nDew Point: {round(curr["dewPoint"], 2)}{deg}'
-                        response.add_field(name=info_title, value=info_text)
-                        wind_title = '💨 Wind'
-                        wind_text = f'Speed: {round(curr["windSpeed"], 2)} {dis}/H'
-                        wind_text += f'\nGust: {round(curr["windGust"], 2)} {dis}/H'
-                        wind_text += f'\nBearing: {curr["windBearing"]}°'
-                        response.add_field(name=wind_title, value=wind_text)
-                        other_title = '📉 Other'
-                        other_text = f'Humidity: {round(curr["humidity"] * 100, 2)}%'
-                        other_text += f'\nPressure: {round(curr["pressure"], 2)}mbar'
-                        if 'visibility' in curr:
-                            other_text += f'\nVisibility: {round(curr["visibility"], 2)} {dis}'
-                        else:
-                            other_text += '\nVisibility: Unknown'
-                        response.add_field(name=other_title, value=other_text)
-                    else:
-                        response = GenericResponse('Location not found.').not_found()
+                    response = GenericResponse('Location not found.').not_found()
             else:
                 response = GenericResponse('Missing location.').error()
         else:

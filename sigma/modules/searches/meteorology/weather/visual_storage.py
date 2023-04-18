@@ -17,15 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 icons = {
-    'clear-day': {
+    'clear sky': {
         'icon': '☀',
         'color': 0xffac33
     },
-    'clear-night': {
-        'icon': '🌖',
-        'color': 0xb8c5cd
-    },
     'rain': {
+        'icon': '🌧',
+        'color': 0x5dadec
+    },
+    'shower rain': {
         'icon': '🌧',
         'color': 0x5dadec
     },
@@ -33,40 +33,24 @@ icons = {
         'icon': '❄',
         'color': 0x88c9f9
     },
-    'sleet': {
-        'icon': '🌨',
-        'color': 0x5dadec
-    },
-    'wind': {
-        'icon': '💨',
-        'color': 0xbdddf4
-    },
-    'fog': {
+    'mist': {
         'icon': '🌫',
         'color': 0xccd6dd
     },
-    'cloudy': {
+    'scattered clouds': {
         'icon': '☁',
         'color': 0xe1e8ed
     },
-    'partly-cloudy-day': {
+    'broken clouds': {
         'icon': '⛅',
         'color': 0xffac33
     },
-    'partly-cloudy-night': {
-        'icon': '🌙',
-        'color': 0xb8c5cd
-    },
-    'hail': {
-        'icon': '☄',
-        'color': 0x8ccaf7
+    'few clouds': {
+        'icon': '⛅',
+        'color': 0xffac33
     },
     'thunderstorm': {
         'icon': '⛈',
         'color': 0xf4900c
-    },
-    'tornado': {
-        'icon': '🌪',
-        'color': 0x8899a6
     }
 }
