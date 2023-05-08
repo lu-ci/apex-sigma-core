@@ -20,7 +20,6 @@ import json
 
 import aiohttp
 import discord
-from geopy.geocoders import Nominatim
 
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.searches.meteorology.weather.visual_storage import icons
@@ -65,7 +64,7 @@ def get_dis_and_deg(unit):
 
 def get_bearing(deg: int) -> str:
     directions = [
-        ['E',[0, 22.5]],
+        ['E', [0, 22.5]],
         ['NE', [22.5, 67.5]],
         ['N', [67.5, 112.5]],
         ['NW', [112.5, 157.5]],
