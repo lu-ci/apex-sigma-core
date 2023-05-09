@@ -16,28 +16,26 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json
-
-import aiohttp
 import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.searches.meteorology.weather.visual_storage import icons
+from sigma.core.utilities.url_processing import aioget
+
+api_base = 'https://api.openweathermap.org/data/2.5/weather'
 
 
-def get_unit_and_search(args):
+def parse_query(args):
     """
     :type args: list[str]
     :rtype: str, str
     """
     if args[-1].startswith('unit'):
-        allowed_units = ['auto', 'ca', 'uk2', 'us', 'si']
-        unit_trans = {'c': 'si', 'metric': 'si', 'f': 'us', 'imperial': 'us'}
+        units = ['c', 'f', 'metric', 'imperial']
+        unit_map = {'c': 'metric', 'f': 'imperial'}
         if len(args[-1].split(':')) == 2:
             unit = args[-1].split(':')[1].lower()
-            if unit in unit_trans:
-                unit = unit_trans[unit]
-            if unit not in allowed_units:
+            unit = unit_map.get(unit, unit)
+            if unit not in units:
                 unit = 'metric'
         else:
             unit = 'metric'
@@ -91,33 +89,33 @@ async def weather(cmd, pld):
     """
     if cmd.cfg.api_key:
         if pld.args:
-            search, unit = get_unit_and_search(pld.args)
+            search, unit = parse_query(pld.args)
             if search:
-                api_base = 'https://api.openweathermap.org/data/2.5/weather'
-                req_url = f'{api_base}?appid={cmd.cfg.api_key}&q={search}&units={unit}'
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(req_url) as data:
-                        search_data = await data.read()
-                        data = json.loads(search_data)
+                api_url = f'{api_base}?appid={cmd.cfg.api_key}&q={search}&units={unit}'
+                data: dict = await aioget(api_url, as_json=True)
                 if data['cod'] == 200:
-                    location = f'{data["name"]}, {data["sys"]["country"]}'
-                    icon = data['weather'][0]['description']
-                    unit = 'metric' if unit == 'auto' else unit
                     dis, deg = get_dis_and_deg(unit)
-                    forecast_title = f'{icons[icon]["icon"]} {data["weather"][0]["main"]}'
-                    response = discord.Embed(color=icons[icon]['color'], title=forecast_title[:256])
-                    response.description = f'Location: {location}'
-                    info_title = '🌡 Temperature'
-                    info_text = f'Current: {round(data["main"]["temp"], 2)}{deg}'
-                    info_text += f'\nFeels Like: {round(data["main"]["feels_like"], 2)}{deg}'
-                    response.add_field(name=info_title, value=info_text)
+                    location = f'{data["name"]}, {data["sys"]["country"]}'
+                    description = data["weather"][0]["description"].title()
+                    response = discord.Embed(title=f'{location} - {description}')
+
+                    icon_code = data['weather'][0]['icon']
+                    icon_url = f'https://openweathermap.org/img/wn/{icon_code}@2x.png'
+                    response.set_thumbnail(url=icon_url)
+
+                    temp_title = '🌡 Temperature'
+                    temp_text = f'Actual: **{round(data["main"]["temp"], 2)}{deg}**'
+                    temp_text += f'\nFeels Like: **{round(data["main"]["feels_like"], 2)}{deg}**'
+                    response.add_field(name=temp_title, value=temp_text)
+
                     wind_title = '💨 Wind'
-                    wind_text = f'Speed: {round(data["wind"]["speed"], 2)} {dis}/s'
-                    wind_text += f'\nBearing: {data["wind"]["deg"]}° ({get_bearing(data["wind"]["deg"])})'
+                    wind_text = f'Speed: **{round(data["wind"]["speed"], 2)}{dis}/s**'
+                    wind_text += f'\nBearing: **{data["wind"]["deg"]}° ({get_bearing(data["wind"]["deg"])})**'
                     response.add_field(name=wind_title, value=wind_text)
-                    other_title = '📉 Other'
-                    other_text = f'Humidity: {round(data["main"]["humidity"], 2)}%'
-                    other_text += f'\nPressure: {round(data["main"]["pressure"], 2)}mbar'
+
+                    other_title = '🌎 Atmosphere'
+                    other_text = f'Humidity: **{round(data["main"]["humidity"], 2)}%**'
+                    other_text += f'\nPressure: **{round(data["main"]["pressure"], 2)}mbar**'
                     response.add_field(name=other_title, value=other_text)
                 else:
                     response = GenericResponse('Location not found.').not_found()
