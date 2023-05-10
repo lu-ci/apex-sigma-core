@@ -22,6 +22,27 @@ from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.core.utilities.url_processing import aioget
 
 api_base = 'https://api.openweathermap.org/data/2.5/weather'
+dis_deg_map = {'imperial': ('m', '°F'), 'metric': ('m', '°C')}
+condition_map = {
+    '01d': ('☀', 0xffac33),
+    '02d': ('⛅', 0xffac33),
+    '03d': ('🌥', 0xffac33),
+    '04d': ('☁', 0xccd6dd),
+    '09d': ('🌧', 0x5dadec),
+    '10d': ('🌦', 0xffac33),
+    '11d': ('⛈', 0xf4900c),
+    '13d': ('🌨', 0x5dadec),
+    '50d': ('🌫', 0xccd6dd),
+    '01n': ('🌕', 0xffd983),
+    '02n': ('☁', 0xccd6dd),
+    '03n': ('☁', 0xccd6dd),
+    '04n': ('☁', 0xccd6dd),
+    '09n': ('🌧', 0x5dadec),
+    '10n': ('🌧', 0x5dadec),
+    '11n': ('⛈', 0xf4900c),
+    '13n': ('🌨', 0x5dadec),
+    '50n': ('🌫', 0xccd6dd),
+}
 
 
 def parse_query(args):
@@ -46,21 +67,11 @@ def parse_query(args):
     return search, unit
 
 
-def get_dis_and_deg(unit):
+def get_bearing(deg):
     """
-    :type unit: str
-    :rtype: str, str
+    :type deg: int
+    :rtype: str
     """
-    if unit == 'imperial':
-        dis = 'm'
-        deg = '°F'
-    else:
-        dis = 'm'
-        deg = '°C'
-    return dis, deg
-
-
-def get_bearing(deg: int) -> str:
     directions = [
         ['E', [0, 22.5]],
         ['NE', [22.5, 67.5]],
@@ -94,14 +105,11 @@ async def weather(cmd, pld):
                 api_url = f'{api_base}?appid={cmd.cfg.api_key}&q={search}&units={unit}'
                 data: dict = await aioget(api_url, as_json=True)
                 if data['cod'] == 200:
-                    dis, deg = get_dis_and_deg(unit)
+                    dis, deg = dis_deg_map[unit]
                     location = f'{data["name"]}, {data["sys"]["country"]}'
                     description = data["weather"][0]["description"].title()
-                    response = discord.Embed(title=f'{location} - {description}')
-
-                    icon_code = data['weather'][0]['icon']
-                    icon_url = f'https://openweathermap.org/img/wn/{icon_code}@2x.png'
-                    response.set_thumbnail(url=icon_url)
+                    icon, color = condition_map[data['weather'][0]['icon']]
+                    response = discord.Embed(color=color, title=f'{icon} {location} - {description}')
 
                     temp_title = '🌡 Temperature'
                     temp_text = f'Actual: **{round(data["main"]["temp"], 2)}{deg}**'
