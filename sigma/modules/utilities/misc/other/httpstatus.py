@@ -20,6 +20,13 @@ import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
 
+bonus = {
+    'cat': 'https://httpcats.com',
+    'dog': 'https://http.dog',
+    'goat': 'https://httpgoats.com',
+    'garden': 'https://http.garden'
+}
+
 
 async def httpstatus(cmd, pld):
     """
@@ -32,16 +39,16 @@ async def httpstatus(cmd, pld):
     if lookup:
         status_data = await cmd.db[cmd.db.db_nam].HTTPStatusData.find_one({'code': lookup})
         if status_data:
-            status_id = status_data.get('code')
-            status_message = status_data.get('message')
-            status_description = status_data.get('description')
             response = discord.Embed(color=0x3B88C3)
-            response.add_field(name=f'🌐 {status_id}: {status_message}', value=f'{status_description}.')
-            bonus = {'cat': 'https://httpcats.com', 'dog': 'https://http.dog', 'goat': 'https://httpgoats.com'}
+            status_id = status_data.get('code')
+            for status in status_data.get('messages'):
+                message = status.get('message')
+                if status.get('expanded'):
+                    message += f' ({status.get("provider")})'
+                response.add_field(name=f'🌐 {status_id}: {message}', value=status.get('description'), inline=False)
             bonus_arg = pld.args[-1].lower()
-            if bonus_arg in bonus.keys():
-                bonus_img = f'{bonus.get(bonus_arg)}/{lookup}.jpg'
-                response.set_image(url=bonus_img)
+            if bonus_arg in bonus.keys() and lookup.isdigit():
+                response.set_image(url=f'{bonus.get(bonus_arg)}/{lookup}.jpg')
         else:
             response = GenericResponse('Response code not found.').not_found()
     else:

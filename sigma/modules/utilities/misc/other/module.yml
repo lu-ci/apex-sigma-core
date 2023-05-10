@@ -19,8 +19,8 @@ commands:
     usage: '{pfx}{cmd} Want to eat?; Yes; No; Hand me the cheese!'
   - alts:
       - http
-    description: Shows information about a HTTP response status code. Add "cat" or "dog"
-      as the last argument for an added bonus.
+    description: Shows information about the specified HTTP response status code.
+      Add "cat", "dog", "goat", or "garden" as the last argument for an added bonus.
     enabled: true
     name: httpstatus
     usage: '{pfx}{cmd} 404'
