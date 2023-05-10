@@ -37,7 +37,7 @@ async def httpstatus(cmd, pld):
             status_description = status_data.get('description')
             response = discord.Embed(color=0x3B88C3)
             response.add_field(name=f'🌐 {status_id}: {status_message}', value=f'{status_description}.')
-            bonus = {'cat': 'https://http.cat/images', 'dog': 'https://httpstatusdogs.com/img'}
+            bonus = {'cat': 'https://httpcats.com', 'dog': 'https://http.dog', 'goat': 'https://httpgoats.com'}
             bonus_arg = pld.args[-1].lower()
             if bonus_arg in bonus.keys():
                 bonus_img = f'{bonus.get(bonus_arg)}/{lookup}.jpg'
