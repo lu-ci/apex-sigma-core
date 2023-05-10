@@ -37,9 +37,13 @@ async def dbinit_httpstatus(ev, force=False):
             async with session.get(file_url) as data_response:
                 data = await data_response.read()
                 data = json.loads(data)
-        for dkey in data.keys():
-            sts_data = data.get(dkey)
-            doc_data = {'code': dkey, 'message': sts_data.get('message'), 'description': sts_data.get('description')}
+        for key, value in data.items():
+            if not isinstance(value, list):
+                value = [value]
+            doc_data = {
+                'code': key,
+                'messages': value
+            }
             documents.append(doc_data)
         await ev.db[ev.db.db_nam].HTTPStatusData.insert_many(documents)
         ev.log.info('Updated HTTP status files successfully.')
