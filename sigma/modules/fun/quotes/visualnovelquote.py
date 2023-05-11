@@ -35,7 +35,7 @@ async def visualnovelquote(_cmd, pld):
         async with session.get(source_page) as data:
             data = await data.text()
     page = html.fromstring(data)
-    footer_quote = page.cssselect('#footer a')[0]
+    footer_quote = page.cssselect('footer a')[0]
     quote_text = footer_quote.text_content().strip()
     quote_url = f"https://vndb.org{footer_quote.attrib['href']}"
     async with aiohttp.ClientSession() as session:

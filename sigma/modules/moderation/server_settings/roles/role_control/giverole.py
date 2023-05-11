@@ -29,32 +29,35 @@ async def giverole(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.guild_permissions.manage_roles:
-        if pld.args:
-            if len(pld.args) >= 2:
-                if pld.msg.mentions:
-                    target = pld.msg.mentions[0]
-                    lookup = ' '.join(pld.args[1:]).lower()
-                    target_role = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
-                    if target_role:
-                        role_below = target_role.position < pld.msg.guild.me.top_role.position
-                        if role_below:
-                            user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup, target.roles)
-                            if not user_has_role:
-                                author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
-                                await target.add_roles(target_role, reason=f'Role given by {author}.')
-                                response = GenericResponse(f'{target_role.name} has been given to {target.name}.').ok()
+        if pld.msg.guild.me.guild_permissions.manage_roles:
+            if pld.args:
+                if len(pld.args) >= 2:
+                    if pld.msg.mentions:
+                        target = pld.msg.mentions[0]
+                        lookup = ' '.join(pld.args[1:]).lower()
+                        target_role = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
+                        if target_role:
+                            role_below = target_role.position < pld.msg.guild.me.top_role.position
+                            if role_below:
+                                user_has_role = discord.utils.find(lambda x: x.name.lower() == lookup, target.roles)
+                                if not user_has_role:
+                                    author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
+                                    await target.add_roles(target_role, reason=f'Role given by {author}.')
+                                    response = GenericResponse(f'{target_role.name} has been given to {target.name}.').ok()
+                                else:
+                                    response = GenericResponse('That user already has this role.').error()
                             else:
-                                response = GenericResponse('That user already has this role.').error()
+                                response = GenericResponse('This role is above my highest role.').error()
                         else:
-                            response = GenericResponse('This role is above my highest role.').error()
+                            response = GenericResponse(f'{lookup} not found.').not_found()
                     else:
-                        response = GenericResponse(f'{lookup} not found.').not_found()
+                        response = GenericResponse('No user targeted.').error()
                 else:
-                    response = GenericResponse('No user targeted.').error()
+                    response = GenericResponse('Not enough arguments.').error()
             else:
-                response = GenericResponse('Not enough arguments.').error()
+                response = GenericResponse('Nothing inputted.').error()
         else:
-            response = GenericResponse('Nothing inputted.').error()
+            response = GenericResponse('I am missing the Manage Roles permission.').error()
     else:
         response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

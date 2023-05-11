@@ -27,10 +27,13 @@ async def pruneroles(_cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.author.guild_permissions.manage_roles:
-        top_role = pld.msg.guild.me.top_role.position
-        empty_roles = list(filter(lambda r: len(r.members) == 0, pld.msg.guild.roles))
-        deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
-        response = GenericResponse(f'Removed {len(deleted_roles)} roles from this server.').ok()
+        if pld.msg.guild.me.guild_permissions.manage_roles:
+            top_role = pld.msg.guild.me.top_role.position
+            empty_roles = list(filter(lambda r: len(r.members) == 0, pld.msg.guild.roles))
+            deleted_roles = [await role.delete() for role in empty_roles if role.position < top_role]
+            response = GenericResponse(f'Removed {len(deleted_roles)} roles from this server.').ok()
+        else:
+            response = GenericResponse('I am missing the Manage Roles permission.').error()
     else:
         response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)

@@ -58,8 +58,10 @@ async def queue(cmd, pld):
                     init_response = discord.Embed(color=0xFFCC66, title='💽 Processing URL...')
                 elif '/playlist?' in lookup:
                     playlist_url = True
-                    init_response = discord.Embed(color=0xFFCC66,
-                                                  title='💽 Processing playlist. This might take a long time...')
+                    init_response = discord.Embed(
+                        color=0xFFCC66,
+                        title='💽 Processing playlist. This might take a long time...'
+                    )
                 else:
                     if lookup.startswith('http'):
                         playlist_url = True
@@ -91,8 +93,10 @@ async def queue(cmd, pld):
                                 queue_item = QueueItem(pld.bot, pld.msg.author, song_entry)
                                 queue_container = cmd.bot.music.get_queue(pld.msg.guild.id)
                                 await queue_container.put(queue_item)
-                        final_resp = discord.Embed(color=0xFFCC66,
-                                                   title=f'💽 Added {len(entries)} songs from {pl_title}.')
+                        final_resp = discord.Embed(
+                            color=0xFFCC66,
+                            title=f'💽 Added {len(entries)} songs from {pl_title}.'
+                        )
                     else:
                         if song_item:
                             queue_item = QueueItem(pld.bot, pld.msg.author, song_item)

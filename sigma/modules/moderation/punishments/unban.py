@@ -27,16 +27,19 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def generate_log_embed(message, target):
     """
     :type message: discord.Message
-    :type target: discord.Member
+    :type target: discord.User
     :rtype: discord.Embed
     """
     log_response = discord.Embed(color=0x993300, timestamp=arrow.utcnow().datetime)
     log_response.set_author(name='A User Has Been Unbanned', icon_url=user_avatar(target))
-    log_response.add_field(name='🔨 Unbanned User',
-                           value=f'{target.mention}\n{target.name}#{target.discriminator}')
-    author = message.author
-    log_response.add_field(name='🛡 Responsible',
-                           value=f'{author.mention}\n{author.name}#{author.discriminator}')
+    log_response.add_field(
+        name='🔨 Unbanned User',
+        value=f'{target.mention}\n{target.name}#{target.discriminator}'
+    )
+    log_response.add_field(
+        name='🛡 Responsible',
+        value=f'{message.author.mention}\n{message.author.name}#{message.author.discriminator}'
+    )
     log_response.set_footer(text=f'User ID {target.id}')
     return log_response
 
@@ -52,8 +55,7 @@ async def unban(cmd, pld):
         if pld.args:
             lookup = ' '.join(pld.args)
             target = None
-            banlist = await pld.msg.guild.bans()
-            for entry in banlist:
+            async for entry in pld.msg.guild.bans():
                 if entry.user.name.lower() == lookup.lower():
                     target = entry.user
                     break

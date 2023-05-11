@@ -43,9 +43,10 @@ async def pythonpackage(_cmd, pld):
             package_data = None
         if package_data:
             cdat = package_data.get('info')
-            vers = package_data.get('releases')
-            versions = filter(lambda v: v[1], vers.items())
-            versions = sorted(versions, key=lambda x: arrow.get(x[1][0].get('upload_time')).int_timestamp)
+            versions = {}
+            if package_data.get('releases'):
+                versions = filter(lambda v: v[1], versions.items())
+                versions = sorted(versions, key=lambda x: arrow.get(x[1][0].get('upload_time')).int_timestamp)
             if versions:
                 created_at = arrow.get(versions[0][1][0].get('upload_time'))
                 updated_at = arrow.get(versions[-1][1][0].get('upload_time'))
@@ -61,7 +62,7 @@ async def pythonpackage(_cmd, pld):
                 else:
                     response.set_footer(text='Last updated')
             else:
-                response = GenericResponse('Insufficient data on that package.').error()
+                response = GenericResponse('Package has no versions available.').not_found()
         else:
             response = GenericResponse('Package not found.').not_found()
     else:

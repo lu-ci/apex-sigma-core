@@ -39,7 +39,8 @@ async def imdb(_cmd, pld):
                 search_data = await data.text()
                 search_data = '('.join(search_data.split("(")[1:])[:-1]
                 data = json.loads(search_data)
-                data = data.get('d', [None])[0]
+                data = data.get('d')
+                data = data[0] if data else None
         if data:
             imdb_icon = 'https://ia.media-imdb.com/images/G/01/imdb/images/mobile/'
             imdb_icon += 'apple-touch-icon-web-152x152-1475823641._CB522736557_.png'
