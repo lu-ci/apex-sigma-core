@@ -32,7 +32,7 @@ async def serverid(_cmd, pld):
             embed = False
     target = pld.msg.guild
     response = discord.Embed(color=0x3B88C3)
-    response.add_field(name=f'ℹ {target.name}', value=f'`{target.id}`')
+    response.add_field(name=f'ℹ️ {target.name}', value=f'`{target.id}`')
     if embed:
         await pld.msg.channel.send(embed=response)
     else:

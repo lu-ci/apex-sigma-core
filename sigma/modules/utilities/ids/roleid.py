@@ -38,7 +38,7 @@ async def roleid(_cmd, pld):
         if role:
             if embed:
                 response = discord.Embed(color=0x3B88C3)
-                response.add_field(name=f'ℹ {role.name}', value=f'`{role.id}`')
+                response.add_field(name=f'ℹ️ {role.name}', value=f'`{role.id}`')
             else:
                 response = role.id
         else:

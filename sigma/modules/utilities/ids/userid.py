@@ -35,7 +35,7 @@ async def userid(_cmd, pld):
     else:
         target = pld.msg.author
     response = discord.Embed(color=0x3B88C3)
-    response.add_field(name=f'ℹ {target.name}', value=f'`{target.id}`')
+    response.add_field(name=f'ℹ️ {target.name}', value=f'`{target.id}`')
     if embed:
         await pld.msg.channel.send(embed=response)
     else:

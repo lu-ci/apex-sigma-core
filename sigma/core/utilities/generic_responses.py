@@ -52,7 +52,7 @@ class GenericResponse(object):
         Creates a generic information response.
         :rtype: discord.Embed
         """
-        return self.generic_embed(0x3B88C3, f'ℹ {self.desc}')
+        return self.generic_embed(0x3B88C3, f'ℹ️ {self.desc}')
 
     def not_found(self):
         """
