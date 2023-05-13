@@ -176,7 +176,7 @@ class RedisCacher(Cacher):
 
     async def init(self):
         """
-        Initializes any potential asyncronous tasks required
+        Initializes any potential asynchronous tasks required
         by the Cacher inheriting child.
         """
         self.conn = Redis.from_url(self.addr)
@@ -230,7 +230,7 @@ class MixedCacher(RedisCacher):
 
     async def init(self):
         """
-        Initializes any potential asyncronous tasks required
+        Initializes any potential asynchronous tasks required
         by the Cacher inheriting child.
         """
         await super().init()

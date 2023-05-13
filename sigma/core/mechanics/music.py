@@ -164,7 +164,7 @@ class MusicCore(object):
     @staticmethod
     async def listify_queue(queue):
         """
-        Due to the asyncronous nature of the queue
+        Due to the asynchronous nature of the queue
         this is for making a standard list out of a queue item.
         :type queue: asyncio.Queue
         :rtype: list[sigma.core.mechanics.music.Queue

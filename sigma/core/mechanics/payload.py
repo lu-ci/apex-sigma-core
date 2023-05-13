@@ -35,8 +35,8 @@ class SigmaPayload(abc.ABC):
 
     async def init(self):
         """
-        An asyncronous init method in case the class
-        needs to parse something in an asyncronous task loop.
+        An asynchronous init method in case the class
+        needs to parse something in an asynchronous task loop.
         """
         pass
 
@@ -124,7 +124,7 @@ class CommandPayload(MessagePayload):
 
     def __init__(self, bot, msg, args):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type msg: discord.Message
         :type args: list[str]
         """
@@ -141,7 +141,7 @@ class CommandEventPayload(CommandPayload):
 
     def __init__(self, bot, cmd, pld):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :param cmd: The command that was executed.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         :param pld: The command's payload data.
@@ -160,7 +160,7 @@ class MemberPayload(SigmaPayload):
 
     def __init__(self, bot, member):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type member: discord.Member
         """
         super().__init__(bot)
@@ -198,7 +198,7 @@ class GuildPayload(SigmaPayload):
 
     def __init__(self, bot, guild):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type guild: discord.Guild
         """
         super().__init__(bot)
@@ -232,7 +232,7 @@ class VoiceStateUpdatePayload(UpdatePayload):
 
     def __init__(self, bot, member, before, after):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type member: discord.Member
         :type before: discord.VoiceState
         :type after: discord.VoiceState
@@ -254,7 +254,7 @@ class BanPayload(GuildPayload):
 
     def __init__(self, bot, guild, user):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type guild: discord.Guild
         :type user: discord.Member or discord.User
         """
@@ -271,7 +271,7 @@ class UnbanPayload(GuildPayload):
 
     def __init__(self, bot, guild, user):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type guild: discord.Guild
         :type user: discord.User
         """
@@ -288,7 +288,7 @@ class ReactionPayload(SigmaPayload):
 
     def __init__(self, bot, reaction, user):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type reaction: discord.Reaction
         :type user: discord.User
         """
@@ -314,7 +314,7 @@ class RawReactionPayload(SigmaPayload):
 
     def __init__(self, bot, raw):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type raw: discord.RawReactionActionEvent
         """
         super().__init__(bot)
@@ -337,7 +337,7 @@ class RawMessageDeletePayload(SigmaPayload):
 
     def __init__(self, bot, raw):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type raw: discord.RawMessageDeleteEvent
         """
         super().__init__(bot)
@@ -359,7 +359,7 @@ class RawMessageEditPayload(SigmaPayload):
 
     def __init__(self, bot, raw):
         """
-        :type bot: sigma.core.sigma.Apexsigma
+        :type bot: sigma.core.sigma.ApexSigma
         :type raw: discord.RawMessageUpdateEvent
         """
         super().__init__(bot)
