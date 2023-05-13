@@ -37,7 +37,7 @@ async def post_starboard(msg, file, content, response, sbc):
     :type response: discord.Embed
     :type sbc: int
     """
-    channel = msg.guild.get_channel(sbc)
+    channel = msg.guild.get_channel_or_thread(sbc)
     if channel:
         # noinspection PyBroadException
         try:
@@ -166,13 +166,11 @@ async def starboard_watcher(ev, pld):
     uid = payload.user_id
     cid = payload.channel_id
     mid = payload.message_id
+    gid = payload.guild_id
     emoji = payload.emoji
-    channel = await ev.bot.get_channel(cid)
-    try:
-        guild = channel.guild
-    except AttributeError:
-        guild = None
+    guild = await ev.bot.get_guild(gid)
     if guild:
+        channel = guild.get_channel_or_thread(cid)
         starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
         if starboard_doc.get('state'):
             sbc = starboard_doc.get('channel_id')
