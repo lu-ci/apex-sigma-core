@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from sigma.core.utilities.generic_responses import GenericResponse
-from sigma.modules.utilities.mathematics.collector_clockwork import get_current, cancel_current
+from sigma.modules.utilities.mathematics.collector_clockwork import cancel_current, get_current
 
 
 async def cancelcollector(cmd, pld):

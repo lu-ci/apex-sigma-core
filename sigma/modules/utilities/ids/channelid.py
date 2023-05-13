@@ -39,4 +39,4 @@ async def channelid(_cmd, pld):
     if embed:
         await pld.msg.channel.send(embed=response)
     else:
-        await pld.msg.channel.send(target.id)
+        await pld.msg.channel.send(f'{target.id}')

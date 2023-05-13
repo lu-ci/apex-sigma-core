@@ -59,7 +59,7 @@ def convert_to_seconds(time_input):
 def user_avatar(user, static=False, display=False):
     """
     Fetches the avatar of Discord member.
-    :type user: discord.Member or discord.User
+    :type user: discord.Member or discord.User or discord.ClientUser
     :type static: bool
     :type display: bool
     :rtype: str

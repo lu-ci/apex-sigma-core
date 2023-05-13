@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-from sigma.modules.minigames.professions.nodes.item_core import get_item_core, RECIPE_MANIFEST
+from sigma.modules.minigames.professions.nodes.item_core import RECIPE_MANIFEST, get_item_core
 from sigma.modules.minigames.professions.nodes.properties import cook_colors, cook_icons
 
 recipe_core_cache = None
@@ -61,6 +61,7 @@ class SigmaRecipe(object):
         self.raw_ingredients = self.raw_data.get('ingredients')
         self.ingredients = []
         self.load_ingredients()
+        # noinspection PyBroadException
         try:
             self.value = self.get_price()
         except Exception:

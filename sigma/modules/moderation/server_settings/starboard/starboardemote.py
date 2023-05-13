@@ -16,9 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from unicodedata import category
-
 import discord
+from unicodedata import category
 
 from sigma.core.utilities.generic_responses import GenericResponse
 

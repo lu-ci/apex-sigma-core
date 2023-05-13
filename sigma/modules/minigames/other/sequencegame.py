@@ -36,13 +36,13 @@ all_symbols = [symbol for group in symbol_groups for symbol in group]
 first_symbols = [group[0] for group in symbol_groups]
 
 
-def check_answer(arguments, sequence):
+def check_answer(content, sequence):
     """
-    :type arguments: list[str]
+    :type content: str
     :type sequence: list[str]
     :rtype: bool, list[str]
     """
-    filtered_args = [group[0] for char in arguments for group in symbol_groups if char in group]
+    filtered_args = [group[0] for char in content for group in symbol_groups if char in group]
     results = []
     correct = True
     for loop_index, arg in enumerate(filtered_args):

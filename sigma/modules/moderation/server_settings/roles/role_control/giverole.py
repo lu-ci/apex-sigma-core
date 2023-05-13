@@ -43,7 +43,8 @@ async def giverole(_cmd, pld):
                                 if not user_has_role:
                                     author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
                                     await target.add_roles(target_role, reason=f'Role given by {author}.')
-                                    response = GenericResponse(f'{target_role.name} has been given to {target.name}.').ok()
+                                    response = GenericResponse(
+                                        f'{target_role.name} has been given to {target.name}.').ok()
                                 else:
                                     response = GenericResponse('That user already has this role.').error()
                             else:

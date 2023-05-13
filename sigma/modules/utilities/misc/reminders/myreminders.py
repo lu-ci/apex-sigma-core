@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import arrow
 import discord
 
-from sigma.core.utilities.data_processing import get_image_colors
-from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.data_processing import get_image_colors, user_avatar
 from sigma.core.utilities.generic_responses import GenericResponse
 
 

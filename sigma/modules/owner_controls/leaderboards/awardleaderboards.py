@@ -17,14 +17,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import discord
-
-from sigma.core.utilities.generic_responses import GenericResponse
 from humanfriendly.tables import format_pretty_table as boop
 
+from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.statistics.leaderboards.leaderboard import get_leader_docs
 
 
 async def notify_system(db, res, table_data):
+    """
+    :type db: sigma.core.mechanics.database.Database
+    :type res: str
+    :type table_data: list
+    """
     table = boop(table_data, ['PLC', 'USR', 'VAL'])
     data = {
         'reported': False,

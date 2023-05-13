@@ -75,7 +75,7 @@ async def impersonate_local(cmd, pld):
         if os.path.exists(f'chains/{target.id}.json.gz'):
             chain_data = await cmd.bot.threader.execute(load, (target.id,))
             if chain_data:
-                chain_json = await cmd.bot.threader.execute(deserialize, (chain_data, ))
+                chain_json = await cmd.bot.threader.execute(deserialize, (chain_data,))
                 chain = await cmd.bot.threader.execute(markovify.Text.from_dict, (chain_json,))
                 try:
                     if beginning:

@@ -25,7 +25,7 @@ from sigma.core.utilities.data_processing import user_avatar
 from sigma.modules.minigames.professions.inventory import is_ingredient
 from sigma.modules.minigames.professions.nodes.item_core import get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
-from sigma.modules.utilities.misc.raffle.raffle import raffle_icons, icon_colors
+from sigma.modules.utilities.misc.raffle.raffle import icon_colors, raffle_icons
 
 auto_raffle_loop_running = False
 

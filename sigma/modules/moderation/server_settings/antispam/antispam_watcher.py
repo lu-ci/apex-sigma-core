@@ -18,12 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.core.utilities.data_processing import user_avatar
-from sigma.core.utilities.event_logging import log_event
-
 from sigma.core.mechanics.caching import TTLCacher
 from sigma.core.mechanics.config import CacheConfig
-
+from sigma.core.utilities.data_processing import user_avatar
+from sigma.core.utilities.event_logging import log_event
 
 antispam_cache = TTLCacher(CacheConfig({}))
 

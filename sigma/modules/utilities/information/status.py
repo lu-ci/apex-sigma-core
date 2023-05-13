@@ -47,6 +47,7 @@ def get_shard_latency(latencies, shard_id):
     """
     Gets the latency for the specified shard ID.
     :type latencies: list[tuple]
+    :type shard_id: int
     :rtype: int
     """
     shard_latency = None

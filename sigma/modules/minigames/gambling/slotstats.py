@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import discord
 
-from sigma.modules.minigames.gambling.slots import rarity_rewards, symbols, THREE_MOD, TWO_MOD
+from sigma.modules.minigames.gambling.slots import THREE_MOD, TWO_MOD, rarity_rewards, symbols
 
 
 def get_payout(symbol, bet, triple):

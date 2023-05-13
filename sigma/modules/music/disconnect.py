@@ -34,7 +34,7 @@ async def disconnect(cmd, pld):
                 same_bound = False
         if same_bound:
             if pld.msg.guild.voice_client:
-                await pld.msg.guild.voice_client.disconnect()
+                await pld.msg.guild.voice_client.disconnect(force=True)
                 if pld.msg.guild.id in cmd.bot.music.queues:
                     del cmd.bot.music.queues[pld.msg.guild.id]
                 response = GenericResponse('Disconnected and purged.').ok()

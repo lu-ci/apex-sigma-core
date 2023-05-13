@@ -23,10 +23,10 @@ from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.utilities.mathematics.collector_clockwork import deserialize, load
 
 
-async def markovchain(cmd, pld):
+async def markovchain(_cmd, pld):
     """
-    :param cmd: The command object referenced in the command.
-    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :param _cmd: The command object referenced in the command.
+    :type _cmd: sigma.core.mechanics.command.SigmaCommand
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """

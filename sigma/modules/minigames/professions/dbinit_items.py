@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import aiohttp
 import yaml
 
-from sigma.modules.minigames.professions.nodes.item_core import get_item_core, ITEM_MANIFEST, RECIPE_MANIFEST
+from sigma.modules.minigames.professions.nodes.item_core import ITEM_MANIFEST, RECIPE_MANIFEST, get_item_core
 from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_core
 
 

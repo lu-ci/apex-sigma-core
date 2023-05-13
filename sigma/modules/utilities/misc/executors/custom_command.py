@@ -31,7 +31,7 @@ def escape_mentions(text, guild):
     :rtype: str
     """
     if guild is not None:
-        role_ids = re.findall(r'<@&([0-9]+)>', text)
+        role_ids = re.findall(r'<@&(\d+)>', text)
         for role_id in role_ids:
             role = guild.get_role(int(role_id))
             role_name = f'@\u200b{role.name}' if role else '@\u200bunknown'

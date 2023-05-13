@@ -78,6 +78,6 @@ async def chatter_core_responder(ev, pld):
                             train(ev, chatter_core)
                         set_session_info(pld)
                         response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
-                        sleep_time = min(len(response_text.split(' ')) * 0.733, 10)
+                        sleep_time = min(len(response_text.split(' ')) * 0.733, 10.0)
                         await asyncio.sleep(sleep_time)
                         await pld.msg.channel.send(f'{pld.msg.author.mention} {response_text}')

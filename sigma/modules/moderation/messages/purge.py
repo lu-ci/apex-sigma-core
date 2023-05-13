@@ -18,10 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import re
-from unicodedata import category
 
 import arrow
 import discord
+from unicodedata import category
 
 from sigma.core.utilities.data_processing import user_avatar
 from sigma.core.utilities.event_logging import log_event
@@ -88,7 +88,7 @@ async def purge(cmd, pld):
                         except ValueError:
                             limit = 100
                 if until_pin:
-                    channel_hist = await pld.msg.channel.history(limit=limit).flatten()
+                    channel_hist = [m async for m in pld.msg.channel.history(limit=limit)]
                     for n, log in enumerate(channel_hist):
                         if log.pinned:
                             limit = n - 1

@@ -125,7 +125,7 @@ async def combinechains_local(cmd, pld):
             if not target_chain:
                 empty_chain = target
                 break
-            chain_dicts.append(await cmd.bot.threader.execute(deserialize, (target_chain, )))
+            chain_dicts.append(await cmd.bot.threader.execute(deserialize, (target_chain,)))
         if not empty_chain:
             failed = False
             for chain_dict in chain_dicts:

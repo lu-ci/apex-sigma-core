@@ -20,7 +20,6 @@ import asyncio
 
 import discord
 
-
 interaction_channel = None
 interaction_reporter_running = False
 
