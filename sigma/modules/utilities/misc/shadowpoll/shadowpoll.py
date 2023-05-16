@@ -26,7 +26,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def generate_data(message, poll_args):
     """
     :type message: discord.Message
-    :type poll_args: list[str]
+    :type poll_args: list
     :rtype: dict
     """
     uid = message.author.id

@@ -37,7 +37,7 @@ aura_list = [
 async def get_invasion_data(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: dict, list[str]
+    :rtype: dict, list
     """
     invasions = await WorldState().invasions
     invasion_out = None

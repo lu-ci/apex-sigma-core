@@ -29,7 +29,7 @@ invite_cache = MemoryCacher(CacheConfig({}))
 async def update_invites(guild, invites):
     """
     :type guild: discord.Guild
-    :type invites: list[discord.Invite]
+    :type invites: list
     """
     cache_key = f'invite_cache_{guild.id}'
     cache = await invite_cache.get_cache(cache_key) or {}
@@ -39,11 +39,10 @@ async def update_invites(guild, invites):
 
 async def get_changed_invite(guild_id, bound_list, invites):
     """
-
     Checks for invite count changes to get the one that triggered.
     :type guild_id: int
     :type bound_list: list
-    :type invites: list[discord.Invite]
+    :type invites: list
     :rtype: discord.Invite
     """
     invite = None

@@ -34,7 +34,7 @@ def check_field(field, value):
         except ValueError:
             return False
     if field in ['thumbnail', 'image']:
-        # matches a well formed URL
+        # matches a well-formed URL
         return re.match(r"^(?:http(s)?://)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$", value)
 
 

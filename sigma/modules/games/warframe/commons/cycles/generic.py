@@ -23,10 +23,9 @@ import arrow
 
 async def get_channels(ev, marker):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :type marker: str
-    :rtype: list[discord.TextChannel]
+    :type marker:
+    :rtype:
     """
     channel_list = []
     lookup = {marker: {'$exists': True}}
@@ -44,21 +43,20 @@ async def get_channels(ev, marker):
 async def get_triggers(db, triggers, pld):
     """
     :type db: sigma.core.mechanics.database.Database
-    :type triggers: list[str]
-    :param pld:
-    :type pld: sigma.core.mechanics.payload.GuildPayload or discord.TextChannel
-    :rtype: list[str]
+    :type triggers: list
+    :type pld: sigma.core.mechanics.payload.GuildPayload
+    :rtype: list
     """
     mentions = []
-    for trigger in triggers:
-        wf_tags = await db.get_guild_settings(pld.guild.id, 'warframe_tags')
-        if wf_tags is None:
-            wf_tags = {}
-        if wf_tags:
+    wf_tags = await db.get_guild_settings(pld.guild.id, 'warframe_tags')
+    if wf_tags is None:
+        wf_tags = {}
+    if wf_tags:
+        for trigger in triggers:
             if trigger in wf_tags:
                 role_id = wf_tags.get(trigger)
                 bound_role = pld.guild.get_role(role_id)
-                if bound_role:
+                if bound_role and bound_role.mention not in mentions:
                     mentions.append(bound_role.mention)
     return mentions
 
@@ -73,11 +71,10 @@ async def clean_wf_cache(db):
 
 async def send_to_channels(ev, response, marker, triggers=None):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type response: discord.Embed
     :type marker: str
-    :type triggers: list[str]
+    :type triggers: list or None
     """
     channels = await get_channels(ev, marker)
     for channel in channels:

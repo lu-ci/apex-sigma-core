@@ -43,6 +43,10 @@ class TDollHandler(object):
 
     @staticmethod
     async def short_get(url):
+        """
+        :type url: str
+        :rtype: str
+        """
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as data:
                 page = await data.text()

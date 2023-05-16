@@ -30,9 +30,9 @@ reddit_icon = 'https://i.imgur.com/5w7eJ5A.png'
 
 async def grab_post(subreddit, argument):
     """
-    :type subreddit:
-    :type argument:
-    :rtype:
+    :type subreddit: sigma.modules.searches.reddit.mech.reddit_core.RedditSub
+    :type argument: str
+    :rtype: dict
     """
     try:
         subreddit_name = subreddit.display_name
@@ -59,8 +59,8 @@ async def grab_post(subreddit, argument):
 
 def add_post_image(post, response):
     """
-    :type post:
-    :type response:
+    :type post: sigma.modules.searches.reddit.mech.reddit_core.RedditPost
+    :type response: discord.Embed
     """
     if post.url.split('.')[-1] in ['png', 'jpg', 'jpeg', 'gif']:
         response.set_image(url=post.url)

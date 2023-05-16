@@ -26,7 +26,7 @@ async def get_interaction_list(db, intername):
     Gets all interaction for the given interaction type name.
     :type db: sigma.core.mechanics.database.Database
     :type intername: str
-    :rtype: list[dict]
+    :rtype: list
     """
     return await db[db.db_nam].Interactions.find({'name': intername, 'active': True}).to_list(None)
 
@@ -67,7 +67,7 @@ def get_mentions(message):
     """
     Grabs mentions from a message.
     :type message: discord.Message
-    :rtype: list[discord.Member]
+    :rtype:
     """
     return list(filter(lambda x: x, [message.guild.get_member(i) for i in message.raw_mentions]))
 
@@ -115,11 +115,11 @@ def get_author(sigma, message):
 
 async def update_data(db, data, user, guild):
     """
-    Updates the static data of an interaction
-    if the guild and member that submitted it are found.
+    Updates the static data of an interaction if the
+    guild and member that submitted it are found.
     :type db: sigma.core.mechanics.database.Database
     :type data: dict
-    :type user: discord.Member or discord.User
+    :type user: discord.User
     :type guild: discord.Guild
     """
     if user:
@@ -139,7 +139,6 @@ async def update_data(db, data, user, guild):
 async def make_footer(cmd, item):
     """
     Generates the footer for the embed with submitter details.
-    :param cmd: The main command instance and reference.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :type item: dict
     :rtype: str

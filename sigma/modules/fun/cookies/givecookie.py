@@ -27,7 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def check_name(m, lookup):
     """
-    :type m: discord.Membed
+    :type m: discord.Member
     :type lookup: str
     :rtype: bool
     """

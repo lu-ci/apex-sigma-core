@@ -31,7 +31,6 @@ emote_cache_handler = TTLCacher(CacheConfig({}))
 async def get_emote_cache(cmd):
     """
     Gets all emotes the client is exposed to.
-    :param cmd: The main command instance reference.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :rtype: list
     """
@@ -56,7 +55,7 @@ def get_emote(emoji):
     """
     Gets a specific emote by lookup.
     :type emoji: str or discord.Emoji
-    :rtype: (str, int)
+    :rtype: str, int
     """
     lookup, eid = emoji, None
     if ':' in emoji:

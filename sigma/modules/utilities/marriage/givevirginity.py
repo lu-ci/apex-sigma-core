@@ -28,6 +28,9 @@ class UserVirginity(object):
     __slots__ = ('raw', 'empty', 'user_id', 'first', 'virgin', 'virginities')
 
     def __init__(self, raw):
+        """
+        :type raw: dict
+        """
         self.raw = {} if raw is None else raw
         self.empty = raw is None
         self.user_id = self.raw.get('user_id')
@@ -36,6 +39,9 @@ class UserVirginity(object):
         self.virginities = self.raw.get('virginities') or []
 
     def to_dict(self):
+        """
+        :rtype: dict
+        """
         return {
             'user_id': self.user_id,
             'first': self.first,

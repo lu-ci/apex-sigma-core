@@ -43,6 +43,9 @@ class ModuleConfig(dict):
         super().__init__(self.data)
 
     def __getattr__(self, item):
+        """
+        :type item: str
+        """
         return self.get(item)
 
     def load(self, data):
@@ -109,9 +112,9 @@ class PreferencesConfig(object):
     """
 
     __slots__ = (
-        "raw", "dev_mode", "status_rotation", "prefix",
-        "currency", "currency_icon", "website", "text_only", "music_only",
-        "syslog_channel", "movelog_channel", "errorlog_channel"
+        "raw", "dev_mode", "status_rotation", "prefix", "currency",
+        "currency_icon", "website", "text_only", "music_only",
+        "movelog_channel", "errorlog_channel", "syslog_channel"
     )
 
     def __init__(self, pref_cfg_data):

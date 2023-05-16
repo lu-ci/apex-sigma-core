@@ -37,7 +37,7 @@ def hexify_int(value):
 def hex_to_rgb(hexval):
     """
     :type hexval: str
-    :rtype: list[int]
+    :rtype: list
     """
     return [int(hexval[:2], 16), int(hexval[2:-2], 16), int(hexval[-2:], 16)]
 

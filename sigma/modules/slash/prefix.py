@@ -16,10 +16,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from discord import Interaction
 
-
-async def prefix(ev, inter: Interaction):
+async def prefix(ev, inter):
+    """
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    :param inter: The Interaction that triggered the event.
+    :type inter: discord.Interaction
+    """
     settings = await ev.db.get_guild_settings(inter.guild.id)
     pfx = ev.db.get_prefix(settings)
     message = f'Your prefix is `{pfx}`.'

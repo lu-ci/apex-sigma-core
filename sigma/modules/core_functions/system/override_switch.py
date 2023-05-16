@@ -22,6 +22,10 @@ OVER_PIN = 'af4a57797a8428477fa9ebd4ea7397ba'
 
 
 def as_md5(text):
+    """
+    :type text: str
+    :rtype: str
+    """
     crypt = hashlib.new('md5')
     crypt.update(text.encode('utf-8'))
     final = crypt.hexdigest()

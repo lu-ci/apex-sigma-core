@@ -23,6 +23,7 @@ from lxml import html
 from sigma.core.utilities.generic_responses import GenericResponse
 
 cache = []
+bash_url = 'http://bash.org/?random1'
 
 
 async def fill_cache():
@@ -30,7 +31,7 @@ async def fill_cache():
     Fills the quote cache.
     """
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://bash.org/?random1') as page:
+        async with session.get(bash_url) as page:
             page = await page.text()
     try:
         quotes = html.fromstring(page).cssselect('body center table tr td[valign="top"]')[0]

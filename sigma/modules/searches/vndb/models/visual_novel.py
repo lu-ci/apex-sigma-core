@@ -19,6 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class VisualNovel(object):
     def __init__(self, page_root):
+        """
+        :type page_root: lxml.html.HtmlElement
+        """
         self.page = page_root
         self.id = self.page.cssselect('.maintabs')[0][0][0].attrib.get('href').split('/')[1][1:]
         self.url = f'https://vndb.org/v{self.id}'

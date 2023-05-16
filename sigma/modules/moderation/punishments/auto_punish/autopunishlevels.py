@@ -27,6 +27,10 @@ actions = ['textmute', 'hardmute', 'kick', 'softban', 'ban', 'remove']
 
 
 def parse_time(seconds):
+    """
+    :type seconds: int
+    :rtype: str
+    """
     humanized = str(datetime.timedelta(seconds=seconds))
     pieces = humanized.split(', ')
     out = ''

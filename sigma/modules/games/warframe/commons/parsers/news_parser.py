@@ -25,7 +25,7 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 async def get_news_data(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: dict, list[str]
+    :rtype: dict, list
     """
     news_list = await WorldState().news
     news_out = None

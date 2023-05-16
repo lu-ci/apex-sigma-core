@@ -30,6 +30,9 @@ api_url = 'http://api.wolframalpha.com/v2/query?output=JSON&format=image,plainte
 
 class WolframResult(object):
     def __init__(self, data):
+        """
+        :type data: dict
+        """
         self.pods = [Pod(p) for p in data.get('pods', [])]
         try:
             self.primary_pod = list(filter(lambda x: x.is_primary, self.pods))[0] if self.pods else []
@@ -40,6 +43,9 @@ class WolframResult(object):
 
 class Pod(object):
     def __init__(self, data):
+        """
+        :type data: dict
+        """
         self.title = data.get('title', '').strip()
         self.subpods = [SubPod(p) for p in data.get('subpods')]
         self.is_primary = data.get('primary')
@@ -47,6 +53,9 @@ class Pod(object):
 
 class SubPod(object):
     def __init__(self, data):
+        """
+        :type data: dict
+        """
         self.text = data.get('plaintext', '').strip()
         self.image = data.get('img', {}).get('src') or None
 
@@ -54,7 +63,7 @@ class SubPod(object):
 def make_safe_query(query):
     """
     Creates a URL safe string by escaping reserved characters.
-    :type query: list[str]
+    :type query: list
     :rtype: str
     """
     safe = r'`~!@$^*()[]{}\|:;"\'<>,.'
@@ -69,7 +78,7 @@ def make_safe_query(query):
 async def send_response(message, init, response):
     """
     Edits the initial command response to display the results.
-    Sends a new message if 'init' or if the original isn't found.
+    Sends a new message if `init` or if the original isn't found.
     :type message: discord.Message
     :type init: discord.Message or None
     :type response: discord.Embed

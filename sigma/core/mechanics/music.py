@@ -139,6 +139,10 @@ class MusicCore(object):
         self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
 
     async def init(self, loop):
+        """
+        Sets the event loop.
+        :type loop: asyncio.AbstractEventLoop
+        """
         self.loop = loop
 
     async def extract_info(self, url):
@@ -167,7 +171,7 @@ class MusicCore(object):
         Due to the asynchronous nature of the queue
         this is for making a standard list out of a queue item.
         :type queue: asyncio.Queue
-        :rtype: list[sigma.core.mechanics.music.Queue
+        :rtype: list
         """
         item_list = []
         while not queue.empty():

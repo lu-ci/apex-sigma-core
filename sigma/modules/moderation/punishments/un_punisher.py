@@ -37,7 +37,6 @@ async def un_punisher(ev):
 
 async def unban(ev, doc):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type doc: dict
     """
@@ -61,7 +60,6 @@ async def unban(ev, doc):
 
 async def untmute(ev, doc):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type doc: dict
     """
@@ -79,7 +77,7 @@ async def untmute(ev, doc):
             target = guild.get_member(uid)
             if target:
                 await ev.db[ev.db.db_nam].TextmuteClockworkDocs.delete_one(doc)
-                guild_icon = str(guild.icon.url) if guild.icon.url else None
+                guild_icon = str(guild.icon.url) if guild.icon else None
                 to_target = discord.Embed(color=0x696969, title='🔇 You have been un-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild_icon)
                 await target.send(embed=to_target)
@@ -89,7 +87,6 @@ async def untmute(ev, doc):
 
 async def unhmute(ev, doc):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type doc: dict
     """
@@ -97,7 +94,7 @@ async def unhmute(ev, doc):
     try:
         gid = doc.get('server_id')
         uid = doc.get('user_id')
-        guild = await ev.bot.get_guild(gid, fetched=False)
+        guild = await ev.bot.get_guild(gid)
         if guild:
             target = guild.get_member(uid)
             if target:
@@ -112,7 +109,7 @@ async def unhmute(ev, doc):
                             await asyncio.sleep(5)
                         except Exception:
                             pass
-                guild_icon = str(guild.icon.url) if guild.icon.url else None
+                guild_icon = str(guild.icon.url) if guild.icon else None
                 to_target = discord.Embed(color=0x696969, title='🔇 You have been un-hard-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild_icon)
                 await target.send(embed=to_target)

@@ -68,7 +68,6 @@ class MetaCriticGame(object):
 
     def __init__(self, cmd):
         """
-        :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         self.logo = 'https://i.imgur.com/hZIlicx.png'
@@ -97,7 +96,7 @@ class MetaCriticGame(object):
     def path_from_args(args):
         """
         Creates a URL path from the given arguments.
-        :type args: *list[str]
+        :type args: *list
         :rtype: str
         """
         cleaned_args = []
@@ -146,7 +145,7 @@ class MetaCriticGame(object):
     async def set_response_data(self, *args):
         """
         Makes the request and sets the response data.
-        :type args: list[str] or str
+        :type args: list or str
         """
         url_path = self.path_from_args(args)
         self.formed_url = f'{self.base_url}/{url_path}'
@@ -246,7 +245,6 @@ class MetaCriticMusic(MetaCriticGame):
 
     def __init__(self, cmd):
         """
-        :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         super().__init__(cmd)
@@ -352,7 +350,6 @@ class MetaCriticSearch(object):
 
     def __init__(self, cmd):
         """
-        :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         self.logo = 'https://i.imgur.com/hZIlicx.png'
@@ -369,7 +366,7 @@ class MetaCriticSearch(object):
     def path_from_args(args):
         """
         Creates a URL path from the given arguments.
-        :type args: *list[str]
+        :type args: *list
         :rtype: str
         """
         cleaned_args = []
@@ -392,7 +389,7 @@ class MetaCriticSearch(object):
     async def set_response_data(self, *args):
         """
         Makes the request and sets the response data.
-        :type args: list[str] or str
+        :type args: list or str
         """
         url_path = self.path_from_args(args)
         self.search_query = url_path.split('/')[2]
@@ -405,7 +402,7 @@ class MetaCriticSearch(object):
     def extract_game_data(self, result_obj):
         """
         Extracts the game specific details from the response data.
-        :rtype: list[str], str
+        :rtype: list, str
         """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()
@@ -421,7 +418,7 @@ class MetaCriticSearch(object):
     def extract_data(self, result_obj):
         """
         Extracts the general details from the response data.
-        :rtype: list[str], str
+        :rtype: list, str
         """
         result_data = result_obj.cssselect('.main_stats')[0]
         score = result_data[0].text_content()

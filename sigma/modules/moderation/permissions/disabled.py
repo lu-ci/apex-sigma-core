@@ -26,10 +26,10 @@ from sigma.modules.moderation.permissions.nodes.permission_data import get_all_p
 
 def get_perm_type(cmd, perm_type):
     """
-    :param cmd:
+    :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :type perm_type: str
-    :rtype: str, str, str, dict
+    :rtype: str, str, str, list
     """
     if perm_type == 'modules':
         perm_name = 'modules'

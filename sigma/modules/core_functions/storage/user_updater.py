@@ -21,8 +21,7 @@ from sigma.core.mechanics.fetch import get_fetch_helper
 
 def has_changed(before, after):
     """
-    Checks basic details before trying
-     to generate a document or touch the database
+    Checks basic details before trying to generate a document or touch the database
     :type before: discord.Member
     :type after: discord.Member
     :rtype: bool

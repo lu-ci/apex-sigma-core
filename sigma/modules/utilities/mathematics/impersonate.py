@@ -32,7 +32,7 @@ def parse_args(pld, multi=False):
     """
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type multi: bool
-    :rtype: tuple[list[discord.Member] or discord.Member, int, str]
+    :rtype: list, int, str
     """
     targets = pld.msg.mentions or [pld.msg.author]
     for target in targets:

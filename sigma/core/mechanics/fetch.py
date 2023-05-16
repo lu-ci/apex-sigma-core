@@ -75,7 +75,7 @@ class FetchHelper(object):
         Grabs an object from the database or cache instance.
         :type variant: str
         :type oid: int
-        :rtype: None or dict
+        :rtype: dict or None
         """
         cache_key = f'document_{variant}_{oid}'
         data = await self.cache.get_cache(cache_key)
@@ -107,7 +107,7 @@ class FetchHelper(object):
         """
         Fetches and caches a user.
         :type uid: int
-        :rtype: None or discord.User
+        :rtype: discord.User or None
         """
         result = None
         data = await self.get_object_doc('user', uid)
@@ -119,7 +119,7 @@ class FetchHelper(object):
         """
         Fetches and caches a user.
         :type cid: int
-        :rtype: None or discord.TextChannel
+        :rtype: discord.TextChannel or None
         """
         result = None
         data = await self.get_object_doc('channel', cid)
@@ -135,7 +135,7 @@ class FetchHelper(object):
         """
         Fetches and caches a user.
         :type gid: int
-        :rtype: None or discord.Guild
+        :rtype: discord.Guild or None
         """
         result = None
         data = await self.get_object_doc('guild', gid)
@@ -208,7 +208,7 @@ class FetchHelper(object):
     def make_emoji_data(emoji):
         """
         Makes a data dict for storage for a custom emoji.
-        :type emj: discord.Emoji
+        :type emoji: discord.Emoji
         :rtype: dict
         """
         data = {

@@ -51,6 +51,10 @@ STAT_FUNCTIONS = {
 
 
 def process_armor(x):
+    """
+    :type x: lxml.html.HtmlElement
+    :rtype: int
+    """
     if isinstance(x.text, str) and x.text.strip():
         return int(x.text)
     else:
@@ -130,7 +134,6 @@ class TDoll(object):
         self.name.from_root(doll_root)
         self.origin.from_root(doll_root)
         self.stats.from_root(doll_root)
-        print(self.to_dict())
 
     def to_dict(self):
         """
@@ -150,14 +153,23 @@ class TDollName(object):
     __slots__ = ('raw', 'short', 'full')
 
     def __init__(self, data=None):
+        """
+        :type data: dict
+        """
         self.raw = data or {}
         self.short = self.raw.get('short')
         self.full = self.raw.get('full')
 
     def __str__(self):
+        """
+        :rtype: str
+        """
         return self.short
 
     def from_root(self, root):
+        """
+        :type root: lxml.html.HtmlElement
+        """
         self.short = root.cssselect('.dollname')[0].text.strip()
         pt = get_profile_table(root)
         self.full = get_pt_value(pt, 'Full name')
@@ -177,11 +189,17 @@ class TDollOrigin(object):
     __slots__ = ('raw', 'country', 'manufacturer')
 
     def __init__(self, data=None):
+        """
+        :type data: doct
+        """
         self.raw = data or {}
         self.country = self.raw.get('country')
         self.manufacturer = self.raw.get('manufacturer')
 
     def from_root(self, root):
+        """
+        :type root: lxml.html.HtmlElement
+        """
         pt = get_profile_table(root)
         self.country = get_pt_value(pt, 'Country of origin')
         self.manufacturer = get_pt_value(pt, 'Manufacturer')
@@ -206,12 +224,21 @@ class TDollStats(object):
     )
 
     def __init__(self, data=None):
+        """
+        :type data: dict
+        """
         self.raw = data if data is not None else {}
         for slot in self.__slots__[1:]:
             setattr(self, slot, self.raw.get(slot, 0))
 
     @staticmethod
     def get_stat_value(tabber, coords, stat):
+        """
+        :type tabber: lxml.html.HtmlElement
+        :type coords: lxml.html.HtmlElement
+        :type stat: str
+        :rtype: int
+        """
         curr_elem = tabber
         for coord in coords:
             curr_elem = curr_elem[coord]
@@ -219,6 +246,9 @@ class TDollStats(object):
         return calc(curr_elem.text) if stat != 'armor' else calc(curr_elem)
 
     def from_root(self, root):
+        """
+        :type root: lxml.html.HtmlElement
+        """
         try:
             gtabb = root.cssselect('.tabbertab')[0][1][0]
         except IndexError:

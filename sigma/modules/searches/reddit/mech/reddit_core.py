@@ -73,7 +73,7 @@ class RedditClient(object):
     async def get_subreddit(self, subreddit):
         """
         :type subreddit: str
-        :rtype: sigma.modules.searches.reddit.mech.reddit_core.RedditSub
+        :rtype: RedditSub
         """
         sub_about_url = f'{reddit_base}/{subreddit}/about.json'
         sub_about_data = await self.__get_data(sub_about_url)
@@ -83,7 +83,7 @@ class RedditClient(object):
         """
         :type subreddit: str
         :type listing: str
-        :rtype: list[sigma.modules.searches.reddit.mech.reddit_core.RedditSub]
+        :rtype: list
         """
         sub_listing_url = f'{reddit_base}/{subreddit}/{listing}.json?t=week'
         sub_listing_data = await self.__get_data(sub_listing_url)

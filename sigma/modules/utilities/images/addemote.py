@@ -26,6 +26,10 @@ from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
 
 
 async def get_emote_image(url):
+    """
+    :type url: str
+    :rtype: str
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             return await response.read()
@@ -45,8 +49,12 @@ async def addemote(cmd, pld):
             react_embed = discord.Embed(color=0xF9F9F9, title='💬 React with the desired emote.')
             react_msg = await pld.msg.channel.send(embed=react_embed)
 
-            def check_emote(react, usr):
-                same_author = usr.id == pld.msg.author.id
+            def check_emote(react, user):
+                """
+                :type react: discord.Reaction
+                :type user: discord.Member
+                """
+                same_author = user.id == pld.msg.author.id
                 same_message = react.message.id == react_msg.id
                 return same_author and same_message
 

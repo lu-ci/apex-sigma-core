@@ -28,7 +28,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def sort_transfers(dict_like):
     """
     :type dict_like: sigma.core.mechanics.resources.ResourceDict
-    :rtype: list[int]
+    :rtype: list
     """
     sortable = []
     for dck in dict_like.keys():
@@ -40,7 +40,7 @@ def sort_transfers(dict_like):
 
 async def describe_transfers(trans_list, getter):
     """
-    :type trans_list: list[int]
+    :type trans_list: list
     :type getter: ambiguous discord.Client method
     :rtype: list
     """
@@ -61,7 +61,7 @@ async def get_top_transfers(bot, pool):
     """
     :type bot: sigma.core.sigma.ApexSigma
     :type pool: sigma.core.mechanics.resources.ResourceOrigins
-    :rtype: list[list, list, list, list]
+    :rtype: str, str, str, str
     """
     user_pool = sort_transfers(pool.users)
     user_desc = await describe_transfers(user_pool, bot.get_user)

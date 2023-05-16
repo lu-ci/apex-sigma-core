@@ -116,9 +116,7 @@ async def make_incident(db, gld, ath, trg, reason):
 
 async def check_auto_punish(cmd, pld, target):
     """
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member or discord.User
     """
@@ -131,7 +129,6 @@ async def check_auto_punish(cmd, pld, target):
         if level_data:
             action = level_data.get('action')
             duration = level_data.get('duration')
-            print(duration)
             await auto_punish(cmd, pld, target, action, duration)
             icon, color = ACTION_MAP.get(action)
             title = f'{icon} {target.name} has been {PAST_MAP.get(action)}.'

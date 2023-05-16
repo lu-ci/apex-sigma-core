@@ -35,8 +35,8 @@ ac_imgs = {
 
 def make_acolyte_id(ac_name, ac_location):
     """
-    :type ac_name:
-    :type ac_location:
+    :type ac_name: str
+    :type ac_location: str
     :rtype: str
     """
     time_sect = arrow.utcnow().format('YYYY-MM-DD-HH')
@@ -49,7 +49,7 @@ def make_acolyte_id(ac_name, ac_location):
 async def get_acolyte_data(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: dict, list[str]
+    :rtype: dict, list
     """
     acolytes = await WorldState().acolytes
     acolytes_out = None

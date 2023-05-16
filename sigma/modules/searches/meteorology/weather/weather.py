@@ -47,7 +47,7 @@ condition_map = {
 
 def parse_query(args):
     """
-    :type args: list[str]
+    :type args: list
     :rtype: str, str
     """
     if args[-1].startswith('unit'):

@@ -23,8 +23,8 @@ message_translation = {'users': 'author', 'guilds': 'guild', 'channels': 'channe
 
 class ResourceDict(dict):
     """
-    Overridden dict class to make all keys strings
-    and serve zeroes as default values if there is no key.
+    Overridden dict class to make all keys strings and
+    serve zeroes as default values if there is no key.
     """
 
     def __init__(self, *args, **kwargs):
@@ -170,6 +170,16 @@ class SigmaResource(object):
         if origin:
             self.expenses.add_origin(origin, amount)
 
+    def consume(self, amount, trigger, origin):
+        """
+        :type amount: int
+        :type trigger: str
+        :type origin: discord.Message
+        """
+        self.current += amount
+        self.reserved -= amount
+        self.del_value(amount, trigger, origin)
+
     def reserve(self, amount):
         """
         :type amount: int
@@ -177,11 +187,6 @@ class SigmaResource(object):
         self.current -= amount
         self.reserved += amount
         self.reservation_stamp = arrow.utcnow().int_timestamp
-
-    def consume(self, amount, trigger, origin):
-        self.current += amount
-        self.reserved -= amount
-        self.del_value(amount, trigger, origin)
 
     def unreserve(self):
         available = arrow.utcnow().int_timestamp > (self.reservation_stamp + 600)

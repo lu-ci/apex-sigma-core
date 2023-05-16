@@ -49,7 +49,7 @@ def get_rarity(elem):
 
 def make_doll_data(row):
     """
-    :type row:
+    :type row: lxml.html.HtmlElement
     """
     prod_time = ':'.join(row[0].text.split(':')[:-1]).strip()
     dolls = row[1]

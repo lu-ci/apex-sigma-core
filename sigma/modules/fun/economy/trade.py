@@ -29,8 +29,8 @@ from sigma.modules.minigames.professions.nodes.recipe_core import get_recipe_cor
 async def invalid_items(db, item_names):
     """
     :type db: sigma.core.mechanics.database.Database
-    :type item_names: list[str]
-    :rtype: list[str]
+    :type item_names: list
+    :rtype: list
     """
     invalid = []
     ic = await get_item_core(db)
@@ -45,8 +45,8 @@ async def missing_items(db, uid, item_names):
     """
     :type db: sigma.core.mechanics.database.Database
     :type uid: int
-    :type item_names: list[str]
-    :rtype: list[str]
+    :type item_names: list
+    :rtype: list
     """
     missing = []
     ic = await get_item_core(db)
@@ -61,8 +61,8 @@ async def missing_items(db, uid, item_names):
 async def get_items(db, item_names):
     """
     :type db: sigma.core.mechanics.database.Database
-    :type item_names: list[str]
-    :rtype: list[SigmaRawItem or SigmaCookedItem]
+    :type item_names: list
+    :rtype: list
     """
     items = []
     ic = await get_item_core(db)
@@ -75,7 +75,7 @@ async def get_items(db, item_names):
 
 def total_value(items):
     """
-    :type items: list[SigmaRawItem or SigmaCookedItem]
+    :type items: list
     :rtype: int
     """
     total = 0
@@ -86,7 +86,7 @@ def total_value(items):
 
 def total_taxation(items):
     """
-    :type items: list[SigmaRawItem or SigmaCookedItem]
+    :type items: list
     :rtype: int
     """
     total = 0
@@ -99,8 +99,8 @@ def total_taxation(items):
 async def question_embed(cmd, oitems, ritems, ovalue, rvalue, otax, rtax):
     """
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :type oitems: list[SigmaRawItem or SigmaCookedItem]
-    :type ritems: list[SigmaRawItem or SigmaCookedItem]
+    :type oitems: list
+    :type ritems: list
     :type ovalue: int
     :type rvalue: int
     :type otax: int
@@ -171,6 +171,11 @@ async def bad_args(cmd, pld):
 
 
 async def enough_space(db, uid, items):
+    """
+    :type db: sigma.core.mechanics.database.Database
+    :type uid: int
+    :type items: list
+    """
     upgrade_file = await db.get_profile(uid, 'upgrades') or {}
     inv = await db.get_inventory(uid)
     storage = upgrade_file.get('storage', 0)
@@ -182,7 +187,7 @@ async def add_items(db, uid, items):
     """
     :type db: sigma.core.mechanics.database.Database
     :type uid: int
-    :type items: list[SigmaRawItem or SigmaCookedItem]
+    :type items: list
     """
     for item in items:
         await db.add_to_inventory(uid, item.generate_inventory_item())
@@ -192,7 +197,7 @@ async def del_items(db, uid, items):
     """
     :type db: sigma.core.mechanics.database.Database
     :type uid: int
-    :type items: list[SigmaRawItem or SigmaCookedItem]
+    :type items: list
     """
     for item in items:
         inv_item = await db.get_inventory_item(uid, item.file_id)
@@ -211,6 +216,15 @@ async def pay_tax(cmd, pld, uid, tax):
 
 
 async def final_checks(cmd, pld, target, oin, rin, otax, rtax):
+    """
+    :type cmd: sigma.core.mechanics.command.SigmaCommand
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    :type target: discord.Member
+    :type oin: list
+    :type rin: list
+    :type otax: int
+    :type rtax: int
+    """
     missing_offer = len(await missing_items(cmd.db, pld.msg.author.id, oin)) == 0
     missing_receive = len(await missing_items(cmd.db, target.id, rin)) == 0
     offer_money = await enough_currency(cmd.db, pld.msg.author.id, rtax)

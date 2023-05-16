@@ -28,8 +28,8 @@ class SigmaEvent(object):
     """
 
     __slots__ = (
-        "bot", "db", "event", "module_info",
-        "event_info", "path", "event_type", "name", "description",
+        "bot", "db", "event", "module_info", "event_info",
+        "path", "event_type", "name", "description",
         "category", "subcategory", "log"
     )
 
@@ -48,14 +48,15 @@ class SigmaEvent(object):
         self.path = self.event_info.get('path')
         self.event_type = self.event_info.get('type')
         self.name = self.event_info.get('name')
-        self.description = self.event_info.get('description')
         self.category = self.module_info.get('category')
+        self.description = self.event_info.get('description')
         self.subcategory = self.module_info.get('subcategory')
         self.log = create_logger(self.name.upper(), shards=self.bot.cfg.dsc.shards)
 
     def get_exception(self):
         """
-        Gets the exception to ignore in case an event breaks.
+        Returns a dummy exception if in developer mode.
+        A dummy exception should never be raised.
         :rtype: Exception
         """
         if self.bot.cfg.pref.dev_mode:
@@ -86,7 +87,6 @@ class SigmaEvent(object):
     async def execute(self, pld=None):
         """
         The main event executor function.
-        :param pld: The event execution payload.
         :type pld: sigma.core.mechanics.payload.SigmaPayload
         """
         if self.bot.ready or self.event_type in ['dbinit', 'boot']:

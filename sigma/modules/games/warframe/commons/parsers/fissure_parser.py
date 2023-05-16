@@ -26,14 +26,15 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 relic_images = {
     'lith': 'http://i.imgur.com/B6DzvKG.png', 'meso': 'http://i.imgur.com/RLWqK6Y.png',
-    'neo': 'http://i.imgur.com/nNRJaHn.png', 'axi': 'http://i.imgur.com/xnx0PSB.png'
+    'neo': 'http://i.imgur.com/nNRJaHn.png', 'axi': 'http://i.imgur.com/xnx0PSB.png',
+    'requiem': 'https://i.imgur.com/KsuyrOw.png'
 }
 
 
 async def get_fissure_data(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: dict, list[str]
+    :rtype: dict, list
     """
     fissures = await WorldState().fissures
     fissure_out = None

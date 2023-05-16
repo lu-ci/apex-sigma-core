@@ -251,7 +251,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         Updates the user's inventory database document.
         :type user_id: int
-        :type inventory: list[dict]
+        :type inventory: list
         """
         inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
         data = {'items': inventory}
@@ -263,9 +263,9 @@ class Database(motor.AsyncIOMotorClient):
 
     async def get_inventory(self, user_id):
         """
-        Gets a usre's inventory item list.
+        Gets a user's inventory item list.
         :type user_id: int
-        :rtype: list[dict]
+        :rtype: list
         """
         inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
         inventory = inventory.get('items', [])

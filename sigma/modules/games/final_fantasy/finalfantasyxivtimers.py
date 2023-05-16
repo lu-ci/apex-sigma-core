@@ -50,7 +50,6 @@ def add_timer_block(response, timer_data):
 
 def next_daily():
     """
-
     Gets the next daily timer.
     :rtype: arrow.Arrow
     """
@@ -63,7 +62,6 @@ def next_daily():
 
 def next_weekly():
     """
-
     Gets the next weekly timer.
     :rtype: arrow.Arrow
     """

@@ -57,8 +57,8 @@ def get_resource_title(amount, leveler, prefixes, suffixes):
     """
     :type amount: int
     :type leveler: float
-    :type prefixes: list[str]
-    :type suffixes: list[str]
+    :type prefixes: list
+    :type suffixes: list
     :rtype: str
     """
     level = get_resource_level(amount, leveler)

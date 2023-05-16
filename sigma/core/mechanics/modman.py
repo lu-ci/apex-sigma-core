@@ -171,6 +171,7 @@ class ModuleManager(object):
         """
         Loads all modules by going through every module yaml
         in the modules directory recursively.
+        :type init: bool
         """
         self.alts = {}
         self.commands = {}

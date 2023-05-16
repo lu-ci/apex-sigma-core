@@ -28,7 +28,7 @@ class Information(object):
     def get_version():
         """
         Grabs the version information class.
-        :rtype: sigma.core.mechanics.information.Version
+        :rtype: Version
         """
         return Version()
 
@@ -36,7 +36,7 @@ class Information(object):
     def get_authors():
         """
         Grabs the author information class.
-        :rtype: sigma.core.mechanics.information.Authors
+        :rtype: Authors
         """
         return Authors()
 
@@ -44,7 +44,7 @@ class Information(object):
     def get_donors():
         """
         Grabs the donor information class.
-        :rtype: sigma.core.mechanics.information.Donors
+        :rtype: Donors
         """
         return Donors()
 

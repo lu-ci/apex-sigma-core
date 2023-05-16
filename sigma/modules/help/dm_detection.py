@@ -23,9 +23,7 @@ from sigma.core.mechanics.payload import CommandPayload
 
 def log_dm(ev, pld):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     author_text = f'{pld.msg.author.name}#{pld.msg.author.discriminator} [{pld.msg.author.id}]'
@@ -34,9 +32,8 @@ def log_dm(ev, pld):
 
 async def has_invite(ev, arguments):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
-    :type arguments: list[str]
+    :type arguments: list
     :rtype: bool
     """
     invite_found = False

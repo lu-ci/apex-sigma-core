@@ -29,7 +29,7 @@ warframe_icon = 'https://i.imgur.com/yrY1kWg.png'
 
 def get_mode(args):
     """
-    :type args: list[str]
+    :type args: list
     :rtype: bool, str
     """
     discount_only = True
@@ -45,9 +45,9 @@ def get_mode(args):
 
 def get_items(sales, discount_only):
     """
-    :type sales: list[dict]
+    :type sales: list
     :type discount_only: bool
-    :rtype: list[dict]
+    :rtype: list
     """
     sale_items = []
     for sale in sales:

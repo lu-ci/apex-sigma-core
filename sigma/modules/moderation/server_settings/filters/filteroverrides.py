@@ -27,9 +27,9 @@ filter_names = ['arguments', 'extensions', 'words', 'invites']
 def get_overrides(message, overrides, target_type):
     """
     :type message: discord.Message
-    :type overrides: list[int]
+    :type overrides: list
     :type target_type: str
-    :rtype: list[str]
+    :rtype: list
     """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}

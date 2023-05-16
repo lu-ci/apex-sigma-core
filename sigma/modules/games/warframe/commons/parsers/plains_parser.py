@@ -26,7 +26,7 @@ import discord
 async def get_plains_data(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: dict, list[str]
+    :rtype: dict, list
     """
     world_state = 'http://content.warframe.com/dynamic/worldState.php'
     try:

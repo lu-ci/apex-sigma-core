@@ -40,7 +40,7 @@ def create_logger(name, *, to_title=False, level=None, shards=None):
     :type to_title: bool
     :type level: int
     :type shards: list
-    :rtype: sigma.core.mechanics.logger.Logger
+    :rtype: Logger
     """
     if to_title:
         logname = titleize(name)
@@ -69,7 +69,7 @@ class Logger(object):
     Sigma Logger:
     This log module will log to a file at "{project_root}/log" which will be rotated daily.
     Logs will also be written to the Systemd Journal if it's available.
-    Otherwise logs will be written to stdout.
+    Otherwise, logs will be written to stdout.
     """
 
     __slots__ = (
@@ -97,7 +97,7 @@ class Logger(object):
         Get a logger with :name: or create a new one.
         :type name: str
         :type level: int
-        :rtype: sigma.core.mechanics.logger.Logger
+        :rtype: Logger
         """
         if name not in cls.loggers.keys():
             cls.loggers.update({name: cls(name, level=level)})
@@ -153,7 +153,7 @@ class Logger(object):
         :type name: str
         :type level: int
         :type shards: list
-        :rtype: sigma.core.mechanics.logger.Logger
+        :rtype: Logger
         """
         logger = cls.get(name, level=level)
         if logger.created:
@@ -184,7 +184,7 @@ class Logger(object):
     def add_journal_handler(logger):
         """
         Add a log handler that logs to the Systemd journal.
-        :type logger: sigma.core.mechanics.logger.Logger
+        :type logger: Logger
         """
         handler = journal.JournaldLogHandler(identifier='sigma')
         log_fmt = '[ {levelname:.1s} | {name:<25.25s} ]: {message:s}'
@@ -194,7 +194,7 @@ class Logger(object):
     def add_stdout_handler(logger):
         """
         Add a log handler that logs to the standard output.
-        :type logger: sigma.core.mechanics.logger.Logger
+        :type logger: Logger
         """
         handler = logging.StreamHandler()
         logger.add_handler(handler)
@@ -203,8 +203,8 @@ class Logger(object):
     def add_file_handler(logger, shards=None):
         """
         Adds a regular file handler for the logging.
-        :type shards: list[int] or None
-        :type logger: sigma.core.mechanics.logger.Logger
+        :type logger: Logger
+        :type shards: list or None
         """
         log_dir = 'log'
         if not os.path.exists(log_dir):

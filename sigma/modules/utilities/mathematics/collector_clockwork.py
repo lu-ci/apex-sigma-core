@@ -195,7 +195,7 @@ async def notify_target(ath, tgt_usr, tgt_chn, cltd, cltn):
     :type tgt_usr: discord.User
     :type tgt_chn: discord.TextChannel
     :type cltd: int
-    :type cltn: list[str]
+    :type cltn: list
     """
     req_usr = ('you' if ath.id == tgt_usr.id else ath.name) if ath else 'Unknown User'
     footer = f'Chain requested by {req_usr} in #{tgt_chn.name} on {tgt_chn.guild.name}.'

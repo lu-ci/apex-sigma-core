@@ -24,7 +24,14 @@ from sigma.core.utilities.event_logging import log_event
 
 
 async def notify(pld, target, verb, action):
-    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+    """
+    Notifies the offender of punishment via direct message.
+    :type pld: sigma.core.mechanics.payload.CommandPayload
+    :type target: discord.Member
+    :type verb: str
+    :type action: str
+    """
+    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
     to_target = discord.Embed(color=0x696969)
     to_target.add_field(name=f'🔨 You have been {action}.', value='Reason: Accruing too many warnings.')
     to_target.set_footer(text=f'{verb.title()}: {pld.msg.guild.name}.', icon_url=guild_icon)
@@ -38,7 +45,6 @@ async def make_incident(db, pld, trg, action):
     """
     Makes and reports an incident for an Auto-Punishment.
     :type db: sigma.core.mechanics.database.Database
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type trg: discord.Member
     :type action: str
@@ -58,9 +64,7 @@ async def make_incident(db, pld, trg, action):
 async def auto_textmute(cmd, pld, target):
     """
     Auto-Textmutes a user and logs it appropriately.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     """
@@ -81,9 +85,7 @@ async def auto_textmute(cmd, pld, target):
 async def auto_hardmute(cmd, pld, target):
     """
     Auto-Hardmutes a user and logs it appropriately.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     """
@@ -105,9 +107,7 @@ async def auto_hardmute(cmd, pld, target):
 async def auto_kick(cmd, pld, target):
     """
     Auto-Kicks a user and logs it appropriately.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     """
@@ -124,9 +124,7 @@ async def auto_kick(cmd, pld, target):
 async def auto_softban(cmd, pld, target):
     """
     Auto-Softbans a user and logs it appropriately.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     """
@@ -144,9 +142,7 @@ async def auto_softban(cmd, pld, target):
 async def auto_ban(cmd, pld, target):
     """
     Auto-Bans a user and logs it appropriately.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     """
@@ -163,9 +159,7 @@ async def auto_ban(cmd, pld, target):
 async def auto_punish(cmd, pld, target, action, duration):
     """
     Auto-Punishes a user in accordance with the guild's settings.
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
-    :param pld:
     :type pld: sigma.core.mechanics.payload.CommandPayload
     :type target: discord.Member
     :type action: str

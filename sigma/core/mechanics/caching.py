@@ -28,6 +28,7 @@ async def get_cache(cfg):
     """
     Gets a cache appropriate for the given CacheConfig.
     :type cfg: sigma.core.mechanics.config.CacheConfig
+    :rtype: mixed
     """
     caches = {
         'memory': MemoryCacher,
@@ -76,7 +77,7 @@ class Cacher(abc.ABC):
         """
         Sets a cached object value.
         :type key: str or int
-        :type value: object
+        :type value: mixed
         """
         pass
 
@@ -113,7 +114,7 @@ class MemoryCacher(Cacher):
         """
         Sets a cached object value.
         :type key: str or int
-        :type value: object
+        :type value: mixed
         """
         self.cache.update({key: value})
 
@@ -185,7 +186,7 @@ class RedisCacher(Cacher):
         """
         Gets a cached object value.
         :type key: str or int
-        :rtype: object
+        :rtype: mixed
         """
         data = await self.conn.get(str(key).replace('_', ':'))
         if data:
@@ -196,7 +197,7 @@ class RedisCacher(Cacher):
         """
         Sets a cached object value.
         :type key: str or int
-        :type value: object
+        :type value: mixed
         """
         # noinspection PyBroadException
         try:
@@ -239,7 +240,7 @@ class MixedCacher(RedisCacher):
         """
         Gets a cached object value.
         :type key: str or int
-        :rtype: object
+        :rtype: mixed
         """
         cached_data = await self.ttl.get_cache(key)
         if cached_data is None:
@@ -250,7 +251,7 @@ class MixedCacher(RedisCacher):
         """
         Sets a cached object value.
         :type key: str or int
-        :type value: object
+        :type value: mixed
         """
         await self.ttl.set_cache(key, value)
         await super().set_cache(key, value)

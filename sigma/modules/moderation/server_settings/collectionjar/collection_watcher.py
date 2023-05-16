@@ -36,7 +36,6 @@ def clean_word(text):
 
 async def add_to_jar(ev, message, jar):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type message: discord.Message
     :type jar: dict

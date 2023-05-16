@@ -28,7 +28,7 @@ antispam_cache = TTLCacher(CacheConfig({}))
 
 async def rate_limited(msg, amt, tsp):
     """
-    Chceks if the sent message was subject to rate limiting.
+    Checks if the message was subject to rate limiting.
     :type msg: discord.Message
     :type amt: int
     :type tsp: int

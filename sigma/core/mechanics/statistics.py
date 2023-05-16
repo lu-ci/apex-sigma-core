@@ -42,14 +42,13 @@ class StatisticsStorage(object):
 
     def add_stat(self):
         """
-        Increments the current statistic by 1.
+        Increments the current statistic by one.
         """
         self.count += 1
 
     async def insert_stats(self):
         """
-        An infinite loop that dumps the statistics
-        in the database every 60 seconds.
+        An infinite loop that dumps the statistics in the database every 60 seconds.
         """
         while True:
             def_stat_data = {'event': self.name, 'count': 0}
@@ -75,9 +74,7 @@ class CommandStatistic(object):
     def __init__(self, db, cmd, pld):
         """
         :type db: sigma.core.mechanics.database.Database
-        :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
-        :param pld: The command payload.
         :type pld: sigma.core.mechanics.payload.CommandPayload
         """
         self.db = db
@@ -88,6 +85,9 @@ class CommandStatistic(object):
         self.exec_timestamp = None
 
     def to_dict(self):
+        """
+        :rtype: dict
+        """
         return {
             'command': {
                 'name': self.cmd.name,

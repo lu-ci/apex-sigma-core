@@ -71,6 +71,10 @@ async def find_user_data(db, profile_url):
 
 
 def get_name_and_mode(args):
+    """
+    :type args: list
+    :rtype: str, int
+    """
     mode = 0
     if args[-1].startswith('--'):
         mode = osu_modes.get(args.pop()[2:].lower(), 0)

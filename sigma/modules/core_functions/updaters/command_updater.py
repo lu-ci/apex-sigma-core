@@ -23,7 +23,6 @@ command_clock_running = False
 
 async def command_updater(ev):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global command_clock_running
@@ -35,7 +34,6 @@ async def command_updater(ev):
 
 async def gen_cmd_cache_data(cmd, mdl_coll):
     """
-    :param cmd:
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :type mdl_coll: motor.motor_asyncio.AsyncIOMotorCollection
     :rtype: dict

@@ -49,8 +49,8 @@ async def get_error_channel(bot):
 
 async def send_error_log_message(bot, error_data):
     """
-    :type bot:
-    :type error_data:
+    :type bot: sigma.core.sigma.ApexSigma
+    :type error_data: dict
     """
     await get_error_channel(bot)
     if error_channel and error_data:

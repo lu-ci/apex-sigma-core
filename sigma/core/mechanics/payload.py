@@ -43,9 +43,8 @@ class SigmaPayload(abc.ABC):
 
 class UpdatePayload(SigmaPayload):
     """
-    Another abstraction base for payloads
-    that are generated from update/edit events
-    such as user profile, guild settings or message edits.
+    Another abstraction base for payloads that are generated from
+    update/edit events such as user profile, guild settings or message edits.
     """
 
     __slots__ = ("before", "after")
@@ -94,8 +93,8 @@ class MessagePayload(SigmaPayload):
 
     async def init(self):
         """
-        Processes the guild's settings and adds them to the payload
-        if the message came from a guild and not a DM.
+        Processes the guild's settings and adds them to the
+        payload if the message came from a guild and not a DM.
         """
         if self.msg.guild:
             self.settings = await self.bot.db.get_guild_settings(self.msg.guild.id)
@@ -108,8 +107,8 @@ class MessageEditPayload(UpdatePayload):
 
     async def init(self):
         """
-        Processes the guild's settings and adds them to the payload
-        if the message came from a guild and not a DM.
+        Processes the guild's settings and adds them to the
+        payload if the message came from a guild and not a DM.
         """
         if self.after.guild:
             self.settings = await self.bot.db.get_guild_settings(self.after.guild.id)
@@ -126,7 +125,7 @@ class CommandPayload(MessagePayload):
         """
         :type bot: sigma.core.sigma.ApexSigma
         :type msg: discord.Message
-        :type args: list[str]
+        :type args: list
         """
         super().__init__(bot, msg)
         self.args = args
@@ -142,9 +141,7 @@ class CommandEventPayload(CommandPayload):
     def __init__(self, bot, cmd, pld):
         """
         :type bot: sigma.core.sigma.ApexSigma
-        :param cmd: The command that was executed.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
-        :param pld: The command's payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
         """
         super().__init__(bot, pld.msg, pld.args)
@@ -177,7 +174,7 @@ class MemberPayload(SigmaPayload):
 class MemberUpdatePayload(UpdatePayload):
     """
     Payload generated when a member is updated.
-    This is a very broad event and can be cause by the member
+    This is a very broad event and can because by the member
     changing their online status, name, nickname, avatar, etc.
     """
 

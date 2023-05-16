@@ -28,7 +28,7 @@ def safebooru_client(cache, user_agent):
     Returns an GalleryClient instance with Safebooru data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'cache_key': 'safebooru_',
@@ -44,7 +44,7 @@ def danbooru_client(cache, user_agent):
     Returns an GalleryClient instance with Danbooru data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': True,
@@ -61,7 +61,7 @@ def e621_client(cache, user_agent):
     Returns an GalleryClient instance with E621 data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': True,
@@ -78,7 +78,7 @@ def gelbooru_client(cache, user_agent):
     Returns an GalleryClient instance with Gelbooru data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': False,
@@ -95,7 +95,7 @@ def konachan_client(cache, user_agent):
     Returns an GalleryClient instance with Konachan data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': True,
@@ -112,7 +112,7 @@ def rule34_client(cache, user_agent):
     Returns an GalleryClient instance with Rule 34 data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': False,
@@ -129,7 +129,7 @@ def xbooru_client(cache, user_agent):
     Returns an GalleryClient instance with Xbooru data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': False,
@@ -146,7 +146,7 @@ def yandere_client(cache, user_agent):
     Returns an GalleryClient instance with Yande.re data.
     :type cache: sigma.core.mechanics.caching.Cacher
     :type user_agent: dict
-    :rtype: sigma.modules.nsfw.mech.core.GalleryClient
+    :rtype: GalleryClient
     """
     client_data = {
         'as_json': True,
@@ -178,8 +178,8 @@ class GalleryClient(object):
     def remove_lines_breaks(tags):
         """
         Removes line breaks from a list of tags.
-        :type tags: list[str]
-        :rtype: list[str]
+        :type tags: list
+        :rtype: list
         """
         new_tags = []
         for tag in tags:
@@ -189,7 +189,7 @@ class GalleryClient(object):
     async def _get_posts(self):
         """
         Fetches posts from the client.
-        :rtype: list[dict]
+        :rtype: list
         """
         async with aiohttp.ClientSession() as aio_client:
             async with aio_client.get(self.client_url + self.tags, headers=self.headers) as aio_session:
@@ -206,8 +206,8 @@ class GalleryClient(object):
     def _ensure_source(self, posts):
         """
         Filters posts based on if they include a file_url field.
-        :type posts: dict or list[lxml.html.HtmlElement]
-        :rtype: list[dict]
+        :type posts: dict or list
+        :rtype: list
         """
         if self.as_json:
             if self.cache_key.startswith('e621_'):
@@ -222,8 +222,8 @@ class GalleryClient(object):
     def _ensure_size(self, posts):
         """
         Filters posts based on their dimensions.
-        :type posts: dict or list[lxml.html.HtmlElement]
-        :rtype: list[dict]
+        :type posts: dict or list
+        :rtype: list
         """
         valid_posts = []
         for post in posts:
@@ -241,7 +241,7 @@ class GalleryClient(object):
     async def randpost(self, tags, return_all=False):
         """
         Fetches a random post from the client.
-        :type tags: list[str]
+        :type tags: list
         :type return_all: bool
         :rtype: dict
         """

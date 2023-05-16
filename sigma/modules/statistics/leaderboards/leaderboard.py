@@ -38,9 +38,9 @@ def get_user_value(data, coords):
 async def get_leader_docs(db, all_docs, sort_key):
     """
     :type db: sigma.core.mechanics.database.Database
-    :type all_docs: list[dict]
+    :type all_docs: list
     :type sort_key: str
-    :rtype: list[dict]
+    :rtype: list
     """
     leader_docs = []
     for data_doc in all_docs:

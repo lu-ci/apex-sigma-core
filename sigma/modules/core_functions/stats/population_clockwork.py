@@ -57,8 +57,8 @@ async def sanitize_documents(ev):
 
 def get_all_roles(guilds):
     """
-    :type guilds: list[discord.Guild]
-    :rtype: list[discord.Role]
+    :type guilds: list
+    :rtype: list
     """
     roles = []
     for g in guilds:

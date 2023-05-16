@@ -131,7 +131,7 @@ class SigmaCommand(object):
         """
         Adds a log line when a command is used.
         :type message: discord.Message
-        :type args: list[str]
+        :type args: list
         :type extime: float
         """
         crst = arrow.get(message.created_at).float_timestamp
@@ -187,7 +187,7 @@ class SigmaCommand(object):
         """
         Check the command request for any blacklisted arguments.
         :type settings: dict
-        :type args list[str]
+        :type args: list
         :rtype: bool
         """
         black_args = settings.get('blocked_args', [])

@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import json
 from io import BytesIO
 
@@ -32,8 +33,8 @@ cnh_image = 'https://i.imgur.com/jJl7FoT.jpg'
 async def open_images(urls):
     """
     Opens image URLs as BytesIO objects.
-    :type urls: list[str]
-    :rtype: list[io.BytesIO]
+    :type urls: list
+    :rtype: list
     """
     images = []
     for url in urls:
@@ -47,7 +48,7 @@ async def open_images(urls):
 async def join_images(urls):
     """
     Joins three images in a vertical manner.
-    :type urls:  list[str]
+    :type urls: list
     :rtype: io.BytesIO
     """
     images = list(map(Image.open, await open_images(urls)))

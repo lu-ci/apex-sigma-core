@@ -42,6 +42,9 @@ async def auto_raffle(ev):
 
 
 def thousand_separator(number):
+    """
+    :type number: int
+    """
     out = []
     for i, n in enumerate(reversed(str(number))):
         out.append(n)

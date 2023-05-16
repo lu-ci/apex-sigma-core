@@ -32,7 +32,6 @@ class CommandRateLimiter(object):
 
     def __init__(self, cmd):
         """
-        :param cmd: The command instance.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         """
         self.cmd = cmd
@@ -75,7 +74,6 @@ class CooldownControl(object):
     async def on_cooldown(self, cmd, user):
         """
         Checks if the function for the given user is still on cooldown or not.
-        :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
         :type user: discord.User or str
         :rtype: bool
@@ -99,7 +97,6 @@ class CooldownControl(object):
     async def get_cooldown(self, cmd, user):
         """
         Gets the amount of time remaining for the cooldown to expire.
-        :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
         :type user: discord.User or str
         :rtype: int
@@ -127,7 +124,6 @@ class CooldownControl(object):
     async def set_cooldown(self, cmd, user, amount):
         """
         Sets the function's appropriate cooldown for the given user.
-        :param cmd: The command or function the cooldown is bound to.
         :type cmd: str
         :type user: discord.User or str
         :type amount: int

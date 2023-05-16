@@ -68,7 +68,7 @@ async def validate_gif_url(url):
 def get_allowed_interactions(commands):
     """
     :type commands: dict
-    :rtype: list[str]
+    :rtype: list
     """
     allowed_interactions = []
     for command in commands:

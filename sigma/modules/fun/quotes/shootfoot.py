@@ -26,7 +26,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 async def get_all_sf(db):
     """
     :type db: sigma.core.mechanics.database.Database
-    :rtype: list[dict]
+    :rtype: list
     """
     joke_docs = await db.cache.get_cache('shoot_foot_docs')
     if joke_docs is None:

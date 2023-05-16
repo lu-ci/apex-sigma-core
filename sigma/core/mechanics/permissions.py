@@ -23,10 +23,9 @@ import discord
 
 class GlobalCommandPermissions(object):
     """
-    Handles the main core permissions of commands
-    such as if the command is DM-able, owner only, nsfw,
-    if a user or guild has been blacklisted from using it,
-    and similar limitations.
+    Handles the main core permissions of commands such as if the command is
+    DM-able, owner only, nsfw, if a user or guild has been blacklisted from
+    using it, and similar limitations.
     """
 
     __slots__ = (
@@ -39,7 +38,6 @@ class GlobalCommandPermissions(object):
     def __init__(self, command, pld):
         """
         :type command: sigma.core.mechanics.command.SigmaCommand
-        :param pld: The message payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
         """
         self.pld = pld
@@ -79,8 +77,7 @@ class GlobalCommandPermissions(object):
 
     def check_nsfw(self):
         """
-        Checks if the command is NSFW
-        and if the place it's called is marked as NSFW.
+        Checks if the command is NSFW and if the place it's called is marked as NSFW.
         """
         if hasattr(self.message.channel, 'is_nsfw'):
             if self.cmd.nsfw:
@@ -95,8 +92,7 @@ class GlobalCommandPermissions(object):
 
     def check_black_mdl(self, black_user_file):
         """
-        Checks if a user has been blacklisted
-        from using the given module specifically.
+        Checks if a user has been blacklisted from using the given module specifically.
         :type black_user_file: dict
         :rtype: bool
         """
@@ -110,8 +106,7 @@ class GlobalCommandPermissions(object):
 
     def check_black_cmd(self, black_user_file):
         """
-        Checks if a user has been blacklisted
-        from using the given command specifically.
+        Checks if a user has been blacklisted from using the given command specifically.
         :type black_user_file: dict
         :rtype: bool
         """
@@ -125,8 +120,8 @@ class GlobalCommandPermissions(object):
 
     async def check_black_usr(self):
         """
-        Checks if a user has been blacklisted from using
-        the given command, either fully, module or command.
+        Checks if a user has been blacklisted from using the
+        given command, either fully, module or command.
         """
         black_user_collection = self.db[self.bot.cfg.db.database].BlacklistedUsers
         black_user_file = await black_user_collection.find_one({'user_id': self.message.author.id})
@@ -142,8 +137,7 @@ class GlobalCommandPermissions(object):
 
     async def check_black_srv(self):
         """
-        Checks if a guild has been blacklisted
-        from using the given command.
+        Checks if a guild has been blacklisted from using the given command.
         """
         if self.message.guild:
             black_srv_collection = self.db[self.bot.cfg.db.database].BlacklistedServers
@@ -157,8 +151,7 @@ class GlobalCommandPermissions(object):
 
     def check_owner(self):
         """
-        Checks if the command is owner-only
-        and if the user calling it is an owner.
+        Checks if the command is owner-only and if the user calling it is an owner.
         """
         auth = self.message.author
         owners = self.bot.cfg.dsc.owners
@@ -172,8 +165,7 @@ class GlobalCommandPermissions(object):
 
     def generate_response(self):
         """
-        Generates embed reponses for some more
-        common permission denials.
+        Generates embed responses for some more common permission denials.
         :rtype: discord.Embed
         """
         prefix = self.db.get_prefix(self.settings)
@@ -212,8 +204,7 @@ class GlobalCommandPermissions(object):
 
     def check_final(self):
         """
-        Runs the final check which is
-        going through all individual checks.
+        Runs the final check which is going through all individual checks.
         If any has been triggered, the execution is intercepted.
         """
         checklist = [
@@ -239,7 +230,7 @@ class GlobalCommandPermissions(object):
             - `c`: Command Blacklisted
             - `d`: Direct Message Not Allowed
             - `n`: NSFW Channels Only
-            - `v`: Parter Only
+            - `v`: Partner Only
         ### Example:
             `u---dn-` *User blacklisted, use in DM and use of NSFW command when not in NSFW channel.*
         """

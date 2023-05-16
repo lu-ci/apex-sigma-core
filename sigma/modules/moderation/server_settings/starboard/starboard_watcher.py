@@ -47,6 +47,10 @@ async def post_starboard(msg, file, content, response, sbc):
 
 
 def check_file(url):
+    """
+    :type url: str
+    :rtype: bool, bool
+    """
     valid = False
     video = False
 
@@ -64,6 +68,11 @@ def check_file(url):
 
 
 async def get_video(msg, url):
+    """
+    :type msg: discord.Message
+    :type url: str
+    :rtype: discord.File, str
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             data = await resp.read()
@@ -77,6 +86,10 @@ async def get_video(msg, url):
 
 
 def clean_content(content, arg):
+    """
+    :type content: str
+    :type arg: str
+    """
     ix = content.index(arg)
     iy = ix + len(arg)
     sx = content[:ix].rstrip()

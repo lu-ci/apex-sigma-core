@@ -43,8 +43,8 @@ async def raffle_clockwork(ev):
 
 def extra_shuffle(some_list):
     """
-    :type some_list: list[discord.Member]
-    :rtype: list[discord.Member]
+    :type some_list: list
+    :rtype: list
     """
     new_list = []
     while some_list:

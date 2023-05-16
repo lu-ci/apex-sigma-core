@@ -39,7 +39,7 @@ class WorldState(object):
         Fetches data from the Warframe World State.
         :type url: str
         :type key: str
-        :rtype: sigma.modules.games.warframe.commons.worldstate.WorldState
+        :rtype: WorldState
         """
         try:
             async with aiohttp.ClientSession() as session:
@@ -56,7 +56,7 @@ class WorldState(object):
         :type url: str
         :type key: str
         :type indexed: bool
-        :rtype: list or dict or None
+        :rtype: list or dict
         """
         await self.get_state(url, key)
         data = self.raw
@@ -73,7 +73,7 @@ class WorldState(object):
     async def news(self):
         """
         Fetches current News from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(stats_url, 'news')
 
@@ -89,7 +89,7 @@ class WorldState(object):
     async def invasions(self):
         """
         Fetches current Invasions from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(tools_url, 'invasions')
 
@@ -97,7 +97,7 @@ class WorldState(object):
     async def fissures(self):
         """
         Fetches the current Fissures from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(stats_url, 'fissures')
 
@@ -105,7 +105,7 @@ class WorldState(object):
     async def bounties(self):
         """
         Fetches current Bounties from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(tools_url, 'bounties')
 
@@ -113,7 +113,7 @@ class WorldState(object):
     async def factionprojects(self):
         """
         Fetches current Faction Projects from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(tools_url, 'factionprojects')
 
@@ -129,7 +129,7 @@ class WorldState(object):
     async def acolytes(self):
         """
         Fetches current Acolytes from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(tools_url, 'acolytes')
 
@@ -137,7 +137,7 @@ class WorldState(object):
     async def flashsales(self):
         """
         Fetches current Flash Sales from the World State.
-        :rtype: list[dict]
+        :rtype: list
         """
         return await self.safe_get(stats_url, 'flashSales')
 

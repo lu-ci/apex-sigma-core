@@ -48,8 +48,8 @@ class ExecutionClockwork(object):
         """
         Gets the command name and arguments from a message.
         :type pfx: str
-        :type args: list[str]
-        :rtype: (str, list[str])
+        :type args: list
+        :rtype: str, list
         """
         args = list(filter(lambda a: a != '', args))
         cmd = args.pop(0)[len(pfx):].lower()
@@ -58,7 +58,6 @@ class ExecutionClockwork(object):
     async def command_runner(self, pld):
         """
         Function in charge of getting a command ready for the queue.
-        :param pld: The message payload data that triggers the command.
         :type pld: sigma.core.mechanics.payload.MessagePayload
         """
         if self.bot.ready:
@@ -91,7 +90,6 @@ class ExecutionClockwork(object):
         """
         Function in charge of getting events ready for the queue.
         :type event_name: str
-        :param pld: The payload data of the event.
         :type pld: sigma.core.mechanics.payload.SigmaPayload
         """
         if self.bot.ready:

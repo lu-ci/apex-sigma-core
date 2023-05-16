@@ -177,7 +177,7 @@ async def search_youtube(qry):
 
 def rgb_maximum(colors_tuple):
     """
-    :type colors_tuple: list[tuple]
+    :type colors_tuple: list
     :rtype: dict
     """
     r_sorted_tuple = sorted(colors_tuple, key=lambda x: x[1][0])
@@ -207,8 +207,8 @@ def rgb_maximum(colors_tuple):
 
 def group_by_accuracy(sorted_tuple):
     """
-    :type sorted_tuple: list[tuple]
-    :rtype: list[tuple]
+    :type sorted_tuple: list
+    :rtype: list
     """
     rgb_maximum_json = rgb_maximum(sorted_tuple)
     r_min = rgb_maximum_json.get("r_min")
@@ -237,8 +237,8 @@ def group_by_accuracy(sorted_tuple):
 
 def get_weighted_mean(grouped_image_color):
     """
-    :type grouped_image_color: list[tuple]
-    :rtype: tuple
+    :type grouped_image_color: list
+    :rtype:
     """
     sigma_count = 0
     sigma_r = 0

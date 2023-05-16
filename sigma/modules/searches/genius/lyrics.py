@@ -41,7 +41,7 @@ def parse_parts(lyr, fallback=False):
     """
     :type lyr: str
     :type fallback: bool
-    :rtype: list[str]
+    :rtype: list
     """
     pieces = []
     lines = lyr.split('.' if fallback else '\n')

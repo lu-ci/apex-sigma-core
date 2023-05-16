@@ -184,7 +184,7 @@ class ShipStatsByRetrofit(object):
 
 class ShipStatsByLevel(object):
     """
-    Wraps the base, level 100 and 120 statistics.
+    Wraps the base, level 100, and 120 statistics.
     """
     __slots__ = ('raw', 'base', 'maxed', 'awake')
 
@@ -301,7 +301,7 @@ class ShipImages(object):
         """
         Gets a skin based on the lookup query.
         :type lookup: str
-        :rtype: sigma.modules.games.azur_lane.models.azur_lane_ship.ShipSkin
+        :rtype: ShipSkin
         """
         out = None
         for skin in self.skins:
@@ -318,7 +318,7 @@ class ShipImages(object):
     def from_etree(self, page):
         """
         Parses the ship's images from an LXML-parsed page.
-        :type page: lxml.html.Etree
+        :type page: lxml.html.HtmlElement
         """
         url_base = 'https://azurlane.koumakan.jp'
         self.small = page.cssselect('.image')[0][0].attrib.get('src')
@@ -374,7 +374,7 @@ class ShipLimitBreakContainer(object):
     def to_list(self):
         """
         Turns the data in this class into a list.
-        :rtype: list[ShipSkill]
+        :rtype: list
         """
         return [skill for skill in [self.first, self.second, self.third] if skill.type is not None]
 
@@ -704,7 +704,8 @@ class AzurLaneShip(object):
     def from_tabbers(self, tabbers):
         """
         Parses ship details from a list of tabbed tables.
-        :type tabbers: list[lxml.html.HtmlElement]
+        :type tabbers: list
+        :rtype:
         """
         sub_coords = {
             'Base Stats': self.stats.normal.base,
@@ -728,7 +729,8 @@ class AzurLaneShip(object):
     def from_tables(self, tables):
         """
         Parses a ship's detailed information from table entries.
-        :type tables: list[lxml.html.HtmlElement]
+        :type tables: list
+        :rtype:
         """
         for table in tables:
             table = table[0]

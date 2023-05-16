@@ -28,7 +28,7 @@ import psutil
 
 def get_os_icon():
     """
-    Gets the icon and color for the specificed OS.
+    Gets the icon and color for the specified OS.
     :rtype: str, int
     """
     if sys.platform == 'win32':
@@ -46,7 +46,7 @@ def get_os_icon():
 def get_shard_latency(latencies, shard_id):
     """
     Gets the latency for the specified shard ID.
-    :type latencies: list[tuple]
+    :type latencies: list
     :type shard_id: int
     :rtype: int
     """

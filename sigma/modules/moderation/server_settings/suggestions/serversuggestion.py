@@ -27,7 +27,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def make_sugg_embed(msg, args, token):
     """
     :type msg: discord.Message
-    :type args: list[str]
+    :type args: list
     :type token: str
     :rtype: discord.Embed
     """

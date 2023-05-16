@@ -36,7 +36,6 @@ async def whisper_reporter(ev):
 
 async def send_whisper_message(ev, whisper_doc):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type whisper_doc: dict
     """

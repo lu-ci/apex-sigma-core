@@ -76,7 +76,7 @@ class PaginatorCore(object):
     @staticmethod
     def paginate(items, pg_num, span=10):
         """
-        PAginates a simple list of items.
+        Paginates a simple list of items.
         :type items: list
         :type pg_num: str or int
         :type span: int
@@ -96,7 +96,7 @@ class PaginatorCore(object):
         """
         Gets an existing paginator instance.
         :type mid: int
-        :rtype: sigma.core.mechanics.paginator.PaginatorInstance
+        :rtype: PaginatorInstance
         """
         return self.paginators.get(mid)
 
@@ -104,7 +104,7 @@ class PaginatorCore(object):
         """
         Adds a new paginator instance.
         :type mid: int
-        :type paginator: sigma.core.mechanics.paginator.PaginatorInstance
+        :type paginator: PaginatorInstance
         """
         self.paginators.update({mid: paginator})
 

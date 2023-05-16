@@ -23,7 +23,7 @@ def user_has_role(role, user_roles):
     """
     Checks if a user has a specific role.
     :type role: discord.Role
-    :type user_roles: list[discord.Role]
+    :type user_roles: list
     :rtype: bool
     """
     has = False

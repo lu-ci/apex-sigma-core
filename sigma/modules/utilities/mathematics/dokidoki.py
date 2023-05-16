@@ -75,7 +75,6 @@ def clean(text, author):
     """
     :type text: str
     :type author: discord.Member
-    :return:
     :rtype: str
     """
     output = text.replace('{i}', '*')

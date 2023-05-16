@@ -28,6 +28,11 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 
 def shorten(text, max_len, appendage):
+    """
+    :type text: str
+    :type max_len: int
+    :type appendage: str
+    """
     if len(text) > max_len:
         text = text[:max_len] + appendage
     return text

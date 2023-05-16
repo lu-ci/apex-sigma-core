@@ -29,7 +29,7 @@ def get_incident_core(db):
     Grabs a cached incident core
     so it isn't initialized every time it's needed.
     :type db: sigma.core.mechanics.database.Database
-    :rtype: sigma.core.mechanics.incident.IncidentCore
+    :rtype: IncidentCore
     """
     global incident_core_cache
     if incident_core_cache is None:
@@ -78,7 +78,7 @@ class IncidentUser(object):
 
     def to_text(self, in_embed=True):
         """
-        Mames a text block of the user's information.
+        Makes a text block of the user's information.
         :type in_embed: bool
         :rtype: str
         """
@@ -137,7 +137,7 @@ class IncidentLocation(object):
 
     def to_text(self, in_embed=True):
         """
-        Mames a text block of the location information.
+        Makes a text block of the location information.
         :type in_embed: bool
         :rtype: str
         """
@@ -161,7 +161,7 @@ class IncidentLocation(object):
 class Incident(object):
     """
     An incident data wrapper class.
-    Handlest quick formatting and descriptions of incidents.
+    Handles quick formatting and descriptions of incidents.
     """
 
     def __init__(self, data=None):
@@ -306,6 +306,9 @@ class IncidentCore(object):
     """
 
     def __init__(self, db):
+        """
+        :type db: sigma.core.mechanics.database.Database
+        """
         self.db = db
         self.coll = self.db[self.db.db_nam].Incidents
 
@@ -316,7 +319,7 @@ class IncidentCore(object):
         :type guild_id: int
         :type identifier: str
         :type value: str or int
-        :rtype: sigma.core.mechanics.incident.Incident
+        :rtype: Incident
         """
         incident = None
         lookup = {identifier: value, 'guild.id': guild_id}
@@ -330,7 +333,7 @@ class IncidentCore(object):
         Gets an incident document by the unique incident token.
         :type guild_id: int
         :type token: str
-        :rtype: sigma.core.mechanics.incident.Incident
+        :rtype: Incident
         """
         return await self.get(guild_id, 'id', token)
 
@@ -340,7 +343,7 @@ class IncidentCore(object):
         that the incident document was generated with.
         :type guild_id: int
         :type order: int
-        :rtype: sigma.core.mechanics.incident.Incident
+        :rtype: Incident
         """
         return await self.get(guild_id, 'order', order)
 
@@ -350,7 +353,7 @@ class IncidentCore(object):
         :type guild_id: int
         :type identifier: int or str
         :type identifier_id: int or str
-        :rtype: list[sigma.core.mechanics.incident.Incident]
+        :rtype: list
         """
         incidents = []
         lookup = {'guild.id': guild_id} if identifier is None else {'guild.id': guild_id, identifier: identifier_id}
@@ -365,7 +368,7 @@ class IncidentCore(object):
         Gets a list of all incidents by incident variant.
         :type guild_id: int
         :type variant: str
-        :rtype: list[sigma.core.mechanics.incident.Incident]
+        :rtype: list
         """
         return await self.get_all(guild_id, 'variant', variant)
 
@@ -374,7 +377,7 @@ class IncidentCore(object):
         Gets a list of all incidents by the incident's moderator.
         :type guild_id: int
         :type mod_id: int
-        :rtype: list[sigma.core.mechanics.incident.Incident]
+        :rtype: list
         """
         return await self.get_all(guild_id, 'moderator.id', mod_id)
 
@@ -383,7 +386,7 @@ class IncidentCore(object):
         Gets a list of all incidents by the incident's target user.
         :type guild_id: int
         :type target_id: int
-        :rtype: list[sigma.core.mechanics.incident.Incident]
+        :rtype: list
         """
         return await self.get_all(guild_id, 'target.id', target_id)
 
@@ -400,7 +403,7 @@ class IncidentCore(object):
         """
         Generates an incident class with basic data.
         :type variant: str
-        :rtype: sigma.core.mechanics.incident.Incident
+        :rtype: Incident
         """
         return Incident({
             'id': secrets.token_hex(4),
@@ -411,7 +414,7 @@ class IncidentCore(object):
     async def save(self, incident):
         """
         Saves the data from an incident class to the database.
-        :type incident: sigma.core.mechanics.incident.Incident
+        :type incident: Incident
         """
         lookup = {'id': incident.id, 'guild.id': incident.guild.id}
         lookup_doc = await self.coll.find_one(lookup)

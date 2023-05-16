@@ -27,7 +27,6 @@ url_base = 'https://azurlane.koumakan.jp'
 async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
     """
     Saves a generic iterable HTML table object into AL ship items.
-    :param ev: The main event reference.
     :type ev: sigma.core.mechanics.even.SigmaEvent
     :type table: lxml.html.HtmlElement
     :type table_type: str
@@ -54,7 +53,6 @@ async def basic_index_save(ev, table, table_type, cutter=None, prefix=None):
 async def basic_index_fill(ev):
     """
     Fills ship data with basic information from the main ship index.
-    :param ev: The main event reference.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     ev.log.info('Updating basic Azur Lane ship information...')
@@ -74,7 +72,6 @@ async def detailed_ship_fill(ev):
     """
     Fills detailed ship data by using their pages
     instead of the main index listing basic information.
-    :param ev: The main event reference.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     ev.log.info('Updating detailed Azur Lane ship information...')

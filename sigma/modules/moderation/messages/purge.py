@@ -34,7 +34,7 @@ def generate_log_embed(message, target, channel, deleted):
     :type message: discord.Message
     :type target: discord.Member
     :type channel: discord.TextChannel
-    :type deleted: list[discord.Message]
+    :type deleted: list
     :rtype: discord.Embed
     """
     response = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)

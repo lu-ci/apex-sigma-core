@@ -30,7 +30,7 @@ def get_exceptions(message, exceptions, target_type):
     :type message: discord.Message
     :type exceptions: list
     :type target_type: str
-    :rtype: list[str]
+    :rtype: list
     """
     overridden_items = []
     guild_dict = {'channels': message.guild.channels, 'users': message.guild.members, 'roles': message.guild.roles}

@@ -29,8 +29,8 @@ fissure_icon = 'https://i.imgur.com/vANGxqe.png'
 
 def sort_fissures(fissures):
     """
-    :type fissures: list[dict]
-    :rtype: list[dict]
+    :type fissures: list
+    :rtype: list
     """
     lith, meso, neo, axi, requiem = [], [], [], [], []
     for fissure in fissures:

@@ -24,7 +24,6 @@ from sigma.core.utilities.generic_responses import GenericResponse
 async def get_category(cmd, guild):
     """
     Gets the temporary voice channel category for the server.
-    :param cmd: The command object referenced in the command.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     :type guild: discord.Guild
     :rtype: discord.CategoryChannel

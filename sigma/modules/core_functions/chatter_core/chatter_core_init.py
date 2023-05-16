@@ -30,7 +30,6 @@ chatter_core.verbose(False)
 def cb_log(ev, init, text):
     """
     Logs a chatterbot core initialization line.
-    :param ev: The event object references in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type init: boot
     :type text: str
@@ -41,7 +40,6 @@ def cb_log(ev, init, text):
 
 def train(ev, core, init=False):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type core: aiml.Kernel
     :type init: bool

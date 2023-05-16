@@ -24,14 +24,13 @@ import discord
 from sigma.core.utilities.generic_responses import GenericResponse
 from sigma.modules.games.warframe.commons.worldstate import WorldState
 
-nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
+nightwave_icon = 'https://i.imgur.com/96b6Cg3.png'
 
 
 def get_xp_amounts(challenges):
     """
-    Gets a unique set of XP amounts from the given challenges.
     :type challenges: dict
-    :rtype: list[str]
+    :rtype: list
     """
     xp_amounts = list(set([c['xpAmount'] for c in challenges]))
     xp_amounts.sort()
@@ -42,8 +41,8 @@ def get_challenges(challenges, xp_amounts):
     """
     Sorts challenges based on how much rep they give.
     :type challenges: dict
-    :type xp_amounts: list[str]
-    :rtype: (list, list, list)
+    :type xp_amounts: list
+    :rtype: list, list, list
     """
     dailies, weeklies, weeklies_hard = [], [], []
     for challenge in challenges:
@@ -62,8 +61,8 @@ def get_challenges(challenges, xp_amounts):
 def get_offsets(challenges):
     """
     Gets the time offsets for challenge expiry in each category.
-    :type challenges: list[list]
-    :rtype: list[str]
+    :type challenges: list
+    :rtype: list
     """
     offsets = []
     for challenge_list in challenges:
@@ -76,8 +75,8 @@ def get_offsets(challenges):
 def get_descriptions(challenges):
     """
     Gets the description for challenges in each category.
-    :type challenges: list[list]
-    :rtype: list[list]
+    :type challenges: list
+    :rtype: list
     """
     descriptions = []
     for challenge_list in challenges:

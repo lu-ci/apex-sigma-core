@@ -23,7 +23,6 @@ version_clock_running = False
 
 async def version_updater(ev):
     """
-    :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global version_clock_running

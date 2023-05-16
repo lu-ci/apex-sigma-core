@@ -25,7 +25,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 def make_sugg_data(msg, args, token):
     """
     :type msg: discord.Message
-    :type args: listr[str]
+    :type args: list
     :type token: str
     :rtype: dict
     """

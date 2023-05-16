@@ -32,8 +32,8 @@ from sigma.modules.utilities.mathematics.impersonate import ensure_length, parse
 
 def shuffle(items):
     """
-    :type items: list[discord.Member]
-    :rtype: list[discord.Member]
+    :type items: list
+    :rtype: list
     """
     new = []
     copy = [i for i in items]
@@ -44,7 +44,7 @@ def shuffle(items):
 
 def combine_names(users):
     """
-    :type users: list[discord.Member]
+    :type users: list
     :rtype: str
     """
     pieces = []

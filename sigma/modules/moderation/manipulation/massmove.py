@@ -23,7 +23,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 def get_vc(guild_vcs, lookup):
     """
-    :type guild_vcs: list[discord.VoiceChannel]
+    :type guild_vcs: list
     :type lookup: str
     :rtype: discord.VoiceChannel
     """

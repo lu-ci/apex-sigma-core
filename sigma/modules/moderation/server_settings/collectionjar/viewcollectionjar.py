@@ -21,6 +21,11 @@ import discord
 
 class CollectionJar(object):
     def __init__(self, jar, message, target):
+        """
+        :type jar: dict
+        :type message: discord.Message
+        :type target: discord.Member
+        """
         self.raw = jar
         self.total = self.raw.get('total', 0)
         self.channels = self.raw.get('channels', {})

@@ -31,7 +31,6 @@ class SigmaError(object):
 
     def __init__(self, cmd, exc):
         """
-        :param cmd: The command instance generating the error.
         :type cmd: sigma.core.mechanics.command.SigmaCommand
         :type exc: Exception
         """
@@ -44,23 +43,18 @@ class SigmaError(object):
     async def error_handler(self, pld):
         """
         Processes an error that happened during a command's execution.
-        :param pld: The command's payload data.
         :type pld: sigma.core.mechanics.payload.CommandPayload
         """
         self.args = pld.args
         self.data = self.make_error_dict(pld.msg)
-        cmd_info = f"CMD: {self.cmd.name} | ARGS: {' '.join(pld.args)} | CNT: {pld.msg.content}"
-        ath_info = f"SRV: {pld.msg.guild.id} | CHN: {pld.msg.channel.id} | USR: {pld.msg.author.id}"
-        self.cmd.log.error(f"ERRTRACK | {cmd_info} | {ath_info}")
         await self.cmd.respond_with_emote(pld.msg, '❗')
         await self.send_error_message(pld)
         await self.log_error()
 
     async def send_error_message(self, pld):
         """
-        Sends an error embed with an explanation to the
-        channel where the command broke.
-        :param pld: The command's payload data.
+        Sends an error embed with an explanation
+        to the channel where the error occurred.
         :type pld: sigma.core.mechanics.payload.CommandPayload
         """
         title, err_text = self.get_error_message(pld.settings)
@@ -74,8 +68,7 @@ class SigmaError(object):
 
     async def log_error(self):
         """
-        Adds a line to the logger with the error information.
-        Also adds the error data to the database.
+        Logs the error information and inserts it into the database.
         """
         await self.cmd.db[self.cmd.db.db_nam].Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'
@@ -83,8 +76,7 @@ class SigmaError(object):
 
     def make_error_dict(self, message):
         """
-        Constructs the dict data of the error
-        to be stored in the database.
+        Constructs the dict data of the error to be stored in the database.
         :type message: discord.Message
         :rtype: dict
         """
