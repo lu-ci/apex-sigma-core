@@ -31,7 +31,7 @@ async def bye_sender(_ev, pld):
     bye_active = True if bye_active is None else bye_active
     if bye_active:
         bye_channel_id = pld.settings.get('bye_channel')
-        target = pld.member.guild.get_channel(bye_channel_id) if bye_channel_id else None
+        target = pld.member.guild.get_channel_or_thread(bye_channel_id) if bye_channel_id else None
         if target:
             current_goodbye = pld.settings.get('bye_message')
             if not current_goodbye:

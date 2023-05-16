@@ -428,7 +428,7 @@ class IncidentCore(object):
         :type incident_embed: discord.Embed
         """
         incident_channel_id = await self.db.get_guild_settings(guild.id, 'log_incidents_channel')
-        incident_channel = guild.get_channel(incident_channel_id)
+        incident_channel = guild.get_channel_or_thread(incident_channel_id)
         if incident_channel:
             try:
                 await incident_channel.send(embed=incident_embed)

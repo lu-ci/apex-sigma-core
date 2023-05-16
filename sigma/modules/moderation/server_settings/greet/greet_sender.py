@@ -31,7 +31,7 @@ async def greet_sender(_ev, pld):
     greet_active = True if greet_active is None else greet_active
     if greet_active:
         greet_channel_id = pld.settings.get('greet_channel')
-        target = pld.member.guild.get_channel(greet_channel_id) if greet_channel_id else None
+        target = pld.member.guild.get_channel_or_thread(greet_channel_id) if greet_channel_id else None
         if target:
             current_greeting = pld.settings.get('greet_message')
             if not current_greeting:
