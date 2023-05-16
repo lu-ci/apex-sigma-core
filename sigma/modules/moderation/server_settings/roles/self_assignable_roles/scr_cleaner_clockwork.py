@@ -23,18 +23,18 @@ import discord
 scr_clock_running = False
 
 
-async def scr_cleaner_clock(ev):
+async def scr_cleaner_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
     global scr_clock_running
     if not scr_clock_running:
-        ev.bot.loop.create_task(scr_clockwork(ev))
+        ev.bot.loop.create_task(scr_cycler(ev))
         scr_clock_running = True
 
 
-async def scr_clockwork(ev):
+async def scr_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

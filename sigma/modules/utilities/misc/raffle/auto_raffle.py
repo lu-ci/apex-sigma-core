@@ -38,7 +38,7 @@ async def auto_raffle(ev):
     global auto_raffle_loop_running
     if not auto_raffle_loop_running:
         auto_raffle_loop_running = True
-        ev.bot.loop.create_task(cycler(ev))
+        ev.bot.loop.create_task(auto_raffle_cycler(ev))
 
 
 def thousand_separator(number):
@@ -48,30 +48,6 @@ def thousand_separator(number):
         if (ix + 1) % 3 == 0:
             out.append(',')
     return ''.join(reversed(out))
-
-
-async def cycler(ev):
-    """
-    :param ev: The event object referenced in the event.
-    :type ev: sigma.core.mechanics.event.SigmaEvent
-    """
-    cfg = ev.bot.modules.commands.get('raffle').cfg
-    cfg_args = ['winners', 'reward', 'interval', 'duration', 'channel']
-    if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
-        while True:
-            ch = await ev.bot.get_channel(cfg.channel)
-            if ch:
-                lookup = {'automatic': True, 'author': ev.bot.user.id}
-                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).limit(1).to_list(None)
-                if auto_docs:
-                    latest = auto_docs[0]
-                    now = arrow.utcnow().float_timestamp
-                    stamp = latest.get('start', 0)
-                    if now > stamp + cfg.interval:
-                        await create(ev, ch)
-                else:
-                    await create(ev, ch)
-            await asyncio.sleep(60)
 
 
 async def create(ev, ch):
@@ -128,3 +104,27 @@ async def create(ev, ch):
         'id': rafid
     }
     await ev.db[ev.db.db_nam].Raffles.insert_one(raffle_data)
+
+
+async def auto_raffle_cycler(ev):
+    """
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    """
+    cfg = ev.bot.modules.commands.get('raffle').cfg
+    cfg_args = ['winners', 'reward', 'interval', 'duration', 'channel']
+    if all([bool(getattr(cfg, arg)) for arg in cfg_args]):
+        while True:
+            ch = await ev.bot.get_channel(cfg.channel)
+            if ch:
+                lookup = {'automatic': True, 'author': ev.bot.user.id}
+                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).limit(1).to_list(None)
+                if auto_docs:
+                    latest = auto_docs[0]
+                    now = arrow.utcnow().float_timestamp
+                    stamp = latest.get('start', 0)
+                    if now > stamp + cfg.interval:
+                        await create(ev, ch)
+                else:
+                    await create(ev, ch)
+            await asyncio.sleep(60)

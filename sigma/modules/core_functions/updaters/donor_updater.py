@@ -29,11 +29,11 @@ async def donor_updater(ev):
     global donor_clock_running
     if not donor_clock_running:
         if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
-            ev.bot.loop.create_task(donor_updater_clockwork(ev))
+            ev.bot.loop.create_task(donor_cycler(ev))
         donor_clock_running = True
 
 
-async def donor_updater_clockwork(ev):
+async def donor_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

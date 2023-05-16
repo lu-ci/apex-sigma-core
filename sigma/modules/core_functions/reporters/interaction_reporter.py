@@ -24,17 +24,6 @@ interaction_channel = None
 interaction_reporter_running = False
 
 
-async def get_interaction_channel(bot):
-    """
-    :type bot: sigma.core.sigma.ApexSigma
-    """
-    global interaction_channel
-    if interaction_channel is None:
-        intr_chn_id = bot.modules.commands.get('addinteraction').cfg.get('log_ch')
-        if intr_chn_id:
-            interaction_channel = await bot.get_channel(intr_chn_id, True)
-
-
 async def interaction_reporter(ev):
     """
     :param ev: The event object referenced in the event.
@@ -44,7 +33,18 @@ async def interaction_reporter(ev):
     await get_interaction_channel(ev.bot)
     if not interaction_reporter_running and interaction_channel:
         interaction_reporter_running = True
-        ev.bot.loop.create_task(interaction_reporter_clockwork(ev))
+        ev.bot.loop.create_task(interaction_reporter_cycler(ev))
+
+
+async def get_interaction_channel(bot):
+    """
+    :type bot: sigma.core.sigma.ApexSigma
+    """
+    global interaction_channel
+    if interaction_channel is None:
+        intr_chn_id = bot.modules.commands.get('addinteraction').cfg.get('log_ch')
+        if intr_chn_id:
+            interaction_channel = await bot.get_channel(intr_chn_id, True)
 
 
 def make_interaction_log_embed(inter_data):
@@ -80,7 +80,7 @@ async def send_interaction_log_message(bot, move_data):
         return intr_msg
 
 
-async def interaction_reporter_clockwork(ev):
+async def interaction_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

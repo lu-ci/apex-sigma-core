@@ -25,17 +25,6 @@ suggestion_channel = None
 suggestion_reporter_running = False
 
 
-async def get_suggestion_channel(bot):
-    """
-    :type bot: sigma.core.sigma.ApexSigma
-    """
-    global suggestion_channel
-    if suggestion_channel is None:
-        sugg_chn_id = bot.modules.commands.get('botsuggest').cfg.get('channel')
-        if sugg_chn_id:
-            suggestion_channel = await bot.get_channel(sugg_chn_id, True)
-
-
 async def suggestion_reporter(ev):
     """
     :param ev: The event object referenced in the event.
@@ -45,7 +34,18 @@ async def suggestion_reporter(ev):
     await get_suggestion_channel(ev.bot)
     if not suggestion_reporter_running and suggestion_channel:
         suggestion_reporter_running = True
-        ev.bot.loop.create_task(suggestion_reporter_clockwork(ev))
+        ev.bot.loop.create_task(suggestion_reporter_cycler(ev))
+
+
+async def get_suggestion_channel(bot):
+    """
+    :type bot: sigma.core.sigma.ApexSigma
+    """
+    global suggestion_channel
+    if suggestion_channel is None:
+        sugg_chn_id = bot.modules.commands.get('botsuggest').cfg.get('channel')
+        if sugg_chn_id:
+            suggestion_channel = await bot.get_channel(sugg_chn_id, True)
 
 
 def make_suggestion_log_embed(data):
@@ -81,7 +81,7 @@ async def send_suggestion_log_message(bot, sugg_data):
         return sugg_msg
 
 
-async def suggestion_reporter_clockwork(ev):
+async def suggestion_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

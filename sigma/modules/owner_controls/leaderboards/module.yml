@@ -12,6 +12,6 @@ commands:
 enabled: true
 events:
   - enabled: true
-    name: leaderboard_clock
+    name: leaderboard_clockwork
     type: ready
 name: Owner Leaderboard Controls

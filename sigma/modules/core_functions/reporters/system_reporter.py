@@ -24,17 +24,6 @@ system_channel = None
 system_reporter_running = False
 
 
-async def get_system_channel(bot):
-    """
-    :type bot: sigma.core.sigma.ApexSigma
-    """
-    global system_channel
-    sys_chn_id = bot.cfg.pref.syslog_channel
-    if bot.cfg.pref.syslog_channel and not system_channel:
-        if sys_chn_id:
-            system_channel = await bot.get_channel(sys_chn_id, True)
-
-
 async def system_reporter(ev):
     """
     :param ev: The event object referenced in the event.
@@ -44,7 +33,18 @@ async def system_reporter(ev):
     await get_system_channel(ev.bot)
     if not system_reporter_running and system_channel:
         system_reporter_running = True
-        ev.bot.loop.create_task(system_reporter_clockwork(ev))
+        ev.bot.loop.create_task(system_reporter_cycler(ev))
+
+
+async def get_system_channel(bot):
+    """
+    :type bot: sigma.core.sigma.ApexSigma
+    """
+    global system_channel
+    sys_chn_id = bot.cfg.pref.syslog_channel
+    if bot.cfg.pref.syslog_channel and not system_channel:
+        if sys_chn_id:
+            system_channel = await bot.get_channel(sys_chn_id, True)
 
 
 def make_system_log_embed(data):
@@ -69,7 +69,7 @@ async def send_system_log_message(bot, data):
         await system_channel.send(embed=response)
 
 
-async def system_reporter_clockwork(ev):
+async def system_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

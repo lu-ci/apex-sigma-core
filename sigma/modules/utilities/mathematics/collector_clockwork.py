@@ -35,6 +35,17 @@ current_doc_collecting: Optional[dict] = None
 current_cancel_request = False
 
 
+async def collector_clockwork(ev):
+    """
+    :param ev: The event object referenced in the event.
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    """
+    global collector_loop_running
+    if not collector_loop_running:
+        collector_loop_running = True
+        ev.bot.loop.create_task(collector_cycler(ev))
+
+
 async def check_queued(db, aid, uid):
     """
     :type db: sigma.core.mechanics.database.Database
@@ -351,17 +362,6 @@ def save(uid, data):
         out_file.write(data)
 
 
-async def collector_clockwork(ev):
-    """
-    :param ev: The event object referenced in the event.
-    :type ev: sigma.core.mechanics.event.SigmaEvent
-    """
-    global collector_loop_running
-    if not collector_loop_running:
-        collector_loop_running = True
-        ev.bot.loop.create_task(cycler(ev))
-
-
 def get_current():
     return current_doc_collecting
 
@@ -371,7 +371,7 @@ def cancel_current():
     current_cancel_request = True
 
 
-async def cycler(ev):
+async def collector_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

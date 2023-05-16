@@ -18,25 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-pop_loop_running = False
-
-
-async def sanitize_documents(ev):
-    """
-    :param ev: The event object referenced in the event.
-    :type ev: sigma.core.mechanics.event.SigmaEvent
-    """
-    if ev.bot.cfg.dsc.shards is not None:
-        popdocs = await ev.db[ev.bot.cfg.db.database]['GeneralStats'].find({}).to_list(None)
-        for shard in ev.bot.cfg.dsc.shards:
-            for popdoc in popdocs:
-                if popdoc['shards'] is None:
-                    await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(popdoc)
-                else:
-                    if shard in popdoc['shards']:
-                        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(popdoc)
-    else:
-        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].drop()
+population_loop_running = False
 
 
 async def population_clockwork(ev):
@@ -44,16 +26,33 @@ async def population_clockwork(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global pop_loop_running
+    global population_loop_running
     collection = 'GeneralStats'
     lookup = {'name': 'population', 'shards': ev.bot.cfg.dsc.shards}
     await sanitize_documents(ev)
     search = await ev.db[ev.bot.cfg.db.database][collection].find_one(lookup)
     if not search:
         await ev.db[ev.bot.cfg.db.database][collection].insert_one(lookup)
-    if not pop_loop_running and not ev.bot.cfg.pref.dev_mode:
-        pop_loop_running = True
-        ev.bot.loop.create_task(update_population_stats_node(ev))
+    if not population_loop_running and not ev.bot.cfg.pref.dev_mode:
+        population_loop_running = True
+        ev.bot.loop.create_task(population_cycler(ev))
+
+
+async def sanitize_documents(ev):
+    """
+    :type ev: sigma.core.mechanics.event.SigmaEvent
+    """
+    if ev.bot.cfg.dsc.shards is not None:
+        docs = await ev.db[ev.bot.cfg.db.database]['GeneralStats'].find().to_list(None)
+        for shard in ev.bot.cfg.dsc.shards:
+            for doc in docs:
+                if doc['shards'] is None:
+                    await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(doc)
+                else:
+                    if shard in doc['shards']:
+                        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].delete_one(doc)
+    else:
+        await ev.db[ev.bot.cfg.db.database]['GeneralStats'].drop()
 
 
 def get_all_roles(guilds):
@@ -68,7 +67,7 @@ def get_all_roles(guilds):
     return roles
 
 
-async def update_population_stats_node(ev):
+async def population_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

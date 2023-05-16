@@ -24,7 +24,7 @@ import discord
 sp_xp_loop_running = False
 
 
-async def expiration_clock(ev):
+async def expiration_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
@@ -32,10 +32,10 @@ async def expiration_clock(ev):
     global sp_xp_loop_running
     if not sp_xp_loop_running:
         sp_xp_loop_running = True
-        ev.bot.loop.create_task(cycler(ev))
+        ev.bot.loop.create_task(expiration_cycler(ev))
 
 
-async def cycler(ev):
+async def expiration_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

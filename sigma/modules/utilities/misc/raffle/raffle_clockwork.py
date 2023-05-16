@@ -38,7 +38,7 @@ async def raffle_clockwork(ev):
     global raffle_loop_running
     if not raffle_loop_running:
         raffle_loop_running = True
-        ev.bot.loop.create_task(cycler(ev))
+        ev.bot.loop.create_task(raffle_cycler(ev))
 
 
 def extra_shuffle(some_list):
@@ -112,7 +112,7 @@ async def auto_item(ev, winner, title):
     await ev.db.add_to_inventory(winner.id, data_for_inv)
 
 
-async def cycler(ev):
+async def raffle_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

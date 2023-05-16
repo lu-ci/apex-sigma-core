@@ -66,6 +66,6 @@ commands:
 enabled: true
 events:
   - enabled: true
-    name: scr_cleaner_clock
+    name: scr_cleaner_clockwork
     type: ready
 name: SelfRole Controls

@@ -29,11 +29,11 @@ async def version_updater(ev):
     global version_clock_running
     if not version_clock_running:
         if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
-            ev.bot.loop.create_task(version_updater_clockwork(ev))
+            ev.bot.loop.create_task(version_updater_cycler(ev))
         version_clock_running = True
 
 
-async def version_updater_clockwork(ev):
+async def version_updater_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

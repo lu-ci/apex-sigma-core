@@ -24,17 +24,6 @@ error_channel = None
 error_reporter_running = False
 
 
-async def get_error_channel(bot):
-    """
-    :type bot: sigma.core.sigma.ApexSigma
-    """
-    global error_channel
-    if bot.cfg.pref.errorlog_channel and error_channel is None:
-        err_chn_id = bot.cfg.pref.errorlog_channel
-        if err_chn_id:
-            error_channel = await bot.get_channel(err_chn_id, True)
-
-
 async def error_reporter(ev):
     """
     :param ev: The event object referenced in the event.
@@ -44,7 +33,18 @@ async def error_reporter(ev):
     await get_error_channel(ev.bot)
     if not error_reporter_running and error_channel:
         error_reporter_running = True
-        ev.bot.loop.create_task(error_reporter_clockwork(ev))
+        ev.bot.loop.create_task(error_reporter_cycler(ev))
+
+
+async def get_error_channel(bot):
+    """
+    :type bot: sigma.core.sigma.ApexSigma
+    """
+    global error_channel
+    if bot.cfg.pref.errorlog_channel and error_channel is None:
+        err_chn_id = bot.cfg.pref.errorlog_channel
+        if err_chn_id:
+            error_channel = await bot.get_channel(err_chn_id, True)
 
 
 async def send_error_log_message(bot, error_data):
@@ -62,7 +62,7 @@ async def send_error_log_message(bot, error_data):
             await error_channel.send(trace)
 
 
-async def error_reporter_clockwork(ev):
+async def error_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

@@ -21,7 +21,7 @@ import asyncio
 import arrow
 import discord
 
-unpun_loop_running = False
+unpunish_loop_running = False
 
 
 async def un_punisher(ev):
@@ -29,10 +29,10 @@ async def un_punisher(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global unpun_loop_running
-    if not unpun_loop_running:
-        unpun_loop_running = True
-        ev.bot.loop.create_task(un_punisher_clock(ev))
+    global unpunish_loop_running
+    if not unpunish_loop_running:
+        unpunish_loop_running = True
+        ev.bot.loop.create_task(un_punisher_cycler(ev))
 
 
 async def unban(ev, doc):
@@ -120,7 +120,7 @@ async def unhmute(ev, doc):
         pass
 
 
-async def un_punisher_clock(ev):
+async def un_punisher_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

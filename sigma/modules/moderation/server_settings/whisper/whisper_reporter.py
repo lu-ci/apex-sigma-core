@@ -31,7 +31,7 @@ async def whisper_reporter(ev):
     global whisper_reporter_running
     if not whisper_reporter_running:
         whisper_reporter_running = True
-        ev.bot.loop.create_task(whisper_reporter_clockwork(ev))
+        ev.bot.loop.create_task(whisper_reporter_cycler(ev))
 
 
 async def send_whisper_message(ev, whisper_doc):
@@ -51,7 +51,7 @@ async def send_whisper_message(ev, whisper_doc):
         await ev.db[ev.db.db_nam].Whispers.update_one(whisper_doc, {'$set': {'reported': True}})
 
 
-async def whisper_reporter_clockwork(ev):
+async def whisper_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

@@ -29,7 +29,7 @@ async def command_updater(ev):
     global command_clock_running
     if not command_clock_running:
         if ev.bot.cfg.dsc.shards is None or 0 in ev.bot.cfg.dsc.shards:
-            ev.bot.loop.create_task(command_updater_clockwork(ev))
+            ev.bot.loop.create_task(command_updater_cycler(ev))
         command_clock_running = True
 
 
@@ -54,7 +54,7 @@ async def gen_cmd_cache_data(cmd, mdl_coll):
     return cmd_data
 
 
-async def command_updater_clockwork(ev):
+async def command_updater_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

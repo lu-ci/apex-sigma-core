@@ -25,7 +25,7 @@ from sigma.modules.owner_controls.leaderboards.awardleaderboards import reset_re
 leaderboard_loop_running = False
 
 
-async def leaderboard_clock(ev):
+async def leaderboard_clockwork(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
@@ -33,10 +33,10 @@ async def leaderboard_clock(ev):
     global leaderboard_loop_running
     if not leaderboard_loop_running:
         leaderboard_loop_running = True
-        ev.bot.loop.create_task(leaderboard_clockwork(ev))
+        ev.bot.loop.create_task(leaderboard_cycler(ev))
 
 
-async def leaderboard_clockwork(ev):
+async def leaderboard_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

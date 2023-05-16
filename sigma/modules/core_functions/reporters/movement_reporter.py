@@ -25,17 +25,6 @@ movement_channel = None
 movement_reporter_running = False
 
 
-async def get_movement_channel(bot):
-    """
-    :type bot: sigma.core.sigma.ApexSigma
-    """
-    global movement_channel
-    move_chn_id = bot.cfg.pref.movelog_channel
-    if bot.cfg.pref.movelog_channel and not movement_channel:
-        if move_chn_id:
-            movement_channel = await bot.get_channel(move_chn_id, True)
-
-
 async def movement_reporter(ev):
     """
     :param ev: The event object referenced in the event.
@@ -45,7 +34,18 @@ async def movement_reporter(ev):
     await get_movement_channel(ev.bot)
     if not movement_reporter_running and movement_channel:
         movement_reporter_running = True
-        ev.bot.loop.create_task(movement_reporter_clockwork(ev))
+        ev.bot.loop.create_task(movement_reporter_cycler(ev))
+
+
+async def get_movement_channel(bot):
+    """
+    :type bot: sigma.core.sigma.ApexSigma
+    """
+    global movement_channel
+    move_chn_id = bot.cfg.pref.movelog_channel
+    if bot.cfg.pref.movelog_channel and not movement_channel:
+        if move_chn_id:
+            movement_channel = await bot.get_channel(move_chn_id, True)
 
 
 def make_movement_log_embed(data):
@@ -88,7 +88,7 @@ async def send_movement_log_message(bot, move_data):
         await movement_channel.send(embed=response)
 
 
-async def movement_reporter_clockwork(ev):
+async def movement_reporter_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

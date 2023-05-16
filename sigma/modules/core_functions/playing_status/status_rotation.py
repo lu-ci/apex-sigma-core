@@ -40,10 +40,10 @@ async def status_rotation(ev):
         except Exception:
             ev.log.warn('Initial presence clearing failed.')
         status_loop_running = True
-        ev.bot.loop.create_task(status_clockwork(ev))
+        ev.bot.loop.create_task(status_cycler(ev))
 
 
-async def status_clockwork(ev):
+async def status_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent

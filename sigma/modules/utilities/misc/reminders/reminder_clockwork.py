@@ -23,7 +23,7 @@ import discord
 
 from sigma.core.utilities.data_processing import user_avatar
 
-rem_loop_running = False
+reminder_loop_running = False
 
 
 async def reminder_clockwork(ev):
@@ -31,9 +31,9 @@ async def reminder_clockwork(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    global rem_loop_running
-    if not rem_loop_running:
-        rem_loop_running = True
+    global reminder_loop_running
+    if not reminder_loop_running:
+        reminder_loop_running = True
         ev.bot.loop.create_task(reminder_cycler(ev))
 
 
