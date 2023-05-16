@@ -5,4 +5,4 @@ events:
     name: prefix
     description: Basic help display and prefix information.
     type: slash
-name: Handles Slash Commands
+name: Slash Commands

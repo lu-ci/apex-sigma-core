@@ -156,7 +156,7 @@ class ModuleManager(object):
         event_function = self.load_function(root, event_data)
         event_data.update({'path': os.path.join(root)})
         event = SigmaEvent(self.bot, event_function, module_data, event_data)
-        if event.event_type == 'slash' and not init:
+        if event.event_type == 'slash' and init:
             command = Command(name=event.name, description=event.description, callback=event.execute)
             self.bot.tree.add_command(command)
         else:
