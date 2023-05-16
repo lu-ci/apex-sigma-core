@@ -38,8 +38,8 @@ def store_image(im):
 
 def get_color_tuple(args):
     """
-    :type args: list[str]
-    :rtype: tuple
+    :type args: list
+    :rtype: tuple or None
     """
     color_tuple = None
     if len(args) == 1:
@@ -50,14 +50,14 @@ def get_color_tuple(args):
             try:
                 color_tuple = (int(color_input[:2], 16), int(color_input[2:-2], 16), int(color_input[4:], 16))
             except ValueError:
-                color_tuple = False
+                color_tuple = None
     elif len(args) == 3:
         try:
             color_tuple = (int(args[0]), int(args[1]), int(args[2]))
         except ValueError:
-            color_tuple = False
+            color_tuple = None
     else:
-        color_tuple = False
+        color_tuple = None
     return color_tuple
 
 

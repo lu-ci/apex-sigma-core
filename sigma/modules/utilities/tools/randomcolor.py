@@ -16,11 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os
 import secrets
 
 import discord
 from PIL import Image
+
+from sigma.modules.utilities.tools.color import store_image
 
 
 async def randomcolor(_cmd, pld):
@@ -36,7 +37,6 @@ async def randomcolor(_cmd, pld):
     color_tupple = (piece_r, piece_g, piece_b)
     hexname = f'Color: `#{str(hex(piece_r))[2:]}{str(hex(piece_g))[2:]}{str(hex(piece_b))[2:]}`'
     image = Image.new('RGB', (128, 128), color_tupple)
-    image.save(f'cache/{pld.msg.id}.png')
-    img_file = discord.File(f'cache/{pld.msg.id}.png')
-    await pld.msg.channel.send(hexname, file=img_file)
-    os.remove(f'cache/{pld.msg.id}.png')
+    image = store_image(image)
+    file = discord.File(image, f'{pld.msg.id}.png')
+    await pld.msg.channel.send(hexname, file=file)

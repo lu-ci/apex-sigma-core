@@ -51,7 +51,7 @@ async def raffle(cmd, pld):
             icon_color = None
             if reaction_icon:
                 gld = pld.msg.guild
-                guild_icon = str(gld.icon.url) if gld.icon.url else None
+                guild_icon = str(gld.icon.url) if gld.icon else None
                 custom_emote = reaction_icon.startswith('<:') and reaction_icon.endswith('>')
                 if custom_emote:
                     emote_name = reaction_icon.split(':')[1]

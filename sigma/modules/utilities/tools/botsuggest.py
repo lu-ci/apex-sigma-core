@@ -43,7 +43,7 @@ def make_sugg_data(msg, args, token):
         'guild': {
             'id': msg.guild.id,
             'name': msg.guild.name,
-            'icon': str(msg.guild.icon.url) if msg.guild.icon.url else None
+            'icon': str(msg.guild.icon.url) if msg.guild.icon else None
         },
         'timestamp': msg.created_at.timestamp(),
         'reported': False

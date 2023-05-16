@@ -33,7 +33,7 @@ def make_games_dict(guild):
     online_count = 0
     playing_count = 0
     for member in guild.members:
-        status = member.status.value
+        status = str(member.status)
         if status != 'offline':
             online_count += 1
         if member.bot:

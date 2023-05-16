@@ -44,7 +44,7 @@ async def afk_mention_check(ev, pld):
                     url = None
                     for piece in afk_reason.split():
                         if piece.startswith('http'):
-                            suffix = piece.split('.')[-1]
+                            suffix = piece.split('.')[-1].split('?')[0]
                             if suffix in ['gif', 'jpg', 'jpeg', 'png']:
                                 afk_reason = afk_reason.replace(piece, '') if afk_reason is not None else afk_reason
                                 url = piece

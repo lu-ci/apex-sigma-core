@@ -43,7 +43,7 @@ async def serverstatistics(_cmd, pld):
     exec_text += f'\nCommand Rate: **{command_rate}/s**'
     exec_text += f'\nMessages: **{gld_stats.get("messages", 0)}**'
     exec_text += f'\nMessage Rate: **{message_rate}/s**'
-    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
     color = await get_image_colors(guild_icon)
     response = discord.Embed(color=color, timestamp=arrow.get(start_time).datetime)
     response.set_author(name=f'{pld.msg.guild.name} Statistics', icon_url=guild_icon)

@@ -24,7 +24,7 @@ import discord
 from sigma.core.utilities.generic_responses import GenericResponse
 
 imgur_icon = 'https://i.imgur.com/SfU0dnX.png'
-imgur_url = "https://api.imgur.com/3/image"
+imgur_url = 'https://api.imgur.com/3/image'
 
 
 async def upload_image(image_url, client_id):

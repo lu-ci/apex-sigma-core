@@ -45,7 +45,7 @@ async def oserverbots(cmd, pld):
             if total_bots == 0:
                 response = GenericResponse('No bots were found on that server.').error()
             else:
-                guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                 response = discord.Embed(color=await get_image_colors(guild_icon))
                 response.set_author(name=f'Bots on {gld.name}', icon_url=guild_icon)
                 response.add_field(name='Online', value='\n- ' + '\n- '.join(sorted(online_bots)))

@@ -93,63 +93,69 @@ async def wolframalpha(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    init_message = None
-    if cmd.cfg.app_id:
-        if not Ongoing.is_ongoing('mathgame', pld.msg.channel.id):
-            if pld.args:
-                full_results = False
-                if len(pld.args) and pld.args[-1].lower() == '--full':
-                    pld.args.pop(-1)
-                    full_results = True
-                query = make_safe_query(pld.args)
-                url = f'{api_url}{query}&appid={cmd.cfg.app_id}'
-                init_response = discord.Embed(color=0xff7e00)
-                init_response.set_author(name='Processing request...', icon_url=wolfram_icon)
-                init_message = await pld.msg.channel.send(embed=init_response)
-                results = await aioget(url, as_json=True)
-                results = WolframResult(results.get('queryresult'))
-                if results.success:
-                    try:
-                        response = discord.Embed(color=0xff7e00)
-                        response.set_author(name='Wolfram|Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
-                        if full_results:
-                            image_set = False
-                            for i, pod in enumerate(results.pods):
-                                values = []
-                                for subpod in pod.subpods:
-                                    if subpod.text:
-                                        values.append(f'```\n{subpod.text}\n```')
-                                    elif subpod.image:
-                                        if not image_set:
-                                            values.append('(See embedded image)')
-                                            response.set_image(url=subpod.image)
-                                            image_set = True
-                                        else:
-                                            values.append(f'[Click to view image]({subpod.image})')
-                                if values:
-                                    values = '\n'.join(values)
-                                    response.add_field(name=f'{i + 1}. {pod.title}', value=values, inline=False)
-                            response.set_footer(text='View the results online by clicking the embed title.')
-                        else:
-                            subpod = results.primary_pod.subpods[0]
-                            if subpod.text:
-                                response.description = f'```\n{subpod.text}\n```'
-                            else:
-                                response.set_image(url=subpod.image)
-                            response.set_footer(text='Add "--full" to the end to see the full result.')
-                            await send_response(pld.msg, init_message, response)
-                            return
-                    except discord.HTTPException:
-                        response = GenericResponse('Results too long to display.').error()
-                        response.description = f'You can view them directly [here]({wolfram_url + query}).'
-                        await send_response(pld.msg, init_message, response)
-                        return
-                else:
-                    response = GenericResponse('No results.').not_found()
-            else:
-                response = GenericResponse('Nothing inputted.').error()
-        else:
-            response = GenericResponse('Wolfram can\'t be used during an ongoing math game.').error()
-    else:
+    if not cmd.cfg.app_id:
         response = GenericResponse('The API Key is missing.').error()
-    await send_response(pld.msg, init_message, response)
+        await pld.msg.channel.send(embed=response)
+        return
+    if Ongoing.is_ongoing('mathgame', pld.msg.channel.id):
+        response = GenericResponse('Wolfram can\'t be used during an ongoing math game.').error()
+        await pld.msg.channel.send(embed=response)
+        return
+    if not pld.args:
+        response = GenericResponse('Nothing inputted.').error()
+        await pld.msg.channel.send(embed=response)
+        return
+
+    full_results = False
+    if len(pld.args) and pld.args[-1].lower() == '--full':
+        pld.args.pop(-1)
+        full_results = True
+
+    query = make_safe_query(pld.args)
+    url = f'{api_url}{query}&appid={cmd.cfg.app_id}'
+    init_response = discord.Embed(color=0xff7e00)
+    init_response.set_author(name='Processing request...', icon_url=wolfram_icon)
+    init_message = await pld.msg.channel.send(embed=init_response)
+    results = await aioget(url, as_json=True)
+    results = WolframResult(results.get('queryresult'))
+    if not results.success:
+        response = GenericResponse('No results.').not_found()
+        await send_response(pld.msg, init_message, response)
+        return
+
+    try:
+        response = discord.Embed(color=0xff7e00)
+        response.set_author(name='Wolfram|Alpha', icon_url=wolfram_icon, url=wolfram_url + query)
+        if not full_results:
+            subpod = results.primary_pod.subpods[0]
+            if subpod.text:
+                response.description = f'```\n{subpod.text}\n```'
+            else:
+                response.set_image(url=subpod.image)
+            response.set_footer(text='Add "--full" to the end to see the full result.')
+            await send_response(pld.msg, init_message, response)
+            return
+
+        image_set = False
+        for i, pod in enumerate(results.pods):
+            values = []
+            for subpod in pod.subpods:
+                if subpod.text:
+                    values.append(f'```\n{subpod.text}\n```')
+                elif subpod.image:
+                    if not image_set:
+                        values.append('(See embedded image)')
+                        response.set_image(url=subpod.image)
+                        image_set = True
+                    else:
+                        values.append(f'[Click to view image]({subpod.image})')
+            if values:
+                values = '\n'.join(values)
+                response.add_field(name=f'{i + 1}. {pod.title}', value=values, inline=False)
+        response.set_footer(text='View the results online by clicking the embed title.')
+        await send_response(pld.msg, init_message, response)
+
+    except discord.HTTPException:
+        response = GenericResponse('Results too long to display.').error()
+        response.description = f'You can view them directly [here]({wolfram_url + query}).'
+        await send_response(pld.msg, init_message, response)
