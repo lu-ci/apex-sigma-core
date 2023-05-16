@@ -27,7 +27,7 @@ hor_1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
 hor_2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
 hor_3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 
-selector_ranges = {
+range_map = {
     'number': range(0, 37),
     'type': ['odd', 'even'],
     'color': ['red', 'black'],
@@ -36,7 +36,7 @@ selector_ranges = {
     'half': [1, 2]
 }
 
-selector_mults = {
+multi_map = {
     'number': 35,
     'type': 1,
     'color': 1,
@@ -81,7 +81,7 @@ def get_selector_and_value(args):
     selector_split = [a.strip() for a in args[-1].split(':')]
     if len(selector_split) == 2:
         sel, val = [piece.strip().lower() for piece in selector_split]
-        for key in selector_ranges:
+        for key in range_map:
             if key.startswith(sel):
                 sel = key
                 break
@@ -122,8 +122,8 @@ async def roulette(cmd, pld):
             sel, val = get_selector_and_value(pld.args)
             sel = 'color' if sel == 'colour' else sel
             if sel is not None and val is not None:
-                if sel in selector_ranges:
-                    if val in selector_ranges.get(sel):
+                if sel in range_map:
+                    if val in range_map.get(sel):
                         bet = get_bet(pld.args)
                         currency_icon = cmd.bot.cfg.pref.currency_icon
                         currency = cmd.bot.cfg.pref.currency
@@ -136,7 +136,7 @@ async def roulette(cmd, pld):
                             spot = secrets.choice(spots)
                             spot_sel_val = getattr(spot, sel, val)
                             if spot_sel_val == val:
-                                winnings = bet + (bet * selector_mults.get(sel))
+                                winnings = bet + (bet * multi_map.get(sel))
                                 await cmd.db.add_resource(author, 'currency', winnings, cmd.name, pld.msg, False)
                                 footer = f'{currency_icon} You won {winnings - bet} {currency}'
                                 resp_color = 0x66cc66
@@ -150,7 +150,7 @@ async def roulette(cmd, pld):
                         else:
                             response = discord.Embed(color=0xa7d28b, title=f'💸 You don\'t have {bet} {currency}.')
                     else:
-                        ranges = selector_ranges.get(sel)
+                        ranges = range_map.get(sel)
                         valids = f'{ranges[0]} - {ranges[-1]}'
                         response = GenericResponse(f'Invalid value for {sel}. Accepted are {valids}').error()
                 else:

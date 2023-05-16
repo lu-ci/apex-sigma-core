@@ -57,13 +57,13 @@ async def unpermit(cmd, pld):
                                         inner_exc = node_exc[node_name]
                                     else:
                                         inner_exc = generate_cmd_data(node_name)[node_name]
-                                    exc_usrs = inner_exc[target_type]
+                                    exc_users = inner_exc[target_type]
 
                                     bad_item = None
                                     for target in targets:
-                                        if target.id in exc_usrs:
-                                            exc_usrs.remove(target.id)
-                                            inner_exc.update({target_type: exc_usrs})
+                                        if target.id in exc_users:
+                                            exc_users.remove(target.id)
+                                            inner_exc.update({target_type: exc_users})
                                             node_exc.update({node_name: inner_exc})
                                             perms.update({exc_group: node_exc})
                                         else:

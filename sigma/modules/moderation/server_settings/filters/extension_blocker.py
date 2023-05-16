@@ -38,13 +38,13 @@ async def extension_blocker(ev, pld):
                 override = check_filter_perms(pld.msg, pld.settings, 'extensions')
                 is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
                 if not any([pld.msg.author.guild_permissions.administrator, is_owner, override]):
-                    att_files = [att.filename.lower() for att in pld.msg.attachments]
+                    attachments = [att.filename.lower() for att in pld.msg.attachments]
                     bexts = pld.settings.get('blocked_extensions') or []
                     delete = False
                     reason = None
-                    for attf in att_files:
+                    for attachment in attachments:
                         for bext in bexts:
-                            if attf.endswith(bext):
+                            if attachment.endswith(bext):
                                 delete = True
                                 reason = bext
                                 break

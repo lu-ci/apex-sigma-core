@@ -205,20 +205,20 @@ class FetchHelper(object):
         return data
 
     @staticmethod
-    def make_emoji_data(emj):
+    def make_emoji_data(emoji):
         """
         Makes a data dict for storage for a custom emoji.
         :type emj: discord.Emoji
         :rtype: dict
         """
         data = {
-            "available": emj.available,
-            "managed": emj.managed,
-            "name": emj.name,
-            "roles": [FetchHelper.make_role_data(role) for role in emj.roles],
-            "require_colons": emj.require_colons,
-            "animated": emj.animated,
-            "id": str(emj.id)
+            "available": emoji.available,
+            "managed": emoji.managed,
+            "name": emoji.name,
+            "roles": [FetchHelper.make_role_data(role) for role in emoji.roles],
+            "require_colons": emoji.require_colons,
+            "animated": emoji.animated,
+            "id": str(emoji.id)
         }
         return data
 

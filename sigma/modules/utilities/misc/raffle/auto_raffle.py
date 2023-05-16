@@ -43,9 +43,9 @@ async def auto_raffle(ev):
 
 def thousand_separator(number):
     out = []
-    for (ix, dig) in enumerate(reversed(str(number))):
-        out.append(dig)
-        if (ix + 1) % 3 == 0:
+    for i, n in enumerate(reversed(str(number))):
+        out.append(n)
+        if (i + 1) % 3 == 0:
             out.append(',')
     return ''.join(reversed(out))
 

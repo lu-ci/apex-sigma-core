@@ -98,9 +98,7 @@ class ShipStats(object):
             'speed', 'luck', 'accuracy', 'anti_submarine'
         ]
         return round(sum(
-            [
-                getattr(self, satt) for satt in stat_attrs if isinstance(getattr(self, satt), int)
-            ]
+            [getattr(self, satt) for satt in stat_attrs if isinstance(getattr(self, satt), int)]
         ) / len(stat_attrs), 2)
 
     def from_tabber(self, tabber):
@@ -186,7 +184,7 @@ class ShipStatsByRetrofit(object):
 
 class ShipStatsByLevel(object):
     """
-    Wraps the the base, level 100 and 120 statistics.
+    Wraps the base, level 100 and 120 statistics.
     """
     __slots__ = ('raw', 'base', 'maxed', 'awake')
 
@@ -818,7 +816,7 @@ async def get_ship(db, lookup):
     if ship is None:
         ship = await db[db.db_nam].AzurLaneShips.find_one({'name': lookup.title()})
         if ship is None:
-            all_ships = await db[db.db_nam].AzurLaneShips.find({}).to_list(None)
+            all_ships = await db[db.db_nam].AzurLaneShips.find().to_list(None)
             for ship_item in all_ships:
                 ship_object = AzurLaneShip(ship_item)
                 if ship_object.name.lower() == lookup.lower():

@@ -103,13 +103,13 @@ async def permit(cmd, pld):
                                         inner_exc = node_exc[node_name]
                                     else:
                                         inner_exc = generate_cmd_data(node_name)[node_name]
-                                    exc_usrs = inner_exc[target_type]
+                                    exc_users = inner_exc[target_type]
 
                                     bad_item = None
                                     for target in targets:
-                                        if target.id not in exc_usrs:
-                                            exc_usrs.append(target.id)
-                                            inner_exc.update({target_type: exc_usrs})
+                                        if target.id not in exc_users:
+                                            exc_users.append(target.id)
+                                            inner_exc.update({target_type: exc_users})
                                             node_exc.update({node_name: inner_exc})
                                             perms.update({exc_group: node_exc})
                                         else:

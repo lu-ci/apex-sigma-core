@@ -33,14 +33,14 @@ async def reactors(_cmd, pld):
     reactor_files = pld.settings.get('reactor_triggers')
     if reactor_files:
         reactor_list = sorted(list(reactor_files.keys()))
-        reac_count = len(reactor_list)
+        react_count = len(reactor_list)
         page = pld.args[0] if pld.args else 1
         triggers, page = PaginatorCore.paginate(reactor_list, page)
         start_range = (page - 1) * 10
         if triggers:
-            ender = 's' if reac_count > 1 else ''
+            ender = 's' if react_count > 1 else ''
             summary = f'Showing **{len(triggers)}** trigger{ender} from Page **#{page}**.'
-            summary += f'\n{pld.msg.guild.name} has **{reac_count}** reactor trigger{ender}.'
+            summary += f'\n{pld.msg.guild.name} has **{react_count}** reactor trigger{ender}.'
             loop_index = start_range
             trg_list_lines = []
             for key in triggers:

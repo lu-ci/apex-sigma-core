@@ -73,17 +73,17 @@ def get_pt_value(pt, lookup):
     :type lookup: str
     :rtype: str
     """
-    exceptables = (IndexError, TypeError, AttributeError)
+    exceptions = (IndexError, TypeError, AttributeError)
     for row in pt:
         try:
             row_key = row[0].text.strip().lower()
-        except exceptables:
+        except exceptions:
             row_key = None
         if row_key is not None:
             if row_key == lookup.lower():
                 try:
                     row_val = row[1].text_content().strip()
-                except exceptables:
+                except exceptions:
                     row_val = None
                 return row_val
 

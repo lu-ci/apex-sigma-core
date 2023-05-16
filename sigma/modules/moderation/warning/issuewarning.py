@@ -75,11 +75,11 @@ def warning_data(author, target, reason):
     return data
 
 
-def make_log_embed(author, target, warn_iden, reason):
+def make_log_embed(author, target, warn_ident, reason):
     """
     :type author: discord.Member
     :type target: discord.Member
-    :type warn_iden: str
+    :type warn_ident: str
     :type reason: str
     :rtype: discord.Embed
     """
@@ -92,7 +92,7 @@ def make_log_embed(author, target, warn_iden, reason):
     response.add_field(name='🛡 Moderator', value=author_descrp)
     if reason:
         response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    response.set_footer(text=f'[{warn_iden}] User ID: {target.id}')
+    response.set_footer(text=f'[{warn_ident}] User ID: {target.id}')
     return response
 
 
@@ -155,11 +155,11 @@ async def issuewarning(cmd, pld):
                 if not target.bot:
                     reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
                     warn_data = warning_data(pld.msg.author, target, reason)
-                    warn_iden = warn_data.get('warning').get('id')
+                    warn_ident = warn_data.get('warning').get('id')
                     await cmd.db[cmd.db.db_nam].Warnings.insert_one(warn_data)
-                    response = GenericResponse(f'Warning {warn_iden} issued to {target.name}.').ok()
+                    response = GenericResponse(f'Warning {warn_ident} issued to {target.name}.').ok()
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
-                    log_embed = make_log_embed(pld.msg.author, target, warn_iden, reason)
+                    log_embed = make_log_embed(pld.msg.author, target, warn_ident, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                     await check_auto_punish(cmd, pld, target)
                     guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None

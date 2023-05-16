@@ -45,9 +45,9 @@ async def addemote(cmd, pld):
             react_embed = discord.Embed(color=0xF9F9F9, title='💬 React with the desired emote.')
             react_msg = await pld.msg.channel.send(embed=react_embed)
 
-            def check_emote(reac, usr):
+            def check_emote(react, usr):
                 same_author = usr.id == pld.msg.author.id
-                same_message = reac.message.id == react_msg.id
+                same_message = react.message.id == react_msg.id
                 return same_author and same_message
 
             try:

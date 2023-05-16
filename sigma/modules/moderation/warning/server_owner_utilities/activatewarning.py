@@ -39,10 +39,10 @@ async def activatewarning(cmd, pld):
                 }
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
-                    warn_iden = warn_data.get('warning').get('id')
+                    warn_ident = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': True}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
-                    response = GenericResponse(f'Warning {warn_iden} reactivated.').ok()
+                    response = GenericResponse(f'Warning {warn_ident} reactivated.').ok()
                 else:
                     response = GenericResponse('Inactive warning not found.').not_found()
             else:

@@ -65,15 +65,15 @@ async def blackjack(cmd, pld):
                 game_msg = await pld.msg.channel.send(embed=game_embed)
                 [await game_msg.add_reaction(e) for e in GAME_EMOTES]
 
-                def check_emote(reac):
+                def check_emote(react):
                     """
                     Checks for a valid message reaction.
                     :type reac: discord.RawReactionActionEvent
                     :rtype: bool
                     """
-                    same_author = reac.user_id == pld.msg.author.id
-                    same_message = reac.message_id == game_msg.id
-                    valid_reaction = str(reac.emoji) in GAME_EMOTES
+                    same_author = react.user_id == pld.msg.author.id
+                    same_message = react.message_id == game_msg.id
+                    valid_reaction = str(react.emoji) in GAME_EMOTES
                     return same_author and same_message and valid_reaction
 
                 finished, bust, win = False, False, False

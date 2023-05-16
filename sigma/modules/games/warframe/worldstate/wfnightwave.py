@@ -27,7 +27,7 @@ from sigma.modules.games.warframe.commons.worldstate import WorldState
 nightwave_icon = 'https://i.imgur.com/nhivCTL.png'
 
 
-def get_xp_ammounts(challenges):
+def get_xp_amounts(challenges):
     """
     Gets a unique set of XP amounts from the given challenges.
     :type challenges: dict
@@ -96,7 +96,7 @@ async def wfnightwave(_cmd, pld):
     if nw:
         response = discord.Embed(color=0x6b1724, title=f'Nightwave Season {nw["season"] + 1}', )
         response.set_thumbnail(url=nightwave_icon)
-        xp = get_xp_ammounts(nw['challenges'])
+        xp = get_xp_amounts(nw['challenges'])
         dailies, weeklies, weeklies_hard = get_challenges(nw['challenges'], xp)
         d_offset, w_offset, wh_offset = get_offsets([dailies, weeklies, weeklies_hard])
         d_descs, w_descs, wh_descs = get_descriptions([dailies, weeklies, weeklies_hard])

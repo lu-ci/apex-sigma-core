@@ -106,14 +106,14 @@ class ItemCore(object):
 
     async def items_from_repo(self):
         if not self.manifest_items:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(ITEM_MANIFEST) as item_data_response:
+            async with aiohttp.ClientSession() as item_session:
+                async with item_session.get(ITEM_MANIFEST) as item_data_response:
                     item_data = await item_data_response.read()
                     self.manifest_items += yaml.safe_load(item_data)
-            async with aiohttp.ClientSession() as session:
-                async with session.get(RECIPE_MANIFEST) as reci_data_response:
-                    reci_data = await reci_data_response.read()
-                    self.manifest_items += yaml.safe_load(reci_data)
+            async with aiohttp.ClientSession() as recipe_session:
+                async with recipe_session.get(RECIPE_MANIFEST) as recipe_data_response:
+                    recipe_data = await recipe_data_response.read()
+                    self.manifest_items += yaml.safe_load(recipe_data)
         return self.manifest_items
 
     async def init_items(self):
@@ -258,5 +258,5 @@ class ItemCore(object):
             member_stats = {}
         item_count = member_stats.get(item.file_id) or 0
         item_count += 1
-        updata = {'$set': {item.file_id: item_count}}
-        await db[db.db_nam].ItemStatistics.update_one({'user_id': member.id}, updata)
+        stats = {'$set': {item.file_id: item_count}}
+        await db[db.db_nam].ItemStatistics.update_one({'user_id': member.id}, stats)

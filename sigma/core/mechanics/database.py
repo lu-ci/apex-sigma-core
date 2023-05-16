@@ -63,7 +63,7 @@ class Database(motor.AsyncIOMotorClient):
         to reduce database load during regular functionality.
         """
         self.bot.log.info('Pre-Caching all guild settings...')
-        all_settings = await self[self.db_cfg.database].ServerSettings.find({}).to_list(None)
+        all_settings = await self[self.db_cfg.database].ServerSettings.find().to_list(None)
         for setting_file in all_settings:
             guild_id = setting_file.get('server_id')
             if guild_id:
@@ -76,7 +76,7 @@ class Database(motor.AsyncIOMotorClient):
         to reduce database load during regular functionality.
         """
         self.bot.log.info('Pre-Caching all member profiles...')
-        all_settings = await self[self.db_cfg.database].Profiles.find({}).to_list(None)
+        all_settings = await self[self.db_cfg.database].Profiles.find().to_list(None)
         for setting_file in all_settings:
             guild_id = setting_file.get('user_id')
             if guild_id:
@@ -94,7 +94,7 @@ class Database(motor.AsyncIOMotorClient):
         for coll in all_colls:
             if coll.endswith('Resource'):
                 res_nam = coll[:8].lower()
-                docs = await self[self.db_nam][coll].find({}).to_list(None)
+                docs = await self[self.db_nam][coll].find().to_list(None)
                 for doc in docs:
                     uid = doc.get('user_id')
                     cache_key = f'res_{res_nam}_{uid}'
@@ -180,12 +180,12 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :rtype: bool
         """
-        sabbed = bool(await self.get_profile(user_id, 'sabotaged'))
-        if not sabbed:
+        sabotaged = bool(await self.get_profile(user_id, 'sabotaged'))
+        if not sabotaged:
             coll = self.db[self.db_nam].BlacklistedUsers
             lookup = {'user_id': user_id, 'total': True}
-            sabbed = bool(await coll.count_documents(lookup))
-        return sabbed
+            sabotaged = bool(await coll.count_documents(lookup))
+        return sabotaged
 
     # Resource Handling
 

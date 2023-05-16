@@ -79,7 +79,7 @@ async def detailed_ship_fill(ev):
     """
     ev.log.info('Updating detailed Azur Lane ship information...')
     headers = {'Cookie': 'stopMobileRedirect=true'}
-    all_ships = await ev.db[ev.db.db_nam].AzurLaneShips.find({}).to_list(None)
+    all_ships = await ev.db[ev.db.db_nam].AzurLaneShips.find().to_list(None)
     for ship_doc in all_ships:
         ship = AzurLaneShip(ship_doc)
         ev.log.info(f'Parsing {ship.name} details...')

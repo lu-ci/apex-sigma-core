@@ -25,11 +25,11 @@ from sigma.core.utilities.event_logging import log_event
 from sigma.core.utilities.generic_responses import GenericResponse
 
 
-def make_log_embed(author, target, warn_iden):
+def make_log_embed(author, target, warn_ident):
     """
     :type author: discord.Member
     :type target: discord.Member
-    :type warn_iden: str
+    :type warn_ident: str
     :rtype: discord.Embed
     """
     target_avatar = user_avatar(target)
@@ -39,7 +39,7 @@ def make_log_embed(author, target, warn_iden):
     response.set_author(name=f'{target.name} has been un-warned by {author.name}.', icon_url=target_avatar)
     response.add_field(name='⚠ Warned User', value=target_descrp)
     response.add_field(name='🛡 Moderator', value=author_descrp)
-    response.set_footer(text=f'[{warn_iden}] User ID {target.id}')
+    response.set_footer(text=f'[{warn_ident}] User ID {target.id}')
     return response
 
 
@@ -80,11 +80,11 @@ async def removewarning(cmd, pld):
                 warn_data = await cmd.db[cmd.db.db_nam].Warnings.find_one(lookup)
                 if warn_data:
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target)
-                    warn_iden = warn_data.get('warning').get('id')
+                    warn_ident = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
                     await cmd.db[cmd.db.db_nam].Warnings.update_one(lookup, change_data)
-                    response = GenericResponse(f'Warning {warn_iden} deactivated.').ok()
-                    log_embed = make_log_embed(pld.msg.author, target, warn_iden)
+                    response = GenericResponse(f'Warning {warn_ident} deactivated.').ok()
+                    log_embed = make_log_embed(pld.msg.author, target, warn_ident)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                 else:
                     response = GenericResponse(f'{target.name} has no {warn_id} warning.').not_found()

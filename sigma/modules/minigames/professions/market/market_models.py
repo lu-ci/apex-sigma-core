@@ -118,7 +118,7 @@ class MarketEntry(abc.ABC):
         :rtype: list
         """
         entries = []
-        curr = db[db.db_nam].MarketEntries.find({})
+        curr = db[db.db_nam].MarketEntries.find()
         if sort:
             curr.sort([sort])
         docs = await curr.to_list(None)

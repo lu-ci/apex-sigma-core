@@ -186,15 +186,15 @@ class DialogueCore(object):
                 response.error = True
                 return response
 
-            def check_emote(reac):
+            def check_emote(react):
                 """
                 Checks for a valid message reaction.
-                :type reac: discord.RawReactionActionEvent
+                :type react: discord.RawReactionActionEvent
                 :rtype: bool
                 """
-                same_author = reac.user_id == self.msg.author.id
-                same_message = reac.message_id == confirmation.id
-                valid_reaction = str(reac.emoji) in BOOL_REACTIONS
+                same_author = react.user_id == self.msg.author.id
+                same_message = react.message_id == confirmation.id
+                valid_reaction = str(react.emoji) in BOOL_REACTIONS
                 return same_author and same_message and valid_reaction
 
             try:
@@ -238,15 +238,15 @@ class DialogueCore(object):
                 Ongoing.del_ongoing('dialogue', self.user.id)
                 return response
 
-            def check_emote(reac):
+            def check_emote(react):
                 """
                 Checks for a valid message reaction.
-                :type reac: discord.RawReactionActionEvent
+                :type react: discord.RawReactionActionEvent
                 :rtype: bool
                 """
-                same_author = reac.user_id == self.msg.author.id
-                same_message = reac.message_id == confirmation.id
-                valid_reaction = (str(reac.emoji) in INT_REACTIONS) or str(reac.emoji) == CANCEL_REACT
+                same_author = react.user_id == self.msg.author.id
+                same_message = react.message_id == confirmation.id
+                valid_reaction = (str(react.emoji) in INT_REACTIONS) or str(react.emoji) == CANCEL_REACT
                 return same_author and same_message and valid_reaction
 
             try:
@@ -302,15 +302,15 @@ class DialogueCore(object):
                 Ongoing.del_ongoing('dialogue', self.user.id)
                 return response
 
-            def check_emote(reac):
+            def check_emote(react):
                 """
                 Checks for a valid message reaction.
-                :type reac: discord.RawReactionActionEvent
+                :type react: discord.RawReactionActionEvent
                 :rtype: bool
                 """
-                same_author = reac.user_id == self.msg.author.id
-                same_message = reac.message_id == confirmation.id
-                valid_reaction = str(reac.emoji) in possible
+                same_author = react.user_id == self.msg.author.id
+                same_message = react.message_id == confirmation.id
+                valid_reaction = str(react.emoji) in possible
                 return same_author and same_message and valid_reaction
 
             try:

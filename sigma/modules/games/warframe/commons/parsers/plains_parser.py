@@ -58,12 +58,12 @@ async def get_plains_data(db):
     return plains_out, triggers
 
 
-def generate_plains_embed(poedat):
+def generate_plains_embed(data):
     """
-    :type poedat: dict
+    :type data: dict
     :rtype: discord.Embed
     """
-    if poedat.get('day'):
+    if data.get('day'):
         icon = '☀'
         state = 'Day'
         color = 0xffac33
