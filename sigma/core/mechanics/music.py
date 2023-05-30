@@ -22,7 +22,7 @@ import os
 from asyncio.queues import Queue
 
 import discord
-import youtube_dl
+import yt_dlp
 
 ytdl_params = {
     'format': 'bestaudio/best',
@@ -70,7 +70,7 @@ class QueueItem(object):
         self.downloaded = False
         self.loop = asyncio.get_event_loop()
         self.ytdl_params = ytdl_params
-        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+        self.ytdl = yt_dlp.YoutubeDL(self.ytdl_params)
         self.token = self.tokenize()
         self.location = None
 
@@ -93,7 +93,9 @@ class QueueItem(object):
         if self.url:
             out_location = f'cache/{self.token}'
             if not os.path.exists(out_location):
-                self.ytdl.params.update({'outtmpl': out_location})
+                outtmpl = self.ytdl.params.get('outtmpl')
+                outtmpl.update({'default': out_location})
+                self.ytdl.params.update(outtmpl)
                 await self.bot.threader.execute(self.ytdl.extract_info, (self.url,))
                 self.downloaded = True
             self.location = out_location
@@ -109,7 +111,6 @@ class QueueItem(object):
             audio_source = discord.FFmpegOpusAudio(self.location)
             if voice_client:
                 if not voice_client.is_playing():
-                    voice_client.play(audio_source)
                     await self.bot.threader.execute(voice_client.play, (audio_source,))
 
 
@@ -136,7 +137,7 @@ class MusicCore(object):
         self.currents = {}
         self.repeaters = []
         self.ytdl_params = ytdl_params
-        self.ytdl = youtube_dl.YoutubeDL(self.ytdl_params)
+        self.ytdl = yt_dlp.YoutubeDL(self.ytdl_params)
 
     async def init(self, loop):
         """
