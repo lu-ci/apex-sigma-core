@@ -195,7 +195,7 @@ class GlobalCommandPermissions(object):
             desc += '\nYou can request to be a partner server by visiting our '
             desc += 'server and telling us why you should be one.'
             desc += '\nYou can also become a partner by supporting us via our '
-            desc += '[`Patreon`](https://www.patreon.com/ApexSigma) page.'
+            desc += '[`Patreon`](https://www.patreon.com/luciascipher) page.'
         else:
             return
         response = discord.Embed(color=color)

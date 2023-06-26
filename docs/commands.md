@@ -1,4 +1,4 @@
-**Hey there!** We need your **help**! Come support us on [**Patreon**](https://www.patreon.com/ApexSigma)!
+**Hey there!** We need your **help**! Come support us on [**Patreon**](https://www.patreon.com/luciascipher)!
 
 ## Module Index
 - [AZUR LANE](#azur-lane)

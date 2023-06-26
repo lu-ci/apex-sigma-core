@@ -38,7 +38,7 @@ async def command_md(ev):
             categories.update({cat: cmd_list})
         key_list = sorted(list(categories))
         prefix = '>>'
-        patreon_url = 'https://www.patreon.com/ApexSigma'
+        patreon_url = 'https://www.patreon.com/luciascipher'
         output = f'**Hey there!** We need your **help**! Come support us on [**Patreon**]({patreon_url})!'
         output += '\n'
         output += '\n## Module Index'

@@ -23,7 +23,7 @@ from sigma.core.utilities.generic_responses import GenericResponse
 
 LUCIA_IMAGE = 'https://i.imgur.com/KVgdtNg.png'
 SIGMA_TITLE = 'Apex Sigma: The Database Giant'
-PATREON_URL = 'https://www.patreon.com/ApexSigma'
+PATREON_URL = 'https://www.patreon.com/luciascipher'
 PAYPAL_URL = 'https://www.paypal.me/AleksaRadovic'
 SUPPORT_URL = 'https://discordapp.com/invite/aEUCHwX'
 
