@@ -19,7 +19,7 @@ import arrow
 import discord
 
 HOME_GUILD_ID = 200751504175398912
-HOURS_TO_APPREA = [9, 23]
+HOURS_TO_APPEAR = [9, 23]
 MIN_DELAY = 22 * 3600
 
 
@@ -45,7 +45,7 @@ async def should_show(db, pld):
     # show = False
     # if not shown_today(pld):
     #     now = arrow.utcnow()
-    #     if now.hour in HOURS_TO_APPREA:
+    #     if now.hour in HOURS_TO_APPEAR:
     #         show = True
     show = not shown_today(pld)
     if show:
@@ -72,5 +72,5 @@ async def donate_cta(ev, pld):
                 response.description += ' You can donate either via [Patreon](https://www.patreon.com/luciascipher)'
                 response.description += ' or [PayPal](https://www.paypal.me/AleksaRadovic).'
                 response.description += ' Thank you for your support! <3'
-                response.set_footer(text='This message appreas only once per day.')
+                response.set_footer(text='This message appears only once per day.')
                 await pld.msg.channel.send(embed=response)
