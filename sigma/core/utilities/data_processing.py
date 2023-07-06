@@ -41,19 +41,35 @@ def convert_to_seconds(time_input):
     :type time_input: str
     :rtype: int
     """
-    indent_list = time_input.split(':')
+    total = 0
+    suffixes = {
+        's': 1,
+        'm': 60,
+        'h': 3600,
+        'd': 86400,
+        'w': 604800,
+        'y': 31536000
+    }
+    modifiers = [1, 60, 3600, 86400, 604800, 31536000]
+    space_list = time_input.split(' ')
     try:
-        if len(indent_list) == 3:
-            output = (3600 * int(indent_list[0])) + (60 * int(indent_list[1]) + int(indent_list[2]))
-        elif len(indent_list) == 2:
-            output = (60 * int(indent_list[0]) + int(indent_list[1]))
-        elif len(indent_list) == 1:
-            output = int(indent_list[0])
-        else:
-            raise LookupError
+        for sli in space_list:
+            if ':' not in sli and ' ' not in sli:
+                if sli[-1] in suffixes:
+                    total += int(sli[:-1]) * suffixes[sli[-1]]
+                else:
+                    total += int(sli)
     except ValueError:
         raise LookupError
-    return output
+    colon_list = time_input.split(':')
+    suffix_keys = list(suffixes.keys())
+    if len(colon_list) <= len(modifiers):
+        for cix, cli in enumerate(reversed(colon_list)):
+            if ':' not in cli and ' ' not in cli and cli[-1] not in suffix_keys:
+                total += int(cli) * modifiers[cix]
+    else:
+        raise LookupError
+    return total
 
 
 def user_avatar(user, static=False, display=False):

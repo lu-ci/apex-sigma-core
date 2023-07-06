@@ -36,7 +36,7 @@ async def remindme(cmd, pld):
         time_req = pld.args[0]
         try:
             in_seconds = convert_to_seconds(time_req)
-            upper_limit = 7776000
+            upper_limit = 60 * 60 * 24 * 365.25 * 3
             if in_seconds <= upper_limit:
                 rem_count = await cmd.db[cmd.db.db_nam].Reminders.count_documents({'user_id': pld.msg.author.id})
                 rem_limit = 15
@@ -76,9 +76,10 @@ async def remindme(cmd, pld):
                 else:
                     response = GenericResponse('You already have 15 reminders pending.').error()
             else:
-                response = GenericResponse('Reminders have a limit of 90 days.').error()
+                response = GenericResponse('Reminders have a limit of 3 years.').error()
         except (LookupError, ValueError):
-            response = GenericResponse('Please use the format HH:MM:SS.').error()
+            response = GenericResponse('Please use the correct format.').error()
+            response.description = 'The correct format is `1y 2w 3d 4h 5m 6s` or `1:2:3:4:5:6`.'
     else:
         response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

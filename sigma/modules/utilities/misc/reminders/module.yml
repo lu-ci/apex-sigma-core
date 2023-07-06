@@ -6,8 +6,9 @@ commands:
       - alarm
       - rmme
     description: Sets a timer that will mention the author when it's done. The time
-      format is H:M:S, but is not limited to the constraints of their types, meaning
-      you can type "200:5000:999999" if you wish. Reminders are limited to 90 days,
+      format is Y:W:D:H:M:S, but is not limited to the constraints of their types, meaning
+      you can type "200:5000:999999" if you wish. You can also use numbers suffixed
+      with "y", "w", "d", "h", "m", or "s" to specify a time. Reminders are limited to 3 years,
       and you are limited to 15 reminders. You can also add "--direct" as the final
       argument to make the reminder a direct message.
     enabled: true
