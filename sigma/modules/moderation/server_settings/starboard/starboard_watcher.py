@@ -175,6 +175,7 @@ async def starboard_watcher(ev, pld):
     global star_cache
     if not star_cache:
         star_cache = MemoryCacher(CacheConfig({}))
+
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
@@ -182,26 +183,40 @@ async def starboard_watcher(ev, pld):
     gid = payload.guild_id
     emoji = payload.emoji
     guild = await ev.bot.get_guild(gid)
-    if guild:
-        channel = guild.get_channel_or_thread(cid)
-        starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
-        if starboard_doc.get('state'):
-            sbc = starboard_doc.get('channel_id')
-            sbe = starboard_doc.get('emote')
-            sbl = starboard_doc.get('limit')
-            if sbc and sbe and sbl:
-                if channel.id != sbc:
-                    if emoji.name == sbe:
-                        user = guild.get_member(uid)
-                        if user:
-                            if not user.bot:
-                                try:
-                                    enough = await check_emotes(mid, uid, sbl)
-                                    if enough:
-                                        message = await channel.fetch_message(mid)
-                                        if not message.author.bot:
-                                            file, content, embed = await generate_embed(message)
-                                            if file or embed:
-                                                await post_starboard(message, file, content, embed, sbc)
-                                except (discord.NotFound, discord.Forbidden):
-                                    pass
+    if not guild:
+        return
+
+    channel = guild.get_channel_or_thread(cid)
+    starboard_doc = await ev.db.get_guild_settings(guild.id, 'starboard') or {}
+    if not starboard_doc.get('state'):
+        return
+
+    sbc = starboard_doc.get('channel_id')
+    sbe = starboard_doc.get('emote')
+    sbl = starboard_doc.get('limit')
+
+    user = guild.get_member(uid)
+    if not all([
+        all([sbc, sbe, sbl]),
+        channel.id != sbc,
+        emoji.name == sbe,
+        bool(user),
+        not user.bot
+    ]):
+        return
+
+    try:
+        enough = await check_emotes(mid, uid, sbl)
+        if not enough:
+            return
+
+        message = await channel.fetch_message(mid)
+        if message.author.bot:
+            return
+
+        file, content, embed = await generate_embed(message)
+        if file or embed:
+            await post_starboard(message, file, content, embed, sbc)
+
+    except (discord.NotFound, discord.Forbidden):
+        pass
