@@ -1,4 +1,4 @@
-aiohttp==3.8.4
+aiohttp==3.8.5
 arrow==1.2.3
 cachetools==5.3.1
 cryptography==41.0.1
