@@ -58,7 +58,7 @@ events:
   - enabled: true
     name: integrity_check
     type: boot
-  - enabled: true
+  - enabled: false
     name: donate_cta
     type: command
 name: Help and Information
