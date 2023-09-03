@@ -22,9 +22,11 @@ from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_lis
 
 
 def get_stamina_effect(level: int) -> int:
+    limit = 2
     base_cooldown = 20
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((level * 0.5) / (1.25 + (0.01 * level)))))
-    return 2 if (base_cooldown - cooldown) < 2 else (base_cooldown - cooldown)
+    cooldown = cooldown if cooldown >= limit else limit
+    return base_cooldown - cooldown
 
 
 def get_oven_effect(level: int) -> int:
@@ -35,9 +37,11 @@ def get_oven_effect(level: int) -> int:
 
 
 def get_casino_effect(level: int) -> int:
+    limit = 5
     base_cooldown = 60
     cooldown = int(base_cooldown - ((base_cooldown / 100) * ((level * 0.5) / (1.25 + (0.01 * level)))))
-    return 5 if (base_cooldown - cooldown) < 5 else (base_cooldown - cooldown)
+    cooldown = cooldown if cooldown >= limit else limit
+    return base_cooldown - cooldown
 
 
 def calculate_upgrade(up_id, level):
@@ -94,7 +98,12 @@ async def upgrades(cmd, pld):
         else:
             upgrade_level = 0
         up_data = calculate_upgrade(upgrade_id, upgrade_level)
-        upgrade_text += f'\n**Level {upgrade_level}** {upgrade["name"]}: **{up_data["amount"]} {up_data["end"]}**'
+        amount = up_data["amount"]
+        suffix = up_data["end"]
+        if suffix.endswith('s'):
+            if abs(amount) == 1:
+                suffix = suffix[:-1]
+        upgrade_text += f'\n**Level {upgrade_level}** {upgrade["name"]}: **{amount} {suffix}**'
     upgrade_list_embed = discord.Embed(color=0xF9F9F9, title=f'🛍 {target.display_name}\'s Sigma Upgrades')
     upgrade_list_embed.description = upgrade_text
     await pld.msg.channel.send(embed=upgrade_list_embed)
