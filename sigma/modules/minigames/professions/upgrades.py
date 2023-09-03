@@ -21,6 +21,25 @@ import discord
 from sigma.modules.minigames.professions.nodes.upgrade_params import upgrade_list
 
 
+def get_stamina_effect(level: int) -> int:
+    base_cooldown = 20
+    cooldown = int(base_cooldown - ((base_cooldown / 100) * ((level * 0.5) / (1.25 + (0.01 * level)))))
+    return 2 if (base_cooldown - cooldown) < 2 else (base_cooldown - cooldown)
+
+
+def get_oven_effect(level: int) -> int:
+    base_cooldown = 3600
+    stamina_mod = level / (1.25 + (0.01 * level))
+    cooldown = int(base_cooldown - ((base_cooldown / 100) * stamina_mod))
+    return base_cooldown - cooldown
+
+
+def get_casino_effect(level: int) -> int:
+    base_cooldown = 60
+    cooldown = int(base_cooldown - ((base_cooldown / 100) * ((level * 0.5) / (1.25 + (0.01 * level)))))
+    return 5 if (base_cooldown - cooldown) < 5 else (base_cooldown - cooldown)
+
+
 def calculate_upgrade(up_id, level):
     """
     :type up_id: str
@@ -29,7 +48,7 @@ def calculate_upgrade(up_id, level):
     """
     up_table = {
         'stamina': {
-            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
+            'amount': -get_stamina_effect(level),
             'end': 'Seconds'
         },
         'luck': {
@@ -41,11 +60,11 @@ def calculate_upgrade(up_id, level):
             'end': 'Spaces'
         },
         'oven': {
-            'amount': -(3600 - (int(3600 - ((3600 / 100) * (level / (1.25 + (0.01 * level))))))),
+            'amount': -get_oven_effect(level),
             'end': 'Seconds'
         },
         'casino': {
-            'amount': -(60 - (int(60 - ((60 / 100) * ((level * 0.5) / (1.25 + (0.01 * level))))))),
+            'amount': -get_casino_effect(level),
             'end': 'Seconds'
         },
         'harem': {
