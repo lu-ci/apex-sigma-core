@@ -16,15 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json
-
-import aiohttp
+import arrow
 import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.core.utilities.url_processing import aioget
 
 api_base = 'https://en.wikipedia.org/w/api.php?format=json'
 wiki_icon = 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wikipedia_logo_silver.png'
+stat_base = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/all-agents/'
 
 
 def shorten_sentences(text):
@@ -34,16 +34,16 @@ def shorten_sentences(text):
     :type text: str
     :rtype: str
     """
-    sentences = text.replace('\n', ' ')
-    if len(sentences) > 1900:
-        sentences = sentences[:1900].rpartition('.')[0] + '...'
+    sentences = text.replace('\n', '\n\n')
+    if len(sentences) > 4000:
+        sentences = sentences[:4000].rpartition('.')[0] + '...'
     return sentences
 
 
 def get_exact_results(search_data):
     """
     Gets the first exact result from the api response.
-    :type search_data: list
+    :type search_data: dict
     :rtype: str, str
     """
     exact_result = None
@@ -65,29 +65,32 @@ async def wikipedia(_cmd, pld):
     """
     if pld.args:
         api_url = f'{api_base}&action=opensearch&search={" ".join(pld.args)}&redirects=resolve'
-        async with aiohttp.ClientSession() as session:
-            async with session.get(api_url) as qs_session:
-                resp_data = await qs_session.read()
-                search_data = json.loads(resp_data)
+        search_data = await aioget(api_url, as_json=True)
+
         if search_data[1]:
             exact_result = get_exact_results(search_data)
             if exact_result:
                 lookup, wiki_url = exact_result
                 summary_url = f'{api_base}&action=query&prop=extracts&exintro&explaintext&titles={lookup}'
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(summary_url) as qs_session:
-                        summ_res_data = await qs_session.read()
-                        summ_data = json.loads(summ_res_data)
+                summ_data = await aioget(summary_url, as_json=True)
+
                 pages = summ_data.get('query', {}).get('pages', {})
                 page_id = list(pages.keys())[0]
                 summ = pages.get(page_id)
                 summ_title = summ.get('title')
                 summ_content = summ.get('extract')
-                if len(summ_content) > 1900:
-                    summ_content = shorten_sentences(summ_content)
+                summ_content = shorten_sentences(summ_content)
+
+                now = arrow.utcnow()
+                stat_start = now.shift(days=-31).format('YYYYMMDDHH')
+                stat_end = now.format('YYYYMMDDHH')
+                page_stats = await aioget(f'{stat_base}{lookup}/monthly/{stat_start}/{stat_end}', True)
+                page_views = page_stats['items'][0]['views']
+
                 response = discord.Embed(color=0xF9F9F9)
                 response.set_author(name=summ_title, icon_url=wiki_icon, url=wiki_url)
                 response.description = summ_content
+                response.set_footer(text=f'{page_views} people viewed this article in the last month')
             else:
                 response = GenericResponse('Search too broad, please be more specific.').error()
         else:
