@@ -82,10 +82,10 @@ async def wikipedia(_cmd, pld):
                 summ_content = shorten_sentences(summ_content)
 
                 now = arrow.utcnow()
-                stat_start = now.shift(days=-31).format('YYYYMMDDHH')
+                stat_start = now.shift(days=-60).format('YYYYMMDDHH')
                 stat_end = now.format('YYYYMMDDHH')
                 page_stats = await aioget(f'{stat_base}{lookup}/monthly/{stat_start}/{stat_end}', True)
-                page_views = page_stats['items'][0]['views']
+                page_views = page_stats.get('items', [{}])[0].get('views', 0)
 
                 response = discord.Embed(color=0xF9F9F9)
                 response.set_author(name=summ_title, icon_url=wiki_icon, url=wiki_url)
