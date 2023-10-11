@@ -77,7 +77,7 @@ async def get_video(msg, url):
         async with session.get(url) as resp:
             data = await resp.read()
 
-    file_ext = url.lower().split('.')[-1]
+    file_ext = url.lower().split('.')[-1].split('?')[0]
     file = discord.File(BytesIO(data), f'{msg.id}.{file_ext}')
     content = f'**{msg.author.name}** in {msg.channel.mention}'
     if msg.content:
