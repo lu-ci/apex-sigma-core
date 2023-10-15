@@ -246,7 +246,7 @@ class GlobalCommandPermissions(object):
             self.partner_denied
         ]
         letters = ['u', 's', 'o', 'm', 'c', 'd', 'n', 'v']
-        fmt = ''.join(map(lambda c, l: l if c else '-', conds, letters))
+        fmt = ''.join(map(lambda cond, letter: letter if cond else '-', conds, letters))
         log_line = (
             'ACCESS DENIED'
             f' | {fmt}'

@@ -133,9 +133,9 @@ async def convertcurrency(cmd, pld):
                         else:
                             response = GenericResponse('Invalid amount.').error()
                     else:
-                        response = GenericResponse(f'Unrecognized target currency.').error()
+                        response = GenericResponse('Unrecognized target currency.').error()
                 else:
-                    response = GenericResponse(f'Unrecognized source currency.').error()
+                    response = GenericResponse('Unrecognized source currency.').error()
             else:
                 response = GenericResponse('Bad number of arguments.').error()
         else:

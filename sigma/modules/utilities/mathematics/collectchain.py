@@ -96,11 +96,11 @@ async def collectchain(cmd, pld):
             else:
                 mid = 'have a' if pld.msg.author.id == target_usr.id else 'has a'
                 if queue_check.get('target'):
-                    description = f'A collection has already been requested for you.'
+                    description = 'A collection has already been requested for you.'
                 elif queue_check.get('author'):
-                    description = f'You have already requested a collection for someone.'
+                    description = 'You have already requested a collection for someone.'
                 else:
-                    description = f'Your chain is currently being collected, please wait for it to finish.'
+                    description = 'Your chain is currently being collected, please wait for it to finish.'
                 document = queue_check.get('document')
                 now = arrow.utcnow().int_timestamp
                 timestamp = document.get('stamp')

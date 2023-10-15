@@ -51,7 +51,6 @@ async def get_vn_result(lookup: str):
     highest_score = 0
     for result in search_results:
         parent = result.getparent().getparent()
-        name = parent[1][0].text
         ratings = int(parent[-1][-1][-1][-1][-1].text.strip()[1:-1])
         if ratings > highest_score:
             highest_score = ratings
