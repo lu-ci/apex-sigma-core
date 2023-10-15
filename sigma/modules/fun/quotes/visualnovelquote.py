@@ -20,6 +20,8 @@ import aiohttp
 import discord
 from lxml import html
 
+from sigma.core.utilities.url_processing import aioget
+
 source_page = 'https://vndb.org/r'
 vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 
@@ -31,16 +33,12 @@ async def visualnovelquote(_cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    async with aiohttp.ClientSession() as session:
-        async with session.get(source_page) as data:
-            data = await data.text()
+    data = await aioget(source_page)
     page = html.fromstring(data)
     footer_quote = page.cssselect('footer a')[0]
     quote_text = footer_quote.text_content().strip()
     quote_url = f"https://vndb.org{footer_quote.attrib['href']}"
-    async with aiohttp.ClientSession() as session:
-        async with session.get(quote_url) as quote_page:
-            quote_page = await quote_page.text()
+    quote_page = await aioget(quote_url)
     quote_page = html.fromstring(quote_page)
     try:
         vn_title = quote_page.cssselect('.stripe')[0][0][1].text_content().strip()
