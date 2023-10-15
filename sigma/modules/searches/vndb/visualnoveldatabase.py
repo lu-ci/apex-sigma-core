@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import secrets
+from typing import Optional
 
 import discord
 import lxml.html as lx
@@ -29,66 +30,33 @@ from sigma.modules.searches.vndb.models.visual_novel import VisualNovel
 vndb_icon = 'https://i.imgur.com/YrK5tQF.png'
 
 
-def get_name_match(results, lookup):
-    """
-    :type results: list
-    :type lookup: str
-    :rtype: str
-    """
-    match = None
-    results = results[1:]
-    if len(results):
-        for result in results:
-            try:
-                vn_name = result[0].text
-                if vn_name.lower() == lookup.lower():
-                    match = f"https://vndb.org/{result[0].attrib.get('href')}"
-                    break
-            except IndexError:
-                pass
-        if match is None:
-            match = f"https://vndb.org/{results[0][0].attrib.get('href')}"
-    return match
+async def get_vn(lookup: str) -> Optional[VisualNovel]:
+    vn = None
+    result = await get_vn_result(lookup)
+    if result is not None:
+        vnid = int(result[0][0].attrib.get('href')[2:])
+        uri = f'https://vndb.org/v{vnid}'
+        page = await aioget(uri)
+        page_root = lx.fromstring(page)
+        vn = VisualNovel(page_root)
+    return vn
 
 
-async def get_details_page(lookup):
-    """
-    :type lookup: str
-    :rtype: lxml.html.HtmlElement
-    """
-    if lookup == '--random':
-        lookup = secrets.randbelow(25261) + 1
-    try:
-        int(lookup)
-        page_url = f'https://vndb.org/v{lookup}'
-    except ValueError:
-        page_url = f'https://vndb.org/v/all?q={lookup};fil=tagspoil-0;rfil=;o=d;s=pop'
-    search_page = await aioget(page_url)
-    search_page_root = lx.fromstring(search_page)
-    if not search_page_root.cssselect('.vnimg'):
-        results = search_page_root.cssselect('.tc1')
-        search_page_root = None
-        if results:
-            search_url = get_name_match(results, lookup)
-            if search_url:
-                search_page = await aioget(search_url)
-                search_page_root = lx.fromstring(search_page)
-    return search_page_root
-
-
-async def get_vn(lookup):
-    """
-    :type lookup: str
-    :rtype: sigma.modules.searches.vndb.models.visual_novel.VisualNovel or None
-    """
-    vn_data = None
-    page_root = await get_details_page(lookup)
-    if page_root is not None:
-        try:
-            vn_data = VisualNovel(page_root)
-        except (KeyError, AttributeError, IndexError):
-            vn_data = None
-    return vn_data
+async def get_vn_result(lookup: str):
+    uri = f'https://vndb.org/v/all?f=&p=1&q={lookup}&s=p0p'
+    search_page = await aioget(uri)
+    search_root = lx.fromstring(search_page)
+    search_results = search_root.cssselect('.imghover')
+    highest_elem = None
+    highest_score = 0
+    for result in search_results:
+        parent = result.getparent().getparent()
+        name = parent[1][0].text
+        ratings = int(parent[-1][-1][-1][-1][-1].text.strip()[1:-1])
+        if ratings > highest_score:
+            highest_score = ratings
+            highest_elem = result
+    return highest_elem
 
 
 async def visualnoveldatabase(_cmd, pld):

@@ -29,6 +29,10 @@ async def aioget(url, as_json=False, headers=None):
     :type headers: dict
     :rtype: str or dict
     """
+    if headers is None:
+        headers = {
+            'User-Agent': 'Apex Sigma'
+        }
     async with aiohttp.ClientSession() as aio_client:
         async with aio_client.get(url, headers=headers) as aio_session:
             response = await aio_session.text()

@@ -23,11 +23,11 @@ class VisualNovel(object):
         :type page_root: lxml.html.HtmlElement
         """
         self.page = page_root
-        self.id = self.page.cssselect('.maintabs')[0][0][0].attrib.get('href').split('/')[1][1:]
+        self.id = self.page.base.split('/')[-1][1:]
         self.url = f'https://vndb.org/v{self.id}'
         self.details = self.page.cssselect('.vndetails')[0]
         self.detail_table = self.details[1]
-        self.title = self.detail_table[0][1].text
+        self.title = self.detail_table.cssselect('.title')[0][1][0].text.strip()
         self.aliases = self.detail_table[1][1].text.split(', ')
         self.length = self.detail_table[2][1].text
         self.image = None
