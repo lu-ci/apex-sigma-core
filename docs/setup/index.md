@@ -61,7 +61,7 @@ and run the following.
 pip install -Ur requirements.txt
 ```
 
-This  is the part where you grab a drink while it finishes.
+This is the part where you grab a drink while it finishes.
 The speed depends on both your network speed and processing power.
 
 ## Running

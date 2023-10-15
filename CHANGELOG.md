@@ -7,7 +7,7 @@
 - Change command list MD file location.
 - Replace documentation files with new, reworked content.
 - Buff raffle currency rewards and guarantee recipe items.
-- Fixed rate limits causing `reddit` to break. 
+- Fixed rate limits causing `reddit` to break.
 
 ## 4.91.1820 Fubuki
 

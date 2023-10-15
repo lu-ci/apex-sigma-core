@@ -1,12 +1,12 @@
-- name:          AXAz0r
+- name: AXAz0r
   discriminator: 2226
-  id:            137951917644054529
-- name:          Awakening
+  id: 137951917644054529
+- name: Awakening
   discriminator: 1929
-  id:            125750263687413760
-- name:          Valeth
+  id: 125750263687413760
+- name: Valeth
   discriminator: 1736
-  id:            217078934976724992
-- name:          Shifty9
+  id: 217078934976724992
+- name: Shifty9
   discriminator: 7293
-  id:            208974392644861952
+  id: 208974392644861952

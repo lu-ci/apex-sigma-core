@@ -1,7 +1,7 @@
 # Core
 
 The core consists of 4 configuration files controlling
-various parameters and information. Stuff like Discord authentication, 
+various parameters and information. Stuff like Discord authentication,
 database and cache connection information, etc.
 These files are `cache.yml` , `database.yml` , `discord.yml`
 

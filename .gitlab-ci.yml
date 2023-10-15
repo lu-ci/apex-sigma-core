@@ -36,7 +36,7 @@ variables:
 
 .test-job: &test-job
   <<: *pull-cache
-  stage:       test
+  stage: test
   environment: test
 
 

@@ -6,7 +6,8 @@ otherwise the "Manual" one.
 
 ## Manual
 
-You can download the entire repository from [here](https://gitlab.com/lu-ci/sigma/apex-sigma/-/archive/master/apex-sigma-master.zip) as a ZIP file.
+You can download the entire repository
+from [here](https://gitlab.com/lu-ci/sigma/apex-sigma/-/archive/master/apex-sigma-master.zip) as a ZIP file.
 Once it's done downloading just extract it to where you want Sigma's files to be.
 
 Updating manually is crude, you re-download the ZIP above and overwrite the

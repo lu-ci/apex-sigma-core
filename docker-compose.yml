@@ -21,9 +21,9 @@ services:
     deploy:
       replicas: 1
     volumes:
-      - type:      bind
-        source:    "./config"
-        target:    "/app/config"
+      - type: bind
+        source: "./config"
+        target: "/app/config"
         read_only: true
     networks:
       - "bot"

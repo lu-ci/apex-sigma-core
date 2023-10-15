@@ -9,6 +9,7 @@
 ## Apex Sigma Usage Rules
 
 You are NOT allowed to:
+
 * Use Sigma to damage communities or users.
 * Actively attempt to overload or damage the bot's functionality.
 * Automate or bot any and all commands in any way. This includes, but is not limited to botting and using macros.

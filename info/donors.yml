@@ -1,153 +1,153 @@
 donors:
-  - name:   "Crunderwood"
-    tier:   4
+  - name: "Crunderwood"
+    tier: 4
     avatar: "https://www.gravatar.com/avatar/fbee801b533ebe094d8e020724436cae.png?s=128"
-    duid:   146002691993108482
-  - name:   "Kreasu"
-    tier:   0
+    duid: 146002691993108482
+  - name: "Kreasu"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/d0fc68c19f93823ea54d3deec0180c54.png?s=128"
-    duid:   191620253497819136
-  - name:   "Amenophyckxs"
-    tier:   0
+    duid: 191620253497819136
+  - name: "Amenophyckxs"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/2af5424faf0dfe6f335e78a9c3f166ad.png?s=128"
-    duid:   95995895543246848
-  - name:   "Patrice"
-    tier:   0
+    duid: 95995895543246848
+  - name: "Patrice"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/f6fcdc6db35aa656585a8b2f89397f76.png?s=128"
-    duid:   129217348178542592
-  - name:   "Mahum"
-    tier:   0
+    duid: 129217348178542592
+  - name: "Mahum"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/d834f493bd80dc026d6e0e6815a0814a.png?s=128"
-    duid:   213044951800479744
-  - name:   "SpookyPixel"
-    tier:   0
+    duid: 213044951800479744
+  - name: "SpookyPixel"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/183bf5206f9f9a972950ab74bb32e077.png?s=128"
-    duid:   231499144517255168
-  - name:   "Sophie"
-    tier:   0
+    duid: 231499144517255168
+  - name: "Sophie"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/9c519fa8012718be38a45ca38197a4b1.png?s=128"
-    duid:   133088040259158016
-  - name:   "Drewbie"
-    tier:   0
+    duid: 133088040259158016
+  - name: "Drewbie"
+    tier: 0
     avatar: "https://i.imgur.com/t4ALprE.jpg"
-    duid:   201556233004646410
-  - name:   "Valeth"
-    tier:   0
+    duid: 201556233004646410
+  - name: "Valeth"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/17d3a152085c9a4d08254acc7ee5d06e.png?s=128"
-    duid:   217078934976724992
-  - name:   "LoliHolic"
-    tier:   0
+    duid: 217078934976724992
+  - name: "LoliHolic"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/b114a7a0f2d56f41da6ecb1be1d381b0.png?s=128"
-    duid:   153988299877253120
-  - name:   "MetallicaDutch"
-    tier:   0
+    duid: 153988299877253120
+  - name: "MetallicaDutch"
+    tier: 0
     avatar: "https://www.gravatar.com/avatar/a7b3225a0fcbcc0f7a3efb476182fb48.png?s=128"
-    duid:   188009639198195712
-  - name:   "Faillesz"
-    tier:   0
+    duid: 188009639198195712
+  - name: "Faillesz"
+    tier: 0
     avatar: "https://i.imgur.com/b6NKowU.png"
-    duid:   107587661044154368
-  - name:   "Lumenix"
-    tier:   0
+    duid: 107587661044154368
+  - name: "Lumenix"
+    tier: 0
     avatar: "https://i.imgur.com/RJguyYH.png"
-    duid:   182944830354227200
-  - name:   "DyscarnateGamer"
-    tier:   2
+    duid: 182944830354227200
+  - name: "DyscarnateGamer"
+    tier: 2
     avatar: "https://i.imgur.com/uupdRYa.png"
-    duid:   182944830354227200
-  - name:   "Cloverfear"
-    tier:   4
+    duid: 182944830354227200
+  - name: "Cloverfear"
+    tier: 4
     avatar: "https://i.imgur.com/Dt2lAVc.png"
-    duid:   130605131182899200
-  - name:   "KeithAlmli"
-    tier:   0
+    duid: 130605131182899200
+  - name: "KeithAlmli"
+    tier: 0
     avatar: "https://i.imgur.com/CeB0qBr.png"
-    duid:   253358589601644548
-  - name:   "FireWoodCut"
-    tier:   0
+    duid: 253358589601644548
+  - name: "FireWoodCut"
+    tier: 0
     avatar: "https://i.imgur.com/cTYmSAy.jpg"
-    duid:   58277187530268672
-  - name:   "Nighty Nee-chan"
-    tier:   0
+    duid: 58277187530268672
+  - name: "Nighty Nee-chan"
+    tier: 0
     avatar: "https://i.imgur.com/LwG03xc.png"
-    duid:   222234484064518156
-  - name:   "Thales"
-    tier:   0
+    duid: 222234484064518156
+  - name: "Thales"
+    tier: 0
     avatar: "https://i.imgur.com/Q4AQh2r.png"
-    duid:   245380902979502081
-  - name:   "MoronixProduct3"
-    tier:   0
+    duid: 245380902979502081
+  - name: "MoronixProduct3"
+    tier: 0
     avatar: "https://i.imgur.com/D1UwNw3.png"
-    duid:   268231347800244224
-  - name:   "HimitsuNoAnsatsu"
-    tier:   0
+    duid: 268231347800244224
+  - name: "HimitsuNoAnsatsu"
+    tier: 0
     avatar: "https://i.imgur.com/5omfQTb.png"
-    duid:   290596897180352512
-  - name:   "Heide"
-    tier:   0
+    duid: 290596897180352512
+  - name: "Heide"
+    tier: 0
     avatar: "https://i.imgur.com/WjVdLkR.png"
-    duid:   275108306329010176
-  - name:   "DRANCO20000"
-    tier:   0
+    duid: 275108306329010176
+  - name: "DRANCO20000"
+    tier: 0
     avatar: "https://i.imgur.com/iiO2k63.png"
-    duid:   215364888212668417
-  - name:   "The Cosmos"
-    tier:   0
+    duid: 215364888212668417
+  - name: "The Cosmos"
+    tier: 0
     avatar: "https://i.imgur.com/5TzpdiI.png"
-    duid:   331793750273687553
-  - name:   "Shibu"
-    tier:   0
+    duid: 331793750273687553
+  - name: "Shibu"
+    tier: 0
     avatar: "https://i.imgur.com/9o8A7BX.png"
-    duid:   250900865446182922
-  - name:   "PurplePanda"
-    tier:   0
+    duid: 250900865446182922
+  - name: "PurplePanda"
+    tier: 0
     avatar: "https://i.imgur.com/1mhhxkG.png"
-    duid:   396242866047025164
-  - name:   "iWaffle"
-    tier:   0
+    duid: 396242866047025164
+  - name: "iWaffle"
+    tier: 0
     avatar: "https://i.imgur.com/tZDEVZi.png"
-    duid:   163816674179416064
-  - name:   "Nonon"
-    tier:   0
+    duid: 163816674179416064
+  - name: "Nonon"
+    tier: 0
     avatar: "https://i.imgur.com/xNIgRIM.png"
-    duid:   263704629387198464
-  - name:   "Bre"
-    tier:   0
+    duid: 263704629387198464
+  - name: "Bre"
+    tier: 0
     avatar: "https://i.imgur.com/q1QeyIC.png"
-    duid:   433751385612222486
-  - name:   "High"
-    tier:   0
+    duid: 433751385612222486
+  - name: "High"
+    tier: 0
     avatar: "https://i.imgur.com/X9aw088.png"
-    duid:   228291869732372480
-  - name:   "Sasha0z"
-    tier:   2
+    duid: 228291869732372480
+  - name: "Sasha0z"
+    tier: 2
     avatar: "https://i.imgur.com/CgP58zV.png"
-    duid:   118274348770525193
-  - name:   "NL | MetallicaDutch"
-    tier:   0
+    duid: 118274348770525193
+  - name: "NL | MetallicaDutch"
+    tier: 0
     avatar: "https://i.imgur.com/qg9uz3X.png"
-    duid:   188009639198195712
-  - name:   "[1FS]SuperLiberty"
-    tier:   0
+    duid: 188009639198195712
+  - name: "[1FS]SuperLiberty"
+    tier: 0
     avatar: "https://i.imgur.com/fzPeHyP.png"
-    duid:   468845884092841984
-  - name:   "Phil Swift"
-    tier:   0
+    duid: 468845884092841984
+  - name: "Phil Swift"
+    tier: 0
     avatar: "https://i.imgur.com/iZnr3rx.png"
-    duid:   257176769805811712
-  - name:   "Shifty"
-    tier:   0
+    duid: 257176769805811712
+  - name: "Shifty"
+    tier: 0
     avatar: "https://i.imgur.com/G6f7G51.png"
-    duid:   208974392644861952
-  - name:   "Soul"
-    tier:   0
+    duid: 208974392644861952
+  - name: "Soul"
+    tier: 0
     avatar: "https://i.imgur.com/DHt5aSN.png"
-    duid:   129448647900397568
-  - name:   "Miusaka"
-    tier:   0
+    duid: 129448647900397568
+  - name: "Miusaka"
+    tier: 0
     avatar: "https://i.imgur.com/KwkdIo0.png"
-    duid:   181252251170504704
-  - name:   "RenkTon"
-    tier:   0
+    duid: 181252251170504704
+  - name: "RenkTon"
+    tier: 0
     avatar: "https://i.imgur.com/fqoPeII.png"
-    duid:   346375728117317633
+    duid: 346375728117317633
