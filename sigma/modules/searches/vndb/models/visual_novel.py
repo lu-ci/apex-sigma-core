@@ -27,7 +27,7 @@ class VisualNovel(object):
         self.url = f'https://vndb.org/v{self.id}'
         self.details = self.page.cssselect('.vndetails')[0]
         self.detail_table = self.details[1]
-        self.title = self.detail_table.cssselect('.title')[0][1][0].text.strip()
+        self.title = self.title_from_details(self.detail_table)
         self.aliases = self.detail_table[1][1].text.split(', ')
         self.length = self.detail_table[2][1].text
         self.image = None
@@ -41,6 +41,24 @@ class VisualNovel(object):
         self.screenshots = []
         self.nsfw_screenshots = []
         self.get_screenshots()
+
+    @staticmethod
+    def title_from_details(details):
+        out = None
+        titles = details.cssselect('.title')
+        # Try english first.
+        for title in titles:
+            lang = title[1][0].attrib.get('lang')
+            if lang is None:
+                out = title[1][0].text.strip()
+                break
+        if out is None:
+            for title in titles:
+                lang = title[1][0].attrib.get('lang')
+                if lang == 'ja':
+                    out = title[1][0].text.strip()
+                    break
+        return out
 
     def get_tags(self):
         self.tags = []

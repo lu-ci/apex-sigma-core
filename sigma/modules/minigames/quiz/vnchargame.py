@@ -19,13 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import secrets
 
-import aiohttp
 import discord
 from lxml import html
 
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.core.utilities.url_processing import aioget
 from sigma.modules.minigames.quiz.mech.utils import scramble
 from sigma.modules.minigames.utils.ongoing.ongoing import Ongoing
+from sigma.modules.searches.vndb.models.visual_novel import VisualNovel
 
 streaks = {}
 
@@ -53,23 +54,20 @@ async def vnchargame(cmd, pld):
                 hint = False
             vn_url_list = []
             vn_top_list_url = 'https://vndb.org/v/all?q=;fil=tagspoil-0;rfil=;o=d;s=pop;p=1'
-            async with aiohttp.ClientSession() as session:
-                async with session.get(vn_top_list_url) as vn_top_list_session:
-                    vn_top_list_html = await vn_top_list_session.text()
+            vn_top_list_html = await aioget(vn_top_list_url)
             vn_top_list_data = html.fromstring(vn_top_list_html)
-            list_items = vn_top_list_data.cssselect('.tc1')
-            for list_item in list_items:
-                if 'href' in list_item[0].attrib:
-                    vn_url = list_item[0].attrib['href']
-                    if vn_url.startswith('/v') and not vn_url.startswith('/v/'):
-                        vn_url = f'https://vndb.org{vn_url}'
-                        vn_url_list.append(vn_url)
+            cards = vn_top_list_data.cssselect('.vncards')[0]
+            for card in cards:
+                entry = card[1]
+                vn_url = entry[0].attrib['href']
+                vn_url = f'https://vndb.org{vn_url}'
+                vn_url_list.append(vn_url)
             vn_url_choice = secrets.choice(vn_url_list)
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f'{vn_url_choice}/chars') as vn_details_page_session:
-                    vn_details_page_html = await vn_details_page_session.text()
+            vn_details_page_html = await aioget(f'{vn_url_choice}/chars')
             vn_details_page = html.fromstring(vn_details_page_html)
-            vn_title = vn_details_page.cssselect('.stripe')[0][0][1].text_content().strip()
+            details = vn_details_page.cssselect('.vndetails')[0]
+            detail_table = details[1]
+            vn_title = VisualNovel.title_from_details(detail_table)
             vn_image = vn_details_page.cssselect('.vnimg')[0][0][0][0].attrib['src']
             character_objects = vn_details_page.cssselect('.chardetails')[:8]
             character = secrets.choice(character_objects)
@@ -100,7 +98,8 @@ async def vnchargame(cmd, pld):
             if description:
                 question_embed.description = description
             question_embed.set_image(url=char_img)
-            question_embed.set_author(name=vn_title, icon_url=vn_image, url=char_img)
+            question_embed.set_thumbnail(url=vn_image)
+            question_embed.set_author(name=vn_title, icon_url=vndb_icon, url=char_img)
             footer_text = 'You have 30 seconds to guess it.'
             if reward_mult:
                 footer_text += f' | Streak: {int(reward_mult)}'
@@ -138,7 +137,7 @@ async def vnchargame(cmd, pld):
                 timeout_title = f'🕙 Time\'s up! It was {char_name} from {vn_title}...'
                 timeout_embed = discord.Embed(color=0x696969, title=timeout_title)
                 await pld.msg.channel.send(embed=timeout_embed)
-        except (IndexError, KeyError):
+        except (SyntaxError):
             grab_error = GenericResponse('I failed to grab a character, try again.').error()
             await pld.msg.channel.send(embed=grab_error)
         if Ongoing.is_ongoing(cmd.name, pld.msg.channel.id):
