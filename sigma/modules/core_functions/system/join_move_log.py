@@ -39,5 +39,5 @@ async def join_move_log(ev, pld):
     log_lines += f'Members: {user_count} | Bots: {bot_count}'
     ev.log.info(log_lines)
     if ev.bot.cfg.pref.movelog_channel:
-        move_data = make_move_log_data(pld.guild, True, user_count, bot_count)
+        move_data = await make_move_log_data(pld.guild, True, user_count, bot_count)
         await ev.db[ev.db.db_nam].Movements.insert_one(move_data)

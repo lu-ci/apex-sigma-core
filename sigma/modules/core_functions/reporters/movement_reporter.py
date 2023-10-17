@@ -56,6 +56,7 @@ def make_movement_log_embed(data):
     joined = data.get('join')
     gld = data.get('guild', {})
     owner = data.get('owner', {})
+    invites = data.get('invites', [])
     population = data.get("population", {})
     resp_color = 0x66CC66 if joined else 0xBE1931
     resp_title = 'Joined a Guild' if joined else 'Left a Guild'
@@ -73,6 +74,8 @@ def make_movement_log_embed(data):
     response.set_author(name=resp_title, icon_url=icon, url=icon)
     response.add_field(name='Guild Info', value=guild_text)
     response.add_field(name='Guild Stats', value=nums_text)
+    if invites:
+        response.set_footer(text=f'Invites: {", ".join(invites[:5])}.')
     return response
 
 
