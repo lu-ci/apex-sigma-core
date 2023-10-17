@@ -64,7 +64,7 @@ async def chatter_core_responder(ev, pld):
         if start_one or start_two:
             clean_msg = pld.msg.clean_content.replace('@', '').partition(' ')[2]
             if clean_msg:
-                active = pld.settings.get('chatterbot')
+                active = pld.settings.get('chatterbot') or (pld.msg.author.id in ev.bot.cfg.owners)
                 if clean_msg.lower() == 'reset prefix':
                     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
                         await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
