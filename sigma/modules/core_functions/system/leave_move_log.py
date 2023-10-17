@@ -58,7 +58,7 @@ async def make_move_log_data(gld, join, user_count, bot_count):
             'roles': len(gld.roles)
         },
         'reported': False,
-        'invites': invites
+        'invites': [inv.code for inv in invites]
     }
 
 

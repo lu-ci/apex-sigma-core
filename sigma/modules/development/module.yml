@@ -32,6 +32,11 @@ commands:
     name: test
     permissions:
       owner: true
+  - description: Grabs the invites of a guild if available.
+    enabled: true
+    name: getinvites
+    permissions:
+      owner: true
 enabled: true
 events:
   - enabled: true
