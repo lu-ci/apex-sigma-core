@@ -32,7 +32,6 @@ async def getinvites(cmd, pld):
     if pld.args:
         gid = int(pld.args[0])
         guild = await pld.bot.get_guild(gid)
-        guild = None
         if guild:
             try:
                 invites = await guild.invites()
