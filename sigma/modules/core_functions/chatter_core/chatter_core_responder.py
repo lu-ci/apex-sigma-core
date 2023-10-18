@@ -17,14 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import asyncio
+import re
 
+import discord
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
 
 def set_session_info(pld):
     """
     Sets basic session information depending on the user.
-    :param pld: The message payload of the interaction.
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
@@ -40,15 +41,25 @@ def clean_response(text):
     :rtype: str
     """
     new = text
-    puncts = ['.', '!', '?', '...']
     while '  ' in new:
         new = new.replace('  ', ' ')
     new.replace(' , ', ', ')
-    for punct in puncts:
-        bad_punct = f' {punct}'
-        if bad_punct in new:
-            new = new.replace(bad_punct, punct)
+
+    marks = ['.', '!', '?', '...']
+    for mark in marks:
+        bad_mark = f' {mark}'
+        if bad_mark in new:
+            new = new.replace(bad_mark, mark)
     return new
+
+
+def check_start(msg, uid):
+    """
+    :type msg: discord.Message
+    :type uid: int
+    :rtype: bool
+    """
+    return bool(re.match(fr'<@!?{uid}>', msg.content))
 
 
 async def chatter_core_responder(ev, pld):
@@ -59,12 +70,18 @@ async def chatter_core_responder(ev, pld):
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
     if pld.msg.content:
-        start_one = pld.msg.content.startswith(f'<@{ev.bot.user.id}>')
-        start_two = pld.msg.content.startswith(f'<@!{ev.bot.user.id}>')
+        start_one = check_start(pld.msg, ev.bot.user.id)
+        start_two = False
+        if pld.msg.reference and isinstance(pld.msg.reference.resolved, discord.Message):
+            if pld.msg.guild.me.id == pld.msg.reference.resolved.author.id:
+                if check_start(pld.msg.reference.resolved, pld.msg.author.id):
+                    start_two = True
         if start_one or start_two:
-            clean_msg = pld.msg.clean_content.replace('@', '').partition(' ')[2]
+            clean_msg = pld.msg.clean_content.replace('@', '')
+            if start_one:
+                clean_msg = clean_msg.partition(' ')[2]
             if clean_msg:
-                active = pld.settings.get('chatterbot') or (pld.msg.author.id in ev.bot.cfg.owners)
+                active = pld.settings.get('chatterbot') or pld.msg.author.id in ev.bot.cfg.owners
                 if clean_msg.lower() == 'reset prefix':
                     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
                         await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
