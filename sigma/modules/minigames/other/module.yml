@@ -3,7 +3,7 @@ commands:
   - alts:
       - 8ball
     description: The 8Ball has answers to ALL your questions. Come one, come all, and
-      ask the mighty allknowing 8Ball! Provide a question at the end of the command
+      ask the mighty all-knowing 8Ball! Provide a question at the end of the command
       and await the miraculous answer!
     enabled: true
     name: eightball
@@ -34,12 +34,13 @@ commands:
     usage: '{pfx}{cmd} Heads'
   - alts:
       - dice
-    description: Rolls a number from 0 to the one you provided. You can also roll dice
-      as in the example above. Following the format [Number of Dice]d[MaxNumber] +[Bonus].
-      The bonus is individually added as a flat value to all of the rolled dice.
+    description: Rolls dice according to your input. You can input just a number
+      representing the number of sides, or follow the format 'count d value + mod'
+      (1d20+0). Mod can also be a negative, or omitted entirely. If given no arguments,
+      rolls a single d20.
     enabled: true
     name: roll
-    usage: '{pfx}{cmd} 5d10 +2'
+    usage: '{pfx}{cmd} 5d20+2'
   - alts:
       - draw
     description: Draws the specified number of cards. The number of cards to draw can't

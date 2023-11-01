@@ -1,7 +1,7 @@
 aiohttp==3.8.6
 arrow==1.3.0
-cachetools==5.3.1
-cryptography==41.0.4
+cachetools==5.3.2
+cryptography==41.0.5
 cssselect==1.2.0
 discord.py[voice]==2.3.2
 ftfy==6.1.1
@@ -10,12 +10,12 @@ humanfriendly==10.0
 lxml==4.9.3
 markovify==0.9.4
 motor==3.3.1
-pillow==10.0.1
+pillow==10.1.0
 psutil==5.9.6
 pymongo==4.5.0
 python-aiml==0.9.3
 pyyaml==6.0.1
 redis==5.0.1
 translate==3.6.1
-twitchio==2.8.1
+twitchio==2.8.2
 yt_dlp==2023.10.13
