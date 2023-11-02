@@ -44,8 +44,8 @@ async def roll(_cmd, pld):
     elif 'd' in (dice := pld.args[0].lower()):
         ops = {'-': int.__sub__, '+': int.__add__}
 
-        match = re.match(r'(\d+)[Dd](\d+)(?:([-+])(\d+))?', dice)
-        count = match.group(1)
+        match = re.match(r'(\d+)?[Dd](\d+)(?:([-+])(\d+))?', dice)
+        count = match.group(1) or '1'
         value = match.group(2)
         op = match.group(3) or '+'
         mod = match.group(4) or '0'
