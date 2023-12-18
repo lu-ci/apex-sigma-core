@@ -22,11 +22,7 @@ import aiohttp
 import arrow
 import discord
 
-from sigma.core.mechanics.caching import MemoryCacher
-from sigma.core.mechanics.config import CacheConfig
 from sigma.core.utilities.data_processing import get_image_colors, user_avatar
-
-star_cache = None
 
 
 async def post_starboard(msg, file, content, response, sbc):
@@ -142,26 +138,34 @@ async def generate_embed(msg):
 
 
 # noinspection PyUnresolvedReferences
-async def check_emotes(mid, uid, sbl):
+async def check_emotes(db, mid, uid, sbl):
     """
+    :type db: sigma.core.mechanics.database.Database
     :type mid: int
     :type uid: int
     :type sbl: int
     :rtype: bool
     """
+    cache = await db[db.db_nam].StarboardCache.find_one({'message_id': mid})
+    if not cache:
+        cache = {
+            'message_id': mid,
+            'created': arrow.utcnow().int_timestamp,
+            'reactions': [],
+            'executed': False
+        }
 
     trigger = False
-    executed = await star_cache.get_cache(f'exec_{mid}')
-    if not executed:
-        stars = await star_cache.get_cache(f'sbem_{mid}') or []
+    if not cache.get('executed'):
+        stars = cache.get('reactions')
         if uid not in stars:
             stars.append(uid)
         if len(stars) >= sbl:
             trigger = True
-            await star_cache.del_cache(f'sbem_{mid}')
-            await star_cache.set_cache(f'exec_{mid}', True)
+            cache.update({'executed': True})
         else:
-            await star_cache.set_cache(f'sbem_{mid}', stars)
+            cache.update({'reactions': stars})
+        await db[db.db_nam].StarboardCache.update_one({'message_id': mid}, {'$set': cache}, upsert=True)
     return trigger
 
 
@@ -172,10 +176,6 @@ async def starboard_watcher(ev, pld):
     :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.RawReactionPayload
     """
-    global star_cache
-    if not star_cache:
-        star_cache = MemoryCacher(CacheConfig({}))
-
     payload = pld.raw
     uid = payload.user_id
     cid = payload.channel_id
@@ -206,7 +206,7 @@ async def starboard_watcher(ev, pld):
         return
 
     try:
-        enough = await check_emotes(mid, uid, sbl)
+        enough = await check_emotes(ev.db, mid, uid, sbl)
         if not enough:
             return
 
@@ -217,6 +217,9 @@ async def starboard_watcher(ev, pld):
         file, content, embed = await generate_embed(message)
         if file or embed:
             await post_starboard(message, file, content, embed, sbc)
+
+            cutoff = arrow.utcnow().int_timestamp - 604800
+            await ev.db[ev.db.db_nam].StarboardCache.delete_many({'created': {'$lt': cutoff}})
 
     except (discord.NotFound, discord.Forbidden):
         pass
