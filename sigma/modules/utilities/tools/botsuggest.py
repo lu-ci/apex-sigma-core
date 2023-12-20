@@ -57,7 +57,7 @@ async def botsuggest(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    coll = cmd.db[cmd.db.db_nam].Suggestions
+    coll = cmd.db[cmd.db.db_name].Suggestions
     if cmd.cfg.channel:
         if pld.args:
             sugg_text = ' '.join(pld.args)

@@ -33,9 +33,9 @@ async def whitelist_detector(ev, pld):
         log_ch_id = ev.bot.modules.commands.get('addinteraction').cfg.get('log_ch')
         if cid is not None and cid == log_ch_id:
             if emoji.name == '✅':
-                interaction_item = await ev.db[ev.db.db_nam].Interactions.find_one({'message_id': mid})
+                interaction_item = await ev.db[ev.db.db_name].Interactions.find_one({'message_id': mid})
                 if interaction_item:
-                    await ev.db[ev.db.db_nam].Interactions.update_one(interaction_item, {'$set': {'active': True}})
+                    await ev.db[ev.db.db_name].Interactions.update_one(interaction_item, {'$set': {'active': True}})
                     channel = await ev.bot.get_channel(log_ch_id, True)
                     message = await channel.fetch_message(mid) if channel else None
                     if message:

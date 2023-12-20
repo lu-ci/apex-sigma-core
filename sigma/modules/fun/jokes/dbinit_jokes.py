@@ -39,14 +39,14 @@ async def dbinit_jokes(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_nam].JokeData.count_documents({})
+    doc_count = await ev.db[ev.db.db_name].JokeData.count_documents({})
     if not doc_count or force:
         file_urls = [
             'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/wocka.json',
             'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/stupidstuff.json'
         ]
         ev.log.info('Updating joke data files.')
-        await ev.db[ev.db.db_nam].JokeData.drop()
+        await ev.db[ev.db.db_name].JokeData.drop()
         documents = []
         for file_url in file_urls:
             async with aiohttp.ClientSession() as session:
@@ -55,5 +55,5 @@ async def dbinit_jokes(ev, force=False):
                     data = json.loads(data)
             documents += data
         clean_entries(documents)
-        await ev.db[ev.db.db_nam].JokeData.insert_many(documents)
+        await ev.db[ev.db.db_name].JokeData.insert_many(documents)
         ev.log.info('Updated joke data files successfully.')

@@ -26,14 +26,14 @@ async def dbinit_timezones(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_nam].TimezoneData.count_documents({})
+    doc_count = await ev.db[ev.db.db_name].TimezoneData.count_documents({})
     if not doc_count or force:
         file_urls = {
             'tz_alias': 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/timezones/tz_aliases.yml',
             'tz_offset': 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/timezones/tz_offsets.yml'
         }
         ev.log.info('Updating timezone files.')
-        await ev.db[ev.db.db_nam].TimezoneData.drop()
+        await ev.db[ev.db.db_name].TimezoneData.drop()
         documents = []
         for key in file_urls.keys():
             file_url = file_urls.get(key)
@@ -48,5 +48,5 @@ async def dbinit_timezones(ev, force=False):
                     'value': data.get(dkey)
                 }
                 documents.append(doc_data)
-        await ev.db[ev.db.db_nam].TimezoneData.insert_many(documents)
+        await ev.db[ev.db.db_name].TimezoneData.insert_many(documents)
         ev.log.info('Updated timezone files successfully.')

@@ -38,7 +38,7 @@ async def donor_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    donor_coll = ev.db[ev.db.db_nam].DonorCache
+    donor_coll = ev.db[ev.db.db_name].DonorCache
     await donor_coll.drop()
     while True:
         if ev.bot.is_ready():

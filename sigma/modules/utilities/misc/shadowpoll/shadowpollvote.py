@@ -59,7 +59,7 @@ async def shadowpollvote(cmd, pld):
             except ValueError:
                 choice_num = None
             if choice_num:
-                poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     choice_count = len(poll_file['poll']['answers'])
                     if 0 > choice_num or choice_num > choice_count:
@@ -92,7 +92,7 @@ async def shadowpollvote(cmd, pld):
                                 else:
                                     ender = 'recorded'
                                 poll_file['votes'].update({str(pld.msg.author.id): choice_num})
-                                poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
+                                poll_coll = cmd.db[cmd.db.db_name].ShadowPolls
                                 await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                                 try:
                                     await pld.msg.delete()

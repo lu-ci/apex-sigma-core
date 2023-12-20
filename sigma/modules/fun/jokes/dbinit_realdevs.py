@@ -26,11 +26,11 @@ async def dbinit_realdevs(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_nam].RealDevsData.count_documents({})
+    doc_count = await ev.db[ev.db.db_name].RealDevsData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/real_programmers.yml'
         ev.log.info('Updating real developer files.')
-        await ev.db[ev.db.db_nam].RealDevsData.drop()
+        await ev.db[ev.db.db_name].RealDevsData.drop()
         documents = []
         async with aiohttp.ClientSession() as session:
             async with session.get(file_url) as data_response:
@@ -39,5 +39,5 @@ async def dbinit_realdevs(ev, force=False):
         for item in data:
             doc_data = {'content': item}
             documents.append(doc_data)
-        await ev.db[ev.db.db_nam].RealDevsData.insert_many(documents)
+        await ev.db[ev.db.db_name].RealDevsData.insert_many(documents)
         ev.log.info('Updated real developer files successfully.')

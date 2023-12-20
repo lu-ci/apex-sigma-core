@@ -30,14 +30,14 @@ async def shadowpollopen(cmd, pld):
     """
     if pld.args:
         poll_id = pld.args[0].lower()
-        poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             if author == pld.msg.author.id:
                 active = poll_file['settings']['active']
                 if not active:
                     poll_file['settings'].update({'active': True, 'expires': None})
-                    await cmd.db[cmd.db.db_nam].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                    await cmd.db[cmd.db.db_name].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0xFFCC4D, title=f'🔓 Poll {poll_file["id"]} has been opened.')
                 else:
                     response = GenericResponse(f'Poll {poll_file["id"]} is already active.').error()

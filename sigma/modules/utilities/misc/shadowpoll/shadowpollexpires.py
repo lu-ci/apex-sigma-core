@@ -36,14 +36,14 @@ async def shadowpollexpires(cmd, pld):
             time_input = pld.args[1]
             try:
                 exp_in = convert_to_seconds(time_input)
-                poll_file = await cmd.db[cmd.db.db_nam].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     if poll_file['origin']['author'] == pld.msg.author.id:
                         end_stamp = arrow.utcnow().float_timestamp + exp_in
                         end_human = arrow.get(end_stamp).humanize()
                         end_datet = arrow.get(end_stamp).datetime
                         poll_file['settings'].update({'expires': end_stamp})
-                        poll_coll = cmd.db[cmd.db.db_nam].ShadowPolls
+                        poll_coll = cmd.db[cmd.db.db_name].ShadowPolls
                         await poll_coll.update_one({'id': poll_id}, {'$set': poll_file})
                         title = f'⏰ Poll set to expire {end_human}.'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=end_datet)

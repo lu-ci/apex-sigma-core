@@ -43,7 +43,7 @@ async def scr_cycler(ev):
         if ev.bot.is_ready():
             # noinspection PyBroadException
             try:
-                coll = ev.db[ev.db.db_nam].ServerSettings
+                coll = ev.db[ev.db.db_name].ServerSettings
                 colored_guild_docs = await coll.find({'color_roles': True}).to_list(None)
                 guild_ids = [gdoc.get('server_id') for gdoc in colored_guild_docs]
                 guilds = []

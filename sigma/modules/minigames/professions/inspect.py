@@ -60,7 +60,7 @@ async def inspect(cmd, pld):
         if item:
             if item.rarity != 0:
                 inv = await cmd.db.get_inventory(pld.msg.author.id)
-                stat_coll = cmd.db[cmd.db.db_nam].ItemStatistics
+                stat_coll = cmd.db[cmd.db.db_name].ItemStatistics
                 all_stats = await stat_coll.find_one({'user_id': pld.msg.author.id}) or {}
                 total_found = 0
                 all_stat_docs = await stat_coll.find({item.file_id: {'$exists': True}}).to_list(None)

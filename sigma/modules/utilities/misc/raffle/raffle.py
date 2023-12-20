@@ -121,7 +121,7 @@ async def raffle(cmd, pld):
                     'active': True,
                     'id': rafid
                 }
-                await cmd.db[cmd.db.db_nam].Raffles.insert_one(raffle_data)
+                await cmd.db[cmd.db.db_name].Raffles.insert_one(raffle_data)
                 response = None
             else:
                 response = GenericResponse(f'You can\'t send messages to #{target_ch.name}.').denied()

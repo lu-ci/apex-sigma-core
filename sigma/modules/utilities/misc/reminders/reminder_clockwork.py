@@ -42,7 +42,7 @@ async def reminder_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    coll = ev.db[ev.db.db_nam].Reminders
+    coll = ev.db[ev.db.db_name].Reminders
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().int_timestamp

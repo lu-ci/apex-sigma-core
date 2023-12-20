@@ -37,7 +37,7 @@ async def shadowpolllist(cmd, pld):
             lookup = {'origin.author': pld.msg.author.id}
     else:
         lookup = {'origin.author': pld.msg.author.id}
-    poll_files = await cmd.db[cmd.db.db_nam].ShadowPolls.find(lookup).to_list(None)
+    poll_files = await cmd.db[cmd.db.db_name].ShadowPolls.find(lookup).to_list(None)
     if poll_files:
         response = discord.Embed(color=0xF9F9F9, title='📊 Shadow Poll List')
         list_lines = []

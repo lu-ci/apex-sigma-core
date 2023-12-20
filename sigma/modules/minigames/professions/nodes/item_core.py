@@ -100,8 +100,8 @@ class ItemCore(object):
         return choice
 
     async def items_from_db(self):
-        all_items = await self.db[self.db.db_nam].ItemData.find().to_list(None)
-        all_items += await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        all_items = await self.db[self.db.db_name].ItemData.find().to_list(None)
+        all_items += await self.db[self.db.db_name].RecipeData.find().to_list(None)
         return all_items
 
     async def items_from_repo(self):
@@ -252,11 +252,11 @@ class ItemCore(object):
         :type item: SigmaRawItem or SigmaCookedItem or SigmaRecipe
         :type member: discord.User or discord.Member
         """
-        member_stats = await db[db.db_nam].ItemStatistics.find_one({'user_id': member.id})
+        member_stats = await db[db.db_name].ItemStatistics.find_one({'user_id': member.id})
         if member_stats is None:
-            await db[db.db_nam].ItemStatistics.insert_one({'user_id': member.id})
+            await db[db.db_name].ItemStatistics.insert_one({'user_id': member.id})
             member_stats = {}
         item_count = member_stats.get(item.file_id) or 0
         item_count += 1
         stats = {'$set': {item.file_id: item_count}}
-        await db[db.db_nam].ItemStatistics.update_one({'user_id': member.id}, stats)
+        await db[db.db_name].ItemStatistics.update_one({'user_id': member.id}, stats)

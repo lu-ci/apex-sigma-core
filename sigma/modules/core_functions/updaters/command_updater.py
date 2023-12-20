@@ -57,8 +57,8 @@ async def command_updater_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    module_coll = ev.db[ev.db.db_nam].ModuleCache
-    command_coll = ev.db[ev.db.db_nam].CommandCache
+    module_coll = ev.db[ev.db.db_name].ModuleCache
+    command_coll = ev.db[ev.db.db_name].CommandCache
     await module_coll.drop()
     await command_coll.drop()
     while True:

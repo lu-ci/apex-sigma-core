@@ -100,7 +100,7 @@ async def ban(cmd, pld):
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')
                             if endstamp:
                                 doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
-                                await cmd.db[cmd.db.db_nam].BanClockworkDocs.insert_one(doc_data)
+                                await cmd.db[cmd.db.db_name].BanClockworkDocs.insert_one(doc_data)
                         else:
                             response = GenericResponse('Target is above my highest role.').denied()
                     else:

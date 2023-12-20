@@ -53,7 +53,7 @@ class StatisticsStorage(object):
         while True:
             def_stat_data = {'event': self.name, 'count': 0}
             collection = 'EventStats'
-            database = self.db.db_nam
+            database = self.db.db_name
             check = await self.db[database][collection].find_one({"event": self.name})
             if not check:
                 await self.db[database][collection].insert_one(def_stat_data)
@@ -80,7 +80,7 @@ class CommandStatistic(object):
         self.db = db
         self.cmd = cmd
         self.pld = pld
-        self.coll = self.db[self.db.db_nam].DetailedCommandStats
+        self.coll = self.db[self.db.db_name].DetailedCommandStats
         self.exec_time = None
         self.exec_timestamp = None
 

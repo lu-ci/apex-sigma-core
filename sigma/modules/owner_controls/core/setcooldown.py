@@ -39,7 +39,7 @@ async def setcooldown(cmd, pld):
                     command = cmd.bot.modules.alts[command]
                 if command in cmd.bot.modules.commands.keys():
                     cddata = {'command': command, 'cooldown': cooldown}
-                    cd_coll = cmd.db[cmd.db.db_nam].CommandCooldowns
+                    cd_coll = cmd.db[cmd.db.db_name].CommandCooldowns
                     cddoc = await cd_coll.find_one({'Command': command})
                     if not cddoc:
                         await cd_coll.insert_one(cddata)

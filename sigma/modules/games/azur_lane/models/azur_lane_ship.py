@@ -799,7 +799,7 @@ class AzurLaneShip(object):
         """
         :type db: sigma.core.mechanics.database.Database
         """
-        al_coll = db[db.db_nam].AzurLaneShips
+        al_coll = db[db.db_name].AzurLaneShips
         exists = bool(await al_coll.find_one({'id': self.id}))
         if not exists:
             await al_coll.insert_one(self.to_dict())
@@ -814,11 +814,11 @@ async def get_ship(db, lookup):
     :type lookup: str
     :rtype: dict
     """
-    ship = await db[db.db_nam].AzurLaneShips.find_one({'id': lookup})
+    ship = await db[db.db_name].AzurLaneShips.find_one({'id': lookup})
     if ship is None:
-        ship = await db[db.db_nam].AzurLaneShips.find_one({'name': lookup.title()})
+        ship = await db[db.db_name].AzurLaneShips.find_one({'name': lookup.title()})
         if ship is None:
-            all_ships = await db[db.db_nam].AzurLaneShips.find().to_list(None)
+            all_ships = await db[db.db_name].AzurLaneShips.find().to_list(None)
             for ship_item in all_ships:
                 ship_object = AzurLaneShip(ship_item)
                 if ship_object.name.lower() == lookup.lower():

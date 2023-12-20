@@ -28,8 +28,8 @@ async def resetserver(cmd, pld):
     """
     if pld.msg.author.id == pld.msg.guild.owner.id:
         settings, perms, valid = True, True, True
-        perms_coll = cmd.db[cmd.db.db_nam].Permissions
-        settings_coll = cmd.db[cmd.db.db_nam].ServerSettings
+        perms_coll = cmd.db[cmd.db.db_name].Permissions
+        settings_coll = cmd.db[cmd.db.db_name].ServerSettings
         if pld.args:
             if pld.args[-1].lower() == '--permsonly':
                 settings = False

@@ -26,11 +26,11 @@ async def dbinit_shootfoot(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_nam].ShootFootData.count_documents({})
+    doc_count = await ev.db[ev.db.db_name].ShootFootData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/feets.yml'
         ev.log.info('Updating foot shooting files.')
-        await ev.db[ev.db.db_nam].ShootFootData.drop()
+        await ev.db[ev.db.db_name].ShootFootData.drop()
         documents = []
         async with aiohttp.ClientSession() as session:
             async with session.get(file_url) as data_response:
@@ -42,5 +42,5 @@ async def dbinit_shootfoot(ev, force=False):
             aliases = data.get('alts')
             doc_data = {'lang': lang, 'lang_low': lang_low, 'methods': methods, 'alts': aliases}
             documents.append(doc_data)
-        await ev.db[ev.db.db_nam].ShootFootData.insert_many(documents)
+        await ev.db[ev.db.db_name].ShootFootData.insert_many(documents)
         ev.log.info('Updated foot shooting files successfully.')

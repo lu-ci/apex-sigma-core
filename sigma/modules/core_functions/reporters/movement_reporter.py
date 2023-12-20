@@ -98,11 +98,11 @@ async def movement_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            movement_docs = await ev.db[ev.db.db_nam].Movements.find({'reported': False}).to_list(None)
+            movement_docs = await ev.db[ev.db.db_name].Movements.find({'reported': False}).to_list(None)
             for movement_doc in movement_docs:
                 if not movement_channel:
                     await get_movement_channel(ev.bot)
                 await send_movement_log_message(ev.bot, movement_doc)
-                await ev.db[ev.db.db_nam].Movements.update_one(movement_doc, {'$set': {'reported': True}})
+                await ev.db[ev.db.db_name].Movements.update_one(movement_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

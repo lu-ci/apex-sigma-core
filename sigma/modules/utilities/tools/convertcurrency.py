@@ -41,7 +41,7 @@ LATEST_EXPIRATION = 24 * 60 * 60
 async def get_timed_document(db, name, expiration) -> Optional[dict]:
     data = None
     now = arrow.utcnow().float_timestamp
-    doc = await db[db.db_nam].Currencies.find_one({'name': name})
+    doc = await db[db.db_name].Currencies.find_one({'name': name})
     if doc:
         ts = doc.get('timestamp')
         expired = now - ts > expiration
@@ -70,7 +70,7 @@ async def update_currencies(db, app_id: str) -> dict:
     now = arrow.utcnow().float_timestamp
     uri = f'{CURRENCIES_BASE}&app_id={app_id}'
     data = await fetch_response(uri)
-    await db[db.db_nam].Currencies.update_one(
+    await db[db.db_name].Currencies.update_one(
         {'name': 'currencies'},
         {'$set': {'data': data, 'timestamp': now}},
         upsert=True
@@ -82,7 +82,7 @@ async def update_latest(db, app_id: str) -> dict:
     now = arrow.utcnow().float_timestamp
     uri = f'{LATEST_BASE}&app_id={app_id}'
     data = await fetch_response(uri)
-    await db[db.db_nam].Currencies.update_one(
+    await db[db.db_name].Currencies.update_one(
         {'name': 'latest'},
         {'$set': {'data': data.get('rates'), 'timestamp': now}},
         upsert=True

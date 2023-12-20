@@ -146,7 +146,7 @@ async def check_emotes(db, mid, uid, sbl):
     :type sbl: int
     :rtype: bool
     """
-    cache = await db[db.db_nam].StarboardCache.find_one({'message_id': mid})
+    cache = await db[db.db_name].StarboardCache.find_one({'message_id': mid})
     if not cache:
         cache = {
             'message_id': mid,
@@ -165,7 +165,7 @@ async def check_emotes(db, mid, uid, sbl):
             cache.update({'executed': True})
         else:
             cache.update({'reactions': stars})
-        await db[db.db_nam].StarboardCache.update_one({'message_id': mid}, {'$set': cache}, upsert=True)
+        await db[db.db_name].StarboardCache.update_one({'message_id': mid}, {'$set': cache}, upsert=True)
     return trigger
 
 
@@ -219,7 +219,7 @@ async def starboard_watcher(ev, pld):
             await post_starboard(message, file, content, embed, sbc)
 
             cutoff = arrow.utcnow().int_timestamp - 604800
-            await ev.db[ev.db.db_nam].StarboardCache.delete_many({'created': {'$lt': cutoff}})
+            await ev.db[ev.db.db_name].StarboardCache.delete_many({'created': {'$lt': cutoff}})
 
     except (discord.NotFound, discord.Forbidden):
         pass

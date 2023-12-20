@@ -115,7 +115,7 @@ async def hardmute(cmd, pld):
                         pass
                     if endstamp:
                         doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
-                        await cmd.db[cmd.db.db_nam].HardmuteClockworkDocs.insert_one(doc_data)
+                        await cmd.db[cmd.db.db_name].HardmuteClockworkDocs.insert_one(doc_data)
                 else:
                     response = GenericResponse('That user is equal or above you.').error()
             else:

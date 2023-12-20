@@ -88,12 +88,12 @@ async def suggestion_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            suggestion_docs = await ev.db[ev.db.db_nam].Suggestions.find({'reported': False}).to_list(None)
+            suggestion_docs = await ev.db[ev.db.db_name].Suggestions.find({'reported': False}).to_list(None)
             for suggestion_doc in suggestion_docs:
                 if not suggestion_channel:
                     await get_suggestion_channel(ev.bot)
                 log_msg = await send_suggestion_log_message(ev.bot, suggestion_doc)
                 update_dict = {'$set': {'reported': True, 'message': log_msg.id if log_msg else None}}
-                await ev.db[ev.db.db_nam].Suggestions.update_one(suggestion_doc, update_dict)
+                await ev.db[ev.db.db_name].Suggestions.update_one(suggestion_doc, update_dict)
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

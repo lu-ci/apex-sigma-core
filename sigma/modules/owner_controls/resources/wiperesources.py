@@ -36,7 +36,7 @@ async def wiperesources(cmd, pld):
     if target_id:
         target = await cmd.bot.get_user(target_id)
         target_name = target.name if target else target_id
-        colls = await cmd.db[cmd.db.db_nam].list_collection_names()
+        colls = await cmd.db[cmd.db.db_name].list_collection_names()
         reses = list(sorted([coll[:-8].lower() for coll in colls if coll.endswith('Resource')]))
         for res in reses:
             new_res = SigmaResource({})

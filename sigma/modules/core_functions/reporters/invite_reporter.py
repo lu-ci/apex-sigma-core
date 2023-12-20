@@ -41,7 +41,7 @@ async def invite_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            invite_docs = await ev.db[ev.db.db_nam].InviteQueue.find({'reported': False}).to_list(None)
+            invite_docs = await ev.db[ev.db.db_name].InviteQueue.find({'reported': False}).to_list(None)
             for invite_doc in invite_docs:
                 guild = await ev.bot.get_guild(invite_doc.get('guild'))
                 if guild:
@@ -72,13 +72,13 @@ async def invite_reporter_cycler(ev):
                     else:
                         body = 'No access to invites.'
                     update_dict = {'$set': {'reported': True}}
-                    await ev.db[ev.db.db_nam].InviteQueue.update_one(invite_doc, update_dict)
+                    await ev.db[ev.db.db_name].InviteQueue.update_one(invite_doc, update_dict)
                     data = {
                         'reported': False,
                         'title': f'👀 {guild.name} [{guild.id}] Invite Report',
                         'color': 0xf9f9f9,
                         'content': body
                     }
-                    await ev.db[ev.db.db_nam].SystemMessages.insert_one(data)
+                    await ev.db[ev.db.db_name].SystemMessages.insert_one(data)
                     await asyncio.sleep(1)
         await asyncio.sleep(1)

@@ -31,7 +31,7 @@ async def listraffles(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     lookup = {'author': pld.msg.author.id, 'active': True}
-    raffle_docs = await cmd.db[cmd.db.db_nam].Raffles.find(lookup).to_list(None)
+    raffle_docs = await cmd.db[cmd.db.db_name].Raffles.find(lookup).to_list(None)
     if raffle_docs:
         raffle_lines = []
         for raf_doc in raffle_docs:

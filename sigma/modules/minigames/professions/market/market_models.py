@@ -70,7 +70,7 @@ class MarketEntry(abc.ABC):
         """
         :type db: sigma.core.mechanics.database.Database
         """
-        await db[db.db_nam].MarketEntries.insert_one(self.to_dict)
+        await db[db.db_name].MarketEntries.insert_one(self.to_dict)
 
     @staticmethod
     async def find(db, item=None, token=None):
@@ -82,11 +82,11 @@ class MarketEntry(abc.ABC):
         """
         doc = None
         if item:
-            docs = await db[db.db_nam].MarketEntries.find({'item': item}).sort([('price', 1)]).limit(1).to_list(None)
+            docs = await db[db.db_name].MarketEntries.find({'item': item}).sort([('price', 1)]).limit(1).to_list(None)
             if docs:
                 doc = docs[0]
         if token:
-            doc = await db[db.db_nam].MarketEntries.find_one({'token': token})
+            doc = await db[db.db_name].MarketEntries.find_one({'token': token})
         entry = None
         if doc:
             entry = MarketEntry(doc)
@@ -101,7 +101,7 @@ class MarketEntry(abc.ABC):
         :rtype: list
         """
         entries = []
-        curr = db[db.db_nam].MarketEntries.find({'item': item})
+        curr = db[db.db_name].MarketEntries.find({'item': item})
         if sort:
             curr.sort([sort])
         docs = await curr.to_list(None)
@@ -118,7 +118,7 @@ class MarketEntry(abc.ABC):
         :rtype: list
         """
         entries = []
-        curr = db[db.db_nam].MarketEntries.find()
+        curr = db[db.db_name].MarketEntries.find()
         if sort:
             curr.sort([sort])
         docs = await curr.to_list(None)
@@ -131,4 +131,4 @@ class MarketEntry(abc.ABC):
         """
         :type db: sigma.core.mechanics.database.Database
         """
-        await db[db.db_nam].MarketEntries.delete_many(self.to_dict)
+        await db[db.db_name].MarketEntries.delete_many(self.to_dict)

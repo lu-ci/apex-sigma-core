@@ -29,7 +29,7 @@ async def afk(cmd, pld):
     """
     afk_data = await cmd.db.cache.get_cache(f'afk_{pld.msg.author.id}')
     if not afk_data:
-        afk_data = await cmd.db[cmd.db.db_nam].AwayUsers.find_one({'user_id': pld.msg.author.id})
+        afk_data = await cmd.db[cmd.db.db_name].AwayUsers.find_one({'user_id': pld.msg.author.id})
     if pld.args:
         afk_reason = ' '.join(pld.args)
     else:
@@ -41,10 +41,10 @@ async def afk(cmd, pld):
     }
     if afk_data:
         title = 'Your status has been updated'
-        await cmd.db[cmd.db.db_nam].AwayUsers.update_one({'user_id': pld.msg.author.id}, {'$set': in_data})
+        await cmd.db[cmd.db.db_name].AwayUsers.update_one({'user_id': pld.msg.author.id}, {'$set': in_data})
     else:
         title = 'You have been marked as away'
-        await cmd.db[cmd.db.db_nam].AwayUsers.insert_one(in_data)
+        await cmd.db[cmd.db.db_name].AwayUsers.insert_one(in_data)
     url = None
     for piece in afk_reason.split():
         if piece.startswith('http'):

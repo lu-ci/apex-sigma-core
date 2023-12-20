@@ -87,12 +87,12 @@ async def interaction_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            interaction_docs = await ev.db[ev.db.db_nam].Interactions.find({'reported': False}).to_list(None)
+            interaction_docs = await ev.db[ev.db.db_name].Interactions.find({'reported': False}).to_list(None)
             for interaction_doc in interaction_docs:
                 if not interaction_channel:
                     await get_interaction_channel(ev.bot)
                 log_msg = await send_interaction_log_message(ev.bot, interaction_doc)
                 update_dict = {'$set': {'reported': True, 'message_id': log_msg.id if log_msg else None}}
-                await ev.db[ev.db.db_nam].Interactions.update_one(interaction_doc, update_dict)
+                await ev.db[ev.db.db_name].Interactions.update_one(interaction_doc, update_dict)
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

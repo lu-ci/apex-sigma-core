@@ -106,7 +106,7 @@ async def create(ev, ch):
         'active': True,
         'id': rafid
     }
-    await ev.db[ev.db.db_nam].Raffles.insert_one(raffle_data)
+    await ev.db[ev.db.db_name].Raffles.insert_one(raffle_data)
 
 
 async def auto_raffle_cycler(ev):
@@ -121,7 +121,7 @@ async def auto_raffle_cycler(ev):
             ch = await ev.bot.get_channel(cfg.channel)
             if ch:
                 lookup = {'automatic': True, 'author': ev.bot.user.id}
-                auto_docs = await ev.db[ev.db.db_nam].Raffles.find(lookup).sort('start', -1).limit(1).to_list(None)
+                auto_docs = await ev.db[ev.db.db_name].Raffles.find(lookup).sort('start', -1).limit(1).to_list(None)
                 if auto_docs:
                     latest = auto_docs[0]
                     now = arrow.utcnow().float_timestamp

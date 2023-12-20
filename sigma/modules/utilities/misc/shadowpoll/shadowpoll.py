@@ -76,7 +76,7 @@ async def shadowpoll(cmd, pld):
         poll_args = ' '.join(pld.args).split('; ')
         if len(poll_args) >= 3:
             poll_data = generate_data(pld.msg, poll_args)
-            await cmd.db[cmd.db.db_nam].ShadowPolls.insert_one(poll_data)
+            await cmd.db[cmd.db.db_name].ShadowPolls.insert_one(poll_data)
             response = GenericResponse(f'Shadowpoll `{poll_data["id"]}` has been created.').ok()
         else:
             response = GenericResponse('Not enough arguments.').error()

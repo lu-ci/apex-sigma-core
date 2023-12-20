@@ -28,7 +28,7 @@ async def cancelcollector(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     current = get_current()
-    collector_coll = cmd.db[cmd.db.db_nam].CollectorQueue
+    collector_coll = cmd.db[cmd.db.db_name].CollectorQueue
     if current:
         current_target = current.get('user_id')
         current_author = current.get('author_id')

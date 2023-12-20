@@ -28,7 +28,7 @@ async def renamelist(cmd, pld):
     """
     if pld.args:
         if len(pld.args) > 1:
-            list_coll = cmd.db[cmd.db.db_nam].CustomLists
+            list_coll = cmd.db[cmd.db.db_name].CustomLists
             lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
             list_file = await list_coll.find_one(lookup_data)
             if list_file:

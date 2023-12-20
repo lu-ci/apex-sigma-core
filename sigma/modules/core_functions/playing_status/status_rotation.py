@@ -52,7 +52,7 @@ async def status_cycler(ev):
         if ev.bot.is_ready():
             if ev.bot.cfg.pref.status_rotation and not is_live():
                 if not status_cache:
-                    status_files = await ev.db[ev.db.db_nam].StatusFiles.find().to_list(None)
+                    status_files = await ev.db[ev.db.db_name].StatusFiles.find().to_list(None)
                     [status_cache.append(status_file.get('text')) for status_file in status_files]
                 if status_cache:
                     status = status_cache.pop(secrets.randbelow(len(status_cache)))

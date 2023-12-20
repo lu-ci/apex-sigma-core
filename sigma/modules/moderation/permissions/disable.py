@@ -48,7 +48,7 @@ async def disable(cmd, pld):
                         if node_name not in disabled_items:
                             disabled_items.append(node_name)
                             perms.update({exception_group: disabled_items})
-                            await cmd.db[cmd.db.db_nam].Permissions.update_one(
+                            await cmd.db[cmd.db.db_name].Permissions.update_one(
                                 {'server_id': pld.msg.guild.id}, {'$set': perms})
                             await cmd.db.cache.del_cache(pld.msg.guild.id)
                             response = GenericResponse(f'`{node_name.upper()}` disabled.').ok()

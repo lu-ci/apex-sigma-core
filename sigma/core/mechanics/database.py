@@ -35,7 +35,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         self.bot = bot
         self.db_cfg = db_cfg
-        self.db_nam = self.db_cfg.database
+        self.db_name = self.db_cfg.database
         self.cache = self.bot.cache
         if self.db_cfg.auth:
             self.db_address = f'mongodb://{self.db_cfg.username}:{self.db_cfg.password}'
@@ -90,11 +90,11 @@ class Database(motor.AsyncIOMotorClient):
         """
         self.bot.log.info('Pre-Caching all resource data...')
         res_cache_counter = 0
-        all_colls = await self[self.db_nam].list_collection_names()
+        all_colls = await self[self.db_name].list_collection_names()
         for coll in all_colls:
             if coll.endswith('Resource'):
                 res_nam = coll[:8].lower()
-                docs = await self[self.db_nam][coll].find().to_list(None)
+                docs = await self[self.db_name][coll].find().to_list(None)
                 for doc in docs:
                     uid = doc.get('user_id')
                     cache_key = f'res_{res_nam}_{uid}'
@@ -115,7 +115,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         guild_settings = await self.cache.get_cache(f'settings_{guild_id}')
         if guild_settings is None:
-            guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id}) or {}
+            guild_settings = await self[self.db_name].ServerSettings.find_one({'server_id': guild_id}) or {}
             await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
         if setting_name:
             return guild_settings.get(setting_name)
@@ -129,16 +129,16 @@ class Database(motor.AsyncIOMotorClient):
         :type setting_name: str or int
         :type value: bool or int or float or str or list or dict
         """
-        guild_settings = await self[self.db_nam].ServerSettings.find_one({'server_id': guild_id})
+        guild_settings = await self[self.db_name].ServerSettings.find_one({'server_id': guild_id})
         if guild_settings:
             update_target = {"server_id": guild_id}
             set_data = {setting_name: value}
             update_data = {"$set": set_data}
             guild_settings.update(set_data)
-            await self[self.db_nam].ServerSettings.update_one(update_target, update_data)
+            await self[self.db_name].ServerSettings.update_one(update_target, update_data)
         else:
             guild_settings = {'server_id': guild_id, setting_name: value}
-            await self[self.db_nam].ServerSettings.insert_one(guild_settings)
+            await self[self.db_name].ServerSettings.insert_one(guild_settings)
         await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
 
     # Profile Data Entry Variable Calls
@@ -150,7 +150,7 @@ class Database(motor.AsyncIOMotorClient):
         :type entry_name: str
         :rtype: bool or int or float or str or list or dict
         """
-        user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
+        user_profile = await self[self.db_name].Profiles.find_one({'user_id': user_id}) or {}
         if entry_name:
             return user_profile.get(entry_name)
         else:
@@ -163,16 +163,16 @@ class Database(motor.AsyncIOMotorClient):
         :type entry_name: str
         :type value: bool or int or float or str or list or dict
         """
-        user_profile = await self[self.db_nam].Profiles.find_one({'user_id': user_id}) or {}
+        user_profile = await self[self.db_name].Profiles.find_one({'user_id': user_id}) or {}
         if user_profile:
             update_target = {"user_id": user_id}
             set_data = {entry_name: value}
             update_data = {"$set": set_data}
             user_profile.update(set_data)
-            await self[self.db_nam].Profiles.update_one(update_target, update_data)
+            await self[self.db_name].Profiles.update_one(update_target, update_data)
         else:
             user_profile = {'user_id': user_id, entry_name: value}
-            await self[self.db_nam].Profiles.insert_one(user_profile)
+            await self[self.db_name].Profiles.insert_one(user_profile)
 
     async def is_sabotaged(self, user_id):
         """
@@ -182,7 +182,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         sabotaged = bool(await self.get_profile(user_id, 'sabotaged'))
         if not sabotaged:
-            coll = self.db[self.db_nam].BlacklistedUsers
+            coll = self.db[self.db_name].BlacklistedUsers
             lookup = {'user_id': user_id, 'total': True}
             sabotaged = bool(await coll.count_documents(lookup))
         return sabotaged
@@ -196,8 +196,8 @@ class Database(motor.AsyncIOMotorClient):
         :type resource_name: str
         :type resource: sigma.core.mechanics.resources.SigmaResource
         """
-        resources = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
-        coll = self[self.db_nam][f'{resource_name.title()}Resource']
+        resources = await self[self.db_name][f'{resource_name.title()}Resource'].find_one({'user_id': user_id})
+        coll = self[self.db_name][f'{resource_name.title()}Resource']
         data = resource.to_dict()
         if resources:
             await coll.update_one({'user_id': user_id}, {'$set': data})
@@ -212,7 +212,7 @@ class Database(motor.AsyncIOMotorClient):
         :type resource_name: str
         :rtype: sigma.core.mechanics.resources.SigmaResource
         """
-        data = await self[self.db_nam][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
+        data = await self[self.db_name][f'{resource_name.title()}Resource'].find_one({'user_id': user_id}) or {}
         resource = SigmaResource(data)
         return resource
 
@@ -253,13 +253,13 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :type inventory: list
         """
-        inv = await self[self.db_nam].Inventory.find_one({'user_id': user_id})
+        inv = await self[self.db_name].Inventory.find_one({'user_id': user_id})
         data = {'items': inventory}
         if inv:
-            await self[self.db_nam].Inventory.update_one({'user_id': user_id}, {'$set': data})
+            await self[self.db_name].Inventory.update_one({'user_id': user_id}, {'$set': data})
         else:
             data.update({'user_id': user_id})
-            await self[self.db_nam].Inventory.insert_one(data)
+            await self[self.db_name].Inventory.insert_one(data)
 
     async def get_inventory(self, user_id):
         """
@@ -267,7 +267,7 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :rtype: list
         """
-        inventory = await self[self.db_nam].Inventory.find_one({'user_id': user_id}) or {}
+        inventory = await self[self.db_name].Inventory.find_one({'user_id': user_id}) or {}
         inventory = inventory.get('items', [])
         return inventory
 

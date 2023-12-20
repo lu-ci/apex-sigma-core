@@ -149,7 +149,7 @@ class RecipeCore(object):
         """
         :rtype: list[dict]
         """
-        return await self.db[self.db.db_nam].RecipeData.find().to_list(None)
+        return await self.db[self.db.db_name].RecipeData.find().to_list(None)
 
     async def init_items(self):
         """

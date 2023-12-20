@@ -310,7 +310,7 @@ class IncidentCore(object):
         :type db: sigma.core.mechanics.database.Database
         """
         self.db = db
-        self.coll = self.db[self.db.db_nam].Incidents
+        self.coll = self.db[self.db.db_name].Incidents
 
     async def get(self, guild_id, identifier, value):
         """

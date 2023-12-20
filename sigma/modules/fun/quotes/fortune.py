@@ -31,7 +31,7 @@ async def fortune(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if not fortune_files:
-        fortune_docs = await cmd.db[cmd.db.db_nam].FortuneData.find().to_list(None)
+        fortune_docs = await cmd.db[cmd.db.db_name].FortuneData.find().to_list(None)
         [fortune_files.append(fd) for fd in fortune_docs if 0 < len(fd) < 800]
     fort = secrets.choice(fortune_files).get('content')
     response = discord.Embed(color=0x8CCAF7)

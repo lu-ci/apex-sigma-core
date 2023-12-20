@@ -27,11 +27,11 @@ async def dbinit_httpstatus(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_nam].HTTPStatusData.count_documents({})
+    doc_count = await ev.db[ev.db.db_name].HTTPStatusData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/http/http_status.json'
         ev.log.info('Updating HTTP status files.')
-        await ev.db[ev.db.db_nam].HTTPStatusData.drop()
+        await ev.db[ev.db.db_name].HTTPStatusData.drop()
         documents = []
         async with aiohttp.ClientSession() as session:
             async with session.get(file_url) as data_response:
@@ -45,5 +45,5 @@ async def dbinit_httpstatus(ev, force=False):
                 'messages': value
             }
             documents.append(doc_data)
-        await ev.db[ev.db.db_nam].HTTPStatusData.insert_many(documents)
+        await ev.db[ev.db.db_name].HTTPStatusData.insert_many(documents)
         ev.log.info('Updated HTTP status files successfully.')

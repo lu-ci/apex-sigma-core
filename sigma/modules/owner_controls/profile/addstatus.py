@@ -30,10 +30,10 @@ async def addstatus(cmd, pld):
     """
     if pld.args:
         status_text = ' '.join(pld.args)
-        status_exists = await cmd.db[cmd.db.db_nam].StatusFiles.find_one({'text': status_text})
+        status_exists = await cmd.db[cmd.db.db_name].StatusFiles.find_one({'text': status_text})
         if not status_exists:
             status_id = secrets.token_hex(5)
-            await cmd.db[cmd.db.db_nam].StatusFiles.insert_one({'text': status_text, 'id': status_id})
+            await cmd.db[cmd.db.db_name].StatusFiles.insert_one({'text': status_text, 'id': status_id})
             response = GenericResponse(f'Added status `{status_id}`.').ok()
         else:
             response = GenericResponse('Status already exists.').error()

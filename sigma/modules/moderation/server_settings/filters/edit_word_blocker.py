@@ -61,7 +61,7 @@ async def edit_word_blocker(ev, pld):
                             filter_warn = pld.settings.get('filter_auto_warn')
                             if filter_warn:
                                 warn_data = warning_data(after.guild.me, after.author, f'Said "{reason}".')
-                                await ev.db[ev.db.db_nam].Warnings.insert_one(warn_data)
+                                await ev.db[ev.db.db_name].Warnings.insert_one(warn_data)
                             await after.delete()
                             title = f'🔥 Your message was deleted for containing "{reason}".'
                             to_author = discord.Embed(color=0xFFCC4D, title=title)

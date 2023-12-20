@@ -76,11 +76,11 @@ async def system_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            system_docs = await ev.db[ev.db.db_nam].SystemMessages.find({'reported': False}).to_list(None)
+            system_docs = await ev.db[ev.db.db_name].SystemMessages.find({'reported': False}).to_list(None)
             for system_doc in system_docs:
                 if not system_channel:
                     await get_system_channel(ev.bot)
                 await send_system_log_message(ev.bot, system_doc)
-                await ev.db[ev.db.db_nam].SystemMessages.update_one(system_doc, {'$set': {'reported': True}})
+                await ev.db[ev.db.db_name].SystemMessages.update_one(system_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

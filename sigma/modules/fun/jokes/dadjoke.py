@@ -28,7 +28,7 @@ async def dadjoke(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    joke_list = await cmd.db[cmd.db.db_nam].DadjokeData.find().to_list(None)
+    joke_list = await cmd.db[cmd.db.db_name].DadjokeData.find().to_list(None)
     end_joke_choice = secrets.choice(joke_list)
     end_joke = end_joke_choice.get('setup')
     punchline = end_joke_choice.get('punchline')

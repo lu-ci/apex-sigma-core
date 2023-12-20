@@ -28,13 +28,13 @@ async def add_cmd_stat(cmd):
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     """
     lookup_target = {'command': cmd.name}
-    stat_file = await cmd.db[cmd.db.db_nam].CommandStats.find_one(lookup_target)
+    stat_file = await cmd.db[cmd.db.db_name].CommandStats.find_one(lookup_target)
     if stat_file:
         count = (stat_file.get('count') or 0) + 1
-        await cmd.db[cmd.db.db_nam].CommandStats.update_one(lookup_target, {'$set': {'count': count}})
+        await cmd.db[cmd.db.db_name].CommandStats.update_one(lookup_target, {'$set': {'count': count}})
     else:
         count = 1
-        await cmd.db[cmd.db.db_nam].CommandStats.insert_one({'command': cmd.name, 'count': count})
+        await cmd.db[cmd.db.db_name].CommandStats.insert_one({'command': cmd.name, 'count': count})
 
 
 async def add_special_stats(db, stat_name):

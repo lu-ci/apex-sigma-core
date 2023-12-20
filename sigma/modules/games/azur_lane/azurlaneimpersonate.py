@@ -45,7 +45,7 @@ async def azurlaneimpersonate(cmd, pld):
                     quotes.append(quote.en)
         else:
             sentence_num = 5
-            all_ships = await cmd.db[cmd.db.db_nam].AzurLaneShips.find().to_list(None)
+            all_ships = await cmd.db[cmd.db.db_name].AzurLaneShips.find().to_list(None)
             for ship_doc in all_ships:
                 ship = AzurLaneShip(ship_doc)
                 for quote in ship.quotes:

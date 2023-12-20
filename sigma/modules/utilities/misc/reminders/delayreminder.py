@@ -34,7 +34,7 @@ async def delayreminder(cmd, pld):
         if len(pld.args) == 2:
             rem_id = pld.args[0].lower()
             lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
-            reminder = await cmd.db[cmd.db.db_nam].Reminders.find_one(lookup_data)
+            reminder = await cmd.db[cmd.db.db_name].Reminders.find_one(lookup_data)
             if reminder:
                 try:
                     time_req = pld.args[1]
@@ -49,7 +49,7 @@ async def delayreminder(cmd, pld):
                         else:
                             time_diff = arrow.get(execution_stamp + 5).humanize(arrow.utcnow())
                         reminder.update({'execution_stamp': execution_stamp})
-                        await cmd.db[cmd.db.db_nam].Reminders.update_one(lookup_data, {'$set': reminder})
+                        await cmd.db[cmd.db.db_name].Reminders.update_one(lookup_data, {'$set': reminder})
                         response = discord.Embed(color=0x66CC66, timestamp=timestamp)
                         response.title = f'✅ Reminder {rem_id} has been delayed.'
                         response.set_footer(text=f'Executes: {time_diff.title()}')

@@ -33,7 +33,7 @@ async def afk_comeback_check(ev, pld):
     if pld.msg.guild:
         pfx = ev.db.get_prefix(pld.settings)
         if not pld.msg.content.startswith(pfx):
-            afk_data = await ev.db[ev.db.db_nam].AwayUsers.find_one_and_delete({'user_id': pld.msg.author.id})
+            afk_data = await ev.db[ev.db.db_name].AwayUsers.find_one_and_delete({'user_id': pld.msg.author.id})
             if afk_data:
                 await ev.db.cache.del_cache(f'afk_{pld.msg.author.id}')
                 response = GenericResponse('I have removed your AFK status.').info()
