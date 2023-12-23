@@ -68,8 +68,8 @@ async def send_invite_blocker(ev, pld):
                                 pass
                             log_embed = discord.Embed(color=0xF9F9F9)
                             author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
-                            log_embed.set_author(name=f'I removed {author}\'s invite link.',
-                                                 icon_url=user_avatar(pld.msg.author))
+                            log_embed.set_author(
+                                name=f'I removed {author}\'s invite link.', icon_url=user_avatar(pld.msg.author))
                             log_embed.set_footer(
                                 text=f'Posted In: #{pld.msg.channel.name} | Leads To: {invite_found.guild.name}')
                             await log_event(ev.bot, pld.settings, log_embed, 'log_filters')

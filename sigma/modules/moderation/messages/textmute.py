@@ -111,7 +111,7 @@ async def textmute(cmd, pld):
                         await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                         log_embed = generate_log_embed(pld.msg, target, reason)
                         await log_event(cmd.bot, pld.settings, log_embed, 'log_mutes')
-                        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                         to_target_title = '🔇 You have been text-muted.'
                         to_target = discord.Embed(color=0x696969)
                         to_target.add_field(name=to_target_title, value=f'Reason: {reason}')

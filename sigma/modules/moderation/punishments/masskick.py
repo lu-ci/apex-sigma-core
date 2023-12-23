@@ -62,7 +62,7 @@ async def kick_members(cmd, pld, targets, reason):
     :type reason: str
     """
     for target in targets:
-        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
         to_target = discord.Embed(color=0xc1694f)
         to_target.add_field(name='👢 You have been kicked.', value=f'Reason: {reason}')
         to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)

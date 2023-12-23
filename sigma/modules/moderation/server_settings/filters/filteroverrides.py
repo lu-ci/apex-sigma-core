@@ -59,7 +59,7 @@ async def filteroverrides(_cmd, pld):
                 roles = override.get('roles')
                 users = override.get('users')
                 if any([channels, roles, users]):
-                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                     override_data = [(channels, 'channels'), (roles, 'roles'), (users, 'users')]
                     response = discord.Embed(color=await get_image_colors(guild_icon))
                     name = f'{filter_name[:-1].title()} Filter Overrides'

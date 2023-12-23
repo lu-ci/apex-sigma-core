@@ -71,7 +71,7 @@ async def permitted(cmd, pld):
                         if node_name in check_group:
                             exceptions = perms.get(exception_group, {}).get(node_name, {}).get(target_type, [])
                             overridden_items = get_exceptions(pld.msg, exceptions, target_type)
-                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                             if overridden_items:
                                 total_overrides = len(overridden_items)
                                 page = pld.args[2] if len(pld.args) > 2 else 1

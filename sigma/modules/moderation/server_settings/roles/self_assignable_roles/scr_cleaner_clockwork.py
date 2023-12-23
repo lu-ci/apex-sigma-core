@@ -30,11 +30,11 @@ async def scr_cleaner_clockwork(ev):
     """
     global scr_clock_running
     if not scr_clock_running:
-        ev.bot.loop.create_task(scr_cycler(ev))
+        ev.bot.loop.create_task(scr_cleaner_cycler(ev))
         scr_clock_running = True
 
 
-async def scr_cycler(ev):
+async def scr_cleaner_cycler(ev):
     """
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
@@ -45,11 +45,7 @@ async def scr_cycler(ev):
             try:
                 colored_guild_docs = await ev.db.col.ServerSettings.find({'color_roles': True}).to_list(None)
                 guild_ids = [gdoc.get('server_id') for gdoc in colored_guild_docs]
-                guilds = []
-                for gid in guild_ids:
-                    guild = await ev.bot.get_guild(gid, fetched=False)
-                    if guild:
-                        guilds.append(guild)
+                guilds = [await ev.bot.get_guild(gid) for gid in guild_ids if await ev.bot.get_guild(gid)]
                 for guild in guilds:
                     scr_roles = [rl for rl in guild.roles if rl.name.startswith('SCR-')]
                     for scrr in scr_roles:

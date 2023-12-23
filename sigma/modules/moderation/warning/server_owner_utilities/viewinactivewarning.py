@@ -56,7 +56,7 @@ async def viewinactivewarning(cmd, pld):
                     response.add_field(name='⚠ Warned User', value=target_descrp)
                     response.add_field(name='🛡 Moderator', value=author_descrp)
                     response.add_field(name='📄 Reason', value=warn_data.get('warning').get('reason'), inline=False)
-                    response.set_footer(text=f'[{warn_data.get("warning").get("id")}] user_id: {target.id}')
+                    response.set_footer(text=f'[{warn_data.get("warning").get("id")}] User ID {target.id}')
                 else:
                     response = GenericResponse(f'{target.name} has no {warn_id} warning.').not_found()
             else:

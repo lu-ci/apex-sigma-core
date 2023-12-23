@@ -51,7 +51,7 @@ async def listselfroles(_cmd, pld):
         rl_out = ''
         for role in role_list:
             rl_out += '\n- ' + role
-        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
         response = discord.Embed(color=await get_image_colors(guild_icon))
         response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
         response.add_field(name='Self Assignable Role Stats', value=summary, inline=False)

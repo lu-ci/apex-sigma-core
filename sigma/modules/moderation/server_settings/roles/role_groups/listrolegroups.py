@@ -43,7 +43,7 @@ async def listrolegroups(cmd, pld):
         group_list = sorted(group_list)
         for rl in group_list:
             rl_out += f'\n`{rl}`: {len(list(role_groups.get(rl)))} Roles'
-        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+        guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
         response = discord.Embed(color=await get_image_colors(guild_icon))
         response.set_author(name=pld.msg.guild.name, icon_url=guild_icon)
         response.add_field(name='Role Group Summary', value=summary, inline=False)

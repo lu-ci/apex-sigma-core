@@ -49,7 +49,7 @@ async def customcommands(cmd, pld):
                 list_line = f'**{loop_index}**: {pfx}{key}'
                 cmd_list_lines.append(list_line)
             cmd_list = '\n'.join(cmd_list_lines)
-            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
             srv_color = await get_image_colors(guild_icon)
             response = discord.Embed(color=srv_color)
             response.set_author(name='Custom Commands', icon_url=guild_icon)

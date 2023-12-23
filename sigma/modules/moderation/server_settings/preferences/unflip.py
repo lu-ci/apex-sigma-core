@@ -27,18 +27,10 @@ async def unflip(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
-        flip_settings = pld.settings.get('unflip')
-        if flip_settings is None:
-            unflip_set = False
-        else:
-            unflip_set = flip_settings
-        if unflip_set:
-            await cmd.db.set_guild_settings(pld.msg.guild.id, 'unflip', False)
-            ending = 'disabled'
-        else:
-            await cmd.db.set_guild_settings(pld.msg.guild.id, 'unflip', True)
-            ending = 'enabled'
-        response = GenericResponse(f'Table unflipping has been {ending}').ok()
+        current = pld.settings.get('unflip')
+        toggle, status = (False, 'disabled') if current else (True, 'enabled')
+        await cmd.db.set_guild_settings(pld.msg.guild.id, 'unflip', toggle)
+        response = GenericResponse(f'Table unflipping {status}.').ok()
     else:
         response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)

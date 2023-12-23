@@ -31,7 +31,7 @@ def make_sugg_embed(msg, args, token):
     :type token: str
     :rtype: discord.Embed
     """
-    guild_icon = str(msg.guild.icon.url) if msg.guild.icon.url else None
+    guild_icon = str(msg.guild.icon.url) if msg.guild.icon else None
     sugg_embed = discord.Embed(color=msg.author.color, timestamp=msg.created_at)
     sugg_embed.description = " ".join(args)
     author_name = f'{msg.author.name} [{msg.author.id}]'

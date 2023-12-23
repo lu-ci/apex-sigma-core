@@ -41,7 +41,7 @@ def generate_log_embed(message, target, reason):
                            value=f'{author.mention}\n{author.name}#{author.discriminator}')
     if reason:
         log_response.add_field(name='📄 Reason', value=f"```\n{reason}\n```", inline=False)
-    log_response.set_footer(text=f'user_id: {target.id}')
+    log_response.set_footer(text=f'User ID {target.id}')
     return log_response
 
 
@@ -66,7 +66,7 @@ async def softban(cmd, pld):
                             response = discord.Embed(color=0x696969, title='🔩 The user has been soft-banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
-                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                             to_target = discord.Embed(color=0x696969)
                             to_target.add_field(name='🔩 You have been soft-banned.', value=f'Reason: {reason}')
                             to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
@@ -74,7 +74,8 @@ async def softban(cmd, pld):
                                 await target.send(embed=to_target)
                             except (discord.Forbidden, discord.HTTPException):
                                 pass
-                            await target.ban(reason=f'By {pld.msg.author.name}: {reason} (Soft)')
+                            author = f'{pld.msg.author.name}#{pld.msg.author.discriminator}'
+                            await target.ban(reason=f'By {author}: {reason} (Soft)')
                             await target.unban()
                             log_embed = generate_log_embed(pld.msg, target, reason)
                             await log_event(cmd.bot, pld.settings, log_embed, 'log_bans')

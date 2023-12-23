@@ -159,7 +159,7 @@ async def issuewarning(cmd, pld):
                     log_embed = make_log_embed(pld.msg.author, target, warn_ident, reason)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')
                     await check_auto_punish(cmd, pld, target)
-                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                    guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                     to_target = discord.Embed(color=0xFFCC4D)
                     to_target.add_field(name='⚠ You received a warning.', value=f'Reason: {reason}')
                     to_target.set_footer(text=f'From {pld.msg.guild.name}', icon_url=guild_icon)

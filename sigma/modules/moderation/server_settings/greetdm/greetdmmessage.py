@@ -29,7 +29,7 @@ async def make_greet_embed(data, greeting, guild):
     :type guild: discord.Guild
     :rtype: discord.Embed
     """
-    guild_icon = str(guild.icon.url) if guild.icon.url else None
+    guild_icon = str(guild.icon.url) if guild.icon else None
     guild_color = await get_image_colors(guild_icon)
     greeting = discord.Embed(color=data.get('color') or guild_color, description=greeting)
     greeting.set_author(name=guild.name, icon_url=guild_icon)

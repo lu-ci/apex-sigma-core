@@ -28,6 +28,13 @@ message_cache = TTLCacher(CacheConfig({}))
 
 
 async def send_translation(channel, message, translation, fr_lang, to_lang):
+    """
+    :type channel: discord.GuildChannel
+    :type message: discord.Message
+    :type translation: str
+    :type fr_lang: str
+    :type to_lang: str
+    """
     title = f'🔠 Translated from {fr_lang.upper()} to {to_lang.upper()}'
     trans_embed = discord.Embed(color=0x3B88C3, title=title, description=translation)
     await channel.send(embed=trans_embed)
@@ -75,7 +82,7 @@ async def flag_translating(ev, pld):
                         translator = Translator(to_lang=to_lang, from_lang=fr_lang)
                         translation = translator.translate(msg.content)
                         if 'is an invalid' in translation.lower():
-                            await msg.add_reaction('🚩')
+                            await msg.add_reaction('❗')
                             return
                         # 'excedeed' is misspelled intentionally
                         elif 'length limit excedeed' in translation.lower():

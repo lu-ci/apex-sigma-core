@@ -182,7 +182,7 @@ async def purge(cmd, pld):
                 del_response = await pld.msg.channel.send(embed=response)
                 await asyncio.sleep(5)
                 await del_response.delete()
-            except discord.NotFound:
+            except (discord.NotFound, discord.Forbidden):
                 pass
             return
         else:

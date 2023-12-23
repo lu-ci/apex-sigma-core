@@ -86,7 +86,7 @@ async def ban(cmd, pld):
                             response = discord.Embed(color=0x696969, title='🔨 The user has been banned.')
                             response_title = f'{target.name}#{target.discriminator}'
                             response.set_author(name=response_title, icon_url=user_avatar(target))
-                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon.url else None
+                            guild_icon = str(pld.msg.guild.icon.url) if pld.msg.guild.icon else None
                             to_target = discord.Embed(color=0x696969)
                             to_target.add_field(name='🔨 You have been banned.', value=f'Reason: {reason}')
                             to_target.set_footer(text=f'From: {pld.msg.guild.name}.', icon_url=guild_icon)
