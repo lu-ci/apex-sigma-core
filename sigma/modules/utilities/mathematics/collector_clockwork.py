@@ -305,12 +305,11 @@ async def set_coll_cache(ev, user_id, channel_id, coll_cache, last_msg):
     :type coll_cache: dict
     :type last_msg: float
     """
-    if coll_cache:
-        coll_cache.update({str(channel_id): last_msg})
-        lookup, cache_data = {'user_id': user_id}, {'$set': coll_cache}
-        await ev.db.col.CollectorCache.update_one(lookup, cache_data)
-    else:
-        await ev.db.col.CollectorCache.insert_one({'user_id': user_id, str(channel_id): last_msg})
+    if not coll_cache:
+        coll_cache = {}
+    coll_cache.update({str(channel_id): last_msg})
+    lookup, cache_data = {'user_id': user_id}, {'$set': coll_cache}
+    await ev.db.col.CollectorCache.update_one(lookup, cache_data, upsert=True)
 
 
 def serialize(item):

@@ -38,12 +38,8 @@ async def setcooldown(cmd, pld):
                 if command in cmd.bot.modules.alts:
                     command = cmd.bot.modules.alts[command]
                 if command in cmd.bot.modules.commands.keys():
-                    cddata = {'command': command, 'cooldown': cooldown}
-                    cddoc = await cmd.db.col.CommandCooldowns.find_one({'Command': command})
-                    if not cddoc:
-                        await cmd.db.col.CommandCooldowns.insert_one(cddata)
-                    else:
-                        await cmd.db.col.CommandCooldowns.update_one({'command': command}, {'$set': cddata})
+                    update_data = {'$set': {'command': command, 'cooldown': cooldown}}
+                    await cmd.db.col.CommandCooldowns.update_one({'command': command}, update_data, upsert=True)
                     response = GenericResponse(f'Command {command} now has a {cooldown}s cooldown.').ok()
                 else:
                     response = GenericResponse(f'Command `{command}` not found.').not_found()

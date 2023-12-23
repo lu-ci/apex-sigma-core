@@ -41,22 +41,18 @@ async def blacklistuser(cmd, pld):
                     target_name = target.name
                 else:
                     target_name = target_id
-                file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
-                if file:
-                    if file.get('total'):
-                        update_data = {'$set': {'user_id': target_id, 'total': False}}
-                        icon, result = '🔓', 'un-blacklisted'
-                    else:
-                        update_data = {'$set': {'user_id': target_id, 'total': True}}
-                        icon, result = '🔒', 'blacklisted'
-                    await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, update_data)
+                black_file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                if black_file.get('total'):
+                    update_data = {'$set': {'user_id': target_id, 'total': False}}
+                    icon, result = '🔓', 'un-blacklisted'
                 else:
-                    await cmd.db.col.BlacklistedUsers.insert_one({'user_id': target_id, 'total': True})
+                    update_data = {'$set': {'user_id': target_id, 'total': True}}
                     icon, result = '🔒', 'blacklisted'
-                await cmd.db.cache.del_cache(target_id)
-                await cmd.db.cache.del_cache(f'{target_id}_checked')
                 title = f'{icon} {target_name} has been {result}.'
                 response = discord.Embed(color=0xFFCC4D, title=title)
+                await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, update_data, upsert=True)
+                await cmd.db.cache.del_cache(target_id)
+                await cmd.db.cache.del_cache(f'{target_id}_checked')
             else:
                 response = GenericResponse('That target is immune.').error()
         else:

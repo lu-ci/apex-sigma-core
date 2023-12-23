@@ -43,23 +43,18 @@ async def blacklistmodule(cmd, pld):
                     target_name = target_id
                 lookup = ' '.join(pld.args[1:])
                 if lookup.lower() in cmd.bot.modules.categories:
-                    file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
-                    if file:
-                        modules = file.get('modules', [])
-                        if lookup.lower() in modules:
-                            modules.remove(lookup.lower())
-                            icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
-                        else:
-                            modules.append(lookup.lower())
-                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
-                        up_data = {'$set': {'user_id': target_id, 'modules': modules}}
-                        await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, up_data)
+                    black_file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                    modules = black_file.get('modules', [])
+                    if lookup.lower() in modules:
+                        modules.remove(lookup.lower())
+                        icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
                     else:
-                        new_data = {'user_id': target_id, 'modules': [lookup.lower()]}
-                        await cmd.db.col.BlacklistedUsers.insert_one(new_data)
+                        modules.append(lookup.lower())
                         icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                     title = f'{icon} {target_name} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)
+                    update_data = {'$set': {'user_id': target_id, 'modules': modules}}
+                    await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, update_data, upsert=True)
                     await cmd.db.cache.del_cache(target_id)
                     await cmd.db.cache.del_cache(f'{target_id}_checked')
                 else:

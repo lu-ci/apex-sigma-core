@@ -27,14 +27,8 @@ async def add_cmd_stat(cmd):
     :param cmd: The command to increment stats for.
     :type cmd: sigma.core.mechanics.command.SigmaCommand
     """
-    lookup_target = {'command': cmd.name}
-    stat_file = await cmd.db[cmd.db.db_name].CommandStats.find_one(lookup_target)
-    if stat_file:
-        count = (stat_file.get('count') or 0) + 1
-        await cmd.db[cmd.db.db_name].CommandStats.update_one(lookup_target, {'$set': {'count': count}})
-    else:
-        count = 1
-        await cmd.db[cmd.db.db_name].CommandStats.insert_one({'command': cmd.name, 'count': count})
+    await cmd.db.col.CommandStats.update_one(
+        {'command': cmd.name}, {'$inc': {'count': 1}}, upsert=True)
 
 
 async def add_special_stats(db, stat_name):

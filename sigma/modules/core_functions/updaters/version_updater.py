@@ -42,9 +42,5 @@ async def version_updater_cycler(ev):
         if ev.bot.is_ready():
             version = ev.bot.info.get_version().raw
             lookup = {'version': {'$exists': True}}
-            version_file = await version_coll.find_one(lookup)
-            if version_file:
-                await version_coll.update_one(lookup, {'$set': version})
-            else:
-                await version_coll.insert_one(version)
+            await version_coll.update_one(lookup, {'$set': version}, upsert=True)
         await asyncio.sleep(60)

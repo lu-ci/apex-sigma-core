@@ -45,24 +45,18 @@ async def blacklistcommand(cmd, pld):
                 if lookup.lower() in cmd.bot.modules.alts:
                     lookup = cmd.bot.modules.alts[lookup.lower()]
                 if lookup.lower() in cmd.bot.modules.commands:
-                    black_user_collection = cmd.db.col.BlacklistedUsers
-                    black_user_file = await black_user_collection.find_one({'user_id': target_id})
-                    if black_user_file:
-                        commands = black_user_file.get('commands', [])
-                        if lookup.lower() in commands:
-                            commands.remove(lookup.lower())
-                            icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
-                        else:
-                            commands.append(lookup.lower())
-                            icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
-                        up_data = {'$set': {'user_id': target_id, 'commands': commands}}
-                        await black_user_collection.update_one({'user_id': target_id}, up_data)
+                    black_file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                    commands = black_file.get('commands', [])
+                    if lookup.lower() in commands:
+                        commands.remove(lookup.lower())
+                        icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
                     else:
-                        new_data = {'user_id': target_id, 'commands': [lookup.lower()]}
-                        await black_user_collection.insert_one(new_data)
+                        commands.append(lookup.lower())
                         icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                     title = f'{icon} {target_name} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)
+                    update_data = {'$set': {'user_id': target_id, 'commands': commands}}
+                    await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, update_data, upsert=True)
                     await cmd.db.cache.del_cache(target_id)
                     await cmd.db.cache.del_cache(f'{target_id}_checked')
                 else:

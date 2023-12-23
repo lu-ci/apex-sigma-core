@@ -45,9 +45,5 @@ async def donor_cycler(ev):
             donors = ev.bot.info.get_donors().raw_list
             for donor in donors:
                 lookup = {'duid': donor.get('duid')}
-                donor_file = await donor_coll.find_one(lookup)
-                if donor_file:
-                    await donor_coll.update_one(lookup, {'$set': donor})
-                else:
-                    await donor_coll.insert_one(donor)
+                await donor_coll.update_one(lookup, {'$set': donor}, upsert=True)
         await asyncio.sleep(86400)

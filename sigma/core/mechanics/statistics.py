@@ -51,19 +51,8 @@ class StatisticsStorage(object):
         An infinite loop that dumps the statistics in the database every 60 seconds.
         """
         while True:
-            def_stat_data = {'event': self.name, 'count': 0}
-            collection = 'EventStats'
-            database = self.db.db_name
-            check = await self.db[database][collection].find_one({"event": self.name})
-            if not check:
-                await self.db[database][collection].insert_one(def_stat_data)
-                ev_count = 0
-            else:
-                ev_count = check.get('count', 0)
-            ev_count += self.count
-            update_target = {"event": self.name}
-            update_data = {"$set": {'count': ev_count}}
-            await self.db[database][collection].update_one(update_target, update_data)
+            await self.db.col.EventStats.update_one(
+                {"event": self.name}, {"$inc": {'count': self.count}}, upsert=True)
             self.count = 0
             await asyncio.sleep(60)
 

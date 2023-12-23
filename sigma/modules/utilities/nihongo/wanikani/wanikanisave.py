@@ -36,12 +36,11 @@ async def wanikanisave(cmd, pld):
         api_key = ''.join(pld.args)
         api_document = await cmd.db.col.WaniKani.find_one({'user_id': pld.msg.author.id})
         data = {'user_id': pld.msg.author.id, 'wk_api_key': api_key}
+        await cmd.db.col.WaniKani.update_one({'user_id': pld.msg.author.id}, {'$set': data}, upsert=True)
         if api_document:
             ender = 'updated'
-            await cmd.db.col.WaniKani.update_one({'user_id': pld.msg.author.id}, {'$set': data})
         else:
             ender = 'saved'
-            await cmd.db.col.WaniKani.insert_one(data)
         response = discord.Embed(color=0x66CC66, title=f'🔑 Your key has been {ender}.')
     else:
         response = GenericResponse('Nothing inputted.').error()

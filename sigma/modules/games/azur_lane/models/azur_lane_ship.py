@@ -799,12 +799,7 @@ class AzurLaneShip(object):
         """
         :type db: sigma.core.mechanics.database.Database
         """
-        al_coll = db[db.db_name].AzurLaneShips
-        exists = bool(await al_coll.find_one({'id': self.id}))
-        if not exists:
-            await al_coll.insert_one(self.to_dict())
-        else:
-            await al_coll.update_one({'id': self.id}, {'$set': self.to_dict()})
+        await db.col.AzurLaneShips.update_one({'id': self.id}, {'$set': self.to_dict()}, upsert=True)
 
 
 async def get_ship(db, lookup):

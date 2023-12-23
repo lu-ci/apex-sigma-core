@@ -134,13 +134,8 @@ class CooldownControl(object):
             if user.id in self.bot.cfg.dsc.owners:
                 amount = 0
             cd_name = f'cd_{cmd}_{user.id}'
-        entry = await self.cds.find_one({'name': cd_name})
         end_stamp = arrow.utcnow().int_timestamp + amount
-        if entry:
-            await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}})
-        else:
-            cd_data = {'name': cd_name, 'end_stamp': end_stamp}
-            await self.cds.insert_one(cd_data)
+        await self.cds.update_one({'name': cd_name}, {'$set': {'end_stamp': end_stamp}}, upsert=True)
 
     async def clean_cooldowns(self):
         """
