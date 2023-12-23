@@ -84,9 +84,9 @@ async def leaderboard(cmd, pld):
         leader_docs = await cmd.db.cache.get_cache(f'{resource}_{sort_key}')
         leader_timer = await cmd.db.cache.get_cache(f'{resource}_{sort_key}_stamp') or now
         if not leader_docs or leader_timer + 180 < now:
-            coll = cmd.db[cmd.db.db_name][f'{resource.title()}Resource']
+            res_coll = cmd.db.col[f'{resource.title()}Resource']
             search = {'$and': [{sort_key: {'$exists': True}}, {sort_key: {'$gt': 0}}]}
-            all_docs = await coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
+            all_docs = await res_coll.find(search).sort(sort_key, -1).limit(100).to_list(None)
             leader_docs = await get_leader_docs(cmd.db, all_docs, sort_key)
             await cmd.db.cache.set_cache(f'{resource}_{sort_key}', leader_docs)
             await cmd.db.cache.set_cache(f'{resource}_{sort_key}_stamp', now)

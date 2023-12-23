@@ -33,7 +33,7 @@ async def wanikani(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    api_document = await cmd.db[cmd.db.db_name].WaniKani.find_one({'user_id': target.id})
+    api_document = await cmd.db.col.WaniKani.find_one({'user_id': target.id})
     if api_document:
         try:
             api_key = api_document['wk_api_key']

@@ -37,16 +37,16 @@ async def timeconvert(cmd, pld):
             if len(from_pieces) == 2:
                 from_time = from_pieces[0].lower()
                 from_zone = from_pieces[1].lower()
-                alias_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one({'type': 'tz_alias', 'zone': from_zone})
+                alias_doc = await cmd.db.col.TimezoneData.find_one({'type': 'tz_alias', 'zone': from_zone})
                 from_zone = alias_doc.get('value').lower() if alias_doc else from_zone
-                offset_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one(
+                offset_doc = await cmd.db.col.TimezoneData.find_one(
                     {'type': 'tz_offset', 'zone': from_zone}
                 ) or {}
                 from_zone = offset_doc.get('value') if offset_doc else from_zone
                 to_zone = conv_input[1].lower()
-                alias_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one({'type': 'tz_alias', 'zone': to_zone})
+                alias_doc = await cmd.db.col.TimezoneData.find_one({'type': 'tz_alias', 'zone': to_zone})
                 to_zone = alias_doc.get('value').lower() if alias_doc else to_zone
-                offset_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one(
+                offset_doc = await cmd.db.col.TimezoneData.find_one(
                     {'type': 'tz_offset', 'zone': to_zone}
                 ) or {}
                 to_zone = offset_doc.get('value') if offset_doc else to_zone

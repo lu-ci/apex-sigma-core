@@ -122,5 +122,5 @@ async def textmute(cmd, pld):
                             pass
                         if endstamp:
                             doc_data = {'server_id': pld.msg.guild.id, 'user_id': target.id, 'time': endstamp}
-                            await cmd.db[cmd.db.db_name].TextmuteClockworkDocs.insert_one(doc_data)
+                            await cmd.db.col.TextmuteClockworkDocs.insert_one(doc_data)
     await pld.msg.channel.send(embed=response)

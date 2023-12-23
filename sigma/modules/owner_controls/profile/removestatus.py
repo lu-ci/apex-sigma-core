@@ -29,9 +29,9 @@ async def removestatus(cmd, pld):
     if pld.args:
         status_id = ''.join(pld.args)
         status_data = {'id': status_id}
-        status_exists = await cmd.db[cmd.db.db_name].StatusFiles.find_one(status_data)
+        status_exists = await cmd.db.col.StatusFiles.find_one(status_data)
         if status_exists:
-            await cmd.db[cmd.db.db_name].StatusFiles.delete_one(status_data)
+            await cmd.db.col.StatusFiles.delete_one(status_data)
             response = GenericResponse(f'Deleted status `{status_id}`.').ok()
         else:
             response = GenericResponse('Status ID not found.').not_found()

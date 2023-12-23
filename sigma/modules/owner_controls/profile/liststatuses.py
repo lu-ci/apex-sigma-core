@@ -31,7 +31,7 @@ async def liststatuses(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    status_data = await cmd.db[cmd.db.db_name].StatusFiles.find().to_list(None)
+    status_data = await cmd.db.col.StatusFiles.find().to_list(None)
     if status_data:
         status_list = [[s['id'], s['text']] for s in status_data]
         status_list = sorted(status_list, key=lambda x: x[1])

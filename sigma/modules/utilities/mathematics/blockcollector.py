@@ -27,12 +27,11 @@ async def blockcollector(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     block_data = {'user_id': pld.msg.author.id}
-    block_coll = cmd.db[cmd.db.db_name].BlockedChains
-    block_file = await block_coll.find_one(block_data)
+    block_file = await cmd.db.col.BlockedChains.find_one(block_data)
     if not block_file:
-        await block_coll.insert_one(block_data)
+        await cmd.db.col.BlockedChains.insert_one(block_data)
         response = GenericResponse('Other users are no longer able to collect a chain for you.').ok()
     else:
-        await block_coll.delete_one(block_data)
+        await cmd.db.col.BlockedChains.delete_one(block_data)
         response = GenericResponse('Other users can once again collect a chain for you.').ok()
     await pld.msg.channel.send(embed=response)

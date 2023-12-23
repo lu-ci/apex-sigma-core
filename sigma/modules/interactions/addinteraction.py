@@ -98,7 +98,7 @@ async def check_existence(db, data, name):
     :rtype: bool, str
     """
     url_hash = hash_url(data)
-    exists = bool(await db[db.db_name].Interactions.find_one({'hash': url_hash, 'name': name}))
+    exists = bool(await db.col.Interactions.find_one({'hash': url_hash, 'name': name}))
     return exists, url_hash
 
 
@@ -138,7 +138,7 @@ async def addinteraction(cmd, pld):
                                 inter_data = make_interaction_data(pld.msg, interaction_name, imgur_link, url_hash)
                                 if cmd.cfg.log_ch is None:
                                     inter_data.update({'active': True})
-                                await cmd.db[cmd.db.db_name].Interactions.insert_one(inter_data)
+                                await cmd.db.col.Interactions.insert_one(inter_data)
                                 title = f'Interaction {interaction_name} {inter_data.get("interaction_id")} submitted.'
                                 response = GenericResponse(title).ok()
                             else:

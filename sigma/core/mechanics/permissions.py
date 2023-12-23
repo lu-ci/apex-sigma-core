@@ -274,7 +274,7 @@ class ServerCommandPermissions(object):
         self.bot = self.cmd.bot
         self.msg = message
         self.permitted = True
-        self.perm_coll = self.db[self.bot.cfg.db.database].Permissions
+        self.perm_coll = self.db.col.Permissions
 
     def check_mdl_overwrites(self, perms):
         """

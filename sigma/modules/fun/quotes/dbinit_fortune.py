@@ -26,11 +26,11 @@ async def dbinit_fortune(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    doc_count = await ev.db[ev.db.db_name].FortuneData.count_documents({})
+    doc_count = await ev.db.col.FortuneData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/jokes/fortune_manifest.yml'
         ev.log.info('Updating fortune-mod files.')
-        await ev.db[ev.db.db_name].FortuneData.drop()
+        await ev.db.col.FortuneData.drop()
         documents = []
         async with aiohttp.ClientSession() as session:
             async with session.get(file_url) as data_response:
@@ -40,5 +40,5 @@ async def dbinit_fortune(ev, force=False):
             for fortune in fcat:
                 doc_data = {'content': fortune}
                 documents.append(doc_data)
-        await ev.db[ev.db.db_name].FortuneData.insert_many(documents)
+        await ev.db.col.FortuneData.insert_many(documents)
         ev.log.info('Updated fortune-mod files successfully.')

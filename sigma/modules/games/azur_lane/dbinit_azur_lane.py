@@ -76,7 +76,7 @@ async def detailed_ship_fill(ev):
     """
     ev.log.info('Updating detailed Azur Lane ship information...')
     headers = {'Cookie': 'stopMobileRedirect=true'}
-    all_ships = await ev.db[ev.db.db_name].AzurLaneShips.find().to_list(None)
+    all_ships = await ev.db.col.AzurLaneShips.find().to_list(None)
     for ship_doc in all_ships:
         ship = AzurLaneShip(ship_doc)
         ev.log.info(f'Parsing {ship.name} details...')
@@ -102,8 +102,7 @@ async def dbinit_azur_lane(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force: bool
     """
-    al_coll = ev.db[ev.db.db_name].AzurLaneShips
-    file_count = await al_coll.count_documents({})
+    file_count = await ev.db.col.AzurLaneShips.count_documents({})
     if file_count == 0 or force:
         ev.log.info('Updating Azur Lane ship data...')
         await basic_index_fill(ev)

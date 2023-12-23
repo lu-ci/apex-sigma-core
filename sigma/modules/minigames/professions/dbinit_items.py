@@ -41,15 +41,15 @@ async def dbinit_item_data(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force:
     """
-    doc_count = await ev.db[ev.db.db_name].ItemData.count_documents({})
+    doc_count = await ev.db.col.ItemData.count_documents({})
     if not doc_count or force:
         ev.log.info('Updating profession item files.')
-        await ev.db[ev.db.db_name].ItemData.drop()
+        await ev.db.col.ItemData.drop()
         async with aiohttp.ClientSession() as session:
             async with session.get(ITEM_MANIFEST) as data_response:
                 data = await data_response.read()
                 data = yaml.safe_load(data)
-        await ev.db[ev.db.db_name].ItemData.insert_many(data)
+        await ev.db.col.ItemData.insert_many(data)
         ev.log.info('Updated profession item files successfully.')
 
 
@@ -59,13 +59,13 @@ async def dbinit_recipe_data(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force:
     """
-    doc_count = await ev.db[ev.db.db_name].RecipeData.count_documents({})
+    doc_count = await ev.db.col.RecipeData.count_documents({})
     if not doc_count or force:
         ev.log.info('Updating cooking recipe files.')
-        await ev.db[ev.db.db_name].RecipeData.drop()
+        await ev.db.col.RecipeData.drop()
         async with aiohttp.ClientSession() as session:
             async with session.get(RECIPE_MANIFEST) as data_response:
                 data = await data_response.read()
                 data = yaml.safe_load(data)
-        await ev.db[ev.db.db_name].RecipeData.insert_many(data)
+        await ev.db.col.RecipeData.insert_many(data)
         ev.log.info('Updated cooking recipe files successfully.')

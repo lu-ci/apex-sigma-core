@@ -36,7 +36,7 @@ async def itemstatistics(cmd, pld):
         target = pld.msg.mentions[0]
     else:
         target = pld.msg.author
-    all_stats = await cmd.db[cmd.db.db_name].ItemStatistics.find_one({'user_id': target.id}) or {}
+    all_stats = await cmd.db.col.ItemStatistics.find_one({'user_id': target.id}) or {}
     if '_id' in all_stats:
         all_stats.pop('_id')
         all_stats.pop('user_id')

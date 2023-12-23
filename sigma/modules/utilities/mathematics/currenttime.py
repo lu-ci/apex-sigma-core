@@ -33,9 +33,9 @@ async def currenttime(cmd, pld):
     shift = None
     if pld.args:
         shift = ' '.join(pld.args).lower()
-        alias_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one({'type': 'tz_alias', 'zone': shift})
+        alias_doc = await cmd.db.col.TimezoneData.find_one({'type': 'tz_alias', 'zone': shift})
         shift = alias_doc.get('value').lower() if alias_doc else shift.lower()
-        offset_doc = await cmd.db[cmd.db.db_name].TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or {}
+        offset_doc = await cmd.db.col.TimezoneData.find_one({'type': 'tz_offset', 'zone': shift}) or {}
         shift = offset_doc.get('value') if offset_doc else shift
     try:
         now = arrow.utcnow()

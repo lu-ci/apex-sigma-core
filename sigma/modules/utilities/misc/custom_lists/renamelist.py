@@ -28,16 +28,15 @@ async def renamelist(cmd, pld):
     """
     if pld.args:
         if len(pld.args) > 1:
-            list_coll = cmd.db[cmd.db.db_name].CustomLists
             lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
-            list_file = await list_coll.find_one(lookup_data)
+            list_file = await cmd.db.col.CustomLists.find_one(lookup_data)
             if list_file:
                 author_id = list_file.get('user_id')
                 if author_id == pld.msg.author.id:
                     new_name = ' '.join(pld.args[1:])
                     if len(new_name) <= 50:
                         list_file.update({'name': new_name})
-                        await list_coll.update_one(lookup_data, {'$set': list_file})
+                        await cmd.db.col.CustomLists.update_one(lookup_data, {'$set': list_file})
                         response = GenericResponse(f'List {list_file.get("list_id")} renamed to {new_name}.').ok()
                     else:
                         response = GenericResponse('List names have a limit of 50 characters.').error()

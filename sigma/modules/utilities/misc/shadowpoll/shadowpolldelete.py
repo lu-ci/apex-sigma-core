@@ -28,11 +28,11 @@ async def shadowpolldelete(cmd, pld):
     """
     if pld.args:
         poll_id = pld.args[0].lower()
-        poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db.col.ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             if author == pld.msg.author.id:
-                await cmd.db[cmd.db.db_name].ShadowPolls.delete_one({'id': poll_id})
+                await cmd.db.col.ShadowPolls.delete_one({'id': poll_id})
                 response = GenericResponse(f'Poll {poll_id} has been deleted.').ok()
             else:
                 response = GenericResponse('You didn\'t make this poll.').denied()

@@ -45,7 +45,7 @@ async def whisper(cmd, pld):
                         'whisper': whisper_message,
                         'reported': False
                     }
-                    await cmd.db[cmd.db.db_name].Whispers.insert_one(whisper_data)
+                    await cmd.db.col.Whispers.insert_one(whisper_data)
                     response = GenericResponse('Whisper submitted.').ok()
                 else:
                     response = GenericResponse('Missing message to send.').error()

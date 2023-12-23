@@ -32,7 +32,7 @@ async def declinesuggestion(cmd, pld):
     if len(pld.args) >= 2:
         token = pld.args[0].lower()
         reason = ' '.join(pld.args[1:])
-        suggestion = await cmd.db[cmd.db.db_name].Suggestions.find_one({'suggestion.id': token})
+        suggestion = await cmd.db.col.Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             delete = True if reason.lower().startswith('deleted') else False
             await react_to_suggestion(cmd.bot, suggestion, '⛔', delete)

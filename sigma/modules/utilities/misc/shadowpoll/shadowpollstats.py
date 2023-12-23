@@ -62,7 +62,7 @@ async def shadowpollstats(cmd, pld):
     """
     if pld.args:
         poll_id = pld.args[0].lower()
-        poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db.col.ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             visible = poll_file['settings']['visible']

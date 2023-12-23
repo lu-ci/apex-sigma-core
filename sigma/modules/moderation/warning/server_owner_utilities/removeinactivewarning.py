@@ -37,10 +37,10 @@ async def removeinactivewarning(cmd, pld):
                     'warning.id': warn_id,
                     'warning.active': False
                 }
-                warn_data = await cmd.db[cmd.db.db_name].Warnings.find_one(lookup)
+                warn_data = await cmd.db.col.Warnings.find_one(lookup)
                 if warn_data:
                     warn_ident = warn_data.get('warning').get('id')
-                    await cmd.db[cmd.db.db_name].Warnings.delete_one(lookup)
+                    await cmd.db.col.Warnings.delete_one(lookup)
                     response = GenericResponse(f'Warning {warn_ident} deleted.').ok()
                 else:
                     response = GenericResponse('Inactive warning not found.').not_found()

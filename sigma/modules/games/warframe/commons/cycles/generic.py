@@ -29,7 +29,7 @@ async def get_channels(ev, marker):
     """
     channel_list = []
     lookup = {marker: {'$exists': True}}
-    setting_files = await ev.db[ev.db.db_name].ServerSettings.find(lookup).to_list(None)
+    setting_files = await ev.db.col.ServerSettings.find(lookup).to_list(None)
     for setting_file in setting_files:
         channel_id = setting_file.get(marker)
         channel = await ev.bot.get_channel(channel_id, True)
@@ -66,7 +66,7 @@ async def clean_wf_cache(db):
     :type db: sigma.core.mechanics.database.Database
     """
     cutoff = arrow.utcnow().int_timestamp - 2592000
-    await db[db.db_name].WarframeCache.delete_many({'created': {'$lt': cutoff}})
+    await db.col.WarframeCache.delete_many({'created': {'$lt': cutoff}})
 
 
 async def send_to_channels(ev, response, marker, triggers=None):

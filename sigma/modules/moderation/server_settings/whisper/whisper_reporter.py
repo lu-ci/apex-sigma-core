@@ -47,7 +47,7 @@ async def send_whisper_message(ev, whisper_doc):
             await whisper_channel.send(embed=response)
         except (discord.Forbidden, discord.NotFound):
             pass
-        await ev.db[ev.db.db_name].Whispers.update_one(whisper_doc, {'$set': {'reported': True}})
+        await ev.db.col.Whispers.update_one(whisper_doc, {'$set': {'reported': True}})
 
 
 async def whisper_reporter_cycler(ev):
@@ -57,7 +57,7 @@ async def whisper_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            whisper_docs = await ev.db[ev.db.db_name].Whispers.find({'reported': False}).to_list(None)
+            whisper_docs = await ev.db.col.Whispers.find({'reported': False}).to_list(None)
             for whisper_doc in whisper_docs:
                 await send_whisper_message(ev, whisper_doc)
                 await asyncio.sleep(1)

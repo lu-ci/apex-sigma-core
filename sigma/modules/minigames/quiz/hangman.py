@@ -66,7 +66,7 @@ async def hangman(cmd, pld):
     cache_key = 'hangman_word_cache'
     word_cache = await cmd.db.cache.get_cache(cache_key) or {}
     if not word_cache:
-        dict_docs = await cmd.db[cmd.db.db_name].DictionaryData.find().to_list(None)
+        dict_docs = await cmd.db.col.DictionaryData.find().to_list(None)
         for ddoc in dict_docs:
             word = ddoc.get('word')
             if len(word) > 3 and len(word.split(' ')) == 1 and '-' not in word:

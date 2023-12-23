@@ -35,7 +35,7 @@ async def get_active_shop(db, uid):
     :rtype: dict
     """
     now = arrow.utcnow().format('YYYY-MM-DD')
-    doc = await db[db.db_name].BazaarCache.find_one({'user_id': uid})
+    doc = await db.col.BazaarCache.find_one({'user_id': uid})
     if doc:
         doc_stamp = doc.get('date')
         if now != doc_stamp:
@@ -51,17 +51,17 @@ async def generate_shop(db, uid):
     """
     data = None
     need_new = False
-    doc = await db[db.db_name].BazaarCache.find_one({'user_id': uid})
+    doc = await db.col.BazaarCache.find_one({'user_id': uid})
     if doc:
         now = arrow.utcnow().format('YYYY-MM-DD')
         doc_stamp = doc.get('date')
         if now != doc_stamp:
-            await db[db.db_name].BazaarCache.delete_many({'date': {'$ne': now}})
+            await db.col.BazaarCache.delete_many({'date': {'$ne': now}})
             need_new = True
     else:
         need_new = True
     if need_new:
-        await db[db.db_name].BazaarCache.delete_many({'user_id': uid})
+        await db.col.BazaarCache.delete_many({'user_id': uid})
         data = {
             'user_id': uid,
             'date': arrow.utcnow().format('YYYY-MM-DD')
@@ -78,7 +78,7 @@ async def generate_shop(db, uid):
                     pool.append(item.file_id)
             choice = pool[secrets.randbelow(len(pool))]
             data.update({key: choice})
-        await db[db.db_name].BazaarCache.insert_one(data)
+        await db.col.BazaarCache.insert_one(data)
     return data
 
 
@@ -97,7 +97,7 @@ async def track_purchase(db, uid, variant, item, price):
         'item': item,
         'price': price
     }
-    await db[db.db_name].BazaarPurchases.insert_one(data)
+    await db.col.BazaarPurchases.insert_one(data)
 
 
 async def has_purchased(db, uid, variant):
@@ -112,7 +112,7 @@ async def has_purchased(db, uid, variant):
         'user_id': uid,
         'variant': variant
     }
-    count = await db[db.db_name].BazaarPurchases.count_documents(data)
+    count = await db.col.BazaarPurchases.count_documents(data)
     return count != 0
 
 

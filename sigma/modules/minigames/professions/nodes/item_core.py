@@ -100,8 +100,8 @@ class ItemCore(object):
         return choice
 
     async def items_from_db(self):
-        all_items = await self.db[self.db.db_name].ItemData.find().to_list(None)
-        all_items += await self.db[self.db.db_name].RecipeData.find().to_list(None)
+        all_items = await self.db.col.ItemData.find().to_list(None)
+        all_items += await self.db.col.RecipeData.find().to_list(None)
         return all_items
 
     async def items_from_repo(self):

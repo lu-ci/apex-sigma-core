@@ -70,7 +70,7 @@ async def getinvites(cmd, pld):
                 'timestamp': arrow.utcnow().int_timestamp,
                 'reported': False
             }
-            await cmd.db[cmd.db.db_name].InviteQueue.insert_one(queue_data)
+            await cmd.db.col.InviteQueue.insert_one(queue_data)
     else:
         response = GenericResponse('Nothing inputted.').error()
     await pld.msg.channel.send(embed=response)

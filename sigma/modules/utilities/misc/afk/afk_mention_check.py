@@ -36,7 +36,7 @@ async def afk_mention_check(ev, pld):
                 target = pld.msg.mentions[0]
                 afk_data = await ev.db.cache.get_cache(f'afk_{pld.msg.author.id}')
                 if not afk_data:
-                    afk_data = await ev.db[ev.db.db_name].AwayUsers.find_one({'user_id': target.id})
+                    afk_data = await ev.db.col.AwayUsers.find_one({'user_id': target.id})
                 if afk_data:
                     time_then = arrow.get(afk_data.get('timestamp', 0))
                     afk_time = arrow.get(time_then).humanize(arrow.utcnow()).title()

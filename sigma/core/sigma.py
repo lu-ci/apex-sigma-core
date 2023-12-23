@@ -193,12 +193,12 @@ class ApexSigma(client_class):
         self.log.info('Connecting to Database...')
         db = Database(self, self.cfg.db)
         try:
-            await db[db.db_name].collection.find_one({})
+            await db.col.collection.find_one({})
             if self.cfg.cache.type not in ['redis', 'mixed']:
                 await db.precache_settings()
                 await db.precache_profiles()
                 await db.precache_resources()
-            set_color_cache_coll(db[db.db_name].ColorCache)
+            set_color_cache_coll(db.col.ColorCache)
         except ServerSelectionTimeoutError:
             self.log.error('A Connection To The Database Host Failed!')
             exit(errno.ETIMEDOUT)

@@ -28,7 +28,6 @@ async def cancelcollector(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     current = get_current()
-    collector_coll = cmd.db[cmd.db.db_name].CollectorQueue
     if current:
         current_target = current.get('user_id')
         current_author = current.get('author_id')
@@ -36,11 +35,11 @@ async def cancelcollector(cmd, pld):
     else:
         current_running = False
     if not current_running:
-        target_entry = await collector_coll.find_one({'user_id': pld.msg.author.id})
-        author_entry = await collector_coll.find_one({'author_id': pld.msg.author.id})
+        target_entry = await cmd.db.col.CollectorQueue.find_one({'user_id': pld.msg.author.id})
+        author_entry = await cmd.db.col.CollectorQueue.find_one({'author_id': pld.msg.author.id})
         entry = target_entry or author_entry
         if entry:
-            await collector_coll.delete_one(entry)
+            await cmd.db.col.CollectorQueue.delete_one(entry)
             response = GenericResponse('Ok, I removed you from the queue.').ok()
         else:
             response = GenericResponse('You are not currently in the queue.').error()

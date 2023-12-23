@@ -42,11 +42,10 @@ async def reminder_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    coll = ev.db[ev.db.db_name].Reminders
     while True:
         if ev.bot.is_ready():
             current_stamp = arrow.utcnow().int_timestamp
-            reminders = await coll.find({'execution_stamp': {'$lt': current_stamp}}).to_list(None)
+            reminders = await ev.db.col.Reminders.find({'execution_stamp': {'$lt': current_stamp}}).to_list(None)
             if reminders:
                 for reminder in reminders:
                     is_dm = reminder.get('direct_message')
@@ -54,7 +53,7 @@ async def reminder_cycler(ev):
                     author = await ev.bot.get_user(reminder.get('user_id'))
                     target = author if is_dm else channel
                     if target:
-                        await coll.delete_one(reminder)
+                        await ev.db.col.Reminders.delete_one(reminder)
                         dt_stamp = arrow.get(reminder.get('creation_stamp')).datetime
                         title = '⏰ Your Reminder'
                         response = discord.Embed(color=0xff3333, title=title, timestamp=dt_stamp)

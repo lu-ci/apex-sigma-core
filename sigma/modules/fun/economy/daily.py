@@ -29,10 +29,10 @@ async def daily(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    daily_doc = await cmd.db[cmd.db.db_name].DailyCache.find_one({'user_id': pld.msg.author.id}) or {}
+    daily_doc = await cmd.db.col.DailyCache.find_one({'user_id': pld.msg.author.id}) or {}
     if not daily_doc:
         def_data = {'user_id': pld.msg.author.id, 'stamp': 0, 'streak': 0}
-        await cmd.db[cmd.db.db_name].DailyCache.insert_one(def_data)
+        await cmd.db.col.DailyCache.insert_one(def_data)
     now_stamp = arrow.utcnow().int_timestamp
     last_daily = daily_doc.get('stamp') or 0
     streak = daily_doc.get('streak') or 0
@@ -45,7 +45,7 @@ async def daily(cmd, pld):
         amount += streak
         daily_data = {'user_id': pld.msg.author.id, 'stamp': now_stamp, 'streak': streak}
         await cmd.db.add_resource(pld.msg.author.id, 'currency', amount, cmd.name, pld.msg)
-        await cmd.db[cmd.db.db_name].DailyCache.update_one({'user_id': pld.msg.author.id}, {'$set': daily_data})
+        await cmd.db.col.DailyCache.update_one({'user_id': pld.msg.author.id}, {'$set': daily_data})
         response = discord.Embed(color=0x66CC66, title=f'🎉 You got {amount} {currency} for a {streak}/10 streak.')
     else:
         next_stamp = last_daily + 79200

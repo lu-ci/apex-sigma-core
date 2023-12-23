@@ -30,8 +30,7 @@ async def viewlists(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     lookup_data = {'server_id': pld.msg.guild.id}
-    list_coll = cmd.db[cmd.db.db_name].CustomLists
-    list_files = await list_coll.find(lookup_data).to_list(None)
+    list_files = await cmd.db.col.CustomLists.find(lookup_data).to_list(None)
     if list_files:
         list_lines = []
         for list_file in list_files:

@@ -29,9 +29,9 @@ async def removereminder(cmd, pld):
     if pld.args:
         rem_id = pld.args[0].lower()
         lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
-        reminder = await cmd.db[cmd.db.db_name].Reminders.find_one(lookup_data)
+        reminder = await cmd.db.col.Reminders.find_one(lookup_data)
         if reminder:
-            await cmd.db[cmd.db.db_name].Reminders.delete_one(lookup_data)
+            await cmd.db.col.Reminders.delete_one(lookup_data)
             response = GenericResponse(f'Reminder {rem_id} has been deleted.').ok()
         else:
             response = GenericResponse(f'Reminder `{rem_id}` not found.').not_found()

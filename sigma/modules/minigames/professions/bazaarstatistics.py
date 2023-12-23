@@ -43,10 +43,10 @@ async def bazaarstatistics(cmd, pld):
     else:
         target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
         lookup = {'user_id': target.id}
-    count = await cmd.db[cmd.db.db_name].BazaarPurchases.count_documents(lookup)
+    count = await cmd.db.col.BazaarPurchases.count_documents(lookup)
     if count:
         most_expensive = None
-        docs = cmd.db[cmd.db.db_name].BazaarPurchases.find(lookup)
+        docs = cmd.db.col.BazaarPurchases.find(lookup)
         async for doc in docs:
             item = item_core.get_item_by_file_id(doc.get('item'))
             item_count = item_counts.get(item.file_id, 0)

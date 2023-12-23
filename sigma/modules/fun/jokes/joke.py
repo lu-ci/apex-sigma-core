@@ -32,7 +32,7 @@ async def joke(cmd, pld):
     """
     global joke_cache
     if not joke_cache:
-        joke_cache = await cmd.db[cmd.db.db_name].JokeData.find().to_list(None)
+        joke_cache = await cmd.db.col.JokeData.find().to_list(None)
     joke_data = joke_cache.pop(secrets.randbelow(len(joke_cache)))
     response = discord.Embed(color=0xFFDC5D, title='😆 Have A Random Joke')
     response.description = joke_data.get('body')

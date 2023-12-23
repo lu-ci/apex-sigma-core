@@ -44,14 +44,13 @@ async def shadowpollunpermit(cmd, pld):
                 perm_type = 'roles'
                 target = discord.utils.find(lambda x: x.name.lower() == lookup, pld.msg.guild.roles)
             if target:
-                poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
+                poll_file = await cmd.db.col.ShadowPolls.find_one({'id': poll_id})
                 if poll_file:
                     author = poll_file['origin']['author']
                     if author == pld.msg.author.id:
                         if target.id in poll_file['permissions'][perm_type]:
                             poll_file['permissions'][perm_type].remove(target.id)
-                            await cmd.db[cmd.db.db_name].ShadowPolls.update_one({'id': poll_id},
-                                                                               {'$set': poll_file})
+                            await cmd.db.col.ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                             response = GenericResponse(f'{target.name} has been unpermitted.').ok()
                         else:
                             response = GenericResponse(f'{target.name} is not permitted.').error()

@@ -49,7 +49,7 @@ async def gamblingstats(cmd, pld):
             {'expenses.functions.roulette': {'$gt': 0}},
             {'expenses.functions.blackjack': {'$gt': 0}}
         ]
-        pools = await cmd.db[cmd.db.db_name].CurrencyResource.find({'$or': queries}).to_list(None)
+        pools = await cmd.db.col.CurrencyResource.find({'$or': queries}).to_list(None)
         slot_gain = 0
         roul_gain = 0
         bkjk_gain = 0

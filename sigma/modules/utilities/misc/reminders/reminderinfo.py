@@ -33,7 +33,7 @@ async def reminderinfo(cmd, pld):
     if pld.args:
         rem_id = pld.args[0].lower()
         lookup_data = {'user_id': pld.msg.author.id, 'reminder_id': rem_id}
-        reminder = await cmd.db[cmd.db.db_name].Reminders.find_one(lookup_data)
+        reminder = await cmd.db.col.Reminders.find_one(lookup_data)
         if reminder:
             execution_stamp = reminder['execution_stamp']
             text_message = reminder['text_message']

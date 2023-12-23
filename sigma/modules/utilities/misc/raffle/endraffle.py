@@ -26,11 +26,11 @@ async def endraffle(cmd, pld):
     """
     if pld.args:
         rafid = pld.args[0].lower()
-        raffle = await cmd.db[cmd.db.db_name].Raffles.find_one({'id': rafid, 'active': True})
+        raffle = await cmd.db.col.Raffles.find_one({'id': rafid, 'active': True})
         if raffle:
             aid = raffle.get('author')
             if aid == pld.msg.author.id:
-                await cmd.db[cmd.db.db_name].Raffles.update_one(raffle, {'$set': {'end': 0}})
+                await cmd.db.col.Raffles.update_one(raffle, {'$set': {'end': 0}})
                 reaction = '✅'
             else:
                 reaction = '⛔'

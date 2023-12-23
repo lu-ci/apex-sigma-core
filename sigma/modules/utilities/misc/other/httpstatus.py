@@ -37,7 +37,7 @@ async def httpstatus(cmd, pld):
     """
     lookup = pld.args[0] if pld.args else None
     if lookup:
-        status_data = await cmd.db[cmd.db.db_name].HTTPStatusData.find_one({'code': lookup})
+        status_data = await cmd.db.col.HTTPStatusData.find_one({'code': lookup})
         if status_data:
             response = discord.Embed(color=0x3B88C3)
             status_id = status_data.get('code')

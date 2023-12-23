@@ -36,7 +36,7 @@ async def notify_system(db, res, table_data):
         'color': 0xf9f9f9,
         'content': f'```hs\n{table}\n```'
     }
-    await db[db.db_name].SystemMessages.insert_one(data)
+    await db.col.SystemMessages.insert_one(data)
 
 
 async def reset_resource(db, log, res, notify=False, reward=False):
@@ -48,9 +48,8 @@ async def reset_resource(db, log, res, notify=False, reward=False):
     :type notify: bool
     :type reward: bool
     """
-    coll = db[db.db_name][f'{res}Resource']
     search = {'$and': [{'ranked': {'$exists': True}}, {'ranked': {'$gt': 0}}]}
-    all_docs = await coll.find(search).sort('ranked', -1).limit(100).to_list(None)
+    all_docs = await db.col[f'{res}Resource'].find(search).sort('ranked', -1).limit(100).to_list(None)
     leader_docs = await get_leader_docs(db, all_docs, 'ranked')
     table_data = []
     for ld_index, ld_entry in enumerate(leader_docs):
@@ -64,7 +63,7 @@ async def reset_resource(db, log, res, notify=False, reward=False):
             table_data.append([ld_position, ld_entry[0], value])
     if notify and len(table_data) != 0:
         await notify_system(db, res, table_data)
-    await coll.update_many({}, {'$set': {'ranked': 0}})
+    await db.col[f'{res}Resource'].update_many({}, {'$set': {'ranked': 0}})
 
 
 async def awardleaderboards(cmd, pld):
@@ -75,7 +74,7 @@ async def awardleaderboards(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     if pld.args:
-        collections = await cmd.db[cmd.db.db_name].list_collection_names()
+        collections = await cmd.db.col.list_collection_names()
         coll_title = pld.args[0].title()
         coll_title = 'Currency' if coll_title == cmd.bot.cfg.pref.currency.title() else coll_title
         if f'{coll_title}Resource' in collections:

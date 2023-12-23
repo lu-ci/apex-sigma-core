@@ -30,7 +30,7 @@ async def geterror(cmd, pld):
     trace_text = None
     if pld.args:
         token = pld.args[0]
-        error_file = await cmd.db[cmd.bot.cfg.db.database].Errors.find_one({'token': token})
+        error_file = await cmd.db.col.Errors.find_one({'token': token})
         if error_file:
             response, trace_text = SigmaError.make_error_embed(error_file)
         else:

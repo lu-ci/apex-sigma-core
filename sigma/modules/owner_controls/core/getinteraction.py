@@ -30,7 +30,7 @@ async def getinteraction(cmd, pld):
     """
     if pld.args:
         react_id = pld.args[0].lower()
-        react_item = await cmd.db[cmd.db.db_name].Interactions.find_one({'interaction_id': react_id})
+        react_item = await cmd.db.col.Interactions.find_one({'interaction_id': react_id})
         if react_item:
             response = discord.Embed(color=0x5dadec, title='Click For Source', url=react_item.get("url"))
             response.set_image(url=react_item.get('url'))

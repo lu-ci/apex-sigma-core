@@ -41,7 +41,7 @@ async def viewwarning(cmd, pld):
                     'warning.id': warn_id,
                     'warning.active': True
                 }
-                warn_data = await cmd.db[cmd.db.db_name].Warnings.find_one(lookup)
+                warn_data = await cmd.db.col.Warnings.find_one(lookup)
                 if warn_data:
                     author = await cmd.bot.get_user(warn_data.get('moderator').get('id'))
                     if author:

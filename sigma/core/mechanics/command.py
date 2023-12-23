@@ -177,7 +177,7 @@ class SigmaCommand(object):
         Updates the cooldown timer of the command usage.
         :type author: discord.User
         """
-        cdfile = await self.db[self.db.db_name].CommandCooldowns.find_one({'command': self.name}) or {}
+        cdfile = await self.db.col.CommandCooldowns.find_one({'command': self.name}) or {}
         cooldown = cdfile.get('cooldown')
         if cooldown:
             await self.bot.cool_down.set_cooldown(f'{self.name}_core', author, cooldown)

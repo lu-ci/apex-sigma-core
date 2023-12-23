@@ -38,7 +38,7 @@ async def remindme(cmd, pld):
             in_seconds = convert_to_seconds(time_req)
             upper_limit = 60 * 60 * 24 * 365.25 * 3
             if in_seconds <= upper_limit:
-                rem_count = await cmd.db[cmd.db.db_name].Reminders.count_documents({'user_id': pld.msg.author.id})
+                rem_count = await cmd.db.col.Reminders.count_documents({'user_id': pld.msg.author.id})
                 rem_limit = 15
                 if rem_count < rem_limit:
                     is_dm = False
@@ -68,7 +68,7 @@ async def remindme(cmd, pld):
                         'text_message': text_message,
                         'direct_message': is_dm
                     }
-                    await cmd.db[cmd.db.db_name].Reminders.insert_one(reminder_data)
+                    await cmd.db.col.Reminders.insert_one(reminder_data)
                     response = discord.Embed(color=0x66CC66, timestamp=timestamp)
                     response.description = text_message
                     response.set_author(name=f'Reminder {reminder_id} Created', icon_url=user_avatar(pld.msg.author))

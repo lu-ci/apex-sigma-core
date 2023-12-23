@@ -40,13 +40,12 @@ async def listsettings(cmd, pld):
             valid_mode = False
         if valid_mode:
             lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
-            list_coll = cmd.db[cmd.db.db_name].CustomLists
-            list_file = await list_coll.find_one(lookup_data)
+            list_file = await cmd.db.col.CustomLists.find_one(lookup_data)
             if list_file:
                 list_id = list_file.get('list_id')
                 if list_file.get('user_id') == pld.msg.author.id:
                     list_file.update({'mode': mode})
-                    await list_coll.update_one(lookup_data, {'$set': list_file})
+                    await cmd.db.col.CustomLists.update_one(lookup_data, {'$set': list_file})
                     response = GenericResponse(f'List `{list_id}` marked as {mode or "public"}.').ok()
                 else:
                     response = GenericResponse('You didn\'t make this list.').denied()

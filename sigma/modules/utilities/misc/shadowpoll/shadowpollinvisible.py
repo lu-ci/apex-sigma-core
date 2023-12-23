@@ -30,14 +30,14 @@ async def shadowpollinvisible(cmd, pld):
     """
     if pld.args:
         poll_id = pld.args[0].lower()
-        poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db.col.ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             author = poll_file['origin']['author']
             if author == pld.msg.author.id:
                 visible = poll_file['settings']['visible']
                 if visible:
                     poll_file['settings'].update({'visible': False})
-                    await cmd.db[cmd.db.db_name].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                    await cmd.db.col.ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                     response = discord.Embed(color=0x161616, title=f'🕶 Poll {poll_file["id"]} is now invisible.')
                 else:
                     response = GenericResponse(f'Poll {poll_file["id"]} is already invisible.').error()

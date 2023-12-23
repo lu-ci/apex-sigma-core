@@ -33,7 +33,7 @@ async def mutedusers(cmd, pld):
     if pld.msg.channel.permissions_for(pld.msg.author).manage_messages:
         now = arrow.utcnow().int_timestamp
         hm_lookup = {'server_id': pld.msg.guild.id, 'time': {'$gt': now}}
-        hard_mute_list = await cmd.db[cmd.db.db_name].HardmuteClockworkDocs.find(hm_lookup).to_list(None)
+        hard_mute_list = await cmd.db.col.HardmuteClockworkDocs.find(hm_lookup).to_list(None)
         text_mute_list = pld.settings.get('muted_users') or []
         if text_mute_list or hard_mute_list:
             response = discord.Embed(color=0x696969, title='🔇 Currently Muted Users')
@@ -43,7 +43,7 @@ async def mutedusers(cmd, pld):
                     user = pld.msg.guild.get_member(user_id)
                     info_txt = f'**{user.name}**#{user.discriminator}' if user else f'**{user_id}**'
                     user_lookup = {'server_id': pld.msg.guild.id, 'user_id': user_id, 'time': {'$gt': now}}
-                    user_doc = await cmd.db[cmd.db.db_name].TextmuteClockworkDocs.find_one(user_lookup)
+                    user_doc = await cmd.db.col.TextmuteClockworkDocs.find_one(user_lookup)
                     if user_doc:
                         expiry = parse_time(user_doc.get('time') - now)
                         info_txt += f' (expires in {expiry})'

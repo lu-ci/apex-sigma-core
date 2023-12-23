@@ -40,13 +40,12 @@ async def blacklistserver(cmd, pld):
                 target_name = target.name
             else:
                 target_name = target_id
-            black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedServers
-            black_user_file = await black_user_collection.find_one({'server_id': target_id})
-            if black_user_file:
-                await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.delete_one({'server_id': target_id})
+            file = await cmd.db.col.BlacklistedServers.find_one({'server_id': target_id})
+            if file:
+                await cmd.db.col.BlacklistedServers.delete_one({'server_id': target_id})
                 icon, result = '🔓', 'un-blacklisted'
             else:
-                await cmd.db[cmd.bot.cfg.db.database].BlacklistedServers.insert_one({'server_id': target_id})
+                await cmd.db.col.BlacklistedServers.insert_one({'server_id': target_id})
                 icon, result = '🔒', 'blacklisted'
             response = discord.Embed(color=0xFFCC4D, title=f'{icon} {target_name} has been {result}.')
             await cmd.db.cache.del_cache(target_id)

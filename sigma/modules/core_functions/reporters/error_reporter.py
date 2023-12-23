@@ -69,7 +69,7 @@ async def error_reporter_cycler(ev):
     """
     while True:
         if ev.bot.is_ready():
-            error_docs = await ev.db[ev.db.db_name].Errors.find({'reported': False}).to_list(None)
+            error_docs = await ev.db.col.Errors.find({'reported': False}).to_list(None)
             for error_doc in error_docs:
                 if not error_channel:
                     await get_error_channel(ev.bot)
@@ -78,6 +78,6 @@ async def error_reporter_cycler(ev):
                     await send_error_log_message(ev.bot, error_doc)
                 except Exception:
                     pass
-                await ev.db[ev.db.db_name].Errors.update_one(error_doc, {'$set': {'reported': True}})
+                await ev.db.col.Errors.update_one(error_doc, {'$set': {'reported': True}})
                 await asyncio.sleep(1)
         await asyncio.sleep(1)

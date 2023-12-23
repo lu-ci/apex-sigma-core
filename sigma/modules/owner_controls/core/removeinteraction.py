@@ -30,9 +30,9 @@ async def removeinteraction(cmd, pld):
     """
     if pld.args:
         lookup = pld.args[0].lower()
-        interaction_item = await cmd.db[cmd.db.db_name].Interactions.find_one({'interaction_id': lookup})
+        interaction_item = await cmd.db.col.Interactions.find_one({'interaction_id': lookup})
         if interaction_item:
-            await cmd.db[cmd.db.db_name].Interactions.delete_one(interaction_item)
+            await cmd.db.col.Interactions.delete_one(interaction_item)
             response = discord.Embed(color=0xFFCC4D, title=f'🔥 Reaction `{lookup}` has been removed.')
         else:
             response = GenericResponse('Reaction not found.').not_found()

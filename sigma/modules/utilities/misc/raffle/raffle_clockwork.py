@@ -117,13 +117,12 @@ async def raffle_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    raffle_coll = ev.db[ev.db.db_name].Raffles
     while True:
         if ev.bot.is_ready():
             # noinspection PyBroadException
             try:
                 now = arrow.utcnow().float_timestamp
-                raffles = await raffle_coll.find({'end': {'$lt': now}, 'active': True}).to_list(None)
+                raffles = await ev.db.col.Raffles.find({'end': {'$lt': now}, 'active': True}).to_list(None)
                 if raffles:
                     for raffle in raffles:
                         cid = raffle.get('channel')
@@ -134,7 +133,7 @@ async def raffle_cycler(ev):
                         color = raffle.get('color')
                         channel = await ev.bot.get_channel(cid)
                         if channel:
-                            await raffle_coll.update_one(raffle, {'$set': {'active': False}})
+                            await ev.db.col.Raffles.update_one(raffle, {'$set': {'active': False}})
                             message = await channel.fetch_message(mid)
                             if message:
                                 custom_emote = icon.startswith('<:') and icon.endswith('>')

@@ -35,11 +35,11 @@ async def commandstatistics(cmd, pld):
         cmd_name = pld.args[0].lower()
         if cmd_name in cmd.bot.modules.alts:
             cmd_name = cmd.bot.modules.alts[cmd_name]
-        cmd_stats = await cmd.db[cmd.db.db_name].CommandStats.find_one({'command': cmd_name})
+        cmd_stats = await cmd.db.col.CommandStats.find_one({'command': cmd_name})
         stat_list, page = [cmd_stats] if cmd_stats else None, None
     else:
         single = False
-        all_stats = await cmd.db[cmd.db.db_name].CommandStats.find().to_list(None)
+        all_stats = await cmd.db.col.CommandStats.find().to_list(None)
         all_stats = [asi for asi in all_stats if asi.get('command') in cmd.bot.modules.commands]
         stat_list = sorted(all_stats, key=lambda k: k.get('count'), reverse=True)
         stat_list, page = PaginatorCore.paginate(stat_list, pld.args[0] if pld.args else 1, 15)

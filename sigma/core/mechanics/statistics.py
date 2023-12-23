@@ -80,7 +80,7 @@ class CommandStatistic(object):
         self.db = db
         self.cmd = cmd
         self.pld = pld
-        self.coll = self.db[self.db.db_name].DetailedCommandStats
+        self.coll = self.db.col.DetailedCommandStats
         self.exec_time = None
         self.exec_timestamp = None
 

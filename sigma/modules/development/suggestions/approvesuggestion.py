@@ -96,7 +96,7 @@ async def approvesuggestion(cmd, pld):
     """
     if len(pld.args) >= 3:
         token, title, description = parse_approval(pld.args)
-        suggestion = await cmd.db[cmd.db.db_name].Suggestions.find_one({'suggestion.id': token})
+        suggestion = await cmd.db.col.Suggestions.find_one({'suggestion.id': token})
         if suggestion:
             await react_to_suggestion(cmd.bot, suggestion, '✅', False)
             make_issue = False if title.lower().startswith('noissue') else True

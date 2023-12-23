@@ -40,10 +40,10 @@ async def completewipe(cmd, pld):
     sabotaged = await cmd.db.is_sabotaged(pld.msg.author.id)
     if dresp.ok:
         total = 0
-        collections = await cmd.db[cmd.db.db_name].list_collection_names()
+        collections = await cmd.db.col.list_collection_names()
         for collection in collections:
             if collection not in IGNORE_COLLS:
-                results = await cmd.db[cmd.db.db_name][collection].delete_many({'user_id': pld.msg.author.id})
+                results = await cmd.db.col[collection].delete_many({'user_id': pld.msg.author.id})
                 total += results.deleted_count
         if sabotaged:
             await cmd.db.set_profile(pld.msg.author.id, 'sabotaged', sabotaged)

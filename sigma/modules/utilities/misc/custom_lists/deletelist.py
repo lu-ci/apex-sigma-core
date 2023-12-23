@@ -30,12 +30,11 @@ async def deletelist(cmd, pld):
     """
     if pld.args:
         lookup_data = {'list_id': pld.args[0].lower()}
-        list_coll = cmd.db[cmd.db.db_name].CustomLists
-        list_file = await list_coll.find_one(lookup_data)
+        list_file = await cmd.db.col.CustomLists.find_one(lookup_data)
         if list_file:
             author_id = list_file.get('user_id')
             if author_id == pld.msg.author.id:
-                await list_coll.delete_one(lookup_data)
+                await cmd.db.col.CustomLists.delete_one(lookup_data)
                 title = f'🔥 List `{list_file.get("list_id")}` has been deleted.'
                 response = discord.Embed(color=0xFFCC4D, title=title)
             else:

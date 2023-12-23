@@ -28,8 +28,6 @@ async def resetserver(cmd, pld):
     """
     if pld.msg.author.id == pld.msg.guild.owner.id:
         settings, perms, valid = True, True, True
-        perms_coll = cmd.db[cmd.db.db_name].Permissions
-        settings_coll = cmd.db[cmd.db.db_name].ServerSettings
         if pld.args:
             if pld.args[-1].lower() == '--permsonly':
                 settings = False
@@ -39,9 +37,9 @@ async def resetserver(cmd, pld):
                 valid = False
         if valid:
             if perms:
-                await perms_coll.delete_one({'server_id': pld.msg.guild.id})
+                await cmd.db.col.Permissions.delete_one({'server_id': pld.msg.guild.id})
             if settings:
-                await settings_coll.delete_one({'server_id': pld.msg.guild.id})
+                await cmd.db.col.ServerSettings.delete_one({'server_id': pld.msg.guild.id})
             title = f'Wiped all server {"permissions" if perms else ""}'
             title += " and " if perms and settings else ""
             title += 'settings' if settings else ''

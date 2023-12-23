@@ -45,7 +45,7 @@ async def blacklistcommand(cmd, pld):
                 if lookup.lower() in cmd.bot.modules.alts:
                     lookup = cmd.bot.modules.alts[lookup.lower()]
                 if lookup.lower() in cmd.bot.modules.commands:
-                    black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
+                    black_user_collection = cmd.db.col.BlacklistedUsers
                     black_user_file = await black_user_collection.find_one({'user_id': target_id})
                     if black_user_file:
                         commands = black_user_file.get('commands', [])

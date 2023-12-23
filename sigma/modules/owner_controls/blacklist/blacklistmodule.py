@@ -43,10 +43,9 @@ async def blacklistmodule(cmd, pld):
                     target_name = target_id
                 lookup = ' '.join(pld.args[1:])
                 if lookup.lower() in cmd.bot.modules.categories:
-                    black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                    black_user_file = await black_user_collection.find_one({'user_id': target_id})
-                    if black_user_file:
-                        modules = black_user_file.get('modules', [])
+                    file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                    if file:
+                        modules = file.get('modules', [])
                         if lookup.lower() in modules:
                             modules.remove(lookup.lower())
                             icon, result = '🔓', f'removed from the `{lookup.lower()}` blacklist'
@@ -54,10 +53,10 @@ async def blacklistmodule(cmd, pld):
                             modules.append(lookup.lower())
                             icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                         up_data = {'$set': {'user_id': target_id, 'modules': modules}}
-                        await black_user_collection.update_one({'user_id': target_id}, up_data)
+                        await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, up_data)
                     else:
                         new_data = {'user_id': target_id, 'modules': [lookup.lower()]}
-                        await black_user_collection.insert_one(new_data)
+                        await cmd.db.col.BlacklistedUsers.insert_one(new_data)
                         icon, result = '🔒', f'added to the `{lookup.lower()}` blacklist'
                     title = f'{icon} {target_name} has been {result}.'
                     response = discord.Embed(color=0xFFCC4D, title=title)

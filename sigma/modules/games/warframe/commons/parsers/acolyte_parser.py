@@ -58,10 +58,10 @@ async def get_acolyte_data(db):
         for acolyte in acolytes:
             if acolyte.get('discovered'):
                 ac_id = make_acolyte_id(acolyte.get('name'), acolyte.get('location'))
-                db_check = await db[db.db_name].WarframeCache.find_one({'event_id': ac_id})
+                db_check = await db.col.WarframeCache.find_one({'event_id': ac_id})
                 if not db_check:
                     now = arrow.utcnow().int_timestamp
-                    await db[db.db_name].WarframeCache.insert_one({'event_id': ac_id, 'created': now})
+                    await db.col.WarframeCache.insert_one({'event_id': ac_id, 'created': now})
                     acolytes_out = acolyte
                     triggers.append((acolytes_out.get('name').lower()))
                     break

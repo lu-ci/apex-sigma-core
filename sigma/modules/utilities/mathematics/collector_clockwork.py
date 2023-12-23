@@ -53,8 +53,8 @@ async def check_queued(db, aid, uid):
     :type uid: int
     :rtype: dict
     """
-    target_doc = await db[db.db_name].CollectorQueue.find_one({'user_id': uid})
-    author_doc = await db[db.db_name].CollectorQueue.find_one({'author_id': aid})
+    target_doc = await db.col.CollectorQueue.find_one({'user_id': uid})
+    author_doc = await db.col.CollectorQueue.find_one({'author_id': aid})
     target_in_queue = bool(target_doc)
     author_in_queue = bool(author_doc)
     in_current = current_doc_collecting.get('user_id') == uid if current_doc_collecting is not None else False
@@ -73,7 +73,7 @@ async def add_to_queue(db, collector_item):
     :type db: sigma.core.mechanics.database.Database
     :type collector_item: dict
     """
-    await db[db.db_name].CollectorQueue.insert_one(collector_item)
+    await db.col.CollectorQueue.insert_one(collector_item)
 
 
 async def get_queue_size(db):
@@ -81,7 +81,7 @@ async def get_queue_size(db):
     :type db: sigma.core.mechanics.database.Database
     :rtype: int
     """
-    return await db[db.db_name].CollectorQueue.count_documents({})
+    return await db.col.CollectorQueue.count_documents({})
 
 
 def check_for_bot_prefixes(prefix, text):
@@ -308,9 +308,9 @@ async def set_coll_cache(ev, user_id, channel_id, coll_cache, last_msg):
     if coll_cache:
         coll_cache.update({str(channel_id): last_msg})
         lookup, cache_data = {'user_id': user_id}, {'$set': coll_cache}
-        await ev.db[ev.db.db_name].CollectorCache.update_one(lookup, cache_data)
+        await ev.db.col.CollectorCache.update_one(lookup, cache_data)
     else:
-        await ev.db[ev.db.db_name].CollectorCache.insert_one({'user_id': user_id, str(channel_id): last_msg})
+        await ev.db.col.CollectorCache.insert_one({'user_id': user_id, str(channel_id): last_msg})
 
 
 def serialize(item):
@@ -378,12 +378,11 @@ async def collector_cycler(ev):
     """
     global current_doc_collecting
     global current_cancel_request
-    coll = ev.db[ev.db.db_name].CollectorQueue
     while True:
         if ev.bot.is_ready():
             now = arrow.utcnow().int_timestamp
-            await coll.delete_many({'stamp': {'$lt': now - (60 * 60 * 24)}})
-            cltr_items = await coll.find().to_list(None)
+            await ev.db.col.CollectorQueue.delete_many({'stamp': {'$lt': now - (60 * 60 * 24)}})
+            cltr_items = await ev.db.col.CollectorQueue.find().to_list(None)
             for cltr_item in cltr_items:
                 cl_usr = await ev.bot.get_user(cltr_item.get('user_id'))
                 cl_chn = await ev.bot.get_channel(cltr_item.get('channel_id'))
@@ -393,9 +392,9 @@ async def collector_cycler(ev):
                     usr_info = f'{cl_usr.name}#{cl_usr.discriminator} [{cl_usr.id}]'
                     ev.log.info(f'Collecting a chain for {usr_info}...')
                     current_doc_collecting = cltr_item
-                    await coll.delete_one(cltr_item)
+                    await ev.db.col.CollectorQueue.delete_one(cltr_item)
                     collection = load(cl_usr.id)
-                    coll_cache = await ev.db[ev.db.db_name].CollectorCache.find_one({'user_id': cl_usr.id}) or {}
+                    coll_cache = await ev.db.col.CollectorCache.find_one({'user_id': cl_usr.id}) or {}
                     last_msg = coll_cache.get(str(cl_chn.id))
                     if last_msg:
                         last_msg = arrow.get(last_msg).naive

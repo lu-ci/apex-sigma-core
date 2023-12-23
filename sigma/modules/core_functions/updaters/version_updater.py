@@ -37,7 +37,7 @@ async def version_updater_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    version_coll = ev.db[ev.db.db_name].VersionCache
+    version_coll = ev.db.col.VersionCache
     while True:
         if ev.bot.is_ready():
             version = ev.bot.info.get_version().raw

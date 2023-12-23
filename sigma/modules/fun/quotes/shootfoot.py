@@ -30,7 +30,7 @@ async def get_all_sf(db):
     """
     joke_docs = await db.cache.get_cache('shoot_foot_docs')
     if joke_docs is None:
-        joke_docs = await db[db.db_name].ShootFootData.find().to_list(None)
+        joke_docs = await db.col.ShootFootData.find().to_list(None)
         await db.cache.set_cache('shoot_foot_docs', joke_docs)
     return joke_docs
 
@@ -44,7 +44,7 @@ async def shootfoot(cmd, pld):
     """
     lang = ' '.join(pld.args).lower() if pld.args else None
     if lang:
-        joke_doc = await cmd.db[cmd.db.db_name].ShootFootData.find_one({'lang_low': lang})
+        joke_doc = await cmd.db.col.ShootFootData.find_one({'lang_low': lang})
         if not joke_doc:
             joke_docs = await get_all_sf(cmd.db)
             for joke_doc_item in joke_docs:

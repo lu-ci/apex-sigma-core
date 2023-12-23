@@ -49,7 +49,7 @@ async def unban(ev, doc):
             banlist = await guild.bans()
             target = discord.utils.find(lambda u: u.user.id == uid, banlist)
             if target:
-                await ev.db[ev.db.db_name].BanClockworkDocs.delete_one(doc)
+                await ev.db.col.BanClockworkDocs.delete_one(doc)
                 ev.log.info(f'Un-banning {uid} from {gid}.')
                 await guild.unban(target.user, reason='Ban timer ran out.')
                 await asyncio.sleep(2)
@@ -76,7 +76,7 @@ async def untmute(ev, doc):
             await asyncio.sleep(5)
             target = guild.get_member(uid)
             if target:
-                await ev.db[ev.db.db_name].TextmuteClockworkDocs.delete_one(doc)
+                await ev.db.col.TextmuteClockworkDocs.delete_one(doc)
                 guild_icon = str(guild.icon.url) if guild.icon else None
                 to_target = discord.Embed(color=0x696969, title='🔇 You have been un-muted.')
                 to_target.set_footer(text=f'On: {guild.name}', icon_url=guild_icon)
@@ -98,7 +98,7 @@ async def unhmute(ev, doc):
         if guild:
             target = guild.get_member(uid)
             if target:
-                await ev.db[ev.db.db_name].HardmuteClockworkDocs.delete_one(doc)
+                await ev.db.col.HardmuteClockworkDocs.delete_one(doc)
                 for channel in guild.channels:
                     if isinstance(channel, discord.TextChannel) or isinstance(channel, discord.CategoryChannel):
                         # noinspection PyBroadException
@@ -122,20 +122,17 @@ async def un_punisher_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    bancoll = ev.db[ev.db.db_name].BanClockworkDocs
-    tmutecoll = ev.db[ev.db.db_name].TextmuteClockworkDocs
-    hmutecoll = ev.db[ev.db.db_name].HardmuteClockworkDocs
     while True:
         if ev.bot.is_ready:
             now = arrow.utcnow().int_timestamp
             lookup = {'time': {'$lt': now}}
-            banned_list = await bancoll.find(lookup).to_list(None)
+            banned_list = await ev.db.col.BanClockworkDocs.find(lookup).to_list(None)
             for banned in banned_list:
                 await unban(ev, banned)
-            tmuted_list = await tmutecoll.find(lookup).to_list(None)
+            tmuted_list = await ev.db.col.TextmuteClockworkDocs.find(lookup).to_list(None)
             for tmuted in tmuted_list:
                 await untmute(ev, tmuted)
-            hmuted_list = await hmutecoll.find(lookup).to_list(None)
+            hmuted_list = await ev.db.col.HardmuteClockworkDocs.find(lookup).to_list(None)
             for hmuted in hmuted_list:
                 await unhmute(ev, hmuted)
         await asyncio.sleep(5)

@@ -43,8 +43,8 @@ async def get_all_perms(db, message):
     :type message: discord.Message
     :rtype: dict
     """
-    perms = await db[db.db_name].Permissions.find_one({'server_id': message.guild.id})
+    perms = await db.col.Permissions.find_one({'server_id': message.guild.id})
     if not perms:
         perms = generate_default_data(message)
-        await db[db.db_name].Permissions.insert_one(perms)
+        await db.col.Permissions.insert_one(perms)
     return perms

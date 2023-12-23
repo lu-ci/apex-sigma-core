@@ -47,13 +47,12 @@ async def addline(cmd, pld):
     """
     if len(pld.args) >= 2:
         add_line = ' '.join(pld.args[1:])
-        list_coll = cmd.db[cmd.db.db_name].CustomLists
         lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
-        list_file = await list_coll.find_one(lookup_data)
+        list_file = await cmd.db.col.CustomLists.find_one(lookup_data)
         if list_file:
             if user_auth(pld.msg, list_file):
                 list_file.get('contents').append(add_line)
-                await list_coll.update_one(lookup_data, {'$set': list_file})
+                await cmd.db.col.CustomLists.update_one(lookup_data, {'$set': list_file})
                 response = discord.Embed(color=0xF9F9F9, title='📝 Your line was written to the list.')
             else:
                 mode = 'private' if list_file.get('mode') == 'private' else 'locked'

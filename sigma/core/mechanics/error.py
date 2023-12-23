@@ -70,7 +70,7 @@ class SigmaError(object):
         """
         Logs the error information and inserts it into the database.
         """
-        await self.cmd.db[self.cmd.db.db_name].Errors.insert_one(self.data)
+        await self.cmd.db.col.Errors.insert_one(self.data)
         log_text = f'ERROR: {self.exception} | TOKEN: {self.token} | TRACE: {self.exception.with_traceback}'
         self.cmd.log.error(log_text)
 

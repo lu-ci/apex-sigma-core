@@ -31,8 +31,7 @@ async def viewlist(cmd, pld):
     """
     if pld.args:
         lookup_data = {'server_id': pld.msg.guild.id, 'list_id': pld.args[0].lower()}
-        list_coll = cmd.db[cmd.db.db_name].CustomLists
-        list_file = await list_coll.find_one(lookup_data)
+        list_file = await cmd.db.col.CustomLists.find_one(lookup_data)
         if list_file:
             author_id = list_file.get('user_id')
             list_name = list_file.get('name')

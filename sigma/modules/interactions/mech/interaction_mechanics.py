@@ -28,7 +28,7 @@ async def get_interaction_list(db, intername):
     :type intername: str
     :rtype: list
     """
-    return await db[db.db_name].Interactions.find({'name': intername, 'active': True}).to_list(None)
+    return await db.col.Interactions.find({'name': intername, 'active': True}).to_list(None)
 
 
 async def grab_interaction(db, intername):
@@ -125,13 +125,13 @@ async def update_data(db, data, user, guild):
     if user:
         unam = data.get('user_name')
         if unam is None or unam != user.name:
-            await db[db.db_name].Interactions.update_many(
+            await db.col.Interactions.update_many(
                 {'user_id': data.get('user_id')}, {'$set': {'user_name': user.name}}
             )
     if guild:
         snam = data.get('server_name')
         if snam is None or snam != guild.name:
-            await db[db.db_name].Interactions.update_many(
+            await db.col.Interactions.update_many(
                 {'server_id': data.get('server_id')}, {'$set': {'server_name': guild.name}}
             )
 

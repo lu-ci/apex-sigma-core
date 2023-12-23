@@ -65,7 +65,7 @@ async def spouses(cmd, pld):
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
     target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
-    profile = await cmd.db[cmd.db.db_name].Profiles.find_one({'user_id': target.id}) or {}
+    profile = await cmd.db.col.Profiles.find_one({'user_id': target.id}) or {}
     splist = profile.get('spouses', [])
     splist = list(sorted(splist, key=lambda x: x.get('time')))
     spcount = len(splist)
@@ -79,7 +79,7 @@ async def spouses(cmd, pld):
         for sp in splist:
             spmemb = await cmd.bot.get_user(sp.get('user_id'))
             spmemb = (spmemb.name if spmemb else sp.get('user_id')) if not ids_only else sp.get('user_id')
-            sp_profile = await cmd.db[cmd.db.db_name].Profiles.find_one({'user_id': sp.get('user_id')}) or {}
+            sp_profile = await cmd.db.col.Profiles.find_one({'user_id': sp.get('user_id')}) or {}
             sp_spouses = sp_profile.get('spouses') or []
             sp_spouse_ids = [s.get('user_id') for s in sp_spouses]
             if target.id in sp_spouse_ids:

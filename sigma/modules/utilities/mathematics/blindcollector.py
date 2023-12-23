@@ -30,12 +30,12 @@ async def blindcollector(cmd, pld):
         if pld.msg.channel_mentions:
             target = pld.msg.channel_mentions[0]
             docdata = {'channel_id': target.id}
-            blockdoc = bool(await cmd.db[cmd.db.db_name].BlindedChains.find_one(docdata))
+            blockdoc = bool(await cmd.db.col.BlindedChains.find_one(docdata))
             if blockdoc:
-                await cmd.db[cmd.db.db_name].BlindedChains.delete_one(docdata)
+                await cmd.db.col.BlindedChains.delete_one(docdata)
                 response = GenericResponse(f'Users can once again collect chains from #{target.name}.').ok()
             else:
-                await cmd.db[cmd.db.db_name].BlindedChains.insert_one(docdata)
+                await cmd.db.col.BlindedChains.insert_one(docdata)
                 response = GenericResponse(f'Users can no longer collect chains from #{target.name}.').ok()
         else:
             response = GenericResponse('No channel given.').error()

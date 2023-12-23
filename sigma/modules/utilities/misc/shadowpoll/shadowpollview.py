@@ -32,7 +32,7 @@ async def shadowpollview(cmd, pld):
     """
     if pld.args:
         poll_id = ''.join(pld.args).lower()
-        poll_file = await cmd.db[cmd.db.db_name].ShadowPolls.find_one({'id': poll_id})
+        poll_file = await cmd.db.col.ShadowPolls.find_one({'id': poll_id})
         if poll_file:
             active = poll_file.get('settings', {}).get('active')
             visible = poll_file.get('settings', {}).get('visible')

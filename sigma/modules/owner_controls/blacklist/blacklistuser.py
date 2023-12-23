@@ -41,18 +41,17 @@ async def blacklistuser(cmd, pld):
                     target_name = target.name
                 else:
                     target_name = target_id
-                black_user_collection = cmd.db[cmd.bot.cfg.db.database].BlacklistedUsers
-                black_user_file = await black_user_collection.find_one({'user_id': target_id})
-                if black_user_file:
-                    if black_user_file.get('total'):
+                file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                if file:
+                    if file.get('total'):
                         update_data = {'$set': {'user_id': target_id, 'total': False}}
                         icon, result = '🔓', 'un-blacklisted'
                     else:
                         update_data = {'$set': {'user_id': target_id, 'total': True}}
                         icon, result = '🔒', 'blacklisted'
-                    await black_user_collection.update_one({'user_id': target_id}, update_data)
+                    await cmd.db.col.BlacklistedUsers.update_one({'user_id': target_id}, update_data)
                 else:
-                    await black_user_collection.insert_one({'user_id': target_id, 'total': True})
+                    await cmd.db.col.BlacklistedUsers.insert_one({'user_id': target_id, 'total': True})
                     icon, result = '🔒', 'blacklisted'
                 await cmd.db.cache.del_cache(target_id)
                 await cmd.db.cache.del_cache(f'{target_id}_checked')

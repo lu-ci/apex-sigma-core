@@ -68,7 +68,7 @@ class CooldownControl(object):
         """
         self.bot = bot
         self.db = self.bot.db
-        self.cds = self.db[self.db.db_name].CooldownSystem
+        self.cds = self.db.col.CooldownSystem
         self.scaling = {}
 
     async def on_cooldown(self, cmd, user):

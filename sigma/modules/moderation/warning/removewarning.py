@@ -77,12 +77,12 @@ async def removewarning(cmd, pld):
                     'warning.id': warn_id,
                     'warning.active': True
                 }
-                warn_data = await cmd.db[cmd.db.db_name].Warnings.find_one(lookup)
+                warn_data = await cmd.db.col.Warnings.find_one(lookup)
                 if warn_data:
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target)
                     warn_ident = warn_data.get('warning').get('id')
                     change_data = {'$set': {'warning.active': False}}
-                    await cmd.db[cmd.db.db_name].Warnings.update_one(lookup, change_data)
+                    await cmd.db.col.Warnings.update_one(lookup, change_data)
                     response = GenericResponse(f'Warning {warn_ident} deactivated.').ok()
                     log_embed = make_log_embed(pld.msg.author, target, warn_ident)
                     await log_event(cmd.bot, pld.settings, log_embed, 'log_warnings')

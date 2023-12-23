@@ -36,7 +36,7 @@ async def destroyresource(cmd, pld):
                     amount = abs(int(pld.args[-1]))
                     currency = cmd.bot.cfg.pref.currency.lower()
                     res_nam = 'currency' if pld.args[0].lower() == currency else pld.args[0].lower()
-                    valid_res = f'{res_nam.title()}Resource' in await cmd.db[cmd.db.db_name].list_collection_names()
+                    valid_res = f'{res_nam.title()}Resource' in await cmd.db.col.list_collection_names()
                     if valid_res:
                         target_amount = await cmd.db.get_resource(target.id, res_nam)
                         target_amount = target_amount.current

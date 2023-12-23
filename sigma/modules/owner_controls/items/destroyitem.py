@@ -32,7 +32,7 @@ async def destroyitem(cmd, pld):
     item_core = await get_item_core(cmd.db)
     if pld.args:
         id_lookup = pld.args[0]
-        inv_item = await cmd.db[cmd.db.db_name].Inventory.find_one({'items.item_id': id_lookup})
+        inv_item = await cmd.db.col.Inventory.find_one({'items.item_id': id_lookup})
         if inv_item:
             target_id = inv_item.get('user_id')
             target = await cmd.bot.get_user(target_id)

@@ -28,7 +28,7 @@ async def realprogrammers(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    joke_docs = await cmd.db[cmd.db.db_name].RealDevsData.find().to_list(None)
+    joke_docs = await cmd.db.col.RealDevsData.find().to_list(None)
     joke = secrets.choice(joke_docs).get('content')
     response = discord.Embed(color=0xf9f9f9, title='💻 Real programmers...')
     response.description = joke

@@ -123,7 +123,7 @@ async def check_auto_punish(cmd, pld, target):
     levels = pld.settings.get('auto_punish_levels') or {}
     if levels:
         lookup = {'guild': pld.msg.guild.id, 'target.id': target.id, 'warning.active': True}
-        warnings = await cmd.db[cmd.db.db_name].Warnings.find(lookup).to_list(None)
+        warnings = await cmd.db.col.Warnings.find(lookup).to_list(None)
         warning_count = str(len(warnings))
         level_data = levels.get(warning_count)
         if level_data:
@@ -153,7 +153,7 @@ async def issuewarning(cmd, pld):
                     reason = ' '.join(pld.args[1:]) if pld.args[1:] else None
                     warn_data = warning_data(pld.msg.author, target, reason)
                     warn_ident = warn_data.get('warning').get('id')
-                    await cmd.db[cmd.db.db_name].Warnings.insert_one(warn_data)
+                    await cmd.db.col.Warnings.insert_one(warn_data)
                     response = GenericResponse(f'Warning {warn_ident} issued to {target.name}.').ok()
                     await make_incident(cmd.db, pld.msg.guild, pld.msg.author, target, reason)
                     log_embed = make_log_embed(pld.msg.author, target, warn_ident, reason)

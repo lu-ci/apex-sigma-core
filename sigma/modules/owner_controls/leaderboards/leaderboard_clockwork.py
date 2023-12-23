@@ -47,10 +47,10 @@ async def leaderboard_cycler(ev):
                 first = arrow.utcnow().format('D') == '1'
                 if first:
                     lookup = {'date': arrow.utcnow().format('YYYY-MM-DD')}
-                    exists = await ev.db[ev.db.db_name].LeaderboardClockworkCache.find_one(lookup)
+                    exists = await ev.db.col.LeaderboardClockworkCache.find_one(lookup)
                     if not exists:
                         ev.log.info('Resetting monthly leaderboards...')
-                        await ev.db[ev.db.db_name].LeaderboardClockworkCache.insert_one(lookup)
+                        await ev.db.col.LeaderboardClockworkCache.insert_one(lookup)
                         for res in ['Fish', 'Plant', 'Animal', 'Dessert', 'Drink', 'Meal']:
                             await reset_resource(ev.db, ev.log, res, True, True)
                         for res in ['Cookies', 'Currency']:

@@ -44,7 +44,7 @@ async def check_expiry(db):
     """
     now = arrow.utcnow().int_timestamp
     ic = await get_item_core(db)
-    async for ed in db[db.db_name].MarketEntries.find({'stamp': {'$lt': now - MARKET_LIFETIME}}):
+    async for ed in db.col.MarketEntries.find({'stamp': {'$lt': now - MARKET_LIFETIME}}):
         entry = MarketEntry(ed)
         item = ic.get_item_by_file_id(entry.item)
         if item:

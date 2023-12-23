@@ -40,15 +40,15 @@ async def expiration_cycler(ev):
     :param ev: The event object referenced in the event.
     :type ev: sigma.core.mechanics.event.SigmaEvent
     """
-    poll_coll = ev.db[ev.db.db_name].ShadowPolls
     while True:
         if ev.bot.is_ready():
             now = arrow.utcnow().int_timestamp
-            poll_files = await poll_coll.find({'settings.expires': {'$lt': now}, 'settings.active': True}).to_list(None)
+            lookup = {'settings.expires': {'$lt': now}, 'settings.active': True}
+            poll_files = await ev.db.col.ShadowPolls.find(lookup).to_list(None)
             for poll_file in poll_files:
                 poll_id = poll_file.get('id')
                 poll_file.get('settings').update({'active': False})
-                await ev.db[ev.db.db_name].ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
+                await ev.db.col.ShadowPolls.update_one({'id': poll_id}, {'$set': poll_file})
                 author = await ev.bot.get_user(poll_file.get('origin', {}).get('author'))
                 if author:
                     response = discord.Embed(color=0xff3333, title=f'⏰ Your poll {poll_file["id"]} has expired.')

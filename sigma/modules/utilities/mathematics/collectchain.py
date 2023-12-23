@@ -35,7 +35,7 @@ async def is_blocked(db, target, author):
     if target.id == author.id:
         blocked = False
     else:
-        blocked = bool(await db[db.db_name].BlockedChains.find_one({'user_id': target.id}))
+        blocked = bool(await db.col.BlockedChains.find_one({'user_id': target.id}))
     return blocked
 
 
@@ -49,7 +49,7 @@ async def is_blinded(db, channel, author):
     if channel.permissions_for(author).manage_channels:
         blinded = False
     else:
-        blinded = bool(await db[db.db_name].BlindedChains.find_one({'channel_id': channel.id}))
+        blinded = bool(await db.col.BlindedChains.find_one({'channel_id': channel.id}))
     return blinded
 
 

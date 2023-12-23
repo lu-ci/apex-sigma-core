@@ -34,7 +34,7 @@ async def listinactivewarnings(cmd, pld):
         target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
         if target:
             lookup = {'guild': pld.msg.guild.id, 'target.id': target.id, 'warning.active': False}
-            warnings = await cmd.db[cmd.db.db_name].Warnings.find(lookup).to_list(None)
+            warnings = await cmd.db.col.Warnings.find(lookup).to_list(None)
             if warnings:
                 warn_list = []
                 for warning in warnings:

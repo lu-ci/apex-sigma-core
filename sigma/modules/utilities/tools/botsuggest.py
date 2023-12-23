@@ -57,14 +57,13 @@ async def botsuggest(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    coll = cmd.db[cmd.db.db_name].Suggestions
     if cmd.cfg.channel:
         if pld.args:
             sugg_text = ' '.join(pld.args)
             exmp_text = ' '.join(cmd.usage.split(' ')[1:])
             if sugg_text.lower() != exmp_text.lower():
                 sugg_token = secrets.token_hex(4)
-                await coll.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
+                await cmd.db.col.Suggestions.insert_one(make_sugg_data(pld.msg, pld.args, sugg_token))
                 response = GenericResponse(f'Suggestion {sugg_token} submitted.').ok()
             else:
                 response = GenericResponse('Please do not use this command to submit the usage example.').error()

@@ -57,7 +57,7 @@ async def edit_invite_blocker(ev, pld):
                             if invite_warn:
                                 reason = f'Sent an invite to {invite_found.guild.name}.'
                                 warn_data = warning_data(after.guild.me, after.author, reason)
-                                await ev.db[ev.db.db_name].Warnings.insert_one(warn_data)
+                                await ev.db.col.Warnings.insert_one(warn_data)
                             await after.delete()
                             title = f'⛓ Invite links are not allowed on {after.guild.name}.'
                             response = discord.Embed(color=0xF9F9F9, title=title)

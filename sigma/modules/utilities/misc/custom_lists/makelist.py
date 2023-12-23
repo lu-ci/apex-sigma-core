@@ -50,7 +50,7 @@ async def makelist(cmd, pld):
         'name': f'{pld.msg.author.name}\'s List',
         'contents': []
     }
-    await cmd.db[cmd.db.db_name].CustomLists.insert_one(list_data)
+    await cmd.db.col.CustomLists.insert_one(list_data)
     response = GenericResponse(f'List `{list_data.get("list_id")}` has been created.').ok()
     response.set_footer(text=f'You can rename it with {cmd.bot.cfg.pref.prefix}renamelist.')
     await pld.msg.channel.send(embed=response)

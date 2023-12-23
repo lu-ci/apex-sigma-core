@@ -27,11 +27,11 @@ async def dbinit_dictionary(ev, force=False):
     :type ev: sigma.core.mechanics.event.SigmaEvent
     :type force:
     """
-    doc_count = await ev.db[ev.db.db_name].DictionaryData.count_documents({})
+    doc_count = await ev.db.col.DictionaryData.count_documents({})
     if not doc_count or force:
         file_url = 'https://gitlab.com/lu-ci/sigma/apex-sigma-res/raw/master/dictionary/dictionary.json'
         ev.log.info('Updating dictionary files.')
-        await ev.db[ev.db.db_name].DictionaryData.drop()
+        await ev.db.col.DictionaryData.drop()
         documents = []
         async with aiohttp.ClientSession() as session:
             async with session.get(file_url) as data_response:
@@ -40,5 +40,5 @@ async def dbinit_dictionary(ev, force=False):
         for dkey in data.keys():
             doc_data = {'word': dkey.lower(), 'description': data.get(dkey)}
             documents.append(doc_data)
-        await ev.db[ev.db.db_name].DictionaryData.insert_many(documents)
+        await ev.db.col.DictionaryData.insert_many(documents)
         ev.log.info('Updated dictionary files successfully.')
