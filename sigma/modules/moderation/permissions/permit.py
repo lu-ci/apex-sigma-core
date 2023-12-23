@@ -118,9 +118,8 @@ async def permit(cmd, pld):
 
                                     if not bad_item:
                                         await cmd.db.cache.del_cache(pld.msg.guild.id)
-                                        await cmd.db[cmd.db.db_name].Permissions.update_one(
-                                            {'server_id': pld.msg.guild.id}, {'$set': perms}
-                                        )
+                                        await cmd.db.col.Permissions.update_one(
+                                            {'server_id': pld.msg.guild.id}, {'$set': perms})
 
                                         if len(targets) > 1:
                                             title = f'{len(targets)} {target_type} can now use `{node_name}`.'

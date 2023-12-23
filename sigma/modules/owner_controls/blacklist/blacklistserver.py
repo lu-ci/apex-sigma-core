@@ -40,8 +40,8 @@ async def blacklistserver(cmd, pld):
                 target_name = target.name
             else:
                 target_name = target_id
-            file = await cmd.db.col.BlacklistedServers.find_one({'server_id': target_id})
-            if file:
+            black_file = await cmd.db.col.BlacklistedServers.find_one({'server_id': target_id})
+            if black_file:
                 await cmd.db.col.BlacklistedServers.delete_one({'server_id': target_id})
                 icon, result = '🔓', 'un-blacklisted'
             else:

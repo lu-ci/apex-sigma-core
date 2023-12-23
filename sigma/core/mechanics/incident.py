@@ -310,7 +310,7 @@ class IncidentCore(object):
         :type db: sigma.core.mechanics.database.Database
         """
         self.db = db
-        self.coll = self.db.col.Incidents
+        self.inc_coll = self.db.col.Incidents
 
     async def get(self, guild_id, identifier, value):
         """
@@ -323,7 +323,7 @@ class IncidentCore(object):
         """
         incident = None
         lookup = {identifier: value, 'guild.id': guild_id}
-        incident_doc = await self.coll.find_one(lookup)
+        incident_doc = await self.inc_coll.find_one(lookup)
         if incident_doc is not None:
             incident = Incident(incident_doc)
         return incident
@@ -357,7 +357,7 @@ class IncidentCore(object):
         """
         incidents = []
         lookup = {'guild.id': guild_id} if identifier is None else {'guild.id': guild_id, identifier: identifier_id}
-        incident_docs = await self.coll.find(lookup).to_list(None)
+        incident_docs = await self.inc_coll.find(lookup).to_list(None)
         for incident_doc in incident_docs:
             incident = Incident(incident_doc)
             incidents.append(incident)
@@ -396,7 +396,7 @@ class IncidentCore(object):
         :type guild_id: int
         :rtype: int
         """
-        return await self.coll.count_documents({'guild.id': guild_id})
+        return await self.inc_coll.count_documents({'guild.id': guild_id})
 
     @staticmethod
     def generate(variant):

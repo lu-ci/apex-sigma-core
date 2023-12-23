@@ -29,11 +29,7 @@ def count_votes(poll_file):
     vote_coll = {}
     for vote in poll_file['votes'].keys():
         vote_index = poll_file['votes'].get(vote)
-        if vote_index in vote_coll:
-            curr = vote_coll.get(vote_index)
-        else:
-            curr = 0
-        curr += 1
+        curr = vote_coll.get(vote_index, 0) + 1
         vote_coll.update({vote_index: curr})
     return vote_coll
 
@@ -68,11 +64,11 @@ async def shadowpollstats(cmd, pld):
             visible = poll_file['settings']['visible']
             if author == pld.msg.author.id or visible:
                 total = len(list(poll_file['votes']))
-                vote_coll = count_votes(poll_file)
                 loop_index = 0
                 output = f'Total Votes: {total}'
                 for option in poll_file['poll']['answers']:
                     loop_index += 1
+                    vote_coll = count_votes(poll_file)
                     if loop_index in vote_coll:
                         points = vote_coll.get(loop_index)
                     else:
