@@ -186,6 +186,16 @@ class GalleryClient(object):
             new_tags.extend(tag.split('\n'))
         return new_tags
 
+    @staticmethod
+    def xml_to_json(root):
+        posts = []
+        for post in root:
+            _post = {}
+            for elem in post.getchildren():
+                _post.update({elem.tag: elem.text})
+            posts.append(_post)
+        return posts
+
     async def _get_posts(self):
         """
         Fetches posts from the client.
@@ -216,7 +226,10 @@ class GalleryClient(object):
             else:
                 posts = [ps for ps in posts if ps.get('file_url')]
         else:
-            posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
+            if self.cache_key.startswith('gelbooru_'):
+                posts = [ps for ps in self.xml_to_json(posts) if ps.get('file_url')]
+            else:
+                posts = [dict(ps.attrib) for ps in posts if ps.attrib.get('file_url')]
         return self._ensure_size(posts)
 
     def _ensure_size(self, posts):
