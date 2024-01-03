@@ -137,6 +137,8 @@ class Database(motor.AsyncIOMotorClient):
         :type value: bool or int or float or str or list or dict
         """
         guild_settings = await self.col.ServerSettings.find_one({'server_id': guild_id})
+        if guild_settings is None:
+            guild_settings = {'server_id': guild_id}
         set_data = {setting_name: value}
         guild_settings.update(set_data)
         await self.col.ServerSettings.update_one({"server_id": guild_id}, {"$set": set_data}, upsert=True)
