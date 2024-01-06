@@ -7,10 +7,10 @@ discord.py[voice]==2.3.2
 ftfy==6.1.3
 geopy==2.4.1
 humanfriendly==10.0
-lxml==4.9.3
+lxml==5.0.1
 markovify==0.9.4
 motor==3.3.2
-pillow==10.1.0
+pillow==10.2.0
 psutil==5.9.7
 pymongo==4.6.1
 python-aiml==0.9.3
@@ -18,4 +18,4 @@ pyyaml==6.0.1
 redis==5.0.1
 translate==3.6.1
 twitchio==2.8.2
-yt_dlp==2023.11.16
+yt_dlp==2023.12.30
