@@ -64,9 +64,11 @@ async def command_updater_cycler(ev):
     while True:
         if ev.bot.is_ready():
             for module in ev.bot.modules.categories:
-                await module_coll.insert_one({'name': module})
+                module_lookup = {'name': module}
+                await module_coll.update_one(module_lookup, {'$set': module_lookup}, upsert=True)
             for command in ev.bot.modules.commands:
                 command = ev.bot.modules.commands.get(command)
+                command_lookup = {'name': command.name}
                 command_data = await gen_cmd_cache_data(command, module_coll)
-                await command_coll.insert_one(command_data)
+                await command_coll.update_one(command_lookup, {'$set': command_data}, upsert=True)
         await asyncio.sleep(3600)

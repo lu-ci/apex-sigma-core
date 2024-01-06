@@ -97,7 +97,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         self.bot.log.info('Pre-Caching all resource data...')
         res_cache_counter = 0
-        all_colls = await self[self.db_cfg.database].list_collection_names()
+        all_colls = await self.col.list_collection_names()
         for coll in all_colls:
             if coll.endswith('Resource'):
                 res_nam = coll[:8].lower()
@@ -122,7 +122,9 @@ class Database(motor.AsyncIOMotorClient):
         """
         guild_settings = await self.cache.get_cache(f'settings_{guild_id}')
         if guild_settings is None:
-            guild_settings = await self.col.ServerSettings.find_one({'server_id': guild_id}) or {}
+            guild_settings = await self.col.ServerSettings.find_one({'server_id': guild_id})
+            if guild_settings is None:
+                guild_settings = {'server_id': guild_id}
             await self.cache.set_cache(f'settings_{guild_id}', guild_settings)
         if setting_name:
             return guild_settings.get(setting_name)
@@ -166,10 +168,7 @@ class Database(motor.AsyncIOMotorClient):
         :type entry_name: str
         :type value: bool or int or float or str or list or dict
         """
-        user_profile = await self.col.Profiles.find_one({'user_id': user_id}) or {}
-        set_data = {entry_name: value}
-        user_profile.update(set_data)
-        await self.col.Profiles.update_one({"user_id": user_id}, {"$set": set_data}, upsert=True)
+        await self.col.Profiles.update_one({'user_id': user_id}, {'$set': {entry_name: value}}, upsert=True)
 
     async def is_sabotaged(self, user_id):
         """
@@ -179,8 +178,7 @@ class Database(motor.AsyncIOMotorClient):
         """
         sabotaged = bool(await self.get_profile(user_id, 'sabotaged'))
         if not sabotaged:
-            lookup = {'user_id': user_id, 'total': True}
-            sabotaged = bool(await self.db.col.BlacklistedUsers.count_documents(lookup))
+            sabotaged = bool(await self.db.col.BlacklistedUsers.count_documents({'user_id': user_id, 'total': True}))
         return sabotaged
 
     # Resource Handling
@@ -243,8 +241,7 @@ class Database(motor.AsyncIOMotorClient):
         :type user_id: int
         :type inventory: list
         """
-        await self.col.Inventory.update_one(
-            {'user_id': user_id}, {'$set': {'items': inventory}}, upsert=True)
+        await self.col.Inventory.update_one({'user_id': user_id}, {'$set': {'items': inventory}}, upsert=True)
 
     async def get_inventory(self, user_id):
         """
