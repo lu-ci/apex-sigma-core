@@ -75,13 +75,8 @@ async def chatter_core_responder(ev, pld):
     """
     if pld.msg.content:
         start_one = check_start(pld.msg, ev.bot.user.id)
-        start_two = False
-        start_three = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False
-        if pld.msg.reference and isinstance(pld.msg.reference.resolved, discord.Message):
-            if pld.msg.guild.me.id == pld.msg.reference.resolved.author.id:
-                if check_start(pld.msg.reference.resolved, pld.msg.author.id):
-                    start_two = True
-        if start_one or start_two or start_three:
+        start_two = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False
+        if start_one or start_two:
             clean_msg = pld.msg.clean_content.replace('@', '')
             if start_one:
                 clean_msg = clean_msg.partition(' ')[2]
