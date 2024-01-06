@@ -79,7 +79,7 @@ async def population_cycler(ev):
             server_count = len(ev.bot.guilds)
             member_count = len(ev.bot.users)
             channel_count = len(list(ev.bot.get_all_channels()))
-            role_count = len(get_all_roles(ev.bot.guilds))
+            role_count = len(get_all_roles(list(ev.bot.guilds)))
             popdata = {
                 'guild_count': server_count,
                 'channel_count': channel_count,

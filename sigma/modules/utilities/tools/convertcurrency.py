@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import json
 from typing import Optional
 
@@ -27,12 +28,12 @@ from sigma.core.utilities.generic_responses import GenericResponse
 API_BASE = 'https://openexchangerates.org/api'
 
 CURRENCIES_BASE = f'{API_BASE}/currencies.json' \
-                  f'?prettyprint=false' \
-                  f'&show_alternative=true' \
-                  f'&show_inactive=false'
+                  '?prettyprint=false' \
+                  '&show_alternative=true' \
+                  '&show_inactive=false'
 LATEST_BASE = f'{API_BASE}/latest.json' \
-              f'?prettyprint=false' \
-              f'&show_alternative=true'
+              '?prettyprint=false' \
+              '&show_alternative=true'
 
 CURRENCIES_EXPIRATION = 7 * 24 * 60 * 60
 LATEST_EXPIRATION = 24 * 60 * 60
