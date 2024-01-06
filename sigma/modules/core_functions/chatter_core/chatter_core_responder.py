@@ -15,12 +15,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
 import asyncio
 import re
 
 import discord
+
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
+
+OLLAMA_URI = 'http://localhost:11434'
+OLLAMA_MODEL = 'sigma:latest'
+MESSAGE_STORE = {}
 
 
 def set_session_info(pld):
@@ -72,11 +76,12 @@ async def chatter_core_responder(ev, pld):
     if pld.msg.content:
         start_one = check_start(pld.msg, ev.bot.user.id)
         start_two = False
+        start_three = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False
         if pld.msg.reference and isinstance(pld.msg.reference.resolved, discord.Message):
             if pld.msg.guild.me.id == pld.msg.reference.resolved.author.id:
                 if check_start(pld.msg.reference.resolved, pld.msg.author.id):
                     start_two = True
-        if start_one or start_two:
+        if start_one or start_two or start_three:
             clean_msg = pld.msg.clean_content.replace('@', '')
             if start_one:
                 clean_msg = clean_msg.partition(' ')[2]
