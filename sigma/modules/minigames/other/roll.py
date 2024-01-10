@@ -62,8 +62,14 @@ async def roll(_cmd, pld):
             text = ''
             for i, num in enumerate(rolls):
                 text += f'\n{i + 1}: **{num}**'
+            delimiter = '\n'
         else:
             text = ', '.join([str(r) for r in rolls])
+            delimiter = ','
+
+        if len(text) >= 1000:
+            text = text[:1000].rpartition(delimiter)[0]
+
         response.add_field(name='🎲 Rolls', value=text)
         response.set_footer(text=f'Total: {sum(rolls)}')
     else:
