@@ -208,7 +208,7 @@ class GalleryClient(object):
                     try:
                         posts = json.loads(data)
                     except json.JSONDecodeError:
-                        posts = []
+                        posts = {}
                 else:
                     posts = html.fromstring(data)
         return self._ensure_source(posts)
