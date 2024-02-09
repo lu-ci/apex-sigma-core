@@ -41,6 +41,11 @@ class SigmaRawItem(object):
         self.value = prices.get(self.rarity)
         self.file_id = item_data.get('file_id')
 
+    @property
+    def points(self) -> int:
+        digits = len(str(self.value))
+        return self.rarity * digits
+
     def get_recipe_presence(self, rc):
         """
         Gets the recipes this items is used in.
@@ -103,6 +108,25 @@ class SigmaCookedItem(object):
         self.file_id = item_data.get('file_id')
         self.rarity = 11
         self.rarity_name = rarity_names.get(self.rarity)
+
+    @staticmethod
+    def points(item: 'SigmaCookedItem', rc: 'RecipeCore') -> int:
+        total = 0
+        recipe_list = sorted(rc.recipes, key=lambda x: x.name)
+        for recipe in recipe_list:
+            if recipe.file_id == item.file_id:
+                for ingredient in recipe.ingredients:
+                    if ingredient.rarity == '11':
+                        total += SigmaCookedItem.points(ingredient, rc)
+                    else:
+                        points = ingredient.points
+                        if isinstance(points, int):
+                            total += points
+                        else:
+                            total += ingredient.points(ingredient, rc)
+                break
+        digits = len(str(item.value))
+        return total * digits
 
     def get_recipe_presence(self, rc):
         """

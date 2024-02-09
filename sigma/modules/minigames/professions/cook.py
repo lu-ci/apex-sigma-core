@@ -67,7 +67,11 @@ async def cook(cmd, pld):
                     if quality[0].lower() in ['a', 'e', 'i', 'o', 'u']:
                         connector = 'an'
                     await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                    await cmd.db.add_resource(pld.msg.author.id, recipe.type.lower(), 1, cmd.name, pld.msg, True)
+                    item = item_core.get_item_by_file_id(recipe.file_id)
+                    points = item.points
+                    if not isinstance(points, int):
+                        points = item.points(item, recipe_core)
+                    await cmd.db.add_resource(pld.msg.author.id, recipe.type.lower(), points, cmd.name, pld.msg, True)
                     head_title = f'{recipe.icon} You made {connector} {quality.lower()} {recipe.name}'
                     response = discord.Embed(color=recipe.color, title=head_title)
                 else:

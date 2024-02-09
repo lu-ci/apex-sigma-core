@@ -74,7 +74,7 @@ async def forage(cmd, pld):
                         await cmd.db.add_to_inventory(pld.msg.author.id, data_for_inv)
                         await item_core.add_item_statistic(cmd.db, item, pld.msg.author)
                         await cmd.db.add_resource(pld.msg.author.id, 'items', 1, cmd.name, pld.msg, True)
-                        await cmd.db.add_resource(pld.msg.author.id, 'plant', 1, cmd.name, pld.msg, True)
+                        await cmd.db.add_resource(pld.msg.author.id, 'plant', item.points, cmd.name, pld.msg, True)
                         response = discord.Embed(color=item.color, title=response_title)
                     else:
                         if dresp.timed_out:
