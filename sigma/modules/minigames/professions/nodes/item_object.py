@@ -42,7 +42,11 @@ class SigmaRawItem(object):
         self.file_id = item_data.get('file_id')
 
     @property
-    def points(self) -> int:
+    def points(self):
+        """
+        Calculates the point value of the item.
+        :rtype: int
+        """
         digits = len(str(self.value))
         return self.rarity * digits
 
@@ -110,7 +114,13 @@ class SigmaCookedItem(object):
         self.rarity_name = rarity_names.get(self.rarity)
 
     @staticmethod
-    def points(item: 'SigmaCookedItem', rc: 'RecipeCore') -> int:
+    def points(item, rc):
+        """
+        Calculates the point value of the item.
+        :type item: sigma.modules.minigames.professions.nodes.recipe_core.SigmaCookedItem
+        :type rc: sigma.modules.minigames.professions.nodes.recipe_core.RecipeCore
+        :rtype: int
+        """
         total = 0
         recipe_list = sorted(rc.recipes, key=lambda x: x.name)
         for recipe in recipe_list:
