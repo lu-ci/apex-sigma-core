@@ -6,7 +6,7 @@ commands:
     usage: '{pfx}{cmd} axaz0r'
 enabled: true
 events:
-  - enabled: true
+  - enabled: false
     name: partner_monitor
     type: ready
 name: Twitch Commands
