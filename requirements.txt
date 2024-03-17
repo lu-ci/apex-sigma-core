@@ -4,7 +4,7 @@ cachetools==5.3.3
 cryptography==42.0.5
 cssselect==1.2.0
 discord.py[voice]==2.3.2
-ftfy==6.1.3
+ftfy==6.2.0
 geopy==2.4.1
 humanfriendly==10.0
 lxml==5.1.0
@@ -15,7 +15,7 @@ psutil==5.9.8
 pymongo==4.6.2
 python-aiml==0.9.3
 pyyaml==6.0.1
-redis==5.0.2
+redis==5.0.3
 translate==3.6.1
-twitchio==2.8.2
+twitchio==2.9.0
 yt_dlp==2023.12.30
