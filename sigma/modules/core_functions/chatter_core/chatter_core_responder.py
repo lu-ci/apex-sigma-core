@@ -15,10 +15,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
+import asyncio
 import re
 import secrets
 
+from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 from sigma.modules.core_functions.chatter_core.mech.relay import RelayHandler
 
 OLLAMA_URI = 'http://localhost:11434'
@@ -26,6 +27,18 @@ OLLAMA_MODEL = 'sigma:latest'
 MESSAGE_STORE = {}
 
 AI_CORE = None
+
+
+def set_session_info(pld):
+    """
+    Sets basic session information depending on the user.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
+    """
+    chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
+    chatter_core.setPredicate('name', pld.msg.author.name, pld.msg.author.id)
+    chatter_core.setPredicate('nickname', pld.msg.author.display_name, pld.msg.author.id)
+    chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
+    chatter_core.setBotPredicate('name', pld.msg.guild.me.name)
 
 
 def clean_response(text):
@@ -55,7 +68,7 @@ def check_start(msg, uid):
     return bool(re.match(fr'<@!?{uid}>', msg.content))
 
 
-def clean_response(msg: str) -> str:
+def clean_llm_response(msg: str) -> str:
     new = []
     pieces = msg.split(' ')
     for ix, piece in enumerate(pieces):
@@ -81,6 +94,7 @@ async def chatter_core_responder(ev, pld):
                 clean_msg = clean_msg.partition(' ')[2]
             if clean_msg:
                 setting = pld.settings.get('chatterbot')
+                ai_mode = pld.settings.get('ai_mode', 0)
                 active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
                 if clean_msg.lower() == 'reset prefix':
                     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
@@ -89,16 +103,40 @@ async def chatter_core_responder(ev, pld):
                     else:
                         response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
                     await pld.msg.channel.send(response)
+                elif clean_msg.lower() == 'swap to llm':
+                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
+                        await ev.db.set_guild_settings(pld.msg.guild.id, 'ai_mode', 1)
+                        response = 'The AI mode for this server has been set to OpenHermes LLM.'
+                    else:
+                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                    await pld.msg.channel.send(response)
+                elif clean_msg.lower() == 'swap to cb':
+                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
+                        await ev.db.set_guild_settings(pld.msg.guild.id, 'ai_mode', 0)
+                        response = 'The AI mode for this server has been set to AIML/ALICE.'
+                    else:
+                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                    await pld.msg.channel.send(response)
                 elif active:
-                    if AI_CORE is None:
-                        AI_CORE = RelayHandler(ev.db)
-                        await AI_CORE.clean()
-                    async with pld.msg.channel.typing():
-                        token = secrets.token_hex(4)
-                        await AI_CORE.store(token, pld.msg.channel.id, pld.msg.author.display_name, clean_msg)
-                        response_text = await AI_CORE.wait_for_reply(token)
-                        if response_text:
-                            response_text = clean_response(response_text)
+                    if ai_mode == 0:
+                        async with pld.msg.channel.typing():
+                            if not chatter_core.numCategories():
+                                train(ev, chatter_core)
+                            set_session_info(pld)
+                            response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
+                            sleep_time = min(len(response_text.split(' ')) * 0.58, 10.0)
+                            await asyncio.sleep(sleep_time)
                             await pld.msg.reply(response_text)
-                        else:
-                            await pld.msg.reply('Sorry, handling your message timed out.')
+                    elif ai_mode == 1:
+                        if AI_CORE is None:
+                            AI_CORE = RelayHandler(ev.db)
+                            await AI_CORE.clean()
+                        async with pld.msg.channel.typing():
+                            token = secrets.token_hex(4)
+                            await AI_CORE.store(token, pld.msg.channel.id, pld.msg.author.display_name, clean_msg)
+                            response_text = await AI_CORE.wait_for_reply(token)
+                            if response_text:
+                                response_text = clean_llm_response(response_text)
+                                await pld.msg.reply(response_text)
+                            else:
+                                await pld.msg.reply('Sorry, handling your message timed out.')
