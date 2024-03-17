@@ -16,16 +16,26 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import asyncio
 import re
-import secrets
 
-from sigma.modules.core_functions.chatter_core.mech.relay import RelayHandler
+from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 
 OLLAMA_URI = 'http://localhost:11434'
 OLLAMA_MODEL = 'sigma:latest'
 MESSAGE_STORE = {}
 
-AI_CORE = None
+
+def set_session_info(pld):
+    """
+    Sets basic session information depending on the user.
+    :type pld: sigma.core.mechanics.payload.MessagePayload
+    """
+    chatter_core.setPredicate('hostname', pld.msg.guild.name, pld.msg.author.id)
+    chatter_core.setPredicate('name', pld.msg.author.name, pld.msg.author.id)
+    chatter_core.setPredicate('nickname', pld.msg.author.display_name, pld.msg.author.id)
+    chatter_core.setBotPredicate('nickname', pld.msg.guild.me.display_name)
+    chatter_core.setBotPredicate('name', pld.msg.guild.me.name)
 
 
 def clean_response(text):
@@ -62,7 +72,6 @@ async def chatter_core_responder(ev, pld):
     :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
-    global AI_CORE
     if pld.msg.content:
         start_one = check_start(pld.msg, ev.bot.user.id)
         start_two = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False
@@ -71,8 +80,7 @@ async def chatter_core_responder(ev, pld):
             if start_one:
                 clean_msg = clean_msg.partition(' ')[2]
             if clean_msg:
-                setting = pld.settings.get('chatterbot')
-                active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
+                active = pld.settings.get('chatterbot') or pld.msg.author.id in ev.bot.cfg.dsc.owners
                 if clean_msg.lower() == 'reset prefix':
                     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
                         await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
@@ -81,15 +89,11 @@ async def chatter_core_responder(ev, pld):
                         response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
                     await pld.msg.channel.send(response)
                 elif active:
-                    if AI_CORE is None:
-                        AI_CORE = RelayHandler(ev.db)
-                        await AI_CORE.clean()
                     async with pld.msg.channel.typing():
-                        token = secrets.token_hex(4)
-                        await AI_CORE.store(token, pld.msg.channel.id, pld.msg.author.display_name, clean_msg)
-                        response_text = await AI_CORE.wait_for_reply(token)
-                        if response_text:
-                            await pld.msg.reply(response_text)
-                        else:
-                            await pld.msg.reply('Sorry, handling your message timed out.')
-
+                        if not chatter_core.numCategories():
+                            train(ev, chatter_core)
+                        set_session_info(pld)
+                        response_text = clean_response(chatter_core.respond(clean_msg, pld.msg.author.id))
+                        sleep_time = min(len(response_text.split(' ')) * 0.733, 10.0)
+                        await asyncio.sleep(sleep_time)
+                        await pld.msg.channel.send(f'{pld.msg.author.mention} {response_text}')

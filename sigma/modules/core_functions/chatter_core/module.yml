@@ -1,7 +1,7 @@
 category: development
 enabled: true
 events:
-  - enabled: false
+  - enabled: true
     name: chatter_core_init
     type: boot
   - enabled: true
