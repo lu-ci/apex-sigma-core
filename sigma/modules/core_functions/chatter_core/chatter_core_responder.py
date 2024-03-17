@@ -55,15 +55,6 @@ def check_start(msg, uid):
     return bool(re.match(fr'<@!?{uid}>', msg.content))
 
 
-def clean_response(msg: str) -> str:
-    new = []
-    pieces = msg.split(' ')
-    for ix, piece in enumerate(pieces):
-        if not (ix == 0 and piece.endswith(':')):
-            new.append(piece)
-    return ' '.join(new)
-
-
 async def chatter_core_responder(ev, pld):
     """
     :param ev: The event object referenced in the event.
@@ -98,7 +89,7 @@ async def chatter_core_responder(ev, pld):
                         await AI_CORE.store(token, pld.msg.channel.id, pld.msg.author.display_name, clean_msg)
                         response_text = await AI_CORE.wait_for_reply(token)
                         if response_text:
-                            response_text = clean_response(response_text)
                             await pld.msg.reply(response_text)
                         else:
                             await pld.msg.reply('Sorry, handling your message timed out.')
+
