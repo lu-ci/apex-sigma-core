@@ -104,11 +104,11 @@ async def chatter_core_responder(ev, pld):
                         response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
                     await pld.msg.channel.send(response)
                 elif clean_msg.lower() == 'swap to llm':
-                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
+                    if pld.msg.author.id in ev.bot.cfg.dsc.owners:
                         await ev.db.set_guild_settings(pld.msg.guild.id, 'ai_mode', 1)
                         response = 'The AI mode for this server has been set to OpenHermes LLM.'
                     else:
-                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                        response = 'This is currently only limited to the bot developers.'
                     await pld.msg.channel.send(response)
                 elif clean_msg.lower() == 'swap to cb':
                     if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
