@@ -87,13 +87,18 @@ async def sell(cmd, pld):
                 item_o = item_core.get_item_by_name(lookup)
                 count = 0
                 value = 0
+                had_item = False
                 if item_o:
                     for _ in range(request_count):
                         item = await cmd.db.get_inventory_item(pld.msg.author.id, item_o.file_id)
+                        had_item = True
                         if item:
-                            value += item_o.value
-                            count += 1
-                            await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
+                            if item_o.value:
+                                value += item_o.value
+                                count += 1
+                                await cmd.db.del_from_inventory(pld.msg.author.id, item['item_id'])
+                            else:
+                                break
                         else:
                             break
                 if count > 0:
@@ -103,7 +108,13 @@ async def sell(cmd, pld):
                     response.title = f'💶 You sold {count} {item_o.name}{ender} for {value} {currency}.'
                 else:
                     if not lookup.isdigit():
-                        response = GenericResponse(f'I didn\'t find any {lookup} in your inventory.').not_found()
+                        if had_item:
+                            response = GenericResponse(f'We stopped your sale because of a calculation error.').error()
+                            response.description = 'Sometimes, the resulting sale price ends up being 0. '
+                            response.description += 'Try checking the item with the `inspect` command first '
+                            response.description += f'and then just try again.'
+                        else:
+                            response = GenericResponse(f'I didn\'t find any {lookup} in your inventory.').not_found()
                     else:
                         response = GenericResponse(f'Sell {lookup} of what?').not_found()
         else:
