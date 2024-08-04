@@ -18,4 +18,4 @@ pyyaml==6.0.1
 redis==5.0.3
 translate==3.6.1
 twitchio==2.9.0
-yt_dlp==2023.12.30
+yt_dlp==2024.8.1
