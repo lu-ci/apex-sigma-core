@@ -63,5 +63,18 @@ commands:
     description: Toggles the ChatterBot core on and off.
     enabled: true
     name: chatterbot
+  - alts:
+      - aiset
+      - cbset
+    description: Sets chatterbot parameters. You can use the built-in AIML or you can customize these settings.
+      The accepted things to set are "mode", "key", "model", "endpoint" and "directive".
+      The mode can be "aiml", "custom" or "none" (or blank). None acts the same as AIML since that's the default.
+      The key is your API key to use with your selected service. This is stored as encrypted data.
+      Leaving it blank will delete your key from the database.
+      The model is the model name you wish to use.
+      The endpoint is the API URI you wish to call for your service.
+      The directive is instructions to use for your model, we provide some basic ones by default but you can change it.
+    enabled: true
+    name: chatterbotset
 enabled: true
 name: Custom Responder Controls

@@ -16,11 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import asyncio
+import json
 import re
 import secrets
+from typing import Optional
+
+import aiohttp
 
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
-from sigma.modules.core_functions.chatter_core.mech.relay import RelayHandler
+from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 OLLAMA_URI = 'http://localhost:11434'
 OLLAMA_MODEL = 'sigma:latest'
@@ -77,6 +81,86 @@ def clean_llm_response(msg: str) -> str:
     return ' '.join(new)
 
 
+def get_key(ev, pld) -> str:
+    stored_key = pld.settings.get('cb_ai_key')
+    encrpted_key = stored_key.encode('utf-8')
+    cipher = get_encryptor(ev.bot.cfg)
+    decrypted_key = cipher.decrypt(encrpted_key)
+    parsed_key = decrypted_key.decode('utf-8')
+    return parsed_key
+
+
+def get_endpoint(pld) -> Optional[str]:
+    return pld.settings.get('cb_ai_endpoint')
+
+
+def get_model(pld) -> Optional[str]:
+    return pld.settings.get('cb_ai_model')
+
+
+def get_directive(pld) -> Optional[str]:
+    directive = pld.settings.get('cb_ai_directive')
+    if not directive:
+        directive = "You are Sigma, an AI chat bot. Respond to users in short sentences and add some emoji too."
+    return directive
+
+
+async def get_custom_response(ev, pld, message) -> str:
+    key = get_key(ev, pld)
+    endpoint = get_endpoint(pld)
+    if endpoint:
+        model = get_model(pld)
+        if model:
+            directive = get_directive(pld)
+            headers = {}
+            if key:
+                headers.update({'Authorization': f'Bearer {key}'})
+            if 'openrouter.ai' in endpoint:
+                headers.update({
+                    'HTTP-Referer': 'https://luciascipher.com/sigma',
+                    'X-Title': 'Apex Sigma'
+                })
+            payload = {
+                'stream': False,
+                'model': model,
+                'messages': [
+                    {
+                        'role': 'system',
+                        'content': directive,
+                    },
+                    {
+                        'role': 'user',
+                        'content': message
+                    }
+                ]
+            }
+            # noinspection PyBroadException
+            try:
+                failed = False
+                error_message = None
+                async with aiohttp.ClientSession(read_timeout=60, conn_timeout=60) as session:
+                    async with session.post(endpoint, data=json.dumps(payload), headers=headers) as resp:
+                        body = await resp.text()
+                        data = json.loads(body)
+                if data.get('error'):
+                    failed = True
+                    error_message = data.get('error', {}).get('message')
+            except Exception as e:
+                failed = True
+                error_message = str(e)
+            if failed:
+                response = f'Something went wrong: {error_message}'
+            else:
+                if "choices" in data:
+                    data = data['choices'][0]
+                response = data.get('message').get('content')
+        else:
+            response = 'You set the AI mode to custom but have not set the model.'
+    else:
+        response = 'You set the AI mode to custom but have not set the endpoint.'
+    return response
+
+
 async def chatter_core_responder(ev, pld):
     """
     :param ev: The event object referenced in the event.
@@ -94,31 +178,18 @@ async def chatter_core_responder(ev, pld):
                 clean_msg = clean_msg.partition(' ')[2]
             if clean_msg:
                 setting = pld.settings.get('chatterbot')
-                ai_mode = pld.settings.get('ai_mode', 0)
-                active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
-                if clean_msg.lower() == 'reset prefix':
-                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
-                        await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
-                        response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
-                    else:
-                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
-                    await pld.msg.channel.send(response)
-                elif clean_msg.lower() == 'swap to llm':
-                    if pld.msg.author.id in ev.bot.cfg.dsc.owners:
-                        await ev.db.set_guild_settings(pld.msg.guild.id, 'ai_mode', 1)
-                        response = 'The AI mode for this server has been set to OpenHermes LLM.'
-                    else:
-                        response = 'This is currently only limited to the bot developers.'
-                    await pld.msg.channel.send(response)
-                elif clean_msg.lower() == 'swap to cb':
-                    if pld.msg.channel.permissions_for(pld.msg.author).manage_guild:
-                        await ev.db.set_guild_settings(pld.msg.guild.id, 'ai_mode', 0)
-                        response = 'The AI mode for this server has been set to AIML/ALICE.'
-                    else:
-                        response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
-                    await pld.msg.channel.send(response)
-                elif active:
-                    if ai_mode == 0:
+                ai_mode = pld.settings.get('cb_ai_mode')
+                if ai_mode != 'custom':
+                    active = setting in [True, None] or pld.msg.author.id in ev.bot.cfg.dsc.owners
+                    is_owner = pld.msg.author.id in ev.bot.cfg.dsc.owners
+                    if clean_msg.lower() == 'reset prefix':
+                        if pld.msg.channel.permissions_for(pld.msg.author).manage_guild or is_owner:
+                            await ev.db.set_guild_settings(pld.msg.guild.id, 'prefix', None)
+                            response = f'The prefix for this server has been reset to `{ev.bot.cfg.pref.prefix}`.'
+                        else:
+                            response = 'You don\'t have the Manage Server permission, so no, I won\'t do that.'
+                        await pld.msg.channel.send(response)
+                    elif active:
                         async with pld.msg.channel.typing():
                             if not chatter_core.numCategories():
                                 train(ev, chatter_core)
@@ -127,16 +198,7 @@ async def chatter_core_responder(ev, pld):
                             sleep_time = min(len(response_text.split(' ')) * 0.58, 10.0)
                             await asyncio.sleep(sleep_time)
                             await pld.msg.reply(response_text)
-                    elif ai_mode == 1:
-                        if AI_CORE is None:
-                            AI_CORE = RelayHandler(ev.db)
-                            await AI_CORE.clean()
-                        async with pld.msg.channel.typing():
-                            token = secrets.token_hex(4)
-                            await AI_CORE.store(token, pld.msg.channel.id, pld.msg.author.display_name, clean_msg)
-                            response_text = await AI_CORE.wait_for_reply(token)
-                            if response_text:
-                                response_text = clean_llm_response(response_text)
-                                await pld.msg.reply(response_text)
-                            else:
-                                await pld.msg.reply('Sorry, handling your message timed out.')
+                else:
+                    async with pld.msg.channel.typing():
+                        response_text = await get_custom_response(ev, pld, clean_msg)
+                        await pld.msg.reply(response_text)

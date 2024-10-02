@@ -35,4 +35,6 @@ def get_encryptor(cfg):
         pass_hash = pass_hash.hexdigest()
         pass_hash = codecs.encode(pass_hash.encode('utf-8'), 'base64')
         cipher = Fernet(pass_hash)
+    else:
+        raise Exception('No encryption key set in the config.')
     return cipher
