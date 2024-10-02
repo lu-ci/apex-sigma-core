@@ -109,10 +109,10 @@ async def sell(cmd, pld):
                 else:
                     if not lookup.isdigit():
                         if had_item:
-                            response = GenericResponse(f'We stopped your sale because of a calculation error.').error()
+                            response = GenericResponse('We stopped your sale because of a calculation error.').error()
                             response.description = 'Sometimes, the resulting sale price ends up being 0. '
                             response.description += 'Try checking the item with the `inspect` command first '
-                            response.description += f'and then just try again.'
+                            response.description += 'and then just try again.'
                         else:
                             response = GenericResponse(f'I didn\'t find any {lookup} in your inventory.').not_found()
                     else:

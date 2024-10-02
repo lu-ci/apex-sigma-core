@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
 import json
 import re
-import secrets
 from typing import Optional
 
 import aiohttp
@@ -200,5 +199,8 @@ async def chatter_core_responder(ev, pld):
                             await pld.msg.reply(response_text)
                 else:
                     async with pld.msg.channel.typing():
-                        response_text = await get_custom_response(ev, pld, clean_msg)
+                        try:
+                            response_text = await get_custom_response(ev, pld, clean_msg)
+                        except Exception as err:
+                            response_text = f'Broad error: {err}'
                         await pld.msg.reply(response_text)
