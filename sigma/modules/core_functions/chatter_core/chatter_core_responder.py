@@ -107,56 +107,55 @@ def get_directive(pld) -> Optional[str]:
 async def get_custom_response(ev, pld, message) -> str:
     key = get_key(ev, pld)
     endpoint = get_endpoint(pld)
-    if endpoint:
-        model = get_model(pld)
-        if model:
-            directive = get_directive(pld)
-            headers = {}
-            if key:
-                headers.update({'Authorization': f'Bearer {key}'})
-            if 'openrouter.ai' in endpoint:
-                headers.update({
-                    'HTTP-Referer': 'https://luciascipher.com/sigma',
-                    'X-Title': 'Apex Sigma'
-                })
-            payload = {
-                'stream': False,
-                'model': model,
-                'messages': [
-                    {
-                        'role': 'system',
-                        'content': directive,
-                    },
-                    {
-                        'role': 'user',
-                        'content': message
-                    }
-                ]
+    model = get_model(pld)
+    if not key and not endpoint and not model:
+        cbconf = ev.bot.modules.commands.get('chatterbot').cfg
+        key = cbconf.get('ai_key')
+        endpoint = cbconf.get('ai_endpoint')
+        model = cbconf.get('ai_model')
+    directive = get_directive(pld)
+    headers = {'Content-Type': 'application/json'}
+    if key:
+        headers.update({'Authorization': f'Bearer {key}'})
+    if 'openrouter.ai' in endpoint:
+        headers.update({
+            'HTTP-Referer': 'https://luciascipher.com/sigma',
+            'X-Title': 'Apex Sigma'
+        })
+    payload = {
+        'stream': False,
+        'model': model,
+        'messages': [
+            {
+                'role': 'system',
+                'content': directive,
+            },
+            {
+                'role': 'user',
+                'content': message
             }
-            # noinspection PyBroadException
-            try:
-                failed = False
-                error_message = None
-                async with aiohttp.ClientSession(read_timeout=60, conn_timeout=60) as session:
-                    async with session.post(endpoint, data=json.dumps(payload), headers=headers) as resp:
-                        body = await resp.text()
-                        data = json.loads(body)
-                if data.get('error'):
-                    failed = True
-                    error_message = data.get('error', {}).get('message')
-            except Exception as e:
-                failed = True
-                error_message = str(e)
-            if failed:
-                response = f'Something went wrong: {error_message}'
-            else:
-                if "choices" in data:
-                    data = data['choices'][0]
-                response = data.get('message').get('content')
-        else:
-            response = 'You set the AI mode to custom but have not set the model.'
+        ]
+    }
+    # noinspection PyBroadException
+    try:
+        failed = False
+        error_message = None
+        async with aiohttp.ClientSession(read_timeout=60, conn_timeout=60) as session:
+            async with session.post(endpoint, data=json.dumps(payload), headers=headers) as resp:
+                body = await resp.text()
+                data = json.loads(body)
+        if data.get('error'):
+            failed = True
+            error_message = data.get('error', {}).get('message')
+    except Exception as e:
+        failed = True
+        error_message = str(e)
+    if failed:
+        response = f'Something went wrong: {error_message}'
     else:
-        response = 'You set the AI mode to custom but have not set the endpoint.'
+        if "choices" in data:
+            data = data['choices'][0]
+        response = data.get('message').get('content')
     return response
 
 
