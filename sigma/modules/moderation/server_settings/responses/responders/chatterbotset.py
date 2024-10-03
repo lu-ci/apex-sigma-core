@@ -101,6 +101,17 @@ async def set_directive(cmd, pld, args: list[str]) -> discord.Embed:
     return response
 
 
+async def set_default(cmd, pld) -> discord.Embed:
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_mode', None)
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_key', None)
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_endpoint', None)
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_model', None)
+    await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_directive', None)
+    resp = GenericResponse('All AI settings have been set to default').ok()
+    resp.description = 'If you would like to use an LLM without your own, just set the mode to custom and nothing else.'
+    return resp
+
+
 async def chatterbotset(cmd, pld):
     is_owner = pld.msg.author.id in cmd.bot.cfg.dsc.owners
     is_manager = pld.msg.channel.permissions_for(pld.msg.author).manage_guild
@@ -112,7 +123,8 @@ async def chatterbotset(cmd, pld):
                 'key': set_key,
                 'endpoint': set_endpoint,
                 'model': set_model,
-                'directive': set_directive
+                'directive': set_directive,
+                'default': set_default
             }
             if setter_name in setter_funcs:
                 subargs = pld.args[1:]
