@@ -101,7 +101,7 @@ async def set_directive(cmd, pld, args: list[str]) -> discord.Embed:
     return response
 
 
-async def set_default(cmd, pld) -> discord.Embed:
+async def set_default(cmd, pld, _) -> discord.Embed:
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_mode', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_key', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_endpoint', None)
