@@ -21,6 +21,7 @@ import re
 from typing import Optional
 
 import aiohttp
+import arrow
 
 from sigma.modules.core_functions.chatter_core.chatter_core_init import chatter_core, train
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
@@ -28,8 +29,6 @@ from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 OLLAMA_URI = 'http://localhost:11434'
 OLLAMA_MODEL = 'sigma:latest'
 MESSAGE_STORE = {}
-
-AI_CORE = None
 
 
 def set_session_info(pld):
@@ -82,10 +81,13 @@ def clean_llm_response(msg: str) -> str:
 
 def get_key(ev, pld) -> str:
     stored_key = pld.settings.get('cb_ai_key')
-    encrpted_key = stored_key.encode('utf-8')
-    cipher = get_encryptor(ev.bot.cfg)
-    decrypted_key = cipher.decrypt(encrpted_key)
-    parsed_key = decrypted_key.decode('utf-8')
+    if stored_key:
+        encrpted_key = stored_key.encode('utf-8')
+        cipher = get_encryptor(ev.bot.cfg)
+        decrypted_key = cipher.decrypt(encrpted_key)
+        parsed_key = decrypted_key.decode('utf-8')
+    else:
+        parsed_key = None
     return parsed_key
 
 
@@ -122,19 +124,40 @@ async def get_custom_response(ev, pld, message) -> str:
             'HTTP-Referer': 'https://luciascipher.com/sigma',
             'X-Title': 'Apex Sigma'
         })
-    payload = {
-        'stream': False,
-        'model': model,
-        'messages': [
+    context = f'The user\'s Discord name who sent the following message is {pld.msg.author.nick}.'
+    context += f'\nThe Discord channel you are talking in is #{pld.msg.channel.name}.'
+    context += f'\nThe Discord server name is {pld.msg.guild.name}.'
+    context += f'\nThe current date and time is {arrow.utcnow().format("YYYY-MM-DD HH:mm:SS")} UTC.'
+    if pld.msg.reference:
+        referenced = pld.msg.reference.resolved
+        if referenced.author.id == ev.bot.user.id:
+            context += f'\nTheir message is a reply to your message saying: {referenced.content}'
+        else:
+            author = referenced.author.nick
+            context += f'\nTheir message is a reply to a message from {author} saying: {referenced.content}'
+    messages = MESSAGE_STORE.get(pld.msg.guild.id, [])[-20:]
+    if not messages:
+        messages = [
             {
                 'role': 'system',
                 'content': directive,
-            },
-            {
-                'role': 'user',
-                'content': message
             }
         ]
+    messages += [
+        {
+            'role': 'system',
+            'content': context
+        },
+        {
+            'role': 'user',
+            'content': message
+        }
+    ]
+    MESSAGE_STORE.update({pld.msg.guild.id: messages})
+    payload = {
+        'stream': False,
+        'model': model,
+        'messages': messages
     }
     # noinspection PyBroadException
     try:
@@ -166,7 +189,6 @@ async def chatter_core_responder(ev, pld):
     :param pld: The event payload data to process.
     :type pld: sigma.core.mechanics.payload.MessagePayload
     """
-    global AI_CORE
     if pld.msg.content:
         start_one = check_start(pld.msg, ev.bot.user.id)
         start_two = pld.msg.reference.resolved.author.id == ev.bot.user.id if pld.msg.reference else False

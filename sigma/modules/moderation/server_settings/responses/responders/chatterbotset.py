@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import discord
 
 from sigma.core.utilities.generic_responses import GenericResponse
+from sigma.modules.core_functions.chatter_core.chatter_core_responder import MESSAGE_STORE
 from sigma.modules.utilities.mathematics.nodes.encryption import get_encryptor
 
 
@@ -101,43 +102,51 @@ async def set_directive(cmd, pld, args: list[str]) -> discord.Embed:
     return response
 
 
-async def set_default(cmd, pld, _) -> discord.Embed:
+async def set_default(cmd, pld, _args) -> discord.Embed:
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_mode', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_key', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_endpoint', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_model', None)
     await cmd.db.set_guild_settings(pld.msg.guild.id, 'cb_ai_directive', None)
+    MESSAGE_STORE.update({pld.msg.guild.id: []})
     resp = GenericResponse('All AI settings have been set to default').ok()
     resp.description = 'If you would like to use an LLM without your own, just set the mode to custom and nothing else.'
     return resp
 
 
+async def set_clean(_cmd, pld, _args) -> discord.Embed:
+    MESSAGE_STORE.update({pld.msg.guild.id: []})
+    return GenericResponse('Message history has been purged.').ok()
+
+
 async def chatterbotset(cmd, pld):
+    setter_funcs = {
+        'mode': set_mode,
+        'key': set_key,
+        'endpoint': set_endpoint,
+        'model': set_model,
+        'directive': set_directive,
+        'default': set_default,
+        'clean': set_clean
+    }
+    modes = ', '.join([f'`{str(mode)}`' for mode in setter_funcs.keys()])
     is_owner = pld.msg.author.id in cmd.bot.cfg.dsc.owners
     is_manager = pld.msg.channel.permissions_for(pld.msg.author).manage_guild
     if is_owner or is_manager:
         if pld.args:
             setter_name = pld.args[0].lower()
-            setter_funcs = {
-                'mode': set_mode,
-                'key': set_key,
-                'endpoint': set_endpoint,
-                'model': set_model,
-                'directive': set_directive,
-                'default': set_default
-            }
             if setter_name in setter_funcs:
                 subargs = pld.args[1:]
                 setter_func = setter_funcs.get(setter_name)
                 response = await setter_func(cmd, pld, subargs)
             else:
                 response = GenericResponse(f'Unrecognized setter "{setter_name}" selected.').error()
-                response.description = 'You can choose `mode`, `key`, `endpoint`, `model` or `directive`.'
+                response.description = f'You can choose {modes}.'
         else:
             response = GenericResponse(
                 'You didn\'t enter what you would like to set.'
             ).error()
-            response.description = 'You can choose `mode`, `key`, `endpoint`, `model` or `directive`.'
+            response.description = f'You can choose {modes}.'
     else:
         response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)
