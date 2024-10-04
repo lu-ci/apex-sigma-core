@@ -135,7 +135,8 @@ async def get_custom_response(ev, pld, message) -> str:
         else:
             author = referenced.author.nick
             context += f'\nTheir message is a reply to a message from {author} saying: {referenced.content}'
-    messages = MESSAGE_STORE.get(pld.msg.guild.id, [])[-20:]
+    # messages = MESSAGE_STORE.get(pld.msg.guild.id, [])[-20:]
+    messages = []
     if not messages:
         messages = [
             {
@@ -153,7 +154,7 @@ async def get_custom_response(ev, pld, message) -> str:
             'content': message
         }
     ]
-    MESSAGE_STORE.update({pld.msg.guild.id: messages})
+    # MESSAGE_STORE.update({pld.msg.guild.id: messages})
     payload = {
         'stream': False,
         'model': model,
