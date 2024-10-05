@@ -34,7 +34,7 @@ async def clearcollectionjar(cmd, pld):
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', {})
             response = GenericResponse(f'Collection Jar cleared and trigger reset.').ok()
         else:
-                response = GenericResponse('No Collection Jar data found on this server.').not_found()
+            response = GenericResponse('No Collection Jar data found on this server.').not_found()
     else:
         response = GenericResponse('Access Denied. Manage Server needed.').denied()
     await pld.msg.channel.send(embed=response)
