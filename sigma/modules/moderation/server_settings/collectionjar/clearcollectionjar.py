@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import discord
-
 from sigma.core.utilities.generic_responses import GenericResponse
 
 
@@ -32,7 +30,7 @@ async def clearcollectionjar(cmd, pld):
         jar_doc = pld.settings.get('collection_jar')
         if jar_doc:
             await cmd.db.set_guild_settings(pld.msg.guild.id, 'collection_jar', {})
-            response = GenericResponse(f'Collection Jar cleared and trigger reset.').ok()
+            response = GenericResponse('Collection Jar cleared and trigger reset.').ok()
         else:
             response = GenericResponse('No Collection Jar data found on this server.').not_found()
     else:
