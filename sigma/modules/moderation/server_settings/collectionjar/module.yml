@@ -21,6 +21,12 @@ commands:
       own.
     enabled: true
     name: viewcollectionjar
+  - alts:
+      - clearjar
+    description: Clears the collection jar data for the server. This cannot be undone.
+      This command requires the Manage Server permission.
+    enabled: true
+    name: clearcollectionjar
 enabled: true
 events:
   - enabled: true

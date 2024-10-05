@@ -57,12 +57,13 @@ async def viewcollectionjar(_cmd, pld):
         target = pld.msg.mentions[0] if pld.msg.mentions else pld.msg.author
         starters = ['Their', 'Them'] if pld.msg.mentions else ['Your', 'You']
         jar = CollectionJar(jar_doc, pld.msg, target)
-        response = discord.Embed(color=0xfdd888, title='💰 Collection Jar')
+        response = discord.Embed(color=0xf9ca55, title='🫙 Collection Jar')
         contents = f'Total: **{jar.total}**\n'
         contents += f'This Channel: **{jar.channel}**\n'
         contents += f'{starters[0]} Contributions: **{jar.user_total}**\n'
         contents += f'{starters[1]} In This Channel: **{jar.user_channel}**'
-        response.add_field(name='Contents', value=contents)
+        response.add_field(name='Contents', value=contents, inline=False)
+        response.add_field(name='Trigger', value=jar_doc.get('trigger', '<unset>'), inline=False)
     else:
-        response = discord.Embed(color=0xc6e4b5, title='💸 Totally empty...')
+        response = discord.Embed(color=0xf9ca55, title='🫙 Totally empty...')
     await pld.msg.channel.send(embed=response)
