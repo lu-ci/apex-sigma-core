@@ -18,13 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import os
-import secrets
 
 import aiohttp
-import discord
-
-from sigma.modules.searches.twitch.partner_monitor import is_live
-from sigma.modules.utilities.information.status import get_shard_latency
 
 kuma_loop_running = False
 
@@ -59,8 +54,7 @@ async def kuma_reporter_cycler(ev):
         # noinspection PyBroadException
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get(uri) as _resp:
-                    pass
+                await session.get(uri)
         except Exception:
             pass
         await asyncio.sleep(60)
