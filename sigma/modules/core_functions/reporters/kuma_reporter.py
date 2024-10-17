@@ -49,7 +49,10 @@ async def kuma_reporter_cycler(ev):
         kuma_endpoint = os.environ.get('KUMA_ENDPOINT')
         uri = f'{kuma_endpoint}?status={status}&msg={message}'
         if ready:
-            latency = int(ev.bot.latency * 1000)
+            try:
+                latency = int(ev.bot.latency * 1000)
+            except OverflowError:
+                latency = 999
             uri += f'&ping={latency}'
         # noinspection PyBroadException
         try:
