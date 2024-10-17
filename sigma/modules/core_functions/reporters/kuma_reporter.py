@@ -57,4 +57,4 @@ async def kuma_reporter_cycler(ev):
                 await session.get(uri)
         except Exception:
             pass
-        await asyncio.sleep(60)
+        await asyncio.sleep(30)
