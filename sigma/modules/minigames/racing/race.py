@@ -49,6 +49,7 @@ async def race(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
+    lines = None
     # noinspection PyBroadException
     try:
         if pld.msg.channel.id not in races:
@@ -75,7 +76,6 @@ async def race(cmd, pld):
                     values = {}
                     highest = 0
                     leader = None
-                    race_msg = None
                     skip = False
                     while highest < 20:
                         lines = '```\n'
@@ -105,14 +105,7 @@ async def race(cmd, pld):
                                 highest = val
                                 leader = participant
                         lines += '\n```'
-                        if race_msg:
-                            try:
-                                await race_msg.edit(content=lines)
-                            except discord.NotFound:
-                                race_msg = await pld.msg.channel.send(lines)
-                        else:
-                            race_msg = await pld.msg.channel.send(lines)
-                        await asyncio.sleep(2)
+                    await pld.msg.channel.send(lines)
                     have_buyin = await check_resources(cmd.db, race_instance['users'], buyin)
                     if have_buyin:
                         win_title = f'{leader["icon"]} {leader["user"].display_name} has won!'
@@ -136,4 +129,4 @@ async def race(cmd, pld):
         response = GenericResponse('Something broke so we are canceling the race.').error()
     if pld.msg.channel.id in races:
         del races[pld.msg.channel.id]
-    await pld.msg.channel.send(embed=response)
+    await pld.msg.channel.send(content=lines, embed=response)
