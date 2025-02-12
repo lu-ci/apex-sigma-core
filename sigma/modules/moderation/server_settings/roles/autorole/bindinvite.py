@@ -29,33 +29,36 @@ async def bindinvite(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    if pld.msg.author.guild_permissions.create_instant_invite:
-        await cmd.bot.modules.commands.get('syncinvites').execute(CommandPayload(cmd.bot, pld.msg, ['noresp']))
-        if len(pld.args) >= 2:
-            invite_id = pld.args[0]
-            role_name = ' '.join(pld.args[1:])
-            invites = await pld.msg.guild.invites()
-            target_inv = discord.utils.find(lambda inv: inv.id.lower() == invite_id.lower(), invites)
-            target_role = discord.utils.find(lambda role: role.name.lower() == role_name.lower(), pld.msg.guild.roles)
-            if target_inv:
-                if target_role:
-                    bot_role = pld.msg.guild.me.top_role
-                    if bot_role.position > target_role.position:
-                        if pld.msg.author.top_role.position > target_role.position:
-                            bindings = pld.settings.get('bound_invites', {})
-                            bindings.update({target_inv.id: target_role.id})
-                            await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
-                            response = GenericResponse(f'Invite {target_inv.id} bound to {target_role.name}.').ok()
+    if pld.msg.author.guild_permissions.manage_roles:
+        if pld.msg.author.guild_permissions.create_instant_invite:
+            await cmd.bot.modules.commands.get('syncinvites').execute(CommandPayload(cmd.bot, pld.msg, ['noresp']))
+            if len(pld.args) >= 2:
+                invite_id = pld.args[0]
+                role_name = ' '.join(pld.args[1:])
+                invites = await pld.msg.guild.invites()
+                target_inv = discord.utils.find(lambda inv: inv.id.lower() == invite_id.lower(), invites)
+                target_role = discord.utils.find(lambda role: role.name.lower() == role_name.lower(), pld.msg.guild.roles)
+                if target_inv:
+                    if target_role:
+                        bot_role = pld.msg.guild.me.top_role
+                        if bot_role.position > target_role.position:
+                            if pld.msg.author.top_role.position > target_role.position:
+                                bindings = pld.settings.get('bound_invites', {})
+                                bindings.update({target_inv.id: target_role.id})
+                                await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
+                                response = GenericResponse(f'Invite {target_inv.id} bound to {target_role.name}.').ok()
+                            else:
+                                response = GenericResponse('This role is above your highest role.').error()
                         else:
-                            response = GenericResponse('This role is above your highest role.').error()
+                            response = GenericResponse('This role is above my highest role.').error()
                     else:
-                        response = GenericResponse('This role is above my highest role.').error()
+                        response = GenericResponse(f'{role_name} not found.').not_found()
                 else:
-                    response = GenericResponse(f'{role_name} not found.').not_found()
+                    response = GenericResponse('No invite with that ID was found.').error()
             else:
-                response = GenericResponse('No invite with that ID was found.').error()
+                response = GenericResponse('Not enough arguments. Invite and role name needed.').error()
         else:
-            response = GenericResponse('Not enough arguments. Invite and role name needed.').error()
+            response = GenericResponse('Access Denied. Create Instant Invites needed.').denied()
     else:
-        response = GenericResponse('Access Denied. Create Instant Invites needed.').denied()
+        response = GenericResponse('Access Denied. Manage Roles needed.').denied()
     await pld.msg.channel.send(embed=response)
