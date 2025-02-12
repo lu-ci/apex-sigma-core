@@ -41,10 +41,13 @@ async def bindinvite(cmd, pld):
                 if target_role:
                     bot_role = pld.msg.guild.me.top_role
                     if bot_role.position > target_role.position:
-                        bindings = pld.settings.get('bound_invites', {})
-                        bindings.update({target_inv.id: target_role.id})
-                        await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
-                        response = GenericResponse(f'Invite {target_inv.id} bound to {target_role.name}.').ok()
+                        if pld.msg.author.top_role.position > target_role.position:
+                            bindings = pld.settings.get('bound_invites', {})
+                            bindings.update({target_inv.id: target_role.id})
+                            await cmd.db.set_guild_settings(pld.msg.guild.id, 'bound_invites', bindings)
+                            response = GenericResponse(f'Invite {target_inv.id} bound to {target_role.name}.').ok()
+                        else:
+                            response = GenericResponse('This role is above your highest role.').error()
                     else:
                         response = GenericResponse('This role is above my highest role.').error()
                 else:
