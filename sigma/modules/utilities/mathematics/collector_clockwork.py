@@ -378,9 +378,9 @@ async def update_collected_ids(db, cid: int, uid: int, collected_ids: list[int])
     await col.update_one({'user_id': uid}, {'$set': doc}, upsert=True)
 
 
-def get_latest_and_oldest(ids: list[int]) -> (int, int):
+def gfet_oldest_and_latest(ids: list[int]) -> (int, int):
     mids = sorted(ids)
-    return mids[-1], mids[0]
+    return mids[0], mids[-1]
 
 
 async def collector_cycler(ev):
@@ -413,7 +413,8 @@ async def collector_cycler(ev):
                     # noinspection PyBroadException
                     try:
                         if len(collected) != 0:
-                            old_id, new_id = get_latest_and_oldest(collected)
+                            old_id, new_id = gfet_oldest_and_latest(collected)
+                            ev.bot.log.info([old_id, new_id])
                             old_dt = discord.utils.snowflake_time(old_id)
                             new_dt = discord.utils.snowflake_time(new_id)
                             # Find newer than existing
