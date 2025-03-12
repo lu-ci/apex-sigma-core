@@ -297,21 +297,6 @@ async def notify_cancel(ath, tgt_usr, tgt_chn):
             pass
 
 
-async def set_coll_cache(ev, user_id, channel_id, coll_cache, last_msg):
-    """
-    :type ev: sigma.core.mechanics.evens.SigmaEvent
-    :type user_id: int
-    :type channel_id: int
-    :type coll_cache: dict
-    :type last_msg: float
-    """
-    if not coll_cache:
-        coll_cache = {}
-    coll_cache.update({str(channel_id): last_msg})
-    lookup, cache_data = {'user_id': user_id}, {'$set': coll_cache}
-    await ev.db.col.CollectorCache.update_one(lookup, cache_data, upsert=True)
-
-
 def serialize(item):
     """
     :type item: dict
@@ -370,17 +355,25 @@ def cancel_current():
     current_cancel_request = True
 
 
-async def get_collected_ids(db, uid: int) -> list[int]:
+async def get_collected_ids(db, cid: int, uid: int) -> list[int]:
     col = db.col.CollectedMessages
-    doc = await col.find_one({'user_id': uid}) or {'user_id': uid}
+    base = {
+        'user_id': uid,
+        'channel_id': cid,
+    }
+    doc = await col.find_one(base) or base
     return doc.get('collected', [])
 
 
-async def update_collected_ids(db, uid: int, collected_ids: list[int]):
+async def update_collected_ids(db, cid: int, uid: int, collected_ids: list[int]):
     col = db.col.CollectedMessages
-    doc = await col.find_one({'user_id': uid}) or {'user_id': uid}
+    base = {
+        'user_id': uid,
+        'channel_id': cid,
+    }
+    doc = await col.find_one(base) or base
     doc.update({'collected': collected_ids})
-    await db.col.update_one({'user_id': uid}, {'$set': doc}, upsert=True)
+    await col.update_one({'user_id': uid}, {'$set': doc}, upsert=True)
 
 
 async def collector_cycler(ev):
@@ -406,17 +399,13 @@ async def collector_cycler(ev):
                     current_doc_collecting = cltr_item
                     await ev.db.col.CollectorQueue.delete_one(cltr_item)
                     collection = load(cl_usr.id)
-                    coll_cache = await ev.db.col.CollectorCache.find_one({'user_id': cl_usr.id}) or {}
-                    last_msg = coll_cache.get(str(cl_chn.id))
-                    if last_msg:
-                        last_msg = arrow.get(last_msg).naive
                     chain = markovify.Text.from_dict(deserialize(collection)) if collection is not None else None
                     pfx = await ev.db.get_guild_settings(cl_chn.guild.id, 'prefix') or ev.bot.cfg.pref.prefix
                     messages = []
-                    collected = await get_collected_ids(ev.db, cl_usr.id)
+                    collected = await get_collected_ids(ev.db, cl_chn.id, cl_usr.id)
                     # noinspection PyBroadException
                     try:
-                        async for log in cl_chn.history(limit=collector_limit, after=last_msg):
+                        async for log in cl_chn.history(limit=collector_limit):
                             if current_cancel_request:
                                 cancelled = True
                                 break
@@ -430,7 +419,7 @@ async def collector_cycler(ev):
                                             collected.append(log.id)
                             else:
                                 break
-                        await update_collected_ids(ev.db, cl_usr.id, collected)
+                        await update_collected_ids(ev.db, cl_chn.id, cl_usr.id, collected)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {usr_info}: {e}')
                     if not cancelled:
