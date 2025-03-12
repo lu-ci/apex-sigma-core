@@ -26,10 +26,12 @@ from typing import Optional
 import arrow
 import discord
 import markovify
+from discord.abc import Snowflake
 
 from sigma.core.utilities.generic_responses import GenericResponse
 
 collector_limit = 100_000
+collector_low_limit = 50_000
 collector_loop_running = False
 current_doc_collecting: Optional[dict] = None
 current_cancel_request = False
@@ -376,6 +378,11 @@ async def update_collected_ids(db, cid: int, uid: int, collected_ids: list[int])
     await col.update_one({'user_id': uid}, {'$set': doc}, upsert=True)
 
 
+def get_latest_and_oldest(ids: list[int]) -> (int, int):
+    mids = sorted(ids)
+    return mids[-1], mids[0]
+
+
 async def collector_cycler(ev):
     """
     :param ev: The event object referenced in the event.
@@ -405,20 +412,55 @@ async def collector_cycler(ev):
                     collected = await get_collected_ids(ev.db, cl_chn.id, cl_usr.id)
                     # noinspection PyBroadException
                     try:
-                        async for log in cl_chn.history(limit=collector_limit):
-                            if current_cancel_request:
-                                cancelled = True
-                                break
-                            cnt = log.content
-                            if log.id not in collected:
-                                if log.author.id == cl_usr.id and len(log.content) > 8:
-                                    if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
-                                        cnt = cleanse_content(log, cnt)
-                                        if cnt not in messages and cnt and len(cnt) > 1:
-                                            messages.append(cnt)
-                                            collected.append(log.id)
-                            else:
-                                break
+                        if len(collected) != 0:
+                            old_id, new_id = get_latest_and_oldest(collected)
+                            old_dt = discord.utils.snowflake_time(old_id)
+                            new_dt = discord.utils.snowflake_time(new_id)
+                            # Find newer than existing
+                            async for log in cl_chn.history(limit=collector_low_limit, after=new_dt):
+                                if current_cancel_request:
+                                    cancelled = True
+                                    break
+                                cnt = log.content
+                                if log.id not in collected:
+                                    if log.author.id == cl_usr.id and len(log.content) > 8:
+                                        if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
+                                            cnt = cleanse_content(log, cnt)
+                                            if cnt not in messages and cnt and len(cnt) > 1:
+                                                messages.append(cnt)
+                                                collected.append(log.id)
+                                else:
+                                    break
+                            # Find older than existing
+                            async for log in cl_chn.history(limit=collector_low_limit, before=old_dt):
+                                if current_cancel_request:
+                                    cancelled = True
+                                    break
+                                cnt = log.content
+                                if log.id not in collected:
+                                    if log.author.id == cl_usr.id and len(log.content) > 8:
+                                        if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
+                                            cnt = cleanse_content(log, cnt)
+                                            if cnt not in messages and cnt and len(cnt) > 1:
+                                                messages.append(cnt)
+                                                collected.append(log.id)
+                                else:
+                                    break
+                        else:
+                            async for log in cl_chn.history(limit=collector_limit):
+                                if current_cancel_request:
+                                    cancelled = True
+                                    break
+                                cnt = log.content
+                                if log.id not in collected:
+                                    if log.author.id == cl_usr.id and len(log.content) > 8:
+                                        if not check_for_bot_prefixes(pfx, cnt) and not check_for_bad_content(cnt):
+                                            cnt = cleanse_content(log, cnt)
+                                            if cnt not in messages and cnt and len(cnt) > 1:
+                                                messages.append(cnt)
+                                                collected.append(log.id)
+                                else:
+                                    break
                         await update_collected_ids(ev.db, cl_chn.id, cl_usr.id, collected)
                     except Exception as e:
                         ev.log.warn(f'Collection issue for {usr_info}: {e}')
