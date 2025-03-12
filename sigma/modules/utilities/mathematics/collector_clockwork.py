@@ -26,7 +26,6 @@ from typing import Optional
 import arrow
 import discord
 import markovify
-from discord.abc import Snowflake
 
 from sigma.core.utilities.generic_responses import GenericResponse
 
