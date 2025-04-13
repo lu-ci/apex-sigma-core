@@ -18,7 +18,7 @@ jobs:
       - name: Install Python and dependencies
         run: |
           apt-get update && apt-get install -y python3 python3-pip
-          pip install -r requirements-test.txt
+          pip3 install -r requirements-test.txt
 
       - name: Run tests
         run: bash test.sh
