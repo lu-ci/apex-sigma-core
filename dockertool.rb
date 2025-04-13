@@ -7,8 +7,8 @@ require "childprocess"
 INFO = YAML.load_file("info/version.yml").freeze
 CODENAME = INFO["codename"].downcase
 VERSION = INFO["version"]
-REGISTRY = "registry.gitlab.com"
-NAMESPACE = "lu-ci/sigma"
+REGISTRY = "git.luciascipher.com"
+NAMESPACE = "lucia"
 IMAGE = "apex-sigma"
 
 def tagged(tag)

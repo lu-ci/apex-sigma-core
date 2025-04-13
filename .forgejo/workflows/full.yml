@@ -1,0 +1,71 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install test requirements
+        run: pip install -r requirements-test.txt
+
+      - name: Run tests
+        run: bash test.sh
+        continue-on-error: false  # Fail if script exits with error
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+
+      - name: Install childprocess gem
+        run: gem install childprocess
+
+      - name: Build Docker image
+        run: ruby dockertool.rb build
+
+      - name: Log in to Docker registry
+        env:
+          REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+          REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+        run: echo "${REGISTRY_TOKEN}" | docker login -u "${REGISTRY_USER}" --password-stdin
+
+      - name: Push Docker image
+        run: ruby dockertool.rb push
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: SSH and Deploy
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no "${SSH_USER}@${SSH_HOST}" <<EOF
+          cd /srv
+          docker-compose pull sigma_0
+          docker-compose up -d
+          EOF
