@@ -4,68 +4,52 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggers
 
 jobs:
   test:
-    runs-on: docker
-    container:
-      image: node:22  # Use a Node.js image with Python support if necessary
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install Python and dependencies
         run: |
-          apt-get update && apt-get install -y python3 python3-pip
+          sudo apt-get update && sudo apt-get install -y python3 python3-pip
           pip3 install -r requirements-test.txt --break-system-packages
 
       - name: Run tests
         run: python3 -m flake8 --ignore=E501 sigma/
 
   build-and-push:
-    runs-on: docker
-    container:
-      image: node:22  # Use Node.js as the base image
+    runs-on: ubuntu-latest
     steps:
       - name: Install Ruby and Docker CLI
         run: |
-          apt-get update
-          apt-get install -y ruby-full docker.io
+          sudo apt-get update
+          sudo apt-get install -y ruby-full
           gem install childprocess
-
-      - name: Configure Docker CLI to use TCP
-        env:
-          DOCKER_HOST: tcp://docker_in_docker_0:2375
-        run: echo "Docker configured to use TCP at $DOCKER_HOST"
 
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Build Docker image
-        env:
-          DOCKER_HOST: tcp://docker_in_docker_0:2375
         run: ruby dockertool.rb build
 
       - name: Log in to Docker registry
         env:
           REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
           REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
-          DOCKER_HOST: tcp://docker_in_docker_0:2375
         run: echo "${REGISTRY_TOKEN}" | docker login git.luciascipher.com -u "${REGISTRY_USER}" --password-stdin
 
       - name: Push Docker image
-        env:
-          DOCKER_HOST: tcp://docker_in_docker_0:2375
         run: ruby dockertool.rb push
 
   deploy:
-    runs-on: docker
-    container:
-      image: alpine:latest
+    runs-on: ubuntu-latest
     steps:
       - name: Install SSH client
-        run: apk add --no-cache openssh
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
 
       - name: SSH and Deploy
         env:
