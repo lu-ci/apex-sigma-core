@@ -26,10 +26,13 @@ jobs:
   build-and-push:
     runs-on: docker
     container:
-      image: ruby:3.0  # Ruby base image
+      image: node:22  # Use Node.js as the base image
     steps:
-      - name: Install Docker CLI
-        run: apt-get update && apt-get install -y docker.io
+      - name: Install Ruby and Docker CLI
+        run: |
+          apt-get update
+          apt-get install -y ruby-full docker.io
+          gem install childprocess
 
       - name: Configure Docker CLI to use TCP
         env:
@@ -38,9 +41,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Install childprocess gem
-        run: gem install childprocess
 
       - name: Build Docker image
         env:
