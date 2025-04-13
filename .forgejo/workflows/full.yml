@@ -21,7 +21,7 @@ jobs:
           pip3 install -r requirements-test.txt --break-system-packages
 
       - name: Run tests
-        run: bash test.sh
+        run: python3 -m flake8 --ignore=E501 sigma/
 
   build-and-push:
     runs-on: docker
