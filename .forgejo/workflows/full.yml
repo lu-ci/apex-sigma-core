@@ -7,34 +7,26 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: docker
+    container:
+      image: python:3.10
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
 
       - name: Install test requirements
         run: pip install -r requirements-test.txt
 
       - name: Run tests
         run: bash test.sh
-        continue-on-error: false  # Fail if script exits with error
 
   build-and-push:
-    runs-on: ubuntu-latest
-    needs: test
+    runs-on: docker
+    container:
+      image: ruby:3.0
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
 
       - name: Install childprocess gem
         run: gem install childprocess
@@ -52,9 +44,13 @@ jobs:
         run: ruby dockertool.rb push
 
   deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-push
+    runs-on: docker
+    container:
+      image: alpine:latest
     steps:
+      - name: Install SSH client
+        run: apk add --no-cache openssh
+
       - name: SSH and Deploy
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
