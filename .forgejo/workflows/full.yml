@@ -26,27 +26,37 @@ jobs:
   build-and-push:
     runs-on: docker
     container:
-      image: node:22  # Node.js base image
+      image: ruby:3.0  # Ruby base image
     steps:
-      - name: Install Ruby and Docker
-        run: |
-          apt-get update
-          apt-get install -y ruby-full docker.io
-          gem install childprocess
+      - name: Install Docker CLI
+        run: apt-get update && apt-get install -y docker.io
+
+      - name: Configure Docker CLI to use TCP
+        env:
+          DOCKER_HOST: tcp://docker_in_docker_0:2375
+        run: echo "Docker configured to use TCP at $DOCKER_HOST"
 
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install childprocess gem
+        run: gem install childprocess
+
       - name: Build Docker image
+        env:
+          DOCKER_HOST: tcp://docker_in_docker_0:2375
         run: ruby dockertool.rb build
 
       - name: Log in to Docker registry
         env:
           REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
           REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
-        run: echo "${REGISTRY_TOKEN}" | docker login -u "${REGISTRY_USER}" --password-stdin
+          DOCKER_HOST: tcp://docker_in_docker_0:2375
+        run: echo "${REGISTRY_TOKEN}" | docker login git.luciascipher.com -u "${REGISTRY_USER}" --password-stdin
 
       - name: Push Docker image
+        env:
+          DOCKER_HOST: tcp://docker_in_docker_0:2375
         run: ruby dockertool.rb push
 
   deploy:
