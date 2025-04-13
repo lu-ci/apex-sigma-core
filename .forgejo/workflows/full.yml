@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: docker
     container:
-      image: node:20  # Use a Node.js image with Python support if necessary
+      image: node:22  # Use a Node.js image with Python support if necessary
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
   build-and-push:
     runs-on: docker
     container:
-      image: node:20  # Node.js base image
+      image: node:22  # Node.js base image
     steps:
       - name: Install Ruby and Docker
         run: |
