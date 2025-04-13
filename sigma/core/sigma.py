@@ -20,6 +20,7 @@ import errno
 import os
 import shutil
 from logging import ERROR
+from typing import Optional
 
 import arrow
 import discord
@@ -72,7 +73,7 @@ class ApexSigma(client_class):
         "gateway_start", "gateway_finish"
     )
 
-    def __init__(self):
+    def __init__(self, shard_count: Optional[int] = None, shard_ids: Optional[list[int]] = None):
         super().__init__(
             status=discord.Status.dnd,
             activity=discord.Game('booting...'),
@@ -80,13 +81,21 @@ class ApexSigma(client_class):
         )
         self.ready = False
         # State attributes before initialization.
-        self.log = self.init_logger()
         self.cfg = init_cfg
+        if shard_count:
+            self.shard_count = shard_count
+            self.cfg.dsc.shard_count = shard_count
+        else:
+            self.shard_count = self.cfg.dsc.shard_count
+            self.cfg.dsc.shards = shard_ids
+        if shard_ids:
+            self.shard_ids = shard_ids
+        else:
+            self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards is not None else None
+        self.log = self.init_logger()
         self.tree = CommandTree(self)
         self._connection.max_messages = self.cfg.dsc.max_messages
         self.queue = None
-        self.shard_count = self.cfg.dsc.shard_count
-        self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards is not None else None
         # Initialize startup methods and attributes.
         self.create_cache_dir()
         self.init_config()

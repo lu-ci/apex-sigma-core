@@ -4,6 +4,7 @@ import errno
 import os
 import subprocess
 import sys
+import argparse
 
 MIN_PY_VERSION = (3, 10)
 
@@ -51,6 +52,10 @@ def import_framework():
         exit(errno.EINVAL)
 
 
+def are_all_running(processes) -> bool:
+    return all([process.is_alive() is None for process in processes])
+
+
 def run():
     """
     The main run call.
@@ -63,7 +68,17 @@ def run():
             if requirements_reinstalled:
                 sigma = import_framework()
             else:
-                sigma = ApexSigma()
+                parser = argparse.ArgumentParser()
+                parser.add_argument('--count', type=int)
+                parser.add_argument('--group', type=str)
+                args = parser.parse_args()
+                shard_count = args.count
+                shard_group = args.group
+                if shard_group and shard_count:
+                    shard_group = [int(shard.strip()) for shard in shard_group.split(',') if shard.strip()]
+                    sigma = ApexSigma(shard_count, shard_group)
+                else:
+                    sigma = ApexSigma()
             sigma.run()
         except (ImportError, ModuleNotFoundError, NameError):
             install_requirements()
