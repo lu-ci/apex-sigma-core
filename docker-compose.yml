@@ -9,13 +9,18 @@ networks:
 services:
   database:
     image: "mongo:4.1"
+    environment:
+      MONGO_INITDB_DATABASE: "devdb"
+      # MONGO_INITDB_USERNAME: "devel"
+      # MONGO_INITDB_PASSWORD: "devpw"
     volumes:
       - "mongodb:/data/db"
+    ports:
+      - "27017:27017"
     networks:
       - "bot"
 
   bot:
-    image: "registry.gitlab.com/lu-ci/sigma/apex-sigma:latest"
     build:
       context: .
     deploy:
