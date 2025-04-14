@@ -157,7 +157,10 @@ class ApexSigma(client_class):
         """
         if os.path.exists('cache'):
             shutil.rmtree('cache')
-        os.makedirs('cache')
+        try:
+            os.makedirs('cache')
+        except FileExistsError:
+            pass
 
     async def init_cacher(self):
         """
