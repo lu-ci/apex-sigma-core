@@ -31,7 +31,7 @@ jobs:
       - name: Install Ruby and Docker CLI
         run: |
           apt-get update
-          apt-get install -y ruby-full
+          apt-get install -y ruby-full docker.io
           gem install childprocess
 
       - name: Checkout code
