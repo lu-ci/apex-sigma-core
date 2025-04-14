@@ -127,3 +127,4 @@ ENV/
 /*.log
 
 /.pytest_cache
+/.direnv
