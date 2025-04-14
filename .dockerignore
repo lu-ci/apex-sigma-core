@@ -5,4 +5,5 @@
 !sigma
 !run.py
 !run.sh
-!requirements.txt
+!pyproject.toml
+!uv.lock

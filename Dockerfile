@@ -1,15 +1,9 @@
-FROM python:3.10-slim
-
-LABEL maintainer="dev.patrick.auernig@gmail.com"
+FROM ghcr.io/astral-sh/uv:debian
 
 ARG user_uid=1000
 ARG user_gid=1000
 RUN addgroup --system --gid "$user_gid" app \
  && adduser --system --ingroup app --uid "$user_uid" app
-
-RUN mkdir -p /app && chown app:app /app
-
-COPY --chown=app:app ./ /app
 
 RUN apt-get update \
  && apt-get install -y \
@@ -20,18 +14,14 @@ RUN apt-get update \
     git \
     ffmpeg \
     bash \
- && python -m pip install -U pip \
- && pip install --no-cache-dir virtualenv \
  && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /app && chown app:app /app
+COPY --chown=app:app ./ /app
 WORKDIR /app
 USER app
 
-RUN virtualenv .venv \
- && . .venv/bin/activate \
- && python -m pip install -U pip \
- && pip install --no-cache-dir -r requirements.txt \
- && sed -i -E 's|^(VIRTUAL_ENV="/)build(/.venv")$|\1app\2|' .venv/bin/activate
-
+ENV UV_CACHE_DIR=/app/.uv-cache
+ENV UV_FROZEN=1
 ENTRYPOINT ["/bin/bash"]
 CMD ["./run.sh"]

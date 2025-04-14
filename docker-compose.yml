@@ -21,10 +21,9 @@ services:
       - "bot"
 
   bot:
+    image: "localhost/apex-sigma_bot"
     build:
       context: .
-    deploy:
-      replicas: 1
     volumes:
       - type: bind
         source: "./config"
