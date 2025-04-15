@@ -18,7 +18,7 @@ jobs:
       - name: Install Python and dependencies
         run: |
           apt-get update && apt-get install -y python3 python3-pip
-          pip3 install -r requirements-test.txt --break-system-packages
+          pip3 install flake8 --break-system-packages
 
       - name: Run tests
         run: python3 -m flake8 --ignore=E501 sigma/
