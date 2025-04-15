@@ -24,6 +24,7 @@ jobs:
         run: python3 -m flake8 --ignore=E501 sigma/
 
   build-and-push:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Install Docker CLI
@@ -58,6 +59,7 @@ jobs:
         run: ruby dockertool.rb push
 
   deploy:
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Install SSH client
