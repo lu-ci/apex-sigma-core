@@ -156,7 +156,10 @@ class ApexSigma(client_class):
         Mostly, if not only, used for music file caching.
         """
         if os.path.exists('cache'):
-            shutil.rmtree('cache')
+            try:
+                shutil.rmtree('cache')
+            except FileNotFoundError:
+                pass
         try:
             os.makedirs('cache')
         except FileExistsError:
