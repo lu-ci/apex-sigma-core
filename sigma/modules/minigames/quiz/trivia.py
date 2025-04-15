@@ -99,7 +99,6 @@ async def trivia(cmd, pld):
     :param pld: The payload with execution data and details.
     :type pld: sigma.core.mechanics.payload.CommandPayload
     """
-    global streaks
     if await cmd.bot.cool_down.on_cooldown(cmd.name, pld.msg.author):
         timeout = await cmd.bot.cool_down.get_cooldown(cmd.name, pld.msg.author)
         on_cooldown = discord.Embed(color=0xccffff, title=f'❄ On cooldown for another {timeout} seconds.')
