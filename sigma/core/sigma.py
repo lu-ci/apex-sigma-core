@@ -86,10 +86,10 @@ class ApexSigma(client_class):
             self.shard_count = shard_count
             self.cfg.dsc.shard_count = shard_count
         else:
-            self.shard_count = self.cfg.dsc.shard_count
-            self.cfg.dsc.shards = shard_ids
+            self.shard_count = self.cfg.dsc.shard_count if self.cfg.dsc.shard_count else None
         if shard_ids:
             self.shard_ids = shard_ids
+            self.cfg.dsc.shards = shard_ids
         else:
             self.shard_ids = self.cfg.dsc.shards if self.cfg.dsc.shards is not None else None
         self.log = self.init_logger()
