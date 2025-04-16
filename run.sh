@@ -22,7 +22,7 @@ for ((i = 0; i < num_groups; i++)); do
   end=$((start + group_size - 1))
   shard_ids=$(seq -s, $start $end)
 
-  exec uv run ./run.py --count "$total_count" --group "$shard_ids" &
+  exec uv run ./run.py --count "$total_count" --group "$shard_ids" --restart &
 done
 
 wait

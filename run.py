@@ -15,6 +15,12 @@ except (ImportError, ModuleNotFoundError) as err:
 
 requirements_reinstalled = False
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--count', type=int)
+parser.add_argument('--group', type=str)
+parser.add_argument('--restart', action='store_true')
+args = parser.parse_args()
+
 if not sys.version_info >= MIN_PY_VERSION:
     print('Fatal Error: Wrong Python Version! Sigma supports Python {}+!'.format('.'.join(map(str, MIN_PY_VERSION))))
     exit(errno.EINVAL)
@@ -68,10 +74,6 @@ def run():
             if requirements_reinstalled:
                 sigma = import_framework()
             else:
-                parser = argparse.ArgumentParser()
-                parser.add_argument('--count', type=int)
-                parser.add_argument('--group', type=str)
-                args = parser.parse_args()
                 shard_count = args.count
                 shard_group = args.group
                 if shard_group and shard_count:
@@ -90,4 +92,12 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    restartable = args.restart
+    if not restartable:
+        run()
+    else:
+        # noinspection PyBroadException
+        try:
+            run()
+        except Exception:
+            pass
