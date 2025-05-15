@@ -77,5 +77,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no "${SSH_USER}@${SSH_HOST}" <<EOF
           cd /srv
           docker-compose pull sigma_0
-          docker-compose up -d
+          docker-compose up -d sigma_0
           EOF
