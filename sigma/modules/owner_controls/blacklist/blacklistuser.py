@@ -41,7 +41,7 @@ async def blacklistuser(cmd, pld):
                     target_name = target.name
                 else:
                     target_name = target_id
-                black_file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id})
+                black_file = await cmd.db.col.BlacklistedUsers.find_one({'user_id': target_id}) or {}
                 if black_file.get('total'):
                     update_data = {'$set': {'user_id': target_id, 'total': False}}
                     icon, result = '🔓', 'un-blacklisted'
