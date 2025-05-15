@@ -22,6 +22,18 @@ commands:
       owner: true
     usage: '{pfx}{cmd} 0123456789'
   - alts:
+      - blacklistmems
+      - blacklistmembs
+      - blackmems
+      - blackmembs
+    description: Blacklists a given server id and all of the members present on it.
+    enabled: true
+    name: blacklistmembers
+    permissions:
+      dmable: true
+      owner: true
+    usage: '{pfx}{cmd} 0123456789'
+  - alts:
       - blackmodule
       - blackmdl
     description: Disallows a person from using a specific module category.

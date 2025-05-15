@@ -41,6 +41,7 @@ Commands | Description | Example
 `>>approvesuggestion` `>>approvesugg` `>>appsugg` | Approves a submitted suggestion and notifies the submitter. If there are GitLab credentials in the command's config, it'll make an issue as well. First the suggestion ID, then the suggestion title and notes separated by a semicolon and space. (Bot Owner Only) | `>>approvesuggestion 8e39c9bb Some Title; This does a thing!`
 `>>awardleaderboards` `>>awardlbs` `>>albs` | Award all the leaderboards with appropirate amounts of currency and resets their ranked values. (Bot Owner Only) | `>>awardleaderboards`
 `>>blacklistcommand` `>>blackcommand` `>>blackcmd` | Disallows a person from using a specific command. (Bot Owner Only) | `>>blacklistcommand 0123456789 pun`
+`>>blacklistmembers` `>>blacklistmems` `>>blacklistmembs` `>>blackmems` `>>blackmembs` | Blacklists a given server id and all of the members present on it. (Bot Owner Only) | `>>blacklistmembers 0123456789`
 `>>blacklistmodule` `>>blackmodule` `>>blackmdl` | Disallows a person from using a specific module category. (Bot Owner Only) | `>>blacklistmodule 0123456789 minigames`
 `>>blacklistserver` `>>blacklistguild` `>>blacksrv` `>>blackguild` | Marks a server as blacklisted. This disallows any user on that server from using commands. (Bot Owner Only) | `>>blacklistserver 0123456789`
 `>>blacklistuser` `>>blackuser` | Marks a user as blacklisted, disallowing them to use any command. (Bot Owner Only) | `>>blacklistuser 0123456789`
