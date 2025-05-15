@@ -21,10 +21,11 @@ COPY --chown=app:app ./ /app
 WORKDIR /app
 USER app
 
-RUN uv init
-RUN uv pip install -Ur requirements.txt
-
 ENV UV_CACHE_DIR=/app/.uv-cache
 ENV UV_FROZEN=1
+
+RUN uv venv
+RUN uv pip install -Ur requirements.txt
+
 ENTRYPOINT ["/bin/bash"]
 CMD ["./run.sh"]
