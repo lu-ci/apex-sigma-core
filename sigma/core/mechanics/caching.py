@@ -20,6 +20,8 @@ import abc
 import pickle
 
 import cachetools
+import psutil
+from redis import ConnectionPool
 # noinspection PyUnresolvedReferences
 from redis.asyncio.client import Redis
 
@@ -180,7 +182,9 @@ class RedisCacher(Cacher):
         Initializes any potential asynchronous tasks required
         by the Cacher inheriting child.
         """
-        self.conn = Redis.from_url(self.addr)
+        max_conn = psutil.cpu_count() * 2 + 1
+        pool = ConnectionPool(host=self.cfg.host, port=self.cfg.port, db=self.cfg.db, max_connections=max_conn)
+        self.conn = Redis.from_pool(pool)
 
     async def get_cache(self, key):
         """
