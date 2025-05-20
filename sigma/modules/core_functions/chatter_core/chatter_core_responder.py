@@ -138,11 +138,12 @@ async def get_custom_response(ev, pld, message) -> str:
     context += f'\nThe current date and time is {arrow.utcnow().format("YYYY-MM-DD HH:mm:SS")} UTC.'
     if pld.msg.reference:
         referenced = pld.msg.reference.resolved
-        if referenced.author.id == ev.bot.user.id:
-            context += f'\nTheir message is a reply to your message saying: {referenced.content}'
-        else:
-            author = referenced.author.nick
-            context += f'\nTheir message is a reply to a message from {author} saying: {referenced.content}'
+        if referenced:
+            if referenced.author.id == ev.bot.user.id:
+                context += f'\nTheir message is a reply to your message saying: {referenced.content}'
+            else:
+                author = referenced.author.nick
+                context += f'\nTheir message is a reply to a message from {author} saying: {referenced.content}'
     if pld.msg.author.id in ev.bot.cfg.dsc.owners:
         context += 'The user sending the following message is one of your owners/developers with unlimited authority.'
     # messages = MESSAGE_STORE.get(pld.msg.guild.id, [])[-20:]
