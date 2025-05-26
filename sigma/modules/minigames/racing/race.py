@@ -53,13 +53,7 @@ async def race(cmd, pld):
     # noinspection PyBroadException
     try:
         if pld.msg.channel.id not in races:
-            if pld.args:
-                try:
-                    buyin = abs(int(pld.args[0]))
-                except ValueError:
-                    buyin = 0
-            else:
-                buyin = 0
+            buyin = 0
             if not len(str(buyin)) > 200:
                 currency = f'{cmd.bot.cfg.pref.currency}'
                 make_race(pld.msg.channel.id, buyin)
