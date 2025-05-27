@@ -93,7 +93,7 @@ def item_belongs(filter_string, item):
     :rtype: bool
     """
     flt = filter_string.lower()
-    return flt in item.rarity_name.lower() or flt in item.name.lower() or flt in item.type.lower()
+    return flt == item.rarity_name.lower() or flt in item.name.lower() or flt in item.type.lower()
 
 
 async def inventory(cmd, pld):
