@@ -104,7 +104,9 @@ async def leaderboard(cmd, pld):
             curr_icon = cmd.bot.cfg.pref.currency_icon if resource == 'currency' else '📊'
             response = f'{curr_icon} **{lb_category} {value_name} Leaderboard**'
             response += f'\n```hs\n{table_body}\n```'
-            response += f'\nLeaderboard last updated **{arrow.get(leader_timer).humanize()}**.'
+            elapsed = now - leader_timer
+            elapsed = elapsed if elapsed > 0 else 0
+            response += f'\nLeaderboard last updated **{elapsed}s** ago.'
         else:
             embed = GenericResponse('No documents found for that resource type.').not_found()
     else:
